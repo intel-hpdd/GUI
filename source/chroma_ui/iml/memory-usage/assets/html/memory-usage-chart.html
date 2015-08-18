@@ -1,0 +1,18 @@
+<div>
+  <h5>Memory Usage</h5>
+  <div class="controls" ng-if="chart.configure === false">
+    <button class="btn btn-xs btn-primary" ng-click="chart.onConfigure()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="chart.configure === true">
+    <div class="well well-lg">
+      <form name="memoryUsageForm">
+        <duration-picker start-unit="{{ chart.unit }}" start-size="{{ chart.size }}"></duration-picker>
+        <button type="submit" ng-click="chart.onSubmit(memoryUsageForm)" class="btn btn-success btn-block" ng-disabled="memoryUsageForm.$invalid">Update</button>
+        <button ng-click="chart.onCancel()" class="btn btn-cancel btn-block">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <line-chart options="chart.options" stream="chart.stream"></line-chart>
+</div>

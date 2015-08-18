@@ -1,0 +1,46 @@
+.notification-slider {
+  height: 100px;
+  opacity: 0.97;
+  position: fixed;
+  width: 100%;
+  border: 1px solid darken(@brand-danger, 10%);
+  border-bottom: 0;
+  z-index: 99;
+
+  margin: 0;
+  padding: 0;
+
+  & > .notification-message {
+    height: 66px;
+    color: @white;
+    background-color: @brand-danger;
+  }
+
+  .notification-message h4 {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0 0 0 25px;
+    border-radius: 0;
+  }
+
+  .btn {
+    border-radius: 0;
+  }
+
+  transition: transform ease 1s, opacity ease 1s;
+
+  &.ng-enter,
+  &.ng-leave.ng-leave-active {
+    transform: translate(0, -100px);
+    border-top: 0;
+    border-bottom: 0;
+  }
+
+  &.ng-leave,
+  &.ng-enter.ng-enter-active {
+    transform: translate(0, 0);
+  }
+}
+
+

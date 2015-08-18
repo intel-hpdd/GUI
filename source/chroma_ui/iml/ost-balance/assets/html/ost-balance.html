@@ -1,0 +1,34 @@
+<div>
+  <h5>OST Balance</h5>
+  <div class="controls" ng-if="chart.configure === false">
+    <button class="btn btn-xs btn-primary" ng-click="chart.onConfigure()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="chart.configure === true">
+    <div class="well well-lg">
+      <form name="ostBalanceForm" novalidate>
+        <div class="form-group" ng-class="{'has-error': ostBalanceForm.percentage.$invalid, 'has-success': ostBalanceForm.percentage.$valid}">
+          <label class="sr-only">Filter by usage</label>
+          <div class="input-group">
+            <div class="input-group-addon">Filter usage</div>
+            <input class="form-control" type="number" ng-model="chart.percentage" name="percentage" min="0" max="100" required />
+            <iml-tooltip class="error-tooltip" toggle="ostBalanceForm.percentage.$invalid" direction="bottom">
+              <span ng-if="ostBalanceForm.percentage.$error.max || ostBalanceForm.percentage.$error.min">
+                Usage filter must be between 0% and 100%.
+              </span>
+              <span ng-if="ostBalanceForm.percentage.$error.required && !ostBalanceForm.$pristine">
+                Usage filter is required.
+              </span>
+            </iml-tooltip>
+            <span class="input-group-addon">%</span>
+          </div>
+        </div>
+
+        <button type="submit" ng-click="chart.onSubmit()" class="btn btn-success btn-block" ng-disabled="ostBalanceForm.$invalid">Update</button>
+        <button ng-click="chart.onCancel()" class="btn btn-cancel btn-block">Cancel</button>
+      </form>
+    </div>
+  </div>
+  <multi-bar-chart options="chart.options" stream="chart.stream"></multi-bar-chart>
+</div>

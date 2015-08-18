@@ -1,0 +1,28 @@
+.picker {
+  min-height: 83px;
+
+  .btn-group {
+    margin-bottom: 15px;
+  }
+
+  .range-controls, .duration-controls {
+    &.ng-enter,
+    &.ng-leave.ng-leave-active,
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+      overflow: hidden;
+    }
+  }
+
+  .input-group-addon {
+    min-width: 55px;
+  }
+
+  .duration-controls {
+    .transition-height(49px);
+  }
+
+  .range-controls {
+    .transition-height(98px);
+  }
+}

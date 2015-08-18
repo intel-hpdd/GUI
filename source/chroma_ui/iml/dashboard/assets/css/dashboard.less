@@ -1,0 +1,88 @@
+.dashboard-page-header {
+  margin-bottom: 0;
+}
+
+.dashboard-container {
+  .configure-dashboard, .configure-dashboard-well {
+    .transition-height-scale();
+  }
+
+  .dashboard-chart {
+    @text-fill: @gray;
+    margin-top: 25px;
+    border-bottom: 1px dotted @gray-lighter;
+
+    & > div {
+      overflow-y: hidden;
+      max-height: 537px;
+      min-height: 520px;
+    }
+
+    .configuration > .well {
+      height: 484px;
+    }
+
+    &.full-screen.active {
+      & > div {
+        max-height: none;
+        overflow-y: auto;
+      }
+
+      .configuration > .well {
+        height: initial;
+      }
+    }
+
+    .controls {
+      margin: 20px 10px;
+
+      .drag {
+        cursor: move;
+        float: right;
+      }
+
+      .transition-height-scale();
+    }
+
+    .configuration {
+      position: relative;
+      .transition-height-scale();
+    }
+
+    h5 {
+      text-align: center;
+    }
+
+    .nv-y.nv-axis {
+      .nv-axisMaxMin text,
+      .tick text {
+        fill: @text-fill;
+      }
+    }
+
+    .nv-x.nv-axis {
+      .tick text {
+        fill: @text-fill;
+      }
+
+      .nv-axislabel {
+        fill: @gray-light;
+        font-weight: bold;
+        transform: translateY(12px);
+        -webkit-transform: translateY(12px);
+      }
+    }
+
+    &.full-screen.active {
+      .chart {
+        height: 70vh;
+      }
+    }
+  }
+
+  .dashboard-info {
+    i {
+      padding-left: 5px;
+    }
+  }
+}

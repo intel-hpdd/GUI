@@ -1,0 +1,110 @@
+<h3 class="page-header dashboard-page-header"><i class="fa fa-bar-chart-o"></i> Dashboard</h3>
+<div class="container container-full dashboard-container">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li ng-if="!dashboard.fsData && !dashboard.hostData">
+        All File Systems
+      </li>
+      <li ng-if="dashboard.fsData || dashboard.hostData">
+        <a route-to="dashboard">All File Systems</a>
+      </li>
+
+      <li ng-if="dashboard.fsData && !dashboard.targetData">
+        File System: {{dashboard.fsData.label}}
+      </li>
+      <li ng-if="dashboard.fsData && dashboard.targetData">
+        <a route-to="dashboard/fs/{{dashboard.fsData.id}}">File System: {{dashboard.fsData.label}}</a>
+      </li>
+
+      <li ng-if="dashboard.hostData && !dashboard.targetData">
+        Server: {{dashboard.hostData.label}}
+      </li>
+      <li ng-if="dashboard.hostData && dashboard.targetData">
+        <a route-to="dashboard/server/{{dashboard.hostData.id}}">Server: {{dashboard.hostData.label}}</a>
+      </li>
+
+      <li ng-if="dashboard.targetData">
+        {{ dashboard.targetData.kind }}: {{ dashboard.targetData.label }}
+      </li>
+    </ol>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-block btn-sm btn-primary configure-dashboard" ng-if="!dashboard.configure" ng-click="dashboard.onConfigure()">Configure Dashboard<i class="fa fa-cog"></i></button>
+
+      <div class="well well-lg configure-dashboard-well" ng-if="dashboard.configure">
+        <form name="form">
+          <div class="form-group">
+            <label>Choose Type
+              <span class="help">
+                <a><i class="fa fa-question-circle"></i></a>
+                <help-tooltip topic="dashboard_filter_type" direction="right"></help-tooltip>
+              </span>
+            </label>
+            <div class="btn-group btn-group-justified">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary" ng-model="dashboard.type" btn-radio="dashboard.fs" ng-click="dashboard.itemChanged(dashboard.fs)">File System</button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary" ng-model="dashboard.type" btn-radio="dashboard.host" ng-click="dashboard.itemChanged(dashboard.host)">Server</button>
+              </div>
+            </div>
+          </div>
+
+          <div ng-if="dashboard.type === dashboard.fs">
+            <div class="form-group">
+              <label>File System
+                <span class="help">
+                  <a><i class="fa fa-question-circle"></i></a>
+                  <help-tooltip topic="dashboard_filter_fs" direction="right"></help-tooltip>
+                </span>
+              </label>
+              <select class="form-control"
+                      ng-model="dashboard.fs.selected"
+                      ng-options="item.label for item in dashboard.fileSystems track by item.id"
+                      ng-change="dashboard.itemChanged(dashboard.fs)">
+                <option value="">All File Systems</option>
+              </select>
+            </div>
+          </div>
+
+          <div ng-if="dashboard.type === dashboard.host">
+            <div class="form-group">
+              <label>Server
+                <span class="help">
+                  <a><i class="fa fa-question-circle"></i></a>
+                  <help-tooltip topic="dashboard_filter_server" direction="right"></help-tooltip>
+                </span>
+              </label>
+              <select class="form-control"
+                      ng-model="dashboard.host.selected"
+                      ng-options="item.label for item in dashboard.hosts track by item.id"
+                      ng-change="dashboard.itemChanged(dashboard.host)">
+                <option value="">All Servers</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group" ng-if="dashboard.targets.length">
+            <label>Target
+              <span class="help">
+                <a><i class="fa fa-question-circle"></i></a>
+                <help-tooltip topic="dashboard_filter_target" direction="right"></help-tooltip>
+              </span>
+            </label>
+            <select
+              class="form-control"
+              ng-model="dashboard.type.selectedTarget"
+              ng-options="target.label for target in dashboard.targets track by target.id">
+              <option value="">All Targets</option>
+            </select>
+          </div>
+          <button type="submit" ng-click="dashboard.onFilterView(dashboard.type)" class="btn btn-success btn-block">Update</button>
+          <button ng-click="dashboard.onCancel()" class="btn btn-cancel btn-block">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div app-view-segment="2"></div>
+</div>

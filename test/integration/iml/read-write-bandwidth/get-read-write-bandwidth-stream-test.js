@@ -1,0 +1,115 @@
+describe('The read write bandwidth stream', function () {
+  'use strict';
+
+  var socketStream, serverStream, getServerMoment;
+
+  beforeEach(module('readWriteBandwidth', 'dataFixtures', function ($provide) {
+    socketStream = jasmine.createSpy('socketStream')
+      .andCallFake(function () {
+        return (serverStream = highland());
+      });
+
+    $provide.value('socketStream', socketStream);
+
+    getServerMoment = jasmine.createSpy('getServerMoment')
+      .andReturn(moment('2013-12-11T13:15:00+00:00'));
+
+    $provide.value('getServerMoment', getServerMoment);
+  }));
+
+  var getReadWriteBandwidthStream, fixtures, spy, revert;
+
+  beforeEach(inject(function (_getReadWriteBandwidthStream_, readWriteBandwidthDataFixtures) {
+    spy = jasmine.createSpy('spy');
+
+    getReadWriteBandwidthStream = _getReadWriteBandwidthStream_;
+
+    fixtures = readWriteBandwidthDataFixtures;
+
+    revert = patchRateLimit();
+  }));
+
+  afterEach(function () {
+    revert();
+  });
+
+  it('should return a factory function', function () {
+    expect(getReadWriteBandwidthStream).toEqual(jasmine.any(Function));
+  });
+
+  describe('fetching 10 minutes ago', function () {
+    var readWriteBandwidthStream;
+
+    beforeEach(inject(function (getRequestDuration, bufferDataNewerThan) {
+      var buff = bufferDataNewerThan(10, 'minutes');
+      var requestDuration = getRequestDuration(10, 'minutes');
+
+      readWriteBandwidthStream = getReadWriteBandwidthStream(requestDuration, buff);
+
+      readWriteBandwidthStream
+        .through(convertNvDates)
+        .each(spy);
+    }));
+
+    describe('when there is data', function () {
+      beforeEach(function () {
+        serverStream.write(fixtures[0].in);
+        serverStream.end();
+      });
+
+      it('should return a stream', function () {
+        expect(highland.isStream(readWriteBandwidthStream)).toBe(true);
+      });
+
+      it('should return computed data', function () {
+        expect(spy).toHaveBeenCalledOnceWith(fixtures[0].out);
+      });
+
+      it('should drop duplicate values', function () {
+        serverStream.write(fixtures[0].in[0]);
+        serverStream.end();
+
+        expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
+      });
+    });
+
+    describe('when there is no initial data', function () {
+      beforeEach(function () {
+        serverStream.write([]);
+        serverStream.end();
+      });
+
+      it('should return an empty nvd3 structure', function () {
+        expect(spy).toHaveBeenCalledOnceWith([
+          {
+            key: 'read',
+            values: []
+          },
+          {
+            key: 'write',
+            values: []
+          }
+        ]);
+      });
+
+      it('should populate if data comes in on next tick', function () {
+        serverStream.write(fixtures[0].in[0]);
+        serverStream.end();
+
+        expect(spy).toHaveBeenCalledOnceWith([
+          {
+            key: 'read',
+            values: [
+              { x: '2013-12-11T13:15:00.000Z', y: 106772238984.1 }
+            ]
+          },
+          { key: 'write',
+            values: [
+              { x: '2013-12-11T13:15:00.000Z', y: -104418696882.20003 }
+            ]
+          }
+        ]);
+      });
+    });
+  });
+});

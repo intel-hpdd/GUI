@@ -1,0 +1,102 @@
+html, body, .wrap {
+  height: 100%;
+}
+
+.alert.alert-danger {
+  background-color: @errorColor;
+  border-color: darken(@errorColor, 10%);
+  color: @white;
+}
+
+.alert.alert-warning {
+  background-color: @brand-warning;
+  border-color: darken(@brand-warning, 10%);
+  color: @white;
+}
+
+.alert.alert-info {
+  background-color: @brand-info;
+  border-color: darken(@brand-info, 10%);
+  color: @white;
+}
+
+button.btn[disabled]:active {
+  background-color: @btn-link-disabled-color;
+  color: @gray-dark;
+  border-color: #6a6a6a;
+  .box-shadow(none);
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.page-header {
+  margin-top: 0;
+  color: #FFFFFF;
+  padding: 15px 20px;
+  background-color: #0067B4;
+}
+
+.section-header {
+  margin-top: 50px;
+  color: #0067B4;
+}
+
+html body div.container-full {
+  width: 100%;
+}
+
+.invisible {
+  display: none !important;
+}
+
+.callout {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid @gray-lighter;
+  border-left-width: 5px;
+  border-radius: 3px;
+
+  &.callout-danger {
+    border-left-color: @brand-danger;
+
+    span {
+      color: @brand-danger;
+    }
+  }
+}
+
+.has-error .input-group-addon {
+  background-color: @brand-danger;
+  border-color: darken(@brand-danger, 10%);
+  color: @white;
+}
+
+.has-success .input-group-addon {
+  background-color: @brand-success;
+  border-color: darken(@brand-success, 10%);
+  color: @white;
+}
+
+.form-control.ng-invalid {
+  .has-error .form-control;
+}
+
+.form-control.ng-valid {
+  .has-success .form-control;
+}
+
+.btn-cancel {
+  .btn-default();
+
+  color: @gray-light;
+
+  &:hover, &:focus, &:active, &.active {
+    color: darken(@gray-light, 5%);
+  }
+}
+
+.btn i {
+  margin: 0 5px;
+}

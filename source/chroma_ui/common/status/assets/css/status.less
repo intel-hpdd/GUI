@@ -1,0 +1,54 @@
+.job-status, .record-state {
+  position: relative;
+
+  i {
+    cursor: pointer;
+
+    &.fa-exclamation-circle {
+      color: @brand-danger;
+    }
+
+    &.fa-check-circle {
+      color: @brand-success;
+    }
+  }
+
+  .popover {
+    > h3 {
+      text-align: center;
+    }
+
+    accordion ul {
+      padding-left: 10px;
+    }
+  }
+}
+
+.job-status {
+  .popover {
+    width: 350px;
+    transform: translate(45%, 0);
+
+    &.bottom > .arrow {
+      left: 5%;
+    }
+  }
+}
+
+.record-state {
+  margin-right: 15px;
+
+  .popover {
+    width: 260px;
+    transform: translate(-44%, 0);
+
+    &.bottom > .arrow {
+      left: 100%;
+      margin-left: -25px;
+    }
+  }
+}
+
+.state-label {
+  margin-left: 10px;
+}

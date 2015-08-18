@@ -1,0 +1,31 @@
+<h3 class="page-header"><i class="fa fa-tachometer"></i> Status</h3>
+<div class="status container container-full">
+  <div class="row">
+    <div class="col-xs-12">
+      <status-parser on-submit="ctrl.onSubmit(output)"></status-parser>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Severity</th>
+            <th>Created At</th>
+            <th>Host</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="row in ctrl.data track by row.resource_uri" ng-class="row.severity | lowercase">
+            <td>{{ ctrl.getType(row.type) }}</td>
+            <td>{{ row.severity }}</td>
+            <td>
+              <a ng-href="/ui/log/around-{{  row.created_at || row.begin | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ (row.created_at || row.begin) | date:'MM/dd/yyyy HH:mm:ss' }}</a>
+            </td>
+            <td>{{ row.host_name || row.alert_item_str }}</td>
+            <td>{{ row.message }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

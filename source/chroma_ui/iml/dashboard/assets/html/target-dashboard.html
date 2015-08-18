@@ -1,0 +1,32 @@
+<h4 class="section-header">{{ targetDashboard.kind }}: {{targetDashboard.target.label}}</h4>
+
+<div class="row dashboard-info">
+  <div class="col-lg-12">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>Active Host</th>
+          <th>File System</th>
+          <th>Space Free / Total</th>
+          <th>{{ targetDashboard.kind === 'MDT' ? 'Files' : 'Objects' }}  Used / Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{targetDashboard.target.active_host_name}}</td>
+          <td>{{targetDashboard.target.filesystem_name}}</td>
+          <td as-property stream="targetDashboard.usageStream">
+            <usage-info stream="prop.stream" prefix="bytes"></usage-info>
+          </td>
+          <td as-property stream="targetDashboard.usageStream">
+            <usage-info stream="prop.stream" prefix="files"></usage-info>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h4 class="section-header">Charts</h4>
+
+<charts-container charts="targetDashboard.charts"></charts-container>

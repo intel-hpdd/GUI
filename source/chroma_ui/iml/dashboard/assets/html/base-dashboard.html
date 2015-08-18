@@ -1,0 +1,42 @@
+<h4 class="section-header">File Systems</h4>
+<div class="row dashboard-info">
+  <div class="col-lg-12">
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>File System</th>
+          <th>Type</th>
+          <th>Space Used / Total</th>
+          <th>Files Used / Total</th>
+          <th>Clients</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr bindonce ng-repeat="fs in baseDashboard.fs track by fs.id">
+          <td restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+            <a route-to="configure/filesystem/detail/{{fs.id}}/" target="_self">{{ fs.name }}</a>
+          </td>
+          <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{ fs.name }}</td>
+          <td>
+            {{ fs.state }}
+            <span class="help">
+              <a><i class="fa fa-question-circle"></i></a>
+                <help-tooltip ng-if="fs.state === fs.STATES.MANAGED" topic="managed_filesystem" direction="right"></help-tooltip>
+                <help-tooltip ng-if="fs.state === fs.STATES.MONITORED" topic="monitored_filesystem" direction="right"></help-tooltip>
+            </span>
+          </td>
+          <td as-property stream="baseDashboard.fsStream">
+            <usage-info stream="prop.stream" id="fs.id" prefix="bytes"></usage-info>
+          </td>
+          <td as-property stream="baseDashboard.fsStream">
+            <usage-info stream="prop.stream" id="fs.id" prefix="files"></usage-info>
+          </td>
+          <td>{{ fs.client_count }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h4 class="section-header">Charts</h4>
+<charts-container charts="baseDashboard.charts"></charts-container>

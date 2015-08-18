@@ -1,0 +1,35 @@
+{
+  "name": "@intel-js/GUI",
+  "version": "3.0.0",
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true --reporters dots",
+    "jshint": "jshint --c ./.jshintrc --exclude-path ./.jshintignore .",
+    "jscs": "jscs ."
+  },
+  "pre-commit": [
+    "jscs",
+    "jshint",
+    "test"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/intel-js/GUI.git"
+  },
+  "dependencies": {
+    "@intel-js/obj": "1.0.3",
+    "@intel-js/fp": "1.0.4",
+    "@intel-js/lodash-mixins": "1.0.0"
+  },
+  "devDependencies": {
+    "jasmine-reporters": "0.3.2",
+    "karma": "0.12.36",
+    "karma-chrome-launcher": "0.1.12",
+    "karma-coverage": "0.3.1",
+    "karma-firefox-launcher": "0.1.6",
+    "karma-jasmine": "0.1.5",
+    "karma-junit-reporter": "0.2.2",
+    "karma-ng-html2js-preprocessor": "0.1.2",
+    "karma-safari-launcher": "0.1.1",
+    "semver-check": "0.0.2"
+  }
+}

@@ -1,0 +1,31 @@
+.no-server {
+  .well {
+    margin-top: 50px;
+  }
+}
+
+.server-detail-ctrl {
+  table {
+    margin-bottom: 0;
+
+    tr:first-child {
+      th, td {
+        border-top: 0;
+      }
+    }
+  }
+
+  &.removed {
+    table {
+      .transition-fade(0.5s, 0.5);
+    }
+  }
+
+  .alert.ng-hide {
+    opacity: 0;
+  }
+
+  .alert {
+    .transition-fade(0.5s, 1);
+  }
+}

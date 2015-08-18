@@ -1,0 +1,11 @@
+<span>
+  <span ng-if="corosync.state === 'started'">
+    <i class="fa fa-plug text-success"></i> Corosync Started
+  </span>
+  <span ng-if="corosync.state === 'stopped'">
+    <i class="fa fa-plug text-danger"></i> Corosync Stopped
+  </span>
+  <span ng-if="corosync.state === 'unconfigured'">
+    <i class="fa fa-plug"></i> Unconfigured
+  </span>
+</span>

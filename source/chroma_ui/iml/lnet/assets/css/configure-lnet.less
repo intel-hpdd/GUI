@@ -1,0 +1,30 @@
+.configure-lnet {
+  transition: height linear .1s;
+
+  select {
+    width: 90%;
+    display: inline-block;
+  }
+
+  .tooltip-inner {
+    width: 200px;
+  }
+
+  @cell-height: 43px;
+
+  .detail-row {
+    > div {
+      .make-xs-column(3);
+    }
+  }
+
+  .config-header {
+    font-weight: bold;
+    color: @gray-light;
+  }
+
+  .configure-btns {
+    margin-top: 19px;
+    height: auto;
+  }
+ }

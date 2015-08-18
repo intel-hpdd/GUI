@@ -1,0 +1,38 @@
+<h3 class="page-header hsm-page-header"><i class="fa fa-files-o"></i> HSM</h3>
+<div class="container container-full hsm">
+  <div class="row">
+    <ol class="breadcrumb">
+      <li ng-if="!hsmFs.fs">
+        All File Systems
+      </li>
+      <li ng-if="hsmFs.fs">
+        <a route-to="configure/hsm">All File Systems</a>
+      </li>
+
+      <li ng-if="hsmFs.fs">
+        File System: {{hsmFs.fs.label}}
+      </li>
+    </ol>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-block btn-sm btn-primary configure-hsm" ng-if="!hsmFs.configure" ng-click="hsmFs.setConfigure(true)">Configure HSM<i class="fa fa-cog"></i></button>
+      <div class="well well-lg configure-hsm-well" ng-if="hsmFs.configure">
+        <form class="form">
+          <div class="form-group">
+            <label>File System</label>
+            <select class="form-control"
+                    ng-model="hsmFs.selectedFs"
+                    ng-options="f.label for f in hsmFs.fileSystems track by f.id">
+              <option value="">All File Systems</option>
+            </select>
+          </div>
+          <button type="submit" ng-click="hsmFs.onUpdate()" class="btn btn-success btn-block">Update</button>
+          <button ng-click="hsmFs.setConfigure(false)" class="btn btn-cancel btn-block">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hsm-cdt-status ng-if="hsmFs.copytools.length && hsmFs.fs" file-system="hsmFs.fs"></hsm-cdt-status>
+  <div app-view-segment="2"></div>
+</div>

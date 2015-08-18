@@ -1,0 +1,69 @@
+<h3 class="page-header">
+  <i class="fa fa-tasks"></i> Server: {{ serverDetail.server.address }}
+</h3>
+<div class="container container-full server-detail-ctrl" ng-class="{removed: serverDetail.removed}" bindonce="serverDetail">
+  <alert ng-if="serverDetail.removed && !serverDetail.alertClosed" close="serverDetail.closeAlert()">
+    {{serverDetail.getAlert()}}
+  </alert>
+  <div class="detail-panel">
+    <h4 class="section-header">Server Detail</h4>
+
+    <div class="detail-row">
+      <div>Address:</div>
+      <div bo-text="serverDetail.server.address"></div>
+    </div>
+    <div class="detail-row">
+      <div>State:</div>
+      <div bo-text="serverDetail.server.state"></div>
+    </div>
+    <div class="detail-row">
+      <div>FQDN:</div>
+      <div bo-text="serverDetail.server.fqdn"></div>
+    </div>
+    <div class="detail-row">
+      <div>Nodename:</div>
+      <div bo-text="serverDetail.server.nodename"></div>
+    </div>
+    <div class="detail-row">
+      <div>Profile:</div>
+      <div>{{serverDetail.server.server_profile.ui_name}}</div>
+    </div>
+    <div class="detail-row">
+      <div>Boot time:</div>
+      <div>{{serverDetail.server.boot_time | date:'EEEE, MMMM d, y HH:mm:ss'}}</div>
+    </div>
+    <div class="detail-row">
+      <div>State changed:</div>
+      <div>{{serverDetail.server.state_modified_at | date:'EEEE, MMMM d, y HH:mm:ss'}}</div>
+    </div>
+    <div class="detail-row">
+      <div>Alerts:</div>
+      <div>
+        <record-state record-id="serverDetail.server.resource_uri" alert-stream="serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
+        <job-status record-id="serverDetail.server.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
+      </div>
+    </div>
+    <action-dropdown tooltip-placement="top" record="serverDetail.server" override-click="serverDetail.overrideActionClick(record, action)"></action-dropdown>
+  </div>
+  <configure-corosync stream="serverDetail.corosyncConfigurationStream" alert-stream="serverDetail.alertMonitorStream" job-stream="serverDetail.jobMonitorStream"></configure-corosync>
+  <div class="detail-panel">
+    <h4 class="section-header">LNet Detail</h4>
+    <div class="detail-row">
+      <div>
+        State:
+      </div>
+      <div as-property stream="serverDetail.lnetConfigurationStream">
+        <lnet-status stream="prop.stream" host-id="serverDetail.server.id"></lnet-status>
+      </div>
+    </div>
+    <div class="detail-row">
+      <div>Alerts:</div>
+      <div>
+        <record-state record-id="serverDetail.lnetConfiguration.resource_uri" alert-stream="serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
+        <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
+      </div>
+    </div>
+    <action-dropdown tooltip-placement="top" record="serverDetail.lnetConfiguration"></action-dropdown>
+  </div>
+  <configure-lnet network-interface-stream="serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>
+</div>
