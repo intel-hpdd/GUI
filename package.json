@@ -18,7 +18,7 @@
   "dependencies": {
     "@intel-js/obj": "1.0.3",
     "@intel-js/fp": "1.0.4",
-    "@intel-js/lodash-mixins": "1.0.0"
+    "@intel-js/lodash-mixins": "1.0.1"
   },
   "devDependencies": {
     "jasmine-reporters": "0.3.2",
