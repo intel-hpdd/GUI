@@ -1,13 +1,15 @@
 language: node_js
 node_js:
-- 0.12
-- 0.1
-- iojs
+  - 0.10
 before_install:
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-- curl -Lo chrome.zip https://download-chromium.appspot.com/dl/Linux_x64 && unzip chrome.zip
-- npm i -g npm@latest
-- npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+  - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+  - sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq google-chrome-stable
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - npm i -g npm@latest
+  - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
 env:
   secure: Xk7+cGE/p0e7Q/w6QKH8UG4QF8Y2zbO+B4A0pJE4GLW3RgbLffIZeonIQFRYlfURtg+JwFKZ53XCCB/0tPZKZv9uvEt64ezCZM5/BV+7vo1aqH7MOSvNAecVTDMn2+2cTA+MPxctvmD9vq7MdQXD6b0DGTSQ95RShB4LcH7ekm2Rwn7DGjjmTsAdKTiG/fl/Eufl8x+KrD4zMACdc3aFqZWImEQHVt/C+VlCOoqF7povTexy8S247LBXFqHwoqRt6EN7cQibQ0EWNcEUPOburZoDvsmzPgjVrUw/bCYVLiUBaJev1bAlKZ9Q98ARvN0w36m/B/kd3OUJrU89iDlFvEXQX2vd/QOQ8m00Qr5sKmxcHnzlu7xwa7O2lSYN3xyTN4u5THldEMZKvDWHE7tNR3sQ0qO7b2UugEmi/c5fJ/a9vEABIctIZJtP/YzjYbcqAkCaP+EZbjbGAXLNWsPSlp3j25TRhYs/0FCSbFC2DhE6S1rHSK3E1AHJIyEq5t9u+skN3r0eZzwsPfcjYDke4SKrwFySnq8ZNxGMe3rfZG0NePVlxefV9lgj4BBg3qzaOG5sHxxNLUbgPr4ejFOFfGY70EcSWMn4oeJbwWn4xVfuAZ88KEkBuur2U0PG7hX24HWjVE9Ziobd1ODLY8X8Bf4XDRHg27EhsF7noc7EzvA=
