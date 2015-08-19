@@ -67,8 +67,7 @@ module.exports = function setConfig (config) {
       bowerDir('jasmine-n-matchers/jasmine-n-matchers.js'),
       testDir('**/*.js'),
       testDir('templates/**/*.html'),
-      angularComponentsDir('src/**/*.js'),
-      angularComponentsDir('test/**/*.js')
+      angularComponentsDir('src/**/*.js')
     ],
 
     // list of files to exclude
