@@ -19,7 +19,7 @@
     "@intel-js/obj": "1.0.3",
     "@intel-js/fp": "1.0.4",
     "@intel-js/lodash-mixins": "1.0.1",
-    "@intel-js/angular-modules": "1.0.1"
+    "@intel-js/angular-modules": "1.0.0"
   },
   "devDependencies": {
     "jasmine-reporters": "0.3.2",
