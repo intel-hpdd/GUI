@@ -83,6 +83,7 @@ module.exports = function setConfig (config) {
 
     // Only used if junit reporter activated (ex "--reporters junit" on the command line)
     junitReporter: {
+      outputDir: 'test-results',
       suite: 'karma-tests (new ui)'
     },
 
