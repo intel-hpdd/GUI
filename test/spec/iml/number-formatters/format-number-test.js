@@ -1,7 +1,7 @@
 describe('Format number', function () {
   'use strict';
 
-  var formatNumber;
+  var formatNumber, $window;
   var tests = [
     // non 0 numbers
     {
@@ -96,18 +96,44 @@ describe('Format number', function () {
     formatNumber = _formatNumber_;
   }));
 
-  describe('standard mode', function () {
-    tests.forEach(function (test) {
-      it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
-        expect(formatNumber.apply(null, test.in)).toEqual(test.out);
+  describe('with Intl.NumberFormat polyfill', function () {
+
+    beforeEach(inject(function (_$window_) {
+      $window = _$window_;
+      $window.Intl = null;
+    }));
+
+    describe('standard mode', function () {
+      tests.forEach(function (test) {
+        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+          expect(formatNumber.apply(null, test.in)).toEqual(test.out);
+        });
+      });
+    });
+
+    describe('strict mode', function () {
+      tests.forEach(function (test) {
+        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
+        });
       });
     });
   });
 
-  describe('strict mode', function () {
-    tests.forEach(function (test) {
-      it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
-        expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
+  describe('without polyfill', function () {
+    describe('standard mode', function () {
+      tests.forEach(function (test) {
+        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+          expect(formatNumber.apply(null, test.in)).toEqual(test.out);
+        });
+      });
+    });
+
+    describe('strict mode', function () {
+      tests.forEach(function (test) {
+        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
+        });
       });
     });
   });

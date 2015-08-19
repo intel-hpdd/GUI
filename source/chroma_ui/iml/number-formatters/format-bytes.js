@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,9 +21,7 @@
 
 
 angular.module('numberFormatters')
-  .factory('formatBytes', [function () {
-    'use strict';
-
+  .factory('formatBytes', function () {
     var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
     return function formatBytes(bytes, precision) {
@@ -37,4 +35,4 @@ angular.module('numberFormatters')
       bytes /= Math.pow(1024, pwr);
       return '%s %s'.sprintf((bytes).toPrecision(precision), units[pwr]);
     };
-}]);
+  });

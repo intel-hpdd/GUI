@@ -1,5 +1,4 @@
 describe('Format bytes', function () {
-  'use strict';
 
   var tests, formatBytes;
 
