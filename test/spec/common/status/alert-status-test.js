@@ -26,7 +26,7 @@ describe('alert status', function () {
       alertMonitor();
 
       expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
-        jsonMask: 'objects(alert_item,message)',
+        jsonMask: 'objects(affected,message)',
         qs: {
           limit: 0,
           active: true
@@ -91,7 +91,7 @@ describe('alert status', function () {
       beforeEach(function () {
         var response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message'
           }
         ];
@@ -127,7 +127,7 @@ describe('alert status', function () {
       beforeEach(function () {
         response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message'
           }
         ];
@@ -161,7 +161,7 @@ describe('alert status', function () {
       beforeEach(function () {
         response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message1'
           }
         ];
@@ -171,11 +171,11 @@ describe('alert status', function () {
         // Change the response to have 2 messages now
         response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message1'
           },
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message2'
           }
         ];
@@ -185,7 +185,7 @@ describe('alert status', function () {
         // Now, remove the first message so that only message 2 remains
         response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message2'
           }
         ];
@@ -222,7 +222,7 @@ describe('alert status', function () {
 
         var response = [
           {
-            alert_item: 'host/6',
+            affected: ['host/6'],
             message: 'response message'
           }
         ];
