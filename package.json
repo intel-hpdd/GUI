@@ -1,6 +1,7 @@
 {
   "name": "@intel-js/GUI",
   "version": "3.0.0",
+  "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true --reporters dots",
     "jshint": "gulp --gulpfile='./gulp/gulpfile.js' jshint",
@@ -22,6 +23,7 @@
     "@intel-js/angular-modules": "1.0.1"
   },
   "devDependencies": {
+    "@intel-js/gulp-iife-wrap": "1.0.1",
     "jasmine-reporters": "1.0.1",
     "karma": "0.13.9",
     "karma-chrome-launcher": "0.2.0",

@@ -21,8 +21,7 @@ var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var iifeWrap = require('./lib/gulp-iife-wrap');
-var annotate = require('./lib/gulp-annotate');
+var iifeWrap = require('@intel-js/gulp-iife-wrap');
 var ngAnnotate = require('gulp-ng-annotate');
 var clone = require('gulp-clone');
 var glob2base = require('glob2base');
@@ -31,17 +30,26 @@ var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
 var fp = require('@intel-js/fp');
 
-var writeToDest = fp.curry(2, gulp.dest)(fp.__, { cwd: '../../chroma_ui' });
+var outputDir = process.argv
+  .filter(function getDestOption (x) {
+    return x.indexOf('--dest-dir=') === 0
+  })
+  .map(function getDestDir (x) {
+    return x.split('=')[1];
+  }).pop() || '../../../';
+
+outputDir = path.join(outputDir, 'chroma_ui');
+
+var writeToDest = fp.curry(2, gulp.dest)(fp.__, {cwd: outputDir});
 var writeToStatic = writeToDest.bind(null, 'static/chroma_ui');
-var getSource = fp.curry(2, gulp.src)(fp.__, { cwd: '../' });
+var getSource = fp.curry(2, gulp.src)(fp.__, {cwd: '../'});
 
 function buildJs () {
   return getSource(files.js.source)
     .pipe(plumber())
     .pipe(cache('scripts'))
-    .pipe(ngAnnotate({ add: true }))
-    .pipe(annotate())
-    .pipe(iifeWrap())
+    .pipe(ngAnnotate())
+    .pipe(iifeWrap(['source/chroma_ui/common', 'source/chroma_ui/iml']))
     .pipe(plumber.stop());
 }
 
@@ -91,10 +99,10 @@ function injectFiles (jsStream, lessStream) {
     .pipe(plumber.stop());
 }
 
-var orderJsFiles = order.bind(null, files.js.source, { base: '../' });
+var orderJsFiles = order.bind(null, files.js.source, {base: '../'});
 
 gulp.task('clean', function clean (cb) {
-  del(['../../chroma_ui/static/chroma_ui/**/*'], { force: true }, cb);
+  del([path.join(outputDir, '/static/chroma_ui'), path.join(outputDir, 'templates/new')], {force: true}, cb);
 });
 
 gulp.task('dev', ['clean'], function devTask () {
@@ -136,7 +144,7 @@ gulp.task('prod', ['clean'], function prodTask () {
     .pipe(orderJsFiles())
     .pipe(sourcemaps.init())
     .pipe(concat('built.js'))
-    .pipe(uglify({ compress: true, screw_ie8: true, mangle: true }))
+    .pipe(uglify({compress: true, screw_ie8: true, mangle: true}))
     .pipe(rev())
     .pipe(sourcemaps.write('.'))
     .pipe(plumber.stop());
@@ -228,13 +236,15 @@ gulp.task('watch', ['dev'], function () {
   });
   var toDest = getDest(fp.__, fp.__, {
     cwd: '../',
-    destCwd: '../../chroma_ui/static/chroma_ui'
+    destCwd: path.join(outputDir, '/static/chroma_ui')
   });
 
   var deleted = fp.eqFn(fp.identity, fp.lensProp('type'), 'deleted');
   var ifDeleted = fp.flow(toArray, fp.invokeMethod('concat', fp.__, [deleted]), fp.and);
 
-  function toArray (x) { return [x]; }
+  function toArray (x) {
+    return [x];
+  }
 
   var jsWatch = watchCwd(files.js.source, ['incremental-js']);
   jsWatch.on('change', ifDeleted(function handleChange (ev) {
@@ -242,7 +252,7 @@ gulp.task('watch', ['dev'], function () {
     remember.forget('scripts', ev.path);
 
     var dest = toDest(files.js.source, ev.path);
-    del.sync(dest, { force: true });
+    del.sync(dest, {force: true});
   }));
 
   var replaceHtml = fp.invokeMethod('replace', [/\.html$/, '.js']);
@@ -254,7 +264,7 @@ gulp.task('watch', ['dev'], function () {
     remember.forget('scripts', path);
 
     var toDestAndReplace = fp.flow(toDest(files.templates.angular.source), replaceHtml);
-    del.sync(toDestAndReplace(path), { force: true });
+    del.sync(toDestAndReplace(path), {force: true});
   }));
 
   var lessFiles = files.less.source
@@ -266,7 +276,7 @@ gulp.task('watch', ['dev'], function () {
   var assetWatch = watchCwd(assets, ['incremental-assets']);
   assetWatch.on('change', ifDeleted(function handleChange (ev) {
     var dest = toDest(assets, ev.path);
-    del.sync(dest, { force: true });
+    del.sync(dest, {force: true});
   }));
 
   watchCwd(files.templates.server.index, ['incremental-templates']);
@@ -285,15 +295,12 @@ gulp.task('quality', ['jscs', 'jshint']);
 
 gulp.task('jshint', function jsHint () {
   return qualitySource()
-    .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
-    .pipe(plumber.stop());
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('jscs', function jsCs () {
   return qualitySource()
-    .pipe(plumber())
     .pipe(jscs('../.jscsrc'))
-    .pipe(plumber.stop());
 });
