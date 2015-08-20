@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 
-angular.module('hsm-route', [])
+angular.module('hsm')
   .config(function hsmSegment ($routeSegmentProvider, GROUPS) {
     $routeSegmentProvider
       .when('/configure/hsm/:fsId?', 'app.hsmFs.hsm')

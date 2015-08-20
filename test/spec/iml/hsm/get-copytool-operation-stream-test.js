@@ -1,11 +1,16 @@
 describe('get copytool operation stream', function () {
   'use strict';
 
-  var socketStream, stream;
+  var socketStream, stream, configs;
 
   beforeEach(module(function () {
-    angular.module('hsm-route', []);
+    configs = angular.module('hsm')._configBlocks;
+    angular.module('hsm')._configBlocks = [];
   }, 'hsm'));
+
+  afterEach(function () {
+    angular.module('hsm')._configBlocks = configs;
+  });
 
   beforeEach(module(function ($provide) {
     stream = highland();
