@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -22,4 +22,4 @@
 
 angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
   'corosyncModule', 'socket-module', 'command', 'action-dropdown-module',
-  'status', 'steps-module', 'extendScope', 'highland']);
+  'status', 'steps-module', 'extendScope', 'highland', 'asValue']);

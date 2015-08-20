@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,13 +20,10 @@
 // express and approved by Intel in writing.
 
 angular.module('corosyncModule')
-  .directive('corosyncState', ['localApply', '$exceptionHandler', function lnetStatus (localApply, $exceptionHandler) {
-    'use strict';
-
+  .directive('corosyncState', function lnetStatus (localApply, $exceptionHandler) {
     return {
       scope: {
-        stream: '=',
-        hostId: '=?'
+        stream: '='
       },
       restrict: 'E',
       templateUrl: 'iml/corosync/assets/html/corosync-state.html',
@@ -35,15 +32,6 @@ angular.module('corosyncModule')
         var state = fp.lensProp('state');
 
         var s2 = scope.stream;
-
-        if (scope.hostId) {
-          var hostId = fp.flow(fp.lensProp('host'), _.extractApiId);
-          var hostEq = fp.eqFn(fp.identity, hostId, scope.hostId);
-          var findById = fp.find(hostEq);
-
-          s2 = scope.stream
-            .map(fp.safe(1, findById, null));
-        }
 
         s2
           .map(fp.safe(1, state, null))
@@ -54,4 +42,4 @@ angular.module('corosyncModule')
         scope.$on('$destroy', scope.stream.destroy.bind(scope.stream));
       }
     };
-  }]);
+  });

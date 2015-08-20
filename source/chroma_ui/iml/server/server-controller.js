@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,21 +21,23 @@
 
 
 angular.module('server')
-  .controller('ServerCtrl', ['$scope', '$modal', 'pdshParser', 'pdshFilter', 'naturalSortFilter',
-    'serverActions', 'selectedServers', 'openCommandModal',
-    'openAddServerModal', 'ADD_SERVER_STEPS', 'getCommandStream',
-    'overrideActionClick', 'streams',
+  .controller('ServerCtrl',
   function ServerCtrl ($scope, $modal, pdshParser, pdshFilter, naturalSortFilter,
                        serverActions, selectedServers, openCommandModal,
                        openAddServerModal, ADD_SERVER_STEPS, getCommandStream,
                        overrideActionClick, streams) {
-    'use strict';
-
     $scope.server = {
       lnetConfigurationStream: streams.lnetConfigurationStream,
       corosyncConfigurationStream: streams.corosyncConfigurationStream,
       jobMonitorStream: streams.jobMonitorStream,
       alertMonitorStream: streams.alertMonitorStream,
+      transform: function transform (s, args) {
+        var resouceUri = args[0];
+
+        return s
+          .map(fp.filter(fp.eqFn(fp.identity, fp.lensProp('host'), resouceUri)))
+          .sequence();
+      },
       maxSize: 10,
       itemsPerPage: 10,
       currentPage: 1,
@@ -235,4 +237,4 @@ angular.module('server')
           streams[key].destroy();
         });
     });
-  }]);
+  });

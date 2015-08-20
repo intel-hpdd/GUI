@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,13 +20,10 @@
 // express and approved by Intel in writing.
 
 angular.module('lnetModule')
-  .directive('lnetStatus', ['localApply', '$exceptionHandler', function lnetStatus (localApply, $exceptionHandler) {
-    'use strict';
-
+  .directive('lnetStatus', function lnetStatus (localApply, $exceptionHandler) {
     return {
       scope: {
-        stream: '=',
-        hostId: '='
+        stream: '='
       },
       restrict: 'E',
       templateUrl: 'iml/lnet/assets/html/lnet-status.html',
@@ -34,19 +31,12 @@ angular.module('lnetModule')
         scope.lnet = {};
         var state = fp.lensProp('state');
 
-        var getHostId = fp.flowLens(
-          fp.safe(1, fp.lensProp('host'), {}),
-          fp.safe(1, fp.lensProp('id'), null)
-        );
-        var equalsHostId = fp.flow(getHostId, fp.eq(scope.hostId));
-
         scope
           .stream
-          .map(fp.find(equalsHostId))
-          .map(fp.safe(1, state, null))
+          .map(state)
           .tap(state.set(fp.__, scope.lnet))
           .stopOnError(fp.curry(1, $exceptionHandler))
           .each(localApply.bind(null, scope));
       }
     };
-  }]);
+  });

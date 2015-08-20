@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,13 +20,9 @@
 // express and approved by Intel in writing.
 
 angular.module('server')
-  .factory('serverStreamsResolves', [
-    '$q', 'resolveStream', 'addProperty',
-    'socketStream', 'jobMonitor', 'alertMonitor', 'getServersStream',
+  .factory('serverStreamsResolves',
     function serverStreamsResolvesFactory ($q, resolveStream, addProperty,
                                            socketStream, jobMonitor, alertMonitor, getServersStream) {
-      'use strict';
-
       return function serverStreamsResolves () {
         var jobMonitorStream = resolveStream(jobMonitor())
           .then(function addThroughProperty (jobMonitorStream) {
@@ -39,9 +35,11 @@ angular.module('server')
           });
 
         var s = socketStream('/lnet_configuration/', {
-          jsonMask: 'objects(state,host/id)'
+          jsonMask: 'objects(state,host/resource_uri,resource_uri)'
         });
-        var s2 = s.pluck('objects');
+        var s2 = s
+          .pluck('objects')
+          .map(fp.map(fp.lensProp('host').map(fp.lensProp('resource_uri')))); // remove this once api does not auto-expand.
         s2.destroy = s.destroy.bind(s);
 
         var lnetConfigurationStream = resolveStream(s2)
@@ -50,7 +48,7 @@ angular.module('server')
           });
 
         var cs = socketStream('/corosync_configuration', {
-          jsonMask: 'objects(state,host)',
+          jsonMask: 'objects(state,host,resource_uri)',
           qs: {
             limit: 0
           }
@@ -73,4 +71,4 @@ angular.module('server')
           serversStream: getServersStream()
         });
       };
-    }]);
+    });
