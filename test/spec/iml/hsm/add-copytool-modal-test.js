@@ -1,7 +1,16 @@
 describe('Add copytool modal', function () {
   'use strict';
 
-  beforeEach(module('hsm'));
+  var configs;
+
+  beforeEach(module(function () {
+    configs = angular.module('hsm')._configBlocks;
+    angular.module('hsm')._configBlocks = [];
+  }, 'hsm'));
+
+  afterEach(function () {
+    angular.module('hsm')._configBlocks = configs;
+  });
 
   describe('add copytool modal controller', function () {
     var $scope, addCopytoolModalCtrl,

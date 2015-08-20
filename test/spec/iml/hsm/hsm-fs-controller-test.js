@@ -1,9 +1,16 @@
 describe('HSM fs controller', function () {
   'use strict';
 
+  var configs;
+
   beforeEach(module(function () {
-    angular.module('hsm-route', []);
+    configs = angular.module('hsm')._configBlocks;
+    angular.module('hsm')._configBlocks = [];
   }, 'hsm'));
+
+  afterEach(function () {
+    angular.module('hsm')._configBlocks = configs;
+  });
 
   var ctrl, $scope, $location, $routeSegment, fsStream, copytoolStream;
 
@@ -94,7 +101,9 @@ describe('HSM fs controller', function () {
   });
 
   it('should set copytools data', function () {
-    copytoolStream.write([{ id: '3'}, { id: '4' }]);
+    copytoolStream.write({
+      objects: [{ id: '3'}, { id: '4' }]
+    });
 
     expect(ctrl.copytools).toEqual([{ id: '3' }, { id: '4' }]);
   });

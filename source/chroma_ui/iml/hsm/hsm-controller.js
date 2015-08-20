@@ -21,12 +21,11 @@
 
 
 angular.module('hsm')
-  .controller('HsmCtrl',
-  function HsmCtrl($scope, openAddCopytoolModal,
-                   copytoolStream, getCopytoolStream, copytoolOperationStream,
+  .controller('HsmCtrl', function HsmCtrl($scope, openAddCopytoolModal,
+                   copytoolStream, copytoolOperationStream,
                    getAgentVsCopytoolStream) {
 
-    var hsm = obj.merge(this, {
+    var hsm = _.extend(this, {
       stream: getAgentVsCopytoolStream({}, 10, 'minutes'),
       data: [],
       openAddModal: function openAddModal () {
