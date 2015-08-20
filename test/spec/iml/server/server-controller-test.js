@@ -120,6 +120,33 @@ describe('server', function() {
     });
   });
 
+  it('should have a transform method', function () {
+    expect(server.transform).toEqual(jasmine.any(Function));
+  });
+
+  it('should transform a stream', function () {
+    var spy = jasmine.createSpy('spy');
+
+    var s = highland([[
+      {
+        host: '/api/host/2/'
+      },
+      {
+        host: '/api/host/4/'
+      }
+    ]]);
+
+    server.transform(s, ['/api/host/4/'])
+      .collect()
+      .each(spy);
+
+    expect(spy).toHaveBeenCalledOnceWith([
+      {
+        host: '/api/host/4/'
+      }
+    ]);
+  });
+
   describe('test table functionality', function () {
     describe('updating the expression', function () {
       beforeEach(function () {

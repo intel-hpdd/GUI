@@ -52,7 +52,9 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
           jsonMask: 'objects(available_actions,state,host/id,resource_uri,locks)'
         }));
 
-        var s2 = s.pluck('objects');
+        var s2 = s
+          .pluck('objects')
+          .flatten();
         s2.destroy = s.destroy.bind(s);
 
         var lnetConfigurationStream = resolveStream(s2)

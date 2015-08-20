@@ -48,7 +48,6 @@
       <th>
         <a href="" ng-click="server.reverse = !server.reverse">Hostname <i class="fa" ng-class="{'fa-sort-asc': server.reverse, 'fa-sort-desc': !server.reverse}"></i></a>
       </th>
-      <th>Status</th>
       <th>Profile</th>
       <th>LNet State</th>
       <th>Corosync State</th>
@@ -62,17 +61,29 @@
         <a route-to="{{'configure/server/' + item.id }}">
           <span bo-text="item.address"></span>
         </a>
-      </td>
-      <td>
         <record-state record-id="item.resource_uri" alert-stream="server.alertMonitorStream"></record-state>
         <job-status record-id="item.resource_uri" job-stream="server.jobMonitorStream"></job-status>
       </td>
       <td><span>{{ item.server_profile.ui_name }}</span></td>
-      <td class="lnet-state" as-property stream="server.lnetConfigurationStream">
-        <lnet-status stream="prop.stream" host-id="item.id"></lnet-status>
+      <td class="lnet-state">
+        <span as-property stream="server.lnetConfigurationStream" args="[item.resource_uri]" transform="server.transform(stream, args)">
+          <lnet-status stream="prop.stream"></lnet-status>
+        </span>
+        <span as-property stream="server.lnetConfigurationStream" args="[item.resource_uri]" transform="server.transform(stream, args)">
+          <span as-value stream="prop.stream">
+            <record-state record-id="curr.val.resource_uri" alert-stream="server.alertMonitorStream"></record-state>
+          </span>
+        </span>
       </td>
-      <td as-property stream="server.corosyncConfigurationStream">
-        <corosync-state host-id="item.id" stream="prop.stream"></corosync-state>
+      <td>
+        <span as-property stream="server.corosyncConfigurationStream" args="[item.resource_uri]" transform="server.transform(stream, args)">
+          <corosync-state stream="prop.stream"></corosync-state>
+        </span>
+        <span as-property stream="server.corosyncConfigurationStream" args="[item.resource_uri]" transform="server.transform(stream, args)">
+          <span as-value stream="prop.stream">
+            <record-state record-id="curr.val.resource_uri" alert-stream="server.alertMonitorStream"></record-state>
+          </span>
+        </span>
       </td>
       <td ng-if="!server.editable">
         <action-dropdown record="item" override-click="server.overrideActionClick(record, action)"></action-dropdown>

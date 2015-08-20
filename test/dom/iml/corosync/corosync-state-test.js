@@ -1,4 +1,4 @@
-describe('Corosync State directive', function () {
+describe('corosync state directive', function () {
   'use strict';
 
   beforeEach(module('corosyncModule', 'templates'));
@@ -35,51 +35,8 @@ describe('Corosync State directive', function () {
     });
   });
 
-  states.forEach(function (state) {
-    it('should display state for ' + state[0] + ' with host id', function () {
-      var template = '<corosync-state host-id="hostId" stream="stream"></corosync-state>';
-      $scope.hostId = '1';
-
-      $scope.stream = highland();
-      el = $compile(template)($scope);
-      $scope.$digest();
-
-      $scope.stream.write([
-        {
-          host: '/api/host/1/',
-          state: state[1]
-        },
-        {
-          host: '/api/host/2/',
-          state: state[1]
-        }
-      ]);
-
-      expect(el.find('span span').text().trim())
-        .toEqual(state[0]);
-    });
-  });
-
   it('should display nothing when there is no data', function () {
     $scope.stream.write([]);
-
-    expect(el.find('span span').text().trim())
-      .toEqual('');
-  });
-
-  it('should display nothing when hostId is undefined', function () {
-    var template = '<corosync-state host-id="hostId" stream="stream"></corosync-state>';
-
-    $scope.stream = highland();
-    el = $compile(template)($scope);
-    $scope.$digest();
-
-    $scope.stream.write([
-      {
-        host: '/api/host/1/',
-        state: 'started'
-      }
-    ]);
 
     expect(el.find('span span').text().trim())
       .toEqual('');

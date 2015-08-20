@@ -6,12 +6,10 @@ describe('LNet status directive', function () {
   var el, $scope;
 
   beforeEach(inject(function ($rootScope, $compile) {
-    var template = '<lnet-status stream="stream" host-id="hostId"></lnet-status>';
+    var template = '<lnet-status stream="stream"></lnet-status>';
 
     $scope = $rootScope.$new();
     $scope.stream = highland();
-    $scope.hostId = '1';
-
     el = $compile(template)($scope);
     $scope.$digest();
   }));
@@ -26,12 +24,9 @@ describe('LNet status directive', function () {
   ]
     .forEach(function (state) {
       it('should display state for ' + state, function () {
-        $scope.stream.write([{
-          host: {
-            id: '1'
-          },
+        $scope.stream.write({
           state: state[1]
-        }]);
+        });
 
         expect(el.find('span span').text().trim())
           .toEqual(state[0]);
@@ -39,7 +34,7 @@ describe('LNet status directive', function () {
     });
 
   it('should display nothing when there is no data', function () {
-    $scope.stream.write([]);
+    $scope.stream.end();
 
     expect(el.find('span span').text().trim())
       .toEqual('');

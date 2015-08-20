@@ -76,13 +76,13 @@ describe('server streams', function () {
 
     it('should create a lnet configuration stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
-        jsonMask: 'objects(state,host/id)'
+        jsonMask: 'objects(state,host/resource_uri,resource_uri)'
       });
     });
 
     it('should create a corosync configuration stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask: 'objects(state,host)',
+        jsonMask: 'objects(state,host,resource_uri)',
         qs: {
           limit: 0
         }
