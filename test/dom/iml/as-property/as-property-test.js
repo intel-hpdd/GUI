@@ -1,15 +1,15 @@
-describe('As property', function () {
+describe('as property', function () {
   'use strict';
 
   beforeEach(module('asProperty', 'highland'));
 
   var $compile, $scope, el, s, getText;
 
-  describe('with through', function () {
+  describe('with transform', function () {
     beforeEach(inject(function ($rootScope, _$compile_, addProperty) {
       $compile = _$compile_;
 
-      var template = '<div as-property stream="stream" through="add1">\
+      var template = '<div as-property stream="stream" args="args" transform="add1(stream, args)">\
         <span class="num" ng-init="setNum(prop.stream)">{{ num }}</span>\
       </div>';
 
@@ -18,8 +18,10 @@ describe('As property', function () {
       $scope.stream = s
         .through(addProperty);
 
-      $scope.add1 = function add1 (s) {
-        return s.map(highland.add(1));
+      $scope.args = [2];
+
+      $scope.add1 = function add1 (s, args) {
+        return s.map(highland.add.apply(highland, args));
       };
 
       $scope.setNum = function setNum (s) {
@@ -35,15 +37,15 @@ describe('As property', function () {
       getText = fp.flow(find, fp.lensProp('textContent'));
     }));
 
-    it('should add 1 to num', function () {
+    it('should add 2 to num', function () {
       s.write(1);
       $scope.$digest();
 
-      expect(getText('.num')).toEqual('2');
+      expect(getText('.num')).toEqual('3');
     });
   });
 
-  describe('without through', function () {
+  describe('without transform', function () {
     beforeEach(inject(function ($rootScope, _$compile_, addProperty) {
       $compile = _$compile_;
 

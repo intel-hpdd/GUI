@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,15 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('asProperty').directive('asProperty', [function asProperty () {
-  'use strict';
-
+angular.module('asProperty').directive('asProperty', function asProperty () {
   return {
     restrict: 'A',
     transclude: true,
     scope: {
       stream: '=',
-      through: '=?'
+      args: '=?',
+      transform: '&?'
     },
     link: function link (scope, el, attrs, ctrl, $transclude) {
       $transclude(function createNewPopover (clone, transcludedScope) {
@@ -38,8 +37,11 @@ angular.module('asProperty').directive('asProperty', [function asProperty () {
 
         scope.$on('$destroy', prop.destroy.bind(prop));
 
-        if (scope.through)
-          prop = prop.through(scope.through);
+        if (scope.transform)
+          prop = scope.transform({
+            stream: prop,
+            args: scope.args || []
+          });
 
         transcludedScope.prop = {
           stream: prop
@@ -49,4 +51,4 @@ angular.module('asProperty').directive('asProperty', [function asProperty () {
       });
     }
   };
-}]);
+});
