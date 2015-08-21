@@ -35,11 +35,10 @@ angular.module('server')
           });
 
         var s = socketStream('/lnet_configuration/', {
-          jsonMask: 'objects(state,host/resource_uri,resource_uri)'
+          jsonMask: 'objects(state,host,resource_uri)'
         });
         var s2 = s
-          .pluck('objects')
-          .map(fp.map(fp.lensProp('host').map(fp.lensProp('resource_uri')))); // remove this once api does not auto-expand.
+          .pluck('objects');
         s2.destroy = s.destroy.bind(s);
 
         var lnetConfigurationStream = resolveStream(s2)

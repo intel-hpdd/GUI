@@ -93,7 +93,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
 
     it('should create a lnet configuration stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
-        jsonMask: 'objects(available_actions,state,host/id,resource_uri,locks)',
+        jsonMask: 'objects(available_actions,state,resource_uri,locks)',
         qs: {
           host__id: '1',
           limit: 0
