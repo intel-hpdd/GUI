@@ -76,7 +76,7 @@ describe('server streams', function () {
 
     it('should create a lnet configuration stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
-        jsonMask: 'objects(state,host/resource_uri,resource_uri)'
+        jsonMask: 'objects(state,host,resource_uri)'
       });
     });
 

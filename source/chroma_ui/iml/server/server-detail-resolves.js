@@ -49,7 +49,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
         var merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
 
         var s = socketStream('/lnet_configuration/', merge({}, {
-          jsonMask: 'objects(available_actions,state,host/id,resource_uri,locks)'
+          jsonMask: 'objects(available_actions,state,resource_uri,locks)'
         }));
 
         var s2 = s
