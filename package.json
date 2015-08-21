@@ -32,5 +32,7 @@
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-safari-launcher": "0.1.1",
     "semver-check": "0.0.2"
-  }
+  },
+  "whitelist": ["jasmine-reporters", "karma", "karma-chrome-launcher", "karma-coverage", "karma-firefox-launcher",
+    "karma-jasmine", "karma-junit-reporter", "karma-ng-html2js-preprocessor"]
 }
