@@ -29,7 +29,7 @@ var glob2base = require('glob2base');
 var Glob = require('glob').Glob;
 var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
-var fp = require('fp');
+var fp = require('@intel-js/fp');
 
 var writeToDest = fp.curry(2, gulp.dest)(fp.__, { cwd: '../../chroma_ui' });
 var writeToStatic = writeToDest.bind(null, 'static/chroma_ui');
