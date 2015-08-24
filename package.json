@@ -16,10 +16,10 @@
     "url": "https://github.com/intel-js/GUI.git"
   },
   "dependencies": {
-    "@intel-js/obj": "1.0.3",
-    "@intel-js/fp": "1.0.5",
-    "@intel-js/lodash-mixins": "1.0.1",
-    "@intel-js/angular-modules": "1.0.0"
+    "@intel-js/obj": "1.0.4",
+    "@intel-js/fp": "1.0.7",
+    "@intel-js/lodash-mixins": "1.0.2",
+    "@intel-js/angular-modules": "1.0.1"
   },
   "devDependencies": {
     "jasmine-reporters": "1.0.1",

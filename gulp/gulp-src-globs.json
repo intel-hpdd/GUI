@@ -2,9 +2,9 @@
   "js": {
     "source": [
       "source/chroma_ui/bower_components*/lodash/dist/lodash.js",
-      "../ui-modules*/isomorphic/lodash-mixins/index.js",
-      "../ui-modules*/isomorphic/fp/index.js",
-      "../ui-modules*/isomorphic/obj/index.js",
+      "node_modules/@intel-js/lodash-mixins/index.js",
+      "node_modules/@intel-js/fp/index.js",
+      "node_modules/@intel-js/obj/index.js",
       "source/chroma_ui/vendor*/**/*.js",
       "source/chroma_ui/bower_components*/highland/dist/highland.js",
       "source/chroma_ui/bower_components*/jquery/dist/jquery.js",
@@ -24,8 +24,8 @@
       "source/chroma_ui/iml*/help.js",
       "source/chroma_ui/iml*/**/*-module.js",
       "source/chroma_ui/common*/**/*-module.js",
-      "../ui-modules*/angular/src/**/*-module.js",
-      "../ui-modules*/angular/src/**/*.js",
+      "node_modules/@intel-js/angular-modules/src/**/*-module.js",
+      "node_modules/@intel-js/angular-modules/src/**/*.js",
       "source/chroma_ui/common*/**/*.js",
       "source/chroma_ui/iml*/**/*.js"
     ]
