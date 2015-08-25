@@ -11,9 +11,6 @@ var csso = require('gulp-csso');
 var mergeStream = require('merge-stream');
 var order = require('gulp-order');
 var injector = require('gulp-inject');
-var jscs = require('gulp-jscs');
-var jshint = require('gulp-jshint');
-var stylish = require('jshint-stylish');
 var minifyHtml = require('gulp-minify-html');
 var ngHtml2Js = require('gulp-ng-html2js');
 var plumber = require('gulp-plumber');
@@ -294,6 +291,9 @@ var qualitySource = getSource.bind(null, files.js.source.concat(
 gulp.task('quality', ['jscs', 'jshint']);
 
 gulp.task('jshint', function jsHint () {
+  var jshint = require('gulp-jshint');
+  var stylish = require('jshint-stylish');
+
   return qualitySource()
     .pipe(jshint())
     .pipe(jshint.reporter(stylish))
@@ -301,6 +301,8 @@ gulp.task('jshint', function jsHint () {
 });
 
 gulp.task('jscs', function jsCs () {
+  var jscs = require('gulp-jscs');
+
   return qualitySource()
     .pipe(jscs('../.jscsrc'))
 });
