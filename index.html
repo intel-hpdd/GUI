@@ -17,7 +17,7 @@
     <script type="text/javascript">
       window.STATIC_URL = '<$= conf.get("STATIC_URL") $>chroma_ui/';
       window.CACHE_INITIAL_DATA = <$= JSON.stringify(cache) $>;
-      window.HELP_TEXT = <$= JSON.stringify(conf.get('HELP_TEXT') $>;
+      window.HELP_TEXT = <$= JSON.stringify(conf.get('HELP_TEXT')) $>;
       window.IS_RELEASE = <$= conf.get('IS_RELEASE') $>;
       window.ALLOW_ANONYMOUS_READ = <$= conf.get('ALLOW_ANONYMOUS_READ') $>;
       window.VERSION = '<$= conf.get("VERSION") $>';
