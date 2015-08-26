@@ -20,12 +20,13 @@
 // express and approved by Intel in writing.
 
 angular.module('parserModule')
-  .factory('parsely', function parselyFactory (token, parse, sepBy1, choice, optional) {
+  .factory('parsely', function parselyFactory (token, parse, sepBy1, choice, optional, endOfString) {
     return {
       parse: parse,
       token: token,
       sepBy1: sepBy1,
       choice: choice,
-      optional: optional
+      optional: optional,
+      endOfString: endOfString
     };
   });

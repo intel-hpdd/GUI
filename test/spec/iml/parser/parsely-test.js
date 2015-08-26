@@ -7,6 +7,7 @@ describe('parser parsely', function () {
     $provide.value('sepBy1', 'sepBy1');
     $provide.value('choice', 'choice');
     $provide.value('optional', 'optional');
+    $provide.value('endOfString', 'endOfString');
   }));
 
   var parsely;
@@ -21,7 +22,8 @@ describe('parser parsely', function () {
       token: 'token',
       sepBy1: 'sepBy1',
       choice: 'choice',
-      optional: 'optional'
+      optional: 'optional',
+      endOfString: 'endOfString'
     });
   });
 });
