@@ -19,4 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('parserModule', []);
+angular.module('parserModule')
+  .value('optional', fp.curry(2, function optional (p, tokens) {
+    if (!tokens.length)
+      return '';
+
+    return p(tokens);
+  }));

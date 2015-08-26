@@ -19,4 +19,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('parserModule', []);
+var nameLens = fp.lensProp('name');
+
+angular.module('parserModule')
+  .value('token', fp.curry(3, function token (name, outFn, tokens) {
+    if (!tokens.length)
+      return new Error('Expected ' + name + ' got end of string');
+
+    var t = fp.head(tokens);
+
+    var tokenName = nameLens(t);
+
+    if (fp.eq(tokenName, name)) {
+      tokens.shift();
+      return outFn(t);
+    }
+
+    return new Error('Expected ' + name + ' got ' + nameLens(t) + ' at character ' + t.character);
+  }));

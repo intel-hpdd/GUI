@@ -19,4 +19,29 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('parserModule', []);
+angular.module('parserModule')
+  .value('choice', fp.curry(2, function choice (choices, tokens) {
+    var oldTokens = fp.map(fp.identity, tokens);
+    var out;
+    var errors = [];
+
+    choices.some(function testChoice (fn) {
+      var result = fn(tokens);
+
+      if (result instanceof Error) {
+        var tokensDiff = oldTokens.length - tokens.length;
+
+        errors[tokensDiff] = result;
+
+        if (tokensDiff)
+          [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
+
+        return false;
+      } else {
+        out = result;
+        return true;
+      }
+    });
+
+    return out ? out : errors.pop();
+  }));

@@ -19,4 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('parserModule', []);
+angular.module('parserModule')
+  .value('endOfString', function optional (tokens) {
+    if (!tokens.length)
+      return '';
+
+    return new Error('Expected end of string got ' + tokens[0].name);
+  });

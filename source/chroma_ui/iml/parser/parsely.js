@@ -19,4 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('parserModule', []);
+angular.module('parserModule')
+  .factory('parsely', function parselyFactory (token, parse, sepBy1, choice, optional) {
+    return {
+      parse: parse,
+      token: token,
+      sepBy1: sepBy1,
+      choice: choice,
+      optional: optional
+    };
+  });

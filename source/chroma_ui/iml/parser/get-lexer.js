@@ -96,5 +96,5 @@ angular.module('parserModule')
 
         return foundMatch || !str.length ? '' : str[0] + consumeError(str.slice(1));
       }
-    };
+    }
   }]);
