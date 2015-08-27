@@ -22,6 +22,9 @@
 
   angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login', 'app', 'hsm', 'about',
     'imlRoutes', 'ngAnimate', 'modal-decorator', 'interceptors'])
+    .config(['$compileProvider', function ($compileProvider) {
+      $compileProvider.debugInfoEnabled(false);
+    }])
     .config(['$locationProvider', function ($locationProvider) {
       $locationProvider.html5Mode(true).hashPrefix('!');
     }])
