@@ -62,9 +62,7 @@ describe('get heat map chart test', function () {
         .zValue(_.pluckPath('data.stats_read_bytes'));
 
       heatMapChart.xAxis()
-        .tickFormat(function (d) {
-          return d3.time.format('%H:%M:%S')(moment(d).utc().toDate());
-        });
+        .tickFormat(d3.time.format.utc('%H:%M:%S'));
 
       query = svg.querySelector.bind(svg);
       queryAll = svg.querySelectorAll.bind(svg);
@@ -195,7 +193,7 @@ describe('get heat map chart test', function () {
 
         it('should show the x value', function () {
           expect(div.querySelector('.nvtooltip .x-value').innerHTML)
-            .toEqual('07:44:10');
+            .toEqual('11:44:10');
         });
 
         it('should show the y value', function () {
