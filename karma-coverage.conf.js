@@ -1,5 +1,5 @@
 var baseConfig = require('./karma.conf.js');
-var obj = require('obj');
+var obj = require('@intel-js/obj');
 
 
 module.exports = function(config) {
