@@ -1,7 +1,7 @@
 describe('socket worker', function () {
   'use strict';
 
-  var worker, getWebWorker, disconnectModal, $applyFunc;
+  var worker, getWebWorker, disconnectModal, $timeout, STATIC_URL;
 
   beforeEach(module('socket-worker', function ($provide) {
     disconnectModal = jasmine.createSpy('disconnectModal').andReturn({
@@ -9,15 +9,19 @@ describe('socket worker', function () {
     });
     $provide.value('disconnectModal', disconnectModal);
 
-    $applyFunc = jasmine.createSpy('$applyFunc')
-      .andCallFake(_.identity);
+    $timeout = jasmine.createSpy('$timeout')
+      .andCallFake(fp.identity);
 
     worker = {
       addEventListener: jasmine.createSpy('addEventListener')
     };
 
+    STATIC_URL = '/static/chroma_ui/';
+
     getWebWorker = jasmine.createSpy('getWebWorker').andReturn(worker);
     $provide.value('getWebWorker', getWebWorker);
+    $provide.value('STATIC_URL', STATIC_URL);
+    $provide.value('$timeout', $timeout);
   }));
 
   var socketWorker;
@@ -27,7 +31,7 @@ describe('socket worker', function () {
   }));
 
   it('should create a worker with a remote script', function () {
-    expect(getWebWorker).toHaveBeenCalledOnceWith('/ui-modules/browser/socket-worker/bundle.js');
+    expect(getWebWorker).toHaveBeenCalledOnceWith(STATIC_URL + 'bundle.js');
   });
 
   it('should register a message handler', function () {

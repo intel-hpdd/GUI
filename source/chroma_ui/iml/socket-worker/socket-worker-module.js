@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular
-  .module('socket-worker', ['crypto', 'exception', 'apply-func'])
+  .module('socket-worker', ['crypto', 'exception'])
   .value('getWebWorker', function getWebWorkerFactory (url) {
     'use strict';
 

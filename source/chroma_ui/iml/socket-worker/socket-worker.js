@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,23 +20,19 @@
 // express and approved by Intel in writing.
 
 angular.module('socket-worker')
-  .factory('socketWorker', ['getWebWorker', 'disconnectModal', '$applyFunc',
-  function socketWorkerFactory (getWebWorker, disconnectModal, $applyFunc) {
-    'use strict';
-
+  .factory('socketWorker', function socketWorkerFactory (getWebWorker, disconnectModal, $timeout, STATIC_URL) {
     var modal;
-
-    var worker = getWebWorker('/ui-modules/browser/socket-worker/bundle.js');
+    var worker = getWebWorker(STATIC_URL + 'bundle.js');
 
     worker.addEventListener('message', function onMessage (ev) {
       var data = ev.data;
 
-      var onReconnecting = $applyFunc(function onReconnecting () {
+      var onReconnecting = $timeout(function onReconnecting () {
         if (!modal)
           modal = disconnectModal();
       });
 
-      var onReconnect = $applyFunc(function onReconnected() {
+      var onReconnect = $timeout(function onReconnected() {
         if (modal) {
           modal.close();
           modal = null;
@@ -50,11 +46,10 @@ angular.module('socket-worker')
         onReconnect();
     });
 
-    worker.addEventListener('error', $applyFunc(function onError (err) {
+    worker.addEventListener('error', $timeout(function onError (err) {
       throw err;
     }));
 
     return worker;
-  }
-  ]);
+  });
 
