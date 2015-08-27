@@ -10,7 +10,9 @@ describe('socket worker', function () {
     $provide.value('disconnectModal', disconnectModal);
 
     $timeout = jasmine.createSpy('$timeout')
-      .andCallFake(fp.identity);
+      .andCallFake(function (fn, delay, invokeApply, pass) {
+        return fn(pass);
+      });
 
     worker = {
       addEventListener: jasmine.createSpy('addEventListener')

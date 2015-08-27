@@ -23,16 +23,17 @@ angular.module('socket-worker')
   .factory('socketWorker', function socketWorkerFactory (getWebWorker, disconnectModal, $timeout, STATIC_URL) {
     var modal;
     var worker = getWebWorker(STATIC_URL + 'bundle.js');
+    var timedOut = fp.curry(4, $timeout)(fp.__, 0, true);
 
     worker.addEventListener('message', function onMessage (ev) {
       var data = ev.data;
 
-      var onReconnecting = $timeout(function onReconnecting () {
+      var onReconnecting = timedOut(function onReconnecting () {
         if (!modal)
           modal = disconnectModal();
       });
 
-      var onReconnect = $timeout(function onReconnected() {
+      var onReconnect = timedOut(function onReconnected() {
         if (modal) {
           modal.close();
           modal = null;
@@ -40,13 +41,13 @@ angular.module('socket-worker')
       });
 
       if (data.type === 'reconnecting')
-        onReconnecting();
+        onReconnecting(undefined);
 
       if (data.type === 'reconnect')
-        onReconnect();
+        onReconnect(undefined);
     });
 
-    worker.addEventListener('error', $timeout(function onError (err) {
+    worker.addEventListener('error', timedOut(function onError (err) {
       throw err;
     }));
 
