@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/gui",
-  "version": "3.0.9",
+  "version": "3.0.10",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true --reporters dots",
@@ -43,7 +43,8 @@
     "gulp-sourcemaps": "1.5.2",
     "gulp-uglify": "1.2.0",
     "gulp-util": "3.0.6",
-    "highland": "2.5.1"
+    "highland": "2.5.1",
+    "merge-stream": "0.1.8"
   },
   "devDependencies": {
     "@intel-js/gulp-iife-wrap": "1.0.1",
@@ -61,12 +62,12 @@
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-safari-launcher": "0.1.1",
     "krusty-jasmine-reporter": "1.0.0",
-    "merge-stream": "0.1.8",
     "pre-commit": "1.1.1",
     "semver-check": "0.0.2"
   },
   "whitelist": [
     "@intel-js/gulp-iife-wrap",
+    "jasmine",
     "jasmine-reporters",
     "karma",
     "karma-chrome-launcher",
@@ -75,31 +76,8 @@
     "karma-jasmine",
     "karma-junit-reporter",
     "karma-ng-html2js-preprocessor",
-    "anymatch",
-    "del",
-    "from",
-    "glob",
-    "glob2base",
-    "gulp",
-    "gulp-cached",
-    "gulp-clone",
-    "gulp-concat",
-    "gulp-csso",
-    "gulp-inject",
-    "gulp-less",
-    "gulp-minify-html",
-    "gulp-ng-annotate",
-    "gulp-ng-html2js",
-    "gulp-order",
-    "gulp-plumber",
-    "gulp-remember",
-    "gulp-rev",
-    "gulp-sourcemaps",
-    "gulp-uglify",
-    "gulp-util",
-    "highland",
-    "jasmine",
     "krusty-jasmine-reporter",
-    "merge-stream"
+    "pre-commit",
+    "semver-check"
   ]
 }
