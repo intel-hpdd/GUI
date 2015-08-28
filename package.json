@@ -43,7 +43,7 @@
     "gulp-sourcemaps": "1.5.2",
     "gulp-uglify": "1.2.0",
     "gulp-util": "3.0.6",
-    "highland": "2.5.1",
+    "highland": "2.5.1"
   },
   "devDependencies": {
     "@intel-js/gulp-iife-wrap": "1.0.1",
