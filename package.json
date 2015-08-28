@@ -47,7 +47,11 @@
   },
   "devDependencies": {
     "@intel-js/gulp-iife-wrap": "1.0.1",
+    "gulp-jscs": "1.6.0",
+    "gulp-jshint": "1.11.2",
+    "jasmine": "2.3.1",
     "jasmine-reporters": "1.0.1",
+    "jshint-stylish": "2.0.1",
     "karma": "0.13.9",
     "karma-chrome-launcher": "0.2.0",
     "karma-coverage": "0.5.0",
@@ -56,13 +60,10 @@
     "karma-junit-reporter": "0.3.3",
     "karma-ng-html2js-preprocessor": "0.1.2",
     "karma-safari-launcher": "0.1.1",
-    "semver-check": "0.0.2",
-    "jasmine": "2.3.1",
-    "gulp-jscs": "1.6.0",
-    "gulp-jshint": "1.11.2",
-    "jshint-stylish": "2.0.1",
     "krusty-jasmine-reporter": "1.0.0",
-    "merge-stream": "0.1.8"
+    "merge-stream": "0.1.8",
+    "pre-commit": "1.1.1",
+    "semver-check": "0.0.2"
   },
   "whitelist": [
     "@intel-js/gulp-iife-wrap",
