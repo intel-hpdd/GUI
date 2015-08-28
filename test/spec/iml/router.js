@@ -131,8 +131,7 @@ describe('The router', function () {
           controller: 'ServerCtrl',
           templateUrl: 'iml/server/assets/html/server.html',
           resolve: {
-            jobMonitorStream: jasmine.any(Array),
-            alertMonitorStream: jasmine.any(Array),
+            streams: ['serverStreamsResolves', jasmine.any(Function)],
             hasAccess: ['hasAccess', jasmine.any(Function)]
           },
           access: GROUPS.FS_ADMINS,
@@ -143,38 +142,6 @@ describe('The router', function () {
 
     it('should add the segmentAuthenticated property to the result of within', function () {
       expect($routeSegmentProvider.segmentAuthenticated).not.toBeNull();
-    });
-
-    ['jobMonitorStream', 'alertMonitorStream'].forEach(function testStreams (streamType) {
-      describe(streamType, function () {
-        var monitorStream, monitor, stream;
-
-        beforeEach(function () {
-          stream = highland([1]);
-
-          monitor = jasmine.createSpy('monitor')
-            .andReturn(stream);
-
-          var segment = $routeSegmentProvider.segment.calls.filter(function findServerSegment (segment) {
-            return segment.args[0] === 'server' && segment.args[1].resolve != null;
-          });
-
-          monitorStream = segment[0].args[1].resolve[streamType];
-        });
-
-        it('should return a stream', function () {
-          var expectedStream = monitorStream[monitorStream.length - 1](resolveStream, monitor, addProperty);
-
-          var spy = jasmine.createSpy('spy');
-
-          expectedStream.then(function hasStream (s) {
-            s.each(spy);
-            expect(spy).toHaveBeenCalledOnceWith(1);
-          });
-
-          $rootScope.$apply();
-        });
-      });
     });
   });
 });
@@ -243,15 +210,6 @@ describe('hasAccess service', function () {
           templateUrl: 'iml/dashboard/assets/html/base-dashboard.html'
         },
         targetLocation: '/'
-      },
-      {
-        readEnabled: false,
-        resolveFailed: {
-          controller: 'LoginCtrl',
-          controllerAs: 'login',
-          templateUrl: 'common/login/assets/html/login.html'
-        },
-        targetLocation: '/login'
       }
     ];
 

@@ -127,6 +127,15 @@ angular.module('imlRoutes', ['imlRouterModule',
     $routeSegmentProvider.when('/dashboard/jobstats/:id/:startDate/:endDate', 'app.jobstats');
 
     $routeSegmentProvider
+      .when('/status', 'app.status')
+      .within('app')
+      .segment('status', untilResolved({
+        controller: 'StatusController',
+        controllerAs: 'ctrl',
+        templateUrl: 'iml/status/assets/html/status.html'
+      }));
+
+    $routeSegmentProvider
       .within('app')
       .segment('jobstats', untilResolved({
         controller: 'JobStatsCtrl',
@@ -159,15 +168,6 @@ angular.module('imlRoutes', ['imlRouterModule',
             return $q.all(promises);
           }]
         }
-      }));
-
-    $routeSegmentProvider
-      .when('/status', 'app.status')
-      .within('app')
-      .segment('status', untilResolved({
-        controller: 'StatusController',
-        controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status.html'
       }));
 
     function untilResolved (obj) {

@@ -58,4 +58,4 @@ angular.module('imlRouterModule')
 
         return $q.reject();
       };
-    }])
+    }]);
