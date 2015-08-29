@@ -17,20 +17,20 @@
     "url": "https://github.com/intel-js/GUI.git"
   },
   "dependencies": {
-    "@intel-js/obj": "1.0.4",
-    "@intel-js/fp": "1.0.7",
-    "@intel-js/lodash-mixins": "1.0.2",
     "@intel-js/angular-modules": "1.0.1",
-    "gulp": "3.9.0",
+    "@intel-js/fp": "1.0.7",
+    "@intel-js/gulp-iife-wrap": "1.0.1",
+    "@intel-js/lodash-mixins": "1.0.2",
+    "@intel-js/obj": "1.0.4",
     "anymatch": "1.3.0",
     "del": "1.2.0",
     "from": "0.1.3",
     "glob": "5.0.14",
     "glob2base": "0.0.12",
+    "gulp": "3.9.0",
     "gulp-cached": "1.1.0",
     "gulp-clone": "1.0.0",
     "gulp-concat": "2.6.0",
-    "gulp-csso": "1.0.0",
     "gulp-inject": "1.5.0",
     "gulp-less": "3.0.3",
     "gulp-minify-html": "1.0.4",
@@ -44,10 +44,10 @@
     "gulp-uglify": "1.2.0",
     "gulp-util": "3.0.6",
     "highland": "2.5.1",
+    "less-plugin-clean-css": "1.5.1",
     "merge-stream": "0.1.8"
   },
   "devDependencies": {
-    "@intel-js/gulp-iife-wrap": "1.0.1",
     "gulp-jscs": "1.6.0",
     "gulp-jshint": "1.11.2",
     "jasmine": "2.3.1",
@@ -66,7 +66,6 @@
     "semver-check": "0.0.2"
   },
   "whitelist": [
-    "@intel-js/gulp-iife-wrap",
     "jasmine",
     "jasmine-reporters",
     "karma",
@@ -76,8 +75,6 @@
     "karma-jasmine",
     "karma-junit-reporter",
     "karma-ng-html2js-preprocessor",
-    "krusty-jasmine-reporter",
-    "pre-commit",
-    "semver-check"
+    "krusty-jasmine-reporter"
   ]
 }
