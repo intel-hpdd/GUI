@@ -7,7 +7,6 @@ var gulp = require('gulp');
 var cache = require('gulp-cached');
 var remember = require('gulp-remember');
 var less = require('gulp-less');
-var csso = require('gulp-csso');
 var mergeStream = require('merge-stream');
 var order = require('gulp-order');
 var injector = require('gulp-inject');
@@ -26,6 +25,10 @@ var Glob = require('glob').Glob;
 var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
 var fp = require('@intel-js/fp');
+
+var LessPluginCleanCSS = require('less-plugin-clean-css');
+var cleancss = new LessPluginCleanCSS({ advanced: true });
+
 
 var outputDir = process.argv
   .filter(function getDestOption (x) {
@@ -58,7 +61,8 @@ function buildLess () {
     .pipe(less({
       relativeUrls: false,
       rootpath: '',
-      paths: ['../source/chroma_ui/']
+      paths: ['../source/chroma_ui/'],
+      plugins: [cleancss]
     }))
     .pipe(plumber.stop());
 }
@@ -133,7 +137,6 @@ gulp.task('prod', ['clean'], function prodTask () {
   var lessStream = buildLess()
     .pipe(plumber())
     .pipe(rev())
-    .pipe(csso())
     .pipe(plumber.stop());
 
   var merged = mergeStream(jsStream, templatesStream)
