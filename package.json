@@ -3,7 +3,7 @@
   "version": "3.0.11",
   "license": "MIT",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true --reporters dots",
+    "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true",
     "jshint": "gulp --gulpfile='./gulp/gulpfile.js' jshint",
     "jscs": "gulp --gulpfile='./gulp/gulpfile.js' jscs"
   },

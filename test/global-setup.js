@@ -1,4 +1,4 @@
-beforeEach(module('fixtures', 'imlMocks'));
+beforeEach(module('fixtures'));
 
 (function () {
   'use strict';
