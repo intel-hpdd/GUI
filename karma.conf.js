@@ -5,7 +5,7 @@ var util = require('util');
 module.exports = function setConfig (config) {
   'use strict';
 
-  function bound(format) {
+  function bound (format) {
     return util.format.bind(util, format);
   }
 
@@ -25,7 +25,6 @@ module.exports = function setConfig (config) {
 
     // frameworks to use
     frameworks: ['jasmine'],
-
 
     // list of files / patterns to load in the browser
     files: [
@@ -76,7 +75,6 @@ module.exports = function setConfig (config) {
       testDir('integration/*')
     ],
 
-
     // test results reporter to use
     // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['dots'],
@@ -87,9 +85,21 @@ module.exports = function setConfig (config) {
       suite: 'karma-tests (new ui)'
     },
 
+    plugins: [
+      'karma-jasmine',
+      'karma-junit-reporter',
+      'karma-chrome-launcher',
+      'karma-firefox-launcher',
+      'karma-safari-launcher',
+      '@intel-js/karma-iife-wrap-preprocessor',
+      'karma-ng-html2js-preprocessor',
+      'krusty-jasmine-reporter'
+    ],
 
     preprocessors: {
-      '**/*.html': ['ng-html2js']
+      '**/*.html': ['ng-html2js'],
+      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': ['iife-wrap'],
+      'test/!(matchers|templates)/**/*.js': ['iife-wrap']
     },
 
     ngHtml2JsPreprocessor: {
@@ -104,19 +114,15 @@ module.exports = function setConfig (config) {
     // web server port
     port: 9876,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
-
 
     // Start these browsers, currently available:
     // - Chrome
@@ -128,13 +134,12 @@ module.exports = function setConfig (config) {
     // - IE (only Windows)
     browsers: ['Chrome'],
 
-
     // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
 
     // to avoid DISCONNECTED messages
-    browserDisconnectTimeout : 10000, // default 2000
-    browserNoActivityTimeout : 60000, //default 10000
+    browserDisconnectTimeout: 10000, // default 2000
+    browserNoActivityTimeout: 60000, //default 10000
 
     reportSlowerThan: 100,
 

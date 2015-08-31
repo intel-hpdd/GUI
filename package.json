@@ -48,6 +48,7 @@
     "merge-stream": "0.1.8"
   },
   "devDependencies": {
+    "@intel-js/karma-iife-wrap-preprocessor": "1.0.1",
     "gulp-jscs": "1.6.0",
     "gulp-jshint": "1.11.2",
     "jasmine": "2.3.1",
