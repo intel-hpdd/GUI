@@ -36,7 +36,7 @@
         <li>
           <a id="log-menu" route-to="log/" target="_self"><i class="fa fa-book"></i> Logs</a>
         </li>
-        <li restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+        <li>
           <a id="help-menu" href="/static/webhelp/help_wrapper.html" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
         </li>
         <li ng-class="{active: app.$routeSegment.contains('status')}">
