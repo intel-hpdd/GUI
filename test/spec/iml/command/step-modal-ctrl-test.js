@@ -4,19 +4,20 @@ describe('step modal', function () {
   beforeEach(module('command'));
 
   describe('step modal controller', function () {
-    var $rootScope, stepModal, stepsStream, jobStream;
+    var $scope, stepModal, stepsStream, jobStream;
 
-    beforeEach(inject(function (_$rootScope_, $controller) {
-      $rootScope = _$rootScope_;
-
+    beforeEach(inject(function ($rootScope, $controller) {
       spyOn($rootScope, '$on').andCallThrough();
 
       jobStream = highland();
-      spyOn(jobStream, 'destroy');
+      spyOn(jobStream, 'destroy').andCallThrough();
       stepsStream = highland();
+      spyOn(stepsStream, 'destroy').andCallThrough();
+
+      $scope = $rootScope.$new();
 
       stepModal = $controller('StepModalCtrl', {
-        $scope: $rootScope,
+        $scope: $scope,
         stepsStream: stepsStream,
         jobStream: jobStream
       });
@@ -45,16 +46,20 @@ describe('step modal', function () {
     });
 
     it('should listen for destroy', function () {
-      expect($rootScope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
+      expect($scope.$on).toHaveBeenCalledTwiceWith('$destroy', jasmine.any(Function));
     });
 
     describe('destroy', function () {
       beforeEach(function () {
-        $rootScope.$on.mostRecentCall.args[1]();
+        $scope.$destroy();
       });
 
       it('should destroy the job stream', function () {
         expect(jobStream.destroy).toHaveBeenCalledOnce();
+      });
+
+      it('should destroy the steps stream', function () {
+        expect(stepsStream.destroy).toHaveBeenCalledOnce();
       });
     });
 
@@ -131,7 +136,8 @@ describe('step modal', function () {
       job = {
         id: '1',
         steps: [
-          '/api/step/1/'
+          '/api/step/1/',
+          '/api/step/2/'
         ]
       };
 
@@ -180,7 +186,7 @@ describe('step modal', function () {
 
         expect(socketStream).toHaveBeenCalledOnceWith('/step', {
           qs: {
-            id__in: ['1'],
+            id__in: ['1', '2'],
             limit: 0
           }
         }, true);
