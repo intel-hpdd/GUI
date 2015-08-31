@@ -1,12 +1,15 @@
 describe('PDSH directive', function () {
   'use strict';
 
-  var $scope, $timeout, element, inputField, groupAddOn, help, node;
+  var $scope, $timeout, element, query, queryAll, inputField, groupAddOn, help, node, inputEvent, clickEvent;
 
   beforeEach(module('pdsh-module', 'templates', 'ui.bootstrap', function initialize ($provide) {
     help = {
       get: jasmine.createSpy('get').andReturn('Enter hostname / hostlist expression.')
     };
+
+    inputEvent = new Event('input');
+    clickEvent = new MouseEvent('click');
 
     $provide.value('help', help);
   }));
@@ -17,7 +20,9 @@ describe('PDSH directive', function () {
       $timeout = _$timeout_;
 
       // Create an instance of the element
-      element = angular.element($templateCache.get('pdsh.html'));
+      element = angular.element($templateCache.get('pdsh.html')).get(0);
+      query = element.querySelector.bind(element);
+      queryAll = element.querySelectorAll.bind(element);
 
       $scope = $rootScope.$new();
       $scope.pdshChange = jasmine.createSpy('pdshChange');
@@ -27,27 +32,21 @@ describe('PDSH directive', function () {
       // Update the html
       $scope.$digest();
 
-      inputField = element.find('.form-control');
-      groupAddOn = element.find('.input-group-addon');
+      inputField = query('.form-control');
+      groupAddOn = query('.input-group-addon');
     }));
 
     describe('successful entry', function () {
       var hostnames;
 
       beforeEach(function () {
-        runs(function () {
-          inputField.val('hostname[1-3]');
-          inputField.trigger('input');
-        });
-
-        waitsFor(function () {
-          return element.scope().pdshForm.pdsh.$viewValue === 'hostname[1-3]' &&
-            element.scope().pdshForm.pdsh.$valid === true;
-        }, 'The view value isn\'t hostname[1-3] or element is not valid yet due to async call.', 1000);
+        inputField.value = 'hostname[1-3]';
+        inputField.dispatchEvent(inputEvent);
+        $timeout.flush();
       });
 
       it('should not show the error tooltip', function () {
-        expect(element.find('.error-tooltip li').length).toEqual(0);
+        expect(query('.error-tooltip li')).toBeNull();
       });
 
       it('should call pdshChange', function () {
@@ -57,23 +56,41 @@ describe('PDSH directive', function () {
       describe('expression popover', function () {
         var popover;
         beforeEach(function () {
-          groupAddOn.click();
-          $timeout.flush();
+          groupAddOn.dispatchEvent(clickEvent);
+          $scope.$digest();
 
-          popover = element.find('.popover li');
-          hostnames = _.reduce(popover,
-            function convertHostnamesToString (prev, next) {
-              var separator = (prev === '') ? '' : ',';
-              return prev + separator + next.innerHTML;
-            }, '');
+          popover = query('.popover li');
+          hostnames = queryAll('.popover li span');
         });
 
         it('should display the popover', function () {
           expect(popover).toBeShown();
         });
 
+        it('should contain one item', function () {
+          expect(hostnames.length).toEqual(1);
+        });
+
         it('should contain the hostnames in the popover', function () {
-          expect(hostnames).toEqual('<span bo-text="hostname"></span>');
+          expect(hostnames.item(0).innerHTML).toEqual('hostname1..3');
+        });
+
+        describe('with additional modification', function () {
+          beforeEach(function () {
+            inputField.value = 'hostname[5-7]';
+            inputField.dispatchEvent(inputEvent);
+            $timeout.flush();
+            $scope.$digest();
+            hostnames = queryAll('.popover li span');
+          });
+
+          it('should contain one item', function () {
+            expect(hostnames.length).toEqual(1);
+          });
+
+          it('should contain the updated hostnames in the popover', function () {
+            expect(hostnames.item(0).innerHTML).toEqual('hostname5..7');
+          });
         });
       });
     });
@@ -81,57 +98,43 @@ describe('PDSH directive', function () {
     describe('unsuccessful entry', function () {
 
       beforeEach(function () {
-        runs(function () {
-          inputField.val('hostname[1-]');
-          inputField.trigger('change');
-        });
-
-        waitsFor(function () {
-          return element.scope().pdshForm.pdsh.$viewValue === 'hostname[1-]';
-        }, 'The expression should have changed', 1000);
+        inputField.value = 'hostname[1-]';
+        inputField.dispatchEvent(inputEvent);
+        groupAddOn.click();
+        $timeout.flush();
       });
 
       describe('group add on', function () {
-        beforeEach(function () {
-          groupAddOn.click();
-          $timeout.flush();
-        });
-
         it('should not display the popover', function () {
-          expect(element.find('.popover')).toBeHidden();
+          expect(query('.popover')).toBeHidden();
         });
 
         it('should show the error tooltip', function () {
-          var tooltip = element.find('.error-tooltip li');
-          expect(tooltip.length).toEqual(1);
+          var tooltip = query('.error-tooltip li');
+          expect(tooltip.length).not.toBeNull();
         });
       });
     });
 
     describe('empty entry', function () {
       beforeEach(function () {
-        runs(function () {
-          inputField.val('');
-          inputField.trigger('input');
-          groupAddOn.click();
-        });
-
-        waitsFor(function () {
-          return $scope.pdshChange.calls.length === 3;
-        }, 'The expression should have changed', 1000);
+        inputField.value = '';
+        inputField.dispatchEvent(inputEvent);
+        groupAddOn.click();
+        $timeout.flush();
       });
 
       it('should not display the popover', function () {
-        expect(element.find('.popover')).toBeHidden();
+        expect(query('.popover')).toBeHidden();
       });
 
       it('should show the error tooltip', function () {
-        var tooltip = element.find('.error-tooltip li');
-        expect(tooltip.length).toEqual(0);
+        var tooltip = query('.error-tooltip li');
+        expect(tooltip).toBeNull();
       });
 
       it('should have a placeholder', function () {
-        expect(inputField.attr('placeholder')).toEqual('placeholder text');
+        expect(inputField.getAttribute('placeholder')).toEqual('placeholder text');
       });
     });
 
@@ -152,12 +155,14 @@ describe('PDSH directive', function () {
 
     beforeEach(module('pdsh-module', 'templates'));
 
-    beforeEach(inject(function ($rootScope, $compile) {
+    beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
+      $timeout = _$timeout_;
       initialValue = 'storage0.localdomain';
 
       // Create an instance of the element
       element = angular.element('<form name="pdshForm"><pdsh pdsh-initial="\'' + initialValue + '\'" ' +
-        'pdsh-change="pdshChange(pdsh, hostnames)"></pdsh></form>');
+        'pdsh-change="pdshChange(pdsh, hostnames)"></pdsh></form>').get(0);
+      query = element.querySelector.bind(element);
 
       $scope = $rootScope.$new();
       $scope.pdshChange = jasmine.createSpy('pdshChange');
@@ -167,7 +172,7 @@ describe('PDSH directive', function () {
       // Update the html
       $scope.$digest();
 
-      inputField = element.find('.form-control');
+      inputField = query('.form-control');
     }));
 
     it('should call help.get', function () {
@@ -175,26 +180,18 @@ describe('PDSH directive', function () {
     });
 
     it('should have a placeholder', function () {
-      expect(inputField.attr('placeholder')).toEqual('Enter hostname / hostlist expression.');
+      expect(inputField.getAttribute('placeholder')).toEqual('Enter hostname / hostlist expression.');
     });
 
     it('should trigger a change for the initial value', function () {
       expect($scope.pdshChange).toHaveBeenCalledWith(initialValue, [initialValue]);
     });
 
-    describe('modify existing value after throttle', function () {
+    describe('modify existing value', function () {
       beforeEach(function () {
-        var flag = false;
-        waitsFor(function () {
-          setTimeout(function () {
-            inputField.val('storage[1-10].localdomain');
-            inputField.trigger('input');
-            flag = true;
-          }, 600);
-
-          return flag;
-
-        }, 'The expression should have changed', 5000);
+        inputField.value = 'storage[1-10].localdomain';
+        inputField.dispatchEvent(inputEvent);
+        $timeout.flush();
       });
 
       it('should call pdshChange with storage[1-10].localdomain', function () {

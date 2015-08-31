@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -59,13 +59,6 @@
         var parsedExpression;
         var pdshExpression = '';
 
-        var throttleParseExpression = _.throttle(function throttleInputAndDigest () {
-          parseExpressionForValidity(pdshExpression);
-
-          if (!scope.$root.$$phase) scope.$parent.$digest();
-
-        }, 400);
-
         if (!scope.pdshInitial)
           scope.pdshInitial = '';
         if (!scope.pdshPlaceholder)
@@ -90,9 +83,7 @@
          */
         function updateModelAndValidity (value) {
           pdshExpression = value;
-
-          // delay by 500 milliseconds before parsing. This will make the user experience better.
-          throttleParseExpression();
+          parseExpressionForValidity(pdshExpression);
 
           return value;
         }
