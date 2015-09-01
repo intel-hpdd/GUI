@@ -3,3 +3,4 @@ node_modules
 .idea
 test/OUTPUT_DIR
 source/chroma_ui/bower_components/highland/package.json
+source/chroma_ui/bower_components/jasmine-stealth/.npmignore
