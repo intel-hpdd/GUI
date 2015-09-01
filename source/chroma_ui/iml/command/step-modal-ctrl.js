@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,62 +21,40 @@
 
 
 angular.module('command')
-  .controller('StepModalCtrl', ['$scope', 'stepsStream', 'jobStream', 'COMMAND_STATES',
-    function StepModalCtrl ($scope, stepsStream, jobStream, COMMAND_STATES) {
-      'use strict';
+  .controller('StepModalCtrl', function StepModalCtrl ($scope, stepsStream, jobStream, COMMAND_STATES) {
+    _.extend(this, {
+      steps: [],
+      accordion0: true,
+      getJobAdjective: function getJobAdjective (job) {
+        if (job.state === 'pending')
+          return COMMAND_STATES.WAITING;
 
-      _.extend(this, {
-        steps: [],
-        accordion0: true,
-        /**
-         * Returns an adjective describing the state of the job.
-         * @param {Object} job
-         * @returns {String}
-         */
-        getJobAdjective: function getJobAdjective (job) {
-          if (job.state === 'pending')
-            return COMMAND_STATES.WAITING;
+        if (job.state !== 'complete')
+          return COMMAND_STATES.RUNNING;
 
-          if (job.state !== 'complete')
-            return COMMAND_STATES.RUNNING;
+        if (job.cancelled)
+          return COMMAND_STATES.CANCELLED;
+        else if (job.errored)
+          return COMMAND_STATES.FAILED;
+        else
+          return COMMAND_STATES.SUCCEEDED;
+      },
+      getDescription: function getDescription (step) {
+        return step.description.indexOf(step.class_name) === 0 ? step.class_name : step.description;
+      }
+    });
 
-          if (job.cancelled)
-            return COMMAND_STATES.CANCELLED;
-          else if (job.errored)
-            return COMMAND_STATES.FAILED;
-          else
-            return COMMAND_STATES.SUCCEEDED;
-        },
-        getDescription: function getDescription (step) {
-          return step.description.indexOf(step.class_name) === 0 ? step.class_name : step.description;
-        }
-      });
+    $scope.$on('$destroy', jobStream.destroy.bind(jobStream));
+    $scope.$on('$destroy', stepsStream.destroy.bind(stepsStream));
 
-      $scope.$on('$destroy', jobStream.destroy.bind(jobStream));
+    var p = $scope.propagateChange($scope, this);
 
-      var localApply = $scope.localApply.bind(null, $scope);
+    p('job', jobStream);
+    p('steps', stepsStream);
+  })
+  .factory('openStepModal', function openStepModalFactory ($modal, socketStream) {
+    var extractApiId = fp.map(fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));
 
-      jobStream
-        .tap(_.set('job', this))
-        .stopOnError($scope.handleException)
-        .each(localApply);
-
-      stepsStream
-        .tap(_.set('steps', this))
-        .stopOnError($scope.handleException)
-        .each(localApply);
-    }])
-  .factory('openStepModal', ['$modal', 'socketStream', function openStepModalFactory ($modal, socketStream) {
-    'use strict';
-
-    var extractId = /\/api\/step\/(\d+)\/$/;
-
-    /**
-     * Opens the step modal to show information about
-     * the provided job.
-     * @param {Object} job
-     * @returns {Object}
-     */
     return function openStepModal (job) {
       var jobStream = socketStream('/job/' + job.id);
       jobStream.write(job);
@@ -91,12 +69,10 @@ angular.module('command')
         windowClass: 'step-modal',
         backdrop: 'static',
         resolve: {
-          jobStream: _.fidentity(s2),
-          stepsStream: _.fidentity(jobStream.fork()
+          jobStream: fp.always(s2),
+          stepsStream: fp.always(jobStream.fork()
             .pluck('steps')
-            .map(_.fmap(function getId (step) {
-              return step.replace(extractId, '$1');
-            }))
+            .map(extractApiId)
             .flatMap(function getSteps (stepIds) {
               return socketStream('/step', {
                 qs: {
@@ -109,4 +85,4 @@ angular.module('command')
         }
       });
     };
-  }]);
+  });
