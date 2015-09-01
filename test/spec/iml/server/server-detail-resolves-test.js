@@ -1,10 +1,9 @@
 describe('server detail resolves', function () {
-  'use strict';
-
   var jobMonitor, alertMonitor,
     socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
-    lnetStream, serverStream, jobMonitorStream, alertMonitorStream;
+    pacemakerStream, lnetStream, serverStream,
+    jobMonitorStream, alertMonitorStream;
 
   beforeEach(module('server', function ($provide) {
     jobMonitorStream = highland();
@@ -34,6 +33,9 @@ describe('server detail resolves', function () {
 
         if (path === '/corosync_configuration')
           return (corosyncStream = highland());
+
+        if (path === '/pacemaker_configuration')
+          return (pacemakerStream = highland());
       });
     $provide.value('socketStream', socketStream);
   }));
@@ -71,6 +73,9 @@ describe('server detail resolves', function () {
       networkInterfaceStream.write({});
       corosyncStream.write({
         objects: [{}]
+      });
+      pacemakerStream.write({
+        objects: []
       });
 
       $rootScope.$apply();
@@ -121,19 +126,31 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should return an object of streams', function () {
-      promise.then(function (streams) {
-        expect(streams).toEqual({
-          jobMonitorStream: jasmine.any(Object),
-          alertMonitorStream: jasmine.any(Object),
-          serverStream: jasmine.any(Object),
-          lnetConfigurationStream: jasmine.any(Object),
-          networkInterfaceStream: jasmine.any(Object),
-          corosyncConfigurationStream: jasmine.any(Object)
-        });
+    it('should create a pacemaker configuration stream', function () {
+      expect(socketStream).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
+        jsonMask: 'objects(resource_uri,available_actions,locks,state,id)',
+        qs: {
+          host__id: '1',
+          limit: 0
+        }
       });
+    });
+
+    it('should return an object of streams', function () {
+      var spy = jasmine.createSpy('spy');
+      promise.then(spy);
 
       $rootScope.$apply();
+
+      expect(spy.mostRecentCall.args[0]).toEqual({
+        jobMonitorStream: jasmine.any(Object),
+        alertMonitorStream: jasmine.any(Object),
+        serverStream: jasmine.any(Object),
+        lnetConfigurationStream: jasmine.any(Object),
+        networkInterfaceStream: jasmine.any(Object),
+        corosyncConfigurationStream: jasmine.any(Object),
+        pacemakerConfigurationStream: jasmine.any(Object)
+      });
     });
   });
 });

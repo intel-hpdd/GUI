@@ -19,7 +19,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+angular.module('pacemaker')
+  .directive('pacemakerState', function pacemakerState (propagateChange) {
+    return {
+      restrict: 'E',
+      scope: {
+        stream: '='
+      },
+      templateUrl: 'iml/pacemaker/assets/html/pacemaker-state.html',
+      link: function link (scope) {
+        scope.ctrl = {};
+        var state = fp.lensProp('state');
+        var p = propagateChange(scope, scope.ctrl, 'state');
 
-angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
-  'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
-  'status', 'steps-module', 'extendScope', 'highland', 'asValue']);
+        scope.stream
+          .map(fp.safe(1, state, null))
+          .through(p);
+
+        scope.$on('$destroy', scope.stream.destroy.bind(scope.stream));
+      }
+    };
+  });

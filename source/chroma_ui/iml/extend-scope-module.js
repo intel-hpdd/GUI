@@ -38,7 +38,7 @@ angular.module('extendScope', [])
   }])
   .config(['$provide', function addPropagateChangeMethod ($provide) {
     return $provide.decorator('$rootScope', ['$delegate', 'propagateChange',
-      function addLocalApply ($delegate, propagateChange) {
+      function addPropagateChange ($delegate, propagateChange) {
         $delegate.propagateChange = propagateChange;
 
         return $delegate;
@@ -62,11 +62,11 @@ angular.module('extendScope', [])
       }
     };
   }])
-  .factory('propagateChange', [function propagateChangeFactory () {
+  .factory('propagateChange', function propagateChangeFactory ($exceptionHandler, localApply) {
     return fp.curry(4, function propagateChange ($scope, obj, prop, s) {
       return s
         .tap(fp.lensProp(prop).set(fp.__, obj))
-        .stopOnError($scope.handleException)
-        .each($scope.localApply.bind(null, $scope));
+        .stopOnError(fp.curry(1, $exceptionHandler))
+        .each(localApply.bind(null, $scope));
     });
-  }]);
+  });

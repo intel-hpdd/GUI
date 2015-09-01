@@ -1,0 +1,11 @@
+<span>
+  <span ng-if="ctrl.state === 'started'">
+    <i class="fa fa-plug text-success"></i> Pacemaker Started
+  </span>
+  <span ng-if="ctrl.state === 'stopped'">
+    <i class="fa fa-plug text-danger"></i> Pacemaker Stopped
+  </span>
+  <span ng-if="ctrl.state === 'unconfigured'">
+    <i class="fa fa-plug"></i> Pacemaker Unconfigured
+  </span>
+</span>

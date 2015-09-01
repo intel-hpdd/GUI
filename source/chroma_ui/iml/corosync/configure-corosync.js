@@ -99,9 +99,7 @@ angular.module('corosyncModule')
         $scope.jobStream.destroy();
       });
   }])
-  .directive('configureCorosync', [function configureCorosync () {
-    'use strict';
-
+  .directive('configureCorosync', function configureCorosync () {
     return {
       templateUrl: 'iml/corosync/assets/html/configure-corosync.html',
       scope: {
@@ -112,4 +110,4 @@ angular.module('corosyncModule')
       restrict: 'E',
       controller: 'ConfigureCorosyncController'
     };
-  }]);
+  });

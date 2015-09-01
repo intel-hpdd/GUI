@@ -30,6 +30,7 @@ angular.module('server')
       jobMonitorStream: streams.jobMonitorStream,
       alertMonitorStream: streams.alertMonitorStream,
       corosyncConfigurationStream: streams.corosyncConfigurationStream,
+      pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
       networkInterfaceStream: streams.networkInterfaceStream,
       overrideActionClick: overrideActionClick,
       closeAlert: function closeAlert () {

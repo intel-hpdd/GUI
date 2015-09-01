@@ -24,6 +24,14 @@ angular.module('server')
     function serverDetailResolvesFactory ($q, resolveStream, addProperty, jobMonitor,
                                           alertMonitor, socketStream, getNetworkInterfaceStream) {
       return function serverDetailResolves ($route) {
+        var arrOrNull = fp.cond(
+          [fp.lensProp('length'), fp.identity],
+          [fp.always(true), fp.always(null)]
+        );
+
+        var getObjectsOrNull = fp.flow(fp.lensProp('objects'), arrOrNull);
+        var getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
+
         var jobMonitorStream = resolveStream(jobMonitor())
           .then(function addThroughProperty (jobMonitorStream) {
             return jobMonitorStream.through(addProperty);
@@ -48,13 +56,13 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
 
         var merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
 
+
         var s = socketStream('/lnet_configuration/', merge({}, {
           jsonMask: 'objects(available_actions,state,resource_uri,locks)'
         }));
 
         var s2 = s
-          .pluck('objects')
-          .flatten();
+          .through(getFlatObjOrNull);
         s2.destroy = s.destroy.bind(s);
 
         var lnetConfigurationStream = resolveStream(s2)
@@ -66,13 +74,13 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
           jsonMask: 'objects(id,inet4_address,name,nid,lnd_types)'
         })));
 
+
         var cs = socketStream('/corosync_configuration', merge({}, {
           jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id)'
         }));
 
         var cs2 = cs
-          .pluck('objects')
-          .flatten();
+          .through(getFlatObjOrNull);
         cs2.destroy = cs.destroy.bind(cs);
 
         var corosyncConfigurationStream = resolveStream(cs2)
@@ -80,13 +88,29 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
             return s.through(addProperty);
           });
 
+
+        var ps = socketStream('/pacemaker_configuration', merge({}, {
+          jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
+        }));
+
+        var ps2 = ps
+          .through(getFlatObjOrNull);
+        ps2.destroy = ps.destroy.bind(ps);
+
+        var pacemakerConfigurationStream = resolveStream(ps2)
+          .then(function addThroughProperty (s) {
+            return s.through(addProperty);
+          });
+
+
         return $q.all({
           jobMonitorStream: jobMonitorStream,
           alertMonitorStream: alertMonitorStream,
           serverStream: serverStream,
           lnetConfigurationStream: lnetConfigurationStream,
           networkInterfaceStream: networkInterfaceStream,
-          corosyncConfigurationStream: corosyncConfigurationStream
+          corosyncConfigurationStream: corosyncConfigurationStream,
+          pacemakerConfigurationStream: pacemakerConfigurationStream
         });
       };
   });

@@ -1,0 +1,22 @@
+<div class="configure-pacemaker detail-panel" as-value stream="::ctrl.stream">
+  <div ng-if="curr.val">
+    <h4 class="section-header">Pacemaker Configuration</h4>
+
+    <div class="detail-row">
+      <div>State:</div>
+      <div as-property stream="::ctrl.stream">
+        <pacemaker-state stream="::prop.stream"></pacemaker-state>
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div>Alerts:</div>
+      <div>
+        <record-state record-id="curr.val.resource_uri" alert-stream="::ctrl.alertStream" display-type="'medium'"></record-state>
+        <job-status record-id="curr.val.resource_uri" job-stream="::ctrl.jobStream"></job-status>
+      </div>
+    </div>
+
+    <action-dropdown tooltip-placement="top" record="curr.val"></action-dropdown>
+  </div>
+</div>

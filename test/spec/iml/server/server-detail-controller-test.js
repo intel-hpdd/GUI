@@ -4,8 +4,9 @@ describe('server detail controller', function () {
   beforeEach(module('server'));
 
   var $scope, serverDetailController, serverStream, alertMonitorStream,
-    jobMonitorStream, overrideActionClick, networkInterfaceStream, lnetConfigurationStream,
-    corosyncConfigurationStream;
+    jobMonitorStream, overrideActionClick,
+    networkInterfaceStream, lnetConfigurationStream,
+    pacemakerConfigurationStream, corosyncConfigurationStream;
 
   beforeEach(inject(function ($controller, $rootScope, addProperty) {
     $scope = $rootScope.$new();
@@ -29,6 +30,8 @@ describe('server detail controller', function () {
     spyOn(lnetConfigurationStream, 'destroy');
     corosyncConfigurationStream = highland();
     spyOn(corosyncConfigurationStream, 'destroy');
+    pacemakerConfigurationStream = highland();
+    spyOn(pacemakerConfigurationStream, 'destroy');
 
     overrideActionClick = function overrideActionClick () {};
 
@@ -39,6 +42,7 @@ describe('server detail controller', function () {
         jobMonitorStream: jobMonitorStream,
         alertMonitorStream: alertMonitorStream,
         corosyncConfigurationStream: corosyncConfigurationStream,
+        pacemakerConfigurationStream: pacemakerConfigurationStream,
         networkInterfaceStream: networkInterfaceStream,
         serverStream: serverStream
       },
@@ -52,6 +56,7 @@ describe('server detail controller', function () {
       jobMonitorStream: jobMonitorStream,
       alertMonitorStream: alertMonitorStream,
       corosyncConfigurationStream: corosyncConfigurationStream,
+      pacemakerConfigurationStream: pacemakerConfigurationStream,
       networkInterfaceStream: networkInterfaceStream,
       overrideActionClick: overrideActionClick,
       closeAlert: jasmine.any(Function),
@@ -141,6 +146,10 @@ before it was removed.');
 
     it('should destroy the corosync configuration stream', function () {
       expect(corosyncConfigurationStream.destroy).toHaveBeenCalledOnce();
+    });
+
+    it('should destroy the pacemaker configuration stream', function () {
+      expect(pacemakerConfigurationStream.destroy).toHaveBeenCalledOnce();
     });
   });
 });

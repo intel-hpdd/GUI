@@ -22,7 +22,7 @@
 (function () {
   'use strict';
 
-  angular.module(['lnetModule'])
+  angular.module('lnetModule')
     .controller('ConfigureLnetController', ['$scope', '$exceptionHandler', 'socketStream', 'localApply',
       'LNET_OPTIONS', 'waitForCommandCompletion', 'bigDiffer',
       function ConfigureLnetController ($scope, $exceptionHandler, socketStream, localApply,

@@ -45,7 +45,8 @@
     </div>
     <action-dropdown tooltip-placement="top" record="serverDetail.server" override-click="serverDetail.overrideActionClick(record, action)"></action-dropdown>
   </div>
-  <configure-corosync stream="serverDetail.corosyncConfigurationStream" alert-stream="serverDetail.alertMonitorStream" job-stream="serverDetail.jobMonitorStream"></configure-corosync>
+  <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>
+  <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-corosync>
   <div class="detail-panel">
     <h4 class="section-header">LNet Detail</h4>
     <div class="detail-row">
