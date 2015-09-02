@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/gui",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true",
@@ -67,6 +67,7 @@
     "semver-check": "0.0.2"
   },
   "whitelist": [
+    "@intel-js/karma-iife-wrap-preprocessor",
     "jasmine",
     "jasmine-reporters",
     "karma",
