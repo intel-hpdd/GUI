@@ -1,31 +1,50 @@
-<h3 class="page-header"><i class="fa fa-tachometer"></i> Status</h3>
-<div class="status container container-full">
-  <div class="row">
-    <div class="col-xs-12">
-      <status-parser on-submit="ctrl.onSubmit(output)"></status-parser>
+<div ng-if="ctrl.meta.total_count > 0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="hidden-xs">Severity</th>
+        <th class="hidden-xs">Type</th>
+        <th>Begin</th>
+        <th>End</th>
+        <th>Message</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in ctrl.data track by row.resource_uri" ng-class="[row.severity, row.alert_type, {active: row.active}]">
+        <td class="hidden-xs">
+          <span>
+            {{ ::row.severity }}
+          </span>
+        </td>
+        <td class="hidden-xs">{{ row.record_type }}</td>
+        <td>
+          <a target="_self" route-to="log/around-{{ row.begin | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ row.begin | date:'MM/dd/yy HH:mm:ss' }}</a>
+        </td>
+        <td>
+          <a ng-if="!row.active" target="_self" route-to="log/around-{{ row.end | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ row.end | date:'MM/dd/yy HH:mm:ss' }}</a>
+        </td>
+        <td>{{ row.message }}</td>
+        <td>
+          <deferred-action-dropdown restrict-to="{{ ::app.GROUPS.FS_ADMINS }}" ng-if="row.active && !ctrl.isCommand(row)" row="::row"></deferred-action-dropdown>
+          <deferred-cmd-modal-btn resource-uri="::row.alert_item" ng-if="::ctrl.isCommand(row)"></deferred-cmd-modal-btn>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Severity</th>
-            <th>Created At</th>
-            <th>Host</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="row in ctrl.data track by row.resource_uri" ng-class="row.severity | lowercase">
-            <td>{{ ctrl.getType(row.type) }}</td>
-            <td>{{ row.severity }}</td>
-            <td>
-              <a ng-href="/ui/log/around-{{  row.created_at || row.begin | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ (row.created_at || row.begin) | date:'MM/dd/yyyy HH:mm:ss' }}</a>
-            </td>
-            <td>{{ row.host_name || row.alert_item_str }}</td>
-            <td>{{ row.message }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="text-center">
+    <pagination
+      max-size="5"
+      ng-model="ctrl.meta.current_page"
+      total-items="ctrl.meta.total_count"
+      items-per-page="ctrl.meta.limit"
+      boundary-links="true"
+      previous-text="‹" next-text="›" first-text="«" last-text="»"
+      ng-change="::ctrl.pageChanged()"
+    ></pagination>
   </div>
+</div>
+<div class="well text-center" ng-if="ctrl.meta.total_count === 0">
+  <h1>No records found</h1>
 </div>

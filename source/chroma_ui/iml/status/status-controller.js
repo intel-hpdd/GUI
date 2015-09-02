@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,46 +19,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('statusModule')
-  .controller('StatusController', ['$scope', 'socketStream',
-    function StatusController ($scope, socketStream) {
-      'use strict';
+angular.module('status')
+  .controller('StatusController',
+  function StatusController ($scope, $location, notificationStream) {
+    var metaProp = fp.lensProp('meta');
 
-      var s = socketStream('/notification/', {
-        qs: {
-          limit: 0
-        }
-      })
-        .pluck('objects')
-        .tap(fp.lensProp('data').set(fp.__, this));
+    var s = notificationStream
+      .tap(fp.flow(metaProp, fp.tap(computeCurrentPage), metaProp.set(fp.__, this)))
+      .pluck('objects');
 
-      s.each($scope.localApply.bind(null, $scope));
-
-      var ctrl = this;
-
-      this.onSubmit = function onSubmit (qs) {
-        s.destroy();
-
-        fp.lensProp('data').set([], ctrl);
-
-        s = socketStream('/notification/?limit=0&' + qs)
-          .pluck('objects')
-          .tap(fp.lensProp('data').set(fp.__, this));
-
-        s.each($scope.localApply.bind(null, $scope));
-      };
-
-      this.getType = function getType (type) {
-        switch (type) {
-          case 'Command':
-            return 'command';
-          case 'AlertState':
-            return 'alert';
-          case 'Event':
-            return 'event';
-          default:
-            throw new Error('Type not expected.');
-        }
-      };
+    function computeCurrentPage (meta) {
+      meta.current_page = meta.limit === 0 ? 1 : (meta.offset / meta.limit) + 1;
     }
-  ]);
+
+    $scope.propagateChange($scope, this, 'data', s);
+
+    $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
+
+    var types = [
+      'CommandErroredAlert',
+      'CommandSuccessfulAlert',
+      'CommandRunningAlert',
+      'CommandCancelledAlert'
+    ];
+    var getType = fp.flow(fp.lensProp('record_type'), fp.lensProp);
+    this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
+
+    var ctrl = this;
+    this.pageChanged = function pageChanged () {
+      $location.search('offset', (ctrl.meta.current_page - 1)  * ctrl.meta.limit);
+    };
+  });

@@ -1,7 +1,7 @@
 describe('deferred action dropdown', function () {
   var socketStream, s;
 
-  beforeEach(module('statusModule', 'templates', function ($provide) {
+  beforeEach(module('status', 'templates', function ($provide) {
     s = highland();
 
     socketStream = jasmine.createSpy('socketStream')

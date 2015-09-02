@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular
-  .module('statusModule')
+  .module('status')
   .factory('inputToQsParser', function statusParserFactory (getLexer, parsely) {
     var tokenizer = getLexer([
       getLexer.whiteSpace,
@@ -34,7 +34,7 @@ angular
       },
       {
         name: 'value',
-        pattern: /^[a-zA-Z\d]+/
+        pattern: /^[a-zA-Z_\d]+/
       },
       {
         name: 'equals',

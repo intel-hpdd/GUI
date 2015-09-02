@@ -1,15 +1,5 @@
 describe('qs to input parser test', function () {
-  var configs;
-
-  beforeEach(module(function () {
-    configs = angular.module('statusModule')._configBlocks;
-    angular.module('statusModule')._configBlocks = [];
-  }, 'statusModule'));
-
-  afterEach(function () {
-    angular.module('statusModule')._configBlocks = configs;
-  });
-
+  beforeEach(module('status'));
 
   var qsToInputParser;
 

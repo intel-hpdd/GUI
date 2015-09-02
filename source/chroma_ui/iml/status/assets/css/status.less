@@ -1,22 +1,137 @@
 .status.container {
-  tr.warning td {
-    background-color: @brand-warning;
-    color: @white;
-    border-color: darken(@brand-warning, 10%);
+  .well {
+    margin-top: 50px;
+
+    h1 {
+      color: @gray-light;
+    }
   }
 
-  tr.info td {
-    background-color: @brand-primary;
-    color: @white;
-    border-color: darken(@brand-primary, 10%);
+  th {
+    color: @gray-light;
+    border-bottom: 1px solid @gray-light;
   }
 
-  td a {
-    color: @white;
-    text-decoration: underline;
+  .status-table {
+    &.ng-enter {
+      transition: 0.1s;
+      opacity: 0;
+    }
 
-    &:hover {
-      text-decoration: none;
+    &.ng-enter-active {
+      opacity: 1;
+    }
+
+    &.ng-leave {
+      display: none;
+    }
+  }
+
+  tr {
+    &.ng-move,
+    &.ng-enter,
+    &.ng-leave {
+      transition: all linear 0.1s;
+    }
+
+    &.ng-leave.ng-leave-active,
+    &.ng-move,
+    &.ng-enter {
+      opacity: 0;
+      transform: scaleY(0);
+      overflow: hidden;
+    }
+
+    &.ng-leave,
+    &.ng-move.ng-move-active,
+    &.ng-enter.ng-enter-active {
+      opacity: 1;
+      transform: scaleY(1);
+      overflow: hidden;
+    }
+  }
+
+  td {
+    transition: background-color linear 0.2s, border-top linear 0.2s;
+
+    &:first-child {
+      text-transform: lowercase;
+    }
+
+    a {
+      color: @white;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    button {
+      width: auto;
+    }
+  }
+
+  .setBackground(@color) {
+    td {
+      background-color: @color;
+      border-color: darken(@color, 10%);
+    }
+
+    &.active td {
+      .diagonal-stripes(@color, 1%);
+    }
+  }
+
+  tr {
+    td {
+      vertical-align: middle;
+      color: @white;
+    }
+
+    &.WARNING {
+      .setBackground(@brand-warning);
+    }
+
+    &.INFO {
+      .setBackground(@brand-primary);
+    }
+
+    &.ERROR, &.CommandErroredAlert {
+      .setBackground(@brand-danger);
+    }
+
+    &.CommandSuccessfulAlert {
+      .setBackground(@brand-success);
+    }
+
+    &.CommandRunningAlert {
+      .setBackground(@gray-light);
+
+      &.active td {
+        background: @gray-light;
+      }
+    }
+
+    &.CommandCancelledAlert {
+      .setBackground(@gray-light);
+    }
+  }
+
+  .loading-btn {
+    padding: 5px 6px;
+  }
+
+  .action-dropdown {
+    button.btn {
+      .btn-default
+    }
+
+    .dropdown-menu {
+      a {
+        color: @dropdown-link-color;
+        text-decoration: none;
+      }
     }
   }
 }
