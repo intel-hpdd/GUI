@@ -1,6 +1,6 @@
 {
   "name": "@intel-js/gui",
-  "version": "3.0.14",
+  "version": "3.0.15",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true",
