@@ -1,0 +1,17 @@
+<form name="form" class="p-box" ng-submit="ctrl.onSubmit({ qs: ctrl.query })">
+  <div class="input-group">
+    <div class="status-indicator">
+      <i ng-if="form.$valid" class="fa fa-check-circle"></i>
+      <i ng-if="form.$invalid" class="fa fa-times-circle"></i>
+    </div>
+    <input name="query" autocomplete="off" type="search" class="form-control" parse-query parser-formatter="::ctrl.parserFormatter" ng-model="ctrl.query" />
+    <iml-tooltip class="error-tooltip" toggle="form.$invalid" direction="bottom">
+      {{ ctrl.parserFormatter.parser(form.query.$viewValue).message }}
+    </iml-tooltip>
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+        <i class="fa fa-search"></i>Search
+      </button>
+    </span>
+  </div>
+</form>

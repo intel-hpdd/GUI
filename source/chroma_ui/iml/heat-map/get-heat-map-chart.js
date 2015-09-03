@@ -62,6 +62,7 @@ function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
 
     var bisector = d3.bisector(xValue).left;
 
+    // jshint -W021
     function chart (selection) {
       margin.top = 30;
       margin.left = 30;
@@ -335,6 +336,7 @@ function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         };
       });
     }
+    // jshint +W021
 
     chart.margin = function marginAccessor (_) {
       if (!arguments.length) return margin;
