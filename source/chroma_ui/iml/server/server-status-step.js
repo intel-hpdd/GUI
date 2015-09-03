@@ -24,10 +24,11 @@
   'use strict';
 
   angular.module('server')
-    .controller('ServerStatusStepCtrl', ['$scope', '$stepInstance', 'OVERRIDE_BUTTON_TYPES',
-      'data', 'testHostStream', 'hostlistFilter',
-      function ServerStatusStepCtrl ($scope, $stepInstance, OVERRIDE_BUTTON_TYPES,
-                                     data, testHostStream, hostlistFilter) {
+    .controller('ServerStatusStepCtrl', function ServerStatusStepCtrl ($scope, $stepInstance,
+                                                                       $exceptionHandler,
+                                                                       OVERRIDE_BUTTON_TYPES,
+                                                                       data, testHostStream,
+                                                                       hostlistFilter, localApply) {
         _.extend(this, {
           pdsh: data.pdsh,
           /**
@@ -66,13 +67,16 @@
 
         var serverStatusStep = this;
 
-        testHostStream.each(function (resp) {
+        testHostStream
+          .tap(function (resp) {
           serverStatusStep.isValid = resp.valid;
           serverStatusStep.serversStatus = hostlistFilter
             .setHosts(resp.objects)
             .compute();
-        });
-      }])
+          })
+          .stopOnError(fp.curry(1, $exceptionHandler))
+          .each(localApply.bind(null, $scope));
+      })
       .factory('serverStatusStep', [function serverStatusStepFactory () {
         return {
           templateUrl: 'iml/server/assets/html/server-status-step.html',

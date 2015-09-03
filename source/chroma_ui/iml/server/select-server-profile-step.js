@@ -21,8 +21,8 @@
 
 angular.module('server')
   .controller('SelectServerProfileStepCtrl',
-      function SelectServerProfileStepCtrl ($scope, $stepInstance, OVERRIDE_BUTTON_TYPES,
-                                            data, hostProfileStream, createHostProfiles) {
+      function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHandler, OVERRIDE_BUTTON_TYPES,
+                                            data, hostProfileStream, createHostProfiles, localApply) {
       obj.merge(this, {
         pdsh: data.pdsh,
         transition: function transition (action) {
@@ -61,7 +61,7 @@ angular.module('server')
 
       var selectServerProfileStep = this;
 
-      hostProfileStream.each(function (profiles) {
+      hostProfileStream.tap(function (profiles) {
         selectServerProfileStep.profiles = profiles;
 
         // Avoid a stale reference here by
@@ -72,7 +72,9 @@ angular.module('server')
           _.find(profiles, { name: profile.name }) :
           profiles[0]
         );
-      });
+      })
+        .stopOnError(fp.curry(1, $exceptionHandler))
+        .each(localApply.bind(null, $scope));
   })
   .factory('selectServerProfileStep', function selectServerProfileStep () {
       return {
