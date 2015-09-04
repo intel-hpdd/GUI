@@ -1,6 +1,4 @@
 describe('Server Status Step', function () {
-  'use strict';
-
   beforeEach(module('server'));
 
   describe('controller', function () {

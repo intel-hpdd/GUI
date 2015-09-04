@@ -1,6 +1,4 @@
 describe('select server profile', function () {
-  'use strict';
-
   beforeEach(module('server', 'dataFixtures'));
 
   describe('select server profile step ctrl', function () {
