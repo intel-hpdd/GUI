@@ -8,10 +8,6 @@ before_install:
   - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
   - sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
   - sudo apt-get update -qqy
-  - sudo apt-get install -qqy xfonts-100dpi
-  - sudo apt-get install -qqy xfonts-75dpi
-  - sudo apt-get install -qqy xfonts-cyrillic
-  - sudo apt-get install -qqy xfonts-scalable
   - sudo apt-get install -qqy xvfb
   - sudo apt-get install -qqy google-chrome-stable
   - sudo apt-get install -qqy firefox
@@ -22,7 +18,6 @@ before_install:
   - npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
   - export CHROME_BIN=/usr/bin/google-chrome
   - export FIREFOX_BIN=/usr/bin/firefox
-  - export PATH=/usr/bin/X11:$PATH
 script:
   - npm t
   - npm run jshint
