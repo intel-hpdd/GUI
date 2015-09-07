@@ -68,8 +68,8 @@
         <td class="status">
           <div ng-include="'iml/hsm/assets/html/states/' + copytool.status + '.html'"></div>
         </td>
-        <td class="actions-cell">
-          <action-dropdown record="copytool"></action-dropdown>
+        <td class="actions-cell" as-stream val="copytool">
+          <action-dropdown stream="::str"></action-dropdown>
         </td>
       </tr>
     </tbody>

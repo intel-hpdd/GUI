@@ -19,7 +19,32 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+angular.module('action-dropdown-module')
+  .filter('groupActions', function groupActionsFilter () {
+    var numDisplayGroups = fp.flow(
+        fp.map(fp.lensProp('display_group')),
+        fp.filter(fp.flow(fp.eq(undefined), fp.not)),
+        fp.lensProp('length')
+      );
 
-angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
-  'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
-  'status', 'steps-module', 'extendScope', 'highland', 'asValue', 'asStream']);
+     // Sort items by display_group, then by display_order.
+     // Mark the last item in each group
+    return function groupActions (input) {
+      if (numDisplayGroups(input) !== input.length)
+        return input;
+
+      var sorted = input.sort(function (a, b) {
+        var x = a.display_group - b.display_group;
+        return (x === 0 ? a.display_order - b.display_order : x);
+      });
+
+      sorted.forEach(function (item, index) {
+        var next = sorted[index + 1];
+
+        if (next && item.display_group !== next.display_group)
+          item.last = true;
+      });
+
+      return sorted;
+    };
+  });

@@ -41,8 +41,8 @@
     </div>
   </div>
 
-  <div class="configure-btns" ng-if="!corosync.editable">
-    <action-dropdown tooltip-placement="top" record="corosync.config"></action-dropdown>
+  <div class="configure-btns" ng-if="!corosync.editable" as-stream val="corosync.config">
+    <action-dropdown tooltip-placement="top" stream="::str"></action-dropdown>
 
     <button class="btn btn-primary btn-block btn-sm edit-btn" ng-click="corosync.setEditable(true)">
       Configure<i class="fa fa-gear"></i>

@@ -5,5 +5,7 @@
     <div>Coordinator Status:</div>
     <div ng-include src="'iml/hsm/assets/html/cdt-status/' + fileSystem.cdt_status + '.html'"></div>
   </div>
-  <action-dropdown record="fileSystem" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+  <div as-stream val="fileSystem">
+    <action-dropdown stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+  </div>
 </div>

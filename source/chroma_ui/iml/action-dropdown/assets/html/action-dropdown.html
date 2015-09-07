@@ -1,14 +1,18 @@
 <div class="action-dropdown">
-  <button ng-if="actionDropdown.disabled || actionDropdown.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
-  <div ng-if="!actionDropdown.disabled && !actionDropdown.confirmOpen" class="btn-group" dropdown>
-    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" dropdown-toggle>
+  <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
+  <div ng-if="!ctrl.locks && !ctrl.confirmOpen" class="btn-group" dropdown>
+    <button class="btn btn-primary btn-sm dropdown-toggle" dropdown-toggle>
       Actions<i class="fa fa-caret-down"></i>
     </button>
     <ul class="dropdown-menu" role="menu">
-      <li ng-class="{'end-of-group' : action.last }" ng-repeat="action in record[actionDropdown.actionsProperty] | groupActions track by action.verb">
-        <a tooltip-html-unsafe="{{action.long_description}}" tooltip-placement="{{actionDropdown.tooltipPlacement}}"
-           ng-click="actionDropdown.handleAction(record, action)" bindonce="action" bo-text="action.verb"></a>
+      <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
+        {{ ::record.label }}
       </li>
+      <li ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[actionsProperty] | groupActions track by action.verb">
+        <a tooltip-html="::ctrl.actionDescriptionCache(action.long_description)" tooltip-placement="{{ ::tooltipPlacement }}"
+           ng-click="::ctrl.handleAction(record, action)">{{ ::action.verb }}</a>
+      </li>
+      <li ng-repeat-end class="divider"></li>
     </ul>
   </div>
 </div>
