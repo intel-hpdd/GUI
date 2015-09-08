@@ -36,6 +36,7 @@ angular.module('asValue').directive('asValue', function asValue (localApply, $ex
         var currPath = fp.pathLens(['curr', 'val']);
 
         scope.stream
+          .fork()
           .tap(currPath.set(fp.__, transcludedScope))
           .stopOnError(fp.curry(1, $exceptionHandler))
           .each(localApply.bind(null, transcludedScope));
