@@ -62,8 +62,8 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "id": "26",
       "inet4_address": "10.3.0.0",
       "name": "ib3",
+      "lnd_types": ["o2ib", "tcp"],
       "nid": {
-        "acceptable_lnd_types": ["o2ib", "tcp"],
         "lnd_type": "o2ib",
         "lnd_network": 3,
         "lnet_configuration": "/api/lnet_configuration/6/",
@@ -114,14 +114,8 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "id": "27",
       "inet4_address": "10.1.0.0",
       "name": "ib1",
-      "nid": {
-        "acceptable_lnd_types" : ["o2ib", "tcp"],
-        "lnd_type": "o2ib",
-        "lnd_network": 1,
-        "lnet_configuration": "/api/lnet_configuration/6/",
-        "network_interface": "/api/network_interface/27/",
-        "resource_uri": "/api/nid/27/"
-      },
+      "lnd_types" : ["o2ib", "tcp"],
+      "nid": null,
       "resource_uri": "/api/network_interface/27/",
       "state_up": true,
       "type": "o2ib"
@@ -166,8 +160,8 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "id": "28",
       "inet4_address": "10.4.0.0",
       "name": "eth4",
+      "lnd_types" : ["o2ib", "tcp"],
       "nid": {
-        "acceptable_lnd_types" : ["o2ib", "tcp"],
         "lnd_type": "o2ib",
         "lnd_network": 4,
         "lnet_configuration": "/api/lnet_configuration/6/",
@@ -218,8 +212,8 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "id": "29",
       "inet4_address": "10.2.0.0",
       "name": "eth2",
+      "lnd_types" : ["o2ib", "tcp"],
       "nid": {
-        "acceptable_lnd_types" : ["o2ib", "tcp"],
         "lnd_type": "tcp",
         "lnd_network": 2,
         "lnet_configuration": "/api/lnet_configuration/6/",
@@ -270,8 +264,8 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "id": "30",
       "inet4_address": "10.0.0.0",
       "name": "eth0",
+      "lnd_types" : ["o2ib", "tcp"],
       "nid": {
-        "acceptable_lnd_types" : ["o2ib", "tcp"],
         "lnd_type": "o2ib",
         "lnd_network": 0,
         "lnet_configuration": "/api/lnet_configuration/6/",
