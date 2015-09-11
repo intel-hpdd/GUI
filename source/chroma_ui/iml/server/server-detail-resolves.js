@@ -71,7 +71,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
           });
 
         var networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
-          jsonMask: 'objects(id,inet4_address,name,nid,lnd_types)'
+          jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
         })));
 
 

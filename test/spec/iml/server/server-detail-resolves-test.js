@@ -108,7 +108,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
 
     it('should create a network interface stream', function () {
       expect(getNetworkInterfaceStream).toHaveBeenCalledOnceWith({
-        jsonMask: 'objects(id,inet4_address,name,nid,lnd_types)',
+        jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)',
         qs: {
           host__id: '1',
           limit: 0
