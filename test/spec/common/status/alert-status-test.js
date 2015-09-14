@@ -149,7 +149,7 @@ describe('alert status', function () {
       });
 
       it('should display the tooltip after mousing over the info icon', function () {
-        i.trigger('mouseover');
+        i[0].dispatchEvent(new MouseEvent('mouseenter'));
 
         var tooltip = node.find('.tooltip');
         expect(tooltip).toBeShown();
