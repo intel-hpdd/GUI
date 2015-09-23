@@ -29,14 +29,15 @@ angular.module('lnetModule')
 
         var s2 = stream
           .pluck('objects')
-          .map(_.fmap(function addNidIfMissing (item) {
-            if (!item.nid)
-              item.nid = {
+          .map(fp.map(function setNidIfEmpty (x) {
+            if (!x.nid)
+              x.nid = {
+                lnd_type: x.lnd_types[0],
                 lnd_network: LNET_OPTIONS[0].value,
-                network_interface: item.resource_uri
+                network_interface: x.resource_uri
               };
 
-            return item;
+            return x;
           }));
 
         s2.destroy = stream.destroy.bind(stream);

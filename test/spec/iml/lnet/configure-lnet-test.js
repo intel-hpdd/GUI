@@ -67,16 +67,6 @@ describe('Configure LNet', function () {
       });
     });
 
-    it('should set null nids to objects with a network_interface', function () {
-      networkInterfaceStream.write(networkInterfaceResponse);
-
-      expect(configureLnet.networkInterfaces[1].nid).toEqual({
-        lnd_network: -1,
-        lnd_type: 'o2ib',
-        network_interface: '/api/network_interface/27/'
-      });
-    });
-
     describe('setEditable', function () {
       beforeEach(function () {
         networkInterfaceStream.write(networkInterfaceResponse);
