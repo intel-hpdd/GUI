@@ -115,7 +115,13 @@ angular.module('dataFixtures').value('networkInterfaceDataFixtures', [
       "inet4_address": "10.1.0.0",
       "name": "ib1",
       "lnd_types" : ["o2ib", "tcp"],
-      "nid": null,
+      "nid": {
+        "lnd_type": "o2ib",
+        "lnd_network": 1,
+        "lnet_configuration": "/api/lnet_configuration/6/",
+        "network_interface": "/api/network_interface/27/",
+        "resource_uri": "/api/nid/27/"
+      },
       "resource_uri": "/api/network_interface/27/",
       "state_up": true,
       "type": "o2ib"

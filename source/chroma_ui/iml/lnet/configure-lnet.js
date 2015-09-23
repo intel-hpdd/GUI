@@ -115,16 +115,6 @@ angular.module('lnetModule').controller('ConfigureLnetController',
 
     $scope
       .networkInterfaceStream
-      .map(fp.map(function setNidIfEmpty (x) {
-        if (!x.nid)
-          x.nid = {
-            lnd_type: fp.head(x.lnd_types),
-            lnd_network: -1,
-            network_interface: x.resource_uri
-          };
-
-        return x;
-      }))
       .tap(function setInitial (x) {
         if (!diffInitial)
           diffInitial = diffColl(angular.copy(x));
