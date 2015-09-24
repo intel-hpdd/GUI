@@ -25,6 +25,7 @@ angular.module('app')
       return resolveStream(socketStream('/alert/', {
         jsonMask: 'objects(message)',
         qs: {
+          severity__in: ['WARNING', 'ERROR'],
           limit: 0,
           active: true
         }
