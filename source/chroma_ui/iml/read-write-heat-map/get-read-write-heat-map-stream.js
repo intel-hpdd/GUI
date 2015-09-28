@@ -24,9 +24,21 @@ angular.module('readWriteHeatMap')
     function getReadWriteHeatMapStreamFactory (λ, socketStream, chartPlugins) {
       'use strict';
 
-      return function getReadWriteHeatMapStream (type, requestRange, buff) {
-        var sortBy = λ.flip(_.sortBy);
+      var headName = fp.flow(fp.head, fp.lensProp('name'));
+      var compareLocale = fp.flow(
+          fp.invokeMethod('reverse', []),
+          fp.lensProp('0').map(fp.arrayWrap),
+          fp.invoke(fp.invokeMethod('localeCompare'))
+        );
+      var cmp = fp.wrapArgs(
+        fp.flow(
+          fp.map(headName),
+          fp.chainL(fp.wrapArgs(compareLocale))
+        )
+      );
+      var sortOsts = fp.invokeMethod('sort', [cmp]);
 
+      return function getReadWriteHeatMapStream (type, requestRange, buff) {
         var s = λ(function generator (push, next) {
           var params = requestRange({
             qs: {
@@ -46,7 +58,7 @@ angular.module('readWriteHeatMap')
             }))
             .group('id')
             .map(_.values)
-            .map(sortBy(_.pluckPath('0.id')))
+            .map(sortOsts)
             .each(function pushData (x) {
               push(null, x);
               next();

@@ -28,6 +28,20 @@ angular.module('ostBalance')
       var mapValues = λ.flip(_.mapValues);
       var mapMetrics = _.compose(mapValues, _.fmap);
       var filterMetrics = _.compose(mapValues, _.ffilter);
+      var xLens = fp.lensProp('x');
+      var valuesLens = fp.lensProp('values');
+      var compareLocale = fp.flow(
+        fp.invokeMethod('reverse', []),
+        fp.lensProp('0').map(fp.arrayWrap),
+        fp.invoke(fp.invokeMethod('localeCompare'))
+      );
+      var cmp = fp.wrapArgs(
+        fp.flow(
+          fp.map(xLens),
+          fp.chainL(fp.wrapArgs(compareLocale))
+        )
+      );
+      var sortOsts = fp.invokeMethod('sort', [cmp]);
 
       return function getOstBalanceStream (percentage, overrides) {
         var ltePercentage = _.compose(_.lte(percentage), _.pluckPath('data.detail.percentUsed'));
@@ -87,6 +101,7 @@ angular.module('ostBalance')
               });
             })
             .map(toNvd3)
+            .map(fp.map(valuesLens.map(fp.wrapArgs(fp.invoke(sortOsts)))))
             .each(function pushData (x) {
               push(null, x);
               next();
