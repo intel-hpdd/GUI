@@ -22,7 +22,7 @@ describe('server streams', function () {
 
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(function (path) {
-        if (path === '/lnet_configuration/')
+        if (path === '/lnet_configuration')
           return (lnetStream = highland());
 
         if (path === '/corosync_configuration')
@@ -75,8 +75,11 @@ describe('server streams', function () {
     });
 
     it('should create a lnet configuration stream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
-        jsonMask: 'objects(state,host,resource_uri)'
+      expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
+        jsonMask: 'objects(state,host,resource_uri)',
+        qs: {
+          dehydrate__host: false
+        }
       });
     });
 

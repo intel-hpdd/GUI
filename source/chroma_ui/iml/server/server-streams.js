@@ -34,8 +34,11 @@ angular.module('server')
             return alertMonitorStream.through(addProperty);
           });
 
-        var s = socketStream('/lnet_configuration/', {
-          jsonMask: 'objects(state,host,resource_uri)'
+        var s = socketStream('/lnet_configuration', {
+          jsonMask: 'objects(state,host,resource_uri)',
+          qs: {
+            dehydrate__host: false
+          }
         });
         var s2 = s
           .pluck('objects');
