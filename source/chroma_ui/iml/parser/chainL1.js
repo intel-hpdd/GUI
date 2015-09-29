@@ -20,14 +20,46 @@
 // express and approved by Intel in writing.
 
 angular.module('parserModule')
-  .factory('parsely', function parselyFactory (token, parse, chainL1, sepBy1, choice, optional, endOfString) {
-    return {
-      parse: parse,
-      token: token,
-      chainL1: chainL1,
-      sepBy1: sepBy1,
-      choice: choice,
-      optional: optional,
-      endOfString: endOfString
+  .value('chainL1', fp.curry(3, function chainL1 (parse, operation, tokens) {
+    var out;
+
+    var fn = fp.identity;
+    var rewind = getRewinder(tokens);
+
+    while (true) {
+      var result = parse(tokens);
+
+      if (result instanceof Error) {
+        rewind(tokens);
+        return result;
+      }
+
+      out = fn(result);
+
+      rewind = getRewinder(tokens);
+
+      fn = operation(tokens);
+
+      if (fn instanceof Error) {
+        rewind(tokens);
+        break;
+      }
+
+      if (typeof fn !== 'function')
+        throw new Error('operation result must be an Error or a Function, got: ' + typeof fn);
+
+      fn = fp.curry(2, fn)(out);
+    }
+
+    return out;
+  }));
+
+  function getRewinder (oldTokens) {
+    oldTokens = fp.map(fp.identity, oldTokens);
+
+    return function rewinder (tokens) {
+      var tokensDiff = oldTokens.length - tokens.length;
+      [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
     };
-  });
+  }
+

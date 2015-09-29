@@ -7,6 +7,7 @@ describe('parser parsely', function () {
     $provide.value('sepBy1', 'sepBy1');
     $provide.value('choice', 'choice');
     $provide.value('optional', 'optional');
+    $provide.value('chainL1', 'chainL1');
     $provide.value('endOfString', 'endOfString');
   }));
 
@@ -21,6 +22,7 @@ describe('parser parsely', function () {
       parse: 'parse',
       token: 'token',
       sepBy1: 'sepBy1',
+      chainL1: 'chainL1',
       choice: 'choice',
       optional: 'optional',
       endOfString: 'endOfString'

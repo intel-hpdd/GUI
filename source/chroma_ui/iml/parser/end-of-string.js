@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular.module('parserModule')
-  .value('endOfString', function optional (tokens) {
+  .value('endOfString', function endOfString (tokens) {
     if (!tokens.length)
       return '';
 
