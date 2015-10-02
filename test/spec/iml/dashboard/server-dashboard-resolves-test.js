@@ -2,9 +2,9 @@ describe('server dashboard resolves', function () {
   'use strict';
 
   var getReadWriteBandwidthChart, getCpuUsageChart,
-    getMemoryUsageChart;
+    getMemoryUsageChart, $route;
 
-  beforeEach(module('dashboard', function ($provide) {
+  beforeEach(module('serverDashboard', function ($provide) {
     getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
     $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 
@@ -13,6 +13,15 @@ describe('server dashboard resolves', function () {
 
     getMemoryUsageChart = jasmine.createSpy('getMemoryUsageChart');
     $provide.value('getMemoryUsageChart', getMemoryUsageChart);
+
+    $route = {
+      current: {
+        params: {
+          serverId: '1'
+        }
+      }
+    };
+    $provide.value('$route', $route);
   }));
 
   var $q, $rootScope, serverDashboardChartResolves;

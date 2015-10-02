@@ -19,11 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('dashboard')
+angular.module('serverDashboard')
   .factory('serverDashboardChartResolves',
-    function serverDashboardChartResolvesFactory ($q, getReadWriteBandwidthChart,
+    function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBandwidthChart,
                                                   getCpuUsageChart, getMemoryUsageChart) {
-      return function serverDashboardChartResolves (serverId) {
+      return function serverDashboardChartResolves () {
+        var serverId = $route.current.params.serverId;
         var serverQs = {
           qs: {
             id: serverId
@@ -41,4 +42,12 @@ angular.module('dashboard')
         ]);
       };
     }
-  );
+  )
+  .factory('serverDashboardHostStreamResolves',
+    function serverDashboardHostStreamResolvesFactory ($route, resolveStream, socketStream) {
+      return function serverDashboardHostStreamResolvesInner () {
+        return socketStream('/host/' + $route.current.params.serverId, {
+          jsonMask: 'label'
+        });
+      };
+    });

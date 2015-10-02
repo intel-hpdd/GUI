@@ -1,18 +1,9 @@
 describe('get copytool stream', function () {
   'use strict';
 
-  var socketStream, stream, configs;
+  var socketStream, stream;
 
-  beforeEach(module(function () {
-    configs = angular.module('hsm')._configBlocks;
-    angular.module('hsm')._configBlocks = [];
-  }, 'hsm'));
-
-  afterEach(function () {
-    angular.module('hsm')._configBlocks = configs;
-  });
-
-  beforeEach(module(function ($provide) {
+  beforeEach(module('hsm', function ($provide) {
     stream = highland();
 
     socketStream = jasmine.createSpy('socketStream')

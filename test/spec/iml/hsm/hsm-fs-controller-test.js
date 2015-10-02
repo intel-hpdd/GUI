@@ -1,18 +1,9 @@
 describe('HSM fs controller', function () {
   'use strict';
 
-  var configs;
-
-  beforeEach(module(function () {
-    configs = angular.module('hsm')._configBlocks;
-    angular.module('hsm')._configBlocks = [];
-  }, 'hsm'));
-
-  afterEach(function () {
-    angular.module('hsm')._configBlocks = configs;
-  });
-
   var ctrl, $scope, $location, $routeSegment, fsStream, copytoolStream;
+
+  beforeEach(module('hsmFs'));
 
   beforeEach(inject(function ($controller, $rootScope, addProperty) {
     $scope = $rootScope.$new();

@@ -3,7 +3,8 @@ describe('server detail resolves', function () {
     socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
-    jobMonitorStream, alertMonitorStream;
+    jobMonitorStream, alertMonitorStream, $route,
+    serverDetailResolves;
 
   beforeEach(module('server', function ($provide) {
     jobMonitorStream = highland();
@@ -16,6 +17,15 @@ describe('server detail resolves', function () {
       .andReturn(alertMonitorStream);
 
     $provide.value('alertMonitor', alertMonitor);
+
+    $route = {
+      current: {
+        params: {
+          id: '1'
+        }
+      }
+    };
+    $provide.value('$route', $route);
 
     networkInterfaceStream = highland();
 
@@ -40,8 +50,6 @@ describe('server detail resolves', function () {
     $provide.value('socketStream', socketStream);
   }));
 
-  var serverDetailResolves;
-
   beforeEach(inject(function (_serverDetailResolves_) {
     serverDetailResolves = _serverDetailResolves_;
   }));
@@ -56,13 +64,7 @@ describe('server detail resolves', function () {
     beforeEach(inject(function (_$rootScope_) {
       $rootScope = _$rootScope_;
 
-      promise = serverDetailResolves({
-        current: {
-          params: {
-            id: '1'
-          }
-        }
-      });
+      promise = serverDetailResolves();
 
       jobMonitorStream.write({});
       alertMonitorStream.write({});

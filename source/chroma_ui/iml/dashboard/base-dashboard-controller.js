@@ -20,10 +20,10 @@
 // express and approved by Intel in writing.
 
 
-angular.module('dashboard')
+angular.module('baseDashboard')
   .controller('BaseDashboardCtrl',
     function ($scope, fsStream, charts) {
-      var baseDashboard = _.extend(this, {
+      var baseDashboard = angular.extend(this, {
         fs: [],
         fsStream: fsStream,
         charts: charts

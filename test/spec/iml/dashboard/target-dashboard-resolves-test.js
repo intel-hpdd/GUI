@@ -3,7 +3,7 @@ describe('Target dashboard', function () {
 
   var $route, socketStream, s;
 
-  beforeEach(module('dashboard', function ($provide) {
+  beforeEach(module('targetDashboard', function ($provide) {
     $route = {
       current: {
         params: {},

@@ -1,10 +1,14 @@
 describe('dashboard resolves', function () {
   'use strict';
 
-  var socketStream, s, addProperty;
+  var resolveStream, socketStream, s, addProperty, $q;
 
   beforeEach(module('dashboard', function ($provide) {
     s = highland();
+
+    resolveStream = jasmine.createSpy('resolveStream');
+    $provide.value('resolveStream', resolveStream);
+
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(s);
     $provide.value('socketStream', socketStream);
@@ -16,8 +20,11 @@ describe('dashboard resolves', function () {
 
   var $rootScope;
 
-  beforeEach(inject(function (_$rootScope_) {
+  beforeEach(inject(function (_$rootScope_, _$q_) {
     $rootScope = _$rootScope_;
+    $q = _$q_;
+
+    resolveStream.andReturn($q.when(s));
   }));
 
   describe('fs stream', function () {

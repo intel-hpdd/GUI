@@ -1,19 +1,10 @@
 describe('HSM controller', function () {
   'use strict';
 
-  var configs;
-
-  beforeEach(module(function () {
-    configs = angular.module('hsm')._configBlocks;
-    angular.module('hsm')._configBlocks = [];
-  }, 'hsm'));
-
-  afterEach(function () {
-    angular.module('hsm')._configBlocks = configs;
-  });
-
   var hsm, $scope, getAgentVsCopytoolStream, openAddCopytoolModal,
     copytoolOperationStream, copytoolStream;
+
+  beforeEach(module('hsm'));
 
   beforeEach(inject(function ($controller, $rootScope, $q) {
     $scope = $rootScope.$new();

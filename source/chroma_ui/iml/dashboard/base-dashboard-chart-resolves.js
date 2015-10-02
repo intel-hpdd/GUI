@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('dashboard')
+angular.module('baseDashboard')
   .factory('baseDashboardChartResolves',
     function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, getOstBalanceChart,
                                                 getMdoChart, getReadWriteBandwidthChart,

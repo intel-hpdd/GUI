@@ -3,7 +3,7 @@ describe('Add copytool modal', function () {
 
   var configs;
 
-  beforeEach(module(function () {
+  beforeEach(module('hsm', function () {
     configs = angular.module('hsm')._configBlocks;
     angular.module('hsm')._configBlocks = [];
   }, 'hsm'));
@@ -141,7 +141,7 @@ describe('Add copytool modal', function () {
         resolveStream = jasmine.createSpy('resolveStream').andReturn({});
 
         getResolve = function getResolve (name) {
-          return _.last($modal.open.mostRecentCall.args[0].resolve[name]);
+          return fp.tail($modal.open.mostRecentCall.args[0].resolve[name]);
         };
       });
 

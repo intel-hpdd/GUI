@@ -22,8 +22,8 @@
 angular.module('server')
   .factory('serverDetailResolves',
     function serverDetailResolvesFactory ($q, resolveStream, addProperty, jobMonitor,
-                                          alertMonitor, socketStream, getNetworkInterfaceStream) {
-      return function serverDetailResolves ($route) {
+                                          alertMonitor, socketStream, getNetworkInterfaceStream, $route) {
+      return function serverDetailResolves () {
         var arrOrNull = fp.cond(
           [fp.lensProp('length'), fp.identity],
           [fp.always(true), fp.always(null)]

@@ -29,7 +29,7 @@ angular.module('hsm')
 
     var addCopytoolModalCtrl = this;
 
-    _.extend(addCopytoolModalCtrl, {
+    angular.extend(addCopytoolModalCtrl, {
       inProgress: false,
       filesystems: [],
       workers: [],
@@ -45,13 +45,13 @@ angular.module('hsm')
       }
     });
 
-    fsStream
-      .pluck('objects')
-      .each(_.set('filesystems', addCopytoolModalCtrl));
+    var s = fsStream
+      .pluck('objects');
+    $scope.propagateChange($scope, addCopytoolModalCtrl, 'filesystems', s);
 
-    workerStream
-      .pluck('objects')
-      .each(_.set('workers', addCopytoolModalCtrl));
+    s = workerStream
+      .pluck('objects');
+    $scope.propagateChange($scope, addCopytoolModalCtrl, 'workers', s);
 
     $scope.$on('$destroy', function onDestroy () {
       workerStream.destroy();

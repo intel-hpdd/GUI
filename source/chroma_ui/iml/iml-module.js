@@ -20,10 +20,11 @@
 // express and approved by Intel in writing.
 
 
-  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login',
-    'app', 'appRouteModule', 'hsm', 'about',
-    'status', 'statusQueryRouteModule', 'statusRecordsRouteModule',
-    'imlRoutes', 'ngAnimate', 'modal-decorator', 'interceptors'])
+  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login', 'app',
+    'appRouteModule', 'dashboard', 'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
+    'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute', 'server', 'serverRoute', 'serverDetailRoute',
+    'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute', 'about', 'ngAnimate',
+    'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule', 'statusRecordsRouteModule'])
     .config(['$compileProvider', function ($compileProvider) {
       $compileProvider.debugInfoEnabled(false);
     }])

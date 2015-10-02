@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('hsm')
+angular.module('hsmFs')
   .controller('HsmFsCtrl', function HsmFsCtrl ($scope, $routeSegment, $location, fsStream, copytoolStream) {
     var fsStream2;
 

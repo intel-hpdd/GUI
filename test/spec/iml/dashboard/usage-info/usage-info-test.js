@@ -1,10 +1,9 @@
 describe('usage info', function () {
   'use strict';
 
-  beforeEach(module('dashboard'));
+  var ctrl, formatBytes, formatNumber, $scope, $exceptionHandler, localApply, stream, fs;
 
-  var ctrl, formatBytes, formatNumber,
-    $scope, $exceptionHandler, localApply, stream, fs;
+  beforeEach(module('dashboard'));
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();

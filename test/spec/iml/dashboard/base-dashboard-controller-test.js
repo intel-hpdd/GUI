@@ -1,7 +1,7 @@
 describe('base dashboard controller', function () {
   'use strict';
 
-  beforeEach(module('dashboard'));
+  beforeEach(module('baseDashboard'));
 
   var $scope, fsStream, charts, baseDashboardCtrl;
 

@@ -3,7 +3,7 @@ describe('base dashboard resolves', function () {
 
   var $route;
 
-  beforeEach(module('dashboard', function ($provide) {
+  beforeEach(module('baseDashboard', function ($provide) {
     $route = {
       current: {
         params: {}
@@ -19,7 +19,7 @@ describe('base dashboard resolves', function () {
       mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart,
       readWriteHeatMapChart;
 
-    beforeEach(module('dashboard', function ($provide) {
+    beforeEach(module('baseDashboard', function ($provide) {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
       getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')

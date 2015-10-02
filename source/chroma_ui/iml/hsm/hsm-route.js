@@ -20,43 +20,8 @@
 // express and approved by Intel in writing.
 
 
-angular.module('hsm')
-  .config(function hsmSegment ($routeSegmentProvider, GROUPS) {
-    $routeSegmentProvider
-      .when('/configure/hsm/:fsId?', 'app.hsmFs.hsm')
-      .within('app')
-      .segmentAuthenticated('hsmFs', {
-        controller: 'HsmFsCtrl',
-        controllerAs: 'hsmFs',
-        templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
-        access: GROUPS.FS_ADMINS,
-        resolve: {
-          fsStream: /*@ngInject*/ function fsCollStream (resolveStream, socketStream, addProperty) {
-            return resolveStream(socketStream('/filesystem', {
-              jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
-            }))
-              .then(function addThroughProperty (s) {
-                var s2 = fp.map(fp.lensProp('objects'), s);
-
-                s2.destroy = s.destroy.bind(s);
-
-                return s2.through(addProperty);
-              });
-          },
-          copytoolStream: /*@ngInject*/ function copytoolStream (resolveStream, socketStream) {
-            return resolveStream(socketStream('/copytool', {
-              jsonMask: 'objects(id)'
-            }));
-          }
-        },
-        untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
-        }
-      });
-
-    var routePath = fp.pathLens(['current', 'params', 'fsId']);
-    var fsIdPath = fp.pathLens(['qs', 'filesystem_id']);
-
+angular.module('hsmRoute')
+  .config(function hsmSegment ($routeSegmentProvider) {
     $routeSegmentProvider
       .within('app')
       .within('hsmFs')
@@ -65,19 +30,8 @@ angular.module('hsm')
         controllerAs: 'hsm',
         templateUrl: 'iml/hsm/assets/html/hsm.html',
         resolve: {
-          copytoolOperationStream: /*@ngInject*/ function copytoolOperationStream (resolveStream,
-                                                                                   getCopytoolOperationStream, $route) {
-            var val = routePath($route);
-            var params = val ? fsIdPath.set(val, {}) : {};
-
-            return resolveStream(getCopytoolOperationStream(params));
-          },
-          copytoolStream: /*@ngInject*/ function copytoolStream (resolveStream, getCopytoolStream, $route) {
-            var val = routePath($route);
-            var params = val ? fsIdPath.set(val, {}) : {};
-
-            return resolveStream(getCopytoolStream(params));
-          }
+          copytoolOperationStream: ['copytoolOperationStream', fp.invoke(fp.__, [])],
+          copytoolStream: ['copytoolStream', fp.invoke(fp.__, [])]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

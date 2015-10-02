@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('dashboard')
+angular.module('serverDashboard')
   .controller('ServerDashboardCtrl', ServerDashboardCtrl);
 
 function ServerDashboardCtrl ($scope, hostStream, charts) {

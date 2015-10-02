@@ -16,14 +16,14 @@ describe('wait until add server resolves complete', function () {
 
   describe('Wait Until Loaded Controller', function () {
     it('should emit the closeModal event', function () {
-        var closeModalCalled = false;
-        $rootScope.$on('addServerModal::closeModal', function updateCloseStatus () {
-          closeModalCalled = true;
-        });
+      var closeModalCalled = false;
+      $rootScope.$on('addServerModal::closeModal', function updateCloseStatus () {
+        closeModalCalled = true;
+      });
 
-        scope.wait.close();
-        scope.$digest();
-        expect(closeModalCalled).toEqual(true);
+      scope.wait.close();
+      scope.$digest();
+      expect(closeModalCalled).toEqual(true);
     });
   });
 

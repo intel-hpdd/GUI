@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 
-angular.module('dashboard')
+angular.module('targetDashboard')
   .factory('targetDashboardKind', function targetDashboardKindFactory ($route) {
     return function targetDashboardKind () {
       return $route.current.$$route.kind;

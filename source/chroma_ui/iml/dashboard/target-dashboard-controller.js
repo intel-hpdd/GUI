@@ -19,10 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('dashboard')
+angular.module('targetDashboard')
   .controller('TargetDashboardController',
     function TargetDashboardController ($scope, kind, charts, targetStream, usageStream) {
-        var targetDashboard = _.extend(this, {
+        var targetDashboard = angular.extend(this, {
           charts: charts,
           usageStream: usageStream,
           kind: kind

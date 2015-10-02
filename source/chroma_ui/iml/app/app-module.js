@@ -20,5 +20,4 @@
 // express and approved by Intel in writing.
 
 
-angular.module('app', ['auth', 'navigate',
-  'dashboard', 'jobStats', 'server', 'notificationModule']);
+angular.module('app', ['auth', 'navigate', 'notificationModule']);
