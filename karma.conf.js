@@ -63,7 +63,7 @@ module.exports = function setConfig (config) {
       testDir('global-setup.js'),
       testDir('matchers/**/*.js'),
       bowerDir('jasmine-object-containing/jasmine-object-containing.js'),
-      bowerDir('jasmine-n-matchers/jasmine-n-matchers.js'),
+      intelJsDir('jasmine-n-matchers/jasmine-n-matchers.js'),
       testDir('**/*.js'),
       testDir('templates/**/*.html'),
       angularComponentsDir('src/**/*.js')
