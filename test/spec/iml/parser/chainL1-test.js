@@ -60,7 +60,19 @@ describe('chain left 1', function () {
     expect(shouldThrow).toThrow(new Error('operation result must be an Error or a Function, got: boolean'));
   });
 
-  it('should rewind when p doesn\'t match', function () {
+  it('should not consume when input was taken', function () {
+    var t = [
+      1,
+      2,
+      3
+    ];
+
+    chainL1(fp.flow(ifToken(fp.identity), ifToken(fp.always(new Error('boom!')))), fp.always(fp.identity), t);
+
+    expect(t).toEqual([2,3]);
+  });
+
+  it('should consume when no input was taken', function () {
     var t = [
       1,
       2,
@@ -69,6 +81,6 @@ describe('chain left 1', function () {
 
     chainL1(ifToken(fp.always(new Error('boom!'))), fp.always(fp.identity), t);
 
-    expect(t).toEqual([1,2,3]);
+    expect(t).toEqual([2,3]);
   });
 });

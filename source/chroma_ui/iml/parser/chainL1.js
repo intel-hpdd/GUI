@@ -21,17 +21,21 @@
 
 angular.module('parserModule')
   .value('chainL1', fp.curry(3, function chainL1 (parse, operation, tokens) {
-    var out;
+    var out, err, rewind;
 
     var fn = fp.identity;
-    var rewind = getRewinder(tokens);
 
     while (true) {
+      rewind = getRewinder(tokens);
+
       var result = parse(tokens);
 
-      if (result instanceof Error) {
-        rewind(tokens);
-        return result;
+      if (isError(result)) {
+        if (out)
+          rewind(tokens);
+
+        err = result;
+        break;
       }
 
       out = fn(result);
@@ -40,19 +44,27 @@ angular.module('parserModule')
 
       fn = operation(tokens);
 
-      if (fn instanceof Error) {
+      if (isError(fn)) {
         rewind(tokens);
         break;
       }
 
-      if (typeof fn !== 'function')
-        throw new Error('operation result must be an Error or a Function, got: ' + typeof fn);
+      throwIfBadType(fn);
 
       fn = fp.curry(2, fn)(out);
     }
 
-    return out;
+    return out ? out : err;
   }));
+
+  function throwIfBadType (x) {
+    if (typeof x !== 'function')
+      throw new Error('operation result must be an Error or a Function, got: ' + typeof x);
+  }
+
+  function isError (x) {
+    return x instanceof Error;
+  }
 
   function getRewinder (oldTokens) {
     oldTokens = fp.map(fp.identity, oldTokens);
