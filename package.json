@@ -30,6 +30,7 @@
     "glob": "5.0.14",
     "glob2base": "0.0.12",
     "gulp": "3.9.0",
+    "gulp-babel": "5.2.1",
     "gulp-cached": "1.1.0",
     "gulp-clone": "1.0.0",
     "gulp-concat": "2.6.0",
