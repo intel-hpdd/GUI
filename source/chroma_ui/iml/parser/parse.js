@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular.module('parserModule')
-  .value('parse', fp.curry(2, function parse (fns, tokens) {
+  .value('parse', fp.curry(3, function parse (initFn, fns, tokens) {
     return fns.reduce(function reducer (out, fn) {
       if (out instanceof Error)
         return out;
@@ -30,8 +30,8 @@ angular.module('parserModule')
       if (result instanceof Error)
         return result;
 
-      return (out + result);
+      return out.concat(result);
 
-    }, '');
+    }, initFn());
   }));
 

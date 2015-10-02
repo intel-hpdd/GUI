@@ -54,6 +54,7 @@ angular
       }
     ]);
 
+    var parseToStr = parsely.parse(fp.always(''));
     var value = parsely.token('value', fp.lensProp('content'));
     var equals = parsely.token('equals', fp.always('='));
     var inToken = parsely.token('in', fp.always('__in='));
@@ -62,9 +63,9 @@ angular
     var sep = parsely.token('sep', fp.always(','));
     var join = parsely.token('join', fp.always('&'));
     var valueSep = parsely.sepBy1(value, sep);
-    var assign = parsely.parse([value, equals, value]);
-    var list = parsely.parse([startList, valueSep, endList]);
-    var inList = fp.flow(parsely.parse([value, inToken, list]), fp.either(function (output) {
+    var assign = parseToStr([value, equals, value]);
+    var list = parseToStr([startList, valueSep, endList]);
+    var inList = fp.flow(parseToStr([value, inToken, list]), fp.either(function (output) {
       var parts = output.split('=');
       var ins = parts[1]
         .replace(/\[(.+)]/, '$1')
@@ -77,7 +78,7 @@ angular
     var assignOrIn = parsely.choice([assign, inList]);
     var expr = parsely.sepBy1(assignOrIn, join);
     var emptyOrExpr = parsely.optional(expr);
-    var statusParser = parsely.parse([emptyOrExpr, parsely.endOfString]);
+    var statusParser = parseToStr([emptyOrExpr, parsely.endOfString]);
 
     return fp.flow(tokenizer, statusParser);
   });
