@@ -21,30 +21,45 @@
 
 angular.module('parserModule')
   .value('sepBy1', fp.curry(3, function sepBy1 (symbolFn, sepFn, tokens) {
+    var err, rewind;
     var out = '';
 
     while (true) {
+      rewind = getRewinder(tokens);
+
       var result = symbolFn(tokens);
 
       if (result instanceof Error) {
-        out = result;
+        if (out.length)
+          rewind(tokens);
+
+        err = result;
         break;
       }
 
       out += result;
 
-      var oldTokens = fp.map(fp.identity, tokens);
+      rewind = getRewinder(tokens);
+
 
       result = sepFn(tokens);
 
       if (result instanceof Error) {
-        var tokensDiff = oldTokens.length - tokens.length;
-        [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
+        rewind(tokens);
         break;
       }
 
       out += result;
     }
 
-    return out;
+    return out.length ? out : err;
   }));
+
+  function getRewinder (oldTokens) {
+    oldTokens = fp.map(fp.identity, oldTokens);
+
+    return function rewinder (tokens) {
+      var tokensDiff = oldTokens.length - tokens.length;
+      [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
+    };
+  }
