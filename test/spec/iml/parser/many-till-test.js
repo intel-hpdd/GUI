@@ -63,7 +63,7 @@ describe('many till', function () {
     });
 
     it('should return an Error even if output was consumed', function () {
-      expect(res).toEqual(new Error('boom!'));
+      expect(res).toEqual(new Error('x is not 3'));
     });
   });
 });
