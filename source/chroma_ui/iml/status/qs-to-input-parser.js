@@ -50,6 +50,7 @@ angular
       return open + str + close;
     });
 
+    var parseToStr = parsely.parse(fp.always(''));
     var value = parsely.token('value', fp.lensProp('content'));
     var equals = parsely.token('equals', fp.always(' = '));
     var join = parsely.token('join', fp.always(' and '));
@@ -57,12 +58,12 @@ angular
     var inToken = parsely.token('in', fp.always(' in '));
     var valueSep = fp.flow(parsely.sepBy1(value, sep), fp.either(surround('[', ']')));
     var dropEquals = fp.flow(equals, fp.either(fp.always('')));
-    var inList = parsely.parse([value, inToken, dropEquals, valueSep]);
-    var assign = parsely.parse([value, equals, value]);
+    var inList = parseToStr([value, inToken, dropEquals, valueSep]);
+    var assign = parseToStr([value, equals, value]);
     var assignOrIn = parsely.choice([assign, inList]);
     var expr = parsely.sepBy1(assignOrIn, join);
     var emptyOrExpr = parsely.optional(expr);
-    var statusParser = parsely.parse([emptyOrExpr, parsely.endOfString]);
+    var statusParser = parseToStr([emptyOrExpr, parsely.endOfString]);
 
     return fp.flow(tokenizer, statusParser);
   });
