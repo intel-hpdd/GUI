@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('statusRecordsRouteModule', ['route-segment'])
+angular.module('statusRecordsRouteModule', [])
   .config(function statusSegment ($routeSegmentProvider) {
     var qs;
 
