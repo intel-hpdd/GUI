@@ -21,7 +21,7 @@
 
 
 angular.module('imlRoutes', ['imlRouterModule',
-  'lnetModule', 'dashboard', 'server', 'statusModule'])
+  'lnetModule', 'dashboard', 'server'])
   .config(['$routeSegmentProvider', 'GROUPS', function ($routeSegmentProvider, GROUPS) {
     $routeSegmentProvider
       .within('app')
@@ -125,15 +125,6 @@ angular.module('imlRoutes', ['imlRouterModule',
       }));
 
     $routeSegmentProvider.when('/dashboard/jobstats/:id/:startDate/:endDate', 'app.jobstats');
-
-    $routeSegmentProvider
-      .when('/status', 'app.status')
-      .within('app')
-      .segment('status', untilResolved({
-        controller: 'StatusController',
-        controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status.html'
-      }));
 
     $routeSegmentProvider
       .within('app')
