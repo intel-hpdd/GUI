@@ -1,3 +1,7 @@
+.diagonal-stripes(@color, @darkenBy: 20%) {
+  background: repeating-linear-gradient(45deg, @color, @color 10px, darken(@color, @darkenBy) 10px, darken(@color, @darkenBy) 20px );
+}
+
 .vertical-align(@alignment: 50%) {
   position: relative;
   top: @alignment;
@@ -28,8 +32,6 @@
 
 .transition-height(@height, @time: 0.1s) {
   transition: all linear @time;
-
-  //height: @height;
 
   &.ng-enter,
   &.ng-leave.ng-leave-active {
