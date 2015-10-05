@@ -34,15 +34,11 @@ angular
       },
       {
         name: 'value',
-        pattern: /^[a-zA-Z\d]+/
+        pattern: /^[a-zA-Z\d]+(_[a-zA-Z\d]+)?/
       },
       {
         name: 'equals',
         pattern: /^=/
-      },
-      {
-        name: 'sep',
-        pattern: /^,/
       }
     ]);
 
@@ -50,20 +46,71 @@ angular
       return open + str + close;
     });
 
-    var parseToStr = parsely.parse(fp.always(''));
-    var value = parsely.token('value', fp.lensProp('content'));
-    var equals = parsely.token('equals', fp.always(' = '));
-    var join = parsely.token('join', fp.always(' and '));
-    var sep = parsely.token('sep', fp.always(','));
-    var inToken = parsely.token('in', fp.always(' in '));
-    var valueSep = fp.flow(parsely.sepBy1(value, sep), fp.either(surround('[', ']')));
-    var dropEquals = fp.flow(equals, fp.either(fp.always('')));
-    var inList = parseToStr([value, inToken, dropEquals, valueSep]);
-    var assign = parseToStr([value, equals, value]);
-    var assignOrIn = parsely.choice([assign, inList]);
-    var expr = parsely.sepBy1(assignOrIn, join);
+    var parseStr = parsely.parse(fp.always(''));
+    var equalsToken = parsely.token('equals');
+    var equals = equalsToken(fp.always(' = '));
+    var valueToken = parsely.token('value');
+    var value = valueToken(fp.lensProp('content'));
+    var inToken = parsely.token('in');
+    var joinToken = parsely.token('join');
+
+    var assign = parseStr([value, equals, value]);
+    var assignSep = parsely.sepBy1(assign, joinToken(fp.always(' and ')));
+
+    var createArray = Array.prototype.slice.bind([]);
+
+    var index1Lens = fp.lensProp('1');
+
+    var inList = parsely.parse(createArray, [
+      value,
+      inToken(fp.always([])),
+      equalsToken(fp.always([])),
+      value
+    ]);
+    var normalizeList = fp.flow(
+      inList,
+      fp.either(index1Lens.map(fp.arrayWrap)),
+      fp.either(fp.arrayWrap)
+    );
+
+    var concat = fp.chainL(fp.wrapArgs(fp.flow(
+      index1Lens.map(fp.arrayWrap),
+      fp.invokeMethod('reverse', []),
+      fp.invoke(fp.invokeMethod('concat'))
+    )));
+
+    var combineInList = fp.flow(
+      parsely.chainL1(normalizeList, joinToken(function op () {
+        return function combiner (a, b) {
+          var lasta = fp.tail(a);
+          var lastb = fp.tail(b);
+          var eq = fp.eqFn(fp.head, fp.head, lasta, lastb);
+
+          if (eq)
+            fp.tail(lasta).push(fp.tail(lastb));
+          else
+            a.push(lastb);
+
+          return a;
+        };
+      })),
+      fp.either(
+        fp.map(fp.flow(
+          index1Lens.map(fp.invokeMethod('join', [', '])),
+          index1Lens.map(surround(' in [', ']')),
+          concat
+        ))
+      ),
+      fp.either(fp.invokeMethod('join', [' and ']))
+    );
+    var addAnd = parseStr([
+      combineInList,
+      fp.flow(parsely.endOfString, fp.unsafe(fp.always(' and ')))
+    ]);
+
+    var expr = parsely.manyTill(parsely.choice([addAnd, assignSep]), parsely.endOfString);
     var emptyOrExpr = parsely.optional(expr);
-    var statusParser = parseToStr([emptyOrExpr, parsely.endOfString]);
+    var statusParser = parseStr([emptyOrExpr, parsely.endOfString]);
 
     return fp.flow(tokenizer, statusParser);
   });
