@@ -50,6 +50,7 @@ module.exports = function setConfig (config) {
       commonDir('**/*.js'),
       commonDir('**/*.html'),
       imlDir('**/*-module.js'),
+      intelJsDir('extract-api/index.js'),
       testDir('iml-module.js'),
       imlDir('**/*.js'),
       imlDir('**/*.html'),

@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,20 +21,30 @@
 
 
 angular.module('command')
-  .controller('CommandModalCtrl', ['commandsStream', '$scope',
-    function CommandModalCtrl (commandsStream, $scope) {
-      'use strict';
+  .controller('CommandModalCtrl', function CommandModalCtrl (commandsStream, $scope, COMMAND_STATES) {
+    this.accordion0 = true;
 
-      this.accordion0 = true;
+    var stateLens = fp.lensProp('state');
+    var setState = fp.cond(
+      [fp.lensProp('cancelled'), stateLens.map(fp.always(COMMAND_STATES.CANCELLED))],
+      [fp.lensProp('errored'), stateLens.map(fp.always(COMMAND_STATES.FAILED))],
+      [fp.lensProp('complete'), stateLens.map(fp.always(COMMAND_STATES.SUCCEEDED))],
+      [fp.always(true), stateLens.map(fp.always(COMMAND_STATES.PENDING))]
+    );
 
-      commandsStream
-        .tap(_.set('commands', this))
-        .stopOnError($scope.handleException)
-        .each($scope.localApply.bind(null, $scope));
-    }])
-  .factory('openCommandModal', ['$modal', function openCommandModalFactory ($modal) {
-    'use strict';
+    var xForm = fp.map(fp.map(fp.flow(
+      fp.lensProp('logs').map(fp.invokeMethod('trim', [])),
+      setState
+    )));
 
+    $scope.propagateChange(
+      $scope,
+      this,
+      'commands',
+      xForm(commandsStream)
+    );
+  })
+  .factory('openCommandModal', function openCommandModalFactory ($modal) {
     return function openCommandModal (stream) {
       return $modal.open({
         templateUrl: 'iml/command/assets/html/command-modal.html',
@@ -44,8 +54,8 @@ angular.module('command')
         backdrop: 'static',
         backdropClass: 'command-modal-backdrop',
         resolve: {
-          commandsStream: _.fidentity(stream)
+          commandsStream: fp.always(stream)
         }
       });
     };
-  }]);
+  });

@@ -1,6 +1,4 @@
 describe('command modal', function () {
-  'use strict';
-
   beforeEach(module('command'));
 
   describe('open command modal', function () {
@@ -64,10 +62,53 @@ describe('command modal', function () {
       expect(commandModal.accordion0).toBe(true);
     });
 
-    it('should set the commands on the command modal', function () {
-      commandsStream.write([{ foo: 'bar' }]);
+    var states = {
+      cancelled: { cancelled: true },
+      failed: { errored: true },
+      succeeded: { complete: true },
+      pending: {
+        cancelled: false,
+        failed: false,
+        complete: false
+      }
+    };
 
-      expect(commandModal.commands).toEqual([{ foo: 'bar' }]);
+    Object.keys(states).forEach(function testState (state) {
+      it('should be in state ' + state, function () {
+        commandsStream.write(wrap(states[state]));
+
+        var expected = angular.extend({
+          state: state,
+          jobs: []
+        }, states[state]);
+
+        expect(commandModal.commands).toEqual(wrap(expected));
+      });
     });
+
+    it('should trim logs', function () {
+      commandsStream.write(wrap({
+        logs: '    '
+      }));
+
+      expect(commandModal.commands).toEqual([{
+        id: 1,
+        logs: '',
+        jobs: [],
+        state: 'pending'
+      }]);
+    });
+
+    function wrap () {
+      var commands = [].slice.call(arguments, 0);
+
+      return commands.map(function (command, index) {
+        return angular.extend({
+          id: index + 1,
+          logs: '',
+          jobs: []
+        }, command);
+      });
+    }
   });
 });

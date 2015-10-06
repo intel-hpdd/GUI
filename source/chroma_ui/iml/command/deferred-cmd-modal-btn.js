@@ -19,13 +19,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+angular.module('command')
+  .controller('DeferredCommandModalBtnCtrl',
+    function DeferredCommandModalBtnCtrl ($scope, socketStream, openCommandModal) {
+      var setLoading = fp
+        .lensProp('loading')
+        .set(fp.__, this);
 
-angular.module('command', ['socket-module', 'extendScope', 'extractApiIdModule'])
-  .constant('COMMAND_STATES', Object.freeze({
-    CANCELLED: 'cancelled',
-    FAILED: 'failed',
-    SUCCEEDED: 'succeeded',
-    PENDING: 'pending',
-    WAITING: 'waiting to run',
-    RUNNING: 'running'
-  }));
+      this.openCommandModal = function open () {
+        setLoading(true);
+
+        var stream = socketStream(this.resourceUri);
+
+        openCommandModal(fp.map(fp.arrayWrap, stream))
+          .resultStream
+          .tap(setLoading.bind(null, false))
+          .tap(stream.destroy.bind(stream))
+          .pull(fp.noop);
+      };
+    }
+  )
+  .directive('deferredCmdModalBtn', function deferredCmdModalBtn () {
+    return {
+      scope: {},
+      bindToController: {
+        resourceUri: '='
+      },
+      controller: 'DeferredCommandModalBtnCtrl',
+      controllerAs: 'ctrl',
+      templateUrl: 'iml/command/assets/html/deferred-cmd-modal-btn.html'
+    };
+  });

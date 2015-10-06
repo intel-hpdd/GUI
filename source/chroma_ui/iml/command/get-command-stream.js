@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,21 +20,12 @@
 // express and approved by Intel in writing.
 
 angular.module('command')
-  .factory('getCommandStream', ['socketStream', 'COMMAND_STATES',
-    function getCommandStreamFactory (socketStream, COMMAND_STATES) {
-      'use strict';
-
-      var findId = /\/(\d+)\/$/;
-
-      /**
-       * Creates and returns a command stream.
-       * @param {Array} commandList
-       * @returns {Highland.Stream}
-       */
+  .factory('getCommandStream',
+    function getCommandStreamFactory (socketStream) {
       return function getCommandStream (commandList) {
         var options = {
           qs: {
-            id__in: _.pluck(commandList, 'id')
+            id__in: fp.map(fp.lensProp('id'), commandList)
           }
         };
 
@@ -42,37 +33,9 @@ angular.module('command')
 
         stream.write({ objects: commandList });
 
-        var s2 = stream
-          .pluck('objects')
-          .map(_.fmap(transform));
-
+        var s2 = stream.pluck('objects');
         s2.destroy = stream.destroy.bind(stream);
 
         return s2;
-
-        /**
-         * Does some data munging on a command object
-         * @param {Object} command
-         * @returns {Object}
-         */
-        function transform (command) {
-          command.logs = command.logs.trim();
-
-          if (command.cancelled)
-            command.state = COMMAND_STATES.CANCELLED;
-          else if (command.errored)
-            command.state = COMMAND_STATES.FAILED;
-          else if (command.complete)
-            command.state = COMMAND_STATES.SUCCEEDED;
-          else
-            command.state = COMMAND_STATES.PENDING;
-
-          command.jobIds = command.jobs.map(function getId (job) {
-            return findId.exec(job)[1];
-          });
-
-          return command;
-        }
       };
-    }
-  ]);
+    });

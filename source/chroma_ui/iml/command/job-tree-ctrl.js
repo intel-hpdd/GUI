@@ -21,13 +21,11 @@
 
 
 angular.module('command')
-  .controller('JobTreeCtrl', ['$scope', 'getJobStream', 'GROUPS', 'openStepModal', 'socketStream',
+  .controller('JobTreeCtrl',
     function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal, socketStream) {
-      'use strict';
-
       var pendingTransitions = [];
 
-      _.extend(this, {
+      angular.extend(this, {
         GROUPS: GROUPS,
         jobs: [],
         openStep: openStepModal,
@@ -49,29 +47,21 @@ angular.module('command')
         }
       });
 
-      $scope.$on('$destroy', function onDestroy () {
-        stream.destroy();
-      });
+      var stream = getJobStream($scope.command.jobs);
 
-      var stream = getJobStream($scope.command.jobIds);
+      var p = $scope.propagateChange($scope, this, 'jobs');
 
       stream
-        .tap(_.set('jobs', this))
-        .stopOnError($scope.handleException)
-        .each($scope.localApply.bind(null, $scope));
-    }])
-  .factory('getJobStream', ['socketStream', 'jobTree',
-    function getJobStreamFactory (socketStream, jobTree) {
-      'use strict';
+        .through(p);
 
-      /**
-       * Returns a stream with a convert to tree pipe added.
-       * @returns {Object}
-       */
-      return function getJobStream (ids) {
+      $scope.$on('$destroy', stream.destroy.bind(stream));
+    })
+  .factory('getJobStream',
+    function getJobStreamFactory (socketStream, jobTree, extractApiId) {
+      return function getJobStream (jobs) {
         var stream = socketStream('/job', {
           qs: {
-            id__in: ids,
+            id__in: fp.map(extractApiId, jobs),
             limit: 0
           }
         });
@@ -84,5 +74,4 @@ angular.module('command')
 
         return s2;
       };
-    }
-  ]);
+    });

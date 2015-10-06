@@ -1,16 +1,16 @@
 describe('job tree', function () {
-  'use strict';
-
   beforeEach(module('command'));
 
   describe('job tree ctrl', function () {
 
-    var $scope, jobTree, getJobStream, socketStream,
+    var $scope, jobTree, getJobStream, jobStream, socketStream,
       GROUPS, openStepModal, job;
 
     beforeEach(inject(function ($rootScope, $controller) {
+      jobStream = highland();
+      spyOn(jobStream, 'destroy');
       getJobStream = jasmine.createSpy('getJobStream')
-        .andReturn(highland());
+        .andReturn(jobStream);
       socketStream = jasmine.createSpy('socketStream')
         .andReturn(highland());
 
@@ -21,7 +21,7 @@ describe('job tree', function () {
       $scope = $rootScope.$new();
 
       $scope.command = {
-        jobIds: []
+        jobs: []
       };
 
       spyOn($scope, '$on').andCallThrough();
@@ -76,11 +76,9 @@ describe('job tree', function () {
     });
 
     it('should end the stream on destroy', function () {
-      spyOn(getJobStream.plan(), 'destroy');
-
       $scope.$on.mostRecentCall.args[1]();
 
-      expect(getJobStream.plan().destroy).toHaveBeenCalledOnce();
+      expect(jobStream.destroy).toHaveBeenCalledOnce();
     });
 
     describe('do transition', function () {
@@ -91,7 +89,7 @@ describe('job tree', function () {
       it('should put the transition', function () {
         expect(socketStream).toHaveBeenCalledOnceWith(job.resource_uri, {
           method: 'put',
-          json: _.extend({ state: 'cancelled' }, job)
+          json: angular.extend({ state: 'cancelled' }, job)
         }, true);
       });
 
@@ -123,13 +121,13 @@ describe('job tree', function () {
     var stream;
 
     beforeEach(inject(function (getJobStream) {
-      stream = getJobStream([1, 2]);
+      stream = getJobStream(['/api/job/1/', '/api/job/2/']);
     }));
 
     it('should call socketStream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/job', {
         qs: {
-          id__in: [1, 2],
+          id__in: ['1', '2'],
           limit: 0
         }
       });
