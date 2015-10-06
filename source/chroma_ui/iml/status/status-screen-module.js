@@ -20,9 +20,9 @@
 // express and approved by Intel in writing.
 
 angular.module('statusModule',
-  ['statusQueryRouteModule', 'statusRecordsRouteModule',
-    'parserModule', 'parselyBox', 'multiStream',
-    'routeStream', 'qsFromLocation'])
+  ['parserModule', 'parselyBox', 'multiStream',
+    'routeStream', 'qsFromLocation',
+    'extendScope', 'action-dropdown-module'])
   .value('STATUS_STATES', {
     ERROR: 'error',
     WARN: 'warning',

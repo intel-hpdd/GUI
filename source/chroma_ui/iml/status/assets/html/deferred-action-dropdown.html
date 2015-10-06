@@ -1,0 +1,6 @@
+<div ng-mouseenter="::ctrl.onEnter()">
+  <button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
+    Loading<i class="fa fa-spinner fa-spin"></i>
+  </button>
+  <action-dropdown ng-show="!ctrl.loading" stream="::ctrl.ms"></action-dropdown>
+</div>
