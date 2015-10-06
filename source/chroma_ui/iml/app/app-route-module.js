@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('app')
+angular.module('appRouteModule', [])
   .config(function appSegment ($routeSegmentProvider) {
     $routeSegmentProvider
       .segment('app', {

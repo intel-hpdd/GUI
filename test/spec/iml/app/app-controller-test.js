@@ -1,17 +1,4 @@
 describe('App controller', function () {
-  'use strict';
-
-  var configs;
-
-  beforeEach(function () {
-    configs = angular.module('app')._configBlocks;
-    angular.module('app')._configBlocks = [];
-  });
-
-  afterEach(function () {
-    angular.module('app')._configBlocks = configs;
-  });
-
   beforeEach(module('app'));
 
   var $scope, $routeSegment, appController,

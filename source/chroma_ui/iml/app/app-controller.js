@@ -61,11 +61,18 @@ function AppCtrl ($scope, $routeSegment, session, navigate, ENV, GROUPS,
 
   var LIMIT = 99;
 
+  var ctrl = this;
+
   notificationStream
     .tap(function computeProperties (status) {
       status.aboveLimit = status.count > LIMIT;
 
       status.count = ( status.aboveLimit ? LIMIT : status.count );
+
+      ctrl.link = '/ui/status/';
+
+      if (status.health !== 'GOOD')
+        ctrl.link += '?severity__in=WARNING&severity__in=ERROR&active=true';
     })
     .tap(fp.lensProp('status').set(fp.__, this))
     .stopOnError($scope.handleException)
