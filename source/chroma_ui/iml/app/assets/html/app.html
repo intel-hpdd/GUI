@@ -34,7 +34,7 @@
           <a id="help-menu" href="/static/webhelp/help_wrapper.html" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
         </li>
         <li ng-class="{active: app.$routeSegment.contains('status')}">
-          <a class="navigation status-nav" href="/ui/status/">
+          <a class="navigation status-nav" ng-href="{{ app.link }}">
             <span ng-class="app.status.health" class="ng-cloak badge notification-counter">
               {{ app.status.count }}<sup ng-if="app.status.aboveLimit">+</sup>
             </span> Status

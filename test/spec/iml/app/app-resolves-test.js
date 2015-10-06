@@ -1,17 +1,6 @@
 describe('app resolves', function () {
   var resolveStream, socketStream, promise, stream;
 
-  var configs;
-
-  beforeEach(function () {
-    configs = angular.module('app')._configBlocks;
-    angular.module('app')._configBlocks = [];
-  });
-
-  afterEach(function () {
-    angular.module('app')._configBlocks = configs;
-  });
-
   beforeEach(module('app', function ($provide) {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');

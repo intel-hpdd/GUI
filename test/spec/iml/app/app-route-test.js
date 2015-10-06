@@ -1,6 +1,4 @@
 describe('app route', function () {
-  'use strict';
-
   var $routeSegmentProvider;
 
   beforeEach(module(function () {
@@ -12,7 +10,7 @@ describe('app route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'app'));
+  }, 'route-segment', 'appRouteModule'));
 
   beforeEach(inject(fp.noop));
 

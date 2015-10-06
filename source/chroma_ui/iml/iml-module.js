@@ -20,7 +20,8 @@
 // express and approved by Intel in writing.
 
 
-  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login', 'app', 'hsm', 'about',
+  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login',
+    'app', 'appRouteModule', 'hsm', 'about',
     'status', 'statusQueryRouteModule', 'statusRecordsRouteModule',
     'imlRoutes', 'ngAnimate', 'modal-decorator', 'interceptors'])
     .config(['$compileProvider', function ($compileProvider) {
