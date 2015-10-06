@@ -34,7 +34,7 @@ module.exports = function setConfig (config) {
       bowerDir('angular-resource/angular-resource.js'),
       bowerDir('angular-bindonce/bindonce.js'),
       bowerDir('angular-route/angular-route.js'),
-      bowerDir('angular-route-segment/build/angular-route-segment.js'),
+      nodeModulesDir('angular-route-segment-chum/build/angular-route-segment.js'),
       bowerDir('highland/dist/highland.js'),
       bowerDir('lodash/dist/lodash.js'),
       bowerDir('moment/moment.js'),
