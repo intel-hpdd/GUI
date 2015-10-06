@@ -1,7 +1,5 @@
-describe('job status', function () {
-  'use strict';
-
-  beforeEach(module('status'));
+describe('job indicator', function () {
+  beforeEach(module('jobIndicator'));
 
   describe('monitor', function () {
     var jobMonitor, socketStream, stream;

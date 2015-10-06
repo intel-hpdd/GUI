@@ -1,7 +1,5 @@
-describe('alert status', function () {
-  'use strict';
-
-  beforeEach(module('status'));
+describe('alert indicator', function () {
+  beforeEach(module('alertIndicator'));
 
   var socketStream, stream;
 

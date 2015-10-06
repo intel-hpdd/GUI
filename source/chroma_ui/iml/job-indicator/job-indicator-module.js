@@ -19,7 +19,4 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
-  'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
-  'jobIndicator', 'alertIndicator', 'steps-module', 'extendScope', 'highland', 'asValue', 'asStream']);
+angular.module('jobIndicator', ['socket-module', 'iml-popover', 'iml-tooltip', 'extendScope']);

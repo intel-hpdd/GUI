@@ -1,0 +1,33 @@
+.record-state {
+  position: relative;
+
+  margin-right: 10px;
+
+  i {
+    cursor: pointer;
+
+    &.fa-exclamation-circle {
+      color: @brand-danger;
+    }
+
+    &.fa-check-circle {
+      color: @brand-success;
+    }
+  }
+
+  .popover {
+    width: 260px;
+
+    > h3 {
+      text-align: center;
+    }
+
+    accordion ul {
+      padding-left: 10px;
+    }
+  }
+}
+
+.state-label {
+  margin-left: 10px;
+}

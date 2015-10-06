@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-  angular.module('status')
+  angular.module('alertIndicator')
     .factory('alertMonitor',
       function alertMonitorFactory (socketStream) {
         return function alertMonitor () {
@@ -48,7 +48,7 @@
         },
         restrict: 'E',
         replace: true,
-        templateUrl: 'common/status/assets/html/record-state.html',
+        templateUrl: 'iml/alert-indicator/assets/html/alert-indicator.html',
         link: function link (scope) {
           var isOpen = false;
 

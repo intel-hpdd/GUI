@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,11 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-(function () {
-  'use strict';
-
-  angular.module('status')
-    .factory('jobMonitor', ['socketStream',
+  angular.module('jobIndicator')
+    .factory('jobMonitor',
       function jobMonitorFactory (socketStream) {
         return function jobMonitor () {
           var stream = socketStream('/job/', {
@@ -42,15 +39,15 @@
           return s2;
         };
       }
-    ])
-    .directive('jobStatus', ['localApply', function jobStatusDirective (localApply) {
+    )
+    .directive('jobStatus', function jobStatusDirective (localApply) {
       return {
         scope: {
           recordId: '=',
           jobStream: '='
         },
         restrict: 'E',
-        templateUrl: 'common/status/assets/html/job-status.html',
+        templateUrl: 'iml/job-indicator/assets/html/job-indicator.html',
 
         link: function link (scope) {
           var isOpened = false;
@@ -162,5 +159,4 @@
           });
         }
       };
-    }]);
-}());
+    });

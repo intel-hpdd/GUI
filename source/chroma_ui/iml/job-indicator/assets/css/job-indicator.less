@@ -1,4 +1,4 @@
-.job-status, .record-state {
+.job-status {
   position: relative;
 
   i {
@@ -14,6 +14,13 @@
   }
 
   .popover {
+    width: 350px;
+    transform: translate(45%, 0);
+
+    &.bottom > .arrow {
+      left: 5%;
+    }
+
     > h3 {
       text-align: center;
     }
@@ -22,27 +29,4 @@
       padding-left: 10px;
     }
   }
-}
-
-.job-status {
-  .popover {
-    width: 350px;
-    transform: translate(45%, 0);
-
-    &.bottom > .arrow {
-      left: 5%;
-    }
-  }
-}
-
-.record-state {
-  margin-right: 10px;
-
-  .popover {
-    width: 260px;
-  }
-}
-
-.state-label {
-  margin-left: 10px;
 }
