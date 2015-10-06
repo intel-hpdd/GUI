@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2014 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,39 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular
-  .module('statusModule')
-  .controller('StatusParserController', function StatusParserController (inputToQsParser) {
-    var ctrl = this;
-
-    this.submit = function submit () {
-      ctrl.onSubmit({qs: inputToQsParser(ctrl.query)});
-    };
-
-    this.parse = inputToQsParser;
-  })
-  .directive('statusParser', function statusParser () {
-    return {
-      restrict: 'E',
-      require: 'ngModel',
-      bindToController: true,
-      controllerAs: 'ctrl',
-      scope: {
-        onSubmit: '&'
-      },
-      templateUrl: 'iml/status/assets/html/status-parser.html',
-      controller: 'StatusParserController'
-    };
-  })
-  .directive('validateStatusQuery', function validateStatusQuery (inputToQsParser) {
-    return {
-      require: 'ngModel',
-      link: function link (scope, element, attrs, ctrl) {
-        ctrl.$validators.query = function query (modelValue, viewValue) {
-          var result = inputToQsParser(viewValue);
-
-          return !(result instanceof Error);
-        };
-      }
-    };
-  });
+angular.module('status',
+  ['parserModule', 'parselyBox', 'multiStream',
+    'routeStream', 'qsFromLocation',
+    'extendScope', 'action-dropdown-module']);

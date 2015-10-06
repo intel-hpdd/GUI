@@ -21,7 +21,7 @@
 
 
   angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login', 'app', 'hsm', 'about',
-    'statusModule', 'statusQueryRouteModule', 'statusRecordsRouteModule',
+    'status', 'statusQueryRouteModule', 'statusRecordsRouteModule',
     'imlRoutes', 'ngAnimate', 'modal-decorator', 'interceptors'])
     .config(['$compileProvider', function ($compileProvider) {
       $compileProvider.debugInfoEnabled(false);

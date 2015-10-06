@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular
-  .module('statusModule')
+  .module('status')
   .factory('qsToInputParser', function qsToInputParserFactory (getLexer, parsely) {
     var tokenizer = getLexer([
       getLexer.whiteSpace,

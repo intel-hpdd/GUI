@@ -23,7 +23,10 @@ angular.module('statusRecordsRouteModule', [])
   .config(function statusSegment ($routeSegmentProvider) {
     var qs;
 
-    var isStatus = fp.flow(fp.invokeMethod('path', []), fp.eq('/status'));
+    var isStatus = fp.flow(
+      fp.invokeMethod('path', []),
+      RegExp.prototype.test.bind(/^\/status/)
+    );
 
     $routeSegmentProvider
       .within('app')
