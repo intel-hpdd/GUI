@@ -1,9 +1,9 @@
-describe('about route', function () {
+describe('about route', () => {
   'use strict';
 
   var $routeSegmentProvider;
 
-  beforeEach(module(function () {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
@@ -25,17 +25,17 @@ describe('about route', function () {
 
   beforeEach(inject(fp.noop));
 
-  it('should register the about route', function () {
+  it('should register the about route', () => {
     expect($routeSegmentProvider.when)
       .toHaveBeenCalledOnceWith('/about', 'app.about');
   });
 
-  it('should go within app', function () {
+  it('should go within app', () => {
     expect($routeSegmentProvider.within)
       .toHaveBeenCalledOnceWith('app');
   });
 
-  it('should register the segment', function () {
+  it('should register the segment', () => {
     expect($routeSegmentProvider.segment)
       .toHaveBeenCalledOnceWith('about', {
         controller: 'AboutCtrl',

@@ -19,6 +19,8 @@ module.exports = function setConfig (config) {
   var intelJsDir = bound(nodeModulesDir('@intel-js/%s'));
   var angularComponentsDir = bound(intelJsDir('angular-modules/%s'));
 
+  var jsPreProcessors = ['iife-wrap', 'babel'];
+
   config.set({
     // base path, that will be used to resolve files and exclude
     basePath: '',
@@ -87,20 +89,27 @@ module.exports = function setConfig (config) {
     },
 
     plugins: [
-      'karma-jasmine',
-      'karma-junit-reporter',
+      '@intel-js/karma-iife-wrap-preprocessor',
+      'karma-babel-preprocessor',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
-      'karma-safari-launcher',
-      '@intel-js/karma-iife-wrap-preprocessor',
+      'karma-jasmine',
+      'karma-junit-reporter',
       'karma-ng-html2js-preprocessor',
+      'karma-safari-launcher',
       'krusty-jasmine-reporter'
     ],
 
     preprocessors: {
       '**/*.html': ['ng-html2js'],
-      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': ['iife-wrap'],
-      'test/!(matchers|templates)/**/*.js': ['iife-wrap']
+      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': jsPreProcessors,
+      'test/!(matchers|templates)/**/*.js': jsPreProcessors
+    },
+
+    babelPreprocessor: {
+      options: {
+        ignore: /job-fixtures\.js/
+      }
     },
 
     ngHtml2JsPreprocessor: {

@@ -27,6 +27,7 @@
     "patchRateLimit": false,
     "moment": false
   },
+  "esnext": true,
   "bitwise": true,
   "curly": false,
   "eqeqeq": true,
