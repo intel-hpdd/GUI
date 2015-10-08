@@ -25,8 +25,8 @@ angular.module('route-to').directive('routeTo', ['UI_ROOT', function (UI_ROOT) {
 
   return {
     priority: 99, // it needs to run after the attributes are interpolated
-    link: function(scope, element, attr) {
-      attr.$observe('routeTo', function(value) {
+    link: function routeToLink (scope, element, attr) {
+      attr.$observe('routeTo', function routeToObserver (value) {
         attr.$set('href', UI_ROOT + value);
       });
     }

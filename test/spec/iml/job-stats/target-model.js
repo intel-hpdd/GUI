@@ -3,7 +3,7 @@ describe('The target metric model', function () {
 
   var TargetMetricModel, deferred;
 
-  mock.factory(function modelFactory($q) {
+  mock.factory(function modelFactory ($q) {
     deferred = $q.defer();
 
     var baseModel = Object.create({

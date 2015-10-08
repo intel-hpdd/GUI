@@ -30,7 +30,7 @@
    * @param {Object} $document
    * @constructor
    */
-  function PageVisibility($document) {
+  function PageVisibility ($document) {
     var hidden, visibilityChange;
 
     var BASE_VISIBILITY_NAME = 'visibilitychange';
@@ -55,14 +55,14 @@
      * @param {Function} func
      * @returns {Function} A deregistration function to remove the listener.
      */
-    this.onChange = function onChange(func) {
+    this.onChange = function onChange (func) {
       document.addEventListener(visibilityChange, onVisibilityChange);
 
-      return function deregister() {
+      return function deregister () {
         document.removeEventListener(visibilityChange, onVisibilityChange);
       };
 
-      function onVisibilityChange() {
+      function onVisibilityChange () {
         func(document[hidden]);
       }
     };

@@ -23,7 +23,7 @@
 (function () {
   'use strict';
 
-  function AccessDeniedCtrl($scope, message) {
+  function AccessDeniedCtrl ($scope, message) {
     $scope.accessDeniedCtrl = {
       message: message
     };

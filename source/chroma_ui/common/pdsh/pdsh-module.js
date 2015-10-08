@@ -110,7 +110,7 @@
            * on the ngModel.
            * @param {String} pdshExpression
            */
-          parseExpression: function parseExpression(pdshExpression) {
+          parseExpression: function parseExpression (pdshExpression) {
             if (pdshExpression == null)
               return;
 

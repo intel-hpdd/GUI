@@ -24,7 +24,7 @@ angular.module('numberFormatters')
   .factory('formatBytes', function () {
     var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-    return function formatBytes(bytes, precision) {
+    return function formatBytes (bytes, precision) {
       if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '';
       precision = precision || 4;
 

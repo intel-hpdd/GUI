@@ -1,15 +1,15 @@
-describe('pathMaxLength Filter', function() {
+describe('pathMaxLength Filter', function () {
   'use strict';
 
   var pathMaxLengthFilter, cache;
 
   beforeEach(module('filters'));
 
-  beforeEach(inject(function($filter) {
+  beforeEach(inject(function ($filter) {
     pathMaxLengthFilter = $filter('pathMaxLength');
   }));
 
-  beforeEach(inject(function($cacheFactory) {
+  beforeEach(inject(function ($cacheFactory) {
     cache = $cacheFactory.get('pathMaxLength');
   }));
 
@@ -42,31 +42,31 @@ describe('pathMaxLength Filter', function() {
     ]
   };
 
-  Object.keys(testCases).forEach(function(path) {
+  Object.keys(testCases).forEach(function (path) {
 
-    testCases[path].forEach(function(test) {
+    testCases[path].forEach(function (test) {
       var msg = test.msg ? test.msg : 'should change %s to %s'.sprintf(path, test.result),
           cacheKey = test.maxLength + path;
 
 
-      describe('for path ' + path + ' at length ' + test.maxLength, function() {
+      describe('for path ' + path + ' at length ' + test.maxLength, function () {
         var result, cachedResult;
 
-        beforeEach(function() {
+        beforeEach(function () {
           result = pathMaxLengthFilter(path, test.maxLength);
           cachedResult = cache.get(cacheKey);
         });
 
-        it(msg, function() {
+        it(msg, function () {
           expect(result).toEqual(test.result);
         });
 
         if (test.cached) {
-          it('should be cached', function() {
+          it('should be cached', function () {
             expect(cachedResult).toEqual(test.result);
           });
         } else {
-          it('should not be cached', function() {
+          it('should not be cached', function () {
             expect(cachedResult).toBeUndefined();
           });
         }

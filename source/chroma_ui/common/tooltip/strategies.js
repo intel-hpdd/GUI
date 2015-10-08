@@ -26,7 +26,7 @@ angular.module('iml-tooltip').factory('strategies', [function () {
   return function (jqElement, scope, events) {
     var deregisterEvents;
 
-    function applyAnd(func) {
+    function applyAnd (func) {
       return function () { scope.$apply(func); };
     }
 

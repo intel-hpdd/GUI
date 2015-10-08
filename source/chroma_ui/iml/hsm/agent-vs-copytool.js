@@ -31,9 +31,9 @@ angular.module('hsm')
       link: function link (scope, $element) {
         function debounce (func, wait, immediate) {
           var timeout;
-          return function() {
+          return function debounceTick () {
             var context = this, args = arguments;
-            var later = function() {
+            var later = function debounceLater () {
               timeout = null;
               if (!immediate) func.apply(context, args);
             };

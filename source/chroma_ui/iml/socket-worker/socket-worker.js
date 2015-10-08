@@ -33,7 +33,7 @@ angular.module('socket-worker')
           modal = disconnectModal();
       });
 
-      var onReconnect = timedOut(function onReconnected() {
+      var onReconnect = timedOut(function onReconnected () {
         if (modal) {
           modal.close();
           modal = null;

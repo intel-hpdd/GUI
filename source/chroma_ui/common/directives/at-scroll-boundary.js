@@ -30,14 +30,14 @@
  * @name atScrollBoundary
  *
  */
-angular.module('atScrollBoundary').directive('atScrollBoundary', function factory() {
+angular.module('atScrollBoundary').directive('atScrollBoundary', function factory () {
   'use strict';
 
   var BOTTOM = 'bottom';
 
   return {
     restrict: 'A',
-    link: function postLink(scope, el, attrs) {
+    link: function postLink (scope, el, attrs) {
       _.defaults(scope, {scrollDirection: BOTTOM, hitBoundary: false});
 
       var oneHit = scope.$eval(attrs.oneHit);
@@ -45,11 +45,11 @@ angular.module('atScrollBoundary').directive('atScrollBoundary', function factor
 
       //@TODO: Add other directions as needed.
       var directions = {};
-      directions[BOTTOM] = function isAtBottom() {
+      directions[BOTTOM] = function isAtBottom () {
         return unwrappedEl.scrollTop + unwrappedEl.clientHeight >= unwrappedEl.scrollHeight - 20;
       };
 
-      var scrollFunc = scope.$apply.bind(scope, function onScroll() {
+      var scrollFunc = scope.$apply.bind(scope, function onScroll () {
         scope.hitBoundary = (directions[scope.scrollDirection] || angular.identity.bind(null, false))();
 
         if (oneHit && scope.hitBoundary) {
@@ -57,7 +57,7 @@ angular.module('atScrollBoundary').directive('atScrollBoundary', function factor
         }
       });
 
-      function cleanup() {
+      function cleanup () {
         if (unwrappedEl)
           unwrappedEl.removeEventListener('scroll', scrollFunc, true);
 

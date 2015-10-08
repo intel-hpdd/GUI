@@ -30,7 +30,7 @@
       generateChart: function generateChart (nv) {
         return nv.models.lineChart();
       },
-      onUpdate: function onUpdate(chart, data) {
+      onUpdate: function onUpdate (chart, data) {
         if (!Array.isArray(data) || !data[0]) return;
 
         var values = data[0].values;

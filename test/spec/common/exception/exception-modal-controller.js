@@ -38,7 +38,7 @@ describe('Exception modal controller', function () {
     s = highland();
     sendStackTraceToRealTime = jasmine.createSpy('sendStackTraceToRealTime').andReturn(s);
 
-    createController = function createController(deps) {
+    createController = function createController (deps) {
       deps = _.extend({
         $scope: $scope,
         sendStackTraceToRealTime: sendStackTraceToRealTime,
@@ -48,7 +48,7 @@ describe('Exception modal controller', function () {
       $controller('ExceptionModalCtrl', deps);
     };
 
-    getMessage = function getMessage(name) {
+    getMessage = function getMessage (name) {
       return $scope.exceptionModal.messages.filter(function (message) {
         return message.name === name;
       }).pop();

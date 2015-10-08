@@ -27,7 +27,7 @@
     .directive('imlTooltip', ['position', '$timeout', '$$rAF', 'strategies', imlTooltip])
     .directive('helpTooltip', ['help', helpTooltip]);
 
-  function imlTooltip(position, $timeout, $$rAF, strategies) {
+  function imlTooltip (position, $timeout, $$rAF, strategies) {
     return {
       scope: {
         toggle: '=?',
@@ -37,7 +37,7 @@
       transclude: true,
       replace: true,
       templateUrl: 'common/tooltip/assets/html/tooltip.html',
-      link: function link(scope, jqElement) {
+      link: function link (scope, jqElement) {
         var deregister;
 
         var jqPreviousEl = jqElement.prev();
@@ -58,7 +58,7 @@
         directions.splice(directions.indexOf(scope.direction), 1);
         directions.unshift(scope.direction);
 
-        scope.$on('$destroy', function onDestroy() {
+        scope.$on('$destroy', function onDestroy () {
           jqPreviousEl = null;
           deregister();
         });
@@ -94,23 +94,23 @@
           jqElement.css(position.position(scope.direction, positioner));
         }
 
-        function turnThenShow() {
+        function turnThenShow () {
           $timeout(show);
         }
 
-        function show() {
+        function show () {
           setPosition();
 
           angular.element(position.$window).on('resize', throttledResize);
         }
 
-        function hide() {
+        function hide () {
           delete scope.in;
 
           angular.element(position.$window).off('resize', throttledResize);
         }
 
-        var throttledResize = _.throttle(function() {
+        var throttledResize = _.throttle(function onThrottle () {
           if (!jqElement.hasClass('in')) return;
 
           setPosition();
@@ -120,7 +120,7 @@
         /**
          * Sets the position of the tooltip by placing a clone until a match is found.
          */
-        function setPosition() {
+        function setPosition () {
           var clone = jqElement[0].cloneNode(true),
             jqClone = angular.element(clone),
             clonePosition = position.positioner(clone),
@@ -171,7 +171,7 @@
       restrict: 'E',
       replace: true,
       templateUrl: 'common/tooltip/assets/html/help-tooltip.html',
-      link: function link(scope) {
+      link: function link (scope) {
         scope.message = help.get(scope.topic);
 
         if (scope.hasOwnProperty('toggle'))

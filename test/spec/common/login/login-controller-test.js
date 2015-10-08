@@ -42,7 +42,7 @@ describe('Login Controller', function () {
     $httpBackend.whenGET('session/').respond.apply(null, sessionFixture.toArray());
   }));
 
-  afterEach(function() {
+  afterEach(function () {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
@@ -84,7 +84,7 @@ describe('Login Controller', function () {
         backdrop: 'static',
         controller: 'EulaCtrl',
         windowClass: 'eula-modal',
-        resolve: jasmine.argThat(function(arg) {
+        resolve: jasmine.argThat(function (arg) {
           return typeof arg.user === 'function';
         })
       });

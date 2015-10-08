@@ -28,7 +28,7 @@
   function stackedAreaChart (d3, moment, dateTicks, baseChart) {
     var colors = d3.scale.category20c();
 
-    function keyColor(d) { return colors(d.key); }
+    function keyColor (d) { return colors(d.key); }
 
     return baseChart({
       generateChart: function (nv) {
@@ -36,7 +36,7 @@
           .color(keyColor)
           .clipEdge(true);
       },
-      onUpdate: function onUpdate(chart, data) {
+      onUpdate: function onUpdate (chart, data) {
         if (!Array.isArray(data) || !data[0]) return;
 
         var values = data[0].values;

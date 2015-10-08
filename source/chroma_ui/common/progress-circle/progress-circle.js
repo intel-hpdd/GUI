@@ -63,18 +63,18 @@
             .domain(values)
             .range(values);
 
-        function arcTween(a) {
+        function arcTween (a) {
           /*jshint validthis:true */
           var i = d3.interpolate(this.current, a);
           this.current = i(0);
-          return function(t) { return arc(i(t)); };
+          return function getArc (t) { return arc(i(t)); };
         }
 
         /**
          * Updates the progress circle.
          * @param {number} complete
          */
-        function update(complete) {
+        function update (complete) {
           if (complete == null) {
             complete = 0;
           }
@@ -128,7 +128,7 @@
           // Path: enter
           path.enter()
             .append('path')
-            .attr('class', function(d) { return color(d.data.key); })
+            .attr('class', function getColor (d) { return color(d.data.key); })
             .attr('d', arc)
             .each(function (d) { this.current = d; });
         }

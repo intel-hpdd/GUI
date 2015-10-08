@@ -27,11 +27,11 @@
    * The purpose of this filter is to cut down the length of pathnames on the HSM
    * tab to prevent breaking of the table
    */
-  angular.module('filters').filter('pathMaxLength', ['$cacheFactory', function($cacheFactory) {
+  angular.module('filters').filter('pathMaxLength', ['$cacheFactory', function ($cacheFactory) {
 
     var cache = $cacheFactory('pathMaxLength', {number: 1024});
 
-    function splitUp(path) {
+    function splitUp (path) {
       var components = { leadingSlash: '' };
 
       if (path.charAt(0) === '/') {
@@ -45,7 +45,7 @@
       return components;
     }
 
-    function reducePath(pathComponents, maxLength) {
+    function reducePath (pathComponents, maxLength) {
       var path;
       var parts = pathComponents.parts;
       var pointer = Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0) ;
@@ -75,7 +75,7 @@
       return path;
     }
 
-    return function(path, maxLength) {
+    return function filteredItems (path, maxLength) {
 
       if (!_.isString(path) || path.length <= maxLength) {
         return path;

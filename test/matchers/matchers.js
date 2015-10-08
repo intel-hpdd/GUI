@@ -1,23 +1,23 @@
-beforeEach(function() {
+beforeEach(function () {
   'use strict';
 
-  function valueFn(value) {return function() {return value;};}
+  function valueFn(value) {return function () {return value;};}
 
   function cssMatcher(presentClasses, absentClasses) {
-    return function() {
+    return function () {
       var element = angular.element(this.actual);
       var present = true;
       var absent = false;
 
-      angular.forEach(presentClasses.split(' '), function(className) {
+      angular.forEach(presentClasses.split(' '), function (className) {
         present = present && element.hasClass(className);
       });
 
-      angular.forEach(absentClasses.split(' '), function(className) {
+      angular.forEach(absentClasses.split(' '), function (className) {
         absent = absent || element.hasClass(className);
       });
 
-      this.message = function() {
+      this.message = function () {
         return "Expected to have " + presentClasses +
           (absentClasses ? (" and not have " + absentClasses + "") : "") +
           " but had " + element[0].className + ".";
@@ -29,7 +29,7 @@ beforeEach(function() {
   function isNgElementHidden(element) {
     // we need to check element.getAttribute for SVG nodes
     var hidden = true;
-    angular.forEach(angular.element(element), function(element) {
+    angular.forEach(angular.element(element), function (element) {
       if ((' '  + (element.getAttribute('class') || '') + ' ').indexOf(' ng-hide ') === -1) {
         hidden = false;
       }
@@ -52,23 +52,23 @@ beforeEach(function() {
     toBePristine: cssMatcher('ng-pristine', 'ng-dirty'),
     toBeUntouched: cssMatcher('ng-untouched', 'ng-touched'),
     toBeTouched: cssMatcher('ng-touched', 'ng-untouched'),
-    toBeAPromise: function() {
+    toBeAPromise: function () {
       this.message = valueFn(
         "Expected object " + (this.isNot ? "not " : "") + "to be a promise");
       return isPromiseLike(this.actual);
     },
-    toBeShown: function() {
+    toBeShown: function () {
       this.message = valueFn(
         "Expected element " + (this.isNot ? "" : "not ") + "to have 'ng-hide' class");
       return !isNgElementHidden(this.actual);
     },
-    toBeHidden: function() {
+    toBeHidden: function () {
       this.message = valueFn(
         "Expected element " + (this.isNot ? "not " : "") + "to have 'ng-hide' class");
       return isNgElementHidden(this.actual);
     },
 
-    toEqual: function(expected) {
+    toEqual: function (expected) {
       if (this.actual && this.actual.$$log) {
         this.actual = (typeof expected === 'string')
           ? this.actual.toString()
@@ -77,12 +77,12 @@ beforeEach(function() {
       return jasmine.Matchers.prototype.toEqual.call(this, expected);
     },
 
-    toEqualData: function(expected) {
+    toEqualData: function (expected) {
       return angular.equals(this.actual, expected);
     },
 
-    toEqualError: function(message) {
-      this.message = function() {
+    toEqualError: function (message) {
+      this.message = function () {
         var expected;
         if (this.actual.message && this.actual.name == 'Error') {
           expected = angular.toJson(this.actual.message);
@@ -94,8 +94,8 @@ beforeEach(function() {
       return this.actual.name == 'Error' && this.actual.message == message;
     },
 
-    toMatchError: function(messageRegexp) {
-      this.message = function() {
+    toMatchError: function (messageRegexp) {
+      this.message = function () {
         var expected;
         if (this.actual.message && this.actual.name == 'Error') {
           expected = angular.toJson(this.actual.message);
@@ -107,7 +107,7 @@ beforeEach(function() {
       return this.actual.name == 'Error' && messageRegexp.test(this.actual.message);
     },
 
-    toHaveBeenCalledOnce: function() {
+    toHaveBeenCalledOnce: function () {
       if (arguments.length > 0) {
         throw new Error('toHaveBeenCalledOnce does not take arguments, use toHaveBeenCalledWith');
       }
@@ -116,7 +116,7 @@ beforeEach(function() {
         throw new Error('Expected a spy, but got ' + jasmine.pp(this.actual) + '.');
       }
 
-      this.message = function() {
+      this.message = function () {
         var msg = 'Expected spy ' + this.actual.identity + ' to have been called once, but was ',
           count = this.actual.callCount;
         return [
@@ -130,14 +130,14 @@ beforeEach(function() {
     },
 
 
-    toHaveBeenCalledOnceWith: function() {
+    toHaveBeenCalledOnceWith: function () {
       var expectedArgs = jasmine.util.argsToArray(arguments);
 
       if (!jasmine.isSpy(this.actual)) {
         throw new Error('Expected a spy, but got ' + jasmine.pp(this.actual) + '.');
       }
 
-      this.message = function() {
+      this.message = function () {
         if (this.actual.callCount != 1) {
           if (this.actual.callCount === 0) {
             return [
@@ -168,12 +168,12 @@ beforeEach(function() {
     },
 
 
-    toBeOneOf: function() {
+    toBeOneOf: function () {
       return Array.prototype.indexOf.call(arguments, this.actual) !== -1;
     },
 
-    toHaveClass: function(clazz) {
-      this.message = function() {
+    toHaveClass: function (clazz) {
+      this.message = function () {
         return "Expected '" + angular.mock.dump(this.actual) + "'" + (this.isNot ? " not " : "") + " to have class '" + clazz + "'.";
       };
       var classes = clazz.trim().split(/\s+/);
@@ -185,15 +185,15 @@ beforeEach(function() {
       return true;
     },
 
-    toThrowMatching: function(expected) {
+    toThrowMatching: function (expected) {
       return jasmine.Matchers.prototype.toThrow.call(this, expected);
     },
 
-    toThrowMinErr: function(namespace, code, content) {
+    toThrowMinErr: function (namespace, code, content) {
       var result,
         exception,
         exceptionMessage = '',
-        escapeRegexp = function(str) {
+        escapeRegexp = function (str) {
           // This function escapes all special regex characters.
           // We use it to create matching regex from arbitrary strings.
           // http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
@@ -218,7 +218,7 @@ beforeEach(function() {
         exceptionMessage = exception.message || exception;
       }
 
-      this.message = function() {
+      this.message = function () {
         return "Expected function " + not + "to throw " +
           namespace + "MinErr('" + code + "')" +
           (regex ? " matching " + regex.toString() : "") +
@@ -242,7 +242,7 @@ beforeEach(function() {
 // TODO(vojta): remove this once Jasmine in Karma gets updated
 // https://github.com/pivotal/jasmine/blob/c40b64a24c607596fa7488f2a0ddb98d063c872a/src/core/Matchers.js#L217-L246
 // This toThrow supports RegExps.
-jasmine.Matchers.prototype.toThrow = function(expected) {
+jasmine.Matchers.prototype.toThrow = function (expected) {
   var result = false;
   var exception, exceptionMessage;
   if (typeof this.actual != 'function') {
@@ -262,7 +262,7 @@ jasmine.Matchers.prototype.toThrow = function(expected) {
   var not = this.isNot ? "not " : "";
   var regexMatch = jasmine.isA_("RegExp", expected) ? " an exception matching" : "";
 
-  this.message = function() {
+  this.message = function () {
     if (exception) {
       return ["Expected function " + not + "to throw" + regexMatch, expected ? expected.message || expected : "an exception", ", but it threw", exceptionMessage].join(' ');
     } else {
@@ -280,7 +280,7 @@ jasmine.Matchers.prototype.toThrow = function(expected) {
  */
 function spyOnlyCallsWithArgs(obj, method) {
   var spy = spyOn(obj, method);
-  obj[method] = function() {
+  obj[method] = function () {
     if (arguments.length) return spy.apply(this, arguments);
     return spy.originalValue.apply(this);
   };

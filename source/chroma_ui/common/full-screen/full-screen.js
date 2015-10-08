@@ -45,12 +45,12 @@
        </file>
      </example>
    */
-  angular.module('fullScreen').directive('fullScreenBtn', function getDirective() {
+  angular.module('fullScreen').directive('fullScreenBtn', function getDirective () {
     return {
       restrict: 'A',
       templateUrl: 'common/full-screen/assets/html/full-screen-button-text.html',
       require: '^fullScreen',
-      link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {
+      link: function link (scope, wrappedEl, attrs, fullScreenCtrl) {
         scope.fullScreen = {
           open: false,
           text: function () {
@@ -67,13 +67,13 @@
         /**
          * Toggles the fullscreen mode.
          */
-        function toggleFullScreen() {
+        function toggleFullScreen () {
           scope.fullScreen.open = !scope.fullScreen.open;
 
           fullScreenCtrl.fullScreen(scope.fullScreen.open);
         }
 
-        function clickHandler(type) {
+        function clickHandler (type) {
           wrappedEl[type]('click', applyAndToggleFullScreen);
         }
       }
@@ -100,7 +100,7 @@
        </file>
      </example>
    */
-  .directive('fullScreen', function getDirective() {
+  .directive('fullScreen', function getDirective () {
     return {
       restrict: 'C',
       controller: ['$element', '$scope', function FullScreenCtrl ($element, $scope) {
@@ -111,7 +111,7 @@
         /**
          * Restores the body class and kills the reference.
          */
-        $scope.$on('$destroy', function onDestroy() {
+        $scope.$on('$destroy', function onDestroy () {
           listeners.length = 0;
 
           body.removeClass(fullScreenContainerClass);
@@ -142,7 +142,7 @@
          * Removes the func from listeners that are called when the full screen mode changes.
          * @param {Function} func
          */
-        this.removeListener = function removeListener(func) {
+        this.removeListener = function removeListener (func) {
           var index = listeners.indexOf(func);
 
           if (index !== -1) listeners.splice(index, 1);

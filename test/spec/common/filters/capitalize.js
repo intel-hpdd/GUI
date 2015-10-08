@@ -5,7 +5,7 @@ describe('Capitalize Filter', function () {
 
   beforeEach(module('filters'));
 
-  beforeEach(inject(function($filter) {
+  beforeEach(inject(function ($filter) {
     capitalize = $filter('capitalize');
   }));
 
@@ -17,14 +17,14 @@ describe('Capitalize Filter', function () {
     {input: 'BAZ', expected: 'BAZ', expectedAll: 'BAZ'}
   ];
 
-  tests.forEach(function runTest(test) {
-    it(getDescription(test.input, test.expected), function expectFirst() {
+  tests.forEach(function runTest (test) {
+    it(getDescription(test.input, test.expected), function expectFirst () {
       var result = capitalize(test.input);
 
       expect(test.expected).toEqual(result);
     });
 
-    it(getDescription(test.input, test.expected, true), function expectAll() {
+    it(getDescription(test.input, test.expected, true), function expectAll () {
       var result = capitalize(test.input, true);
 
       expect(test.expectedAll).toEqual(result);
@@ -32,7 +32,7 @@ describe('Capitalize Filter', function () {
 
   });
 
-  function getDescription(input, expected, isAll) {
+  function getDescription (input, expected, isAll) {
     var description = 'should convert %s to %s',
     allDescription = description + 'using all';
 

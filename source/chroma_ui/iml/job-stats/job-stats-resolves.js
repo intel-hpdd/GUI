@@ -37,7 +37,7 @@ angular.module('jobStats')
       };
       var metrics = ['read_bytes', 'write_bytes', 'read_iops', 'write_iops'];
 
-      var promises = metrics.reduce(function reducer(out, metric) {
+      var promises = metrics.reduce(function reducer (out, metric) {
 
         var params = obj.merge({}, commonParams, {metrics: metric});
 

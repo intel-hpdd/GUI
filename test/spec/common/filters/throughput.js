@@ -5,7 +5,7 @@ describe('Throughput Filter', function () {
 
   beforeEach(module('filters', 'charts'));
 
-  beforeEach(inject(function($filter) {
+  beforeEach(inject(function ($filter) {
     throughput = $filter('throughput');
   }));
 
@@ -18,8 +18,8 @@ describe('Throughput Filter', function () {
     {input: 'quack', expected: ''}
   ];
 
-  tests.forEach(function runTest(test) {
-    it(getDescription(test.input, test.expected), function expectFormat() {
+  tests.forEach(function runTest (test) {
+    it(getDescription(test.input, test.expected), function expectFormat () {
       var result = throughput(test.input, test.bps);
 
       expect(test.expected).toEqual(result);
@@ -27,7 +27,7 @@ describe('Throughput Filter', function () {
 
   });
 
-  function getDescription(input, expected) {
+  function getDescription (input, expected) {
     var description = 'should convert %s to %s';
 
     return description.sprintf(input, expected);

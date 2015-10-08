@@ -44,7 +44,7 @@ angular.module('jobStats')
      * @returns {Object}
      */
     TargetMetricModel.getJobAverage = function getJobAverage (params) {
-      return TargetMetricModel.query(params).$promise.then(function then(data) {
+      return TargetMetricModel.query(params).$promise.then(function then (data) {
         var jobs = _.pluck(data, 'data');
 
         var sums = jobs.reduce(function (out, obj) {

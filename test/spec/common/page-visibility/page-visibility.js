@@ -7,7 +7,7 @@ describe('The Page visibility service', function () {
 
   beforeEach(module('pageVisibility'));
 
-  mock.factory(function $document() {
+  mock.factory(function $document () {
     return [{
       addEventListener: jasmine.createSpy('document.addEventListener'),
       removeEventListener: jasmine.createSpy('document.removeEventListener')

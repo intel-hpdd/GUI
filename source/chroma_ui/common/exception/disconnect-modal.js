@@ -39,7 +39,7 @@
       windowClass: 'disconnect-modal'
     };
 
-    return function open(opts) {
+    return function open (opts) {
       if (windowUnload.unloading)
         return null;
 

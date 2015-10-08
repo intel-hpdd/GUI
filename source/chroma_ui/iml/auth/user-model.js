@@ -37,7 +37,7 @@ angular.module('auth')
       params: { id: '@id' }
     });
 
-    UserModel.prototype.actOnEulaState = function actOnEulaState(showFunc, denyFunc, passFunc) {
+    UserModel.prototype.actOnEulaState = function actOnEulaState (showFunc, denyFunc, passFunc) {
       passFunc = passFunc || angular.noop;
 
       var result;

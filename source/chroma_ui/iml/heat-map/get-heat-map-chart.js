@@ -28,7 +28,7 @@ angular.module('heatMap')
 function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
   'use strict';
 
-  return function getChart() {
+  return function getChart () {
     var margin = {
       top: 0,
       right: 0,

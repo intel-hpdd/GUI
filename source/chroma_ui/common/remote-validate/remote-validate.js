@@ -23,7 +23,7 @@
 (function () {
   'use strict';
 
-  function remoteValidateFormFactory() {
+  function remoteValidateFormFactory () {
     return {
       restrict: 'A',
       scope: true,
@@ -85,8 +85,8 @@
          * @param {Function} [func]
          * @returns {Function}
          */
-        function callbackBuilder(func) {
-          return function callback(resp) {
+        function callbackBuilder (func) {
+          return function callback (resp) {
             formController.resetComponentsValidity();
 
             (func || angular.noop)(resp);
@@ -105,7 +105,7 @@
          * called when a remote request fails.
          * @type {Function}
          */
-        var errback = callbackBuilder(function errbackCallback(resp) {
+        var errback = callbackBuilder(function errbackCallback (resp) {
           _(resp.data).forEach(function (errorList, field) {
             var component = formController.getComponent(field);
 
@@ -120,7 +120,7 @@
           });
         });
 
-        var deregisterWatch = scope.$watch(attrs.validate, function validateWatcher(newValidate, oldValidate) {
+        var deregisterWatch = scope.$watch(attrs.validate, function validateWatcher (newValidate, oldValidate) {
           if (newValidate === oldValidate) return;
 
           newValidate.then(success, errback);
@@ -134,7 +134,7 @@
     };
   }
 
-  function remoteValidateComponentFactory() {
+  function remoteValidateComponentFactory () {
     return {
       require: ['^remoteValidateForm', 'ngModel'],
       restrict: 'A',

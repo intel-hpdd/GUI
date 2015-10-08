@@ -1,4 +1,4 @@
-describe('server', function() {
+describe('server', function () {
   'use strict';
 
   var $scope, pdshParser, pdshFilter, naturalSortFilter,
@@ -103,7 +103,7 @@ describe('server', function() {
   };
 
   Object.keys(expectedProperties).forEach(function verifyScopeValue (key) {
-    describe('test initial values', function() {
+    describe('test initial values', function () {
       it('should have a ' + key + ' value of ' + expectedProperties[key], function () {
         expect(server[key]).toEqual(expectedProperties[key]);
       });

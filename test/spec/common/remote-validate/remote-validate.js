@@ -3,7 +3,7 @@ describe('Remote validate directive', function () {
 
   var controller, formControllerSpy, $q, remoteValidateFormService, $scope, $element;
 
-  function createComponent(name) {
+  function createComponent (name) {
     return jasmine.createSpyObj(name, ['$setValidity']);
   }
 

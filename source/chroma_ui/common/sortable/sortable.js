@@ -147,7 +147,7 @@ angular.module('sortable', []).directive('sorter', [function () {
         wrappedEl = null;
       });
 
-      function dragStart(event) {
+      function dragStart (event) {
         sortContainerCtrl.dragStart();
 
         var index = [].indexOf.call(event.target.parentNode.children, event.target);

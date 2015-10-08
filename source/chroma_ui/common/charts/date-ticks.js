@@ -35,7 +35,7 @@ angular.module('charts').factory('dateTicks', ['d3', 'moment', function (d3, mom
      * @param {Object|Array} range If an Array converts into a twix range.
      * @returns {Function}
      */
-    getTickFormatFunc: function getTickFormatFunc(range) {
+    getTickFormatFunc: function getTickFormatFunc (range) {
       if (Array.isArray(range))
         range = moment(range[0]).twix(range[1]);
 

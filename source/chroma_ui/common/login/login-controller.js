@@ -27,13 +27,13 @@
     ['$modal', '$q', 'SessionModel', 'help', 'navigate', 'ALLOW_ANONYMOUS_READ', LoginCtrl]
   );
 
-  function LoginCtrl($modal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
+  function LoginCtrl ($modal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
     /**
      * Initializes the eula modal and opens it.
      * @param {UserModel} user
      * @returns {Object} A promise that is resolved when the modal closes.
      */
-    function initializeEulaDialog(user) {
+    function initializeEulaDialog (user) {
       return $modal.open({
         templateUrl: 'common/login/assets/html/eula.html',
         controller: 'EulaCtrl',
@@ -50,7 +50,7 @@
      * Initializes the denied dialog and opens it.
      * @returns {Object} A promise that is resolved when the dialog closes.
      */
-    var initializeDeniedDialog = function() {
+    var initializeDeniedDialog = function initializeDeniedLoginFn () {
       return $modal.open({
         templateUrl: 'common/access-denied/assets/html/access-denied.html',
         controller: 'AccessDeniedCtrl',
@@ -65,7 +65,7 @@
     /**
      * Submits the login, calling nextStep if successful.
      */
-    this.submitLogin = function submitLogin() {
+    this.submitLogin = function submitLogin () {
       this.inProgress = true;
 
       this.validate = SessionModel.login(this.username, this.password).$promise
@@ -88,7 +88,7 @@
 
     this.goToIndex = goToIndex;
 
-    function goToIndex() {
+    function goToIndex () {
       navigate();
     }
   }

@@ -21,7 +21,7 @@
 
 
 angular.module('hsm')
-  .controller('HsmCtrl', function HsmCtrl($scope, openAddCopytoolModal,
+  .controller('HsmCtrl', function HsmCtrl ($scope, openAddCopytoolModal,
                    copytoolStream, copytoolOperationStream,
                    getAgentVsCopytoolStream) {
 

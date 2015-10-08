@@ -32,14 +32,14 @@
    * @param {String} SERVER_TIME_DIFF
    * @returns {Function}
    */
-  function getServerMomentFactory(moment, SERVER_TIME_DIFF) {
+  function getServerMomentFactory (moment, SERVER_TIME_DIFF) {
     /**
      * Creates a new moment with forwarded arguments.
      * The moment is then updated with SERVER_TIME_DIFF
      * and returned.
      * @returns {Object}
      */
-    return function getServerMoment() {
+    return function getServerMoment () {
       return moment
         .apply(moment, arguments)
         .add(SERVER_TIME_DIFF);

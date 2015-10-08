@@ -59,7 +59,7 @@
    * @param {string} name
    * @param {function} setup
    */
-  Mock.prototype.register = function(name, setup) {
+  Mock.prototype.register = function (name, setup) {
     if (name === Object(name))
       this.mocks[name.name] = name;
     else
@@ -90,7 +90,7 @@
    * Looks up the provided argument names and loads them as factories in a beforeEach block.
    * Call this after loading modules.
    */
-  Mock.prototype.beforeEach = function() {
+  Mock.prototype.beforeEach = function () {
     var self = this;
     var args = Array.prototype.slice.call(arguments, 0);
 

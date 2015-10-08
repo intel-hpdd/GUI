@@ -23,13 +23,13 @@
 (function () {
   'use strict';
 
-  function EulaCtrl($scope, $modalInstance, help, user) {
+  function EulaCtrl ($scope, $modalInstance, help, user) {
     /**
      * Wrapper function that creates an action for EULA buttons.
      * @param {boolean} state
      * @returns {Function}
      */
-    function createAction(state) {
+    function createAction (state) {
       var action = state ? 'close' : 'dismiss';
 
       return function () {

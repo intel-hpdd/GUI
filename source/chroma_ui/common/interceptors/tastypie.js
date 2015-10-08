@@ -24,7 +24,7 @@
   'use strict';
 
   angular.module('interceptors')
-    .factory('tastypieInterceptor', [function tastypieInterceptor() {
+    .factory('tastypieInterceptor', [function tastypieInterceptor () {
       return {
         /**
          * A Factory function that intercepts successful http responses

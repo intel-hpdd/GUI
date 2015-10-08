@@ -54,7 +54,7 @@ describe('The notification slider', function () {
     });
 
     it('should queue the close', function () {
-      function toThrow() {
+      function toThrow () {
         $timeout.verifyNoPendingTasks();
       }
 

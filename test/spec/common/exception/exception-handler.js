@@ -3,7 +3,7 @@ describe('exception handler', function () {
 
   var oldExceptionHandler;
 
-  beforeEach(module(function($exceptionHandlerProvider) {
+  beforeEach(module(function ($exceptionHandlerProvider) {
     $exceptionHandlerProvider.mode('log');
 
     oldExceptionHandler = $exceptionHandlerProvider.$get();

@@ -5,7 +5,7 @@ describe('Round filter', function () {
 
   beforeEach(module('filters'));
 
-  beforeEach(inject(function($filter) {
+  beforeEach(inject(function ($filter) {
     round = $filter('round');
   }));
 
@@ -22,15 +22,15 @@ describe('Round filter', function () {
     {input: 'foo', places: 5, expected: 'foo'}
   ];
 
-  tests.forEach(function runTest(test) {
-    it(getDescription(test.input, test.expected), function expectFormat() {
+  tests.forEach(function runTest (test) {
+    it(getDescription(test.input, test.expected), function expectFormat () {
       var result = round(test.input, test.places);
 
       expect(test.expected).toEqual(result);
     });
   });
 
-  function getDescription(input, expected) {
+  function getDescription (input, expected) {
     var description = 'should convert %s to %s';
 
     return description.sprintf(input, expected);

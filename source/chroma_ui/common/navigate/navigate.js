@@ -27,7 +27,7 @@ angular.module('navigate', []).factory('navigate', ['$window', 'UI_ROOT', functi
    * Does a server side navigation to the concatenation of UI_ROOT and part
    * @param {string} part The location after UI_ROOT to navigate to.
    */
-  return function navigate(part) {
+  return function navigate (part) {
     if (part == null) part = '';
 
     $window.location.href = UI_ROOT + part;

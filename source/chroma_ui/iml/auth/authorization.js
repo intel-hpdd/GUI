@@ -25,15 +25,15 @@
 
   angular.module('auth').service('authorization', ['CACHE_INITIAL_DATA', Authorization]);
 
-  function Authorization(CACHE_INITIAL_DATA) {
+  function Authorization (CACHE_INITIAL_DATA) {
     var session = CACHE_INITIAL_DATA.session;
 
     this.readEnabled = session.read_enabled;
 
-    this.groupAllowed = function groupAllowed(groupName) {
+    this.groupAllowed = function groupAllowed (groupName) {
       var hasGroups = session.user && Array.isArray(session.user.groups);
 
-      return hasGroups && session.user.groups.some(function some(group) {
+      return hasGroups && session.user.groups.some(function some (group) {
         //Superusers can do everything.
         if (group.name === GROUPS.SUPERUSERS) return true;
 

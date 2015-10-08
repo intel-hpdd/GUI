@@ -35,7 +35,7 @@ angular.module('modelFactory').provider('modelFactory', function () {
        * @returns {$resource}
        * @constructor
        */
-      return function getModel(config) {
+      return function getModel (config) {
         var defaults = {
           actions: {
             get: { method: 'GET' },
@@ -74,7 +74,7 @@ angular.module('modelFactory').provider('modelFactory', function () {
 
         return Resource;
 
-        function addSubTypes(subTypes, resource) {
+        function addSubTypes (subTypes, resource) {
           _(subTypes || {}).forEach(function (SubType, name) {
             if (!resource.hasOwnProperty(name)) return;
 

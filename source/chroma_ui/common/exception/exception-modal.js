@@ -55,7 +55,7 @@
       windowClass: 'exception-modal'
     };
 
-    return function open(opts) {
+    return function open (opts) {
       var options = _.merge(defaultOptions, opts);
 
       return $modal.open(options);

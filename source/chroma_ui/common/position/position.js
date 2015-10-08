@@ -27,7 +27,7 @@
    * Helper class, responsible for positioning.
    * @constructor
    */
-  function Position($window) {
+  function Position ($window) {
     this.$window = $window;
 
     this.DIRECTIONS = {
@@ -121,7 +121,7 @@
     return this.defaults[direction].overflows(windowPositioner, tooltipPositioner);
   };
 
-  function positionerFactory(positionFinder, DIRECTIONS) {
+  function positionerFactory (positionFinder, DIRECTIONS) {
     var props = _.values(DIRECTIONS).concat('height', 'width');
 
     var propertiesObject = props.reduce(function (obj, prop) {
@@ -138,7 +138,7 @@
     return Object.create(Object.prototype, propertiesObject);
   }
 
-  function asCalc(dimension) {
+  function asCalc (dimension) {
     var prefix = new RegExp('AppleWebKit/').test(navigator.userAgent) ? '-webkit-' : '';
     return '%scalc(50%% - %spx)'.sprintf(prefix, dimension);
   }

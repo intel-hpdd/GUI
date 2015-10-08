@@ -17,7 +17,7 @@ describe('get template promise', function () {
       .then(spy);
   }));
 
-  afterEach(function() {
+  afterEach(function () {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });

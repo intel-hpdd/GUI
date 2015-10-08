@@ -35,7 +35,7 @@
        * @param {Object} exception
        * @param {String} cause
        */
-      return function handleException(exception, cause) {
+      return function handleException (exception, cause) {
         //Always hit the delegate.
         $delegate(exception, cause);
 
@@ -59,7 +59,7 @@
         });
       };
 
-      function get(serviceName) {
+      function get (serviceName) {
         return cache[serviceName] || (cache[serviceName] = $injector.get(serviceName));
       }
     }]);

@@ -30,7 +30,7 @@ angular.module('filters').filter('paginate', [function paginate () {
    * @param {Number} itemsPerPage
    * @returns {Array}
    */
-  return function paginateFilter(input, currentPage, itemsPerPage) {
+  return function paginateFilter (input, currentPage, itemsPerPage) {
     var startingItem = itemsPerPage * currentPage;
     var endingItem = startingItem + itemsPerPage - 1;
 

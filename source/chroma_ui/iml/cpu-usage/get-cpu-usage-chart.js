@@ -75,7 +75,7 @@ angular.module('cpuUsageModule')
             this.stream.destroy();
           },
           options: {
-            setup: function(d3Chart, d3) {
+            setup: function setup (d3Chart, d3) {
               d3Chart.useInteractiveGuideline(true);
 
               d3Chart.forceY([0, 1]);

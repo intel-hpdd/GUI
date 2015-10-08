@@ -23,7 +23,7 @@
 angular.module('jobStats')
 .controller('JobStatsCtrl', ['$routeSegment', 'metrics', 'target', JobStatsCtrl]);
 
-function JobStatsCtrl($routeSegment, metrics, target) {
+function JobStatsCtrl ($routeSegment, metrics, target) {
   'use strict';
 
   var jobStatsCtrl = this;

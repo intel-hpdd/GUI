@@ -73,7 +73,7 @@ describe('job indicator', function () {
     }));
 
     describe('toggling', function () {
-      beforeEach(function() {
+      beforeEach(function () {
         var response = [
           {
             read_locks: [],

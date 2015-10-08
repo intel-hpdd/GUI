@@ -52,7 +52,7 @@ beforeEach(module('fixtures'));
 
   window.flushD3Transitions = function flushD3Transitions () {
     var now = Date.now;
-    Date.now = function() { return Infinity; };
+    Date.now = function () { return Infinity; };
     window.d3.timer.flush();
     Date.now = now;
   };

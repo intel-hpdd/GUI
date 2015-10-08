@@ -71,7 +71,7 @@ angular.module('filters').filter('pdsh', [function pdsh () {
    * @param {Boolean} fuzzy
    * @returns {Function}
    */
-  function filterCurrentItemByHostNameList(item, fuzzy) {
+  function filterCurrentItemByHostNameList (item, fuzzy) {
 
     /**
      * Filters on the current item by the host name list

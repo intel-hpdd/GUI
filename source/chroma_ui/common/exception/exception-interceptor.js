@@ -31,9 +31,9 @@
    * @param {object} $q
    * @returns {{requestError: function, responseError: function}}
    */
-  function exceptionInterceptor($exceptionHandler, $q) {
+  function exceptionInterceptor ($exceptionHandler, $q) {
     return {
-      requestError: function requestError(rejection) {
+      requestError: function requestError (rejection) {
         var args = [];
 
         if (rejection instanceof Error) {
@@ -50,7 +50,7 @@
 
         $exceptionHandler.apply($exceptionHandler, args);
       },
-      responseError: function responseError(response) {
+      responseError: function responseError (response) {
         var rejected = $q.reject(response);
 
         //400s and 403s do not trigger the modal. It is the responsibility of the base model to handle them.

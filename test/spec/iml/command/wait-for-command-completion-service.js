@@ -125,11 +125,11 @@ describe('wait-for-command-completion-service', function () {
       });
 
       it('should destroy the command stream', function () {
-        waitsFor(function() {
+        waitsFor(function () {
           return getCommandStream.plan().destroy.callCount > 0;
         }, 'Destroy should be called', 750);
 
-        runs(function() {
+        runs(function () {
           expect(getCommandStream.plan().destroy).toHaveBeenCalledOnce();
         });
       });
