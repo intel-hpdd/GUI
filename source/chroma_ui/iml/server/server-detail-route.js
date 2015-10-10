@@ -24,13 +24,14 @@ angular.module('serverDetailRoute')
     $routeSegmentProvider
       .when('/configure/server/:id', 'app.serverDetail')
       .within('app')
-      .segmentAuthenticated('serverDetail', {
+      .segment('serverDetail', {
         controller: 'ServerDetailController',
         controllerAs: 'serverDetail',
         templateUrl: 'iml/server/assets/html/server-detail.html',
         resolve: {
           streams: ['serverDetailResolves', fp.invoke(fp.__, [])]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         access: GROUPS.FS_ADMINS
       });
   });

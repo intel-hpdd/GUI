@@ -24,7 +24,7 @@ angular.module('hsmFsRoute')
     $routeSegmentProvider
       .when('/configure/hsm/:fsId?', 'app.hsmFs.hsm')
       .within('app')
-      .segmentAuthenticated('hsmFs', {
+      .segment('hsmFs', {
         controller: 'HsmFsCtrl',
         controllerAs: 'hsmFs',
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
@@ -33,6 +33,7 @@ angular.module('hsmFsRoute')
           fsStream: ['fsCollStream', fp.invoke(fp.__, [])],
           copytoolStream: ['copytoolStream', fp.invoke(fp.__, [])]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

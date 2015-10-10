@@ -7,7 +7,7 @@ describe('server detail route', function () {
       $get: function get () {},
       when: jasmine.createSpy('$routeSegmentProvider.when'),
       within: jasmine.createSpy('$routeSegmentProvider.within'),
-      segmentAuthenticated: jasmine.createSpy('$routeSegmentProvider.segmentAuthenticated')
+      segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
     $routeSegmentProvider.when.andReturn($routeSegmentProvider);
@@ -30,14 +30,15 @@ describe('server detail route', function () {
     expect($routeSegmentProvider.within).toHaveBeenCalledOnceWith('app');
   });
 
-  it('should call segmentAuthenticated', function () {
-    expect($routeSegmentProvider.segmentAuthenticated).toHaveBeenCalledOnceWith('serverDetail', {
+  it('should call segment', function () {
+    expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('serverDetail', {
       controller: 'ServerDetailController',
       controllerAs: 'serverDetail',
       templateUrl: 'iml/server/assets/html/server-detail.html',
       resolve: {
         streams: ['serverDetailResolves', jasmine.any(Function)]
       },
+      middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
       access: GROUPS.FS_ADMINS
     });
   });

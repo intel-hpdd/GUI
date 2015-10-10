@@ -1,5 +1,4 @@
 describe('server route', function () {
-  'use strict';
 
   var $routeSegmentProvider, GROUPS;
 
@@ -8,7 +7,7 @@ describe('server route', function () {
       $get: function get () {},
       when: jasmine.createSpy('$routeSegmentProvider.when'),
       within: jasmine.createSpy('$routeSegmentProvider.within'),
-      segmentAuthenticated: jasmine.createSpy('$routeSegmentProvider.segmentAuthenticated')
+      segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
     $routeSegmentProvider.when.andReturn($routeSegmentProvider);
@@ -38,12 +37,13 @@ describe('server route', function () {
 
   describe('segment', function () {
     it('should setup the dashboard target segment', function () {
-      expect($routeSegmentProvider.segmentAuthenticated).toHaveBeenCalledOnceWith('server', {
+      expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('server', {
         controller: 'ServerCtrl',
         templateUrl: 'iml/server/assets/html/server.html',
         resolve: {
           streams: ['serverStreamsResolves', jasmine.any(Function)]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         },

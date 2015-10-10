@@ -24,12 +24,13 @@ angular.module('serverRoute')
     $routeSegmentProvider
       .when('/configure/server', 'app.server')
       .within('app')
-      .segmentAuthenticated('server', {
+      .segment('server', {
         controller: 'ServerCtrl',
         templateUrl: 'iml/server/assets/html/server.html',
         resolve: {
           streams: ['serverStreamsResolves', fp.invoke(fp.__, [])]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         },

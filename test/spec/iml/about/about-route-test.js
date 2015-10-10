@@ -1,5 +1,4 @@
 describe('about route', () => {
-  'use strict';
 
   var $routeSegmentProvider;
 
@@ -40,6 +39,7 @@ describe('about route', () => {
       .toHaveBeenCalledOnceWith('about', {
         controller: 'AboutCtrl',
         controllerAs: 'about',
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         templateUrl: 'iml/about/assets/html/about.html'
       });
   });

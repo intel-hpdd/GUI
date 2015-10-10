@@ -27,6 +27,7 @@ angular.module('statusQueryRouteModule', [])
       .segment('statusQuery', {
         controller: 'StatusQueryController',
         controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status-container.html'
+        templateUrl: 'iml/status/assets/html/status-container.html',
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware']
       });
   });

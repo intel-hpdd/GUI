@@ -32,6 +32,7 @@ angular.module('dashboardRoute')
           hostStream: ['dashboardHostStream', fp.invoke(fp.__, [])],
           targetStream: ['dashboardTargetStream', fp.invoke(fp.__, [])]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

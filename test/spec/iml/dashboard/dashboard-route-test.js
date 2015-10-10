@@ -35,6 +35,7 @@ describe('dashboard route', function () {
           hostStream: ['dashboardHostStream', jasmine.any(Function)],
           targetStream: ['dashboardTargetStream', jasmine.any(Function)]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

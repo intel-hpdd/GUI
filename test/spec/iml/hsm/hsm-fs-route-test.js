@@ -7,7 +7,7 @@ describe('hsm fs route', function () {
       $get: function get () {},
       within: jasmine.createSpy('$routeSegmentProvider.within'),
       when: jasmine.createSpy('$routeSegmentProvider.when'),
-      segmentAuthenticated: jasmine.createSpy('$routeSegmentProvider.segment')
+      segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
     $routeSegmentProvider.within.andReturn($routeSegmentProvider);
@@ -35,9 +35,9 @@ describe('hsm fs route', function () {
     });
   });
 
-  describe('segmentAuthenticated', function () {
+  describe('segment', function () {
     it('should setup the hsm segment', function () {
-      expect($routeSegmentProvider.segmentAuthenticated).toHaveBeenCalledOnceWith('hsmFs', {
+      expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('hsmFs', {
         controller: 'HsmFsCtrl',
         controllerAs: 'hsmFs',
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
@@ -46,6 +46,7 @@ describe('hsm fs route', function () {
           fsStream: ['fsCollStream', jasmine.any(Function)],
           copytoolStream: ['copytoolStream', jasmine.any(Function)]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

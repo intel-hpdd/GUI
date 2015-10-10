@@ -19,23 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('jobStatsRoute')
-  .config(function appSegment ($routeSegmentProvider) {
-    $routeSegmentProvider
-      .when('/dashboard/jobstats/:id/:startDate/:endDate', 'app.jobstats')
-      .within('app')
-      .segment('jobstats', {
-        controller: 'JobStatsCtrl',
-        controllerAs: 'jobStats',
-        templateUrl: 'iml/job-stats/assets/html/job-stats.html',
-        resolve: {
-          target: ['appJobstatsTarget', fp.invoke(fp.__, [])],
-          metrics: ['appJobstatsMetrics', fp.invoke(fp.__, [])]
-        },
-        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
-        untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
-        }
-      });
-  });
+angular.module('middleware').factory('processMiddleware', function ProcessMiddlewareFactory ($location, $q, $injector) {
+    return function processMiddleware (middleware) {
+      if (!middleware) return $q.when();
 
+      var getInjector = fp.invokeMethod('get', fp.__, $injector);
+      var items = fp.map(fp.flow(fp.arrayWrap, getInjector), middleware);
+
+      var promiseChain = items.reduce(function reducer (promise, curr) {
+        return promise.then(curr);
+      }, $q.when());
+
+      return promiseChain.catch(function onMiddlewareFailed (targetPath) {
+        $location.path(targetPath);
+        return $q.reject();
+      });
+    };
+  });

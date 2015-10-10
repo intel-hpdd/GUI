@@ -19,23 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('jobStatsRoute')
-  .config(function appSegment ($routeSegmentProvider) {
-    $routeSegmentProvider
-      .when('/dashboard/jobstats/:id/:startDate/:endDate', 'app.jobstats')
-      .within('app')
-      .segment('jobstats', {
-        controller: 'JobStatsCtrl',
-        controllerAs: 'jobStats',
-        templateUrl: 'iml/job-stats/assets/html/job-stats.html',
-        resolve: {
-          target: ['appJobstatsTarget', fp.invoke(fp.__, [])],
-          metrics: ['appJobstatsMetrics', fp.invoke(fp.__, [])]
-        },
-        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
-        untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
-        }
-      });
-  });
+angular.module('middleware')
+  .factory('eulaStateMiddleware', function eulaStateMiddlewareFactory (CACHE_INITIAL_DATA, $q) {
+      return function checkEulaState () {
+        var session = CACHE_INITIAL_DATA.session;
 
+        if (!session.user || session.user.eula_state === 'pass')
+          return $q.when();
+
+        return $q.reject('/login');
+      };
+    });

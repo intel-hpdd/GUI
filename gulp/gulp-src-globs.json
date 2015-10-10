@@ -18,7 +18,7 @@
       "source/chroma_ui/bower_components*/twix/bin/twix.js",
       "source/chroma_ui/bower_components*/d3/d3.js",
       "source/chroma_ui/bower_components*/nvd3/build/nv.d3.js",
-      "node_modules*/angular-route-segment-chum/build/angular-route-segment.js",
+      "node_modules/@intel-js*/angular-route-segment/build/angular-route-segment.js",
       "source/chroma_ui/bower_components*/angular-bootstrap/ui-bootstrap-tpls.js",
       "source/chroma_ui/iml*/environment.js",
       "source/chroma_ui/iml*/help.js",

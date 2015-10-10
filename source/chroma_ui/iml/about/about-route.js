@@ -27,6 +27,7 @@ angular.module('about')
       .segment('about', {
         controller: 'AboutCtrl',
         controllerAs: 'about',
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         templateUrl: 'iml/about/assets/html/about.html'
       });
   });

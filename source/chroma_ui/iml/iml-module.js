@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,11 +20,12 @@
 // express and approved by Intel in writing.
 
 
-  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'imlRouterModule', 'login', 'app',
-    'appRouteModule', 'dashboard', 'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
-    'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute', 'server', 'serverRoute', 'serverDetailRoute',
-    'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute', 'about', 'ngAnimate',
-    'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule', 'statusRecordsRouteModule'])
+  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'route-to', 'route-segment',
+    'view-segment', 'middleware', 'login', 'app', 'appRouteModule', 'dashboard', 'dashboardRoute', 'baseDashboard',
+    'baseDashboardRoute', 'serverDashboard', 'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute',
+    'server', 'serverRoute', 'serverDetailRoute', 'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute',
+    'about', 'ngAnimate', 'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule',
+    'statusRecordsRouteModule'])
     .config(['$compileProvider', function ($compileProvider) {
       $compileProvider.debugInfoEnabled(false);
     }])
@@ -40,4 +41,9 @@
     }])
     .config(['$animateProvider', function ($animateProvider) {
       $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+    }])
+    .config(['$routeSegmentProvider', function ($routeSegmentProvider) {
+      $routeSegmentProvider.options.autoLoadTemplates = true;
+      $routeSegmentProvider.options.strictMode = true;
+      $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
     }]);

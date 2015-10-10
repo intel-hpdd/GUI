@@ -43,6 +43,7 @@ describe('job stats route', function () {
           target: ['appJobstatsTarget', jasmine.any(Function)],
           metrics: ['appJobstatsMetrics', jasmine.any(Function)]
         },
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

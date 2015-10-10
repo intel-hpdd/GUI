@@ -35,7 +35,8 @@ describe('status query route', function () {
       .toHaveBeenCalledOnceWith('statusQuery', {
         controller: 'StatusQueryController',
         controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status-container.html'
+        templateUrl: 'iml/status/assets/html/status-container.html',
+        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware']
       });
   });
 });
