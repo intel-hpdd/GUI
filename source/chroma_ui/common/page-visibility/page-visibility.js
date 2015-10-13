@@ -19,4 +19,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('pageVisibility', []);
+angular.module('pageVisibility')
+  .factory('pageVisibility', ($document) => {
+    const document = $document[0];
+
+    return function onChange (onHide, onShow) {
+      document.addEventListener('visibilitychange', onVisibilityChange);
+
+      return document.removeEventListener.bind(document, 'visibilitychange', onVisibilityChange);
+
+      function onVisibilityChange () {
+        if (document.hidden)
+          onHide();
+        else
+          onShow();
+      }
+    };
+  });
+
