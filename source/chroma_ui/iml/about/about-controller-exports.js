@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,9 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+export function AboutCtrl (ENV, help) {
+  'ngInject';
 
-(function () {
-  'use strict';
-
-  angular.module('nv', []).value('nv', window.nv);
-}());
+  angular.extend(this, {
+    IS_RELEASE: ENV.IS_RELEASE,
+    VERSION: ENV.VERSION,
+    BUILD: ENV.BUILD,
+    COPYRIGHT_YEAR: help.get('copyright_year')
+  });
+}

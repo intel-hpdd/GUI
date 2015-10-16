@@ -19,7 +19,7 @@ module.exports = function setConfig (config) {
   var intelJsDir = bound(nodeModulesDir('@intel-js/%s'));
   var angularComponentsDir = bound(intelJsDir('angular-modules/%s'));
 
-  var jsPreProcessors = ['iife-wrap', 'babel'];
+  var jsPreProcessors = ['babel'];
 
   config.set({
     // base path, that will be used to resolve files and exclude
@@ -47,9 +47,11 @@ module.exports = function setConfig (config) {
       intelJsDir('fp/index.js'),
       intelJsDir('lodash-mixins/index.js'),
       vendorDir('**/*.js'),
+      commonDir('**/*-exports.js'),
       commonDir('**/*-module.js'),
       commonDir('**/*.js'),
       commonDir('**/*.html'),
+      imlDir('**/*-exports.js'),
       imlDir('**/*-module.js'),
       intelJsDir('extract-api/index.js'),
       testDir('iml-module.js'),
@@ -88,7 +90,6 @@ module.exports = function setConfig (config) {
     },
 
     plugins: [
-      '@intel-js/karma-iife-wrap-preprocessor',
       'karma-babel-preprocessor',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
@@ -107,7 +108,8 @@ module.exports = function setConfig (config) {
 
     babelPreprocessor: {
       options: {
-        ignore: /job-fixtures\.js/
+        ignore: /job-fixtures\.js|bower_components|vendor/,
+        modules: 'umd'
       }
     },
 

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular.module('socket-worker')
-  .value('EventEmitter', Object.getPrototypeOf(Object.getPrototypeOf(highland())).constructor)
+  .value('EventEmitter', Object.getPrototypeOf(Object.getPrototypeOf(window.highland())).constructor)
   .factory('getEventSocket', ['socketWorker', 'getRandomValue', 'EventEmitter',
     function getEventSocketFactory (socketWorker, getRandomValue, EventEmitter) {
       'use strict';

@@ -17,7 +17,6 @@ var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
-var iifeWrap = require('@intel-js/gulp-iife-wrap');
 var ngAnnotate = require('gulp-ng-annotate');
 var clone = require('gulp-clone');
 var glob2base = require('glob2base');
@@ -33,7 +32,7 @@ var cleancss = new LessPluginCleanCSS({ advanced: true });
 
 var outputDir = process.argv
   .filter(function getDestOption (x) {
-    return x.indexOf('--dest-dir=') === 0
+    return x.indexOf('--dest-dir=') === 0;
   })
   .map(function getDestDir (x) {
     return x.split('=')[1];
@@ -49,11 +48,13 @@ function buildJs () {
   return getSource(files.js.source)
     .pipe(plumber())
     .pipe(cache('scripts'))
+    .pipe(sourcemaps.init())
     .pipe(babel({
-      ignore: /bower_components|vendor/
+      ignore: /bower_components|vendor/,
+      modules: 'umd'
     }))
     .pipe(ngAnnotate())
-    .pipe(iifeWrap(['source/chroma_ui/common', 'source/chroma_ui/iml']))
+    .pipe(sourcemaps.write({ sourceRoot: '/' }))
     .pipe(plumber.stop());
 }
 
@@ -146,9 +147,9 @@ gulp.task('prod', ['clean'], function prodTask () {
   var merged = mergeStream(jsStream, templatesStream)
     .pipe(plumber())
     .pipe(orderJsFiles())
-    .pipe(sourcemaps.init())
+    .pipe(sourcemaps.init({ loadMaps: true, debug: true }))
     .pipe(concat('built.js'))
-    .pipe(uglify({compress: true, screw_ie8: true, mangle: true}))
+    .pipe(uglify({ compress: true, screw_ie8: true, mangle: true }))
     .pipe(rev())
     .pipe(sourcemaps.write('.'))
     .pipe(plumber.stop());
@@ -311,5 +312,5 @@ gulp.task('jscs', function jsCs () {
   var jscs = require('gulp-jscs');
 
   return qualitySource()
-    .pipe(jscs('../.jscsrc'))
+    .pipe(jscs('../.jscsrc'));
 });

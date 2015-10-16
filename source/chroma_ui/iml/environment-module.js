@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,36 +19,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+var ENV = Object.freeze({
+  STATIC_URL: window.STATIC_URL,
+  CACHE_INITIAL_DATA: window.CACHE_INITIAL_DATA,
+  UI_ROOT: document.baseURI,
+  HELP_TEXT: window.HELP_TEXT,
+  IS_RELEASE: window.IS_RELEASE,
+  ALLOW_ANONYMOUS_READ: window.ALLOW_ANONYMOUS_READ,
+  SERVER_TIME_DIFF: window.SERVER_TIME_DIFF,
+  VERSION: window.VERSION,
+  BUILD: window.BUILD,
+  BASE: '%s//%s'.sprintf(window.location.protocol, window.location.hostname),
+  API: '%s//%s:%s/api/'
+    .sprintf(window.location.protocol, window.location.hostname, window.location.port),
+  get RUNTIME_VERSION() {
+    if (this.IS_RELEASE)
+      return this.VERSION;
+    else
+      return 'Build ' + this.BUILD;
+  }
+});
 
-(function () {
-  'use strict';
+var environmentModule = angular.module('environment', []);
 
-  var ENV = Object.freeze({
-    STATIC_URL: window.STATIC_URL,
-    CACHE_INITIAL_DATA: window.CACHE_INITIAL_DATA,
-    UI_ROOT: document.baseURI,
-    HELP_TEXT: window.HELP_TEXT,
-    IS_RELEASE: window.IS_RELEASE,
-    ALLOW_ANONYMOUS_READ: window.ALLOW_ANONYMOUS_READ,
-    SERVER_TIME_DIFF: window.SERVER_TIME_DIFF,
-    VERSION: window.VERSION,
-    BUILD: window.BUILD,
-    BASE: '%s//%s'.sprintf(window.location.protocol, window.location.hostname),
-    API: '%s//%s:%s/api/'
-      .sprintf(window.location.protocol, window.location.hostname, window.location.port),
-    get RUNTIME_VERSION() {
-      if (this.IS_RELEASE)
-        return this.VERSION;
-      else
-        return 'Build ' + this.BUILD;
-    }
-  });
+environmentModule.value('ENV', ENV);
 
-  var environmentModule = angular.module('environment', []);
-
-  environmentModule.value('ENV', ENV);
-
-  Object.keys(ENV).forEach(function (key) {
+Object.keys(ENV)
+  .forEach(function assignValues (key) {
     environmentModule.value(key, ENV[key]);
   });
-}());
+
+
