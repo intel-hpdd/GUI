@@ -19,6 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {getMemoryUsageStreamFactory} from './get-memory-usage-stream-exports';
+import {getMemoryUsageChartFactory} from './get-memory-usage-chart-exports';
+
 angular.module('memoryUsageModule',
-  ['charts', 'charting', 'highland', 'socket-module', 'durationPicker', 'numberFormatters']
-);
+  ['charts', 'charting', 'highland', 'configToggle',
+    'socket-module', 'durationPicker', 'numberFormatters', 'streamWhenVisible']
+)
+  .factory('getMemoryUsageStream', getMemoryUsageStreamFactory)
+  .factory('getMemoryUsageChart', getMemoryUsageChartFactory);

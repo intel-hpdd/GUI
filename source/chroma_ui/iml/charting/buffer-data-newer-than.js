@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,13 +21,8 @@
 
 angular
   .module('charting')
-  .factory('bufferDataNewerThan', ['getServerMoment', 'sortByDate',
-    function bufferDataNewerThanFactory (getServerMoment, sortByDate) {
-    'use strict';
-
-    //Note: This mutates values. Over the long term
-    // move this code into a WebWorker.
-    return function bufferDataNewerThan (size, unit) {
+  .factory('bufferDataNewerThan', (getServerMoment, sortByDate) => {
+    return fp.curry(2, function bufferDataNewerThan (size, unit) {
       var buffer = [];
 
       return function bufferDataNewerThanInner (s) {
@@ -57,5 +52,5 @@ angular
           })
           .flatten();
       };
-    };
-  }]);
+    });
+  });

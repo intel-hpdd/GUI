@@ -71,7 +71,7 @@ angular.module('charting')
           var canFit = fp.flow(fp.tail, fp.lensProp('fits'));
           var processCoordinates = fp.cond(
             [canFit, fp.identity],
-            [fp.true, fp.flow(
+            [fp.True, fp.flow(
               fp.tap(labels.attr.bind(labels, 'display', 'none')), mapDimensions.bind(null, groups), mapToCoords)]
           );
 

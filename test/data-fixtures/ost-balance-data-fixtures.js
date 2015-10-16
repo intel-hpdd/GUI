@@ -20,7 +20,8 @@ angular.module('dataFixtures').value('ostBalanceDataFixtures', [
           ts: '2013-11-18T22:45:30+00:00',
           id: '19'
         }
-      ]
+      ],
+      20: []
     },
     out: [
       {

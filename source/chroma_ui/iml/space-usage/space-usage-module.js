@@ -19,4 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('spaceUsageModule', ['charts', 'charting', 'highland', 'socket-module', 'durationPicker']);
+import { getSpaceUsageStreamFactory } from './get-space-usage-stream-exports';
+import { getSpaceUsageChartFactory } from './get-space-usage-chart-exports';
+
+angular.module('spaceUsageModule', ['charts', 'charting', 'highland', 'socket-module', 'durationPicker'])
+  .factory('getSpaceUsageStream', getSpaceUsageStreamFactory)
+  .factory('getSpaceUsageChart', getSpaceUsageChartFactory);

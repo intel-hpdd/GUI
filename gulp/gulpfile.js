@@ -23,7 +23,7 @@ var glob2base = require('glob2base');
 var Glob = require('glob').Glob;
 var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
-var fp = require('intel-fp');
+var fp = require('intel-fp/dist/fp');
 var babel = require('gulp-babel');
 var buildSocketWorker = require('intel-socket-worker/build');
 var source = require('vinyl-source-stream');
@@ -52,7 +52,12 @@ function buildJs () {
     .pipe(cache('scripts'))
     .pipe(sourcemaps.init())
     .pipe(babel({
-      ignore: /bower_components|vendor/,
+      ignore: [
+        '*/bower_components/*',
+        '*/vendor/*',
+        '*/intel-fp/*',
+        '*/intel-math/*'
+      ],
       modules: 'umd'
     }))
     .pipe(ngAnnotate())

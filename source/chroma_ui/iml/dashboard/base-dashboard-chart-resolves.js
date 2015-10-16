@@ -40,12 +40,12 @@ angular.module('baseDashboard')
           getOstBalanceChart(fsQs),
           getMdoChart(fsQs),
           getReadWriteBandwidthChart(fsQs),
-          getHostCpuRamChart('Metadata Servers', _.merge({
+          getHostCpuRamChart('Metadata Servers', angular.merge({
             qs: {
               role: 'MDS'
             }
           }, fsQs)),
-          getHostCpuRamChart('Object Storage Servers', _.merge({
+          getHostCpuRamChart('Object Storage Servers', angular.merge({
             qs: {
               role: 'OSS'
             }

@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,46 +20,31 @@
 // express and approved by Intel in writing.
 
 angular.module('charting')
-  .factory('getRequestRange', ['getServerMoment', function (getServerMoment) {
-    'use strict';
-
-    return function getRequestRangeOuter (begin, end) {
-      var overrides;
-
-      getRequestRange.setLatest = _.identity;
-
-      getRequestRange.setOverrides = function setOverrides (o) {
-        overrides = o;
-      };
+  .factory('getRequestRange', (getServerMoment) => {
+    return fp.curry(3, function getRequestRangeOuter (overrides, begin, end) {
+      getRequestRange.setLatest = fp.identity;
 
       return getRequestRange;
 
       function getRequestRange (params) {
-        params = _.merge({}, params, overrides);
+        params = angular.merge({}, params, overrides);
         params.qs.begin = getServerMoment(begin).toISOString();
         params.qs.end = getServerMoment(end).toISOString();
 
         return params;
       }
-    };
-  }])
-  .factory('getRequestDuration', ['getServerMoment', 'createDate',
-    function getRequestDurationFactory (getServerMoment, createDate) {
-    'use strict';
-
-    return function getRequestDurationOuter (size, unit) {
-      var latest, overrides;
-
-      getRequestDuration.setOverrides = function setOverrides (o) {
-        overrides = o;
-      };
+    });
+  })
+  .factory('getRequestDuration', (getServerMoment, createDate) => {
+    return fp.curry(3, function getRequestDurationOuter (overrides, size, unit) {
+      var latest;
 
       getRequestDuration.setLatest = function setLatest (s) {
         return s
           .collect()
           .tap(function setLatest (x) {
             if (x && x.length)
-              latest = _.last(x).ts;
+              latest = fp.tail(x).ts;
             else
               latest = null;
           })
@@ -69,7 +54,7 @@ angular.module('charting')
       return getRequestDuration;
 
       function getRequestDuration (params) {
-        params = _.merge({}, params, overrides);
+        params = angular.merge({}, params, overrides);
 
         if (latest) {
           var latestDate = createDate(latest);
@@ -97,13 +82,11 @@ angular.module('charting')
 
         return params;
       }
-    };
-  }])
-  .factory('getTimeParams', ['getRequestDuration', 'getRequestRange', function (getRequestDuration, getRequestRange) {
-    'use strict';
-
+    });
+  })
+  .factory('getTimeParams', (getRequestDuration, getRequestRange) => {
     return {
-      getRequestDuration: getRequestDuration,
-      getRequestRange: getRequestRange
+      getRequestDuration,
+      getRequestRange
     };
-  }]);
+  });

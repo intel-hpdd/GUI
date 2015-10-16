@@ -19,4 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('charting', ['createDate', 'serverMoment', 'highland', 'd3']);
+import {createStream} from './create-stream-exports';
+import {chartCompilerFactory} from './chart-compiler-exports';
+
+angular.module('charting', ['createDate', 'serverMoment',
+  'highland', 'd3', 'get-template-promise', 'socket-module'])
+  .factory('createStream', createStream)
+  .factory('chartCompiler', chartCompilerFactory);

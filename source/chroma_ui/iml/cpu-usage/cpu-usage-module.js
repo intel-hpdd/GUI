@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,6 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {getCpuUsageStreamFactory} from './get-cpu-usage-stream-exports';
+import {getCpuUsageChartFactory} from './get-cpu-usage-chart-exports';
+
 angular.module('cpuUsageModule', [
   'charts', 'charting', 'highland', 'socket-module', 'durationPicker'
-]);
+])
+  .factory('getCpuUsageStream', getCpuUsageStreamFactory)
+  .factory('getCpuUsageChart', getCpuUsageChartFactory);

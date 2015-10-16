@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,6 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+
+import { getOstBalanceStreamFactory } from './get-ost-balance-stream-exports';
+import { getOstBalanceChartFactory } from './get-ost-balance-chart-exports';
+
 angular
   .module('ostBalance',
-    ['charts', 'charting', 'highland', 'socket-module', 'get-template-promise']);
+    ['charts', 'charting', 'highland',
+      'socket-module', 'get-template-promise', 'math'])
+  .factory('getOstBalanceChart', getOstBalanceChartFactory)
+  .factory('getOstBalanceStream', getOstBalanceStreamFactory);

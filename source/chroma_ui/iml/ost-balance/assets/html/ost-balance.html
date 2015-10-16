@@ -1,15 +1,15 @@
-<div>
+<div config-toggle>
   <h5>OST Balance</h5>
-  <div class="controls" ng-if="chart.configure === false">
-    <button class="btn btn-xs btn-primary" ng-click="chart.onConfigure()">Configure <i class="fa fa-cog"></i></button>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
     <a full-screen-btn class="btn btn-primary btn-xs"></a>
     <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
   </div>
-  <div class="configuration" ng-if="chart.configure === true">
+  <div class="configuration" ng-if="configToggle.active()">
     <div class="well well-lg">
       <form name="ostBalanceForm" novalidate>
         <div class="form-group" ng-class="{'has-error': ostBalanceForm.percentage.$invalid, 'has-success': ostBalanceForm.percentage.$valid}">
-          <label class="sr-only">Filter by usage</label>
+          <label>Filter by usage</label>
           <div class="input-group">
             <div class="input-group-addon">Filter usage</div>
             <input class="form-control" type="number" ng-model="chart.percentage" name="percentage" min="0" max="100" required />
@@ -24,11 +24,10 @@
             <span class="input-group-addon">%</span>
           </div>
         </div>
-
-        <button type="submit" ng-click="chart.onSubmit()" class="btn btn-success btn-block" ng-disabled="ostBalanceForm.$invalid">Update</button>
-        <button ng-click="chart.onCancel()" class="btn btn-cancel btn-block">Cancel</button>
+        <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit())" class="btn btn-success btn-block" ng-disabled="ostBalanceForm.$invalid">Update</button>
+        <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block">Cancel</button>
       </form>
     </div>
   </div>
-  <multi-bar-chart options="chart.options" stream="chart.stream"></multi-bar-chart>
+  <multi-bar-chart options="::chart.options" stream="chart.stream"></multi-bar-chart>
 </div>

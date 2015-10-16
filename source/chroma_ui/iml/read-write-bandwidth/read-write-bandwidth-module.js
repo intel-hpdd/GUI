@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,5 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {getReadWriteBandwidthStreamFactory} from './get-read-write-bandwidth-stream-exports';
+import {getReadWriteBandwidthChartFactory} from './get-read-write-bandwidth-chart-exports';
+
 angular.module('readWriteBandwidth',
-  ['charts', 'charting', 'highland', 'socket-module', 'durationPicker']);
+  ['charts', 'charting', 'highland', 'socket-module', 'durationPicker'])
+  .factory('getReadWriteBandwidthStream', getReadWriteBandwidthStreamFactory)
+  .factory('getReadWriteBandwidthChart', getReadWriteBandwidthChartFactory);

@@ -3,6 +3,7 @@
     "angular": false,
     "obj": false,
     "fp": false,
+    "math": false,
     "_": false,
     "highland": false,
     "module": false,
