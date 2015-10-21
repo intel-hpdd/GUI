@@ -25,6 +25,8 @@ var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
 var fp = require('@intel-js/fp');
 var babel = require('gulp-babel');
+var buildSocketWorker = require('@intel-js/socket-worker/build');
+var source = require('vinyl-source-stream');
 
 var LessPluginCleanCSS = require('less-plugin-clean-css');
 var cleancss = new LessPluginCleanCSS({ advanced: true });
@@ -108,8 +110,13 @@ function injectFiles (jsStream, lessStream) {
 var orderJsFiles = order.bind(null, files.js.source, {base: '../'});
 
 gulp.task('clean', function clean (cb) {
-  del([path.join(outputDir, '/static/chroma_ui'), path.join(outputDir, 'templates/new')], {force: true}, cb);
+  del([path.join(outputDir, '/static/chroma_ui'), path.join(outputDir, 'templates/new')], { force: true }, cb);
 });
+
+var buildSocketWorkerOutDir = path.join(outputDir, 'static/chroma_ui');
+var socketWorkerStream = buildSocketWorker(buildSocketWorkerOutDir)
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest(buildSocketWorkerOutDir));
 
 gulp.task('dev', ['clean'], function devTask () {
   var jsStream = buildJs();
@@ -131,7 +138,7 @@ gulp.task('dev', ['clean'], function devTask () {
 
   var indexStream = injectFiles(ordered, lessStream);
 
-  return mergeStream(indexStream, statics);
+  return mergeStream(socketWorkerStream, indexStream, statics);
 });
 
 gulp.task('prod', ['clean'], function prodTask () {
@@ -162,7 +169,7 @@ gulp.task('prod', ['clean'], function prodTask () {
 
   var indexStream = injectFiles(merged, lessStream);
 
-  return mergeStream(indexStream, statics);
+  return mergeStream(socketWorkerStream, indexStream, statics);
 });
 
 var lessSrc = gulp.src.bind(null, files.less.imports, {
