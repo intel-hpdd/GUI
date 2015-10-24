@@ -98,20 +98,25 @@ it will be reloaded before any targets are started again.',
 
     var template = '<action-dropdown stream="stream"></action-dropdown>';
     el = $compile(template)($scope)[0];
+    document.body.appendChild(el);
     $scope.$digest();
 
     button = el.querySelector.bind(el, 'button');
     buttonGroup = el.querySelector.bind(el, '.btn-group');
     verbs = el.querySelectorAll.bind(el, 'li a');
     groupHeaders = el.querySelectorAll.bind(el, 'li.dropdown-header');
-    tooltip = el.querySelector.bind(el, '.tooltip');
-    tooltipText = el.querySelector.bind(el, '.tooltip-inner');
+    tooltip = document.body.querySelector.bind(document.body, '.tooltip');
+    tooltipText = document.body.querySelector.bind(document.body, '.tooltip .tooltip-inner');
 
     cleanText = fp.flow(
       fp.lensProp('innerHTML'),
       fp.invokeMethod('trim', [])
     );
   }));
+
+  afterEach(function () {
+    document.body.removeChild(el);
+  });
 
   it('should display the first header', function () {
     expect(cleanText(fp.head(groupHeaders()))).toEqual('server001');
@@ -156,6 +161,12 @@ it will be reloaded before any targets are started again.',
       button().click();
       var mouseEnter = new MouseEvent('mouseenter');
       fp.head(verbs()).dispatchEvent(mouseEnter);
+      $timeout.flush();
+      $timeout.verifyNoPendingTasks();
+    });
+
+    afterEach(function () {
+      document.body.removeChild(tooltip());
     });
 
     it('should append the tooltip', function () {
@@ -167,9 +178,6 @@ it will be reloaded before any targets are started again.',
     });
 
     it('should should show the long description', function () {
-      records[0].available_actions[0].long_description = 'Description of action word';
-      $scope.stream.write(records);
-
       expect(cleanText(tooltipText()))
         .toEqual(records[0].available_actions[0].long_description);
     });

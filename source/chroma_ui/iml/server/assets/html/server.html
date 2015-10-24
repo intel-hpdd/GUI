@@ -15,12 +15,12 @@
           <div>
             <label>Filter by Hostname / Hostlist Expression</label>
             <i class="fa fa-question-circle"
-               tooltip="Enter a hostname / hostlist expression to filter the servers below."
+               uib-tooltip="Enter a hostname / hostlist expression to filter the servers below."
                tooltip-placement="right"></i>
           </div>
           <pdsh pdsh-change="server.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
         </div>
-        <button class="btn btn-info btn-sm fuzzy-filter" ng-model="server.pdshFuzzy" btn-checkbox>
+        <button class="btn btn-info btn-sm fuzzy-filter" ng-model="server.pdshFuzzy" uib-btn-checkbox>
          <span ng-if="server.pdshFuzzy">
             Fuzzy
           </span>
@@ -29,11 +29,11 @@
           </span>
         </button>
       </form>
-        <div class="btn-group entries" dropdown is-open="server.itemsPerPageIsOpen">
-          <button type="button" class="btn btn-info btn-sm dropdown-toggle" dropdown-toggle ng-disabled="disabled">
+        <div class="btn-group entries" uib-dropdown is-open="server.itemsPerPageIsOpen">
+          <button type="button" class="btn btn-info btn-sm" uib-dropdown-toggle ng-disabled="disabled">
             Entries: {{server.itemsPerPage}} <span class="caret"></span>
           </button>
-          <ul class="dropdown-menu" role="menu">
+          <ul class="uib-dropdown-menu" role="menu">
             <li><a ng-click="server.setItemsPerPage(10); server.closeItemsPerPage();">10</a></li>
             <li><a ng-click="server.setItemsPerPage(25); server.closeItemsPerPage();">25</a></li>
             <li><a ng-click="server.setItemsPerPage(50); server.closeItemsPerPage();">50</a></li>
@@ -81,7 +81,7 @@
         <action-dropdown stream="::str" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
       </td>
       <td ng-if="server.editable" class="select-server">
-        <button ng-if="!server.getActionByValue(server.editName).isDisabled(item)" class="btn btn-info btn-sm" ng-model="server.selectedServers[item.fqdn]" btn-checkbox>
+        <button ng-if="!server.getActionByValue(server.editName).isDisabled(item)" class="btn btn-info btn-sm" ng-model="server.selectedServers[item.fqdn]" uib-btn-checkbox>
           <span ng-if="server.selectedServers[item.fqdn]">
             <i class="fa fa-check"></i> Selected
           </span>
@@ -95,7 +95,7 @@
     </tbody>
   </table>
   <div class="text-center">
-    <pagination total-items="server.getTotalItems()" items-per-page="server.getItemsPerPage()" ng-model="server.currentPage" max-size="server.maxSize" class="pagination-sm" boundary-links="true" ng-show="server.getTotalItems() > server.getItemsPerPage()"></pagination>
+    <uib-pagination total-items="server.getTotalItems()" items-per-page="server.getItemsPerPage()" ng-model="server.currentPage" max-size="server.maxSize" class="pagination-sm" boundary-links="true" ng-show="server.getTotalItems() > server.getItemsPerPage()"></uib-pagination>
   </div>
 
   <button ng-if="!server.editable" ng-disabled="server.addServerClicked" ng-click="server.addServer()" type="button" class="btn btn-default add-server-button btn-sm">
@@ -108,14 +108,14 @@
       <a type="button" ng-click="server.toggleType('none')" ng-model="server.selectType" btn-radio="'none'" class="btn btn-info btn-lg">Select None</a>
       <a type="button" ng-click="server.toggleType('invert')" ng-model="server.selectType"  btn-radio="'invert'" class="btn btn-info btn-lg">Invert Selection</a>
     </div>
-    <button tooltip-html="server.getActionByValue(server.editName).helpTopic | insertHelp" ng-disabled="server.getSelectedHosts(server.editName).length === 0" ng-click="server.runAction(server.editName)" class="btn btn-success btn-lg btn-block">{{ server.editName }} <i class="fa fa-check-circle-o"></i></button>
+    <button uib-tooltip-html="server.getActionByValue(server.editName).helpTopic | insertHelp" ng-disabled="server.getSelectedHosts(server.editName).length === 0" ng-click="server.runAction(server.editName)" class="btn btn-success btn-lg btn-block">{{ server.editName }} <i class="fa fa-check-circle-o"></i></button>
     <button class="btn btn-danger btn-lg btn-block" ng-click="server.setEditable(false)">Cancel <i class="fa fa-times-circle-o"></i></button>
   </div>
 
   <h4 class="section-header">Server Actions</h4>
 
   <div class="action-buttons">
-    <button ng-repeat="action in server.actions track by action.value" tooltip="{{ action.tooltip | insertHelp}}" class="btn btn-primary btn-sm" ng-click="server.setEditName(action.value)">{{action.value}} <i class="fa fa-question-circle"></i></button>
+    <button ng-repeat="action in server.actions track by action.value" uib-tooltip="{{ action.tooltip | insertHelp}}" class="btn btn-primary btn-sm" ng-click="server.setEditName(action.value)">{{action.value}} <i class="fa fa-question-circle"></i></button>
   </div>
   </div>
 </div>

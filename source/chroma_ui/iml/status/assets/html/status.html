@@ -34,7 +34,7 @@
   </table>
 
   <div class="text-center">
-    <pagination
+    <uib-pagination
       max-size="5"
       ng-model="ctrl.meta.current_page"
       total-items="ctrl.meta.total_count"
@@ -42,7 +42,7 @@
       boundary-links="true"
       previous-text="‹" next-text="›" first-text="«" last-text="»"
       ng-change="::ctrl.pageChanged()"
-    ></pagination>
+    ></uib-pagination>
   </div>
 </div>
 <div class="well text-center" ng-if="ctrl.meta.total_count === 0">
