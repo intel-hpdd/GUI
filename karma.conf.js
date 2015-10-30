@@ -16,8 +16,7 @@ module.exports = function setConfig (config) {
   var commonDir = bound(sourceDir('common/%s'));
   var testDir = bound('test/%s');
   var nodeModulesDir = bound('node_modules/%s');
-  var intelJsDir = bound(nodeModulesDir('@intel-js/%s'));
-  var angularComponentsDir = bound(intelJsDir('angular-modules/%s'));
+  var angularComponentsDir = bound(nodeModulesDir('intel-angular-modules/%s'));
 
   var jsPreProcessors = ['babel'];
 
@@ -43,9 +42,9 @@ module.exports = function setConfig (config) {
       bowerDir('d3/d3.js'),
       bowerDir('nvd3/build/nv.d3.js'),
       bowerDir('angular-bootstrap/ui-bootstrap-tpls.js'),
-      intelJsDir('obj/index.js'),
-      intelJsDir('fp/index.js'),
-      intelJsDir('lodash-mixins/index.js'),
+      nodeModulesDir('intel-obj/index.js'),
+      nodeModulesDir('intel-fp/index.js'),
+      nodeModulesDir('intel-lodash-mixins/index.js'),
       vendorDir('**/*.js'),
       commonDir('**/*-exports.js'),
       commonDir('**/*-module.js'),
@@ -53,7 +52,7 @@ module.exports = function setConfig (config) {
       commonDir('**/*.html'),
       imlDir('**/*-exports.js'),
       imlDir('**/*-module.js'),
-      intelJsDir('extract-api/index.js'),
+      nodeModulesDir('intel-extract-api/index.js'),
       testDir('iml-module.js'),
       imlDir('**/*.js'),
       imlDir('**/*.html'),
@@ -67,7 +66,7 @@ module.exports = function setConfig (config) {
       testDir('global-setup.js'),
       testDir('matchers/**/*.js'),
       bowerDir('jasmine-object-containing/jasmine-object-containing.js'),
-      intelJsDir('jasmine-n-matchers/jasmine-n-matchers.js'),
+      nodeModulesDir('intel-jasmine-n-matchers/jasmine-n-matchers.js'),
       testDir('**/*.js'),
       testDir('templates/**/*.html'),
       angularComponentsDir('src/**/*.js')

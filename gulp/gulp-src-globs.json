@@ -2,9 +2,9 @@
   "js": {
     "source": [
       "source/chroma_ui/bower_components*/lodash/dist/lodash.js",
-      "node_modules/@intel-js*/lodash-mixins/index.js",
-      "node_modules/@intel-js*/fp/index.js",
-      "node_modules/@intel-js*/obj/index.js",
+      "node_modules*/intel-lodash-mixins/index.js",
+      "node_modules*/intel-fp/index.js",
+      "node_modules*/intel-obj/index.js",
       "source/chroma_ui/vendor*/**/*.js",
       "source/chroma_ui/bower_components*/highland/dist/highland.js",
       "source/chroma_ui/bower_components*/jquery/dist/jquery.js",
@@ -18,7 +18,7 @@
       "source/chroma_ui/bower_components*/twix/bin/twix.js",
       "source/chroma_ui/bower_components*/d3/d3.js",
       "source/chroma_ui/bower_components*/nvd3/build/nv.d3.js",
-      "node_modules/@intel-js*/angular-route-segment/build/angular-route-segment.js",
+      "node_modules*/intel-angular-route-segment/build/angular-route-segment.js",
       "source/chroma_ui/bower_components*/angular-bootstrap/ui-bootstrap-tpls.js",
       "source/chroma_ui/iml*/environment.js",
       "source/chroma_ui/iml*/help.js",
@@ -26,9 +26,9 @@
       "source/chroma_ui/iml*/**/*-module.js",
       "source/chroma_ui/common*/**/*-exports.js",
       "source/chroma_ui/common*/**/*-module.js",
-      "node_modules/@intel-js*/angular-modules/src/**/*-module.js",
-      "node_modules/@intel-js*/extract-api/index.js",
-      "node_modules/@intel-js*/angular-modules/src/**/*.js",
+      "node_modules*/intel-angular-modules/src/**/*-module.js",
+      "node_modules*/intel-extract-api/index.js",
+      "node_modules*/intel-angular-modules/src/**/*.js",
       "source/chroma_ui/common*/**/*.js",
       "source/chroma_ui/iml*/**/*.js"
     ]

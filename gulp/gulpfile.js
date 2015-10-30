@@ -23,9 +23,9 @@ var glob2base = require('glob2base');
 var Glob = require('glob').Glob;
 var anymatch = require('anymatch');
 var files = require('./gulp-src-globs.json');
-var fp = require('@intel-js/fp');
+var fp = require('intel-fp');
 var babel = require('gulp-babel');
-var buildSocketWorker = require('@intel-js/socket-worker/build');
+var buildSocketWorker = require('intel-socket-worker/build');
 var source = require('vinyl-source-stream');
 
 var LessPluginCleanCSS = require('less-plugin-clean-css');

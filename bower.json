@@ -1,6 +1,6 @@
 {
   "name": "IML GUI",
-  "version": "3.0.0",
+  "version": "3.0.20",
   "dependencies": {
     "angular": "1.4.6",
     "angular-animate": "1.4.6",
