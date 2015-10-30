@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.intel.com/IML/GUI.git"
   },
+  "publishConfig": {
+    "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
+  },
   "dependencies": {
     "intel-angular-modules": "1.0.1",
     "intel-angular-route-segment": "1.6.1",
