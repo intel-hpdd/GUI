@@ -1,11 +1,11 @@
-describe('resolve stream', function () {
+describe('resolve stream', () => {
   'use strict';
 
   beforeEach(module('socket-module'));
 
-  var resolveStream, stream, $rootScope, Stream, spy;
+  let resolveStream, stream, $rootScope, Stream, spy;
 
-  beforeEach(inject(function (_resolveStream_, _$rootScope_) {
+  beforeEach(inject((_resolveStream_, _$rootScope_) => {
     stream = highland();
     Stream = stream.constructor;
 
@@ -16,20 +16,20 @@ describe('resolve stream', function () {
     $rootScope = _$rootScope_;
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(resolveStream).toEqual(jasmine.any(Function));
   });
 
-  describe('writing a value', function () {
-    var promise;
+  describe('writing a value', () => {
+    let promise;
 
-    beforeEach(function () {
+    beforeEach(() => {
       stream.write('foo');
 
       promise = resolveStream(stream);
     });
 
-    it('should resolve with a stream', function () {
+    it('should resolve with a stream', () => {
       promise
         .then(spy);
 
@@ -38,9 +38,9 @@ describe('resolve stream', function () {
       expect(spy).toHaveBeenCalledOnceWith(jasmine.any(Stream));
     });
 
-    it('should contain the value', function () {
+    it('should contain the value', () => {
       promise
-        .then(function (s) {
+        .then((s) => {
           s.each(spy);
         });
 
@@ -50,11 +50,11 @@ describe('resolve stream', function () {
     });
   });
 
-  describe('write error', function () {
-    var promise;
+  describe('write error', () => {
+    let promise;
 
-    beforeEach(function () {
-      var err = {
+    beforeEach(() => {
+      const err = {
         __HighlandStreamError__: true,
         error: new Error('boom!')
       };
@@ -64,7 +64,7 @@ describe('resolve stream', function () {
       promise = resolveStream(stream);
     });
 
-    it('should resolve with a stream', function () {
+    it('should resolve with a stream', () => {
       promise
         .then(spy);
 
@@ -73,11 +73,11 @@ describe('resolve stream', function () {
       expect(spy).toHaveBeenCalledOnceWith(jasmine.any(Stream));
     });
 
-    it('should contain the error', function () {
+    it('should contain the error', () => {
       promise
-        .then(function (s) {
+        .then((s) => {
           s.stopOnError(_.unary(spy))
-            .each(_.noop);
+            .each(fp.noop);
         });
 
       $rootScope.$digest();

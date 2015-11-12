@@ -1,7 +1,7 @@
-describe('deferred command modal button', function () {
-  var socketStream, openCommandModal, modalStream;
+describe('deferred command modal button directive exports', () => {
+  let socketStream, openCommandModal, modalStream, resolveStream, Stream;
 
-  beforeEach(module('command', 'templates', function ($provide) {
+  beforeEach(module('command', 'templates', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(highland());
     $provide.value('socketStream', socketStream);
@@ -12,13 +12,23 @@ describe('deferred command modal button', function () {
         resultStream: modalStream
       });
     $provide.value('openCommandModal', openCommandModal);
+
+    Stream = highland().constructor;
+
+    resolveStream = jasmine.createSpy('resolveStream');
+    $provide.value('resolveStream', resolveStream);
+
+    $provide.decorator('resolveStream', ($delegate, $q) => {
+      return $delegate.andReturn($q.when());
+    });
+
   }));
 
-  var $scope, cleanText, el, qs,
+  let $scope, cleanText, el, qs,
     waitingButton, commandDetailButton;
 
-  beforeEach(inject(function ($rootScope, $compile) {
-    var template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
+  beforeEach(inject(($rootScope, $compile) => {
+    const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
     $scope = $rootScope.$new();
     $scope.resourceUri = '/api/command/1/';
@@ -35,50 +45,54 @@ describe('deferred command modal button', function () {
     $scope.$digest();
   }));
 
-  it('should not show the waiting button', function () {
+  it('should not show the waiting button', () => {
     expect(waitingButton()).not.toBeShown();
   });
 
-  it('should show the detail button', function () {
+  it('should show the detail button', () => {
     expect(commandDetailButton()).toBeShown();
   });
 
-  it('should have the correct detail text', function () {
+  it('should have the correct detail text', () => {
     expect(cleanText(commandDetailButton())).toBe('Details');
   });
 
-  describe('when clicked', function () {
-    beforeEach(function () {
+  describe('when clicked', () => {
+    beforeEach(() => {
       commandDetailButton().click();
     });
 
-    it('should fetch the resource URI', function () {
+    it('should fetch the resource URI', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/api/command/1/');
     });
 
-    it('should pass a stream to openCommandModal', function () {
+    it('should pass a stream resolveStream', () => {
+      expect(resolveStream).toHaveBeenCalledOnceWith(jasmine.any(Stream));
+    });
+
+    it('should pass a stream to openCommandModal', () => {
       expect(openCommandModal).toHaveBeenCalledOnceWith(jasmine.any(Object));
     });
 
-    it('should show the waiting button', function () {
+    it('should show the waiting button', () => {
       expect(waitingButton()).toBeShown();
     });
 
-    it('should have the correct waiting text', function () {
+    it('should have the correct waiting text', () => {
       expect(cleanText(waitingButton())).toBe('Waiting');
     });
 
-    describe('resolving the command', function () {
-      beforeEach(function () {
+    describe('resolving the command', () => {
+      beforeEach(() => {
         modalStream.write('all done!');
         $scope.$digest();
       });
 
-      it('should show the detail button', function () {
+      it('should show the detail button', () => {
         expect(commandDetailButton()).toBeShown();
       });
 
-      it('should hide the waiting button', function () {
+      it('should hide the waiting button', () => {
         expect(waitingButton()).not.toBeShown();
       });
     });

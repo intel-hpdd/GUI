@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,4 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('socket-module', ['regenerator-module', 'highland', 'crypto', 'socket-worker']);
+import { resolveStreamFactory } from './resolve-stream-exports';
+
+angular.module('socket-module', ['regenerator-module', 'highland', 'crypto', 'socket-worker'])
+  .factory('resolveStream', resolveStreamFactory);

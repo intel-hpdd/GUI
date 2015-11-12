@@ -19,34 +19,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('command')
-  .controller('DeferredCommandModalBtnCtrl',
-    function DeferredCommandModalBtnCtrl ($scope, socketStream, openCommandModal) {
-      var setLoading = fp
-        .lensProp('loading')
-        .set(fp.__, this);
+export function DeferredCommandModalBtnCtrl (socketStream, openCommandModal, resolveStream) {
+  'ngInject';
 
-      this.openCommandModal = function open () {
-        setLoading(true);
+  const setLoading = fp
+    .lensProp('loading')
+    .set(fp.__, this);
 
-        var stream = socketStream(this.resourceUri);
+  this.openCommandModal = () => {
+    setLoading(true);
 
-        openCommandModal(fp.map(fp.arrayWrap, stream))
-          .resultStream
-          .tap(setLoading.bind(null, false))
-          .tap(stream.destroy.bind(stream))
-          .pull(fp.noop);
-      };
-    }
-  )
-  .directive('deferredCmdModalBtn', function deferredCmdModalBtn () {
-    return {
-      scope: {},
-      bindToController: {
-        resourceUri: '='
-      },
-      controller: 'DeferredCommandModalBtnCtrl',
-      controllerAs: 'ctrl',
-      templateUrl: 'iml/command/assets/html/deferred-cmd-modal-btn.html'
-    };
-  });
+    const stream = socketStream(this.resourceUri);
+
+    const wrapped = resolveStream(fp.map(fp.arrayWrap, stream));
+
+    openCommandModal(wrapped)
+      .resultStream
+      .tap(setLoading.bind(null, false))
+      .tap(stream.destroy.bind(stream))
+      .pull(fp.noop);
+  };
+}

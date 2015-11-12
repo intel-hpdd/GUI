@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,35 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('socket-module')
-  .factory('resolveStream', ['$q', function resolveStreamFactory ($q) {
-    'use strict';
-
-    /**
-     * Given a stream, returns a promise that does not
-     * resolve until the stream contains a token.
-     * @param {Highland.Stream} stream
-     * @returns {ng.IQService}
-     */
-    return function resolveStream (stream) {
-      var deferred = $q.defer();
-
-      stream.pull(function resolvePromise (err, x) {
-        if (err) {
-          x = {
-            __HighlandStreamError__: true,
-            error: err
-          };
-        }
-
-        var s2 = stream.tap(_.noop);
-        s2.write(x);
-
-        s2.destroy = stream.destroy.bind(stream);
-
-        deferred.resolve(s2);
-      });
-
-      return deferred.promise;
-    };
-  }]);
+export const deferredCmdModalBtnDirective = fp.always({
+  scope: {},
+  bindToController: {
+    resourceUri: '='
+  },
+  controller: 'DeferredCommandModalBtnCtrl',
+  controllerAs: 'ctrl',
+  templateUrl: 'iml/command/assets/html/deferred-cmd-modal-btn.html'
+});

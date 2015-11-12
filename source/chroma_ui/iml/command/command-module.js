@@ -20,6 +20,9 @@
 // express and approved by Intel in writing.
 
 
+import { DeferredCommandModalBtnCtrl } from './deferred-cmd-modal-btn-controller-exports';
+import { deferredCmdModalBtnDirective } from './deferred-cmd-modal-btn-directive-exports';
+
 angular.module('command', ['socket-module', 'extendScope', 'extractApiIdModule'])
   .constant('COMMAND_STATES', Object.freeze({
     CANCELLED: 'cancelled',
@@ -28,4 +31,6 @@ angular.module('command', ['socket-module', 'extendScope', 'extractApiIdModule']
     PENDING: 'pending',
     WAITING: 'waiting to run',
     RUNNING: 'running'
-  }));
+  }))
+  .controller('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl)
+  .directive('deferredCmdModalBtn', deferredCmdModalBtnDirective);

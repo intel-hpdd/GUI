@@ -19,25 +19,27 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('modal-decorator', ['highland'])
-  .config(($provide) => {
-    $provide.decorator('$modal', (λ, $delegate) => {
-      'ngInject';
+export function resolveStreamFactory ($q) {
+  'ngInject';
 
-      return {
-        open (modalOptions) {
-          const modalInstance = $delegate.open(modalOptions);
+  return (stream) => {
+    const deferred = $q.defer();
 
-          modalInstance.resultStream = λ(modalInstance.result)
-            .errors((err, push) => {
-              if (err === 'backdrop click' || err === 'escape key press')
-                push(null, 'closed');
-              else
-                push(err);
-            });
+    stream.pull((error, x) => {
+      if (error)
+        x = {
+          __HighlandStreamError__: true,
+          error
+        };
 
-          return modalInstance;
-        }
-      };
+      const s2 = stream.tap(fp.noop);
+      s2.write(x);
+
+      s2.destroy = stream.destroy.bind(stream);
+
+      deferred.resolve(s2);
     });
-  });
+
+    return deferred.promise;
+  };
+}
