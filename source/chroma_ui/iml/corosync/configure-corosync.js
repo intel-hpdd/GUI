@@ -39,7 +39,7 @@ angular.module('corosyncModule')
       $scope.corosync = {
         alertStream: $scope.alertStream,
         jobStream: $scope.jobStream,
-        stream: $scope.stream.property(),
+        stream: $scope.stream.observe(),
         reset: function reset () {
           var remote = mergeRemote(null);
 
