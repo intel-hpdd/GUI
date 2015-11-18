@@ -5,7 +5,18 @@
   "scripts": {
     "test": "./node_modules/karma/bin/karma start",
     "jshint": "gulp --gulpfile='./gulp/gulpfile.js' jshint",
-    "jscs": "gulp --gulpfile='./gulp/gulpfile.js' jscs"
+    "jscs": "gulp --gulpfile='./gulp/gulpfile.js' jscs",
+    "ci": "road-runner",
+    "cover": "echo \"No coverage specified\""
+  },
+  "road-runner": {
+    "tests": [
+      "./test-gui.sh",
+      "./test-gulp.sh"
+    ],
+    "node-versions": [
+      4
+    ]
   },
   "pre-commit": [
     "jscs",
@@ -50,6 +61,7 @@
     "intel-lodash-mixins": "1.0.3",
     "intel-math": "2.0.2",
     "intel-obj": "3.0.0",
+    "intel-road-runner": "1.0.0",
     "intel-socket-worker": "2.0.0",
     "less-plugin-clean-css": "1.5.1",
     "merge-stream": "0.1.8"
