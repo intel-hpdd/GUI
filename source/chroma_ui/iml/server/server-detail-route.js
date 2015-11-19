@@ -32,6 +32,9 @@ angular.module('serverDetailRoute')
           streams: ['serverDetailResolves', fp.invoke(fp.__, [])]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
+        untilResolved: {
+          templateUrl: 'common/loading/assets/html/loading.html'
+        },
         access: GROUPS.FS_ADMINS
       });
   });

@@ -1,10 +1,10 @@
-describe('alert indicator', function () {
+describe('alert indicator', () => {
   beforeEach(module('alertIndicator'));
 
   var socketStream, stream;
 
-  describe('monitor', function () {
-    beforeEach(module(function ($provide) {
+  describe('monitor', () => {
+    beforeEach(module(($provide) => {
       stream = highland();
       spyOn(stream, 'destroy');
 
@@ -16,11 +16,11 @@ describe('alert indicator', function () {
 
     var alertMonitor;
 
-    beforeEach(inject(function (_alertMonitor_) {
+    beforeEach(inject((_alertMonitor_) => {
       alertMonitor = _alertMonitor_;
     }));
 
-    it('should request alerts', function () {
+    it('should request alerts', () => {
       alertMonitor();
 
       expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
@@ -32,10 +32,10 @@ describe('alert indicator', function () {
       });
     });
 
-    it('should pluck objects', function () {
+    it('should pluck objects', () => {
       var s2 = alertMonitor();
 
-      s2.each(function (x) {
+      s2.each((x) => {
         expect(x).toEqual([{ foo: 'bar' }]);
       });
 
@@ -44,7 +44,7 @@ describe('alert indicator', function () {
       });
     });
 
-    it('should destroy the source', function () {
+    it('should destroy the source', () => {
       var s2 = alertMonitor();
 
       s2.destroy();
@@ -53,16 +53,17 @@ describe('alert indicator', function () {
     });
   });
 
-  describe('directive', function () {
-    var $scope, element, node, getPopover, i, stream, addProperty;
+  describe('directive', () => {
+    var $scope, element, node, popover, i,
+      stream, addProperty, stateLabel, alerts,
+      tooltip;
 
     beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
-    beforeEach(inject(function ($rootScope, $compile, _addProperty_) {
+    beforeEach(inject(($rootScope, $compile, _addProperty_) => {
       addProperty = _addProperty_;
 
-      // Create an instance of the element
-      element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="\'medium\'">' +
+      element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
       '</record-state>';
 
       stream = highland();
@@ -73,152 +74,80 @@ describe('alert indicator', function () {
 
       $scope.recordId = 'host/6';
 
-      node = $compile(element)($scope);
+      $scope.displayType = 'medium';
 
-      // Update the html
+      node = $compile(element)($scope)[0];
+
       $scope.$digest();
 
-      getPopover = function getPopover () {
-        return node.find('i ~ .popover');
-      };
+      popover = node.querySelector.bind(node, 'i ~ .popover');
+      i = node.querySelector.bind(node, 'i');
+      alerts = node.querySelectorAll.bind(node, 'li');
 
-      i = node.find('i');
+      stateLabel = node.querySelector.bind(node, '.state-label');
+
+      tooltip = node.querySelector.bind(node, '.tooltip');
     }));
 
-    describe('response contains alerts', function () {
-      beforeEach(function () {
-        var response = [
-          {
-            affected: ['host/6'],
-            message: 'response message'
-          }
-        ];
-
-        stream.write(response);
-        $scope.$digest();
-      });
-
-      it('should have an alert message if the response contains one.', function () {
-        expect($scope.$$childHead.recordState.alerts).toEqual(['response message']);
-      });
-
-      it('should have a tool tip message', function () {
-        expect($scope.$$childHead.recordState.getTooltipMessage()).toEqual('1 alert message. Click to review details.');
-      });
-
-      it('should be in error state', function () {
-        expect($scope.$$childHead.recordState.isInErrorState()).toEqual(true);
-      });
-
-      it('should show the label', function () {
-        expect($scope.$$childHead.recordState.showLabel()).toEqual(true);
-      });
-
-      it('should show the label in markup', function () {
-        expect(node.find('.state-label').hasClass('ng-hide')).toEqual(false);
-      });
-    });
-
-    describe('exclamation icon interaction', function () {
+    describe('response contains alerts', () => {
       var response;
 
-      beforeEach(function () {
+      beforeEach(() => {
         response = [
           {
             affected: ['host/6'],
             message: 'response message'
-          }
-        ];
-
-        stream.write(response);
-        $scope.$digest();
-
-        i = node.find('i');
-      });
-
-      it('should display the info icon', function () {
-        expect(i).toBeShown();
-      });
-
-      it('should display the popover after clicking info icon', function () {
-        i.trigger('click');
-
-        expect(getPopover()).toBeShown();
-      });
-
-      it('should display the tooltip after mousing over the info icon', function () {
-        i[0].dispatchEvent(new MouseEvent('mouseenter'));
-
-        var tooltip = node.find('.tooltip');
-        expect(tooltip).toBeShown();
-      });
-    });
-
-    describe('message updates', function () {
-      var response;
-      beforeEach(function () {
-        response = [
-          {
-            affected: ['host/6'],
-            message: 'response message1'
-          }
-        ];
-
-        stream.write(response);
-
-        // Change the response to have 2 messages now
-        response = [
-          {
-            affected: ['host/6'],
-            message: 'response message1'
           },
           {
             affected: ['host/6'],
-            message: 'response message2'
+            message: 'response message 2'
           }
         ];
 
         stream.write(response);
+        i().click();
+        $scope.$digest();
+      });
 
-        // Now, remove the first message so that only message 2 remains
-        response = [
-          {
-            affected: ['host/6'],
-            message: 'response message2'
-          }
-        ];
+      it('should have an alert message if the response contains one.', () => {
+        expect(alerts()[0].textContent).toEqual('response message');
+      });
 
+      it('should add more alerts when added', function () {
+        response.push({
+          affected: ['host/6'],
+          message: 'response message 3'
+        });
         stream.write(response);
+
+        expect(alerts()[2].textContent)
+          .toEqual('response message 3');
       });
 
-      it('should contain the second message in the alerts array.', function () {
-        expect($scope.$$childHead.recordState.alerts).toEqual(['response message2']);
+      it('should remove old alerts', function () {
+        response.pop();
+        stream.write(response);
+
+        expect(alerts().length)
+          .toBe(1);
       });
 
-      it('should contain only message1 in the difference array.', function () {
-        expect($scope.$$childHead.recordState.messageDifference).toEqual(['response message1']);
+      it('should hide the popover if there are no alerts', function () {
+        stream.write([]);
+
+        expect(popover())
+          .toBeNull();
+      });
+
+      it('should show the label', () => {
+        expect(stateLabel().textContent)
+          .toEqual('2 Issues');
       });
     });
 
-    describe('no display type', function () {
-      beforeEach(inject(function ($rootScope, $compile) {
-        // Create an instance of the element
-        element = '<record-state record-id="recordId" alert-stream="alertStream"></record-state>';
-
-        $scope = $rootScope.$new();
-
-        $scope.recordId = 'host/6';
-
-        stream = highland();
-
-        $scope.alertStream = stream.through(addProperty);
-
-        node = $compile(element)($scope);
-
-        // Update the html
-        $scope.$digest();
-
-        var response = [
+    describe('exclamation icon interaction', () => {
+      beforeEach(() => {
+        const response = [
           {
             affected: ['host/6'],
             message: 'response message'
@@ -226,15 +155,33 @@ describe('alert indicator', function () {
         ];
 
         stream.write(response);
-        $scope.$digest();
-      }));
-
-      it('should not show the label', function () {
-        expect($scope.$$childHead.recordState.showLabel()).toEqual(false);
       });
 
-      it('should not show the label in markup', function () {
-        expect(node.find('.state-label').hasClass('ng-hide')).toEqual(true);
+      it('should display the info icon', () => {
+        expect(i()).toBeShown();
+      });
+
+      it('should display the popover after clicking info icon', () => {
+        i().click();
+        expect(popover()).toBeShown();
+      });
+
+      it('should display the tooltip after mousing over the info icon', () => {
+        i().dispatchEvent(new MouseEvent('mouseenter'));
+
+        expect(tooltip()).toBeShown();
+      });
+    });
+
+    describe('no display type', () => {
+      beforeEach(() => {
+        $scope.displayType = 'small';
+        $scope.$digest();
+      });
+
+      it('should not show the label', () => {
+        expect(stateLabel())
+          .toBeNull();
       });
     });
   });

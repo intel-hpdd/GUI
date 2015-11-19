@@ -1,10 +1,8 @@
-describe('server streams', function () {
-  'use strict';
-
+describe('server streams', () => {
   var jobMonitorStream, alertMonitorStream, getServersStream, socketStream,
-    jobMonitor, alertMonitor, lnetStream, corosyncStream, serversStream;
+    jobMonitor, alertMonitor, lnetStream, serversStream;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(module('server', ($provide) => {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .andReturn(jobMonitorStream);
@@ -21,30 +19,27 @@ describe('server streams', function () {
     $provide.value('getServersStream', getServersStream);
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(function (path) {
+      .andCallFake((path) => {
         if (path === '/lnet_configuration')
           return (lnetStream = highland());
-
-        if (path === '/corosync_configuration')
-          return (corosyncStream = highland());
       });
     $provide.value('socketStream', socketStream);
   }));
 
   var serverStreamsResolves;
 
-  beforeEach(inject(function (_serverStreamsResolves_) {
+  beforeEach(inject((_serverStreamsResolves_) => {
     serverStreamsResolves = _serverStreamsResolves_;
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(serverStreamsResolves).toEqual(jasmine.any(Function));
   });
 
-  describe('getting a promise', function () {
+  describe('getting a promise', () => {
     var $rootScope, promise;
 
-    beforeEach(inject(function (_$rootScope_) {
+    beforeEach(inject((_$rootScope_) => {
       $rootScope = _$rootScope_;
 
       promise = serverStreamsResolves();
@@ -54,27 +49,24 @@ describe('server streams', function () {
       lnetStream.write({
         objects: []
       });
-      corosyncStream.write({
-        objects: [{}]
-      });
       serversStream.write({});
 
       $rootScope.$apply();
     }));
 
-    it('should create a jobMonitorStream', function () {
+    it('should create a jobMonitorStream', () => {
       expect(jobMonitor).toHaveBeenCalledOnce();
     });
 
-    it('should create an alertMonitorStream', function () {
+    it('should create an alertMonitorStream', () => {
       expect(alertMonitor).toHaveBeenCalledOnce();
     });
 
-    it('should create a servers stream', function () {
+    it('should create a servers stream', () => {
       expect(getServersStream).toHaveBeenCalledOnce();
     });
 
-    it('should create a lnet configuration stream', function () {
+    it('should create a lnet configuration stream', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
         jsonMask: 'objects(state,host,resource_uri)',
         qs: {
@@ -83,23 +75,13 @@ describe('server streams', function () {
       });
     });
 
-    it('should create a corosync configuration stream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask: 'objects(state,host,resource_uri)',
-        qs: {
-          limit: 0
-        }
-      });
-    });
-
-    it('should return an object of streams', function () {
-      promise.then(function (streams) {
+    it('should return an object of streams', () => {
+      promise.then((streams) => {
         expect(streams).toEqual({
           serversStream: jasmine.any(Object),
           jobMonitorStream: jasmine.any(Object),
           alertMonitorStream: jasmine.any(Object),
-          lnetConfigurationStream: jasmine.any(Object),
-          corosyncConfigurationStream: jasmine.any(Object)
+          lnetConfigurationStream: jasmine.any(Object)
         });
       });
 

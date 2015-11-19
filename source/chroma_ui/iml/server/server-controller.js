@@ -28,7 +28,6 @@ angular.module('server')
                        overrideActionClick, streams) {
     $scope.server = {
       lnetConfigurationStream: streams.lnetConfigurationStream,
-      corosyncConfigurationStream: streams.corosyncConfigurationStream,
       jobMonitorStream: streams.jobMonitorStream,
       alertMonitorStream: streams.alertMonitorStream,
       transform: function transform (s, args) {

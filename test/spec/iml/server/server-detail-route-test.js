@@ -1,10 +1,10 @@
-describe('server detail route', function () {
+describe('server detail route', () => {
 
   var $routeSegmentProvider, GROUPS;
 
-  beforeEach(module(function () {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
-      $get: function get () {},
+      $get: fp.noop,
       when: jasmine.createSpy('$routeSegmentProvider.when'),
       within: jasmine.createSpy('$routeSegmentProvider.within'),
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
@@ -18,19 +18,19 @@ describe('server detail route', function () {
     });
   }, 'route-segment', 'serverDetailRoute'));
 
-  beforeEach(inject(function (_GROUPS_) {
+  beforeEach(inject((_GROUPS_) => {
     GROUPS = _GROUPS_;
   }));
 
-  it('should call when with /configure/server/:id', function () {
+  it('should call when with /configure/server/:id', () => {
     expect($routeSegmentProvider.when).toHaveBeenCalledOnceWith('/configure/server/:id', 'app.serverDetail');
   });
 
-  it('should call within app', function () {
+  it('should call within app', () => {
     expect($routeSegmentProvider.within).toHaveBeenCalledOnceWith('app');
   });
 
-  it('should call segment', function () {
+  it('should call segment', () => {
     expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('serverDetail', {
       controller: 'ServerDetailController',
       controllerAs: 'serverDetail',
@@ -39,6 +39,9 @@ describe('server detail route', function () {
         streams: ['serverDetailResolves', jasmine.any(Function)]
       },
       middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
+      untilResolved: {
+        templateUrl: 'common/loading/assets/html/loading.html'
+      },
       access: GROUPS.FS_ADMINS
     });
   });

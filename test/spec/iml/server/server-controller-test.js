@@ -1,15 +1,15 @@
-describe('server', function () {
+describe('server', () => {
   'use strict';
 
   var $scope, pdshParser, pdshFilter, naturalSortFilter,
     server, $modal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
-    getCommandStream, overrideActionClick, corosyncConfigurationStream;
+    getCommandStream, overrideActionClick;
 
   beforeEach(module('server', 'command'));
 
-  beforeEach(inject(function ($rootScope, $controller, $q) {
+  beforeEach(inject(($rootScope, $controller, $q) => {
     $scope = $rootScope.$new();
 
     $modal = {
@@ -44,9 +44,6 @@ describe('server', function () {
 
     lnetConfigurationStream = highland();
     spyOn(lnetConfigurationStream, 'destroy');
-
-    corosyncConfigurationStream = highland();
-    spyOn(corosyncConfigurationStream, 'destroy');
 
     openAddServerModal = jasmine.createSpy('openAddServerModal').andReturn({
       opened: {
@@ -84,8 +81,7 @@ describe('server', function () {
         serversStream: serversStream,
         jobMonitorStream: jobMonitorStream,
         alertMonitorStream: alertMonitorStream,
-        lnetConfigurationStream: lnetConfigurationStream,
-        corosyncConfigurationStream: corosyncConfigurationStream
+        lnetConfigurationStream: lnetConfigurationStream
       },
       openAddServerModal: openAddServerModal,
       getCommandStream: getCommandStream,
@@ -103,28 +99,28 @@ describe('server', function () {
   };
 
   Object.keys(expectedProperties).forEach(function verifyScopeValue (key) {
-    describe('test initial values', function () {
-      it('should have a ' + key + ' value of ' + expectedProperties[key], function () {
+    describe('test initial values', () => {
+      it('should have a ' + key + ' value of ' + expectedProperties[key], () => {
         expect(server[key]).toEqual(expectedProperties[key]);
       });
     });
   });
 
-  describe('verify streams are passed in', function () {
-    it('should contain the job monitor spark', function () {
+  describe('verify streams are passed in', () => {
+    it('should contain the job monitor spark', () => {
       expect(server.jobMonitorStream).toEqual(jobMonitorStream);
     });
 
-    it('should contain the alert monitor stream', function () {
+    it('should contain the alert monitor stream', () => {
       expect(server.alertMonitorStream).toEqual(alertMonitorStream);
     });
   });
 
-  it('should have a transform method', function () {
+  it('should have a transform method', () => {
     expect(server.transform).toEqual(jasmine.any(Function));
   });
 
-  it('should transform a stream', function () {
+  it('should transform a stream', () => {
     var spy = jasmine.createSpy('spy');
 
     var s = highland([[
@@ -147,53 +143,53 @@ describe('server', function () {
     ]);
   });
 
-  describe('test table functionality', function () {
-    describe('updating the expression', function () {
-      beforeEach(function () {
+  describe('test table functionality', () => {
+    describe('updating the expression', () => {
+      beforeEach(() => {
         server.currentPage = 5;
         pdshParser.andReturn({expansion: ['expression1']});
         server.pdshUpdate('expression', ['expression'], {expression: 1});
       });
 
-      it('should have populated hostnames', function () {
+      it('should have populated hostnames', () => {
         expect(server.hostnames).toEqual(['expression']);
       });
-      it('should set the current page to 1', function () {
+      it('should set the current page to 1', () => {
         expect(server.currentPage).toEqual(1);
       });
-      it('should have populated the hostname hash', function () {
+      it('should have populated the hostname hash', () => {
         expect(server.hostnamesHash).toEqual({expression: 1});
       });
     });
 
-    it('should return the host name from getHostPath', function () {
+    it('should return the host name from getHostPath', () => {
       var hostname = server.getHostPath({address: 'hostname1.localdomain'});
       expect(hostname).toEqual('hostname1.localdomain');
     });
 
-    it('should set the current page', function () {
+    it('should set the current page', () => {
       server.setPage(10);
       expect(server.currentPage).toEqual(10);
     });
 
-    it('should have an ascending sorting class name', function () {
+    it('should have an ascending sorting class name', () => {
       server.inverse = true;
       expect(server.getSortClass()).toEqual('fa-sort-asc');
     });
 
-    it('should return the correct items per page', function () {
+    it('should return the correct items per page', () => {
       server.itemsPerPage = '6';
       expect(server.getItemsPerPage()).toEqual(6);
     });
 
-    it('should have a descending sorting class name', function () {
+    it('should have a descending sorting class name', () => {
       server.inverse = false;
       expect(server.getSortClass()).toEqual('fa-sort-desc');
     });
 
-    describe('calling getTotalItems', function () {
+    describe('calling getTotalItems', () => {
       var result;
-      beforeEach(function () {
+      beforeEach(() => {
         server.hostnamesHash = {
           hostname1: 1
         };
@@ -203,35 +199,35 @@ describe('server', function () {
         result = server.getTotalItems();
       });
 
-      it('should have one item in the result', function () {
+      it('should have one item in the result', () => {
         expect(result).toEqual(1);
       });
 
-      it('should call the pdsh filter with appropriate args', function () {
+      it('should call the pdsh filter with appropriate args', () => {
         expect(pdshFilter).toHaveBeenCalledWith(server.servers, server.hostnamesHash, server.getHostPath,
           false);
       });
     });
 
-    it('should set table editable', function () {
+    it('should set table editable', () => {
       server.setEditable(true);
 
       expect(server.editable).toBe(true);
     });
 
-    it('should set the editable name', function () {
+    it('should set the editable name', () => {
       server.setEditName('Install Updates');
 
       expect(server.editName).toEqual('Install Updates');
     });
 
-    it('should open the addServer Dialog', function () {
+    it('should open the addServer Dialog', () => {
       server.addServer();
 
       expect(openAddServerModal).toHaveBeenCalledOnce();
     });
 
-    it('should get an action by value', function () {
+    it('should get an action by value', () => {
       var result = server.getActionByValue('Install Updates');
 
       expect(result).toEqual({
@@ -239,10 +235,10 @@ describe('server', function () {
       });
     });
 
-    describe('running an action', function () {
+    describe('running an action', () => {
       var handler;
 
-      beforeEach(function () {
+      beforeEach(() => {
         selectedServers.servers = {
           'https://hostname1.localdomain.com': true
         };
@@ -256,7 +252,7 @@ describe('server', function () {
         handler = $modal.open.plan().result.then.mostRecentCall.args[0];
       });
 
-      it('should open a confirmation modal', function () {
+      it('should open a confirmation modal', () => {
         expect($modal.open).toHaveBeenCalledOnceWith({
           templateUrl: 'iml/server/assets/html/confirm-server-action-modal.html',
           controller: 'ConfirmServerActionModalCtrl',
@@ -270,30 +266,30 @@ describe('server', function () {
         });
       });
 
-      it('should register a then listener', function () {
+      it('should register a then listener', () => {
         expect($modal.open.plan().result.then).toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 
-      it('should stop editing when confirmed', function () {
+      it('should stop editing when confirmed', () => {
         handler();
 
         expect(server.editable).toBe(false);
       });
 
-      describe('openCommandModal', function () {
-        beforeEach(function () {
+      describe('openCommandModal', () => {
+        beforeEach(() => {
           handler({ foo: 'bar' });
         });
 
-        it('should open the command modal with the spark', function () {
+        it('should open the command modal with the spark', () => {
           expect(openCommandModal).toHaveBeenCalledOnceWith(getCommandStream.plan());
         });
 
-        it('should call createCommandSpark', function () {
+        it('should call createCommandSpark', () => {
           expect(getCommandStream).toHaveBeenCalledWith([{ foo: 'bar' }]);
         });
 
-        it('should end the spark after the modal closes', function () {
+        it('should end the spark after the modal closes', () => {
           openCommandModal.plan().result.then(function whenModalClosed () {
             expect(getCommandStream.plan().destroy).toHaveBeenCalled();
           });
@@ -304,29 +300,29 @@ describe('server', function () {
     });
   });
 
-  describe('destroy', function () {
-    beforeEach(function () {
+  describe('destroy', () => {
+    beforeEach(() => {
       var handler = $scope.$on.mostRecentCall.args[1];
       handler();
     });
 
-    it('should listen', function () {
+    it('should listen', () => {
       expect($scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
     });
 
-    it('should destroy the job monitor', function () {
+    it('should destroy the job monitor', () => {
       expect(jobMonitorStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy the alert monitor', function () {
+    it('should destroy the alert monitor', () => {
       expect(alertMonitorStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy the server stream', function () {
+    it('should destroy the server stream', () => {
       expect(serversStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy the LNet configuration stream', function () {
+    it('should destroy the LNet configuration stream', () => {
       expect(lnetConfigurationStream.destroy).toHaveBeenCalledOnce();
     });
   });

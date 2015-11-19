@@ -49,27 +49,10 @@ angular.module('server')
             return lnetConfigurationStream.through(addProperty);
           });
 
-        var cs = socketStream('/corosync_configuration', {
-          jsonMask: 'objects(state,host,resource_uri)',
-          qs: {
-            limit: 0
-          }
-        });
-
-        var cs2 = cs
-          .pluck('objects');
-        cs2.destroy = cs.destroy.bind(cs);
-
-        var corosyncConfigurationStream = resolveStream(cs2)
-          .then(function addThroughProperty (s) {
-            return s.through(addProperty);
-          });
-
         return $q.all({
           jobMonitorStream: jobMonitorStream,
           alertMonitorStream: alertMonitorStream,
           lnetConfigurationStream: lnetConfigurationStream,
-          corosyncConfigurationStream: corosyncConfigurationStream,
           serversStream: getServersStream()
         });
       };

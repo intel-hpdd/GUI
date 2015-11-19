@@ -19,107 +19,60 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-  angular.module('alertIndicator')
-    .factory('alertMonitor',
-      function alertMonitorFactory (socketStream) {
-        return function alertMonitor () {
-          var stream = socketStream('/alert/', {
-            jsonMask: 'objects(affected,message)',
-            qs: {
-              limit: 0,
-              active: true
-            }
-          });
+angular.module('alertIndicator')
+  .factory('alertMonitor', function alertMonitorFactory (socketStream) {
+      return function alertMonitor () {
+        var stream = socketStream('/alert/', {
+          jsonMask: 'objects(affected,message)',
+          qs: {
+            limit: 0,
+            active: true
+          }
+        });
 
-          var s2 = stream
-            .pluck('objects');
+        var s2 = stream
+          .pluck('objects');
 
-          s2.destroy = stream.destroy.bind(stream);
+        s2.destroy = stream.destroy.bind(stream);
 
-          return s2;
-        };
-      })
-    .directive('recordState', function recordState (STATE_SIZE, $exceptionHandler, localApply) {
-      return {
-        scope: {
-          recordId: '=',
-          displayType: '=',
-          alertStream: '='
-        },
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'iml/alert-indicator/assets/html/alert-indicator.html',
-        link: function link (scope) {
-          var isOpen = false;
-
-          var recordState = scope.recordState = {
-            alerts: [],
-            messageDifference: [],
-            onToggle: function onToggle (state) {
-              if (state === 'closed') {
-                scope.recordState.clearMessageRecord();
-                isOpen = false;
-              } else {
-                isOpen = true;
-              }
-            },
-            isOpen: function isPopoverOpen () {
-              return isOpen;
-            },
-            /**
-             * Indicates if the command contains alerts (the directive is in an alert state).
-             * @returns {Boolean}
-             */
-            isInErrorState: function isInErrorState () {
-              return recordState.alerts.length > 0;
-            },
-            /**
-             * Clears the message record and difference arrays.
-             */
-            clearMessageRecord: function clearMessageRecord () {
-              scope.recordState.messageDifference = [];
-              scope.recordState.messageRecord = [];
-            },
-            /**
-             * Retrieves the tool tip message based on the number of alerts.
-             * @returns {String}
-             */
-            getTooltipMessage: function getTooltipMessage () {
-              var messageMap = {
-                '0': 'No alerts.',
-                '1': '1 alert message. Click to review details.',
-                'other': '{} alert messages. Click to review details.'
-              };
-
-              return _.pluralize(recordState.alerts.length, messageMap);
-            },
-            showLabel: function showLabel () {
-              return scope.displayType === STATE_SIZE.MEDIUM;
-            }
-          };
-
-          var propertyStream = scope.alertStream.property();
-
-          var indexOfRecord = fp.invokeMethod('indexOf', [ scope.recordId ]);
-          var recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
-
-          propertyStream
-            .map(fp.filter(fp.flow(fp.lensProp('affected'), recordFound)))
-            .map(fp.map(fp.lensProp('message')))
-            .stopOnError(fp.curry(1, $exceptionHandler))
-            .tap(function setAlerts (alerts) {
-              recordState.messageDifference = fp.difference(recordState.alerts, alerts);
-            })
-            .tap(fp.lensProp('alerts').set(fp.__, recordState))
-            .each(localApply.bind(null, scope));
-
-          scope.$on('$destroy', function onDestroy () {
-            propertyStream.destroy();
-
-            recordState = propertyStream = null;
-          });
-        }
+        return s2;
       };
+  })
+  .controller('RecordStateCtrl', function ($scope, STATE_SIZE, propagateChange) {
+    const ctrl = angular.extend(this, {
+      alerts: [],
+      hasAlerts() {
+        return ctrl.alerts.length > 0;
+      },
+      showLabel: function showLabel () {
+        return ctrl.displayType === STATE_SIZE.MEDIUM;
+      }
     });
 
+    const propertyStream = ctrl.alertStream.property();
+    const indexOfRecord = fp.invokeMethod('indexOf', [ ctrl.recordId ]);
+    const recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
 
+    const p = propagateChange($scope, ctrl, 'alerts');
+
+    propertyStream
+      .map(fp.filter(fp.flow(fp.lensProp('affected'), recordFound)))
+      .map(fp.map(fp.lensProp('message')))
+      .through(p);
+
+    $scope.$on('$destroy', propertyStream.destroy.bind(propertyStream));
+  })
+  .directive('recordState', () => {
+    return {
+      scope: {},
+      bindToController: {
+        recordId: '=',
+        displayType: '=',
+        alertStream: '='
+      },
+      controller: 'RecordStateCtrl',
+      controllerAs: 'ctrl',
+      restrict: 'E',
+      templateUrl: 'iml/alert-indicator/assets/html/alert-indicator.html'
+    };
+  });

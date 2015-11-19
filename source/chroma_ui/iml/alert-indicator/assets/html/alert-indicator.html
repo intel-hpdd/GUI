@@ -1,14 +1,20 @@
-<span>
-  <span class="record-state">
-    <i class="fa activate-popover" ng-class="{'fa-exclamation-circle': recordState.isInErrorState(), 'fa-check-circle': !recordState.isInErrorState() }" tooltip="{{recordState.getTooltipMessage()}}"
+<span class="record-state">
+  <span class="icon-wrap">
+    <i class="fa activate-popover"
+       ng-class="{'fa-exclamation-circle': ctrl.hasAlerts(), 'fa-check-circle': !ctrl.hasAlerts() }"
+       tooltip-template="'iml/alert-indicator/assets/html/state-label.html'"
        tooltip-placement="right"></i>
-    <iml-popover placement="bottom" title="Alerts" work="recordState.work(actions)"
-                 on-toggle="recordState.onToggle(state)" ng-if="recordState.isInErrorState() || recordState.isOpen()">
+    <iml-popover placement="bottom" title="Alerts"
+                 on-toggle="ctrl.onToggle(state)" ng-if="ctrl.hasAlerts()">
       <ul>
-        <li ng-repeat="alert in recordState.alerts">{{alert}}</li>
-        <li ng-repeat="alert in recordState.messageDifference"><s>{{alert}}</s></li>
+        <li ng-repeat="alert in ctrl.alerts">{{alert}}</li>
       </ul>
     </iml-popover>
-    <span ng-include="'iml/alert-indicator/assets/html/state-label.html'"></span>
   </span>
+  <ng-pluralize class="state-label" ng-if="ctrl.showLabel()" count="ctrl.alerts.length"
+                when="{
+    0: 'No Issues',
+    1: '{{ ctrl.alerts[0] }}',
+    'other': '{} Issues'}">
+  </ng-pluralize>
 </span>
