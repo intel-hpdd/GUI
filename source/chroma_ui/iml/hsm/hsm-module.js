@@ -19,9 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import { getAgentVsCopytoolStreamFactory } from './agent-vs-copytool-stream-exports';
+import {AddCopytoolModalCtrl, openAddCopytoolModalFactory}
+  from './add-copytool-modal-exports';
 
 angular.module('hsm', ['charts', 'd3', 'progress', 'command',
-                       'help', 'charting'])
-  .factory('getAgentVsCopytoolStream', getAgentVsCopytoolStreamFactory);
+    'help', 'charting'
+  ])
+  .factory('getAgentVsCopytoolStream', getAgentVsCopytoolStreamFactory)
+  .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
+  .factory('openAddCopytoolModal', openAddCopytoolModalFactory);

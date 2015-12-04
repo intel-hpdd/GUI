@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,68 +19,71 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, socketStream, fsStream) {
+  'ngInject';
 
-angular.module('hsm')
-  .controller('AddCopytoolModalCtrl', ['$scope', '$modalInstance',
-    'workerStream', 'socketStream', 'fsStream',
-  function AddCopytoolModalCtrl ($scope, $modalInstance,
-                                 workerStream, socketStream, fsStream) {
-    'use strict';
+  var addCopytoolModalCtrl = this;
 
-    var addCopytoolModalCtrl = this;
+  angular.extend(addCopytoolModalCtrl, {
+    inProgress: false,
+    filesystems: [],
+    workers: [],
+    copytool: {},
+    onSubmit: function onSubmit (copytool) {
+      addCopytoolModalCtrl.inProgress = true;
 
-    angular.extend(addCopytoolModalCtrl, {
-      inProgress: false,
-      filesystems: [],
-      workers: [],
-      copytool: {},
-      onSubmit: function onSubmit (copytool) {
-        addCopytoolModalCtrl.inProgress = true;
+      socketStream('/copytool', {
+        method: 'post',
+        json: copytool
+      }, true)
+        .each($uibModalInstance.close.bind($uibModalInstance));
+    }
+  });
 
-        socketStream('/copytool', {
-          method: 'post',
-          json: copytool
-        }, true)
-          .each($modalInstance.close.bind($modalInstance));
-      }
-    });
+  var s = fsStream
+    .pluck('objects');
+  $scope.propagateChange($scope, addCopytoolModalCtrl, 'filesystems', s);
 
-    var s = fsStream
-      .pluck('objects');
-    $scope.propagateChange($scope, addCopytoolModalCtrl, 'filesystems', s);
+  s = workerStream
+    .pluck('objects');
+  $scope.propagateChange($scope, addCopytoolModalCtrl, 'workers', s);
 
-    s = workerStream
-      .pluck('objects');
-    $scope.propagateChange($scope, addCopytoolModalCtrl, 'workers', s);
+  $scope.$on('$destroy', function onDestroy () {
+    workerStream.destroy();
+    fsStream.destroy();
+  });
+}
 
-    $scope.$on('$destroy', function onDestroy () {
-      workerStream.destroy();
-      fsStream.destroy();
-    });
-  }
-])
-.factory('openAddCopytoolModal', ['$modal', function openAddCopytoolModalFactory ($modal) {
-  'use strict';
+export function openAddCopytoolModalFactory ($uibModal) {
+  'ngInject';
 
   return function openAddCopytoolModal () {
-    return $modal.open({
+    return $uibModal.open({
       templateUrl: 'iml/hsm/assets/html/add-copytool-modal.html',
       controller: 'AddCopytoolModalCtrl as addCopytool',
       backdrop: 'static',
       windowClass: 'add-copytool-modal',
       resolve: {
-        fsStream: ['resolveStream', 'socketStream', function getfsStream (resolveStream, socketStream) {
+        fsStream (resolveStream, socketStream) {
+          /* jshint -W034 */
+          'ngInject';
+
           return resolveStream(socketStream('/filesystem', {
             jsonMask: 'objects(resource_uri,label)'
           }));
-        }],
-        workerStream: ['resolveStream', 'socketStream', function getWorkerStream (resolveStream, socketStream) {
+        },
+        workerStream (resolveStream, socketStream) {
+          /* jshint -W034 */
+          'ngInject';
+
           return resolveStream(socketStream('/host', {
             qs: { worker: true },
             jsonMask: 'objects(resource_uri,label)'
           }));
-        }]
+        }
       }
     }).result;
   };
-}]);
+}
+
+

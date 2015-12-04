@@ -1,6 +1,7 @@
 <div class="modal-header">
   <h4>Add Copytool</h4>
 </div>
+<div>
   <form novalidate name="form" role="form" ng-submit="addCopytool.onSubmit(addCopytool.copytool)">
     <div class="modal-body copytool">
       <div class="form-group" ng-class="{ 'has-error': form.filesystem.$invalid }">
@@ -16,12 +17,15 @@
           id="filesystem"
           ng-model="addCopytool.copytool.filesystem"
           ng-options="f.resource_uri as f.label for f in addCopytool.filesystems"
-          required="true">
+          required="true"
+          uib-tooltip="Filesystem is required."
+          tooltip-placement="bottom"
+          tooltip-trigger="none"
+          tooltip-class="error-tooltip"
+          tooltip-is-open="form.filesystem.$invalid"
+        >
           <option value="">{{ 'add_copytool_default_filesystem_option' | insertHelp }}</option>
         </select>
-        <iml-tooltip class="error-tooltip" toggle="form.filesystem.$invalid" direction="bottom">
-          Filesystem is required.
-        </iml-tooltip>
       </div>
 
       <div class="form-group" ng-class="{'has-error': form.host.$invalid}">
@@ -35,12 +39,15 @@
                 name="host"
                 id="host"
                 ng-model="addCopytool.copytool.host"
-                ng-options="w.resource_uri as w.label for w in addCopytool.workers" >
+                ng-options="w.resource_uri as w.label for w in addCopytool.workers"
+                uib-tooltip="Worker is required."
+                tooltip-placement="bottom"
+                tooltip-trigger="none"
+                tooltip-class="error-tooltip"
+                tooltip-is-open="form.host.$invalid"
+        >
           <option value="">{{ 'add_copytool_default_worker_option' | insertHelp }}</option>
         </select>
-        <iml-tooltip class="error-tooltip" toggle="form.host.$invalid" direction="bottom">
-          Worker is required.
-        </iml-tooltip>
       </div>
 
       <div class="form-group" ng-class="{'has-error': form.bin_path.$invalid}">
@@ -54,13 +61,15 @@
           name="bin_path"
           id="bin_path"
           ng-model="addCopytool.copytool.bin_path"
-          placeholder="/path/to/lhsmtool_binary"
+          placeholder="Enter absolute HSM agent binary path"
           ng-pattern="/^\/.*[^/]$/"
-          required="true" />
-        <iml-tooltip class="error-tooltip" toggle="form.bin_path.$invalid" direction="bottom">
-          <span ng-if="form.bin_path.$error.required">HSM Agent Binary Path is required.</span>
-          <span ng-if="form.bin_path.$error.pattern">Path must be absolute.</span>
-        </iml-tooltip>
+          required="true"
+          uib-tooltip-template="'iml/hsm/assets/html/modal-tooltips/agent-binary-tooltip.html'"
+          tooltip-placement="bottom"
+          tooltip-trigger="none"
+          tooltip-class="error-tooltip"
+          tooltip-is-open="form.bin_path.$invalid"
+        />
       </div>
 
       <div class="form-group" ng-class="{'has-error': form.hsm_arguments.$invalid}">
@@ -73,7 +82,8 @@
                name="hsm_arguments"
                id="hsm_arguments"
                ng-model="addCopytool.copytool.hsm_arguments"
-               placeholder="-p /path/to/hsm" />
+               placeholder="Enter HSM agent arguments"
+                />
       </div>
 
       <div class="form-group" ng-class="{ 'has-error': form.mountpoint.$invalid }">
@@ -86,13 +96,15 @@
                name="mountpoint"
                id="mountpoint"
                ng-model="addCopytool.copytool.mountpoint"
-               placeholder="/mnt/fs"
+               placeholder="Enter absolute mountpoint path"
                ng-pattern="/^\/.+$/"
-               required="true" />
-        <iml-tooltip class="error-tooltip" toggle="form.mountpoint.$invalid" direction="bottom">
-          <span ng-if="form.mountpoint.$error.required">Filesystem Mountpoint Path is required.</span>
-          <span ng-if="form.mountpoint.$error.pattern">Path must be absolute.</span>
-        </iml-tooltip>
+               required="true"
+               uib-tooltip-template="'iml/hsm/assets/html/modal-tooltips/mountpoint-tooltip.html'"
+               tooltip-placement="bottom"
+               tooltip-trigger="none"
+               tooltip-class="error-tooltip"
+               tooltip-is-open="form.mountpoint.$invalid"
+        />
       </div>
 
       <div class="form-group" ng-class="{'has-error': form.archive.$invalid}">
@@ -111,12 +123,14 @@
                ng-model="addCopytool.copytool.archive"
                min="0"
                ng-pattern="/^\d+$/"
-               required="true" />
-        <iml-tooltip class="error-tooltip" toggle="form.archive.$invalid" direction="bottom">
-          <span ng-if="form.archive.$error.required">Archive number is required.</span>
-          <span ng-if="form.archive.$error.pattern">Archive number must be an integer.</span>
-          <span ng-if="form.archive.$error.number">Archive number must be an number.</span>
-        </iml-tooltip>
+               required="true"
+               placeholder="Enter archive number"
+               uib-tooltip-template="'iml/hsm/assets/html/modal-tooltips/archive-tooltip.html'"
+               tooltip-placement="bottom"
+               tooltip-trigger="none"
+               tooltip-class="error-tooltip"
+               tooltip-is-open="form.archive.$invalid"
+        />
       </div>
     </div>
     <div class="modal-footer">

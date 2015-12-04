@@ -1,25 +1,14 @@
-describe('Add copytool modal', function () {
-  'use strict';
+describe('Add copytool modal', () => {
+  beforeEach(module('hsm'));
 
-  var configs;
-
-  beforeEach(module('hsm', function () {
-    configs = angular.module('hsm')._configBlocks;
-    angular.module('hsm')._configBlocks = [];
-  }, 'hsm'));
-
-  afterEach(function () {
-    angular.module('hsm')._configBlocks = configs;
-  });
-
-  describe('add copytool modal controller', function () {
+  describe('add copytool modal controller', () => {
     var $scope, addCopytoolModalCtrl,
-      $modalInstance, socketStream, workerStream, fsStream;
+      $uibModalInstance, socketStream, workerStream, fsStream;
 
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(($controller, $rootScope) => {
       $scope = $rootScope.$new();
 
-      $modalInstance = {
+      $uibModalInstance = {
         close: jasmine.createSpy('close')
       };
 
@@ -31,16 +20,16 @@ describe('Add copytool modal', function () {
       fsStream = highland();
 
       addCopytoolModalCtrl = $controller('AddCopytoolModalCtrl', {
-        $scope: $scope,
-        $modalInstance: $modalInstance,
+        $scope,
+        $uibModalInstance,
         λ: highland,
-        socketStream: socketStream,
-        workerStream: workerStream,
-        fsStream: fsStream
+        socketStream,
+        workerStream,
+        fsStream
       });
     }));
 
-    it('should expose the expected interface', function () {
+    it('should expose the expected interface', () => {
       expect(addCopytoolModalCtrl).toEqual({
         inProgress: false,
         filesystems: [],
@@ -50,7 +39,7 @@ describe('Add copytool modal', function () {
       });
     });
 
-    it('should set fs on the controller', function () {
+    it('should set fs on the controller', () => {
       fsStream.write({
         objects: [
           { foo: 'bar' }
@@ -60,7 +49,7 @@ describe('Add copytool modal', function () {
       expect(addCopytoolModalCtrl.filesystems).toEqual([{ foo: 'bar' }]);
     });
 
-    it('should set workers on the controller', function () {
+    it('should set workers on the controller', () => {
       workerStream.write({
         objects: [
           { bar: 'baz' }
@@ -70,10 +59,10 @@ describe('Add copytool modal', function () {
       expect(addCopytoolModalCtrl.workers).toEqual([{ bar: 'baz' }]);
     });
 
-    describe('submit copytool', function () {
+    describe('submit copytool', () => {
       var copytool;
 
-      beforeEach(function () {
+      beforeEach(() => {
         copytool = {};
 
         addCopytoolModalCtrl.onSubmit(copytool);
@@ -82,110 +71,108 @@ describe('Add copytool modal', function () {
         socketStream.plan().end();
       });
 
-      it('should create a new copytool', function () {
+      it('should create a new copytool', () => {
         expect(socketStream).toHaveBeenCalledOnceWith('/copytool', {
           method: 'post',
           json: copytool
         }, true);
       });
 
-      it('should close the modal', function () {
-        expect($modalInstance.close).toHaveBeenCalledOnce();
+      it('should close the modal', () => {
+        expect($uibModalInstance.close).toHaveBeenCalledOnce();
       });
     });
   });
 
-  describe('open', function () {
-    var $modal;
+  describe('open', () => {
+    var $uibModal;
 
-    beforeEach(module(function ($provide) {
-      $modal = {
+    beforeEach(module(($provide) => {
+      $uibModal = {
         open: jasmine.createSpy('open')
           .andReturn({
             result: jasmine.createSpy('result')
           })
       };
 
-      $provide.value('$modal', $modal);
+      $provide.value('$uibModal', $uibModal);
     }));
 
     var result;
 
-    beforeEach(inject(function (openAddCopytoolModal) {
+    beforeEach(inject((openAddCopytoolModal) => {
       result = openAddCopytoolModal();
     }));
 
-    it('should return the result', function () {
-      expect(result).toEqual($modal.open.plan().result);
+    it('should return the result', () => {
+      expect(result).toEqual($uibModal.open.plan().result);
     });
 
-    it('should have the expected open config', function () {
-      expect($modal.open).toHaveBeenCalledOnceWith({
+    it('should have the expected open config', () => {
+      expect($uibModal.open).toHaveBeenCalledOnceWith({
         templateUrl: 'iml/hsm/assets/html/add-copytool-modal.html',
         controller: 'AddCopytoolModalCtrl as addCopytool',
         backdrop: 'static',
         windowClass: 'add-copytool-modal',
         resolve: {
-          fsStream: jasmine.any(Array),
-          workerStream: jasmine.any(Array)
+          fsStream: jasmine.any(Function),
+          workerStream: jasmine.any(Function)
         }
       });
     });
 
-    describe('resolving deps', function () {
+    describe('resolving deps', () => {
       var resolveStream, socketStream, getResolve;
 
-      beforeEach(function () {
+      beforeEach(() => {
         socketStream = jasmine.createSpy('socketStream').andReturn({});
 
         resolveStream = jasmine.createSpy('resolveStream').andReturn({});
 
-        getResolve = function getResolve (name) {
-          return fp.tail($modal.open.mostRecentCall.args[0].resolve[name]);
-        };
+        getResolve = (name) => $uibModal.open.mostRecentCall.args[0].resolve[name];
       });
 
-      describe('fs stream', function () {
+      describe('fs stream', () => {
         var result;
 
-        beforeEach(function () {
+        beforeEach(() => {
           result = getResolve('fsStream')(resolveStream, socketStream);
         });
 
-        it('should create a new fs stream', function () {
+        it('should create a new fs stream', () => {
           expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
             jsonMask: 'objects(resource_uri,label)'
           });
         });
 
-        it('should resolve the stream', function () {
+        it('should resolve the stream', () => {
           expect(resolveStream).toHaveBeenCalledOnceWith(socketStream.plan());
         });
 
-        it('should return resolving the stream', function () {
+        it('should return resolving the stream', () => {
           expect(result).toBe(resolveStream.plan());
         });
       });
 
-      describe('worker stream', function () {
+      describe('worker stream', () => {
         var result;
 
-        beforeEach(function () {
+        beforeEach(() => {
           result = getResolve('workerStream')(resolveStream, socketStream);
         });
 
-        it('should create a new worker stream', function () {
+        it('should create a new worker stream', () => {
           expect(socketStream).toHaveBeenCalledOnceWith('/host', {
             qs: { worker: true },
             jsonMask: 'objects(resource_uri,label)'
           });
         });
 
-        it('should resolve the stream', function () {
+        it('should resolve the stream', () => {
           expect(resolveStream).toHaveBeenCalledOnceWith(socketStream.plan());
         });
 
-        it('should return resolving the stream', function () {
+        it('should return resolving the stream', () => {
           expect(result).toBe(resolveStream.plan());
         });
       });
