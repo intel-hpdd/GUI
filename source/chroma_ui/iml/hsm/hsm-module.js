@@ -20,5 +20,8 @@
 // express and approved by Intel in writing.
 
 
+import { getAgentVsCopytoolStreamFactory } from './agent-vs-copytool-stream-exports';
+
 angular.module('hsm', ['charts', 'd3', 'progress', 'command',
-                       'help', 'charting']);
+                       'help', 'charting'])
+  .factory('getAgentVsCopytoolStream', getAgentVsCopytoolStreamFactory);
