@@ -21,8 +21,11 @@
 
 import {createStream} from './create-stream-exports';
 import {chartCompilerFactory} from './chart-compiler-exports';
+import {getLineFactory} from './types/get-line-exports';
 
 angular.module('charting', ['createDate', 'serverMoment',
-  'highland', 'd3', 'get-template-promise', 'socket-module'])
+    'highland', 'd3', 'get-template-promise', 'socket-module'
+  ])
   .factory('createStream', createStream)
-  .factory('chartCompiler', chartCompilerFactory);
+  .factory('chartCompiler', chartCompilerFactory)
+  .factory('getLine', getLineFactory);

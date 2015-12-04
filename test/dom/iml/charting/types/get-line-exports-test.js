@@ -1,17 +1,30 @@
-describe('get line', function () {
-  'use strict';
+import {getLineFactory} from
+  '../../../../../source/chroma_ui/iml/charting/types/get-line-exports';
 
-  beforeEach(module('charting', function ($provide) {
-    $provide.value('$location', {
-      absUrl: fp.always('https://foo/')
-    });
-  }));
+describe('get line', () => {
+  const getCoords = fp.flow(
+    Array.from,
+    fp.map((x) => {
+      return {
+        type: x.pathSegTypeAsLetter,
+        x: Math.round(x.x),
+        y: Math.round(x.y)
+      };
+    })
+  );
 
   var getLine, div, svg, query, queryAll, d3;
 
-  beforeEach(inject(function (_getLine_, _d3_) {
+  beforeEach(module('charting'));
+
+  beforeEach(inject((_d3_) => {
     d3 = _d3_;
-    getLine = _getLine_;
+
+    const $location = {
+      absUrl: fp.always('https://foo/')
+    };
+
+    getLine = getLineFactory($location, d3);
 
     div = document.createElement('div');
 
@@ -26,14 +39,14 @@ describe('get line', function () {
     queryAll = svg.querySelectorAll.bind(svg);
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(getLine).toEqual(jasmine.any(Function));
   });
 
-  describe('instance', function () {
+  describe('instance', () => {
     var inst, spy, setup;
 
-    beforeEach(inject(function (d3) {
+    beforeEach(() => {
       inst = getLine();
       spy = jasmine.createSpy('spy');
 
@@ -46,7 +59,7 @@ describe('get line', function () {
       svg = d3.select(svg)
         .append('g');
 
-      setup = function setup (d) {
+      setup = (d) => {
         x.domain([0, d3.max(d, fp.lensProp('x'))]);
         y.domain([0, d3.max(d, fp.lensProp('y'))]);
 
@@ -61,72 +74,72 @@ describe('get line', function () {
           .datum(d)
           .call(inst);
       };
-    }));
+    });
 
-    it('should have a color accessor', function () {
+    it('should have a color accessor', () => {
       expect(inst.color()).toEqual('#000000');
     });
 
-    it('should have a color setter', function () {
+    it('should have a color setter', () => {
       inst.color('#111111');
 
       expect(inst.color()).toEqual('#111111');
     });
 
-    it('should have an xValue accessor', function () {
+    it('should have an xValue accessor', () => {
       expect(inst.xValue()).toBe(fp.noop);
     });
 
-    it('should have an xValue setter', function () {
+    it('should have an xValue setter', () => {
       inst.xValue(spy);
 
       expect(inst.xValue()).toBe(spy);
     });
 
-    it('should have a yValue accessor', function () {
+    it('should have a yValue accessor', () => {
       expect(inst.yValue()).toBe(fp.noop);
     });
 
-    it('should have a yValue setter', function () {
+    it('should have a yValue setter', () => {
       inst.yValue(spy);
 
       expect(inst.yValue()).toBe(spy);
     });
 
-    it('should have an xScale accessor', function () {
+    it('should have an xScale accessor', () => {
       expect(inst.xScale()).toBe(fp.noop);
     });
 
-    it('should have a xScale setter', function () {
+    it('should have a xScale setter', () => {
       inst.xScale(spy);
 
       expect(inst.xScale()).toBe(spy);
     });
 
-    it('should have a yScale accessor', function () {
+    it('should have a yScale accessor', () => {
       expect(inst.yScale()).toBe(fp.noop);
     });
 
-    it('should have a yScale setter', function () {
+    it('should have a yScale setter', () => {
       inst.yScale(spy);
 
       expect(inst.yScale()).toBe(spy);
     });
 
-    it('should have an xComparator accessor', function () {
+    it('should have an xComparator accessor', () => {
       expect(inst.xComparator()).toBe(fp.noop);
     });
 
-    it('should have an xComparator setter', function () {
+    it('should have an xComparator setter', () => {
       inst.xComparator(spy);
 
       expect(inst.xComparator()).toBe(spy);
     });
 
-    describe('with data', function () {
+    describe('with data', () => {
       var line;
 
-      beforeEach(function () {
+      beforeEach(() => {
         setup([
           {
             x: 0,
@@ -145,60 +158,57 @@ describe('get line', function () {
         line = query('.clipPath1 path.line1');
       });
 
-      it('should add a clip path', function () {
+      it('should add a clip path', () => {
         expect(query('clipPath#clip1')).toBeDefined();
       });
 
-      it('should set the clipping to rectangle the scale width', function () {
+      it('should set the clipping to rectangle the scale width', () => {
         expect(query('rect').getAttribute('width')).toEqual('100');
       });
 
-      it('should set the clipping rectangle to the scale height', function () {
+      it('should set the clipping rectangle to the scale height', () => {
         expect(query('rect').getAttribute('height')).toEqual('100');
       });
 
-      it('should set the corresponding clip path', function () {
-        expect(query('.clipPath1').getAttribute('clip-path')).toEqual('url(https://foo/#clip1)');
+      it('should set the corresponding clip path', () => {
+        expect(query('.clipPath1').getAttribute('clip-path'))
+          .toEqual('url(https://foo/#clip1)');
       });
 
-      it('should calculate the line from data', function () {
+      it('should calculate the line from data', () => {
         expect(line.getAttribute('d')).toEqual('M0,100L50,50L100,0');
       });
 
-      it('should set the color on the line', function () {
+      it('should set the color on the line', () => {
         expect(line.getAttribute('stroke')).toEqual('#000000');
       });
 
-      it('should set stroke-dasharray to the total length of the line', function () {
+      it('should set stroke-dasharray to the total length of the line', () => {
         line.getAttribute('stroke-dasharray')
           .split(' ')
           .map(fp.curry(1, parseInt))
-          .forEach(expectToBeGreaterThan0);
-
-        function expectToBeGreaterThan0 (x) {
-          expect(x).toBeGreaterThan(0);
-        }
+          .forEach((x) => expect(x).toBeGreaterThan(0));
       });
 
-      it('should set stroke-dashoffset to the total length of the line', function () {
+      it('should set stroke-dashoffset to the total length of the line', () => {
         expect(parseInt(line.getAttribute('stroke-dashoffset')))
           .toBeGreaterThan(0);
       });
 
-      it('should animate stroke-dashoffset to 0', function () {
+      it('should animate stroke-dashoffset to 0', () => {
         window.flushD3Transitions();
 
         expect(line.getAttribute('stroke-dashoffset')).toEqual('0');
       });
 
-      it('should animate stroke-dasharray to 0', function () {
+      it('should animate stroke-dasharray to 0', () => {
         window.flushD3Transitions();
 
         expect(line.getAttribute('stroke-dasharray')).toBeNull();
       });
 
-      describe('and updating', function () {
-        beforeEach(function () {
+      describe('and updating', () => {
+        beforeEach(() => {
           window.flushD3Transitions();
 
           setup([
@@ -217,11 +227,39 @@ describe('get line', function () {
           ]);
         });
 
-        it('should start with previous coordinates', function () {
-          expect(line.getAttribute('d')).toEqual('M0,100L50,50L100,0');
+        describe('previous layout', () => {
+          var coords;
+
+          beforeEach(() => {
+            coords = getCoords(line.pathSegList);
+          });
+
+          it('should move to 0,100', () => {
+            expect(coords[0]).toEqual({
+              type: 'M',
+              x: 0,
+              y: 100
+            });
+          });
+
+          it('should draw a line to 50,50', () => {
+            expect(coords[1]).toEqual({
+              type: 'L',
+              x: 50,
+              y: 50
+            });
+          });
+
+          it('should draw a line to 100,0', () => {
+            expect(coords[2]).toEqual({
+              type: 'L',
+              x: 100,
+              y: 0
+            });
+          });
         });
 
-        it('should update the line data and keep the previous point', function () {
+        it('should update the line data keep the previous point and duplicate the last point', () => {
           expect(d3.select(line).datum()).toEqual([
             {
               x: 0,
@@ -242,14 +280,40 @@ describe('get line', function () {
           ]);
         });
 
-        it('should end with new coordinates', function () {
-          window.flushD3Transitions();
+        describe('ending layout', () => {
+          var coords;
 
-          expect(line.getAttribute('d'))
-            .toEqual('M33.33333333333333,66.66666666666667L66.66666666666666,33.333333333333336L100,0');
+          beforeEach(() => {
+            window.flushD3Transitions();
+            coords = getCoords(line.pathSegList);
+          });
+
+          it('should move to 33,67', () => {
+            expect(coords[0]).toEqual({
+              type: 'M',
+              x: 33,
+              y: 67
+            });
+          });
+
+          it('should draw a line to 67,33', () => {
+            expect(coords[1]).toEqual({
+              type: 'L',
+              x: 67,
+              y: 33
+            });
+          });
+
+          it('should draw a line to 100,0', () => {
+            expect(coords[2]).toEqual({
+              type: 'L',
+              x: 100,
+              y: 0
+            });
+          });
         });
 
-        it('should end with new data', function () {
+        it('should end with new data', () => {
           window.flushD3Transitions();
 
           expect(d3.select(line).datum()).toEqual([
@@ -269,8 +333,8 @@ describe('get line', function () {
         });
       });
 
-      describe('and exiting', function () {
-        beforeEach(function () {
+      describe('and exiting', () => {
+        beforeEach(() => {
           window.flushD3Transitions();
 
           setup([]);
@@ -278,7 +342,7 @@ describe('get line', function () {
           window.flushD3Transitions();
         });
 
-        it('should remove the line', function () {
+        it('should remove the line', () => {
           expect(query('.clipPath1 path.line1')).toBeNull();
         });
       });
