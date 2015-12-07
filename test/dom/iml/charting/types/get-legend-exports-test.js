@@ -1,16 +1,14 @@
-describe('get legend', function () {
-
+describe('get legend', () => {
   beforeEach(module('charting'));
 
-  var d3, getLegend, div, svg, w, h, mouseClick, getElement, translate, components;
+  var d3, getLegend, div, svg, w, h,
+    mouseClick, getElement, translate;
 
-  beforeEach(inject(function (_getLegend_, _d3_) {
+  beforeEach(inject((_getLegend_, _d3_) => {
     d3 = _d3_;
     getLegend = _getLegend_;
 
-    translate = function translate(x, y) {
-      return 'translate(%s,%s)'.sprintf(x, y);
-    };
+    translate = (x, y) => `translate(${x},${y})`;
 
     getElement = fp.flow(fp.head, fp.head);
     mouseClick = new MouseEvent('click');
@@ -29,41 +27,35 @@ describe('get legend', function () {
     document.body.appendChild(div);
   }));
 
-  afterEach(function () {
-    div.removeChild(document.querySelector('svg'));
+  afterEach(() => {
     document.body.removeChild(div);
   });
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(getLegend).toEqual(jasmine.any(Function));
   });
 
-  describe('instance', function () {
-    var color, componentNames, legend, legendContainer;
+  describe('instance', () => {
+    var componentNames, legend, legendContainer;
 
     componentNames = [
-      "running actions with stuff",
-      "waiting requests in queue",
-      "idle workers",
-      "running actions with stuff2",
-      "waiting requests in queue2",
-      "idle workers2"
+      'running actions with stuff',
+      'waiting requests in queue',
+      'idle workers',
+      'running actions with stuff2',
+      'waiting requests in queue2',
+      'idle workers2'
     ];
 
-    beforeEach(inject(function (d3) {
-      color = d3.scale.category10();
-
+    beforeEach(inject((d3) => {
       var colorOrdinal = d3.scale.ordinal();
       colorOrdinal.domain(componentNames);
       colorOrdinal.range(d3.scale.category10().range().slice(0, componentNames.length));
 
-      // name to value ordinal scale
-      // domain would be a NAME
-      // range would be a color
       legend = getLegend()
         .colors(colorOrdinal)
         .width(w)
-        .height(28)
+        .height(45)
         .padding(10)
         .showLabels(true);
 
@@ -71,116 +63,147 @@ describe('get legend', function () {
       legendContainer = d3.select('svg')
         .append('g')
         .attr('class', 'legend-wrap')
-        .datum(colorOrdinal.domain())
         .call(legend);
 
-      components = legendContainer.node().querySelectorAll.bind(legendContainer.node());
+      window.flushD3Transitions();
     }));
 
-    it('should have a colors accessor', function () {
+    it('should have a colors accessor', () => {
       expect(legend.colors).toEqual(jasmine.any(Function));
     });
 
-    it('should have a width accessor', function () {
+    it('should have a width accessor', () => {
       expect(legend.width).toEqual(jasmine.any(Function));
     });
 
-    it('should have a height accessor', function () {
+    it('should have a height accessor', () => {
       expect(legend.height).toEqual(jasmine.any(Function));
     });
 
-    it('should have a padding accessor', function () {
+    it('should have a padding accessor', () => {
       expect(legend.padding).toEqual(jasmine.any(Function));
     });
 
-    it('should have a radius accessor', function () {
+    it('should have a radius accessor', () => {
       expect(legend.radius).toEqual(jasmine.any(Function));
     });
 
-    it('should have a showLabels accessor', function () {
+    it('should have a showLabels accessor', () => {
       expect(legend.showLabels).toEqual(jasmine.any(Function));
     });
 
-    it('should have a dispatch accessor', function () {
+    it('should have a dispatch accessor', () => {
       expect(legend.dispatch).toEqual(jasmine.any(Function));
     });
 
-    describe('group', function () {
-      componentNames.forEach(function (name) {
-        it('should have a circle for %s'.sprintf(name), function () {
-          var circle = legendContainer.select('.legend-wrap g[data-name="%s"] circle'.sprintf(name));
-          expect(circle).not.toBeNull();
+    describe('group', () => {
+      componentNames.forEach((name) => {
+        it(`should have a circle for ${name}`, () => {
+          const circle = legendContainer
+            .selectAll('.legend-circle')
+            .filter((d) => d === name);
+
+          expect(circle.size()).toBe(1);
         });
       });
 
-      componentNames.forEach(function (name) {
-        it('should have a label for %s'.sprintf(name), function () {
-          var label = legendContainer.select('.legend-wrap g[data-name="%s"] text'.sprintf(name));
+      componentNames.forEach((name) => {
+        it(`should have a label for ${name}`, () => {
+          const label = legendContainer
+            .selectAll('.legend-label')
+            .filter((d) => d === name);
+
           expect(label.text()).toEqual(name);
         });
       });
     });
 
-    describe('events', function () {
+    describe('events', () => {
       var onSelectionSpy, node;
 
-      beforeEach(function () {
+      beforeEach(() => {
         onSelectionSpy = jasmine.createSpy('onSelectionSpy');
-        legend.dispatch().on('selection', onSelectionSpy);
+
+        legend.dispatch()
+          .on('selection', onSelectionSpy);
       });
 
-      describe('on selected', function () {
-        componentNames.forEach(function (name) {
-          it('should dispatch the selection event for "%s"'.sprintf(name), function () {
-            node = getElement(legendContainer.select('.legend-wrap g[data-name="%s"]'.sprintf(name)));
+      describe('on selected', () => {
+        componentNames.forEach((name) => {
+          it(`should dispatch the selection event for "${name}"`, () => {
+            node = legendContainer
+              .selectAll('.legend-group')
+              .filter((d) => d === name)
+              .node();
+
             node.dispatchEvent(mouseClick);
             expect(onSelectionSpy).toHaveBeenCalledOnceWith(name, true);
           });
         });
 
-        componentNames.forEach(function (name) {
-          it('should not have a fill opacity for "%s"'.sprintf(name), function () {
-            node = getElement(legendContainer.select('.legend-wrap g[data-name="%s"]'.sprintf(name)));
+        componentNames.forEach((name) => {
+          it(`should not have a fill opacity for "${name}"`, () => {
+            node = legendContainer
+              .selectAll('.legend-group')
+              .filter((d) => d === name)
+              .node();
+
             node.dispatchEvent(mouseClick);
 
-            var circle = getElement(legendContainer.select('.legend-wrap g[data-name="%s"] circle'.sprintf(name)));
+            const circle = d3.select(node)
+              .selectAll('.legend-circle');
 
-            expect(circle.getAttribute('fill-opacity')).toEqual('0');
+            window.flushD3Transitions();
+
+            expect(circle.attr('fill-opacity')).toBe('0');
           });
         });
       });
 
-      describe('on unselected', function () {
-        componentNames.forEach(function (name) {
-          it('should dispatch the selection event for "%s"'.sprintf(name), function () {
-            node = getElement(legendContainer.select('.legend-wrap g[data-name="%s"]'.sprintf(name)));
+      describe('on unselected', () => {
+        componentNames.forEach((name) => {
+          it(`should dispatch the selection event for "${name}"`, () => {
+            node = legendContainer
+              .selectAll('.legend-group')
+              .filter((d) => d === name)
+              .node();
+
             node.dispatchEvent(mouseClick); // select
             node.dispatchEvent(mouseClick); // deselect
-            expect(onSelectionSpy).toHaveBeenCalledOnceWith(name, false);
+
+            expect(onSelectionSpy)
+              .toHaveBeenCalledOnceWith(name, false);
           });
         });
 
-        componentNames.forEach(function (name) {
-          it('should have a fill opacity for "%s"'.sprintf(name), function () {
-            var circle;
-            node = getElement(legendContainer.select('.legend-wrap g[data-name="%s"]'.sprintf(name)));
+        componentNames.forEach((name) => {
+          it(`should have a fill opacity for "${name}"`, () => {
+            node = legendContainer
+              .selectAll('.legend-group')
+              .filter((d) => d === name)
+              .node();
+
             node.dispatchEvent(mouseClick); // select
+            window.flushD3Transitions();
             node.dispatchEvent(mouseClick); // unselect
 
-            circle = getElement(legendContainer.select('.legend-wrap g[data-name="%s"] circle'.sprintf(name)));
+            const circle = d3.select(node)
+              .select('.legend-circle');
 
-            expect(circle.getAttribute('fill-opacity')).toBeNull();
+            window.flushD3Transitions();
+
+            expect(circle.attr('fill-opacity')).toBe('1');
           });
         });
       });
     });
 
-    describe('layout', function () {
+    describe('layout', () => {
       var itemDimensions;
 
-      describe('with labels', function () {
+      describe('with labels', () => {
 
-        it('should display the label', function () {
+        it('should display the label', () => {
           var labels = legendContainer.selectAll('.legend-wrap g text');
           var displayIsInherit = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq('inherit'));
           var hasLabels = fp.flow(fp.head, fp.every(displayIsInherit))(labels);
@@ -188,7 +211,7 @@ describe('get legend', function () {
           expect(hasLabels).toEqual(true);
         });
 
-        it('should display the circles', function () {
+        it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
           var displayPropNotSet = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq(null));
           var hasCircles = fp.flow(fp.head, fp.every(displayPropNotSet))(circles);
@@ -196,26 +219,26 @@ describe('get legend', function () {
           expect(hasCircles).toEqual(true);
         });
 
-        it('should not overlap with others', function () {
+        it('should not overlap with others', () => {
           itemDimensions = fp.flow(fp.head, fp.map(getItemDimensions))(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
-        it('should be arranged in the appropriate order', function () {
+        it('should be arranged in the appropriate order', () => {
           var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
 
-      describe('without labels', function () {
-        beforeEach(function () {
+      describe('without labels', () => {
+        beforeEach(() => {
           legend.width(400);
           legendContainer.call(legend);
         });
 
-        it('should not display the label', function () {
+        it('should not display the label', () => {
           var labels = legendContainer.selectAll('.legend-wrap g text');
           var displayIsNone = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq('none'));
           var hasLabels = fp.flow(fp.head, fp.every(displayIsNone))(labels);
@@ -223,7 +246,7 @@ describe('get legend', function () {
           expect(hasLabels).toEqual(true);
         });
 
-        it('should display the circles', function () {
+        it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
           var displayPropNotSet = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq(null));
           var hasCircles = fp.flow(fp.head, fp.every(displayPropNotSet))(circles);
@@ -231,14 +254,14 @@ describe('get legend', function () {
           expect(hasCircles).toEqual(true);
         });
 
-        it('should not overlap with others', function () {
+        it('should not overlap with others', () => {
           itemDimensions = fp.flow(fp.head, fp.map(getItemDimensions))(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
-        it('should be arranged in the appropriate order', function () {
+        it('should be arranged in the appropriate order', () => {
           var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
@@ -247,13 +270,13 @@ describe('get legend', function () {
 
     var noCollision = fp.curry(2, detectCollision);
     function verifyNoIntersections (itemDimensions) {
-      return itemDimensions.every(function (dims, index, arr) {
+      return itemDimensions.every((dims, index, arr) => {
         return fp.every(noCollision(dims), arr.slice(index + 1));
       });
     }
 
     function verifyInExpectedOrder (labels, componentNames) {
-      return labels.every(function (label, index) {
+      return labels.every((label, index) => {
         return fp.flow(fp.invokeMethod('indexOf', [label.textContent]), fp.eq(index))(componentNames);
       });
     }
@@ -264,14 +287,13 @@ describe('get legend', function () {
       return !horizontalIntersection || (horizontalIntersection && !verticalIntersection);
     }
 
-    function getItemDimensions(item) {
+    function getItemDimensions (item) {
       var clientRect = item.getBoundingClientRect();
       return {
         left: clientRect.left,
         right: clientRect.right,
         top: clientRect.top,
-        bottom: clientRect.bottom,
-        name: item.getAttribute('data-name')
+        bottom: clientRect.bottom
       };
     }
 

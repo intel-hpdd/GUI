@@ -22,10 +22,12 @@
 import {createStream} from './create-stream-exports';
 import {chartCompilerFactory} from './chart-compiler-exports';
 import {getLineFactory} from './types/get-line-exports';
+import {getLegendFactory} from './types/get-legend-exports';
 
 angular.module('charting', ['createDate', 'serverMoment',
     'highland', 'd3', 'get-template-promise', 'socket-module'
   ])
   .factory('createStream', createStream)
   .factory('chartCompiler', chartCompilerFactory)
-  .factory('getLine', getLineFactory);
+  .factory('getLine', getLineFactory)
+  .factory('getLegend', getLegendFactory);
