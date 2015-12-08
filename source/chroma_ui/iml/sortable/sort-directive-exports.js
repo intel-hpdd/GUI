@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -20,21 +20,22 @@
 // express and approved by Intel in writing.
 
 
-angular.module('sortable', []).directive('sorter', [function () {
-  'use strict';
-
-  var CLASS_NAMES = {
+export function sorter () {
+  const CLASS_NAMES = {
     OVERLAY: 'sort-overlay',
     SORTING: 'sorting',
     OVER: 'over'
-  },
-  sortOverlay = document.createElement('div');
+  };
+
+  const sortOverlay = document.createElement('div');
   sortOverlay.className = CLASS_NAMES.OVERLAY;
 
   return {
     restrict: 'A',
-    scope: { items: '=' },
-    controller: ['$element', '$scope', function ($element, $scope) {
+    scope: {},
+    controller: function ($element, $scope) {
+      'ngInject';
+
       var self = this;
 
       this._sortItems = [];
@@ -47,7 +48,7 @@ angular.module('sortable', []).directive('sorter', [function () {
         $element.addClass(CLASS_NAMES.SORTING);
 
         self._sortItems.forEach(function (item) {
-          var overlay = angular.element(sortOverlay.cloneNode()).appendTo(item)[0];
+          const overlay = angular.element(sortOverlay.cloneNode()).appendTo(item)[0];
 
           overlay.addEventListener('dragenter', dragEnter, false);
 
@@ -120,11 +121,11 @@ angular.module('sortable', []).directive('sorter', [function () {
       $scope.$on('$destroy', function () {
         self._sortItems = null;
       });
-    }]
+    }
   };
-}]).directive('sortItem', [function () {
-  'use strict';
+}
 
+export function sortItem () {
   return {
     restrict: 'A',
     require: '^sorter',
@@ -143,8 +144,7 @@ angular.module('sortable', []).directive('sorter', [function () {
         el.removeEventListener('dragstart', dragStart, false);
         el.removeEventListener('dragend', sortContainerCtrl.dragEnd, false);
 
-        el = null;
-        wrappedEl = null;
+        el = wrappedEl = null;
       });
 
       function dragStart (event) {
@@ -157,4 +157,4 @@ angular.module('sortable', []).directive('sorter', [function () {
       }
     }
   };
-}]);
+}
