@@ -19,13 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import { getAgentVsCopytoolStreamFactory } from './agent-vs-copytool-stream-exports';
-import {AddCopytoolModalCtrl, openAddCopytoolModalFactory}
-  from './add-copytool-modal-exports';
+import debounce from 'intel-debounce';
 
-angular.module('hsm', ['charts', 'd3', 'progress', 'command',
-    'help', 'charting', 'debounce'
-  ])
-  .factory('getAgentVsCopytoolStream', getAgentVsCopytoolStreamFactory)
-  .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
-  .factory('openAddCopytoolModal', openAddCopytoolModalFactory);
+angular.module('debounce', [])
+  .value('debounce', debounce);

@@ -54,7 +54,8 @@ function buildJs () {
         '*/bower_components/*',
         '*/vendor/*',
         '*/intel-fp/*',
-        '*/intel-math/*'
+        '*/intel-math/*',
+        '*/intel-debounce/*'
       ],
       modules: 'umd'
     }))

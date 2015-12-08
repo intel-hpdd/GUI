@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 angular.module('hsm')
-  .directive('agentVsCopytool', function (d3, getLine) {
+  .directive('agentVsCopytool', function (d3, getLine, debounce) {
     return {
       restrict: 'E',
       replace: true,
@@ -29,21 +29,6 @@ angular.module('hsm')
       },
       templateUrl: 'iml/hsm/assets/html/agent-vs-copytool.html',
       link: function link (scope, $element) {
-        function debounce (func, wait, immediate) {
-          var timeout;
-          return function debounceTick () {
-            var context = this, args = arguments;
-            var later = function debounceLater () {
-              timeout = null;
-              if (!immediate) func.apply(context, args);
-            };
-            var callNow = immediate && !timeout;
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-            if (callNow) func.apply(context, args);
-          };
-        }
-
         d3.select(window).on('resize', debounce(function onResize () {
           var outerWidth = parseInt(hsmChart.style('width'), 10);
           var width = outerWidth - margin.left - margin.right;

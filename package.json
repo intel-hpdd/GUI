@@ -44,6 +44,7 @@
     "highland": "2.5.1",
     "intel-angular-modules": "1.0.2",
     "intel-angular-route-segment": "1.6.1",
+    "intel-debounce": "1.0.0",
     "intel-extract-api": "1.0.2",
     "intel-fp": "3.2.1",
     "intel-lodash-mixins": "1.0.3",
