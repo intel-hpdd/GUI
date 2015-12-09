@@ -19,14 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {chartsContainer} from './charts-container-directive-exports';
-
-angular
-  .module('dashboard', ['sortable', 'target', 'fullScreen',
-    'numberFormatters', 'asProperty', 'extendScope',
-    'hostCpuRamChart', 'mdo', 'cpuUsageModule',
-    'memoryUsageModule', 'fileUsageModule', 'spaceUsageModule',
-    'ostBalance', 'readWriteBandwidth', 'readWriteHeatMap', 'chartCompiler'
-  ])
-  .directive('chartsContainer', chartsContainer);
-
+export const chartCompilerDirective = fp.always({
+  restrict: 'A',
+  scope: {
+    chart: '='
+  },
+  link (scope, el) {
+    el.append(scope.chart(scope.$new()));
+  }
+});

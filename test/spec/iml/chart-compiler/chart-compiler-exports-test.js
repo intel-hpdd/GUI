@@ -1,5 +1,5 @@
 import {chartCompilerFactory}
-  from '../../../../source/chroma_ui/iml/charting/chart-compiler-exports';
+  from '../../../../source/chroma_ui/iml/chart-compiler/chart-compiler-exports';
 
 describe('chart compiler', () => {
   var chartCompiler, compilerPromise, getTemplatePromise, s, chartFn;

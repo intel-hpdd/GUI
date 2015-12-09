@@ -19,14 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {chartsContainer} from './charts-container-directive-exports';
+import {chartCompilerFactory} from './chart-compiler-exports';
+import {chartCompilerDirective} from './chart-compiler-directive-exports';
 
-angular
-  .module('dashboard', ['sortable', 'target', 'fullScreen',
-    'numberFormatters', 'asProperty', 'extendScope',
-    'hostCpuRamChart', 'mdo', 'cpuUsageModule',
-    'memoryUsageModule', 'fileUsageModule', 'spaceUsageModule',
-    'ostBalance', 'readWriteBandwidth', 'readWriteHeatMap', 'chartCompiler'
-  ])
-  .directive('chartsContainer', chartsContainer);
-
+angular.module('chartCompiler', ['get-template-promise', 'socket-module'])
+  .factory('chartCompiler', chartCompilerFactory)
+  .directive('chartCompiler', chartCompilerDirective);

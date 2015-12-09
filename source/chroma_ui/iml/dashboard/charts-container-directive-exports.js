@@ -19,27 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('dashboard')
-  .directive('chartsContainer', function getDirective ($compile) {
-    var chartWrap = '<div class="col-lg-6 dashboard-chart full-screen" sort-item></div>';
-
-    return {
-      restrict: 'E',
-      scope: {
-        charts: '='
-      },
-      link: function link (scope, el) {
-        var containerEl = $('<div class="row dashboard" sorter></div>');
-
-        $compile(containerEl)(scope);
-
-        scope.charts.forEach(function appendWrapChart (chart) {
-          var chartWrapEl = $(chartWrap);
-          containerEl.append(chartWrapEl);
-          chart(scope.$new(), chartWrapEl);
-        });
-
-        el.append(containerEl);
-      }
-    };
-  });
+export const chartsContainer = fp.always({
+  restrict: 'E',
+  scope: {
+    charts: '='
+  },
+  templateUrl: 'iml/dashboard/assets/html/charts-container.html'
+});

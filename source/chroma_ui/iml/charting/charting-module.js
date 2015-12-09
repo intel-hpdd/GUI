@@ -20,14 +20,12 @@
 // express and approved by Intel in writing.
 
 import {createStream} from './create-stream-exports';
-import {chartCompilerFactory} from './chart-compiler-exports';
 import {getLineFactory} from './types/get-line-exports';
 import {getLegendFactory} from './types/get-legend-exports';
 
 angular.module('charting', ['createDate', 'serverMoment',
-    'highland', 'd3', 'get-template-promise', 'socket-module'
+    'highland', 'd3', 'get-template-promise', 'socket-module', 'chartCompiler'
   ])
   .factory('createStream', createStream)
-  .factory('chartCompiler', chartCompilerFactory)
   .factory('getLine', getLineFactory)
   .factory('getLegend', getLegendFactory);
