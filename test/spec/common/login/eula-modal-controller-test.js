@@ -1,38 +1,29 @@
-describe('Eula', function () {
-  'use strict';
+describe('Eula Modal Controller', () => {
+  var $scope, $httpBackend, $modalInstance;
 
-  var $scope, $httpBackend, $modalInstance, configs;
-
-  beforeEach(module(function () {
-    configs = angular.module('login')._configBlocks;
-    angular.module('login')._configBlocks = [];
-  }, 'login', 'interceptors', function ($provide) {
+  beforeEach(module('login', 'interceptors', ($provide) => {
     $provide.value('help', {
-      get: jasmine.createSpy('get').andCallFake(function () {
-        return 'foo';
-      })
+      get: jasmine.createSpy('get').andReturn('foo')
     });
   }));
 
-  afterEach(function () {
-    angular.module('login')._configBlocks = configs;
-  });
-
-  mock.beforeEach('$modal');
-
-  beforeEach(inject(function ($controller, $rootScope, $modal, _$httpBackend_, UserModel) {
+  beforeEach(inject(($controller, $rootScope, _$httpBackend_, UserModel) => {
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
-    $modalInstance = $modal.open({templateUrl: 'modalTemplate'});
+
+    $modalInstance = {
+      close: jasmine.createSpy('close'),
+      dismiss: jasmine.createSpy('dismiss')
+    };
 
     $controller('EulaCtrl', {
-      $scope: $scope,
-      $modalInstance: $modalInstance,
+      $scope,
+      $modalInstance,
       user: new UserModel()
     });
   }));
 
-  it('should update the user on accept', function () {
+  it('should update the user on accept', () => {
     $httpBackend.expectPUT('user/', {accepted_eula: true}).respond(202);
 
     $scope.eulaCtrl.accept();
@@ -44,7 +35,7 @@ describe('Eula', function () {
     expect($modalInstance.close).toHaveBeenCalled();
   });
 
-  it('should perform the appropriate actions on reject', function () {
+  it('should perform the appropriate actions on reject', () => {
     $httpBackend.expectPUT('user/', {accepted_eula: false}).respond(202);
 
     expect($modalInstance.dismiss).not.toHaveBeenCalled();

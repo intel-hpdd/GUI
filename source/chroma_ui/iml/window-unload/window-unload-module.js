@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,19 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {windowUnloadFactory} from './window-unload-exports';
 
-/**
- * Monitors window for the beforeunload event.
- * @returns {Object} An object that is updated to indicate if the page is unloading.
- */
-angular.module('windowUnload', []).factory('windowUnload', ['$window', function windowUnloadFactory ($window) {
-  'use strict';
-
-  var state = { unloading: false };
-
-  $window.addEventListener('beforeunload', function beforeUnload () {
-    state.unloading = true;
-  });
-
-  return state;
-}]);
+angular.module('windowUnload', [])
+  .factory('windowUnload', windowUnloadFactory);

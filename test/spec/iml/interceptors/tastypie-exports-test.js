@@ -1,15 +1,13 @@
-describe('tastypie interceptor', function () {
-  'use strict';
-
+describe('tastypie interceptor', () => {
   var tastypieInterceptor;
 
   beforeEach(module('interceptors'));
 
-  beforeEach(inject(function (_tastypieInterceptor_) {
+  beforeEach(inject((_tastypieInterceptor_) => {
     tastypieInterceptor = _tastypieInterceptor_;
   }));
 
-  it('should move other properties from tastypie response to a new prop', function () {
+  it('should move other properties from tastypie response to a new prop', () => {
     var result = tastypieInterceptor.response({
       data: {
         meta: {},
@@ -25,7 +23,7 @@ describe('tastypie interceptor', function () {
     });
   });
 
-  it('should not alter the resp if it doesn\'t look like it originated from tastypie', function () {
+  it('should not alter the resp if it doesn\'t look like it originated from tastypie', () => {
     var resp = {
       data: {
         meta: {},

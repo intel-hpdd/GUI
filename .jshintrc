@@ -19,8 +19,6 @@
     "expect": false,
     "beforeEach": false,
     "afterEach": false,
-    "mock": false,
-    "Mock": false,
     "waits": false,
     "waitsFor": false,
     "runs": false,

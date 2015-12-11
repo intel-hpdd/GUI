@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,28 +19,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+export function cleanRequestUrlInterceptorFactory () {
+  const html = /\.html$/;
+  const slash = /\/$/;
 
-(function () {
-  'use strict';
+  return {
+    request (config) {
+      if (html.test(config.url)) return config;
 
-  var html = /\.html$/;
-  var uiBootstrap = /template\/.+\.html$/;
-  var slash = /^\//;
+      if (!slash.test(config.url)) config.url += '/';
 
-  angular.module('interceptors').factory('addStaticDirInterceptor', ['STATIC_URL', function (STATIC_URL) {
-    return {
-      request: function (config) {
-        if (!html.test(config.url) || uiBootstrap.test(config.url)) return config;
-
-        if (slash.test(config.url)) config.url = config.url.slice(1);
-
-        config.url = STATIC_URL + config.url;
-
-        return config;
-      }
-    };
-  }])
-  .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push('addStaticDirInterceptor');
-  }]);
-}());
+      return config;
+    }
+  };
+}

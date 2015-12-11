@@ -19,13 +19,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('loginRoute')
-  .config(function loginSegment ($routeSegmentProvider) {
-    $routeSegmentProvider
-      .when('/login', 'login')
-      .segment('login', {
-        controller: 'LoginCtrl',
-        controllerAs: 'login',
-        templateUrl: 'common/login/assets/html/login.html'
-      });
-  });
+export function tastypieInterceptorFactory () {
+  return {
+    response (resp) {
+      var fromTastyPie = _.isObject(resp.data) && _.isObject(resp.data.meta) && Array.isArray(resp.data.objects);
+
+      if (fromTastyPie) {
+        var temp = resp.data.objects;
+
+        resp.props = resp.data;
+        delete resp.data.objects;
+
+        resp.data = temp;
+      }
+
+      return resp;
+    }
+  };
+}

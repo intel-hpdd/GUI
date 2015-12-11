@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,25 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {addStaticDirInterceptorFactory} from './add-static-dir-exports';
+import {cleanRequestUrlInterceptorFactory} from './clean-request-url-exports';
+import {tastypieInterceptorFactory} from './tastypie-exports';
 
-(function () {
-  'use strict';
+angular.module('interceptors', ['environment'])
+  .factory('addStaticDirInterceptor', addStaticDirInterceptorFactory)
+  .factory('cleanRequestUrlInterceptor', cleanRequestUrlInterceptorFactory)
+  .factory('tastypieInterceptor', tastypieInterceptorFactory)
+  .config(($httpProvider) => {
+    'ngInject';
 
-  var html = /\.html$/;
-  var slash = /\/$/;
-
-  angular.module('interceptors').factory('cleanRequestUrlInterceptor', [function () {
-    return {
-      request: function (config) {
-        if (html.test(config.url)) return config;
-
-        if (!slash.test(config.url)) config.url += '/';
-
-        return config;
-      }
-    };
-  }])
-  .config(['$httpProvider', function ($httpProvider) {
-    $httpProvider.interceptors.push('cleanRequestUrlInterceptor');
-  }]);
-}());
+    $httpProvider.interceptors.push(
+      'addStaticDirInterceptor',
+      'cleanRequestUrlInterceptor',
+      'tastypieInterceptor'
+    );
+  });

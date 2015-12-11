@@ -21,9 +21,10 @@
 
 
   angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'route-to', 'route-segment',
-    'view-segment', 'middleware', 'login', 'app', 'appRouteModule', 'dashboard', 'dashboardRoute', 'baseDashboard',
-    'baseDashboardRoute', 'serverDashboard', 'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute',
-    'server', 'serverRoute', 'serverDetailRoute', 'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute',
+    'view-segment', 'middleware', 'login', 'loginRoute', 'app', 'appRouteModule', 'dashboard',
+    'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
+    'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute', 'server', 'serverRoute', 'serverDetailRoute',
+    'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute',
     'about', 'ngAnimate', 'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule',
     'statusRecordsRouteModule'])
     .config(['$compileProvider', function ($compileProvider) {

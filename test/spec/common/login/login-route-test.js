@@ -1,9 +1,7 @@
-describe('login route', function () {
-  'use strict';
-
+describe('login route', () => {
   var $routeSegmentProvider;
 
-  beforeEach(module(function () {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
@@ -19,16 +17,16 @@ describe('login route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'login'));
+  }, 'route-segment', 'loginRoute'));
 
   beforeEach(inject(fp.noop));
 
-  it('should register the login route', function () {
+  it('should register the login route', () => {
     expect($routeSegmentProvider.when)
       .toHaveBeenCalledOnceWith('/login', 'login');
   });
 
-  it('should register the segment', function () {
+  it('should register the segment', () => {
     expect($routeSegmentProvider.segment)
       .toHaveBeenCalledOnceWith('login', {
         controller: 'LoginCtrl',

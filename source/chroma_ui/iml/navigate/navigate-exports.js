@@ -19,13 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('loginRoute')
-  .config(function loginSegment ($routeSegmentProvider) {
-    $routeSegmentProvider
-      .when('/login', 'login')
-      .segment('login', {
-        controller: 'LoginCtrl',
-        controllerAs: 'login',
-        templateUrl: 'common/login/assets/html/login.html'
-      });
-  });
+export function navigateFactory ($window, UI_ROOT) {
+  'ngInject';
+
+  return function navigate (part) {
+    if (part == null) part = '';
+
+    $window.location.href = UI_ROOT + part;
+  };
+}

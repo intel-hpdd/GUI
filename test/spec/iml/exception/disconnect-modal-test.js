@@ -1,25 +1,27 @@
-describe('disconnect modal', function () {
-  'use strict';
+describe('disconnect modal', () => {
+  var $modal;
 
   beforeEach(module('exception', {
     windowUnload: { unloading: false }
+  }, ($provide) => {
+    $modal = {
+      open: jasmine.createSpy('open')
+    };
+    $provide.value('$modal', $modal);
   }));
 
-  mock.beforeEach('$modal');
+  var disconnectModal, windowUnload;
 
-  var $modal, disconnectModal, windowUnload;
-
-  beforeEach(inject(function (_$modal_, _disconnectModal_, _windowUnload_) {
-    $modal = _$modal_;
+  beforeEach(inject((_disconnectModal_, _windowUnload_) => {
     disconnectModal = _disconnectModal_;
     windowUnload = _windowUnload_;
   }));
 
-  afterEach(function () {
+  afterEach(() => {
     windowUnload.unloading = false;
   });
 
-  it('should call the modal with the expected params', function () {
+  it('should call the modal with the expected params', () => {
     disconnectModal();
 
     expect($modal.open).toHaveBeenCalledWith({
@@ -30,8 +32,7 @@ describe('disconnect modal', function () {
     });
   });
 
-
-  it('should not open the modal if window has unloaded', function () {
+  it('should not open the modal if window has unloaded', () => {
     windowUnload.unloading = true;
     disconnectModal();
 

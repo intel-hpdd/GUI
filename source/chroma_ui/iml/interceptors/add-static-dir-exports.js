@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,17 +19,23 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+export function addStaticDirInterceptorFactory (STATIC_URL) {
+  'ngInject';
 
-angular.module('navigate', []).factory('navigate', ['$window', 'UI_ROOT', function ($window, UI_ROOT) {
-  'use strict';
+  const html = /\.html$/;
+  const uiBootstrap = /template\/.+\.html$/;
+  const slash = /^\//;
 
-  /**
-   * Does a server side navigation to the concatenation of UI_ROOT and part
-   * @param {string} part The location after UI_ROOT to navigate to.
-   */
-  return function navigate (part) {
-    if (part == null) part = '';
+  return {
+    request (config) {
+      if (!html.test(config.url) || uiBootstrap.test(config.url))
+        return config;
 
-    $window.location.href = UI_ROOT + part;
+      if (slash.test(config.url)) config.url = config.url.slice(1);
+
+      config.url = STATIC_URL + config.url;
+
+      return config;
+    }
   };
-}]);
+}

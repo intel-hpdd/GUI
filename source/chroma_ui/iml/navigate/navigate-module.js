@@ -19,13 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-angular.module('loginRoute')
-  .config(function loginSegment ($routeSegmentProvider) {
-    $routeSegmentProvider
-      .when('/login', 'login')
-      .segment('login', {
-        controller: 'LoginCtrl',
-        controllerAs: 'login',
-        templateUrl: 'common/login/assets/html/login.html'
-      });
-  });
+import {navigateFactory} from './navigate-exports';
+
+angular.module('navigate', [])
+  .factory('navigate', navigateFactory);
