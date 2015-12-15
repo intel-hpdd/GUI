@@ -60,7 +60,7 @@ function buildJs () {
       modules: 'umd'
     }))
     .pipe(ngAnnotate())
-    .pipe(sourcemaps.write({ sourceRoot: '/' }))
+    .pipe(sourcemaps.write({ sourceRoot: '' }))
     .pipe(plumber.stop());
 }
 
