@@ -46,6 +46,7 @@ module.exports = function setConfig (config) {
       nodeModulesDir('intel-math/dist/math.js'),
       nodeModulesDir('intel-obj/index.js'),
       nodeModulesDir('intel-lodash-mixins/index.js'),
+      nodeModulesDir('intel-debounce/dist/debounce.js'),
       vendorDir('**/*.js'),
       commonDir('**/*-module.js'),
       commonDir('**/*.js'),
