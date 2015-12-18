@@ -80,7 +80,7 @@ describe('the duration picker', function () {
     var start, end, rangeButton;
 
     beforeEach(function () {
-      rangeButton = template.find('button[btn-radio="\'range\'"]');
+      rangeButton = template.find('button[uib-btn-radio="\'range\'"]');
       rangeButton.click();
 
       $timeout.flush();

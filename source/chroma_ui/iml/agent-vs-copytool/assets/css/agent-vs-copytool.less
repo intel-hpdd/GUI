@@ -1,0 +1,29 @@
+.agent-vs-copytool {
+  overflow-y: hidden;
+  max-height: 522px;
+  min-height: 522px;
+
+  .configuration {
+    position: relative;
+    .transition-height-scale();
+
+    & > .well {
+      height: 502px;
+    }
+  }
+
+  .controls {
+    margin: 5px 0;
+    .transition-height-scale();
+  }
+
+  .agent-vs-copytool-chart {
+    width: 100%;
+    height: 500px;
+
+    path.line {
+      fill: none;
+      stroke-width: 2px;
+    }
+  }
+}

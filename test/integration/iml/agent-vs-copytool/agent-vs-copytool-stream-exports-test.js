@@ -1,5 +1,5 @@
 import {getAgentVsCopytoolStreamFactory} from
-  '../../../../source/chroma_ui/iml/hsm/agent-vs-copytool-stream-exports';
+  '../../../../source/chroma_ui/iml/agent-vs-copytool/agent-vs-copytool-stream-exports';
 
 describe('agent vs copytool stream', () => {
   var socketStream, metricStream;
