@@ -20,6 +20,8 @@
 // express and approved by Intel in writing.
 
 import {getLineFactory} from './get-line-exports';
+import {lineDirective} from './line-directive-exports';
 
 angular.module('line', [])
+  .directive('line', lineDirective)
   .factory('getLine', getLineFactory);

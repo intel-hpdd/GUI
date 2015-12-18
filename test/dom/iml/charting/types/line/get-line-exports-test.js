@@ -146,6 +146,10 @@ describe('get line', () => {
       expect(inst.opacity()).toBe(0);
     });
 
+    it('should have a count getter', () => {
+      expect(inst.getCount()).toBe(1);
+    });
+
     describe('with data', () => {
       var line;
 

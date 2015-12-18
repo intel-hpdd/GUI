@@ -48,6 +48,7 @@ export function charterDirective ($window, d3, debounce) {
       this.getOuterHeight = () => parseInt(el.style('height'), 10);
       this.getWidth = () => this.getOuterWidth() - this.margin.left - this.margin.right;
       this.getHeight = () => this.getOuterHeight() - this.margin.top - this.margin.bottom;
+      this.dispatch = d3.dispatch('event');
 
       this.onUpdate = this.onUpdate || [];
     },
@@ -66,7 +67,7 @@ export function charterDirective ($window, d3, debounce) {
 
       scope.stream.each((xs) => {
         ctrl.onUpdate.forEach((update) => update({
-          svg: ctrl.svg.datum(xs).transition(),
+          svg: ctrl.svg.datum(xs).transition().duration(2000),
           width: ctrl.getWidth(),
           height: ctrl.getHeight(),
           xs
@@ -80,7 +81,7 @@ export function charterDirective ($window, d3, debounce) {
 
       function onResize () {
         ctrl.onUpdate.forEach((onChange) => onChange({
-          svg: setDimenstions(ctrl.svg).transition(),
+          svg: setDimenstions(ctrl.svg).transition().duration(0),
           width: ctrl.getWidth(),
           height: ctrl.getHeight(),
           xs: ctrl.svg.datum()

@@ -113,6 +113,10 @@ describe('chart directive', () => {
     it('should have an update queue', () => {
       expect(chartCtrl.onUpdate).toEqual([]);
     });
+
+    it('should have a dispatcher', function () {
+      expect(chartCtrl.dispatch.event).toEqual(jasmine.any(Function));
+    });
   });
 
   describe('on updates', function () {

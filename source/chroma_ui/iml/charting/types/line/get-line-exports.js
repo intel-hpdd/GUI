@@ -84,6 +84,7 @@ export function getLineFactory ($location, d3) {
         lineEl
           .transition('moving')
           .attr('d', line)
+          .attr('stroke', color)
           .style('stroke-opacity', opacity)
           .each('end', function removeOldPoint () {
             if (shouldShift)
@@ -97,6 +98,7 @@ export function getLineFactory ($location, d3) {
           .classed(`line ${lineCount}`, true)
           .attr('stroke', color)
           .attr('d', line)
+          .style('stroke-opacity', opacity)
           .each(function animateEntering () {
             var totalLength = this.getTotalLength();
 
@@ -155,6 +157,10 @@ export function getLineFactory ($location, d3) {
       if (!arguments.length) return opacity;
       opacity = _;
       return line;
+    };
+
+    line.getCount = function getCount () {
+      return count;
     };
 
     return line;
