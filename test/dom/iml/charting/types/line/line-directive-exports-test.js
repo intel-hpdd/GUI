@@ -12,7 +12,7 @@ describe('line directive', () => {
     });
   }));
 
-  var $scope, el, qs, label;
+  var $scope, el, qs;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `
@@ -39,7 +39,6 @@ describe('line directive', () => {
       fp.arrayWrap,
       fp.invokeMethod('querySelector', fp.__, el)
     );
-    label = qs.bind(null, '.label-group');
     $scope.$digest();
   }));
 

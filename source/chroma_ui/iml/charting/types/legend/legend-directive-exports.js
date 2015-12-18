@@ -19,9 +19,41 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {createStream} from './create-stream-exports';
+export function legendDirective (getLegend) {
+  'ngInject';
 
-angular.module('charting', ['createDate', 'serverMoment',
-    'highland', 'd3', 'get-template-promise', 'socket-module', 'chartCompiler'
-  ])
-  .factory('createStream', createStream);
+  return {
+    restrict: 'A',
+    scope: {
+      scale: '='
+    },
+    require: '^^charter',
+    templateNamespace: 'svg',
+    link (scope, el, attrs, chartCtrl) {
+      const legend = getLegend()
+        .colors(scope.scale)
+        .showLabels(true);
+
+      const node = el[0];
+
+      const updateLegend = ({svg, width}) => {
+        legend
+          .width(width)
+          .height(20)
+          .padding(20);
+
+        svg
+          .select(fp.always(node))
+          .call(legend);
+      };
+
+      chartCtrl.onUpdate.push(updateLegend);
+
+      legend.dispatch().on('selection', (label, shouldHide) => {
+        const obj = {};
+        obj[label] = shouldHide;
+        chartCtrl.dispatch.event('legend', [obj]);
+      });
+    }
+  };
+}

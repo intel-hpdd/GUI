@@ -1,7 +1,7 @@
 describe('label directive', () => {
   beforeEach(window.module('label', 'chart', 'templates'));
 
-  var $scope, el, qs, label, spy, svg;
+  var $scope, el, qs, label, spy;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `
