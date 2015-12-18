@@ -31,6 +31,7 @@ export function getLineFactory ($location, d3) {
     var yValue = fp.noop;
     var xComparator = fp.noop;
     var color = '#000000';
+    var opacity = 1;
 
     var count = counter += 1;
 
@@ -55,6 +56,13 @@ export function getLineFactory ($location, d3) {
           .attr('width', xScale.range()[1])
           .attr('height', yScale.range()[0]);
 
+        const clipGroup = item.selectAll(`.${strPlusCount('clipPath')}`).data(['foo']);
+
+        clipGroup.enter()
+          .append('g')
+          .attr('clip-path', `url(${$location.absUrl()}${strPlusCount('#clip')})`)
+          .attr('class', strPlusCount('clipPath'));
+
         const line = d3.svg.line()
           .x(fp.flow(xValue, xScale))
           .y(fp.flow(yValue, yScale));
@@ -62,7 +70,7 @@ export function getLineFactory ($location, d3) {
         const lineCount = strPlusCount('line');
         const lineClassCount = `.${lineCount}`;
 
-        var lineEl = item.selectAll(lineClassCount);
+        var lineEl = clipGroup.selectAll(lineClassCount);
 
         const shouldShift = lineEl.size() && data.length &&
           !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
@@ -71,11 +79,12 @@ export function getLineFactory ($location, d3) {
           data = [lineEl.datum()[0]].concat(data);
 
         const wrappedData = data.length ? [data] : data;
-        lineEl = lineEl.data(wrappedData, xValue);
+        lineEl = lineEl.data(wrappedData);
 
         lineEl
-          .transition()
+          .transition('moving')
           .attr('d', line)
+          .style('stroke-opacity', opacity)
           .each('end', function removeOldPoint () {
             if (shouldShift)
               d3.select(this)
@@ -84,9 +93,6 @@ export function getLineFactory ($location, d3) {
           });
 
         lineEl.enter()
-          .append('g')
-          .attr('clip-path', `url(${$location.absUrl()}${strPlusCount('#clip')})`)
-          .attr('class', strPlusCount('clipPath'))
           .append('svg:path')
           .classed(`line ${lineCount}`, true)
           .attr('stroke', color)
@@ -98,7 +104,7 @@ export function getLineFactory ($location, d3) {
               .attr('stroke-dasharray',`${totalLength} ${totalLength}`)
               .attr('stroke-dashoffset', totalLength);
           })
-          .transition()
+          .transition('entering')
           .attr('stroke-dashoffset', 0)
           .each('end', function resetDashArray () {
             d3.select(this).attr('stroke-dasharray', null);
@@ -142,6 +148,12 @@ export function getLineFactory ($location, d3) {
     line.xComparator = function xComparatorAccessor (_) {
       if (!arguments.length) return xComparator;
       xComparator = _;
+      return line;
+    };
+
+    line.opacity = function opacityAccessor (_) {
+      if (!arguments.length) return opacity;
+      opacity = _;
       return line;
     };
 

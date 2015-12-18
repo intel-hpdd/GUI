@@ -1,5 +1,5 @@
 import {getLineFactory} from
-  '../../../../../source/chroma_ui/iml/charting/types/get-line-exports';
+  '../../../../../../source/chroma_ui/iml/charting/types/line/get-line-exports';
 
 describe('get line', () => {
   const getCoords = fp.flow(
@@ -134,6 +134,16 @@ describe('get line', () => {
       inst.xComparator(spy);
 
       expect(inst.xComparator()).toBe(spy);
+    });
+
+    it('should have an opacity accessor', () => {
+      expect(inst.opacity()).toBe(1);
+    });
+
+    it('should have an opacity setter', () => {
+      inst.opacity(0);
+
+      expect(inst.opacity()).toBe(0);
     });
 
     describe('with data', () => {

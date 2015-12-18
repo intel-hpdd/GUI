@@ -19,11 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {createStream} from './create-stream-exports';
-import {getLegendFactory} from './types/get-legend-exports';
+import {getLineFactory} from './get-line-exports';
 
-angular.module('charting', ['createDate', 'serverMoment',
-    'highland', 'd3', 'get-template-promise', 'socket-module', 'chartCompiler'
-  ])
-  .factory('createStream', createStream)
-  .factory('getLegend', getLegendFactory);
+angular.module('line', [])
+  .factory('getLine', getLineFactory);
