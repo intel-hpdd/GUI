@@ -1,7 +1,7 @@
 describe('as property', function () {
   'use strict';
 
-  beforeEach(module('asProperty', 'highland'));
+  beforeEach(window.module('asProperty', 'highland'));
 
   var $compile, $scope, el, s, getText;
 

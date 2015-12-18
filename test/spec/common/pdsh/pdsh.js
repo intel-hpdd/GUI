@@ -3,7 +3,7 @@ describe('PDSH directive', function () {
 
   var $scope, $timeout, element, query, queryAll, inputField, groupAddOn, help, node, inputEvent, clickEvent;
 
-  beforeEach(module('pdsh-module', 'templates', 'ui.bootstrap', function initialize ($provide) {
+  beforeEach(window.module('pdsh-module', 'templates', 'ui.bootstrap', function initialize ($provide) {
     help = {
       get: jasmine.createSpy('get').andReturn('Enter hostname / hostlist expression.')
     };
@@ -153,7 +153,7 @@ describe('PDSH directive', function () {
 
     var initialValue;
 
-    beforeEach(module('pdsh-module', 'templates'));
+    beforeEach(window.module('pdsh-module', 'templates'));
 
     beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
       $timeout = _$timeout_;

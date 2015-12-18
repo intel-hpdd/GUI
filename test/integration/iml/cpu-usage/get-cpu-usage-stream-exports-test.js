@@ -1,7 +1,7 @@
 describe('get cpu usage stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('cpuUsageModule', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('cpuUsageModule', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

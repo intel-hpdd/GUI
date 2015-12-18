@@ -1,12 +1,12 @@
 describe('host profile then', function () {
   'use strict';
 
-  beforeEach(module('server', 'dataFixtures'));
+  beforeEach(window.module('server', 'dataFixtures'));
 
   describe('get host profiles', function () {
     var CACHE_INITIAL_DATA;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       CACHE_INITIAL_DATA = {
         server_profile: [
           {
@@ -164,7 +164,7 @@ describe('host profile then', function () {
   describe('create host profiles', function () {
     var socketStream, streams, waitForCommandCompletion;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
         .andReturn(jasmine.createSpy('innerWait').andReturn(highland()));
       $provide.value('waitForCommandCompletion', waitForCommandCompletion);

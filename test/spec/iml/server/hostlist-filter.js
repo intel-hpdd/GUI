@@ -3,7 +3,7 @@ describe('hostlist filter service', function () {
 
   var pdshFilter, naturalSortFilter;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(window.module('server', function ($provide) {
     pdshFilter = jasmine.createSpy('pdshFilter');
     $provide.value('pdshFilter', pdshFilter);
 

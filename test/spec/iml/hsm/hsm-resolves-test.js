@@ -3,7 +3,7 @@ describe('hsm fs resolve', function () {
   var s, resolveStream, getCopytoolOperationStream, getCopytoolStream, copytoolOperationStream, copytoolStream,
     $route;
 
-  beforeEach(module('hsm', function ($provide) {
+  beforeEach(window.module('hsm', function ($provide) {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');

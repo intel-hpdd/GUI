@@ -1,7 +1,7 @@
 describe('The target metric model', () => {
   var TargetMetricModel, deferred;
 
-  beforeEach(module('jobStats', ($provide) => {
+  beforeEach(window.module('jobStats', ($provide) => {
     var baseModel = Object.create({
       query: jasmine.createSpy('baseModel.query')
     });

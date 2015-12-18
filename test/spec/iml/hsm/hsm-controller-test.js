@@ -4,7 +4,7 @@ describe('HSM controller', function () {
   var hsm, $scope, getAgentVsCopytoolStream, openAddCopytoolModal,
     copytoolOperationStream, copytoolStream;
 
-  beforeEach(module('hsm'));
+  beforeEach(window.module('hsm'));
 
   beforeEach(inject(function ($controller, $rootScope, $q) {
     $scope = $rootScope.$new();

@@ -1,7 +1,7 @@
 describe('add property', function () {
   'use strict';
 
-  beforeEach(module('highland'));
+  beforeEach(window.module('highland'));
 
   var addProperty, stream, propertyStream;
 

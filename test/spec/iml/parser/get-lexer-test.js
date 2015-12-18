@@ -1,7 +1,7 @@
 describe('The lexer', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var getLexer;
 

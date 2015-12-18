@@ -3,7 +3,7 @@ describe('buffer data newer than', function () {
 
   var getServerMoment;
 
-  beforeEach(module('charting', function ($provide) {
+  beforeEach(window.module('charting', function ($provide) {
 
     getServerMoment = jasmine.createSpy('getServerMoment');
 

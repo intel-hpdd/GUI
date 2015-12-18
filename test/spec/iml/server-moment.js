@@ -1,7 +1,7 @@
 describe('Server Moment', function () {
   'use strict';
 
-  beforeEach(module('serverMoment', function ($provide) {
+  beforeEach(window.module('serverMoment', function ($provide) {
     var momentInstance = {
       add: jasmine.createSpy('add')
     };

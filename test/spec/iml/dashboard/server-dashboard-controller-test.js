@@ -1,7 +1,7 @@
 describe('Server dashboard controller', function () {
   'use strict';
 
-  beforeEach(module('serverDashboard'));
+  beforeEach(window.module('serverDashboard'));
 
   var $scope, ctrl, hostStream, charts;
 

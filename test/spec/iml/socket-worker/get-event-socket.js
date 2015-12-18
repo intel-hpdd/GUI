@@ -3,7 +3,7 @@ describe('get event socket', function () {
 
   var socketWorker, getRandomValue, emitter;
 
-  beforeEach(module('socket-module', function ($provide) {
+  beforeEach(window.module('socket-module', function ($provide) {
     socketWorker = {
       addEventListener: jasmine.createSpy('addEventListener'),
       postMessage: jasmine.createSpy('postMessage')

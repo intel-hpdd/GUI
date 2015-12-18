@@ -1,7 +1,7 @@
 describe('filter target by fs', function () {
   'use strict';
 
-  beforeEach(module('target'));
+  beforeEach(window.module('target'));
 
   var filterTargetByFs, data;
 

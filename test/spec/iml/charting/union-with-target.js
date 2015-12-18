@@ -3,7 +3,7 @@ describe('union with target', function () {
 
   var socketStream, targetStream;
 
-  beforeEach(module('charting', function ($provide) {
+  beforeEach(window.module('charting', function ($provide) {
     targetStream = highland();
 
     socketStream = jasmine.createSpy('socketStream')

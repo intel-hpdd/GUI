@@ -1,7 +1,7 @@
 describe('mdo stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('mdo', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('mdo', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

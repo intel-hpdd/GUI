@@ -1,7 +1,7 @@
 describe('step modal', function () {
   'use strict';
 
-  beforeEach(module('command'));
+  beforeEach(window.module('command'));
 
   describe('step modal controller', function () {
     var $scope, stepModal, stepsStream, jobStream;
@@ -115,7 +115,7 @@ describe('step modal', function () {
   describe('open step modal', function () {
     var $modal, socketStream, stream;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       socketStream = jasmine.createSpy('socketStream').andCallFake(function () {
         return (stream = highland());
       });

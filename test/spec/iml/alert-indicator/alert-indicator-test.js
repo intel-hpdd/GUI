@@ -1,10 +1,10 @@
 describe('alert indicator', () => {
-  beforeEach(module('alertIndicator'));
+  beforeEach(window.module('alertIndicator'));
 
   var socketStream, stream;
 
   describe('monitor', () => {
-    beforeEach(module(($provide) => {
+    beforeEach(window.module(($provide) => {
       stream = highland();
       spyOn(stream, 'destroy');
 
@@ -58,7 +58,7 @@ describe('alert indicator', () => {
       stream, addProperty, stateLabel, alerts,
       tooltip;
 
-    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
+    beforeEach(window.module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
     beforeEach(inject(($rootScope, $compile, _addProperty_) => {
       addProperty = _addProperty_;

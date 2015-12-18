@@ -1,7 +1,7 @@
 describe('the obj to points plugin', function () {
   'use strict';
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   var objToPoints, spy;
 

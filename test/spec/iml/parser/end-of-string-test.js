@@ -1,7 +1,7 @@
 describe('parser end of string', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var endOfString;
 

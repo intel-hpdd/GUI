@@ -1,7 +1,7 @@
 describe('deferred command modal button directive exports', () => {
   let socketStream, openCommandModal, modalStream, resolveStream, Stream;
 
-  beforeEach(module('command', 'templates', ($provide) => {
+  beforeEach(window.module('command', 'templates', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(highland());
     $provide.value('socketStream', socketStream);

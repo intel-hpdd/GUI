@@ -1,7 +1,7 @@
 describe('Override Directive', function () {
   'use strict';
 
-  beforeEach(module('server', 'templates', 'ui.bootstrap.dropdown'));
+  beforeEach(window.module('server', 'templates', 'ui.bootstrap.dropdown'));
 
   var $scope, element;
 

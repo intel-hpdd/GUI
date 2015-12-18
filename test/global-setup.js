@@ -1,4 +1,4 @@
-beforeEach(module('fixtures'));
+beforeEach(window.module('fixtures'));
 
 (function () {
   'use strict';

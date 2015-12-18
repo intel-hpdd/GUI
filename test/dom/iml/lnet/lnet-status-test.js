@@ -1,7 +1,7 @@
 describe('LNet status directive', function () {
   'use strict';
 
-  beforeEach(module('lnetModule', 'templates'));
+  beforeEach(window.module('lnetModule', 'templates'));
 
   var el, $scope;
 

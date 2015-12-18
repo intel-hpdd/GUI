@@ -2,7 +2,7 @@ describe('about route', () => {
 
   var $routeSegmentProvider;
 
-  beforeEach(module(() => {
+  beforeEach(window.module(() => {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')

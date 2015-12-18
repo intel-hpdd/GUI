@@ -3,7 +3,7 @@ describe('server actions', function () {
 
   var serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   beforeEach(inject(function (_serverActions_) {
     serverActions = _serverActions_;

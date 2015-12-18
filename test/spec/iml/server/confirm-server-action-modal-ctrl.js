@@ -1,7 +1,7 @@
 describe('Confirm server action modal', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var $scope, $modalInstance, hosts, action, socketStream, stream, confirmServer;
 

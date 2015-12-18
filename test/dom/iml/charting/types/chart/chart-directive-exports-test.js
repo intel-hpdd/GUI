@@ -1,7 +1,7 @@
 describe('chart directive', () => {
   var chartCtrl, $window;
 
-  beforeEach(module('chart', 'templates', ($provide, $compileProvider) => {
+  beforeEach(window.module('chart', 'templates', ($provide, $compileProvider) => {
     $compileProvider.directive('tester', () => {
       return {
         require: '^^charter',

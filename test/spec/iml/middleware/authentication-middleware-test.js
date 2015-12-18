@@ -1,7 +1,7 @@
 describe('Authentication Middleware', () => {
 
   var authorization;
-  beforeEach(module('middleware', function ($provide) {
+  beforeEach(window.module('middleware', function ($provide) {
     authorization = {
       groupAllowed: jasmine.createSpy('groupAllowed').andReturn(true)
     };

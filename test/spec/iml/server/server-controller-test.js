@@ -7,7 +7,7 @@ describe('server', () => {
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
     getCommandStream, overrideActionClick;
 
-  beforeEach(module('server', 'command'));
+  beforeEach(window.module('server', 'command'));
 
   beforeEach(inject(($rootScope, $controller, $q) => {
     $scope = $rootScope.$new();

@@ -3,7 +3,7 @@ describe('wait-for-command-completion-service', function () {
 
   var getCommandStream, openCommandModal, waitForCommandCompletion;
 
-  beforeEach(module('command', function ($provide) {
+  beforeEach(window.module('command', function ($provide) {
     getCommandStream = jasmine.createSpy('getCommandStream')
       .andReturn(highland());
     spyOn(getCommandStream.plan(), 'destroy');

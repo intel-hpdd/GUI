@@ -1,7 +1,7 @@
 describe('As stream', function () {
   var s;
 
-  beforeEach(module('asStream', 'asValue', function ($provide) {
+  beforeEach(window.module('asStream', 'asValue', function ($provide) {
     $provide.value('λ', function () {
       s = highland();
 

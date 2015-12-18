@@ -3,7 +3,7 @@ describe('base chart', function () {
 
   var $window, nv, d3;
 
-  beforeEach(module('charts', function ($provide) {
+  beforeEach(window.module('charts', function ($provide) {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')

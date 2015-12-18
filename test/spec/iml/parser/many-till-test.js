@@ -1,5 +1,5 @@
 describe('many till', function () {
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var manyTill, consumeToken;
 

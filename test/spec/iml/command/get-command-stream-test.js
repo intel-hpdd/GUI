@@ -1,7 +1,7 @@
 describe('get the command stream', function () {
   var socketStream, stream, getCommandStream, commandList, result;
 
-  beforeEach(module('command', function ($provide) {
+  beforeEach(window.module('command', function ($provide) {
     stream = highland();
     socketStream = jasmine.createSpy('socketStream').andReturn(stream);
     $provide.value('socketStream', socketStream);

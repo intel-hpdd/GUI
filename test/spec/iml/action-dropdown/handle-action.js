@@ -3,7 +3,7 @@ describe('handle action', function () {
 
   var socketStream, actionStream, openConfirmActionModal;
 
-  beforeEach(module('action-dropdown-module', function ($provide) {
+  beforeEach(window.module('action-dropdown-module', function ($provide) {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(function () {
         return (actionStream = highland());

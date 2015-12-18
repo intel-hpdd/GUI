@@ -3,7 +3,7 @@ describe('pathMaxLength Filter', function () {
 
   var pathMaxLengthFilter, cache;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     pathMaxLengthFilter = $filter('pathMaxLength');

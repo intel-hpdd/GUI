@@ -1,7 +1,7 @@
 describe('The memory usage stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('memoryUsageModule', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('memoryUsageModule', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

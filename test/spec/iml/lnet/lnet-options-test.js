@@ -11,7 +11,7 @@ describe('lnet options', function () {
         return {name: 'Lustre Network %s'.sprintf(value), value: value};
     });
 
-  beforeEach(module('lnetModule'));
+  beforeEach(window.module('lnetModule'));
 
   beforeEach(inject(function (_LNET_OPTIONS_) {
     LNET_OPTIONS = _LNET_OPTIONS_;

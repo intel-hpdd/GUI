@@ -3,7 +3,7 @@ describe('Command monitor controller', function () {
 
   var $scope, ctrl, getCommandStream, commandStream, commandMonitor, openCommandModal;
 
-  beforeEach(module('command'));
+  beforeEach(window.module('command'));
 
   beforeEach(inject(function ($rootScope, $controller, $q) {
     $scope = $rootScope.$new();
@@ -91,7 +91,7 @@ describe('Command monitor', function () {
 
   var socketStream, stream;
 
-  beforeEach(module('command', function ($provide) {
+  beforeEach(window.module('command', function ($provide) {
     stream = highland();
     socketStream = jasmine.createSpy('requestSocket').andReturn(stream);
     $provide.value('socketStream', socketStream);

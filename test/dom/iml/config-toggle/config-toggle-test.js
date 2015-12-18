@@ -1,5 +1,5 @@
 describe('config toggle', () => {
-  beforeEach(module('configToggle'));
+  beforeEach(window.module('configToggle'));
 
   var template, el, $scope, whenInactive, whenActive, setActive, setInactive;
 

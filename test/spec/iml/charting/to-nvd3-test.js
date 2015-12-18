@@ -1,7 +1,7 @@
 describe('the to nvd3 plugin', function () {
   'use strict';
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   var toNvd3, spy;
 

@@ -1,7 +1,7 @@
 describe('dashboard controller', function () {
   'use strict';
 
-  beforeEach(module('dashboard'));
+  beforeEach(window.module('dashboard'));
 
   var $scope, $location, $routeSegment,
     fsStream, hostStream, targetStream,

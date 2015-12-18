@@ -2,7 +2,7 @@ describe('server detail route', () => {
 
   var $routeSegmentProvider, GROUPS;
 
-  beforeEach(module(() => {
+  beforeEach(window.module(() => {
     $routeSegmentProvider = {
       $get: fp.noop,
       when: jasmine.createSpy('$routeSegmentProvider.when'),

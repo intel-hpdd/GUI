@@ -3,7 +3,7 @@ describe('Round filter', function () {
 
   var round;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     round = $filter('round');

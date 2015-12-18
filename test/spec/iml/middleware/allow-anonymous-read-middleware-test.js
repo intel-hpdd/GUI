@@ -1,7 +1,7 @@
 describe('Allow Anonymous Read Middleware', () => {
   var CACHE_INITIAL_DATA;
 
-  beforeEach(module(($provide) => {
+  beforeEach(window.module(($provide) => {
     CACHE_INITIAL_DATA = {
       session: {
         read_enabled: true

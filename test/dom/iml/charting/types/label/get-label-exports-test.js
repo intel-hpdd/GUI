@@ -4,7 +4,7 @@ import {getLabelFactory} from
 describe('get label', () => {
   var d3, getLabel, svg, label;
 
-  beforeEach(module('d3'));
+  beforeEach(window.module('d3'));
 
   beforeEach(inject(function (_d3_) {
     d3 = _d3_;

@@ -3,9 +3,9 @@ describe('Positioning service', function () {
 
   var position, $window;
 
-  beforeEach(module('position'));
+  beforeEach(window.module('position'));
 
-  beforeEach(module(function ($provide) {
+  beforeEach(window.module(function ($provide) {
     $window = {
       innerWidth: 500,
       innerHeight: 300

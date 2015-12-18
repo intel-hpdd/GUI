@@ -1,7 +1,7 @@
 describe('The host cpu ram stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('hostCpuRamChart', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('hostCpuRamChart', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => (serverStream = highland()));
 

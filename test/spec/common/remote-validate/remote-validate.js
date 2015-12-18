@@ -7,7 +7,7 @@ describe('Remote validate directive', function () {
     return jasmine.createSpyObj(name, ['$setValidity']);
   }
 
-  beforeEach(module('remote-validate', 'templates'));
+  beforeEach(window.module('remote-validate', 'templates'));
 
   beforeEach(inject(function ($controller, $rootScope, _$q_, _remoteValidateFormService_) {
     $q = _$q_;

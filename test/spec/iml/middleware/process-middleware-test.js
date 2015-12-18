@@ -1,6 +1,6 @@
 describe('process middleware', () => {
   var $location, mockMiddlewarePromise, mockMiddlewareFailPromise;
-  beforeEach(module(($provide) => {
+  beforeEach(window.module(($provide) => {
     mockMiddlewarePromise = jasmine.createSpy('mockMiddlewarePromise');
     mockMiddlewareFailPromise = jasmine.createSpy('mockMiddlewareFailPromise');
 

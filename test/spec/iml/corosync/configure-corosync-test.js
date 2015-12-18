@@ -1,7 +1,7 @@
 describe('configure corosync', function () {
   'use strict';
 
-  beforeEach(module('corosyncModule', 'highland'));
+  beforeEach(window.module('corosyncModule', 'highland'));
 
   describe('controller', function () {
     var $scope, $exceptionHandler, localApply, s,

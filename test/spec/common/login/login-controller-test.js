@@ -7,7 +7,7 @@ describe('Login Controller', () => {
 
   var $modal, navigate;
 
-  beforeEach(module('login', 'interceptors', ($provide) => {
+  beforeEach(window.module('login', 'interceptors', ($provide) => {
     navigate = jasmine.createSpy('navigate');
     $provide.value('navigate', navigate);
 

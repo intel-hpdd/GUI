@@ -1,7 +1,7 @@
 describe('resolve stream', () => {
   'use strict';
 
-  beforeEach(module('socket-module'));
+  beforeEach(window.module('socket-module'));
 
   let resolveStream, stream, $rootScope, Stream, spy;
 

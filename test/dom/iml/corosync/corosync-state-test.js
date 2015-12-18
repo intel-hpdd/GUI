@@ -1,7 +1,7 @@
 describe('corosync state directive', function () {
   'use strict';
 
-  beforeEach(module('corosyncModule', 'templates'));
+  beforeEach(window.module('corosyncModule', 'templates'));
 
   var el, $scope, $compile;
 

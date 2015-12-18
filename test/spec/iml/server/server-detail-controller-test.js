@@ -1,7 +1,7 @@
 describe('server detail controller', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var $scope, serverDetailController, serverStream, alertMonitorStream,
     jobMonitorStream, overrideActionClick,

@@ -1,7 +1,7 @@
 describe('As value', function () {
   'use strict';
 
-  beforeEach(module('asValue'));
+  beforeEach(window.module('asValue'));
 
   var $compile, $scope, el, s, getText;
 

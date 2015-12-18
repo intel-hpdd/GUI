@@ -1,7 +1,7 @@
 describe('the heat map legend', function () {
   'use strict';
 
-  beforeEach(module('heatMap'));
+  beforeEach(window.module('heatMap'));
 
   var getHeatMapLegend, heatMapLegend;
 

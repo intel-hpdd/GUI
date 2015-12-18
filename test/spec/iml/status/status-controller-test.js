@@ -1,9 +1,9 @@
 describe('status controller', function () {
-  beforeEach(module('status'));
+  beforeEach(window.module('status'));
 
   var $scope, $location, ctrl, notificationStream;
 
-  
+
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
 

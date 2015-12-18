@@ -1,7 +1,7 @@
 describe('exception modal', () => {
   var $modal;
 
-  beforeEach(module('exception', ($provide) => {
+  beforeEach(window.module('exception', ($provide) => {
     $modal = {
       open: jasmine.createSpy('open')
     };

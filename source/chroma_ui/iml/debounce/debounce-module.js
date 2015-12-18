@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import debounce from 'intel-debounce';
+import debounce from 'intel-debounce/dist/debounce';
 
 angular.module('debounce', [])
   .value('debounce', debounce);

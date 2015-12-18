@@ -1,7 +1,7 @@
 describe('Remove used LNet options', function () {
   'use strict';
 
-  beforeEach(module('lnetModule'));
+  beforeEach(window.module('lnetModule'));
 
   var removeUsedLnetOptions, LNET_OPTIONS;
 

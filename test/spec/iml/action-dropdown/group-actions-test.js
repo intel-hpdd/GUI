@@ -1,5 +1,5 @@
 describe('ordering groups', function () {
-  beforeEach(module('action-dropdown-module', 'dataFixtures'));
+  beforeEach(window.module('action-dropdown-module', 'dataFixtures'));
 
   var groupActionsFilter, groupActionsFixtures;
 

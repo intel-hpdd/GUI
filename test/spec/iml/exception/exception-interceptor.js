@@ -3,7 +3,7 @@ describe('Exception interceptor', function () {
 
   var exceptionInterceptor, exceptionHandler, response, $rootScope, error, errbackSpy;
 
-  beforeEach(module({STATIC_URL: '/api/'}, 'exception', function ($provide) {
+  beforeEach(window.module({STATIC_URL: '/api/'}, 'exception', function ($provide) {
 
     $provide.value('$exceptionHandler', jasmine.createSpy('$exceptionHandler'));
   }));

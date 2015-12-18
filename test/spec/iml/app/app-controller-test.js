@@ -1,5 +1,5 @@
 describe('App controller', function () {
-  beforeEach(module('app'));
+  beforeEach(window.module('app'));
 
   var $scope, $routeSegment, appController,
     sessionFixture, deferred, navigate, help, ENV, GROUPS,

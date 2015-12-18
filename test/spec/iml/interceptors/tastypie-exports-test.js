@@ -1,7 +1,7 @@
 describe('tastypie interceptor', () => {
   var tastypieInterceptor;
 
-  beforeEach(module('interceptors'));
+  beforeEach(window.module('interceptors'));
 
   beforeEach(inject((_tastypieInterceptor_) => {
     tastypieInterceptor = _tastypieInterceptor_;

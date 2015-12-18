@@ -1,7 +1,7 @@
 describe('wait until add server resolves complete', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var waitUntilLoadedStep, controller, scope, $rootScope;
   beforeEach(inject(function inject (_waitUntilLoadedStep_, $controller, _$rootScope_) {

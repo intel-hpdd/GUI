@@ -3,7 +3,7 @@ describe('The authorization service', function () {
 
   var authorization, GROUPS, CACHE_INITIAL_DATA;
 
-  beforeEach(module('auth', function ($provide) {
+  beforeEach(window.module('auth', function ($provide) {
     CACHE_INITIAL_DATA = {
       session: {
         read_enabled: true,

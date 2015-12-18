@@ -3,7 +3,7 @@ describe('servers stream', function () {
 
   var socketStream, CACHE_INITIAL_DATA, stream;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(window.module('server', function ($provide) {
     CACHE_INITIAL_DATA = { host: [] };
 
     $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);

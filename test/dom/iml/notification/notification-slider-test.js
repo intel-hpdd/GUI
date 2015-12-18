@@ -1,7 +1,7 @@
 describe('The notification slider directive', function () {
   'use strict';
 
-  beforeEach(module('notificationModule', 'templates'));
+  beforeEach(window.module('notificationModule', 'templates'));
 
   var el, $scope, $timeout, findSlider;
 

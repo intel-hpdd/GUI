@@ -1,5 +1,5 @@
 describe('job tree', function () {
-  beforeEach(module('command'));
+  beforeEach(window.module('command'));
 
   describe('job tree ctrl', function () {
 
@@ -108,7 +108,7 @@ describe('job tree', function () {
   describe('get job stream', function () {
     var socketStream, jobTree;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       socketStream = jasmine.createSpy('socketStream')
         .andReturn(highland());
 

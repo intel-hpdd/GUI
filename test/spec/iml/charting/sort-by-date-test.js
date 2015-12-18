@@ -1,7 +1,7 @@
 describe('the sort by date plugin', function () {
   'use strict';
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   var sortByDate, spy;
 

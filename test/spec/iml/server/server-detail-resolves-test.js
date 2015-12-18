@@ -6,7 +6,7 @@ describe('server detail resolves', function () {
     jobMonitorStream, alertMonitorStream, $route,
     serverDetailResolves;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(window.module('server', function ($provide) {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .andReturn(jobMonitorStream);

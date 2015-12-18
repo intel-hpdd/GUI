@@ -4,7 +4,7 @@ import {getAgentVsCopytoolStreamFactory} from
 describe('agent vs copytool stream', () => {
   var socketStream, metricStream;
 
-  beforeEach(module('hsm', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('hsm', 'dataFixtures', ($provide) => {
     var getServerMoment = jasmine.createSpy('getServerMoment')
       .andReturn(moment('2015-12-04T18:40:00+00:00'));
 

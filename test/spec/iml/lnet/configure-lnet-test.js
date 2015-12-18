@@ -1,7 +1,7 @@
 describe('Configure LNet', function () {
   'use strict';
 
-  beforeEach(module('lnetModule', 'dataFixtures'));
+  beforeEach(window.module('lnetModule', 'dataFixtures'));
 
   describe('Controller', function () {
     var configureLnet, $scope, $exceptionHandler, networkInterfaceStream,

@@ -1,7 +1,7 @@
 describe('base dashboard resolves', () => {
   var $route;
 
-  beforeEach(module('baseDashboard', ($provide) => {
+  beforeEach(window.module('baseDashboard', ($provide) => {
     $route = {
       current: {
         params: {}
@@ -17,7 +17,7 @@ describe('base dashboard resolves', () => {
       mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart,
       readWriteHeatMapChart;
 
-    beforeEach(module('baseDashboard', ($provide) => {
+    beforeEach(window.module('baseDashboard', ($provide) => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
       getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')
@@ -192,7 +192,7 @@ describe('base dashboard resolves', () => {
   describe('fs stream', () => {
     var socketStream, s;
 
-    beforeEach(module(($provide) => {
+    beforeEach(window.module(($provide) => {
       s = highland();
       socketStream = jasmine.createSpy('socketStream')
         .andReturn(s);

@@ -3,7 +3,7 @@ describe('get copytool operation stream', function () {
 
   var socketStream, stream;
 
-  beforeEach(module('hsm', function ($provide) {
+  beforeEach(window.module('hsm', function ($provide) {
     stream = highland();
 
     socketStream = jasmine.createSpy('socketStream')

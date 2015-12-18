@@ -3,7 +3,7 @@ describe('socket stream', function () {
 
   var getEventSocket, socket, spy;
 
-  beforeEach(module('socket-module', function ($provide) {
+  beforeEach(window.module('socket-module', function ($provide) {
     socket = {
       connect: jasmine.createSpy('connect'),
       end: jasmine.createSpy('end'),

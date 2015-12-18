@@ -3,7 +3,7 @@ describe('The job stats controller', function () {
 
   var target, jobStatsCtrl;
 
-  beforeEach(module('jobStats'));
+  beforeEach(window.module('jobStats'));
 
   beforeEach(inject(function ($controller) {
     target = {

@@ -49,15 +49,19 @@ function buildJs () {
     .pipe(cache('scripts'))
     .pipe(sourcemaps.init())
     .pipe(babel({
-      breakConfig: true,
+      presets: ['es2015'],
+      plugins: [
+        'transform-es2015-modules-umd',
+        'transform-strict-mode'
+      ],
       ignore: [
         '*/bower_components/*',
         '*/vendor/*',
         '*/intel-fp/*',
         '*/intel-math/*',
-        '*/intel-debounce/*'
-      ],
-      modules: 'umd'
+        '*/intel-debounce/*',
+        '*/intel-obj/*'
+      ]
     }))
     .pipe(ngAnnotate())
     .pipe(sourcemaps.write({ sourceRoot: '' }))

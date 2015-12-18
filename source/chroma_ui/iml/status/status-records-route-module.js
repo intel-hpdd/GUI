@@ -35,15 +35,18 @@ angular.module('statusRecordsRouteModule', [])
         controller: 'StatusController',
         controllerAs: 'ctrl',
         templateUrl: 'iml/status/assets/html/status.html',
-        watcher: /*@ngInject*/ function watcher ($location, segment, qsFromLocation) {
+        watcher: function watcher ($location, segment, qsFromLocation) {
+          'ngInject';
+
           if (!isStatus($location) && segment.clearWatcher)
             segment.clearWatcher();
 
           return isStatus($location) ? (qs = qsFromLocation()) : qs;
         },
         resolve: {
-          notificationStream: /*@ngInject*/ function notificationStream (resolveStream,
-                                                                         socketStream, qsFromLocation) {
+          notificationStream: function notificationStream (resolveStream, socketStream, qsFromLocation) {
+            'ngInject';
+
             var qs = qsFromLocation();
             if (qs.length)
               qs = '?' + qs;

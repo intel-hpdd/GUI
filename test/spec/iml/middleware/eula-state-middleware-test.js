@@ -1,7 +1,7 @@
 describe('eula state middleware', () => {
 
   var CACHE_INITIAL_DATA;
-  beforeEach(module(function ($provide) {
+  beforeEach(window.module(function ($provide) {
     CACHE_INITIAL_DATA = {
       session: {
         user: {}

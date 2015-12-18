@@ -3,7 +3,7 @@ describe('PDSH filter', function () {
 
   var pdsh, items, hostPath;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     pdsh = $filter('pdsh');

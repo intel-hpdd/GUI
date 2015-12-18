@@ -1,7 +1,7 @@
 describe('disconnect modal', () => {
   var $modal;
 
-  beforeEach(module('exception', {
+  beforeEach(window.module('exception', {
     windowUnload: { unloading: false }
   }, ($provide) => {
     $modal = {

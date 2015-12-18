@@ -1,7 +1,7 @@
 describe('status records route', function () {
   var $routeSegmentProvider;
 
-  beforeEach(module(function () {
+  beforeEach(window.module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')

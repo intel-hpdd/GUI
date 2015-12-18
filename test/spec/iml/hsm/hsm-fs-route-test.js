@@ -2,7 +2,7 @@ describe('hsm fs route', function () {
 
   var $routeSegmentProvider, GROUPS;
 
-  beforeEach(module(function () {
+  beforeEach(window.module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       within: jasmine.createSpy('$routeSegmentProvider.within'),

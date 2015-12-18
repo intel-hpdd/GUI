@@ -3,7 +3,7 @@ describe('Target dashboard', function () {
 
   var $route, socketStream, s;
 
-  beforeEach(module('targetDashboard', function ($provide) {
+  beforeEach(window.module('targetDashboard', function ($provide) {
     $route = {
       current: {
         params: {},
@@ -37,7 +37,7 @@ describe('Target dashboard', function () {
     var getFileUsageChart, getSpaceUsageChart,
       getMdoChart, getReadWriteBandwidthChart;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       getFileUsageChart = jasmine.createSpy('getFileUsageChart')
         .andReturn('fileUsageChart');
       $provide.value('getFileUsageChart', getFileUsageChart);

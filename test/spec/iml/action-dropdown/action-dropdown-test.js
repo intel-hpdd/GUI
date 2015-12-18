@@ -1,5 +1,5 @@
 describe('action dropdown', function () {
-  beforeEach(module('action-dropdown-module'));
+  beforeEach(window.module('action-dropdown-module'));
 
   var $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,

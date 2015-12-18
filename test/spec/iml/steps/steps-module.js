@@ -1,12 +1,12 @@
 describe('Steps module', function () {
   'use strict';
 
-  beforeEach(module('steps-module'));
-  beforeEach(module('templates'));
+  beforeEach(window.module('steps-module'));
+  beforeEach(window.module('templates'));
 
   var getTemplatePromise;
 
-  beforeEach(module(function ($provide) {
+  beforeEach(window.module(function ($provide) {
     $provide.value('foo', 'bar');
 
     getTemplatePromise = jasmine.createSpy('getTemplatePromise');

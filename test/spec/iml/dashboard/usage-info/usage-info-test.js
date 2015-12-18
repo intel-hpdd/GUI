@@ -3,7 +3,7 @@ describe('usage info', function () {
 
   var ctrl, formatBytes, formatNumber, $scope, $exceptionHandler, localApply, stream, fs;
 
-  beforeEach(module('dashboard'));
+  beforeEach(window.module('dashboard'));
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();

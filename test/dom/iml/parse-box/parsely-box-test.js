@@ -1,5 +1,5 @@
 describe('parsely box', function () {
-  beforeEach(module('parselyBox', 'templates'));
+  beforeEach(window.module('parselyBox', 'templates'));
 
   var el, $scope, qs, searchButton,
     indicator, tooltip, form, input;

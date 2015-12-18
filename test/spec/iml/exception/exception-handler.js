@@ -3,13 +3,13 @@ describe('exception handler', function () {
 
   var oldExceptionHandler;
 
-  beforeEach(module(function ($exceptionHandlerProvider) {
+  beforeEach(window.module(function ($exceptionHandlerProvider) {
     $exceptionHandlerProvider.mode('log');
 
     oldExceptionHandler = $exceptionHandlerProvider.$get();
   }));
 
-  beforeEach(module('exception', function ($provide) {
+  beforeEach(window.module('exception', function ($provide) {
     $provide.value('exceptionModal', jasmine.createSpy('exceptionModal'));
   }, {
     windowUnload: { unloading: false }

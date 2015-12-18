@@ -4,7 +4,7 @@ import {chartCompilerFactory}
 describe('chart compiler', () => {
   var chartCompiler, compilerPromise, getTemplatePromise, s, chartFn;
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   beforeEach(inject(($compile, $q, resolveStream) => {
     s = highland();
@@ -59,6 +59,12 @@ describe('chart compiler', () => {
 
     it('should set the chart on the scope', () => {
       expect($scope.chart).toEqual('chartObj');
+    });
+
+    it('should set chart to null on destroy', () => {
+      $scope.$destroy();
+
+      expect($scope.chart).toBeNull();
     });
   });
 });

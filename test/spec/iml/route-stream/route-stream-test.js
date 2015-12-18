@@ -1,7 +1,7 @@
 describe('route stream', function () {
   var $rootScope, $route, qsFromLocation, spy, destroyListener;
 
-  beforeEach(module('routeStream', function ($provide) {
+  beforeEach(window.module('routeStream', function ($provide) {
     spy = jasmine.createSpy('spy');
 
     destroyListener = jasmine.createSpy('destroyListener');

@@ -3,7 +3,7 @@ describe('dashboard resolves', function () {
 
   var resolveStream, socketStream, s, addProperty, $q;
 
-  beforeEach(module('dashboard', function ($provide) {
+  beforeEach(window.module('dashboard', function ($provide) {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');

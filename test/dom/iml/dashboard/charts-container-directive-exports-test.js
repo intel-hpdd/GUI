@@ -1,5 +1,5 @@
 describe('charts container', () => {
-  beforeEach(module('dashboard', 'templates'));
+  beforeEach(window.module('dashboard', 'templates'));
 
   var $scope, el, spy;
 

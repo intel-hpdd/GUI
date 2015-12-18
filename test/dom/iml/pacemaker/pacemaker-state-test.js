@@ -1,5 +1,5 @@
 describe('pacemaker state directive', function () {
-  beforeEach(module('pacemaker', 'templates'));
+  beforeEach(window.module('pacemaker', 'templates'));
 
   var el, $scope, $compile;
 

@@ -1,10 +1,10 @@
 describe('job indicator', function () {
-  beforeEach(module('jobIndicator'));
+  beforeEach(window.module('jobIndicator'));
 
   describe('monitor', function () {
     var jobMonitor, socketStream, stream;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       stream = highland();
 
       socketStream = jasmine.createSpy('socketStream')
@@ -47,7 +47,7 @@ describe('job indicator', function () {
   describe('directive', function () {
     var $scope, $timeout, element, node, getPopover, i, stream;
 
-    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
+    beforeEach(window.module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
     beforeEach(inject(function ($rootScope, $compile, _$timeout_, addProperty) {
       $timeout = _$timeout_;

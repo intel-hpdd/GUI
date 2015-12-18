@@ -1,7 +1,7 @@
 describe('get test host stream', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var getTestHostStream, testHostStream, spring, stream, data;
 

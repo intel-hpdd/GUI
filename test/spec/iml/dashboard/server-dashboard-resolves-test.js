@@ -4,7 +4,7 @@ describe('server dashboard resolves', function () {
   var getReadWriteBandwidthChart, getCpuUsageChart,
     getMemoryUsageChart, $route;
 
-  beforeEach(module('serverDashboard', function ($provide) {
+  beforeEach(window.module('serverDashboard', function ($provide) {
     getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
     $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 

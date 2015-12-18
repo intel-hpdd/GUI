@@ -1,7 +1,7 @@
 describe('get add server manager', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   describe('Add server steps constants', function () {
     var ADD_SERVER_STEPS;
@@ -22,7 +22,7 @@ describe('get add server manager', function () {
   describe('add server steps service', function () {
     var addServerSteps, addServersStep, serverStatusStep, selectServerProfileStep;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       addServersStep = {};
       $provide.value('addServersStep', addServersStep);
       serverStatusStep = {};
@@ -47,7 +47,7 @@ describe('get add server manager', function () {
   describe('get add server manager service', function () {
     var stepsManager, waitUntilLoadedStep;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       stepsManager = jasmine.createSpy('stepsManager').andReturn({
         addStep: jasmine.createSpy('addStep'),
         addWaitingStep: jasmine.createSpy('addWaitingStep')

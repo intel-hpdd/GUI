@@ -1,7 +1,7 @@
 describe('file usage stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('fileUsageModule', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('fileUsageModule', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

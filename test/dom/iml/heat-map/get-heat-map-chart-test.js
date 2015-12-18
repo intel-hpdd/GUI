@@ -1,7 +1,7 @@
 describe('get heat map chart test', function () {
   'use strict';
 
-  beforeEach(module('heatMap'));
+  beforeEach(window.module('heatMap'));
 
   var getHeatMapChart, heatMapChart;
 

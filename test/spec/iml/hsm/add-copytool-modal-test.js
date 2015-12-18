@@ -1,5 +1,5 @@
 describe('Add copytool modal', () => {
-  beforeEach(module('hsm'));
+  beforeEach(window.module('hsm'));
 
   describe('add copytool modal controller', () => {
     var $scope, addCopytoolModalCtrl,
@@ -87,7 +87,7 @@ describe('Add copytool modal', () => {
   describe('open', () => {
     var $uibModal;
 
-    beforeEach(module(($provide) => {
+    beforeEach(window.module(($provide) => {
       $uibModal = {
         open: jasmine.createSpy('open')
           .andReturn({

@@ -3,7 +3,7 @@ describe('HSM fs controller', function () {
 
   var ctrl, $scope, $location, $routeSegment, fsStream, copytoolStream;
 
-  beforeEach(module('hsmFs'));
+  beforeEach(window.module('hsmFs'));
 
   beforeEach(inject(function ($controller, $rootScope, addProperty) {
     $scope = $rootScope.$new();

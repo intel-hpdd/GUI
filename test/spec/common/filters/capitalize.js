@@ -3,7 +3,7 @@ describe('Capitalize Filter', function () {
 
   var capitalize;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     capitalize = $filter('capitalize');

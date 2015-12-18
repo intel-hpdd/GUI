@@ -1,7 +1,7 @@
 describe('Add server step', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var $stepInstance, addServerStepCtrl;
 

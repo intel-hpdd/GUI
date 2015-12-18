@@ -3,7 +3,7 @@ describe('popover', function () {
 
   var $window, $timeout, $scope, template, popover, button;
 
-  beforeEach(module('iml-popover', 'templates'));
+  beforeEach(window.module('iml-popover', 'templates'));
 
   beforeEach(inject(function ($templateCache, $rootScope, $compile, _$window_, _$timeout_) {
     $timeout = _$timeout_;

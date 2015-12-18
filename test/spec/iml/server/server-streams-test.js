@@ -2,7 +2,7 @@ describe('server streams', () => {
   var jobMonitorStream, alertMonitorStream, getServersStream, socketStream,
     jobMonitor, alertMonitor, lnetStream, serversStream;
 
-  beforeEach(module('server', ($provide) => {
+  beforeEach(window.module('server', ($provide) => {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .andReturn(jobMonitorStream);

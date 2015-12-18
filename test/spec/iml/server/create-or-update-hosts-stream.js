@@ -3,7 +3,7 @@ describe('create or update hosts stream', function () {
 
   var socketStream, CACHE_INITIAL_DATA, hostStreams;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(window.module('server', function ($provide) {
     CACHE_INITIAL_DATA = {
       server_profile: [{
         name: 'default',

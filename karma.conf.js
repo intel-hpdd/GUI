@@ -21,13 +21,8 @@ module.exports = function setConfig (config) {
   var jsPreProcessors = ['babel'];
 
   config.set({
-    // base path, that will be used to resolve files and exclude
     basePath: '',
-
-    // frameworks to use
     frameworks: ['jasmine'],
-
-    // list of files / patterns to load in the browser
     files: [
       bowerDir('jasmine-stealth/dist/jasmine-stealth.js'),
       bowerDir('jquery/dist/jquery.js'),
@@ -71,17 +66,10 @@ module.exports = function setConfig (config) {
       testDir('templates/**/*.html'),
       angularComponentsDir('src/**/*.js')
     ],
-
-    // list of files to exclude
     exclude: [
-      imlDir('iml.js'),
-      testDir('integration/*')
+      imlDir('iml.js')
     ],
-
-    // test results reporter to use
-    // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
     reporters: ['dots'],
-
     // Only used if junit reporter activated (ex "--reporters junit" on the command line)
     junitReporter: {
       outputDir: 'test-results',
@@ -93,6 +81,7 @@ module.exports = function setConfig (config) {
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
+      'karma-coverage',
       'karma-junit-reporter',
       'karma-ng-html2js-preprocessor',
       'karma-safari-launcher',
@@ -102,13 +91,16 @@ module.exports = function setConfig (config) {
     preprocessors: {
       '**/*.html': ['ng-html2js'],
       'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': jsPreProcessors,
-      'test/!(matchers|templates)/**/*.js': jsPreProcessors
+      'test/!(matchers|templates|data-fixtures)/**/*.js': jsPreProcessors
     },
 
     babelPreprocessor: {
       options: {
-        ignore: /job-fixtures\.js|bower_components|vendor/,
-        modules: 'umd'
+        presets: ['es2015'],
+        plugins: [
+          'transform-es2015-modules-umd',
+          'transform-strict-mode'
+        ]
       }
     },
 
@@ -120,41 +112,15 @@ module.exports = function setConfig (config) {
           .replace(/^test\/templates\//, '');
       }
     },
-
-    // web server port
     port: 9876,
-
-    // enable / disable colors in the output (reporters and logs)
     colors: true,
-
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
-
-    // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
-
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera
-    // - Safari (only Mac)
-    // - PhantomJS
-    // - IE (only Windows)
     browsers: ['Chrome', 'Firefox'],
-
-    // If browser does not capture in given timeout [ms], kill it
     captureTimeout: 60000,
-
-    // to avoid DISCONNECTED messages
     browserDisconnectTimeout: 10000, // default 2000
     browserNoActivityTimeout: 10000, //default 10000
-
     reportSlowerThan: 100,
-
-    // Continuous Integration mode
-    // if true, it capture browsers, run tests and exit
     singleRun: true
   });
 };

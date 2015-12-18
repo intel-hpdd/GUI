@@ -1,7 +1,7 @@
 describe('Regenerator module', function () {
   'use strict';
 
-  beforeEach(module('regenerator-module'));
+  beforeEach(window.module('regenerator-module'));
 
   var regenerator, setup, teardown, getter;
 

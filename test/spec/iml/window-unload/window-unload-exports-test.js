@@ -1,7 +1,7 @@
 describe('window unload', () => {
   var $window;
 
-  beforeEach(module('windowUnload', ($provide) => {
+  beforeEach(window.module('windowUnload', ($provide) => {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener')
     };

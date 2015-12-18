@@ -1,5 +1,5 @@
 describe('select server profile', function () {
-  beforeEach(module('server', 'dataFixtures'));
+  beforeEach(window.module('server', 'dataFixtures'));
 
   describe('select server profile step ctrl', function () {
     var $scope, $stepInstance, data,

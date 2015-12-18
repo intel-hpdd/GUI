@@ -4,7 +4,7 @@ import {getOstBalanceStreamFactory}
 describe('get OST balance stream', () => {
   var socketStream, targetStream, ostMetricsStream;
 
-  beforeEach(module('ostBalance', 'dataFixtures'));
+  beforeEach(window.module('ostBalance', 'dataFixtures'));
 
   var getOstBalanceStream, fixtures, revert;
 

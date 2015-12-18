@@ -1,10 +1,10 @@
 describe('command modal', function () {
-  beforeEach(module('command'));
+  beforeEach(window.module('command'));
 
   describe('open command modal', function () {
     var $modal, stream;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('open')
       };

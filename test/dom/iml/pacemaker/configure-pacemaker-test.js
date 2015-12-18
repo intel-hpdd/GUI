@@ -1,5 +1,5 @@
 describe('configure pacemaker', function () {
-  beforeEach(module('pacemaker', 'templates', 'highland'));
+  beforeEach(window.module('pacemaker', 'templates', 'highland'));
 
   var el, $scope, query;
 

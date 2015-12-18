@@ -1,5 +1,5 @@
 describe('multi stream', function () {
-  beforeEach(module('multiStream'));
+  beforeEach(window.module('multiStream'));
 
   var multiStream, spy, errSpy, s1, s2, ms;
 

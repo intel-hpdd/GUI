@@ -90,7 +90,7 @@ describe('Format number', function () {
     }
   ];
 
-  beforeEach(module('numberFormatters'));
+  beforeEach(window.module('numberFormatters'));
 
   beforeEach(inject(function (_formatNumber_) {
     formatNumber = _formatNumber_;

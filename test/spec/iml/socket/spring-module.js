@@ -3,7 +3,7 @@ describe('spring module', function () {
 
   var regenerator, socketStream;
 
-  beforeEach(module('socket-module', function ($provide) {
+  beforeEach(window.module('socket-module', function ($provide) {
 
     regenerator = jasmine.createSpy('regenerator');
     $provide.value('regenerator', regenerator);

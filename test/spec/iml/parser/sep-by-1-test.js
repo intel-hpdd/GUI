@@ -1,7 +1,7 @@
 describe('parser sepBy1', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var sepBy1, ifToken;
 

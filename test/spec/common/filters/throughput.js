@@ -3,7 +3,7 @@ describe('Throughput Filter', function () {
 
   var throughput;
 
-  beforeEach(module('filters', 'charts'));
+  beforeEach(window.module('filters', 'charts'));
 
   beforeEach(inject(function ($filter) {
     throughput = $filter('throughput');

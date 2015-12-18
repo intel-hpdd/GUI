@@ -1,5 +1,5 @@
 describe('get legend', () => {
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   var d3, getLegend, div, svg, w, h,
     mouseClick, getElement, translate;

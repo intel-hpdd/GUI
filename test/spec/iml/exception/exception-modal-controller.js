@@ -5,7 +5,7 @@ describe('Exception modal controller', function () {
     stackTraceContainsLineNumber, sendStackTraceToRealTime, s,
     reverseStream, socketStream;
 
-  beforeEach(module('exception', function ($provide) {
+  beforeEach(window.module('exception', function ($provide) {
     reverseStream = highland();
 
     socketStream = jasmine.createSpy('socketStream').andReturn(reverseStream);

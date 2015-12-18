@@ -1,7 +1,7 @@
 describe('navigate', () => {
   var $window;
 
-  beforeEach(module('navigate', {UI_ROOT: '/root/of/app/'}, ($provide) => {
+  beforeEach(window.module('navigate', {UI_ROOT: '/root/of/app/'}, ($provide) => {
     $window = {
       location: {
         href: ''

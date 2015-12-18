@@ -3,7 +3,7 @@ describe('extend scope test', function () {
 
   var $exceptionHandler;
 
-  beforeEach(module('extendScope', function ($provide) {
+  beforeEach(window.module('extendScope', function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

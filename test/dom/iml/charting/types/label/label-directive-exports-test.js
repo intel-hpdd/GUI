@@ -1,5 +1,5 @@
 describe('label directive', () => {
-  beforeEach(module('label', 'chart', 'templates'));
+  beforeEach(window.module('label', 'chart', 'templates'));
 
   var $scope, el, qs, label, spy, svg;
 

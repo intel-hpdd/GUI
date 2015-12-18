@@ -79,7 +79,7 @@ describe('authorization', function () {
 
   data.forEach(function (test) {
     describe('module', function () {
-      beforeEach(module('auth', function ($provide) {
+      beforeEach(window.module('auth', function ($provide) {
         var CACHE_INITIAL_DATA = {
           session: {
             read_enabled: true,

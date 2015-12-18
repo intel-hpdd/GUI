@@ -3,7 +3,7 @@ describe('Date ticks', function () {
 
   var moment, dateTicks, d3, start;
 
-  beforeEach(module('charts'));
+  beforeEach(window.module('charts'));
 
   beforeEach(inject(function (_moment_, _d3_, _dateTicks_) {
     moment = _moment_;

@@ -3,7 +3,7 @@ describe('override action click', function () {
 
   var record, action, openAddServerModal, overrideActionClick;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(window.module('server', function ($provide) {
     $provide.constant('ADD_SERVER_STEPS', {
       ADD: 'add',
       STATUS: 'status',

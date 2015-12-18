@@ -1,5 +1,5 @@
 describe('status query controller', function () {
-  beforeEach(module('status'));
+  beforeEach(window.module('status'));
 
   var ctrl, $scope, $location, routeStream, s,
     inputToQsParser, qsToInputParser;

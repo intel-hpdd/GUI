@@ -1,7 +1,7 @@
 describe('parser token', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var token, fn;
 

@@ -1,7 +1,7 @@
 describe('The big differ', function () {
   'use strict';
 
-  beforeEach(module('bigDifferModule', 'dataFixtures'));
+  beforeEach(window.module('bigDifferModule', 'dataFixtures'));
 
   var bigDiffer;
 

@@ -1,7 +1,7 @@
 describe('app resolves', function () {
   var resolveStream, socketStream, promise, stream;
 
-  beforeEach(module('app', function ($provide) {
+  beforeEach(window.module('app', function ($provide) {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
     resolveStream.andReturn(promise);
@@ -88,7 +88,7 @@ describe('app resolves', function () {
     var appSession, SessionModel,
       session, CACHE_INITIAL_DATA;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       session = {};
       SessionModel = jasmine.createSpy('SessionModel')
         .andReturn(session);

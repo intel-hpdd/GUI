@@ -1,7 +1,7 @@
 describe('Job tree', function () {
   'use strict';
 
-  beforeEach(module('command', 'dataFixtures'));
+  beforeEach(window.module('command', 'dataFixtures'));
 
   var jobTree, jobFixtures;
 

@@ -15,7 +15,7 @@ describe('get line', () => {
 
   var getLine, div, svg, query, queryAll, d3;
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   beforeEach(inject((_d3_) => {
     d3 = _d3_;

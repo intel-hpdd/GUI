@@ -3,7 +3,7 @@ describe('Insert help text filter', function () {
 
   var insertHelp, help, result;
 
-  beforeEach(module('filters', function ($provide) {
+  beforeEach(window.module('filters', function ($provide) {
     help = {
       get: jasmine.createSpy('helpBody').andReturn({
         valueOf: jasmine.createSpy('valueOf')

@@ -1,5 +1,5 @@
 describe('chart compiler directive', () => {
-  beforeEach(module('chartCompiler', 'templates'));
+  beforeEach(window.module('chartCompiler', 'templates'));
 
   var $scope, el, spy;
 

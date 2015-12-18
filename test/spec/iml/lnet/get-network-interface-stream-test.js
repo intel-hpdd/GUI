@@ -3,7 +3,7 @@ describe('get network interface stream', function () {
 
   var socketStream;
 
-  beforeEach(module('lnetModule', function ($provide) {
+  beforeEach(window.module('lnetModule', function ($provide) {
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(highland());
     spyOn(socketStream.plan(), 'write');

@@ -1,7 +1,7 @@
 describe('servers to api objects', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var serversToApiObjects, ADD_SERVER_AUTH_CHOICES, servers;
 

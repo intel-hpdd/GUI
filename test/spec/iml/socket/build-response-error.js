@@ -1,7 +1,7 @@
 describe('build response error', function () {
   'use strict';
 
-  beforeEach(module('socket-module'));
+  beforeEach(window.module('socket-module'));
 
   var buildResponseError;
 

@@ -4,7 +4,7 @@ import {getReadWriteHeatMapStreamFactory}
 describe('the read write heat map stream', () => {
   var socketStream, getServerMoment, streams;
 
-  beforeEach(module('readWriteHeatMap', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('readWriteHeatMap', 'dataFixtures', ($provide) => {
     streams = {
       heatMap: [],
       target: []

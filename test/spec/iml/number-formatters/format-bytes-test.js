@@ -2,7 +2,7 @@ describe('Format bytes', function () {
 
   var tests, formatBytes;
 
-  beforeEach(module('numberFormatters'));
+  beforeEach(window.module('numberFormatters'));
 
   beforeEach(inject(function (_formatBytes_) {
     formatBytes = _formatBytes_;

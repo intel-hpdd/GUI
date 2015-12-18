@@ -1,7 +1,7 @@
 describe('confirm action modal', function () {
   'use strict';
 
-  beforeEach(module('action-dropdown-module'));
+  beforeEach(window.module('action-dropdown-module'));
 
   describe('confirm action modal', function () {
     var confirmAction, title, confirmPrompts;
@@ -33,7 +33,7 @@ describe('confirm action modal', function () {
   describe('open confirm action modal', function () {
     var $modal, openConfirmActionModal;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('open')
       };

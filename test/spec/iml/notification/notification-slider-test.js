@@ -3,7 +3,7 @@ describe('The notification slider', function () {
 
   var $exceptionHandler;
 
-  beforeEach(module('notificationModule', function ($provide) {
+  beforeEach(window.module('notificationModule', function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

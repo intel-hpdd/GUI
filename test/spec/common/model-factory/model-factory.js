@@ -3,7 +3,7 @@ describe('model factory', function () {
 
   var $httpBackend, $rootScope, modelFactoryProvider, modelFactory, SubTypeSpy, ItemResource, ItemsResource;
 
-  beforeEach(module('modelFactory', 'interceptors', {STATIC_URL: '/static'}, function (_modelFactoryProvider_) {
+  beforeEach(window.module('modelFactory', 'interceptors', {STATIC_URL: '/static'}, function (_modelFactoryProvider_) {
     modelFactoryProvider = _modelFactoryProvider_;
   }));
 

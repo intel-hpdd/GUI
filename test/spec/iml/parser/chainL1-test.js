@@ -1,5 +1,5 @@
 describe('chain left 1', function () {
-  beforeEach(module('parserModule'));
+  beforeEach(window.module('parserModule'));
 
   var chainL1, ifToken;
 

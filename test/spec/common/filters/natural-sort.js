@@ -3,7 +3,7 @@ describe('Natural Sort Filter', function () {
 
   var naturalSort, hostnames, expected, predicate;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     naturalSort = $filter('naturalSort');

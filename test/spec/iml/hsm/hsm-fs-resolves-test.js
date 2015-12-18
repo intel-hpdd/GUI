@@ -2,7 +2,7 @@ describe('hsm fs resolve', function () {
 
   var socketStream, s, resolveStream, fsCollStream, copytoolStream, addProperty, $q, $rootScope;
 
-  beforeEach(module('hsmFs', function ($provide) {
+  beforeEach(window.module('hsmFs', function ($provide) {
     s = highland();
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(s);

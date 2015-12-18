@@ -1,7 +1,7 @@
 describe('filter target by host', function () {
   'use strict';
 
-  beforeEach(module('target'));
+  beforeEach(window.module('target'));
 
   var filterTargetByHost, data;
 

@@ -1,12 +1,12 @@
 describe('the get time params module', () => {
   var getServerMoment;
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   describe('getRequestRange', () => {
     var getRequestRange;
 
-    beforeEach(module(($provide) => {
+    beforeEach(window.module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
         .andCallFake((d, f) => {
           // We always convert local time to utc time
@@ -72,7 +72,7 @@ describe('the get time params module', () => {
   describe('getRequestDuration', () => {
     var getRequestDuration, createDate;
 
-    beforeEach(module(($provide) => {
+    beforeEach(window.module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
         .andCallFake(() => {
           // We always convert local time to utc time

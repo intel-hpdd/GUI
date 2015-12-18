@@ -1,5 +1,5 @@
 describe('Server Status Step', function () {
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   describe('controller', function () {
     var $stepInstance, data, serverStatus, testHostStream, hostlistFilter;

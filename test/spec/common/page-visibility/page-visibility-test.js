@@ -1,7 +1,7 @@
 describe('page visibility', () => {
   var $document;
 
-  beforeEach(module('pageVisibility', ($provide) => {
+  beforeEach(window.module('pageVisibility', ($provide) => {
     $document = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')

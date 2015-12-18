@@ -3,7 +3,7 @@ describe('Paginate filter', function () {
 
   var paginate, items;
 
-  beforeEach(module('filters'));
+  beforeEach(window.module('filters'));
 
   beforeEach(inject(function ($filter) {
     paginate = $filter('paginate');

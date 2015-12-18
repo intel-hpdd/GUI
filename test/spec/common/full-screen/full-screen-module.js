@@ -3,7 +3,7 @@ describe('Full Screen Module', function () {
 
   var $scope, $fullScreenController, fullScreenContainer, button, icon, body, spy;
 
-  beforeEach(module('fullScreen', 'templates'));
+  beforeEach(window.module('fullScreen', 'templates'));
 
   beforeEach(inject(function ($rootScope, $templateCache, $compile) {
     $scope = $rootScope.$new();

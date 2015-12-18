@@ -1,7 +1,7 @@
 describe('clean request url interceptor', () => {
   var cleanRequestUrlInterceptor;
 
-  beforeEach(module('interceptors'));
+  beforeEach(window.module('interceptors'));
 
   beforeEach(inject((_cleanRequestUrlInterceptor_) => {
     cleanRequestUrlInterceptor = _cleanRequestUrlInterceptor_;

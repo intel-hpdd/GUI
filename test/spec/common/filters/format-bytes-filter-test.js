@@ -3,7 +3,7 @@ describe('format bytes filter', function () {
 
   var formatBytes;
 
-  beforeEach(module('filters', function ($provide) {
+  beforeEach(window.module('filters', function ($provide) {
     formatBytes = {};
 
     $provide.value('formatBytes', formatBytes);

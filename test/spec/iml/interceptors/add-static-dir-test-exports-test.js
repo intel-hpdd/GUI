@@ -1,7 +1,7 @@
 describe('add static dir interceptor', () => {
   var addStaticDirInterceptor;
 
-  beforeEach(module('interceptors', {
+  beforeEach(window.module('interceptors', {
     STATIC_URL: '/static/'
   }));
 

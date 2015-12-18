@@ -3,7 +3,7 @@ describe('socket worker', function () {
 
   var worker, getWebWorker, disconnectModal, $timeout, STATIC_URL;
 
-  beforeEach(module('socket-worker', function ($provide) {
+  beforeEach(window.module('socket-worker', function ($provide) {
     disconnectModal = jasmine.createSpy('disconnectModal').andReturn({
       close: jasmine.createSpy('close')
     });

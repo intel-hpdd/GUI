@@ -1,7 +1,7 @@
 describe('the remove dups plugin', function () {
   'use strict';
 
-  beforeEach(module('charting'));
+  beforeEach(window.module('charting'));
 
   var removeDupsBy, spy;
 

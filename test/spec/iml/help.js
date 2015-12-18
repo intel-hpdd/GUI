@@ -3,7 +3,7 @@ describe('Help', function () {
 
   var help;
 
-  beforeEach(module('help', function ($provide) {
+  beforeEach(window.module('help', function ($provide) {
     $provide.constant('HELP_TEXT', {
       foo: 'bar'
     });

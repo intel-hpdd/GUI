@@ -1,7 +1,7 @@
 describe('add server modal', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   describe('controller', function () {
     var addServerModalCtrl, $scope, resultEndPromise, invokeController;
@@ -105,7 +105,7 @@ describe('add server modal', function () {
 
   describe('opening', function () {
     var openAddServerModal, $modal, server, step, response;
-    beforeEach(module(function ($provide) {
+    beforeEach(window.module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('$modal')
       };

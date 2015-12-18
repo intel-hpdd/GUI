@@ -1,5 +1,5 @@
 describe('qs to input parser test', function () {
-  beforeEach(module('status'));
+  beforeEach(window.module('status'));
 
   var qsToInputParser;
 

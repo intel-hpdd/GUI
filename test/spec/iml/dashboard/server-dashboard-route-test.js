@@ -2,7 +2,7 @@ describe('dashboard server route', function () {
 
   var $routeSegmentProvider;
 
-  beforeEach(module(function () {
+  beforeEach(window.module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       when: jasmine.createSpy('$routeSegmentProvider.when'),

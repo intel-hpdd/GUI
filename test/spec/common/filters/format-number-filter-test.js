@@ -3,7 +3,7 @@ describe('format number filter', function () {
 
   var formatNumber;
 
-  beforeEach(module('filters', function ($provide) {
+  beforeEach(window.module('filters', function ($provide) {
     formatNumber = {};
 
     $provide.value('formatNumber', formatNumber);

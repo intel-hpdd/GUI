@@ -1,7 +1,7 @@
 describe('qs from location', function () {
   var $location;
 
-  beforeEach(module('qsFromLocation', function ($provide) {
+  beforeEach(window.module('qsFromLocation', function ($provide) {
     $location = {
       absUrl: jasmine.createSpy('absUrl')
     };

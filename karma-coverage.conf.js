@@ -13,11 +13,20 @@ module.exports = function(config) {
     preprocessors: obj.merge({}, config.preprocessors, {
       'source/chroma_ui/!(vendor|bower_components)/**/*.js': ['coverage']
     }),
-
-    // Configure coverage type location
     coverageReporter: {
-      type: 'cobertura',
-      dir: 'coverage/'
+      instrumenters: { isparta : require('isparta') },
+      instrumenter: {
+        '**/*.js': 'isparta'
+      },
+      reporters: [
+        {
+          type: 'text-summary'
+        },
+        {
+          type: 'cobertura',
+          dir: 'coverage/'
+        }
+      ]
     }
   });
 };

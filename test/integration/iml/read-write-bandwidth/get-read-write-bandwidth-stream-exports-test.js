@@ -1,7 +1,7 @@
 describe('The read write bandwidth stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(module('readWriteBandwidth', 'dataFixtures', ($provide) => {
+  beforeEach(window.module('readWriteBandwidth', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

@@ -1,5 +1,5 @@
 describe('target dashboard', function () {
-  beforeEach(module('targetDashboard'));
+  beforeEach(window.module('targetDashboard'));
 
   var $scope, ctrl, charts, targetStream, usageStream;
 

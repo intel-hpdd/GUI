@@ -5,7 +5,7 @@ describe('the duration picker', function () {
     dropdownMenu, input, DURATIONS,
     getErrorText;
 
-  beforeEach(module('durationPicker', 'templates', function ($provide) {
+  beforeEach(window.module('durationPicker', 'templates', function ($provide) {
     $provide.value('getServerMoment', function () {
       return moment('2015-05-03T07:35');
     });

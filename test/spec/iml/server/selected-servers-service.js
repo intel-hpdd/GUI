@@ -1,7 +1,7 @@
 describe('selected servers service', function () {
   'use strict';
 
-  beforeEach(module('server'));
+  beforeEach(window.module('server'));
 
   var selectedServers;
 
