@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('parser sepBy1', function () {
   'use strict';
 
-  beforeEach(window.module('parserModule'));
+  beforeEach(module('parserModule'));
 
   var sepBy1, ifToken;
 

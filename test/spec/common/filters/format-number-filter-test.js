@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('format number filter', function () {
   'use strict';
 
   var formatNumber;
 
-  beforeEach(window.module('filters', function ($provide) {
+  beforeEach(module('filters', function ($provide) {
     formatNumber = {};
 
     $provide.value('formatNumber', formatNumber);

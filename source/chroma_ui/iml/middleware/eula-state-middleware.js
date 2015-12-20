@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,14 +19,19 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('middleware')
   .factory('eulaStateMiddleware', function eulaStateMiddlewareFactory (CACHE_INITIAL_DATA, $q) {
-      return function checkEulaState () {
-        var session = CACHE_INITIAL_DATA.session;
+    'ngInject';
 
-        if (!session.user || session.user.eula_state === 'pass')
-          return $q.when();
+    return function checkEulaState () {
+      var session = CACHE_INITIAL_DATA.session;
 
-        return $q.reject('/login');
-      };
-    });
+      if (!session.user || session.user.eula_state === 'pass')
+        return $q.when();
+
+      return $q.reject('/login');
+    };
+  });

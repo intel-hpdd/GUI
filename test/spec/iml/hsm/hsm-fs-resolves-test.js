@@ -1,8 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('hsm fs resolve', function () {
 
   var socketStream, s, resolveStream, fsCollStream, copytoolStream, addProperty, $q, $rootScope;
 
-  beforeEach(window.module('hsmFs', function ($provide) {
+  beforeEach(module('hsmFs', function ($provide) {
     s = highland();
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(s);

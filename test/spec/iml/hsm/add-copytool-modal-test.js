@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Add copytool modal', () => {
-  beforeEach(window.module('hsm'));
+  beforeEach(module('hsm'));
 
   describe('add copytool modal controller', () => {
     var $scope, addCopytoolModalCtrl,
@@ -87,7 +90,7 @@ describe('Add copytool modal', () => {
   describe('open', () => {
     var $uibModal;
 
-    beforeEach(window.module(($provide) => {
+    beforeEach(module(($provide) => {
       $uibModal = {
         open: jasmine.createSpy('open')
           .andReturn({
@@ -115,8 +118,8 @@ describe('Add copytool modal', () => {
         backdrop: 'static',
         windowClass: 'add-copytool-modal',
         resolve: {
-          fsStream: jasmine.any(Function),
-          workerStream: jasmine.any(Function)
+          fsStream: jasmine.any(Array),
+          workerStream: jasmine.any(Array)
         }
       });
     });
@@ -129,7 +132,7 @@ describe('Add copytool modal', () => {
 
         resolveStream = jasmine.createSpy('resolveStream').andReturn({});
 
-        getResolve = (name) => $uibModal.open.mostRecentCall.args[0].resolve[name];
+        getResolve = (name) => fp.tail($uibModal.open.mostRecentCall.args[0].resolve[name]);
       });
 
       describe('fs stream', () => {

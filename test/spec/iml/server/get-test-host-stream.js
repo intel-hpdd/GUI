@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get test host stream', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   var getTestHostStream, testHostStream, spring, stream, data;
 

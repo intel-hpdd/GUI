@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('axis directive', () => {
-  beforeEach(window.module('axis', 'chart', 'templates'));
+  beforeEach(module('axis', 'chart', 'templates'));
 
   var $scope, el, qs, axis;
 

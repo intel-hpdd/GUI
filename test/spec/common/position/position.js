@@ -1,11 +1,14 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Positioning service', function () {
   'use strict';
 
   var position, $window;
 
-  beforeEach(window.module('position'));
+  beforeEach(module('position'));
 
-  beforeEach(window.module(function ($provide) {
+  beforeEach(module(function ($provide) {
     $window = {
       innerWidth: 500,
       innerHeight: 300

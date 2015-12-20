@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('server', () => {
   'use strict';
 
@@ -7,7 +10,7 @@ describe('server', () => {
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
     getCommandStream, overrideActionClick;
 
-  beforeEach(window.module('server', 'command'));
+  beforeEach(module('server', 'command'));
 
   beforeEach(inject(($rootScope, $controller, $q) => {
     $scope = $rootScope.$new();

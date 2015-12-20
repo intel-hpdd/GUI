@@ -1,13 +1,18 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The target metric model', () => {
   var TargetMetricModel, deferred;
 
-  beforeEach(window.module('jobStats', ($provide) => {
+  beforeEach(module('jobStats', ($provide) => {
     var baseModel = Object.create({
       query: jasmine.createSpy('baseModel.query')
     });
 
     $provide.value('modelFactory', fp.always(baseModel));
     $provide.decorator('modelFactory', ($delegate, $q) => {
+      'ngInject';
+
       deferred = $q.defer();
 
       $delegate().query.andReturn({

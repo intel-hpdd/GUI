@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Regenerator module', function () {
   'use strict';
 
-  beforeEach(window.module('regenerator-module'));
+  beforeEach(module('regenerator-module'));
 
   var regenerator, setup, teardown, getter;
 

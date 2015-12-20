@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('page visibility', () => {
   var $document;
 
-  beforeEach(window.module('pageVisibility', ($provide) => {
+  beforeEach(module('pageVisibility', ($provide) => {
     $document = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')

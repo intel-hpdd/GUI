@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getMdoChartFactory} from
   '../../../../source/chroma_ui/iml/mdo/get-mdo-chart-exports';
 

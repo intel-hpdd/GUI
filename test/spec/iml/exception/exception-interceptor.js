@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Exception interceptor', function () {
   'use strict';
 
   var exceptionInterceptor, exceptionHandler, response, $rootScope, error, errbackSpy;
 
-  beforeEach(window.module({STATIC_URL: '/api/'}, 'exception', function ($provide) {
+  beforeEach(module({STATIC_URL: '/api/'}, 'exception', function ($provide) {
 
     $provide.value('$exceptionHandler', jasmine.createSpy('$exceptionHandler'));
   }));

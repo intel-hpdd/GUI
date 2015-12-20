@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('qs from location', function () {
   var $location;
 
-  beforeEach(window.module('qsFromLocation', function ($provide) {
+  beforeEach(module('qsFromLocation', function ($provide) {
     $location = {
       absUrl: jasmine.createSpy('absUrl')
     };

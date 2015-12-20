@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('status query controller', function () {
-  beforeEach(window.module('status'));
+  beforeEach(module('status'));
 
   var ctrl, $scope, $location, routeStream, s,
     inputToQsParser, qsToInputParser;

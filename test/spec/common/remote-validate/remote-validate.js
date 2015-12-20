@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Remote validate directive', function () {
   'use strict';
 
@@ -7,7 +10,7 @@ describe('Remote validate directive', function () {
     return jasmine.createSpyObj(name, ['$setValidity']);
   }
 
-  beforeEach(window.module('remote-validate', 'templates'));
+  beforeEach(module('remote-validate', 'templates'));
 
   beforeEach(inject(function ($controller, $rootScope, _$q_, _remoteValidateFormService_) {
     $q = _$q_;

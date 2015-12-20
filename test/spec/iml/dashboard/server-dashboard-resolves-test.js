@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('server dashboard resolves', function () {
   'use strict';
 
   var getReadWriteBandwidthChart, getCpuUsageChart,
     getMemoryUsageChart, $route;
 
-  beforeEach(window.module('serverDashboard', function ($provide) {
+  beforeEach(module('serverDashboard', function ($provide) {
     getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
     $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 

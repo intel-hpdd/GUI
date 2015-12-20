@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getCpuUsageChartFactory} from
   '../../../../source/chroma_ui/iml/cpu-usage/get-cpu-usage-chart-exports';
 

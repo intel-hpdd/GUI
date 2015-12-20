@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Target dashboard', function () {
   'use strict';
 
   var $route, socketStream, s;
 
-  beforeEach(window.module('targetDashboard', function ($provide) {
+  beforeEach(module('targetDashboard', function ($provide) {
     $route = {
       current: {
         params: {},
@@ -37,7 +40,7 @@ describe('Target dashboard', function () {
     var getFileUsageChart, getSpaceUsageChart,
       getMdoChart, getReadWriteBandwidthChart;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       getFileUsageChart = jasmine.createSpy('getFileUsageChart')
         .andReturn('fileUsageChart');
       $provide.value('getFileUsageChart', getFileUsageChart);

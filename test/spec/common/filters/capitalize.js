@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Capitalize Filter', function () {
   'use strict';
 
   var capitalize;
 
-  beforeEach(window.module('filters'));
+  beforeEach(module('filters'));
 
   beforeEach(inject(function ($filter) {
     capitalize = $filter('capitalize');

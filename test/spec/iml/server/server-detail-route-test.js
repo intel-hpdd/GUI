@@ -1,8 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('server detail route', () => {
 
   var $routeSegmentProvider, GROUPS;
 
-  beforeEach(window.module(() => {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
       $get: fp.noop,
       when: jasmine.createSpy('$routeSegmentProvider.when'),

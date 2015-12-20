@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The read write bandwidth stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(window.module('readWriteBandwidth', 'dataFixtures', ($provide) => {
+  beforeEach(module('readWriteBandwidth', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

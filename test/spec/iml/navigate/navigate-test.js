@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('navigate', () => {
   var $window;
 
-  beforeEach(window.module('navigate', {UI_ROOT: '/root/of/app/'}, ($provide) => {
+  beforeEach(module('navigate', {UI_ROOT: '/root/of/app/'}, ($provide) => {
     $window = {
       location: {
         href: ''

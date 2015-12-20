@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('buffer data newer than', function () {
   'use strict';
 
   var getServerMoment;
 
-  beforeEach(window.module('charting', function ($provide) {
+  beforeEach(module('charting', function ($provide) {
 
     getServerMoment = jasmine.createSpy('getServerMoment');
 

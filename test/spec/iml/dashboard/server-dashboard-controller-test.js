@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Server dashboard controller', function () {
   'use strict';
 
-  beforeEach(window.module('serverDashboard'));
+  beforeEach(module('serverDashboard'));
 
   var $scope, ctrl, hostStream, charts;
 

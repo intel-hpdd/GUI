@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {getAgentVsCopytoolStreamFactory} from
   '../../../../source/chroma_ui/iml/agent-vs-copytool/agent-vs-copytool-stream-exports';
 
 describe('agent vs copytool stream', () => {
   var socketStream, metricStream;
 
-  beforeEach(window.module('hsm', 'dataFixtures', ($provide) => {
+  beforeEach(module('hsm', 'dataFixtures', ($provide) => {
     var getServerMoment = jasmine.createSpy('getServerMoment')
       .andReturn(moment('2015-12-04T18:40:00+00:00'));
 

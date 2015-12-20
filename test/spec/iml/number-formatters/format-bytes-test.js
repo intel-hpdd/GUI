@@ -1,8 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Format bytes', function () {
 
   var tests, formatBytes;
 
-  beforeEach(window.module('numberFormatters'));
+  beforeEach(module('numberFormatters'));
 
   beforeEach(inject(function (_formatBytes_) {
     formatBytes = _formatBytes_;

@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('lnet options', function () {
   'use strict';
 
@@ -11,7 +14,7 @@ describe('lnet options', function () {
         return {name: 'Lustre Network %s'.sprintf(value), value: value};
     });
 
-  beforeEach(window.module('lnetModule'));
+  beforeEach(module('lnetModule'));
 
   beforeEach(inject(function (_LNET_OPTIONS_) {
     LNET_OPTIONS = _LNET_OPTIONS_;

@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('alert indicator', () => {
-  beforeEach(window.module('alertIndicator'));
+  beforeEach(module('alertIndicator'));
 
   var socketStream, stream;
 
   describe('monitor', () => {
-    beforeEach(window.module(($provide) => {
+    beforeEach(module(($provide) => {
       stream = highland();
       spyOn(stream, 'destroy');
 
@@ -58,7 +61,7 @@ describe('alert indicator', () => {
       stream, addProperty, stateLabel, alerts,
       tooltip;
 
-    beforeEach(window.module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
+    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
     beforeEach(inject(($rootScope, $compile, _addProperty_) => {
       addProperty = _addProperty_;

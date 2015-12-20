@@ -1,5 +1,7 @@
+import angular from 'angular';
+
 angular.module('fixtures').run(function (fixtures) {
-  'use strict';
+  'ngInject';
 
   fixtures.registerFixture('session', {
     read_enabled: true,

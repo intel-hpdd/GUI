@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('create or update hosts stream', function () {
   'use strict';
 
   var socketStream, CACHE_INITIAL_DATA, hostStreams;
 
-  beforeEach(window.module('server', function ($provide) {
+  beforeEach(module('server', function ($provide) {
     CACHE_INITIAL_DATA = {
       server_profile: [{
         name: 'default',

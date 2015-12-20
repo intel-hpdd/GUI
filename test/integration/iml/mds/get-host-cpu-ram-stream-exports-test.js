@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The host cpu ram stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(window.module('hostCpuRamChart', 'dataFixtures', ($provide) => {
+  beforeEach(module('hostCpuRamChart', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => (serverStream = highland()));
 

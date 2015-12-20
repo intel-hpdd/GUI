@@ -1,8 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('hsm route', function () {
 
   var $routeSegmentProvider;
 
-  beforeEach(window.module(function () {
+  beforeEach(module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       within: jasmine.createSpy('$routeSegmentProvider.within'),

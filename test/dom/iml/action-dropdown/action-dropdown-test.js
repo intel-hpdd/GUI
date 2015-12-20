@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('action dropdown directive', function () {
   var handleAction, openCommandModal, getCommandStream;
 
-  beforeEach(window.module('action-dropdown-module', 'templates', function ($provide) {
+  beforeEach(module('action-dropdown-module', 'templates', function ($provide) {
     handleAction = jasmine.createSpy('handleAction')
       .andReturn(highland());
     $provide.value('handleAction', handleAction);

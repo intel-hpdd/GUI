@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getFileUsageChartFactory} from
   '../../../../source/chroma_ui/iml/file-usage/get-file-usage-chart-exports';
 

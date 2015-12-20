@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Command monitor controller', function () {
   'use strict';
 
   var $scope, ctrl, getCommandStream, commandStream, commandMonitor, openCommandModal;
 
-  beforeEach(window.module('command'));
+  beforeEach(module('command'));
 
   beforeEach(inject(function ($rootScope, $controller, $q) {
     $scope = $rootScope.$new();
@@ -91,7 +94,7 @@ describe('Command monitor', function () {
 
   var socketStream, stream;
 
-  beforeEach(window.module('command', function ($provide) {
+  beforeEach(module('command', function ($provide) {
     stream = highland();
     socketStream = jasmine.createSpy('requestSocket').andReturn(stream);
     $provide.value('socketStream', socketStream);

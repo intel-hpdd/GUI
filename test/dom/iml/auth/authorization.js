@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('authorization', function () {
   'use strict';
 
@@ -79,7 +82,7 @@ describe('authorization', function () {
 
   data.forEach(function (test) {
     describe('module', function () {
-      beforeEach(window.module('auth', function ($provide) {
+      beforeEach(module('auth', function ($provide) {
         var CACHE_INITIAL_DATA = {
           session: {
             read_enabled: true,

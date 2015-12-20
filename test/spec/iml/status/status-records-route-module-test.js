@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('status records route', function () {
   var $routeSegmentProvider;
 
-  beforeEach(window.module(function () {
+  beforeEach(module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
@@ -33,9 +36,9 @@ describe('status records route', function () {
         controller: 'StatusController',
         controllerAs: 'ctrl',
         templateUrl: 'iml/status/assets/html/status.html',
-        watcher: jasmine.any(Function),
+        watcher: jasmine.any(Array),
         resolve: {
-          notificationStream: jasmine.any(Function),
+          notificationStream: jasmine.any(Array),
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
@@ -51,7 +54,7 @@ describe('status records route', function () {
     });
 
     describe('watcher', function () {
-      var qsFromLocation, segment, $location;
+      var qsFromLocation, segment, $location, watcher;
 
       beforeEach(function () {
         qsFromLocation = jasmine.createSpy('qsFromLocation');
@@ -61,13 +64,15 @@ describe('status records route', function () {
         $location = {
           path: jasmine.createSpy('path')
         };
+
+        watcher = fp.tail(routeSegment.watcher).bind(routeSegment);
       });
 
       it('should return the new qs', function () {
         $location.path.andReturn('/status');
         qsFromLocation.andReturn('foo=bar');
 
-        expect(routeSegment.watcher($location, segment, qsFromLocation))
+        expect(watcher($location, segment, qsFromLocation))
           .toBe('foo=bar');
       });
 
@@ -78,13 +83,13 @@ describe('status records route', function () {
 
         it('should clear the watcher if the watcher exists', function () {
           segment.clearWatcher = jasmine.createSpy('clearWatcher');
-          routeSegment.watcher($location, segment, qsFromLocation);
+          watcher($location, segment, qsFromLocation);
 
           expect(segment.clearWatcher).toHaveBeenCalledOnce();
         });
 
         it('should use the last qs', function () {
-          expect(routeSegment.watcher($location, segment, qsFromLocation))
+          expect(watcher($location, segment, qsFromLocation))
             .toBeUndefined();
         });
       });
@@ -103,7 +108,7 @@ describe('status records route', function () {
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
 
-        notificationStream = routeSegment.resolve.notificationStream;
+        notificationStream = fp.tail(routeSegment.resolve.notificationStream);
       });
 
       it('should call /alert with a qs', function () {

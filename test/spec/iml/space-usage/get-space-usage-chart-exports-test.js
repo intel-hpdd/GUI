@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import { getSpaceUsageChartFactory } from
   '../../../../source/chroma_ui/iml/space-usage/get-space-usage-chart-exports';
 

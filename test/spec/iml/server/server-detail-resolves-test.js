@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('server detail resolves', function () {
   var jobMonitor, alertMonitor,
     socketStream, getNetworkInterfaceStream,
@@ -6,7 +9,7 @@ describe('server detail resolves', function () {
     jobMonitorStream, alertMonitorStream, $route,
     serverDetailResolves;
 
-  beforeEach(window.module('server', function ($provide) {
+  beforeEach(module('server', function ($provide) {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .andReturn(jobMonitorStream);

@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('dataFixtures').value('transformedHostProfileFixture', [
   {
     name: 'base_managed',

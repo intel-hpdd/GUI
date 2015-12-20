@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Format number', function () {
   'use strict';
 
@@ -90,7 +93,7 @@ describe('Format number', function () {
     }
   ];
 
-  beforeEach(window.module('numberFormatters'));
+  beforeEach(module('numberFormatters'));
 
   beforeEach(inject(function (_formatNumber_) {
     formatNumber = _formatNumber_;

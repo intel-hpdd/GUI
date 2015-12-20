@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('chart directive', () => {
   var chartCtrl, $window;
 
-  beforeEach(window.module('chart', 'templates', ($provide, $compileProvider) => {
+  beforeEach(module('chart', 'templates', ($provide, $compileProvider) => {
     $compileProvider.directive('tester', () => {
       return {
         require: '^^charter',

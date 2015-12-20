@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Job tree', function () {
   'use strict';
 
-  beforeEach(window.module('command', 'dataFixtures'));
+  beforeEach(module('command', 'dataFixtures'));
 
   var jobTree, jobFixtures;
 

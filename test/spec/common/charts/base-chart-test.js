@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('base chart', function () {
   'use strict';
 
   var $window, nv, d3;
 
-  beforeEach(window.module('charts', function ($provide) {
+  beforeEach(module('charts', function ($provide) {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')

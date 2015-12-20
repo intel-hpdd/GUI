@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,11 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('baseDashboard')
   .factory('baseDashboardChartResolves',
     function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, getOstBalanceChart,
                                                 getMdoChart, getReadWriteBandwidthChart,
                                                 getReadWriteHeatMapChart, $q) {
+      'ngInject';
+
       return function baseDashboardChart () {
         var fsId = $route.current.params.fsId;
         var fsQs = {};
@@ -56,6 +61,8 @@ angular.module('baseDashboard')
   )
   .factory('baseDashboardFsStream',
     function baseDashboardFsStreamFactory ($route, resolveStream, socketStream, addProperty) {
+      'ngInject';
+
       return function baseDashboardFsStream () {
         var fsId = $route.current.params.fsId;
         var qs = {};

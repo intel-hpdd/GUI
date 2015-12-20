@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('multi stream', function () {
-  beforeEach(window.module('multiStream'));
+  beforeEach(module('multiStream'));
 
   var multiStream, spy, errSpy, s1, s2, ms;
 

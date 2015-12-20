@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get copytool stream', function () {
   'use strict';
 
   var socketStream, stream;
 
-  beforeEach(window.module('hsm', function ($provide) {
+  beforeEach(module('hsm', function ($provide) {
     stream = highland();
 
     socketStream = jasmine.createSpy('socketStream')

@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('handle action', function () {
   'use strict';
 
   var socketStream, actionStream, openConfirmActionModal;
 
-  beforeEach(window.module('action-dropdown-module', function ($provide) {
+  beforeEach(module('action-dropdown-module', function ($provide) {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(function () {
         return (actionStream = highland());

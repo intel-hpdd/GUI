@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 angular.module('dataFixtures').value('groupActionsFixtures', [
   {
     in: [{"display_group":3,"display_order":10,"long_description":"Deconfigure and remove this copytool from the manager database.","state":"removed","verb":"Remove"},{"display_group":1,"display_order":10,"long_description":"Stop this copytool. In-progress HSM actions will be canceled.","state":"stopped","verb":"Stop"},{"args":{"copytool_id":1},"class_name":"ForceRemoveCopytoolJob","confirmation":"Remove this copytool from the manager database without any attempt to deconfigure the copytool on the worker node.","display_group":5,"display_order":10,"long_description":"Remove this copytool from the manager database without any attempt to deconfigure the copytool on the worker node.","verb":"Force Remove"}],

@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Eula Modal Controller', () => {
   var $scope, $httpBackend, $modalInstance;
 
-  beforeEach(window.module('login', 'interceptors', ($provide) => {
+  beforeEach(module('login', 'interceptors', ($provide) => {
     $provide.value('help', {
       get: jasmine.createSpy('get').andReturn('foo')
     });

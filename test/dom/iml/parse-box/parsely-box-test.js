@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('parsely box', function () {
-  beforeEach(window.module('parselyBox', 'templates'));
+  beforeEach(module('parselyBox', 'templates'));
 
   var el, $scope, qs, searchButton,
     indicator, tooltip, form, input;

@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('label directive', () => {
-  beforeEach(window.module('label', 'chart', 'templates'));
+  beforeEach(module('label', 'chart', 'templates'));
 
   var $scope, el, qs, label, spy;
 

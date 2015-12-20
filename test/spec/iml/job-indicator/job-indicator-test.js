@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('job indicator', function () {
-  beforeEach(window.module('jobIndicator'));
+  beforeEach(module('jobIndicator'));
 
   describe('monitor', function () {
     var jobMonitor, socketStream, stream;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       stream = highland();
 
       socketStream = jasmine.createSpy('socketStream')
@@ -47,7 +50,7 @@ describe('job indicator', function () {
   describe('directive', function () {
     var $scope, $timeout, element, node, getPopover, i, stream;
 
-    beforeEach(window.module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
+    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
     beforeEach(inject(function ($rootScope, $compile, _$timeout_, addProperty) {
       $timeout = _$timeout_;

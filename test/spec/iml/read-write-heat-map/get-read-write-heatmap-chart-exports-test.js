@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getReadWriteHeatMapChartFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-chart-exports';
 

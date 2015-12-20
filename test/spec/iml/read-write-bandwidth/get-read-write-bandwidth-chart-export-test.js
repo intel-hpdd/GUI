@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getReadWriteBandwidthChartFactory} from
   '../../../../source/chroma_ui/iml/read-write-bandwidth/get-read-write-bandwidth-chart-exports';
 

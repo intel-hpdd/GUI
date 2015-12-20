@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('resolve stream', () => {
   'use strict';
 
-  beforeEach(window.module('socket-module'));
+  beforeEach(module('socket-module'));
 
   let resolveStream, stream, $rootScope, Stream, spy;
 

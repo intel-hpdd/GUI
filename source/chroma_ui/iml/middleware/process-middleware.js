@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,20 +19,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('middleware').factory('processMiddleware', function ProcessMiddlewareFactory ($location, $q, $injector) {
-    return function processMiddleware (middleware) {
-      if (!middleware) return $q.when();
+  'ngInject';
 
-      var getInjector = fp.invokeMethod('get', fp.__, $injector);
-      var items = fp.map(fp.flow(fp.arrayWrap, getInjector), middleware);
+  return function processMiddleware (middleware) {
+    if (!middleware) return $q.when();
 
-      var promiseChain = items.reduce(function reducer (promise, curr) {
-        return promise.then(curr);
-      }, $q.when());
+    var getInjector = fp.invokeMethod('get', fp.__, $injector);
+    var items = fp.map(fp.flow(fp.arrayWrap, getInjector), middleware);
 
-      return promiseChain.catch(function onMiddlewareFailed (targetPath) {
-        $location.path(targetPath);
-        return $q.reject();
-      });
-    };
-  });
+    var promiseChain = items.reduce(function reducer (promise, curr) {
+      return promise.then(curr);
+    }, $q.when());
+
+    return promiseChain.catch(function onMiddlewareFailed (targetPath) {
+      $location.path(targetPath);
+      return $q.reject();
+    });
+  };
+});

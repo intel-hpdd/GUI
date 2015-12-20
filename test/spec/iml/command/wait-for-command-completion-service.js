@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('wait-for-command-completion-service', function () {
   'use strict';
 
   var getCommandStream, openCommandModal, waitForCommandCompletion;
 
-  beforeEach(window.module('command', function ($provide) {
+  beforeEach(module('command', function ($provide) {
     getCommandStream = jasmine.createSpy('getCommandStream')
       .andReturn(highland());
     spyOn(getCommandStream.plan(), 'destroy');

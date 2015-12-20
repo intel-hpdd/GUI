@@ -18,7 +18,7 @@ module.exports = function setConfig (config) {
   var nodeModulesDir = bound('node_modules/%s');
   var angularComponentsDir = bound(nodeModulesDir('intel-angular-modules/%s'));
 
-  var jsPreProcessors = ['babel'];
+  var jsPreProcessors = ['babel', 'ng-annotate'];
 
   config.set({
     basePath: '',
@@ -26,17 +26,17 @@ module.exports = function setConfig (config) {
     files: [
       bowerDir('jasmine-stealth/dist/jasmine-stealth.js'),
       bowerDir('jquery/dist/jquery.js'),
-      bowerDir('angular/angular.js'),
-      bowerDir('angular-resource/angular-resource.js'),
+      nodeModulesDir('angular/angular.js'),
+      nodeModulesDir('angular-resource/angular-resource.js'),
       bowerDir('angular-bindonce/bindonce.js'),
-      bowerDir('angular-route/angular-route.js'),
+      nodeModulesDir('angular-route/angular-route.js'),
       bowerDir('highland/dist/highland.js'),
       bowerDir('lodash/dist/lodash.js'),
       bowerDir('moment/moment.js'),
       bowerDir('twix/bin/twix.js'),
       bowerDir('d3/d3.js'),
       bowerDir('nvd3/build/nv.d3.js'),
-      bowerDir('angular-bootstrap/ui-bootstrap-tpls.js'),
+      nodeModulesDir('angular-ui-bootstrap/ui-bootstrap-tpls.js'),
       nodeModulesDir('intel-fp/dist/fp.js'),
       nodeModulesDir('intel-math/dist/math.js'),
       nodeModulesDir('intel-obj/index.js'),
@@ -52,7 +52,7 @@ module.exports = function setConfig (config) {
       testDir('iml-module.js'),
       imlDir('**/*.js'),
       imlDir('**/*.html'),
-      bowerDir('angular-mocks/angular-mocks.js'),
+      nodeModulesDir('angular-mocks/angular-mocks.js'),
       testDir('**/*-module.js'),
       testDir('data-fixtures/data-fixtures-module.js'),
       testDir('data-fixtures/**/*.js'),
@@ -84,6 +84,7 @@ module.exports = function setConfig (config) {
       'karma-coverage',
       'karma-junit-reporter',
       'karma-ng-html2js-preprocessor',
+      'karma-ng-annotate-preprocessor',
       'karma-safari-launcher',
       'krusty-jasmine-reporter'
     ],
@@ -91,7 +92,8 @@ module.exports = function setConfig (config) {
     preprocessors: {
       '**/*.html': ['ng-html2js'],
       'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': jsPreProcessors,
-      'test/!(matchers|templates|data-fixtures)/**/*.js': jsPreProcessors
+      'test/*.js': jsPreProcessors,
+      'test/!(matchers|templates)/**/*.js': jsPreProcessors
     },
 
     babelPreprocessor: {

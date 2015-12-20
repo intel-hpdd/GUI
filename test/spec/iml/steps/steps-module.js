@@ -1,12 +1,15 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Steps module', function () {
   'use strict';
 
-  beforeEach(window.module('steps-module'));
-  beforeEach(window.module('templates'));
+  beforeEach(module('steps-module'));
+  beforeEach(module('templates'));
 
   var getTemplatePromise;
 
-  beforeEach(window.module(function ($provide) {
+  beforeEach(module(function ($provide) {
     $provide.value('foo', 'bar');
 
     getTemplatePromise = jasmine.createSpy('getTemplatePromise');
@@ -38,6 +41,8 @@ describe('Steps module', function () {
       $scope.manager.addStep('step', {
         templateUrl: 'assets/html/step',
         controller: function controller ($scope) {
+          'ngInject';
+
           $scope.foo = 'bar';
         },
         transition: function transition () {}
@@ -72,6 +77,8 @@ describe('Steps module', function () {
         $scope.manager.addWaitingStep({
           templateUrl: 'assets/html/waitingStep',
           controller: function controller ($scope) {
+            'ngInject';
+
             $scope.foo = 'bar';
           },
           transition: function transition () {}

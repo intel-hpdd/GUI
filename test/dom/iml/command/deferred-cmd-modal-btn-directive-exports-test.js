@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('deferred command modal button directive exports', () => {
   let socketStream, openCommandModal, modalStream, resolveStream, Stream;
 
-  beforeEach(window.module('command', 'templates', ($provide) => {
+  beforeEach(module('command', 'templates', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(highland());
     $provide.value('socketStream', socketStream);
@@ -19,6 +22,8 @@ describe('deferred command modal button directive exports', () => {
     $provide.value('resolveStream', resolveStream);
 
     $provide.decorator('resolveStream', ($delegate, $q) => {
+      'ngInject';
+
       return $delegate.andReturn($q.when());
     });
 

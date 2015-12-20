@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('server actions', function () {
   'use strict';
 
   var serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   beforeEach(inject(function (_serverActions_) {
     serverActions = _serverActions_;

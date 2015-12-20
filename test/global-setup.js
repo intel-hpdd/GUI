@@ -1,3 +1,9 @@
+import angular from 'angular';
+
+beforeEach(() => {
+  angular.mock.inject.strictDi(true);
+});
+
 beforeEach(window.module('fixtures'));
 
 (function () {

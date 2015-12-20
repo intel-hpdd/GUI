@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('charts container', () => {
-  beforeEach(window.module('dashboard', 'templates'));
+  beforeEach(module('dashboard', 'templates'));
 
   var $scope, el, spy;
 

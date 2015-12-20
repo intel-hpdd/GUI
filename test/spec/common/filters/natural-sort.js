@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Natural Sort Filter', function () {
   'use strict';
 
   var naturalSort, hostnames, expected, predicate;
 
-  beforeEach(window.module('filters'));
+  beforeEach(module('filters'));
 
   beforeEach(inject(function ($filter) {
     naturalSort = $filter('naturalSort');

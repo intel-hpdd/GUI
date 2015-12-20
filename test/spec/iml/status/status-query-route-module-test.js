@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('status query route', function () {
   var $routeSegmentProvider;
 
-  beforeEach(window.module(function () {
+  beforeEach(module(function () {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')

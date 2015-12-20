@@ -1,12 +1,15 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('host profile then', function () {
   'use strict';
 
-  beforeEach(window.module('server', 'dataFixtures'));
+  beforeEach(module('server', 'dataFixtures'));
 
   describe('get host profiles', function () {
     var CACHE_INITIAL_DATA;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       CACHE_INITIAL_DATA = {
         server_profile: [
           {
@@ -164,7 +167,7 @@ describe('host profile then', function () {
   describe('create host profiles', function () {
     var socketStream, streams, waitForCommandCompletion;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
         .andReturn(jasmine.createSpy('innerWait').andReturn(highland()));
       $provide.value('waitForCommandCompletion', waitForCommandCompletion);

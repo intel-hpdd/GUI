@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getOstBalanceChartFactory} from
   '../../../../source/chroma_ui/iml/ost-balance/get-ost-balance-chart-exports';
 

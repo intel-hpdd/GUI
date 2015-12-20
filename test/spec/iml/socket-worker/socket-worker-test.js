@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('socket worker', function () {
   'use strict';
 
   var worker, getWebWorker, disconnectModal, $timeout, STATIC_URL;
 
-  beforeEach(window.module('socket-worker', function ($provide) {
+  beforeEach(module('socket-worker', function ($provide) {
     disconnectModal = jasmine.createSpy('disconnectModal').andReturn({
       close: jasmine.createSpy('close')
     });

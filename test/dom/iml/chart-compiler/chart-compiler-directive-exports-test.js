@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('chart compiler directive', () => {
-  beforeEach(window.module('chartCompiler', 'templates'));
+  beforeEach(module('chartCompiler', 'templates'));
 
   var $scope, el, spy;
 

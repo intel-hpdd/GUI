@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('HSM controller', function () {
   'use strict';
 
   var hsm, $scope, getAgentVsCopytoolStream, openAddCopytoolModal,
     copytoolOperationStream, copytoolStream;
 
-  beforeEach(window.module('hsm'));
+  beforeEach(module('hsm'));
 
   beforeEach(inject(function ($controller, $rootScope, $q) {
     $scope = $rootScope.$new();

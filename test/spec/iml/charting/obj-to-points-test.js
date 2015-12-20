@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the obj to points plugin', function () {
   'use strict';
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   var objToPoints, spy;
 

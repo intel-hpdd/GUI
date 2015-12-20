@@ -1,13 +1,10 @@
 {
   "globals": {
-    "angular": false,
     "obj": false,
     "fp": false,
     "math": false,
     "_": false,
     "highland": false,
-    "module": false,
-    "inject": false,
     "jasmine": false,
     "expectToEqual": false,
     "expectStreamToContainItem": false,

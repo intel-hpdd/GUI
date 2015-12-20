@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('configure pacemaker', function () {
-  beforeEach(window.module('pacemaker', 'templates', 'highland'));
+  beforeEach(module('pacemaker', 'templates', 'highland'));
 
   var el, $scope, query;
 

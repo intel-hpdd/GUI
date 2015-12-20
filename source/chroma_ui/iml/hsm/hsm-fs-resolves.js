@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,9 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('hsmFs')
   .factory('fsCollStream',
   function fsCollStreamFactory (resolveStream, socketStream, addProperty) {
+    'ngInject';
+
     return function fsCollStreamFactory () {
       return resolveStream(socketStream('/filesystem', {
         jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
@@ -36,7 +41,10 @@ angular.module('hsmFs')
     };
   })
   .factory('copytoolStream', function copytoolStreamFactory (resolveStream, socketStream) {
+    'ngInject';
+
     return function copytoolStream () {
+
       return resolveStream(socketStream('/copytool', {
         jsonMask: 'objects(id)'
       }));

@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('configure corosync', function () {
   'use strict';
 
-  beforeEach(window.module('corosyncModule', 'highland'));
+  beforeEach(module('corosyncModule', 'highland'));
 
   describe('controller', function () {
     var $scope, $exceptionHandler, localApply, s,

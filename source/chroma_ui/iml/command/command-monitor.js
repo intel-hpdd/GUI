@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,10 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
 
 angular.module('command')
   .controller('CommandMonitorCtrl',
     function CommandMonitorCtrl ($scope, commandMonitor, openCommandModal, getCommandStream) {
+      'ngInject';
+
       var commandMonitorCtrl = this;
 
       commandMonitorCtrl.showPending = function showPending () {
@@ -43,6 +47,8 @@ angular.module('command')
       $scope.$on('$destroy', commandMonitor.destroy.bind(commandMonitor));
     })
   .factory('commandMonitor', function commandMonitorFactory (socketStream) {
+    'ngInject';
+
     var stream = socketStream('/command', {
       qs: {
         limit: 0,

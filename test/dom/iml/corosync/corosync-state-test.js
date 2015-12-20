@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('corosync state directive', function () {
   'use strict';
 
-  beforeEach(window.module('corosyncModule', 'templates'));
+  beforeEach(module('corosyncModule', 'templates'));
 
   var el, $scope, $compile;
 

@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,8 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('socket-worker')
   .factory('socketWorker', function socketWorkerFactory (getWebWorker, disconnectModal, $timeout, STATIC_URL) {
+    'ngInject';
+
     var modal;
     var worker = getWebWorker(STATIC_URL + 'bundle.js');
     var timedOut = fp.curry(4, $timeout)(fp.__, 0, true);

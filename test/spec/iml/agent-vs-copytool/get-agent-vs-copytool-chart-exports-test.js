@@ -1,8 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get agent vs copytool chart exports', () => {
   var createStream, getAgentVsCopytoolStream, createDate,
     chartCompiler, durationStream, durationStreamInstance, rangeStream, rangeStreamInstance;
 
-  beforeEach(window.module('agentVsCopytool', ($provide) => {
+  beforeEach(module('agentVsCopytool', ($provide) => {
     durationStreamInstance = highland();
     spyOn(durationStreamInstance, 'destroy');
     durationStream = jasmine.createSpy('durationStream')

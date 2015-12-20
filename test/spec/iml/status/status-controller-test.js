@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('status controller', function () {
-  beforeEach(window.module('status'));
+  beforeEach(module('status'));
 
   var $scope, $location, ctrl, notificationStream;
 

@@ -1,6 +1,9 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('process middleware', () => {
   var $location, mockMiddlewarePromise, mockMiddlewareFailPromise;
-  beforeEach(window.module(($provide) => {
+  beforeEach(module(($provide) => {
     mockMiddlewarePromise = jasmine.createSpy('mockMiddlewarePromise');
     mockMiddlewareFailPromise = jasmine.createSpy('mockMiddlewareFailPromise');
 

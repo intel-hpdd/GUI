@@ -1,20 +1,23 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('legend directive', () => {
   var chartCtrl;
 
-  beforeEach(window.module('chart', 'templates', 'legend', ($compileProvider) => {
+  beforeEach(module('chart', 'templates', 'legend', ($compileProvider) => {
     $compileProvider.directive('tester', () => {
       return {
         require: '^^charter',
         link ($scope, el, attr, ctrl) {
           chartCtrl = ctrl;
         }
-      }
+      };
     });
   }));
 
   var $scope, el, qs;
 
-  beforeEach(inject(($rootScope, $compile) => {
+  beforeEach(inject(($rootScope, $compile, d3) => {
     const template = `
       <div charter stream="stream">
         <g tester class="tester"></g>

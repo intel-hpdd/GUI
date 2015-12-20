@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('pathMaxLength Filter', function () {
   'use strict';
 
   var pathMaxLengthFilter, cache;
 
-  beforeEach(window.module('filters'));
+  beforeEach(module('filters'));
 
   beforeEach(inject(function ($filter) {
     pathMaxLengthFilter = $filter('pathMaxLength');

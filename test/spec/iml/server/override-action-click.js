@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('override action click', function () {
   'use strict';
 
   var record, action, openAddServerModal, overrideActionClick;
 
-  beforeEach(window.module('server', function ($provide) {
+  beforeEach(module('server', function ($provide) {
     $provide.constant('ADD_SERVER_STEPS', {
       ADD: 'add',
       STATUS: 'status',

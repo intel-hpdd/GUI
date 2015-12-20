@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Help', function () {
   'use strict';
 
   var help;
 
-  beforeEach(window.module('help', function ($provide) {
+  beforeEach(module('help', function ($provide) {
     $provide.constant('HELP_TEXT', {
       foo: 'bar'
     });

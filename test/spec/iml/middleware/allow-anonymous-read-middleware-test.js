@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Allow Anonymous Read Middleware', () => {
   var CACHE_INITIAL_DATA;
 
-  beforeEach(window.module(($provide) => {
+  beforeEach(module(($provide) => {
     CACHE_INITIAL_DATA = {
       session: {
         read_enabled: true

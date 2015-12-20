@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('pacemaker state directive', function () {
-  beforeEach(window.module('pacemaker', 'templates'));
+  beforeEach(module('pacemaker', 'templates'));
 
   var el, $scope, $compile;
 

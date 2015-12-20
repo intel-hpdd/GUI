@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('HSM fs controller', function () {
   'use strict';
 
   var ctrl, $scope, $location, $routeSegment, fsStream, copytoolStream;
 
-  beforeEach(window.module('hsmFs'));
+  beforeEach(module('hsmFs'));
 
   beforeEach(inject(function ($controller, $rootScope, addProperty) {
     $scope = $rootScope.$new();

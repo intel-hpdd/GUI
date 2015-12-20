@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get legend', () => {
-  beforeEach(window.module('legend'));
+  beforeEach(module('legend'));
 
   var d3, getLegend, div, svg, w, h,
     mouseClick, getElement, translate;

@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('target dashboard', function () {
-  beforeEach(window.module('targetDashboard'));
+  beforeEach(module('targetDashboard'));
 
   var $scope, ctrl, charts, targetStream, usageStream;
 

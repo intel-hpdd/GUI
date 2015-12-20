@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('usage info', function () {
   'use strict';
 
   var ctrl, formatBytes, formatNumber, $scope, $exceptionHandler, localApply, stream, fs;
 
-  beforeEach(window.module('dashboard'));
+  beforeEach(module('dashboard'));
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();

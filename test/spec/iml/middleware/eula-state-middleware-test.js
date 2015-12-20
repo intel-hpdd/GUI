@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('eula state middleware', () => {
 
   var CACHE_INITIAL_DATA;
-  beforeEach(window.module(function ($provide) {
+  beforeEach(module(function ($provide) {
     CACHE_INITIAL_DATA = {
       session: {
         user: {}

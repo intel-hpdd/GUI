@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('file usage stream', () => {
   var socketStream, serverStream, getServerMoment;
 
-  beforeEach(window.module('fileUsageModule', 'dataFixtures', ($provide) => {
+  beforeEach(module('fileUsageModule', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake(() => {
         return (serverStream = highland());

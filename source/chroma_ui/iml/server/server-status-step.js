@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
 
 (function () {
   'use strict';
@@ -29,6 +31,8 @@
                                                                        OVERRIDE_BUTTON_TYPES,
                                                                        data, testHostStream,
                                                                        hostlistFilter, localApply) {
+        'ngInject';
+
         _.extend(this, {
           pdsh: data.pdsh,
           /**

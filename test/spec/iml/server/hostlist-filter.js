@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('hostlist filter service', function () {
   'use strict';
 
   var pdshFilter, naturalSortFilter;
 
-  beforeEach(window.module('server', function ($provide) {
+  beforeEach(module('server', function ($provide) {
     pdshFilter = jasmine.createSpy('pdshFilter');
     $provide.value('pdshFilter', pdshFilter);
 

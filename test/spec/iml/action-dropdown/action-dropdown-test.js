@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('action dropdown', function () {
-  beforeEach(window.module('action-dropdown-module'));
+  beforeEach(module('action-dropdown-module'));
 
   var $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,

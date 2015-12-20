@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('PDSH filter', function () {
   'use strict';
 
   var pdsh, items, hostPath;
 
-  beforeEach(window.module('filters'));
+  beforeEach(module('filters'));
 
   beforeEach(inject(function ($filter) {
     pdsh = $filter('pdsh');

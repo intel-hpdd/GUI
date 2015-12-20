@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Server Status Step', function () {
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   describe('controller', function () {
     var $stepInstance, data, serverStatus, testHostStream, hostlistFilter;

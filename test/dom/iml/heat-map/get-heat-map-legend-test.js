@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the heat map legend', function () {
   'use strict';
 
-  beforeEach(window.module('heatMap'));
+  beforeEach(module('heatMap'));
 
   var getHeatMapLegend, heatMapLegend;
 

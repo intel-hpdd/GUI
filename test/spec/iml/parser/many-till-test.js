@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('many till', function () {
-  beforeEach(window.module('parserModule'));
+  beforeEach(module('parserModule'));
 
   var manyTill, consumeToken;
 

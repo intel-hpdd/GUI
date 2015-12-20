@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,26 +19,33 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('alertIndicator')
   .factory('alertMonitor', function alertMonitorFactory (socketStream) {
-      return function alertMonitor () {
-        var stream = socketStream('/alert/', {
-          jsonMask: 'objects(affected,message)',
-          qs: {
-            limit: 0,
-            active: true
-          }
-        });
+    'ngInject';
 
-        var s2 = stream
-          .pluck('objects');
+    return function alertMonitor () {
+      var stream = socketStream('/alert/', {
+        jsonMask: 'objects(affected,message)',
+        qs: {
+          limit: 0,
+          active: true
+        }
+      });
 
-        s2.destroy = stream.destroy.bind(stream);
+      var s2 = stream
+        .pluck('objects');
 
-        return s2;
-      };
+      s2.destroy = stream.destroy.bind(stream);
+
+      return s2;
+    };
   })
   .controller('RecordStateCtrl', function ($scope, STATE_SIZE, propagateChange) {
+    'ngInject';
+
     const ctrl = angular.extend(this, {
       alerts: [],
       hasAlerts() {
@@ -63,6 +70,8 @@ angular.module('alertIndicator')
     $scope.$on('$destroy', propertyStream.destroy.bind(propertyStream));
   })
   .directive('recordState', () => {
+    'ngInject';
+
     return {
       scope: {},
       bindToController: {

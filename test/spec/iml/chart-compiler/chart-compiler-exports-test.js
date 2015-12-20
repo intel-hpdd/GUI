@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {chartCompilerFactory}
   from '../../../../source/chroma_ui/iml/chart-compiler/chart-compiler-exports';
 
 describe('chart compiler', () => {
   var chartCompiler, compilerPromise, getTemplatePromise, s, chartFn;
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   beforeEach(inject(($compile, $q, resolveStream) => {
     s = highland();

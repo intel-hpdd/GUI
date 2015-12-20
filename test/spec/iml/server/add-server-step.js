@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Add server step', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   var $stepInstance, addServerStepCtrl;
 

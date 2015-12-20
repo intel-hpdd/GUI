@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('model factory', function () {
   'use strict';
 
   var $httpBackend, $rootScope, modelFactoryProvider, modelFactory, SubTypeSpy, ItemResource, ItemsResource;
 
-  beforeEach(window.module('modelFactory', 'interceptors', {STATIC_URL: '/static'}, function (_modelFactoryProvider_) {
+  beforeEach(module('modelFactory', 'interceptors', {STATIC_URL: '/static'}, function (_modelFactoryProvider_) {
     modelFactoryProvider = _modelFactoryProvider_;
   }));
 

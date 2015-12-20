@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,10 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 var confirmOpen = fp.lensProp('confirmOpen');
 
 angular.module('action-dropdown-module')
   .factory('actionDescriptionCache', function ($sce) {
+    'ngInject';
+
     var cache = {};
 
     return function sceDescriptionCache (str) {
@@ -32,6 +37,8 @@ angular.module('action-dropdown-module')
   .controller('ActionDropdownCtrl', function ($scope, $exceptionHandler, handleAction,
                                               actionDescriptionCache,
                                               openCommandModal, getCommandStream, localApply, propagateChange) {
+    'ngInject';
+
     var setConfirmOpen = confirmOpen.set(fp.__, this);
 
     var ctrl = obj.merge(this, {
@@ -97,6 +104,8 @@ angular.module('action-dropdown-module')
     }
   })
   .directive('actionDropdown', function actionDropdown () {
+    'ngInject';
+
     return {
       restrict: 'E',
       scope: {},

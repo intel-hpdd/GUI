@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('As value', function () {
   'use strict';
 
-  beforeEach(window.module('asValue'));
+  beforeEach(module('asValue'));
 
   var $compile, $scope, el, s, getText;
 

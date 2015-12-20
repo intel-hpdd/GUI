@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get network interface stream', function () {
   'use strict';
 
   var socketStream;
 
-  beforeEach(window.module('lnetModule', function ($provide) {
+  beforeEach(module('lnetModule', function ($provide) {
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(highland());
     spyOn(socketStream.plan(), 'write');

@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('add property', function () {
   'use strict';
 
-  beforeEach(window.module('highland'));
+  beforeEach(module('highland'));
 
   var addProperty, stream, propertyStream;
 

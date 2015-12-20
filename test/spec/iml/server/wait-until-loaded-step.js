@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('wait until add server resolves complete', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   var waitUntilLoadedStep, controller, scope, $rootScope;
   beforeEach(inject(function inject (_waitUntilLoadedStep_, $controller, _$rootScope_) {

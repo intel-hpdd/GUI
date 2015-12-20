@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('chain left 1', function () {
-  beforeEach(window.module('parserModule'));
+  beforeEach(module('parserModule'));
 
   var chainL1, ifToken;
 

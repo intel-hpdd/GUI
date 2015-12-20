@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('union with target', function () {
   'use strict';
 
   var socketStream, targetStream;
 
-  beforeEach(window.module('charting', function ($provide) {
+  beforeEach(module('charting', function ($provide) {
     targetStream = highland();
 
     socketStream = jasmine.createSpy('socketStream')

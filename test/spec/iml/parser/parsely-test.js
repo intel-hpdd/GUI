@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('parser parsely', function () {
   'use strict';
 
-  beforeEach(window.module('parserModule', function ($provide) {
+  beforeEach(module('parserModule', function ($provide) {
     $provide.value('token', 'token');
     $provide.value('parse', 'parse');
     $provide.value('sepBy1', 'sepBy1');

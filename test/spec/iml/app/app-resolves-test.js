@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('app resolves', function () {
   var resolveStream, socketStream, promise, stream;
 
-  beforeEach(window.module('app', function ($provide) {
+  beforeEach(module('app', function ($provide) {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
     resolveStream.andReturn(promise);
@@ -88,7 +91,7 @@ describe('app resolves', function () {
     var appSession, SessionModel,
       session, CACHE_INITIAL_DATA;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       session = {};
       SessionModel = jasmine.createSpy('SessionModel')
         .andReturn(session);

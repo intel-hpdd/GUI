@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('LNet status directive', function () {
   'use strict';
 
-  beforeEach(window.module('lnetModule', 'templates'));
+  beforeEach(module('lnetModule', 'templates'));
 
   var el, $scope;
 

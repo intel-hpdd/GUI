@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get random value', function () {
   'use strict';
 
   var getRandomValues;
 
-  beforeEach(window.module('crypto', function ($provide) {
+  beforeEach(module('crypto', function ($provide) {
     getRandomValues = jasmine.createSpy('getRandomValues').andReturn([2]);
 
     $provide.value('crypto', {

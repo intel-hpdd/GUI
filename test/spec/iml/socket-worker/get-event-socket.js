@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get event socket', function () {
   'use strict';
 
   var socketWorker, getRandomValue, emitter;
 
-  beforeEach(window.module('socket-module', function ($provide) {
+  beforeEach(module('socket-module', function ($provide) {
     socketWorker = {
       addEventListener: jasmine.createSpy('addEventListener'),
       postMessage: jasmine.createSpy('postMessage')

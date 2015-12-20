@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Remove used LNet options', function () {
   'use strict';
 
-  beforeEach(window.module('lnetModule'));
+  beforeEach(module('lnetModule'));
 
   var removeUsedLnetOptions, LNET_OPTIONS;
 

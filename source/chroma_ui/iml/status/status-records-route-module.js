@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,8 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('statusRecordsRouteModule', [])
   .config(function statusSegment ($routeSegmentProvider) {
+    'ngInject';
+
     var qs;
 
     var isStatus = fp.flow(
@@ -36,6 +41,7 @@ angular.module('statusRecordsRouteModule', [])
         controllerAs: 'ctrl',
         templateUrl: 'iml/status/assets/html/status.html',
         watcher: function watcher ($location, segment, qsFromLocation) {
+          /* jshint -W034 */
           'ngInject';
 
           if (!isStatus($location) && segment.clearWatcher)
@@ -45,6 +51,7 @@ angular.module('statusRecordsRouteModule', [])
         },
         resolve: {
           notificationStream: function notificationStream (resolveStream, socketStream, qsFromLocation) {
+            /* jshint -W034 */
             'ngInject';
 
             var qs = qsFromLocation();

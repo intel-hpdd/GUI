@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Round filter', function () {
   'use strict';
 
   var round;
 
-  beforeEach(window.module('filters'));
+  beforeEach(module('filters'));
 
   beforeEach(inject(function ($filter) {
     round = $filter('round');

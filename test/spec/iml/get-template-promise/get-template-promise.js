@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get template promise', function () {
   'use strict';
 
-  beforeEach(window.module('get-template-promise'));
+  beforeEach(module('get-template-promise'));
 
   var getTemplatePromise, $httpBackend, $templateCache, $rootScope, spy;
 

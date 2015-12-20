@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The job stats controller', function () {
   'use strict';
 
   var target, jobStatsCtrl;
 
-  beforeEach(window.module('jobStats'));
+  beforeEach(module('jobStats'));
 
   beforeEach(inject(function ($controller) {
     target = {

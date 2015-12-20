@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get the command stream', function () {
   var socketStream, stream, getCommandStream, commandList, result;
 
-  beforeEach(window.module('command', function ($provide) {
+  beforeEach(module('command', function ($provide) {
     stream = highland();
     socketStream = jasmine.createSpy('socketStream').andReturn(stream);
     $provide.value('socketStream', socketStream);

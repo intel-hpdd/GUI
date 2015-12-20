@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,23 +19,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('targetDashboard')
   .controller('TargetDashboardController',
     function TargetDashboardController ($scope, kind, charts, targetStream, usageStream) {
-        var targetDashboard = angular.extend(this, {
-          charts: charts,
-          usageStream: usageStream,
-          kind: kind
-        });
+      'ngInject';
 
-        var targetLens = fp.lensProp('target');
+      var targetDashboard = angular.extend(this, {
+        charts: charts,
+        usageStream: usageStream,
+        kind: kind
+      });
 
-        targetStream
-          .tap(targetLens.set(fp.__, targetDashboard))
-          .each($scope.localApply.bind(null, $scope));
+      var targetLens = fp.lensProp('target');
 
-        $scope.$on('$destroy', targetStream.destroy.bind(targetStream));
-        $scope.$on('$destroy', usageStream.destroy.bind(usageStream));
+      targetStream
+        .tap(targetLens.set(fp.__, targetDashboard))
+        .each($scope.localApply.bind(null, $scope));
+
+      $scope.$on('$destroy', targetStream.destroy.bind(targetStream));
+      $scope.$on('$destroy', usageStream.destroy.bind(usageStream));
     }
   );
 

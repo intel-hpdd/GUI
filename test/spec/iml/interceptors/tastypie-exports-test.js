@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('tastypie interceptor', () => {
   var tastypieInterceptor;
 
-  beforeEach(window.module('interceptors'));
+  beforeEach(module('interceptors'));
 
   beforeEach(inject((_tastypieInterceptor_) => {
     tastypieInterceptor = _tastypieInterceptor_;

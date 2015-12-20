@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Override Directive', function () {
   'use strict';
 
-  beforeEach(window.module('server', 'templates', 'ui.bootstrap.dropdown'));
+  beforeEach(module('server', 'templates', 'ui.bootstrap.dropdown'));
 
   var $scope, element;
 

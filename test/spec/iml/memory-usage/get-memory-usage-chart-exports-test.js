@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import { getMemoryUsageChartFactory } from
   '../../../../source/chroma_ui/iml/memory-usage/get-memory-usage-chart-exports';
 

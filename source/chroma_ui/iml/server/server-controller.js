@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,6 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 
 angular.module('server')
   .controller('ServerCtrl',
@@ -26,6 +29,8 @@ angular.module('server')
                        serverActions, selectedServers, openCommandModal,
                        openAddServerModal, ADD_SERVER_STEPS, getCommandStream,
                        overrideActionClick, streams) {
+    'ngInject';
+
     $scope.server = {
       lnetConfigurationStream: streams.lnetConfigurationStream,
       jobMonitorStream: streams.jobMonitorStream,

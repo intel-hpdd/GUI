@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the remove dups plugin', function () {
   'use strict';
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   var removeDups, spy;
 

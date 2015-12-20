@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The notification slider', function () {
   'use strict';
 
   var $exceptionHandler;
 
-  beforeEach(window.module('notificationModule', function ($provide) {
+  beforeEach(module('notificationModule', function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

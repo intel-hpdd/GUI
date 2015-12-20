@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Confirm server action modal', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   var $scope, $modalInstance, hosts, action, socketStream, stream, confirmServer;
 

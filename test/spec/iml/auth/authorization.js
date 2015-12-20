@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The authorization service', function () {
   'use strict';
 
   var authorization, GROUPS, CACHE_INITIAL_DATA;
 
-  beforeEach(window.module('auth', function ($provide) {
+  beforeEach(module('auth', function ($provide) {
     CACHE_INITIAL_DATA = {
       session: {
         read_enabled: true,

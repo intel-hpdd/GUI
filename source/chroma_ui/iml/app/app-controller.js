@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,11 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 
 angular.module('app').controller('AppCtrl', AppCtrl);
 
 function AppCtrl ($scope, $routeSegment, session, navigate, ENV, GROUPS,
                   help, notificationStream, alertStream) {
+  'ngInject';
+
   var login = navigate.bind(null, 'login/');
 
   angular.extend(this, {

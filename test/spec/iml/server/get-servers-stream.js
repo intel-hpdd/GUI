@@ -1,9 +1,10 @@
-describe('servers stream', function () {
-  'use strict';
+import angular from 'angular';
+const {module, inject} = angular.mock;
 
+describe('servers stream', function () {
   var socketStream, CACHE_INITIAL_DATA, stream;
 
-  beforeEach(window.module('server', function ($provide) {
+  beforeEach(module('server', function ($provide) {
     CACHE_INITIAL_DATA = { host: [] };
 
     $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
@@ -13,6 +14,8 @@ describe('servers stream', function () {
     $provide.value('socketStream', socketStream);
 
     $provide.decorator('socketStream', function (λ, $delegate) {
+      'ngInject';
+
       return $delegate.andCallFake(function () {
         stream = λ();
 

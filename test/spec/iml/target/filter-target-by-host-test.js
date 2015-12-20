@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('filter target by host', function () {
   'use strict';
 
-  beforeEach(window.module('target'));
+  beforeEach(module('target'));
 
   var filterTargetByHost, data;
 

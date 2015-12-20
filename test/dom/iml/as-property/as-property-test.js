@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('as property', function () {
   'use strict';
 
-  beforeEach(window.module('asProperty', 'highland'));
+  beforeEach(module('asProperty', 'highland'));
 
   var $compile, $scope, el, s, getText;
 

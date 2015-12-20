@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('The notification slider directive', function () {
   'use strict';
 
-  beforeEach(window.module('notificationModule', 'templates'));
+  beforeEach(module('notificationModule', 'templates'));
 
   var el, $scope, $timeout, findSlider;
 

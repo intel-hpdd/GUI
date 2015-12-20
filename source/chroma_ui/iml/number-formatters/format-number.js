@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,8 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('numberFormatters')
   .factory('formatNumber', function formatNumberFactory ($window) {
+    'ngInject';
+
     var units = ['', 'k', 'M', 'B', 'T'];
     var is2or3 = fp.or([fp.eq(2), fp.eq(3)]);
     var is5or10 = fp.or([fp.eq(5), fp.eq(10)]);
@@ -100,7 +105,4 @@ angular.module('numberFormatters')
         return sign + formatter.format(num) + units[pwr];
       }
     };
-
   });
-
-

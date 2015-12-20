@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('format bytes filter', function () {
   'use strict';
 
   var formatBytes;
 
-  beforeEach(window.module('filters', function ($provide) {
+  beforeEach(module('filters', function ($provide) {
     formatBytes = {};
 
     $provide.value('formatBytes', formatBytes);

@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('As stream', function () {
   var s;
 
-  beforeEach(window.module('asStream', 'asValue', function ($provide) {
+  beforeEach(module('asStream', 'asValue', function ($provide) {
     $provide.value('λ', function () {
       s = highland();
 

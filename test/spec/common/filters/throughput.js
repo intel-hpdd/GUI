@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Throughput Filter', function () {
   'use strict';
 
   var throughput;
 
-  beforeEach(window.module('filters', 'charts'));
+  beforeEach(module('filters', 'charts'));
 
   beforeEach(inject(function ($filter) {
     throughput = $filter('throughput');

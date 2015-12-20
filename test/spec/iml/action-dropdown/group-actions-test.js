@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('ordering groups', function () {
-  beforeEach(window.module('action-dropdown-module', 'dataFixtures'));
+  beforeEach(module('action-dropdown-module', 'dataFixtures'));
 
   var groupActionsFilter, groupActionsFixtures;
 

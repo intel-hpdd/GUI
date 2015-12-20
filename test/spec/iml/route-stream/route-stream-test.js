@@ -1,16 +1,11 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('route stream', function () {
-  var $rootScope, $route, qsFromLocation, spy, destroyListener;
+  var $route, qsFromLocation, spy;
 
-  beforeEach(window.module('routeStream', function ($provide) {
+  beforeEach(module('routeStream', function ($provide) {
     spy = jasmine.createSpy('spy');
-
-    destroyListener = jasmine.createSpy('destroyListener');
-
-    $rootScope = {
-      $on: jasmine.createSpy('$on')
-        .andReturn(destroyListener)
-    };
-    $provide.value('$rootScope', $rootScope);
 
     qsFromLocation = jasmine.createSpy('qsFromLocation')
       .andReturn('foo=bar&baz=bap');
@@ -24,10 +19,17 @@ describe('route stream', function () {
     $provide.value('$route', $route);
   }));
 
-  var routeStream;
+  var $rootScope, routeStream, destroyListener;
 
-  beforeEach(inject(function (_routeStream_) {
+  beforeEach(inject(function (_routeStream_, _$rootScope_) {
     routeStream = _routeStream_;
+
+    destroyListener = jasmine.createSpy('destroyListener');
+
+    $rootScope = _$rootScope_;
+
+    spyOn($rootScope, '$on')
+      .andReturn(destroyListener);
   }));
 
   it('should be a function', function () {

@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,9 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 
 angular.module('targetDashboard')
   .factory('targetDashboardKind', function targetDashboardKindFactory ($route) {
+    'ngInject';
+
     return function targetDashboardKind () {
       return $route.current.$$route.kind;
     };
@@ -29,6 +34,8 @@ angular.module('targetDashboard')
   .factory('targetDashboardResolves',
     function targetDashboardResolvesFactory ($q, $route, getFileUsageChart, getSpaceUsageChart,
                                              getMdoChart, getReadWriteBandwidthChart) {
+      'ngInject';
+
       return function targetDashboardResolves () {
         var targetId = $route.current.params.targetId;
         var kind = $route.current.$$route.kind;
@@ -61,6 +68,8 @@ angular.module('targetDashboard')
   )
   .factory('targetDashboardTargetStream',
     function targetDashboardTargetStreamFactory ($route, resolveStream, socketStream) {
+      'ngInject';
+
       return function targetDashboardTargetStream () {
         return resolveStream(socketStream('/target/' + $route.current.params.targetId, {
           jsonMask: 'active_host_name,filesystem_name,label'
@@ -69,6 +78,8 @@ angular.module('targetDashboard')
     })
   .factory('targetDashboardUsageStream',
     function targetDashboardUsageStreamFactory ($route, resolveStream, socketStream, addProperty) {
+      'ngInject';
+
       return function targetDashboardUsageStream () {
         return resolveStream(socketStream('/target/%s/metric/'.sprintf($route.current.params.targetId), {
           qs: {

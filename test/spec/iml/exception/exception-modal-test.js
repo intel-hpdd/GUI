@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('exception modal', () => {
   var $modal;
 
-  beforeEach(window.module('exception', ($provide) => {
+  beforeEach(module('exception', ($provide) => {
     $modal = {
       open: jasmine.createSpy('open')
     };

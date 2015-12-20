@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('disconnect modal', () => {
   var $modal;
 
-  beforeEach(window.module('exception', {
+  beforeEach(module('exception', {
     windowUnload: { unloading: false }
   }, ($provide) => {
     $modal = {

@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {getOstBalanceStreamFactory}
   from '../../../../source/chroma_ui/iml/ost-balance/get-ost-balance-stream-exports';
 
 describe('get OST balance stream', () => {
   var socketStream, targetStream, ostMetricsStream;
 
-  beforeEach(window.module('ostBalance', 'dataFixtures'));
+  beforeEach(module('ostBalance', 'dataFixtures'));
 
   var getOstBalanceStream, fixtures, revert;
 

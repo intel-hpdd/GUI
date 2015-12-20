@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Full Screen Module', function () {
   'use strict';
 
   var $scope, $fullScreenController, fullScreenContainer, button, icon, body, spy;
 
-  beforeEach(window.module('fullScreen', 'templates'));
+  beforeEach(module('fullScreen', 'templates'));
 
   beforeEach(inject(function ($rootScope, $templateCache, $compile) {
     $scope = $rootScope.$new();

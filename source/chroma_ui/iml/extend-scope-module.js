@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2014 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -18,6 +18,8 @@
 // of the Materials, either expressly, by implication, inducement, estoppel or
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
+
+import angular from 'angular';
 
 angular.module('extendScope', [])
   .config(['$provide', function addHandleExceptionMethod ($provide) {
@@ -63,6 +65,8 @@ angular.module('extendScope', [])
     };
   }])
   .factory('propagateChange', function propagateChangeFactory ($exceptionHandler, localApply) {
+    'ngInject';
+
     return fp.curry(4, function propagateChange ($scope, obj, prop, s) {
       return s
         .tap(fp.lensProp(prop).set(fp.__, obj))

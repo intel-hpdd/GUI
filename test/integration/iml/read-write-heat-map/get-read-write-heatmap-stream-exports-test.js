@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {getReadWriteHeatMapStreamFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-stream-exports';
 
 describe('the read write heat map stream', () => {
   var socketStream, getServerMoment, streams;
 
-  beforeEach(window.module('readWriteHeatMap', 'dataFixtures', ($provide) => {
+  beforeEach(module('readWriteHeatMap', 'dataFixtures', ($provide) => {
     streams = {
       heatMap: [],
       target: []

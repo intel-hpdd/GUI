@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('extend scope test', function () {
   'use strict';
 
   var $exceptionHandler;
 
-  beforeEach(window.module('extendScope', function ($provide) {
+  beforeEach(module('extendScope', function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

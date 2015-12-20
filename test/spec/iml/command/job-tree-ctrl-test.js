@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('job tree', function () {
-  beforeEach(window.module('command'));
+  beforeEach(module('command'));
 
   describe('job tree ctrl', function () {
 
@@ -108,7 +111,7 @@ describe('job tree', function () {
   describe('get job stream', function () {
     var socketStream, jobTree;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       socketStream = jasmine.createSpy('socketStream')
         .andReturn(highland());
 

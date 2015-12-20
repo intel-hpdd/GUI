@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Configure LNet', function () {
   'use strict';
 
-  beforeEach(window.module('lnetModule', 'dataFixtures'));
+  beforeEach(module('lnetModule', 'dataFixtures'));
 
   describe('Controller', function () {
     var configureLnet, $scope, $exceptionHandler, networkInterfaceStream,

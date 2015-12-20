@@ -1,15 +1,18 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('exception handler', function () {
   'use strict';
 
   var oldExceptionHandler;
 
-  beforeEach(window.module(function ($exceptionHandlerProvider) {
+  beforeEach(module(function ($exceptionHandlerProvider) {
     $exceptionHandlerProvider.mode('log');
 
     oldExceptionHandler = $exceptionHandlerProvider.$get();
   }));
 
-  beforeEach(window.module('exception', function ($provide) {
+  beforeEach(module('exception', function ($provide) {
     $provide.value('exceptionModal', jasmine.createSpy('exceptionModal'));
   }, {
     windowUnload: { unloading: false }

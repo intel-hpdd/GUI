@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {inject} = angular.mock;
+
 import {getHostCpuRamChartFactory} from
   '../../../../source/chroma_ui/iml/host-cpu-ram-chart/get-host-cpu-ram-chart-exports';
 

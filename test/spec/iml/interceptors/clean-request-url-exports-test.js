@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('clean request url interceptor', () => {
   var cleanRequestUrlInterceptor;
 
-  beforeEach(window.module('interceptors'));
+  beforeEach(module('interceptors'));
 
   beforeEach(inject((_cleanRequestUrlInterceptor_) => {
     cleanRequestUrlInterceptor = _cleanRequestUrlInterceptor_;

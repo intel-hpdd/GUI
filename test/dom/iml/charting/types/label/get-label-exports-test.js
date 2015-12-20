@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {getLabelFactory} from
   '../../../../../../source/chroma_ui/iml/charting/types/label/get-label-exports';
 
 describe('get label', () => {
   var d3, getLabel, svg, label;
 
-  beforeEach(window.module('d3'));
+  beforeEach(module('d3'));
 
   beforeEach(inject(function (_d3_) {
     d3 = _d3_;

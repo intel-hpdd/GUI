@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('get add server manager', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   describe('Add server steps constants', function () {
     var ADD_SERVER_STEPS;
@@ -22,7 +25,7 @@ describe('get add server manager', function () {
   describe('add server steps service', function () {
     var addServerSteps, addServersStep, serverStatusStep, selectServerProfileStep;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       addServersStep = {};
       $provide.value('addServersStep', addServersStep);
       serverStatusStep = {};
@@ -47,7 +50,7 @@ describe('get add server manager', function () {
   describe('get add server manager service', function () {
     var stepsManager, waitUntilLoadedStep;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       stepsManager = jasmine.createSpy('stepsManager').andReturn({
         addStep: jasmine.createSpy('addStep'),
         addWaitingStep: jasmine.createSpy('addWaitingStep')

@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Login Controller', () => {
   var userEulaStates = {
     EULA: 'eula',
@@ -7,7 +10,7 @@ describe('Login Controller', () => {
 
   var $modal, navigate;
 
-  beforeEach(window.module('login', 'interceptors', ($provide) => {
+  beforeEach(module('login', 'interceptors', ($provide) => {
     navigate = jasmine.createSpy('navigate');
     $provide.value('navigate', navigate);
 
@@ -16,6 +19,8 @@ describe('Login Controller', () => {
     });
 
     $provide.provider('$modal', function $modalProvider () {
+      'ngInject';
+
       this.$get = ($q) => {
         $modal = {
           instances: {}

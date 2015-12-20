@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('select server profile', function () {
-  beforeEach(window.module('server', 'dataFixtures'));
+  beforeEach(module('server', 'dataFixtures'));
 
   describe('select server profile step ctrl', function () {
     var $scope, $stepInstance, data,

@@ -1,10 +1,13 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('command modal', function () {
-  beforeEach(window.module('command'));
+  beforeEach(module('command'));
 
   describe('open command modal', function () {
     var $modal, stream;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('open')
       };

@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('socket stream', function () {
   'use strict';
 
   var getEventSocket, socket, spy;
 
-  beforeEach(window.module('socket-module', function ($provide) {
+  beforeEach(module('socket-module', function ($provide) {
     socket = {
       connect: jasmine.createSpy('connect'),
       end: jasmine.createSpy('end'),

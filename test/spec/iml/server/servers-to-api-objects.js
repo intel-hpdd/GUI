@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('servers to api objects', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   var serversToApiObjects, ADD_SERVER_AUTH_CHOICES, servers;
 

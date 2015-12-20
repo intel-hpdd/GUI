@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('App controller', function () {
-  beforeEach(window.module('app'));
+  beforeEach(module('app'));
 
   var $scope, $routeSegment, appController,
     sessionFixture, deferred, navigate, help, ENV, GROUPS,

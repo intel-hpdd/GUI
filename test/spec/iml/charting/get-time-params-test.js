@@ -1,12 +1,15 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the get time params module', () => {
   var getServerMoment;
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   describe('getRequestRange', () => {
     var getRequestRange;
 
-    beforeEach(window.module(($provide) => {
+    beforeEach(module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
         .andCallFake((d, f) => {
           // We always convert local time to utc time
@@ -72,7 +75,7 @@ describe('the get time params module', () => {
   describe('getRequestDuration', () => {
     var getRequestDuration, createDate;
 
-    beforeEach(window.module(($provide) => {
+    beforeEach(module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
         .andCallFake(() => {
           // We always convert local time to utc time

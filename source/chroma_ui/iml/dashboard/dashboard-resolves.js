@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,8 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 angular.module('dashboard')
   .factory('dashboardFsStream', function dashboardFsStreamFactory (resolveStream, socketStream, addProperty) {
+    'ngInject';
+
     return function dashboardFsStream () {
       return resolveStream(socketStream('/filesystem', {
         jsonMask: 'objects(id,label)',
@@ -37,12 +42,16 @@ angular.module('dashboard')
     };
   })
   .factory('dashboardHostStream', function dashboardHostStreamFactory (resolveStream, socketStream, addProperty) {
+    'ngInject';
+
     return dashboardStreamFactory(resolveStream, socketStream, addProperty, '/host', {
       jsonMask: 'objects(id,label)',
       qs: { limit: 0 }
     });
   })
   .factory('dashboardTargetStream', function dashboardTargetStreamFactory (resolveStream, socketStream, addProperty) {
+    'ngInject';
+
     return dashboardStreamFactory(resolveStream, socketStream, addProperty, '/target', {
       jsonMask: 'objects(id,label,kind,filesystems,filesystem_id,failover_servers,primary_server)',
       qs: { limit: 0 }

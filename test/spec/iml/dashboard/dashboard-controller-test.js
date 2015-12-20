@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('dashboard controller', function () {
   'use strict';
 
-  beforeEach(window.module('dashboard'));
+  beforeEach(module('dashboard'));
 
   var $scope, $location, $routeSegment,
     fsStream, hostStream, targetStream,

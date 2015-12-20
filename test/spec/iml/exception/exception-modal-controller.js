@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Exception modal controller', function () {
   'use strict';
 
@@ -5,7 +8,7 @@ describe('Exception modal controller', function () {
     stackTraceContainsLineNumber, sendStackTraceToRealTime, s,
     reverseStream, socketStream;
 
-  beforeEach(window.module('exception', function ($provide) {
+  beforeEach(module('exception', function ($provide) {
     reverseStream = highland();
 
     socketStream = jasmine.createSpy('socketStream').andReturn(reverseStream);

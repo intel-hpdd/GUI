@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('add static dir interceptor', () => {
   var addStaticDirInterceptor;
 
-  beforeEach(window.module('interceptors', {
+  beforeEach(module('interceptors', {
     STATIC_URL: '/static/'
   }));
 

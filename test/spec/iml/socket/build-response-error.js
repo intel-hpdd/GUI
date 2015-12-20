@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('build response error', function () {
   'use strict';
 
-  beforeEach(window.module('socket-module'));
+  beforeEach(module('socket-module'));
 
   var buildResponseError;
 

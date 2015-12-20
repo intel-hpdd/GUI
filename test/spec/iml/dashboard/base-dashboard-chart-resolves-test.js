@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('base dashboard resolves', () => {
   var $route;
 
-  beforeEach(window.module('baseDashboard', ($provide) => {
+  beforeEach(module('baseDashboard', ($provide) => {
     $route = {
       current: {
         params: {}
@@ -17,7 +20,7 @@ describe('base dashboard resolves', () => {
       mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart,
       readWriteHeatMapChart;
 
-    beforeEach(window.module('baseDashboard', ($provide) => {
+    beforeEach(module('baseDashboard', ($provide) => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
       getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')
@@ -192,7 +195,7 @@ describe('base dashboard resolves', () => {
   describe('fs stream', () => {
     var socketStream, s;
 
-    beforeEach(window.module(($provide) => {
+    beforeEach(module(($provide) => {
       s = highland();
       socketStream = jasmine.createSpy('socketStream')
         .andReturn(s);

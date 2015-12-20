@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('window unload', () => {
   var $window;
 
-  beforeEach(window.module('windowUnload', ($provide) => {
+  beforeEach(module('windowUnload', ($provide) => {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener')
     };

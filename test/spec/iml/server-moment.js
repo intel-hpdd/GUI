@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('Server Moment', function () {
   'use strict';
 
-  beforeEach(window.module('serverMoment', function ($provide) {
+  beforeEach(module('serverMoment', function ($provide) {
     var momentInstance = {
       add: jasmine.createSpy('add')
     };

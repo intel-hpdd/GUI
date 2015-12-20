@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('deferred action dropdown', function () {
   var socketStream, s;
 
-  beforeEach(window.module('status', 'templates', function ($provide) {
+  beforeEach(module('status', 'templates', function ($provide) {
     s = highland();
 
     socketStream = jasmine.createSpy('socketStream')

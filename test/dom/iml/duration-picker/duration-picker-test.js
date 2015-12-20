@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the duration picker', function () {
   'use strict';
 
@@ -5,7 +8,7 @@ describe('the duration picker', function () {
     dropdownMenu, input, DURATIONS,
     getErrorText;
 
-  beforeEach(window.module('durationPicker', 'templates', function ($provide) {
+  beforeEach(module('durationPicker', 'templates', function ($provide) {
     $provide.value('getServerMoment', function () {
       return moment('2015-05-03T07:35');
     });

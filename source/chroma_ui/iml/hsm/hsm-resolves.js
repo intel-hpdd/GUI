@@ -1,7 +1,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,12 +19,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
+
 var routePath = fp.pathLens(['current', 'params', 'fsId']);
 var fsIdPath = fp.pathLens(['qs', 'filesystem_id']);
 
 angular.module('hsm')
   .factory('copytoolOperationStream',
   function copytoolOperationStreamFactory (resolveStream, getCopytoolOperationStream, $route) {
+    'ngInject';
+
     return function copytoolOperationStream () {
       var val = routePath($route);
       var params = val ? fsIdPath.set(val, {}) : {};
@@ -33,6 +38,8 @@ angular.module('hsm')
     };
   })
   .factory('copytoolStream', function copytoolStreamFactory (resolveStream, getCopytoolStream, $route) {
+    'ngInject';
+
     return function copytoolStream () {
       var val = routePath($route);
       var params = val ? fsIdPath.set(val, {}) : {};

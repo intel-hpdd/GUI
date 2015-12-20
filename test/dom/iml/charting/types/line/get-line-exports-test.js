@@ -1,3 +1,6 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 import {getLineFactory} from
   '../../../../../../source/chroma_ui/iml/charting/types/line/get-line-exports';
 
@@ -15,7 +18,7 @@ describe('get line', () => {
 
   var getLine, div, svg, query, queryAll, d3;
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   beforeEach(inject((_d3_) => {
     d3 = _d3_;

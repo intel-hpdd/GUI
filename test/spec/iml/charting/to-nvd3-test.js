@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the to nvd3 plugin', function () {
   'use strict';
 
-  beforeEach(window.module('charting'));
+  beforeEach(module('charting'));
 
   var toNvd3, spy;
 

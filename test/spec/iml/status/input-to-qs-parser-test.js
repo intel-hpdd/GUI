@@ -1,5 +1,8 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('the input to qs parser', function () {
-  beforeEach(window.module('status'));
+  beforeEach(module('status'));
 
   var inputToQsParser;
 

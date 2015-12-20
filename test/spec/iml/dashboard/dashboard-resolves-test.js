@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('dashboard resolves', function () {
   'use strict';
 
   var resolveStream, socketStream, s, addProperty, $q;
 
-  beforeEach(window.module('dashboard', function ($provide) {
+  beforeEach(module('dashboard', function ($provide) {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');

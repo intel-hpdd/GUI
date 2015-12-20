@@ -1,9 +1,12 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('spring module', function () {
   'use strict';
 
   var regenerator, socketStream;
 
-  beforeEach(window.module('socket-module', function ($provide) {
+  beforeEach(module('socket-module', function ($provide) {
 
     regenerator = jasmine.createSpy('regenerator');
     $provide.value('regenerator', regenerator);

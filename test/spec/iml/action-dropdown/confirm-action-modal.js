@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('confirm action modal', function () {
   'use strict';
 
-  beforeEach(window.module('action-dropdown-module'));
+  beforeEach(module('action-dropdown-module'));
 
   describe('confirm action modal', function () {
     var confirmAction, title, confirmPrompts;
@@ -33,7 +36,7 @@ describe('confirm action modal', function () {
   describe('open confirm action modal', function () {
     var $modal, openConfirmActionModal;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('open')
       };

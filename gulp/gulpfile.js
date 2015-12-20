@@ -56,6 +56,11 @@ function buildJs () {
       ],
       ignore: [
         '*/bower_components/*',
+        '*/angular/*',
+        '*/angular-resource/*',
+        '*/angular-route/*',
+        '*/angular-animate/*',
+        '*/angular-ui-bootstrap/*',
         '*/vendor/*',
         '*/intel-fp/*',
         '*/intel-math/*',

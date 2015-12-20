@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('step modal', function () {
   'use strict';
 
-  beforeEach(window.module('command'));
+  beforeEach(module('command'));
 
   describe('step modal controller', function () {
     var $scope, stepModal, stepsStream, jobStream;
@@ -115,7 +118,7 @@ describe('step modal', function () {
   describe('open step modal', function () {
     var $modal, socketStream, stream;
 
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       socketStream = jasmine.createSpy('socketStream').andCallFake(function () {
         return (stream = highland());
       });

@@ -1,7 +1,10 @@
+import angular from 'angular';
+const {module, inject} = angular.mock;
+
 describe('add server modal', function () {
   'use strict';
 
-  beforeEach(window.module('server'));
+  beforeEach(module('server'));
 
   describe('controller', function () {
     var addServerModalCtrl, $scope, resultEndPromise, invokeController;
@@ -105,7 +108,7 @@ describe('add server modal', function () {
 
   describe('opening', function () {
     var openAddServerModal, $modal, server, step, response;
-    beforeEach(window.module(function ($provide) {
+    beforeEach(module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('$modal')
       };
