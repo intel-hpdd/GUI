@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import routeStreamFactory from './route-stream-exports';
 
-
-angular.module('routeStream', ['qsFromLocation', 'highland']);
+angular.module('routeStream', ['qsFromLocation', 'highland'])
+  .factory('routeStream', routeStreamFactory);

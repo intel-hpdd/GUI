@@ -19,33 +19,38 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import λ from 'highland';
 
+export default function routeStreamFactory ($rootScope, $route, qsFromLocation) {
+  'ngInject';
 
-angular.module('routeStream')
-  .factory('routeStream', function routeStreamFactory ($rootScope, qsFromLocation, $route, λ) {
-    'ngInject';
+  return function routeStream () {
+    var s = λ();
 
-    return function routeStream () {
-      var s = λ();
+    var d = $rootScope.$on('$routeChangeSuccess', (ev, route) => {
+      if (route.redirectTo)
+        return;
 
-      var d = $rootScope.$on('$routeChangeSuccess', function pushRoute (ev, route) {
-        if (route.redirectTo)
-          return;
+      s.write(extendRoute(route));
+    });
 
-        s.write(addQs(route));
-      });
+    s._destructors.push(d);
 
-      s._destructors.push(d);
+    s.write(extendRoute($route.current));
 
-      s.write(addQs($route.current));
+    return s;
+  };
 
-      return s;
-    };
+  function extendRoute (route) {
+    return obj.merge({
+      qs: qsFromLocation(),
+      contains (search) {
+        const segment = route.$$route.segment || [];
 
-    function addQs (route) {
-      return obj.merge({
-        qs: qsFromLocation()
-      }, route);
-    }
-  });
+        return segment
+            .split('.')
+            .indexOf(search) !== -1;
+      }
+    }, route);
+  }
+}

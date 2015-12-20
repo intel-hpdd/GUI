@@ -1,10 +1,10 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('route stream', function () {
+describe('route stream', () => {
   var $route, qsFromLocation, spy;
 
-  beforeEach(module('routeStream', function ($provide) {
+  beforeEach(module('routeStream', ($provide) => {
     spy = jasmine.createSpy('spy');
 
     qsFromLocation = jasmine.createSpy('qsFromLocation')
@@ -13,7 +13,10 @@ describe('route stream', function () {
 
     $route = {
       current: {
-        route: 'initial'
+        route: 'initial',
+        $$route: {
+          segment: 'foo.bar.baz'
+        }
       }
     };
     $provide.value('$route', $route);
@@ -21,7 +24,7 @@ describe('route stream', function () {
 
   var $rootScope, routeStream, destroyListener;
 
-  beforeEach(inject(function (_routeStream_, _$rootScope_) {
+  beforeEach(inject((_routeStream_, _$rootScope_) => {
     routeStream = _routeStream_;
 
     destroyListener = jasmine.createSpy('destroyListener');
@@ -32,44 +35,68 @@ describe('route stream', function () {
       .andReturn(destroyListener);
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(routeStream).toEqual(jasmine.any(Function));
   });
 
-  it('should deregister the listener on stream destruction', function () {
+  it('should deregister the listener on stream destruction', () => {
     routeStream()
       .destroy();
 
     expect(destroyListener).toHaveBeenCalledOnce();
   });
 
-  describe('invoking', function () {
+  describe('contains', () => {
+    var current;
+
+    beforeEach(() => {
+      routeStream()
+        .each(spy);
+
+      current = spy.mostRecentCall.args[0];
+    });
+
+    it('should return true if route contains segment', () => {
+      expect(current.contains('bar')).toBe(true);
+    });
+
+    it('should return false if route does not contain segment', () => {
+      expect(current.contains('bap')).toBe(false);
+    });
+  });
+
+  describe('invoking', () => {
     var fn;
 
-    beforeEach(function () {
+    beforeEach(() => {
       routeStream().each(spy);
       fn = $rootScope.$on.mostRecentCall.args[1];
     });
 
-    it('should push a route on the stream', function () {
+    it('should push a route on the stream', () => {
       expect(spy).toHaveBeenCalledOnceWith({
         qs: 'foo=bar&baz=bap',
-        route: 'initial'
+        route: 'initial',
+        $$route: {
+          segment: 'foo.bar.baz'
+        },
+        contains: jasmine.any(Function)
       });
     });
 
-    it('should push a new route on $routeChangeSuccess', function () {
+    it('should push a new route on $routeChangeSuccess', () => {
       fn({}, {
         route: 'next'
       });
 
       expect(spy).toHaveBeenCalledOnceWith({
         route: 'next',
-        qs: 'foo=bar&baz=bap'
+        qs: 'foo=bar&baz=bap',
+        contains: jasmine.any(Function)
       });
     });
 
-    it('should not push a redirected route', function () {
+    it('should not push a redirected route', () => {
       fn({}, {
         route: 'redirect',
         redirectTo: 'redirectTo'
