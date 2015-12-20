@@ -1,19 +1,16 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('HSM controller', function () {
-  'use strict';
-
-  var hsm, $scope, getAgentVsCopytoolStream, openAddCopytoolModal,
+describe('HSM controller', () => {
+  var hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal,
     copytoolOperationStream, copytoolStream;
 
   beforeEach(module('hsm'));
 
-  beforeEach(inject(function ($controller, $rootScope, $q) {
+  beforeEach(inject(($controller, $rootScope, $q) => {
     $scope = $rootScope.$new();
 
-    getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream')
-      .andReturn('agent vs copytool stream');
+    agentVsCopytoolChart = {};
 
     copytoolOperationStream = highland();
     spyOn(copytoolOperationStream, 'destroy');
@@ -25,64 +22,63 @@ describe('HSM controller', function () {
 
     hsm = $controller('HsmCtrl', {
       $scope: $scope,
+      agentVsCopytoolChart: agentVsCopytoolChart,
       openAddCopytoolModal: openAddCopytoolModal,
       copytoolStream: copytoolStream,
-      copytoolOperationStream: copytoolOperationStream,
-      getAgentVsCopytoolStream: getAgentVsCopytoolStream
+      copytoolOperationStream: copytoolOperationStream
     });
   }));
 
-  it('should setup controller as expected', function () {
+  it('should setup controller as expected', () => {
     expect(hsm).toEqual({
-      stream: 'agent vs copytool stream',
-      data: [],
+      chart: agentVsCopytoolChart,
       openAddModal: jasmine.any(Function)
     });
   });
 
-  it('should propagate copytool changes', function () {
+  it('should propagate copytool changes', () => {
     copytoolStream.write(['foo']);
 
     expect(hsm.copytools).toEqual(['foo']);
   });
 
-  it('should propagate copytoolOperations', function () {
+  it('should propagate copytoolOperations', () => {
     copytoolOperationStream.write(['bar']);
 
     expect(hsm.copytoolOperations).toEqual(['bar']);
   });
 
-  describe('open modal', function () {
+  describe('open modal', () => {
     var result;
 
-    beforeEach(function () {
+    beforeEach(() => {
       result = hsm.openAddModal();
     });
 
-    it('should set modalOpen property to true', function () {
+    it('should set modalOpen property to true', () => {
       expect(hsm.modalOpen).toBe(true);
     });
 
-    it('should open the modal', function () {
+    it('should open the modal', () => {
       expect(openAddCopytoolModal).toHaveBeenCalledOnceWith($scope);
     });
 
-    it('should set modalOpen property to false on close', function () {
+    it('should set modalOpen property to false on close', () => {
       $scope.$apply();
       expect(hsm.modalOpen).toBe(false);
     });
   });
 
-  describe('on destroy', function () {
-    beforeEach(function () {
+  describe('on destroy', () => {
+    beforeEach(() => {
       $scope.$destroy();
     });
 
-    it('should destroy the copytoolStream', function () {
+    it('should destroy the copytoolStream', () => {
       expect(copytoolStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy the copytoolOperationStream', function () {
+    it('should destroy the copytoolOperationStream', () => {
       expect(copytoolOperationStream.destroy).toHaveBeenCalledOnce();
     });
   });

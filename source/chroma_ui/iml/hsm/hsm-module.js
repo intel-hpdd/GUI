@@ -21,14 +21,19 @@
 
 import angular from 'angular';
 
-
-import { getAgentVsCopytoolStreamFactory } from './agent-vs-copytool-stream-exports';
 import {AddCopytoolModalCtrl, openAddCopytoolModalFactory}
   from './add-copytool-modal-exports';
+import HsmCtrl from './hsm-controller-exports';
+import getCopytoolOperationStreamFactory from './get-copytool-operation-stream-exports';
+import getCopytoolStreamFactory from './get-copytool-stream-exports';
+import hsmCdtStatusDirective from './hsm-cdt-status-directive-exports';
 
-angular.module('hsm', ['charts', 'd3', 'progress', 'command',
-    'help', 'charting', 'debounce'
+angular.module('hsm', ['progress', 'command',
+    'help', 'agentVsCopytool', 'configToggle'
   ])
-  .factory('getAgentVsCopytoolStream', getAgentVsCopytoolStreamFactory)
+  .factory('openAddCopytoolModal', openAddCopytoolModalFactory)
   .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
-  .factory('openAddCopytoolModal', openAddCopytoolModalFactory);
+  .controller('HsmCtrl', HsmCtrl)
+  .factory('getCopytoolOperationStream', getCopytoolOperationStreamFactory)
+  .factory('getCopytoolStream', getCopytoolStreamFactory)
+  .directive('hsmCdtStatus', hsmCdtStatusDirective);

@@ -1,11 +1,10 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('hsm fs route', function () {
-
+describe('hsm fs route', () => {
   var $routeSegmentProvider, GROUPS;
 
-  beforeEach(module(function () {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
       $get: function get () {},
       within: jasmine.createSpy('$routeSegmentProvider.within'),
@@ -21,35 +20,39 @@ describe('hsm fs route', function () {
     });
   }, 'route-segment', 'hsmFsRoute'));
 
-  beforeEach(inject(function (_GROUPS_) {
+  beforeEach(inject((_GROUPS_) => {
     GROUPS = _GROUPS_;
   }));
 
-  describe('when', function () {
-    it('/configure/hsm/:fsId?', function () {
+  describe('when', () => {
+    it('/configure/hsm/:fsId?', () => {
       expect($routeSegmentProvider.when).toHaveBeenCalledOnceWith('/configure/hsm/:fsId?',
         'app.hsmFs.hsm');
     });
   });
 
-  describe('within', function () {
-    it('should specify "app"', function () {
+  describe('within', () => {
+    it('should specify "app"', () => {
       expect($routeSegmentProvider.within).toHaveBeenCalledOnceWith('app');
     });
   });
 
-  describe('segment', function () {
-    it('should setup the hsm segment', function () {
+  describe('segment', () => {
+    it('should setup the hsm segment', () => {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('hsmFs', {
         controller: 'HsmFsCtrl',
         controllerAs: 'hsmFs',
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
         access: GROUPS.FS_ADMINS,
         resolve: {
-          fsStream: ['fsCollStream', jasmine.any(Function)],
-          copytoolStream: ['copytoolStream', jasmine.any(Function)]
+          fsStream: ['hsmFsCollStream', jasmine.any(Function)],
+          copytoolStream: ['hsmFsCopytoolStream', jasmine.any(Function)]
         },
-        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
+        middleware: [
+          'allowAnonymousReadMiddleware',
+          'eulaStateMiddleware',
+          'authenticationMiddleware'
+        ],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

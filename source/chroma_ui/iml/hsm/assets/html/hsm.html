@@ -7,52 +7,48 @@
 
 <div ng-if="hsm.copytools.length > 0">
   <h4 class="section-header">Outstanding Agent Requests vs. Idle Copytool Workers</h4>
-  <agent-vs-copytool stream="hsm.stream"></agent-vs-copytool>
+  <div chart-compiler chart="hsm.chart"></div>
 
   <h4 class="section-header">Active Copytool Operations</h4>
-  <div ng-if="hsm.copytoolOperations.length === 0" class="no-copytool-operations well text-center">
-    <h5>No Active Copytool Operations.</h5>
-  </div>
-
   <div ng-if="hsm.copytoolOperations.length > 0">
-    <table class="table">
+    <table class="table active-operations">
       <thead>
         <tr>
           <th>Copytool</th>
+          <th>File</th>
           <th>Operation</th>
           <th>Status</th>
-          <th>Throughput</th>
-          <th>File</th>
+          <th class="hidden-xs">Progress</th>
+          <th class="hidden-xs">Throughput</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="copytoolOperation in hsm.copytoolOperations track by copytoolOperation.id">
-          <td>{{ copytoolOperation.copytool.host.label }}</td>
-          <td class="operation">
-            <div ng-include="'iml/hsm/assets/html/ops/' + (copytoolOperation.type | lowercase) + '.html'"></div>
+          <td>{{ ::copytoolOperation.copytool.host.label }}</td>
+          <td class="current-file">
+            <a>
+              <i class="fa fa-question-circle" uib-tooltip="{{ ::copytoolOperation.description }}"></i>
+            </a>
+            {{ ::copytoolOperation.path | pathMaxLength:60 }}
           </td>
-          <td class="state">
-            <div ng-include="'iml/hsm/assets/html/states/' + (copytoolOperation.state | lowercase) + '.html'"></div>
+          <td class="operation" ng-include="'iml/hsm/assets/html/ops/' + (copytoolOperation.type | lowercase) + '.html'">
           </td>
-          <td>
-            <div class="throughput">
-                <div class="size">{{ copytoolOperation.processed_bytes | fmtBytes }} / {{ copytoolOperation.total_bytes | fmtBytes }}</div>
-                <div class="speed">{{ copytoolOperation.throughput | throughput }}</div>
-            </div>
+          <td class="state" ng-include="'iml/hsm/assets/html/states/' + (copytoolOperation.state | lowercase) + '.html'"></td>
+          <td class="hidden-xs">
+            <progress-circle radius="15" complete="{{ copytoolOperation.progress }}"></progress-circle>
+            <span class="size"
+                  ng-if="copytoolOperation.processed_bytes != null && copytoolOperation.total_bytes != null">
+              {{ copytoolOperation.processed_bytes | fmtBytes }} / {{ copytoolOperation.total_bytes | fmtBytes }}
+            </span>
           </td>
-          <td>
-            <div class="current-file">
-              {{ copytoolOperation.path | pathMaxLength:60 }}
-              <i tooltip="{{ copytoolOperation.description }}" class="icon-info-sign"></i>
-            </div>
-          </td>
+          <td class="hidden-xs">{{ copytoolOperation.throughput | throughput }}</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <h4 class="section-header">Copytools</h4>
-  <table class="table">
+  <table class="table copytools">
     <thead>
       <tr>
         <th>ID</th>
@@ -62,12 +58,10 @@
       </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="copytool in hsm.copytools track by copytool.id" ng-class="{ even: $even, odd: $odd }">
-        <td>{{ copytool.host.label }}</td>
+      <tr ng-repeat="copytool in hsm.copytools track by copytool.id">
+        <td>{{ ::copytool.host.label }}</td>
         <td>{{ copytool.archive }}</td>
-        <td class="status">
-          <div ng-include="'iml/hsm/assets/html/states/' + copytool.status + '.html'"></div>
-        </td>
+        <td class="status" ng-include="'iml/hsm/assets/html/states/' + copytool.status + '.html'"></td>
         <td class="actions-cell" as-stream val="copytool">
           <action-dropdown stream="::str"></action-dropdown>
         </td>

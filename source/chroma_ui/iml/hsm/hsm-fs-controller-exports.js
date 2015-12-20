@@ -20,59 +20,50 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import λ from 'highland';
 
 
-angular.module('hsmFs')
-  .controller('HsmFsCtrl', function HsmFsCtrl ($scope, $routeSegment, $location, fsStream, copytoolStream) {
-    'ngInject';
+export default function HsmFsCtrl ($scope, $routeSegment, $location,
+                                   routeStream, fsStream, copytoolStream) {
+  'ngInject';
 
-    var fsStream2;
+  var fsStream2;
 
-    var hsmFs = obj.merge(this, {
-      onUpdate: function onUpdate () {
-        var id = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
-        var path = $routeSegment.getSegmentUrl('app.hsmFs.hsm', {
-          fsId: id
-        });
+  const hsmFs = angular.extend(this, {
+    onUpdate () {
+      const fsId = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
+      const path = $routeSegment.getSegmentUrl('app.hsmFs.hsm', {
+        fsId
+      });
+      $location.path(path);
+    }
+  });
 
-        hsmFs.setConfigure(false);
-        $location.path(path);
-      }
-    });
+  var p = $scope.propagateChange($scope, hsmFs);
 
-    hsmFs.setConfigure = fp.lensProp('configure').set(fp.__, hsmFs);
+  p('fileSystems', fsStream);
+  p('copytools', copytoolStream);
 
-    var p = $scope.propagateChange($scope, hsmFs);
+  const rs = routeStream();
 
-    p('fileSystems', fsStream);
-    p('copytools', copytoolStream.pluck('objects'));
-
-    var remove = $scope.$root.$on('$routeChangeSuccess', onRouteChangeSuccess);
-
-    onRouteChangeSuccess(null, {
-      params: $routeSegment.$routeParams
-    });
-
-    function onRouteChangeSuccess (ev, args) {
-    if (args.redirectTo || !$routeSegment.contains('hsmFs'))
-        return;
-
-      var params = args.params;
-
+  rs
+    .filter(fp.invokeMethod('contains', ['hsmFs']))
+    .tap(() => {
       if (fsStream2) {
         fsStream2.destroy();
         hsmFs.fs = fsStream2 = null;
       }
-
-      if (params.fsId) {
+    })
+    .each(({params: {fsId}}) => {
+      if (fsId) {
         fsStream2 = fsStream.property();
-        p('fs', fsStream2.flatMap(highland.findWhere({ id: params.fsId })));
+        p('fs', fsStream2.flatMap(λ.findWhere({ id: fsId })));
       }
-    }
-
-    $scope.$on('$destroy', function onDestroy () {
-      fsStream.destroy();
-      copytoolStream.destroy();
-      remove();
     });
+
+  $scope.$on('$destroy', function onDestroy () {
+    rs.destroy();
+    fsStream.destroy();
+    copytoolStream.destroy();
   });
+}

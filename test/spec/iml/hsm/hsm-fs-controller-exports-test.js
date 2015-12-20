@@ -1,10 +1,10 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import λ from 'highland';
 
 describe('HSM fs controller', function () {
-  'use strict';
-
-  var ctrl, $scope, $location, $routeSegment, fsStream, copytoolStream;
+  var ctrl, $scope, $location, $routeSegment,
+    fsStream, copytoolStream, routeStream, rs;
 
   beforeEach(module('hsmFs'));
 
@@ -12,11 +12,7 @@ describe('HSM fs controller', function () {
     $scope = $rootScope.$new();
 
     $routeSegment = {
-      $routeParams: {
-        fsId: '1'
-      },
-      getSegmentUrl: jasmine.createSpy('getSegmentUrl'),
-      contains: jasmine.createSpy('contains').andReturn(true)
+      getSegmentUrl: jasmine.createSpy('getSegmentUrl')
     };
 
     $location = {
@@ -28,19 +24,31 @@ describe('HSM fs controller', function () {
     copytoolStream = highland();
     spyOn(copytoolStream, 'destroy');
 
+    rs = λ();
+    spyOn(rs, 'destroy');
+    routeStream = jasmine.createSpy('routeStream')
+      .andReturn(rs);
+    rs.write({
+      params: {
+        fsId: '1'
+      },
+      contains: jasmine.createSpy('contains')
+        .andReturn(true)
+    });
+
     ctrl = $controller('HsmFsCtrl', {
-      $scope: $scope,
-      $routeSegment: $routeSegment,
-      $location: $location,
+      $scope,
+      $routeSegment,
+      $location,
       fsStream: fsStream.through(addProperty),
-      copytoolStream: copytoolStream
+      copytoolStream,
+      routeStream
     });
   }));
 
   it('should setup ctrl as expected', function () {
     expect(ctrl).toEqual({
-      onUpdate: jasmine.any(Function),
-      setConfigure: jasmine.any(Function)
+      onUpdate: jasmine.any(Function)
     });
   });
 
@@ -82,12 +90,6 @@ describe('HSM fs controller', function () {
     });
   });
 
-  it('should set the configure property', function () {
-    ctrl.setConfigure(true);
-
-    expect(ctrl.configure).toBe(true);
-  });
-
   it('should set fileSystems data', function () {
     fsStream.write([{ id: '1' }, { id: '2' }]);
 
@@ -95,24 +97,35 @@ describe('HSM fs controller', function () {
   });
 
   it('should set copytools data', function () {
-    copytoolStream.write({
-      objects: [{ id: '3'}, { id: '4' }]
-    });
+    copytoolStream.write([{ id: '3' }, { id: '4' }]);
 
     expect(ctrl.copytools).toEqual([{ id: '3' }, { id: '4' }]);
   });
 
   it('should set fs to the fsId', function () {
-    fsStream.write([{ id: '1', label: 'foo' }, { id: '2', label: 'bar' }]);
+    fsStream.write([
+      {
+        id: '1',
+        label: 'foo'
+      },
+      {
+        id: '2',
+        label: 'bar'
+      }
+    ]);
 
-    expect(ctrl.fs).toEqual({ id: '1', label: 'foo' });
+    expect(ctrl.fs).toEqual({
+      id: '1',
+      label: 'foo'
+    });
   });
 
   it('should filter out if fsId does not exist', function () {
     fsStream.write([{ id: '1' }]);
 
-    $scope.$root.$broadcast('$routeChangeSuccess', {
-      params: {}
+    rs.write({
+      params: {},
+      contains: fp.always(true)
     });
 
     expect(ctrl.fs).toBe(null);
@@ -121,26 +134,14 @@ describe('HSM fs controller', function () {
   it('should alter fs id on change', function () {
     fsStream.write([{ id: '1' }, { id: '3' }]);
 
-    $scope.$root.$broadcast('$routeChangeSuccess', {
+    rs.write({
       params: {
         fsId: '3'
-      }
+      },
+      contains: fp.always(true)
     });
 
     expect(ctrl.fs).toEqual({ id: '3' });
-  });
-
-  it('should return early if redirectTo is set', function () {
-    fsStream.write([{ id: '1' }, { id: '3' }]);
-
-    $scope.$root.$broadcast('$routeChangeSuccess', {
-      redirectTo: true,
-      params: {
-        fsId: '3'
-      }
-    });
-
-    expect(ctrl.fs).toEqual({ id: '1' });
   });
 
   describe('destroy', function () {
@@ -156,8 +157,9 @@ describe('HSM fs controller', function () {
       expect(copytoolStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should remove the routeChangeSuccess listener', inject(function ($rootScope) {
-      expect($rootScope.$$listeners.$routeChangeSuccess).toEqual([null]);
-    }));
+    it('should destroy the routeStream', () => {
+      expect(rs.destroy)
+        .toHaveBeenCalledOnce();
+    });
   });
 });

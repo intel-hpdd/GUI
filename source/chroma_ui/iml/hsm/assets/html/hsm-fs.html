@@ -8,16 +8,19 @@
       <li ng-if="hsmFs.fs">
         <a route-to="configure/hsm">All File Systems</a>
       </li>
-
       <li ng-if="hsmFs.fs">
         File System: {{hsmFs.fs.label}}
       </li>
     </ol>
   </div>
   <div class="row">
-    <div class="col-xs-12">
-      <button class="btn btn-block btn-sm btn-primary configure-hsm" ng-if="!hsmFs.configure" ng-click="hsmFs.setConfigure(true)">Configure HSM<i class="fa fa-cog"></i></button>
-      <div class="well well-lg configure-hsm-well" ng-if="hsmFs.configure">
+    <div config-toggle class="col-xs-12">
+      <button class="btn btn-block btn-sm btn-primary configure-hsm"
+              ng-if="configToggle.inactive()"
+              ng-click="configToggle.setActive()">
+        Configure HSM<i class="fa fa-cog"></i>
+      </button>
+      <div class="well well-lg configure-hsm-well" ng-if="configToggle.active()">
         <form class="form">
           <div class="form-group">
             <label>File System</label>
@@ -27,8 +30,12 @@
               <option value="">All File Systems</option>
             </select>
           </div>
-          <button type="submit" ng-click="hsmFs.onUpdate()" class="btn btn-success btn-block">Update</button>
-          <button ng-click="hsmFs.setConfigure(false)" class="btn btn-cancel btn-block">Cancel</button>
+          <button type="submit"
+                  ng-click="configToggle.setInactive(hsmFs.onUpdate())"
+                  class="btn btn-success btn-block">
+            Update
+          </button>
+          <button ng-click="configToggle.setInactive()" class="btn btn-cancel btn-block">Cancel</button>
         </form>
       </div>
     </div>

@@ -20,30 +20,52 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {pathLens, flow, always, cond} from 'intel-fp/dist/fp';
 
+const fsParams = (filesystem_id) => {
+  return {
+    qs: {
+      filesystem_id
+    }
+  };
+};
 
-var routePath = fp.pathLens(['current', 'params', 'fsId']);
-var fsIdPath = fp.pathLens(['qs', 'filesystem_id']);
+const routePath = pathLens(['current', 'params', 'fsId']);
+const mightAddFsId = cond(
+  [routePath, flow(routePath, fsParams)],
+  [always(true), () => { return {}; }]
+);
 
 angular.module('hsm')
   .factory('copytoolOperationStream',
-  function copytoolOperationStreamFactory (resolveStream, getCopytoolOperationStream, $route) {
-    'ngInject';
+    function (resolveStream, getCopytoolOperationStream, $route) {
+      'ngInject';
 
-    return function copytoolOperationStream () {
-      var val = routePath($route);
-      var params = val ? fsIdPath.set(val, {}) : {};
+      return flow(
+        mightAddFsId,
+        getCopytoolOperationStream,
+        resolveStream
+      ).bind(null, $route);
+    }
+  )
+  .factory('copytoolStream',
+    function copytoolStreamFactory (resolveStream, getCopytoolStream, $route) {
+      'ngInject';
 
-      return resolveStream(getCopytoolOperationStream(params));
-    };
-  })
-  .factory('copytoolStream', function copytoolStreamFactory (resolveStream, getCopytoolStream, $route) {
-    'ngInject';
+      return flow(
+        mightAddFsId,
+        getCopytoolStream,
+        resolveStream
+      ).bind(null, $route);
+    }
+  )
+  .factory('agentVsCopytoolChartResolve',
+    function agentVsCopytoolChartResolve ($route, getAgentVsCopytoolChart) {
+      'ngInject';
 
-    return function copytoolStream () {
-      var val = routePath($route);
-      var params = val ? fsIdPath.set(val, {}) : {};
-
-      return resolveStream(getCopytoolStream(params));
-    };
-  });
+      return flow(
+        mightAddFsId,
+        getAgentVsCopytoolChart
+      ).bind(null, $route);
+    }
+  );

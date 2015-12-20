@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
+import {__, invoke} from 'intel-fp/dist/fp';
 
 angular.module('hsmFsRoute')
   .config(function hsmSegment ($routeSegmentProvider, GROUPS) {
@@ -35,10 +35,14 @@ angular.module('hsmFsRoute')
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
         access: GROUPS.FS_ADMINS,
         resolve: {
-          fsStream: ['fsCollStream', fp.invoke(fp.__, [])],
-          copytoolStream: ['copytoolStream', fp.invoke(fp.__, [])]
+          fsStream: ['hsmFsCollStream', invoke(__, [])],
+          copytoolStream: ['hsmFsCopytoolStream', invoke(__, [])]
         },
-        middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
+        middleware: [
+          'allowAnonymousReadMiddleware',
+          'eulaStateMiddleware',
+          'authenticationMiddleware'
+        ],
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'
         }

@@ -1,13 +1,15 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('hsm route', function () {
+import {noop} from 'intel-fp/dist/fp';
 
+describe('hsm route', () => {
   var $routeSegmentProvider;
 
-  beforeEach(module(function () {
+  beforeEach(module(() => {
     $routeSegmentProvider = {
-      $get: function get () {},
+      $get: function get () {
+      },
       within: jasmine.createSpy('$routeSegmentProvider.within'),
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
@@ -19,32 +21,33 @@ describe('hsm route', function () {
     });
   }, 'route-segment', 'hsmRoute'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
-  describe('within', function () {
-    it('should specify "app"', function () {
+  describe('within', () => {
+    it('should specify "app"', () => {
       expect($routeSegmentProvider.within).toHaveBeenCalledOnceWith('app');
     });
 
-    it('should specify "hsmFs"', function () {
+    it('should specify "hsmFs"', () => {
       expect($routeSegmentProvider.within).toHaveBeenCalledOnceWith('hsmFs');
     });
   });
 
-  describe('segment', function () {
-    it('should setup the hsm segment', function () {
+  describe('segment', () => {
+    it('should setup the hsm segment', () => {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('hsm', {
-          controller: 'HsmCtrl',
-          controllerAs: 'hsm',
-          templateUrl: 'iml/hsm/assets/html/hsm.html',
-          resolve: {
-            copytoolOperationStream: ['copytoolOperationStream', jasmine.any(Function)],
-            copytoolStream: ['copytoolStream', jasmine.any(Function)]
-          },
-          untilResolved: {
-            templateUrl: 'common/loading/assets/html/loading.html'
-          },
-          dependencies: ['fsId']
+        controller: 'HsmCtrl',
+        controllerAs: 'hsm',
+        templateUrl: 'iml/hsm/assets/html/hsm.html',
+        resolve: {
+          copytoolOperationStream: ['copytoolOperationStream', jasmine.any(Function)],
+          copytoolStream: ['copytoolStream', jasmine.any(Function)],
+          agentVsCopytoolChart: ['agentVsCopytoolChartResolve', jasmine.any(Function)]
+        },
+        untilResolved: {
+          templateUrl: 'common/loading/assets/html/loading.html'
+        },
+        dependencies: ['fsId']
       });
     });
   });

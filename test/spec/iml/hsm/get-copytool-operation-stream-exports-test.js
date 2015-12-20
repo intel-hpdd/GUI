@@ -1,13 +1,13 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import λ from 'highland';
 
-describe('get copytool operation stream', function () {
-  'use strict';
-
+describe('get copytool operation stream', () => {
   var socketStream, stream;
 
-  beforeEach(module('hsm', function ($provide) {
-    stream = highland();
+  beforeEach(module('hsm', ($provide) => {
+    stream = λ();
+    spyOn(stream, 'destroy');
 
     socketStream = jasmine.createSpy('socketStream')
       .andReturn(stream);
@@ -17,11 +17,11 @@ describe('get copytool operation stream', function () {
 
   var getCopytoolOperationStream;
 
-  beforeEach(inject(function (_getCopytoolOperationStream_) {
+  beforeEach(inject((_getCopytoolOperationStream_) => {
     getCopytoolOperationStream = _getCopytoolOperationStream_;
   }));
 
-  it('should get a stream', function () {
+  it('should get a stream', () => {
     getCopytoolOperationStream();
 
     expect(socketStream)
@@ -35,10 +35,18 @@ updated_at,started_at,throughput,type,state,path,description)',
       });
   });
 
-  describe('computed values', function () {
+  it('should destroy the source stream', () => {
+    const s = getCopytoolOperationStream();
+    s.destroy();
+
+    expect(stream.destroy)
+      .toHaveBeenCalledOnce();
+  });
+
+  describe('computed values', () => {
     var result;
 
-    beforeEach(function () {
+    beforeEach(() => {
       var date = new Date();
       var data = {
         objects: [{
@@ -46,30 +54,31 @@ updated_at,started_at,throughput,type,state,path,description)',
           total_bytes: 67890,
           started_at: date.toISOString(),
           updated_at: new Date(date.getTime() + 10000).toISOString()
-        }]
+        }
+        ]
       };
 
       result = getCopytoolOperationStream();
       stream.write(data);
     });
 
-    it('should add a progress property', function () {
+    it('should add a progress property', () => {
       result.through(expectStreamToContainItem({ progress: 18.18382677861246 }));
     });
 
-    it('should add a throughput property ', function () {
+    it('should add a throughput property ', () => {
       result.through(expectStreamToContainItem({ throughput: 1234.5 }));
     });
   });
 
-  describe('handling bad inputs', function () {
+  describe('handling bad inputs', () => {
     var result;
 
-    beforeEach(function () {
+    beforeEach(() => {
       result = getCopytoolOperationStream();
     });
 
-    it('should return 0 when computed progress is NaN', function () {
+    it('should return 0 when computed progress is NaN', () => {
       stream.write({
         objects: [
           {
@@ -82,7 +91,7 @@ updated_at,started_at,throughput,type,state,path,description)',
       result.through(expectStreamToContainItem({ progress: 0 }));
     });
 
-    it('should return 0 for throughput when elapsed time is NaN', function () {
+    it('should return 0 for throughput when elapsed time is NaN', () => {
       stream.write({
         objects: [{}]
       });
@@ -90,7 +99,7 @@ updated_at,started_at,throughput,type,state,path,description)',
       result.through(expectStreamToContainItem({ throughput: 0 }));
     });
 
-    it('should return 0 for throughput when elapsed time is < 1 second', function () {
+    it('should return 0 for throughput when elapsed time is < 1 second', () => {
       var date = new Date().toISOString();
       stream.write({
         objects: [
@@ -103,7 +112,7 @@ updated_at,started_at,throughput,type,state,path,description)',
       result.through(expectStreamToContainItem({ throughput: 0 }));
     });
 
-    it('should return 0 when computed throughput is NaN', function () {
+    it('should return 0 when computed throughput is NaN', () => {
       var date = new Date();
       stream.write({
         objects: [

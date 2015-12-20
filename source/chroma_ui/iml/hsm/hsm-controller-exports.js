@@ -21,36 +21,31 @@
 
 import angular from 'angular';
 
+import {lensProp, __} from 'intel-fp/dist/fp';
 
+export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
+                                 copytoolOperationStream, agentVsCopytoolChart) {
+  'ngInject';
 
-angular.module('hsm')
-  .controller('HsmCtrl', function HsmCtrl ($scope, openAddCopytoolModal,
-                   copytoolStream, copytoolOperationStream,
-                   getAgentVsCopytoolStream) {
-    'ngInject';
+  var hsm = angular.extend(this, {
+    chart: agentVsCopytoolChart,
+    openAddModal () {
+      const setOpen = lensProp('modalOpen').set(__, hsm);
 
-    var hsm = _.extend(this, {
-      stream: getAgentVsCopytoolStream({}, 10, 'minutes'),
-      data: [],
-      openAddModal: function openAddModal () {
-        hsm.modalOpen = true;
+      setOpen(true);
 
-        return openAddCopytoolModal($scope)
-          .then(modalClosed, modalClosed);
-
-        function modalClosed () {
-          hsm.modalOpen = false;
-        }
-      }
-    });
-
-    var p = $scope.propagateChange($scope, hsm);
-
-    p('copytools', copytoolStream);
-    p('copytoolOperations', copytoolOperationStream);
-
-    $scope.$on('$destroy', function onDestroy () {
-      copytoolStream.destroy();
-      copytoolOperationStream.destroy();
-    });
+      return openAddCopytoolModal($scope)
+        .finally(setOpen.bind(null, false));
+    }
   });
+
+  var p = $scope.propagateChange($scope, hsm);
+
+  p('copytools', copytoolStream);
+  p('copytoolOperations', copytoolOperationStream);
+
+  $scope.$on('$destroy', () => {
+    copytoolStream.destroy();
+    copytoolOperationStream.destroy();
+  });
+}

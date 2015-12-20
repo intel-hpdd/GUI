@@ -19,17 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
-
-
-angular.module('hsm')
-  .directive('hsmCdtStatus', function HsmCdtStatus () {
-    return {
-      scope: {
-        fileSystem: '='
-      },
-      restrict: 'E',
-      templateUrl: 'iml/hsm/assets/html/cdt-status.html'
-    };
-  });
+export default function hsmCdtStatusDirective () {
+  return {
+    scope: {
+      fileSystem: '='
+    },
+    restrict: 'E',
+    templateUrl: 'iml/hsm/assets/html/cdt-status.html'
+  };
+}

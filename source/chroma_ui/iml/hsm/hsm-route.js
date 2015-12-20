@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
+import {__, invoke} from 'intel-fp/dist/fp';
 
 angular.module('hsmRoute')
   .config(function hsmSegment ($routeSegmentProvider) {
@@ -34,8 +34,9 @@ angular.module('hsmRoute')
         controllerAs: 'hsm',
         templateUrl: 'iml/hsm/assets/html/hsm.html',
         resolve: {
-          copytoolOperationStream: ['copytoolOperationStream', fp.invoke(fp.__, [])],
-          copytoolStream: ['copytoolStream', fp.invoke(fp.__, [])]
+          copytoolOperationStream: ['copytoolOperationStream', invoke(__, [])],
+          copytoolStream: ['copytoolStream', invoke(__, [])],
+          agentVsCopytoolChart: ['agentVsCopytoolChartResolve', invoke(__, [])]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

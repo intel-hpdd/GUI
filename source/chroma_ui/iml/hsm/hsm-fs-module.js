@@ -20,8 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import HsmFsCtrl from './hsm-fs-controller-exports';
 
-
-
-angular.module('hsmFs', ['charts', 'd3', 'command',
-  'help', 'charting']);
+angular.module('hsmFs', ['command', 'help', 'highland', 'routeStream'])
+  .controller('HsmFsCtrl', HsmFsCtrl);

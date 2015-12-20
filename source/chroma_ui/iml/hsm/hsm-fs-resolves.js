@@ -20,33 +20,31 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {map, lensProp} from 'intel-fp/dist/fp';
 
+const pluckObjects = map(lensProp('objects'));
 
 angular.module('hsmFs')
-  .factory('fsCollStream',
-  function fsCollStreamFactory (resolveStream, socketStream, addProperty) {
+  .factory('hsmFsCollStream', (resolveStream, socketStream, addProperty, rebindDestroy) => {
     'ngInject';
 
     return function fsCollStreamFactory () {
       return resolveStream(socketStream('/filesystem', {
         jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
       }))
-        .then(function addThroughProperty (s) {
-          var s2 = fp.map(fp.lensProp('objects'), s);
-
-          s2.destroy = s.destroy.bind(s);
-
-          return s2.through(addProperty);
-        });
+        .then(rebindDestroy(fp.flow(
+          pluckObjects,
+          addProperty
+        )));
     };
   })
-  .factory('copytoolStream', function copytoolStreamFactory (resolveStream, socketStream) {
+  .factory('hsmFsCopytoolStream', (resolveStream, socketStream, rebindDestroy) => {
     'ngInject';
 
     return function copytoolStream () {
-
       return resolveStream(socketStream('/copytool', {
         jsonMask: 'objects(id)'
-      }));
+      }))
+        .then(rebindDestroy(pluckObjects));
     };
   });

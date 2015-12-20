@@ -19,39 +19,49 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import {map, flow, lensProp, always,
+  cond, eqFn, identity, not} from 'intel-fp/dist/fp';
+import rebindDestroy from '../highland/rebind-destroy-exports';
+import {merge} from 'obj';
 
+export default function getCopytoolStreamFactory (socketStream) {
+  'ngInject';
 
-angular.module('hsm')
-  .factory('getCopytoolStream', function getCopytoolStreamFactory (socketStream) {
-    'ngInject';
-
-    return function getCopytoolStream (params) {
-      params = obj.merge({}, {
-        qs: {
-          limit: 0
-        },
-        jsonMask: 'objects(id,label,host/label,archive,state,\
+  return function getCopytoolStream (params) {
+    params = merge({}, {
+      qs: {
+        limit: 0
+      },
+      jsonMask: 'objects(id,label,host/label,archive,state,\
 active_operations_count,available_actions,resource_uri,locks)'
-      }, params || {});
+    }, params || {});
 
-      var statusLens = fp.lensProp('status');
-      var stateLens = fp.lensProp('state');
+    const statusLens = lensProp('status');
+    const stateLens = lensProp('state');
 
-      var setStatus = fp.cond(
-        [fp.flow(fp.eqFn(fp.identity, stateLens, 'started'), fp.not), function (x) {
-          return statusLens.set(stateLens(x), x);
-        }],
-        [fp.eqFn(fp.identity, fp.lensProp('active_operations_count'), 0), statusLens.set('idle')],
-        [fp.always(true), statusLens.set('working')]
-      );
+    const setStatus = cond(
+      [
+        flow(eqFn(identity, stateLens, 'started'), not),
+        (x) => statusLens.set(stateLens(x), x)
+      ],
+      [
+        eqFn(identity, lensProp('active_operations_count'), 0),
+        statusLens.set('idle')
+      ],
+      [
+        always(true),
+        statusLens.set('working')
+      ]
+    );
 
-      var s = socketStream('/copytool', params);
+    const setStatuses = map(
+      flow(
+        lensProp('objects'),
+        map(setStatus)
+      )
+    );
 
-      var s2 = fp.map(fp.flow(fp.lensProp('objects'), fp.map(setStatus)), s);
-
-      s2.destroy = s.destroy.bind(s);
-
-      return s2;
-    };
-  });
+    return socketStream('/copytool', params)
+      .through(rebindDestroy(setStatuses));
+  };
+}

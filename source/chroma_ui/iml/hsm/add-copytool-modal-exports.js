@@ -88,5 +88,3 @@ export function openAddCopytoolModalFactory ($uibModal) {
     }).result;
   };
 }
-
-
