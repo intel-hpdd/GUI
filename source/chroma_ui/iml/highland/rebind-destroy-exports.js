@@ -19,13 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import λ from 'highland';
-import addProperty from './add-property-exports';
-import rebindDestroy from './rebind-destroy-exports';
+import {curry} from 'intel-fp/dist/fp';
 
-angular
-  .module('highland', [])
-  .value('λ', λ)
-  .value('addProperty', addProperty)
-  .value('rebindDestroy', rebindDestroy);
+export default curry(2, (fn, s) => {
+  const s2 = fn(s);
+
+  s2.destroy = s.destroy.bind(s);
+
+  return s2;
+});

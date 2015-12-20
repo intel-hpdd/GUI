@@ -1,75 +1,74 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import λ from 'highland';
 
-describe('add property', function () {
-  'use strict';
+import {noop} from 'intel-fp/dist/fp';
 
-  beforeEach(module('highland'));
+import addProperty from
+  '../../../../source/chroma_ui/iml/highland/add-property-exports';
 
-  var addProperty, stream, propertyStream;
+describe('add property', () => {
+  var stream, propertyStream;
 
-  beforeEach(inject(function (_addProperty_) {
-    stream = highland();
+  beforeEach(() => {
+    stream = λ();
     spyOn(stream, 'destroy');
-    addProperty = _addProperty_;
     propertyStream = stream.through(addProperty);
-  }));
+  });
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(addProperty).toEqual(jasmine.any(Function));
   });
 
-  it('should expose a property method', function () {
+  it('should expose a property method', () => {
     expect(propertyStream.property).toEqual(jasmine.any(Function));
   });
 
-  it('should push a value', function () {
+  it('should push a value', () => {
     propertyStream
       .property()
-      .each(function (x) {
+      .each((x) => {
         expect(x).toEqual('x');
       });
 
     stream.write('x');
   });
 
-  it('should remember the last value for more properties', function () {
+  it('should remember the last value for more properties', () => {
     stream.write('x');
 
     propertyStream
       .property()
-      .each(_.noop);
+      .each(noop);
 
     propertyStream
       .property()
-      .each(function (x) {
+      .each((x) => {
         expect(x).toEqual('x');
       });
   });
 
-  it('should work with new consumers', function () {
+  it('should work with new consumers', () => {
     stream.write('x');
 
     propertyStream
       .property()
-      .each(_.noop);
+      .each(noop);
 
     stream.write('y');
 
     propertyStream
       .property()
-      .each(function (y) {
+      .each((y) => {
         expect(y).toEqual('y');
       });
   });
 
-  it('should register a fork', function () {
+  it('should register a fork', () => {
     var ps = propertyStream.property();
 
     expect(propertyStream._consumers[0]).toBe(ps);
   });
 
-  it('should destroy the fork', function () {
+  it('should destroy the fork', () => {
     var ps = propertyStream.property();
 
     ps.destroy();
@@ -77,7 +76,7 @@ describe('add property', function () {
     expect(propertyStream._consumers.length).toBe(0);
   });
 
-  it('should destroy the stream', function () {
+  it('should destroy the stream', () => {
     propertyStream.destroy();
 
     expect(stream.destroy).toHaveBeenCalledOnce();

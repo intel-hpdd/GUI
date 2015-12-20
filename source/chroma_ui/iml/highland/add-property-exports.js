@@ -19,13 +19,49 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import λ from 'highland';
-import addProperty from './add-property-exports';
-import rebindDestroy from './rebind-destroy-exports';
 
-angular
-  .module('highland', [])
-  .value('λ', λ)
-  .value('addProperty', addProperty)
-  .value('rebindDestroy', rebindDestroy);
+export default function addProperty (s) {
+  var latest;
+
+  var s2 = s.consume(function setLatest (err, x, push, next) {
+    if (err)
+      return push(err);
+
+    if (x === nil)
+      return push(null, nil);
+
+    latest = x;
+
+    push(null, x);
+
+    next();
+  });
+
+  s2.property = function property () {
+    var s = λ();
+    s.id = 'fork:' + s.id;
+    s.source = this;
+
+    if (latest)
+      s.write(latest);
+
+    this._consumers.push(s);
+    this._checkBackPressure();
+
+    var oldDestroy = s.destroy;
+
+    s.destroy = function destroy () {
+      if (s._nil_seen)
+        return;
+
+      oldDestroy.call(s);
+    };
+
+    return s;
+  };
+
+  s2.destroy = s.destroy.bind(s);
+
+  return s2;
+}
