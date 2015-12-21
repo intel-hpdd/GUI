@@ -20,9 +20,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {always} from 'intel-fp/dist/fp';
 
-
-export function chartCompilerFactory ($compile, $q, getTemplatePromise, resolveStream) {
+export function chartCompilerFactory ($compile, $q, getTemplatePromise,
+                                      resolveStream, addProperty, rebindDestroy) {
   'ngInject';
 
   return function chartCompiler (template, stream, fn) {
@@ -31,21 +32,25 @@ export function chartCompilerFactory ($compile, $q, getTemplatePromise, resolveS
         resolveStream(stream)
       ])
       .then(function compile ([template, stream]) {
-        var el = angular.element(template);
+        const el = angular.element(template);
+        const s2 = addProperty(stream);
 
-        return function compiler ($scope, $wrap) {
-          $scope.chart = fn($scope, stream);
+        rebindDestroy(always(compiler), s2);
+        return compiler;
 
-          $scope.$on('$destroy', function onDestroy () {
-            $scope.chart = null;
-          });
+        function compiler ($scope, $wrap) {
+          var cloned = el.clone();
+
+          $scope.chart = fn($scope, s2.property());
+
+          $scope.$on('$destroy', () => $scope.chart = null);
 
           if ($wrap)
-            el = $wrap
-              .append(el);
+            cloned = $wrap
+              .append(cloned);
 
-          return $compile(el)($scope);
-        };
+          return $compile(cloned)($scope);
+        }
       });
   };
 }

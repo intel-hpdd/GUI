@@ -1,15 +1,17 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('target dashboard', function () {
+describe('target dashboard', () => {
   beforeEach(module('targetDashboard'));
 
   var $scope, ctrl, charts, targetStream, usageStream;
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(($controller, $rootScope) => {
     $scope = $rootScope.$new();
 
-    charts = ['foo'];
+    charts = [{
+      destroy: jasmine.createSpy('destroy')
+    }];
 
     targetStream = highland();
     spyOn(targetStream, 'destroy');
@@ -26,7 +28,7 @@ describe('target dashboard', function () {
     });
   }));
 
-  it('should setup the controller', function () {
+  it('should setup the controller', () => {
     expect(ctrl).toEqual({
       charts: charts,
       usageStream: usageStream,
@@ -34,23 +36,28 @@ describe('target dashboard', function () {
     });
   });
 
-  it('should set data on the controller', function () {
+  it('should set data on the controller', () => {
     targetStream.write('foo');
 
     expect(ctrl.target).toEqual('foo');
   });
 
-  describe('on destroy', function () {
-    beforeEach(function () {
+  describe('on destroy', () => {
+    beforeEach(() => {
       $scope.$destroy();
     });
 
-    it('should destroy the target stream', function () {
+    it('should destroy the target stream', () => {
       expect(targetStream.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy the usage stream', function () {
+    it('should destroy the usage stream', () => {
       expect(usageStream.destroy).toHaveBeenCalledOnce();
+    });
+
+    it('should destroy the charts', () => {
+      expect(charts[0].destroy)
+        .toHaveBeenCalledOnce();
     });
   });
 });

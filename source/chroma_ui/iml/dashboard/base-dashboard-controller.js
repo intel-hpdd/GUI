@@ -20,10 +20,11 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {map, invokeMethod, curry, lensProp, __} from 'intel-fp/dist/fp';
 
 angular.module('baseDashboard')
   .controller('BaseDashboardCtrl',
-    function ($scope, fsStream, charts) {
+    function BaseDashboardCtrl ($scope, fsStream, charts) {
       'ngInject';
 
       var baseDashboard = angular.extend(this, {
@@ -32,7 +33,7 @@ angular.module('baseDashboard')
         charts: charts
       });
 
-      var fsLens = fp.lensProp('fs');
+      var fsLens = lensProp('fs');
 
       var STATES = Object.freeze({
         MONITORED: 'monitored',
@@ -41,14 +42,17 @@ angular.module('baseDashboard')
 
       fsStream
         .property()
-        .tap(fp.map(function setState (s) {
+        .tap(map(function setState (s) {
           s.STATES = STATES;
           s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
         }))
-        .tap(fsLens.set(fp.__, baseDashboard))
-        .stopOnError(fp.curry(1, $scope.handleException))
+        .tap(fsLens.set(__, baseDashboard))
+        .stopOnError(curry(1, $scope.handleException))
         .each($scope.localApply.bind(null, $scope));
 
-      $scope.$on('$destroy', fsStream.destroy.bind(fsStream));
+      $scope.$on('$destroy', () => {
+        fsStream.destroy();
+        map(invokeMethod('destroy', []), charts);
+      });
     }
   );

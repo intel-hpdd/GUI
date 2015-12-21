@@ -10,7 +10,9 @@ describe('HSM controller', () => {
   beforeEach(inject(($controller, $rootScope, $q) => {
     $scope = $rootScope.$new();
 
-    agentVsCopytoolChart = {};
+    agentVsCopytoolChart = {
+      destroy: jasmine.createSpy('destroy')
+    };
 
     copytoolOperationStream = highland();
     spyOn(copytoolOperationStream, 'destroy');
@@ -80,6 +82,11 @@ describe('HSM controller', () => {
 
     it('should destroy the copytoolOperationStream', () => {
       expect(copytoolOperationStream.destroy).toHaveBeenCalledOnce();
+    });
+
+    it('should destroy the chart', () => {
+      expect(agentVsCopytoolChart.destroy)
+        .toHaveBeenCalledOnce();
     });
   });
 });

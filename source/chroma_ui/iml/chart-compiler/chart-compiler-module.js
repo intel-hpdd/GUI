@@ -25,6 +25,6 @@ import angular from 'angular';
 import {chartCompilerFactory} from './chart-compiler-exports';
 import {chartCompilerDirective} from './chart-compiler-directive-exports';
 
-angular.module('chartCompiler', ['get-template-promise', 'socket-module'])
+angular.module('chartCompiler', ['get-template-promise', 'socket-module', 'highland'])
   .factory('chartCompiler', chartCompilerFactory)
   .directive('chartCompiler', chartCompilerDirective);

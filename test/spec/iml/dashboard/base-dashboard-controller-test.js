@@ -1,14 +1,12 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('base dashboard controller', function () {
-  'use strict';
-
+describe('base dashboard controller', () => {
   beforeEach(module('baseDashboard'));
 
-  var $scope, fsStream, charts, baseDashboardCtrl;
+  var $scope, fsStream, charts, baseDashboardCtrl, chart;
 
-  beforeEach(inject(function ($controller, $rootScope, addProperty) {
+  beforeEach(inject(($controller, $rootScope, addProperty) => {
     fsStream = highland();
     spyOn(fsStream, 'destroy');
 
@@ -16,9 +14,13 @@ describe('base dashboard controller', function () {
     spyOn($scope, 'localApply');
     spyOn($scope, 'handleException');
 
+    chart = {
+      destroy: jasmine.createSpy('destroy')
+    };
+
     charts = [
-      'chart1',
-      'chart2'
+      Object.create(chart),
+      Object.create(chart)
     ];
 
     baseDashboardCtrl = $controller('BaseDashboardCtrl', {
@@ -28,7 +30,7 @@ describe('base dashboard controller', function () {
     });
   }));
 
-  it('should setup the controller', function () {
+  it('should setup the controller', () => {
     expect(baseDashboardCtrl).toEqual({
       fs: [],
       fsStream: jasmine.any(Object),
@@ -36,12 +38,12 @@ describe('base dashboard controller', function () {
     });
   });
 
-  describe('streaming data', function () {
-    beforeEach(function () {
+  describe('streaming data', () => {
+    beforeEach(() => {
       fsStream.write({ id: 1 });
     });
 
-    it('should wire up the fs stream', function () {
+    it('should wire up the fs stream', () => {
       expect(baseDashboardCtrl.fs).toEqual({
         id: 1,
         STATES: Object.freeze({
@@ -52,12 +54,12 @@ describe('base dashboard controller', function () {
       });
     });
 
-    it('should locally apply the changes', function () {
+    it('should locally apply the changes', () => {
       expect($scope.localApply).toHaveBeenCalledOnce();
     });
   });
 
-  it('should call handleException on error', function () {
+  it('should call handleException on error', () => {
     var err = {
       __HighlandStreamError__: true,
       error: new Error('boom!')
@@ -69,8 +71,18 @@ describe('base dashboard controller', function () {
       .toEqual(new Error('boom!'));
   });
 
-  it('should destroy the stream when the scope is destroyed', function () {
-    $scope.$destroy();
-    expect(fsStream.destroy).toHaveBeenCalledOnce();
+  describe('on destroy', () => {
+    beforeEach(() => {
+      $scope.$destroy();
+    });
+
+    it('should destroy the stream', () => {
+      expect(fsStream.destroy).toHaveBeenCalledOnce();
+    });
+
+    it('should destroy the charts', () => {
+      expect(chart.destroy)
+        .toHaveBeenCalledTwice();
+    });
   });
 });

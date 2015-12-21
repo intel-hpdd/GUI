@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
+import {map, invokeMethod, lensProp, __} from 'intel-fp/dist/fp';
 
 angular.module('targetDashboard')
   .controller('TargetDashboardController',
@@ -33,14 +33,17 @@ angular.module('targetDashboard')
         kind: kind
       });
 
-      var targetLens = fp.lensProp('target');
+      var targetLens = lensProp('target');
 
       targetStream
-        .tap(targetLens.set(fp.__, targetDashboard))
+        .tap(targetLens.set(__, targetDashboard))
         .each($scope.localApply.bind(null, $scope));
 
-      $scope.$on('$destroy', targetStream.destroy.bind(targetStream));
-      $scope.$on('$destroy', usageStream.destroy.bind(usageStream));
+      $scope.$on('$destroy', () => {
+        targetStream.destroy();
+        usageStream.destroy();
+        map(invokeMethod('destroy', []), charts);
+      });
     }
   );
 

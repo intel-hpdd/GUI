@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {map, lensProp} from 'intel-fp/dist/fp';
 
 
 angular.module('baseDashboard')
@@ -60,7 +61,7 @@ angular.module('baseDashboard')
     }
   )
   .factory('baseDashboardFsStream',
-    function baseDashboardFsStreamFactory ($route, resolveStream, socketStream, addProperty) {
+    function baseDashboardFsStreamFactory ($route, resolveStream, socketStream, addProperty, rebindDestroy) {
       'ngInject';
 
       return function baseDashboardFsStream () {
@@ -72,15 +73,15 @@ angular.module('baseDashboard')
             id: $route.current.params.fsId
           };
 
+        const pluckObjects = map(lensProp('objects'));
+
         return resolveStream(socketStream('/filesystem', {
           jsonMask: 'objects(name,bytes_total,bytes_free,files_free,files_total,client_count,immutable_state,\
 id,osts,mdts(id),mgt(primary_server,primary_server_name)',
-          qs: qs
-        })
-          .pluck('objects'))
-          .then(function addThroughProperty (fsStream) {
-            return fsStream.through(addProperty);
-          });
+          qs
+        }))
+          .then(rebindDestroy(pluckObjects))
+          .then(addProperty);
       };
     }
 );

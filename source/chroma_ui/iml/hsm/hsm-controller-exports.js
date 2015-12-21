@@ -45,6 +45,7 @@ export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
   p('copytoolOperations', copytoolOperationStream);
 
   $scope.$on('$destroy', () => {
+    agentVsCopytoolChart.destroy();
     copytoolStream.destroy();
     copytoolOperationStream.destroy();
   });
