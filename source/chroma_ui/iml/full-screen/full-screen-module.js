@@ -21,5 +21,7 @@
 
 import angular from 'angular';
 
-
-angular.module('fullScreen', ['pasvaz.bindonce']);
+import {fullScreen, fullScreenBtn} from './full-screen-directive-exports';
+angular.module('fullScreen', [])
+  .directive('fullScreen', fullScreen)
+  .directive('fullScreenBtn', fullScreenBtn);
