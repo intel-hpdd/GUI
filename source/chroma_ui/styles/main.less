@@ -100,3 +100,22 @@ html body div.container-full {
 .btn i {
   margin: 0 5px;
 }
+
+a {
+  outline: none;
+
+  &:focus, &:active:focus, &.active:focus {
+    outline: none;
+  }
+}
+
+.panel-group {
+  .panel {
+    .panel-title a {
+      &:hover, &:focus, &:active, &.active {
+        text-decoration: none;
+        border-bottom: 1px solid @gray-light;
+      }
+    }
+  }
+}

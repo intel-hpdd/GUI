@@ -30,6 +30,7 @@ module.exports = function setConfig (config) {
       nodeModulesDir('angular-resource/angular-resource.js'),
       bowerDir('angular-bindonce/bindonce.js'),
       nodeModulesDir('angular-route/angular-route.js'),
+      nodeModulesDir('angular-animate/angular-animate.js'),
       bowerDir('highland/dist/highland.js'),
       bowerDir('lodash/dist/lodash.js'),
       bowerDir('moment/moment.js'),
