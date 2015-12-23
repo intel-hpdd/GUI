@@ -1,42 +1,43 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('server streams', () => {
-  var jobMonitorStream, alertMonitorStream, getServersStream, socketStream,
+import λ from 'highland';
+
+describe('server resolves', () => {
+  var jobMonitorStream, alertMonitorStream, socketStream,
     jobMonitor, alertMonitor, lnetStream, serversStream;
 
   beforeEach(module('server', ($provide) => {
-    jobMonitorStream = highland();
+    jobMonitorStream = λ();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .andReturn(jobMonitorStream);
     $provide.value('jobMonitor', jobMonitor);
 
-    alertMonitorStream = highland();
+    alertMonitorStream = λ();
     alertMonitor = jasmine.createSpy('alertMonitor')
       .andReturn(alertMonitorStream);
     $provide.value('alertMonitor', alertMonitor);
 
-    serversStream = highland();
-    getServersStream = jasmine.createSpy('getServersStream')
-      .andReturn(serversStream);
-    $provide.value('getServersStream', getServersStream);
-
     socketStream = jasmine.createSpy('socketStream')
       .andCallFake((path) => {
-        if (path === '/lnet_configuration')
-          return (lnetStream = highland());
+        if (path === '/lnet_configuration') {
+          return (lnetStream = λ());
+        }
+        if (path === '/host') {
+          return (serversStream = λ());
+        }
       });
     $provide.value('socketStream', socketStream);
   }));
 
-  var serverStreamsResolves;
+  var serverResolves;
 
-  beforeEach(inject((_serverStreamsResolves_) => {
-    serverStreamsResolves = _serverStreamsResolves_;
+  beforeEach(inject((_serverResolves_) => {
+    serverResolves = _serverResolves_;
   }));
 
   it('should be a function', () => {
-    expect(serverStreamsResolves).toEqual(jasmine.any(Function));
+    expect(serverResolves).toEqual(jasmine.any(Function));
   });
 
   describe('getting a promise', () => {
@@ -45,7 +46,7 @@ describe('server streams', () => {
     beforeEach(inject((_$rootScope_) => {
       $rootScope = _$rootScope_;
 
-      promise = serverStreamsResolves();
+      promise = serverResolves();
 
       jobMonitorStream.write({});
       alertMonitorStream.write({});
@@ -66,7 +67,12 @@ describe('server streams', () => {
     });
 
     it('should create a servers stream', () => {
-      expect(getServersStream).toHaveBeenCalledOnce();
+      expect(socketStream)
+        .toHaveBeenCalledOnceWith('/host', {
+          jsonMask: 'objects(id,address,available_actions,boot_time,fqdn,immutable_state,install_method,label,\
+locks,member_of_active_filesystem,needs_update,nodename,resource_uri,server_profile(ui_name,managed),state)',
+          qs: { limit: 0 }
+        });
     });
 
     it('should create a lnet configuration stream', () => {
@@ -81,10 +87,10 @@ describe('server streams', () => {
     it('should return an object of streams', () => {
       promise.then((streams) => {
         expect(streams).toEqual({
-          serversStream: jasmine.any(Object),
           jobMonitorStream: jasmine.any(Object),
           alertMonitorStream: jasmine.any(Object),
-          lnetConfigurationStream: jasmine.any(Object)
+          lnetConfigurationStream: jasmine.any(Object),
+          serversStream: jasmine.any(Object)
         });
       });
 

@@ -39,7 +39,9 @@
   }
 
   .action-buttons {
-    position: relative;
+    span {
+      display: inline-block;
+    }
 
     button {
       margin-right: 5px;
@@ -47,17 +49,29 @@
       & + .tooltip .tooltip-inner {
         width: 150px;
       }
+
+      &:disabled {
+        pointer-events: all;
+      }
     }
   }
 
   td.select-server {
     width: 100px;
 
+    span {
+      display: inline-block;
+    }
+
     .btn {
       width: 85px;
 
       i {
         margin: initial;
+      }
+
+      &:disabled {
+        pointer-events: all;
       }
     }
   }

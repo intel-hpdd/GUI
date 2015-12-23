@@ -1,10 +1,11 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('server', () => {
-  'use strict';
+import λ from 'highland';
+import {identity} from 'intel-fp/dist/fp';
 
-  var $scope, pdshParser, pdshFilter, naturalSortFilter,
+describe('server', () => {
+  var $scope, pdshFilter, naturalSortFilter,
     server, $modal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
@@ -24,10 +25,10 @@ describe('server', () => {
     };
 
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(highland());
+      .andReturn(λ());
     spyOn(getCommandStream.plan(), 'destroy');
 
-    serversStream = highland();
+    serversStream = λ();
     spyOn(serversStream, 'destroy');
 
     selectedServers = {
@@ -38,14 +39,15 @@ describe('server', () => {
 
     serverActions = [{
       value: 'Install Updates'
-    }];
+    }
+    ];
 
     openCommandModal = jasmine.createSpy('openCommandModal')
       .andReturn({
         result: $q.when()
       });
 
-    lnetConfigurationStream = highland();
+    lnetConfigurationStream = λ();
     spyOn(lnetConfigurationStream, 'destroy');
 
     openAddServerModal = jasmine.createSpy('openAddServerModal').andReturn({
@@ -57,13 +59,13 @@ describe('server', () => {
       }
     });
 
-    pdshParser = jasmine.createSpy('pdshParser');
     pdshFilter = jasmine.createSpy('pdshFilter');
-    naturalSortFilter = jasmine.createSpy('naturalSortFilter').andCallFake(_.identity);
+    naturalSortFilter = jasmine.createSpy('naturalSortFilter')
+      .andCallFake(identity);
 
-    jobMonitorStream = highland();
+    jobMonitorStream = λ();
     spyOn(jobMonitorStream, 'destroy');
-    alertMonitorStream = highland();
+    alertMonitorStream = λ();
     spyOn(alertMonitorStream, 'destroy');
 
     overrideActionClick = jasmine.createSpy('overrideActionClick');
@@ -71,24 +73,23 @@ describe('server', () => {
     $scope.$on = jasmine.createSpy('$on');
 
     $controller('ServerCtrl', {
-      $scope: $scope,
-      $q: $q,
-      $modal: $modal,
-      pdshParser: pdshParser,
-      pdshFilter: pdshFilter,
-      naturalSortFilter: naturalSortFilter,
-      serverActions: serverActions,
-      selectedServers: selectedServers,
-      openCommandModal: openCommandModal,
+      $scope,
+      $q,
+      $modal,
+      pdshFilter,
+      naturalSortFilter,
+      serverActions,
+      selectedServers,
+      openCommandModal,
       streams: {
-        serversStream: serversStream,
-        jobMonitorStream: jobMonitorStream,
-        alertMonitorStream: alertMonitorStream,
-        lnetConfigurationStream: lnetConfigurationStream
+        serversStream,
+        jobMonitorStream,
+        alertMonitorStream,
+        lnetConfigurationStream
       },
-      openAddServerModal: openAddServerModal,
-      getCommandStream: getCommandStream,
-      overrideActionClick: overrideActionClick
+      openAddServerModal,
+      getCommandStream,
+      overrideActionClick
     });
 
     server = $scope.server;
@@ -126,14 +127,15 @@ describe('server', () => {
   it('should transform a stream', () => {
     var spy = jasmine.createSpy('spy');
 
-    var s = highland([[
+    var s = λ([[
       {
         host: '/api/host/2/'
       },
       {
         host: '/api/host/4/'
       }
-    ]]);
+    ]
+    ]);
 
     server.transform(s, ['/api/host/4/'])
       .collect()
@@ -150,8 +152,7 @@ describe('server', () => {
     describe('updating the expression', () => {
       beforeEach(() => {
         server.currentPage = 5;
-        pdshParser.andReturn({expansion: ['expression1']});
-        server.pdshUpdate('expression', ['expression'], {expression: 1});
+        server.pdshUpdate('expression', ['expression'], { expression: 1 });
       });
 
       it('should have populated hostnames', () => {
@@ -161,12 +162,12 @@ describe('server', () => {
         expect(server.currentPage).toEqual(1);
       });
       it('should have populated the hostname hash', () => {
-        expect(server.hostnamesHash).toEqual({expression: 1});
+        expect(server.hostnamesHash).toEqual({ expression: 1 });
       });
     });
 
     it('should return the host name from getHostPath', () => {
-      var hostname = server.getHostPath({address: 'hostname1.localdomain'});
+      var hostname = server.getHostPath({ address: 'hostname1.localdomain' });
       expect(hostname).toEqual('hostname1.localdomain');
     });
 
@@ -248,7 +249,8 @@ describe('server', () => {
 
         pdshFilter.andReturn([{
           fqdn: 'https://hostname1.localdomain.com'
-        }]);
+        }
+        ]);
 
         server.runAction('Install Updates');
 

@@ -2,8 +2,6 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('server actions', function () {
-  'use strict';
-
   var serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;
 
   beforeEach(module('server'));
@@ -35,36 +33,38 @@ describe('server actions', function () {
       {
         value: 'Detect File Systems',
         message: 'Detecting File Systems',
-        tooltip: 'detect_file_systems-tooltip',
         helpTopic: 'detect_file_systems-dialog',
+        buttonTooltip: jasmine.any(Function),
         jobClass: 'DetectTargetsJob',
         convertToJob: jasmine.any(Function)
       },
       {
         value: 'Re-write Target Configuration',
         message: 'Updating file system NIDs',
-        tooltip: 'rewrite_target_configuration-tooltip',
         helpTopic: 'rewrite_target_configuration-dialog',
+        buttonTooltip: jasmine.any(Function),
+        buttonDisabled: jasmine.any(Function),
+        toggleDisabledReason: jasmine.any(Function),
+        toggleDisabled: jasmine.any(Function),
         jobClass: 'UpdateNidsJob',
-        convertToJob: jasmine.any(Function),
-        isDisabled: jasmine.any(Function)
+        convertToJob: jasmine.any(Function)
       },
       {
         value: 'Install Updates',
         message: 'Install updates',
-        tooltip: 'install_updates_configuration-tooltip',
         helpTopic: 'install_updates_dialog',
+        buttonTooltip: jasmine.any(Function),
+        buttonDisabled: jasmine.any(Function),
+        toggleDisabledReason: jasmine.any(Function),
+        toggleDisabled: jasmine.any(Function),
         jobClass: 'UpdateJob',
-        convertToJob: jasmine.any(Function),
-        isDisabled: jasmine.any(Function)
+        convertToJob: jasmine.any(Function)
       }
     ]);
   });
 
   it('should convert detect file systems hosts to a job', function () {
-
-
-    var result = detectFs.convertToJob(hosts);
+    const result = detectFs.convertToJob(hosts);
 
     expect(result).toEqual([{
       class_name: 'DetectTargetsJob',
@@ -75,15 +75,13 @@ describe('server actions', function () {
   });
 
   it('should check if a re-write target configuration host is disabled', function () {
-
-
-    var result = rewriteTargetConfig.isDisabled(hosts[0]);
+    const result = rewriteTargetConfig.buttonDisabled(hosts[0]);
 
     expect(result).toBe(false);
   });
 
   it('should convert install updates hosts to a job', function () {
-    var result = installUpdates.convertToJob(hosts);
+    const result = installUpdates.convertToJob(hosts);
 
     expect(result).toEqual([{
       class_name: 'UpdateJob',

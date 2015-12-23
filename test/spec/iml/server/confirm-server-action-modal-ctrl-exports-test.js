@@ -1,17 +1,17 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('Confirm server action modal', function () {
-  'use strict';
+import λ from 'highland';
 
+describe('Confirm server action modal', () => {
   beforeEach(module('server'));
 
-  var $scope, $modalInstance, hosts, action, socketStream, stream, confirmServer;
+  var $scope, $uibModalInstance, hosts, action, socketStream, stream, confirmServer;
 
-  beforeEach(inject(function ($rootScope, $controller) {
+  beforeEach(inject(($rootScope, $controller) => {
     $scope = $rootScope.$new();
 
-    $modalInstance = {
+    $uibModalInstance = {
       close: jasmine.createSpy('close'),
       dismiss: jasmine.createSpy('dismiss')
     };
@@ -30,43 +30,43 @@ describe('Confirm server action modal', function () {
     };
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(function () {
-        return (stream = highland());
+      .andCallFake(() => {
+        return (stream = λ());
       });
 
     $controller('ConfirmServerActionModalCtrl', {
-      $scope: $scope,
-      $modalInstance: $modalInstance,
-      hosts: hosts,
-      action: action,
-      socketStream: socketStream
+      $scope,
+      $uibModalInstance,
+      hosts,
+      action,
+      socketStream
     });
 
     confirmServer = $scope.confirmServerActionModal;
   }));
 
-  it('should set hosts on the scope', function () {
+  it('should set hosts on the scope', () => {
     expect(confirmServer.hosts).toBe(hosts);
   });
 
-  it('should set the actionName on the scope', function () {
+  it('should set the actionName on the scope', () => {
     expect(confirmServer.actionName).toEqual(action.value);
   });
 
-  it('should set inProgress on the scope', function () {
+  it('should set inProgress on the scope', () => {
     expect(confirmServer.inProgress).toBe(false);
   });
 
-  describe('go', function () {
-    beforeEach(function () {
+  describe('go', () => {
+    beforeEach(() => {
       confirmServer.go();
     });
 
-    it('should set inProgress to true', function () {
+    it('should set inProgress to true', () => {
       expect(confirmServer.inProgress).toBe(true);
     });
 
-    it('should post a command', function () {
+    it('should post a command', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/command', {
         method: 'post',
         json: {
@@ -76,18 +76,22 @@ describe('Confirm server action modal', function () {
       }, true);
     });
 
-    describe('acking the post', function () {
-      it('should close the modal with data', function () {
-        stream.write({ objects: [] });
+    describe('acking the post', () => {
+      it('should close the modal with data', () => {
+        stream.write({
+          foo: 'bar'
+        });
 
-        expect($modalInstance.close).toHaveBeenCalledOnceWith([]);
+        expect($uibModalInstance.close).toHaveBeenCalledOnceWith({
+          foo: 'bar'
+        });
       });
 
-      it('should close the modal without data', function () {
+      it('should close the modal without data', () => {
         confirmServer.go(true);
         stream.write({ objects: [] });
 
-        expect($modalInstance.close).toHaveBeenCalledOnceWith(undefined);
+        expect($uibModalInstance.close).toHaveBeenCalledOnceWith(null);
       });
     });
   });

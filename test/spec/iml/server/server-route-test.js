@@ -44,7 +44,7 @@ describe('server route', function () {
         controller: 'ServerCtrl',
         templateUrl: 'iml/server/assets/html/server.html',
         resolve: {
-          streams: ['serverStreamsResolves', jasmine.any(Function)]
+          streams: ['serverResolves', jasmine.any(Function)]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {

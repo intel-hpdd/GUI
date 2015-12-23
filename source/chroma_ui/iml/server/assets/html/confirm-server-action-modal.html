@@ -10,9 +10,11 @@
   </ul>
 </div>
 <div class="modal-footer">
-  <div class="btn-group" dropdown>
-    <button type="button" ng-click="confirmServerActionModal.go()" class="btn btn-success" ng-disabled="confirmServerActionModal.inProgress">Go <i class="fa" ng-class="{'fa-spinner fa-spin': confirmServerActionModal.inProgress, 'fa-check-circle-o': !confirmServerActionModal.inProgress }"></i></button>
-    <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle ng-disabled="confirmServerActionModal.inProgress">
+  <div class="btn-group" uib-dropdown>
+    <button type="button" ng-click="confirmServerActionModal.go()" class="btn btn-success" ng-disabled="confirmServerActionModal.inProgress">
+      Go <i class="fa" ng-class="{'fa-spinner fa-spin': confirmServerActionModal.inProgress, 'fa-check-circle-o': !confirmServerActionModal.inProgress }"></i>
+    </button>
+    <button type="button" class="btn btn-success dropdown-toggle" uib-dropdown-toggle ng-disabled="confirmServerActionModal.inProgress">
       <span class="caret"></span>
       <span class="sr-only">Split button</span>
     </button>

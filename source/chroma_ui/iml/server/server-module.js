@@ -21,8 +21,16 @@
 
 import angular from 'angular';
 
-
+import ServerCtrl from './server-controller-exports';
+import serverActionsFactory from './server-actions-exports';
+import serverResolvesFactory from './server-resolves-exports';
+import ConfirmServerActionModalCtrl from './confirm-server-action-modal-ctrl-exports';
 
 angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
-  'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
-  'jobIndicator', 'alertIndicator', 'steps-module', 'extendScope', 'highland', 'asValue', 'asStream']);
+    'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
+    'jobIndicator', 'alertIndicator', 'steps-module', 'extendScope', 'highland', 'asValue', 'asStream'
+  ])
+  .controller('ServerCtrl', ServerCtrl)
+  .controller('ConfirmServerActionModalCtrl', ConfirmServerActionModalCtrl)
+  .factory('serverActions', serverActionsFactory)
+  .factory('serverResolves', serverResolvesFactory);

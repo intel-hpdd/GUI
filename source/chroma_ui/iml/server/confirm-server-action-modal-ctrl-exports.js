@@ -19,31 +19,27 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+export default function ConfirmServerActionModalCtrl ($scope, $uibModalInstance,
+                                         hosts, action, socketStream) {
+  'ngInject';
 
+  $scope.confirmServerActionModal = {
+    hosts,
+    actionName: action.value,
+    inProgress: false,
+    go (skips) {
+      this.inProgress = true;
 
-angular.module('server').factory('getServersStream',
-  function getServersStreamFactory (socketStream, CACHE_INITIAL_DATA) {
-    'ngInject';
-
-    var lastResponse = { objects: CACHE_INITIAL_DATA.host };
-
-    return function getServersStream () {
-      var stream = socketStream('/host', {
-        jsonMask: 'objects(id,address,available_actions,boot_time,fqdn,immutable_state,install_method,label,\
-locks,member_of_active_filesystem,nodename,resource_uri,server_profile/ui_name,state)',
-        qs: { limit: 0 }
-      });
-
-      stream.write(lastResponse);
-
-      var s2 = stream.tap(function setLastResponse (response) {
-        lastResponse = response;
-      });
-
-      s2.destroy = stream.destroy.bind(stream);
-
-      return s2;
-    };
-  }
-);
+      socketStream('/command', {
+        method: 'post',
+        json: {
+          message: action.message,
+          jobs: action.convertToJob(hosts)
+        }
+      }, true)
+        .map((xs) => skips ? null : xs)
+        .stopOnError($scope.handleException)
+        .each($uibModalInstance.close.bind($uibModalInstance));
+    }
+  };
+}
