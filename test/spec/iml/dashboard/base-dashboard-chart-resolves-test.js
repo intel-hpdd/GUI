@@ -66,10 +66,8 @@ describe('base dashboard resolves', () => {
     });
 
     describe('without fs id', () => {
-      var promise;
-
       beforeEach(() => {
-        promise = baseDashboardChartResolves();
+        baseDashboardChartResolves();
       });
 
       it('should get the read write heat map chart', () => {

@@ -2,8 +2,6 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('Add server step', function () {
-  'use strict';
-
   beforeEach(module('server'));
 
   var $stepInstance, addServerStepCtrl;
@@ -106,12 +104,10 @@ describe('Add server step', function () {
   });
 
   describe('add servers step', function () {
-    var addServersStep, $q, $rootScope;
+    var addServersStep;
 
-    beforeEach(inject(function (_addServersStep_, _$q_, _$rootScope_) {
+    beforeEach(inject(function (_addServersStep_) {
       addServersStep = _addServersStep_;
-      $q = _$q_;
-      $rootScope = _$rootScope_;
     }));
 
     it('should create the step with the expected interface', function () {

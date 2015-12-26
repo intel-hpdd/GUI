@@ -118,4 +118,5 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
           pacemakerConfigurationStream: pacemakerConfigurationStream
         });
       };
-  });
+    }
+  );

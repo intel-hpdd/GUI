@@ -22,32 +22,31 @@
 import angular from 'angular';
 
 
-
-  angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'route-to', 'route-segment',
-    'view-segment', 'middleware', 'login', 'loginRoute', 'app', 'appRouteModule', 'dashboard',
-    'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
-    'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute', 'server', 'serverRoute', 'serverDetailRoute',
-    'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute',
-    'about', 'ngAnimate', 'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule',
-    'statusRecordsRouteModule'])
-    .config(['$compileProvider', function ($compileProvider) {
-      $compileProvider.debugInfoEnabled(false);
-    }])
-    .config(['$locationProvider', function ($locationProvider) {
-      $locationProvider.html5Mode(true).hashPrefix('!');
-    }])
-    .config(['$httpProvider', function ($httpProvider) {
-      $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-      $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-    }])
-    .config(['modelFactoryProvider', function (modelFactoryProvider) {
-      modelFactoryProvider.setUrlPrefix('/api/');
-    }])
-    .config(['$animateProvider', function ($animateProvider) {
-      $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
-    }])
-    .config(['$routeSegmentProvider', function ($routeSegmentProvider) {
-      $routeSegmentProvider.options.autoLoadTemplates = true;
-      $routeSegmentProvider.options.strictMode = true;
-      $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
-    }]);
+angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'route-to', 'route-segment',
+  'view-segment', 'middleware', 'login', 'loginRoute', 'app', 'appRouteModule', 'dashboard',
+  'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
+  'serverDashboardRoute', 'targetDashboard', 'targetDashboardRoute', 'server', 'serverRoute', 'serverDetailRoute',
+  'jobStats', 'jobStatsRoute', 'hsmFs', 'hsmFsRoute', 'hsm', 'hsmRoute',
+  'about', 'ngAnimate', 'modal-decorator', 'interceptors', 'status', 'statusQueryRouteModule',
+  'statusRecordsRouteModule'])
+  .config(['$compileProvider', function ($compileProvider) {
+    $compileProvider.debugInfoEnabled(false);
+  }])
+  .config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('!');
+  }])
+  .config(['$httpProvider', function ($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+  }])
+  .config(['modelFactoryProvider', function (modelFactoryProvider) {
+    modelFactoryProvider.setUrlPrefix('/api/');
+  }])
+  .config(['$animateProvider', function ($animateProvider) {
+    $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
+  }])
+  .config(['$routeSegmentProvider', function ($routeSegmentProvider) {
+    $routeSegmentProvider.options.autoLoadTemplates = true;
+    $routeSegmentProvider.options.strictMode = true;
+    $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
+  }]);

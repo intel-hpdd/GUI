@@ -107,7 +107,7 @@ describe('add server modal', function () {
   });
 
   describe('opening', function () {
-    var openAddServerModal, $modal, server, step, response;
+    var openAddServerModal, $modal, server, step;
     beforeEach(module(function ($provide) {
       $modal = {
         open: jasmine.createSpy('$modal')
@@ -120,7 +120,7 @@ describe('add server modal', function () {
       server = { address: 'hostname1' };
       step = 'addServersStep';
       openAddServerModal = _openAddServerModal_;
-      response = openAddServerModal(server, step);
+      openAddServerModal(server, step);
     }));
 
     it('should open the modal', function () {

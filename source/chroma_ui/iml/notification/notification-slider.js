@@ -22,60 +22,61 @@
 import angular from 'angular';
 
 angular.module('notificationModule')
-  .controller('NotificationSliderController', ['$scope', '$timeout', 'localApply', '$exceptionHandler',
+  .controller('NotificationSliderController',
     function NotificationSliderController ($scope, $timeout, localApply, $exceptionHandler) {
-    'use strict';
+      'ngInject';
 
-    var promise;
+      var promise;
 
-    var xForm = fp.flow(
-      fp.lensProp('objects'),
-      fp.map(fp.lensProp('message'))
-    );
+      var xForm = fp.flow(
+        fp.lensProp('objects'),
+        fp.map(fp.lensProp('message'))
+      );
 
-    var openLens = fp.lensProp('open');
-    var setOpen = openLens.set(fp.__, $scope);
+      var openLens = fp.lensProp('open');
+      var setOpen = openLens.set(fp.__, $scope);
 
-    var closeAfter5Seconds = $timeout.bind(
-      null,
-      setOpen.bind(null, false),
-      5000
-    );
+      var closeAfter5Seconds = $timeout.bind(
+        null,
+        setOpen.bind(null, false),
+        5000
+      );
 
-    this
-      .stream
-      .map(xForm)
-      .filter(fp.lensProp('length'))
-      .stopOnError(fp.curry(1, $exceptionHandler))
-      .each(function (x) {
-        if (x.length > 1)
-          $scope.message = x.length + ' active alerts';
-        else
-          $scope.message = x[0];
+      this
+        .stream
+        .map(xForm)
+        .filter(fp.lensProp('length'))
+        .stopOnError(fp.curry(1, $exceptionHandler))
+        .each(function (x) {
+          if (x.length > 1)
+            $scope.message = x.length + ' active alerts';
+          else
+            $scope.message = x[0];
 
-        setOpen(true);
+          setOpen(true);
 
+          $timeout.cancel(promise);
+          promise = closeAfter5Seconds();
+
+          localApply($scope);
+        });
+
+      $scope.enter = function enter () {
         $timeout.cancel(promise);
+      };
+
+      $scope.leave = function leave () {
         promise = closeAfter5Seconds();
+      };
 
-        localApply($scope);
-      });
-
-    $scope.enter = function enter () {
-      $timeout.cancel(promise);
-    };
-
-    $scope.leave = function leave () {
-      promise = closeAfter5Seconds();
-    };
-
-    $scope.close = function close () {
-      $timeout.cancel(promise);
-      setOpen(false);
-    };
-  }])
+      $scope.close = function close () {
+        $timeout.cancel(promise);
+        setOpen(false);
+      };
+    }
+  )
   .directive('notificationSlider', function notificationSlider () {
-    'use strict';
+    'ngInject';
 
     return {
       restrict: 'E',

@@ -40,4 +40,4 @@ angular.module('target')
     var lengthProp = fp.lensProp('length');
 
     return fp.map(fp.filter(fp.flow(concat(getFailover, primaryServer), eqId, lengthProp)));
-});
+  });

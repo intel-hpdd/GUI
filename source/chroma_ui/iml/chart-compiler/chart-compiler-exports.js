@@ -28,29 +28,29 @@ export function chartCompilerFactory ($compile, $q, getTemplatePromise,
 
   return function chartCompiler (template, stream, fn) {
     return $q.all([
-        getTemplatePromise(template),
-        resolveStream(stream)
-      ])
-      .then(function compile ([template, stream]) {
-        const el = angular.element(template);
-        const s2 = addProperty(stream);
+      getTemplatePromise(template),
+      resolveStream(stream)
+    ])
+    .then(function compile ([template, stream]) {
+      const el = angular.element(template);
+      const s2 = addProperty(stream);
 
-        rebindDestroy(always(compiler), s2);
-        return compiler;
+      rebindDestroy(always(compiler), s2);
+      return compiler;
 
-        function compiler ($scope, $wrap) {
-          var cloned = el.clone();
+      function compiler ($scope, $wrap) {
+        var cloned = el.clone();
 
-          $scope.chart = fn($scope, s2.property());
+        $scope.chart = fn($scope, s2.property());
 
-          $scope.$on('$destroy', () => $scope.chart = null);
+        $scope.$on('$destroy', () => $scope.chart = null);
 
-          if ($wrap)
-            cloned = $wrap
-              .append(cloned);
+        if ($wrap)
+          cloned = $wrap
+            .append(cloned);
 
-          return $compile(cloned)($scope);
-        }
-      });
+        return $compile(cloned)($scope);
+      }
+    });
   };
 }

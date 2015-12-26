@@ -4,7 +4,7 @@ const {module, inject} = angular.mock;
 describe('override action click', function () {
   'use strict';
 
-  var record, action, openAddServerModal, overrideActionClick;
+  var record, openAddServerModal, overrideActionClick;
 
   beforeEach(module('server', function ($provide) {
     $provide.constant('ADD_SERVER_STEPS', {
@@ -27,8 +27,6 @@ describe('override action click', function () {
       state: 'undeployed',
       install_method: 'root_password'
     };
-
-    action = { state: 'deployed' };
   }));
 
   it('should be a function', function () {

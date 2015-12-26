@@ -6,8 +6,8 @@ import { getMemoryUsageChartFactory } from
 
 describe('memory usage chart', () => {
   var chartCompiler, createStream, getMemoryUsageStream,
-  durationStream, rangeStream,
-  formatBytes, memoryUsageChart, getMemoryUsageChart, DURATIONS;
+    durationStream, rangeStream,
+    formatBytes, getMemoryUsageChart, DURATIONS;
 
   beforeEach(() => {
     getMemoryUsageStream = {};
@@ -35,7 +35,7 @@ describe('memory usage chart', () => {
     getMemoryUsageChart = getMemoryUsageChartFactory(getMemoryUsageStream, createStream,
       DURATIONS, chartCompiler, formatBytes);
 
-    memoryUsageChart = getMemoryUsageChart({
+    getMemoryUsageChart({
       qs: {
         host_id: '1'
       }

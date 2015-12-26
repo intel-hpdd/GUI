@@ -22,88 +22,86 @@
 import angular from 'angular';
 
 
-(function () {
-  'use strict';
+angular.module('server')
+  .controller('ServerStatusStepCtrl', function ServerStatusStepCtrl ($scope, $stepInstance,
+                                                                     $exceptionHandler,
+                                                                     OVERRIDE_BUTTON_TYPES,
+                                                                     data, testHostStream,
+                                                                     hostlistFilter, localApply) {
+    'ngInject';
 
-  angular.module('server')
-    .controller('ServerStatusStepCtrl', function ServerStatusStepCtrl ($scope, $stepInstance,
-                                                                       $exceptionHandler,
-                                                                       OVERRIDE_BUTTON_TYPES,
-                                                                       data, testHostStream,
-                                                                       hostlistFilter, localApply) {
-        'ngInject';
+    _.extend(this, {
+      pdsh: data.pdsh,
+      /**
+       * Update hostnames.
+       * @param {String} pdsh
+       * @param {Array} hostnames
+       * @param {Object} hostnamesHash
+       */
+      pdshUpdate: function pdshUpdate (pdsh, hostnames, hostnamesHash) {
+        this.serversStatus = hostlistFilter
+          .setHash(hostnamesHash)
+          .compute();
+      },
+      /**
+       * tells manager to perform a transition.
+       * @param {String} action
+       */
+      transition: function transition (action) {
+        if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE)
+          return;
 
-        _.extend(this, {
-          pdsh: data.pdsh,
-          /**
-           * Update hostnames.
-           * @param {String} pdsh
-           * @param {Array} hostnames
-           * @param {Object} hostnamesHash
-           */
-          pdshUpdate: function pdshUpdate (pdsh, hostnames, hostnamesHash) {
-            this.serversStatus = hostlistFilter
-              .setHash(hostnamesHash)
-              .compute();
-          },
-          /**
-           * tells manager to perform a transition.
-           * @param {String} action
-           */
-          transition: function transition (action) {
-            if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE)
-              return;
+        testHostStream.destroy();
 
-            testHostStream.destroy();
-
-            $stepInstance.transition(action, {
-              data: data,
-              showCommand: action === OVERRIDE_BUTTON_TYPES.PROCEED
-            });
-          },
-          /**
-           * Close the modal
-           */
-          close: function close () {
-            $scope.$emit('addServerModal::closeModal');
-          }
+        $stepInstance.transition(action, {
+          data: data,
+          showCommand: action === OVERRIDE_BUTTON_TYPES.PROCEED
         });
+      },
+      /**
+       * Close the modal
+       */
+      close: function close () {
+        $scope.$emit('addServerModal::closeModal');
+      }
+    });
 
-        var serverStatusStep = this;
+    var serverStatusStep = this;
 
-        testHostStream
-          .tap(function (resp) {
-          serverStatusStep.isValid = resp.valid;
-          serverStatusStep.serversStatus = hostlistFilter
-            .setHosts(resp.objects)
-            .compute();
-          })
-          .stopOnError(fp.curry(1, $exceptionHandler))
-          .each(localApply.bind(null, $scope));
+    testHostStream
+      .tap(function (resp) {
+        serverStatusStep.isValid = resp.valid;
+        serverStatusStep.serversStatus = hostlistFilter
+          .setHosts(resp.objects)
+          .compute();
       })
-      .factory('serverStatusStep', [function serverStatusStepFactory () {
-        return {
-          templateUrl: 'iml/server/assets/html/server-status-step.html',
-          controller: 'ServerStatusStepCtrl as serverStatus',
-          onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', 'resolveStream',
-            function onEnter (data, getTestHostStream, serversToApiObjects, resolveStream) {
-              var objects = serversToApiObjects(data.servers);
+      .stopOnError(fp.curry(1, $exceptionHandler))
+      .each(localApply.bind(null, $scope));
+  })
+  .factory('serverStatusStep', function serverStatusStepFactory () {
+    'ngInject';
 
-              return {
-                testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
-                data: data
-              };
-            }
-          ],
-          /**
-           * Move to another step in the flow
-           * @param {Object} steps
-           * @param {String} action
-           * @returns {Object} The step to move to.
-           */
-          transition: function transition (steps, action) {
-            return (action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep);
-          }
-        };
-      }]);
-}());
+    return {
+      templateUrl: 'iml/server/assets/html/server-status-step.html',
+      controller: 'ServerStatusStepCtrl as serverStatus',
+      onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', 'resolveStream',
+        function onEnter (data, getTestHostStream, serversToApiObjects, resolveStream) {
+          var objects = serversToApiObjects(data.servers);
+
+          return {
+            testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
+            data: data
+          };
+        }
+      ],
+      /**
+       * Move to another step in the flow
+       * @param {Object} steps
+       * @param {String} action
+       * @returns {Object} The step to move to.
+       */
+      transition: function transition (steps, action) {
+        return (action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep);
+      }
+    };
+  });

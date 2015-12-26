@@ -26,50 +26,53 @@ angular.module('server')
   .controller('ServerDetailController',
     function ServerDetailController ($scope, $exceptionHandler, streams,
                                      overrideActionClick, localApply) {
-    'ngInject';
-    var serverDetailController = this;
 
-    angular.extend(this, {
-      lnetConfigurationStream: streams.lnetConfigurationStream,
-      jobMonitorStream: streams.jobMonitorStream,
-      alertMonitorStream: streams.alertMonitorStream,
-      corosyncConfigurationStream: streams.corosyncConfigurationStream,
-      pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
-      networkInterfaceStream: streams.networkInterfaceStream,
-      overrideActionClick: overrideActionClick,
-      closeAlert: function closeAlert () {
-        this.alertClosed = true;
-      },
-      getAlert: function getAlert () {
-        return 'The information below describes the last state of %s before it was removed.'
-          .sprintf(serverDetailController.server.address);
-      }
-    });
+      'ngInject';
 
-    streams.lnetConfigurationStream
-      .property()
-      .tap(fp.lensProp('lnetConfiguration').set(fp.__, this))
-      .stopOnError($exceptionHandler)
-      .each(localApply.bind(null, $scope));
+      var serverDetailController = this;
 
-
-    streams.serverStream
-      .tap(fp.lensProp('server').set(fp.__, this))
-      .errors(function handle404 (err, push) {
-        if (err.statusCode === 404) {
-          serverDetailController.removed = true;
-          return;
+      angular.extend(this, {
+        lnetConfigurationStream: streams.lnetConfigurationStream,
+        jobMonitorStream: streams.jobMonitorStream,
+        alertMonitorStream: streams.alertMonitorStream,
+        corosyncConfigurationStream: streams.corosyncConfigurationStream,
+        pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
+        networkInterfaceStream: streams.networkInterfaceStream,
+        overrideActionClick: overrideActionClick,
+        closeAlert: function closeAlert () {
+          this.alertClosed = true;
+        },
+        getAlert: function getAlert () {
+          return 'The information below describes the last state of %s before it was removed.'
+            .sprintf(serverDetailController.server.address);
         }
+      });
 
-        push(err);
-      })
-      .stopOnError($exceptionHandler)
-      .each(localApply.bind(null, $scope));
+      streams.lnetConfigurationStream
+        .property()
+        .tap(fp.lensProp('lnetConfiguration').set(fp.__, this))
+        .stopOnError($exceptionHandler)
+        .each(localApply.bind(null, $scope));
 
-    $scope.$on('$destroy', function onDestroy () {
-      Object.keys(streams)
-        .forEach(function destroy (key) {
-          streams[key].destroy();
-        });
-    });
-  });
+
+      streams.serverStream
+        .tap(fp.lensProp('server').set(fp.__, this))
+        .errors(function handle404 (err, push) {
+          if (err.statusCode === 404) {
+            serverDetailController.removed = true;
+            return;
+          }
+
+          push(err);
+        })
+        .stopOnError($exceptionHandler)
+        .each(localApply.bind(null, $scope));
+
+      $scope.$on('$destroy', function onDestroy () {
+        Object.keys(streams)
+          .forEach(function destroy (key) {
+            streams[key].destroy();
+          });
+      });
+    }
+  );

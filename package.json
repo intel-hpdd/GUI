@@ -4,8 +4,8 @@
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start",
-    "jshint": "gulp --gulpfile='./gulp/gulpfile.js' jshint",
     "jscs": "gulp --gulpfile='./gulp/gulpfile.js' jscs",
+    "eslint": "eslint ./",
     "ci": "road-runner",
     "cover": "echo \"No coverage specified\""
   },
@@ -20,7 +20,7 @@
   },
   "pre-commit": [
     "jscs",
-    "jshint",
+    "eslint",
     "test"
   ],
   "repository": {
@@ -76,12 +76,14 @@
     "babel-plugin-transform-es2015-modules-umd": "6.3.13",
     "babel-plugin-transform-strict-mode": "6.3.13",
     "babel-preset-es2015": "6.3.13",
+    "babel-plugin-syntax-flow": "6.3.13",
+    "babel-plugin-transform-flow-strip-types": "6.3.15",
+    "babel-eslint": "4.1.6",
+    "eslint": "1.10.3",
     "gulp-jscs": "3.0.2",
-    "gulp-jshint": "2.0.0",
     "intel-jasmine-n-matchers": "1.3.2",
     "jasmine": "2.3.2",
     "jasmine-reporters": "1.0.2",
-    "jshint-stylish": "2.1.0",
     "karma": "0.13.15",
     "karma-babel-preprocessor": "6.0.1",
     "karma-chrome-launcher": "0.2.2",

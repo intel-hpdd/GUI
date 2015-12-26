@@ -7,7 +7,7 @@ import {getOstBalanceChartFactory} from
 describe('get ost balance chart', () => {
   var getOstBalanceStream,
     chartCompiler, streamWhenVisible,
-    ostBalanceChart, getOstBalanceChart;
+    getOstBalanceChart;
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
@@ -21,7 +21,7 @@ describe('get ost balance chart', () => {
     getOstBalanceChart = getOstBalanceChartFactory(chartCompiler,
       streamWhenVisible, getOstBalanceStream);
 
-    ostBalanceChart = getOstBalanceChart({
+    getOstBalanceChart({
       qs: {
         filesystem_id: '1'
       }

@@ -2,8 +2,6 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('Target dashboard', function () {
-  'use strict';
-
   var $route, socketStream, s;
 
   beforeEach(module('targetDashboard', function ($provide) {
@@ -132,13 +130,11 @@ describe('Target dashboard', function () {
     });
 
     describe('OST', function () {
-      var promise;
-
       beforeEach(function () {
         $route.current.params.targetId = '1';
         $route.current.$$route.kind = 'OST';
 
-        promise = targetDashboardResolves();
+        targetDashboardResolves();
       });
 
       it('should call readWriteBandwidthChart', function () {

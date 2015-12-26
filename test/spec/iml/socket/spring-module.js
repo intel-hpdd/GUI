@@ -2,8 +2,6 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('spring module', function () {
-  'use strict';
-
   var regenerator, socketStream;
 
   beforeEach(module('socket-module', function ($provide) {
@@ -17,10 +15,8 @@ describe('spring module', function () {
     $provide.value('socketStream', socketStream);
   }));
 
-  var spring;
-
   beforeEach(inject(function (getSpring) {
-    spring = getSpring();
+    getSpring();
   }));
 
   it('should pass a setup and teardown function to regenerator', function () {

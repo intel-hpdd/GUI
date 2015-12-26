@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import d3 from 'd3';
 
 describe('line directive', () => {
   var chartCtrl;
@@ -11,7 +12,7 @@ describe('line directive', () => {
         link ($scope, el, attr, ctrl) {
           chartCtrl = ctrl;
         }
-      }
+      };
     });
   }));
 
@@ -56,7 +57,8 @@ describe('line directive', () => {
   it('should change opacity on legend event dispatch', () => {
     chartCtrl.dispatch.event('legend', [{
       foo: true
-    }]);
+    }
+    ]);
 
     window.flushD3Transitions();
 
@@ -66,7 +68,8 @@ describe('line directive', () => {
   it('should not change opactivy on non-legend event', () => {
     chartCtrl.dispatch.event('zelda', [{
       foo: true
-    }]);
+    }
+    ]);
 
     window.flushD3Transitions();
 

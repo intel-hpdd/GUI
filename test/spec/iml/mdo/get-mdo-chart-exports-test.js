@@ -8,7 +8,7 @@ describe('MDO chart', () => {
   var chartCompiler, getMdoStream,
     durationStream, rangeStream,
     createStream, DURATIONS, formatNumber,
-    mdoChart, getMdoChart;
+    getMdoChart;
 
   beforeEach(() => {
     getMdoStream = {};
@@ -36,7 +36,7 @@ describe('MDO chart', () => {
     getMdoChart = getMdoChartFactory(createStream, getMdoStream, DURATIONS,
       chartCompiler, formatNumber);
 
-    mdoChart = getMdoChart({
+    getMdoChart({
       qs: {
         host_id: '1'
       }
@@ -96,11 +96,9 @@ describe('MDO chart', () => {
     });
 
     describe('chart', () => {
-      var chart, formatter, tickFormat;
+      var chart, tickFormat;
 
       beforeEach(() => {
-        formatter = {};
-
         tickFormat = jasmine.createSpy('tickFormat');
 
         chart = {

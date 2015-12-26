@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import d3 from 'd3';
 
 describe('label directive', () => {
   beforeEach(module('label', 'chart', 'templates'));

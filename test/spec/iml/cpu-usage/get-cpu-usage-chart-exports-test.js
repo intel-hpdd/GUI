@@ -7,7 +7,7 @@ import {getCpuUsageChartFactory} from
 describe('cpu usage chart', () => {
   var chartCompiler, getCpuUsageStream,
     durationStream, rangeStream, createStream,
-    DURATIONS, getCpuUsageChart, cpuUsageChart;
+    DURATIONS, getCpuUsageChart;
 
   beforeEach(() => {
     getCpuUsageStream = {};
@@ -32,7 +32,7 @@ describe('cpu usage chart', () => {
     getCpuUsageChart = getCpuUsageChartFactory(createStream,
       getCpuUsageStream, DURATIONS, chartCompiler);
 
-    cpuUsageChart = getCpuUsageChart({
+    getCpuUsageChart({
       qs: {
         host_id: '1'
       }

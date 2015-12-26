@@ -2,15 +2,13 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('Date ticks', function () {
-  'use strict';
 
-  var moment, dateTicks, d3, start;
+  var moment, dateTicks, start;
 
   beforeEach(module('charts'));
 
-  beforeEach(inject(function (_moment_, _d3_, _dateTicks_) {
+  beforeEach(inject(function (_moment_, _dateTicks_) {
     moment = _moment_;
-    d3 = _d3_;
     dateTicks = _dateTicks_;
     start = moment('2013-11-11 00:00');
   }));

@@ -42,4 +42,4 @@ angular.module('target')
     var filter = fp.filter(fp.flow(getData, findById));
 
     return fp.map(filter);
-});
+  });

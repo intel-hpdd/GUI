@@ -95,11 +95,10 @@ describe('authorization', function () {
         $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
       }));
 
-      var $scope, genRestrictTo, genRestrict, authorization;
+      var $scope, genRestrictTo, genRestrict;
 
-      beforeEach(inject(function ($compile, $rootScope, _authorization_) {
+      beforeEach(inject(function ($compile, $rootScope) {
         $scope = $rootScope.$new();
-        authorization = _authorization_;
 
         var template = _.curry(function template (attr, val) {
           var str = '<div %s="%s"></div>'.sprintf(attr, val);
@@ -111,7 +110,7 @@ describe('authorization', function () {
       }));
 
       describe('directive', function () {
-        var el, visibility;
+        var el;
 
         describe('of type restrictTo', function () {
           beforeEach(function () {
@@ -120,7 +119,6 @@ describe('authorization', function () {
           });
 
           it('should be %s to group %s when restricted to %s'.sprintf(
-            visibility = (test.isVisible ? 'visible' : 'invisible'),
             test.sessionGroups[0].name,
             test.group), function () {
             expect(el.hasClass('invisible')).toEqual(!test.visibility.restrictTo);

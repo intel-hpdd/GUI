@@ -6,13 +6,13 @@ describe('wait until add server resolves complete', function () {
 
   beforeEach(module('server'));
 
-  var waitUntilLoadedStep, controller, scope, $rootScope;
+  var waitUntilLoadedStep, scope, $rootScope;
   beforeEach(inject(function inject (_waitUntilLoadedStep_, $controller, _$rootScope_) {
     waitUntilLoadedStep = _waitUntilLoadedStep_;
     $rootScope = _$rootScope_;
     scope = $rootScope.$new();
 
-    controller = $controller('WaitUntilLoadedCtrl', {
+    $controller('WaitUntilLoadedCtrl', {
       $scope: scope
     });
   }));

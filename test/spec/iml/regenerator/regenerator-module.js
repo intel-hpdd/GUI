@@ -2,8 +2,6 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('Regenerator module', function () {
-  'use strict';
-
   beforeEach(module('regenerator-module'));
 
   var regenerator, setup, teardown, getter;
@@ -17,11 +15,9 @@ describe('Regenerator module', function () {
   }));
 
   describe('getting an object from the cache', function () {
-    var item;
-
     describe('item hasn\'t been created in the cache yet', function () {
       beforeEach(function () {
-        item = getter('item');
+        getter('item');
       });
 
       it('should not call the tear down function', function () {

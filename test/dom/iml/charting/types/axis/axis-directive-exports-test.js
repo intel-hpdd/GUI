@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import d3 from 'd3';
 
 describe('axis directive', () => {
   beforeEach(module('axis', 'chart', 'templates'));
@@ -64,7 +65,7 @@ describe('axis directive', () => {
     $scope.scale.domain([0, 3]);
     $scope.stream.write([0, 1, 2, 3]);
 
-    flushD3Transitions();
+    window.flushD3Transitions();
 
     expect(fp.tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
       .toEqual('3.0');

@@ -182,7 +182,7 @@ describe('union with target', function () {
 
     targetStream.write({
       objects: [
-       {
+        {
           id: '20',
           name: 'OST003'
         },

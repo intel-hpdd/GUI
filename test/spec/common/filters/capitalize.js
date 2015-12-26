@@ -32,12 +32,11 @@ describe('Capitalize Filter', function () {
 
       expect(test.expectedAll).toEqual(result);
     });
-
   });
 
   function getDescription (input, expected, isAll) {
-    var description = 'should convert %s to %s',
-    allDescription = description + 'using all';
+    var description = 'should convert %s to %s';
+    var allDescription = description + 'using all';
 
     var desc = isAll ? allDescription : description;
 

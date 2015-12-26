@@ -7,7 +7,7 @@ import { getSpaceUsageChartFactory } from
 describe('space usage chart', () => {
   var chartCompiler, getSpaceUsageStream,
     durationStream, rangeStream, createStream,
-    spaceUsageChart, getSpaceUsageChart, DURATIONS;
+    getSpaceUsageChart, DURATIONS;
 
   beforeEach(() => {
     getSpaceUsageStream = {};
@@ -32,7 +32,7 @@ describe('space usage chart', () => {
     getSpaceUsageChart = getSpaceUsageChartFactory(createStream,
       getSpaceUsageStream, DURATIONS, chartCompiler);
 
-    spaceUsageChart = getSpaceUsageChart({
+    getSpaceUsageChart({
       qs: {
         host_id: '1'
       }

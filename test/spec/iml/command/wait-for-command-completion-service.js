@@ -73,22 +73,22 @@ describe('wait-for-command-completion-service', function () {
         ]
       }
     ].forEach(function handleResponse (response) {
-        var result;
+      var result;
 
-        beforeEach(function () {
-          result = waitForCommandCompletion(true, response);
-        });
-
-        it('should return a stream', function () {
-          expect(result).toEqual(jasmine.any(highland().constructor));
-        });
-
-        it('should resolve with the response that was passed in initially', function () {
-          result.each(spy);
-
-          expect(spy).toHaveBeenCalledOnceWith(response);
-        });
+      beforeEach(function () {
+        result = waitForCommandCompletion(true, response);
       });
+
+      it('should return a stream', function () {
+        expect(result).toEqual(jasmine.any(highland().constructor));
+      });
+
+      it('should resolve with the response that was passed in initially', function () {
+        result.each(spy);
+
+        expect(spy).toHaveBeenCalledOnceWith(response);
+      });
+    });
   });
 
   describe('contains finished commands', function () {

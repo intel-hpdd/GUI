@@ -60,21 +60,21 @@ angular.module('parserModule')
     return out ? out : err;
   }));
 
-  function throwIfBadType (x) {
-    if (typeof x !== 'function')
-      throw new Error('operation result must be an Error or a Function, got: ' + typeof x);
-  }
+function throwIfBadType (x) {
+  if (typeof x !== 'function')
+    throw new Error('operation result must be an Error or a Function, got: ' + typeof x);
+}
 
-  function isError (x) {
-    return x instanceof Error;
-  }
+function isError (x) {
+  return x instanceof Error;
+}
 
-  function getRewinder (oldTokens) {
-    oldTokens = fp.map(fp.identity, oldTokens);
+function getRewinder (oldTokens) {
+  oldTokens = fp.map(fp.identity, oldTokens);
 
-    return function rewinder (tokens) {
-      var tokensDiff = oldTokens.length - tokens.length;
-      [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
-    };
-  }
+  return function rewinder (tokens) {
+    var tokensDiff = oldTokens.length - tokens.length;
+    [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
+  };
+}
 

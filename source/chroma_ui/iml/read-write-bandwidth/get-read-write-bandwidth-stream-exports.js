@@ -27,8 +27,8 @@ export function getReadWriteBandwidthStreamFactory (λ, socketStream, chartPlugi
       const params = requestRange({
         qs: {
           reduce_fn: 'sum',
-            kind: 'OST',
-            metrics: 'stats_read_bytes,stats_write_bytes'
+          kind: 'OST',
+          metrics: 'stats_read_bytes,stats_write_bytes'
         }
       });
 

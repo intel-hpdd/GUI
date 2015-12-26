@@ -64,11 +64,9 @@ describe('get agent vs copytool chart exports', () => {
     spyOn(d3.scale, 'ordinal').andCallFake(() => {
       ordinalScale = {};
 
-      var currentDomain;
       ordinalScale.domain = jasmine.createSpy('domain')
         .andCallFake((xs) => {
           if (xs) {
-            currentDomain = xs;
             return ordinalScale;
           } else {
             return currentRange;

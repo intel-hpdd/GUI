@@ -6,7 +6,7 @@ import {getReadWriteHeatMapChartFactory}
 
 describe('read write heat map chart', () => {
   var $location, $filter, chartCompiler, compiled,
-    resolveStream, formatNumber, formatBytes, DURATIONS,
+    formatNumber, formatBytes, DURATIONS,
     getReadWriteHeatMapStream, durationStream, rangeStream, createStream,
     routeSegmentUrl, readWriteHeatMapTypes,
     getReadWriteHeatMapChart, readWriteHeatMapStream, readWriteHeatMapChart;
@@ -29,9 +29,6 @@ describe('read write heat map chart', () => {
     readWriteHeatMapStream = {};
     getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream')
       .andReturn(readWriteHeatMapStream);
-
-    resolveStream = jasmine.createSpy('resolveStream')
-      .andCallFake(fp.identity);
 
     durationStream = jasmine.createSpy('durationStream')
       .andCallFake(() => highland());

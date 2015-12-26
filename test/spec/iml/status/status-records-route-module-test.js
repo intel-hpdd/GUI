@@ -38,7 +38,7 @@ describe('status records route', function () {
         templateUrl: 'iml/status/assets/html/status.html',
         watcher: jasmine.any(Array),
         resolve: {
-          notificationStream: jasmine.any(Array),
+          notificationStream: jasmine.any(Array)
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

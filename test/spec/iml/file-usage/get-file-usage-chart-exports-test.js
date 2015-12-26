@@ -7,7 +7,7 @@ import {getFileUsageChartFactory} from
 describe('file usage chart', () => {
   var chartCompiler, getFileUsageStream, fileUsageStream,
     durationStream, rangeStream, createStream,
-    fileUsageChart, getFileUsageChart, DURATIONS;
+    getFileUsageChart, DURATIONS;
 
   beforeEach(() => {
     fileUsageStream = {};
@@ -34,8 +34,7 @@ describe('file usage chart', () => {
     getFileUsageChart = getFileUsageChartFactory(createStream,
       getFileUsageStream, DURATIONS, chartCompiler);
 
-
-    fileUsageChart = getFileUsageChart('foo', 'bar', {
+    getFileUsageChart('foo', 'bar', {
       qs: {
         host_id: '1'
       }

@@ -80,13 +80,13 @@ import angular from 'angular';
         }
 
         scope.$watch(function setWatch () {
-            return jqElement.html();
-          },
-          function handleChange (newValue, oldValue) {
-            if (newValue !== oldValue) {
-              $$rAF(recalculate);
-            }
-          });
+          return jqElement.html();
+        },
+        function handleChange (newValue, oldValue) {
+          if (newValue !== oldValue) {
+            $$rAF(recalculate);
+          }
+        });
 
         /**
          * Figures out the placement of the popover and applies it to the element's style.

@@ -6,7 +6,7 @@ import {getHostCpuRamChartFactory} from
 
 describe('host cpu ram chart', () => {
   var chartCompiler, getHostCpuRamStream, getHostCpuRamChart,
-    hostCpuRamChart, DURATIONS,
+    DURATIONS,
     durationStream, rangeStream, createStream;
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('host cpu ram chart', () => {
     getHostCpuRamChart = getHostCpuRamChartFactory(createStream,
       getHostCpuRamStream, DURATIONS, chartCompiler);
 
-    hostCpuRamChart = getHostCpuRamChart('Metadata Servers', {
+    getHostCpuRamChart('Metadata Servers', {
       qs: { role: 'MDS' }
     });
   });

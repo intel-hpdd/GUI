@@ -27,11 +27,11 @@ import angular from 'angular';
 
   var range = _.range(-1, 10);
   var options = range.map(function buildOptions (value) {
-      return (value === -1 ?
-        {name: 'Not Lustre Network', value: value} :
-        {name: 'Lustre Network %s'.sprintf(value), value: value}
-      );
-    });
+    return (value === -1 ?
+      {name: 'Not Lustre Network', value: value} :
+      {name: 'Lustre Network %s'.sprintf(value), value: value}
+    );
+  });
 
   angular.module('lnetModule')
     .constant('LNET_OPTIONS', Object.freeze(options));

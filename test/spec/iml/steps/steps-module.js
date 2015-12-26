@@ -16,14 +16,13 @@ describe('Steps module', function () {
     $provide.value('getTemplatePromise', getTemplatePromise);
   }));
 
-  var $rootScope, $scope, $q, $compile, $timeout, stepsManager;
+  var $rootScope, $scope, $q, $compile, stepsManager;
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$q_, _stepsManager_, _$timeout_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$q_, _stepsManager_) {
 
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $q = _$q_;
-    $timeout = _$timeout_;
     $scope = $rootScope.$new();
     stepsManager = _stepsManager_;
   }));

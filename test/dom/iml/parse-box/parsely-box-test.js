@@ -29,7 +29,7 @@ query="::initialQuery" parser-formatter="::parserFormatter"></parsely-box>';
         if (num === 1)
           return '1';
 
-        throw new Error('num was not number 1')
+        throw new Error('num was not number 1');
       }
     };
     $scope.onSubmit = jasmine.createSpy('onSubmit');

@@ -5,15 +5,12 @@ describe('get legend', () => {
   beforeEach(module('legend'));
 
   var d3, getLegend, div, svg, w, h,
-    mouseClick, getElement, translate;
+    mouseClick;
 
   beforeEach(inject((_getLegend_, _d3_) => {
     d3 = _d3_;
     getLegend = _getLegend_;
 
-    translate = (x, y) => `translate(${x},${y})`;
-
-    getElement = fp.flow(fp.head, fp.head);
     mouseClick = new MouseEvent('click');
 
     div = document.createElement('div');

@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import d3 from 'd3';
 
 describe('chart directive', () => {
   var chartCtrl, $window;
@@ -11,7 +12,7 @@ describe('chart directive', () => {
         link ($scope, el, attr, ctrl) {
           chartCtrl = ctrl;
         }
-      }
+      };
     });
 
     $window = {

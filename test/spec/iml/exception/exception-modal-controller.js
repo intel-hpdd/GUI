@@ -230,26 +230,26 @@ describe('Exception modal controller', function () {
       {stack: 'some-file-location/file.js:85:13)'},
       {stack: 'at some-file-location/file.js:85:13 '},
       {stack: 'at some-file-location/file.js:85:13adsf'},
-      {stack: 'some-file-location/file.js:85:13 more text'},
+      {stack: 'some-file-location/file.js:85:13 more text'}
     ].forEach(function checkForLineAndColumnNumbers (stack) {
-        describe('contains line number', function () {
-          it('should indicate that ' + stack.stack + ' contains line numbers and columns', function () {
-            expect(stackTraceContainsLineNumberFactory(stack)).toEqual(true);
-          });
+      describe('contains line number', function () {
+        it('should indicate that ' + stack.stack + ' contains line numbers and columns', function () {
+          expect(stackTraceContainsLineNumberFactory(stack)).toEqual(true);
         });
       });
+    });
 
     [
       {stack: 'at some-file-location/file.js:85'},
       {stack: 'at some-file-location/file.js:85:'},
       {stack: 'at some-file-location/file.js:8513'}
     ].forEach(function checkForLineAndColumnNumbers (stack) {
-        describe('does not contain line number', function () {
-          it('should indicate that ' + stack.stack + ' doesn\'t contain both line and column numbers', function () {
-            expect(stackTraceContainsLineNumberFactory(stack)).toEqual(false);
-          });
+      describe('does not contain line number', function () {
+        it('should indicate that ' + stack.stack + ' doesn\'t contain both line and column numbers', function () {
+          expect(stackTraceContainsLineNumberFactory(stack)).toEqual(false);
         });
       });
+    });
   });
 
   describe('send stack trace to real time factory', function () {
@@ -300,16 +300,16 @@ describe('Exception modal controller', function () {
         expected: 'stack'
       }
     ].forEach(function testProcessResponse (data) {
-        describe('and process response', function () {
-          it(data.message + ' set the exception.stack to response.data', function () {
-            reverseStream.write(data.response);
-            reverseStream.end();
+      describe('and process response', function () {
+        it(data.message + ' set the exception.stack to response.data', function () {
+          reverseStream.write(data.response);
+          reverseStream.end();
 
-            result.each(function verifyResolvedStackTrace (updatedException) {
-              expect(updatedException.stack).toEqual(data.expected);
-            });
+          result.each(function verifyResolvedStackTrace (updatedException) {
+            expect(updatedException.stack).toEqual(data.expected);
           });
         });
       });
+    });
   });
 });

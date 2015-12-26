@@ -120,4 +120,5 @@ angular.module('server')
           }))
           .flatMap(waitForCommandCompletion(showCommands));
       };
-  });
+    }
+  );

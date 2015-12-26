@@ -16,7 +16,7 @@ describe('get line', () => {
     })
   );
 
-  var getLine, div, svg, query, queryAll, d3;
+  var getLine, div, svg, query, d3;
 
   beforeEach(module('charting'));
 
@@ -39,7 +39,6 @@ describe('get line', () => {
     div.appendChild(svg);
 
     query = svg.querySelector.bind(svg);
-    queryAll = svg.querySelectorAll.bind(svg);
   }));
 
   it('should be a function', () => {

@@ -52,7 +52,7 @@ describe('extend scope test', function () {
       try {
         localApply($scope);
       } catch (e) {
-
+        fp.noop;
       } finally {
         expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error('boom!'));
       }

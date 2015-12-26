@@ -58,11 +58,11 @@ angular.module('parserModule')
     return out.length ? out : err;
   }));
 
-  function getRewinder (oldTokens) {
-    oldTokens = fp.map(fp.identity, oldTokens);
+function getRewinder (oldTokens) {
+  oldTokens = fp.map(fp.identity, oldTokens);
 
-    return function rewinder (tokens) {
-      var tokensDiff = oldTokens.length - tokens.length;
-      [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
-    };
-  }
+  return function rewinder (tokens) {
+    var tokensDiff = oldTokens.length - tokens.length;
+    [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
+  };
+}

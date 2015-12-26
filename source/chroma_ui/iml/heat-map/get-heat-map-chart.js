@@ -210,15 +210,15 @@ function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         //------------------------------------------------------------
         // Setup interactive layer
 
-          interactiveLayer
-            .width(availableWidth)
-            .height(availableHeight)
-            .margin({
-              left: margin.left,
-              top: margin.top
-            })
-            .svgContainer(container)
-            .xScale(x);
+        interactiveLayer
+          .width(availableWidth)
+          .height(availableHeight)
+          .margin({
+            left: margin.left,
+            top: margin.top
+          })
+          .svgContainer(container)
+          .xScale(x);
 
         interactiveGroup.call(interactiveLayer);
 

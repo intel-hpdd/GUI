@@ -22,11 +22,10 @@
 import angular from 'angular';
 
 angular.module('corosyncModule')
-  .controller('ConfigureCorosyncController', ['$scope', '$exceptionHandler', 'localApply',
-    'socketStream', 'waitForCommandCompletion', 'bigDiffer',
+  .controller('ConfigureCorosyncController',
     function ConfigureCorosyncController ($scope, $exceptionHandler, localApply,
                                           socketStream, waitForCommandCompletion, bigDiffer) {
-      'use strict';
+      'ngInject';
 
       var diffMcastInitial, mergeRemote;
 
@@ -100,7 +99,8 @@ angular.module('corosyncModule')
         $scope.alertStream.destroy();
         $scope.jobStream.destroy();
       });
-  }])
+    }
+  )
   .directive('configureCorosync', function configureCorosync () {
     return {
       templateUrl: 'iml/corosync/assets/html/configure-corosync.html',

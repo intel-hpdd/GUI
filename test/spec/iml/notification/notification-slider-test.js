@@ -11,7 +11,7 @@ describe('The notification slider', function () {
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));
 
-  var ctrl, $scope, $timeout, alertStream;
+  var $scope, $timeout, alertStream;
 
   beforeEach(inject(function ($controller, $rootScope, _$timeout_) {
     $scope = $rootScope.$new();
@@ -19,7 +19,7 @@ describe('The notification slider', function () {
 
     alertStream = highland();
 
-    ctrl = $controller('NotificationSliderController as ctrl', {
+    $controller('NotificationSliderController as ctrl', {
       $scope: $scope,
       $timeout: $timeout
     }, {

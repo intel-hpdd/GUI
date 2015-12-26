@@ -32,12 +32,12 @@ angular.module('charting')
     return s
       .collect()
       .tap(_.fmap(function (point) {
-          keys.forEach(function createValue (key, index) {
-            struct[index].values.push({
-              x: new Date(point.ts),
-              y: point.data[key]
-            });
+        keys.forEach(function createValue (key, index) {
+          struct[index].values.push({
+            x: new Date(point.ts),
+            y: point.data[key]
           });
+        });
       }))
       .map(_.fidentity(struct))
       .otherwise(highland([struct]));

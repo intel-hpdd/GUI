@@ -318,18 +318,6 @@ var qualitySource = getSource.bind(null, files.js.source.concat(
   '!../ui-modules/**/*.js'
 ));
 
-gulp.task('quality', ['jscs', 'jshint']);
-
-gulp.task('jshint', function jsHint () {
-  var jshint = require('gulp-jshint');
-  var stylish = require('jshint-stylish');
-
-  return qualitySource()
-    .pipe(jshint())
-    .pipe(jshint.reporter(stylish))
-    .pipe(jshint.reporter('fail'));
-});
-
 gulp.task('jscs', function jsCs () {
   var jscs = require('gulp-jscs');
 

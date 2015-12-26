@@ -51,10 +51,9 @@ describe('HSM controller', () => {
   });
 
   describe('open modal', () => {
-    var result;
 
     beforeEach(() => {
-      result = hsm.openAddModal();
+      hsm.openAddModal();
     });
 
     it('should set modalOpen property to true', () => {

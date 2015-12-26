@@ -87,9 +87,9 @@ describe('Login Controller', () => {
 
   describe('authenticated user', () => {
     var credentials = {
-        username: 'foo',
-        password: 'bar'
-      };
+      username: 'foo',
+      password: 'bar'
+    };
 
     beforeEach(() => {
       $httpBackend.expectPOST('session/', credentials).respond(201);

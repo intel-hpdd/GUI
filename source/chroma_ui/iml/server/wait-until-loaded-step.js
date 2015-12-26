@@ -22,23 +22,20 @@
 import angular from 'angular';
 
 
-  angular.module('server')
-    .controller('WaitUntilLoadedCtrl', ['$scope',
-      function waitUntilLoadedCtrl ($scope) {
-        'use strict';
-        $scope.wait = {
-          /**
-           * Close the modal
-           */
-          close: function close () {
-            $scope.$emit('addServerModal::closeModal');
-          }
-        };
-      }])
-    .factory('waitUntilLoadedStep', [function waitUntilLoadedStep () {
-      'use strict';
-      return {
-        controller: 'WaitUntilLoadedCtrl',
-        templateUrl: 'iml/server/assets/html/wait-until-loaded-step.html'
+angular.module('server')
+  .controller('WaitUntilLoadedCtrl', ['$scope',
+    function waitUntilLoadedCtrl ($scope) {
+      'ngInject';
+      $scope.wait = {
+        close: function close () {
+          $scope.$emit('addServerModal::closeModal');
+        }
       };
-    }]);
+    }])
+  .factory('waitUntilLoadedStep', function waitUntilLoadedStep () {
+    'ngInject';
+    return {
+      controller: 'WaitUntilLoadedCtrl',
+      templateUrl: 'iml/server/assets/html/wait-until-loaded-step.html'
+    };
+  });

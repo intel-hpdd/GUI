@@ -32,10 +32,8 @@ describe('hsm fs resolve', () => {
   }));
 
   describe('fsCollStream', () => {
-    var result;
-
     beforeEach(() => {
-      result = fsCollStream();
+      fsCollStream();
       $rootScope.$digest();
     });
 
@@ -55,10 +53,8 @@ describe('hsm fs resolve', () => {
   });
 
   describe('copytoolStream', () => {
-    var result;
-
     beforeEach(() => {
-      result = copytoolStream();
+      copytoolStream();
     });
 
     it('should invoke the socket stream', () => {

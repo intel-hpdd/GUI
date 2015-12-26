@@ -45,4 +45,5 @@ angular.module('charting')
         unionWithTarget: unionWithTarget,
         objToPoints: objToPoints
       };
-  }]);
+    }
+  ]);

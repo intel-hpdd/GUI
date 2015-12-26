@@ -7,7 +7,7 @@ import {getReadWriteBandwidthChartFactory} from
 describe('get read write bandwidth chart', () => {
   var chartCompiler, createStream, getReadWriteBandwidthStream, DURATIONS,
     formatBytes, durationStream, rangeStream,
-    readWriteBandwidthChart, getReadWriteBandwidthChart;
+    getReadWriteBandwidthChart;
 
   beforeEach(() => {
     getReadWriteBandwidthStream = {};
@@ -35,7 +35,7 @@ describe('get read write bandwidth chart', () => {
     getReadWriteBandwidthChart = getReadWriteBandwidthChartFactory(createStream,
       getReadWriteBandwidthStream, DURATIONS, chartCompiler, formatBytes);
 
-    readWriteBandwidthChart = getReadWriteBandwidthChart({
+    getReadWriteBandwidthChart({
       qs: {
         host_id: '1'
       }

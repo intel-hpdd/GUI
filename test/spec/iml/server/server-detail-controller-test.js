@@ -49,7 +49,7 @@ describe('server detail controller', function () {
         networkInterfaceStream: networkInterfaceStream,
         serverStream: serverStream
       },
-      overrideActionClick: overrideActionClick,
+      overrideActionClick
     });
   }));
 
