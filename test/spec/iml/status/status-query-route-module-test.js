@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('status query route', function () {
   var $routeSegmentProvider;
 
@@ -21,7 +23,7 @@ describe('status query route', function () {
     });
   }, 'route-segment', 'statusQueryRouteModule'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   it('should wire up the correct route handler', function () {
     expect($routeSegmentProvider.when)

@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, curry, lensProp} from 'intel-fp/fp';
 
 angular.module('lnetModule')
   .directive('lnetStatus', function lnetStatus (localApply, $exceptionHandler) {
@@ -34,13 +35,13 @@ angular.module('lnetModule')
       templateUrl: 'iml/lnet/assets/html/lnet-status.html',
       link: function link (scope) {
         scope.lnet = {};
-        var state = fp.lensProp('state');
+        var state = lensProp('state');
 
         scope
           .stream
           .map(state)
-          .tap(state.set(fp.__, scope.lnet))
-          .stopOnError(fp.curry(1, $exceptionHandler))
+          .tap(state.set(__, scope.lnet))
+          .stopOnError(curry(1, $exceptionHandler))
           .each(localApply.bind(null, scope));
       }
     };

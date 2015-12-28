@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {always} from 'intel-fp/dist/fp';
+import {always} from 'intel-fp/fp';
 
 export function chartCompilerFactory ($compile, $q, getTemplatePromise,
                                       resolveStream, addProperty, rebindDestroy) {

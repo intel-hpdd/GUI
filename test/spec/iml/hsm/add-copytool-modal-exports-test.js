@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {tail} from 'intel-fp/fp';
+
 describe('Add copytool modal', () => {
   beforeEach(module('hsm'));
 
@@ -132,7 +134,7 @@ describe('Add copytool modal', () => {
 
         resolveStream = jasmine.createSpy('resolveStream').andReturn({});
 
-        getResolve = (name) => fp.tail($uibModal.open.mostRecentCall.args[0].resolve[name]);
+        getResolve = (name) => tail($uibModal.open.mostRecentCall.args[0].resolve[name]);
       });
 
       describe('fs stream', () => {

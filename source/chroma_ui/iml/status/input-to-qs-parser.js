@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {always, lensProp, flow, either} from 'intel-fp/fp';
 
 angular
   .module('status')
@@ -59,18 +60,18 @@ angular
       }
     ]);
 
-    var parseToStr = parsely.parse(fp.always(''));
-    var value = parsely.token('value', fp.lensProp('content'));
-    var equals = parsely.token('equals', fp.always('='));
-    var inToken = parsely.token('in', fp.always('__in='));
-    var startList = parsely.token('startList', fp.always('['));
-    var endList = parsely.token('endList', fp.always(']'));
-    var sep = parsely.token('sep', fp.always(','));
-    var join = parsely.token('join', fp.always('&'));
+    var parseToStr = parsely.parse(always(''));
+    var value = parsely.token('value', lensProp('content'));
+    var equals = parsely.token('equals', always('='));
+    var inToken = parsely.token('in', always('__in='));
+    var startList = parsely.token('startList', always('['));
+    var endList = parsely.token('endList', always(']'));
+    var sep = parsely.token('sep', always(','));
+    var join = parsely.token('join', always('&'));
     var valueSep = parsely.sepBy1(value, sep);
     var assign = parseToStr([value, equals, value]);
     var list = parseToStr([startList, valueSep, endList]);
-    var inList = fp.flow(parseToStr([value, inToken, list]), fp.either(function (output) {
+    var inList = flow(parseToStr([value, inToken, list]), either(function (output) {
       var parts = output.split('=');
       var ins = parts[1]
         .replace(/\[(.+)]/, '$1')
@@ -85,5 +86,5 @@ angular
     var emptyOrExpr = parsely.optional(expr);
     var statusParser = parseToStr([emptyOrExpr, parsely.endOfString]);
 
-    return fp.flow(tokenizer, statusParser);
+    return flow(tokenizer, statusParser);
   });

@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp/dist/fp';
+import {curry} from 'intel-fp/fp';
 
 export default curry(2, (fn, s) => {
   const s2 = fn(s);

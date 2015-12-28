@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {pathLens, __, curry} from 'intel-fp/fp';
+
 
 angular.module('asValue').directive('asValue', function asValue (localApply, $exceptionHandler) {
   'ngInject';
@@ -38,12 +40,12 @@ angular.module('asValue').directive('asValue', function asValue (localApply, $ex
 
         transcludedScope.curr = {};
 
-        var currPath = fp.pathLens(['curr', 'val']);
+        var currPath = pathLens(['curr', 'val']);
 
         scope.stream
           .fork()
-          .tap(currPath.set(fp.__, transcludedScope))
-          .stopOnError(fp.curry(1, $exceptionHandler))
+          .tap(currPath.set(__, transcludedScope))
+          .stopOnError(curry(1, $exceptionHandler))
           .each(localApply.bind(null, transcludedScope));
 
 

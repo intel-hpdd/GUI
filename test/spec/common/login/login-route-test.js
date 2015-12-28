@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('login route', () => {
   var $routeSegmentProvider;
 
@@ -22,7 +24,7 @@ describe('login route', () => {
     });
   }, 'route-segment', 'loginRoute'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   it('should register the login route', () => {
     expect($routeSegmentProvider.when)

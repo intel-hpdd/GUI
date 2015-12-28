@@ -19,12 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {lensProp, map} from 'intel-fp/fp';
 
 export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
 
   var statsPrefixRegex = /^stats_/;
-  const dataLens = fp.lensProp('data');
+  const dataLens = lensProp('data');
   const alwaysObjectLiteral = () => { return {}; };
   const stripStatsPrefix = dataLens.map(obj.reduce(alwaysObjectLiteral, (value, key, result) => {
     var newKey = key.trim().replace(statsPrefixRegex, '');
@@ -48,7 +49,7 @@ export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
   ];
 
   const prependStats = ''.concat.bind('stats_');
-  const metrics = fp.map(prependStats, stats)
+  const metrics = map(prependStats, stats)
     .join(',');
 
   return function getMdoStream (requestRange, buff) {

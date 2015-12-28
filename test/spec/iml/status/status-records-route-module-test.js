@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop, tail} from 'intel-fp/fp';
+
 describe('status records route', function () {
   var $routeSegmentProvider;
 
@@ -18,7 +20,7 @@ describe('status records route', function () {
     });
   }, 'route-segment', 'statusRecordsRouteModule'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   it('should be within app', function () {
     expect($routeSegmentProvider.within)
@@ -65,7 +67,7 @@ describe('status records route', function () {
           path: jasmine.createSpy('path')
         };
 
-        watcher = fp.tail(routeSegment.watcher).bind(routeSegment);
+        watcher = tail(routeSegment.watcher).bind(routeSegment);
       });
 
       it('should return the new qs', function () {
@@ -108,7 +110,7 @@ describe('status records route', function () {
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
 
-        notificationStream = fp.tail(routeSegment.resolve.notificationStream);
+        notificationStream = tail(routeSegment.resolve.notificationStream);
       });
 
       it('should call /alert with a qs', function () {

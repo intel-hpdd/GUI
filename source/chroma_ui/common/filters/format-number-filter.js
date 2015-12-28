@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {identity} from 'intel-fp/fp';
 
 angular.module('filters')
-  .filter('fmtNumber', ['formatNumber', fp.identity]);
+  .filter('fmtNumber', ['formatNumber', identity]);

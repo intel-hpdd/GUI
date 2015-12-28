@@ -1,4 +1,4 @@
-import {__, identity} from 'intel-fp/dist/fp';
+import {__, identity} from 'intel-fp/fp';
 import λ from 'highland';
 
 import rebindDestroy from

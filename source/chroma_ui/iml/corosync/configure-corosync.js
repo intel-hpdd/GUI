@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {__, lensProp, curry, noop} from 'intel-fp/fp';
+
 angular.module('corosyncModule')
   .controller('ConfigureCorosyncController',
     function ConfigureCorosyncController ($scope, $exceptionHandler, localApply,
@@ -30,12 +32,12 @@ angular.module('corosyncModule')
       var diffMcastInitial, mergeRemote;
 
       var lensMap = {
-        mcastPort: fp.lensProp('mcast_port')
+        mcastPort: lensProp('mcast_port')
       };
 
       var merge = bigDiffer.mergeObj(lensMap);
       var diffMcast = bigDiffer.diffObj3(lensMap);
-      var diffMcastInitialRemote = fp.noop;
+      var diffMcastInitialRemote = noop;
 
       $scope.corosync = {
         alertStream: $scope.alertStream,
@@ -46,7 +48,7 @@ angular.module('corosyncModule')
 
           $scope.corosync.config = remote;
           diffMcastInitial = diffMcast(angular.copy(remote));
-          diffMcastInitialRemote = diffMcastInitial(fp.__, angular.copy(remote));
+          diffMcastInitialRemote = diffMcastInitial(__, angular.copy(remote));
         },
         diff: function diff (config) {
           return diffMcastInitialRemote(config).mcastPort;
@@ -67,7 +69,7 @@ angular.module('corosyncModule')
             json: $scope.corosync.config
           }, true)
             .flatMap(waitForCommandCompletion(!skip))
-            .stopOnError(fp.curry(1, $exceptionHandler))
+            .stopOnError(curry(1, $exceptionHandler))
             .each(function each () {
               $scope.corosync.saving = false;
               localApply($scope);
@@ -82,16 +84,16 @@ angular.module('corosyncModule')
             diffMcastInitial = diffMcast(angular.copy(x));
         })
         .tap(function setInitialRemote (x) {
-          diffMcastInitialRemote = diffMcastInitial(fp.__, angular.copy(x));
+          diffMcastInitialRemote = diffMcastInitial(__, angular.copy(x));
         })
         .map(function setMergeRemote (x) {
-          return (mergeRemote = merge(fp.__, angular.copy(x)));
+          return (mergeRemote = merge(__, angular.copy(x)));
         })
         .map(function updateLocal (mergeRemote) {
           return mergeRemote($scope.corosync.config);
         })
-        .tap(fp.lensProp('config').set(fp.__, $scope.corosync))
-        .stopOnError(fp.curry(1, $exceptionHandler))
+        .tap(lensProp('config').set(__, $scope.corosync))
+        .stopOnError(curry(1, $exceptionHandler))
         .each(localApply.bind(null, $scope));
 
       $scope.$on('$destroy', function onDestroy () {

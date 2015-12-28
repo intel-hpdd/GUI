@@ -50,9 +50,12 @@ function buildJs () {
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015'],
+      babelrc: false,
       plugins: [
         'transform-es2015-modules-umd',
-        'transform-strict-mode'
+        'transform-strict-mode',
+        'syntax-flow',
+        'transform-flow-strip-types'
       ],
       ignore: [
         '*/bower_components/*',
@@ -62,7 +65,6 @@ function buildJs () {
         '*/angular-animate/*',
         '*/angular-ui-bootstrap/*',
         '*/vendor/*',
-        '*/intel-fp/*',
         '*/intel-math/*',
         '*/intel-debounce/*',
         '*/intel-obj/*'

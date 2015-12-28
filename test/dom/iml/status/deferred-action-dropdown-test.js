@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
+
 describe('deferred action dropdown', function () {
   var socketStream, s;
 
@@ -26,9 +28,9 @@ describe('deferred action dropdown', function () {
       ]
     };
 
-    cleanText = fp.flow(
-      fp.lensProp('textContent'),
-      fp.invokeMethod('trim', [])
+    cleanText = flow(
+      lensProp('textContent'),
+      invokeMethod('trim', [])
     );
 
     el = $compile(template)($scope)[0];

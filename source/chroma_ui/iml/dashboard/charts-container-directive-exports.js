@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const chartsContainer = fp.always({
+import {always} from 'intel-fp/fp';
+
+export const chartsContainer = always({
   restrict: 'E',
   scope: {
     charts: '='

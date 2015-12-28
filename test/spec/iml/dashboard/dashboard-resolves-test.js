@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {identity, noop} from 'intel-fp/fp';
+
 describe('dashboard resolves', function () {
   'use strict';
 
@@ -17,7 +19,7 @@ describe('dashboard resolves', function () {
     $provide.value('socketStream', socketStream);
 
     addProperty = jasmine.createSpy('addProperty')
-      .andCallFake(fp.identity);
+      .andCallFake(identity);
     $provide.value('addProperty', addProperty);
   }));
 
@@ -44,7 +46,7 @@ describe('dashboard resolves', function () {
 
     it('should addProperty', function () {
       promise.then(function (s) {
-        s.each(fp.noop);
+        s.each(noop);
       });
 
       s.write({
@@ -106,7 +108,7 @@ describe('dashboard resolves', function () {
 
     it('should addProperty', function () {
       promise.then(function (s) {
-        s.each(fp.noop);
+        s.each(noop);
       });
 
       s.write('foo');
@@ -155,7 +157,7 @@ describe('dashboard resolves', function () {
 
     it('should addProperty', function () {
       promise.then(function (s) {
-        s.each(fp.noop);
+        s.each(noop);
       });
 
       s.write('foo');

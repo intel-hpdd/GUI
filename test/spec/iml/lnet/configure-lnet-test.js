@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {curry} from 'intel-fp/fp';
+
 describe('Configure LNet', function () {
   'use strict';
 
@@ -39,7 +41,7 @@ describe('Configure LNet', function () {
         $scope: $scope,
         $exceptionHandler: $exceptionHandler,
         socketStream: socketStream,
-        waitForCommandCompletion: fp.curry(2, waitForCommandCompletion)
+        waitForCommandCompletion: curry(2, waitForCommandCompletion)
       });
 
       configureLnet = $scope.configureLnet;

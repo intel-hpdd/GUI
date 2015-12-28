@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {lensProp} from 'intel-fp/fp';
 import {getReadWriteHeatMapStreamFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-stream-exports';
 
@@ -98,7 +99,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should union with a target', () => {
-        streams.heatMap[1].write({ 1: fp.lensProp(1)(obj.clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: lensProp(1)(obj.clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({
           objects: [
@@ -133,7 +134,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should populate if data comes in on next tick', () => {
-        streams.heatMap[1].write({ 1: fp.lensProp(1)(obj.clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: lensProp(1)(obj.clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({ objects: [] });
         streams.target[1].end();

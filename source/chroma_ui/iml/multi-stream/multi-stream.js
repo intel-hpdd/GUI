@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {map, curry, always} from 'intel-fp/fp';
 
 angular.module('multiStream')
   .factory('multiStream', function multiStreamFactory (λ) {
@@ -32,14 +33,14 @@ angular.module('multiStream')
       return λ(function generator (push) {
         var s = this;
 
-        var data = fp.map(fp.always(empty), streams);
+        var data = map(always(empty), streams);
 
         streams
           .map(function toStream (s2, index) {
             s._destructors.push(s2.destroy.bind(s2));
 
             s2
-              .errors(fp.curry(1, push))
+              .errors(curry(1, push))
               .each(function update (x) {
                 data[index] = x;
 

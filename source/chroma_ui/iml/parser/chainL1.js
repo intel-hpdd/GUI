@@ -21,12 +21,13 @@
 
 import angular from 'angular';
 
+import {curry, map, identity} from 'intel-fp/fp';
 
 angular.module('parserModule')
-  .value('chainL1', fp.curry(3, function chainL1 (parse, operation, tokens) {
+  .value('chainL1', curry(3, function chainL1 (parse, operation, tokens) {
     var out, err, rewind;
 
-    var fn = fp.identity;
+    var fn = identity;
 
     while (true) {
       rewind = getRewinder(tokens);
@@ -54,7 +55,7 @@ angular.module('parserModule')
 
       throwIfBadType(fn);
 
-      fn = fp.curry(2, fn)(out);
+      fn = curry(2, fn)(out);
     }
 
     return out ? out : err;
@@ -70,7 +71,7 @@ function isError (x) {
 }
 
 function getRewinder (oldTokens) {
-  oldTokens = fp.map(fp.identity, oldTokens);
+  oldTokens = map(identity, oldTokens);
 
   return function rewinder (tokens) {
     var tokensDiff = oldTokens.length - tokens.length;

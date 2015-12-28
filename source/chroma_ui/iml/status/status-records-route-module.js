@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {flow, invokeMethod} from 'intel-fp/fp';
 
 angular.module('statusRecordsRouteModule', [])
   .config(function statusSegment ($routeSegmentProvider) {
@@ -28,8 +29,8 @@ angular.module('statusRecordsRouteModule', [])
 
     var qs;
 
-    var isStatus = fp.flow(
-      fp.invokeMethod('path', []),
+    var isStatus = flow(
+      invokeMethod('path', []),
       RegExp.prototype.test.bind(/^\/status/)
     );
 

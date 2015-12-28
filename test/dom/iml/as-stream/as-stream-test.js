@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
+
 describe('As stream', function () {
   var s;
 
@@ -38,7 +40,7 @@ describe('As stream', function () {
     el = compile($scope);
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = fp.flow(find, fp.lensProp('textContent'), fp.invokeMethod('trim', []));
+    getText = flow(find, lensProp('textContent'), invokeMethod('trim', []));
   }));
 
   it('should throw if str is already on scope', function () {

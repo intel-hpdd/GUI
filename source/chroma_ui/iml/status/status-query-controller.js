@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {lensProp} from 'intel-fp/fp';
 
 angular.module('status')
   .controller('StatusQueryController',
@@ -32,7 +33,7 @@ angular.module('status')
       var rs = routeStream();
 
       rs
-        .map(fp.lensProp('qs'))
+        .map(lensProp('qs'))
         .through(p);
 
       $scope.$on('$destroy', rs.destroy.bind(rs));

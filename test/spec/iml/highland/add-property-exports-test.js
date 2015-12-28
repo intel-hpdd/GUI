@@ -1,6 +1,6 @@
 import λ from 'highland';
 
-import {noop} from 'intel-fp/dist/fp';
+import {noop} from 'intel-fp/fp';
 
 import addProperty from
   '../../../../source/chroma_ui/iml/highland/add-property-exports';

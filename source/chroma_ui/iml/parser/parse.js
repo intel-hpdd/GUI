@@ -21,9 +21,10 @@
 
 import angular from 'angular';
 
+import {curry} from 'intel-fp/fp';
 
 angular.module('parserModule')
-  .value('parse', fp.curry(3, function parse (initFn, fns, tokens) {
+  .value('parse', curry(3, function parse (initFn, fns, tokens) {
     return fns.reduce(function reducer (out, fn) {
       if (out instanceof Error)
         return out;

@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {always} from 'intel-fp/fp';
+
 describe('The target metric model', () => {
   var TargetMetricModel, deferred;
 
@@ -9,7 +11,7 @@ describe('The target metric model', () => {
       query: jasmine.createSpy('baseModel.query')
     });
 
-    $provide.value('modelFactory', fp.always(baseModel));
+    $provide.value('modelFactory', always(baseModel));
     $provide.decorator('modelFactory', ($delegate, $q) => {
       'ngInject';
 

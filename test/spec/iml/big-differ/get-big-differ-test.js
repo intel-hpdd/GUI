@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, flowLens, lensProp} from 'intel-fp/fp';
+
 describe('The big differ', function () {
   'use strict';
 
@@ -27,9 +29,9 @@ describe('The big differ', function () {
     beforeEach(inject(function (networkInterfaceDataFixtures) {
       fixture = angular.copy(networkInterfaceDataFixtures[0].in[0]);
 
-      lndNetworkLens = fp.flowLens(
-        fp.lensProp('nid'),
-        fp.lensProp('lnd_network')
+      lndNetworkLens = flowLens(
+        lensProp('nid'),
+        lensProp('lnd_network')
       );
 
       diff = bigDiffer.diffObj3({
@@ -113,7 +115,7 @@ describe('The big differ', function () {
     });
 
     it('should work with multiple lenses', function () {
-      var inet4AddressLens = fp.lensProp('inet4_address');
+      var inet4AddressLens = lensProp('inet4_address');
 
       diff = bigDiffer.diffObj3({
         lndNetwork: lndNetworkLens,
@@ -159,11 +161,11 @@ describe('The big differ', function () {
     beforeEach(inject(function (networkInterfaceDataFixtures) {
       fixture = angular.copy(networkInterfaceDataFixtures[0].in[0]);
 
-      var idLens = fp.lensProp('id');
+      var idLens = lensProp('id');
 
-      lndNetworkLens = fp.flowLens(
-        fp.lensProp('nid'),
-        fp.lensProp('lnd_network')
+      lndNetworkLens = flowLens(
+        lensProp('nid'),
+        lensProp('lnd_network')
       );
 
       diff = bigDiffer.diffObjInColl3(
@@ -172,7 +174,7 @@ describe('The big differ', function () {
           lndNetwork: lndNetworkLens
         },
         angular.copy(networkInterfaceDataFixtures[0].in),
-        fp.__,
+        __,
         angular.copy(networkInterfaceDataFixtures[0].in)
       );
     }));
@@ -206,9 +208,9 @@ describe('The big differ', function () {
     beforeEach(inject(function (networkInterfaceDataFixtures) {
       fixture = angular.copy(networkInterfaceDataFixtures[0].in[0]);
 
-      lndNetworkLens = fp.flowLens(
-        fp.lensProp('nid'),
-        fp.lensProp('lnd_network')
+      lndNetworkLens = flowLens(
+        lensProp('nid'),
+        lensProp('lnd_network')
       );
 
       merge = bigDiffer.mergeObj({
@@ -235,11 +237,11 @@ describe('The big differ', function () {
     beforeEach(inject(function (networkInterfaceDataFixtures) {
       fixtures = angular.copy(networkInterfaceDataFixtures[0].in);
 
-      var idLens = fp.lensProp('id');
+      var idLens = lensProp('id');
 
-      lndNetworkLens = fp.flowLens(
-        fp.lensProp('nid'),
-        fp.lensProp('lnd_network')
+      lndNetworkLens = flowLens(
+        lensProp('nid'),
+        lensProp('lnd_network')
       );
 
       diff = bigDiffer.mergeColl(
@@ -247,7 +249,7 @@ describe('The big differ', function () {
         {
           lndNetwork: lndNetworkLens
         },
-        fp.__,
+        __,
         fixtures
       );
     }));

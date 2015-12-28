@@ -2,6 +2,8 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 import d3 from 'd3';
 
+import * as fp from 'intel-fp/fp';
+
 describe('line directive', () => {
   var chartCtrl;
 

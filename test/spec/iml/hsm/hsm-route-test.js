@@ -1,7 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-import {noop} from 'intel-fp/dist/fp';
+import {noop} from 'intel-fp/fp';
 
 describe('hsm route', () => {
   var $routeSegmentProvider;

@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {inject} = angular.mock;
 
+import {__, invoke} from 'intel-fp/fp';
+
 import {getOstBalanceChartFactory} from
   '../../../../source/chroma_ui/iml/ost-balance/get-ost-balance-chart-exports';
 
@@ -11,7 +13,7 @@ describe('get ost balance chart', () => {
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
-      .andCallFake(fp.invoke(fp.__, []));
+      .andCallFake(invoke(__, []));
 
     getOstBalanceStream = jasmine.createSpy('getOstBalanceStream')
       .andCallFake(() => highland());

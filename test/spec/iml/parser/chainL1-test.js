@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, flow, curry, identity, always} from 'intel-fp/fp';
+
 describe('chain left 1', function () {
   beforeEach(module('parserModule'));
 
@@ -9,7 +11,7 @@ describe('chain left 1', function () {
   beforeEach(inject(function (_chainL1_) {
     chainL1 = _chainL1_;
 
-    ifToken = fp.curry(2, function ifToken (fn, t) {
+    ifToken = curry(2, function ifToken (fn, t) {
       if (!t.length)
         return new Error('boom!');
 
@@ -24,11 +26,11 @@ describe('chain left 1', function () {
   });
 
   it('should be curried', function () {
-    expect(chainL1(fp.__, fp.__)).toEqual(jasmine.any(Function));
+    expect(chainL1(__, __)).toEqual(jasmine.any(Function));
   });
 
   it('should work for addition and subtraction', function () {
-    var adder = chainL1(ifToken(fp.identity), function addOrSubtract (t) {
+    var adder = chainL1(ifToken(identity), function addOrSubtract (t) {
       var op = t.shift();
 
       if (op === '+')
@@ -57,7 +59,7 @@ describe('chain left 1', function () {
 
   it('should error if op does not return a function', function () {
     function shouldThrow () {
-      chainL1(ifToken(fp.identity), fp.always(true), [1, 2, 3]);
+      chainL1(ifToken(identity), always(true), [1, 2, 3]);
     }
 
     expect(shouldThrow).toThrow(new Error('operation result must be an Error or a Function, got: boolean'));
@@ -70,7 +72,7 @@ describe('chain left 1', function () {
       3
     ];
 
-    chainL1(fp.flow(ifToken(fp.identity), ifToken(fp.always(new Error('boom!')))), fp.always(fp.identity), t);
+    chainL1(flow(ifToken(identity), ifToken(always(new Error('boom!')))), always(identity), t);
 
     expect(t).toEqual([2,3]);
   });
@@ -82,7 +84,7 @@ describe('chain left 1', function () {
       3
     ];
 
-    chainL1(ifToken(fp.always(new Error('boom!'))), fp.always(fp.identity), t);
+    chainL1(ifToken(always(new Error('boom!'))), always(identity), t);
 
     expect(t).toEqual([2,3]);
   });

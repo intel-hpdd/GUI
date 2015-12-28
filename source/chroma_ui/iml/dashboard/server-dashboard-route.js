@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {invoke, __} from 'intel-fp/fp';
 
 angular.module('serverDashboardRoute')
   .config(function dashboardServerSegment ($routeSegmentProvider) {
@@ -35,8 +36,8 @@ angular.module('serverDashboardRoute')
         controllerAs: 'serverDashboard',
         templateUrl: 'iml/dashboard/assets/html/server-dashboard.html',
         resolve: {
-          charts: ['serverDashboardChartResolves', fp.invoke(fp.__, [])],
-          hostStream: ['serverDashboardHostStreamResolves', fp.invoke(fp.__, [])]
+          charts: ['serverDashboardChartResolves', invoke(__, [])],
+          hostStream: ['serverDashboardHostStreamResolves', invoke(__, [])]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

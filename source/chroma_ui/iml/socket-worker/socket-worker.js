@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, curry} from 'intel-fp/fp';
 
 angular.module('socket-worker')
   .factory('socketWorker', function socketWorkerFactory (getWebWorker, disconnectModal, $timeout, STATIC_URL) {
@@ -28,7 +29,7 @@ angular.module('socket-worker')
 
     var modal;
     var worker = getWebWorker(STATIC_URL + 'bundle.js');
-    var timedOut = fp.curry(4, $timeout)(fp.__, 0, true);
+    var timedOut = curry(4, $timeout)(__, 0, true);
 
     worker.addEventListener('message', function onMessage (ev) {
       var data = ev.data;

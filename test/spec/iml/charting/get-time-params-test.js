@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('the get time params module', () => {
   var getServerMoment;
 
@@ -145,7 +147,7 @@ describe('the get time params module', () => {
 
         highland([{ ts: '2015-04-30T00:00:00.000Z' }])
           .through(requestDuration.setLatest)
-          .each(fp.noop);
+          .each(noop);
 
         expect(requestDuration(params)).toEqual({
           qs: {

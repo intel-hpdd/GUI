@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {lensProp, safe} from 'intel-fp/fp';
 
 angular.module('pacemaker')
   .directive('pacemakerState', function pacemakerState (propagateChange) {
@@ -34,11 +35,11 @@ angular.module('pacemaker')
       templateUrl: 'iml/pacemaker/assets/html/pacemaker-state.html',
       link: function link (scope) {
         scope.ctrl = {};
-        var state = fp.lensProp('state');
+        var state = lensProp('state');
         var p = propagateChange(scope, scope.ctrl, 'state');
 
         scope.stream
-          .map(fp.safe(1, state, null))
+          .map(safe(1, state, null))
           .through(p);
 
         scope.$on('$destroy', scope.stream.destroy.bind(scope.stream));

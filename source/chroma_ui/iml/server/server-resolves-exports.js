@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, flow, lensProp} from 'intel-fp/dist/fp';
+import {map, flow, lensProp} from 'intel-fp/fp';
 
 const pluckObjects = map(lensProp('objects'));
 

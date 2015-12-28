@@ -1,6 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
-import {flow, lensProp, invokeMethod} from 'intel-fp/dist/fp';
+import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
 
 describe('common status searches', () => {
   beforeEach(module('commonStatusSearches', 'templates',

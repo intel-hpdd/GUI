@@ -21,20 +21,22 @@
 
 import angular from 'angular';
 
+import {flow, map, filter, eq, not, lensProp} from 'intel-fp/fp';
 
 angular.module('action-dropdown-module')
   .filter('groupActions', function groupActionsFilter () {
-    var numDisplayGroups = fp.flow(
-        fp.map(fp.lensProp('display_group')),
-        fp.filter(fp.flow(fp.eq(undefined), fp.not)),
-        fp.lensProp('length')
-      );
+    var numDisplayGroups = flow(
+      map(lensProp('display_group')),
+      filter(flow(eq(undefined), not)),
+      lensProp('length')
+    );
 
-     // Sort items by display_group, then by display_order.
-     // Mark the last item in each group
+    // Sort items by display_group, then by display_order.
+    // Mark the last item in each group
     return function groupActions (input) {
-      if (numDisplayGroups(input) !== input.length)
+      if (numDisplayGroups(input) !== input.length) {
         return input;
+      }
 
       var sorted = input.sort(function (a, b) {
         var x = a.display_group - b.display_group;
@@ -44,8 +46,9 @@ angular.module('action-dropdown-module')
       sorted.forEach(function (item, index) {
         var next = sorted[index + 1];
 
-        if (next && item.display_group !== next.display_group)
+        if (next && item.display_group !== next.display_group) {
           item.last = true;
+        }
       });
 
       return sorted;

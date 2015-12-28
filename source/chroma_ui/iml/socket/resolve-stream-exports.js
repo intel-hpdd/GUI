@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {noop} from 'intel-fp/fp';
+
 export function resolveStreamFactory ($q) {
   'ngInject';
 
@@ -32,7 +34,7 @@ export function resolveStreamFactory ($q) {
           error
         };
 
-      const s2 = stream.tap(fp.noop);
+      const s2 = stream.tap(noop);
       s2.write(x);
 
       s2.destroy = stream.destroy.bind(stream);

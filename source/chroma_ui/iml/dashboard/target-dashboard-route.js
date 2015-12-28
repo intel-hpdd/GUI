@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {invoke, __} from 'intel-fp/fp';
 
 angular.module('targetDashboardRoute')
   .config(function dashboardTargetSegment ($routeSegmentProvider) {
@@ -38,10 +39,10 @@ angular.module('targetDashboardRoute')
         controllerAs: 'targetDashboard',
         templateUrl: 'iml/dashboard/assets/html/target-dashboard.html',
         resolve: {
-          kind: ['targetDashboardKind', fp.invoke(fp.__, [])],
-          charts: ['targetDashboardResolves', fp.invoke(fp.__, [])],
-          targetStream: ['targetDashboardTargetStream', fp.invoke(fp.__, [])],
-          usageStream: ['targetDashboardUsageStream', fp.invoke(fp.__, [])]
+          kind: ['targetDashboardKind', invoke(__, [])],
+          charts: ['targetDashboardResolves', invoke(__, [])],
+          targetStream: ['targetDashboardTargetStream', invoke(__, [])],
+          usageStream: ['targetDashboardUsageStream', invoke(__, [])]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

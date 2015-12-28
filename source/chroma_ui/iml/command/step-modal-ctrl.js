@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {map, invokeMethod, always} from 'intel-fp/fp';
 
 angular.module('command')
   .controller('StepModalCtrl', function StepModalCtrl ($scope, stepsStream, jobStream, COMMAND_STATES) {
@@ -59,7 +60,7 @@ angular.module('command')
   .factory('openStepModal', function openStepModalFactory ($modal, socketStream) {
     'ngInject';
 
-    var extractApiId = fp.map(fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));
+    var extractApiId = map(invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));
 
     return function openStepModal (job) {
       var jobStream = socketStream('/job/' + job.id);
@@ -75,8 +76,8 @@ angular.module('command')
         windowClass: 'step-modal',
         backdrop: 'static',
         resolve: {
-          jobStream: fp.always(s2),
-          stepsStream: fp.always(jobStream.fork()
+          jobStream: always(s2),
+          stepsStream: always(jobStream.fork()
             .pluck('steps')
             .map(extractApiId)
             .flatMap(function getSteps (stepIds) {

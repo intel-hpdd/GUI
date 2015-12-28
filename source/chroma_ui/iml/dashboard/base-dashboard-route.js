@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {__, invoke} from 'intel-fp/fp';
+
 
 angular.module('baseDashboardRoute')
   .config(function dashboardBaseSegment ($routeSegmentProvider) {
@@ -37,8 +39,8 @@ angular.module('baseDashboardRoute')
         controllerAs: 'baseDashboard',
         templateUrl: 'iml/dashboard/assets/html/base-dashboard.html',
         resolve: {
-          charts: ['baseDashboardChartResolves', fp.invoke(fp.__, [])],
-          fsStream: ['baseDashboardFsStream', fp.invoke(fp.__, [])]
+          charts: ['baseDashboardChartResolves', invoke(__, [])],
+          fsStream: ['baseDashboardFsStream', invoke(__, [])]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, lensProp} from 'intel-fp/fp';
 
 angular.module('server')
   .controller('ServerDetailController',
@@ -50,13 +51,13 @@ angular.module('server')
 
       streams.lnetConfigurationStream
         .property()
-        .tap(fp.lensProp('lnetConfiguration').set(fp.__, this))
+        .tap(lensProp('lnetConfiguration').set(__, this))
         .stopOnError($exceptionHandler)
         .each(localApply.bind(null, $scope));
 
 
       streams.serverStream
-        .tap(fp.lensProp('server').set(fp.__, this))
+        .tap(lensProp('server').set(__, this))
         .errors(function handle404 (err, push) {
           if (err.statusCode === 404) {
             serverDetailController.removed = true;

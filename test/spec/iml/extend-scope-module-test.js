@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop, always} from 'intel-fp/fp';
+
 describe('extend scope test', function () {
   'use strict';
 
@@ -52,7 +54,7 @@ describe('extend scope test', function () {
       try {
         localApply($scope);
       } catch (e) {
-        fp.noop;
+        noop;
       } finally {
         expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error('boom!'));
       }
@@ -76,7 +78,7 @@ describe('extend scope test', function () {
     });
 
     it('should return the value of fn', function () {
-      expect(localApply($scope, fp.always(3))).toBe(3);
+      expect(localApply($scope, always(3))).toBe(3);
     });
   });
 

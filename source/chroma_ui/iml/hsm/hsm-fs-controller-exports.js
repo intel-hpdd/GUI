@@ -22,6 +22,7 @@
 import angular from 'angular';
 import λ from 'highland';
 
+import {invokeMethod} from 'intel-fp/fp';
 
 export default function HsmFsCtrl ($scope, $routeSegment, $location,
                                    routeStream, fsStream, copytoolStream) {
@@ -47,7 +48,7 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
   const rs = routeStream();
 
   rs
-    .filter(fp.invokeMethod('contains', ['hsmFs']))
+    .filter(invokeMethod('contains', ['hsmFs']))
     .tap(() => {
       if (fsStream2) {
         fsStream2.destroy();

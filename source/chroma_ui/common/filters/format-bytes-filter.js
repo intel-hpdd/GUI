@@ -21,7 +21,7 @@
 
 import angular from 'angular';
 
-
+import {identity} from 'intel-fp/fp';
 
 angular.module('filters')
-  .filter('fmtBytes', ['formatBytes', fp.identity]);
+  .filter('fmtBytes', ['formatBytes', identity]);

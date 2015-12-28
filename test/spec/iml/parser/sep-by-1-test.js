@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, curry, always} from 'intel-fp/fp';
+
 describe('parser sepBy1', function () {
   'use strict';
 
@@ -11,7 +13,7 @@ describe('parser sepBy1', function () {
   beforeEach(inject(function (_sepBy1_) {
     sepBy1 = _sepBy1_;
 
-    ifToken = fp.curry(2, function ifToken (elseFn, t) {
+    ifToken = curry(2, function ifToken (elseFn, t) {
       if (!t.length)
         return new Error('boom!');
 
@@ -26,13 +28,13 @@ describe('parser sepBy1', function () {
   });
 
   it('should be curried', function () {
-    expect(sepBy1(fp.__, fp.__)).toEqual(jasmine.any(Function));
+    expect(sepBy1(__, __)).toEqual(jasmine.any(Function));
   });
 
   it('should match a symbol', function () {
     expect(sepBy1(
-      ifToken(fp.always('bar')),
-      ifToken(fp.always(',')),
+      ifToken(always('bar')),
+      ifToken(always(',')),
       [
         {}
       ]
@@ -41,8 +43,8 @@ describe('parser sepBy1', function () {
 
   it('should match a symbol, sep, symbol', function () {
     expect(sepBy1(
-      ifToken(fp.always('bar')),
-      ifToken(fp.always(',')),
+      ifToken(always('bar')),
+      ifToken(always(',')),
       [
         {},
         {},

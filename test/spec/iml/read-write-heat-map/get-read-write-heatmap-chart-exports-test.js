@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {inject} = angular.mock;
 
+import {identity, curry} from 'intel-fp/fp';
 import {getReadWriteHeatMapChartFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-chart-exports';
 
@@ -37,10 +38,10 @@ describe('read write heat map chart', () => {
       .andCallFake(() => highland());
 
     formatNumber = jasmine.createSpy('formatNumber')
-      .andCallFake(fp.identity);
+      .andCallFake(identity);
 
     formatBytes = jasmine.createSpy('formatBytes')
-      .andCallFake(fp.identity);
+      .andCallFake(identity);
 
     routeSegmentUrl = jasmine.createSpy('routeSegmentUrl');
 
@@ -48,8 +49,8 @@ describe('read write heat map chart', () => {
       .andReturn(routeSegmentUrl);
 
     createStream = {
-      durationStream: fp.curry(4, durationStream),
-      rangeStream: fp.curry(4, rangeStream)
+      durationStream: curry(4, durationStream),
+      rangeStream: curry(4, rangeStream)
     };
 
     $location = {

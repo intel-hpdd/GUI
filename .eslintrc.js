@@ -12,7 +12,6 @@ module.exports = {
     obj: false,
     math: false,
     _: false,
-    fp: false,
     highland: false,
     jasmine: false,
     expectToEqual: false,

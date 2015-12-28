@@ -21,7 +21,7 @@
 
 import angular from 'angular';
 
-import {lensProp, __} from 'intel-fp/dist/fp';
+import {lensProp, __} from 'intel-fp/fp';
 
 export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
                                  copytoolOperationStream, agentVsCopytoolChart) {

@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {__, curry, flow, lensProp, map} from 'intel-fp/fp';
+
 angular.module('notificationModule')
   .controller('NotificationSliderController',
     function NotificationSliderController ($scope, $timeout, localApply, $exceptionHandler) {
@@ -28,13 +30,13 @@ angular.module('notificationModule')
 
       var promise;
 
-      var xForm = fp.flow(
-        fp.lensProp('objects'),
-        fp.map(fp.lensProp('message'))
+      var xForm = flow(
+        lensProp('objects'),
+        map(lensProp('message'))
       );
 
-      var openLens = fp.lensProp('open');
-      var setOpen = openLens.set(fp.__, $scope);
+      var openLens = lensProp('open');
+      var setOpen = openLens.set(__, $scope);
 
       var closeAfter5Seconds = $timeout.bind(
         null,
@@ -45,8 +47,8 @@ angular.module('notificationModule')
       this
         .stream
         .map(xForm)
-        .filter(fp.lensProp('length'))
-        .stopOnError(fp.curry(1, $exceptionHandler))
+        .filter(lensProp('length'))
+        .stopOnError(curry(1, $exceptionHandler))
         .each(function (x) {
           if (x.length > 1)
             $scope.message = x.length + ' active alerts';

@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, invoke} from 'intel-fp/fp';
 
 angular.module('serverDetailRoute')
   .config(function serverDetailSegment ($routeSegmentProvider, GROUPS) {
@@ -34,7 +35,7 @@ angular.module('serverDetailRoute')
         controllerAs: 'serverDetail',
         templateUrl: 'iml/server/assets/html/server-detail.html',
         resolve: {
-          streams: ['serverDetailResolves', fp.invoke(fp.__, [])]
+          streams: ['serverDetailResolves', invoke(__, [])]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {

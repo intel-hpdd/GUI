@@ -21,9 +21,10 @@
 
 import angular from 'angular';
 
+import {curry} from 'intel-fp/fp';
 
 angular.module('parserModule')
-  .value('optional', fp.curry(2, function optional (p, tokens) {
+  .value('optional', curry(2, function optional (p, tokens) {
     if (!tokens.length)
       return '';
 

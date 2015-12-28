@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp/fp';
+
 export function createStream (streamWhenVisible, bufferDataNewerThan, getTimeParams) {
   'ngInject';
 

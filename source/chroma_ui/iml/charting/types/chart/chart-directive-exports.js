@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {flow, invokeMethod} from 'intel-fp/fp';
 
 export function charterDirective ($window, d3, debounce) {
   'ngInject';
@@ -61,9 +62,9 @@ export function charterDirective ($window, d3, debounce) {
     transclude: true,
     templateUrl: 'iml/charting/types/chart/assets/html/chart.html',
     link (scope, el, attrs, ctrl) {
-      const setDimenstions = fp.flow(
-        fp.invokeMethod('attr', ['width', ctrl.getOuterWidth]),
-        fp.invokeMethod('attr', ['height', ctrl.getOuterHeight])
+      const setDimenstions = flow(
+        invokeMethod('attr', ['width', ctrl.getOuterWidth]),
+        invokeMethod('attr', ['height', ctrl.getOuterHeight])
       );
 
       setDimenstions(ctrl.svg);

@@ -2,6 +2,8 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 import d3 from 'd3';
 
+import {__, flow, arrayWrap, invokeMethod} from 'intel-fp/fp';
+
 describe('label directive', () => {
   beforeEach(module('label', 'chart', 'templates'));
 
@@ -27,9 +29,9 @@ describe('label directive', () => {
         width: '200px',
         height: '200px'
       });
-    qs = fp.flow(
-      fp.arrayWrap,
-      fp.invokeMethod('querySelector', fp.__, el)
+    qs = flow(
+      arrayWrap,
+      invokeMethod('querySelector', __, el)
     );
     label = qs.bind(null, '.label-group');
     document.body.appendChild(el);

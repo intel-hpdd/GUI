@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__} from 'intel-fp/fp';
+
 describe('parser optional', function () {
   'use strict';
 
@@ -18,7 +20,7 @@ describe('parser optional', function () {
   });
 
   it('should be curried', function () {
-    expect(optional(fp.__)).toEqual(jasmine.any(Function));
+    expect(optional(__)).toEqual(jasmine.any(Function));
   });
 
   it('should return an empty string if there are no tokens', function () {

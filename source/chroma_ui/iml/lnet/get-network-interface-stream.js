@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {map} from 'intel-fp/fp';
+
 angular.module('lnetModule')
   .factory('getNetworkInterfaceStream', ['socketStream', 'LNET_OPTIONS',
     function getNetworkInterfaceStreamFactory (socketStream, LNET_OPTIONS) {
@@ -31,7 +33,7 @@ angular.module('lnetModule')
 
         var s2 = stream
           .pluck('objects')
-          .map(fp.map(function setNidIfEmpty (x) {
+          .map(map(function setNidIfEmpty (x) {
             if (!x.nid)
               x.nid = {
                 lnd_type: x.lnd_types[0],

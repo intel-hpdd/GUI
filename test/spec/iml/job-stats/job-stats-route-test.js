@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('job stats route', function () {
 
   var $routeSegmentProvider;
@@ -21,7 +23,7 @@ describe('job stats route', function () {
     });
   }, 'route-segment', 'jobStatsRoute'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   describe('when', function () {
     it('should route to /dashboard/jobstats/:id/:startDate/:endDate', function () {

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {flow, map, lensProp} from 'intel-fp/dist/fp';
+import {flow, map, lensProp} from 'intel-fp/fp';
 import rebindDestroy from '../highland/rebind-destroy-exports';
 
 export default function getCopytoolOperationStreamFactory (socketStream) {

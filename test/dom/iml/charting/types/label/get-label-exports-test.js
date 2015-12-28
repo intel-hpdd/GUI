@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, identity, flow, arrayWrap, invokeMethod} from 'intel-fp/fp';
+
 import {getLabelFactory} from
   '../../../../../../source/chroma_ui/iml/charting/types/label/get-label-exports';
 
@@ -67,7 +69,7 @@ describe('get label', () => {
   });
 
   it('should have a data getter', () => {
-    expect(label.data()).toBe(fp.identity);
+    expect(label.data()).toBe(identity);
   });
 
   it('should have a data setter', () => {
@@ -91,9 +93,9 @@ describe('get label', () => {
         .datum([1, 2, 3, 4, 5, 6])
         .call(label);
 
-      qs = fp.flow(
-        fp.arrayWrap,
-        fp.invokeMethod('querySelector', fp.__, svg)
+      qs = flow(
+        arrayWrap,
+        invokeMethod('querySelector', __, svg)
       );
     });
 

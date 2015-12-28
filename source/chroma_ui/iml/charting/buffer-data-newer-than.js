@@ -21,13 +21,14 @@
 
 import angular from 'angular';
 
+import {curry} from 'intel-fp/fp';
 
 angular
   .module('charting')
   .factory('bufferDataNewerThan', (getServerMoment, sortByDate) => {
     'ngInject';
 
-    return fp.curry(2, function bufferDataNewerThan (size, unit) {
+    return curry(2, function bufferDataNewerThan (size, unit) {
       var buffer = [];
 
       return function bufferDataNewerThanInner (s) {

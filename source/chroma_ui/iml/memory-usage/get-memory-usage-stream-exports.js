@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {curry} from 'intel-fp/fp';
+
 export function getMemoryUsageStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
 
@@ -37,7 +39,7 @@ export function getMemoryUsageStreamFactory (λ, socketStream, chartPlugins) {
     }
   };
 
-  return fp.curry(2, function getMemoryUsageStream (requestRange, buff) {
+  return curry(2, function getMemoryUsageStream (requestRange, buff) {
     const s = λ((push, next) => {
       var params = requestRange({
         qs: {

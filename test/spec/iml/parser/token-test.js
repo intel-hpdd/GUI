@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, always} from 'intel-fp/fp';
+
 describe('parser token', function () {
   'use strict';
 
@@ -11,7 +13,7 @@ describe('parser token', function () {
   beforeEach(inject(function (_token_) {
     token = _token_;
 
-    fn = token('foo', fp.always('bar'));
+    fn = token('foo', always('bar'));
   }));
 
   it('should be a function', function () {
@@ -19,7 +21,7 @@ describe('parser token', function () {
   });
 
   it('should be curried', function () {
-    expect(token(fp.__, fp.__)).toEqual(jasmine.any(Function));
+    expect(token(__, __)).toEqual(jasmine.any(Function));
   });
 
   it('should return an error if there are no tokens', function () {

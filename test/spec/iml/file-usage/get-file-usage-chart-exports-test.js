@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {inject} = angular.mock;
 
+import {curry} from 'intel-fp/fp';
 import {getFileUsageChartFactory} from
   '../../../../source/chroma_ui/iml/file-usage/get-file-usage-chart-exports';
 
@@ -21,8 +22,8 @@ describe('file usage chart', () => {
       .andCallFake(() => highland());
 
     createStream = {
-      durationStream: fp.curry(4, durationStream),
-      rangeStream: fp.curry(4, rangeStream)
+      durationStream: curry(4, durationStream),
+      rangeStream: curry(4, rangeStream)
     };
 
     chartCompiler = jasmine.createSpy('chartCompiler');

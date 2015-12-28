@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, flow, arrayWrap, invokeMethod} from 'intel-fp/fp';
+
 describe('legend directive', () => {
   var chartCtrl;
 
@@ -38,9 +40,9 @@ describe('legend directive', () => {
         width: '200px',
         height: '200px'
       });
-    qs = fp.flow(
-      fp.arrayWrap,
-      fp.invokeMethod('querySelector', fp.__, el)
+    qs = flow(
+      arrayWrap,
+      invokeMethod('querySelector', __, el)
     );
     $scope.$digest();
   }));

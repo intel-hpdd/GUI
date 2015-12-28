@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {curry, map, __, lensProp, flow, once} from 'intel-fp/fp';
 
 angular.module('status')
   .controller('DeferredActionDropdownCtrl', function DeferredActionDropdownCtrl ($scope, socketStream, multiStream,
@@ -29,19 +30,18 @@ angular.module('status')
 
     var ctrl = this;
 
-    socketStream = fp.curry(2, socketStream);
-    var getActions = fp.map(socketStream(fp.__, {
+    socketStream = curry(2, socketStream);
+    var getActions = map(socketStream(__, {
       jsonMask: 'resource_uri,available_actions,locks,id,label'
     }));
-    var getMs = fp.flow(getActions, multiStream);
+    var getMs = flow(getActions, multiStream);
 
     ctrl.ms = λ();
 
-    var setLoading = fp
-      .lensProp('loading')
-      .set(fp.__, ctrl);
+    var setLoading = lensProp('loading')
+      .set(__, ctrl);
 
-    ctrl.onEnter = fp.once(function onEnter () {
+    ctrl.onEnter = once(function onEnter () {
       setLoading(true);
 
       var ms = getMs(ctrl.row.affected);

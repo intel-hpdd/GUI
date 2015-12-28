@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('resolve stream', () => {
   'use strict';
 
@@ -80,7 +82,7 @@ describe('resolve stream', () => {
       promise
         .then((s) => {
           s.stopOnError(_.unary(spy))
-            .each(fp.noop);
+            .each(noop);
         });
 
       $rootScope.$digest();

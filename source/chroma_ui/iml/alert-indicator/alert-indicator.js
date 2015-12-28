@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import * as fp from 'intel-fp/fp';
 
 angular.module('alertIndicator')
   .factory('alertMonitor', function alertMonitorFactory (socketStream) {
@@ -57,7 +58,7 @@ angular.module('alertIndicator')
     });
 
     const propertyStream = ctrl.alertStream.property();
-    const indexOfRecord = fp.invokeMethod('indexOf', [ ctrl.recordId ]);
+    const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
     const recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
 
     const p = propagateChange($scope, ctrl, 'alerts');

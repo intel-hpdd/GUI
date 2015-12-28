@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 import λ from 'highland';
+import {always} from 'intel-fp/fp';
 
 describe('HSM fs controller', function () {
   var ctrl, $scope, $location, $routeSegment,
@@ -125,7 +126,7 @@ describe('HSM fs controller', function () {
 
     rs.write({
       params: {},
-      contains: fp.always(true)
+      contains: always(true)
     });
 
     expect(ctrl.fs).toBe(null);
@@ -138,7 +139,7 @@ describe('HSM fs controller', function () {
       params: {
         fsId: '3'
       },
-      contains: fp.always(true)
+      contains: always(true)
     });
 
     expect(ctrl.fs).toEqual({ id: '3' });

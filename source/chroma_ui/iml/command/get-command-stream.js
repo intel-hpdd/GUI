@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {map, lensProp} from 'intel-fp/fp';
+
 
 angular.module('command')
   .factory('getCommandStream',
@@ -30,7 +32,7 @@ angular.module('command')
       return function getCommandStream (commandList) {
         var options = {
           qs: {
-            id__in: fp.map(fp.lensProp('id'), commandList)
+            id__in: map(lensProp('id'), commandList)
           }
         };
 

@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, invoke} from 'intel-fp/fp';
 
 angular.module('jobStatsRoute')
   .config(function appSegment ($routeSegmentProvider) {
@@ -34,8 +35,8 @@ angular.module('jobStatsRoute')
         controllerAs: 'jobStats',
         templateUrl: 'iml/job-stats/assets/html/job-stats.html',
         resolve: {
-          target: ['appJobstatsTarget', fp.invoke(fp.__, [])],
-          metrics: ['appJobstatsMetrics', fp.invoke(fp.__, [])]
+          target: ['appJobstatsTarget', invoke(__, [])],
+          metrics: ['appJobstatsMetrics', invoke(__, [])]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {

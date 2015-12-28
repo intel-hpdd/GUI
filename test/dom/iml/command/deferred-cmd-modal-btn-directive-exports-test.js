@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
+
 describe('deferred command modal button directive exports', () => {
   let socketStream, openCommandModal, modalStream, resolveStream, Stream;
 
@@ -38,9 +40,9 @@ describe('deferred command modal button directive exports', () => {
     $scope = $rootScope.$new();
     $scope.resourceUri = '/api/command/1/';
 
-    cleanText = fp.flow(
-      fp.lensProp('textContent'),
-      fp.invokeMethod('trim', [])
+    cleanText = flow(
+      lensProp('textContent'),
+      invokeMethod('trim', [])
     );
 
     el = $compile(template)($scope)[0];

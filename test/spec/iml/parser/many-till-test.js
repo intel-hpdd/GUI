@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, curry, identity, always} from 'intel-fp/fp';
+
 describe('many till', function () {
   beforeEach(module('parserModule'));
 
@@ -9,7 +11,7 @@ describe('many till', function () {
   beforeEach(inject(function (_manyTill_) {
     manyTill = _manyTill_;
 
-    consumeToken = fp.curry(2, function consumeToken (fn, tokens) {
+    consumeToken = curry(2, function consumeToken (fn, tokens) {
       var token = tokens.shift();
 
       return fn(token);
@@ -21,7 +23,7 @@ describe('many till', function () {
   });
 
   it('should be curried', function () {
-    expect(manyTill(fp.__, fp.__)).toEqual(jasmine.any(Function));
+    expect(manyTill(__, __)).toEqual(jasmine.any(Function));
   });
 
   describe('token handling', function () {
@@ -29,7 +31,7 @@ describe('many till', function () {
 
     beforeEach(function () {
       tokens = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
-      res = manyTill(consumeToken(fp.identity), consumeToken(function (x) {
+      res = manyTill(consumeToken(identity), consumeToken(function (x) {
         if (x === 2) {
           return x;
         } else {
@@ -58,7 +60,7 @@ describe('many till', function () {
         } else {
           return new Error('x is not 3');
         }
-      }), fp.always(new Error('boom!')), tokens);
+      }), always(new Error('boom!')), tokens);
     });
 
     it('should rewind if output was consumed', function () {

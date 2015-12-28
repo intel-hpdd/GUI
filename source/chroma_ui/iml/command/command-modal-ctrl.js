@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import * as fp from 'intel-fp/fp';
 
 
 angular.module('command')

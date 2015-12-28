@@ -19,6 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {map, lensProp, flow, tail, cond,
+  head, identity, tap, curry, invoke, invokeMethod,
+  arrayWrap, mapFn, True} from 'intel-fp/fp';
+
 export function getLegendFactory (d3) {
   'ngInject';
 
@@ -30,14 +34,14 @@ export function getLegendFactory (d3) {
     var padding = 10;
     var dispatch = d3.dispatch('selection');
     var showLabels = true;
-    var mapX = fp.map(fp.lensProp('x'));
-    var mapY = fp.map(fp.lensProp('y'));
+    var mapX = map(lensProp('x'));
+    var mapY = map(lensProp('y'));
     const xScale = d3.scale.ordinal();
     const yScale = d3.scale.ordinal();
 
-    const mapDimensions = fp.flow(
-      fp.head,
-      fp.map(fp.invokeMethod('getBoundingClientRect', []))
+    const mapDimensions = flow(
+      head,
+      map(invokeMethod('getBoundingClientRect', []))
     );
 
     const translate = (x, y) => `translate(${x},${y})`;
@@ -72,7 +76,7 @@ export function getLegendFactory (d3) {
         enteringGroups
           .append('text')
           .classed('legend-label', true)
-          .text(fp.identity)
+          .text(identity)
           .attr('dx', '10')
           .attr('dy', '4');
 
@@ -82,17 +86,17 @@ export function getLegendFactory (d3) {
 
         const itemWidths = mapDimensions(groups);
 
-        const canFit = fp.flow(fp.tail, fp.lensProp('fits'));
-        const processCoordinates = fp.cond(
-          [canFit, fp.identity],
-          [fp.True, fp.flow(
-            fp.tap(labels.attr.bind(labels, 'display', 'none')),
+        const canFit = flow(tail, lensProp('fits'));
+        const processCoordinates = cond(
+          [canFit, identity],
+          [True, flow(
+            tap(labels.attr.bind(labels, 'display', 'none')),
             mapDimensions.bind(null, groups),
             mapToCoords
           )]
         );
 
-        const updateScale = fp.curry(4, fp.flow)(mapToCoords, processCoordinates);
+        const updateScale = curry(4, flow)(mapToCoords, processCoordinates);
 
         const updateXScale = updateScale(mapX, xScale.range);
         updateXScale(itemWidths);
@@ -101,7 +105,7 @@ export function getLegendFactory (d3) {
         updateYScale(itemWidths);
 
         groups
-          .attr('transform', fp.flow(fp.arrayWrap, fp.mapFn([xScale, yScale]), fp.invoke(translate)))
+          .attr('transform', flow(arrayWrap, mapFn([xScale, yScale]), invoke(translate)))
           .on('click', function onClick () {
             const group = d3.select(this);
 
@@ -114,7 +118,7 @@ export function getLegendFactory (d3) {
             group.select('circle')
               .transition()
               .attr('fill-opacity', opacityVal);
-            dispatch.selection(fp.head(group.data()), selected);
+            dispatch.selection(head(group.data()), selected);
           });
       });
     }
@@ -122,9 +126,9 @@ export function getLegendFactory (d3) {
     function mapToCoords (groups) {
       var pos = 0;
       var row = 1;
-      const groupHeight = fp.head(groups).height;
+      const groupHeight = head(groups).height;
 
-      return fp.map(function mapCoordinates (curObj) {
+      return map(function mapCoordinates (curObj) {
         const itemWidth = curObj.width;
         if (pos + itemWidth > width) {
           pos = itemWidth + padding;

@@ -21,19 +21,20 @@
 
 import angular from 'angular';
 
+import {lensProp, curry, head, eq} from 'intel-fp/fp';
 
-var nameLens = fp.lensProp('name');
+var nameLens = lensProp('name');
 
 angular.module('parserModule')
-  .value('token', fp.curry(3, function token (name, outFn, tokens) {
+  .value('token', curry(3, function token (name, outFn, tokens) {
     if (!tokens.length)
       return new Error('Expected ' + name + ' got end of string');
 
-    var t = fp.head(tokens);
+    var t = head(tokens);
 
     var tokenName = nameLens(t);
 
-    if (fp.eq(tokenName, name)) {
+    if (eq(tokenName, name)) {
       tokens.shift();
       return outFn(t);
     }

@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import * as fp from 'intel-fp/fp';
 import {getOstBalanceStreamFactory}
   from '../../../../source/chroma_ui/iml/ost-balance/get-ost-balance-stream-exports';
 

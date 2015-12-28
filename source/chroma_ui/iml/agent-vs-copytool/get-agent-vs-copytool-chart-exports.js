@@ -19,6 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {flow, eq, map, eqFn, lensProp,
+  unwrap, invokeMethod} from 'intel-fp/fp';
+
 export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, createStream, createDate,
                                             DURATIONS, chartCompiler, d3) {
   'ngInject';
@@ -37,22 +40,22 @@ export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, create
       .domain(['running actions', 'waiting requests', 'idle workers'])
       .range(['#F3B600', '#A3B600', '#0067B4']);
 
-    const without = fp.flow(
-      fp.eq,
+    const without = flow(
+      eq,
       (fn) => (x, y) => !fn(y)
     );
-    const getNumbers = fp.flow(
+    const getNumbers = flow(
       obj.pickBy(without('ts')),
       obj.values
     );
-    const getMax = fp.flow(
-      fp.map(getNumbers),
-      fp.unwrap,
+    const getMax = flow(
+      map(getNumbers),
+      unwrap,
       d3.max
     );
 
-    var getTime = fp.invokeMethod('getTime', []);
-    var xComparator = fp.eqFn(getTime, getTime);
+    var getTime = invokeMethod('getTime', []);
+    var xComparator = eqFn(getTime, getTime);
 
     const getDate = (d) => createDate(d.ts);
 
@@ -63,7 +66,7 @@ export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, create
       return [range.format({ implicitYear: false })];
     }
 
-    const mapProps = fp.map(fp.lensProp);
+    const mapProps = map(lensProp);
 
     return chartCompiler(template, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

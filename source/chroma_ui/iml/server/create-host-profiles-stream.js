@@ -21,8 +21,10 @@
 
 import angular from 'angular';
 
+import {lensProp, map} from 'intel-fp/fp';
 
-var objectsLens = fp.lensProp('objects');
+
+var objectsLens = lensProp('objects');
 
 angular.module('server')
   .factory('getHostProfiles', function getHostProfilesFactory (CACHE_INITIAL_DATA) {
@@ -43,7 +45,7 @@ angular.module('server')
           if (x.error)
             throw new Error(x.error);
         })
-        .map(fp.map(fp.lensProp('host_profiles')))
+        .map(map(lensProp('host_profiles')))
         .map(function (hosts) {
           // Pull out the profiles and flatten them.
           var profiles = [{}]

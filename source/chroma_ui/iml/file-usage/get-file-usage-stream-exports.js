@@ -19,10 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {curry} from 'intel-fp/fp';
+
 export function getFileUsageStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
 
-  return fp.curry(3, function getFileUsageStream (keyName, requestRange, buff) {
+  return curry(3, function getFileUsageStream (keyName, requestRange, buff) {
     const s = λ((push, next) => {
       const params = requestRange({
         qs: {

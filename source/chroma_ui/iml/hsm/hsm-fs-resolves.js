@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, lensProp} from 'intel-fp/dist/fp';
+import {map, lensProp, flow} from 'intel-fp/fp';
 
 const pluckObjects = map(lensProp('objects'));
 
@@ -32,7 +32,7 @@ angular.module('hsmFs')
       return resolveStream(socketStream('/filesystem', {
         jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
       }))
-        .then(rebindDestroy(fp.flow(
+        .then(rebindDestroy(flow(
           pluckObjects,
           addProperty
         )));

@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const chartCompilerDirective = fp.always({
+import {always} from 'intel-fp/fp';
+
+export const chartCompilerDirective = always({
   restrict: 'A',
   scope: {
     chart: '='

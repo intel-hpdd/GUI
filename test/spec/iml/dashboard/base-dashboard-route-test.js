@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('base dashboard route', function () {
 
   var $routeSegmentProvider;
@@ -21,7 +23,7 @@ describe('base dashboard route', function () {
     });
   }, 'route-segment', 'baseDashboardRoute'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   describe('when', function () {
     it('should route to /', function () {

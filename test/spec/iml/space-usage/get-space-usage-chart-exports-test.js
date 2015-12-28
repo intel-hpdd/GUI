@@ -1,6 +1,7 @@
 import angular from 'angular';
 const {inject} = angular.mock;
 
+import {curry} from 'intel-fp/fp';
 import { getSpaceUsageChartFactory } from
   '../../../../source/chroma_ui/iml/space-usage/get-space-usage-chart-exports';
 
@@ -19,8 +20,8 @@ describe('space usage chart', () => {
       .andCallFake(() => highland());
 
     createStream = {
-      durationStream: fp.curry(4, durationStream),
-      rangeStream: fp.curry(4, rangeStream)
+      durationStream: curry(4, durationStream),
+      rangeStream: curry(4, rangeStream)
     };
 
     chartCompiler = jasmine.createSpy('chartCompiler');

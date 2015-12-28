@@ -22,6 +22,8 @@
 import angular from 'angular';
 
 
+import * as fp from 'intel-fp/fp';
+
 angular.module('dashboard')
   .controller('DashboardCtrl', function DashboardCtrl ($scope, $location, $routeSegment,
                                                        fsStream, hostStream, targetStream,
@@ -31,7 +33,7 @@ angular.module('dashboard')
 
     var fsStream2, hostStream2, targetStream2, targetSelectStream;
 
-    var dashboard = _.extend(this, {
+    var dashboard = angular.extend(this, {
       fs: {
         name: 'fs',
         selected: null,
@@ -55,7 +57,7 @@ angular.module('dashboard')
           targetSelectStream
             .pluck('objects')
             .through(filter(item.selected.id))
-            .map(_.ffilter(function removeMgt (x) {
+            .map(fp.filter(function removeMgt (x) {
               return x.kind !== 'MGT';
             }))
             .tap(fp.lensProp('targets').set(fp.__, dashboard))

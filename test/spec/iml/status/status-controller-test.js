@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {invokeMethod} from 'intel-fp/fp';
+
 describe('status controller', function () {
   beforeEach(module('status'));
 
@@ -80,7 +82,7 @@ describe('status controller', function () {
 
   Object.keys(types).forEach(function (type) {
     it('should tell if ' + type + ' is a command', function () {
-      fp.invokeMethod(types[type], [], expect(ctrl.isCommand({
+      invokeMethod(types[type], [], expect(ctrl.isCommand({
         record_type: type
       })));
     });

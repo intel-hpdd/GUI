@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {cond, eq, always, identity} from 'intel-fp/fp';
+
 export function axisDirective (d3) {
   'ngInject';
 
@@ -38,9 +40,9 @@ export function axisDirective (d3) {
 
       const translateBottom = (a) => a.attr('transform', `translate(0,${chartCtrl.getHeight() - 20})`);
 
-      const translate = fp.cond(
-        [fp.eq('bottom'), fp.always(translateBottom)],
-        [fp.always(true), fp.always(fp.identity)]
+      const translate = cond(
+        [eq('bottom'), always(translateBottom)],
+        [always(true), always(identity)]
       );
 
       const axisEl = d3.select(el[0])

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, invokeMethod, lensProp, __} from 'intel-fp/dist/fp';
+import {map, invokeMethod, lensProp, __} from 'intel-fp/fp';
 
 angular.module('targetDashboard')
   .controller('TargetDashboardController',

@@ -2,7 +2,7 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import λ from 'highland';
-import {identity} from 'intel-fp/dist/fp';
+import {identity} from 'intel-fp/fp';
 
 describe('server', () => {
   var $scope, pdshFilter, naturalSortFilter,

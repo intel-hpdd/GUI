@@ -19,24 +19,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {__, lensProp, map, arrayWrap, noop} from 'intel-fp/fp';
+
 export function DeferredCommandModalBtnCtrl (socketStream, openCommandModal, resolveStream) {
   'ngInject';
 
-  const setLoading = fp
-    .lensProp('loading')
-    .set(fp.__, this);
+  const setLoading = lensProp('loading')
+    .set(__, this);
 
   this.openCommandModal = () => {
     setLoading(true);
 
     const stream = socketStream(this.resourceUri);
 
-    const wrapped = resolveStream(fp.map(fp.arrayWrap, stream));
+    const wrapped = resolveStream(map(arrayWrap, stream));
 
     openCommandModal(wrapped)
       .resultStream
       .tap(setLoading.bind(null, false))
       .tap(stream.destroy.bind(stream))
-      .pull(fp.noop);
+      .pull(noop);
   };
 }

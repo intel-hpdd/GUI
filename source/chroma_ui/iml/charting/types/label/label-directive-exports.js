@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, invoke, always} from 'intel-fp/fp';
 
 export function labelDirective (d3, getLabel) {
   'ngInject';
@@ -41,13 +42,13 @@ export function labelDirective (d3, getLabel) {
           .data(scope.onData);
 
         scope.onUpdate
-          .forEach(fp.invoke(fp.__, [angular.extend({
+          .forEach(invoke(__, [angular.extend({
             label,
             node: d3.select(node)
           }, conf)]));
 
         conf.svg
-          .select(fp.always(node))
+          .select(always(node))
           .call(label);
       };
 

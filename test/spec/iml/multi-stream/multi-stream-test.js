@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {curry} from 'intel-fp/fp';
+
 describe('multi stream', function () {
   beforeEach(module('multiStream'));
 
@@ -17,7 +19,7 @@ describe('multi stream', function () {
     spyOn(s2, 'destroy');
     ms = multiStream([s1, s2]);
     ms
-      .stopOnError(fp.curry(1, errSpy))
+      .stopOnError(curry(1, errSpy))
       .each(spy);
   }));
 

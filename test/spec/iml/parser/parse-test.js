@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, always} from 'intel-fp/fp';
+
 describe('parser parse', function () {
   'use strict';
 
@@ -17,15 +19,15 @@ describe('parser parse', function () {
   });
 
   it('should be curried', function () {
-    expect(parse(fp.__, fp.__)).toEqual(jasmine.any(Function));
+    expect(parse(__, __)).toEqual(jasmine.any(Function));
   });
 
   it('should reduce to an output string', function () {
-    var out = parse(fp.always(''),
+    var out = parse(always(''),
       [
-        fp.always('a'),
-        fp.always('b'),
-        fp.always('c')
+        always('a'),
+        always('b'),
+        always('c')
       ],
       []
     );
@@ -34,9 +36,9 @@ describe('parser parse', function () {
   });
 
   it('should return the first error found', function () {
-    var out = parse(fp.always(''), [
-      fp.always('a'),
-      fp.always(new Error('boom!'))
+    var out = parse(always(''), [
+      always('a'),
+      always(new Error('boom!'))
     ], []);
 
     expect(out.message).toBe('boom!');
@@ -45,9 +47,9 @@ describe('parser parse', function () {
   it('should parse arrays', function () {
     var out = parse(Array.prototype.slice.bind([]),
       [
-        fp.always('a'),
-        fp.always('b'),
-        fp.always('c')
+        always('a'),
+        always('b'),
+        always('c')
       ],
       []
     );

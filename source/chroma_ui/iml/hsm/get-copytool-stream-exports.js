@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import {map, flow, lensProp, always,
-  cond, eqFn, identity, not} from 'intel-fp/dist/fp';
+  cond, eqFn, identity, not} from 'intel-fp/fp';
 import rebindDestroy from '../highland/rebind-destroy-exports';
 import {merge} from 'obj';
 

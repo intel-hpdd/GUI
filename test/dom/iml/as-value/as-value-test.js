@@ -1,9 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('As value', function () {
-  'use strict';
+import {flow, lensProp} from 'intel-fp/fp';
 
+describe('As value', function () {
   beforeEach(module('asValue'));
 
   var $compile, $scope, el, s, getText;
@@ -29,7 +29,7 @@ describe('As value', function () {
     $scope.$digest();
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = fp.flow(find, fp.lensProp('textContent'));
+    getText = flow(find, lensProp('textContent'));
   }));
 
   it('should be empty to start', function () {

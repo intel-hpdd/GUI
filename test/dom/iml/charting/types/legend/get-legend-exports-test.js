@@ -1,6 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {flow, invokeMethod, map,
+  curry, eq, head, every} from 'intel-fp/fp';
+
 describe('get legend', () => {
   beforeEach(module('legend'));
 
@@ -205,29 +208,29 @@ describe('get legend', () => {
 
         it('should display the label', () => {
           var labels = legendContainer.selectAll('.legend-wrap g text');
-          var displayIsInherit = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq('inherit'));
-          var hasLabels = fp.flow(fp.head, fp.every(displayIsInherit))(labels);
+          var displayIsInherit = flow(invokeMethod('getAttribute', ['display']), eq('inherit'));
+          var hasLabels = flow(head, every(displayIsInherit))(labels);
 
           expect(hasLabels).toEqual(true);
         });
 
         it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq(null));
-          var hasCircles = fp.flow(fp.head, fp.every(displayPropNotSet))(circles);
+          var displayPropNotSet = flow(invokeMethod('getAttribute', ['display']), eq(null));
+          var hasCircles = flow(head, every(displayPropNotSet))(circles);
 
           expect(hasCircles).toEqual(true);
         });
 
         it('should not overlap with others', () => {
-          itemDimensions = fp.flow(fp.head, fp.map(getItemDimensions))(legendContainer
+          itemDimensions = flow(head, map(getItemDimensions))(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          var labels = head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
@@ -240,44 +243,44 @@ describe('get legend', () => {
 
         it('should not display the label', () => {
           var labels = legendContainer.selectAll('.legend-wrap g text');
-          var displayIsNone = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq('none'));
-          var hasLabels = fp.flow(fp.head, fp.every(displayIsNone))(labels);
+          var displayIsNone = flow(invokeMethod('getAttribute', ['display']), eq('none'));
+          var hasLabels = flow(head, every(displayIsNone))(labels);
 
           expect(hasLabels).toEqual(true);
         });
 
         it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = fp.flow(fp.invokeMethod('getAttribute', ['display']), fp.eq(null));
-          var hasCircles = fp.flow(fp.head, fp.every(displayPropNotSet))(circles);
+          var displayPropNotSet = flow(invokeMethod('getAttribute', ['display']), eq(null));
+          var hasCircles = flow(head, every(displayPropNotSet))(circles);
 
           expect(hasCircles).toEqual(true);
         });
 
         it('should not overlap with others', () => {
-          itemDimensions = fp.flow(fp.head, fp.map(getItemDimensions))(legendContainer
+          itemDimensions = flow(head, map(getItemDimensions))(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          var labels = head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
     });
 
-    var noCollision = fp.curry(2, detectCollision);
+    var noCollision = curry(2, detectCollision);
     function verifyNoIntersections (itemDimensions) {
       return itemDimensions.every((dims, index, arr) => {
-        return fp.every(noCollision(dims), arr.slice(index + 1));
+        return every(noCollision(dims), arr.slice(index + 1));
       });
     }
 
     function verifyInExpectedOrder (labels, componentNames) {
       return labels.every((label, index) => {
-        return fp.flow(fp.invokeMethod('indexOf', [label.textContent]), fp.eq(index))(componentNames);
+        return flow(invokeMethod('indexOf', [label.textContent]), eq(index))(componentNames);
       });
     }
 

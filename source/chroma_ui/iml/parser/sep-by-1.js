@@ -21,9 +21,10 @@
 
 import angular from 'angular';
 
+import {curry, map, identity} from 'intel-fp/fp';
 
 angular.module('parserModule')
-  .value('sepBy1', fp.curry(3, function sepBy1 (symbolFn, sepFn, tokens) {
+  .value('sepBy1', curry(3, function sepBy1 (symbolFn, sepFn, tokens) {
     var err, rewind;
     var out = '';
 
@@ -59,7 +60,7 @@ angular.module('parserModule')
   }));
 
 function getRewinder (oldTokens) {
-  oldTokens = fp.map(fp.identity, oldTokens);
+  oldTokens = map(identity, oldTokens);
 
   return function rewinder (tokens) {
     var tokensDiff = oldTokens.length - tokens.length;

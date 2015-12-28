@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {__, eq, lensProp, curry, head} from 'intel-fp/fp';
+
 describe('parser choice', function () {
   'use strict';
 
@@ -17,20 +19,20 @@ describe('parser choice', function () {
   });
 
   it('should be curried', function () {
-    expect(choice(fp.__)).toEqual(jasmine.any(Function));
+    expect(choice(__)).toEqual(jasmine.any(Function));
   });
 
   describe('finding choices', function () {
     var chooser, matcher;
 
     beforeEach(function () {
-      var nameLens = fp.lensProp('name');
+      var nameLens = lensProp('name');
 
-      matcher = fp.curry(2, function matcher (name, tokens) {
-        var token = fp.head(tokens);
+      matcher = curry(2, function matcher (name, tokens) {
+        var token = head(tokens);
         var tokenName = nameLens(token);
 
-        if (fp.eq(name, tokenName))
+        if (eq(name, tokenName))
           return token.content;
 
         return new Error('boom!');
@@ -66,7 +68,7 @@ describe('parser choice', function () {
   });
 
   it('should return the most specific error', function () {
-    var takeN = fp.curry(2, function takeN (n, tokens) {
+    var takeN = curry(2, function takeN (n, tokens) {
       tokens.splice(0, n);
 
       return new Error('took ' + n + ' tokens');

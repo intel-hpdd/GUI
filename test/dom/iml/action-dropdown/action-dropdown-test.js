@@ -1,6 +1,10 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import λ from 'highland';
+
+import {flow, lensProp, invokeMethod, head} from 'intel-fp/fp';
+
 describe('action dropdown directive', function () {
   var handleAction, openCommandModal, getCommandStream;
 
@@ -24,7 +28,7 @@ describe('action dropdown directive', function () {
     $scope = $rootScope.$new();
     $timeout = _$timeout_;
 
-    $scope.stream = highland();
+    $scope.stream = λ();
 
     records = [
       {
@@ -84,8 +88,8 @@ it will be reloaded before any targets are started again.',
         immutable_state: false,
         label: 'lnet configuration',
         locks: {
-          read: [ ],
-          write: [ ]
+          read: [],
+          write: []
         },
         nids: [
           '/api/nid/4/'
@@ -111,9 +115,9 @@ it will be reloaded before any targets are started again.',
     tooltip = document.body.querySelector.bind(document.body, '.tooltip');
     tooltipText = document.body.querySelector.bind(document.body, '.tooltip .tooltip-inner');
 
-    cleanText = fp.flow(
-      fp.lensProp('innerHTML'),
-      fp.invokeMethod('trim', [])
+    cleanText = flow(
+      lensProp('innerHTML'),
+      invokeMethod('trim', [])
     );
   }));
 
@@ -122,7 +126,7 @@ it will be reloaded before any targets are started again.',
   });
 
   it('should display the first header', function () {
-    expect(cleanText(fp.head(groupHeaders()))).toEqual('server001');
+    expect(cleanText(head(groupHeaders()))).toEqual('server001');
   });
 
   it('should display the second header', function () {
@@ -143,7 +147,7 @@ it will be reloaded before any targets are started again.',
   });
 
   it('should put the lowest order host action first', function () {
-    expect(cleanText(fp.head(verbs()))).toEqual('Reboot');
+    expect(cleanText(head(verbs()))).toEqual('Reboot');
   });
 
   it('should put the highest order LNet action last', function () {
@@ -163,7 +167,7 @@ it will be reloaded before any targets are started again.',
     beforeEach(function () {
       button().click();
       var mouseEnter = new MouseEvent('mouseenter');
-      fp.head(verbs()).dispatchEvent(mouseEnter);
+      head(verbs()).dispatchEvent(mouseEnter);
       $timeout.flush();
       $timeout.verifyNoPendingTasks();
     });
@@ -197,7 +201,7 @@ it will be reloaded before any targets are started again.',
   describe('clicking a verb', function () {
     beforeEach(function () {
       button().click();
-      fp.head(verbs()).click();
+      head(verbs()).click();
     });
 
     it('should cause the action to be handled', function () {
@@ -226,6 +230,6 @@ it will be reloaded before any targets are started again.',
     records[0].available_actions[0].verb = 'Action Word';
     $scope.stream.write(records);
 
-    expect(cleanText(fp.head(verbs()))).toEqual('Action Word');
+    expect(cleanText(head(verbs()))).toEqual('Action Word');
   });
 });

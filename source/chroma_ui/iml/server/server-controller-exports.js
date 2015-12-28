@@ -21,7 +21,7 @@
 
 import {values} from 'obj';
 import {filter, eqFn, identity,
-  lensProp, always, find} from 'intel-fp/dist/fp';
+  lensProp, always, find} from 'intel-fp/fp';
 
 
 export default function ServerCtrl ($scope, $modal, pdshFilter, naturalSortFilter,

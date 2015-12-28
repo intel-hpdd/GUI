@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import * as fp from 'intel-fp/fp';
+
 
 angular.module('numberFormatters')
   .factory('formatNumber', function formatNumberFactory ($window) {

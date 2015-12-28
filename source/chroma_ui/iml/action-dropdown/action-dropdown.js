@@ -21,8 +21,11 @@
 
 import angular from 'angular';
 
+import {lensProp, __, eq, pathLens, cond,
+  map, reduce, flow, identity,
+  not, arrayWrap, True} from 'intel-fp/fp';
 
-var confirmOpen = fp.lensProp('confirmOpen');
+var confirmOpen = lensProp('confirmOpen');
 
 angular.module('action-dropdown-module')
   .factory('actionDescriptionCache', function ($sce) {
@@ -39,7 +42,7 @@ angular.module('action-dropdown-module')
                                               openCommandModal, getCommandStream, localApply, propagateChange) {
     'ngInject';
 
-    var setConfirmOpen = confirmOpen.set(fp.__, this);
+    var setConfirmOpen = confirmOpen.set(__, this);
 
     var ctrl = obj.merge(this, {
       actionDescriptionCache: actionDescriptionCache,
@@ -54,7 +57,7 @@ angular.module('action-dropdown-module')
             record: record,
             action: action
           })
-            .reject(fp.eq('fallback'))
+            .reject(eq('fallback'))
             .otherwise(run);
         else
           stream = run();
@@ -71,21 +74,21 @@ angular.module('action-dropdown-module')
       }
     });
 
-    var writeLocks = fp.pathLens(['locks', 'write', 'length']);
+    var writeLocks = pathLens(['locks', 'write', 'length']);
 
     var p = propagateChange($scope, ctrl, 'records');
 
-    var asArray = fp.cond(
-      [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
-      [fp.always(true), fp.identity]
+    var asArray = cond(
+      [flow(Array.isArray, not), arrayWrap],
+      [True, identity]
     );
 
     ctrl.stream
       .map(asArray)
-      .tap(fp.flow(
-        fp.map(writeLocks),
-        fp.reduce(0, add),
-        fp.lensProp('locks').set(fp.__, ctrl)
+      .tap(flow(
+        map(writeLocks),
+        reduce(0, add),
+        lensProp('locks').set(__, ctrl)
       ))
       .through(p);
 
@@ -93,7 +96,7 @@ angular.module('action-dropdown-module')
 
     function runHandleAction (record, action) {
       return handleAction(record, action)
-        .filter(fp.identity)
+        .filter(identity)
         .flatMap(function openModal (x) {
           var stream = getCommandStream([x.command || x]);
 

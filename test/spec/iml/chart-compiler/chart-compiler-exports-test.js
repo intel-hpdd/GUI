@@ -1,7 +1,7 @@
 import λ from 'highland';
 import angular from 'angular';
 const {module, inject} = angular.mock;
-import {noop} from 'intel-fp/dist/fp';
+import {noop} from 'intel-fp/fp';
 
 import {chartCompilerFactory}
   from '../../../../source/chroma_ui/iml/chart-compiler/chart-compiler-exports';

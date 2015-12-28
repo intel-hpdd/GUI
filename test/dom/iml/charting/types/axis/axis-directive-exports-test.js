@@ -2,6 +2,8 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 import d3 from 'd3';
 
+import {__, flow, arrayWrap, invokeMethod, tail} from 'intel-fp/fp';
+
 describe('axis directive', () => {
   beforeEach(module('axis', 'chart', 'templates'));
 
@@ -22,9 +24,9 @@ describe('axis directive', () => {
       .range([0, 200]);
 
     el = $compile(template)($scope)[0];
-    qs = fp.flow(
-      fp.arrayWrap,
-      fp.invokeMethod('querySelector', fp.__, el)
+    qs = flow(
+      arrayWrap,
+      invokeMethod('querySelector', __, el)
     );
     axis = qs.bind(null, '.axis');
 
@@ -57,7 +59,7 @@ describe('axis directive', () => {
   });
 
   it('should have an upper tick', function () {
-    expect(fp.tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
+    expect(tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
       .toEqual('4.0');
   });
 
@@ -67,7 +69,7 @@ describe('axis directive', () => {
 
     window.flushD3Transitions();
 
-    expect(fp.tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
+    expect(tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
       .toEqual('3.0');
   });
 });

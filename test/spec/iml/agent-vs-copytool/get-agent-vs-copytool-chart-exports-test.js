@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {identity} from 'intel-fp/fp';
+
 describe('get agent vs copytool chart exports', () => {
   var createStream, getAgentVsCopytoolStream, createDate,
     chartCompiler, durationStream, durationStreamInstance, rangeStream, rangeStreamInstance;
@@ -233,7 +235,7 @@ describe('get agent vs copytool chart exports', () => {
 
     describe('on update', () => {
       it('should update xScale domain', () => {
-        createDate.andCallFake(fp.identity);
+        createDate.andCallFake(identity);
 
         config.onUpdate[0]({
           xs: [

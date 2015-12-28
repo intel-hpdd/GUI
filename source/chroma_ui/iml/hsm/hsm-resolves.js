@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {pathLens, flow, always, cond} from 'intel-fp/dist/fp';
+import {pathLens, flow, always, cond} from 'intel-fp/fp';
 
 const fsParams = (filesystem_id) => {
   return {

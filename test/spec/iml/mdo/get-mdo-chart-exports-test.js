@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {inject} = angular.mock;
 
+import {curry} from 'intel-fp/fp';
+
 import {getMdoChartFactory} from
   '../../../../source/chroma_ui/iml/mdo/get-mdo-chart-exports';
 
@@ -22,8 +24,8 @@ describe('MDO chart', () => {
       .andCallFake(() => highland());
 
     createStream = {
-      durationStream: fp.curry(4, durationStream),
-      rangeStream: fp.curry(4, rangeStream)
+      durationStream: curry(4, durationStream),
+      rangeStream: curry(4, rangeStream)
     };
 
     DURATIONS = {

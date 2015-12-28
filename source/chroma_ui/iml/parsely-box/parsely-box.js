@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {noop} from 'intel-fp/fp';
 
 angular
   .module('parselyBox')
@@ -36,7 +37,7 @@ angular
         query: '=?'
       },
       controllerAs: 'ctrl',
-      controller: fp.noop,
+      controller: noop,
       templateUrl: 'iml/parsely-box/assets/html/parsely-box.html'
     };
   })

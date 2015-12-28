@@ -1,5 +1,3 @@
-/* jshint node: true */
-
 var util = require('util');
 
 module.exports = function setConfig (config) {
@@ -17,8 +15,6 @@ module.exports = function setConfig (config) {
   var testDir = bound('test/%s');
   var nodeModulesDir = bound('node_modules/%s');
   var angularComponentsDir = bound(nodeModulesDir('intel-angular-modules/%s'));
-
-  var jsPreProcessors = ['babel', 'ng-annotate'];
 
   config.set({
     basePath: '',
@@ -38,7 +34,8 @@ module.exports = function setConfig (config) {
       bowerDir('d3/d3.js'),
       bowerDir('nvd3/build/nv.d3.js'),
       nodeModulesDir('angular-ui-bootstrap/ui-bootstrap-tpls.js'),
-      nodeModulesDir('intel-fp/dist/fp.js'),
+      nodeModulesDir('immutable/dist/immutable.js'),
+      nodeModulesDir('intel-fp/fp.js'),
       nodeModulesDir('intel-math/dist/math.js'),
       nodeModulesDir('intel-obj/index.js'),
       nodeModulesDir('intel-lodash-mixins/index.js'),
@@ -92,9 +89,10 @@ module.exports = function setConfig (config) {
 
     preprocessors: {
       '**/*.html': ['ng-html2js'],
-      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': jsPreProcessors,
-      'test/*.js': jsPreProcessors,
-      'test/!(matchers|templates)/**/*.js': jsPreProcessors
+      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': ['babel', 'ng-annotate'],
+      'test/*.js': ['babel', 'ng-annotate'],
+      'node_modules/intel-fp/fp.js': ['babel'],
+      'test/!(matchers|templates)/**/*.js': ['babel', 'ng-annotate']
     },
 
     babelPreprocessor: {
@@ -102,7 +100,9 @@ module.exports = function setConfig (config) {
         presets: ['es2015'],
         plugins: [
           'transform-es2015-modules-umd',
-          'transform-strict-mode'
+          'transform-strict-mode',
+          'syntax-flow',
+          'transform-flow-strip-types'
         ]
       }
     },

@@ -21,10 +21,11 @@
 
 import angular from 'angular';
 
+import {curry, map, identity} from 'intel-fp/fp';
 
 angular.module('parserModule')
-  .value('choice', fp.curry(2, function choice (choices, tokens) {
-    var oldTokens = fp.map(fp.identity, tokens);
+  .value('choice', curry(2, function choice (choices, tokens) {
+    var oldTokens = map(identity, tokens);
     var out;
     var errors = [];
 

@@ -21,13 +21,14 @@
 
 import angular from 'angular';
 
+import {curry, tail, identity} from 'intel-fp/fp';
 
 angular.module('charting')
   .factory('getRequestRange', (getServerMoment) => {
     'ngInject';
 
-    return fp.curry(3, function getRequestRangeOuter (overrides, begin, end) {
-      getRequestRange.setLatest = fp.identity;
+    return curry(3, function getRequestRangeOuter (overrides, begin, end) {
+      getRequestRange.setLatest = identity;
 
       return getRequestRange;
 
@@ -43,7 +44,7 @@ angular.module('charting')
   .factory('getRequestDuration', (getServerMoment, createDate) => {
     'ngInject';
 
-    return fp.curry(3, function getRequestDurationOuter (overrides, size, unit) {
+    return curry(3, function getRequestDurationOuter (overrides, size, unit) {
       var latest;
 
       getRequestDuration.setLatest = function setLatest (s) {
@@ -51,7 +52,7 @@ angular.module('charting')
           .collect()
           .tap(function setLatest (x) {
             if (x && x.length)
-              latest = fp.tail(x).ts;
+              latest = tail(x).ts;
             else
               latest = null;
           })

@@ -19,10 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {flow, invokeMethod, always} from 'intel-fp/fp';
+
 export function lineDirective (getLine) {
   'ngInject';
-
-  const {flow, invokeMethod, always} = fp;
 
   return {
     restrict: 'A',

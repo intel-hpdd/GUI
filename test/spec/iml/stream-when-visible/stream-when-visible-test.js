@@ -1,6 +1,8 @@
 import {streamWhenVisible as streamWhenVisibleFactory}
   from '../../../../source/chroma_ui/iml/stream-when-visible/stream-when-visible-exports';
 
+import {noop} from 'intel-fp/fp';
+
 describe('stream when visible', () => {
   var $document, pageVisibility, removeListener, streamWhenVisible,
     visibilityStream, streamFn, inStream, stream, spy;
@@ -50,7 +52,7 @@ describe('stream when visible', () => {
 
     stream
       .errors(spy)
-      .each(fp.noop);
+      .each(noop);
 
     expect(spy)
       .toHaveBeenCalledOnce();

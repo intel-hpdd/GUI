@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, lensProp} from 'intel-fp/dist/fp';
+import {map, lensProp} from 'intel-fp/fp';
 
 
 angular.module('baseDashboard')

@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('dashboard route', function () {
 
   var $routeSegmentProvider;
@@ -19,7 +21,7 @@ describe('dashboard route', function () {
     });
   }, 'route-segment', 'dashboardRoute'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   describe('within', function () {
     it('should specify "app"', function () {

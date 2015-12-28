@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import {map} from 'intel-fp/fp';
+
 
 angular.module('command')
   .controller('JobTreeCtrl',
@@ -67,7 +69,7 @@ angular.module('command')
       return function getJobStream (jobs) {
         var stream = socketStream('/job', {
           qs: {
-            id__in: fp.map(extractApiId, jobs),
+            id__in: map(extractApiId, jobs),
             limit: 0
           }
         });

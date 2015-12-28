@@ -19,6 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {__, flow, lensProp} from 'intel-fp/fp';
+
 export function getReadWriteHeatMapChartFactory (createStream, $location, $filter,
                                                  getReadWriteHeatMapStream, DURATIONS, chartCompiler,
                                                  readWriteHeatMapTypes, formatNumber, formatBytes) {
@@ -27,12 +29,12 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   const routeSegmentUrl = $filter('routeSegmentUrl');
-  const dataLens = fp.lensProp('data');
+  const dataLens = lensProp('data');
 
   return function getReadWriteHeatMapChart (overrides) {
     var { durationStream, rangeStream } = createStream;
-    durationStream = durationStream(fp.__, overrides);
-    rangeStream = rangeStream(fp.__, overrides);
+    durationStream = durationStream(__, overrides);
+    rangeStream = rangeStream(__, overrides);
 
     const template = 'iml/read-write-heat-map/assets/html/read-write-heat-map.html';
     var initStream = durationStream(
@@ -96,13 +98,13 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
               });
             });
             d3Chart.formatter(getFormatter(conf.type));
-            d3Chart.zValue(fp.flow(dataLens, fp.lensProp(conf.type)));
+            d3Chart.zValue(flow(dataLens, lensProp(conf.type)));
 
             d3Chart.xAxis().ticks(3);
           },
           beforeUpdate: function beforeUpdate (d3Chart) {
             d3Chart.formatter(getFormatter(conf.type));
-            d3Chart.zValue(fp.flow(dataLens, fp.lensProp(conf.type)));
+            d3Chart.zValue(flow(dataLens, lensProp(conf.type)));
             d3Chart.xAxisDetail(conf.toReadableType(conf.type));
           }
         },

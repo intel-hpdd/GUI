@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import {every, True, cond, or, and, pathLens,
-  eqFn, identity, lensProp} from 'intel-fp/dist/fp';
+  eqFn, identity, lensProp} from 'intel-fp/fp';
 
 export default function serverActionsFactory () {
   'ngInject';

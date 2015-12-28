@@ -1,13 +1,15 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('server detail route', () => {
 
   var $routeSegmentProvider, GROUPS;
 
   beforeEach(module(() => {
     $routeSegmentProvider = {
-      $get: fp.noop,
+      $get: noop,
       when: jasmine.createSpy('$routeSegmentProvider.when'),
       within: jasmine.createSpy('$routeSegmentProvider.within'),
       segment: jasmine.createSpy('$routeSegmentProvider.segment')

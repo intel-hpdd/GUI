@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop} from 'intel-fp/fp';
+
 describe('about route', () => {
 
   var $routeSegmentProvider;
@@ -25,7 +27,7 @@ describe('about route', () => {
     });
   }, 'route-segment', 'about'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   it('should register the about route', () => {
     expect($routeSegmentProvider.when)

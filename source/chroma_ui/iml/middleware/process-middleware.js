@@ -22,14 +22,16 @@
 import angular from 'angular';
 
 
+import {__, invokeMethod, map, flow, arrayWrap} from 'intel-fp/fp';
+
 angular.module('middleware').factory('processMiddleware', function ProcessMiddlewareFactory ($location, $q, $injector) {
   'ngInject';
 
   return function processMiddleware (middleware) {
     if (!middleware) return $q.when();
 
-    var getInjector = fp.invokeMethod('get', fp.__, $injector);
-    var items = fp.map(fp.flow(fp.arrayWrap, getInjector), middleware);
+    var getInjector = invokeMethod('get', __, $injector);
+    var items = map(flow(arrayWrap, getInjector), middleware);
 
     var promiseChain = items.reduce(function reducer (promise, curr) {
       return promise.then(curr);

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {__, invoke} from 'intel-fp/dist/fp';
+import {__, invoke} from 'intel-fp/fp';
 
 angular.module('hsmFsRoute')
   .config(function hsmSegment ($routeSegmentProvider, GROUPS) {

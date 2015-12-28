@@ -22,6 +22,7 @@
 import angular from 'angular';
 
 
+import {lensProp, __} from 'intel-fp/fp';
 
 angular.module('app').controller('AppCtrl', AppCtrl);
 
@@ -79,7 +80,7 @@ function AppCtrl ($scope, $routeSegment, session, navigate, ENV, GROUPS,
       if (status.health !== 'GOOD')
         ctrl.link += '?severity__in=WARNING&severity__in=ERROR&active=true';
     })
-    .tap(fp.lensProp('status').set(fp.__, this))
+    .tap(lensProp('status').set(__, this))
     .stopOnError($scope.handleException)
     .each($scope.localApply.bind(null, $scope));
 

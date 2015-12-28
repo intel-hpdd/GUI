@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {curry, noop} from 'intel-fp/fp';
+
 describe('configure corosync', function () {
   'use strict';
 
@@ -45,11 +47,11 @@ describe('configure corosync', function () {
         $exceptionHandler: $exceptionHandler,
         localApply: localApply,
         socketStream: socketStream,
-        waitForCommandCompletion: fp.curry(2, waitForCommandCompletion),
+        waitForCommandCompletion: curry(2, waitForCommandCompletion),
         bigDiffer: {
-          mergeObj: fp.curry(3, bigDiffer.mergeObj),
-          diffObj3: fp.curry(4, bigDiffer.diffObj3),
-          getDiffMessage: fp.curry(2, bigDiffer.getDiffMessage)
+          mergeObj: curry(3, bigDiffer.mergeObj),
+          diffObj3: curry(4, bigDiffer.diffObj3),
+          getDiffMessage: curry(2, bigDiffer.getDiffMessage)
         }
       });
     }));
@@ -87,8 +89,8 @@ describe('configure corosync', function () {
     describe('diff and merge', function () {
       beforeEach(function () {
         $scope.corosync.stream
-          .stopOnError(fp.noop)
-          .each(fp.noop);
+          .stopOnError(noop)
+          .each(noop);
 
         bigDiffer.mergeObj.andCallFake(function (prop, local, remote) {
           return remote;
@@ -215,8 +217,8 @@ describe('configure corosync', function () {
     describe('configure corosync stream', function () {
       beforeEach(function () {
         $scope.corosync.stream
-          .stopOnError(fp.noop)
-          .each(fp.noop);
+          .stopOnError(noop)
+          .each(noop);
 
         bigDiffer.mergeObj.andCallFake(function (prop, local, remote) {
           return remote;

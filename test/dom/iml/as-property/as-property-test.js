@@ -1,9 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('as property', function () {
-  'use strict';
+import {flow, lensProp} from 'intel-fp/fp';
 
+describe('as property', function () {
   beforeEach(module('asProperty', 'highland'));
 
   var $compile, $scope, el, s, getText;
@@ -37,7 +37,7 @@ describe('as property', function () {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(find, fp.lensProp('textContent'));
+      getText = flow(find, lensProp('textContent'));
     }));
 
     it('should add 2 to num', function () {
@@ -82,7 +82,7 @@ describe('as property', function () {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(find, fp.lensProp('textContent'));
+      getText = flow(find, lensProp('textContent'));
     }));
 
     describe('multiple children', function () {

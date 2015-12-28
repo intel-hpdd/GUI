@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {curry} from 'intel-fp/fp';
 
 angular.module('server')
   .controller('ServerStatusStepCtrl', function ServerStatusStepCtrl ($scope, $stepInstance,
@@ -30,7 +31,7 @@ angular.module('server')
                                                                      hostlistFilter, localApply) {
     'ngInject';
 
-    _.extend(this, {
+    angular.extend(this, {
       pdsh: data.pdsh,
       /**
        * Update hostnames.
@@ -75,7 +76,7 @@ angular.module('server')
           .setHosts(resp.objects)
           .compute();
       })
-      .stopOnError(fp.curry(1, $exceptionHandler))
+      .stopOnError(curry(1, $exceptionHandler))
       .each(localApply.bind(null, $scope));
   })
   .factory('serverStatusStep', function serverStatusStepFactory () {

@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {noop, identity} from 'intel-fp/fp';
+
 describe('app route', function () {
   var $routeSegmentProvider;
 
@@ -15,7 +17,7 @@ describe('app route', function () {
     });
   }, 'route-segment', 'appRouteModule'));
 
-  beforeEach(inject(fp.noop));
+  beforeEach(inject(noop));
 
   it('should setup the app segment', function () {
     expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('app', {
@@ -25,7 +27,7 @@ describe('app route', function () {
       resolve: {
         alertStream: ['appAlertStream', jasmine.any(Function)],
         notificationStream: ['appNotificationStream', jasmine.any(Function)],
-        session: ['appSession', fp.identity]
+        session: ['appSession', identity]
       },
       untilResolved: {
         templateUrl: 'common/loading/assets/html/loading.html'

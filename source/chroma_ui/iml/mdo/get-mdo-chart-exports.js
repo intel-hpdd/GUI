@@ -19,6 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {identity} from 'intel-fp/fp';
 
 export function getMdoChartFactory (createStream, getMdoStream, DURATIONS,
                                chartCompiler, formatNumber) {
@@ -56,7 +57,7 @@ export function getMdoChartFactory (createStream, getMdoStream, DURATIONS,
             chart.useInteractiveGuideline(true);
 
             chart.interactiveLayer.tooltip
-              .headerFormatter(fp.identity);
+              .headerFormatter(identity);
 
             chart.yAxis.tickFormat((d) => formatNumber(d, 2, true));
 

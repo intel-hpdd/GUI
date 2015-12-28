@@ -21,6 +21,8 @@
 
 import angular from 'angular';
 
+import * as fp from 'intel-fp/fp';
+
 var nullSafe = fp.safe(1, fp.__, null);
 
 angular.module('bigDifferModule')
@@ -40,8 +42,9 @@ angular.module('bigDifferModule')
         var dirtyRemote = !eqLens(a, c);
         var dirtyLocalRemote = !eqLens(b, c);
 
-        if (!dirtyLocal && !dirtyRemote)
+        if (!dirtyLocal && !dirtyRemote) {
           return;
+        }
 
         var obj = {
           name: lensItem.name,
@@ -54,12 +57,13 @@ angular.module('bigDifferModule')
           }
         };
 
-        if (dirtyLocal && dirtyRemote && dirtyLocalRemote)
+        if (dirtyLocal && dirtyRemote && dirtyLocalRemote) {
           obj.type = 'conflict';
-        else if (dirtyLocal)
+        } else if (dirtyLocal) {
           obj.type = 'local';
-        else if (dirtyRemote)
+        } else if (dirtyRemote) {
           obj.type = 'remote';
+        }
 
         return obj;
       })
@@ -78,29 +82,33 @@ angular.module('bigDifferModule')
 
       return diffObj3(lensMap, aMatch, b, cMatch);
     });
-  }])
+  }
+  ])
   .factory('mergeObj', ['diffObj3', function mergeObjFactory (diffObj3) {
     return fp.curry(3, function mergeObj (lensMap, local, remote) {
       local = angular.copy(local);
       remote = angular.copy(remote);
 
-      if (local == null)
+      if (local == null) {
         return remote;
+      }
 
       var dirties = diffObj3(lensMap, local, local, remote);
 
       var dirtyKeys = Object.keys(dirties);
 
-      if (dirtyKeys)
+      if (dirtyKeys) {
         dirtyKeys.forEach(function patch (key) {
           var dirty = dirties[key];
 
           dirty.lens.set(dirty.diff.initial, remote);
         });
+      }
 
       return remote;
     });
-  }])
+  }
+  ])
   .value('matchInColl', fp.curry(3, function matchInColl (idLens, coll, item) {
     var eqIdLens = fp.eqLens(nullSafe(idLens), item);
     return fp.find(eqIdLens, coll);
@@ -118,11 +126,13 @@ angular.module('bigDifferModule')
         return localMatch ? mergeObj(lensMap, localMatch, item) : item;
       });
     });
-  }])
+  }
+  ])
   .service('bigDiffer', ['diffObj3', 'mergeObj', 'mergeColl', 'diffObjInColl3',
     function BigDiffer (diffObj3, mergeObj, mergeColl, diffObjInColl3) {
       this.diffObj3 = diffObj3;
       this.diffObjInColl3 = diffObjInColl3;
       this.mergeObj = mergeObj;
       this.mergeColl = mergeColl;
-    }]);
+    }
+  ]);

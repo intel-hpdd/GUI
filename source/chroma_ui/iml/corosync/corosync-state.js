@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, lensProp, safe, curry} from 'intel-fp/fp';
 
 angular.module('corosyncModule')
   .directive('corosyncState', function corosyncState (localApply, $exceptionHandler) {
@@ -34,14 +35,14 @@ angular.module('corosyncModule')
       templateUrl: 'iml/corosync/assets/html/corosync-state.html',
       link: function link (scope) {
         scope.corosync = {};
-        var state = fp.lensProp('state');
+        var state = lensProp('state');
 
         var s2 = scope.stream;
 
         s2
-          .map(fp.safe(1, state, null))
-          .tap(state.set(fp.__, scope.corosync))
-          .stopOnError(fp.curry(1, $exceptionHandler))
+          .map(safe(1, state, null))
+          .tap(state.set(__, scope.corosync))
+          .stopOnError(curry(1, $exceptionHandler))
           .each(localApply.bind(null, scope));
 
         scope.$on('$destroy', scope.stream.destroy.bind(scope.stream));

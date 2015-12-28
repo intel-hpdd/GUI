@@ -2,6 +2,8 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 import d3 from 'd3';
 
+import {__, arrayWrap, flow, identity, invokeMethod} from 'intel-fp/fp';
+
 describe('chart directive', () => {
   var chartCtrl, $window;
 
@@ -22,7 +24,7 @@ describe('chart directive', () => {
     $provide.value('$window', $window);
 
     $provide.value('debounce', jasmine.createSpy('debounce')
-      .andCallFake(fp.identity));
+      .andCallFake(identity));
   }));
 
   var el, qs, $scope;
@@ -46,9 +48,9 @@ describe('chart directive', () => {
         height: '200px'
       });
 
-    qs = fp.flow(
-      fp.arrayWrap,
-      fp.invokeMethod('querySelector', fp.__, el)
+    qs = flow(
+      arrayWrap,
+      invokeMethod('querySelector', __, el)
     );
 
     document.body.appendChild(el);

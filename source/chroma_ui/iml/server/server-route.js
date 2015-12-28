@@ -21,7 +21,7 @@
 
 import angular from 'angular';
 
-import {invoke, __} from 'intel-fp/dist/fp';
+import {invoke, __} from 'intel-fp/fp';
 
 angular.module('serverRoute')
   .config(function serverSegment ($routeSegmentProvider, GROUPS) {

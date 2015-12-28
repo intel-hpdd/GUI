@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {curry} from 'intel-fp/fp';
 
 angular.module('server')
   .controller('SelectServerProfileStepCtrl',
@@ -78,7 +79,7 @@ angular.module('server')
             profiles[0]
           );
         })
-        .stopOnError(fp.curry(1, $exceptionHandler))
+        .stopOnError(curry(1, $exceptionHandler))
         .each(localApply.bind(null, $scope));
       }
   )

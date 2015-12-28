@@ -21,11 +21,13 @@
 
 import angular from 'angular';
 
+import {__, curry, lensProp} from 'intel-fp/fp';
+
 angular.module('extendScope', [])
   .config(['$provide', function addHandleExceptionMethod ($provide) {
     return $provide.decorator('$rootScope', ['$delegate', '$exceptionHandler',
       function addExceptionHandler ($delegate, $exceptionHandler) {
-        $delegate.handleException = fp.curry(1, $exceptionHandler);
+        $delegate.handleException = curry(1, $exceptionHandler);
 
         return $delegate;
       }]);
@@ -67,10 +69,10 @@ angular.module('extendScope', [])
   .factory('propagateChange', function propagateChangeFactory ($exceptionHandler, localApply) {
     'ngInject';
 
-    return fp.curry(4, function propagateChange ($scope, obj, prop, s) {
+    return curry(4, function propagateChange ($scope, obj, prop, s) {
       return s
-        .tap(fp.lensProp(prop).set(fp.__, obj))
-        .stopOnError(fp.curry(1, $exceptionHandler))
+        .tap(lensProp(prop).set(__, obj))
+        .stopOnError(curry(1, $exceptionHandler))
         .each(localApply.bind(null, $scope));
     });
   });

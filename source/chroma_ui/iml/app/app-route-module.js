@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, invoke, identity} from 'intel-fp/fp';
 
 angular.module('appRouteModule', [])
   .config(function appSegment ($routeSegmentProvider) {
@@ -32,9 +33,9 @@ angular.module('appRouteModule', [])
         controllerAs: 'app',
         templateUrl: 'iml/app/assets/html/app.html',
         resolve: {
-          alertStream: ['appAlertStream', fp.invoke(fp.__, [])],
-          notificationStream: ['appNotificationStream', fp.invoke(fp.__, [])],
-          session: ['appSession', fp.identity]
+          alertStream: ['appAlertStream', invoke(__, [])],
+          notificationStream: ['appNotificationStream', invoke(__, [])],
+          session: ['appSession', identity]
         },
         untilResolved: {
           templateUrl: 'common/loading/assets/html/loading.html'

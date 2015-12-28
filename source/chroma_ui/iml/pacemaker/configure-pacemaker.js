@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {noop} from 'intel-fp/fp';
 
 angular.module('pacemaker')
   .directive('configurePacemaker', function configurePacemaker () {
@@ -32,7 +33,7 @@ angular.module('pacemaker')
         alertStream: '=',
         jobStream: '='
       },
-      controller: fp.noop,
+      controller: noop,
       controllerAs: 'ctrl',
       templateUrl: 'iml/pacemaker/assets/html/configure-pacemaker.html'
     };

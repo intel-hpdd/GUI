@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {__, invoke} from 'intel-fp/fp';
 
 angular.module('dashboardRoute')
   .config(function dashboardSegment ($routeSegmentProvider) {
@@ -33,9 +34,9 @@ angular.module('dashboardRoute')
         controllerAs: 'dashboard',
         templateUrl: 'iml/dashboard/assets/html/dashboard.html',
         resolve: {
-          fsStream: ['dashboardFsStream', fp.invoke(fp.__, [])],
-          hostStream: ['dashboardHostStream', fp.invoke(fp.__, [])],
-          targetStream: ['dashboardTargetStream', fp.invoke(fp.__, [])]
+          fsStream: ['dashboardFsStream', invoke(__, [])],
+          hostStream: ['dashboardHostStream', invoke(__, [])],
+          targetStream: ['dashboardTargetStream', invoke(__, [])]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {

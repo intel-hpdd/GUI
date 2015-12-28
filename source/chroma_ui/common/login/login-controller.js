@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 
+import {always} from 'intel-fp/fp';
 
 (function () {
   'use strict';
@@ -43,7 +44,7 @@ import angular from 'angular';
         keyboard: false,
         windowClass: 'eula-modal',
         resolve: {
-          user: fp.always(user)
+          user: always(user)
         }
       }).result;
     }
@@ -59,7 +60,7 @@ import angular from 'angular';
         backdrop: 'static',
         keyboard: false,
         resolve: {
-          message: fp.always(help.get('access_denied_eula'))
+          message: always(help.get('access_denied_eula'))
         }
       }).result;
     }.bind(this);
