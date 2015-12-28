@@ -2,6 +2,7 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import {lensProp} from 'intel-fp/fp';
+import {clone} from 'intel-obj/obj';
 import {getReadWriteHeatMapStreamFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-stream-exports';
 
@@ -74,7 +75,7 @@ describe('the read write heat map stream', () => {
         streams.target[0].end();
 
 
-        streams.heatMap[0].write(obj.clone(fixtures[0].in));
+        streams.heatMap[0].write(clone(fixtures[0].in));
         streams.heatMap[0].end();
       });
 
@@ -99,7 +100,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should union with a target', () => {
-        streams.heatMap[1].write({ 1: lensProp(1)(obj.clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: lensProp(1)(clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({
           objects: [
@@ -115,7 +116,7 @@ describe('the read write heat map stream', () => {
         });
         streams.target[1].end();
 
-        var result = obj.clone(fixtures[0].out);
+        var result = clone(fixtures[0].out);
 
         result[0][0].name = 'OST001';
         result[1][0].name = 'OST002';
@@ -134,7 +135,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should populate if data comes in on next tick', () => {
-        streams.heatMap[1].write({ 1: lensProp(1)(obj.clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: lensProp(1)(clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({ objects: [] });
         streams.target[1].end();

@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import λ from 'highland';
+import angular from 'angular';
 
 export default function routeStreamFactory ($rootScope, $route, qsFromLocation) {
   'ngInject';
@@ -28,8 +29,9 @@ export default function routeStreamFactory ($rootScope, $route, qsFromLocation) 
     var s = λ();
 
     var d = $rootScope.$on('$routeChangeSuccess', (ev, route) => {
-      if (route.redirectTo)
+      if (route.redirectTo) {
         return;
+      }
 
       s.write(extendRoute(route));
     });
@@ -42,7 +44,7 @@ export default function routeStreamFactory ($rootScope, $route, qsFromLocation) 
   };
 
   function extendRoute (route) {
-    return obj.merge({
+    return angular.extend({
       qs: qsFromLocation(),
       contains (search) {
         const segment = route.$$route.segment || [];

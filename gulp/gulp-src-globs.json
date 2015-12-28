@@ -7,7 +7,7 @@
       "node_modules*/intel-fp/fp.js",
       "node_modules*/intel-math/dist/math.js",
       "node_modules*/intel-debounce/dist/debounce.js",
-      "node_modules*/intel-obj/index.js",
+      "node_modules*/intel-obj/obj.js",
       "source/chroma_ui/vendor*/**/*.js",
       "source/chroma_ui/bower_components*/highland/dist/highland.js",
       "source/chroma_ui/bower_components*/jquery/dist/jquery.js",

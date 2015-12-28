@@ -19,6 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {values} from 'intel-obj/obj';
 
 export function getAgentVsCopytoolStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
@@ -33,7 +34,7 @@ export function getAgentVsCopytoolStreamFactory (λ, socketStream, chartPlugins)
       });
 
       socketStream('/target/metric', params, true)
-        .map(obj.values)
+        .map(values)
         .flatten()
         .through(chartPlugins.removeEpochData)
         .through(chartPlugins.roundData)

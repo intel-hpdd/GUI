@@ -22,6 +22,7 @@
 import angular from 'angular';
 
 import * as fp from 'intel-fp/fp';
+import * as obj from 'intel-obj/obj';
 
 export function getOstBalanceStreamFactory (λ, math, socketStream, formatBytes) {
   'ngInject';

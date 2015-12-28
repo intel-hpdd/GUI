@@ -37,7 +37,7 @@ module.exports = function setConfig (config) {
       nodeModulesDir('immutable/dist/immutable.js'),
       nodeModulesDir('intel-fp/fp.js'),
       nodeModulesDir('intel-math/dist/math.js'),
-      nodeModulesDir('intel-obj/index.js'),
+      nodeModulesDir('intel-obj/obj.js'),
       nodeModulesDir('intel-lodash-mixins/index.js'),
       nodeModulesDir('intel-debounce/dist/debounce.js'),
       vendorDir('**/*.js'),
@@ -92,11 +92,13 @@ module.exports = function setConfig (config) {
       'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': ['babel', 'ng-annotate'],
       'test/*.js': ['babel', 'ng-annotate'],
       'node_modules/intel-fp/fp.js': ['babel'],
+      'node_modules/intel-obj/obj.js': ['babel'],
       'test/!(matchers|templates)/**/*.js': ['babel', 'ng-annotate']
     },
 
     babelPreprocessor: {
       options: {
+        babelrc: false,
         presets: ['es2015'],
         plugins: [
           'transform-es2015-modules-umd',

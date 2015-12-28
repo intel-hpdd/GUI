@@ -21,9 +21,10 @@
 
 import {flow, eq, map, eqFn, lensProp,
   unwrap, invokeMethod} from 'intel-fp/fp';
+import {pickBy, values} from 'intel-obj/obj';
 
 export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, createStream, createDate,
-                                            DURATIONS, chartCompiler, d3) {
+                                                DURATIONS, chartCompiler, d3) {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -45,8 +46,8 @@ export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, create
       (fn) => (x, y) => !fn(y)
     );
     const getNumbers = flow(
-      obj.pickBy(without('ts')),
-      obj.values
+      pickBy(without('ts')),
+      values
     );
     const getMax = flow(
       map(getNumbers),
@@ -92,7 +93,7 @@ export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, create
         colors: nameColorScale.range(),
         size: DEFAULT_DURATION[0],
         unit: DEFAULT_DURATION[1],
-        onSubmit ( { rangeForm, durationForm } ) {
+        onSubmit ({ rangeForm, durationForm }) {
           conf.stream.destroy();
 
           if (rangeForm) {

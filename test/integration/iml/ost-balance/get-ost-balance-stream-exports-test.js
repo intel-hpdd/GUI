@@ -2,6 +2,7 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import * as fp from 'intel-fp/fp';
+import {clone} from 'intel-obj/obj';
 import {getOstBalanceStreamFactory}
   from '../../../../source/chroma_ui/iml/ost-balance/get-ost-balance-stream-exports';
 
@@ -93,7 +94,7 @@ describe('get OST balance stream', () => {
       });
 
       it('should return computed data', () => {
-        var out = obj.clone(fixtures[0].out);
+        var out = clone(fixtures[0].out);
 
         fp.map(fp.flow(
           fp.lensProp('values'),

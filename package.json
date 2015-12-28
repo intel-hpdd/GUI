@@ -66,7 +66,7 @@
     "intel-fp": "3.4.0",
     "intel-lodash-mixins": "1.0.3",
     "intel-math": "2.0.2",
-    "intel-obj": "3.0.0",
+    "intel-obj": "4.0.0",
     "intel-road-runner": "1.0.0",
     "intel-socket-worker": "2.0.0",
     "less-plugin-clean-css": "1.5.1",

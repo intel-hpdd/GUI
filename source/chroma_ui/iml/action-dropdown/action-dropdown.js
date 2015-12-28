@@ -44,7 +44,7 @@ angular.module('action-dropdown-module')
 
     var setConfirmOpen = confirmOpen.set(__, this);
 
-    var ctrl = obj.merge(this, {
+    var ctrl = angular.merge(this, {
       actionDescriptionCache: actionDescriptionCache,
       handleAction: function handleAction (record, action) {
         setConfirmOpen(true);

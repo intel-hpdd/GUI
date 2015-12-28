@@ -42,7 +42,7 @@ angular.module('jobStats')
 
       var promises = metrics.reduce(function reducer (out, metric) {
 
-        var params = obj.merge({}, commonParams, {metrics: metric});
+        var params = angular.merge({}, commonParams, {metrics: metric});
 
         out[metric] = TargetMetricModel.getJobAverage(params);
 

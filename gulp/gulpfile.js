@@ -66,8 +66,7 @@ function buildJs () {
         '*/angular-ui-bootstrap/*',
         '*/vendor/*',
         '*/intel-math/*',
-        '*/intel-debounce/*',
-        '*/intel-obj/*'
+        '*/intel-debounce/*'
       ]
     }))
     .pipe(ngAnnotate())

@@ -22,13 +22,13 @@
 import {map, flow, lensProp, always,
   cond, eqFn, identity, not} from 'intel-fp/fp';
 import rebindDestroy from '../highland/rebind-destroy-exports';
-import {merge} from 'obj';
+import angular from 'angular';
 
 export default function getCopytoolStreamFactory (socketStream) {
   'ngInject';
 
   return function getCopytoolStream (params) {
-    params = merge({}, {
+    params = angular.merge({}, {
       qs: {
         limit: 0
       },

@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import {__, flow, lensProp} from 'intel-fp/fp';
+import {values} from 'intel-obj/obj';
 
 export function getReadWriteHeatMapChartFactory (createStream, $location, $filter,
                                                  getReadWriteHeatMapStream, DURATIONS, chartCompiler,
@@ -49,7 +50,7 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
         stream,
         modelType: readWriteHeatMapTypes.READ_BYTES,
         type: readWriteHeatMapTypes.READ_BYTES,
-        TYPES: obj.values(readWriteHeatMapTypes),
+        TYPES: values(readWriteHeatMapTypes),
         toReadableType(type) {
           var readable = type
             .split('_')

@@ -38,7 +38,7 @@ angular.module('status')
 
       $scope.$on('$destroy', rs.destroy.bind(rs));
 
-      obj.merge(this, {
+      angular.merge(this, {
         parserFormatter: {
           parser: inputToQsParser,
           formatter: qsToInputParser

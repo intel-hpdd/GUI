@@ -29,7 +29,7 @@ angular.module('server')
                                             data, hostProfileStream, createHostProfiles, localApply) {
         'ngInject';
 
-        obj.merge(this, {
+        angular.merge(this, {
           pdsh: data.pdsh,
           transition: function transition (action) {
             if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE)

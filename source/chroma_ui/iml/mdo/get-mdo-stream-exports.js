@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import {lensProp, map} from 'intel-fp/fp';
+import {reduce} from 'intel-obj/obj';
 
 export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
@@ -27,7 +28,7 @@ export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
   var statsPrefixRegex = /^stats_/;
   const dataLens = lensProp('data');
   const alwaysObjectLiteral = () => { return {}; };
-  const stripStatsPrefix = dataLens.map(obj.reduce(alwaysObjectLiteral, (value, key, result) => {
+  const stripStatsPrefix = dataLens.map(reduce(alwaysObjectLiteral, (value, key, result) => {
     var newKey = key.trim().replace(statsPrefixRegex, '');
     result[newKey] = value;
     return result;

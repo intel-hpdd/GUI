@@ -2,6 +2,7 @@ import angular from 'angular';
 const {inject} = angular.mock;
 
 import {identity, curry} from 'intel-fp/fp';
+import {values} from 'intel-obj/obj';
 import {getReadWriteHeatMapChartFactory}
   from '../../../../source/chroma_ui/iml/read-write-heat-map/get-read-write-heat-map-chart-exports';
 
@@ -124,7 +125,7 @@ describe('read write heat map chart', () => {
         stream,
         modelType: readWriteHeatMapTypes.READ_BYTES,
         type: readWriteHeatMapTypes.READ_BYTES,
-        TYPES: obj.values(readWriteHeatMapTypes),
+        TYPES: values(readWriteHeatMapTypes),
         toReadableType: jasmine.any(Function),
         onSubmit: jasmine.any(Function),
         options: {

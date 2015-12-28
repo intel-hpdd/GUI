@@ -9,7 +9,6 @@ module.exports = {
     'no-constant-condition': 0
   },
   globals: {
-    obj: false,
     math: false,
     _: false,
     highland: false,

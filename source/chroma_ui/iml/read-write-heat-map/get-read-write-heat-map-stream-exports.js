@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp/fp';
+import {values} from 'intel-obj/obj';
 
 export function getReadWriteHeatMapStreamFactory (λ, socketStream, chartPlugins) {
   'ngInject';
@@ -57,7 +58,7 @@ export function getReadWriteHeatMapStreamFactory (λ, socketStream, chartPlugins
         .flatten()
         .through(chartPlugins.removeDupsBy(fp.eqFn(idLens, idLens)))
         .group('id')
-        .map(obj.values)
+        .map(values)
         .map(sortOsts)
         .each(function pushData (x) {
           push(null, x);
