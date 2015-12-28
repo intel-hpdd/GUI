@@ -112,9 +112,9 @@ describe('Login Controller', () => {
         backdrop: 'static',
         controller: 'EulaCtrl',
         windowClass: 'eula-modal',
-        resolve: jasmine.argThat((arg) => {
-          return typeof arg.user === 'function';
-        })
+        resolve: {
+          user: jasmine.any(Function)
+        }
       });
     });
 

@@ -13,9 +13,5 @@
     "twix": "0.6.4",
     "fastdom": "0.8.6",
     "highland": "2.4.0"
-  },
-  "devDependencies": {
-    "jasmine-stealth": "0.0.15",
-    "jasmine-object-containing": "0.0.1"
   }
 }

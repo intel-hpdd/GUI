@@ -1,19 +1,23 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('socket worker', function () {
-  'use strict';
+import {find, eqFn, flow, pathLens, identity} from 'intel-fp/fp';
 
-  var worker, getWebWorker, disconnectModal, $timeout, STATIC_URL;
+describe('socket worker', () => {
+  var worker, getWebWorker, arg0Eq, getArg1,
+    disconnectModal, $timeout, STATIC_URL;
 
-  beforeEach(module('socket-worker', function ($provide) {
+  beforeEach(module('socket-worker', ($provide) => {
+    arg0Eq = eqFn(identity, pathLens(['args', '0']));
+    getArg1 = pathLens(['args', '1']);
+
     disconnectModal = jasmine.createSpy('disconnectModal').andReturn({
       close: jasmine.createSpy('close')
     });
     $provide.value('disconnectModal', disconnectModal);
 
     $timeout = jasmine.createSpy('$timeout')
-      .andCallFake(function (fn, delay, invokeApply, pass) {
+      .andCallFake((fn, delay, invokeApply, pass) => {
         return fn(pass);
       });
 
@@ -31,49 +35,54 @@ describe('socket worker', function () {
 
   var socketWorker;
 
-  beforeEach(inject(function (_socketWorker_) {
+  beforeEach(inject((_socketWorker_) => {
     socketWorker = _socketWorker_;
   }));
 
-  it('should create a worker with a remote script', function () {
+  it('should create a worker with a remote script', () => {
     expect(getWebWorker).toHaveBeenCalledOnceWith(STATIC_URL + 'bundle.js');
   });
 
-  it('should register a message handler', function () {
+  it('should register a message handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith('message', jasmine.any(Function));
   });
 
-  it('should register an error handler', function () {
+  it('should register an error handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith('error', jasmine.any(Function));
   });
 
-  it('should return the worker', function () {
+  it('should return the worker', () => {
     expect(worker).toBe(socketWorker);
   });
 
-  it('should throw on error', function () {
-    var handler = worker.addEventListener.mostRecentCallThat(function (call) {
-      return call.args[0] === 'error';
-    }).args[1];
+  it('should throw on error', () => {
+    const getError = flow(
+      find(arg0Eq('error')),
+      getArg1
+    );
 
-    var err = new Error('boom!');
+    const err = new Error('boom!');
 
-    expect(handler.bind(null, err)).toThrow(err);
+    expect(getError(worker.addEventListener.calls).bind(null, err))
+      .toThrow(err);
   });
 
-  describe('message handling', function () {
+  describe('message handling', () => {
     var handler;
 
-    beforeEach(function () {
-      handler = worker.addEventListener.mostRecentCallThat(function (call) {
-        return call.args[0] === 'message';
-      }).args[1];
+    beforeEach(() => {
+      const getMessage = flow(
+        find(arg0Eq('message')),
+        getArg1
+      );
+
+      handler = getMessage(worker.addEventListener.calls);
     });
 
-    describe('reconnecting', function () {
+    describe('reconnecting', () => {
       var ev;
 
-      beforeEach(function () {
+      beforeEach(() => {
         ev = {
           data: { type: 'reconnecting' }
         };
@@ -81,21 +90,21 @@ describe('socket worker', function () {
         handler(ev);
       });
 
-      it('should start the disconnectModal', function () {
+      it('should start the disconnectModal', () => {
         expect(disconnectModal).toHaveBeenCalledOnce();
       });
 
-      it('should not restart the disconnectModal when it\'s already open', function () {
+      it('should not restart the disconnectModal when it\'s already open', () => {
         handler(ev);
 
         expect(disconnectModal).toHaveBeenCalledOnce();
       });
     });
 
-    describe('reconnect', function () {
+    describe('reconnect', () => {
       var ev;
 
-      beforeEach(function () {
+      beforeEach(() => {
         ev = {
           data: { type: 'reconnecting' }
         };
@@ -106,11 +115,11 @@ describe('socket worker', function () {
         handler(ev);
       });
 
-      it('should close the modal', function () {
+      it('should close the modal', () => {
         expect(disconnectModal.plan().close).toHaveBeenCalledOnce();
       });
 
-      it('should not close the modal when it\'s already closed', function () {
+      it('should not close the modal when it\'s already closed', () => {
         handler(ev);
 
         expect(disconnectModal.plan().close).toHaveBeenCalledOnce();

@@ -1,14 +1,12 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('The job stats controller', function () {
-  'use strict';
-
+describe('The job stats controller', () => {
   var target, jobStatsCtrl;
 
   beforeEach(module('jobStats'));
 
-  beforeEach(inject(function ($controller) {
+  beforeEach(inject(($controller) => {
     target = {
       name: 'foo'
     };
@@ -21,8 +19,8 @@ describe('The job stats controller', function () {
     };
 
     jobStatsCtrl = $controller('JobStatsCtrl', {
-      target: target,
-      $routeSegment: $routeSegment,
+      target,
+      $routeSegment,
       metrics: {
         read_bytes: [],
         write_bytes: [],
@@ -32,19 +30,11 @@ describe('The job stats controller', function () {
     });
   }));
 
-  it('should expose the target name on the scope', function () {
-    expect(jobStatsCtrl.name).toEqual(target.name);
-  });
-
-  it('should expose the start and end params on the scope', function () {
-    expect(jobStatsCtrl).toContainObject({
+  it('should contain the expected properties on the controller', () => {
+    expect(jobStatsCtrl).toEqual({
+      name: target.name,
       startDate: '2014-01-30T22:08:11.423Z',
-      endDate: '2014-01-30T22:08:41.220Z'
-    });
-  });
-
-  it('should expose metrics on the scope', function () {
-    expect(jobStatsCtrl).toContainObject({
+      endDate: '2014-01-30T22:08:41.220Z',
       read_bytes: [],
       write_bytes: [],
       read_iops: [],

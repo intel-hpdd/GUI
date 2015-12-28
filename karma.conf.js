@@ -20,7 +20,6 @@ module.exports = function setConfig (config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      bowerDir('jasmine-stealth/dist/jasmine-stealth.js'),
       bowerDir('jquery/dist/jquery.js'),
       nodeModulesDir('angular/angular.js'),
       nodeModulesDir('angular-resource/angular-resource.js'),
@@ -58,7 +57,6 @@ module.exports = function setConfig (config) {
       testDir('fixtures/**/*.js'),
       testDir('global-setup.js'),
       testDir('matchers/**/*.js'),
-      bowerDir('jasmine-object-containing/jasmine-object-containing.js'),
       nodeModulesDir('intel-jasmine-n-matchers/jasmine-n-matchers.js'),
       testDir('**/*.js'),
       testDir('templates/**/*.html'),
