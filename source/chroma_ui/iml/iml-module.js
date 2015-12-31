@@ -21,7 +21,6 @@
 
 import angular from 'angular';
 
-
 angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'route-to', 'route-segment',
   'view-segment', 'middleware', 'login', 'loginRoute', 'app', 'appRouteModule', 'dashboard',
   'dashboardRoute', 'baseDashboard', 'baseDashboardRoute', 'serverDashboard',
@@ -50,3 +49,9 @@ angular.module('iml', ['ui.bootstrap', 'environment', 'exception', 'ngRoute', 'r
     $routeSegmentProvider.options.strictMode = true;
     $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
   }]);
+
+document.addEventListener('DOMContentLoaded', () => {
+  angular.bootstrap(document, ['iml'], {
+    strictDi: true
+  });
+});
