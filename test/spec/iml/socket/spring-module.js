@@ -2,16 +2,17 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('spring module', function () {
-  var regenerator, socketStream;
+  var regenerator, socketStream, s;
 
   beforeEach(module('socket-module', function ($provide) {
 
     regenerator = jasmine.createSpy('regenerator');
     $provide.value('regenerator', regenerator);
 
+    s = highland();
+    spyOn(s, 'destroy');
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(highland());
-    spyOn(socketStream.plan(), 'destroy');
+      .and.returnValue(s);
     $provide.value('socketStream', socketStream);
   }));
 
@@ -25,15 +26,15 @@ describe('spring module', function () {
   });
 
   it('should setup a socket stream', function () {
-    regenerator.mostRecentCall.args[0]('foo', 'bar');
+    regenerator.calls.mostRecent().args[0]('foo', 'bar');
 
     expect(socketStream).toHaveBeenCalledOnceWith('foo', 'bar');
   });
 
   it('should teardown a socket stream', function () {
-    regenerator.mostRecentCall.args[0]('foo', 'bar');
-    regenerator.mostRecentCall.args[1](socketStream.plan());
+    regenerator.calls.mostRecent().args[0]('foo', 'bar');
+    regenerator.calls.mostRecent().args[1](s);
 
-    expect(socketStream.plan().destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledOnce();
   });
 });

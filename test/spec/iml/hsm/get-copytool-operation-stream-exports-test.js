@@ -10,7 +10,7 @@ describe('get copytool operation stream', () => {
     spyOn(stream, 'destroy');
 
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(stream);
+      .and.returnValue(stream);
 
     $provide.value('socketStream', socketStream);
   }));

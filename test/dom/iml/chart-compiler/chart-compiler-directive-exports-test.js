@@ -13,7 +13,7 @@ describe('chart compiler directive', () => {
 
     $scope = $rootScope.$new();
     $scope.chart = spy
-      .andReturn('<div class="tha-chart">I\'m a chart!</div>');
+      .and.returnValue('<div class="tha-chart">I\'m a chart!</div>');
 
     el = $compile(template)($scope)[0];
     $scope.$apply();

@@ -2,12 +2,13 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import {tail} from 'intel-fp/fp';
+import {AddCopytoolModalCtrl} from '../../../../source/chroma_ui/iml/hsm/add-copytool-modal-exports';
 
 describe('Add copytool modal', () => {
   beforeEach(module('hsm'));
 
   describe('add copytool modal controller', () => {
-    var $scope, addCopytoolModalCtrl,
+    var $scope, addCopytoolModalCtrl, s,
       $uibModalInstance, socketStream, workerStream, fsStream;
 
     beforeEach(inject(($controller, $rootScope) => {
@@ -17,8 +18,10 @@ describe('Add copytool modal', () => {
         close: jasmine.createSpy('close')
       };
 
+      s = highland();
+
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(highland());
+        .and.returnValue(s);
 
       workerStream = highland();
 
@@ -35,13 +38,15 @@ describe('Add copytool modal', () => {
     }));
 
     it('should expose the expected interface', () => {
-      expect(addCopytoolModalCtrl).toEqual({
+      const scope = window.extendWithConstructor(AddCopytoolModalCtrl, {
         inProgress: false,
         filesystems: [],
         workers: [],
         copytool: {},
         onSubmit: jasmine.any(Function)
       });
+
+      expect(addCopytoolModalCtrl).toEqual(scope);
     });
 
     it('should set fs on the controller', () => {
@@ -72,8 +77,8 @@ describe('Add copytool modal', () => {
 
         addCopytoolModalCtrl.onSubmit(copytool);
 
-        socketStream.plan().write(null);
-        socketStream.plan().end();
+        s.write(null);
+        s.end();
       });
 
       it('should create a new copytool', () => {
@@ -90,14 +95,16 @@ describe('Add copytool modal', () => {
   });
 
   describe('open', () => {
-    var $uibModal;
+    var $uibModal, openResult;
 
     beforeEach(module(($provide) => {
+
+      openResult = {
+        result: jasmine.createSpy('result')
+      };
       $uibModal = {
         open: jasmine.createSpy('open')
-          .andReturn({
-            result: jasmine.createSpy('result')
-          })
+          .and.returnValue(openResult)
       };
 
       $provide.value('$uibModal', $uibModal);
@@ -110,7 +117,7 @@ describe('Add copytool modal', () => {
     }));
 
     it('should return the result', () => {
-      expect(result).toEqual($uibModal.open.plan().result);
+      expect(result).toEqual(openResult.result);
     });
 
     it('should have the expected open config', () => {
@@ -127,14 +134,16 @@ describe('Add copytool modal', () => {
     });
 
     describe('resolving deps', () => {
-      var resolveStream, socketStream, getResolve;
+      var resolveStream, socketStream, getResolve, s, rs;
 
       beforeEach(() => {
-        socketStream = jasmine.createSpy('socketStream').andReturn({});
+        s = {};
+        socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
-        resolveStream = jasmine.createSpy('resolveStream').andReturn({});
+        rs = {};
+        resolveStream = jasmine.createSpy('resolveStream').and.returnValue(rs);
 
-        getResolve = (name) => tail($uibModal.open.mostRecentCall.args[0].resolve[name]);
+        getResolve = (name) => tail($uibModal.open.calls.mostRecent().args[0].resolve[name]);
       });
 
       describe('fs stream', () => {
@@ -151,11 +160,11 @@ describe('Add copytool modal', () => {
         });
 
         it('should resolve the stream', () => {
-          expect(resolveStream).toHaveBeenCalledOnceWith(socketStream.plan());
+          expect(resolveStream).toHaveBeenCalledOnceWith(s);
         });
 
         it('should return resolving the stream', () => {
-          expect(result).toBe(resolveStream.plan());
+          expect(result).toBe(rs);
         });
       });
 
@@ -174,11 +183,11 @@ describe('Add copytool modal', () => {
         });
 
         it('should resolve the stream', () => {
-          expect(resolveStream).toHaveBeenCalledOnceWith(socketStream.plan());
+          expect(resolveStream).toHaveBeenCalledOnceWith(s);
         });
 
         it('should return resolving the stream', () => {
-          expect(result).toBe(resolveStream.plan());
+          expect(result).toBe(rs);
         });
       });
     });

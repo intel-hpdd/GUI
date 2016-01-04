@@ -13,7 +13,7 @@ describe('the get time params module', () => {
 
     beforeEach(module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
-        .andCallFake((d, f) => {
+        .and.callFake((d, f) => {
           // We always convert local time to utc time
           // implicitly before send.
           // For the purposes of these tests,
@@ -79,7 +79,7 @@ describe('the get time params module', () => {
 
     beforeEach(module(($provide) => {
       getServerMoment = jasmine.createSpy('getServerMoment')
-        .andCallFake(() => {
+        .and.callFake(() => {
           // We always convert local time to utc time
           // implicitly before send.
           // For the purposes of these tests,
@@ -91,7 +91,7 @@ describe('the get time params module', () => {
       $provide.value('getServerMoment', getServerMoment);
 
       createDate = jasmine.createSpy('createDate')
-        .andCallFake((d) => {
+        .and.callFake((d) => {
           if (!d)
             d = '2015-04-30T00:00:10.000Z';
 

@@ -14,7 +14,7 @@ describe('override action click', function () {
     });
 
     openAddServerModal = jasmine.createSpy('openAddServerModal')
-      .andReturn({
+      .and.returnValue({
         resultStream: highland()
       });
     $provide.value('openAddServerModal', openAddServerModal);

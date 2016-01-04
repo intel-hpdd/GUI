@@ -6,14 +6,14 @@ describe('mdo stream', () => {
 
   beforeEach(module('mdo', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => {
+      .and.callFake(() => {
         return (serverStream = highland());
       });
 
     $provide.value('socketStream', socketStream);
 
     getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2013-11-15T19:25:20+00:00'));
+      .and.returnValue(moment('2013-11-15T19:25:20+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
   }));

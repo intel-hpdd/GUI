@@ -10,7 +10,7 @@ describe('get test host stream', function () {
 
   beforeEach(inject(function (λ, _getTestHostStream_) {
     stream = λ();
-    spring = jasmine.createSpy('spring').andReturn(stream);
+    spring = jasmine.createSpy('spring').and.returnValue(stream);
 
     data = [
       {

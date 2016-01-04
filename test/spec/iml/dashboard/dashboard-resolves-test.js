@@ -15,11 +15,11 @@ describe('dashboard resolves', function () {
     $provide.value('resolveStream', resolveStream);
 
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(s);
+      .and.returnValue(s);
     $provide.value('socketStream', socketStream);
 
     addProperty = jasmine.createSpy('addProperty')
-      .andCallFake(identity);
+      .and.callFake(identity);
     $provide.value('addProperty', addProperty);
   }));
 
@@ -29,7 +29,7 @@ describe('dashboard resolves', function () {
     $rootScope = _$rootScope_;
     $q = _$q_;
 
-    resolveStream.andReturn($q.when(s));
+    resolveStream.and.returnValue($q.when(s));
   }));
 
   describe('fs stream', function () {

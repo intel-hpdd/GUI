@@ -8,7 +8,7 @@ describe('route stream', () => {
     spy = jasmine.createSpy('spy');
 
     qsFromLocation = jasmine.createSpy('qsFromLocation')
-      .andReturn('foo=bar&baz=bap');
+      .and.returnValue('foo=bar&baz=bap');
     $provide.value('qsFromLocation', qsFromLocation);
 
     $route = {
@@ -32,7 +32,7 @@ describe('route stream', () => {
     $rootScope = _$rootScope_;
 
     spyOn($rootScope, '$on')
-      .andReturn(destroyListener);
+      .and.returnValue(destroyListener);
   }));
 
   it('should be a function', () => {
@@ -53,7 +53,7 @@ describe('route stream', () => {
       routeStream()
         .each(spy);
 
-      current = spy.mostRecentCall.args[0];
+      current = spy.calls.mostRecent().args[0];
     });
 
     it('should return true if route contains segment', () => {
@@ -70,7 +70,7 @@ describe('route stream', () => {
 
     beforeEach(() => {
       routeStream().each(spy);
-      fn = $rootScope.$on.mostRecentCall.args[1];
+      fn = $rootScope.$on.calls.mostRecent().args[1];
     });
 
     it('should push a route on the stream', () => {

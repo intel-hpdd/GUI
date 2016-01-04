@@ -1,11 +1,11 @@
-import { AboutCtrl } from '../../../../source/chroma_ui/iml/about/about-controller-exports';
+import AboutCtrl from '../../../../source/chroma_ui/iml/about/about-controller-exports';
 
 describe('about controller', () => {
   var help, ENV, ctrl;
 
   beforeEach(() => {
     help = {
-      get: jasmine.createSpy('get').andReturn('2015')
+      get: jasmine.createSpy('get').and.returnValue('2015')
     };
 
     ENV = {
@@ -26,11 +26,13 @@ describe('about controller', () => {
   });
 
   it('should return an instance of the about controller', () => {
-    expect(ctrl).toEqual({
+    const scope = window.extendWithConstructor(AboutCtrl, {
       IS_RELEASE: false,
       VERSION: 123,
       BUILD: 'test build',
       COPYRIGHT_YEAR: '2015'
     });
+
+    expect(ctrl).toEqual(scope);
   });
 });

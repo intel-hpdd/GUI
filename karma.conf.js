@@ -56,7 +56,6 @@ module.exports = function setConfig (config) {
       testDir('fixtures/fixtures.js'),
       testDir('fixtures/**/*.js'),
       testDir('global-setup.js'),
-      testDir('matchers/**/*.js'),
       nodeModulesDir('intel-jasmine-n-matchers/jasmine-n-matchers.js'),
       testDir('**/*.js'),
       testDir('templates/**/*.html'),
@@ -91,7 +90,7 @@ module.exports = function setConfig (config) {
       'test/*.js': ['babel', 'ng-annotate'],
       'node_modules/intel-fp/fp.js': ['babel'],
       'node_modules/intel-obj/obj.js': ['babel'],
-      'test/!(matchers|templates)/**/*.js': ['babel', 'ng-annotate']
+      'test/!(templates)/**/*.js': ['babel', 'ng-annotate']
     },
 
     babelPreprocessor: {

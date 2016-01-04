@@ -4,13 +4,16 @@ const {module, inject} = angular.mock;
 describe('Insert help text filter', function () {
   'use strict';
 
-  var insertHelp, help, result;
+  var insertHelp, help, result, helpFilter;
 
   beforeEach(module('filters', function ($provide) {
+    helpFilter = {
+      valueOf: jasmine.createSpy('valueOf')
+    };
+
     help = {
-      get: jasmine.createSpy('helpBody').andReturn({
-        valueOf: jasmine.createSpy('valueOf')
-      })
+      get: jasmine.createSpy('helpBody')
+        .and.returnValue(helpFilter)
     };
 
     $provide.value('help', help);
@@ -30,14 +33,14 @@ describe('Insert help text filter', function () {
     });
 
     it('should return the wrapper', function () {
-      expect(result).toEqual(help.get.plan());
+      expect(result).toEqual(helpFilter);
     });
   });
 
   describe('with params', function () {
     beforeEach(function () {
-      help.get.plan()
-        .valueOf.andReturn('This row has changed locally. Click to reset value to %(remote)s');
+      helpFilter
+        .valueOf.and.returnValue('This row has changed locally. Click to reset value to %(remote)s');
 
       result = insertHelp('key', {
         remote: 'Lustre Network 0'

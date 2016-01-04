@@ -32,7 +32,7 @@ describe('hostlist filter service', function () {
 
   describe('computing a filtered hostlist', function () {
     beforeEach(function () {
-      pdshFilter.andReturn('host1Filtered');
+      pdshFilter.and.returnValue('host1Filtered');
 
       hostlistFilter
         .setHosts(['host1', 'host2'])

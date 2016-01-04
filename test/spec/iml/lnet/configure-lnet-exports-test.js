@@ -9,7 +9,8 @@ describe('Configure LNet', function () {
   beforeEach(module('lnetModule', 'dataFixtures'));
 
   describe('Controller', function () {
-    var configureLnet, $scope, $exceptionHandler, networkInterfaceStream,
+    var configureLnet, $scope, $exceptionHandler,
+      networkInterfaceStream, ss,
       socketStream, networkInterfaceResponse, waitForCommandCompletion, LNET_OPTIONS;
 
     beforeEach(inject(function ($rootScope, $controller, networkInterfaceDataFixtures, _LNET_OPTIONS_) {
@@ -17,7 +18,7 @@ describe('Configure LNet', function () {
 
       waitForCommandCompletion = jasmine
         .createSpy('waitForCommandCompletion')
-        .andCallFake(function (show, response) {
+        .and.callFake(function (show, response) {
           return highland([response]);
         });
 
@@ -28,10 +29,11 @@ describe('Configure LNet', function () {
       networkInterfaceStream = highland();
       spyOn(networkInterfaceStream, 'destroy');
 
+      ss = highland();
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(highland());
+        .and.returnValue(ss);
 
-      spyOn($scope, '$on').andCallThrough();
+      spyOn($scope, '$on').and.callThrough();
 
       $scope.networkInterfaceStream = networkInterfaceStream;
 
@@ -53,7 +55,7 @@ describe('Configure LNet', function () {
     });
 
     it('should end the network interface stream on destroy', function () {
-      $scope.$on.mostRecentCall.args[1]();
+      $scope.$on.calls.mostRecent().args[1]();
 
       expect(networkInterfaceStream.destroy).toHaveBeenCalledOnce();
     });
@@ -107,11 +109,11 @@ describe('Configure LNet', function () {
 
     it('should call the exception handler on error during save', function () {
       configureLnet.save();
-      socketStream.plan().write({
+      ss.write({
         __HighlandStreamError__: true,
         error: new Error('boom!')
       });
-      socketStream.plan().end();
+      ss.end();
 
       expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error('boom!'));
     });
@@ -120,20 +122,20 @@ describe('Configure LNet', function () {
       beforeEach(function () {
         configureLnet.networkInterfaces = [
           {
-            nid: { id: '1'}
+            nid: { id: '1' }
           },
           {
-            nid: { id: '2'}
+            nid: { id: '2' }
           }
         ];
 
         configureLnet.save();
-        socketStream.plan().write({
+        ss.write({
           command: {
             id: 10
           }
         });
-        socketStream.plan().end();
+        ss.end();
       });
 
       it('should set the editable flag', function () {
@@ -176,7 +178,8 @@ describe('Configure LNet', function () {
           nid: {
             lnd_network: 3
           }
-        }]);
+        }
+        ]);
 
         expect(configureLnet.networkInterfaces)
           .toEqual([{
@@ -185,7 +188,8 @@ describe('Configure LNet', function () {
               lnd_network: 3,
               lnd_type: 'o2ib'
             }
-          }]);
+          }
+          ]);
       });
 
       it('should add new items', function () {

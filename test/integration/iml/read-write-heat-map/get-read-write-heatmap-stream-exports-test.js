@@ -16,7 +16,7 @@ describe('the read write heat map stream', () => {
     };
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake((path) => {
+      .and.callFake((path) => {
         var s = highland();
 
         if (path === '/target/metric')
@@ -30,7 +30,7 @@ describe('the read write heat map stream', () => {
     $provide.value('socketStream', socketStream);
 
     getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2014-01-07T14:42:50+00:00'));
+      .and.returnValue(moment('2014-01-07T14:42:50+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
   }));

@@ -9,7 +9,7 @@ describe('Regenerator module', function () {
   beforeEach(inject(function (_regenerator_) {
     regenerator = _regenerator_;
 
-    setup = jasmine.createSpy('setup').andReturn('setup');
+    setup = jasmine.createSpy('setup').and.returnValue('setup');
     teardown = jasmine.createSpy('teardown');
     getter = regenerator(setup, teardown);
   }));

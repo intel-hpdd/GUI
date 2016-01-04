@@ -40,7 +40,7 @@ describe('Full Screen Module', () => {
     button.click();
     $scope.$digest();
 
-    expect(spy.callCount).toBe(0);
+    expect(spy.calls.count()).toBe(0);
   });
 
   describe('entering full screen', () => {

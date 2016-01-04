@@ -10,11 +10,11 @@ describe('action dropdown directive', function () {
 
   beforeEach(module('action-dropdown-module', 'templates', function ($provide) {
     handleAction = jasmine.createSpy('handleAction')
-      .andReturn(highland());
+      .and.returnValue(highland());
     $provide.value('handleAction', handleAction);
 
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(highland());
+      .and.returnValue(highland());
     $provide.value('getCommandStream', getCommandStream);
 
     openCommandModal = jasmine.createSpy('openCommandModal');

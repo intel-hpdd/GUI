@@ -13,7 +13,7 @@ describe('status records route', function () {
     };
 
     $routeSegmentProvider.within = jasmine.createSpy('within')
-      .andReturn($routeSegmentProvider);
+      .and.returnValue($routeSegmentProvider);
 
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
@@ -52,7 +52,7 @@ describe('status records route', function () {
     var routeSegment;
 
     beforeEach(function () {
-      routeSegment = $routeSegmentProvider.segment.calls[0].args[1];
+      routeSegment = $routeSegmentProvider.segment.calls.argsFor(0)[1];
     });
 
     describe('watcher', function () {
@@ -71,8 +71,8 @@ describe('status records route', function () {
       });
 
       it('should return the new qs', function () {
-        $location.path.andReturn('/status');
-        qsFromLocation.andReturn('foo=bar');
+        $location.path.and.returnValue('/status');
+        qsFromLocation.and.returnValue('foo=bar');
 
         expect(watcher($location, segment, qsFromLocation))
           .toBe('foo=bar');
@@ -80,7 +80,7 @@ describe('status records route', function () {
 
       describe('on a new route', function () {
         beforeEach(function () {
-          $location.path.andReturn('/dashboard');
+          $location.path.and.returnValue('/dashboard');
         });
 
         it('should clear the watcher if the watcher exists', function () {
@@ -103,10 +103,10 @@ describe('status records route', function () {
 
       beforeEach(function () {
         resolveStream = jasmine.createSpy('resolveStream')
-          .andReturn('promise');
+          .and.returnValue('promise');
 
         socketStream = jasmine.createSpy('socketStream')
-          .andReturn('socket');
+          .and.returnValue('socket');
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
 
@@ -114,7 +114,7 @@ describe('status records route', function () {
       });
 
       it('should call /alert with a qs', function () {
-        qsFromLocation.andReturn('bar=baz');
+        qsFromLocation.and.returnValue('bar=baz');
 
         notificationStream(resolveStream, socketStream, qsFromLocation);
 
@@ -122,7 +122,7 @@ describe('status records route', function () {
       });
 
       it('should call /alert without a qs', function () {
-        qsFromLocation.andReturn('');
+        qsFromLocation.and.returnValue('');
 
         notificationStream(resolveStream, socketStream, qsFromLocation);
 
@@ -130,7 +130,7 @@ describe('status records route', function () {
       });
 
       it('should call resolveStream with socket', function () {
-        qsFromLocation.andReturn('');
+        qsFromLocation.and.returnValue('');
 
         notificationStream(resolveStream, socketStream, qsFromLocation);
 
@@ -138,7 +138,7 @@ describe('status records route', function () {
       });
 
       it('should resolve the stream', function () {
-        qsFromLocation.andReturn('');
+        qsFromLocation.and.returnValue('');
 
         var res = notificationStream(resolveStream, socketStream, qsFromLocation);
 

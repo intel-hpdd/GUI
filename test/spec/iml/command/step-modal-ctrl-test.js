@@ -10,12 +10,12 @@ describe('step modal', function () {
     var $scope, stepModal, stepsStream, jobStream;
 
     beforeEach(inject(function ($rootScope, $controller) {
-      spyOn($rootScope, '$on').andCallThrough();
+      spyOn($rootScope, '$on').and.callThrough();
 
       jobStream = highland();
-      spyOn(jobStream, 'destroy').andCallThrough();
+      spyOn(jobStream, 'destroy').and.callThrough();
       stepsStream = highland();
-      spyOn(stepsStream, 'destroy').andCallThrough();
+      spyOn(stepsStream, 'destroy').and.callThrough();
 
       $scope = $rootScope.$new();
 
@@ -119,7 +119,7 @@ describe('step modal', function () {
     var $modal, socketStream, stream;
 
     beforeEach(module(function ($provide) {
-      socketStream = jasmine.createSpy('socketStream').andCallFake(function () {
+      socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
         return (stream = highland());
       });
       $provide.value('socketStream', socketStream);
@@ -165,7 +165,7 @@ describe('step modal', function () {
       var jobStream, stepsStream;
 
       beforeEach(function () {
-        var resolves = $modal.open.mostRecentCall.args[0].resolve;
+        var resolves = $modal.open.calls.mostRecent().args[0].resolve;
 
         jobStream = resolves.jobStream();
         stepsStream = resolves.stepsStream();

@@ -13,10 +13,10 @@ describe('status query route', function () {
     };
 
     $routeSegmentProvider.when = jasmine.createSpy('when')
-      .andReturn($routeSegmentProvider);
+      .and.returnValue($routeSegmentProvider);
 
     $routeSegmentProvider.within = jasmine.createSpy('within')
-      .andReturn($routeSegmentProvider);
+      .and.returnValue($routeSegmentProvider);
 
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider

@@ -20,21 +20,26 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {map, invokeMethod, lensProp, __} from 'intel-fp/fp';
 
+export default function TargetDashboardController ($scope, kind, charts, targetStream, usageStream) {
+  'ngInject';
 
+  var targetDashboard = angular.extend(this, {
+    charts: charts,
+    usageStream: usageStream,
+    kind: kind
+  });
 
-angular.module('jobStats')
-.controller('JobStatsCtrl', ['$routeSegment', 'metrics', 'target', JobStatsCtrl]);
+  var targetLens = lensProp('target');
 
-function JobStatsCtrl ($routeSegment, metrics, target) {
-  'use strict';
+  targetStream
+    .tap(targetLens.set(__, targetDashboard))
+    .each($scope.localApply.bind(null, $scope));
 
-  var jobStatsCtrl = this;
-
-  jobStatsCtrl.name = target.name;
-
-  jobStatsCtrl.startDate = $routeSegment.$routeParams.startDate;
-  jobStatsCtrl.endDate = $routeSegment.$routeParams.endDate;
-
-  _.extend(jobStatsCtrl, metrics);
+  $scope.$on('$destroy', () => {
+    targetStream.destroy();
+    usageStream.destroy();
+    map(invokeMethod('destroy', []), charts);
+  });
 }

@@ -10,7 +10,7 @@ describe('deferred action dropdown', function () {
     s = highland();
 
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(s);
+      .and.returnValue(s);
     $provide.value('socketStream', socketStream);
   }));
 

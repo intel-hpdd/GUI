@@ -20,30 +20,36 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, invokeMethod, lensProp, __} from 'intel-fp/fp';
+import {map, invokeMethod, curry, lensProp, __} from 'intel-fp/fp';
 
-angular.module('targetDashboard')
-  .controller('TargetDashboardController',
-    function TargetDashboardController ($scope, kind, charts, targetStream, usageStream) {
-      'ngInject';
+export default function BaseDashboardCtrl ($scope, fsStream, charts) {
+  'ngInject';
 
-      var targetDashboard = angular.extend(this, {
-        charts: charts,
-        usageStream: usageStream,
-        kind: kind
-      });
+  var baseDashboard = angular.extend(this, {
+    fs: [],
+    fsStream: fsStream,
+    charts: charts
+  });
 
-      var targetLens = lensProp('target');
+  var fsLens = lensProp('fs');
 
-      targetStream
-        .tap(targetLens.set(__, targetDashboard))
-        .each($scope.localApply.bind(null, $scope));
+  var STATES = Object.freeze({
+    MONITORED: 'monitored',
+    MANAGED: 'managed'
+  });
 
-      $scope.$on('$destroy', () => {
-        targetStream.destroy();
-        usageStream.destroy();
-        map(invokeMethod('destroy', []), charts);
-      });
-    }
-  );
+  fsStream
+    .property()
+    .tap(map(function setState (s) {
+      s.STATES = STATES;
+      s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
+    }))
+    .tap(fsLens.set(__, baseDashboard))
+    .stopOnError(curry(1, $scope.handleException))
+    .each($scope.localApply.bind(null, $scope));
 
+  $scope.$on('$destroy', () => {
+    fsStream.destroy();
+    map(invokeMethod('destroy', []), charts);
+  });
+}

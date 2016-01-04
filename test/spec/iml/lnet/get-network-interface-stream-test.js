@@ -4,12 +4,13 @@ const {module, inject} = angular.mock;
 describe('get network interface stream', function () {
   'use strict';
 
-  var socketStream;
+  var socketStream, ss;
 
   beforeEach(module('lnetModule', function ($provide) {
+    ss = highland();
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(highland());
-    spyOn(socketStream.plan(), 'write');
+      .and.returnValue(ss);
+    spyOn(ss, 'write');
 
     $provide.value('socketStream', socketStream);
   }));
@@ -57,7 +58,7 @@ describe('get network interface stream', function () {
       ]
     };
 
-    socketStream.plan().write(response);
+    ss.write(response);
 
     stream.each(function (x) {
       expect(x).toEqual([

@@ -49,7 +49,7 @@ describe('extend scope test', function () {
 
     it('should call the exception handler if $digest throws an error', function () {
       spyOn($scope, '$digest')
-        .andThrow(new Error('boom!'));
+        .and.throwError(new Error('boom!'));
 
       try {
         localApply($scope);
@@ -62,7 +62,7 @@ describe('extend scope test', function () {
 
     it('should throw if digest throws an error', function () {
       spyOn($scope, '$digest')
-        .andThrow(new Error('boom!'));
+        .and.throwError(new Error('boom!'));
 
       expect(function () {
         localApply($scope);

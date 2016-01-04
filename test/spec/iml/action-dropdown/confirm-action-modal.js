@@ -72,7 +72,7 @@ describe('confirm action modal', function () {
       var resolve;
 
       beforeEach(function () {
-        resolve = $modal.open.mostRecentCall.args[0].resolve;
+        resolve = $modal.open.calls.mostRecent().args[0].resolve;
       });
 
       it('should set the title', function () {

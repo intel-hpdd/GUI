@@ -9,7 +9,7 @@ describe('get copytool stream', () => {
     stream = λ();
 
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(stream);
+      .and.returnValue(stream);
     $provide.value('socketStream', socketStream);
   }));
 

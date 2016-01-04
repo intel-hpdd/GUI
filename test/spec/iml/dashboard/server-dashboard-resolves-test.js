@@ -42,9 +42,9 @@ describe('server dashboard resolves', function () {
   var res;
 
   beforeEach(function () {
-    getReadWriteBandwidthChart.andReturn($q.when('read/write data'));
-    getCpuUsageChart.andReturn($q.when('cpu usage data'));
-    getMemoryUsageChart.andReturn($q.when('memory usage data'));
+    getReadWriteBandwidthChart.and.returnValue($q.when('read/write data'));
+    getCpuUsageChart.and.returnValue($q.when('cpu usage data'));
+    getMemoryUsageChart.and.returnValue($q.when('memory usage data'));
 
     res = serverDashboardChartResolves('1');
   });

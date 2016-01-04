@@ -19,7 +19,7 @@ describe('dashboard controller', function () {
     spyOn(targetStream, 'destroy');
 
     $scope = $rootScope.$new();
-    spyOn($rootScope, '$on').andCallThrough();
+    spyOn($rootScope, '$on').and.callThrough();
 
     $routeParams = {};
     $routeSegment = {
@@ -198,7 +198,7 @@ describe('dashboard controller', function () {
 
   describe('on destroy', function () {
     beforeEach(function () {
-      var handler = $scope.$on.calls[0].args[1];
+      var handler = $scope.$on.calls.argsFor(0)[1];
       handler();
     });
 
@@ -219,8 +219,8 @@ describe('dashboard controller', function () {
     var handler;
 
     beforeEach(function () {
-      handler = $scope.$root.$on.mostRecentCall.args[1];
-      $routeSegment.contains.andReturn(true);
+      handler = $scope.$root.$on.calls.mostRecent().args[1];
+      $routeSegment.contains.and.returnValue(true);
     });
 
     it('should set fsData', function () {

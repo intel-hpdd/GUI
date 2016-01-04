@@ -9,6 +9,7 @@ describe('server', () => {
     server, $modal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
+    commandStream, openResult, commandModalResult,
     getCommandStream, overrideActionClick;
 
   beforeEach(module('server', 'command'));
@@ -16,17 +17,20 @@ describe('server', () => {
   beforeEach(inject(($rootScope, $controller, $q) => {
     $scope = $rootScope.$new();
 
+    openResult = {
+      result: {
+        then: jasmine.createSpy('then')
+      }
+    };
     $modal = {
-      open: jasmine.createSpy('open').andReturn({
-        result: {
-          then: jasmine.createSpy('then')
-        }
-      })
+      open: jasmine.createSpy('open').and.returnValue(openResult)
     };
 
+    commandStream = λ();
+
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(λ());
-    spyOn(getCommandStream.plan(), 'destroy');
+      .and.returnValue(commandStream);
+    spyOn(commandStream, 'destroy');
 
     serversStream = λ();
     spyOn(serversStream, 'destroy');
@@ -42,15 +46,17 @@ describe('server', () => {
     }
     ];
 
+    commandModalResult = {
+      result: $q.when()
+    };
+
     openCommandModal = jasmine.createSpy('openCommandModal')
-      .andReturn({
-        result: $q.when()
-      });
+      .and.returnValue(commandModalResult);
 
     lnetConfigurationStream = λ();
     spyOn(lnetConfigurationStream, 'destroy');
 
-    openAddServerModal = jasmine.createSpy('openAddServerModal').andReturn({
+    openAddServerModal = jasmine.createSpy('openAddServerModal').and.returnValue({
       opened: {
         then: jasmine.createSpy('then')
       },
@@ -61,7 +67,7 @@ describe('server', () => {
 
     pdshFilter = jasmine.createSpy('pdshFilter');
     naturalSortFilter = jasmine.createSpy('naturalSortFilter')
-      .andCallFake(identity);
+      .and.callFake(identity);
 
     jobMonitorStream = λ();
     spyOn(jobMonitorStream, 'destroy');
@@ -199,7 +205,7 @@ describe('server', () => {
         };
         server.hostnames = ['hostname1'];
 
-        pdshFilter.andReturn(['hostname1']);
+        pdshFilter.and.returnValue(['hostname1']);
         result = server.getTotalItems();
       });
 
@@ -247,14 +253,14 @@ describe('server', () => {
           'https://hostname1.localdomain.com': true
         };
 
-        pdshFilter.andReturn([{
+        pdshFilter.and.returnValue([{
           fqdn: 'https://hostname1.localdomain.com'
         }
         ]);
 
         server.runAction('Install Updates');
 
-        handler = $modal.open.plan().result.then.mostRecentCall.args[0];
+        handler = openResult.result.then.calls.mostRecent().args[0];
       });
 
       it('should open a confirmation modal', () => {
@@ -272,7 +278,7 @@ describe('server', () => {
       });
 
       it('should register a then listener', () => {
-        expect($modal.open.plan().result.then).toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(openResult.result.then).toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 
       it('should stop editing when confirmed', () => {
@@ -287,7 +293,7 @@ describe('server', () => {
         });
 
         it('should open the command modal with the spark', () => {
-          expect(openCommandModal).toHaveBeenCalledOnceWith(getCommandStream.plan());
+          expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
         });
 
         it('should call createCommandSpark', () => {
@@ -295,8 +301,8 @@ describe('server', () => {
         });
 
         it('should end the spark after the modal closes', () => {
-          openCommandModal.plan().result.then(function whenModalClosed () {
-            expect(getCommandStream.plan().destroy).toHaveBeenCalled();
+          commandModalResult.result.then(function whenModalClosed () {
+            expect(commandStream.destroy).toHaveBeenCalled();
           });
 
           $scope.$digest();
@@ -307,7 +313,7 @@ describe('server', () => {
 
   describe('destroy', () => {
     beforeEach(() => {
-      var handler = $scope.$on.mostRecentCall.args[1];
+      var handler = $scope.$on.calls.mostRecent().args[1];
       handler();
     });
 

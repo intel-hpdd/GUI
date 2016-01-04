@@ -19,40 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+export default function JobStatsCtrl ($routeSegment, metrics, target) {
+  'ngInject';
 
-import * as fp from 'intel-fp/fp';
+  var jobStatsCtrl = this;
 
-angular.module('status')
-  .controller('StatusController',
-  function StatusController ($scope, $location, notificationStream) {
-    'ngInject';
+  jobStatsCtrl.name = target.name;
 
-    var metaProp = fp.lensProp('meta');
+  jobStatsCtrl.startDate = $routeSegment.$routeParams.startDate;
+  jobStatsCtrl.endDate = $routeSegment.$routeParams.endDate;
 
-    var s = notificationStream
-      .tap(fp.flow(metaProp, fp.tap(computeCurrentPage), metaProp.set(fp.__, this)))
-      .pluck('objects');
-
-    function computeCurrentPage (meta) {
-      meta.current_page = meta.limit === 0 ? 1 : (meta.offset / meta.limit) + 1;
-    }
-
-    $scope.propagateChange($scope, this, 'data', s);
-
-    $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
-
-    var types = [
-      'CommandErroredAlert',
-      'CommandSuccessfulAlert',
-      'CommandRunningAlert',
-      'CommandCancelledAlert'
-    ];
-    var getType = fp.flow(fp.lensProp('record_type'), fp.lensProp);
-    this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-    var ctrl = this;
-    this.pageChanged = function pageChanged () {
-      $location.search('offset', (ctrl.meta.current_page - 1)  * ctrl.meta.limit);
-    };
-  });
+  _.extend(jobStatsCtrl, metrics);
+}

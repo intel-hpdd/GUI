@@ -7,13 +7,14 @@ describe('add server modal', function () {
   beforeEach(module('server'));
 
   describe('controller', function () {
-    var addServerModalCtrl, $scope, resultEndPromise, invokeController;
+    var addServerModalCtrl, $scope, stepsManager, spring,
+      resultEndPromise, invokeController;
     var deps = {};
 
     beforeEach(inject(function ($rootScope, $controller, $q) {
       resultEndPromise = $q.defer();
 
-      var stepsManager = {
+      stepsManager = {
         start: jasmine.createSpy('start'),
         result: {
           end: resultEndPromise.promise
@@ -27,15 +28,19 @@ describe('add server modal', function () {
       $scope = $rootScope.$new();
       $scope.$on = jasmine.createSpy('$on');
 
+      spring = {
+        destroy: jasmine.createSpy('destroy')
+      };
+
       _.extend(deps, {
         $scope: $scope,
-        getSpring: jasmine.createSpy('getSpring').andReturn({
-          destroy: jasmine.createSpy('destroy')
-        }),
+        getSpring: jasmine.createSpy('getSpring')
+          .and.returnValue(spring),
         $modalInstance: {
           close: jasmine.createSpy('$modalInstance')
         },
-        getAddServerManager: jasmine.createSpy('getAddServerManager').andReturn(stepsManager),
+        getAddServerManager: jasmine.createSpy('getAddServerManager')
+          .and.returnValue(stepsManager),
         servers: {
           addresses: ['host001.localdomain'],
           auth_type: 'existing key'
@@ -58,12 +63,12 @@ describe('add server modal', function () {
       });
 
       it('should start the steps manager', function () {
-        expect(deps.getAddServerManager.plan().start).toHaveBeenCalledOnceWith('addServersStep', {
+        expect(stepsManager.start).toHaveBeenCalledOnceWith('addServersStep', {
           showCommand: false,
           data: {
             pdsh: deps.servers.addresses[0],
             servers: deps.servers,
-            spring: deps.getSpring.plan()
+            spring
           }
         });
       });
@@ -76,7 +81,7 @@ describe('add server modal', function () {
       });
 
       it('should contain the manager', function () {
-        expect(addServerModalCtrl.manager).toEqual(deps.getAddServerManager.plan());
+        expect(addServerModalCtrl.manager).toEqual(stepsManager);
       });
 
       it('should set a destroy event listener', function () {
@@ -86,17 +91,17 @@ describe('add server modal', function () {
       describe('on close and destroy', function () {
         beforeEach(function () {
           // Invoke the $destroy and closeModal functions
-          $scope.$on.calls.forEach(function (call) {
-            call.args[1]();
+          $scope.$on.calls.allArgs().forEach(function (call) {
+            call[1]();
           });
         });
 
         it('should destroy the manager', function () {
-          expect(deps.getAddServerManager.plan().destroy).toHaveBeenCalledOnce();
+          expect(stepsManager.destroy).toHaveBeenCalledOnce();
         });
 
         it('should destroy the spring', function () {
-          expect(deps.getSpring.plan().destroy).toHaveBeenCalledOnce();
+          expect(spring.destroy).toHaveBeenCalledOnce();
         });
 
         it('should close the modal', function () {
@@ -141,7 +146,7 @@ describe('add server modal', function () {
     describe('checking resolve', function () {
       var resolve;
       beforeEach(function () {
-        resolve = $modal.open.mostRecentCall.args[0].resolve;
+        resolve = $modal.open.calls.mostRecent().args[0].resolve;
       });
 
       it('should return servers', function () {

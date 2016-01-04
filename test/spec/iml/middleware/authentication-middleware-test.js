@@ -6,7 +6,7 @@ describe('Authentication Middleware', () => {
   var authorization;
   beforeEach(module('middleware', function ($provide) {
     authorization = {
-      groupAllowed: jasmine.createSpy('groupAllowed').andReturn(true)
+      groupAllowed: jasmine.createSpy('groupAllowed').and.returnValue(true)
     };
 
     $provide.value('authorization', authorization);
@@ -36,7 +36,7 @@ describe('Authentication Middleware', () => {
 
   describe('when not authenticated', () => {
     it('should reject the promise with \'/\'', () => {
-      authorization.groupAllowed = jasmine.createSpy('groupAllowed').andReturn(false);
+      authorization.groupAllowed = jasmine.createSpy('groupAllowed').and.returnValue(false);
       authenticationMiddleware().catch(spy);
       $rootScope.$digest();
 

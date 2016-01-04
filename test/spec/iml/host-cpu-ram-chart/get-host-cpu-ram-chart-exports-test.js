@@ -14,10 +14,10 @@ describe('host cpu ram chart', () => {
     getHostCpuRamStream = {};
 
     durationStream = jasmine.createSpy('durationStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     rangeStream = jasmine.createSpy('rangeStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     createStream = {
       durationStream: curry(4, durationStream),
@@ -61,7 +61,7 @@ describe('host cpu ram chart', () => {
       config;
 
     beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.mostRecentCall.args[2];
+      handler = chartCompiler.calls.mostRecent().args[2];
 
       stream = highland();
       spyOn(stream, 'destroy');
@@ -97,7 +97,7 @@ describe('host cpu ram chart', () => {
 
         d3 = {
           format: jasmine.createSpy('format')
-            .andReturn(formatter)
+            .and.returnValue(formatter)
         };
 
         chart = {

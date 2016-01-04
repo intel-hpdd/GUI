@@ -13,10 +13,10 @@ describe('get ost balance chart', () => {
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
-      .andCallFake(invoke(__, []));
+      .and.callFake(invoke(__, []));
 
     getOstBalanceStream = jasmine.createSpy('getOstBalanceStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
@@ -62,7 +62,7 @@ describe('get ost balance chart', () => {
     var fn, s, $scope, conf;
 
     beforeEach(inject(($rootScope) => {
-      fn = chartCompiler.calls[0].args[2];
+      fn = chartCompiler.calls.argsFor(0)[2];
 
       s = highland();
       spyOn(s, 'destroy');
@@ -133,7 +133,7 @@ describe('get ost balance chart', () => {
         formatter = {};
 
         d3 = {
-          format: jasmine.createSpy('format').andReturn(formatter)
+          format: jasmine.createSpy('format').and.returnValue(formatter)
         };
 
         conf.options.setup(d3Chart, d3);

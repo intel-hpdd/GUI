@@ -25,7 +25,7 @@ describe('get event socket', function () {
 
     $provide.value('socketWorker', socketWorker);
 
-    getRandomValue = jasmine.createSpy('getRandomValue').andReturn(5);
+    getRandomValue = jasmine.createSpy('getRandomValue').and.returnValue(5);
     $provide.value('getRandomValue', getRandomValue);
   }));
 
@@ -105,7 +105,7 @@ describe('get event socket', function () {
 
       eventSocket.send({ path: '/host' }, spy);
 
-      ack = eventSocket.once.mostRecentCall.args[1];
+      ack = eventSocket.once.calls.mostRecent().args[1];
     });
 
     it('should send a message with a payload and ack', function () {

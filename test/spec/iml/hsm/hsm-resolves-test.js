@@ -36,7 +36,7 @@ describe('hsm fs resolve', () => {
 
   describe('copytoolOperationStream', () => {
     beforeEach(() => {
-      getCopytoolOperationStream.andReturn(s);
+      getCopytoolOperationStream.and.returnValue(s);
     });
 
     describe('with fsId', () => {
@@ -72,7 +72,7 @@ describe('hsm fs resolve', () => {
 
   describe('copytoolStream', () => {
     beforeEach(() => {
-      getCopytoolStream.andReturn(s);
+      getCopytoolStream.and.returnValue(s);
     });
 
     describe('with fsId', () => {

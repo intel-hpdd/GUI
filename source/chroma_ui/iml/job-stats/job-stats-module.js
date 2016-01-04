@@ -19,8 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
 
+import JobStatsCtrl from './job-stats-controller-exports';
 
-
-angular.module('jobStats', []);
+angular.module('jobStats', [])
+  .controller('JobStatsCtrl', JobStatsCtrl);

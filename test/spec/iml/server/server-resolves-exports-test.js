@@ -10,16 +10,16 @@ describe('server resolves', () => {
   beforeEach(module('server', ($provide) => {
     jobMonitorStream = λ();
     jobMonitor = jasmine.createSpy('jobMonitor')
-      .andReturn(jobMonitorStream);
+      .and.returnValue(jobMonitorStream);
     $provide.value('jobMonitor', jobMonitor);
 
     alertMonitorStream = λ();
     alertMonitor = jasmine.createSpy('alertMonitor')
-      .andReturn(alertMonitorStream);
+      .and.returnValue(alertMonitorStream);
     $provide.value('alertMonitor', alertMonitor);
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake((path) => {
+      .and.callFake((path) => {
         if (path === '/lnet_configuration') {
           return (lnetStream = λ());
         }

@@ -4,17 +4,18 @@ const {module, inject} = angular.mock;
 describe('handle action', function () {
   'use strict';
 
-  var socketStream, actionStream, openConfirmActionModal;
+  var socketStream, actionStream, openConfirmActionModal, openResult;
 
   beforeEach(module('action-dropdown-module', function ($provide) {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(function () {
+      .and.callFake(function () {
         return (actionStream = highland());
       });
     $provide.value('socketStream', socketStream);
 
+    openResult = { resultStream: highland() };
     openConfirmActionModal = jasmine.createSpy('openConfirmActionModal')
-      .andReturn({ resultStream: highland() });
+      .and.returnValue(openResult);
     $provide.value('openConfirmActionModal', openConfirmActionModal);
   }));
 
@@ -68,7 +69,7 @@ describe('handle action', function () {
         }, true);
       });
 
-      openConfirmActionModal.plan().resultStream.write(true);
+      openResult.resultStream.write(true);
 
       $rootScope.$digest();
 
@@ -80,7 +81,7 @@ describe('handle action', function () {
         expect(x).toBeUndefined();
       }, true);
 
-      openConfirmActionModal.plan().resultStream.write(true);
+      openResult.resultStream.write(true);
       $rootScope.$digest();
       actionStream.write({ foo: 'bar' });
     });
@@ -90,7 +91,7 @@ describe('handle action', function () {
         expect(x).toEqual({ foo: 'bar' });
       }, true);
 
-      openConfirmActionModal.plan().resultStream.write(false);
+      openResult.resultStream.write(false);
       $rootScope.$digest();
       actionStream.write({ foo: 'bar' });
     });
@@ -103,7 +104,7 @@ describe('handle action', function () {
       mdt: {
         resource: 'target',
         id: '1',
-        conf_params: []
+        conf_params: {}
       }
     };
 
@@ -114,7 +115,9 @@ describe('handle action', function () {
       json: {
         resource: 'target',
         id: '1',
-        conf_params: []
+        conf_params: {
+          some: 'value'
+        }
       }
     }, true);
   });
@@ -165,7 +168,7 @@ describe('handle action', function () {
             .toHaveBeenCalledOnceWith('It\'s gonna do stuff!', ['This will do stuff']);
         });
 
-        openConfirmActionModal.plan().resultStream.write(true);
+        openResult.resultStream.write(true);
 
         $rootScope.$digest();
 
@@ -180,7 +183,7 @@ describe('handle action', function () {
           }, true));
         });
 
-        openConfirmActionModal.plan().resultStream.write(true);
+        openResult.resultStream.write(true);
 
         $rootScope.$digest();
 

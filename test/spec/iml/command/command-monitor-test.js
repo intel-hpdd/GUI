@@ -4,26 +4,30 @@ const {module, inject} = angular.mock;
 describe('Command monitor controller', function () {
   'use strict';
 
-  var $scope, ctrl, getCommandStream, commandStream, commandMonitor, openCommandModal;
+  var $scope, ctrl, getCommandStream,
+    commandStream, commandMonitor,
+    openCommandModal, openCommandModalPromise;
 
   beforeEach(module('command'));
 
   beforeEach(inject(function ($rootScope, $controller, $q) {
     $scope = $rootScope.$new();
 
-    spyOn($scope, '$on').andCallThrough();
+    spyOn($scope, '$on').and.callThrough();
 
     commandStream = highland();
     spyOn(commandStream, 'destroy');
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(commandStream);
+      .and.returnValue(commandStream);
 
     commandMonitor = highland();
     spyOn(commandMonitor, 'destroy');
 
+    openCommandModalPromise = $q.when();
+
     openCommandModal = jasmine.createSpy('openCommandModal')
-      .andReturn({
-        result: $q.when()
+      .and.returnValue({
+        result: openCommandModalPromise
       });
 
     ctrl = $controller('CommandMonitorCtrl', {
@@ -40,7 +44,7 @@ describe('Command monitor controller', function () {
     });
 
     it('should end the monitor on destroy', function () {
-      var handler = $scope.$on.mostRecentCall.args[1];
+      var handler = $scope.$on.calls.mostRecent().args[1];
 
       handler();
 
@@ -79,7 +83,7 @@ describe('Command monitor controller', function () {
       });
 
       it('should end the stream after the modal closes', function () {
-        openCommandModal.plan().result.finally(function whenModalClosed () {
+        openCommandModalPromise.finally(function whenModalClosed () {
           expect(commandStream.destroy).toHaveBeenCalledOnce();
         });
 
@@ -96,7 +100,7 @@ describe('Command monitor', function () {
 
   beforeEach(module('command', function ($provide) {
     stream = highland();
-    socketStream = jasmine.createSpy('requestSocket').andReturn(stream);
+    socketStream = jasmine.createSpy('requestSocket').and.returnValue(stream);
     $provide.value('socketStream', socketStream);
   }));
 

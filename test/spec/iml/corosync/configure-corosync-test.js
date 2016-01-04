@@ -29,10 +29,10 @@ describe('configure corosync', function () {
 
       socketResponse = highland();
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(socketResponse.through(addProperty));
+        .and.returnValue(socketResponse.through(addProperty));
 
       waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-        .andCallFake(function (bool, x) {
+        .and.callFake(function (bool, x) {
           return [x];
         });
 
@@ -92,7 +92,7 @@ describe('configure corosync', function () {
           .stopOnError(noop)
           .each(noop);
 
-        bigDiffer.mergeObj.andCallFake(function (prop, local, remote) {
+        bigDiffer.mergeObj.and.callFake(function (prop, local, remote) {
           return remote;
         });
 
@@ -114,7 +114,7 @@ describe('configure corosync', function () {
         });
 
         it('should reset initial', function () {
-          bigDiffer.diffObj3.andReturn({});
+          bigDiffer.diffObj3.and.returnValue({});
 
           s.write({
             fooBar: 6000
@@ -141,7 +141,7 @@ describe('configure corosync', function () {
 
       describe('diff', function () {
         it('should return the diff', function () {
-          bigDiffer.diffObj3.andReturn({
+          bigDiffer.diffObj3.and.returnValue({
             mcastPort: {
               type: 'local'
             }
@@ -220,7 +220,7 @@ describe('configure corosync', function () {
           .stopOnError(noop)
           .each(noop);
 
-        bigDiffer.mergeObj.andCallFake(function (prop, local, remote) {
+        bigDiffer.mergeObj.and.callFake(function (prop, local, remote) {
           return remote;
         });
 

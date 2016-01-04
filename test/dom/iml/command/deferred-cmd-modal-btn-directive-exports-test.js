@@ -8,12 +8,12 @@ describe('deferred command modal button directive exports', () => {
 
   beforeEach(module('command', 'templates', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(highland());
+      .and.returnValue(highland());
     $provide.value('socketStream', socketStream);
 
     modalStream = highland();
     openCommandModal = jasmine.createSpy('openCommandModal')
-      .andReturn({
+      .and.returnValue({
         resultStream: modalStream
       });
     $provide.value('openCommandModal', openCommandModal);
@@ -26,7 +26,7 @@ describe('deferred command modal button directive exports', () => {
     $provide.decorator('resolveStream', ($delegate, $q) => {
       'ngInject';
 
-      return $delegate.andReturn($q.when());
+      return $delegate.and.returnValue($q.when());
     });
 
   }));
@@ -51,6 +51,7 @@ describe('deferred command modal button directive exports', () => {
     commandDetailButton = qs.bind(el, '.cmd-detail-btn');
     $scope.$digest();
   }));
+
 
   it('should not show the waiting button', () => {
     expect(waitingButton()).not.toBeShown();

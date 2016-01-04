@@ -21,8 +21,8 @@ describe('process middleware', () => {
     processMiddleware = _processMiddleware_;
     $rootScope = _$rootScope_;
 
-    mockMiddlewarePromise.andReturn($q.when());
-    mockMiddlewareFailPromise.andReturn($q.reject('/login'));
+    mockMiddlewarePromise.and.returnValue($q.when());
+    mockMiddlewareFailPromise.and.returnValue($q.reject('/login'));
 
     spy = jasmine.createSpy('spy');
   }));

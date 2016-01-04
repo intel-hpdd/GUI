@@ -19,8 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import {ActionDropdownCtrl, actionDropdown, actionDescriptionCache} from './action-dropdown-exports';
 
-
-
-angular.module('action-dropdown-module', ['command']);
+export default angular.module('action-dropdown-module', ['command'])
+  .factory('actionDescriptionCache', actionDescriptionCache)
+  .controller('ActionDropdownCtrl', ActionDropdownCtrl)
+  .directive('actionDropdown', actionDropdown)
+  .name;

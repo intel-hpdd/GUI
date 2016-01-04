@@ -10,14 +10,14 @@ describe('hsm fs resolve', () => {
   beforeEach(module('hsmFs', ($provide) => {
     s = λ();
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(s);
+      .and.returnValue(s);
     $provide.value('socketStream', socketStream);
 
     resolveStream = jasmine.createSpy('resolveStream');
     $provide.value('resolveStream', resolveStream);
 
     addProperty = jasmine.createSpy('addProperty')
-      .andCallFake(identity);
+      .and.callFake(identity);
 
     $provide.value('addProperty', addProperty);
   }));
@@ -28,7 +28,7 @@ describe('hsm fs resolve', () => {
     $q = _$q_;
     $rootScope = _$rootScope_;
 
-    resolveStream.andReturn($q.when(s));
+    resolveStream.and.returnValue($q.when(s));
   }));
 
   describe('fsCollStream', () => {

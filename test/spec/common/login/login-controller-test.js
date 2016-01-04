@@ -15,7 +15,7 @@ describe('Login Controller', () => {
     $provide.value('navigate', navigate);
 
     $provide.value('help', {
-      get: jasmine.createSpy('help').andReturn('foo')
+      get: jasmine.createSpy('help').and.returnValue('foo')
     });
 
     $provide.provider('$modal', function $modalProvider () {
@@ -26,14 +26,14 @@ describe('Login Controller', () => {
           instances: {}
         };
 
-        $modal.open = jasmine.createSpy('open').andCallFake((options) => {
+        $modal.open = jasmine.createSpy('open').and.callFake((options) => {
           var modalResult = $q.defer();
 
           var modalInstance = {
-            close: jasmine.createSpy('close').andCallFake((result) => {
+            close: jasmine.createSpy('close').and.callFake((result) => {
               modalResult.resolve(result);
             }),
-            dismiss: jasmine.createSpy('dismiss').andCallFake((reason) => {
+            dismiss: jasmine.createSpy('dismiss').and.callFake((reason) => {
               modalResult.reject(reason);
             }),
             result: modalResult.promise,
@@ -98,13 +98,13 @@ describe('Login Controller', () => {
 
       loginController.submitLogin();
 
-      expect($modal.open.callCount).toEqual(0);
+      expect($modal.open.calls.count()).toEqual(0);
     });
 
     it('should show the eula dialog if api says so', () => {
       $httpBackend.flush();
 
-      expect($modal.open.callCount).toEqual(1);
+      expect($modal.open.calls.count()).toEqual(1);
 
       expect($modal.open).toHaveBeenCalledWith({
         templateUrl: 'common/login/assets/html/eula.html',
@@ -124,7 +124,7 @@ describe('Login Controller', () => {
 
       $httpBackend.flush();
 
-      expect($modal.open.callCount).toEqual(0);
+      expect($modal.open.calls.count()).toEqual(0);
       expect(navigate).toHaveBeenCalledOnceWith();
     });
 
@@ -196,7 +196,7 @@ describe('Login Controller', () => {
     });
 
     it('should be denied', () => {
-      expect($modal.open.callCount).toEqual(1);
+      expect($modal.open.calls.count()).toEqual(1);
 
       expect($modal.open).toHaveBeenCalledWith({
         templateUrl: 'common/access-denied/assets/html/access-denied.html',

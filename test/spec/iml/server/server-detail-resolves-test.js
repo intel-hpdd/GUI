@@ -12,12 +12,12 @@ describe('server detail resolves', function () {
   beforeEach(module('server', function ($provide) {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
-      .andReturn(jobMonitorStream);
+      .and.returnValue(jobMonitorStream);
     $provide.value('jobMonitor', jobMonitor);
 
     alertMonitorStream = highland();
     alertMonitor = jasmine.createSpy('alertMonitor')
-      .andReturn(alertMonitorStream);
+      .and.returnValue(alertMonitorStream);
 
     $provide.value('alertMonitor', alertMonitor);
 
@@ -33,11 +33,11 @@ describe('server detail resolves', function () {
     networkInterfaceStream = highland();
 
     getNetworkInterfaceStream = jasmine.createSpy('getNetworkInterfaceStream')
-      .andReturn(networkInterfaceStream);
+      .and.returnValue(networkInterfaceStream);
     $provide.value('getNetworkInterfaceStream', getNetworkInterfaceStream);
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(function (path) {
+      .and.callFake(function (path) {
         if (path.indexOf('/host/') !== -1)
           return (serverStream = highland());
 
@@ -147,7 +147,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
 
       $rootScope.$apply();
 
-      expect(spy.mostRecentCall.args[0]).toEqual({
+      expect(spy.calls.mostRecent().args[0]).toEqual({
         jobMonitorStream: jasmine.any(Object),
         alertMonitorStream: jasmine.any(Object),
         serverStream: jasmine.any(Object),

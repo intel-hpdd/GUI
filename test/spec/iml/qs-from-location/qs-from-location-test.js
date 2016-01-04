@@ -23,14 +23,14 @@ describe('qs from location', function () {
 
   it('should return the current qs', function () {
     $location.absUrl
-      .andReturn('http://example.com/#/some/path?foo=bar&baz=xoxo');
+      .and.returnValue('http://example.com/#/some/path?foo=bar&baz=xoxo');
 
     expect(qsFromLocation()).toEqual('foo=bar&baz=xoxo');
   });
 
   it('should return an empty string for no qs', function () {
     $location.absUrl
-      .andReturn('http://example.com/#/some/path');
+      .and.returnValue('http://example.com/#/some/path');
 
     expect(qsFromLocation()).toEqual('');
   });

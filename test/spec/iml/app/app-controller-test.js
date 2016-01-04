@@ -10,7 +10,7 @@ describe('App controller', function () {
 
   beforeEach(inject(function ($rootScope, $q, $controller, fixtures) {
     help = {
-      get: jasmine.createSpy('help').andReturn('2015')
+      get: jasmine.createSpy('help').and.returnValue('2015')
     };
 
     GROUPS = {};
@@ -41,7 +41,7 @@ describe('App controller', function () {
       session: {
         user: sessionFixture.data.user,
         $delete: jasmine.createSpy('$delete')
-          .andReturn(deferred.promise)
+          .and.returnValue(deferred.promise)
       },
       navigate: navigate,
       $routeSegment: $routeSegment,

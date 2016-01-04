@@ -1,5 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import ServerDetailController from
+  '../../../../source/chroma_ui/iml/server/server-detail-controller-exports';
 
 describe('server detail controller', function () {
   'use strict';
@@ -36,7 +38,8 @@ describe('server detail controller', function () {
     pacemakerConfigurationStream = highland();
     spyOn(pacemakerConfigurationStream, 'destroy');
 
-    overrideActionClick = function overrideActionClick () {};
+    overrideActionClick = function overrideActionClick () {
+    };
 
     serverDetailController = $controller('ServerDetailController', {
       $scope: $scope,
@@ -54,7 +57,7 @@ describe('server detail controller', function () {
   }));
 
   it('should setup the controller', function () {
-    expect(serverDetailController).toEqual({
+    const instance = window.extendWithConstructor(ServerDetailController, {
       lnetConfigurationStream: lnetConfigurationStream,
       jobMonitorStream: jobMonitorStream,
       alertMonitorStream: alertMonitorStream,
@@ -65,6 +68,8 @@ describe('server detail controller', function () {
       closeAlert: jasmine.any(Function),
       getAlert: jasmine.any(Function)
     });
+
+    expect(serverDetailController).toEqual(instance);
   });
 
   it('should have a method to close the alert', function () {
@@ -124,7 +129,7 @@ before it was removed.');
 
   describe('on destroy', function () {
     beforeEach(function () {
-      $scope.$on.mostRecentCall.args[1]();
+      $scope.$on.calls.mostRecent().args[1]();
     });
 
     it('should destroy the server stream', function () {

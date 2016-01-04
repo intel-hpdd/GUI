@@ -6,7 +6,7 @@ describe('Eula Modal Controller', () => {
 
   beforeEach(module('login', 'interceptors', ($provide) => {
     $provide.value('help', {
-      get: jasmine.createSpy('get').andReturn('foo')
+      get: jasmine.createSpy('get').and.returnValue('foo')
     });
   }));
 

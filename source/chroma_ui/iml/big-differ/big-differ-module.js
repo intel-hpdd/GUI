@@ -19,6 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import * as bd from './get-big-differ-exports';
 
-angular.module('bigDifferModule', []);
+export default angular.module('bigDifferModule', [])
+  .value('diffObj3', bd.diffObj3)
+  .value('matchInColl', bd.matchInColl)
+  .factory('diffObjInColl3', bd.diffObjInColl3Factory)
+  .factory('mergeObj', bd.mergeObjFactory)
+  .factory('mergeColl', bd.mergeCollFactory)
+  .service('bigDiffer', bd.BigDiffer)
+  .name;

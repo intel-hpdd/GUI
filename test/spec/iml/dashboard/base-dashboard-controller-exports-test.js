@@ -1,6 +1,8 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import BaseDashboardCtrl from '../../../../source/chroma_ui/iml/dashboard/base-dashboard-controller-exports';
+
 describe('base dashboard controller', () => {
   beforeEach(module('baseDashboard'));
 
@@ -31,11 +33,13 @@ describe('base dashboard controller', () => {
   }));
 
   it('should setup the controller', () => {
-    expect(baseDashboardCtrl).toEqual({
+    const scope = window.extendWithConstructor(BaseDashboardCtrl, {
       fs: [],
       fsStream: jasmine.any(Object),
       charts: charts
     });
+
+    expect(baseDashboardCtrl).toEqual(scope);
   });
 
   describe('streaming data', () => {
@@ -67,7 +71,7 @@ describe('base dashboard controller', () => {
 
     fsStream.write(err);
 
-    expect($scope.handleException.mostRecentCall.args[0])
+    expect($scope.handleException.calls.mostRecent().args[0])
       .toEqual(new Error('boom!'));
   });
 

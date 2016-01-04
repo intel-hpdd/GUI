@@ -22,7 +22,7 @@ describe('buffer data newer than', function () {
   }));
 
   it('should flatten milliseconds single seconds', function () {
-    getServerMoment.andReturn(moment('2015-05-11T00:00:03.565Z'));
+    getServerMoment.and.returnValue(moment('2015-05-11T00:00:03.565Z'));
 
     highland([{ ts: '2015-05-10T23:50:00.000Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -34,7 +34,7 @@ describe('buffer data newer than', function () {
   });
 
   it('should keep points within the window', function () {
-    getServerMoment.andReturn(moment('2015-05-11T00:00:00.000Z'));
+    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:50:59.999Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -46,7 +46,7 @@ describe('buffer data newer than', function () {
   });
 
   it('should remove points outside the window', function () {
-    getServerMoment.andReturn(moment('2015-05-11T00:00:00.000Z'));
+    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:49:50.000Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -56,7 +56,7 @@ describe('buffer data newer than', function () {
   });
 
   it('should sort the dates', function () {
-    getServerMoment.andReturn(moment('2015-05-11T00:00:00.000Z'));
+    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([
       { ts: '2015-05-10T23:51:50.000Z' },
@@ -73,7 +73,7 @@ describe('buffer data newer than', function () {
   });
 
   it('should buffer points', function () {
-    getServerMoment.andReturn(moment('2015-05-11T00:00:00.000Z'));
+    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     var s1 = highland();
     var s2 = highland();

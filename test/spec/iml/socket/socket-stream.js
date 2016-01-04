@@ -17,7 +17,7 @@ describe('socket stream', function () {
     spy = jasmine.createSpy('spy');
 
     getEventSocket = jasmine.createSpy('getEventSocket')
-      .andReturn(socket);
+      .and.returnValue(socket);
 
     $provide.value('getEventSocket', getEventSocket);
   }));
@@ -72,7 +72,7 @@ describe('socket stream', function () {
     it('should end after a response', function () {
       s.each(_.noop);
 
-      var ack = socket.send.mostRecentCall.args[1];
+      var ack = socket.send.calls.mostRecent().args[1];
 
       ack({});
 
@@ -82,7 +82,7 @@ describe('socket stream', function () {
     it('should end after an error', function () {
       s.each(_.noop);
 
-      var ack = socket.send.mostRecentCall.args[1];
+      var ack = socket.send.calls.mostRecent().args[1];
 
       ack({ error: 'boom!' });
 
@@ -92,7 +92,7 @@ describe('socket stream', function () {
     it('should end if stream is paused', function () {
       s.pull(_.noop);
 
-      var ack = socket.send.mostRecentCall.args[1];
+      var ack = socket.send.calls.mostRecent().args[1];
 
       ack({
         error: 'boom!'
@@ -105,7 +105,7 @@ describe('socket stream', function () {
       s.errors(_.unary(spy))
         .each(_.noop);
 
-      var ack = socket.send.mostRecentCall.args[1];
+      var ack = socket.send.calls.mostRecent().args[1];
 
       ack({ error: 'boom!' });
 
@@ -115,7 +115,7 @@ describe('socket stream', function () {
     it('should handle the response', function () {
       s.each(spy);
 
-      var ack = socket.send.mostRecentCall.args[1];
+      var ack = socket.send.calls.mostRecent().args[1];
 
       ack({ foo: 'bar' });
 
@@ -131,7 +131,7 @@ describe('socket stream', function () {
         qs: { foo: 'bar' }
       });
 
-      handler = socket.on.mostRecentCall.args[1];
+      handler = socket.on.calls.mostRecent().args[1];
     });
 
     it('should connect the socket', function () {

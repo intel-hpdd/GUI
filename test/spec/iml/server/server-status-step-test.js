@@ -22,8 +22,8 @@ describe('Server Status Step', function () {
       };
 
       hostlistFilter = {
-        setHash: jasmine.createSpy('setHash').andCallFake(returnHostlistFilter),
-        setHosts: jasmine.createSpy('setHosts').andCallFake(returnHostlistFilter),
+        setHash: jasmine.createSpy('setHash').and.callFake(returnHostlistFilter),
+        setHosts: jasmine.createSpy('setHosts').and.callFake(returnHostlistFilter),
         compute: jasmine.createSpy('compute')
       };
 
@@ -116,10 +116,10 @@ describe('Server Status Step', function () {
 
       beforeEach(function () {
         getTestHostStream = jasmine.createSpy('getTestHostStream')
-          .andReturn(highland());
+          .and.returnValue(highland());
 
         serversToApiObjects = jasmine.createSpy('serversToApiObjects')
-          .andReturn([{
+          .and.returnValue([{
             address: 'lotus-34vm5.iml.intel.com',
             auth_type: 'existing_keys_choice'
           },
@@ -129,7 +129,7 @@ describe('Server Status Step', function () {
           }]);
 
         resolveStream = jasmine.createSpy('resolveStream')
-          .andReturn(_.identity);
+          .and.returnValue(_.identity);
 
         data = {
           spring: jasmine.createSpy('spring'),
@@ -151,7 +151,16 @@ describe('Server Status Step', function () {
 
       it('should test the api objects', function () {
         expect(getTestHostStream).toHaveBeenCalledOnceWith(data.spring, {
-          objects: serversToApiObjects.plan()
+          objects: [
+            {
+              address: 'lotus-34vm5.iml.intel.com',
+              auth_type: 'existing_keys_choice'
+            },
+            {
+              address: 'lotus-34vm6.iml.intel.com',
+              auth_type: 'existing_keys_choice'
+            }
+          ]
         });
       });
     });

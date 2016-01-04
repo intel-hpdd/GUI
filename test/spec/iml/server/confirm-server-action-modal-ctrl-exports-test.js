@@ -6,7 +6,8 @@ import λ from 'highland';
 describe('Confirm server action modal', () => {
   beforeEach(module('server'));
 
-  var $scope, $uibModalInstance, hosts, action, socketStream, stream, confirmServer;
+  var $scope, $uibModalInstance, hosts, convertedJob,
+    action, socketStream, stream, confirmServer;
 
   beforeEach(inject(($rootScope, $controller) => {
     $scope = $rootScope.$new();
@@ -18,19 +19,22 @@ describe('Confirm server action modal', () => {
 
     hosts = [{}];
 
+    convertedJob = {
+      class_name: 'foo',
+      args: {
+        host_id: '1'
+      }
+    };
+
     action = {
       value: 'Install Updates',
       message: 'Installing updates',
-      convertToJob: jasmine.createSpy('convertToJob').andReturn({
-        class_name: 'foo',
-        args: {
-          host_id: '1'
-        }
-      })
+      convertToJob: jasmine.createSpy('convertToJob')
+        .and.returnValue(convertedJob)
     };
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => {
+      .and.callFake(() => {
         return (stream = λ());
       });
 
@@ -71,7 +75,7 @@ describe('Confirm server action modal', () => {
         method: 'post',
         json: {
           message: action.message,
-          jobs: action.convertToJob.plan()
+          jobs: convertedJob
         }
       }, true);
     });

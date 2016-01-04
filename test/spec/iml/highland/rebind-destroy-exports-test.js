@@ -9,7 +9,7 @@ describe('rebind destroy', function () {
 
   beforeEach(() => {
     throughSpy = jasmine.createSpy('throughSpy')
-      .andCallFake(identity);
+      .and.callFake(identity);
     destroySpy = jasmine.createSpy('destroySpy');
     s = λ();
     s._destructors.push(destroySpy);

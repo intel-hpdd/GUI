@@ -1,6 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import StatusQueryController from
+  '../../../../source/chroma_ui/iml/status/status-query-controller-exports';
+
 describe('status query controller', function () {
   beforeEach(module('status'));
 
@@ -16,7 +19,7 @@ describe('status query controller', function () {
 
     s = highland();
     spyOn(s, 'destroy');
-    routeStream = jasmine.createSpy('routeStream').andReturn(s);
+    routeStream = jasmine.createSpy('routeStream').and.returnValue(s);
 
     ctrl = $controller('StatusQueryController', {
       $scope: $scope,
@@ -28,13 +31,15 @@ describe('status query controller', function () {
   }));
 
   it('should set the controller properties', function () {
-    expect(ctrl).toEqual({
+    const instance = window.extendWithConstructor(StatusQueryController, {
       parserFormatter: {
         parser: inputToQsParser,
         formatter: qsToInputParser
       },
       onSubmit: jasmine.any(Function)
     });
+
+    expect(ctrl).toEqual(instance);
   });
 
   it('should set the current qs', function () {

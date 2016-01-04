@@ -51,7 +51,7 @@ describe('get add server manager', function () {
     var stepsManager, waitUntilLoadedStep;
 
     beforeEach(module(function ($provide) {
-      stepsManager = jasmine.createSpy('stepsManager').andReturn({
+      stepsManager = jasmine.createSpy('stepsManager').and.returnValue({
         addStep: jasmine.createSpy('addStep'),
         addWaitingStep: jasmine.createSpy('addWaitingStep')
       });
@@ -69,7 +69,7 @@ describe('get add server manager', function () {
     }));
 
     it('should add each step', inject(function (addServerSteps) {
-      expect(_.pluck(addServerManager.addStep.calls, 'args')).toEqual(_.pairs(addServerSteps));
+      expect(addServerManager.addStep.calls.allArgs()).toEqual(_.pairs(addServerSteps));
     }));
 
     it('should add a waiting step', function () {

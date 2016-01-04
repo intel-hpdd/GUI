@@ -7,7 +7,7 @@ describe('get random value', function () {
   var getRandomValues;
 
   beforeEach(module('crypto', function ($provide) {
-    getRandomValues = jasmine.createSpy('getRandomValues').andReturn([2]);
+    getRandomValues = jasmine.createSpy('getRandomValues').and.returnValue([2]);
 
     $provide.value('crypto', {
       getRandomValues: getRandomValues

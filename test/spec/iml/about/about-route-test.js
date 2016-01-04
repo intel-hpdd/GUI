@@ -11,11 +11,11 @@ describe('about route', () => {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
-        .andCallFake(routeSegementProvider),
+        .and.callFake(routeSegementProvider),
       when: jasmine.createSpy('$routeSegmentProvider.when')
-        .andCallFake(routeSegementProvider),
+        .and.callFake(routeSegementProvider),
       within: jasmine.createSpy('$routeSegmentProvider.within')
-        .andCallFake(routeSegementProvider)
+        .and.callFake(routeSegementProvider)
     };
 
     function routeSegementProvider () {

@@ -19,7 +19,7 @@ describe('base chart', function () {
 
     d3 = {
       select: jasmine.createSpy('select')
-        .andCallFake(_.identity)
+        .and.callFake(_.identity)
     };
 
     $provide.value('d3', d3);
@@ -59,7 +59,7 @@ describe('base chart', function () {
 
       scope = {
         stream: s,
-        $watch: jasmine.createSpy('$watch').andReturn(deregister),
+        $watch: jasmine.createSpy('$watch').and.returnValue(deregister),
         $on: jasmine.createSpy('$on')
       };
 
@@ -72,16 +72,16 @@ describe('base chart', function () {
         datum: jasmine.createSpy('datum')
       };
 
-      svg.attr.andReturn(svg);
-      svg.transition.andReturn(svg);
-      svg.duration.andReturn(svg);
-      svg.call.andReturn(svg);
-      svg.remove.andReturn(svg);
+      svg.attr.and.returnValue(svg);
+      svg.transition.and.returnValue(svg);
+      svg.duration.and.returnValue(svg);
+      svg.call.and.returnValue(svg);
+      svg.remove.and.returnValue(svg);
 
       element = {
         querySelector: jasmine.createSpy('querySelector')
-          .andReturn(svg),
-        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').andReturn({
+          .and.returnValue(svg),
+        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').and.returnValue({
           bottom: 703,
           height: 450,
           left: 15,
@@ -91,7 +91,7 @@ describe('base chart', function () {
         })
       };
 
-      generateChart = jasmine.createSpy('generateChart').andCallFake(_.identity);
+      generateChart = jasmine.createSpy('generateChart').and.callFake(_.identity);
 
       var ddo = baseChart({
         generateChart: generateChart
@@ -160,7 +160,7 @@ describe('base chart', function () {
 
     describe('destroy handler', function () {
       beforeEach(function () {
-        scope.$on.calls[0].args[1]();
+        scope.$on.calls.argsFor(0)[1]();
       });
 
       it('should deregister the stream watcher', function () {

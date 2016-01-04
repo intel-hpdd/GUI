@@ -7,12 +7,12 @@ describe('app resolves', function () {
   beforeEach(module('app', function ($provide) {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
-    resolveStream.andReturn(promise);
+    resolveStream.and.returnValue(promise);
     $provide.value('resolveStream', resolveStream);
 
     stream = {};
     socketStream = jasmine.createSpy('socketStream');
-    socketStream.andReturn(stream);
+    socketStream.and.returnValue(stream);
     $provide.value('socketStream', socketStream);
   }));
 
@@ -94,7 +94,7 @@ describe('app resolves', function () {
     beforeEach(module(function ($provide) {
       session = {};
       SessionModel = jasmine.createSpy('SessionModel')
-        .andReturn(session);
+        .and.returnValue(session);
       $provide.value('SessionModel', SessionModel);
 
       CACHE_INITIAL_DATA = {

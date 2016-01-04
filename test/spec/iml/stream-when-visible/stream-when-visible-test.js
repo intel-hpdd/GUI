@@ -14,7 +14,7 @@ describe('stream when visible', () => {
 
     removeListener = jasmine.createSpy('removeListener');
     pageVisibility = jasmine.createSpy('pageVisibility')
-      .andReturn(removeListener);
+      .and.returnValue(removeListener);
 
     spy = jasmine.createSpy('spy');
 
@@ -28,10 +28,10 @@ describe('stream when visible', () => {
     inStream = highland();
     spyOn(inStream, 'destroy');
     streamFn = jasmine.createSpy('streamFn')
-      .andReturn(inStream);
+      .and.returnValue(inStream);
 
     stream = streamWhenVisible(streamFn);
-    spyOn(stream, 'destroy').andCallThrough();
+    spyOn(stream, 'destroy').and.callThrough();
   });
 
   it('should be a function', () => {
@@ -88,7 +88,7 @@ describe('stream when visible', () => {
       inStream = highland();
 
       streamFn = jasmine.createSpy('streamFn')
-        .andReturn(inStream);
+        .and.returnValue(inStream);
       stream = streamWhenVisible(streamFn);
 
       inStream.write('foo');
@@ -114,7 +114,7 @@ describe('stream when visible', () => {
 
     describe('then shown', () => {
       beforeEach(() => {
-        pageVisibility.mostRecentCall.args[1]();
+        pageVisibility.calls.mostRecent().args[1]();
       });
 
       it('should write data', () => {

@@ -6,14 +6,14 @@ describe('file usage stream', () => {
 
   beforeEach(module('fileUsageModule', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => {
+      .and.callFake(() => {
         return (serverStream = highland());
       });
 
     $provide.value('socketStream', socketStream);
 
     getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2014-04-14T13:40:00+00:00'));
+      .and.returnValue(moment('2014-04-14T13:40:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
   }));

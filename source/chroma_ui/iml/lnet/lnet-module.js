@@ -20,5 +20,8 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {ConfigureLnetController, configureLnet} from './configure-lnet-exports';
 
-angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command']);
+angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command'])
+  .controller('ConfigureLnetController', ConfigureLnetController)
+  .directive('configureLnet', configureLnet);

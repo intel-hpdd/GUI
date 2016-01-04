@@ -19,9 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import StatusController from './status-controller-exports';
+import StatusQueryController from './status-query-controller-exports';
 
-angular.module('status',
+export default angular.module('status',
   ['parserModule', 'parselyBox', 'multiStream',
     'routeStream', 'qsFromLocation', 'commonStatusSearches',
-    'extendScope', 'action-dropdown-module']);
+    'extendScope', 'action-dropdown-module'
+  ])
+  .controller('StatusController', StatusController)
+  .controller('StatusQueryController', StatusQueryController)
+  .name;

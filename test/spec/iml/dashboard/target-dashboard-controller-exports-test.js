@@ -1,6 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import TargetDashboardController from
+  '../../../../source/chroma_ui/iml/dashboard/target-dashboard-controller-exports';
+
 describe('target dashboard', () => {
   beforeEach(module('targetDashboard'));
 
@@ -29,11 +32,13 @@ describe('target dashboard', () => {
   }));
 
   it('should setup the controller', () => {
-    expect(ctrl).toEqual({
+    const scope = window.extendWithConstructor(TargetDashboardController, {
       charts: charts,
       usageStream: usageStream,
       kind: 'MDT'
     });
+
+    expect(ctrl).toEqual(scope);
   });
 
   it('should set data on the controller', () => {

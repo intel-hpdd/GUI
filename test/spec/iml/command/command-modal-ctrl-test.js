@@ -39,7 +39,7 @@ describe('command modal', function () {
       var handle, commandStream;
 
       beforeEach(function () {
-        handle = $modal.open.mostRecentCall.args[0].resolve.commandsStream;
+        handle = $modal.open.calls.mostRecent().args[0].resolve.commandsStream;
         commandStream = handle();
       });
 

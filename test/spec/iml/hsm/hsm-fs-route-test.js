@@ -12,8 +12,8 @@ describe('hsm fs route', () => {
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
-    $routeSegmentProvider.within.andReturn($routeSegmentProvider);
-    $routeSegmentProvider.when.andReturn($routeSegmentProvider);
+    $routeSegmentProvider.within.and.returnValue($routeSegmentProvider);
+    $routeSegmentProvider.when.and.returnValue($routeSegmentProvider);
 
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider

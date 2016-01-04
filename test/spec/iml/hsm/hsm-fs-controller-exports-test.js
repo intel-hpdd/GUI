@@ -2,6 +2,7 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 import λ from 'highland';
 import {always} from 'intel-fp/fp';
+import HsmFsCtrl from '../../../../source/chroma_ui/iml/hsm/hsm-fs-controller-exports';
 
 describe('HSM fs controller', function () {
   var ctrl, $scope, $location, $routeSegment,
@@ -28,13 +29,13 @@ describe('HSM fs controller', function () {
     rs = λ();
     spyOn(rs, 'destroy');
     routeStream = jasmine.createSpy('routeStream')
-      .andReturn(rs);
+      .and.returnValue(rs);
     rs.write({
       params: {
         fsId: '1'
       },
       contains: jasmine.createSpy('contains')
-        .andReturn(true)
+        .and.returnValue(true)
     });
 
     ctrl = $controller('HsmFsCtrl', {
@@ -48,14 +49,16 @@ describe('HSM fs controller', function () {
   }));
 
   it('should setup ctrl as expected', function () {
-    expect(ctrl).toEqual({
+    const instance = window.extendWithConstructor(HsmFsCtrl, {
       onUpdate: jasmine.any(Function)
     });
+
+    expect(ctrl).toEqual(instance);
   });
 
   describe('onUpdate', function () {
     beforeEach(function () {
-      $routeSegment.getSegmentUrl.andReturn('/configure/hsm');
+      $routeSegment.getSegmentUrl.and.returnValue('/configure/hsm');
     });
 
     it('should getSegmentUrl without id', function () {

@@ -72,11 +72,12 @@ describe('host profile then', function () {
       $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
     }));
 
-    var spring, hostProfilesStream;
+    var spring, hostProfilesStream, springStream;
 
     beforeEach(inject(function (getHostProfiles) {
+      springStream = highland();
       spring = jasmine.createSpy('spring')
-        .andReturn(highland());
+        .and.returnValue(springStream);
 
       hostProfilesStream = getHostProfiles(spring, [{id: 1}, {id: 2}]);
     }));
@@ -151,7 +152,7 @@ describe('host profile then', function () {
           ]
         };
 
-        spring.plan().write(response);
+        springStream.write(response);
       });
 
       it('should transform into top level profiles', inject(function (transformedHostProfileFixture) {
@@ -165,18 +166,20 @@ describe('host profile then', function () {
   });
 
   describe('create host profiles', function () {
-    var socketStream, streams, waitForCommandCompletion;
+    var socketStream, streams, waitForCommandCompletion, completionResult;
 
     beforeEach(module(function ($provide) {
+      completionResult = jasmine.createSpy('innerWait')
+        .and.returnValue(highland());
       waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-        .andReturn(jasmine.createSpy('innerWait').andReturn(highland()));
+        .and.returnValue(completionResult);
       $provide.value('waitForCommandCompletion', waitForCommandCompletion);
 
       streams = [];
 
       socketStream = jasmine
         .createSpy('socketStream')
-        .andCallFake(function () {
+        .and.callFake(function () {
           var stream = highland();
           streams.push(stream);
 
@@ -246,7 +249,7 @@ describe('host profile then', function () {
       });
 
       it('should pass in the commands to wait for command completion', function () {
-        expect(waitForCommandCompletion.plan()).toHaveBeenCalledOnceWith([
+        expect(completionResult).toHaveBeenCalledOnceWith([
           {
             command: { command: 1 }
           }

@@ -8,21 +8,21 @@ describe('create stream', function () {
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
-      .andReturn('streamWhenVisible');
+      .and.returnValue('streamWhenVisible');
     bufferDataNewerThan = jasmine.createSpy('bufferDataNewerThan')
-      .andReturn('bufferDataNewerThan');
+      .and.returnValue('bufferDataNewerThan');
 
     requestRangeInner = jasmine.createSpy('requestRangeInner')
-      .andReturn('requestRangeInner');
+      .and.returnValue('requestRangeInner');
 
     requestDurationInner = jasmine.createSpy('requestDurationInner')
-      .andReturn('requestDurationInner');
+      .and.returnValue('requestDurationInner');
 
     getTimeParams = {
       getRequestRange: jasmine.createSpy('getRequestRange')
-        .andReturn(requestRangeInner),
+        .and.returnValue(requestRangeInner),
       getRequestDuration: jasmine.createSpy('getRequestDuration')
-        .andReturn(requestDurationInner)
+        .and.returnValue(requestDurationInner)
     };
 
     createStream = createStreamFactory(streamWhenVisible, bufferDataNewerThan, getTimeParams);
@@ -41,7 +41,7 @@ describe('create stream', function () {
 
     beforeEach(() => {
       streamFn = jasmine.createSpy('streamFn')
-      .andReturn('streamFn');
+      .and.returnValue('streamFn');
 
       overrides = {
         over: 'rides'
@@ -51,7 +51,7 @@ describe('create stream', function () {
       end = 6;
 
       durationStream = createStream.durationStream(streamFn, overrides, begin, end);
-      createFn = streamWhenVisible.mostRecentCall.args[0];
+      createFn = streamWhenVisible.calls.mostRecent().args[0];
     });
 
     it('should return stream when visible', function () {
@@ -97,7 +97,7 @@ describe('create stream', function () {
 
     beforeEach(() => {
       streamFn = jasmine.createSpy('streamFn')
-        .andReturn('streamFn');
+        .and.returnValue('streamFn');
 
       overrides = {
         over: 'rides'
@@ -107,7 +107,7 @@ describe('create stream', function () {
       end = 6;
 
       rangeStream = createStream.rangeStream(streamFn, overrides, begin, end);
-      createFn = streamWhenVisible.mostRecentCall.args[0];
+      createFn = streamWhenVisible.calls.mostRecent().args[0];
     });
 
     it('should return stream when visible', function () {

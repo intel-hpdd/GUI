@@ -24,7 +24,7 @@ describe('chart directive', () => {
     $provide.value('$window', $window);
 
     $provide.value('debounce', jasmine.createSpy('debounce')
-      .andCallFake(identity));
+      .and.callFake(identity));
   }));
 
   var el, qs, $scope;
@@ -152,7 +152,7 @@ describe('chart directive', () => {
 
     describe('from a resize', () => {
       it('should call listeners', () => {
-        $window.addEventListener.calls[0].args[1]();
+        $window.addEventListener.calls.argsFor(0)[1]();
 
         expect(spy)
           .toHaveBeenCalledTwiceWith({

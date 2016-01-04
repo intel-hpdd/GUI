@@ -2,6 +2,8 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import {__, flowLens, lensProp} from 'intel-fp/fp';
+import {BigDiffer} from
+  '../../../../source/chroma_ui/iml/big-differ/get-big-differ-exports';
 
 describe('The big differ', function () {
   'use strict';
@@ -15,12 +17,14 @@ describe('The big differ', function () {
   }));
 
   it('should be a collection of diff tools', function () {
-    expect(bigDiffer).toEqual({
+    const scope = window.extendWithConstructor(BigDiffer, {
       diffObj3: jasmine.any(Function),
       diffObjInColl3: jasmine.any(Function),
       mergeObj: jasmine.any(Function),
       mergeColl: jasmine.any(Function)
     });
+
+    expect(bigDiffer).toEqual(scope);
   });
 
   describe('diffObj3', function () {
@@ -121,7 +125,6 @@ describe('The big differ', function () {
         lndNetwork: lndNetworkLens,
         inet4Address: inet4AddressLens
       });
-
 
       var local = angular.copy(fixture);
       lndNetworkLens.set(6, local);

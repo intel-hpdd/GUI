@@ -11,7 +11,7 @@ describe('job indicator', function () {
       stream = highland();
 
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(stream);
+        .and.returnValue(stream);
 
       $provide.value('socketStream', socketStream);
     }));

@@ -15,7 +15,7 @@ describe('get OST balance stream', () => {
 
   beforeEach(inject((ostBalanceDataFixtures, formatBytes) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake((path) => {
+      .and.callFake((path) => {
         if (path === '/target/metric')
           return (ostMetricsStream = highland());
         else if (path === '/target')

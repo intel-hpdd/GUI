@@ -17,7 +17,7 @@ describe('The target metric model', () => {
 
       deferred = $q.defer();
 
-      $delegate().query.andReturn({
+      $delegate().query.and.returnValue({
         $promise: deferred.promise
       });
 

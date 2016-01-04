@@ -5,19 +5,22 @@ import {find, eqFn, flow, pathLens, identity} from 'intel-fp/fp';
 
 describe('socket worker', () => {
   var worker, getWebWorker, arg0Eq, getArg1,
-    disconnectModal, $timeout, STATIC_URL;
+    disconnectModal, $timeout, STATIC_URL,
+    disconnectModalInstance;
 
   beforeEach(module('socket-worker', ($provide) => {
     arg0Eq = eqFn(identity, pathLens(['args', '0']));
     getArg1 = pathLens(['args', '1']);
 
-    disconnectModal = jasmine.createSpy('disconnectModal').andReturn({
+    disconnectModalInstance = {
       close: jasmine.createSpy('close')
-    });
+    };
+    disconnectModal = jasmine.createSpy('disconnectModal')
+      .and.returnValue(disconnectModalInstance);
     $provide.value('disconnectModal', disconnectModal);
 
     $timeout = jasmine.createSpy('$timeout')
-      .andCallFake((fn, delay, invokeApply, pass) => {
+      .and.callFake((fn, delay, invokeApply, pass) => {
         return fn(pass);
       });
 
@@ -27,7 +30,7 @@ describe('socket worker', () => {
 
     STATIC_URL = '/static/chroma_ui/';
 
-    getWebWorker = jasmine.createSpy('getWebWorker').andReturn(worker);
+    getWebWorker = jasmine.createSpy('getWebWorker').and.returnValue(worker);
     $provide.value('getWebWorker', getWebWorker);
     $provide.value('STATIC_URL', STATIC_URL);
     $provide.value('$timeout', $timeout);
@@ -63,7 +66,7 @@ describe('socket worker', () => {
 
     const err = new Error('boom!');
 
-    expect(getError(worker.addEventListener.calls).bind(null, err))
+    expect(getError(worker.addEventListener.calls.all()).bind(null, err))
       .toThrow(err);
   });
 
@@ -76,7 +79,7 @@ describe('socket worker', () => {
         getArg1
       );
 
-      handler = getMessage(worker.addEventListener.calls);
+      handler = getMessage(worker.addEventListener.calls.all());
     });
 
     describe('reconnecting', () => {
@@ -116,13 +119,13 @@ describe('socket worker', () => {
       });
 
       it('should close the modal', () => {
-        expect(disconnectModal.plan().close).toHaveBeenCalledOnce();
+        expect(disconnectModalInstance.close).toHaveBeenCalledOnce();
       });
 
       it('should not close the modal when it\'s already closed', () => {
         handler(ev);
 
-        expect(disconnectModal.plan().close).toHaveBeenCalledOnce();
+        expect(disconnectModalInstance.close).toHaveBeenCalledOnce();
       });
     });
   });

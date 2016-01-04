@@ -17,7 +17,7 @@ describe('create or update hosts stream', function () {
 
     hostStreams = [];
 
-    socketStream = jasmine.createSpy('socketStream').andCallFake(function () {
+    socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
       var stream = highland();
 
       hostStreams.push(stream);

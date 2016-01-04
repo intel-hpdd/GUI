@@ -21,7 +21,7 @@ describe('Exception interceptor', function () {
     response = {
       data: {},
       status: 500,
-      headers: jasmine.createSpy('headers').andCallFake(function () {
+      headers: jasmine.createSpy('headers').and.callFake(function () {
         return {};
       }),
       config: {
@@ -54,7 +54,7 @@ describe('Exception interceptor', function () {
 
         exceptionInterceptor.requestError(strangeError);
 
-        customError = exceptionHandler.mostRecentCall.args[0];
+        customError = exceptionHandler.calls.mostRecent().args[0];
       });
 
       it('should call $exceptionHandler with a custom error', function () {
@@ -88,7 +88,7 @@ describe('Exception interceptor', function () {
 
         exceptionInterceptor.responseError(response);
 
-        expect(exceptionHandler.callCount).toBe(0);
+        expect(exceptionHandler.calls.count()).toBe(0);
       });
     });
 
@@ -97,7 +97,7 @@ describe('Exception interceptor', function () {
 
       exceptionInterceptor.responseError(response);
 
-      expect(exceptionHandler.callCount).toBe(1);
+      expect(exceptionHandler.calls.count()).toBe(1);
     });
 
     it('should reject 500 errors', function () {
@@ -113,7 +113,7 @@ describe('Exception interceptor', function () {
     it('should call the $exceptionHandler with an error on 500s', function () {
       exceptionInterceptor.responseError(response);
 
-      var error = exceptionHandler.mostRecentCall.args[0];
+      var error = exceptionHandler.calls.mostRecent().args[0];
 
       expect(error).toEqual(jasmine.any(Error));
     });

@@ -7,15 +7,16 @@ describe('job tree', function () {
   describe('job tree ctrl', function () {
 
     var $scope, jobTree, getJobStream, jobStream, socketStream,
-      GROUPS, openStepModal, job;
+      GROUPS, openStepModal, job, ss;
 
     beforeEach(inject(function ($rootScope, $controller) {
       jobStream = highland();
       spyOn(jobStream, 'destroy');
       getJobStream = jasmine.createSpy('getJobStream')
-        .andReturn(jobStream);
+        .and.returnValue(jobStream);
+      ss = highland();
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(highland());
+        .and.returnValue(ss);
 
       GROUPS = {};
 
@@ -27,7 +28,7 @@ describe('job tree', function () {
         jobs: []
       };
 
-      spyOn($scope, '$on').andCallThrough();
+      spyOn($scope, '$on').and.callThrough();
 
       job = {
         id: '2',
@@ -69,7 +70,7 @@ describe('job tree', function () {
     it('should set the jobs', function () {
       var response = [job];
 
-      getJobStream.plan().write(response);
+      jobStream.write(response);
 
       expect(jobTree.jobs).toEqual([job]);
     });
@@ -79,7 +80,7 @@ describe('job tree', function () {
     });
 
     it('should end the stream on destroy', function () {
-      $scope.$on.mostRecentCall.args[1]();
+      $scope.$on.calls.mostRecent().args[1]();
 
       expect(jobStream.destroy).toHaveBeenCalledOnce();
     });
@@ -101,7 +102,7 @@ describe('job tree', function () {
       });
 
       it('should show transition when finished', function () {
-        socketStream.plan().write({});
+        ss.write({});
 
         expect(jobTree.showTransition(job)).toBe(true);
       });
@@ -109,11 +110,12 @@ describe('job tree', function () {
   });
 
   describe('get job stream', function () {
-    var socketStream, jobTree;
+    var socketStream, jobTree, ss;
 
     beforeEach(module(function ($provide) {
+      ss = highland();
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(highland());
+        .and.returnValue(ss);
 
       jobTree = jasmine.createSpy('jobTree');
 
@@ -152,7 +154,7 @@ describe('job tree', function () {
       });
 
       it('should convert to a tree', function () {
-        socketStream.plan().write(response);
+        ss.write(response);
 
         stream.each(function () {
           expect(jobTree).toHaveBeenCalledOnceWith([{}]);
@@ -160,9 +162,9 @@ describe('job tree', function () {
       });
 
       it('should return the converted tree', function () {
-        jobTree.andReturn([{ converted: true }]);
+        jobTree.and.returnValue([{ converted: true }]);
 
-        socketStream.plan().write(response);
+        ss.write(response);
 
         stream.each(function (x) {
           expect(x).toEqual([{ converted: true }]);

@@ -57,7 +57,7 @@ describe('Positioning service', function () {
       };
 
       var tooltip = {
-        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').andCallFake(function () {
+        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').and.callFake(function () {
           return fakePosition;
         })
       };

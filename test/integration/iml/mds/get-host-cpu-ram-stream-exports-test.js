@@ -6,12 +6,12 @@ describe('The host cpu ram stream', () => {
 
   beforeEach(module('hostCpuRamChart', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => (serverStream = highland()));
+      .and.callFake(() => (serverStream = highland()));
 
     $provide.value('socketStream', socketStream);
 
     getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2013-11-18T20:59:30+00:00'));
+      .and.returnValue(moment('2013-11-18T20:59:30+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
   }));

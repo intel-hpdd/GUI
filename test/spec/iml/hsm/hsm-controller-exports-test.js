@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import HsmCtrl from '../../../../source/chroma_ui/iml/hsm/hsm-controller-exports';
 
 describe('HSM controller', () => {
   var hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal,
@@ -20,7 +21,7 @@ describe('HSM controller', () => {
     spyOn(copytoolStream, 'destroy');
 
     openAddCopytoolModal = jasmine.createSpy('openAddCopytoolModal')
-      .andReturn($q.resolve());
+      .and.returnValue($q.resolve());
 
     hsm = $controller('HsmCtrl', {
       $scope: $scope,
@@ -32,10 +33,12 @@ describe('HSM controller', () => {
   }));
 
   it('should setup controller as expected', () => {
-    expect(hsm).toEqual({
+    const scope = window.extendWithConstructor(HsmCtrl, {
       chart: agentVsCopytoolChart,
       openAddModal: jasmine.any(Function)
     });
+
+    expect(hsm).toEqual(scope);
   });
 
   it('should propagate copytool changes', () => {

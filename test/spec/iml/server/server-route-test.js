@@ -13,8 +13,8 @@ describe('server route', function () {
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
-    $routeSegmentProvider.when.andReturn($routeSegmentProvider);
-    $routeSegmentProvider.within.andReturn($routeSegmentProvider);
+    $routeSegmentProvider.when.and.returnValue($routeSegmentProvider);
+    $routeSegmentProvider.within.and.returnValue($routeSegmentProvider);
 
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider

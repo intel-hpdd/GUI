@@ -1,4 +1,5 @@
-import angular from 'angular';
+import {ActionDropdownCtrl} from '../../../../source/chroma_ui/iml/action-dropdown/action-dropdown-exports';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 
 describe('action dropdown', function () {
@@ -13,16 +14,16 @@ describe('action dropdown', function () {
 
     actionStream = highland();
     handleAction = jasmine.createSpy('handleAction')
-      .andReturn(actionStream);
+      .and.returnValue(actionStream);
 
     commandStream = highland();
     spyOn(commandStream, 'destroy');
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(commandStream);
+      .and.returnValue(commandStream);
 
     commandModalStream = highland();
     openCommandModal = jasmine.createSpy('openCommandModal')
-      .andReturn({
+      .and.returnValue({
         resultStream: commandModalStream
       });
 
@@ -40,11 +41,13 @@ describe('action dropdown', function () {
   }));
 
   it('should setup the controller', function () {
-    expect(ctrl).toEqual({
+    const scope = window.extendWithConstructor(ActionDropdownCtrl, {
       actionDescriptionCache: {},
       handleAction: jasmine.any(Function),
       stream: s
     });
+
+    expect(ctrl).toEqual(scope);
   });
 
   describe('handleAction', function () {

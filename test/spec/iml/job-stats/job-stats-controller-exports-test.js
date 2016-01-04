@@ -1,6 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import JobStatsCtrl from
+  '../../../../source/chroma_ui/iml/job-stats/job-stats-controller-exports';
+
 describe('The job stats controller', () => {
   var target, jobStatsCtrl;
 
@@ -31,7 +34,7 @@ describe('The job stats controller', () => {
   }));
 
   it('should contain the expected properties on the controller', () => {
-    expect(jobStatsCtrl).toEqual({
+    const instance = window.extendWithConstructor(JobStatsCtrl, {
       name: target.name,
       startDate: '2014-01-30T22:08:11.423Z',
       endDate: '2014-01-30T22:08:41.220Z',
@@ -40,5 +43,7 @@ describe('The job stats controller', () => {
       read_iops: [],
       write_iops: []
     });
+
+    expect(jobStatsCtrl).toEqual(instance);
   });
 });

@@ -1,6 +1,9 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
+import {AddServerStepCtrl} from
+  '../../../../source/chroma_ui/iml/server/add-server-step-exports';
+
 describe('Add server step', function () {
   beforeEach(module('server'));
 
@@ -40,7 +43,7 @@ describe('Add server step', function () {
       }));
 
       it('should setup the controller', function () {
-        var expected = {
+        var expected = window.extendWithConstructor(AddServerStepCtrl, {
           fields: {
             auth_type: getDataInstallMethod(data),
             pdsh: getPdshExpression(data)
@@ -53,7 +56,7 @@ describe('Add server step', function () {
           pdshUpdate: jasmine.any(Function),
           transition: jasmine.any(Function),
           close: jasmine.any(Function)
-        };
+        });
 
         expect(addServerStepCtrl).toEqual(expected);
       });

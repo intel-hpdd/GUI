@@ -9,12 +9,12 @@ describe('agent vs copytool stream', () => {
 
   beforeEach(module('hsm', 'dataFixtures', ($provide) => {
     var getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2015-12-04T18:40:00+00:00'));
+      .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
 
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => (metricStream = highland()));
+      .and.callFake(() => (metricStream = highland()));
 
     $provide.value('socketStream', socketStream);
   }));

@@ -21,8 +21,7 @@
 
 import angular from 'angular';
 
-
-export function AboutCtrl (ENV, help) {
+export default function AboutCtrl (ENV, help) {
   'ngInject';
 
   angular.extend(this, {

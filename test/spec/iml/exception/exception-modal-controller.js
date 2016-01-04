@@ -11,7 +11,7 @@ describe('Exception modal controller', function () {
   beforeEach(module('exception', function ($provide) {
     reverseStream = highland();
 
-    socketStream = jasmine.createSpy('socketStream').andReturn(reverseStream);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(reverseStream);
     $provide.value('socketStream', socketStream);
   }));
 
@@ -37,9 +37,9 @@ describe('Exception modal controller', function () {
       }
     };
 
-    stackTraceContainsLineNumber = jasmine.createSpy('stackTraceContainsLineNumber').andReturn(true);
+    stackTraceContainsLineNumber = jasmine.createSpy('stackTraceContainsLineNumber').and.returnValue(true);
     s = highland();
-    sendStackTraceToRealTime = jasmine.createSpy('sendStackTraceToRealTime').andReturn(s);
+    sendStackTraceToRealTime = jasmine.createSpy('sendStackTraceToRealTime').and.returnValue(s);
 
     createController = function createController (deps) {
       deps = _.extend({

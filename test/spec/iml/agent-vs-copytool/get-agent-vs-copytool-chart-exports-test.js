@@ -11,17 +11,17 @@ describe('get agent vs copytool chart exports', () => {
     durationStreamInstance = highland();
     spyOn(durationStreamInstance, 'destroy');
     durationStream = jasmine.createSpy('durationStream')
-      .andReturn(durationStreamInstance);
+      .and.returnValue(durationStreamInstance);
 
     rangeStreamInstance = highland();
     rangeStream = jasmine.createSpy('rangeStream')
-      .andReturn(rangeStreamInstance);
+      .and.returnValue(rangeStreamInstance);
 
     createStream = {
       durationStream: jasmine.createSpy('durationStreamWrapper')
-        .andReturn(durationStream),
+        .and.returnValue(durationStream),
       rangeStream: jasmine.createSpy('rangeStreamWrapper')
-        .andReturn(rangeStream)
+        .and.returnValue(rangeStream)
     };
     $provide.value('createStream', createStream);
 
@@ -29,7 +29,7 @@ describe('get agent vs copytool chart exports', () => {
     $provide.value('getAgentVsCopytoolStream', getAgentVsCopytoolStream);
 
     chartCompiler = jasmine.createSpy('chartCompiler')
-      .andReturn('chartCompiler');
+      .and.returnValue('chartCompiler');
     $provide.value('chartCompiler', chartCompiler);
 
     createDate = jasmine.createSpy('createDate');
@@ -43,31 +43,31 @@ describe('get agent vs copytool chart exports', () => {
     getAgentVsCopytoolChart = _getAgentVsCopytoolChart_;
 
     d3 = _d3_;
-    spyOn(d3.time, 'scale').andCallFake(() => {
+    spyOn(d3.time, 'scale').and.callFake(() => {
       timeScale = {};
 
       timeScale.domain = jasmine.createSpy('domain')
-        .andReturn(timeScale);
+        .and.returnValue(timeScale);
       timeScale.range = jasmine.createSpy('range')
-        .andReturn(timeScale);
+        .and.returnValue(timeScale);
 
       return timeScale;
     });
-    spyOn(d3.scale, 'linear').andCallFake(() => {
+    spyOn(d3.scale, 'linear').and.callFake(() => {
       linearScale = {};
 
       linearScale.domain = jasmine.createSpy('domain')
-        .andReturn(linearScale);
+        .and.returnValue(linearScale);
       linearScale.range = jasmine.createSpy('range')
-        .andReturn(linearScale);
+        .and.returnValue(linearScale);
 
       return linearScale;
     });
-    spyOn(d3.scale, 'ordinal').andCallFake(() => {
+    spyOn(d3.scale, 'ordinal').and.callFake(() => {
       ordinalScale = {};
 
       ordinalScale.domain = jasmine.createSpy('domain')
-        .andCallFake((xs) => {
+        .and.callFake((xs) => {
           if (xs) {
             return ordinalScale;
           } else {
@@ -77,7 +77,7 @@ describe('get agent vs copytool chart exports', () => {
 
       var currentRange;
       ordinalScale.range = jasmine.createSpy('range')
-        .andCallFake((xs) => {
+        .and.callFake((xs) => {
           if (xs) {
             currentRange = xs;
             return ordinalScale;
@@ -159,7 +159,7 @@ describe('get agent vs copytool chart exports', () => {
       $scope = $rootScope.$new();
       s = highland();
       spyOn(s, 'destroy');
-      config = chartCompiler.mostRecentCall.args[2]($scope, s);
+      config = chartCompiler.calls.mostRecent().args[2]($scope, s);
     }));
 
     it('should return a conf', () => {
@@ -235,7 +235,7 @@ describe('get agent vs copytool chart exports', () => {
 
     describe('on update', () => {
       it('should update xScale domain', () => {
-        createDate.andCallFake(identity);
+        createDate.and.callFake(identity);
 
         config.onUpdate[0]({
           xs: [

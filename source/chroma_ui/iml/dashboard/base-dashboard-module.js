@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
+import angular from 'angular/angular';
+import BaseDashboardCtrl from './base-dashboard-controller-exports';
 
 angular
-  .module('baseDashboard', ['extendScope', 'hostCpuRamChart', 'readWriteBandwidth', 'mdo', 'ostBalance',
-    'readWriteHeatMap']);
+  .module('baseDashboard', ['extendScope', 'hostCpuRamChart', 'readWriteBandwidth',
+    'mdo', 'ostBalance', 'readWriteHeatMap'])
+  .controller('BaseDashboardCtrl', BaseDashboardCtrl);

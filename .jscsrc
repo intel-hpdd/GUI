@@ -62,7 +62,9 @@
     "<",
     "<="
   ],
-  "disallowSpaceAfterObjectKeys": true,
+  "disallowSpaceAfterObjectKeys": {
+    "allExcept": ["method"]
+  },
   "disallowSpaceBeforePostfixUnaryOperators": [
     "++",
     "--"

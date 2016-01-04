@@ -8,7 +8,7 @@ describe('PDSH directive', function () {
 
   beforeEach(module('pdsh-module', 'templates', 'ui.bootstrap', function initialize ($provide) {
     help = {
-      get: jasmine.createSpy('get').andReturn('Enter hostname / hostlist expression.')
+      get: jasmine.createSpy('get').and.returnValue('Enter hostname / hostlist expression.')
     };
 
     inputEvent = new Event('input');
@@ -109,7 +109,7 @@ describe('PDSH directive', function () {
 
       describe('group add on', function () {
         it('should not display the popover', function () {
-          expect(query('.popover')).toBeHidden();
+          expect(query('.popover')).not.toBeShown();
         });
 
         it('should show the error tooltip', function () {
@@ -128,7 +128,7 @@ describe('PDSH directive', function () {
       });
 
       it('should not display the popover', function () {
-        expect(query('.popover')).toBeHidden();
+        expect(query('.popover')).not.toBeShown();
       });
 
       it('should show the error tooltip', function () {
@@ -198,7 +198,7 @@ describe('PDSH directive', function () {
       });
 
       it('should call pdshChange with storage[1-10].localdomain', function () {
-        expect($scope.pdshChange.calls[$scope.pdshChange.calls.length - 1].args[0])
+        expect($scope.pdshChange.calls.mostRecent().args[0])
           .toEqual('storage[1-10].localdomain');
       });
     });

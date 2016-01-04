@@ -1,4 +1,91 @@
-import angular from 'angular';
+import angular from 'angular/angular';
+
+function cssMatcher (presentClasses, absentClasses) {
+  return () => {
+    return {
+      compare: (el) => {
+        if (el.get)
+          el = el.get(0);
+
+        if (el.classList.contains(presentClasses) && !el.classList.contains(absentClasses))
+          return {
+            pass: true,
+            message: `Expected '${angular.mock.dump(el)}' to have class '${presentClasses}'
+            and not have class ${absentClasses}, but had ${el.className}.`
+          };
+        else
+          return {
+            pass: false,
+            message: `Expected '${angular.mock.dump(el)}' not to have class '${presentClasses}'
+            and to have class ${absentClasses}, but had ${el.className}.`
+          };
+      }
+    };
+  };
+}
+
+beforeEach(() => {
+  jasmine.addMatchers({
+    toHaveClass () {
+      return {
+        compare: (el, clazz) => {
+          if (el.get)
+            el = el.get(0);
+
+          if (el.classList.contains(clazz))
+            return {
+              pass: true,
+              message: `Expected '${angular.mock.dump(el)}' not to have class '${clazz}'.`
+            };
+          else
+            return {
+              pass: false,
+              message: `Expected '${angular.mock.dump(el)}' to have class '${clazz}'.`
+            };
+        }
+      };
+    },
+    toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
+    toBeValid: cssMatcher('ng-valid', 'ng-invalid'),
+    toBeShown () {
+      return {
+        compare (el) {
+          if (el && el.get)
+            el = el.get(0);
+
+          if (el && !el.classList.contains('ng-hide'))
+            return {
+              pass: true,
+              message: 'Expected element to have \'ng-hide\' class.'
+            };
+          else
+            return {
+              pass: false,
+              message: 'Expected element not to have \'ng-hide\' class.'
+            };
+        }
+      };
+    },
+    toBeAPromise () {
+      return {
+        compare (actual) {
+          const isPromiseLike = (obj) => obj && typeof obj.then === 'function';
+
+          if (isPromiseLike(actual))
+            return {
+              pass: true,
+              message: 'Expected object to be a promise'
+            };
+          else
+            return {
+              pass: false,
+              message: 'Expected object not to be a promise'
+            };
+        }
+      };
+    }
+  });
+});
 
 beforeEach(() => {
   angular.mock.inject.strictDi(true);
@@ -11,6 +98,14 @@ beforeEach(window.module('fixtures'));
 
   window.λ = window.highland;
 
+
+  window.extendWithConstructor = (constructor, obj) => {
+    const scope = Object.create({}, {});
+    angular.extend(scope, obj);
+    Object.getPrototypeOf(scope).constructor = constructor;
+
+    return scope;
+  };
   /**
    * HOF. Allows equal expectation to take on a more
    * fluent interface.

@@ -19,7 +19,7 @@ describe('read write heat map chart', () => {
     compiled = {};
 
     chartCompiler = jasmine.createSpy('chartCompiler')
-      .andReturn(compiled);
+      .and.returnValue(compiled);
 
     readWriteHeatMapTypes = {
       READ_BYTES: 'stats_read_bytes',
@@ -30,24 +30,24 @@ describe('read write heat map chart', () => {
 
     readWriteHeatMapStream = {};
     getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream')
-      .andReturn(readWriteHeatMapStream);
+      .and.returnValue(readWriteHeatMapStream);
 
     durationStream = jasmine.createSpy('durationStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     rangeStream = jasmine.createSpy('rangeStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     formatNumber = jasmine.createSpy('formatNumber')
-      .andCallFake(identity);
+      .and.callFake(identity);
 
     formatBytes = jasmine.createSpy('formatBytes')
-      .andCallFake(identity);
+      .and.callFake(identity);
 
     routeSegmentUrl = jasmine.createSpy('routeSegmentUrl');
 
     $filter = jasmine.createSpy('$filter')
-      .andReturn(routeSegmentUrl);
+      .and.returnValue(routeSegmentUrl);
 
     createStream = {
       durationStream: curry(4, durationStream),
@@ -111,7 +111,7 @@ describe('read write heat map chart', () => {
       chart;
 
     beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.mostRecentCall.args[2];
+      handler = chartCompiler.calls.mostRecent().args[2];
 
       stream = highland();
       spyOn(stream, 'destroy');
@@ -204,17 +204,19 @@ describe('read write heat map chart', () => {
     });
 
     describe('options', () => {
-      var d3Chart;
+      var d3Chart, axisInstance;
 
       beforeEach(() => {
+        axisInstance = {
+          ticks: jasmine.createSpy('ticks')
+        };
+
         d3Chart = {
           margin: jasmine.createSpy('margin'),
           formatter: jasmine.createSpy('formatter'),
           zValue: jasmine.createSpy('zValue'),
           xAxis: jasmine.createSpy('xAxis')
-            .andReturn({
-              ticks: jasmine.createSpy('ticks')
-            }),
+            .and.returnValue(axisInstance),
           xAxisLabel: jasmine.createSpy('xAxisLabel'),
           xAxisDetail: jasmine.createSpy('xAxisDetail'),
           dispatch: {
@@ -248,7 +250,7 @@ describe('read write heat map chart', () => {
         });
 
         it('should set x axis ticks to 3', () => {
-          expect(d3Chart.xAxis.plan().ticks)
+          expect(axisInstance.ticks)
             .toHaveBeenCalledOnceWith(3);
         });
 

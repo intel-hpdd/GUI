@@ -19,30 +19,36 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import * as fp from 'intel-fp/fp';
 
-import {lensProp} from 'intel-fp/fp';
+export default function StatusController ($scope, $location, notificationStream) {
+  'ngInject';
 
-angular.module('status')
-  .controller('StatusQueryController',
-    function StatusQueryController ($scope, $location, routeStream, inputToQsParser, qsToInputParser) {
-      'ngInject';
+  var metaProp = fp.lensProp('meta');
 
-      var p = $scope.propagateChange($scope, this, 'qs');
+  var s = notificationStream
+    .tap(fp.flow(metaProp, fp.tap(computeCurrentPage), metaProp.set(fp.__, this)))
+    .pluck('objects');
 
-      var rs = routeStream();
+  function computeCurrentPage (meta) {
+    meta.current_page = meta.limit === 0 ? 1 : (meta.offset / meta.limit) + 1;
+  }
 
-      rs
-        .map(lensProp('qs'))
-        .through(p);
+  $scope.propagateChange($scope, this, 'data', s);
 
-      $scope.$on('$destroy', rs.destroy.bind(rs));
+  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
 
-      angular.merge(this, {
-        parserFormatter: {
-          parser: inputToQsParser,
-          formatter: qsToInputParser
-        },
-        onSubmit: $location.search.bind($location)
-      });
-    });
+  var types = [
+    'CommandErroredAlert',
+    'CommandSuccessfulAlert',
+    'CommandRunningAlert',
+    'CommandCancelledAlert'
+  ];
+  var getType = fp.flow(fp.lensProp('record_type'), fp.lensProp);
+  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
+
+  var ctrl = this;
+  this.pageChanged = function pageChanged () {
+    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
+  };
+}

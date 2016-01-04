@@ -10,7 +10,7 @@ describe('union with target', function () {
     targetStream = highland();
 
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(targetStream);
+      .and.returnValue(targetStream);
 
     $provide.value('socketStream', socketStream);
   }));

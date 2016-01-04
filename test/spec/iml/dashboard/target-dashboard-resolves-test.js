@@ -14,7 +14,7 @@ describe('Target dashboard', function () {
 
     s = highland();
     socketStream = jasmine.createSpy('socketStream')
-      .andReturn(s);
+      .and.returnValue(s);
     $provide.value('socketStream', socketStream);
 
     $provide.value('$route', $route);
@@ -40,19 +40,19 @@ describe('Target dashboard', function () {
 
     beforeEach(module(function ($provide) {
       getFileUsageChart = jasmine.createSpy('getFileUsageChart')
-        .andReturn('fileUsageChart');
+        .and.returnValue('fileUsageChart');
       $provide.value('getFileUsageChart', getFileUsageChart);
 
       getSpaceUsageChart = jasmine.createSpy('getSpaceUsageChart')
-        .andReturn('spaceUsageChart');
+        .and.returnValue('spaceUsageChart');
       $provide.value('getSpaceUsageChart', getSpaceUsageChart);
 
       getMdoChart = jasmine.createSpy('getMdoChart')
-        .andReturn('mdoChart');
+        .and.returnValue('mdoChart');
       $provide.value('getMdoChart', getMdoChart);
 
       getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart')
-        .andReturn('readWriteBandwidthChart');
+        .and.returnValue('readWriteBandwidthChart');
       $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
     }));
 

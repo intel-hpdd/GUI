@@ -35,7 +35,7 @@ describe('Steps module', function () {
 
       $scope.manager = stepsManager();
 
-      getTemplatePromise.andReturn($q.when('<div>{{foo}}</div>'));
+      getTemplatePromise.and.returnValue($q.when('<div>{{foo}}</div>'));
 
       $scope.manager.addStep('step', {
         templateUrl: 'assets/html/step',
@@ -71,7 +71,7 @@ describe('Steps module', function () {
 
     describe('directive before all promises have resolved', function () {
       beforeEach(function () {
-        getTemplatePromise.andReturn($q.when('<div>waiting</div>'));
+        getTemplatePromise.and.returnValue($q.when('<div>waiting</div>'));
 
         $scope.manager.addWaitingStep({
           templateUrl: 'assets/html/waitingStep',

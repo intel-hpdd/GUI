@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
+import angular from 'angular/angular';
+import TargetDashboardController from './target-dashboard-controller-exports';
 
 angular
   .module('targetDashboard', ['extendScope', 'fileUsageModule', 'spaceUsageModule', 'mdo', 'readWriteBandwidth',
-    'socket-module', 'highland']);
+    'socket-module', 'highland'])
+  .controller('TargetDashboardController', TargetDashboardController);

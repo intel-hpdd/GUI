@@ -4,13 +4,15 @@ const {module, inject} = angular.mock;
 describe('Server Moment', function () {
   'use strict';
 
+  var momentInstance;
+
   beforeEach(module('serverMoment', function ($provide) {
-    var momentInstance = {
+    momentInstance = {
       add: jasmine.createSpy('add')
     };
-    momentInstance.add.andReturn(momentInstance);
+    momentInstance.add.and.returnValue(momentInstance);
 
-    $provide.value('moment', jasmine.createSpy('moment').andReturn(momentInstance));
+    $provide.value('moment', jasmine.createSpy('moment').and.returnValue(momentInstance));
 
     $provide.constant('SERVER_TIME_DIFF', 2000);
   }));
@@ -30,13 +32,13 @@ describe('Server Moment', function () {
     var serverMoment = getServerMoment();
 
     expect(moment).toHaveBeenCalledOnce();
-    expect(serverMoment).toEqual(moment.plan());
+    expect(serverMoment).toEqual(momentInstance);
   });
 
   it('should add the server time diff', function () {
     getServerMoment();
 
-    expect(moment.plan().add)
+    expect(momentInstance.add)
       .toHaveBeenCalledOnceWith(2000);
   });
 

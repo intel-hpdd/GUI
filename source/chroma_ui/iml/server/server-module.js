@@ -25,12 +25,23 @@ import ServerCtrl from './server-controller-exports';
 import serverActionsFactory from './server-actions-exports';
 import serverResolvesFactory from './server-resolves-exports';
 import ConfirmServerActionModalCtrl from './confirm-server-action-modal-ctrl-exports';
+import {ADD_SERVER_AUTH_CHOICES, AddServerStepCtrl, addServersStepFactory}
+  from './add-server-step-exports';
+import {SelectServerProfileStepCtrl, selectServerProfileStep} from './select-server-profile-step-exports';
+import ServerDetailController from './server-detail-controller-exports';
 
-angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
+export default angular.module('server', ['pdsh-parser-module', 'pdsh-module', 'filters', 'lnetModule',
     'corosyncModule', 'pacemaker', 'socket-module', 'command', 'action-dropdown-module',
     'jobIndicator', 'alertIndicator', 'steps-module', 'extendScope', 'highland', 'asValue', 'asStream'
   ])
   .controller('ServerCtrl', ServerCtrl)
   .controller('ConfirmServerActionModalCtrl', ConfirmServerActionModalCtrl)
   .factory('serverActions', serverActionsFactory)
-  .factory('serverResolves', serverResolvesFactory);
+  .factory('serverResolves', serverResolvesFactory)
+  .constant('ADD_SERVER_AUTH_CHOICES', ADD_SERVER_AUTH_CHOICES)
+  .controller('AddServerStepCtrl', AddServerStepCtrl)
+  .factory('addServersStep', addServersStepFactory)
+  .controller('SelectServerProfileStepCtrl', SelectServerProfileStepCtrl)
+  .factory('selectServerProfileStep', selectServerProfileStep)
+  .controller('ServerDetailController', ServerDetailController)
+  .name;

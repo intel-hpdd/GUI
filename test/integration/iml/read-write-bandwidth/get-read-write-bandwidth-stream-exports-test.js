@@ -6,14 +6,14 @@ describe('The read write bandwidth stream', () => {
 
   beforeEach(module('readWriteBandwidth', 'dataFixtures', ($provide) => {
     socketStream = jasmine.createSpy('socketStream')
-      .andCallFake(() => {
+      .and.callFake(() => {
         return (serverStream = highland());
       });
 
     $provide.value('socketStream', socketStream);
 
     getServerMoment = jasmine.createSpy('getServerMoment')
-      .andReturn(moment('2013-12-11T13:15:00+00:00'));
+      .and.returnValue(moment('2013-12-11T13:15:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
   }));

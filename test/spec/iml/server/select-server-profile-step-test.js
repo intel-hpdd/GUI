@@ -1,5 +1,7 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import {SelectServerProfileStepCtrl} from
+  '../../../../source/chroma_ui/iml/server/select-server-profile-step-exports';
 
 describe('select server profile', function () {
   beforeEach(module('server', 'dataFixtures'));
@@ -18,7 +20,7 @@ describe('select server profile', function () {
       spyOn(hostProfileStream, 'destroy');
 
       createHostProfiles = jasmine.createSpy('createHostProfiles')
-        .andReturn(highland());
+        .and.returnValue(highland());
 
       data = { pdsh: 'storage0.localdomain' };
 
@@ -32,7 +34,7 @@ describe('select server profile', function () {
     }));
 
     it('should setup the controller', function () {
-      expect(selectServerProfileStep).toEqual({
+      const instance = window.extendWithConstructor(SelectServerProfileStepCtrl, {
         pdsh: data.pdsh,
         transition: jasmine.any(Function),
         onSelected: jasmine.any(Function),
@@ -40,6 +42,8 @@ describe('select server profile', function () {
         pdshUpdate: jasmine.any(Function),
         close: jasmine.any(Function)
       });
+
+      expect(selectServerProfileStep).toEqual(instance);
     });
 
     describe('transition', function () {
@@ -146,7 +150,8 @@ describe('select server profile', function () {
         templateUrl: 'iml/server/assets/html/select-server-profile-step.html',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
         onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
-          'waitForCommandCompletion', 'showCommand', 'resolveStream', jasmine.any(Function)],
+          'waitForCommandCompletion', 'showCommand', 'resolveStream', jasmine.any(Function)
+        ],
         transition: jasmine.any(Function)
       });
     });
@@ -158,8 +163,6 @@ describe('select server profile', function () {
 
       expect(selectServerProfileStep.transition(steps)).toEqual(steps.serverStatusStep);
     });
-
-
 
     describe('on enter', function () {
       var onEnter, data, createOrUpdateHostsStream,
@@ -309,18 +312,19 @@ describe('select server profile', function () {
         };
 
         createOrUpdateHostsStream = jasmine.createSpy('createOrUpdateHostsStream')
-          .andReturn(highland([response]));
+          .and.returnValue(highland([response]));
 
         waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-          .andCallFake(function () {
+          .and.callFake(function () {
             return function (val) {
               return highland([val]);
             };
           });
 
-        getHostProfiles = jasmine.createSpy('getHostProfiles').andReturn(highland([{
+        getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(highland([{
           some: 'profiles'
-        }]));
+        }
+        ]));
 
         onEnter = _.last(selectServerProfileStep.onEnter);
 

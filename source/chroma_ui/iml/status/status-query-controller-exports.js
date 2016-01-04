@@ -19,40 +19,27 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import {map, invokeMethod, curry, lensProp, __} from 'intel-fp/fp';
+import angular from 'angular/angular';
+import {lensProp} from 'intel-fp/fp';
 
-angular.module('baseDashboard')
-  .controller('BaseDashboardCtrl',
-    function BaseDashboardCtrl ($scope, fsStream, charts) {
-      'ngInject';
+export default function StatusQueryController ($scope, $location,
+                                               routeStream, inputToQsParser, qsToInputParser) {
+  'ngInject';
 
-      var baseDashboard = angular.extend(this, {
-        fs: [],
-        fsStream: fsStream,
-        charts: charts
-      });
+  var p = $scope.propagateChange($scope, this, 'qs');
+  var rs = routeStream();
 
-      var fsLens = lensProp('fs');
+  rs
+    .map(lensProp('qs'))
+    .through(p);
 
-      var STATES = Object.freeze({
-        MONITORED: 'monitored',
-        MANAGED: 'managed'
-      });
+  $scope.$on('$destroy', rs.destroy.bind(rs));
 
-      fsStream
-        .property()
-        .tap(map(function setState (s) {
-          s.STATES = STATES;
-          s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
-        }))
-        .tap(fsLens.set(__, baseDashboard))
-        .stopOnError(curry(1, $scope.handleException))
-        .each($scope.localApply.bind(null, $scope));
-
-      $scope.$on('$destroy', () => {
-        fsStream.destroy();
-        map(invokeMethod('destroy', []), charts);
-      });
-    }
-  );
+  angular.merge(this, {
+    parserFormatter: {
+      parser: inputToQsParser,
+      formatter: qsToInputParser
+    },
+    onSubmit: $location.search.bind($location)
+  });
+}

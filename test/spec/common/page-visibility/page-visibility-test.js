@@ -52,7 +52,7 @@ describe('page visibility', () => {
       var handler;
 
       beforeEach(() => {
-        handler = $document.addEventListener.mostRecentCall.args[1];
+        handler = $document.addEventListener.calls.mostRecent().args[1];
       });
 
       it('should call hide', () => {

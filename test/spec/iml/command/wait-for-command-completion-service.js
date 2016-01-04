@@ -1,15 +1,17 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import highland from 'highland';
 
 describe('wait-for-command-completion-service', function () {
   'use strict';
 
-  var getCommandStream, openCommandModal, waitForCommandCompletion;
+  var getCommandStream, commandStream,
+    openCommandModal, waitForCommandCompletion;
 
   beforeEach(module('command', function ($provide) {
+    commandStream = highland();
     getCommandStream = jasmine.createSpy('getCommandStream')
-      .andReturn(highland());
-    spyOn(getCommandStream.plan(), 'destroy');
+      .and.returnValue(commandStream);
     $provide.value('getCommandStream', getCommandStream);
 
     openCommandModal = jasmine.createSpy('openCommandModal');
@@ -58,7 +60,6 @@ describe('wait-for-command-completion-service', function () {
       }
     });
   });
-
 
   describe('no commands', function () {
     [
@@ -124,16 +125,16 @@ describe('wait-for-command-completion-service', function () {
           }
         ];
 
-        getCommandStream.plan().write(data);
+        commandStream.write(data);
       });
 
-      it('should destroy the command stream', function () {
-        waitsFor(function () {
-          return getCommandStream.plan().destroy.callCount > 0;
-        }, 'Destroy should be called', 750);
+      it('should destroy the command stream', function (done) {
+        const spy = jasmine.createSpy('spy');
 
-        runs(function () {
-          expect(getCommandStream.plan().destroy).toHaveBeenCalledOnce();
+        commandStream._destructors.push(spy);
+        commandStream._destructors.push(() => {
+          expect(spy).toHaveBeenCalledOnce();
+          done();
         });
       });
 

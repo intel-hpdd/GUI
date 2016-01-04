@@ -15,10 +15,10 @@ describe('chart compiler', () => {
     s = λ();
 
     chartFn = jasmine.createSpy('chartFn')
-      .andReturn('chartObj');
+      .and.returnValue('chartObj');
 
     getTemplatePromise = jasmine.createSpy('getTemplatePromise')
-      .andReturn($q.when('<div class="template">foo</div>'));
+      .and.returnValue($q.when('<div class="template">foo</div>'));
 
     chartCompiler = chartCompilerFactory($compile, $q, getTemplatePromise, resolveStream,
       addProperty, rebindDestroy);
@@ -55,9 +55,9 @@ describe('chart compiler', () => {
       $scope.$digest();
 
       compiler($scope);
-      s1 = chartFn.mostRecentCall.args[1];
+      s1 = chartFn.calls.mostRecent().args[1];
       node = compiler($scope);
-      s2 = chartFn.mostRecentCall.args[1];
+      s2 = chartFn.calls.mostRecent().args[1];
     }));
 
     it('should work when compile called again', () => {
@@ -90,7 +90,7 @@ describe('chart compiler', () => {
       s2.destroy();
 
       compiler($scope);
-      const s3 = chartFn.mostRecentCall.args[1];
+      const s3 = chartFn.calls.mostRecent().args[1];
 
       s3.each(spy);
 

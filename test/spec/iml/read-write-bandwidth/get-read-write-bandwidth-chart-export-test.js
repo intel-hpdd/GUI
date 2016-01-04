@@ -14,10 +14,10 @@ describe('get read write bandwidth chart', () => {
     getReadWriteBandwidthStream = {};
 
     durationStream = jasmine.createSpy('durationStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     rangeStream = jasmine.createSpy('rangeStream')
-      .andCallFake(() => highland());
+      .and.callFake(() => highland());
 
     createStream = {
       durationStream: curry(4, durationStream),
@@ -27,7 +27,7 @@ describe('get read write bandwidth chart', () => {
     chartCompiler = jasmine.createSpy('chartCompiler');
 
     formatBytes = jasmine.createSpy('formatBytes')
-      .andReturn('formatter');
+      .and.returnValue('formatter');
 
     DURATIONS = {
       MINUTES: 'minutes'
@@ -68,7 +68,7 @@ describe('get read write bandwidth chart', () => {
       config;
 
     beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.mostRecentCall.args[2];
+      handler = chartCompiler.calls.mostRecent().args[2];
 
       stream = highland();
       spyOn(stream, 'destroy');

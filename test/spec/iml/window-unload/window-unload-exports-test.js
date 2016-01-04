@@ -26,7 +26,7 @@ describe('window unload', () => {
   });
 
   it('should change the unloading state once beforeunload has fired', () => {
-    var beforeUnload = $window.addEventListener.mostRecentCall.args[1];
+    var beforeUnload = $window.addEventListener.calls.mostRecent().args[1];
 
     beforeUnload();
 

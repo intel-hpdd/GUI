@@ -40,7 +40,7 @@ describe('parser optional', function () {
   });
 
   it('should return the result of the parser', function () {
-    spy.andReturn('foo');
+    spy.and.returnValue('foo');
 
     expect(optional(spy, [{}])).toEqual('foo');
   });

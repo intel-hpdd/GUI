@@ -24,7 +24,7 @@ describe('base dashboard resolves', () => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
       getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')
-        .andCallFake((title) => {
+        .and.callFake((title) => {
           if (title === 'Metadata Servers')
             return mdsChart;
           else if (title === 'Object Storage Servers')
@@ -34,22 +34,22 @@ describe('base dashboard resolves', () => {
 
       ostBalanceChart = { name: 'ostBalanceChart' };
       getOstBalanceChart = jasmine.createSpy('getOstBalanceChart')
-        .andReturn(ostBalanceChart);
+        .and.returnValue(ostBalanceChart);
       $provide.value('getOstBalanceChart', getOstBalanceChart);
 
       mdoChart = { name: 'mdoChart' };
       getMdoChart = jasmine.createSpy('getMdoChart')
-        .andReturn(mdoChart);
+        .and.returnValue(mdoChart);
       $provide.value('getMdoChart', getMdoChart);
 
       readWriteBandwidthChart = { name: 'readWriteBandwidthChart' };
       getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart')
-        .andReturn(readWriteBandwidthChart);
+        .and.returnValue(readWriteBandwidthChart);
       $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 
       readWriteHeatMapChart = { name: 'readWriteHeatMapChart' };
       getReadWriteHeatMapChart = jasmine.createSpy('getReadWriteHeatMapChart')
-        .andReturn(readWriteHeatMapChart);
+        .and.returnValue(readWriteHeatMapChart);
       $provide.value('getReadWriteHeatMapChart', getReadWriteHeatMapChart);
     }));
 
@@ -196,7 +196,7 @@ describe('base dashboard resolves', () => {
     beforeEach(module(($provide) => {
       s = highland();
       socketStream = jasmine.createSpy('socketStream')
-        .andReturn(s);
+        .and.returnValue(s);
       $provide.value('socketStream', socketStream);
     }));
 

@@ -1,13 +1,13 @@
-import angular from 'angular';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 
 import {invokeMethod} from 'intel-fp/fp';
+import StatusController from '../../../../source/chroma_ui/iml/status/status-controller-exports';
 
 describe('status controller', function () {
   beforeEach(module('status'));
 
   var $scope, $location, ctrl, notificationStream;
-
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
@@ -27,10 +27,12 @@ describe('status controller', function () {
   }));
 
   it('should return the expected controller properties', function () {
-    expect(ctrl).toEqual({
+    const instance = window.extendWithConstructor(StatusController, {
       isCommand: jasmine.any(Function),
       pageChanged: jasmine.any(Function)
     });
+
+    expect(ctrl).toEqual(instance);
   });
 
   it('should destroy the notificationStream when the scope is destroyed', function () {
@@ -87,7 +89,6 @@ describe('status controller', function () {
       })));
     });
   });
-
 
   it('should set the location query string to the new offset', function () {
     ctrl.meta = {

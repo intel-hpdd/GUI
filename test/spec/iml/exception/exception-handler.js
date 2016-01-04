@@ -47,11 +47,11 @@ describe('exception handler', function () {
     });
 
     it('should pass the exception to the modal', function () {
-      expect(exceptionModal.mostRecentCall.args[0].resolve.exception()).toBe(error);
+      expect(exceptionModal.calls.mostRecent().args[0].resolve.exception()).toBe(error);
     });
 
     it('should pass the cause to the modal', function () {
-      expect(exceptionModal.mostRecentCall.args[0].resolve.exception().cause).toBe(cause);
+      expect(exceptionModal.calls.mostRecent().args[0].resolve.exception().cause).toBe(cause);
     });
 
     it('should open the modal when there is an error', function () {

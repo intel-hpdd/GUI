@@ -53,13 +53,13 @@ describe('The notification slider directive', function () {
 
     it('should retract after 5 seconds', function () {
       $timeout.flush(5000);
-      expect(findSlider()).toBeHidden();
+      expect(findSlider()).not.toBeShown();
     });
 
     it('should be closable', function () {
       el.find('.btn-danger')[0].click();
 
-      expect(findSlider()).toBeHidden();
+      expect(findSlider()).not.toBeShown();
     });
 
     describe('mousing', function () {
@@ -108,7 +108,7 @@ describe('The notification slider directive', function () {
 
         $timeout.flush(5000);
 
-        expect(findSlider()).toBeHidden();
+        expect(findSlider()).not.toBeShown();
       });
     });
   });
@@ -143,7 +143,7 @@ describe('The notification slider directive', function () {
     });
 
     it('should not display the slider', function () {
-      expect(findSlider()).toBeHidden();
+      expect(findSlider()).not.toBeShown();
     });
   });
 });

@@ -14,7 +14,7 @@ describe('dashboard route', function () {
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
     };
 
-    $routeSegmentProvider.within.andReturn($routeSegmentProvider);
+    $routeSegmentProvider.within.and.returnValue($routeSegmentProvider);
 
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
