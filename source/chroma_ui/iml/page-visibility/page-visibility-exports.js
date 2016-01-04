@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,7 +21,37 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import * as fp from 'intel-fp/fp';
 
+export default function pageVisibilityFactory ($document:Array<Document>, $timeout:Function):Function {
+  'ngInject';
 
-angular.module('pageVisibility', []);
+  return function pageVisibility (onHide:Function, onShow:Function, timeout:number):Function {
+    const doc = $document[0];
+
+    const timeoutState = {};
+    const timeoutLens = fp.lensProp('cancelled');
+
+    const setCancelled = fp.flow(
+      fp.partial(0, $timeout, [onHide, timeout, false]),
+      timeoutLens.set(fp.__, timeoutState)
+    );
+
+    const cancelTimeout = fp.flow(
+      fp.partial(0, timeoutLens, [timeoutState]),
+      fp.bindMethod('cancel', $timeout)
+    );
+
+    const onVisibilityChange = fp.partial(0, fp.cond(
+      [fp.lensProp('hidden'), setCancelled],
+      [fp.flow(cancelTimeout, fp.not), fp.partial(0, onShow, [])]
+    ), [doc]);
+
+    doc.addEventListener('visibilitychange', onVisibilityChange);
+
+    return () => {
+      cancelTimeout();
+      doc.removeEventListener('visibilitychange', onVisibilityChange);
+    };
+  };
+}

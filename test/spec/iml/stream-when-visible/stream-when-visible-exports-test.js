@@ -44,6 +44,11 @@ describe('stream when visible', () => {
       .toBe(true);
   });
 
+  it('should call the page visibility service', () => {
+    expect(pageVisibility)
+      .toHaveBeenCalledOnceWith(jasmine.any(Function), jasmine.any(Function), 30000);
+  });
+
   it('should pass errors to stream', () => {
     inStream.write({
       __HighlandStreamError__: true,

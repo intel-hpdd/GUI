@@ -1,4 +1,4 @@
-import angular from 'angular';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 
 describe('page visibility', () => {
@@ -13,14 +13,17 @@ describe('page visibility', () => {
     $provide.value('$document', [$document]);
   }));
 
-  var pageVisibility;
+  var $timeout, pageVisibility;
 
-  beforeEach(inject((_pageVisibility_) => {
+  beforeEach(inject((_$timeout_, _pageVisibility_) => {
+    $timeout = _$timeout_;
+    spyOn($timeout, 'cancel');
     pageVisibility = _pageVisibility_;
   }));
 
   it('should be a function', () => {
-    expect(pageVisibility).toEqual(jasmine.any(Function));
+    expect(pageVisibility)
+      .toEqual(jasmine.any(Function));
   });
 
   describe('when invoking', () => {
@@ -33,7 +36,8 @@ describe('page visibility', () => {
     });
 
     it('should return a remove listener fn', () => {
-      expect(removeListener).toEqual(jasmine.any(Function));
+      expect(removeListener)
+        .toEqual(jasmine.any(Function));
     });
 
     it('should add an event listener', () => {
@@ -41,11 +45,20 @@ describe('page visibility', () => {
         .toHaveBeenCalledOnceWith('visibilitychange', jasmine.any(Function));
     });
 
-    it('should remove the listener when destroying', () => {
-      removeListener();
+    describe('when removing', () => {
+      beforeEach(() => {
+        removeListener();
+      });
 
-      expect($document.removeEventListener)
-        .toHaveBeenCalledOnceWith('visibilitychange', jasmine.any(Function));
+      it('should cancel the timeout', function () {
+        expect($timeout.cancel)
+          .toHaveBeenCalledOnceWith(undefined);
+      });
+
+      it('should remove the listener', () => {
+        expect($document.removeEventListener)
+          .toHaveBeenCalledOnceWith('visibilitychange', jasmine.any(Function));
+      });
     });
 
     describe('when changed', () => {
@@ -58,15 +71,25 @@ describe('page visibility', () => {
       it('should call hide', () => {
         $document.hidden = true;
         handler();
+        $timeout.flush();
 
-        expect(onHide).toHaveBeenCalledOnce();
+        expect(onHide).toHaveBeenCalledOnceWith();
       });
 
       it('should call show', () => {
         $document.hidden = false;
+        $timeout.cancel.and.returnValue(false);
         handler();
 
-        expect(onShow).toHaveBeenCalledOnce();
+        expect(onShow).toHaveBeenCalledOnceWith();
+      });
+
+      it('should not call show if timeout is cancelled', () => {
+        $document.hidden = false;
+        $timeout.cancel.and.returnValue(true);
+        handler();
+
+        expect(onShow).not.toHaveBeenCalled();
       });
     });
   });

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,25 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import pageVisibilityFactory from './page-visibility-exports';
 
-
-angular.module('pageVisibility')
-  .factory('pageVisibility', ($document) => {
-    'ngInject';
-
-    const document = $document[0];
-
-    return function onChange (onHide, onShow) {
-      document.addEventListener('visibilitychange', onVisibilityChange);
-
-      return document.removeEventListener.bind(document, 'visibilitychange', onVisibilityChange);
-
-      function onVisibilityChange () {
-        if (document.hidden)
-          onHide();
-        else
-          onShow();
-      }
-    };
-  });
+export default angular.module('pageVisibility', [])
+  .factory('pageVisibility', pageVisibilityFactory)
+  .name;

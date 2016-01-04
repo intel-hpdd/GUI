@@ -37,7 +37,7 @@ export function streamWhenVisible ($document, λ, pageVisibility) {
     const removeListener = pageVisibility(function onHide () {
       stream.destroy();
       visibleStream.write([]);
-    }, onShow);
+    }, onShow, 30000);
 
     function onShow () {
       stream = streamFn();
