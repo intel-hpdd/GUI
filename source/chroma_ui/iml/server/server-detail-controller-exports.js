@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,11 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular/angular';
-import {__, lensProp} from 'intel-fp/fp';
 
-export default function ServerDetailController ($scope, $exceptionHandler, streams,
-                                 overrideActionClick, localApply) {
+import angular from 'angular/angular';
+
+
+export default function ServerDetailController (
+  $scope:Object, streams:Object,
+  overrideActionClick:Function, propagateChange:Function
+):void {
   'ngInject';
 
   var serverDetailController = this;
@@ -35,35 +40,25 @@ export default function ServerDetailController ($scope, $exceptionHandler, strea
     corosyncConfigurationStream: streams.corosyncConfigurationStream,
     pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
     networkInterfaceStream: streams.networkInterfaceStream,
-    overrideActionClick: overrideActionClick,
-    closeAlert: function closeAlert () {
-      this.alertClosed = true;
-    },
-    getAlert: function getAlert () {
-      return 'The information below describes the last state of %s before it was removed.'
-        .sprintf(serverDetailController.server.address);
-    }
+    overrideActionClick
   });
+
+  const p = propagateChange($scope, serverDetailController);
 
   streams.lnetConfigurationStream
     .property()
-    .tap(lensProp('lnetConfiguration').set(__, this))
-    .stopOnError($exceptionHandler)
-    .each(localApply.bind(null, $scope));
-
+    .through(p('lnetConfiguration'));
 
   streams.serverStream
-    .tap(lensProp('server').set(__, this))
     .errors(function handle404 (err, push) {
       if (err.statusCode === 404) {
-        serverDetailController.removed = true;
+        push(null, null);
         return;
       }
 
       push(err);
     })
-    .stopOnError($exceptionHandler)
-    .each(localApply.bind(null, $scope));
+    .through(p('server'));
 
   $scope.$on('$destroy', function onDestroy () {
     Object.keys(streams)

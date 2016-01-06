@@ -64,18 +64,10 @@ describe('server detail controller', function () {
       corosyncConfigurationStream: corosyncConfigurationStream,
       pacemakerConfigurationStream: pacemakerConfigurationStream,
       networkInterfaceStream: networkInterfaceStream,
-      overrideActionClick: overrideActionClick,
-      closeAlert: jasmine.any(Function),
-      getAlert: jasmine.any(Function)
+      overrideActionClick
     });
 
     expect(serverDetailController).toEqual(instance);
-  });
-
-  it('should have a method to close the alert', function () {
-    serverDetailController.closeAlert();
-
-    expect(serverDetailController.alertClosed).toBeTruthy();
   });
 
   describe('writing data', function () {
@@ -87,11 +79,6 @@ describe('server detail controller', function () {
 
     it('should set it on the scope', function () {
       expect(serverDetailController.server).toEqual({ address: 'lotus-34vm5' });
-    });
-
-    it('should print an alert message', function () {
-      expect(serverDetailController.getAlert()).toEqual('The information below describes the last state of lotus-34vm5 \
-before it was removed.');
     });
   });
 
@@ -112,11 +99,14 @@ before it was removed.');
       err = new Error('boom!');
     });
 
-    it('should set the remove property on 404', function () {
+    it('should write null on 404', function () {
       err.statusCode = 404;
-      serverStream.write(err);
+      serverStream.write({
+        __HighlandStreamError__: true,
+        error: err
+      });
 
-      expect(serverDetailController.removed).toBeTruthy();
+      expect(serverDetailController.server).toEqual(null);
     });
 
     it('should re-push the error if not 404', function () {
