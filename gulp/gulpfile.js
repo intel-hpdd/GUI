@@ -57,19 +57,16 @@ function buildJs () {
         'syntax-flow',
         'transform-flow-strip-types'
       ],
-      ignore: [
-        '*/bower_components/*',
-        '*/angular/*',
-        '*/angular-resource/*',
-        '*/angular-route/*',
-        '*/angular-animate/*',
-        '*/angular-ui-bootstrap/*',
-        '*/vendor/*',
-        '*/intel-math/*',
-        '*/intel-debounce/*'
+      only: [
+        '*/intel-fp/*',
+        '*/intel-obj/*',
+        'source/chroma_ui/iml/*',
+        'source/chroma_ui/common/*'
       ]
     }))
-    .pipe(ngAnnotate())
+    .pipe(ngAnnotate({
+      single_quotes: true
+    }))
     .pipe(sourcemaps.write({ sourceRoot: '' }))
     .pipe(plumber.stop());
 }
