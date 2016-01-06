@@ -19,10 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import {streamWhenVisible, documentHidden, documentVisible} from './stream-when-visible-exports';
 
-
-import { streamWhenVisible } from './stream-when-visible-exports';
-
-angular.module('streamWhenVisible', ['highland', 'pageVisibility'])
-  .factory('streamWhenVisible', streamWhenVisible);
+export default angular.module('streamWhenVisible', ['highland', 'pageVisibility'])
+  .factory('streamWhenVisible', streamWhenVisible)
+  .value('documentHidden', documentHidden)
+  .value('documentVisible', documentVisible)
+  .name;

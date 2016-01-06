@@ -1,38 +1,55 @@
-import {streamWhenVisible as streamWhenVisibleFactory}
-  from '../../../../source/chroma_ui/iml/stream-when-visible/stream-when-visible-exports';
+import angular from 'angular/angular';
+const {module, inject} = angular.mock;
+import highland from 'highland';
 
 import {noop} from 'intel-fp/fp';
 
 describe('stream when visible', () => {
-  var $document, pageVisibility, removeListener, streamWhenVisible,
-    visibilityStream, streamFn, inStream, stream, spy;
+  var $document, pageVisibility, removeListener,
+    visibilityStream, streamFn, inStream, stream,
+    documentHidden, documentVisible;
 
-  beforeEach(() => {
+  beforeEach(module('streamWhenVisible', ($provide) => {
     $document = {
       hidden: false
     };
+    $provide.value('$document', [$document]);
 
     removeListener = jasmine.createSpy('removeListener');
     pageVisibility = jasmine.createSpy('pageVisibility')
       .and.returnValue(removeListener);
+    $provide.value('pageVisibility', pageVisibility);
 
-    spy = jasmine.createSpy('spy');
-
-    streamWhenVisible = streamWhenVisibleFactory([$document], () => {
+    $provide.value('highland', () => {
       visibilityStream = highland();
       spyOn(visibilityStream, 'destroy');
 
       return visibilityStream;
-    }, pageVisibility);
+    });
 
-    inStream = highland();
-    spyOn(inStream, 'destroy');
+    documentHidden = 'hidden';
+    $provide.value('documentHidden', documentHidden);
+    documentVisible = 'visible';
+    $provide.value('documentVisible', documentVisible);
+  }));
+
+  var streamWhenVisible, spy;
+
+  beforeEach(inject((_streamWhenVisible_) => {
+    streamWhenVisible = _streamWhenVisible_;
+
     streamFn = jasmine.createSpy('streamFn')
-      .and.returnValue(inStream);
+      .and.callFake(() => {
+        inStream = highland();
+        spyOn(inStream, 'destroy');
+        return inStream;
+      });
 
     stream = streamWhenVisible(streamFn);
     spyOn(stream, 'destroy').and.callThrough();
-  });
+
+    spy = jasmine.createSpy('spy');
+  }));
 
   it('should be a function', () => {
     expect(streamWhenVisible)
@@ -84,6 +101,32 @@ describe('stream when visible', () => {
     expect(spy)
       .not
       .toHaveBeenCalledOnceWith('foo');
+  });
+
+  it('should write a document hidden token on page hidden', () => {
+    pageVisibility.calls.mostRecent().args[0]();
+
+    stream.each(spy);
+
+    expect(spy)
+      .toHaveBeenCalledOnceWith(documentHidden);
+  });
+
+  it('should destroy the stream on page hidden', () => {
+    pageVisibility.calls.mostRecent().args[0]();
+
+    expect(inStream.destroy)
+      .toHaveBeenCalledOnce();
+  });
+
+  it('should write a document visible token on page visible', () => {
+    pageVisibility.calls.mostRecent().args[0]();
+    pageVisibility.calls.mostRecent().args[1]();
+
+    stream.each(spy);
+
+    expect(spy)
+      .toHaveBeenCalledOnceWith(documentVisible);
   });
 
   describe('when hidden', () => {

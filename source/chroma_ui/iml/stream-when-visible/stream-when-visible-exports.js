@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,23 +23,33 @@
 
 import {noop} from 'intel-fp/fp';
 
-export function streamWhenVisible ($document, λ, pageVisibility) {
+import type {highland, highlandStream} from '../../../../flow/include/highland';
+
+export const documentHidden = {};
+export const documentVisible = {};
+
+export function streamWhenVisible ($document:Array<Document>, highland:highland,
+                                   documentHidden:typeof documentHidden, documentVisible:typeof documentVisible,
+                                   pageVisibility:Function):Function {
   'ngInject';
 
-  const document = $document[0];
+  const doc = $document[0];
 
-  return function streamWhenVisible (streamFn) {
-    var stream;
+  return function streamWhenVisible (streamFn:Function) {
+    var stream:highlandStream;
 
-    const visibleStream = λ();
+    const visibleStream = highland();
 
-    if (!document.hidden)
+    if (!doc.hidden)
       onShow();
 
     const removeListener = pageVisibility(function onHide () {
       stream.destroy();
-      visibleStream.write([]);
-    }, onShow, 30000);
+      visibleStream.write(documentHidden);
+    }, () => {
+      visibleStream.write(documentVisible);
+      onShow();
+    }, 30000);
 
     function onShow () {
       stream = streamFn();
@@ -49,20 +61,20 @@ export function streamWhenVisible ($document, λ, pageVisibility) {
 
     function consume (error, x, push, next) {
       if (error) {
-        if (!document.hidden)
+        if (!doc.hidden)
           visibleStream.write({
             __HighlandStreamError__: true,
             error
           });
 
         next();
-      } else if (x === λ.nil) {
+      } else if (x === highland.nil) {
         push(null, x);
 
-        if (!document.hidden)
+        if (!doc.hidden)
           visibleStream.write(x);
       } else {
-        if (!document.hidden)
+        if (!doc.hidden)
           visibleStream.write(x);
 
         next();
