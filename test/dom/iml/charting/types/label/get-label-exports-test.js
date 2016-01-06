@@ -137,10 +137,12 @@ describe('get label', () => {
     });
 
     it('should set text y position', () => {
-      window.flushD3Transitions();
+      const labelText = qs('.label-text');
+      const {height} = labelText.getBoundingClientRect();
 
-      expect(qs('.label-text').getAttribute('y'))
-        .toBe('209');
+      expect(parseFloat(qs('.label-text')
+        .getAttribute('y'), 10))
+      .toBe((400 + height) / 2);
     });
 
     it('should set text anchor to middle', () => {
