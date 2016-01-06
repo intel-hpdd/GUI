@@ -1,7 +1,9 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2015 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -19,14 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import λ from 'highland';
-import addProperty from './add-property-exports';
-import rebindDestroy from './rebind-destroy-exports';
+export type highlandStream = {
+  write(x: any): boolean;
+  destroy(): void;
+}
 
-angular
-  .module('highland', [])
-  .value('λ', λ)
-  .value('highland', λ)
-  .value('addProperty', addProperty)
-  .value('rebindDestroy', rebindDestroy);
+export type highland = {
+  (xs: Array<any> | Function | Promise | void): highlandStream,
+  nil: Object
+}

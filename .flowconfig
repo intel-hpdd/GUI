@@ -2,8 +2,11 @@
 .*node_modules/babel-.*
 .*node_modules/babylon.*
 .*node_modules/intel-socket-worker.*
+.*node_modules/intel-obj/test/obj-test.js
+.*node_modules/highland.*
 
 [include]
+flow/include/
 
 [libs]
 
