@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 angular.module('targetDashboard')
   .factory('targetDashboardKind', function targetDashboardKindFactory ($route) {
     'ngInject';
@@ -104,4 +103,3 @@ angular.module('targetDashboard')
       };
     }
   );
-

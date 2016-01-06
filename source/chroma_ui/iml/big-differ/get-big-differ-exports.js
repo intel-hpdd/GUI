@@ -40,9 +40,8 @@ export const diffObj3 = fp.curry(4, function diffObj3Factory (lensMap, a, b, c) 
       var dirtyRemote = !eqLens(a, c);
       var dirtyLocalRemote = !eqLens(b, c);
 
-      if (!dirtyLocal && !dirtyRemote) {
+      if (!dirtyLocal && !dirtyRemote)
         return;
-      }
 
       var obj = {
         name: lensItem.name,
@@ -55,13 +54,12 @@ export const diffObj3 = fp.curry(4, function diffObj3Factory (lensMap, a, b, c) 
         }
       };
 
-      if (dirtyLocal && dirtyRemote && dirtyLocalRemote) {
+      if (dirtyLocal && dirtyRemote && dirtyLocalRemote)
         obj.type = 'conflict';
-      } else if (dirtyLocal) {
+      else if (dirtyLocal)
         obj.type = 'local';
-      } else if (dirtyRemote) {
+      else if (dirtyRemote)
         obj.type = 'remote';
-      }
 
       return obj;
     })
@@ -91,21 +89,19 @@ export function mergeObjFactory (diffObj3) {
     local = angular.copy(local);
     remote = angular.copy(remote);
 
-    if (local == null) {
+    if (local == null)
       return remote;
-    }
 
     var dirties = diffObj3(lensMap, local, local, remote);
 
     var dirtyKeys = Object.keys(dirties);
 
-    if (dirtyKeys) {
+    if (dirtyKeys)
       dirtyKeys.forEach(function patch (key) {
         var dirty = dirties[key];
 
         dirty.lens.set(dirty.diff.initial, remote);
       });
-    }
 
     return remote;
   });

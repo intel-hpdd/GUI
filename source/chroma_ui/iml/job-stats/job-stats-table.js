@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 angular.module('jobStats').directive('jobStatsTable', function () {
   'use strict';
 

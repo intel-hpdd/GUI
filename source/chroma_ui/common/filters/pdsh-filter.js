@@ -86,5 +86,3 @@ angular.module('filters').filter('pdsh', [function pdsh () {
     };
   }
 }]);
-
-

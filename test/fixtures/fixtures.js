@@ -17,17 +17,15 @@ angular.module('fixtures', []).service('fixtures', function () {
       toArray: function () {
         var out = [this.status, this.data];
 
-        if (this.headers) {
+        if (this.headers)
           out.push(this.headers);
-        }
 
         return out;
       }
     };
 
-    if (headers) {
+    if (headers)
       fixture.headers = headers;
-    }
 
     var group = fixtures[name] = fixtures[name] || [];
 

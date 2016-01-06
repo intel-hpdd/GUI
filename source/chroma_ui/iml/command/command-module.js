@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 import { DeferredCommandModalBtnCtrl } from './deferred-cmd-modal-btn-controller-exports';
 import { deferredCmdModalBtnDirective } from './deferred-cmd-modal-btn-directive-exports';
 

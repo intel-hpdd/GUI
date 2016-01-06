@@ -40,17 +40,16 @@ export function getFileUsageChartFactory (createStream, getFileUsageStream,
         onSubmit ( { rangeForm, durationForm } ) {
           conf.stream.destroy();
 
-          if (rangeForm) {
+          if (rangeForm)
             conf.stream = rangeStream(
               rangeForm.start.$modelValue,
               rangeForm.end.$modelValue
             );
-          } else if (durationForm) {
+          else if (durationForm)
             conf.stream = durationStream(
               durationForm.size.$modelValue,
               durationForm.unit.$modelValue
             );
-          }
         },
         options: {
           setup (d3Chart, d3) {

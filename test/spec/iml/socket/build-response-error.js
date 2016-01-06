@@ -44,5 +44,3 @@ describe('build response error', function () {
     expect(buildResponseError(response)).toEqual(error);
   });
 });
-
-

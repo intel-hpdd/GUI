@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 import { getOstBalanceStreamFactory } from './get-ost-balance-stream-exports';
 import { getOstBalanceChartFactory } from './get-ost-balance-chart-exports';
 

@@ -65,27 +65,25 @@ import angular from 'angular';
           deregister();
         });
 
-        if (!scope.hasOwnProperty('toggle')) {
+        if (!scope.hasOwnProperty('toggle'))
           deregister = strategies(jqPreviousEl, scope, {
             show: turnThenShow,
             hide: hide
           });
-        } else {
+        else
           deregister = scope.$watch('toggle', function (newValue) {
             if (newValue)
               turnThenShow();
             else
               hide();
           }, true);
-        }
 
         scope.$watch(function setWatch () {
           return jqElement.html();
         },
         function handleChange (newValue, oldValue) {
-          if (newValue !== oldValue) {
+          if (newValue !== oldValue)
             $$rAF(recalculate);
-          }
         });
 
         /**

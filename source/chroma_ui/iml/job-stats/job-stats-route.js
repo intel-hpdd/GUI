@@ -44,4 +44,3 @@ angular.module('jobStatsRoute')
         }
       });
   });
-

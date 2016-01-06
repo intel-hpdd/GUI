@@ -6,7 +6,10 @@ module.exports = {
     semi: [2, 'always'],
     indent: [2, 2],
     'no-func-assign': 0,
-    'no-constant-condition': 0
+    'no-constant-condition': 0,
+    'no-multiple-empty-lines': [2, {max: 2, maxEOF: 1}],
+    curly: [2, 'multi', 'consistent'],
+    'eol-last': [2, 'unix']
   },
   globals: {
     math: false,

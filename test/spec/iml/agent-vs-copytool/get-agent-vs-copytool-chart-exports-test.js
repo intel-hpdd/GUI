@@ -68,11 +68,10 @@ describe('get agent vs copytool chart exports', () => {
 
       ordinalScale.domain = jasmine.createSpy('domain')
         .and.callFake((xs) => {
-          if (xs) {
+          if (xs)
             return ordinalScale;
-          } else {
+          else
             return currentRange;
-          }
         });
 
       var currentRange;

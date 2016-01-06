@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 angular.module('numberFormatters')
   .factory('formatBytes', function () {
     var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];

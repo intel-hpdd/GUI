@@ -54,9 +54,8 @@ angular.module('atScrollBoundary').directive('atScrollBoundary', function factor
       var scrollFunc = scope.$apply.bind(scope, function onScroll () {
         scope.hitBoundary = (directions[scope.scrollDirection] || angular.identity.bind(null, false))();
 
-        if (oneHit && scope.hitBoundary) {
+        if (oneHit && scope.hitBoundary)
           cleanup();
-        }
       });
 
       function cleanup () {

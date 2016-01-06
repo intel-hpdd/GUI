@@ -59,4 +59,3 @@ angular.module('socket-worker')
 
     return worker;
   });
-

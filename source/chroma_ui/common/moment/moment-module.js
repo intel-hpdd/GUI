@@ -22,5 +22,4 @@
 import angular from 'angular';
 
 
-
 angular.module('moment', []).value('moment', window.moment);

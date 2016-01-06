@@ -34,4 +34,3 @@ describe('add static dir interceptor', () => {
     expect(result).toEqual(config);
   });
 });
-

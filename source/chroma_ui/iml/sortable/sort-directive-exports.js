@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 export function sorter () {
   const CLASS_NAMES = {
     OVERLAY: 'sort-overlay',

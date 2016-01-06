@@ -78,4 +78,3 @@ function getRewinder (oldTokens) {
     [].splice.apply(tokens, [0, 0].concat(oldTokens.slice(0, tokensDiff)));
   };
 }
-

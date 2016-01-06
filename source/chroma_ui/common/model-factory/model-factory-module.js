@@ -22,4 +22,3 @@
 import angular from 'angular';
 
 angular.module('modelFactory', ['ngResource']);
-

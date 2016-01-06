@@ -37,9 +37,8 @@ angular.module('filters').filter('naturalSort', [function naturalSort () {
     getStringToSort = predicate;
     var sortedArray = input.sort(naturalSortAlgorithm);
 
-    if (reverse === true) {
+    if (reverse === true)
       sortedArray.reverse();
-    }
 
     return sortedArray;
   };

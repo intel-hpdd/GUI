@@ -32,11 +32,10 @@ describe('many till', function () {
     beforeEach(function () {
       tokens = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
       res = manyTill(consumeToken(identity), consumeToken(function (x) {
-        if (x === 2) {
+        if (x === 2)
           return x;
-        } else {
+        else
           return new Error('x is not 2');
-        }
       }), tokens);
     });
 
@@ -55,11 +54,10 @@ describe('many till', function () {
     beforeEach(function () {
       tokens = [3, 2, 1];
       res = manyTill(consumeToken(function (x) {
-        if (x === 3) {
+        if (x === 3)
           return x;
-        } else {
+        else
           return new Error('x is not 3');
-        }
       }), always(new Error('boom!')), tokens);
     });
 

@@ -22,7 +22,6 @@
 import angular from 'angular';
 
 
-
 angular.module('jobStats')
   .factory('TargetModel', ['modelFactory', function (modelFactory) {
     'use strict';

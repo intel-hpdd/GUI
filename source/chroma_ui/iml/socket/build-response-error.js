@@ -33,9 +33,9 @@ angular.module('socket-module').factory('buildResponseError', [function buildRes
   return function buildResponseError (response) {
     var error;
 
-    if (response.error instanceof Error) {
+    if (response.error instanceof Error)
       error = response.error;
-    } else if (_.isPlainObject(response.error)) {
+    else if (_.isPlainObject(response.error))
       error = Object.keys(response.error)
         .reduce(function fillOutProperties (error, key) {
           if (key !== 'message')
@@ -43,9 +43,8 @@ angular.module('socket-module').factory('buildResponseError', [function buildRes
 
           return error;
         }, new Error(response.error.message));
-    } else {
+    else
       error = new Error(response.error);
-    }
 
     return error;
   };

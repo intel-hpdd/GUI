@@ -32,4 +32,3 @@ angular
     'ostBalance', 'readWriteBandwidth', 'readWriteHeatMap', 'chartCompiler'
   ])
   .directive('chartsContainer', chartsContainer);
-

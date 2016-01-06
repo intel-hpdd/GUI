@@ -61,9 +61,8 @@ import angular from 'angular';
           pathComponents.filename
         );
 
-        if ( path.length <= maxLength || parts.length === 1 ) {
+        if ( path.length <= maxLength || parts.length === 1 )
           break;
-        }
 
         // pointer is also the # of elements BEFORE the pointer
         var rightCount = parts.length - pointer - 1;
@@ -79,28 +78,24 @@ import angular from 'angular';
 
     return function filteredItems (path, maxLength) {
 
-      if (!_.isString(path) || path.length <= maxLength) {
+      if (!_.isString(path) || path.length <= maxLength)
         return path;
-      }
 
       var cacheKey = maxLength + path;
       var cachedPath = cache.get(cacheKey);
-      if (!_.isUndefined(cachedPath)) {
+      if (!_.isUndefined(cachedPath))
         return cachedPath;
-      }
 
       var pathComponents = splitUp(path);
 
-      if (pathComponents.parts.length > 0) {
+      if (pathComponents.parts.length > 0)
         path = reducePath(pathComponents, maxLength);
-      }
 
       // catchall if the filename alone puts us over the length limit
-      if (path.length > maxLength) {
+      if (path.length > maxLength)
         path = '...';
-      }
-      return cache.put(cacheKey, path);
 
+      return cache.put(cacheKey, path);
     };
   }]);
 }());

@@ -97,11 +97,11 @@ import angular from 'angular';
   }
 
   Position.prototype.positioner = function (element) {
-    if (typeof element.getBoundingClientRect === 'function') {
+    if (typeof element.getBoundingClientRect === 'function')
       return positionerFactory(function () {
         return element.getBoundingClientRect();
       }, this.DIRECTIONS);
-    } else if (element === this.$window ) {
+    else if (element === this.$window )
       return positionerFactory(function () {
         return {
           top: 0,
@@ -112,7 +112,6 @@ import angular from 'angular';
           width: element.innerWidth
         };
       }, this.DIRECTIONS);
-    }
   };
 
   Position.prototype.position = function (direction, tooltipPositioner) {

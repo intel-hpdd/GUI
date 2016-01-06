@@ -56,5 +56,3 @@ angular.module('filters').filter('paginate', [function paginate () {
     };
   }
 }]);
-
-

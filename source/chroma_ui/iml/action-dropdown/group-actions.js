@@ -34,9 +34,8 @@ angular.module('action-dropdown-module')
     // Sort items by display_group, then by display_order.
     // Mark the last item in each group
     return function groupActions (input) {
-      if (numDisplayGroups(input) !== input.length) {
+      if (numDisplayGroups(input) !== input.length)
         return input;
-      }
 
       var sorted = input.sort(function (a, b) {
         var x = a.display_group - b.display_group;
@@ -46,9 +45,8 @@ angular.module('action-dropdown-module')
       sorted.forEach(function (item, index) {
         var next = sorted[index + 1];
 
-        if (next && item.display_group !== next.display_group) {
+        if (next && item.display_group !== next.display_group)
           item.last = true;
-        }
       });
 
       return sorted;

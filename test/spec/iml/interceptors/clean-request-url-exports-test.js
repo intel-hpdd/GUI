@@ -32,4 +32,3 @@ describe('clean request url interceptor', () => {
     expect(result).toEqual(config);
   });
 });
-

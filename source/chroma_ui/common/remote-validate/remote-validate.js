@@ -32,9 +32,8 @@ import angular from 'angular';
       controller: ['$scope', '$element', function ($scope, $element) {
         var formController = $element.controller('form');
 
-        if (formController === undefined) {
+        if (formController === undefined)
           throw new Error('formController not found, needed by remote-validate-form');
-        }
 
         this.components = {
           '__all__': formController
@@ -112,9 +111,8 @@ import angular from 'angular';
             var component = formController.getComponent(field);
 
             if (component) {
-              if (_.isString(errorList)) {
+              if (_.isString(errorList))
                 errorList = [errorList];
-              }
 
               component.$setValidity('server', false);
               scope.serverValidationError[field] = errorList;

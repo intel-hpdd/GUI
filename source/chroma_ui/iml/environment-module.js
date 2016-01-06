@@ -51,5 +51,3 @@ Object.keys(ENV)
   .forEach(function assignValues (key) {
     environmentModule.value(key, ENV[key]);
   });
-
-

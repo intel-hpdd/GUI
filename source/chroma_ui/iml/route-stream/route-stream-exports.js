@@ -29,9 +29,8 @@ export default function routeStreamFactory ($rootScope, $route, qsFromLocation) 
     var s = λ();
 
     var d = $rootScope.$on('$routeChangeSuccess', (ev, route) => {
-      if (route.redirectTo) {
+      if (route.redirectTo)
         return;
-      }
 
       s.write(extendRoute(route));
     });

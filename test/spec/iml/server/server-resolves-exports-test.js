@@ -20,12 +20,10 @@ describe('server resolves', () => {
 
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake((path) => {
-        if (path === '/lnet_configuration') {
+        if (path === '/lnet_configuration')
           return (lnetStream = λ());
-        }
-        if (path === '/host') {
+        if (path === '/host')
           return (serversStream = λ());
-        }
       });
     $provide.value('socketStream', socketStream);
   }));

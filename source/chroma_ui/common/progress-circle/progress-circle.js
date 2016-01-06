@@ -78,19 +78,16 @@ import angular from 'angular';
          * @param {number} complete
          */
         function update (complete) {
-          if (complete == null) {
+          if (complete == null)
             complete = 0;
-          }
 
           complete = parseInt(complete, 10);
 
-          if (_.isNaN(complete)) {
+          if (_.isNaN(complete))
             throw new Error('Complete not a number! Got %s'.sprintf(complete));
-          }
 
-          if (complete < 0 || complete > 100) {
+          if (complete < 0 || complete > 100)
             throw new Error('Complete not between 0 and 100 inclusive! Got %s'.sprintf(complete));
-          }
 
           var slices = d3.entries({
             elapsed: complete,

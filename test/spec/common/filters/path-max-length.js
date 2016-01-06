@@ -64,15 +64,14 @@ describe('pathMaxLength Filter', function () {
           expect(result).toEqual(test.result);
         });
 
-        if (test.cached) {
+        if (test.cached)
           it('should be cached', function () {
             expect(cachedResult).toEqual(test.result);
           });
-        } else {
+        else
           it('should not be cached', function () {
             expect(cachedResult).toBeUndefined();
           });
-        }
       });
     });
   });
