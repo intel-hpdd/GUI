@@ -1,12 +1,12 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
 
-describe('base chart', function () {
-  'use strict';
+import {identity} from 'intel-fp/fp';
 
+describe('base chart', () => {
   var $window, nv, d3;
 
-  beforeEach(module('charts', function ($provide) {
+  beforeEach(module('charts', ($provide) => {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')
@@ -19,7 +19,7 @@ describe('base chart', function () {
 
     d3 = {
       select: jasmine.createSpy('select')
-        .and.callFake(_.identity)
+        .and.callFake(identity)
     };
 
     $provide.value('d3', d3);
@@ -27,15 +27,15 @@ describe('base chart', function () {
 
   var baseChart;
 
-  beforeEach(inject(function (_baseChart_) {
+  beforeEach(inject((_baseChart_) => {
     baseChart = _baseChart_;
   }));
 
-  it('should return a factory function', function () {
+  it('should return a factory function', () => {
     expect(baseChart).toEqual(jasmine.any(Function));
   });
 
-  it('should generate a directive definition object', function () {
+  it('should generate a directive definition object', () => {
     expect(baseChart()).toEqual({
       restrict: 'E',
       require: '^?fullScreen',
@@ -44,15 +44,15 @@ describe('base chart', function () {
         stream: '=',
         options: '='
       },
-      templateUrl: 'common/charts/assets/html/chart.html',
+      templateUrl: 'iml/charts/assets/html/chart.html',
       link: jasmine.any(Function)
     });
   });
 
-  describe('linking function', function () {
+  describe('linking function', () => {
     var linker, s, generateChart, scope, element, fullScreenCtrl, svg, deregister;
 
-    beforeEach(function () {
+    beforeEach(() => {
       deregister = jasmine.createSpy('deregister');
 
       s = highland();
@@ -91,7 +91,8 @@ describe('base chart', function () {
         })
       };
 
-      generateChart = jasmine.createSpy('generateChart').and.callFake(_.identity);
+      generateChart = jasmine.createSpy('generateChart')
+        .and.callFake(identity);
 
       var ddo = baseChart({
         generateChart: generateChart
@@ -107,77 +108,77 @@ describe('base chart', function () {
       linker(scope, [element], {}, fullScreenCtrl);
     });
 
-    it('should add a listener for the fullscreen controller', function () {
+    it('should add a listener for the fullscreen controller', () => {
       expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(jasmine.any(Function));
     });
 
-    it('should generate the chart', function () {
+    it('should generate the chart', () => {
       expect(generateChart).toHaveBeenCalledOnceWith(nv);
     });
 
-    it('should set preserveAspectRatio on the svg element', function () {
+    it('should set preserveAspectRatio on the svg element', () => {
       expect(svg.attr).toHaveBeenCalledOnceWith('preserveAspectRatio', 'xMinYMid');
     });
 
-    it('should set width on the svg element', function () {
+    it('should set width on the svg element', () => {
       expect(svg.attr).toHaveBeenCalledOnceWith('width', '100%');
     });
 
-    it('should set height on the svg element', function () {
+    it('should set height on the svg element', () => {
       expect(svg.attr).toHaveBeenCalledOnceWith('height', '100%');
     });
 
-    it('should add a resize listener', function () {
+    it('should add a resize listener', () => {
       expect($window.addEventListener).toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
     });
 
-    it('should set viewBox on the svg element', function () {
+    it('should set viewBox on the svg element', () => {
       expect(svg.attr).toHaveBeenCalledOnceWith('viewBox', '0 0 1248 450');
     });
 
-    it('should watch the stream object', function () {
+    it('should watch the stream object', () => {
       expect(scope.$watch).toHaveBeenCalledOnceWith('stream', jasmine.any(Function));
     });
 
-    it('should register a destroy handler', function () {
+    it('should register a destroy handler', () => {
       expect(scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
     });
 
-    describe('rendering data', function () {
-      beforeEach(function () {
+    describe('rendering data', () => {
+      beforeEach(() => {
         s.write([ {id: '3', ts: '2014-01-07T14:42:50.000Z'} ]);
       });
 
-      it('should pull the last data', function () {
+      it('should pull the last data', () => {
         expect(svg.datum).toHaveBeenCalledTwice();
       });
 
-      it('should set the new data', function () {
+      it('should set the new data', () => {
         expect(svg.datum)
           .toHaveBeenCalledOnceWith([ { id: '3', ts: '2014-01-07T14:42:50.000Z' } ]);
       });
     });
 
-    describe('destroy handler', function () {
-      beforeEach(function () {
+    describe('destroy handler', () => {
+      beforeEach(() => {
         scope.$on.calls.argsFor(0)[1]();
       });
 
-      it('should deregister the stream watcher', function () {
+      it('should deregister the stream watcher', () => {
         expect(deregister).toHaveBeenCalledOnce();
       });
 
-      it('should remove the resize listener', function () {
+      it('should remove the resize listener', () => {
         expect($window.removeEventListener)
           .toHaveBeenCalledOnceWith('resize', jasmine.any(Function), false);
       });
 
-      it('should remove the full screen controller listener', function () {
+      it('should remove the full screen controller listener', () => {
         expect(fullScreenCtrl.removeListener)
           .toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 
-      it('should remove the svg element', function () {
+      it('should remove the svg element', () => {
         expect(svg.remove).toHaveBeenCalledOnce();
       });
     });

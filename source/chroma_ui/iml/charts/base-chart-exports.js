@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
+import {noop} from 'intel-fp/fp';
 
-angular.module('charts').factory('baseChart', function baseChartFactory ($window, nv, d3) {
+export default function baseChartFactory ($window, nv, d3, documentHidden, documentVisible) {
   'ngInject';
 
   return function baseChart (overrides) {
@@ -33,7 +34,7 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
         stream: '=',
         options: '='
       },
-      templateUrl: 'common/charts/assets/html/chart.html',
+      templateUrl: 'iml/charts/assets/html/chart.html',
       link: function link (scope, element, attrs, fullScreenCtrl) {
         if (fullScreenCtrl) fullScreenCtrl.addListener(setChartViewBox);
 
@@ -53,7 +54,24 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
         if (scope.options && scope.options.setup)
           scope.options.setup(chart, d3, nv);
 
+        const toggleNoData = (xs) => {
+          if (xs === documentHidden) {
+            if (chart.noData)
+              chart.noData('Fetching new data...');
+
+            return [];
+          } else if (xs === documentVisible) {
+            return [];
+          }
+
+          if (chart.noData)
+            chart.noData('No Data Available.');
+
+          return xs;
+        };
+
         scope.stream
+          .map(toggleNoData)
           .each(renderData);
 
         setChartViewBox();
@@ -70,7 +88,7 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
             var series = _.find(v, { key: item.key });
 
             if (series)
-              _.extend(series, propsToCopy);
+              angular.extend(series, propsToCopy);
           });
 
           svg.datum(v);
@@ -108,7 +126,7 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
           render();
 
           newVal
-            .tap(chart.noData.bind(chart, 'No Data Available.'))
+            .map(toggleNoData)
             .each(renderData);
         });
 
@@ -137,11 +155,11 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
       generateChart: function generateChart () {
         throw new Error('config::generateChart must be overriden.');
       },
-      afterUpdate: _.noop,
-      onUpdate: _.noop
+      afterUpdate: noop,
+      onUpdate: noop
     };
 
-    _.merge(config, overrides);
+    angular.merge(config, overrides);
 
     return config.directive;
   };
@@ -154,4 +172,4 @@ angular.module('charts').factory('baseChart', function baseChartFactory ($window
         svg.call(chart);
     };
   }
-});
+}

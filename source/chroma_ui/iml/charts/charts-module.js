@@ -22,9 +22,11 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular/angular';
+import baseChartFactory from './base-chart-exports';
 
 export default angular.module('charts',
   ['d3', 'nv', 'serverMoment',
-    'ui.bootstrap.buttons', 'heatMap'
+    'ui.bootstrap.buttons', 'heatMap', 'streamWhenVisible'
   ])
+  .factory('baseChart', baseChartFactory)
   .name;
