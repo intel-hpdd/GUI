@@ -23,7 +23,6 @@ module.exports = function setConfig (config) {
       bowerDir('jquery/dist/jquery.js'),
       nodeModulesDir('angular/angular.js'),
       nodeModulesDir('angular-resource/angular-resource.js'),
-      bowerDir('angular-bindonce/bindonce.js'),
       nodeModulesDir('angular-route/angular-route.js'),
       nodeModulesDir('angular-animate/angular-animate.js'),
       bowerDir('highland/dist/highland.js'),

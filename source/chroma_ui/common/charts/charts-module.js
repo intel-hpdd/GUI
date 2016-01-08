@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,9 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
 
-angular.module('charts',
-  ['d3', 'nv', 'pasvaz.bindonce', 'serverMoment',
+export default angular.module('charts',
+  ['d3', 'nv', 'serverMoment',
     'ui.bootstrap.buttons', 'heatMap'
-  ]);
+  ])
+  .name;

@@ -2,7 +2,6 @@
   "name": "IML GUI",
   "version": "3.0.20",
   "dependencies": {
-    "angular-bindonce": "0.3.3",
     "font-awesome": "4.2.0",
     "bootstrap": "3.3.5",
     "lodash": "2.4.1",

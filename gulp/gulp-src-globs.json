@@ -14,7 +14,6 @@
       "node_modules*/angular/angular.js",
       "node_modules*/angular-resource/angular-resource.js",
       "node_modules*/angular-route/angular-route.js",
-      "source/chroma_ui/bower_components*/angular-bindonce/bindonce.js",
       "node_modules*/angular-animate/angular-animate.js",
       "source/chroma_ui/bower_components*/fastdom/index.js",
       "source/chroma_ui/bower_components*/moment/moment.js",

@@ -7,13 +7,15 @@
       <accordion-heading>
         <i class="fa" ng-class="{'fa-chevron-down': commandModal['accordion' + $index], 'fa-chevron-right': !commandModal['accordion' + $index]}"></i>
         <i class="fa header-status" ng-class="{'fa-times': command.state === 'cancelled', 'fa-exclamation': command.state === 'failed', 'fa-check': command.state === 'succeeded', 'fa-refresh fa-spin': command.state === 'pending'}"></i>
-        <span bindonce="command" bo-bind="command.message + ' - ' + (command.created_at | date : 'MMM dd yyyy HH:mm:ss')"></span>
+        <span>
+          {{ ::command.message }} - {{ ::command.created_at | date:'MMM dd yyyy HH:mm:ss' }}
+        </span>
       </accordion-heading>
       <h4>Details:</h4>
       <table class="table">
         <tr>
           <td>Created At</td>
-          <td bindonce="command" bo-bind="command.created_at | date : 'MMM dd yyyy HH:mm:ss'"></td>
+          <td>{{ ::command.created_at | date:'MMM dd yyyy HH:mm:ss' }}</td>
         </tr>
         <tr>
           <td>Status</td>

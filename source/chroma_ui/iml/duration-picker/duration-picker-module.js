@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,9 +23,7 @@
 
 import angular from 'angular';
 
-angular.module('durationPicker',
-  ['pasvaz.bindonce', 'serverMoment',
-    'ui.bootstrap.dropdown', 'ui.bootstrap.buttons',
-    'iml-tooltip',
-    'filters'
-  ]);
+export default angular.module('durationPicker', ['serverMoment',
+  'ui.bootstrap.dropdown', 'ui.bootstrap.buttons',
+  'iml-tooltip', 'filters'
+]).name;

@@ -1,12 +1,12 @@
 <div class="modal-header">
-  <h3 class="modal-title" bindonce="stepModal.job" bo-text="stepModal.job.description"></h3>
+  <h3 class="modal-title">{{ ::stepModal.job.description }}</h3>
 </div>
 <div class="modal-body">
   <h4>Details:</h4>
   <table class="table">
     <tr>
       <td>Run At</td>
-      <td bindonce="stepModal.job" bo-bind="stepModal.job.modified_at | date : 'MMM dd yyyy HH:mm:ss'"></td>
+      <td>{{ ::stepModal.job.modified_at | date:'MMM dd yyyy HH:mm:ss' }}</td>
     </tr>
     <tr>
       <td>Status</td>
@@ -22,7 +22,9 @@
       <accordion-heading>
         <i class="fa" ng-class="{'fa-chevron-down': stepModal['accordion' + $index], 'fa-chevron-right': !stepModal['accordion' + $index]}"></i>
         <i class="fa header-status" ng-class="{'fa-exclamation': step.state === 'failed', 'fa-check': step.state === 'success', 'fa-refresh fa-spin': step.state === 'incomplete'}"></i>
-        <span bindonce="step" bo-bind=" (step.step_index + 1) + '/' + step.step_count + ' ' + stepModal.getDescription(step) "></span>
+        <span>
+          {{ ::step.step_index + 1  }}/{{ ::step.step_count }}  {{ ::stepModal.getDescription(step) }}
+        </span>
       </accordion-heading>
       <h4>Arguments</h4>
       <pre class="logs">{{ step.args|json }}</pre>
