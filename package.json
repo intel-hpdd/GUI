@@ -1,6 +1,6 @@
 {
   "name": "intel-gui",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start",
