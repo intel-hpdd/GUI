@@ -1,4 +1,4 @@
-import angular from 'angular';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 
 import * as fp from 'intel-fp/fp';
@@ -22,7 +22,7 @@ describe('get OST balance stream', () => {
           return (targetStream = highland());
       });
 
-    getOstBalanceStream = getOstBalanceStreamFactory(highland, math, socketStream, formatBytes);
+    getOstBalanceStream = getOstBalanceStreamFactory(highland, socketStream, formatBytes);
 
     fixtures = ostBalanceDataFixtures;
 

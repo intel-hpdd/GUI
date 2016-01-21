@@ -70,7 +70,7 @@
     "intel-extract-api": "1.0.2",
     "intel-fp": "3.5.0",
     "intel-lodash-mixins": "1.0.3",
-    "intel-math": "2.0.2",
+    "intel-math": "3.0.0",
     "intel-obj": "4.0.0",
     "intel-road-runner": "1.0.0",
     "intel-socket-worker": "2.0.0",

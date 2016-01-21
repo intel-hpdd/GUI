@@ -2,21 +2,39 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 import * as fp from 'intel-fp/fp';
+import {gt} from 'intel-math/math';
 
 import {getLineFactory} from
   '../../../../../../source/chroma_ui/iml/charting/types/line/get-line-exports';
 
 describe('get line', () => {
-  const getCoords = fp.flow(
-    Array.from,
-    fp.map((x) => {
-      return {
-        type: x.pathSegTypeAsLetter,
-        x: Math.round(x.x),
-        y: Math.round(x.y)
-      };
-    })
-  );
+  const getCoord = (curr, idx) => Math.round(curr.split(',')[idx]);
+
+  function getCoords (line) {
+    return line
+      .getAttribute('d')
+      .split(/([L|M])/)
+      .filter(
+        fp.flow(
+          fp.lensProp('length'),
+          gt(0)
+        )
+      )
+      .reduce((arr, curr) => {
+        if (/[M|L]/.test(curr)) {
+          arr.push({
+            type: curr
+          });
+        } else {
+          const last = arr[arr.length -1];
+
+          last.x = getCoord(curr, 0);
+          last.y = getCoord(curr, 1);
+        }
+
+        return arr;
+      }, []);
+  }
 
   var getLine, div, svg, query, d3;
 
@@ -249,7 +267,7 @@ describe('get line', () => {
           var coords;
 
           beforeEach(() => {
-            coords = getCoords(line.pathSegList);
+            coords = getCoords(line);
           });
 
           it('should move to 0,100', () => {
@@ -303,7 +321,7 @@ describe('get line', () => {
 
           beforeEach(() => {
             window.flushD3Transitions();
-            coords = getCoords(line.pathSegList);
+            coords = getCoords(line);
           });
 
           it('should move to 33,67', () => {

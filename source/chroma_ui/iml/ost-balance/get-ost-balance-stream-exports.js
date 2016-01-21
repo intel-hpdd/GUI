@@ -23,8 +23,9 @@ import angular from 'angular';
 
 import * as fp from 'intel-fp/fp';
 import * as obj from 'intel-obj/obj';
+import {times, gte} from 'intel-math/math';
 
-export function getOstBalanceStreamFactory (λ, math, socketStream, formatBytes) {
+export function getOstBalanceStreamFactory (λ, socketStream, formatBytes) {
   'ngInject';
 
   const mapMetrics = fp.flow(fp.map, obj.map);
@@ -43,12 +44,12 @@ export function getOstBalanceStreamFactory (λ, math, socketStream, formatBytes)
     )
   );
   const sortOsts = fp.invokeMethod('sort', [cmp]);
-  const asPercentage = fp.flow(math.times(100), Math.round);
-  const asFormattedBytes = fp.flow(math.times(1024), fp.curry(2, formatBytes)(fp.__, 4));
+  const asPercentage = fp.flow(times(100), Math.round);
+  const asFormattedBytes = fp.flow(times(1024), fp.curry(2, formatBytes)(fp.__, 4));
 
   return fp.curry(2, function getOstBalanceStream (percentage, overrides) {
     const ltePercentage = fp.flow(
-      fp.pathLens(['data', 'detail', 'percentUsed']), math.lte(percentage)
+      fp.pathLens(['data', 'detail', 'percentUsed']), gte(percentage)
     );
 
     const s = λ(function generator (push, next) {

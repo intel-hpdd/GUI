@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
 
 
 import { getOstBalanceStreamFactory } from './get-ost-balance-stream-exports';
@@ -28,6 +28,6 @@ import { getOstBalanceChartFactory } from './get-ost-balance-chart-exports';
 angular
   .module('ostBalance',
     ['charts', 'charting', 'highland',
-      'socket-module', 'get-template-promise', 'math'])
+      'socket-module', 'get-template-promise'])
   .factory('getOstBalanceChart', getOstBalanceChartFactory)
   .factory('getOstBalanceStream', getOstBalanceStreamFactory);

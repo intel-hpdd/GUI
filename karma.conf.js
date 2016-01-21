@@ -34,7 +34,7 @@ module.exports = function setConfig (config) {
       nodeModulesDir('angular-ui-bootstrap/ui-bootstrap-tpls.js'),
       nodeModulesDir('immutable/dist/immutable.js'),
       nodeModulesDir('intel-fp/fp.js'),
-      nodeModulesDir('intel-math/dist/math.js'),
+      nodeModulesDir('intel-math/math.js'),
       nodeModulesDir('intel-obj/obj.js'),
       nodeModulesDir('intel-lodash-mixins/index.js'),
       nodeModulesDir('intel-debounce/dist/debounce.js'),
@@ -89,6 +89,7 @@ module.exports = function setConfig (config) {
       'test/*.js': ['babel', 'ng-annotate'],
       'node_modules/intel-fp/fp.js': ['babel'],
       'node_modules/intel-obj/obj.js': ['babel'],
+      'node_modules/intel-math/math.js': ['babel'],
       'test/!(templates)/**/*.js': ['babel', 'ng-annotate']
     },
 

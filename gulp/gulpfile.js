@@ -60,6 +60,7 @@ function buildJs () {
       only: [
         '*/intel-fp/*',
         '*/intel-obj/*',
+        '*/intel-math/*',
         'source/chroma_ui/iml/*',
         'source/chroma_ui/common/*'
       ]
