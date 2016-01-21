@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 pushd gulp
 JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test RUNNER=CI ../node_modules/.bin/jasmine
