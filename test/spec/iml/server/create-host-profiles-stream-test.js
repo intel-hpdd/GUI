@@ -37,6 +37,17 @@ describe('host profile then', function () {
           {
             default: false,
             initial_state: 'configured',
+            managed: true,
+            name: 'base_managed_rh7',
+            resource_uri: '/api/server_profile/base_managed_rh7/',
+            ui_description: 'A storage server suitable for creating new HA-enabled filesystem targets on RH 7.2',
+            ui_name: 'Managed Storage Server For EL7.2',
+            user_selectable: true,
+            worker: false
+          },
+          {
+            default: false,
+            initial_state: 'configured',
             managed: false,
             name: 'base_monitored',
             resource_uri: '/api/server_profile/base_monitored/',
@@ -119,6 +130,20 @@ describe('host profile then', function () {
                       test: 'zfs_installed == False'
                     }
                   ],
+                  base_managed_rh7: [
+                    {
+                      description: 'The profile is designed for version 7 of EL',
+                      error: '',
+                      pass: false,
+                      test: 'distro_version < 8 and distro_version >= 7'
+                    },
+                    {
+                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      error: '',
+                      pass: true,
+                      test: 'zfs_installed == False'
+                    }
+                  ],
                   base_monitored: [],
                   posix_copytool_worker: [],
                   robinhood_server: []
@@ -138,6 +163,20 @@ describe('host profile then', function () {
                       description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: 'Result unavailable while host agent starts',
                       pass: false,
+                      test: 'zfs_installed == False'
+                    }
+                  ],
+                  base_managed_rh7: [
+                    {
+                      description: 'The profile is designed for version 7 of EL',
+                      error: '',
+                      pass: false,
+                      test: 'distro_version < 8 and distro_version >= 7'
+                    },
+                    {
+                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      error: '',
+                      pass: true,
                       test: 'zfs_installed == False'
                     }
                   ],

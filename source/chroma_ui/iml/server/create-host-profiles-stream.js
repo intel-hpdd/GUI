@@ -63,7 +63,7 @@ angular.module('server')
             };
 
             item.hosts = hosts.map(function setHosts (host) {
-              var profiles = host.profiles[profileName];
+              const profiles = host.profiles[profileName].filter(didProfileFail);
 
               return {
                 address: host.address,

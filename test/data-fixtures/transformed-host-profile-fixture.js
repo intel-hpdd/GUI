@@ -35,6 +35,38 @@ angular.module('dataFixtures').value('transformedHostProfileFixture', [
     ]
   },
   {
+    name: 'base_managed_rh7',
+    uiName: 'Managed Storage Server For EL7.2',
+    invalid: true,
+    hosts: [
+      {
+        address: 'lotus-34vm5.iml.intel.com',
+        invalid: true,
+        problems: [
+          {
+            description: 'The profile is designed for version 7 of EL',
+            error: '',
+            pass: false,
+            test: 'distro_version < 8 and distro_version >= 7' }
+        ],
+        uiName: 'Managed Storage Server For EL7.2'
+      },
+      {
+        address: 'lotus-34vm6.iml.intel.com',
+        invalid: true,
+        problems: [
+          {
+            description: 'The profile is designed for version 7 of EL',
+            error: '',
+            pass: false,
+            test: 'distro_version < 8 and distro_version >= 7'
+          }
+        ],
+        uiName: 'Managed Storage Server For EL7.2'
+      }
+    ]
+  },
+  {
     name: 'base_monitored',
     uiName: 'Monitored Storage Server',
     invalid: false,
