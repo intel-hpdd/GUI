@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -22,6 +24,8 @@
 import angular from 'angular/angular';
 import StatusController from './status-controller-exports';
 import StatusQueryController from './status-query-controller-exports';
+import {deferredActionDropdownComponent, DeferredActionDropdownCtrl}
+  from './deferred-action-dropdown-exports';
 
 export default angular.module('status',
   ['parserModule', 'parselyBox', 'multiStream',
@@ -30,4 +34,6 @@ export default angular.module('status',
   ])
   .controller('StatusController', StatusController)
   .controller('StatusQueryController', StatusQueryController)
+  .controller('DeferredActionDropdownCtrl', DeferredActionDropdownCtrl)
+  .component('deferredActionDropdown', deferredActionDropdownComponent)
   .name;

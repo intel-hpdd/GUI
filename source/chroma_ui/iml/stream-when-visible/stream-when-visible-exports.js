@@ -22,21 +22,22 @@
 // express and approved by Intel in writing.
 
 import {noop} from 'intel-fp/fp';
+import highland from 'highland';
 
-import type {highland, highlandStream} from '../../../../flow/include/highland';
+import type {HighlandStream} from '../../../../flow/include/highland';
 
 export const documentHidden = {};
 export const documentVisible = {};
 
-export function streamWhenVisible ($document:Array<Document>, highland:highland,
+export function streamWhenVisible ($document:Array<Document>,
                                    documentHidden:typeof documentHidden, documentVisible:typeof documentVisible,
                                    pageVisibility:Function):Function {
   'ngInject';
 
   const doc = $document[0];
 
-  return function streamWhenVisible (streamFn:Function) {
-    var stream:highlandStream;
+  return function streamWhenVisible (streamFn:() => HighlandStream) {
+    var stream;
 
     const visibleStream = highland();
 

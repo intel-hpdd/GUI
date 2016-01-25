@@ -3,7 +3,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2015 Intel Corporation All Rights Reserved.
+// Copyright 2013-2016 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,14 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-type IdFn<T> = (xs:T) => T;
-type TransformFn<X,Y> = (xs:X) => Y;
+import type {HighlandStream} from '../include/highland';
 
-export type HighlandStream = {
-  write(x:any): boolean;
-  destroy(): void;
-  tap(fn:IdFn):HighlandStream;
-  consume(fn:(err:Error, x:any, push:Function, next:Function) => void): HighlandStream;
-  pipe<T>(fn:TransformFn<T>): T;
-  each(fn:(xs:any) => void):HighlandStream;
+declare module 'highland' {
+  declare var exports:(xs:Array<any> | Function | Promise | void) => HighlandStream;
+  declare var nil:Object
 }

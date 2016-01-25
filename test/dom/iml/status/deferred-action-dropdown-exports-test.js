@@ -1,12 +1,12 @@
-import angular from 'angular';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 
 import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
 
-describe('deferred action dropdown', function () {
+describe('deferred action dropdown', () => {
   var socketStream, s;
 
-  beforeEach(module('status', 'templates', function ($provide) {
+  beforeEach(module('status', 'templates', $provide => {
     s = highland();
 
     socketStream = jasmine.createSpy('socketStream')
@@ -18,8 +18,8 @@ describe('deferred action dropdown', function () {
     dropdownButton, loadingButton,
     cleanText;
 
-  beforeEach(inject(function ($rootScope, $compile) {
-    var template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
+  beforeEach(inject(($rootScope, $compile) => {
+    const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
 
     $scope = $rootScope.$new();
     $scope.row = {
@@ -41,16 +41,16 @@ describe('deferred action dropdown', function () {
     $scope.$digest();
   }));
 
-  it('should show the action dropdown', function () {
+  it('should show the action dropdown', () => {
     expect(dropdownButton()).toBeShown();
   });
 
-  describe('when moused over', function () {
-    beforeEach(function () {
+  describe('when moused over', () => {
+    beforeEach(() => {
       document.body
         .appendChild(el);
 
-      var event = new MouseEvent('mouseover', {
+      const event = new MouseEvent('mouseover', {
         clientX: 50,
         clientY: 50,
         bubbles: true
@@ -59,21 +59,21 @@ describe('deferred action dropdown', function () {
       $scope.$apply();
     });
 
-    afterEach(function () {
+    afterEach(() => {
       document.body
         .removeChild(el);
     });
 
-    it('should show loading', function () {
+    it('should show loading', () => {
       expect(loadingButton()).toBeShown();
     });
 
-    it('should have loading text', function () {
-      expect(cleanText(loadingButton())).toBe('Loading');
+    it('should have waiting text', () => {
+      expect(cleanText(loadingButton())).toBe('Waiting');
     });
 
-    describe('and loaded', function () {
-      beforeEach(function () {
+    describe('and loaded', () => {
+      beforeEach(() => {
         s.write({
           label: 'server001',
           available_actions: [
@@ -109,15 +109,15 @@ describe('deferred action dropdown', function () {
         });
       });
 
-      it('should hide the loading button', function () {
+      it('should hide the loading button', () => {
         expect(loadingButton()).not.toBeShown();
       });
 
-      it('should show the action dropdown', function () {
+      it('should show the action dropdown', () => {
         expect(actionDropdown()).toBeShown();
       });
 
-      it('should show the dropdown on click', function () {
+      it('should show the dropdown on click', () => {
         dropdownButton().click();
         expect(qs('.btn-group').classList.contains('open')).toBe(true);
       });

@@ -9,5 +9,6 @@
 flow/include/
 
 [libs]
+flow/libs/
 
 [options]
