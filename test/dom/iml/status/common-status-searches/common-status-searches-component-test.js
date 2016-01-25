@@ -1,4 +1,4 @@
-import angular from 'angular';
+import angular from 'angular/angular';
 const {module, inject} = angular.mock;
 import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
 
@@ -43,27 +43,42 @@ describe('common status searches', () => {
       expect(cleanText(searches()[0])).toBe('Search active alerts');
     });
 
-    it('should link to active alerts query', function () {
+    it('should link to active alerts query', () => {
       expect(searches()[0].getAttribute('href'))
         .toBe('/ui/status/?severity__in=WARNING&severity__in=ERROR&active=true');
     });
 
-    it('should have search commands', () => {
-      expect(cleanText(searches()[1])).toBe('Search commands');
+    it('should have a search alerts', () => {
+      expect(cleanText(searches()[1])).toBe('Search alerts');
     });
 
-    it('should link to commands query', function () {
+    it('should link to alerts query', () => {
       expect(searches()[1].getAttribute('href'))
+        .toBe('/ui/status/?record_type__in=CorosyncUnknownPeersAlert&record_type__in=CorosyncToManyPeersAlert\
+&record_type__in=CorosyncNoPeersAlert&record_type__in=HostContactAlert&record_type__in=HostOfflineAlert\
+&record_type__in=HostRebootEvent&record_type__in=UpdatesAvailableAlert&record_type__in=LNetOfflineAlert\
+&record_type__in=LNetNidsChangedAlert&record_type__in=PacemakerStoppedAlert\
+&record_type__in=PowerControlDeviceUnavailableAlert&record_type__in=PowerControlDeviceUnavailableAlert\
+&record_type__in=StorageResourceOffline&record_type__in=StorageResourceAlert&record_type__in=StorageResourceLearnEvent\
+&record_type__in=TargetOfflineAlert&record_type__in=TargetFailoverAlert&record_type__in=TargetRecoveryAlert');
+    });
+
+    it('should have search commands', () => {
+      expect(cleanText(searches()[2])).toBe('Search commands');
+    });
+
+    it('should link to commands query', () => {
+      expect(searches()[2].getAttribute('href'))
         .toBe('/ui/status/?record_type__in=CommandSuccessfulAlert&\
 record_type__in=CommandCancelledAlert&record_type__in=CommandErroredAlert&record_type__in=CommandRunningAlert');
     });
 
     it('should have search events', () => {
-      expect(cleanText(searches()[2])).toBe('Search events');
+      expect(cleanText(searches()[3])).toBe('Search events');
     });
 
-    it('should link to events query', function () {
-      expect(searches()[2].getAttribute('href'))
+    it('should link to events query', () => {
+      expect(searches()[3].getAttribute('href'))
         .toBe('/ui/status/?record_type=AlertEvent');
     });
   });
