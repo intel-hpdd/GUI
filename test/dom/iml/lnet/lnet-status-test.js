@@ -23,7 +23,8 @@ describe('LNet status directive', function () {
     ['LNet Unloaded', 'lnet_unloaded'],
     ['Configured', 'configured'],
     ['Unconfigured', 'unconfigured'],
-    ['Undeployed', 'undeployed']
+    ['Undeployed', 'undeployed'],
+    ['Unknown', null]
   ]
     .forEach(function (state) {
       it('should display state for ' + state, function () {

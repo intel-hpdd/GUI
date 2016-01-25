@@ -19,30 +19,42 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import {lensProp, maybe} from 'intel-fp/fp';
 
-import {__, curry, lensProp} from 'intel-fp/fp';
-
-angular.module('lnetModule')
-  .directive('lnetStatus', function lnetStatus (localApply, $exceptionHandler) {
+export default {
+  bindings: {
+    stream: '='
+  },
+  controller ($scope, propagateChange) {
     'ngInject';
 
-    return {
-      scope: {
-        stream: '='
-      },
-      restrict: 'E',
-      templateUrl: 'iml/lnet/assets/html/lnet-status.html',
-      link: function link (scope) {
-        scope.lnet = {};
-        var state = lensProp('state');
-
-        scope
-          .stream
-          .map(state)
-          .tap(state.set(__, scope.lnet))
-          .stopOnError(curry(1, $exceptionHandler))
-          .each(localApply.bind(null, scope));
-      }
-    };
-  });
+    this.stream
+      .map(maybe(lensProp('state')))
+      .through(propagateChange($scope, this, 'state'));
+  },
+  template: `
+<span>
+  <span ng-if="$ctrl.state === null">
+    <i class="fa fa-plug text-warning"></i> Unknown
+  </span>
+  <span ng-if="$ctrl.state === 'lnet_up'">
+    <i class="fa fa-plug text-success"></i> LNet Up
+  </span>
+  <span ng-if="$ctrl.state === 'lnet_down'">
+    <i class="fa fa-plug text-danger"></i> LNet Down
+  </span>
+  <span ng-if="$ctrl.state === 'lnet_unloaded'">
+    <i class="fa fa-plug text-warning"></i> LNet Unloaded
+  </span>
+  <span ng-if="$ctrl.state === 'configured'">
+    <i class="fa fa-plug text-info"></i> Configured
+  </span>
+  <span ng-if="$ctrl.state === 'unconfigured'">
+    <i class="fa fa-plug"></i> Unconfigured
+  </span>
+  <span ng-if="$ctrl.state === 'undeployed'">
+    <i class="fa fa-plug"></i> Undeployed
+  </span>
+</span>
+`
+};

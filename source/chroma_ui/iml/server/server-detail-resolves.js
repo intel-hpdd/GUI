@@ -26,7 +26,7 @@ import * as fp from 'intel-fp/fp';
 
 angular.module('server')
   .factory('serverDetailResolves',
-    function serverDetailResolvesFactory ($q, resolveStream, addProperty, jobMonitor,
+    function serverDetailResolvesFactory ($q, resolveStream, addProperty, jobMonitor, rebindDestroy,
                                           alertMonitor, socketStream, getNetworkInterfaceStream, $route) {
       'ngInject';
 
@@ -68,14 +68,11 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
           jsonMask: 'objects(available_actions,state,resource_uri,locks)'
         }));
 
-        var s2 = s
-          .through(getFlatObjOrNull);
-        s2.destroy = s.destroy.bind(s);
+        const s2 = s
+          .through(rebindDestroy(getFlatObjOrNull));
 
-        var lnetConfigurationStream = resolveStream(s2)
-          .then(function addThroughProperty (lnetConfigurationStream) {
-            return lnetConfigurationStream.through(addProperty);
-          });
+        const lnetConfigurationStream = resolveStream(s2)
+          .then(addProperty);
 
         var networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
           jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'

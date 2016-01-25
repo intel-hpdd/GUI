@@ -21,7 +21,9 @@
 
 import angular from 'angular';
 import {ConfigureLnetController, configureLnet} from './configure-lnet-exports';
+import lnetStatus from './lnet-status-exports';
 
 angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command'])
   .controller('ConfigureLnetController', ConfigureLnetController)
-  .directive('configureLnet', configureLnet);
+  .directive('configureLnet', configureLnet)
+  .component('lnetStatus', lnetStatus);
