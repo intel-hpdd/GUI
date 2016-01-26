@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,35 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import * as fp from 'intel-fp/fp';
 
+export default (): Function => (options: Array<Object>, networkInterfaces: Array<Object>, networkInterface: Object) => {
 
-angular.module('lnetModule').filter('removeUsedLnetOptions', [function removeUsedLnetOptionsFilter () {
-  'use strict';
+  const nids = fp.flow(
+    fp.filter(x => x !== networkInterface),
+    fp.pluck('nid')
+  )(networkInterfaces);
 
-  /**
-   * This filter picks out currently selected lnd_network options
-   * minus the current networkInterface and returns the altered list.
-   * @param {Array} options The list of Lustre Network options.
-   * @param {Array} networkInterfaces The list of network interfaces.
-   * @param {Array} networkInterface The network interface bound to the current select.
-   * @returns {Array} The filtered list of options.
-   */
-  return function (options, networkInterfaces, networkInterface) {
-    var nids = _.chain(networkInterfaces)
-      .without(networkInterface)
-      .pluck('nid')
-      .value();
+  return options.filter(option => {
+    // Not Lustre Network is a special case.
+    // It should always be included.
+    if (option.value === -1)
+      return true;
 
-    return options.filter(function removeOptions (option) {
-      // Not Lustre Network is a special case.
-      // It should always be included.
-      if (option.value === -1)
-        return true;
-
-      return nids.every(function (nid) {
-        return nid.lnd_network !== option.value;
-      });
-    });
-  };
-}]);
+    return nids
+      .every(nid => nid.lnd_network !== option.value);
+  });
+};

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,13 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+
+import angular from 'angular/angular';
+
 import {ConfigureLnetController, configureLnet} from './configure-lnet-exports';
 import lnetStatus from './lnet-status-exports';
 import options from './lnet-options-exports';
+import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter-exports';
 
-angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command'])
+export default angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command'])
   .value('LNET_OPTIONS', options)
   .controller('ConfigureLnetController', ConfigureLnetController)
   .directive('configureLnet', configureLnet)
-  .component('lnetStatus', lnetStatus);
+  .component('lnetStatus', lnetStatus)
+  .filter('removeUsedLnetOptions', removeUsedLnetOptionsFilter)
+  .name;
