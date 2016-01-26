@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,20 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 
-
-(function () {
-  'use strict';
-
-  var range = _.range(-1, 10);
-  var options = range.map(function buildOptions (value) {
-    return (value === -1 ?
-      {name: 'Not Lustre Network', value: value} :
-      {name: 'Lustre Network %s'.sprintf(value), value: value}
-    );
-  });
-
-  angular.module('lnetModule')
-    .constant('LNET_OPTIONS', Object.freeze(options));
-}());
+export default Array.from(Array(11), (x:void, idx:number) => idx - 1)
+  .map(value => value === -1 ?
+    {name: 'Not Lustre Network', value} :
+    {name: `Lustre Network ${value}`, value}
+  );
