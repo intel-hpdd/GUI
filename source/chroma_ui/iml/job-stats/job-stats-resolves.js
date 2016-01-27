@@ -19,11 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import angular from 'angular/angular';
 
 
 angular.module('jobStats')
   .factory('appJobstatsTarget', function appJobstatsTargetFactory ($route, TargetModel) {
+    'ngInject';
+
     return function appJobstatsTarget () {
       return TargetModel.get({
         id: $route.current.params.id
@@ -31,6 +33,8 @@ angular.module('jobStats')
     };
   })
   .factory('appJobstatsMetrics', function appJobstatsMetricsFactory ($q, $route, TargetMetricModel) {
+    'ngInject';
+
     return function appJobstatsMetrics () {
       var commonParams = {
         begin: $route.current.params.startDate,
