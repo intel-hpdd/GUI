@@ -80,7 +80,7 @@ function buildLess () {
     .pipe(less({
       relativeUrls: false,
       rootpath: '',
-      paths: ['../source/chroma_ui/'],
+      paths: ['../source/chroma_ui/', '../'],
       plugins: [cleancss]
     }))
     .pipe(plumber.stop());
@@ -312,8 +312,8 @@ var qualitySource = getSource.bind(null, files.js.source.concat(
   'test/spec/**/*.js',
   'test/mock/**/*.js',
   'test/*.js',
-  '!source/chroma_ui/bower_components/**/*.js',
-  '!source/chroma_ui/vendor/**/*.js',
+  '!bower_components/**/*.js',
+  '!vendor/**/*.js',
   '!../ui-modules/**/*.js'
 ));
 

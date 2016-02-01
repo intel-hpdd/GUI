@@ -12,4 +12,4 @@
 
 # Explicitly ingoring certain files.
 bower_componenents/* -text eol=auto
-source/chroma_ui/vendor/sprintf/sprintf.js -text
+vendor/sprintf/sprintf.js -text

@@ -11,7 +11,7 @@ module.exports = function(config) {
     reporters: ['coverage'],
 
     preprocessors: obj.merge({}, config.preprocessors, {
-      'source/chroma_ui/!(bower_components|styles|vendor)/**/*.js': ['babel', 'coverage']
+      'source/chroma_ui/!(styles)/**/*.js': ['babel', 'coverage']
     }),
     coverageReporter: {
       instrumenters: { isparta : require('isparta') },

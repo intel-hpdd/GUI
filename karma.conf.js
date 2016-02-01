@@ -8,8 +8,8 @@ module.exports = function setConfig (config) {
   }
 
   var sourceDir = bound('source/chroma_ui/%s');
-  var bowerDir = bound(sourceDir('bower_components/%s'));
-  var vendorDir = bound(sourceDir('vendor/%s'));
+  var bowerDir = bound('bower_components/%s');
+  var vendorDir = bound('vendor/%s');
   var imlDir = bound(sourceDir('iml/%s'));
   var commonDir = bound(sourceDir('common/%s'));
   var testDir = bound('test/%s');

@@ -1,25 +1,25 @@
 {
   "js": {
     "source": [
-      "source/chroma_ui/bower_components*/lodash/dist/lodash.js",
+      "bower_components*/lodash/dist/lodash.js",
       "node_modules*/intel-lodash-mixins/index.js",
       "node_modules*/immutable/dist/immutable.js",
       "node_modules*/intel-fp/fp.js",
       "node_modules*/intel-math/math.js",
       "node_modules*/intel-debounce/dist/debounce.js",
       "node_modules*/intel-obj/obj.js",
-      "source/chroma_ui/vendor*/**/*.js",
-      "source/chroma_ui/bower_components*/highland/dist/highland.js",
-      "source/chroma_ui/bower_components*/jquery/dist/jquery.js",
+      "vendor*/**/*.js",
+      "bower_components*/highland/dist/highland.js",
+      "bower_components*/jquery/dist/jquery.js",
       "node_modules*/angular/angular.js",
       "node_modules*/angular-resource/angular-resource.js",
       "node_modules*/angular-route/angular-route.js",
       "node_modules*/angular-animate/angular-animate.js",
-      "source/chroma_ui/bower_components*/fastdom/index.js",
-      "source/chroma_ui/bower_components*/moment/moment.js",
-      "source/chroma_ui/bower_components*/twix/bin/twix.js",
-      "source/chroma_ui/bower_components*/d3/d3.js",
-      "source/chroma_ui/bower_components*/nvd3/build/nv.d3.js",
+      "bower_components*/fastdom/index.js",
+      "bower_components*/moment/moment.js",
+      "bower_components*/twix/bin/twix.js",
+      "bower_components*/d3/d3.js",
+      "bower_components*/nvd3/build/nv.d3.js",
       "node_modules*/intel-angular-route-segment/build/angular-route-segment.js",
       "node_modules*/angular-ui-bootstrap/ui-bootstrap-tpls.js",
       "source/chroma_ui/iml*/environment.js",
@@ -42,7 +42,7 @@
     "imports": "source/chroma_ui/*styles/imports.less"
   },
   "assets": {
-    "fonts": "source/chroma_ui/*bower_components/font-awesome/**/*.{woff,ttf,svg}",
+    "fonts": "*bower_components/font-awesome/**/*.{woff,ttf,svg}",
     "images": "source/chroma_ui/**/*.{png,ico}"
   },
   "templates": {
