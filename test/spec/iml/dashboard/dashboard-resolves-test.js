@@ -1,14 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import {identity, noop} from 'intel-fp';
 
-import {identity, noop} from 'intel-fp/fp';
+import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
 
 describe('dashboard resolves', function () {
-  'use strict';
-
   var resolveStream, socketStream, s, addProperty, $q;
 
-  beforeEach(module('dashboard', function ($provide) {
+  beforeEach(module(dashboardModule, $provide => {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');

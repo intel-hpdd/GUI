@@ -1,8 +1,9 @@
+import commandModule from '../../../../source/iml/command/command-module';
+import highland from 'highland';
 import angular from 'angular';
-const {module, inject} = angular.mock;
 
 describe('command modal', function () {
-  beforeEach(module('command'));
+  beforeEach(module(commandModule));
 
   describe('open command modal', function () {
     var $uibModal, stream;
@@ -23,7 +24,7 @@ describe('command modal', function () {
 
     it('should open the modal', function () {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: 'iml/command/assets/html/command-modal.html',
+        templateUrl: '/static/chroma_ui/source/iml/command/assets/html/command-modal.js',
         controller: 'CommandModalCtrl',
         controllerAs: 'commandModal',
         windowClass: 'command-modal',

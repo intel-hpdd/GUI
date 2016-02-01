@@ -1,7 +1,6 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
 
-describe('job indicator', function () {
+describe('job indicator', () => {
   beforeEach(module('jobIndicator'));
 
   describe('monitor', function () {
@@ -49,8 +48,6 @@ describe('job indicator', function () {
 
   describe('directive', function () {
     var $scope, $timeout, element, node, getPopover, i, stream;
-
-    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
 
     beforeEach(inject(function ($rootScope, $compile, _$timeout_, addProperty) {
       $timeout = _$timeout_;

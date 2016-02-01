@@ -1,10 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-
-import {flow, lensProp} from 'intel-fp/fp';
+import {flow, lensProp, view} from 'intel-fp';
+import asPropertyModule from
+  '../../../../source/iml/as-property/as-property-module';
+import highlandModule from
+  '../../../../source/iml/highland/highland-module';
+import highland from 'highland';
 
 describe('as property', function () {
-  beforeEach(module('asProperty', 'highland'));
+  beforeEach(module(asPropertyModule, highlandModule));
 
   var $compile, $scope, el, s, getText;
 
@@ -37,7 +39,7 @@ describe('as property', function () {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = flow(find, lensProp('textContent'));
+      getText = flow(find, view(lensProp('textContent')));
     }));
 
     it('should add 2 to num', function () {
@@ -67,13 +69,13 @@ describe('as property', function () {
         .through(addProperty);
 
       $scope.setA = function getA (s) {
-        s.each(function  (x) {
+        s.each(function (x) {
           $scope.a = x.a;
         });
       };
 
       $scope.setB = function getB (s) {
-        s.each(function  (x) {
+        s.each(function (x) {
           $scope.b = x.b;
         });
       };
@@ -82,7 +84,7 @@ describe('as property', function () {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = flow(find, lensProp('textContent'));
+      getText = flow(find, view(lensProp('textContent')));
     }));
 
     describe('multiple children', function () {

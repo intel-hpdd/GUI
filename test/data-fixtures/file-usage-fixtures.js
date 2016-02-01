@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('fileUsageDataFixtures', [
+export default [
   {
     in: [
       {
@@ -28,4 +26,4 @@ angular.module('dataFixtures').value('fileUsageDataFixtures', [
       }
     ]
   }
-]);
+];

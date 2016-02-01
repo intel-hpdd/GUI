@@ -1,14 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop, always} from 'intel-fp';
 
-import {noop, always} from 'intel-fp/fp';
+import extendScopeModule from '../../../source/iml/extend-scope-module';
 
-describe('extend scope test', function () {
-  'use strict';
-
+describe('extend scope test', () => {
   var $exceptionHandler;
 
-  beforeEach(module('extendScope', function ($provide) {
+  beforeEach(module(extendScopeModule, $provide => {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

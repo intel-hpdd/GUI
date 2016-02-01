@@ -1,8 +1,7 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverRouteModule from '../../../../source/iml/server/server-route-module';
 
-describe('server route', function () {
-
+describe('server route', () => {
   var $routeSegmentProvider, GROUPS;
 
   beforeEach(module(function () {
@@ -19,7 +18,7 @@ describe('server route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'serverRoute'));
+  }, 'route-segment', serverRouteModule));
 
   beforeEach(inject(function (_GROUPS_) {
     GROUPS = _GROUPS_;
@@ -42,13 +41,13 @@ describe('server route', function () {
     it('should setup the dashboard target segment', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('server', {
         controller: 'ServerCtrl',
-        templateUrl: 'iml/server/assets/html/server.html',
+        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server.js',
         resolve: {
           streams: ['serverResolves', jasmine.any(Function)]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },
         access: GROUPS.FS_ADMINS
       });

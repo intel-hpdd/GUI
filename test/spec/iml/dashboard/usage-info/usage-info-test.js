@@ -1,12 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import dashboardModule from '../../../../../source/iml/dashboard/dashboard-module';
 
-describe('usage info', function () {
-  'use strict';
 
-  var ctrl, formatBytes, formatNumber, $scope, $exceptionHandler, localApply, stream, fs;
+describe('usage info', () => {
+  var ctrl, formatBytes, formatNumber,
+    $scope, $exceptionHandler, stream, fs;
 
-  beforeEach(module('dashboard'));
+  beforeEach(module(dashboardModule));
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
@@ -15,16 +15,14 @@ describe('usage info', function () {
     formatNumber = {};
 
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
-    localApply = jasmine.createSpy('localApply');
 
     stream = highland();
 
     ctrl = $controller('UsageInfoController', {
-      $scope: $scope,
-      $exceptionHandler: $exceptionHandler,
-      formatBytes: formatBytes,
-      formatNumber: formatNumber,
-      localApply: localApply
+      $scope,
+      $exceptionHandler,
+      formatBytes,
+      formatNumber
     }, {
       stream: stream,
       id: '1',
@@ -66,19 +64,6 @@ describe('usage info', function () {
           filesfree: 40000,
           filestotal: 600000
         }]);
-    });
-
-    it('should call localApply', function () {
-      expect(localApply).toHaveBeenCalledOnceWith(
-        $scope,
-        {
-          id: '1',
-          bytes_free: 10000,
-          bytes_total: 100000,
-          bytes_used: 90000,
-          filesfree: 50000,
-          filestotal: 500000
-        });
     });
 
     it('should set data on the controller', function () {

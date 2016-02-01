@@ -1,8 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parselyBoxModule from '../../../../source/iml/parsely-box/parsely-box-module';
+
 
 describe('parsely box', function () {
-  beforeEach(module('parselyBox', 'templates'));
+  beforeEach(module(parselyBoxModule));
 
   var el, $scope, qs, searchButton,
     indicator, tooltip, form, input;

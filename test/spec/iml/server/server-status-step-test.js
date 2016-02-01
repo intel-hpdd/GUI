@@ -1,8 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverModule from '../../../../source/iml/server/server-module';
+import highland from 'highland';
+import _ from 'intel-lodash-mixins';
 
-describe('Server Status Step', function () {
-  beforeEach(module('server'));
+describe('Server Status Step', () => {
+  beforeEach(module(serverModule));
 
   describe('controller', function () {
     var $stepInstance, data, serverStatus, testHostStream, hostlistFilter;
@@ -104,7 +105,7 @@ describe('Server Status Step', function () {
 
     it('should be created as expected', function () {
       expect(serverStatusStep).toEqual({
-        templateUrl: 'iml/server/assets/html/server-status-step.html',
+        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-status-step.js',
         controller: 'ServerStatusStepCtrl as serverStatus',
         onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', 'resolveStream', jasmine.any(Function)],
         transition: jasmine.any(Function)

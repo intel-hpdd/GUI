@@ -1,13 +1,16 @@
 {
   "js": {
     "source": [
+      "node_modules*/systemjs/dist/system.js",
+      "source/system.config.js",
+      "node_modules*/systemjs-plugin-babel/plugin-babel.js",
+      "node_modules*/systemjs-plugin-babel/systemjs-babel-browser.js",
       "bower_components*/lodash/dist/lodash.js",
       "node_modules*/intel-lodash-mixins/index.js",
-      "node_modules*/immutable/dist/immutable.js",
-      "node_modules*/intel-fp/fp.js",
-      "node_modules*/intel-math/math.js",
+      "node_modules*/intel-fp/dist/fp.js",
+      "node_modules*/intel-math/dist/math.js",
       "node_modules*/intel-debounce/dist/debounce.js",
-      "node_modules*/intel-obj/obj.js",
+      "node_modules*/intel-obj/dist/obj.js",
       "vendor*/**/*.js",
       "bower_components*/highland/dist/highland.js",
       "node_modules*/jquery/dist/jquery.js",
@@ -15,40 +18,27 @@
       "node_modules*/angular-resource/angular-resource.js",
       "node_modules*/angular-route/angular-route.js",
       "node_modules*/angular-animate/angular-animate.js",
+      "node_modules*/intel-angular-route-segment/build/angular-route-segment.js",
+      "node_modules*/angular-ui-bootstrap/ui-bootstrap-tpls.js",
       "bower_components*/fastdom/index.js",
       "bower_components*/moment/moment.js",
       "bower_components*/twix/bin/twix.js",
       "node_modules*/d3/d3.js",
       "node_modules*/nvd3/build/nv.d3.js",
-      "node_modules*/intel-angular-route-segment/build/angular-route-segment.js",
-      "node_modules*/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
-      "source/chroma_ui/iml*/environment.js",
-      "source/chroma_ui/iml*/help.js",
-      "source/chroma_ui/iml*/**/*-exports.js",
-      "source/chroma_ui/iml*/**/*-module.js",
-      "source/chroma_ui/common*/**/*-exports.js",
-      "source/chroma_ui/common*/**/*-module.js",
-      "node_modules*/intel-big-differ/dest/umd/source/diff-component.js",
-      "node_modules*/intel-big-differ/dest/umd/source/diff-container.js",
-      "node_modules*/intel-big-differ/dest/umd/source/diff-model.js",
-      "node_modules*/intel-big-differ/dest/umd/source/reset-diff.js",
-      "node_modules*/intel-big-differ/dest/umd/source/*-module.js",
       "node_modules*/intel-angular-modules/src/**/*-module.js",
       "node_modules*/intel-extract-api/index.js",
-      "node_modules*/intel-angular-modules/src/**/*.js",
-      "source/chroma_ui/common*/**/*.js",
-      "source/chroma_ui/iml*/**/*.js"
+      "node_modules*/intel-angular-modules/src/**/*.js"
     ]
   },
   "less": {
     "source": [
-      "source/chroma_ui/**/*.less"
+      "source/**/*.less"
     ],
-    "imports": "source/chroma_ui/*styles/imports.less"
+    "imports": "source/*styles/imports.less"
   },
   "assets": {
-    "fonts": "*bower_components/font-awesome/**/*.{woff,ttf,svg}",
-    "images": "source/chroma_ui/**/*.{png,ico}"
+    "fonts": "source/*bower_components/font-awesome/**/*.{woff,ttf,svg}",
+    "images": "source/**/*.{png,ico}"
   },
   "templates": {
     "server": {
@@ -56,8 +46,7 @@
     },
     "angular": {
       "source": [
-        "source/chroma_ui/common*/**/*.html",
-        "source/chroma_ui/iml*/**/*.html"
+        "source/iml*/**/*.html"
       ]
     }
   }

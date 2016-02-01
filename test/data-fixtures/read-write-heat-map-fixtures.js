@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('readWriteHeatMapDataFixtures', [
+export default [
   {
     in: {
       1: [{
@@ -31,4 +29,4 @@ angular.module('dataFixtures').value('readWriteHeatMapDataFixtures', [
       }]
     ]
   }
-]);
+];

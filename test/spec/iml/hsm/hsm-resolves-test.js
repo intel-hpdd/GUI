@@ -1,12 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import hsmModule from '../../../../source/iml/hsm/hsm-module';
+import highland from 'highland';
 
-describe('hsm fs resolve', () => {
+describe('hsm resolve', () => {
   var s, resolveStream, getCopytoolOperationStream,
     getCopytoolStream, copytoolOperationStream, copytoolStream,
     $route;
 
-  beforeEach(module('hsm', ($provide) => {
+  beforeEach(module(hsmModule, ($provide) => {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');

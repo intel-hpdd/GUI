@@ -1,5 +1,5 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
 
 describe('get the command stream', function () {
   var socketStream, stream, getCommandStream, commandList, result;

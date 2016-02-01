@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {flow, lensProp, view} from 'intel-fp';
+import highland from 'highland';
+import asValueModule from '../../../../source/iml/as-value/as-value-module';
 
-import {flow, lensProp} from 'intel-fp/fp';
-
-describe('As value', function () {
-  beforeEach(module('asValue'));
+describe('As value', () => {
+  beforeEach(module(asValueModule));
 
   var $compile, $scope, el, s, getText;
 
@@ -29,7 +28,7 @@ describe('As value', function () {
     $scope.$digest();
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = flow(find, lensProp('textContent'));
+    getText = flow(find, view(lensProp('textContent')));
   }));
 
   it('should be empty to start', function () {

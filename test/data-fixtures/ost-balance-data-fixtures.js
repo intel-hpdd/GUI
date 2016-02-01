@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('ostBalanceDataFixtures', [
+export default [
   {
     in: {
       18: [
@@ -82,4 +80,4 @@ angular.module('dataFixtures').value('ostBalanceDataFixtures', [
       }
     ]
   }
-]);
+];

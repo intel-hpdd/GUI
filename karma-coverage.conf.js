@@ -1,8 +1,7 @@
 var baseConfig = require('./karma.conf.js');
 var obj = require('intel-obj');
 
-
-module.exports = function(config) {
+module.exports = function (config) {
   'use strict';
 
   baseConfig(config);
@@ -11,10 +10,10 @@ module.exports = function(config) {
     reporters: ['coverage'],
 
     preprocessors: obj.merge({}, config.preprocessors, {
-      'source/chroma_ui/!(styles)/**/*.js': ['babel', 'coverage']
+      'source/!(styles)/**/*.js': ['babel', 'coverage']
     }),
     coverageReporter: {
-      instrumenters: { isparta : require('isparta') },
+      instrumenters: { isparta: require('isparta') },
       instrumenter: {
         '**/*.js': 'isparta'
       },

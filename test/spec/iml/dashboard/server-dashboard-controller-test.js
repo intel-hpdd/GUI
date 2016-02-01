@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
 
-describe('Server dashboard controller', function () {
-  'use strict';
+import serverDashboardModule from '../../../../source/iml/dashboard/server-dashboard-module';
 
-  beforeEach(module('serverDashboard'));
+describe('Server dashboard controller', () => {
+  beforeEach(module(serverDashboardModule));
 
   var $scope, ctrl, hostStream, charts;
 

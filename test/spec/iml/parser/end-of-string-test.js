@@ -1,10 +1,10 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
+
 
 describe('parser end of string', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(module(parserModule));
 
   var endOfString;
 

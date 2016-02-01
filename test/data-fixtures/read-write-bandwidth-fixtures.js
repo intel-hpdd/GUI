@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('readWriteBandwidthDataFixtures', [
+export default [
   {
     in: [
       {
@@ -47,4 +45,4 @@ angular.module('dataFixtures').value('readWriteBandwidthDataFixtures', [
       }
     ]
   }
-]);
+];

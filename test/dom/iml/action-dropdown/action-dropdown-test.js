@@ -1,14 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-
-import λ from 'highland';
-
-import {flow, lensProp, invokeMethod, head} from 'intel-fp/fp';
+import highland from 'highland';
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import {flow, view, lensProp, invokeMethod, head} from 'intel-fp';
 
 describe('action dropdown directive', function () {
   var handleAction, openCommandModal, getCommandStream;
 
-  beforeEach(module('action-dropdown-module', 'templates', function ($provide) {
+  beforeEach(module(actionDropdownModule, function ($provide) {
     handleAction = jasmine.createSpy('handleAction')
       .and.returnValue(highland());
     $provide.value('handleAction', handleAction);
@@ -28,7 +25,7 @@ describe('action dropdown directive', function () {
     $scope = $rootScope.$new();
     $timeout = _$timeout_;
 
-    $scope.stream = λ();
+    $scope.stream = highland();
 
     records = [
       {
@@ -117,7 +114,7 @@ it will be reloaded before any targets are started again.',
     tooltipText = document.body.querySelector.bind(document.body, '.tooltip .tooltip-inner');
 
     cleanText = flow(
-      lensProp('innerHTML'),
+      view(lensProp('innerHTML')),
       invokeMethod('trim', [])
     );
   }));

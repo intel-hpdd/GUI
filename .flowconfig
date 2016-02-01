@@ -2,14 +2,15 @@
 .*node_modules/babel-.*
 .*node_modules/babylon.*
 .*node_modules/intel-socket-worker.*
-.*node_modules/intel-obj/test/obj-test.js
+.*intel-fp/test/fp-test.js
 .*node_modules/highland.*
-.*node_modules/.+.json
+.*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 
 [include]
-flow/include/
+node_modules/intel-flow-highland/include/
 
 [libs]
-flow/libs/
+node_modules/intel-flow-highland/libs/highland.js
 
 [options]
+suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore

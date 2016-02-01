@@ -1,7 +1,7 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import hsmRouteModule from '../../../../source/iml/hsm/hsm-route-module';
 
-import {noop} from 'intel-fp/fp';
+import {noop} from 'intel-fp';
 
 describe('hsm route', () => {
   var $routeSegmentProvider;
@@ -19,7 +19,7 @@ describe('hsm route', () => {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'hsmRoute'));
+  }, 'route-segment', hsmRouteModule));
 
   beforeEach(inject(noop));
 
@@ -38,14 +38,14 @@ describe('hsm route', () => {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('hsm', {
         controller: 'HsmCtrl',
         controllerAs: 'hsm',
-        templateUrl: 'iml/hsm/assets/html/hsm.html',
+        templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm.js',
         resolve: {
           copytoolOperationStream: ['copytoolOperationStream', jasmine.any(Function)],
           copytoolStream: ['copytoolStream', jasmine.any(Function)],
           agentVsCopytoolChart: ['agentVsCopytoolChartResolve', jasmine.any(Function)]
         },
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },
         dependencies: ['fsId']
       });

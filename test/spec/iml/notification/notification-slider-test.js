@@ -1,12 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
 
-describe('The notification slider', function () {
-  'use strict';
+import notificationModule from '../../../../source/iml/notification/notification-module';
 
+describe('The notification slider', () => {
   var $exceptionHandler;
 
-  beforeEach(module('notificationModule', function ($provide) {
+  beforeEach(module(notificationModule, function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));

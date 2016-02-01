@@ -1,7 +1,8 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop, tail} from 'intel-fp';
 
-import {noop, tail} from 'intel-fp/fp';
+import statusRecordsRouteModule
+  from '../../../../source/iml/status/status-records-route-module';
 
 describe('status records route', function () {
   var $routeSegmentProvider;
@@ -18,7 +19,7 @@ describe('status records route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'statusRecordsRouteModule'));
+  }, 'route-segment', statusRecordsRouteModule));
 
   beforeEach(inject(noop));
 
@@ -37,13 +38,13 @@ describe('status records route', function () {
       .toHaveBeenCalledOnceWith('statusRecords', {
         controller: 'StatusController',
         controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status.html',
+        templateUrl: '/static/chroma_ui/source/iml/status/assets/html/status.js',
         watcher: jasmine.any(Array),
         resolve: {
           notificationStream: jasmine.any(Array)
         },
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         }
       });
   });

@@ -1,10 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import targetModule from '../../../../source/iml/target/target-module';
+import highland from 'highland';
 
-describe('filter target by host', function () {
-  'use strict';
-
-  beforeEach(module('target'));
+describe('filter target by host', () => {
+  beforeEach(module(targetModule));
 
   var filterTargetByHost, data;
 

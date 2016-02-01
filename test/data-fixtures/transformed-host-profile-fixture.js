@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('transformedHostProfileFixture', [
+export default [
   {
     name: 'base_managed',
     uiName: 'Managed Storage Server',
@@ -123,4 +121,4 @@ angular.module('dataFixtures').value('transformedHostProfileFixture', [
       }
     ]
   }
-]);
+];

@@ -1,6 +1,71 @@
 import angular from 'angular';
+import _ from 'intel-lodash-mixins';
 
-angular.module('fixtures', []).service('fixtures', function () {
+export default angular.module('fixtures', [])
+.run(function (fixtures) {
+  'ngInject';
+
+  fixtures.registerFixture('session', {
+    read_enabled: true,
+    resource_uri: '/api/session/',
+    user: {
+      accepted_eula: false,
+      alert_subscriptions: [],
+      email: 'debug@debug.co.eh',
+      eula_state: 'eula',
+      first_name: '',
+      full_name: '',
+      groups: [{id: '1', name: 'superusers', resource_uri: '/api/group/1/'}],
+      id: '1',
+      is_superuser: true,
+      last_name: '',
+      new_password1: null,
+      new_password2: null,
+      password1: null,
+      password2: null,
+      resource_uri: '/api/user/1/',
+      username: 'debug'
+    }
+  })
+  .registerFixture('session', 200, {
+    read_enabled: true,
+    resource_uri: '/api/session/',
+    user: null
+  })
+  .registerFixture('session', 400, {
+    password: ['This field is mandatory'],
+    username: ['This field is mandatory']
+  })
+  .registerFixture('session', {
+    read_enabled: true,
+    resource_uri: '/api/session/',
+    user: {
+      accepted_eula: false,
+      alert_subscriptions: [],
+      email: 'admin@debug.co.eh',
+      eula_state: 'denied',
+      first_name: '',
+      full_name: '',
+      groups: [
+        {
+          id: '2',
+          name: 'filesystem_administrators',
+          resource_uri: '/api/group/2/'
+        }
+      ],
+      id: '2',
+      is_superuser: false,
+      last_name: '',
+      new_password1: null,
+      new_password2: null,
+      password1: null,
+      password2: null,
+      resource_uri: '/api/user/2/',
+      username: 'admin'
+    }
+  });
+})
+.service('fixtures', function () {
   'use strict';
 
   var fixtures = {};
@@ -53,8 +118,9 @@ angular.module('fixtures', []).service('fixtures', function () {
     var fixture = group.filter(filter)[0];
 
     if (!fixture)
-      throw new Error('No matching fixtures found under %s!'.sprintf(name));
+      throw new Error(`No matching fixtures found under ${name}!`);
 
     return _.cloneDeep(fixture);
   };
-});
+})
+  .name;

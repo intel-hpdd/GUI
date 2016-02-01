@@ -1,9 +1,9 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop} from 'intel-fp';
 
-import {noop} from 'intel-fp/fp';
+import dashboardRouteModule from '../../../../source/iml/dashboard/dashboard-route-module';
 
-describe('dashboard route', function () {
+describe('dashboard route', () => {
 
   var $routeSegmentProvider;
 
@@ -19,7 +19,7 @@ describe('dashboard route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'dashboardRoute'));
+  }, 'route-segment', dashboardRouteModule));
 
   beforeEach(inject(noop));
 
@@ -34,7 +34,7 @@ describe('dashboard route', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('dashboard', {
         controller: 'DashboardCtrl',
         controllerAs: 'dashboard',
-        templateUrl: 'iml/dashboard/assets/html/dashboard.html',
+        templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/dashboard.js',
         resolve: {
           fsStream: ['dashboardFsStream', jasmine.any(Function)],
           hostStream: ['dashboardHostStream', jasmine.any(Function)],
@@ -42,7 +42,7 @@ describe('dashboard route', function () {
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         }
       });
     });

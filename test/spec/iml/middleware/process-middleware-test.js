@@ -1,5 +1,4 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import middlewareModule from '../../../../source/iml/middleware/middleware-module';
 
 describe('process middleware', () => {
   var $location, mockMiddlewarePromise, mockMiddlewareFailPromise;
@@ -14,7 +13,7 @@ describe('process middleware', () => {
     $provide.value('$location', $location);
     $provide.value('mockMiddleware', mockMiddlewarePromise);
     $provide.value('mockMiddlewareFail', mockMiddlewareFailPromise);
-  }, 'middleware'));
+  }, middlewareModule));
 
   var spy, processMiddleware, $rootScope;
   beforeEach(inject((_processMiddleware_, _$rootScope_, $q) => {

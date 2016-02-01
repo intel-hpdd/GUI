@@ -1,12 +1,10 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-
-import {__, always} from 'intel-fp/fp';
+import parserModule from '../../../../source/iml/parser/parser-module';
+import {__, always} from 'intel-fp';
 
 describe('parser parse', function () {
   'use strict';
 
-  beforeEach(module('parserModule'));
+  beforeEach(module(parserModule));
 
   var parse;
 

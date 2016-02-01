@@ -1,13 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverDashboardModule
+  from '../../../../source/iml/dashboard/server-dashboard-module';
 
-describe('server dashboard resolves', function () {
-  'use strict';
 
+describe('server dashboard resolves', () => {
   var getReadWriteBandwidthChart, getCpuUsageChart,
     getMemoryUsageChart, $route;
 
-  beforeEach(module('serverDashboard', function ($provide) {
+  beforeEach(module(serverDashboardModule, function ($provide) {
     getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
     $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 

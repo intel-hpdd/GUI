@@ -1,10 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import targetDashboardModule 
+  from '../../../../source/iml/dashboard/target-dashboard-module';
 
-describe('Target dashboard', function () {
+
+describe('Target dashboard', () => {
   var $route, socketStream, s;
 
-  beforeEach(module('targetDashboard', function ($provide) {
+  beforeEach(module(targetDashboardModule, function ($provide) {
     $route = {
       current: {
         params: {},

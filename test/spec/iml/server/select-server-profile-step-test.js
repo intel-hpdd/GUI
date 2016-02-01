@@ -1,10 +1,13 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverModule from '../../../../source/iml/server/server-module';
+import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture';
+import highland from 'highland';
+import _ from 'intel-lodash-mixins';
+
 import {SelectServerProfileStepCtrl} from
-  '../../../../source/chroma_ui/iml/server/select-server-profile-step-exports';
+  '../../../../source/iml/server/select-server-profile-step';
 
 describe('select server profile', function () {
-  beforeEach(module('server', 'dataFixtures'));
+  beforeEach(module(serverModule));
 
   describe('select server profile step ctrl', function () {
     var $scope, $stepInstance, data,
@@ -65,10 +68,7 @@ describe('select server profile', function () {
     });
 
     describe('receiving data change on hostProfileSpark', function () {
-      var transformedHostProfileFixture;
-      beforeEach(inject(function (_transformedHostProfileFixture_) {
-        transformedHostProfileFixture = _transformedHostProfileFixture_;
-
+      beforeEach(inject(() => {
         hostProfileStream.write(transformedHostProfileFixture);
       }));
 
@@ -147,7 +147,7 @@ describe('select server profile', function () {
 
     it('should contain the appropriate properties', function () {
       expect(selectServerProfileStep).toEqual({
-        templateUrl: 'iml/server/assets/html/select-server-profile-step.html',
+        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/select-server-profile-step.js',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
         onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
           'waitForCommandCompletion', 'showCommand', 'resolveStream', jasmine.any(Function)

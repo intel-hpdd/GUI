@@ -1,10 +1,9 @@
-import angular from 'angular/angular';
-const {module, inject} = angular.mock;
-import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
+import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import commonStatusSearchesModule
+  from '../../../../../source/iml/status/common-status-searches/common-status-searches-module';
 
 describe('common status searches', () => {
-  beforeEach(module('commonStatusSearches', 'templates',
-    'ui.bootstrap.accordion', 'ui.bootstrap.tpls', 'ngAnimateMock'));
+  beforeEach(module(commonStatusSearchesModule, 'ngAnimateMock'));
 
   var el, $scope, $animate, qs, cleanText,
     panelTitle, panelCollapse, searches;
@@ -16,7 +15,7 @@ describe('common status searches', () => {
     $scope = $rootScope.$new();
 
     cleanText = flow(
-      lensProp('textContent'),
+      view(lensProp('textContent')),
       invokeMethod('trim', [])
     );
 

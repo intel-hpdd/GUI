@@ -1,5 +1,6 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import hsmFsRouteModule from
+  '../../../../source/iml/hsm/hsm-fs-route-module';
 
 describe('hsm fs route', () => {
   var $routeSegmentProvider, GROUPS;
@@ -18,7 +19,7 @@ describe('hsm fs route', () => {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'hsmFsRoute'));
+  }, 'route-segment', hsmFsRouteModule));
 
   beforeEach(inject((_GROUPS_) => {
     GROUPS = _GROUPS_;
@@ -42,7 +43,7 @@ describe('hsm fs route', () => {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('hsmFs', {
         controller: 'HsmFsCtrl',
         controllerAs: 'hsmFs',
-        templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
+        templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm-fs.js',
         access: GROUPS.FS_ADMINS,
         resolve: {
           fsStream: ['hsmFsCollStream', jasmine.any(Function)]
@@ -53,7 +54,7 @@ describe('hsm fs route', () => {
           'authenticationMiddleware'
         ],
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         }
       });
     });

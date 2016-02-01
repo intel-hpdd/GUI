@@ -1,8 +1,7 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import configToggleModule from '../../../../source/iml/config-toggle/config-toggle-module';
 
 describe('config toggle', () => {
-  beforeEach(module('configToggle'));
+  beforeEach(module(configToggleModule));
 
   var template, el, $scope, whenInactive, whenActive, setActive, setInactive;
 

@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('hsmCopytoolStreamDataFixtures', [
+export default [
   {
     body: {
       meta: {
@@ -23,4 +21,4 @@ angular.module('dataFixtures').value('hsmCopytoolStreamDataFixtures', [
       ]
     }
   }
-]);
+];

@@ -1,7 +1,8 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import appRouteModule from '../../../../source/iml/app/app-route-module';
 
-import {noop, identity} from 'intel-fp/fp';
+
+import {noop, identity} from 'intel-fp';
 
 describe('app route', function () {
   var $routeSegmentProvider;
@@ -15,7 +16,7 @@ describe('app route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'appRouteModule'));
+  }, 'route-segment', appRouteModule));
 
   beforeEach(inject(noop));
 
@@ -23,14 +24,14 @@ describe('app route', function () {
     expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('app', {
       controller: 'AppCtrl',
       controllerAs: 'app',
-      templateUrl: 'iml/app/assets/html/app.html',
+      templateUrl: '/static/chroma_ui/source/iml/app/assets/html/app.js',
       resolve: {
         alertStream: ['appAlertStream', jasmine.any(Function)],
         notificationStream: ['appNotificationStream', jasmine.any(Function)],
         session: ['appSession', identity]
       },
       untilResolved: {
-        templateUrl: 'common/loading/assets/html/loading.html'
+        templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
       }
     });
   });

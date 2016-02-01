@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import appModule from '../../../../source/iml/app/app-module';
 
 describe('app resolves', function () {
   var resolveStream, socketStream, promise, stream;
 
-  beforeEach(module('app', function ($provide) {
+  beforeEach(module(appModule, function ($provide) {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
     resolveStream.and.returnValue(promise);

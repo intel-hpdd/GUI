@@ -1,5 +1,5 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import middlewareModule from '../../../../source/iml/middleware/middleware-module';
+
 
 describe('Allow Anonymous Read Middleware', () => {
   var CACHE_INITIAL_DATA;
@@ -12,7 +12,7 @@ describe('Allow Anonymous Read Middleware', () => {
     };
 
     $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
-  }, 'middleware'));
+  }, middlewareModule));
 
   var allowAnonymousReadMiddleware, $rootScope, spy;
   beforeEach(inject(function (_allowAnonymousReadMiddleware_, _$rootScope_) {

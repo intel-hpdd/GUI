@@ -1,12 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import moment from 'moment';
+import highland from 'highland';
+import _ from 'intel-lodash-mixins';
+import chartingModule from '../../../../source/iml/charting/charting-module';
 
 describe('buffer data newer than', function () {
-  'use strict';
-
   var getServerMoment;
 
-  beforeEach(module('charting', function ($provide) {
+  beforeEach(module(chartingModule, function ($provide) {
 
     getServerMoment = jasmine.createSpy('getServerMoment');
 

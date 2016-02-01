@@ -1,0 +1,79 @@
+<h3 class="page-header">
+  <i class="fa fa-tasks"></i> Server Detail {{ serverDetail.server.address }}
+</h3>
+
+<div class="server-detail-ctrl">
+  <div ng-if="!serverDetail.server" class="well text-center">
+    <h1>Server Not Found</h1>
+    <a route-to="configure/server/">&larr; Return to Server Screen</a>
+  </div>
+  <div ng-if="serverDetail.server" class="container container-full">
+    <div class="detail-panel">
+      <h4 class="section-header">Server Detail</h4>
+      <div class="detail-row">
+        <div>Address:</div>
+        <div>{{ ::serverDetail.server.address }}</div>
+      </div>
+      <div class="detail-row">
+        <div>State:</div>
+        <div>{{ ::serverDetail.server.state }}</div>
+      </div>
+      <div class="detail-row">
+        <div>FQDN:</div>
+        <div>{{ ::serverDetail.server.fqdn }}</div>
+      </div>
+      <div class="detail-row">
+        <div>Nodename:</div>
+        <div>{{ ::serverDetail.server.nodename }}</div>
+      </div>
+      <div class="detail-row">
+        <div>Profile:</div>
+        <div>{{serverDetail.server.server_profile.ui_name}}</div>
+      </div>
+      <div class="detail-row">
+        <div>Boot time:</div>
+        <div>{{serverDetail.server.boot_time | date:'EEEE, MMMM d, y HH:mm:ss'}}
+        </div>
+      </div>
+      <div class="detail-row">
+        <div>State changed:</div>
+        <div>{{serverDetail.server.state_modified_at | date:'EEEE, MMMM d, y HH:mm:ss'}}
+        </div>
+      </div>
+      <div class="detail-row">
+        <div>Alerts:</div>
+        <div>
+          <record-state record-id="serverDetail.server.resource_uri" alert-stream="serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
+          <job-status record-id="serverDetail.server.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
+        </div>
+      </div>
+      <div as-stream val="serverDetail.server">
+        <action-dropdown tooltip-placement="top" stream="::str" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+      </div>
+    </div>
+    <!-- <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker> -->
+    <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-corosync>
+    <!-- <div ng-if="serverDetail.lnetConfiguration" class="detail-panel">
+      <h4 class="section-header">LNet Detail</h4>
+      <div class="detail-row">
+        <div>
+          State:
+        </div>
+        <div as-property stream="::serverDetail.lnetConfigurationStream">
+          <lnet-status stream="::prop.stream"></lnet-status>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div>Alerts:</div>
+        <div>
+          <record-state record-id="serverDetail.lnetConfiguration.resource_uri" alert-stream="::serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
+          <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
+        </div>
+      </div>
+      <div as-property stream="::serverDetail.lnetConfigurationStream">
+        <action-dropdown tooltip-placement="top" stream="::prop.stream"></action-dropdown>
+      </div>
+    </div> -->
+    <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>
+  </div>
+</div>

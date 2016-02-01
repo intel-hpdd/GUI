@@ -1,8 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import statusModule from '../../../../source/iml/status/status-module';
+
 
 describe('qs to input parser test', function () {
-  beforeEach(module('status'));
+  beforeEach(module(statusModule));
 
   var qsToInputParser;
 

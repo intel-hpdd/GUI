@@ -1,13 +1,16 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import highland from 'highland';
+import asStreamModule from
+  '../../../../source/iml/as-stream/as-stream-module';
+import asValueModule from
+  '../../../../source/iml/as-value/as-value-module';
 
-import {flow, lensProp, invokeMethod} from 'intel-fp/fp';
 
 describe('As stream', function () {
   var s;
 
-  beforeEach(module('asStream', 'asValue', function ($provide) {
-    $provide.value('λ', function () {
+  beforeEach(module(asStreamModule, asValueModule, function ($provide) {
+    $provide.value('highland', function () {
       s = highland();
 
       spyOn(s, 'destroy');
@@ -40,7 +43,7 @@ describe('As stream', function () {
     el = compile($scope);
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = flow(find, lensProp('textContent'), invokeMethod('trim', []));
+    getText = flow(find, view(lensProp('textContent')), invokeMethod('trim', []));
   }));
 
   it('should throw if str is already on scope', function () {

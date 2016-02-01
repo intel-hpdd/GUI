@@ -1,0 +1,75 @@
+<div class="no-copytools well text-center" ng-if="hsm.copytools.length === 0">
+  <h3>No Copytools are configured</h3>
+  <button ng-click="hsm.openAddModal()" ng-disabled="hsm.modalOpen" class="btn btn-primary btn-lg">
+    <i class="fa fa-plus-circle"></i>Add Copytool
+  </button>
+</div>
+
+<div ng-if="hsm.copytools.length > 0">
+  <h4 class="section-header">Outstanding Agent Requests vs. Idle Copytool Workers</h4>
+  <div chart-compiler chart="hsm.chart"></div>
+
+  <h4 class="section-header">Active Copytool Operations</h4>
+  <div ng-if="hsm.copytoolOperations.length > 0">
+    <table class="table active-operations">
+      <thead>
+        <tr>
+          <th>Copytool</th>
+          <th>File</th>
+          <th>Operation</th>
+          <th>Status</th>
+          <th class="hidden-xs">Progress</th>
+          <th class="hidden-xs">Throughput</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="copytoolOperation in hsm.copytoolOperations track by copytoolOperation.id">
+          <td>{{ ::copytoolOperation.copytool.host.label }}</td>
+          <td class="current-file">
+            <a>
+              <i class="fa fa-question-circle" uib-tooltip="{{ ::copytoolOperation.description }}"></i>
+            </a>
+            {{ ::copytoolOperation.path | pathMaxLength:60 }}
+          </td>
+          <td class="operation" ng-include="'/static/chroma_ui/source/iml/hsm/assets/html/ops/' + (copytoolOperation.type | lowercase) + '.js'">
+          </td>
+          <td class="state" ng-include="'/static/chroma_ui/source/iml/hsm/assets/html/states/' + (copytoolOperation.state | lowercase) + '.js'"></td>
+          <td class="hidden-xs">
+            <progress-circle radius="15" complete="{{ copytoolOperation.progress }}"></progress-circle>
+            <span class="size"
+                  ng-if="copytoolOperation.processed_bytes != null && copytoolOperation.total_bytes != null">
+              {{ copytoolOperation.processed_bytes | fmtBytes }} / {{ copytoolOperation.total_bytes | fmtBytes }}
+            </span>
+          </td>
+          <td class="hidden-xs">{{ copytoolOperation.throughput | throughput }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4 class="section-header">Copytools</h4>
+  <table class="table copytools">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Archive</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="copytool in hsm.copytools track by copytool.id">
+        <td>{{ ::copytool.host.label }}</td>
+        <td>{{ copytool.archive }}</td>
+        <td class="status" ng-include="'/static/chroma_ui/source/iml/hsm/assets/html/states/' + copytool.status + '.js'"></td>
+        <td class="actions-cell" as-stream val="copytool">
+          <action-dropdown stream="::str"></action-dropdown>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button ng-click="hsm.openAddModal()" ng-disabled="hsm.modalOpen" class="btn btn-default btn-sm">
+    <i class="fa fa-plus-circle text-success"></i>Add More Copytools
+  </button>
+</div>

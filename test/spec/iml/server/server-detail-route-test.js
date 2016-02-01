@@ -1,7 +1,8 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverDetailRouteModule from '../../../../source/iml/server/server-detail-route-module';
 
-import {noop} from 'intel-fp/fp';
+
+import {noop} from 'intel-fp';
 
 describe('server detail route', () => {
 
@@ -21,7 +22,7 @@ describe('server detail route', () => {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'serverDetailRoute'));
+  }, 'route-segment', serverDetailRouteModule));
 
   beforeEach(inject((_GROUPS_) => {
     GROUPS = _GROUPS_;
@@ -39,13 +40,13 @@ describe('server detail route', () => {
     expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('serverDetail', {
       controller: 'ServerDetailController',
       controllerAs: 'serverDetail',
-      templateUrl: 'iml/server/assets/html/server-detail.html',
+      templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-detail.js',
       resolve: {
         streams: ['serverDetailResolves', jasmine.any(Function)]
       },
       middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware', 'authenticationMiddleware'],
       untilResolved: {
-        templateUrl: 'common/loading/assets/html/loading.html'
+        templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
       },
       access: GROUPS.FS_ADMINS
     });

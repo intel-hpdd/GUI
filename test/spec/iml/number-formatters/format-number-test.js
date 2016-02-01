@@ -1,8 +1,6 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import numberFormattersModule from '../../../../source/iml/number-formatters/number-formatters-module';
 
-describe('Format number', function () {
-  'use strict';
+describe('Format number', () => {
 
   var formatNumber, $window;
   var tests = [
@@ -93,7 +91,7 @@ describe('Format number', function () {
     }
   ];
 
-  beforeEach(module('numberFormatters'));
+  beforeEach(module(numberFormattersModule));
 
   beforeEach(inject(function (_formatNumber_) {
     formatNumber = _formatNumber_;
@@ -108,7 +106,7 @@ describe('Format number', function () {
 
     describe('standard mode', function () {
       tests.forEach(function (test) {
-        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
           expect(formatNumber.apply(null, test.in)).toEqual(test.out);
         });
       });
@@ -116,7 +114,7 @@ describe('Format number', function () {
 
     describe('strict mode', function () {
       tests.forEach(function (test) {
-        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
           expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
         });
       });
@@ -126,7 +124,7 @@ describe('Format number', function () {
   describe('without polyfill', function () {
     describe('standard mode', function () {
       tests.forEach(function (test) {
-        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
           expect(formatNumber.apply(null, test.in)).toEqual(test.out);
         });
       });
@@ -134,7 +132,7 @@ describe('Format number', function () {
 
     describe('strict mode', function () {
       tests.forEach(function (test) {
-        it('should format %s with %s significant digits to %s'.sprintf(test.in[0], test.in[1], test.out), function () {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
           expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
         });
       });

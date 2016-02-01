@@ -1,13 +1,14 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import alertIndicatorModule from
+  '../../../../source/iml/alert-indicator/alert-indicator-module';
 
 describe('alert indicator', () => {
-  beforeEach(module('alertIndicator'));
+  beforeEach(module(alertIndicatorModule));
 
   var socketStream, stream;
 
   describe('monitor', () => {
-    beforeEach(module(($provide) => {
+    beforeEach(module($provide => {
       stream = highland();
       spyOn(stream, 'destroy');
 
@@ -19,7 +20,7 @@ describe('alert indicator', () => {
 
     var alertMonitor;
 
-    beforeEach(inject((_alertMonitor_) => {
+    beforeEach(inject(_alertMonitor_ => {
       alertMonitor = _alertMonitor_;
     }));
 
@@ -61,8 +62,6 @@ describe('alert indicator', () => {
       stream, addProperty, stateLabel, alerts,
       tooltip;
 
-    beforeEach(module('templates', 'ui.bootstrap.tooltip', 'ui.bootstrap.tpls'));
-
     beforeEach(inject(($rootScope, $compile, _addProperty_) => {
       addProperty = _addProperty_;
 
@@ -90,7 +89,13 @@ describe('alert indicator', () => {
       stateLabel = node.querySelector.bind(node, '.state-label');
 
       tooltip = node.querySelector.bind(node, '.tooltip');
+
+      document.body.appendChild(node);
     }));
+
+    afterEach(function () {
+      document.body.removeChild(node);
+    });
 
     describe('response contains alerts', () => {
       var response;
@@ -171,7 +176,6 @@ describe('alert indicator', () => {
 
       it('should display the tooltip after mousing over the info icon', () => {
         i().dispatchEvent(new MouseEvent('mouseover'));
-
         expect(tooltip()).toBeShown();
       });
     });

@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('agentVsCopytoolFixtures', [
+export default [
   {
     in: {
       1: [],
@@ -65,4 +63,4 @@ angular.module('dataFixtures').value('agentVsCopytoolFixtures', [
       }
     ]
   }
-]);
+];

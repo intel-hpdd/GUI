@@ -1,9 +1,10 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import jobStatsRouteModule 
+  from '../../../../source/iml/job-stats/job-stats-route-module';
 
-import {noop} from 'intel-fp/fp';
+import {noop} from 'intel-fp';
 
-describe('job stats route', function () {
+describe('job stats route', () => {
 
   var $routeSegmentProvider;
 
@@ -21,7 +22,7 @@ describe('job stats route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'jobStatsRoute'));
+  }, 'route-segment', jobStatsRouteModule));
 
   beforeEach(inject(noop));
 
@@ -43,14 +44,14 @@ describe('job stats route', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('jobstats', {
         controller: 'JobStatsCtrl',
         controllerAs: 'jobStats',
-        templateUrl: 'iml/job-stats/assets/html/job-stats.html',
+        templateUrl: '/static/chroma_ui/source/iml/job-stats/assets/html/job-stats.js',
         resolve: {
           target: ['appJobstatsTarget', jasmine.any(Function)],
           metrics: ['appJobstatsMetrics', jasmine.any(Function)]
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         }
       });
     });

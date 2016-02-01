@@ -1,10 +1,7 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
 
-describe('parser parsely', function () {
-  'use strict';
-
-  beforeEach(module('parserModule', function ($provide) {
+describe('parser parsely', () => {
+  beforeEach(module(parserModule,  $provide => {
     $provide.value('token', 'token');
     $provide.value('parse', 'parse');
     $provide.value('sepBy1', 'sepBy1');

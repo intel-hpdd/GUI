@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('hostCpuRamDataFixtures', [
+export default [
   {
     in: [
       {
@@ -112,4 +110,4 @@ angular.module('dataFixtures').value('hostCpuRamDataFixtures', [
       }
     ]
   }
-]);
+];

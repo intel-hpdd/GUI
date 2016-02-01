@@ -1,7 +1,9 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import baseDashboardRouteModule
+  from '../../../../source/iml/dashboard/base-dashboard-route-module';
 
-import {noop} from 'intel-fp/fp';
+
+import {noop} from 'intel-fp';
 
 describe('base dashboard route', function () {
 
@@ -21,7 +23,7 @@ describe('base dashboard route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'baseDashboardRoute'));
+  }, 'route-segment', baseDashboardRouteModule));
 
   beforeEach(inject(noop));
 
@@ -54,13 +56,13 @@ describe('base dashboard route', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('base', {
         controller: 'BaseDashboardCtrl',
         controllerAs: 'baseDashboard',
-        templateUrl: 'iml/dashboard/assets/html/base-dashboard.html',
+        templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
         resolve: {
           charts: ['baseDashboardChartResolves', jasmine.any(Function)],
           fsStream: ['baseDashboardFsStream', jasmine.any(Function)]
         },
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },
         dependencies: ['fsId']
       });

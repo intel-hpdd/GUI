@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import exceptionModule from '../../../../source/iml/exception/exception-module';
 
 describe('exception modal', () => {
   var $uibModal;
 
-  beforeEach(module('exception', ($provide) => {
+  beforeEach(module(exceptionModule, $provide => {
     $uibModal = {
       open: jasmine.createSpy('open')
     };

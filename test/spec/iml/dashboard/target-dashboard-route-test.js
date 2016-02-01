@@ -1,7 +1,8 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop} from 'intel-fp';
 
-import {noop} from 'intel-fp/fp';
+import targetDashboardRouteModule
+  from '../../../../source/iml/dashboard/target-dashboard-route-module';
 
 describe('dashboard target route', function () {
 
@@ -21,7 +22,7 @@ describe('dashboard target route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'targetDashboardRoute'));
+  }, 'route-segment', targetDashboardRouteModule));
 
   beforeEach(inject(noop));
 
@@ -62,7 +63,7 @@ describe('dashboard target route', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('target', {
         controller: 'TargetDashboardController',
         controllerAs: 'targetDashboard',
-        templateUrl: 'iml/dashboard/assets/html/target-dashboard.html',
+        templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
         resolve: {
           kind: ['targetDashboardKind', jasmine.any(Function)],
           charts: ['targetDashboardResolves', jasmine.any(Function)],
@@ -70,7 +71,7 @@ describe('dashboard target route', function () {
           usageStream: ['targetDashboardUsageStream', jasmine.any(Function)]
         },
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },
         dependencies: ['fsId', 'serverId', 'targetId']
       });

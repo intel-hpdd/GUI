@@ -1,11 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-import {lensProp, flowLens} from 'intel-fp/fp';
 
-describe('host profile then', function () {
-  'use strict';
+import serverModule from '../../../../source/iml/server/server-module';
+import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture';
+import highland from 'highland';
 
-  beforeEach(module('server', 'dataFixtures'));
+import {compose, lensProp, mapped, set} from 'intel-fp';
+
+describe('host profile then', () => {
+  beforeEach(module(serverModule));
 
   describe('get host profiles', function () {
     var CACHE_INITIAL_DATA;
@@ -198,18 +199,31 @@ describe('host profile then', function () {
       });
 
       describe('with valid profiles', () => {
-        it('should transform into top level profiles', inject(function (transformedHostProfileFixture) {
+        it('should transform into top level profiles', () => {
           springStream.write(response);
           hostProfilesStream.each(spy);
 
           expect(spy).toHaveBeenCalledOnceWith(transformedHostProfileFixture);
-        }));
+        });
       });
 
       describe('with invalid profiles', () => {
         it('should not pass values down the stream', () => {
-          response.objects = response.objects.map(flowLens(lensProp('host_profiles'), lensProp('profiles_valid'))
-            .set(false));
+
+          const profilesLens = compose(
+            lensProp('objects'),
+            mapped,
+            compose(
+              lensProp('host_profiles'),
+              lensProp('profiles_valid')
+            )
+          );
+
+          response = set(
+            profilesLens,
+            false,
+            response
+          );
 
           springStream.write(response);
           hostProfilesStream.each(spy);
@@ -257,10 +271,9 @@ describe('host profile then', function () {
       $provide.value('socketStream', socketStream);
     }));
 
-    var profile, transformedHostProfileFixture, spy;
+    var profile, spy;
 
-    beforeEach(inject(function ($q, createHostProfiles, _transformedHostProfileFixture_) {
-      transformedHostProfileFixture = _transformedHostProfileFixture_;
+    beforeEach(inject(function ($q, createHostProfiles) {
       profile = transformedHostProfileFixture[0];
 
       spy = jasmine.createSpy('spy');

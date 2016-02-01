@@ -1,8 +1,6 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
 
 describe('Command monitor controller', function () {
-  'use strict';
 
   var $scope, ctrl, getCommandStream,
     commandStream, commandMonitor,

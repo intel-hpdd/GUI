@@ -1,10 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
+import {__, curry, identity, always} from 'intel-fp';
 
-import {__, curry, identity, always} from 'intel-fp/fp';
-
-describe('many till', function () {
-  beforeEach(module('parserModule'));
+describe('many till', () => {
+  beforeEach(module(parserModule));
 
   var manyTill, consumeToken;
 

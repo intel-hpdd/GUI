@@ -1,10 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
 
-describe('The lexer', function () {
-  'use strict';
+describe('The lexer', () => {
 
-  beforeEach(module('parserModule'));
+  beforeEach(module(parserModule));
 
   var getLexer;
 

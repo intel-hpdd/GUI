@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('memoryUsageDataFixtures', [
+export default [
   {
     in: [
       {
@@ -53,4 +51,4 @@ angular.module('dataFixtures').value('memoryUsageDataFixtures', [
       }
     ]
   }
-]);
+];

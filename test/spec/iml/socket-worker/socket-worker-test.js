@@ -1,16 +1,15 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {find, eqFn, flow, view, lensProp, identity} from 'intel-fp';
 
-import {find, eqFn, flow, pathLens, identity} from 'intel-fp/fp';
+import socketWorkerModule from '../../../../source/iml/socket-worker/socket-worker-module';
 
 describe('socket worker', () => {
   var worker, getWebWorker, arg0Eq, getArg1,
     disconnectModal, $timeout, STATIC_URL,
     disconnectModalInstance;
 
-  beforeEach(module('socket-worker', ($provide) => {
-    arg0Eq = eqFn(identity, pathLens(['args', '0']));
-    getArg1 = pathLens(['args', '1']);
+  beforeEach(module(socketWorkerModule, $provide => {
+    arg0Eq = eqFn(identity, view(flow(lensProp(0), lensProp('args'))));
+    getArg1 = view(flow(lensProp(1), lensProp('args')));
 
     disconnectModalInstance = {
       close: jasmine.createSpy('close')
@@ -43,7 +42,8 @@ describe('socket worker', () => {
   }));
 
   it('should create a worker with a remote script', () => {
-    expect(getWebWorker).toHaveBeenCalledOnceWith(STATIC_URL + 'bundle.js');
+    expect(getWebWorker)
+      .toHaveBeenCalledOnceWith(`${STATIC_URL}node_modules/intel-socket-worker/dist/bundle.js`);
   });
 
   it('should register a message handler', () => {

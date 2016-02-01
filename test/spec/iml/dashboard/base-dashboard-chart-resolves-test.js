@@ -1,10 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import baseDashboardModule from
+  '../../../../source/iml/dashboard/base-dashboard-module';
+
 
 describe('base dashboard resolves', () => {
   var $route;
 
-  beforeEach(module('baseDashboard', ($provide) => {
+  beforeEach(module(baseDashboardModule, ($provide) => {
     $route = {
       current: {
         params: {}

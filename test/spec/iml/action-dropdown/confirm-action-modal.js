@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
 
 describe('confirm action modal', function () {
   'use strict';
 
-  beforeEach(module('action-dropdown-module'));
+  beforeEach(module(actionDropdownModule));
 
   describe('confirm action modal', function () {
     var confirmAction, title, confirmPrompts;

@@ -1,9 +1,10 @@
-import {ActionDropdownCtrl} from '../../../../source/chroma_ui/iml/action-dropdown/action-dropdown-exports';
-import angular from 'angular/angular';
-const {module, inject} = angular.mock;
+import {ActionDropdownCtrl} from '../../../../source/iml/action-dropdown/action-dropdown';
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import highland from 'highland';
+
 
 describe('action dropdown', function () {
-  beforeEach(module('action-dropdown-module'));
+  beforeEach(module(actionDropdownModule));
 
   var $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,

@@ -1,12 +1,10 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
 
-import {__, eq, lensProp, curry, head} from 'intel-fp/fp';
 
-describe('parser choice', function () {
-  'use strict';
+import {__, eq, lensProp, view, curry, head} from 'intel-fp';
 
-  beforeEach(module('parserModule'));
+describe('parser choice', () => {
+  beforeEach(module(parserModule));
 
   var choice;
 
@@ -26,7 +24,7 @@ describe('parser choice', function () {
     var chooser, matcher;
 
     beforeEach(function () {
-      var nameLens = lensProp('name');
+      var nameLens = view(lensProp('name'));
 
       matcher = curry(2, function matcher (name, tokens) {
         var token = head(tokens);

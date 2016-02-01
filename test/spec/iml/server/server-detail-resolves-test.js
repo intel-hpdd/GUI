@@ -1,7 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import serverModule from '../../../../source/iml/server/server-module';
+import highland from 'highland';
 
-describe('server detail resolves', function () {
+
+describe('server detail resolves', () => {
   var jobMonitor, alertMonitor,
     socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
@@ -9,7 +10,7 @@ describe('server detail resolves', function () {
     jobMonitorStream, alertMonitorStream, $route,
     serverDetailResolves;
 
-  beforeEach(module('server', function ($provide) {
+  beforeEach(module(serverModule, $provide => {
     jobMonitorStream = highland();
     jobMonitor = jasmine.createSpy('jobMonitor')
       .and.returnValue(jobMonitorStream);

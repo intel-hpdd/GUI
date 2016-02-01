@@ -1,10 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import chartingModule from '../../../../source/iml/charting/charting-module';
 
 describe('the to nvd3 plugin', function () {
-  'use strict';
-
-  beforeEach(module('charting'));
+  beforeEach(module(chartingModule));
 
   var toNvd3, spy;
 

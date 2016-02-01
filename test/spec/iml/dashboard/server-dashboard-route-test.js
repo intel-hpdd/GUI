@@ -1,10 +1,9 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop} from 'intel-fp';
 
-import {noop} from 'intel-fp/fp';
+import serverDashboardRouteModule from '../../../../source/iml/dashboard/server-dashboard-route-module';
 
-describe('dashboard server route', function () {
-
+describe('dashboard server route', () => {
   var $routeSegmentProvider;
 
   beforeEach(module(function () {
@@ -21,7 +20,7 @@ describe('dashboard server route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'serverDashboardRoute'));
+  }, 'route-segment', serverDashboardRouteModule));
 
   beforeEach(inject(noop));
 
@@ -47,13 +46,13 @@ describe('dashboard server route', function () {
       expect($routeSegmentProvider.segment).toHaveBeenCalledOnceWith('server', {
         controller: 'ServerDashboardCtrl',
         controllerAs: 'serverDashboard',
-        templateUrl: 'iml/dashboard/assets/html/server-dashboard.html',
+        templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/server-dashboard.js',
         resolve: {
           charts: ['serverDashboardChartResolves', jasmine.any(Function)],
           hostStream: ['serverDashboardHostStreamResolves', jasmine.any(Function)]
         },
         untilResolved: {
-          templateUrl: 'common/loading/assets/html/loading.html'
+          templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },
         dependencies: ['serverId']
       });

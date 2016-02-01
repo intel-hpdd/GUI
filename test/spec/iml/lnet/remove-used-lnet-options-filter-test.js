@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import _ from 'intel-lodash-mixins';
+
+import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 describe('Remove used LNet options', function () {
-  'use strict';
-
-  beforeEach(module('lnetModule'));
+  beforeEach(module(lnetModule));
 
   var removeUsedLnetOptions, LNET_OPTIONS;
 

@@ -1,9 +1,6 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import _ from 'intel-lodash-mixins';
 
 describe('the heat map', function () {
-  'use strict';
-
   beforeEach(module('heatMap'));
 
   var getHeatMap, heatMap;

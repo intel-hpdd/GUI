@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('cpuUsageDataFixtures', [
+export default [
   {
     in: [
       {
@@ -46,4 +44,4 @@ angular.module('dataFixtures').value('cpuUsageDataFixtures', [
       }
     ]
   }
-]);
+];

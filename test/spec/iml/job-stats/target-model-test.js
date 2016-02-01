@@ -1,12 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {always} from 'intel-fp';
 
-import {always} from 'intel-fp/fp';
+import jobStatsModule
+  from '../../../../source/iml/job-stats/job-stats-module';
 
 describe('The target metric model', () => {
   var TargetMetricModel, deferred;
 
-  beforeEach(module('jobStats', ($provide) => {
+  beforeEach(module(jobStatsModule, $provide => {
     var baseModel = Object.create({
       query: jasmine.createSpy('baseModel.query')
     });

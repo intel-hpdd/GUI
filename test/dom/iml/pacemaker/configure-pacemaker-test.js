@@ -1,13 +1,15 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+
+import pacemakerModule from '../../../../source/iml/pacemaker/pacemaker-module';
 
 describe('configure pacemaker', function () {
-  beforeEach(module('pacemaker', 'templates', 'highland'));
+  beforeEach(module(pacemakerModule, 'highland'));
 
   var el, $scope, query;
 
   beforeEach(inject(function ($rootScope, $compile, addProperty) {
-    var template = '<configure-pacemaker stream="::stream" alert-stream="::alertStream" job-stream="::jobStream"></configure-pacemaker>';
+    const template = `<configure-pacemaker stream="::stream" alert-stream="::alertStream" job-stream="::jobStream">
+</configure-pacemaker>`;
 
     $scope = $rootScope.$new();
     $scope.stream = highland().through(addProperty);

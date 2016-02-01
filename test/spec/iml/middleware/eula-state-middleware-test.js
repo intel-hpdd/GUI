@@ -1,9 +1,8 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import middlewareModule from '../../../../source/iml/middleware/middleware-module';
 
 describe('eula state middleware', () => {
-
   var CACHE_INITIAL_DATA;
+  
   beforeEach(module(function ($provide) {
     CACHE_INITIAL_DATA = {
       session: {
@@ -12,7 +11,7 @@ describe('eula state middleware', () => {
     };
 
     $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
-  }, 'middleware'));
+  }, middlewareModule));
 
   var eulaStateMiddleware, $rootScope, spy;
   beforeEach(inject(function (_eulaStateMiddleware_, _$rootScope_) {

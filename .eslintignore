@@ -8,3 +8,4 @@ vendor/**/*.js
 test/data-fixtures/**/*
 gulp/**/*
 flow/**/*
+dest/**/*

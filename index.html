@@ -35,9 +35,10 @@
     <div class="wrap">
       <div app-view-segment="0"></div>
     </div>
-
-    <!-- inject:js -->
-    <!-- endinject -->
-
+    <script src="/static/chroma_ui/node_modules/systemjs/dist/system.js"></script>
+    <script src="/static/chroma_ui/system.config.js"></script>
+    <script>
+      System.import('iml/iml-module.js');
+    </script>
     </body>
 </html>

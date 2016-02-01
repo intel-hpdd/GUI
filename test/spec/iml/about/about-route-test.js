@@ -1,10 +1,9 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import aboutModule from '../../../../source/iml/about/about-module';
 
-import {noop} from 'intel-fp/fp';
+import {noop} from 'intel-fp';
 
 describe('about route', () => {
-
   var $routeSegmentProvider;
 
   beforeEach(module(() => {
@@ -25,7 +24,7 @@ describe('about route', () => {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'about'));
+  }, 'route-segment', aboutModule));
 
   beforeEach(inject(noop));
 
@@ -45,7 +44,7 @@ describe('about route', () => {
         controller: 'AboutCtrl',
         controllerAs: 'about',
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
-        templateUrl: 'iml/about/assets/html/about.html'
+        templateUrl: '/static/chroma_ui/source/iml/about/assets/html/about.js'
       });
   });
 });

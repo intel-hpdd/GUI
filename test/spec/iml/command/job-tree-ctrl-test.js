@@ -1,8 +1,9 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import commandModule from '../../../../source/iml/command/command-module';
 
 describe('job tree', function () {
-  beforeEach(module('command'));
+  beforeEach(module(commandModule));
 
   describe('job tree ctrl', function () {
 

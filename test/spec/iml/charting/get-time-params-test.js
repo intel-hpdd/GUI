@@ -1,12 +1,12 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-
-import {noop} from 'intel-fp/fp';
+import moment from 'moment';
+import highland from 'highland';
+import {noop} from 'intel-fp';
+import chartingModule from '../../../../source/iml/charting/charting-module';
 
 describe('the get time params module', () => {
   var getServerMoment;
 
-  beforeEach(module('charting'));
+  beforeEach(module(chartingModule));
 
   describe('getRequestRange', () => {
     var getRequestRange;

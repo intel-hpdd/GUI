@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+
+import notificationModule from '../../../../source/iml/notification/notification-module';
 
 describe('The notification slider directive', function () {
-  'use strict';
-
-  beforeEach(module('notificationModule', 'templates'));
+  beforeEach(module(notificationModule));
 
   var el, $scope, $timeout, findSlider;
 

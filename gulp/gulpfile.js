@@ -1,6 +1,5 @@
 'use strict';
 
-var PassThrough = require('stream').PassThrough;
 var path = require('path');
 var del = require('del');
 var gulp = require('gulp');
@@ -8,7 +7,6 @@ var cache = require('gulp-cached');
 var remember = require('gulp-remember');
 var less = require('gulp-less');
 var mergeStream = require('merge-stream');
-var order = require('gulp-order');
 var injector = require('gulp-inject');
 var minifyHtml = require('gulp-minify-html');
 var ngHtml2Js = require('gulp-ng-html2js');
@@ -47,28 +45,27 @@ function buildJs () {
   return getSource(files.js.source)
     .pipe(plumber())
     .pipe(cache('scripts'))
+    .pipe(plumber.stop());
+}
+
+function buildSource () {
+  return getSource('source/iml*/**/*.js')
+    .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(babel({
       presets: ['es2015'],
       babelrc: false,
       plugins: [
-        'transform-es2015-modules-umd',
+        'transform-flow-strip-types',
         'transform-strict-mode',
-        'syntax-flow',
-        'transform-flow-strip-types'
-      ],
-      only: [
-        '*/intel-fp/*',
-        '*/intel-obj/*',
-        '*/intel-math/*',
-        'source/chroma_ui/iml/*',
-        'source/chroma_ui/common/*'
+        'transform-es2015-modules-systemjs'
       ]
     }))
     .pipe(ngAnnotate({
       single_quotes: true
     }))
     .pipe(sourcemaps.write({ sourceRoot: '' }))
+    .pipe(cache('scripts'))
     .pipe(plumber.stop());
 }
 
@@ -80,7 +77,7 @@ function buildLess () {
     .pipe(less({
       relativeUrls: false,
       rootpath: '',
-      paths: ['../source/chroma_ui/', '../'],
+      paths: ['../source/', '../'],
       plugins: [cleancss]
     }))
     .pipe(plumber.stop());
@@ -95,9 +92,18 @@ function buildTemplates () {
       empty: true
     }))
     .pipe(ngHtml2Js({
-      moduleName: 'iml',
       prefix: '/static/chroma_ui/',
-      stripPrefix: 'source/chroma_ui'
+      stripPrefix: 'source/chroma_ui',
+      export: 'system',
+      rename: function (url) {
+        return url.replace(/\.html$/, '.js');
+      },
+      template: 'import angular from \'angular\';\n\
+  export default angular.module(\'<%= template.url %>\', [])\n\
+    .run([\'$templateCache\', function($templateCache) {\n\
+      $templateCache.put(\'<%= template.url %>\',\n\'<%= template.prettyEscapedContent %>\');\n\
+    }])\n\
+    .name;'
     }))
     .pipe(plumber.stop());
 }
@@ -106,20 +112,15 @@ var toStatic = fp.curry(3, function toStatic (type, filepath, file) {
   return injector.transform.html[type]('/static/chroma_ui/' + file.relative);
 });
 
-function injectFiles (jsStream, lessStream) {
+function injectFiles (lessStream) {
   return getSource(files.templates.server.index)
     .pipe(plumber())
     .pipe(injector(lessStream, {
       transform: toStatic('css')
     }))
-    .pipe(injector(jsStream, {
-      transform: toStatic('js')
-    }))
     .pipe(writeToDest('templates/new'))
     .pipe(plumber.stop());
 }
-
-var orderJsFiles = order.bind(null, files.js.source, {base: '../'});
 
 gulp.task('clean', function clean (cb) {
   del([path.join(outputDir, '/static/chroma_ui'), path.join(outputDir, 'templates/new')], { force: true }, cb);
@@ -130,12 +131,14 @@ var getSocketWorkerSource = getSource.bind(null, path.join(socketWorkerPath, 'di
 
 gulp.task('dev', ['clean'], function devTask () {
   var jsStream = buildJs();
+  var sourceStream = buildSource();
   var templatesStream = buildTemplates();
   var lessStream = buildLess();
   var assetsStream = buildAssets();
   var socketWorkerStream = getSocketWorkerSource();
 
-  var merged = mergeStream(jsStream, templatesStream);
+  var merged = mergeStream(jsStream, sourceStream, templatesStream)
+    .pipe(remember('scripts'));
 
   var statics = mergeStream(
     merged.pipe(clone()),
@@ -144,11 +147,7 @@ gulp.task('dev', ['clean'], function devTask () {
     socketWorkerStream
   ).pipe(writeToStatic());
 
-  var ordered = merged
-    .pipe(orderJsFiles())
-    .pipe(remember('scripts'));
-
-  var indexStream = injectFiles(ordered, lessStream);
+  var indexStream = injectFiles(lessStream);
 
   return mergeStream(indexStream, statics);
 });
@@ -166,7 +165,6 @@ gulp.task('prod', ['clean'], function prodTask () {
 
   var merged = mergeStream(jsStream, templatesStream)
     .pipe(plumber())
-    .pipe(orderJsFiles())
     .pipe(sourcemaps.init({ loadMaps: true, debug: true }))
     .pipe(concat('built.js'))
     .pipe(uglify({ compress: true, screw_ie8: true, mangle: true }))
@@ -181,14 +179,9 @@ gulp.task('prod', ['clean'], function prodTask () {
     socketWorkerStream
   ).pipe(writeToStatic());
 
-  var indexStream = injectFiles(merged, lessStream);
+  var indexStream = injectFiles(lessStream);
 
   return mergeStream(indexStream, statics);
-});
-
-var lessSrc = gulp.src.bind(null, files.less.imports, {
-  read: false,
-  cwd: '../'
 });
 
 gulp.task('incremental-js', function () {
@@ -198,11 +191,8 @@ gulp.task('incremental-js', function () {
     .pipe(clone())
     .pipe(writeToStatic());
 
-  jsFiles = jsFiles
-    .pipe(remember('scripts'))
-    .pipe(orderJsFiles());
-
-  return injectFiles(jsFiles, lessSrc());
+  return jsFiles
+    .pipe(remember('scripts'));
 });
 
 gulp.task('incremental-templates', function () {
@@ -212,30 +202,17 @@ gulp.task('incremental-templates', function () {
     .pipe(clone())
     .pipe(writeToStatic());
 
-  jsFiles = jsFiles
-    .pipe(remember('scripts'))
-    .pipe(orderJsFiles());
-
-  return injectFiles(jsFiles, lessSrc());
+  return jsFiles
+    .pipe(remember('scripts'));
 });
 
 gulp.task('incremental-less', function () {
   var lessFile = buildLess();
 
-  var p = new PassThrough();
-
-  var jsFiles = p
-    .pipe(remember('scripts'));
-
-  var written = mergeStream(jsFiles.pipe(clone()), lessFile.pipe(clone()))
+  var written = lessFile.pipe(clone())
     .pipe(writeToStatic());
 
-  jsFiles = jsFiles
-    .pipe(orderJsFiles());
-
-  var s = injectFiles(jsFiles, lessFile);
-
-  p.end();
+  var s = injectFiles(lessFile);
 
   return mergeStream(s, written);
 });
@@ -306,20 +283,4 @@ gulp.task('watch', ['dev'], function () {
   }));
 
   watchCwd(files.templates.server.index, ['incremental-templates']);
-});
-
-var qualitySource = getSource.bind(null, files.js.source.concat(
-  'test/spec/**/*.js',
-  'test/mock/**/*.js',
-  'test/*.js',
-  '!bower_components/**/*.js',
-  '!vendor/**/*.js',
-  '!../ui-modules/**/*.js'
-));
-
-gulp.task('jscs', function jsCs () {
-  var jscs = require('gulp-jscs');
-
-  return qualitySource()
-    .pipe(jscs('../.jscsrc'));
 });

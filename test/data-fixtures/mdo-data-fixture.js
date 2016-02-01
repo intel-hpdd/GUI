@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('mdoDataFixtures', [
+export default [
   {
     in: [
       {
@@ -392,4 +390,4 @@ angular.module('dataFixtures').value('mdoDataFixtures', [
       }
     ]
   }
-]);
+];

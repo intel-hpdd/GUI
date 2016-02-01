@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import {curry} from 'intel-fp';
+import highland from 'highland';
+import multiStreamModule from '../../../../source/iml/multi-stream/multi-stream-module';
 
-import {curry} from 'intel-fp/fp';
-
-describe('multi stream', function () {
-  beforeEach(module('multiStream'));
+describe('multi stream', () => {
+  beforeEach(module(multiStreamModule));
 
   var multiStream, spy, errSpy, s1, s2, ms;
 

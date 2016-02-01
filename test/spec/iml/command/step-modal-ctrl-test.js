@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import commandModule from '../../../../source/iml/command/command-module';
 
 describe('step modal', function () {
-  'use strict';
 
-  beforeEach(module('command'));
+  beforeEach(module(commandModule));
 
   describe('step modal controller', function () {
     var $scope, stepModal, stepsStream, jobStream;
@@ -149,7 +148,7 @@ describe('step modal', function () {
 
     it('should open the modal with the expected object', function () {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: 'iml/command/assets/html/step-modal.html',
+        templateUrl: '/static/chroma_ui/source/iml/command/assets/html/step-modal.js',
         controller: 'StepModalCtrl',
         controllerAs: 'stepModal',
         windowClass: 'step-modal',

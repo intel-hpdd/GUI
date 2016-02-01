@@ -1,12 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import lnetModule from '../../../../source/iml/lnet/lnet-module';
+import highland from 'highland';
+
 
 describe('get network interface stream', function () {
-  'use strict';
-
   var socketStream, ss;
 
-  beforeEach(module('lnetModule', function ($provide) {
+  beforeEach(module(lnetModule, function ($provide) {
     ss = highland();
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(ss);

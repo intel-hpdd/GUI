@@ -1,10 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import middlewareModule
+  from '../../../../source/iml/middleware/middleware-module';
+
 
 describe('Authentication Middleware', () => {
 
   var authorization;
-  beforeEach(module('middleware', function ($provide) {
+  beforeEach(module(middlewareModule, $provide => {
     authorization = {
       groupAllowed: jasmine.createSpy('groupAllowed').and.returnValue(true)
     };

@@ -1,8 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import pacemakerModule from '../../../../source/iml/pacemaker/pacemaker-module';
+
 
 describe('pacemaker state directive', function () {
-  beforeEach(module('pacemaker', 'templates'));
+  beforeEach(module(pacemakerModule));
 
   var el, $scope, $compile;
 

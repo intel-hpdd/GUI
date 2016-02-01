@@ -1,10 +1,10 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import parserModule from '../../../../source/iml/parser/parser-module';
 
-import {__, flow, curry, identity, always} from 'intel-fp/fp';
+
+import {__, flow, curry, identity, always} from 'intel-fp';
 
 describe('chain left 1', function () {
-  beforeEach(module('parserModule'));
+  beforeEach(module(parserModule));
 
   var chainL1, ifToken;
 

@@ -1,0 +1,11 @@
+<div class="cdt-status-component detail-panel">
+  <h4 class="section-header">File System Configuration</h4>
+
+  <div class="detail-row">
+    <div>Coordinator Status:</div>
+    <div ng-include="'/static/chroma_ui/source/iml/hsm/assets/html/cdt-status/' + fileSystem.cdt_status + '.js'"></div>
+  </div>
+  <div as-stream val="fileSystem">
+    <action-dropdown stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+  </div>
+</div>

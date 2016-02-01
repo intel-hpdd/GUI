@@ -1,6 +1,4 @@
-import angular from 'angular';
-
-angular.module('dataFixtures').value('hsmCdtDataFixtures', [
+export default [
   {
     in: [
       {
@@ -82,4 +80,4 @@ angular.module('dataFixtures').value('hsmCdtDataFixtures', [
       }
     ]
   }
-]);
+];

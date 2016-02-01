@@ -1,8 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import appModule from '../../../../source/iml/app/app-module';
+import highland from 'highland';
+
 
 describe('App controller', function () {
-  beforeEach(module('app'));
+  beforeEach(module(appModule));
 
   var $scope, $routeSegment, appController,
     sessionFixture, deferred, navigate, help, ENV, GROUPS,

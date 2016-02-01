@@ -1,17 +1,17 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import groupActionsFixtures from '../../../data-fixtures/group-actions-fixtures';
 
-describe('ordering groups', function () {
-  beforeEach(module('action-dropdown-module', 'dataFixtures'));
 
-  var groupActionsFilter, groupActionsFixtures;
+describe('ordering groups', () => {
+  beforeEach(module(actionDropdownModule));
 
-  beforeEach(inject(function ($filter, _groupActionsFixtures_) {
+  var groupActionsFilter;
+
+  beforeEach(inject(($filter) => {
     groupActionsFilter = $filter('groupActions');
-    groupActionsFixtures = _groupActionsFixtures_;
   }));
 
-  it('should work', function () {
+  it('should work', () => {
     groupActionsFixtures.forEach(function testItem (item) {
       var result = groupActionsFilter(item.in);
 

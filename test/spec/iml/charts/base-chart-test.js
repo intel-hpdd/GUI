@@ -1,12 +1,11 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
-
-import {identity} from 'intel-fp/fp';
+import highland from 'highland';
+import {identity} from 'intel-fp';
+import chartsModule from '../../../../source/iml/charts/charts-module';
 
 describe('base chart', () => {
   var $window, nv, d3;
 
-  beforeEach(module('charts', ($provide) => {
+  beforeEach(module(chartsModule, $provide => {
     $window = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')
@@ -44,7 +43,7 @@ describe('base chart', () => {
         stream: '=',
         options: '='
       },
-      templateUrl: 'iml/charts/assets/html/chart.html',
+      templateUrl: '/static/chroma_ui/source/iml/charts/assets/html/chart.js',
       link: jasmine.any(Function)
     });
   });

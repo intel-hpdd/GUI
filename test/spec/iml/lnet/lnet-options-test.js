@@ -1,28 +1,23 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 describe('lnet options', function () {
-  'use strict';
+  var LNET_OPTIONS, expectedValues;
 
-  var LNET_OPTIONS;
+  expectedValues = Array.from(Array(11), (x, idx) => idx - 1)
+    .map(value => value === -1 ?
+      {name: 'Not Lustre Network', value} :
+      {name: `Lustre Network ${value}`, value}
+    );
 
-  var range = _.range(-1, 10),
-    expectedValues = range.map(function (value) {
-      if (value === -1)
-        return {name: 'Not Lustre Network', value: value};
-      else
-        return {name: 'Lustre Network %s'.sprintf(value), value: value};
-    });
-
-  beforeEach(module('lnetModule'));
+  beforeEach(module(lnetModule));
 
   beforeEach(inject(function (_LNET_OPTIONS_) {
     LNET_OPTIONS = _LNET_OPTIONS_;
   }));
 
-  describe('enum', function () {
-    expectedValues.forEach(function (expectedValue, index) {
-      it('should have a value for %s.'.sprintf(expectedValue.name), function () {
+  describe('enum', () => {
+    expectedValues.forEach((expectedValue, index) => {
+      it(`should have a value for ${expectedValue.name}.`, () => {
         expect(LNET_OPTIONS[index]).toEqual(expectedValue);
       });
     });

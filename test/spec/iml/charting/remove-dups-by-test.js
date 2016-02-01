@@ -1,10 +1,9 @@
-import angular from 'angular';
-const {module, inject} = angular.mock;
+import highland from 'highland';
+import _ from 'intel-lodash-mixins';
+import chartingModule from '../../../../source/iml/charting/charting-module';
 
 describe('the remove dups plugin', function () {
-  'use strict';
-
-  beforeEach(module('charting'));
+  beforeEach(module(chartingModule));
 
   var removeDupsBy, spy;
 

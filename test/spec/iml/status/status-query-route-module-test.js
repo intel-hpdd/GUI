@@ -1,9 +1,10 @@
 import angular from 'angular';
-const {module, inject} = angular.mock;
+import {noop} from 'intel-fp';
 
-import {noop} from 'intel-fp/fp';
+import statusQueryRouteModule
+  from '../../../../source/iml/status/status-query-route-module';
 
-describe('status query route', function () {
+describe('status query route', () => {
   var $routeSegmentProvider;
 
   beforeEach(module(function () {
@@ -21,7 +22,7 @@ describe('status query route', function () {
     angular.module('route-segment', []).provider({
       $routeSegment: $routeSegmentProvider
     });
-  }, 'route-segment', 'statusQueryRouteModule'));
+  }, 'route-segment', statusQueryRouteModule));
 
   beforeEach(inject(noop));
 
@@ -40,7 +41,7 @@ describe('status query route', function () {
       .toHaveBeenCalledOnceWith('statusQuery', {
         controller: 'StatusQueryController',
         controllerAs: 'ctrl',
-        templateUrl: 'iml/status/assets/html/status-container.html',
+        templateUrl: '/static/chroma_ui/source/iml/status/assets/html/status-container.js',
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware']
       });
   });

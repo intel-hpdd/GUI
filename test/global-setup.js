@@ -1,4 +1,10 @@
-import angular from 'angular/angular';
+import angular from 'angular';
+import 'angular-mocks';
+
+import fixturesModule from './fixtures/fixtures';
+import highland from 'highland';
+import {find} from 'intel-lodash-mixins';
+import {curry, map, noop} from 'intel-fp';
 
 function cssMatcher (presentClasses, absentClasses) {
   return () => {
@@ -29,8 +35,8 @@ beforeEach(() => {
     toHaveClass () {
       return {
         compare: (el, clazz) => {
-          if (el.get)
-            el = el.get(0);
+          if (!(el instanceof Element))
+            el = el[0];
 
           if (el.classList.contains(clazz))
             return {
@@ -91,13 +97,12 @@ beforeEach(() => {
   angular.mock.inject.strictDi(true);
 });
 
-beforeEach(window.module('fixtures'));
+beforeEach(angular.mock.module(fixturesModule));
 
 (function () {
   'use strict';
 
   window.λ = window.highland;
-
 
   window.extendWithConstructor = (constructor, obj) => {
     const scope = Object.create({}, {});
@@ -124,14 +129,12 @@ beforeEach(window.module('fixtures'));
    * @param {Function | Object | String} value
    * @param {Highland.Stream} s
    */
-  window.expectStreamToContainItem = _.curry(function expectStreamToContainItem (value, s) {
-    return s.each(function (x) {
-      expect(_.find(x, value)).toBeTruthy();
-    });
+  window.expectStreamToContainItem = curry(2, function expectStreamToContainItem (value, s) {
+    return s.each(x => expect(find(x, value)).toBeTruthy());
   });
 
   window.convertNvDates = function convertNvDates (s) {
-    return s.tap(_.fmap(function (item) {
+    return s.tap(map(function (item) {
       item.values.forEach(function (value) {
         value.x = value.x.toJSON();
       });
@@ -143,7 +146,7 @@ beforeEach(window.module('fixtures'));
     var oldRateLimit = proto.ratelimit;
 
     proto.ratelimit = function ratelimit () {
-      return this.tap(_.noop);
+      return this.tap(noop);
     };
 
     return function revert () {
@@ -153,7 +156,9 @@ beforeEach(window.module('fixtures'));
 
   window.flushD3Transitions = function flushD3Transitions () {
     var now = Date.now;
-    Date.now = function () { return Infinity; };
+    Date.now = function () {
+      return Infinity;
+    };
     window.d3.timer.flush();
     Date.now = now;
   };
