@@ -8,7 +8,7 @@ describe('Login Controller', () => {
     DENIED: 'denied'
   };
 
-  var $modal, navigate;
+  var $uibModal, navigate;
 
   beforeEach(module('login', 'interceptors', ($provide) => {
     navigate = jasmine.createSpy('navigate');
@@ -18,15 +18,15 @@ describe('Login Controller', () => {
       get: jasmine.createSpy('help').and.returnValue('foo')
     });
 
-    $provide.provider('$modal', function $modalProvider () {
+    $provide.provider('$uibModal', function $uibModalProvider () {
       'ngInject';
 
       this.$get = ($q) => {
-        $modal = {
+        $uibModal = {
           instances: {}
         };
 
-        $modal.open = jasmine.createSpy('open').and.callFake((options) => {
+        $uibModal.open = jasmine.createSpy('open').and.callFake((options) => {
           var modalResult = $q.defer();
 
           var modalInstance = {
@@ -40,12 +40,12 @@ describe('Login Controller', () => {
             opened: $q.defer().resolve(true)
           };
 
-          $modal.instances[options.templateUrl || options.windowClass] = modalInstance;
+          $uibModal.instances[options.templateUrl || options.windowClass] = modalInstance;
 
           return modalInstance;
         });
 
-        return $modal;
+        return $uibModal;
       };
     });
   }));
@@ -98,15 +98,15 @@ describe('Login Controller', () => {
 
       loginController.submitLogin();
 
-      expect($modal.open.calls.count()).toEqual(0);
+      expect($uibModal.open.calls.count()).toEqual(0);
     });
 
     it('should show the eula dialog if api says so', () => {
       $httpBackend.flush();
 
-      expect($modal.open.calls.count()).toEqual(1);
+      expect($uibModal.open.calls.count()).toEqual(1);
 
-      expect($modal.open).toHaveBeenCalledWith({
+      expect($uibModal.open).toHaveBeenCalledWith({
         templateUrl: 'common/login/assets/html/eula.html',
         keyboard: false,
         backdrop: 'static',
@@ -124,7 +124,7 @@ describe('Login Controller', () => {
 
       $httpBackend.flush();
 
-      expect($modal.open.calls.count()).toEqual(0);
+      expect($uibModal.open.calls.count()).toEqual(0);
       expect(navigate).toHaveBeenCalledOnceWith();
     });
 
@@ -133,7 +133,7 @@ describe('Login Controller', () => {
 
       $httpBackend.expectDELETE('session/').respond(204);
 
-      $modal.instances['common/login/assets/html/eula.html'].dismiss('dismiss');
+      $uibModal.instances['common/login/assets/html/eula.html'].dismiss('dismiss');
 
       $httpBackend.flush();
     });
@@ -141,7 +141,7 @@ describe('Login Controller', () => {
     it('should login when eula is accepted', () => {
       $httpBackend.flush();
 
-      $modal.instances['common/login/assets/html/eula.html'].close();
+      $uibModal.instances['common/login/assets/html/eula.html'].close();
 
       $rootScope.$digest();
 
@@ -196,9 +196,9 @@ describe('Login Controller', () => {
     });
 
     it('should be denied', () => {
-      expect($modal.open.calls.count()).toEqual(1);
+      expect($uibModal.open.calls.count()).toEqual(1);
 
-      expect($modal.open).toHaveBeenCalledWith({
+      expect($uibModal.open).toHaveBeenCalledWith({
         templateUrl: 'common/access-denied/assets/html/access-denied.html',
         keyboard: false,
         backdrop: 'static',

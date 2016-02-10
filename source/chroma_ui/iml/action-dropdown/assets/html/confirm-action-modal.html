@@ -13,15 +13,15 @@
   </div>
 </div>
 <div class="modal-footer">
-  <div class="btn-group" dropdown>
+  <div class="btn-group" uib-dropdown>
     <button type="button" ng-click="$close(false)" class="btn btn-success">
       Confirm <i class="fa fa-check-circle-o"></i>
     </button>
-    <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle>
+    <button type="button" class="btn btn-success" uib-dropdown-toggle>
       <span class="caret"></span>
       <span class="sr-only">Split button</span>
     </button>
-    <ul class="dropdown-menu" role="menu">
+    <ul uib-dropdown-menu role="menu">
       <li>
         <a ng-click="$close(true)">Confirm and skip command view</a>
       </li>

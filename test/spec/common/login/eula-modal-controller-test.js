@@ -2,7 +2,7 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('Eula Modal Controller', () => {
-  var $scope, $httpBackend, $modalInstance;
+  var $scope, $httpBackend, $uibModalInstance;
 
   beforeEach(module('login', 'interceptors', ($provide) => {
     $provide.value('help', {
@@ -14,14 +14,14 @@ describe('Eula Modal Controller', () => {
     $scope = $rootScope.$new();
     $httpBackend = _$httpBackend_;
 
-    $modalInstance = {
+    $uibModalInstance = {
       close: jasmine.createSpy('close'),
       dismiss: jasmine.createSpy('dismiss')
     };
 
     $controller('EulaCtrl', {
       $scope,
-      $modalInstance,
+      $uibModalInstance,
       user: new UserModel()
     });
   }));
@@ -31,22 +31,22 @@ describe('Eula Modal Controller', () => {
 
     $scope.eulaCtrl.accept();
 
-    expect($modalInstance.close).not.toHaveBeenCalled();
+    expect($uibModalInstance.close).not.toHaveBeenCalled();
 
     $httpBackend.flush();
 
-    expect($modalInstance.close).toHaveBeenCalled();
+    expect($uibModalInstance.close).toHaveBeenCalled();
   });
 
   it('should perform the appropriate actions on reject', () => {
     $httpBackend.expectPUT('user/', {accepted_eula: false}).respond(202);
 
-    expect($modalInstance.dismiss).not.toHaveBeenCalled();
+    expect($uibModalInstance.dismiss).not.toHaveBeenCalled();
 
     $scope.eulaCtrl.reject();
 
     $httpBackend.flush();
 
-    expect($modalInstance.dismiss).toHaveBeenCalled();
+    expect($uibModalInstance.dismiss).toHaveBeenCalled();
   });
 });

@@ -116,7 +116,7 @@ describe('step modal', function () {
   });
 
   describe('open step modal', function () {
-    var $modal, socketStream, stream;
+    var $uibModal, socketStream, stream;
 
     beforeEach(module(function ($provide) {
       socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
@@ -124,11 +124,11 @@ describe('step modal', function () {
       });
       $provide.value('socketStream', socketStream);
 
-      $modal = {
+      $uibModal = {
         open: jasmine.createSpy('open')
       };
 
-      $provide.value('$modal', $modal);
+      $provide.value('$uibModal', $uibModal);
     }));
 
     var openStepModal, job;
@@ -148,7 +148,7 @@ describe('step modal', function () {
     }));
 
     it('should open the modal with the expected object', function () {
-      expect($modal.open).toHaveBeenCalledOnceWith({
+      expect($uibModal.open).toHaveBeenCalledOnceWith({
         templateUrl: 'iml/command/assets/html/step-modal.html',
         controller: 'StepModalCtrl',
         controllerAs: 'stepModal',
@@ -165,7 +165,7 @@ describe('step modal', function () {
       var jobStream, stepsStream;
 
       beforeEach(function () {
-        var resolves = $modal.open.calls.mostRecent().args[0].resolve;
+        var resolves = $uibModal.open.calls.mostRecent().args[0].resolve;
 
         jobStream = resolves.jobStream();
         stepsStream = resolves.stepsStream();

@@ -17,15 +17,15 @@
   <div class="well" ng-if="stepModal.steps.length === 0">
     Loading Steps... <i class="fa fa-spinner fa-spin"></i>
   </div>
-  <accordion close-others="false" ng-if="stepModal.steps.length > 0">
-    <accordion-group is-open="stepModal['accordion' + $index]" ng-repeat="step in stepModal.steps track by step.id">
-      <accordion-heading>
+  <uib-accordion close-others="false" ng-if="stepModal.steps.length > 0">
+    <uib-accordion-group is-open="stepModal['accordion' + $index]" ng-repeat="step in stepModal.steps track by step.id">
+      <uib-accordion-heading>
         <i class="fa" ng-class="{'fa-chevron-down': stepModal['accordion' + $index], 'fa-chevron-right': !stepModal['accordion' + $index]}"></i>
         <i class="fa header-status" ng-class="{'fa-exclamation': step.state === 'failed', 'fa-check': step.state === 'success', 'fa-refresh fa-spin': step.state === 'incomplete'}"></i>
         <span>
           {{ ::step.step_index + 1  }}/{{ ::step.step_count }}  {{ ::stepModal.getDescription(step) }}
         </span>
-      </accordion-heading>
+      </uib-accordion-heading>
       <h4>Arguments</h4>
       <pre class="logs">{{ step.args|json }}</pre>
       <div ng-if="step.console">
@@ -36,8 +36,8 @@
         <h4>Backtrace</h4>
         <pre class="logs">{{ step.backtrace }}</pre>
       </div>
-    </accordion-group>
-  </accordion>
+    </uib-accordion-group>
+  </uib-accordion>
 </div>
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>

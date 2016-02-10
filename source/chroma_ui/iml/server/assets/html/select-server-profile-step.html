@@ -4,7 +4,7 @@
   </button>
   <h4 class="modal-title">Add Server - Add Server Profiles</h4>
   <i class="fa fa-question-circle"
-     tooltip="Select the server profile to be applied to all servers. Green squares represent servers that are compatible with the selected profile. Red squares represent servers that are incompatible with the selected server profile."
+     uib-tooltip="Select the server profile to be applied to all servers. Green squares represent servers that are compatible with the selected profile. Red squares represent servers that are incompatible with the selected server profile."
      tooltip-placement="bottom"></i>
 </div>
 <div class="modal-body select-server-profile-step clearfix">
@@ -16,16 +16,16 @@
   <div>
     <label>Select Server Profile</label>
     <i class="fa fa-question-circle"
-       tooltip="Select a server profile to set on unconfigured servers."
+       uib-tooltip="Select a server profile to set on unconfigured servers."
        tooltip-placement="right"></i>
   </div>
-  <div class="btn-group fancy-select-box" dropdown on-toggle="open = !open">
-    <button type="button" class="form-control dropdown-toggle" ng-disabled="disabled" dropdown-toggle>
+  <div class="btn-group fancy-select-box" uib-dropdown on-toggle="open = !open">
+    <button type="button" class="form-control dropdown-toggle" ng-disabled="disabled" uib-dropdown-toggle>
       <span ng-if="selectServerProfile.profile.invalid" class="label label-danger">Incompatible</span>
       <span>{{ selectServerProfile.profile.uiName }}</span>
       <i class="fa" ng-class="{'fa-caret-down': open, 'fa-caret-up': !open}"></i>
     </button>
-    <ul class="dropdown-menu" role="menu">
+    <ul role="menu" uib-dropdown-menu>
       <li ng-repeat="profile in selectServerProfile.profiles track by profile.name" ng-click="selectServerProfile.onSelected(profile)">
         <a class="fancy-select-option">
           <span ng-if="profile.invalid" class="label label-danger">Incompatible</span>
@@ -40,14 +40,14 @@
       <div>
         <label>Filter by Hostname / Hostlist Expression</label>
         <i class="fa fa-question-circle"
-           tooltip="Enter a hostname / hostlist expression to filter servers."
+           uib-tooltip="Enter a hostname / hostlist expression to filter servers."
            tooltip-placement="right"></i>
       </div>
       <pdsh pdsh-initial="selectServerProfile.pdsh" pdsh-change="selectServerProfile.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
     </div>
   </form>
   <div class="status-cell-container" ng-repeat="host in selectServerProfile.profile.hosts | pdsh:selectServerProfile.hostnamesHash:selectServerProfile.getHostPath track by host.address">
-    <div ng-class="{invalid: host.invalid, valid: !host.invalid }" tooltip="Address: {{host.address}}" class="status-cell activate-popover"></div>
+    <div ng-class="{invalid: host.invalid, valid: !host.invalid }" uib-tooltip="Address: {{host.address}}" class="status-cell activate-popover"></div>
     <iml-popover title="Status for {{ host.address }}" placement="bottom">
       <div ng-if="!host.invalid">
         <i class="fa fa-check-circle"></i> {{ host.uiName }} profile is compatible.

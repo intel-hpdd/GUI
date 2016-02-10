@@ -33,7 +33,7 @@ import angular from 'angular';
     </div> \
   </div>';
 
-  angular.module('exception').factory('disconnectModal', ['$modal', 'windowUnload', function ($modal, windowUnload) {
+  angular.module('exception').factory('disconnectModal', ['$uibModal', 'windowUnload', function ($uibModal, windowUnload) {
     var defaultOptions = {
       backdrop: 'static',
       keyboard: false,
@@ -47,7 +47,7 @@ import angular from 'angular';
 
       var options = _.merge(defaultOptions, opts);
 
-      return $modal.open(options);
+      return $uibModal.open(options);
     };
   }]);
 }());

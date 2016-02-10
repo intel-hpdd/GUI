@@ -258,7 +258,7 @@ describe('job indicator', function () {
       });
 
       it('should display the tooltip after mousing over the info icon', function () {
-        i[0].dispatchEvent(new MouseEvent('mouseenter'));
+        i[0].dispatchEvent(new MouseEvent('mouseover'));
         $timeout.flush();
 
         var tooltip = node.find('.tooltip');

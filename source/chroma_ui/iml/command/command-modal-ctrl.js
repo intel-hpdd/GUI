@@ -50,11 +50,11 @@ angular.module('command')
       xForm(commandsStream)
     );
   })
-  .factory('openCommandModal', function openCommandModalFactory ($modal) {
+  .factory('openCommandModal', function openCommandModalFactory ($uibModal) {
     'ngInject';
 
     return function openCommandModal (stream) {
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'iml/command/assets/html/command-modal.html',
         controller: 'CommandModalCtrl',
         controllerAs: 'commandModal',

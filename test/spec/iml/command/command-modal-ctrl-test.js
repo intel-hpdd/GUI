@@ -5,14 +5,14 @@ describe('command modal', function () {
   beforeEach(module('command'));
 
   describe('open command modal', function () {
-    var $modal, stream;
+    var $uibModal, stream;
 
     beforeEach(module(function ($provide) {
-      $modal = {
+      $uibModal = {
         open: jasmine.createSpy('open')
       };
 
-      $provide.value('$modal', $modal);
+      $provide.value('$uibModal', $uibModal);
     }));
 
     beforeEach(inject(function (openCommandModal) {
@@ -22,7 +22,7 @@ describe('command modal', function () {
     }));
 
     it('should open the modal', function () {
-      expect($modal.open).toHaveBeenCalledOnceWith({
+      expect($uibModal.open).toHaveBeenCalledOnceWith({
         templateUrl: 'iml/command/assets/html/command-modal.html',
         controller: 'CommandModalCtrl',
         controllerAs: 'commandModal',
@@ -39,7 +39,7 @@ describe('command modal', function () {
       var handle, commandStream;
 
       beforeEach(function () {
-        handle = $modal.open.calls.mostRecent().args[0].resolve.commandsStream;
+        handle = $uibModal.open.calls.mostRecent().args[0].resolve.commandsStream;
         commandStream = handle();
       });
 

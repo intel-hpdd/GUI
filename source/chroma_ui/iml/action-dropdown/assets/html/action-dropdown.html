@@ -4,7 +4,7 @@
     <button class="btn btn-primary btn-sm" uib-dropdown-toggle>
       Actions<i class="fa fa-caret-down"></i>
     </button>
-    <ul class="uib-dropdown-menu" role="menu">
+    <ul uib-dropdown-menu class="uib-dropdown-menu" role="menu">
       <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
         {{ ::record.label }}
       </li>

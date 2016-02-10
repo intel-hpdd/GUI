@@ -48,7 +48,7 @@ import angular from 'angular';
     </div>';
 
 
-  angular.module('exception').factory('exceptionModal', ['$modal', function ($modal) {
+  angular.module('exception').factory('exceptionModal', ['$uibModal', function ($uibModal) {
     var defaultOptions = {
       backdrop: 'static',
       controller: 'ExceptionModalCtrl',
@@ -60,7 +60,7 @@ import angular from 'angular';
     return function open (opts) {
       var options = _.merge(defaultOptions, opts);
 
-      return $modal.open(options);
+      return $uibModal.open(options);
     };
   }]);
 }());

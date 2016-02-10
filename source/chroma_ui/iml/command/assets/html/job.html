@@ -5,11 +5,11 @@
   <span ng-if="job.steps.length === 0">
     <job-states job="job"></job-states> <span>{{ ::job.description }}</span>
   </span>
-  <div class="btn-group job-actions" dropdown restrict-to="commandModal.GROUPS.FS_ADMINS" ng-if="jobTree.showTransition(job)">
-    <button type="button" class="btn btn-xs btn-primary dropdown-toggle" dropdown-toggle aria-haspopup="true" aria-expanded="false">
+  <div class="btn-group job-actions" uib-dropdown restrict-to="commandModal.GROUPS.FS_ADMINS" ng-if="jobTree.showTransition(job)">
+    <button type="button" class="btn btn-xs btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
       Actions <i class="fa fa-caret-down"></i>
     </button>
-    <ul class="dropdown-menu">
+    <ul uib-dropdown-menu>
       <li ng-repeat="transition in job.available_transitions">
         <a ng-click="jobTree.doTransition(job, transition.state)">{{transition.label}}</a>
       </li>

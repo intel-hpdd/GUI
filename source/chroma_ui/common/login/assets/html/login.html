@@ -16,12 +16,11 @@
             ng-model="login.username"
             remote-validate-component
             placeholder="Username"
+            uib-tooltip-template="'common/login/assets/html/login-user-error.html'"
+            tooltip-trigger="none"
+            tooltip-class="error-tooltip"
+            tooltip-is-open="serverValidationError.username.length"
             />
-          <iml-tooltip class="error-tooltip" toggle="serverValidationError.username" direction="top">
-            <ul>
-              <li ng-repeat="error in serverValidationError.username">{{ error }}</li>
-            </ul>
-          </iml-tooltip>
         </div>
         <div class="form-group password-group" ng-class="{'has-error': loginForm.password.$invalid}">
           <input
@@ -32,12 +31,12 @@
             ng-model="login.password"
             remote-validate-component
             placeholder="Password"
-            />
-          <iml-tooltip class="error-tooltip" toggle="serverValidationError.password" direction="bottom">
-            <ul>
-              <li ng-repeat="error in serverValidationError.password">{{ error }}</li>
-            </ul>
-          </iml-tooltip>
+            uib-tooltip-template="'common/login/assets/html/login-password-error.html'"
+            tooltip-trigger="none"
+            tooltip-class="error-tooltip"
+            tooltip-is-open="serverValidationError.password.length"
+            tooltip-placement="bottom"
+          />
         </div>
         <button type="submit" class="btn btn-success" ng-disabled="loginForm.$pristine || login.inProgress" ng-click="login.submitLogin()">
           <i class="fa fa-unlock"></i> Login

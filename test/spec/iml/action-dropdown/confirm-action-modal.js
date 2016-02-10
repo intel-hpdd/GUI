@@ -34,14 +34,14 @@ describe('confirm action modal', function () {
   });
 
   describe('open confirm action modal', function () {
-    var $modal, openConfirmActionModal;
+    var $uibModal, openConfirmActionModal;
 
     beforeEach(module(function ($provide) {
-      $modal = {
+      $uibModal = {
         open: jasmine.createSpy('open')
       };
 
-      $provide.value('$modal', $modal);
+      $provide.value('$uibModal', $uibModal);
     }));
 
     var title, confirmPrompts;
@@ -55,7 +55,7 @@ describe('confirm action modal', function () {
     }));
 
     it('should open the modal as expected', function () {
-      expect($modal.open).toHaveBeenCalledOnceWith({
+      expect($uibModal.open).toHaveBeenCalledOnceWith({
         templateUrl: 'iml/action-dropdown/assets/html/confirm-action-modal.html',
         controller: 'ConfirmActionModalCtrl',
         windowClass: 'confirm-action-modal',
@@ -72,7 +72,7 @@ describe('confirm action modal', function () {
       var resolve;
 
       beforeEach(function () {
-        resolve = $modal.open.calls.mostRecent().args[0].resolve;
+        resolve = $uibModal.open.calls.mostRecent().args[0].resolve;
       });
 
       it('should set the title', function () {

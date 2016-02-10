@@ -27,17 +27,17 @@ import {always} from 'intel-fp/fp';
   'use strict';
 
   angular.module('login').controller('LoginCtrl',
-    ['$modal', '$q', 'SessionModel', 'help', 'navigate', 'ALLOW_ANONYMOUS_READ', LoginCtrl]
+    ['$uibModal', '$q', 'SessionModel', 'help', 'navigate', 'ALLOW_ANONYMOUS_READ', LoginCtrl]
   );
 
-  function LoginCtrl ($modal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
+  function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
     /**
      * Initializes the eula modal and opens it.
      * @param {UserModel} user
      * @returns {Object} A promise that is resolved when the modal closes.
      */
     function initializeEulaDialog (user) {
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'common/login/assets/html/eula.html',
         controller: 'EulaCtrl',
         backdrop: 'static',
@@ -54,7 +54,7 @@ import {always} from 'intel-fp/fp';
      * @returns {Object} A promise that is resolved when the dialog closes.
      */
     var initializeDeniedDialog = function initializeDeniedLoginFn () {
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'common/access-denied/assets/html/access-denied.html',
         controller: 'AccessDeniedCtrl',
         backdrop: 'static',

@@ -26,7 +26,7 @@ angular.module('modal-decorator', ['highland'])
   .config(($provide) => {
     'ngInject';
 
-    $provide.decorator('$modal', (λ, $delegate) => {
+    $provide.decorator('$uibModal', (λ, $delegate) => {
       /* jshint -W034 */
       'ngInject';
 

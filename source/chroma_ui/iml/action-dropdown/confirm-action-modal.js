@@ -32,11 +32,11 @@ angular.module('action-dropdown-module')
         confirmPrompts: confirmPrompts
       };
     }])
-  .factory('openConfirmActionModal', ['$modal', function openConfirmActionModalFactory ($modal) {
+  .factory('openConfirmActionModal', ['$uibModal', function openConfirmActionModalFactory ($uibModal) {
     'use strict';
 
     return function openConfirmActionModal (title, confirmPrompts) {
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'iml/action-dropdown/assets/html/confirm-action-modal.html',
         controller: 'ConfirmActionModalCtrl',
         windowClass: 'confirm-action-modal',

@@ -25,7 +25,7 @@ import angular from 'angular';
 (function () {
   'use strict';
 
-  function EulaCtrl ($scope, $modalInstance, help, user) {
+  function EulaCtrl ($scope, $uibModalInstance, help, user) {
     /**
      * Wrapper function that creates an action for EULA buttons.
      * @param {boolean} state
@@ -36,7 +36,7 @@ import angular from 'angular';
 
       return function () {
         user.accepted_eula = state;
-        user.$update().then($modalInstance[action].bind($modalInstance, action));
+        user.$update().then($uibModalInstance[action].bind($uibModalInstance, action));
       };
     }
 
@@ -47,5 +47,5 @@ import angular from 'angular';
     };
   }
 
-  angular.module('login').controller('EulaCtrl', ['$scope', '$modalInstance', 'help', 'user', EulaCtrl]);
+  angular.module('login').controller('EulaCtrl', ['$scope', '$uibModalInstance', 'help', 'user', EulaCtrl]);
 }());

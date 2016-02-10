@@ -24,7 +24,7 @@ import {filter, eqFn, identity,
   lensProp, always, find} from 'intel-fp/fp';
 
 
-export default function ServerCtrl ($scope, $modal, pdshFilter, naturalSortFilter,
+export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFilter,
                                     serverActions, selectedServers, openCommandModal,
                                     openAddServerModal, getCommandStream,
                                     overrideActionClick, streams) {
@@ -126,7 +126,7 @@ export default function ServerCtrl ($scope, $modal, pdshFilter, naturalSortFilte
       var action = this.getActionByValue(value);
       var hosts = this.getSelectedHosts(value);
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'iml/server/assets/html/confirm-server-action-modal.html',
         controller: 'ConfirmServerActionModalCtrl',
         windowClass: 'confirm-server-action-modal',

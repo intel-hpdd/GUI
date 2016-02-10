@@ -35,7 +35,7 @@
           <button type="button" class="btn btn-info btn-sm" uib-dropdown-toggle ng-disabled="disabled">
             Entries: {{server.itemsPerPage}} <span class="caret"></span>
           </button>
-          <ul class="uib-dropdown-menu" role="menu">
+          <ul uib-dropdown-menu role="menu">
             <li><a ng-click="server.setItemsPerPage(10); server.closeItemsPerPage();">10</a></li>
             <li><a ng-click="server.setItemsPerPage(25); server.closeItemsPerPage();">25</a></li>
             <li><a ng-click="server.setItemsPerPage(50); server.closeItemsPerPage();">50</a></li>
@@ -101,8 +101,9 @@
             </button>
             <span ng-if="server.getActionByValue(server.editName).toggleDisabled(item)"
                   uib-tooltip="{{ server.getActionByValue(server.editName).toggleDisabledReason(item) }}"
-                  tooltip-placement="left">
-              <button disabled class="btn btn-default btn-sm">Disabled</button>
+                  tooltip-placement="left"
+                  class="disabled">
+              <a type="button" class="disabled btn btn-default btn-sm">Disabled</a>
             </span>
           </td>
         </tr>
@@ -149,11 +150,11 @@
     <div class="action-buttons">
       <span ng-repeat="action in server.actions track by action.value"
             uib-tooltip="{{ action.buttonTooltip(server.servers)}}">
-        <button class="btn btn-primary btn-sm"
-                ng-click="server.setEditName(action.value)"
-                ng-disabled="action.buttonDisabled(server.servers)">
+        <a type="button" class="btn btn-primary btn-sm"
+           ng-class="{disabled: action.buttonDisabled(server.servers)}"
+           ng-click="server.setEditName(action.value)">
           {{action.value}} <i class="fa fa-question-circle"></i>
-        </button>
+        </a>
       </span>
     </div>
   </div>

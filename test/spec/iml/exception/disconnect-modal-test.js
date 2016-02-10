@@ -2,15 +2,15 @@ import angular from 'angular';
 const {module, inject} = angular.mock;
 
 describe('disconnect modal', () => {
-  var $modal;
+  var $uibModal;
 
   beforeEach(module('exception', {
     windowUnload: { unloading: false }
   }, ($provide) => {
-    $modal = {
+    $uibModal = {
       open: jasmine.createSpy('open')
     };
-    $provide.value('$modal', $modal);
+    $provide.value('$uibModal', $uibModal);
   }));
 
   var disconnectModal, windowUnload;
@@ -27,7 +27,7 @@ describe('disconnect modal', () => {
   it('should call the modal with the expected params', () => {
     disconnectModal();
 
-    expect($modal.open).toHaveBeenCalledWith({
+    expect($uibModal.open).toHaveBeenCalledWith({
       backdrop: 'static',
       windowClass: 'disconnect-modal',
       keyboard: false,
@@ -39,6 +39,6 @@ describe('disconnect modal', () => {
     windowUnload.unloading = true;
     disconnectModal();
 
-    expect($modal.open).not.toHaveBeenCalledOnce();
+    expect($uibModal.open).not.toHaveBeenCalledOnce();
   });
 });

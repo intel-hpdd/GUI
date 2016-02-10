@@ -20,7 +20,7 @@ module.exports = function setConfig (config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      bowerDir('jquery/dist/jquery.js'),
+      nodeModulesDir('jquery/dist/jquery.js'),
       nodeModulesDir('angular/angular.js'),
       nodeModulesDir('angular-resource/angular-resource.js'),
       nodeModulesDir('angular-route/angular-route.js'),
@@ -31,7 +31,7 @@ module.exports = function setConfig (config) {
       bowerDir('twix/bin/twix.js'),
       bowerDir('d3/d3.js'),
       bowerDir('nvd3/build/nv.d3.js'),
-      nodeModulesDir('angular-ui-bootstrap/ui-bootstrap-tpls.js'),
+      nodeModulesDir('angular-ui-bootstrap/dist/ui-bootstrap-tpls.js'),
       nodeModulesDir('immutable/dist/immutable.js'),
       nodeModulesDir('intel-fp/fp.js'),
       nodeModulesDir('intel-math/math.js'),

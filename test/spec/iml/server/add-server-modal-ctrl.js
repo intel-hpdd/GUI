@@ -36,8 +36,8 @@ describe('add server modal', function () {
         $scope: $scope,
         getSpring: jasmine.createSpy('getSpring')
           .and.returnValue(spring),
-        $modalInstance: {
-          close: jasmine.createSpy('$modalInstance')
+        $uibModalInstance: {
+          close: jasmine.createSpy('$uibModalInstance')
         },
         getAddServerManager: jasmine.createSpy('getAddServerManager')
           .and.returnValue(stepsManager),
@@ -77,7 +77,7 @@ describe('add server modal', function () {
         resultEndPromise.resolve('test');
 
         $scope.$digest();
-        expect(deps.$modalInstance.close).toHaveBeenCalledOnce();
+        expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
       });
 
       it('should contain the manager', function () {
@@ -105,20 +105,20 @@ describe('add server modal', function () {
         });
 
         it('should close the modal', function () {
-          expect(deps.$modalInstance.close).toHaveBeenCalledOnce();
+          expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
         });
       });
     });
   });
 
   describe('opening', function () {
-    var openAddServerModal, $modal, server, step;
+    var openAddServerModal, $uibModal, server, step;
     beforeEach(module(function ($provide) {
-      $modal = {
-        open: jasmine.createSpy('$modal')
+      $uibModal = {
+        open: jasmine.createSpy('$uibModal')
       };
 
-      $provide.value('$modal', $modal);
+      $provide.value('$uibModal', $uibModal);
     }));
 
     beforeEach(inject(function (_openAddServerModal_) {
@@ -129,7 +129,7 @@ describe('add server modal', function () {
     }));
 
     it('should open the modal', function () {
-      expect($modal.open).toHaveBeenCalledWith({
+      expect($uibModal.open).toHaveBeenCalledWith({
         templateUrl: 'iml/server/assets/html/add-server-modal.html',
         controller: 'AddServerModalCtrl as addServer',
         backdropClass: 'add-server-modal-backdrop',
@@ -146,7 +146,7 @@ describe('add server modal', function () {
     describe('checking resolve', function () {
       var resolve;
       beforeEach(function () {
-        resolve = $modal.open.calls.mostRecent().args[0].resolve;
+        resolve = $uibModal.open.calls.mostRecent().args[0].resolve;
       });
 
       it('should return servers', function () {

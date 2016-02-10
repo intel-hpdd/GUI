@@ -57,7 +57,7 @@ angular.module('command')
     p('job', jobStream);
     p('steps', stepsStream);
   })
-  .factory('openStepModal', function openStepModalFactory ($modal, socketStream) {
+  .factory('openStepModal', function openStepModalFactory ($uibModal, socketStream) {
     'ngInject';
 
     var extractApiId = map(invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));
@@ -69,7 +69,7 @@ angular.module('command')
       var s2 = jobStream.fork();
       s2.destroy = jobStream.destroy.bind(jobStream);
 
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'iml/command/assets/html/step-modal.html',
         controller: 'StepModalCtrl',
         controllerAs: 'stepModal',

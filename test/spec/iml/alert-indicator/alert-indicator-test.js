@@ -170,7 +170,7 @@ describe('alert indicator', () => {
       });
 
       it('should display the tooltip after mousing over the info icon', () => {
-        i().dispatchEvent(new MouseEvent('mouseenter'));
+        i().dispatchEvent(new MouseEvent('mouseover'));
 
         expect(tooltip()).toBeShown();
       });

@@ -166,8 +166,8 @@ it will be reloaded before any targets are started again.',
   describe('mouseover a verb', function () {
     beforeEach(function () {
       button().click();
-      var mouseEnter = new MouseEvent('mouseenter');
-      head(verbs()).dispatchEvent(mouseEnter);
+      var mouseOver = new MouseEvent('mouseover');
+      head(verbs()).dispatchEvent(mouseOver);
       $timeout.flush();
       $timeout.verifyNoPendingTasks();
     });

@@ -4,7 +4,14 @@
 <div>
   <form novalidate name="form" role="form" ng-submit="addCopytool.onSubmit(addCopytool.copytool)">
     <div class="modal-body copytool">
-      <div class="form-group" ng-class="{ 'has-error': form.filesystem.$invalid }">
+      <div class="form-group"
+           ng-class="{ 'has-error': form.filesystem.$invalid }"
+           uib-tooltip="Filesystem is required."
+           tooltip-placement="bottom"
+           tooltip-trigger="none"
+           tooltip-class="error-tooltip"
+           tooltip-is-open="form.filesystem.$invalid"
+      >
         <label for="filesystem" class="control-label">Filesystem</label>
         <span class="help">
           <a><i class="fa fa-question-circle"></i></a>
@@ -18,17 +25,19 @@
           ng-model="addCopytool.copytool.filesystem"
           ng-options="f.resource_uri as f.label for f in addCopytool.filesystems"
           required="true"
-          uib-tooltip="Filesystem is required."
-          tooltip-placement="bottom"
-          tooltip-trigger="none"
-          tooltip-class="error-tooltip"
-          tooltip-is-open="form.filesystem.$invalid"
         >
           <option value="">{{ 'add_copytool_default_filesystem_option' | insertHelp }}</option>
         </select>
       </div>
 
-      <div class="form-group" ng-class="{'has-error': form.host.$invalid}">
+      <div class="form-group"
+           ng-class="{'has-error': form.host.$invalid}"
+           uib-tooltip="Worker is required."
+           tooltip-placement="bottom"
+           tooltip-trigger="none"
+           tooltip-class="error-tooltip"
+           tooltip-is-open="form.host.$invalid"
+      >
         <label for="host" class="control-label">Worker</label>
         <span class="help">
           <a><i class="fa fa-question-circle"></i></a>
@@ -40,11 +49,6 @@
                 id="host"
                 ng-model="addCopytool.copytool.host"
                 ng-options="w.resource_uri as w.label for w in addCopytool.workers"
-                uib-tooltip="Worker is required."
-                tooltip-placement="bottom"
-                tooltip-trigger="none"
-                tooltip-class="error-tooltip"
-                tooltip-is-open="form.host.$invalid"
         >
           <option value="">{{ 'add_copytool_default_worker_option' | insertHelp }}</option>
         </select>

@@ -6,7 +6,7 @@ import {identity} from 'intel-fp/fp';
 
 describe('server', () => {
   var $scope, pdshFilter, naturalSortFilter,
-    server, $modal, serversStream, openCommandModal,
+    server, $uibModal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
     commandStream, openResult, commandModalResult,
@@ -22,7 +22,7 @@ describe('server', () => {
         then: jasmine.createSpy('then')
       }
     };
-    $modal = {
+    $uibModal = {
       open: jasmine.createSpy('open').and.returnValue(openResult)
     };
 
@@ -81,7 +81,7 @@ describe('server', () => {
     $controller('ServerCtrl', {
       $scope,
       $q,
-      $modal,
+      $uibModal,
       pdshFilter,
       naturalSortFilter,
       serverActions,
@@ -264,7 +264,7 @@ describe('server', () => {
       });
 
       it('should open a confirmation modal', () => {
-        expect($modal.open).toHaveBeenCalledOnceWith({
+        expect($uibModal.open).toHaveBeenCalledOnceWith({
           templateUrl: 'iml/server/assets/html/confirm-server-action-modal.html',
           controller: 'ConfirmServerActionModalCtrl',
           windowClass: 'confirm-server-action-modal',

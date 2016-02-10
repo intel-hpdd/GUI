@@ -26,9 +26,9 @@ import angular from 'angular';
   'use strict';
 
   angular.module('server')
-    .controller('AddServerModalCtrl', ['$scope', '$modalInstance', 'getAddServerManager',
+    .controller('AddServerModalCtrl', ['$scope', '$uibModalInstance', 'getAddServerManager',
       'servers', 'step', 'getSpring',
-      function AddServerModalCtrl ($scope, $modalInstance, getAddServerManager,
+      function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManager,
                                    servers, step, getSpring) {
 
         var manager = this.manager = getAddServerManager();
@@ -44,10 +44,10 @@ import angular from 'angular';
           }
         });
 
-        manager.result.end.then($modalInstance.close);
+        manager.result.end.then($uibModalInstance.close);
 
         // Listen on the closeModal event from the step controllers
-        $scope.$on('addServerModal::closeModal', $modalInstance.close);
+        $scope.$on('addServerModal::closeModal', $uibModalInstance.close);
 
         $scope.$on('$destroy', function cleanup () {
           manager.destroy();
@@ -55,7 +55,7 @@ import angular from 'angular';
         });
       }
     ])
-    .factory('openAddServerModal', ['$modal', function openAddServerModalFactory ($modal) {
+    .factory('openAddServerModal', ['$uibModal', function openAddServerModalFactory ($uibModal) {
       /**
        * Opens the add server modal
        * @param {Object} [server]
@@ -63,7 +63,7 @@ import angular from 'angular';
        * @returns {Object}
        */
       return function openAddServerModal (server, step) {
-        return $modal.open({
+        return $uibModal.open({
           templateUrl: 'iml/server/assets/html/add-server-modal.html',
           controller: 'AddServerModalCtrl as addServer',
           backdropClass: 'add-server-modal-backdrop',
