@@ -47,7 +47,8 @@ export default function serverResolvesFactory ($q, resolveStream, addProperty, r
 
     const serversStream = resolveStream(socketStream('/host', {
       jsonMask: 'objects(id,address,available_actions,boot_time,fqdn,immutable_state,install_method,label,\
-locks,member_of_active_filesystem,needs_update,nodename,resource_uri,server_profile(ui_name,managed),state)',
+locks,member_of_active_filesystem,needs_update,nodename,resource_uri,server_profile(ui_name,managed,initial_state),\
+state)',
       qs: { limit: 0 }
     }));
 

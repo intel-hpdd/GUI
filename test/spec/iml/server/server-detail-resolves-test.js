@@ -96,7 +96,8 @@ describe('server detail resolves', function () {
 
     it('should create a host stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/host/1', {
-        jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,server_profile/ui_name,\
+        jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\
+server_profile(ui_name,managed,initial_state),\
 boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
