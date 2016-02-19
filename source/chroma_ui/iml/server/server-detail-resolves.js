@@ -49,9 +49,9 @@ angular.module('server')
             return alertMonitorStream.through(addProperty);
           });
 
-        var serverStream = resolveStream(socketStream('/host/' + $route.current.params.id, {
-          jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,server_profile/ui_name,\
-boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
+        const serverStream = resolveStream(socketStream('/host/' + $route.current.params.id, {
+          jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\
+server_profile(ui_name,managed,initial_state),boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
         }));
 
         var allHostMatches = {
