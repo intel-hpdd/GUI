@@ -1,5 +1,6 @@
 import angular from 'angular';
 const {module, inject} = angular.mock;
+import {lensProp, flowLens} from 'intel-fp/fp';
 
 describe('host profile then', function () {
   'use strict';
@@ -104,9 +105,11 @@ describe('host profile then', function () {
     });
 
     describe('response handling', function () {
-      var response;
+      var response, spy;
 
       beforeEach(function () {
+        spy = jasmine.createSpy('spy');
+
         response = {
           meta: {
             limit: 20,
@@ -121,6 +124,7 @@ describe('host profile then', function () {
               host_profiles: {
                 address: 'lotus-34vm5.iml.intel.com',
                 host: 28,
+                profiles_valid: true,
                 profiles: {
                   base_managed: [
                     {
@@ -157,6 +161,7 @@ describe('host profile then', function () {
               host_profiles: {
                 address: 'lotus-34vm6.iml.intel.com',
                 host: 29,
+                profiles_valid: true,
                 profiles: {
                   base_managed: [
                     {
@@ -190,17 +195,42 @@ describe('host profile then', function () {
             }
           ]
         };
-
-        springStream.write(response);
       });
 
-      it('should transform into top level profiles', inject(function (transformedHostProfileFixture) {
-        var spy = jasmine.createSpy('spy');
+      describe('with valid profiles', () => {
+        it('should transform into top level profiles', inject(function (transformedHostProfileFixture) {
+          springStream.write(response);
+          hostProfilesStream.each(spy);
 
-        hostProfilesStream.each(spy);
+          expect(spy).toHaveBeenCalledOnceWith(transformedHostProfileFixture);
+        }));
+      });
 
-        expect(spy).toHaveBeenCalledOnceWith(transformedHostProfileFixture);
-      }));
+      describe('with invalid profiles', () => {
+        it('should not pass values down the stream', () => {
+          response.objects = response.objects.map(flowLens(lensProp('host_profiles'), lensProp('profiles_valid'))
+            .set(false));
+
+          springStream.write(response);
+          hostProfilesStream.each(spy);
+
+          expect(spy).not.toHaveBeenCalled();
+        });
+      });
+
+      describe('with profiles_valid missing', () => {
+        it('should not pass values down the stream', () => {
+          response.objects = response.objects.map(x => {
+            delete x.host_profiles.profiles_valid;
+            return x;
+          });
+
+          springStream.write(response);
+          hostProfilesStream.each(spy);
+
+          expect(spy).not.toHaveBeenCalled();
+        });
+      });
     });
   });
 

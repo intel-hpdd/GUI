@@ -21,7 +21,7 @@
 
 import angular from 'angular';
 
-import {lensProp, map} from 'intel-fp/fp';
+import {lensProp, map, every} from 'intel-fp/fp';
 
 
 var objectsLens = lensProp('objects');
@@ -46,6 +46,7 @@ angular.module('server')
             throw new Error(x.error);
         })
         .map(map(lensProp('host_profiles')))
+        .filter(every(lensProp('profiles_valid')))
         .map(function (hosts) {
           // Pull out the profiles and flatten them.
           var profiles = [{}]
