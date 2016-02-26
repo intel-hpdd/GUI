@@ -163,7 +163,10 @@ describe('configure corosync', function () {
     describe('save', function () {
       beforeEach(function () {
         $scope.corosync.config = {
-          id: '1'
+          state: 'unconfigured',
+          id: '1',
+          mcast_port: 1025,
+          network_interfaces: [1, 2]
         };
 
         $scope.corosync.save();
@@ -181,7 +184,9 @@ describe('configure corosync', function () {
         expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration/1', {
           method: 'put',
           json: {
-            id: '1'
+            id: '1',
+            mcast_port: 1025,
+            network_interfaces: [1, 2]
           }
         }, true);
       });
