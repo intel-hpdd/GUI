@@ -124,7 +124,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
 
     it('should create a corosync configuration stream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id)',
+        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
         qs: {
           host__id: '1',
           limit: 0

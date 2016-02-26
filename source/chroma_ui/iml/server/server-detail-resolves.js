@@ -80,7 +80,7 @@ server_profile(ui_name,managed,initial_state),boot_time,state_modified_at,id,mem
 
 
         var cs = socketStream('/corosync_configuration', merge({}, {
-          jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id)'
+          jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
         }));
 
         var cs2 = cs

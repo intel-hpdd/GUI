@@ -22,6 +22,7 @@
 import angular from 'angular';
 
 import {__, lensProp, curry, noop} from 'intel-fp/fp';
+import {pick} from 'intel-obj/obj';
 
 angular.module('corosyncModule')
   .controller('ConfigureCorosyncController',
@@ -66,7 +67,14 @@ angular.module('corosyncModule')
 
           socketStream('/corosync_configuration/' + $scope.corosync.config.id, {
             method: 'put',
-            json: $scope.corosync.config
+            json: pick(
+              [
+                'id',
+                'mcast_port',
+                'network_interfaces'
+              ],
+              $scope.corosync.config
+            )
           }, true)
             .flatMap(waitForCommandCompletion(!skip))
             .stopOnError(curry(1, $exceptionHandler))
