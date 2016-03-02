@@ -43,7 +43,8 @@ describe('action dropdown directive', function () {
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
             display_group: 2,
             display_order: 60,
-            long_description: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \
+            long_description: 'Initiate an orderly shutdown on the host. \
+  Any HA-capable targets running on the host will \
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
             verb: 'Shutdown'
           },

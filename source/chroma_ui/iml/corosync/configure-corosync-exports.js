@@ -20,67 +20,60 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import {pick} from 'intel-obj/obj';
 
-import * as fp from 'intel-fp/fp';
-
-export function ConfigureLnetController ($scope, socketStream, LNET_OPTIONS, insertHelpFilter,
-                                         waitForCommandCompletion, propagateChange) {
+export function ConfigureCorosyncController ($scope, socketStream, waitForCommandCompletion,
+                                             propagateChange, insertHelpFilter) {
   'ngInject';
 
   const ctrl = this;
 
-  function getNetworkName (value) {
-    return fp.find(x => x.value === value, LNET_OPTIONS).name;
-  }
-
-  const lndNetworkLens = fp.flow(
-    fp.lensProp('nid'),
-    fp.lensProp('lnd_network')
-  );
-
   angular.extend(ctrl, {
-    options: LNET_OPTIONS,
+    observer: ctrl.stream.observe(),
+    getDiffMessage (state) {
+      return insertHelpFilter(`${state.status}_diff`, state);
+    },
     save (showModal) {
       ctrl.saving = true;
 
-      socketStream('/nid', {
-        method: 'post',
-        json: {
-          objects: fp.pluck('nid', ctrl.networkInterfaces)
-        }
+      socketStream(`/corosync_configuration/${ctrl.config.id}`, {
+        method: 'put',
+        json: pick(
+          [
+            'id',
+            'mcast_port',
+            'network_interfaces'
+          ],
+          ctrl.config
+        )
       }, true)
+        .map(command => {
+          return { command };
+        })
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
         .through(propagateChange($scope, ctrl, 'saving'));
-    },
-    getLustreNetworkDriverTypeMessage (state) {
-      return insertHelpFilter(`${state.status}_diff`, state);
-    },
-    getLustreNetworkDiffMessage (state) {
-      return insertHelpFilter(`${state.status}_diff`, {
-        local: getNetworkName(state.local),
-        remote: getNetworkName(state.remote),
-        initial: getNetworkName(state.initial)
-      });
-    },
-    getOptionName (record) {
-      return getNetworkName(lndNetworkLens(record));
     }
   });
 
-  ctrl
-    .networkInterfaceStream
-    .through(propagateChange($scope, ctrl, 'networkInterfaces'));
+  ctrl.stream
+    .property()
+    .through(propagateChange($scope, ctrl, 'config'));
 
-  $scope.$on('$destroy',
-    ctrl.networkInterfaceStream.destroy.bind(ctrl.networkInterfaceStream));
+  $scope.$on('$destroy', () => {
+    ctrl.stream.destroy();
+    ctrl.alertStream.destroy();
+    ctrl.jobStream.destroy();
+  });
 }
 
-export const configureLnetComponent = {
+export const configureCorosyncComponent = {
+  templateUrl: 'iml/corosync/assets/html/configure-corosync.html',
   bindings: {
-    networkInterfaceStream: '<',
-    activeFsMember: '<'
+    stream: '<',
+    alertStream: '<',
+    jobStream: '<'
   },
-  controller: ConfigureLnetController,
-  templateUrl: 'iml/lnet/assets/html/configure-lnet.html'
+  restrict: 'E',
+  controller: 'ConfigureCorosyncController'
 };
