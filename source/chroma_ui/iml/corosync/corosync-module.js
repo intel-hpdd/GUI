@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,7 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+
 import angular from 'angular';
 
-angular
-  .module('corosyncModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command']);
+import {ConfigureCorosyncController, configureCorosyncComponent} from './configure-corosync-exports';
+
+export default angular
+  .module('corosyncModule', [
+    'extendScope', 'bigDifferModule', 'socket-module',
+    'command', 'filters'
+  ])
+  .controller('ConfigureCorosyncController', ConfigureCorosyncController)
+  .component('configureCorosync', configureCorosyncComponent)
+  .name;

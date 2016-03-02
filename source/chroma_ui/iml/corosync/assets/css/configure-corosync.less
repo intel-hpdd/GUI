@@ -6,6 +6,16 @@
    height: 364px
   }
 
+  @cell-height: 43px;
+
+
+  differ {
+    .make-xs-column(6);
+    border-top: 1px solid @gray-lighter;
+    min-height: @cell-height;
+    line-height: @cell-height - 2;
+  }
+
   input.form-control {
     width: 90%;
     display: inline-block;

@@ -4,6 +4,7 @@
 .*node_modules/intel-socket-worker.*
 .*node_modules/intel-obj/test/obj-test.js
 .*node_modules/highland.*
+.*node_modules/.+.json
 
 [include]
 flow/include/

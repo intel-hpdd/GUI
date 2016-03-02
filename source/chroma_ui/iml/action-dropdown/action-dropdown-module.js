@@ -22,7 +22,7 @@
 import angular from 'angular/angular';
 import {ActionDropdownCtrl, actionDropdown, actionDescriptionCache} from './action-dropdown-exports';
 
-export default angular.module('action-dropdown-module', ['command'])
+export default angular.module('action-dropdown-module', ['command', 'ui.bootstrap'])
   .factory('actionDescriptionCache', actionDescriptionCache)
   .controller('ActionDropdownCtrl', ActionDropdownCtrl)
   .directive('actionDropdown', actionDropdown)

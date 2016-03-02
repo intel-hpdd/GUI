@@ -22,7 +22,7 @@
 import angular from 'angular';
 
 angular
-  .module('socket-worker', ['crypto', 'exception'])
+  .module('socket-worker', ['crypto'])
   .value('getWebWorker', function getWebWorkerFactory (url) {
     'use strict';
 

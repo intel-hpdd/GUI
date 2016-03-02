@@ -28,7 +28,7 @@ import {deferredActionDropdownComponent, DeferredActionDropdownCtrl}
   from './deferred-action-dropdown-exports';
 
 export default angular.module('status',
-  ['parserModule', 'parselyBox', 'multiStream',
+  ['parserModule', 'parselyBox', 'multiStream', 'ui.bootstrap',
     'routeStream', 'qsFromLocation', 'commonStatusSearches',
     'extendScope', 'action-dropdown-module'
   ])

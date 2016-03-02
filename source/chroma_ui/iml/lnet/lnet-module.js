@@ -24,7 +24,7 @@
 
 import angular from 'angular/angular';
 
-import {ConfigureLnetController, configureLnet} from './configure-lnet-exports';
+import {ConfigureLnetController, configureLnetComponent} from './configure-lnet-exports';
 import lnetStatus from './lnet-status-exports';
 import options from './lnet-options-exports';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter-exports';
@@ -32,7 +32,7 @@ import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter-expor
 export default angular.module('lnetModule', ['extendScope', 'bigDifferModule', 'socket-module', 'command'])
   .value('LNET_OPTIONS', options)
   .controller('ConfigureLnetController', ConfigureLnetController)
-  .directive('configureLnet', configureLnet)
+  .component('configureLnet', configureLnetComponent)
   .component('lnetStatus', lnetStatus)
   .filter('removeUsedLnetOptions', removeUsedLnetOptionsFilter)
   .name;
