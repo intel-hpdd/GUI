@@ -25,7 +25,7 @@ import λ from 'highland';
 import {invokeMethod} from 'intel-fp/fp';
 
 export default function HsmFsCtrl ($scope, $routeSegment, $location,
-                                   routeStream, fsStream, copytoolStream) {
+                                   routeStream, fsStream) {
   'ngInject';
 
   var fsStream2;
@@ -43,7 +43,6 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
   var p = $scope.propagateChange($scope, hsmFs);
 
   p('fileSystems', fsStream);
-  p('copytools', copytoolStream);
 
   const rs = routeStream();
 
@@ -65,6 +64,5 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
   $scope.$on('$destroy', function onDestroy () {
     rs.destroy();
     fsStream.destroy();
-    copytoolStream.destroy();
   });
 }

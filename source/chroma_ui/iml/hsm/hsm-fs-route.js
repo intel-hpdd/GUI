@@ -35,8 +35,7 @@ angular.module('hsmFsRoute')
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
         access: GROUPS.FS_ADMINS,
         resolve: {
-          fsStream: ['hsmFsCollStream', invoke(__, [])],
-          copytoolStream: ['hsmFsCopytoolStream', invoke(__, [])]
+          fsStream: ['hsmFsCollStream', invoke(__, [])]
         },
         middleware: [
           'allowAnonymousReadMiddleware',

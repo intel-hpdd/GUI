@@ -37,14 +37,4 @@ angular.module('hsmFs')
           addProperty
         )));
     };
-  })
-  .factory('hsmFsCopytoolStream', (resolveStream, socketStream, rebindDestroy) => {
-    'ngInject';
-
-    return function copytoolStream () {
-      return resolveStream(socketStream('/copytool', {
-        jsonMask: 'objects(id)'
-      }))
-        .then(rebindDestroy(pluckObjects));
-    };
   });

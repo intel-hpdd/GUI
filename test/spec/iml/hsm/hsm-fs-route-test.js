@@ -45,8 +45,7 @@ describe('hsm fs route', () => {
         templateUrl: 'iml/hsm/assets/html/hsm-fs.html',
         access: GROUPS.FS_ADMINS,
         resolve: {
-          fsStream: ['hsmFsCollStream', jasmine.any(Function)],
-          copytoolStream: ['hsmFsCopytoolStream', jasmine.any(Function)]
+          fsStream: ['hsmFsCollStream', jasmine.any(Function)]
         },
         middleware: [
           'allowAnonymousReadMiddleware',

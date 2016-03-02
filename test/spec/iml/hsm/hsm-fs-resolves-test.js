@@ -5,7 +5,7 @@ import {identity} from 'intel-fp/fp';
 
 describe('hsm fs resolve', () => {
   var socketStream, s, resolveStream, fsCollStream,
-    copytoolStream, addProperty, $q, $rootScope;
+    addProperty, $q, $rootScope;
 
   beforeEach(module('hsmFs', ($provide) => {
     s = λ();
@@ -22,9 +22,8 @@ describe('hsm fs resolve', () => {
     $provide.value('addProperty', addProperty);
   }));
 
-  beforeEach(inject((_hsmFsCollStream_, _hsmFsCopytoolStream_, _$q_, _$rootScope_) => {
+  beforeEach(inject((_hsmFsCollStream_, _$q_, _$rootScope_) => {
     fsCollStream = _hsmFsCollStream_;
-    copytoolStream = _hsmFsCopytoolStream_;
     $q = _$q_;
     $rootScope = _$rootScope_;
 
@@ -49,22 +48,6 @@ describe('hsm fs resolve', () => {
 
     it('should send the stream through addProperty', () => {
       expect(addProperty).toHaveBeenCalledOnce();
-    });
-  });
-
-  describe('copytoolStream', () => {
-    beforeEach(() => {
-      copytoolStream();
-    });
-
-    it('should invoke the socket stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/copytool', {
-        jsonMask: 'objects(id)'
-      });
-    });
-
-    it('should invoke resolveStream with the socket stream', () => {
-      expect(resolveStream).toHaveBeenCalledOnceWith(s);
     });
   });
 });

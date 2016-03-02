@@ -6,7 +6,7 @@ import HsmFsCtrl from '../../../../source/chroma_ui/iml/hsm/hsm-fs-controller-ex
 
 describe('HSM fs controller', function () {
   var ctrl, $scope, $location, $routeSegment,
-    fsStream, copytoolStream, routeStream, rs;
+    fsStream, routeStream, rs;
 
   beforeEach(module('hsmFs'));
 
@@ -23,8 +23,6 @@ describe('HSM fs controller', function () {
 
     fsStream = highland();
     spyOn(fsStream, 'destroy');
-    copytoolStream = highland();
-    spyOn(copytoolStream, 'destroy');
 
     rs = λ();
     spyOn(rs, 'destroy');
@@ -43,7 +41,6 @@ describe('HSM fs controller', function () {
       $routeSegment,
       $location,
       fsStream: fsStream.through(addProperty),
-      copytoolStream,
       routeStream
     });
   }));
@@ -100,12 +97,6 @@ describe('HSM fs controller', function () {
     expect(ctrl.fileSystems).toEqual([{ id: '1' }, { id: '2' }]);
   });
 
-  it('should set copytools data', function () {
-    copytoolStream.write([{ id: '3' }, { id: '4' }]);
-
-    expect(ctrl.copytools).toEqual([{ id: '3' }, { id: '4' }]);
-  });
-
   it('should set fs to the fsId', function () {
     fsStream.write([
       {
@@ -155,10 +146,6 @@ describe('HSM fs controller', function () {
 
     it('should destroy the fsStream', function () {
       expect(fsStream.destroy).toHaveBeenCalledOnce();
-    });
-
-    it('should destroy the copytoolStream', function () {
-      expect(copytoolStream.destroy).toHaveBeenCalledOnce();
     });
 
     it('should destroy the routeStream', () => {
