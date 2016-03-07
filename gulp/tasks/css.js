@@ -19,14 +19,43 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var path = require('path');
-process.chdir(path.dirname(__dirname));
+'use strict';
 
 var gulp = require('gulp');
-var tasks = require('./tasks');
+var paths = require('../paths.json');
+var less = require('gulp-less');
+var LessPluginCleanCSS = require('less-plugin-clean-css');
+var cleancss = new LessPluginCleanCSS({ advanced: true });
+var sourcemaps = require('gulp-sourcemaps');
+var destDir = require('../dest-dir');
+var rev = require('gulp-rev');
 
-gulp.task('dev', tasks.dev.dev);
-gulp.task('dev:build', tasks.dev.devBuild);
-gulp.task('prod', tasks.prod);
-gulp.task('test:once', tasks.test.once);
-gulp.task('test:ci', tasks.test.ci);
+function buildCss (fn) {
+  return gulp.src(paths.less.imports, {
+    since: gulp.lastRun(fn),
+    base: '.'
+  })
+    .pipe(sourcemaps.init())
+    .pipe(less({
+      relativeUrls: false,
+      rootpath: '',
+      paths: ['./source/', './'],
+      plugins: [cleancss]
+    }));
+}
+
+module.exports.buildCssDev = function buildCssDev () {
+  return buildCss (buildCssDev, '')
+  .pipe(sourcemaps.write({ sourceRoot: '' }))
+  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+};
+
+
+module.exports.buildCssProd = function buildCssProd () {
+  return buildCss (buildCssProd)
+  .pipe(rev())
+  .pipe(sourcemaps.write({ sourceRoot: '.' }))
+  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.symlink('static/chroma_ui/', { cwd: destDir }));
+};

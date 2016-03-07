@@ -12,4 +12,3 @@
 
 # Explicitly ingoring certain files.
 bower_componenents/* -text eol=auto
-vendor/sprintf/sprintf.js -text

@@ -92,8 +92,9 @@
   "excludeFiles": [
     "node_modules/**",
     "bower_components/**",
-    "vendor/**/*.js",
-    "test/data-fixtures/**/*",
+    "coverage/**",
+    "gulp/**",
+    "test/data-fixtures/**",
     "dest/**"
   ]
 }

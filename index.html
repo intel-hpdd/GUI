@@ -11,7 +11,9 @@
 
     <link rel="icon" href="<$= conf.get('STATIC_URL') $>chroma_ui/iml/app/assets/images/intel.ico" />
 
+
     <!-- inject:css -->
+    <link rel="stylesheet" href="/static/chroma_ui/source/styles/imports.css" />
     <!-- endinject -->
 
     <script type="text/javascript">
@@ -35,10 +37,12 @@
     <div class="wrap">
       <div app-view-segment="0"></div>
     </div>
+    <!-- inject:js -->
     <script src="/static/chroma_ui/node_modules/systemjs/dist/system.js"></script>
-    <script src="/static/chroma_ui/system.config.js"></script>
+    <script src="/static/chroma_ui/source/system.config.js"></script>
     <script>
       System.import('iml/iml-module.js');
     </script>
+    <!-- endinject -->
     </body>
 </html>

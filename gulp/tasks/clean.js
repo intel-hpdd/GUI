@@ -19,14 +19,19 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+'use strict';
+
+var del = require('del');
+var fp = require('intel-fp');
 var path = require('path');
-process.chdir(path.dirname(__dirname));
+var destDir = require('../dest-dir');
 
-var gulp = require('gulp');
-var tasks = require('./tasks');
+var cleanOutside = fp.curry(2, del)(fp.__, {
+  force: true
+});
 
-gulp.task('dev', tasks.dev.dev);
-gulp.task('dev:build', tasks.dev.devBuild);
-gulp.task('prod', tasks.prod);
-gulp.task('test:once', tasks.test.once);
-gulp.task('test:ci', tasks.test.ci);
+exports.cleanStatic = cleanOutside.bind(null, path.join(destDir, '/static/chroma_ui'));
+
+exports.cleanTemplates = cleanOutside.bind(null, path.join(destDir, 'templates/new'));
+
+exports.cleanDest = del.bind(null, './dest');

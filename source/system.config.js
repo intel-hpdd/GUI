@@ -20,54 +20,56 @@
 // express and approved by Intel in writing.
 
 System.config({
-  transpiler: 'plugin-babel',
-  babelOptions: {
-    plugins: [
-      'transform-flow-strip-types'
-    ]
-  },
   baseURL: '/static/chroma_ui/',
-  packages: {
-    'iml': {
-      defaultExtension: 'js'
-    },
-    'intel-angular-modules': {
-      defaultExtension: 'js'
-    }
-  },
+  defaultJSExtensions: true,
   map: {
-    'transform-flow-strip-types': 'node_modules/babel-plugin-transform-flow-strip-types/lib/index.js',
-    'plugin-babel': 'node_modules/systemjs-plugin-babel/plugin-babel.js',
-    'systemjs-babel-build': 'node_modules/systemjs-plugin-babel/systemjs-babel-browser.js',
-    text: 'path/to/text.js',
-    angular: 'node_modules/angular/angular.js',
-    d3: 'bower_components/d3/d3.js',
-    nv: 'bower_components/nvd3/build/nv.d3.js',
-    moment: 'bower_components/moment/moment.js',
+    iml: 'source/iml',
+    angular: 'node_modules/angular/index.js',
+    'angular/angular': 'node_modules/angular/angular.js',
+    'angular-mocks': 'node_modules/angular-mocks/ngMock.js',
+    'angular-mocks/angular-mocks': 'node_modules/angular-mocks/angular-mocks.js',
+    'jquery': 'node_modules/jquery/dist/jquery.js',
+    d3: 'node_modules/d3/d3.js',
+    nvd3: 'node_modules/nvd3/build/nv.d3.js',
+    moment: 'node_modules/moment/moment.js',
+    twix: 'bower_components/twix/bin/twix.js',
     highland: 'bower_components/highland/dist/highland.js',
     lodash: 'bower_components/lodash/dist/lodash.js',
+    'intel-maybe': 'node_modules/intel-maybe/dist/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
     'intel-angular-modules': 'node_modules/intel-angular-modules/src',
     'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
-    'ui-bootstrap': 'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js',
-    'ng-resource': 'node_modules/angular-resource/angular-resource.js',
-    'ng-route': 'node_modules/angular-route/angular-route.js',
-    'ng-animate': 'node_modules/angular-animate/angular-animate.js',
-    'ng-route-segment': 'node_modules/intel-angular-route-segment/build/angular-route-segment.js',
+    'intel-big-differ': 'node_modules/intel-big-differ/dest/source/big-differ-module.js',
+    'angular-ui-bootstrap': 'node_modules/angular-ui-bootstrap/index.js',
+    'dist/ui-bootstrap-tpls': 'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+    'angular-resource': 'node_modules/angular-resource/index.js',
+    'angular-resource/angular-resource': 'node_modules/angular-resource/angular-resource.js',
+    'angular-route': 'node_modules/angular-route/index.js',
+    'angular-route/angular-route': 'node_modules/angular-route/angular-route.js',
+    'angular-animate': 'node_modules/angular-animate/index.js',
+    'angular-animate/angular-animate': 'node_modules/angular-animate/angular-animate.js',
+    'intel-angular-route-segment': 'node_modules/intel-angular-route-segment/build/angular-route-segment.js',
     'intel-fp': 'node_modules/intel-fp/dist/fp.js',
-    'intel-obj': 'node_modules/intel-obj/dist/obj.js',
+    'intel-obj': 'node_modules/intel-obj/dist/source/obj.js',
     'intel-math': 'node_modules/intel-math/dist/math.js',
-    'intel-extract-api': 'node_modules/intel-extract-api/index.js'
+    'intel-extract-api': 'node_modules/intel-extract-api/index.js',
+    'sprintf': 'node_modules/sprintf-js/src/sprintf.js'
   },
   meta: {
-    // meaning [baseURL]/vendor/angular.js when no other rules are present
-    // path is normalized using map and paths configuration
-    'node_modules/angular/angular.js': {
-      format: 'global', // load this module as a global
-      exports: 'angular' // the global property to take as the module value
+    'node_modules/intel-big-differ/source/big-differ-module.js': {
+      deps: [
+        'angular'
+      ]
     },
-    'node_modules/intel-extract-api/index.js': {
-      format: 'global',
+    'node_modules/angular/index.js': {
+      deps: [
+        'jquery'
+      ]
+    },
+    'node_modules/angular-ui-bootstrap/index.js': {
+      deps: ['angular']
+    },
+    'node_modules/angular-mocks/ngMock.js': {
       deps: ['angular']
     },
     'node_modules/intel-lodash-mixins/index.js': {
@@ -76,10 +78,7 @@ System.config({
     'intel-angular-modules/pdsh-parser/pdsh-parser-module.js': {
       deps: ['intel-angular-modules/comparators/comparators-module.js']
     },
-    'node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.js': {
-      format: 'global'
-    },
-    'node_modules/angular-resource/angular-resource.js': {
+    'node_modules/angular-resource/index.js': {
       deps: ['angular']
     },
     'node_modules/angular-animate/angular-animate.js': {
@@ -91,12 +90,22 @@ System.config({
     'node_modules/intel-angular-route-segment/build/angular-route-segment.js': {
       deps: [
         'angular',
-        'ng-route'
+        'angular-route'
       ]
     },
     'node_modules/intel-angular-modules/src': {
       deps: [
         'angular'
+      ]
+    },
+    'bower_components/twix/bin/twix.js': {
+      deps: [
+        'moment'
+      ]
+    },
+    'node_modules/nvd3/build/nv.d3.js': {
+      deps: [
+        'd3'
       ]
     }
   }

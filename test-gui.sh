@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
-./node_modules/karma/bin/karma start --browsers Chrome,Firefox --singleRun true --reporters dots,junit
+pushd gulp
+../node_modules/gulp/bin/gulp.js test:ci
+popd
 mkdir -p ../results
 mv ./test-results/*.xml ../results

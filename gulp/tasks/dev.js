@@ -19,14 +19,41 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var path = require('path');
-process.chdir(path.dirname(__dirname));
+'use strict';
 
+var js = require('./js');
+var templates = require('./templates');
+var clean = require('./clean');
+var css = require('./css');
+var watch = require('./watch');
 var gulp = require('gulp');
-var tasks = require('./tasks');
+var assets = require('./assets');
+var test = require('./test');
 
-gulp.task('dev', tasks.dev.dev);
-gulp.task('dev:build', tasks.dev.devBuild);
-gulp.task('prod', tasks.prod);
-gulp.task('test:once', tasks.test.once);
-gulp.task('test:ci', tasks.test.ci);
+var cleaner = gulp.parallel(
+  clean.cleanDest,
+  clean.cleanTemplates,
+  clean.cleanStatic
+);
+
+var builder = gulp.parallel(
+  js.jsDepsDev,
+  js.jsSourceDev,
+  js.socketWorkerDev,
+  js.jsTest,
+  js.jsTestDeps,
+  templates.ngDev,
+  assets,
+  templates.indexDev,
+  css.buildCssDev
+);
+
+module.exports.devBuild = gulp.series(
+  cleaner,
+  builder
+);
+
+module.exports.dev = gulp.series(
+  module.exports.devBuild,
+  gulp.parallel(watch, test.continuous)
+);

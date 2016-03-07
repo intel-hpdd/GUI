@@ -1,9 +1,9 @@
 'use strict';
 
 if (process.env.RUNNER === 'CI') {
-  var krustyJasmineReporter = require('krusty-jasmine-reporter');
+  var jasmineJUnitReporter = require('intel-jasmine-junit-reporter');
 
-  var junitReporter = new krustyJasmineReporter.KrustyJasmineJUnitReporter({
+  var junitReporter = jasmineJUnitReporter({
     specTimer: new jasmine.Timer(),
     JUnitReportSavePath: process.env.SAVE_PATH || './',
     JUnitReportFilePrefix: process.env.FILE_PREFIX || 'gulp-results',

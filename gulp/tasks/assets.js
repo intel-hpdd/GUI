@@ -19,14 +19,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-var path = require('path');
-process.chdir(path.dirname(__dirname));
+'use strict';
 
+var paths = require('../paths.json');
 var gulp = require('gulp');
-var tasks = require('./tasks');
+var destDir = require('../dest-dir');
 
-gulp.task('dev', tasks.dev.dev);
-gulp.task('dev:build', tasks.dev.devBuild);
-gulp.task('prod', tasks.prod);
-gulp.task('test:once', tasks.test.once);
-gulp.task('test:ci', tasks.test.ci);
+module.exports = function assets () {
+  return gulp.src([paths.assets.fonts, paths.assets.images], {
+    since: gulp.lastRun(assets),
+    base: '.'
+  })
+  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+};

@@ -1,0 +1,63 @@
+
+{
+  "js": {
+    "deps": [
+      "node_modules*/systemjs/dist/system.js",
+      "source/system.config.js",
+      "bower_components*/lodash/dist/lodash.js",
+      "node_modules*/intel-lodash-mixins/index.js",
+      "node_modules*/intel-fp/dist/fp.js",
+      "node_modules*/intel-maybe/dist/maybe.js",
+      "node_modules*/intel-math/dist/math.js",
+      "node_modules*/intel-debounce/dist/debounce.js",
+      "node_modules*/intel-obj/dist/source/obj.js",
+      "bower_components*/highland/dist/highland.js",
+      "node_modules*/jquery/dist/jquery.js",
+      "node_modules*/angular/angular.js",
+      "node_modules*/angular/index.js",
+      "node_modules*/angular-resource/angular-resource.js",
+      "node_modules*/angular-resource/index.js",
+      "node_modules*/angular-route/angular-route.js",
+      "node_modules*/angular-route/index.js",
+      "node_modules*/angular-animate/angular-animate.js",
+      "node_modules*/angular-animate/index.js",
+      "node_modules*/intel-angular-route-segment/build/angular-route-segment.js",
+      "node_modules*/angular-ui-bootstrap/index.js",
+      "node_modules*/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
+      "node_modules*/intel-big-differ/dest/source/*.js",
+      "bower_components*/fastdom/index.js",
+      "node_modules*/moment/moment.js",
+      "bower_components*/twix/bin/twix.js",
+      "node_modules*/d3/d3.js",
+      "node_modules*/nvd3/build/nv.d3.js",
+      "node_modules*/intel-angular-modules/src/**/*-module.js",
+      "node_modules*/intel-extract-api/index.js",
+      "node_modules*/intel-angular-modules/src/**/*.js",
+      "node_modules*/jquery/dist/jquery.js",
+      "node_modules*/sprintf-js/src/sprintf.js"
+    ],
+    "source": "source/iml*/**/*.js",
+    "config": "source/system.config.js",
+    "socketWorker": "node_modules*/intel-socket-worker/dist/bundle.js",
+    "tests": "test/**/*.js",
+    "testDeps": [
+      "node_modules*/angular-mocks/angular-mocks.js",
+      "node_modules*/angular-mocks/ngMock.js",
+      "node_modules*/intel-jasmine-n-matchers/jasmine-n-matchers.js"
+    ]
+  },
+  "less": {
+    "source": [
+      "source/styles/imports.less"
+    ],
+    "imports": "source/*styles/imports.less"
+  },
+  "assets": {
+    "fonts": "bower_components*/font-awesome/**/*.{woff,ttf,svg}",
+    "images": "source/**/*.{png,ico}"
+  },
+  "templates": {
+    "index": "index.html",
+    "angular": "source/iml*/**/*.html"
+  }
+}

@@ -4,28 +4,13 @@ var λ = require('highland');
 var path = require('path');
 var childProcess = require('child_process');
 var spawn = childProcess.spawn;
-var exec = childProcess.exec;
-var del = require('del');
+var destDir = path.resolve(__dirname, '../../', 'dest/');
 
 describe('Srcmapped file', function () {
-  var gulp, contents, url, name;
-
-  beforeAll(function createSrcMap (done) {
-    gulp = path.resolve(path.dirname(__dirname) + '/../node_modules/.bin/gulp');
-    contents = exec(gulp + ' --dest-dir=test/OUTPUT_DIR prod');
-    contents.stdout.setEncoding('utf8');
-
-    λ(contents.stdout)
-      .collect()
-      .stopOnError(done.fail)
-      .map(console.log)
-      .each(done);
-
-    handleStdErr(contents, done);
-  });
+  var contents, url, name;
 
   beforeAll(function (done) {
-    contents = runShell(spawn, 'tail -n 1 ' + path.join(__dirname, 'OUTPUT_DIR/chroma_ui/static/chroma_ui/built-*.js'));
+    contents = runShell(spawn, 'tail -n 1 ' + destDir + '/built-*.js');
 
     λ(contents.stdout)
       .collect()
@@ -40,7 +25,7 @@ describe('Srcmapped file', function () {
   });
 
   beforeAll(function (done) {
-    contents = runShell(spawn, 'basename ' + path.join(__dirname, 'OUTPUT_DIR/chroma_ui/static/chroma_ui/built-*.map'));
+    contents = runShell(spawn, 'basename ' + destDir +  '/built-*.map');
 
     λ(contents.stdout)
       .tap(function (x) {
@@ -50,10 +35,6 @@ describe('Srcmapped file', function () {
       .each(done);
 
     handleStdErr(contents, done);
-  });
-
-  afterAll(function (done) {
-    del([ path.join(__dirname, '/OUTPUT_DIR/chroma_ui')], {force: true}, done);
   });
 
   it('should have src map url at the bottom', function () {
