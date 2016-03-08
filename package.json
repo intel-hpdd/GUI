@@ -7,6 +7,7 @@
     "test:dev": "cd gulp && gulp dev:build && gulp test:once",
     "test": "cd gulp && gulp test:once",
     "test:gulp": "cd gulp && JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test ../node_modules/jasmine/bin/jasmine.js",
+    "prepublish": "cd gulp && gulp prod",
     "jscs": "jscs .",
     "eslint": "eslint ./",
     "ci": "road-runner",
