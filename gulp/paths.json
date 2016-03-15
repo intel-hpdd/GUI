@@ -30,9 +30,8 @@
       "bower_components*/twix/bin/twix.js",
       "node_modules*/d3/d3.js",
       "node_modules*/nvd3/build/nv.d3.js",
-      "node_modules*/intel-angular-modules/src/**/*-module.js",
       "node_modules*/intel-extract-api/index.js",
-      "node_modules*/intel-angular-modules/src/**/*.js",
+      "node_modules*/intel-pdsh-parser/dist/source/index.js",
       "node_modules*/jquery/dist/jquery.js",
       "node_modules*/sprintf-js/src/sprintf.js"
     ],

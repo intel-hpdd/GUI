@@ -24,7 +24,7 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 import tooltipModule from '../tooltip/tooltip-module';
 import popoverModule from '../popover/popover-module';
 import helpModule from '../help-module';
-import 'intel-angular-modules/pdsh-parser/pdsh-parser-module';
+import pdshParser from 'intel-pdsh-parser';
 
 import _ from 'intel-lodash-mixins';
 
@@ -32,19 +32,18 @@ import _ from 'intel-lodash-mixins';
 import pdshTemplate from './assets/html/pdsh';
 
 export default angular.module('pdsh-module', [
-  'pdsh-parser-module', tooltipModule, uiBootstrapModule,
+  tooltipModule, uiBootstrapModule,
   popoverModule, helpModule, pdshTemplate
 ])
-.directive('pdsh', ['pdshParser', 'help', pdsh])
+.directive('pdsh', ['help', pdsh])
 .name;
 
 /**
  * The pdsh directive.
- * @param {Object} pdshParser The pdsh parser service
  * @param {Object} help
  * @returns {Object}
  */
-function pdsh (pdshParser, help) {
+function pdsh (help) {
 
   return {
     scope: {

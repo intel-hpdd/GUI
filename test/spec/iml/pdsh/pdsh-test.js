@@ -1,4 +1,4 @@
-import pdshModule from '../../../../source/iml/pdsh/pdsh-module';
+import pdshModule from '../../../../source/iml/pdsh/pdsh-module.js';
 
 
 describe('PDSH directive', () => {

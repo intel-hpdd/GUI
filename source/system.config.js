@@ -37,7 +37,6 @@ System.config({
     lodash: 'bower_components/lodash/dist/lodash.js',
     'intel-maybe': 'node_modules/intel-maybe/dist/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
-    'intel-angular-modules': 'node_modules/intel-angular-modules/src',
     'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
     'intel-big-differ': 'node_modules/intel-big-differ/dest/source/big-differ-module.js',
     'angular-ui-bootstrap': 'node_modules/angular-ui-bootstrap/index.js',
@@ -53,6 +52,7 @@ System.config({
     'intel-obj': 'node_modules/intel-obj/dist/source/obj.js',
     'intel-math': 'node_modules/intel-math/dist/math.js',
     'intel-extract-api': 'node_modules/intel-extract-api/index.js',
+    'intel-pdsh-parser': 'node_modules/intel-pdsh-parser/dist/source/index.js',
     'sprintf': 'node_modules/sprintf-js/src/sprintf.js'
   },
   meta: {
@@ -75,9 +75,6 @@ System.config({
     'node_modules/intel-lodash-mixins/index.js': {
       deps: ['lodash']
     },
-    'intel-angular-modules/pdsh-parser/pdsh-parser-module.js': {
-      deps: ['intel-angular-modules/comparators/comparators-module.js']
-    },
     'node_modules/angular-resource/index.js': {
       deps: ['angular']
     },
@@ -91,11 +88,6 @@ System.config({
       deps: [
         'angular',
         'angular-route'
-      ]
-    },
-    'node_modules/intel-angular-modules/src': {
-      deps: [
-        'angular'
       ]
     },
     'bower_components/twix/bin/twix.js': {
