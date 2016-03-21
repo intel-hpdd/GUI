@@ -80,9 +80,9 @@ const inListOutOld = flow(inList, eitherResult(output => {
     .replace(/\[(.+)]/, '$1')
     .split(',');
 
-  return ins.map(x => {
-    return parts[0] + '=' + x;
-  }).join('&');
+  return ins
+    .map(x => `${parts[0]}=${x}`)
+    .join('&');
 }));
 const assignOrLikeOrEndsWith = parsely.choice([like, ends, inListOutOld, assign]);
 const expr = parsely.sepBy1(assignOrLikeOrEndsWith, join);
