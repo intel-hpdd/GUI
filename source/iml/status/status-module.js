@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import parserModule from '../parser/parser-module';
 import parselyBoxModule from '../parsely-box/parsely-box-module';
 import multiStreamModule from '../multi-stream/multi-stream-module';
 import routeStreamModule from '../route-stream/route-stream-module';
@@ -40,9 +39,9 @@ import {
 } from './deferred-action-dropdown';
 
 export default angular.module('status', [
-  parserModule, parselyBoxModule, multiStreamModule,
+  parselyBoxModule, multiStreamModule,
   routeStreamModule, qsFromLocationModule, commonStatusSearchesModule,
-  extendScopeModule, actionDropdownModule, parserModule
+  extendScopeModule, actionDropdownModule
 ])
   .controller('StatusController', StatusController)
   .controller('StatusQueryController', StatusQueryController)

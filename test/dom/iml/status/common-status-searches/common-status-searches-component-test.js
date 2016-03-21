@@ -53,13 +53,7 @@ describe('common status searches', () => {
 
     it('should link to alerts query', () => {
       expect(searches()[1].getAttribute('href'))
-        .toBe('/ui/status/?record_type__in=CorosyncUnknownPeersAlert,CorosyncToManyPeersAlert\
-,CorosyncNoPeersAlert,HostContactAlert,HostOfflineAlert\
-,HostRebootEvent,UpdatesAvailableAlert,LNetOfflineAlert\
-,LNetNidsChangedAlert,PacemakerStoppedAlert\
-,PowerControlDeviceUnavailableAlert,PowerControlDeviceUnavailableAlert\
-,StorageResourceOffline,StorageResourceAlert,StorageResourceLearnEvent\
-,TargetOfflineAlert,TargetFailoverAlert,TargetRecoveryAlert');
+        .toBe('/ui/status/?record_type__endswith=Alert');
     });
 
     it('should have search commands', () => {
@@ -68,8 +62,7 @@ describe('common status searches', () => {
 
     it('should link to commands query', () => {
       expect(searches()[2].getAttribute('href'))
-        .toBe('/ui/status/?record_type__in=CommandSuccessfulAlert,\
-CommandCancelledAlert,CommandErroredAlert,CommandRunningAlert');
+        .toBe('/ui/status/?record_type__contains=Command');
     });
 
     it('should have search events', () => {
@@ -78,7 +71,7 @@ CommandCancelledAlert,CommandErroredAlert,CommandRunningAlert');
 
     it('should link to events query', () => {
       expect(searches()[3].getAttribute('href'))
-        .toBe('/ui/status/?record_type=AlertEvent');
+        .toBe('/ui/status/?record_type__contains=Event');
     });
   });
 });

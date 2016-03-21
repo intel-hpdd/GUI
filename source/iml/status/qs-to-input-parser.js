@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,15 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import {curry, always, flow, either} from 'intel-fp';
+import * as parsely from 'intel-parsely';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+const eitherResult = curry(2, (fn:Function, x:{result:string}) => ({ ...x, result: either(fn, x.result) }));
 
-export default function qsToInputParserFactory (getLexer, parsely) {
+export default function qsToInputParserFactory ():Function {
   'ngInject';
 
-  var tokenizer = getLexer([
-    getLexer.whiteSpace,
+  const tokenizer = parsely.getLexer([
+    parsely.getLexer.whiteSpace,
     {
       name: 'join',
       pattern: /^&/
@@ -35,6 +38,18 @@ export default function qsToInputParserFactory (getLexer, parsely) {
     {
       name: 'in',
       pattern: /^__in/
+    },
+    {
+      name: 'sep',
+      pattern: /^,/
+    },
+    {
+      name: 'contains',
+      pattern: /^__contains/
+    },
+    {
+      name: 'ends with',
+      pattern: /^__endswith/
     },
     {
       name: 'value',
@@ -46,77 +61,30 @@ export default function qsToInputParserFactory (getLexer, parsely) {
     }
   ]);
 
-  var surround = fp.curry(3, function surround (open, close, str) {
-    return open + str + close;
-  });
+  const surround = curry(3, (open:string, close:string, str:string):string  =>  open + str + close);
 
-  var parseStr = parsely.parse(fp.always(''));
-  var equalsToken = parsely.token('equals');
-  var equals = equalsToken(fp.always(' = '));
-  var valueToken = parsely.token('value');
-  var value = valueToken(viewLens('content'));
-  var inToken = parsely.token('in');
-  var joinToken = parsely.token('join');
+  const parseStr = parsely.parse(always(''));
+  const equalsToken = parsely.token('equals');
+  const equals = equalsToken(always(' = '));
+  const contains = parsely.token('contains', always( ' contains ' ));
+  const endsWith = parsely.token('ends with', always( ' ends with ' ));
+  const value = parsely.token('value', x => x.content);
+  const inT = parsely.token('in', always(' in '));
+  const join = parsely.token('join', always(' and '));
+  const sep = parsely.token('sep', always(', '));
 
-  var assign = parseStr([value, equals, value]);
-  var assignSep = parsely.sepBy1(assign, joinToken(fp.always(' and ')));
-
-  var createArray = Array.prototype.slice.bind([]);
-
-  var index1Lens = fp.lensProp('1');
-
-  var inList = parsely.parse(createArray, [
-    value,
-    inToken(fp.always([])),
-    equalsToken(fp.always([])),
-    value
-  ]);
-  var normalizeList = fp.flow(
-    inList,
-    fp.either(
-      fp.over(index1Lens, fp.arrayWrap)
-    ),
-    fp.either(fp.arrayWrap)
+  const valueSep = flow(
+    parsely.sepBy1(value, sep),
+    eitherResult(surround('[', ']'))
   );
+  const assign = parseStr([value, equals, value]);
+  const like = parseStr([value, contains, equalsToken(always('')), value]);
+  const ends = parseStr([value, endsWith, equalsToken(always('')), value]);
+  const inList = parseStr([value, inT, equalsToken(always('')), valueSep]);
+  const assignOrLikeOrEndsWith = parsely.choice([like, ends, inList, assign]);
+  const expr = parsely.sepBy1(assignOrLikeOrEndsWith, join);
+  const emptyOrExpr = parsely.optional(expr);
 
-  var concat = fp.chainL(fp.wrapArgs(fp.flow(
-    fp.over(index1Lens, fp.arrayWrap),
-    fp.invokeMethod('reverse', []),
-    fp.invoke(fp.invokeMethod('concat'))
-  )));
-
-  var combineInList = fp.flow(
-    parsely.chainL1(normalizeList, joinToken(function op () {
-      return function combiner (a, b) {
-        var lasta = fp.tail(a);
-        var lastb = fp.tail(b);
-        var eq = fp.eqFn(fp.head, fp.head, lasta, lastb);
-
-        if (eq)
-          fp.tail(lasta).push(fp.tail(lastb));
-        else
-          a.push(lastb);
-
-        return a;
-      };
-    })),
-    fp.either(
-      fp.map(fp.flow(
-        fp.over(index1Lens, fp.invokeMethod('join', [', '])),
-        fp.over(index1Lens, surround(' in [', ']')),
-        concat
-      ))
-    ),
-    fp.either(fp.invokeMethod('join', [' and ']))
-  );
-  var addAnd = parseStr([
-    combineInList,
-    fp.flow(parsely.endOfString, fp.unsafe(fp.always(' and ')))
-  ]);
-
-  var expr = parsely.manyTill(parsely.choice([addAnd, assignSep]), parsely.endOfString);
-  var emptyOrExpr = parsely.optional(expr);
-  var statusParser = parseStr([emptyOrExpr, parsely.endOfString]);
-
-  return fp.flow(tokenizer, statusParser);
+  const statusParser = parseStr([emptyOrExpr, parsely.endOfString]);
+  return flow(tokenizer, statusParser, x => x.result);
 }
