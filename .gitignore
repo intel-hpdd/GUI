@@ -5,3 +5,4 @@ npm-debug.log
 test/OUTPUT_DIR
 bower_components/highland/package.json
 /dest
+/dist

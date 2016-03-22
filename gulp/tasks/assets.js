@@ -25,11 +25,21 @@ var paths = require('../paths.json');
 var gulp = require('gulp');
 var destDir = require('../dest-dir');
 
-module.exports = function assets () {
+function assets (fn) {
   return gulp.src([paths.assets.fonts, paths.assets.images], {
-    since: gulp.lastRun(assets),
+    since: gulp.lastRun(fn),
     base: '.'
-  })
+  });
+}
+
+exports.assetsDev = function assetsDev () {
+  return assets(assetsDev)
   .pipe(gulp.dest('./dest'))
   .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+};
+
+exports.assetsProd = function assetsProd () {
+  return assets(assetsProd)
+  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.dest('./dist'));
 };

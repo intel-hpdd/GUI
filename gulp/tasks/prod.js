@@ -30,7 +30,6 @@ var assets = require('./assets');
 var Builder = require('systemjs-builder');
 var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
 
 var builder = new Builder('./');
 var baseURL = builder.loader.baseURL;
@@ -49,7 +48,7 @@ function prod () {
         return obj;
       }, {});
 
-      return builder.buildStatic('source/iml/iml-module.js', 'dest/built.js', {
+      return builder.buildStatic('source/iml/iml-module.js', 'dist/built.js', {
         runtime: false,
         sourceMaps: true,
         minify: true
@@ -58,20 +57,18 @@ function prod () {
 }
 
 function revJs () {
-  return gulp.src('dest/built.js')
+  return gulp.src('dist/built.js')
   .pipe(sourcemaps.init({
     loadMaps: true
   }))
   .pipe(rev())
   .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest('dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('dist'));
 }
 
 var cleaner = gulp.parallel(
   clean.cleanDest,
-  clean.cleanTemplates,
-  clean.cleanStatic
+  clean.cleanDist
 );
 
 var build = gulp.parallel(
@@ -81,7 +78,7 @@ var build = gulp.parallel(
   js.jsTest,
   js.jsTestDeps,
   templates.ngProd,
-  assets,
+  assets.assetsProd,
   css.buildCssProd
 );
 
@@ -90,5 +87,6 @@ module.exports = gulp.series(
   build,
   prod,
   revJs,
-  templates.injectProd
+  templates.injectProd,
+  clean.cleanBuilt
 );

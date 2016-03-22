@@ -63,7 +63,7 @@ exports.socketWorkerDev = function socketWorkerDev () {
 exports.socketWorkerProd = function socketWorkerProd () {
   return socketWorker(socketWorkerProd)
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 function systemConfig (fn) {

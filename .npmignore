@@ -1,5 +1,3 @@
-node_modules
-.idea
 .eslintignore
 .editorconfig
 .eslintrc
@@ -8,3 +6,6 @@ node_modules
 .gitignore
 /test
 /source
+/coverage
+/node_modules
+/.idea

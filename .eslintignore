@@ -1,5 +1,6 @@
 karma.conf.js
-coverage/**
 test/data-fixtures/
+coverage/**
 gulp/**
 dest/**
+dist/**

@@ -95,6 +95,7 @@
     "coverage/**",
     "gulp/**",
     "test/data-fixtures/**",
-    "dest/**"
+    "dest/**",
+    "dist/**"
   ]
 }

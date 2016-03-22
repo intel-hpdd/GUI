@@ -61,7 +61,7 @@ export default function qsToInputParserFactory ():Function {
     }
   ]);
 
-  const surround = curry(3, (open:string, close:string, str:string):string  =>  open + str + close);
+  const surround = curry(3, (open:string, close:string, str:string)  =>  open + str + close);
 
   const parseStr = parsely.parse(always(''));
   const equalsToken = parsely.token('equals');
