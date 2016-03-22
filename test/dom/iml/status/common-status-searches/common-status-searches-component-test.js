@@ -44,7 +44,7 @@ describe('common status searches', () => {
 
     it('should link to active alerts query', () => {
       expect(searches()[0].getAttribute('href'))
-        .toBe('/ui/status/?severity__in=WARNING&severity__in=ERROR&active=true');
+        .toBe('/ui/status/?severity__in=WARNING,ERROR&active=true');
     });
 
     it('should have a search alerts', () => {
@@ -53,13 +53,13 @@ describe('common status searches', () => {
 
     it('should link to alerts query', () => {
       expect(searches()[1].getAttribute('href'))
-        .toBe('/ui/status/?record_type__in=CorosyncUnknownPeersAlert&record_type__in=CorosyncToManyPeersAlert\
-&record_type__in=CorosyncNoPeersAlert&record_type__in=HostContactAlert&record_type__in=HostOfflineAlert\
-&record_type__in=HostRebootEvent&record_type__in=UpdatesAvailableAlert&record_type__in=LNetOfflineAlert\
-&record_type__in=LNetNidsChangedAlert&record_type__in=PacemakerStoppedAlert\
-&record_type__in=PowerControlDeviceUnavailableAlert&record_type__in=PowerControlDeviceUnavailableAlert\
-&record_type__in=StorageResourceOffline&record_type__in=StorageResourceAlert&record_type__in=StorageResourceLearnEvent\
-&record_type__in=TargetOfflineAlert&record_type__in=TargetFailoverAlert&record_type__in=TargetRecoveryAlert');
+        .toBe('/ui/status/?record_type__in=CorosyncUnknownPeersAlert,CorosyncToManyPeersAlert\
+,CorosyncNoPeersAlert,HostContactAlert,HostOfflineAlert\
+,HostRebootEvent,UpdatesAvailableAlert,LNetOfflineAlert\
+,LNetNidsChangedAlert,PacemakerStoppedAlert\
+,PowerControlDeviceUnavailableAlert,PowerControlDeviceUnavailableAlert\
+,StorageResourceOffline,StorageResourceAlert,StorageResourceLearnEvent\
+,TargetOfflineAlert,TargetFailoverAlert,TargetRecoveryAlert');
     });
 
     it('should have search commands', () => {
@@ -68,8 +68,8 @@ describe('common status searches', () => {
 
     it('should link to commands query', () => {
       expect(searches()[2].getAttribute('href'))
-        .toBe('/ui/status/?record_type__in=CommandSuccessfulAlert&\
-record_type__in=CommandCancelledAlert&record_type__in=CommandErroredAlert&record_type__in=CommandRunningAlert');
+        .toBe('/ui/status/?record_type__in=CommandSuccessfulAlert,\
+CommandCancelledAlert,CommandErroredAlert,CommandRunningAlert');
     });
 
     it('should have search events', () => {

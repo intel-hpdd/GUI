@@ -29,6 +29,8 @@ import loadingTemplate from '../loading/assets/html/loading';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import statusTemplate from './assets/html/status';
 
+import qsToOldQsParser from '../qs-to-old-qs-parser/qs-to-old-qs-parser';
+
 export default angular.module('statusRecordsRouteModule', [
   loadingTemplate, statusTemplate
 ])
@@ -52,16 +54,26 @@ export default angular.module('statusRecordsRouteModule', [
         watcher: function watcher ($location, segment, qsFromLocation) {
           'ngInject';
 
+          const qsFromLocationToOld = flow(
+            qsFromLocation,
+            qsToOldQsParser
+          );
+
           if (!isStatus($location) && segment.clearWatcher)
             segment.clearWatcher();
 
-          return isStatus($location) ? (qs = qsFromLocation()) : qs;
+          return isStatus($location) ? (qs = qsFromLocationToOld()) : qs;
         },
         resolve: {
           notificationStream: function notificationStream (resolveStream, socketStream, qsFromLocation) {
             'ngInject';
 
-            var qs = qsFromLocation();
+            const qsFromLocationToOld = flow(
+              qsFromLocation,
+              qsToOldQsParser
+            );
+
+            var qs = qsFromLocationToOld();
             if (qs.length)
               qs = '?' + qs;
 

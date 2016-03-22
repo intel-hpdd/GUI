@@ -71,12 +71,12 @@ describe('status records route', function () {
         watcher = tail(routeSegment.watcher).bind(routeSegment);
       });
 
-      it('should return the new qs', function () {
+      it('should return the new qs', () => {
         $location.path.and.returnValue('/status');
-        qsFromLocation.and.returnValue('foo=bar');
+        qsFromLocation.and.returnValue('foo=bar&baz__in=1,2,3,4');
 
         expect(watcher($location, segment, qsFromLocation))
-          .toBe('foo=bar');
+          .toBe('foo=bar&baz__in=1&baz__in=2&baz__in=3&baz__in=4');
       });
 
       describe('on a new route', function () {
@@ -115,11 +115,12 @@ describe('status records route', function () {
       });
 
       it('should call /alert with a qs', function () {
-        qsFromLocation.and.returnValue('bar=baz');
+        qsFromLocation.and.returnValue('foo=bar&baz__in=1,2&bap=3&bim__in=4,5,6');
 
         notificationStream(resolveStream, socketStream, qsFromLocation);
 
-        expect(socketStream).toHaveBeenCalledOnceWith('/alert/?bar=baz');
+        expect(socketStream)
+          .toHaveBeenCalledOnceWith('/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6');
       });
 
       it('should call /alert without a qs', function () {

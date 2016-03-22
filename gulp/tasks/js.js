@@ -86,7 +86,8 @@ babel = babel.bind(null, {
     'transform-flow-strip-types',
     'transform-strict-mode',
     'transform-es2015-modules-systemjs',
-    'transform-class-properties'
+    'transform-class-properties',
+    'transform-object-rest-spread'
   ]
 });
 
