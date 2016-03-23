@@ -32,6 +32,7 @@ var test = require('./test');
 
 var cleaner = gulp.parallel(
   clean.cleanDest,
+  clean.cleanDist,
   clean.cleanTemplates,
   clean.cleanStatic
 );
@@ -43,7 +44,7 @@ var builder = gulp.parallel(
   js.jsTest,
   js.jsTestDeps,
   templates.ngDev,
-  assets,
+  assets.assetsDev,
   templates.indexDev,
   css.buildCssDev
 );

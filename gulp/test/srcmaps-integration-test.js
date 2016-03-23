@@ -4,7 +4,7 @@ var λ = require('highland');
 var path = require('path');
 var childProcess = require('child_process');
 var spawn = childProcess.spawn;
-var destDir = path.resolve(__dirname, '../../', 'dest/');
+var destDir = path.resolve(__dirname, '../../', 'dist/');
 
 describe('Srcmapped file', function () {
   var contents, url, name;

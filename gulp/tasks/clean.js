@@ -31,7 +31,7 @@ var cleanOutside = fp.curry(2, del)(fp.__, {
 });
 
 exports.cleanStatic = cleanOutside.bind(null, path.join(destDir, '/static/chroma_ui'));
-
 exports.cleanTemplates = cleanOutside.bind(null, path.join(destDir, 'templates/new'));
-
 exports.cleanDest = del.bind(null, './dest');
+exports.cleanDist = del.bind(null, './dist');
+exports.cleanBuilt = del.bind(null, ['./dist/built.js', './dist/built.js.map']);

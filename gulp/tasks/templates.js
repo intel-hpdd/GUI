@@ -95,7 +95,7 @@ exports.indexDev = function indexDev () {
 
 exports.indexProd = function indexProd () {
   return index(indexProd)
-  .pipe(gulp.dest('dest'));
+  .pipe(gulp.dest('./dist'));
 };
 
 
@@ -103,12 +103,12 @@ exports.injectProd = function injectProd () {
   var target = gulp.src(paths.templates.index);
   var sources = gulp.src(
     [
-      'dest/built.js',
-      'dest/source/styles/*.css'
+      'dist/built-*.js',
+      'dist/source/styles/*.css'
     ],
     {
       read: false,
-      base: './dest'
+      base: './dist'
     }
   );
 
@@ -117,6 +117,5 @@ exports.injectProd = function injectProd () {
       return inject.transform('/static/chroma_ui/' + file.relative);
     }
   }))
-  .pipe(gulp.dest('dest'))
-  .pipe(gulp.symlink('templates/new', { cwd: destDir }));
+  .pipe(gulp.dest('dist'));
 };
