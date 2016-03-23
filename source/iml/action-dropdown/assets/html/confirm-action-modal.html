@@ -11,6 +11,9 @@
       <li ng-repeat="message in confirmAction.confirmPrompts">{{ message }}</li>
     </ul>
   </div>
+  <div ng-if="confirmAction.confirmPrompts.length === 0">
+    <p>Are you sure you want to perform this action?</p>
+  <div>
 </div>
 <div class="modal-footer">
   <div class="btn-group" uib-dropdown>
