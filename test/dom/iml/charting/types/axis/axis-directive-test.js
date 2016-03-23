@@ -20,7 +20,8 @@ describe('axis directive', () => {
     `;
 
     $scope = $rootScope.$new();
-    $scope.stream = highland([1, 2, 3, 4]);
+    $scope.stream = highland();
+    $scope.stream.write([1, 2, 3, 4]);
     $scope.onUpdate = [];
     $scope.scale = d3.scale.linear()
       .domain([0, 4])

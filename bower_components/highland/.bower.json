@@ -1,6 +1,5 @@
 {
   "name": "highland",
-  "version": "2.4.0",
   "homepage": "https://github.com/caolan/highland",
   "authors": [
     "Caolan McMahon"
@@ -26,13 +25,14 @@
     "test.js",
     "test"
   ],
-  "_release": "2.4.0",
+  "version": "2.7.1",
+  "_release": "2.7.1",
   "_resolution": {
     "type": "version",
-    "tag": "2.4.0",
-    "commit": "7ff0deb4abec773009324072d8855f394cc93467"
+    "tag": "2.7.1",
+    "commit": "197822ee483f1e38fd410863d0edb4ad07d06d4d"
   },
   "_source": "https://github.com/caolan/highland.git",
-  "_target": "2.4.0",
+  "_target": "2.7.1",
   "_originalSource": "highland"
 }

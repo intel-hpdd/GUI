@@ -42,7 +42,7 @@ export default function waitForCommandCompletionFactory (highland, COMMAND_STATE
       .collect()
       .filter(_.size)
       .flatMap(wait)
-      .map(response)
+      .map(() => response)
       .otherwise(highland([response]));
 
     function wait (commands) {
