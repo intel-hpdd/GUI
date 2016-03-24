@@ -33,7 +33,7 @@ System.config({
     nvd3: 'node_modules/nvd3/build/nv.d3.js',
     moment: 'node_modules/moment/moment.js',
     twix: 'bower_components/twix/bin/twix.js',
-    highland: 'bower_components/highland/dist/highland.js',
+    highland: 'node_modules/highland/dist/highland.js',
     lodash: 'bower_components/lodash/dist/lodash.js',
     'intel-maybe': 'node_modules/intel-maybe/dist/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',

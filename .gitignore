@@ -1,8 +1,7 @@
-coverage
-node_modules
-.idea
 npm-debug.log
-test/OUTPUT_DIR
-bower_components/highland/package.json
+/coverage
+/node_modules
+/.idea
+/test/OUTPUT_DIR
 /dest
 /dist
