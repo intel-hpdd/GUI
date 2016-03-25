@@ -2529,9 +2529,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-extract-api/-/intel-extract-api-1.0.2.tgz"
     },
     "intel-flow-highland": {
-      "version": "2.0.0",
-      "from": "intel-flow-highland@2.0.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-flow-highland/-/intel-flow-highland-2.0.0.tgz"
+      "version": "2.1.1",
+      "from": "intel-flow-highland@2.1.1",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-flow-highland/-/intel-flow-highland-2.1.1.tgz"
     },
     "intel-fp": {
       "version": "4.1.2",
@@ -2915,9 +2915,8 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-obj/-/intel-obj-5.0.2.tgz"
     },
     "intel-parsely": {
-      "version": "1.0.0",
-      "from": "intel-parsely@1.0.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-parsely/-/intel-parsely-1.0.0.tgz"
+      "version": "1.0.1",
+      "from": "intel-parsely@1.0.1"
     },
     "intel-pdsh-parser": {
       "version": "1.0.1",
