@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,13 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import filterTargetByFs from './filter-target-by-fs';
-import filterTargetByHost from './filter-target-by-host';
-import targetReducer from './target-reducer';
+export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
+import type {Action} from '../store/store.js';
 
-export default angular.module('target', [])
-  .value('filterTargetByFs', filterTargetByFs)
-  .value('filterTargetByHost', filterTargetByHost)
-  .value('targetReducer', targetReducer)
-  .name;
+export default function targetReducer (state:Array<Object> = [], {type, payload}:Action):Array<Object> {
+  switch (type) {
+  case ADD_TARGET_ITEMS:
+    return payload;
+  default:
+    return state;
+  }
+}

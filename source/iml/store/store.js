@@ -27,10 +27,15 @@ import highland from 'highland';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import rebindDestroy from '../highland/rebind-destroy';
 
+export type Action = {
+  type: string;
+  payload: any;
+};
+
 function combineReducers (reducers) {
   const keys = Object.keys(reducers);
 
-  return function combination (state = {}, action) {
+  return function combination (state:Object = {}, action:Action):Object {
     var nextState = {};
     var changed = false;
 
