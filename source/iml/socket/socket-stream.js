@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,9 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import {noop} from 'intel-fp';
 
-export default function socketStreamFactory (λ, getEventSocket, buildResponseError) {
+import highland from 'highland';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+
+export type SocketStream = (path:string, options:Object, isAck?:boolean) => HighlandStream;
+
+export default function socketStreamFactory (getEventSocket:Function, buildResponseError:Function):SocketStream {
   'ngInject';
 
   return function sendRequest (path, options, isAck) {
@@ -38,7 +45,7 @@ export default function socketStreamFactory (λ, getEventSocket, buildResponseEr
 
     var stream;
     if (isAck) {
-      stream = λ(function generator (push) {
+      stream = highland(push => {
         socket.send(data, function ack (response) {
           if ('error' in response)
             push(buildResponseError(response));
@@ -48,15 +55,15 @@ export default function socketStreamFactory (λ, getEventSocket, buildResponseEr
           if (stream.paused)
             stream.emit('end');
           else
-            push(null, λ.nil);
+            push(null, highland.nil);
         });
       });
 
       stream.once('end', end);
-      stream.on('error', _.noop);
+      stream.on('error', noop);
     } else {
       socket.send(data);
-      stream = λ('message', socket).map(function handleErrors (response) {
+      stream = highland('message', socket).map(response => {
         if ('error' in response)
           throw buildResponseError(response);
 

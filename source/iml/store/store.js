@@ -25,7 +25,6 @@
 import {map} from 'intel-fp';
 import highland from 'highland';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-import addProperty from '../highland/add-property.js';
 import rebindDestroy from '../highland/rebind-destroy';
 
 function combineReducers (reducers) {
@@ -47,7 +46,38 @@ function combineReducers (reducers) {
   };
 }
 
-type Store = {
+type streamFn = () => HighlandStream;
+function broadcaster (s:HighlandStream):streamFn {
+  var latest;
+
+  const viewers = [];
+
+  s.each(xs => {
+    latest = xs;
+
+    viewers.forEach(v => v.write(xs));
+  });
+
+  return () => {
+    const s = highland();
+
+    const oldDestroy = s.destroy.bind(s);
+
+    s.destroy = () => {
+      oldDestroy();
+      viewers.splice(viewers.indexOf(s), 1);
+    };
+
+    if (latest)
+      s.write(latest);
+
+    viewers.push(s);
+
+    return s;
+  };
+}
+
+export type Store = {
   dispatch: Function;
   select: (key: string) => HighlandStream;
 };
@@ -56,9 +86,10 @@ export default function createStore (reducers: Object): Store {
   const stream = highland();
   const combined = combineReducers(reducers);
 
-  const scanner = addProperty(
-    stream.scan({}, combined)
-    .filter(x => Object.keys(x).length > 0)
+  const view = broadcaster(
+    stream
+      .scan({}, combined)
+      .filter(x => Object.keys(x).length > 0)
   );
 
   return {
@@ -66,8 +97,7 @@ export default function createStore (reducers: Object): Store {
     select (key: string): HighlandStream {
       return rebindDestroy(
         map(state => state[key]),
-        scanner
-          .property()
+        view()
       );
     }
   };
