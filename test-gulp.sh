@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-npm run preversion
+npm run postversion
 pushd gulp
 JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test RUNNER=CI ../node_modules/.bin/jasmine
 popd
