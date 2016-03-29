@@ -48,7 +48,7 @@ System.config({
     'angular-animate': 'node_modules/angular-animate/index.js',
     'angular-animate/angular-animate': 'node_modules/angular-animate/angular-animate.js',
     'intel-angular-route-segment': 'node_modules/intel-angular-route-segment/build/angular-route-segment.js',
-    'intel-fp': 'node_modules/intel-fp/dist/fp.js',
+    'intel-fp': 'node_modules/intel-fp/dist/source/fp.js',
     'intel-obj': 'node_modules/intel-obj/dist/source/obj.js',
     'intel-math': 'node_modules/intel-math/dist/math.js',
     'intel-extract-api': 'node_modules/intel-extract-api/index.js',
