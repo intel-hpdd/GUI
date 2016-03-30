@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
-import type {Action} from '../store/store.js';
+import type {Action} from '../store/create-store.js';
 
 export default function targetReducer (state:Array<Object> = [], {type, payload}:Action):Array<Object> {
   switch (type) {
