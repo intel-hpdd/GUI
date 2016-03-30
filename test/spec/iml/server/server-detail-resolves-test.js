@@ -3,24 +3,17 @@ import highland from 'highland';
 
 
 describe('server detail resolves', () => {
-  var jobMonitor, alertMonitor,
-    socketStream, getNetworkInterfaceStream,
+  var getStore, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
-    jobMonitorStream, alertMonitorStream, $route,
-    serverDetailResolves;
+    $route, serverDetailResolves;
 
   beforeEach(module(serverModule, $provide => {
-    jobMonitorStream = highland();
-    jobMonitor = jasmine.createSpy('jobMonitor')
-      .and.returnValue(jobMonitorStream);
-    $provide.value('jobMonitor', jobMonitor);
-
-    alertMonitorStream = highland();
-    alertMonitor = jasmine.createSpy('alertMonitor')
-      .and.returnValue(alertMonitorStream);
-
-    $provide.value('alertMonitor', alertMonitor);
+    getStore = {
+      select: jasmine.createSpy('select')
+        .and.callFake(() => highland())
+    };
+    $provide.value('getStore', getStore);
 
     $route = {
       current: {
@@ -38,7 +31,7 @@ describe('server detail resolves', () => {
     $provide.value('getNetworkInterfaceStream', getNetworkInterfaceStream);
 
     socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(function (path) {
+      .and.callFake(path => {
         if (path.indexOf('/host/') !== -1)
           return (serverStream = highland());
 
@@ -54,24 +47,22 @@ describe('server detail resolves', () => {
     $provide.value('socketStream', socketStream);
   }));
 
-  beforeEach(inject(function (_serverDetailResolves_) {
+  beforeEach(inject(_serverDetailResolves_ => {
     serverDetailResolves = _serverDetailResolves_;
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(serverDetailResolves).toEqual(jasmine.any(Function));
   });
 
-  describe('getting a promise', function () {
+  describe('getting a promise', () => {
     var $rootScope, promise;
 
-    beforeEach(inject(function (_$rootScope_) {
+    beforeEach(inject(_$rootScope_ => {
       $rootScope = _$rootScope_;
 
       promise = serverDetailResolves();
 
-      jobMonitorStream.write({});
-      alertMonitorStream.write({});
       serverStream.write({});
       lnetStream.write({
         objects: []
@@ -87,15 +78,15 @@ describe('server detail resolves', () => {
       $rootScope.$apply();
     }));
 
-    it('should create a jobMonitorStream', function () {
-      expect(jobMonitor).toHaveBeenCalledOnce();
+    it('should create a jobMonitorStream', () => {
+      expect(getStore.select).toHaveBeenCalledOnceWith('jobIndicators');
     });
 
-    it('should create an alertMonitorStream', function () {
-      expect(alertMonitor).toHaveBeenCalledOnce();
+    it('should create an alertMonitorStream', () => {
+      expect(getStore.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
-    it('should create a host stream', function () {
+    it('should create a host stream', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/host/1', {
         jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\
 server_profile(ui_name,managed,initial_state),\
@@ -103,7 +94,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should create a lnet configuration stream', function () {
+    it('should create a lnet configuration stream', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
         jsonMask: 'objects(available_actions,state,resource_uri,locks)',
         qs: {
@@ -113,7 +104,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should create a network interface stream', function () {
+    it('should create a network interface stream', () => {
       expect(getNetworkInterfaceStream).toHaveBeenCalledOnceWith({
         jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)',
         qs: {
@@ -123,7 +114,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should create a corosync configuration stream', function () {
+    it('should create a corosync configuration stream', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
         jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
         qs: {
@@ -133,7 +124,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should create a pacemaker configuration stream', function () {
+    it('should create a pacemaker configuration stream', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
         jsonMask: 'objects(resource_uri,available_actions,locks,state,id)',
         qs: {
@@ -143,7 +134,7 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
       });
     });
 
-    it('should return an object of streams', function () {
+    it('should return an object of streams', () => {
       var spy = jasmine.createSpy('spy');
       promise.then(spy);
 

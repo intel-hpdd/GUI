@@ -27,27 +27,6 @@ const viewLens = fp.flow(fp.lensProp, fp.view);
 // $FlowIgnore: HTML templates that flow does not recognize.
 import alertIndicatorTemplate from './assets/html/alert-indicator';
 
-export function alertMonitorFactory (socketStream) {
-  'ngInject';
-
-  return function alertMonitor () {
-    var stream = socketStream('/alert/', {
-      jsonMask: 'objects(affected,message)',
-      qs: {
-        limit: 0,
-        active: true
-      }
-    });
-
-    var s2 = stream
-      .pluck('objects');
-
-    s2.destroy = stream.destroy.bind(stream);
-
-    return s2;
-  };
-}
-
 export function RecordStateCtrl ($scope, STATE_SIZE, propagateChange) {
   'ngInject';
 

@@ -28,28 +28,7 @@ const viewLens = fp.flow(fp.lensProp, fp.view);
 // $FlowIgnore: HTML templates that flow does not recognize.
 import jobIndicatorTemplate from './assets/html/job-indicator';
 
-export function jobMonitorFactory (socketStream) {
-  'ngInject';
-
-  return function jobMonitor () {
-    var stream = socketStream('/job/', {
-      jsonMask: 'objects(write_locks,read_locks,description)',
-      qs: {
-        limit: 0,
-        state__in: ['pending', 'tasked']
-      }
-    });
-
-    var s2 = stream
-      .pluck('objects');
-
-    s2.destroy = stream.destroy.bind(stream);
-
-    return s2;
-  };
-}
-
-export function jobStatusDirective (localApply) {
+export default function jobStatusDirective (localApply) {
   'ngInject';
 
   return {

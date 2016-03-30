@@ -30,7 +30,7 @@ import tooltipModule from '../tooltip/tooltip-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import jobIndicatorReducer from './job-indicator-reducer.js';
 import jobIndicatorStream from './job-indicator-stream.js';
-import {jobMonitorFactory, jobStatusDirective} from './job-indicator.js';
+import jobStatusDirective from './job-indicator.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import jobIndicatorTemplate from './assets/html/job-indicator';
@@ -40,7 +40,6 @@ export default angular.module('jobIndicator', [
   tooltipModule, extendScopeModule,
   jobIndicatorTemplate, highlandModule
 ])
-.factory('jobMonitor', jobMonitorFactory)
 .directive('jobStatus', jobStatusDirective)
 .value('jobIndicatorReducer', jobIndicatorReducer)
 .factory('jobIndicatorStream', jobIndicatorStream)
