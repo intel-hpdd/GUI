@@ -45,7 +45,10 @@ describe('action dropdown', function () {
     const scope = window.extendWithConstructor(ActionDropdownCtrl, {
       actionDescriptionCache: {},
       handleAction: jasmine.any(Function),
-      stream: s
+      stream: s,
+      tooltipPlacement: 'left',
+      actionsProperty: 'available_actions',
+      receivedData: false
     });
 
     expect(ctrl).toEqual(scope);
@@ -95,6 +98,71 @@ describe('action dropdown', function () {
       expect(commandStream.destroy).toHaveBeenCalledOnce();
     });
 
+    it('should indicate that data has not been received', () => {
+      expect(ctrl.receivedData).toBe(false);
+    });
+  });
 
+  describe('filtering data without actions property', () => {
+    beforeEach(() => {
+      s.write([
+        {
+          id: 31,
+          resource_uri: '/api/storage_resource/31/'
+        }
+      ]);
+    });
+
+    it('should indicate data has been received', () => {
+      expect(ctrl.receivedData).toBe(true);
+    });
+
+    it('should filter out the record', () => {
+      expect(ctrl.records).toEqual([]);
+    });
+  });
+
+  describe('passing down data containing the actions property', () => {
+    var data;
+    beforeEach(() => {
+      data = [
+        {
+          id: 1,
+          label: 'corosync2 configuration',
+          locks: {
+            read: [],
+            write: []
+          },
+          resource_uri: '/api/corosync_configuration/1/',
+          available_actions: [
+            {
+              display_group: 1,
+              display_order: 30,
+              last: true,
+              long_description: 'Unconfiguring Corosync',
+              state: 'unconfigured',
+              verb: 'Unconfigure Corosync'
+            },
+            {
+              display_group: 3,
+              display_order: 100,
+              long_description: 'Stop Corosync on this host.',
+              state: 'stopped',
+              verb: 'Stop Corosync'
+            }
+          ]
+        }
+      ];
+
+      s.write(data);
+    });
+
+    it('should indicate data has been received', () => {
+      expect(ctrl.receivedData).toBe(true);
+    });
+
+    it('should pass the record through', () => {
+      expect(ctrl.records).toEqual(data);
+    });
   });
 });

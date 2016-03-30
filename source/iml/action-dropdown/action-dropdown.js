@@ -25,7 +25,7 @@ import angular from 'angular';
 import actionDropdownTemplate from './assets/html/action-dropdown';
 
 import {lensProp, eq, view, cond, mapped, compose,
-  reduce, flow, identity,
+  reduce, flow, identity, filter,
   not, arrayWrap, True} from 'intel-fp';
 
 export function actionDescriptionCache ($sce) {
@@ -72,7 +72,10 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
 
           localApply($scope);
         });
-    }
+    },
+    tooltipPlacement: this.tooltipPlacement || 'left',
+    actionsProperty: this.actionsProperty || 'available_actions',
+    receivedData: false
   });
 
   const extractPathLengths = view(
@@ -95,6 +98,8 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
 
   ctrl.stream
     .map(asArray)
+    .map(filter(x => x.locks && x[ctrl.actionsProperty]))
+    .tap(() => ctrl.receivedData = true)
     .tap(flow(
       extractPathLengths,
       reduce(0, add),
@@ -122,15 +127,13 @@ export function actionDropdown () {
     restrict: 'E',
     scope: {},
     bindToController: {
+      tooltipPlacement: '@?',
+      actionsProperty: '@?',
       stream: '=',
       overrideClick: '&?'
     },
     controller: 'ActionDropdownCtrl',
     controllerAs: 'ctrl',
-    templateUrl: actionDropdownTemplate,
-    link (scope, el, attrs) {
-      scope.tooltipPlacement = attrs.tooltipPlacement != null ? attrs.tooltipPlacement : 'left';
-      scope.actionsProperty = attrs.actionsProperty != null ? attrs.actionsProperty : 'available_actions';
-    }
+    templateUrl: actionDropdownTemplate
   };
 }
