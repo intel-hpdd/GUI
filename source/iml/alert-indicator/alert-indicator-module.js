@@ -23,10 +23,13 @@
 
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import socketModule from '../socket/socket-module';
-import popoverModule from '../popover/popover-module';
-import extendScopeModule from '../extend-scope-module';
-import {alertMonitorFactory, RecordStateCtrl, recordStateDirective} from './alert-indicator';
+import highlandModule from '../highland/highland-module.js';
+import socketModule from '../socket/socket-module.js';
+import popoverModule from '../popover/popover-module.js';
+import extendScopeModule from '../extend-scope-module.js';
+import {alertMonitorFactory, RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
+import alertIndicatorReducer from './alert-indicator-reducer.js';
+import alertIndicatorStream from './alert-indicator-stream.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import alertIndicatorTemplate from './assets/html/alert-indicator';
@@ -35,12 +38,14 @@ import alertIndicatorTemplate from './assets/html/alert-indicator';
 import stateLabelTemplate from './assets/html/state-label';
 
 export default angular.module('alertIndicator', [
-  socketModule, popoverModule, uiBootstrapModule,
+  socketModule, popoverModule, uiBootstrapModule, highlandModule,
   extendScopeModule, alertIndicatorTemplate, stateLabelTemplate
 ])
 .factory('alertMonitor', alertMonitorFactory)
 .controller('RecordStateCtrl', RecordStateCtrl)
 .directive('recordState', recordStateDirective)
+.value('alertIndicatorReducer', alertIndicatorReducer)
+.factory('alertIndicatorStream', alertIndicatorStream)
 .constant('STATE_SIZE', {
   SMALL: 'small',
   MEDIUM: 'medium',
