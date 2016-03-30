@@ -21,27 +21,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import uiBootstrapModule from 'angular-ui-bootstrap';
-import highlandModule from '../highland/highland-module.js';
-import socketModule from '../socket/socket-module.js';
-import popoverModule from '../popover/popover-module.js';
-import tooltipModule from '../tooltip/tooltip-module.js';
-import extendScopeModule from '../extend-scope-module.js';
-import jobIndicatorReducer from './job-indicator-reducer.js';
-import jobIndicatorStream from './job-indicator-stream.js';
-import {jobMonitorFactory, jobStatusDirective} from './job-indicator.js';
+import {map} from 'intel-fp';
+import type {SocketStream} from '../socket/socket-stream.js';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobIndicatorTemplate from './assets/html/job-indicator';
+export default function (socketStream:SocketStream, rebindDestroy:Function):HighlandStream {
+  'ngInject';
 
-export default angular.module('jobIndicator', [
-  socketModule, popoverModule, uiBootstrapModule,
-  tooltipModule, extendScopeModule,
-  jobIndicatorTemplate, highlandModule
-])
-.factory('jobMonitor', jobMonitorFactory)
-.directive('jobStatus', jobStatusDirective)
-.value('jobIndicatorReducer', jobIndicatorReducer)
-.factory('jobIndicatorStream', jobIndicatorStream)
-.name;
+  return rebindDestroy(
+    map(x => x.objects),
+    socketStream('/job/', {
+      jsonMask: 'objects(write_locks,read_locks,description)',
+      qs: {
+        limit: 0,
+        state__in: ['pending', 'tasked']
+      }
+    })
+  );
+}
