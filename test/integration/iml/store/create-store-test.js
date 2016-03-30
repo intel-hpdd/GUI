@@ -1,11 +1,11 @@
-import createStore from '../../../../source/iml/store/store.js';
+import createStore from '../../../../source/iml/store/create-store.js';
 import deepFreeze from 'intel-deep-freeze';
 
 const SET_STATE = 'SET_STATE';
 const SET_OTHER_STATE = 'SET_OTHER_STATE';
 const UPDATE_STATE = 'UPDATE_STATE';
 
-describe('store', () => {
+describe('create store', () => {
   var store, spy;
 
   beforeEach(() => {

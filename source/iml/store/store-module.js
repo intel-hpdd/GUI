@@ -21,14 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
-import type {Action} from '../store/create-store.js';
+import angular from 'angular';
+import getStore from './get-store.js';
+import createStore from './create-store.js';
+import targetModule from '../target/target-module.js';
+import alertIndicatorModule from '../alert-indicator/alert-indicator-module.js';
+import jobIndicatorModule from '../job-indicator/job-indicator-module.js';
 
-export default function (state: Array<Object> = [], {type, payload}:Action):Array<Object> {
-  switch (type) {
-  case ADD_JOB_INDICATOR_ITEMS:
-    return payload;
-  default:
-    return state;
-  }
-}
+export default angular.module('store', [
+  targetModule,
+  alertIndicatorModule,
+  jobIndicatorModule
+])
+  .factory('getStore', getStore)
+  .value('createStore', createStore)
+  .name;
