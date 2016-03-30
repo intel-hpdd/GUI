@@ -69,6 +69,15 @@ export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHa
   var selectServerProfileStep = this;
 
   hostProfileStream.tap(function (profiles) {
+    profiles.sort(function sortProfiles (a, b) {
+      if (a.invalid === true)
+        return 1;
+      else if (b.invalid === true)
+        return -1;
+      else
+        return 0;
+    });
+
     selectServerProfileStep.profiles = profiles;
 
     // Avoid a stale reference here by
