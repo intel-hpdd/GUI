@@ -34,13 +34,15 @@ describe('alert indicator stream', () => {
   });
 
   it('should pluck objects', () => {
-    alertIndicatorStream.each((x) => {
-      expect(x).toEqual([{ foo: 'bar' }]);
-    });
+    const spy = jasmine.createSpy('spy');
+
+    alertIndicatorStream.each(spy);
 
     stream.write({
       objects: [{ foo: 'bar' }]
     });
+
+    expect(spy).toHaveBeenCalledOnceWith([{ foo: 'bar' }]);
   });
 
   it('should destroy the source', () => {

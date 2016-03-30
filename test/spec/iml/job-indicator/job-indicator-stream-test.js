@@ -32,13 +32,15 @@ describe('job indicator stream', () => {
   });
 
   it('should pluck objects out of the stream', () => {
+    const spy = jasmine.createSpy('spy');
+
     jobIndicatorStream
-      .each(x => {
-        expect(x).toEqual([{ foo: 'bar' }]);
-      });
+      .each(spy);
 
     stream.write({
       objects: [{ foo: 'bar' }]
     });
+
+    expect(spy).toHaveBeenCalledOnceWith([{ foo: 'bar' }]);
   });
 });
