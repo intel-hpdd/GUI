@@ -24,15 +24,19 @@ import {map, flow, lensProp, view} from 'intel-fp';
 const pluckObjects = map(view(lensProp('objects')));
 
 export default function serverResolvesFactory ($q, resolveStream, addProperty, rebindDestroy,
-                                                      socketStream, jobMonitor, alertMonitor) {
+                                               getStore, socketStream) {
   'ngInject';
 
   return function serverResolves () {
-    const jobMonitorStream = resolveStream(jobMonitor())
-      .then(addProperty);
+    const jobMonitorStream = addProperty(
+      getStore
+        .select('jobIndicators')
+    );
 
-    const alertMonitorStream = resolveStream(alertMonitor())
-      .then(addProperty);
+    const alertMonitorStream = addProperty(
+      getStore
+        .select('alertIndicators')
+    );
 
     const lnetConfigurationStream = resolveStream(socketStream('/lnet_configuration', {
       jsonMask: 'objects(state,host,resource_uri)',

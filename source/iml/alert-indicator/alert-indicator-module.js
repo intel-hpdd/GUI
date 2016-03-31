@@ -27,7 +27,7 @@ import highlandModule from '../highland/highland-module.js';
 import socketModule from '../socket/socket-module.js';
 import popoverModule from '../popover/popover-module.js';
 import extendScopeModule from '../extend-scope-module.js';
-import {alertMonitorFactory, RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
+import {RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
 import alertIndicatorReducer from './alert-indicator-reducer.js';
 import alertIndicatorStream from './alert-indicator-stream.js';
 
@@ -41,7 +41,6 @@ export default angular.module('alertIndicator', [
   socketModule, popoverModule, uiBootstrapModule, highlandModule,
   extendScopeModule, alertIndicatorTemplate, stateLabelTemplate
 ])
-.factory('alertMonitor', alertMonitorFactory)
 .controller('RecordStateCtrl', RecordStateCtrl)
 .directive('recordState', recordStateDirective)
 .value('alertIndicatorReducer', alertIndicatorReducer)

@@ -1,34 +1,29 @@
-import λ from 'highland';
+import highland from 'highland';
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('server resolves', () => {
-  var jobMonitorStream, alertMonitorStream, socketStream,
-    jobMonitor, alertMonitor, lnetStream, serversStream;
+  var socketStream, getStore, lnetStream, serversStream;
 
   beforeEach(module(serverModule, $provide => {
-    jobMonitorStream = λ();
-    jobMonitor = jasmine.createSpy('jobMonitor')
-      .and.returnValue(jobMonitorStream);
-    $provide.value('jobMonitor', jobMonitor);
-
-    alertMonitorStream = λ();
-    alertMonitor = jasmine.createSpy('alertMonitor')
-      .and.returnValue(alertMonitorStream);
-    $provide.value('alertMonitor', alertMonitor);
+    getStore = {
+      select: jasmine.createSpy('select')
+        .and.callFake(() => highland())
+    };
+    $provide.value('getStore', getStore);
 
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake((path) => {
         if (path === '/lnet_configuration')
-          return (lnetStream = λ());
+          return (lnetStream = highland());
         if (path === '/host')
-          return (serversStream = λ());
+          return (serversStream = highland());
       });
     $provide.value('socketStream', socketStream);
   }));
 
   var serverResolves;
 
-  beforeEach(inject((_serverResolves_) => {
+  beforeEach(inject(_serverResolves_ => {
     serverResolves = _serverResolves_;
   }));
 
@@ -43,9 +38,6 @@ describe('server resolves', () => {
       $rootScope = _$rootScope_;
 
       promise = serverResolves();
-
-      jobMonitorStream.write({});
-      alertMonitorStream.write({});
       lnetStream.write({
         objects: []
       });
@@ -55,11 +47,11 @@ describe('server resolves', () => {
     }));
 
     it('should create a jobMonitorStream', () => {
-      expect(jobMonitor).toHaveBeenCalledOnce();
+      expect(getStore.select).toHaveBeenCalledOnceWith('jobIndicators');
     });
 
     it('should create an alertMonitorStream', () => {
-      expect(alertMonitor).toHaveBeenCalledOnce();
+      expect(getStore.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
     it('should create a servers stream', () => {

@@ -23,8 +23,8 @@ import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function serverDetailResolvesFactory ($q, resolveStream, addProperty, jobMonitor, rebindDestroy,
-                                                     alertMonitor, socketStream, getNetworkInterfaceStream, $route) {
+export default function serverDetailResolvesFactory ($q, resolveStream, addProperty, rebindDestroy,
+                                                     getStore, socketStream, getNetworkInterfaceStream, $route) {
   'ngInject';
 
   return function serverDetailResolves () {
@@ -36,15 +36,15 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
     var getObjectsOrNull = fp.flow(viewLens('objects'), arrOrNull);
     var getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
 
-    var jobMonitorStream = resolveStream(jobMonitor())
-      .then(function addThroughProperty (jobMonitorStream) {
-        return jobMonitorStream.through(addProperty);
-      });
+    const jobMonitorStream = addProperty(
+      getStore
+        .select('jobIndicators')
+    );
 
-    var alertMonitorStream = resolveStream(alertMonitor())
-      .then(function addThroughProperty (alertMonitorStream) {
-        return alertMonitorStream.through(addProperty);
-      });
+    const alertMonitorStream = addProperty(
+      getStore
+        .select('alertIndicators')
+    );
 
     const serverStream = resolveStream(socketStream('/host/' + $route.current.params.id, {
       jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\

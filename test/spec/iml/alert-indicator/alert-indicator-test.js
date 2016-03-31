@@ -5,58 +5,6 @@ import alertIndicatorModule from
 describe('alert indicator', () => {
   beforeEach(module(alertIndicatorModule));
 
-  var socketStream, stream;
-
-  describe('monitor', () => {
-    beforeEach(module($provide => {
-      stream = highland();
-      spyOn(stream, 'destroy');
-
-      socketStream = jasmine.createSpy('socketStream')
-        .and.returnValue(stream);
-
-      $provide.value('socketStream', socketStream);
-    }));
-
-    var alertMonitor;
-
-    beforeEach(inject(_alertMonitor_ => {
-      alertMonitor = _alertMonitor_;
-    }));
-
-    it('should request alerts', () => {
-      alertMonitor();
-
-      expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
-        jsonMask: 'objects(affected,message)',
-        qs: {
-          limit: 0,
-          active: true
-        }
-      });
-    });
-
-    it('should pluck objects', () => {
-      var s2 = alertMonitor();
-
-      s2.each((x) => {
-        expect(x).toEqual([{ foo: 'bar' }]);
-      });
-
-      stream.write({
-        objects: [{ foo: 'bar' }]
-      });
-    });
-
-    it('should destroy the source', () => {
-      var s2 = alertMonitor();
-
-      s2.destroy();
-
-      expect(stream.destroy).toHaveBeenCalledOnce();
-    });
-  });
-
   describe('directive', () => {
     var $scope, element, node, popover, i,
       stream, addProperty, stateLabel, alerts,
