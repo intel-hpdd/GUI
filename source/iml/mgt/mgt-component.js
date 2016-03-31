@@ -60,9 +60,8 @@ export default {
                 </td>
                 <td>{{item.volume_name}}</td>
                 <td>
-                  <a route-to="configure/server/{{ item.primary_server | extractApi }}">
-                    {{ item.primary_server_name }}
-                  </a>
+                  <a
+                  route-to="configure/server/{{ item.primary_server | extractApi }}">{{ item.primary_server_name }}</a>
                 </td>
                 <td>{{item.failover_server_name}}</td>
                 <td>{{item.active_host_name}}</td>
