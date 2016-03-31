@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,43 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
+import angular from 'angular';
+import extractApiFilterModule from '../extract-api-filter/extract-api-filter-module.js';
+import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
+import alertIndicatorModule from '../alert-indicator/alert-indicator-module.js';
+import jobIndicatorModule from '../job-indicator/job-indicator-module.js';
+import asStreamModule from '../as-stream/as-stream-module.js';
+import asValueModule from '../as-value/as-value-module.js';
+import routeToModule from '../route-to/route-to-module.js';
+import mgtComponent from './mgt-component.js';
+import {mgtAlertIndicatorStream, mgtJobIndicatorStream, mgtStream} from './mgt-resolves.js';
+import storeModule from '../store/store-module.js';
 
-var gulp = require('gulp');
-var paths = require('../paths.json');
-var less = require('gulp-less');
-var LessPluginCleanCSS = require('less-plugin-clean-css');
-var cleancss = new LessPluginCleanCSS({ advanced: true });
-var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
-var rev = require('gulp-rev');
-
-function buildCss (fn) {
-  return gulp.src(paths.less.imports, {
-    since: gulp.lastRun(fn),
-    base: '.'
-  })
-    .pipe(sourcemaps.init())
-    .pipe(less({
-      relativeUrls: false,
-      rootpath: '',
-      paths: ['./source/', './'],
-      plugins: [cleancss]
-    }));
-}
-
-module.exports.buildCssDev = function buildCssDev () {
-  return buildCss(buildCssDev, '')
-  .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
-};
-
-
-module.exports.buildCssProd = function buildCssProd () {
-  return buildCss(buildCssProd)
-  .pipe(rev())
-  .pipe(sourcemaps.write({ sourceRoot: '.' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('./dist'));
-};
+export default angular.module('mgtModule', [
+  extractApiFilterModule, actionDropdownModule,
+  alertIndicatorModule, jobIndicatorModule,
+  asStreamModule, routeToModule,
+  asValueModule, storeModule
+])
+  .component('mgt', mgtComponent)
+  .factory('mgtAlertIndicatorStream', mgtAlertIndicatorStream)
+  .factory('mgtJobIndicatorStream', mgtJobIndicatorStream)
+  .factory('mgtStream', mgtStream)
+  .name;

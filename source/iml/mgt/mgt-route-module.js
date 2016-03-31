@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,43 +21,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
+import angular from 'angular';
+import mgtRoute from './mgt-route.js';
 
-var gulp = require('gulp');
-var paths = require('../paths.json');
-var less = require('gulp-less');
-var LessPluginCleanCSS = require('less-plugin-clean-css');
-var cleancss = new LessPluginCleanCSS({ advanced: true });
-var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
-var rev = require('gulp-rev');
+// $FlowIgnore: HTML templates that flow does not recognize.
+import loadingTemplate from '../loading/assets/html/loading';
+import authModule from '../auth/auth-module.js';
 
-function buildCss (fn) {
-  return gulp.src(paths.less.imports, {
-    since: gulp.lastRun(fn),
-    base: '.'
-  })
-    .pipe(sourcemaps.init())
-    .pipe(less({
-      relativeUrls: false,
-      rootpath: '',
-      paths: ['./source/', './'],
-      plugins: [cleancss]
-    }));
-}
-
-module.exports.buildCssDev = function buildCssDev () {
-  return buildCss(buildCssDev, '')
-  .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
-};
-
-
-module.exports.buildCssProd = function buildCssProd () {
-  return buildCss(buildCssProd)
-  .pipe(rev())
-  .pipe(sourcemaps.write({ sourceRoot: '.' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('./dist'));
-};
+export default angular.module('mgtRoute', [
+  loadingTemplate, authModule
+])
+  .config(mgtRoute)
+  .name;

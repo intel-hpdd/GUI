@@ -1,0 +1,13 @@
+.mgt-component {
+  .comma-list {
+    a {
+      &:after {
+        content: ", ";
+      }
+
+      &:last-child:after {
+        content: "";
+      }
+    }
+  }
+}
