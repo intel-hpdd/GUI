@@ -59,6 +59,8 @@ import statusModule from './status/status-module';
 import statusQueryRouteModule from './status/status-query-route-module';
 import statusRecordsRouteModule from './status/status-records-route-module';
 import modelFactoryModule from './model-factory/model-factory-module';
+import mgtModule from './mgt/mgt-module';
+import mgtRouteModule from './mgt/mgt-route-module';
 
 export default angular.module('iml', [
   uiBootstrapModule, ngResource, ngRoute, ngAnimate, 'route-segment', 'view-segment',
@@ -69,7 +71,7 @@ export default angular.module('iml', [
   serverDetailRouteModule, jobStatsModule, jobStatsRouteModule,
   hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule,
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
-  statusRecordsRouteModule, modelFactoryModule
+  statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule
 ])
   .config(['$compileProvider', function ($compileProvider) {
     $compileProvider.debugInfoEnabled(false);

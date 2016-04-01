@@ -32,6 +32,24 @@ function cssMatcher (presentClasses, absentClasses) {
 
 beforeEach(() => {
   jasmine.addMatchers({
+    toHaveText () {
+      return {
+        compare: (el, text) => {
+          const elText = el.textContent.trim();
+
+          if (elText === text)
+            return {
+              pass: true,
+              message: `Expected '${elText}' not to be text '${text}'.`
+            };
+          else
+            return {
+              pass: false,
+              message: `Expected '${elText}' to be text '${text}'.`
+            };
+        }
+      };
+    },
     toHaveClass () {
       return {
         compare: (el, clazz) => {

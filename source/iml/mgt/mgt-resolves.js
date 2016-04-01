@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,43 +21,38 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-'use strict';
+import {map, filter} from 'intel-fp';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {Store} from '../store/create-store.js';
 
-var gulp = require('gulp');
-var paths = require('../paths.json');
-var less = require('gulp-less');
-var LessPluginCleanCSS = require('less-plugin-clean-css');
-var cleancss = new LessPluginCleanCSS({ advanced: true });
-var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
-var rev = require('gulp-rev');
+type streamToStream = (s:HighlandStream) => HighlandStream;
 
-function buildCss (fn) {
-  return gulp.src(paths.less.imports, {
-    since: gulp.lastRun(fn),
-    base: '.'
-  })
-    .pipe(sourcemaps.init())
-    .pipe(less({
-      relativeUrls: false,
-      rootpath: '',
-      paths: ['./source/', './'],
-      plugins: [cleancss]
-    }));
+export function mgtAlertIndicatorStream (getStore:Store, addProperty:streamToStream):streamToStream {
+  'ngInject';
+
+  return () => addProperty(
+    getStore
+      .select('alertIndicators')
+  );
 }
 
-module.exports.buildCssDev = function buildCssDev () {
-  return buildCss(buildCssDev, '')
-  .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
-};
+export function mgtJobIndicatorStream (getStore:Store, addProperty:streamToStream):streamToStream {
+  'ngInject';
 
+  return () => addProperty(
+    getStore
+      .select('jobIndicators')
+  );
+}
 
-module.exports.buildCssProd = function buildCssProd () {
-  return buildCss(buildCssProd)
-  .pipe(rev())
-  .pipe(sourcemaps.write({ sourceRoot: '.' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('./dist'));
-};
+type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
+
+export function mgtStream (getStore:Store, rebindDestroy:fnToStreamToStream):streamToStream {
+  'ngInject';
+
+  return () => rebindDestroy(
+    map(filter(x => x.kind === 'MGT')),
+    getStore
+      .select('targets')
+  );
+}
