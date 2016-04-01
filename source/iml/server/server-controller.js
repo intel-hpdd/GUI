@@ -160,7 +160,6 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
   const p = $scope.propagateChange($scope, $scope.server, 'servers');
 
   streams.serversStream
-    .pluck('objects')
     .tap(selectedServers.addNewServers.bind(selectedServers))
     .through(p);
 

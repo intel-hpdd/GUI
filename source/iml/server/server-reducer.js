@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,46 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, flow, lensProp, view} from 'intel-fp';
+export const ADD_SERVER_ITEMS = 'ADD_SERVER_ITEMS';
+import type {Action} from '../store/create-store.js';
 
-const pluckObjects = map(view(lensProp('objects')));
-
-export default function serverResolvesFactory ($q, resolveStream, addProperty, rebindDestroy,
-                                               getStore, socketStream) {
-  'ngInject';
-
-  return function serverResolves () {
-    const jobMonitorStream = addProperty(
-      getStore
-        .select('jobIndicators')
-    );
-
-    const alertMonitorStream = addProperty(
-      getStore
-        .select('alertIndicators')
-    );
-
-    const lnetConfigurationStream = resolveStream(socketStream('/lnet_configuration', {
-      jsonMask: 'objects(state,host,resource_uri)',
-      qs: {
-        dehydrate__host: false
-      }
-    }))
-      .then(flow(
-        rebindDestroy(pluckObjects),
-        addProperty
-      ));
-
-    const serversStream = addProperty(
-      getStore
-        .select('server')
-    );
-
-    return $q.all({
-      jobMonitorStream,
-      alertMonitorStream,
-      lnetConfigurationStream,
-      serversStream
-    });
-  };
+export default function (state: Array<Object> = [], {type, payload}:Action):Array<Object> {
+  switch (type) {
+  case ADD_SERVER_ITEMS:
+    return payload;
+  default:
+    return state;
+  }
 }
