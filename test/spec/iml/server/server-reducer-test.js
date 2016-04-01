@@ -493,7 +493,7 @@ describe('server reducer', () => {
       });
     });
 
-    it('should return the payload', () => {
+    it('should return the state', () => {
       expect(result).toEqual(hosts);
     });
   });

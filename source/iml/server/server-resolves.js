@@ -49,10 +49,8 @@ export default function serverResolvesFactory ($q, resolveStream, addProperty, r
         addProperty
       ));
 
-    const serversStream = addProperty(
-      getStore
-        .select('server')
-    );
+    const serversStream = getStore
+      .select('server');
 
     return $q.all({
       jobMonitorStream,
