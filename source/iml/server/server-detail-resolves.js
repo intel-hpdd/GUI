@@ -46,10 +46,11 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
         .select('alertIndicators')
     );
 
-    const serverStream = resolveStream(socketStream('/host/' + $route.current.params.id, {
-      jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\
-server_profile(ui_name,managed,initial_state),boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
-    }));
+    const serverStream = rebindDestroy(
+      fp.map(fp.find(x => x.id === $route.current.params.id)),
+      getStore
+        .select('server')
+    );
 
     var allHostMatches = {
       qs: {

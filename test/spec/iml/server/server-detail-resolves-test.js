@@ -6,12 +6,18 @@ describe('server detail resolves', () => {
   var getStore, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
-    $route, serverDetailResolves;
+    $route, serverDetailResolves, spy;
 
   beforeEach(module(serverModule, $provide => {
+    spy = jasmine.createSpy('spy');
     getStore = {
       select: jasmine.createSpy('select')
-        .and.callFake(() => highland())
+        .and.callFake(key => {
+          if (key === 'server')
+            return (serverStream = highland());
+          else
+            return highland();
+        })
     };
     $provide.value('getStore', getStore);
 
@@ -32,9 +38,6 @@ describe('server detail resolves', () => {
 
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(path => {
-        if (path.indexOf('/host/') !== -1)
-          return (serverStream = highland());
-
         if (path === '/lnet_configuration/')
           return (lnetStream = highland());
 
@@ -86,11 +89,40 @@ describe('server detail resolves', () => {
       expect(getStore.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
-    it('should create a host stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/host/1', {
-        jsonMask: 'available_actions,resource_uri,address,fqdn,nodename,install_method,\
-server_profile(ui_name,managed,initial_state),\
-boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
+    it('should create a serverStream', () => {
+      expect(getStore.select).toHaveBeenCalledOnceWith('server');
+    });
+
+    describe('filtering server data', () => {
+      beforeEach(() => {
+        serverStream.write([
+          {
+            id: '1',
+            address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
+          }, {
+            id: '2',
+            address: 'lotus-35vm16.lotus.hpdd.lab.intel.com'
+          }
+        ]);
+
+        promise.then(resolves => {
+          resolves.serverStream.each(spy);
+        });
+        $rootScope.$apply();
+      });
+
+      it('should return the server associated with the route', () => {
+        expect(spy).toHaveBeenCalledOnceWith({
+          id: '1',
+          address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
+        });
+      });
+
+      it('should not return servers which have an id that does not match the route', () => {
+        expect(spy).not.toHaveBeenCalledWith({
+          id: '2',
+          address: 'lotus-35vm16.lotus.hpdd.lab.intel.com'
+        });
       });
     });
 
@@ -135,7 +167,6 @@ boot_time,state_modified_at,id,member_of_active_filesystem,locks,state'
     });
 
     it('should return an object of streams', () => {
-      var spy = jasmine.createSpy('spy');
       promise.then(spy);
 
       $rootScope.$apply();
