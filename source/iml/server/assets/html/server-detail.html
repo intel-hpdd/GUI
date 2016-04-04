@@ -51,7 +51,29 @@
         <action-dropdown tooltip-placement="top" stream="::str" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
       </div>
     </div>
+    <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>
     <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-corosync>
+    <div ng-if="serverDetail.lnetConfiguration" class="detail-panel">
+      <h4 class="section-header">LNet Detail</h4>
+      <div class="detail-row">
+        <div>
+          State:
+        </div>
+        <div as-property stream="::serverDetail.lnetConfigurationStream">
+          <lnet-status stream="::prop.stream"></lnet-status>
+        </div>
+      </div>
+      <div class="detail-row">
+        <div>Alerts:</div>
+        <div>
+          <record-state record-id="serverDetail.lnetConfiguration.resource_uri" alert-stream="::serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
+          <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
+        </div>
+      </div>
+      <div as-property stream="::serverDetail.lnetConfigurationStream">
+        <action-dropdown tooltip-placement="top" stream="::prop.stream"></action-dropdown>
+      </div>
+    </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>
   </div>
 </div>
