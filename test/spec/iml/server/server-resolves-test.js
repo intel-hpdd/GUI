@@ -2,7 +2,7 @@ import highland from 'highland';
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('server resolves', () => {
-  var socketStream, getStore, lnetStream, serversStream;
+  var socketStream, getStore, lnetStream;
 
   beforeEach(module(serverModule, $provide => {
     getStore = {
@@ -15,8 +15,6 @@ describe('server resolves', () => {
       .and.callFake((path) => {
         if (path === '/lnet_configuration')
           return (lnetStream = highland());
-        if (path === '/host')
-          return (serversStream = highland());
       });
     $provide.value('socketStream', socketStream);
   }));
@@ -41,7 +39,6 @@ describe('server resolves', () => {
       lnetStream.write({
         objects: []
       });
-      serversStream.write({});
 
       $rootScope.$apply();
     }));
@@ -55,13 +52,7 @@ describe('server resolves', () => {
     });
 
     it('should create a servers stream', () => {
-      expect(socketStream)
-        .toHaveBeenCalledOnceWith('/host', {
-          jsonMask: 'objects(id,address,available_actions,boot_time,fqdn,immutable_state,install_method,label,\
-locks,member_of_active_filesystem,needs_update,nodename,resource_uri,server_profile(ui_name,managed,initial_state),\
-state)',
-          qs: { limit: 0 }
-        });
+      expect(getStore.select).toHaveBeenCalledOnceWith('server');
     });
 
     it('should create a lnet configuration stream', () => {

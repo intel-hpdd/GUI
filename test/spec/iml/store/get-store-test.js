@@ -4,8 +4,8 @@ import storeModule from '../../../../source/iml/store/store-module.js';
 describe('get store', () => {
   var targetReducer, createStore, store,
     alertIndicatorReducer, alertIndicatorStream,
-    jobIndicatorReducer, jobIndicatorStream,
-    socketStream, stream, CACHE_INITIAL_DATA;
+    jobIndicatorReducer, serverReducer, jobIndicatorStream,
+    socketStream, serverStream, stream, CACHE_INITIAL_DATA;
 
   beforeEach(module(storeModule, $provide => {
     targetReducer = {};
@@ -17,11 +17,17 @@ describe('get store', () => {
     jobIndicatorReducer = {};
     $provide.value('jobIndicatorReducer', jobIndicatorReducer);
 
+    serverReducer = {};
+    $provide.value('serverReducer', serverReducer);
+
     jobIndicatorStream = highland();
     $provide.value('jobIndicatorStream', jobIndicatorStream);
 
     alertIndicatorStream = highland();
     $provide.value('alertIndicatorStream', alertIndicatorStream);
+
+    serverStream = highland();
+    $provide.value('serverStream', serverStream);
 
     stream = highland();
     socketStream = jasmine.createSpy('highland')
@@ -41,7 +47,8 @@ describe('get store', () => {
 
 
     CACHE_INITIAL_DATA = {
-      target: ['targets']
+      target: ['targets'],
+      host: ['host']
     };
     $provide.value('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
   }));
@@ -60,7 +67,8 @@ describe('get store', () => {
     expect(createStore).toHaveBeenCalledOnceWith({
       targets: targetReducer,
       alertIndicators: alertIndicatorReducer,
-      jobIndicators: jobIndicatorReducer
+      jobIndicators: jobIndicatorReducer,
+      server: serverReducer
     });
   });
 
@@ -68,6 +76,13 @@ describe('get store', () => {
     expect(store.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_TARGET_ITEMS',
       payload: ['targets']
+    });
+  });
+
+  it('should dispatch cached servers into the store', () => {
+    expect(store.dispatch).toHaveBeenCalledOnceWith({
+      type: 'ADD_SERVER_ITEMS',
+      payload: ['host']
     });
   });
 
@@ -105,6 +120,15 @@ describe('get store', () => {
     expect(store.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_JOB_INDICATOR_ITEMS',
       payload: ['more jobs']
+    });
+  });
+
+  it('should update servers when new items arrive from a persistent socket', () => {
+    serverStream.write(['more hosts']);
+
+    expect(store.dispatch).toHaveBeenCalledOnceWith({
+      type: 'ADD_SERVER_ITEMS',
+      payload: ['more hosts']
     });
   });
 });

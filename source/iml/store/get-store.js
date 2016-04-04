@@ -28,6 +28,7 @@ import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import {ADD_TARGET_ITEMS} from '../target/target-reducer.js';
 import {ADD_ALERT_INDICATOR_ITEMS} from '../alert-indicator/alert-indicator-reducer.js';
 import {ADD_JOB_INDICATOR_ITEMS} from '../job-indicator/job-indicator-reducer.js';
+import {ADD_SERVER_ITEMS} from '../server/server-reducer.js';
 
 import {lensProp, view} from 'intel-fp';
 
@@ -38,16 +39,19 @@ type createStore = (reducers: Object) => Store;
 export default function (targetReducer:Function, createStore:createStore,
                          alertIndicatorReducer:Function, alertIndicatorStream:HighlandStream,
                          jobIndicatorReducer:Function, jobIndicatorStream:HighlandStream,
+                         serverReducer:Function, serverStream:HighlandStream,
                          socketStream:SocketStream, CACHE_INITIAL_DATA:Object):Store {
   'ngInject';
 
   const store = createStore({
     targets: targetReducer,
     alertIndicators: alertIndicatorReducer,
-    jobIndicators: jobIndicatorReducer
+    jobIndicators: jobIndicatorReducer,
+    server: serverReducer
   });
 
   store.dispatch({ type: ADD_TARGET_ITEMS, payload: CACHE_INITIAL_DATA.target });
+  store.dispatch({ type: ADD_SERVER_ITEMS, payload: CACHE_INITIAL_DATA.host});
 
   socketStream('/target', {
     qs: {
@@ -62,6 +66,9 @@ export default function (targetReducer:Function, createStore:createStore,
 
   jobIndicatorStream
   .each(payload => store.dispatch({ type: ADD_JOB_INDICATOR_ITEMS, payload }));
+
+  serverStream
+  .each(payload => store.dispatch({ type: ADD_SERVER_ITEMS, payload}));
 
   return store;
 }
