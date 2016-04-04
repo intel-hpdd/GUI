@@ -47,10 +47,9 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
     );
 
     const serverStream = rebindDestroy(
-      fp.map(fp.identity),
+      fp.map(fp.find(x => x.id === $route.current.params.id)),
       getStore
         .select('server')
-        .map(fp.find(x => x.id === $route.current.params.id))
     );
 
     var allHostMatches = {
