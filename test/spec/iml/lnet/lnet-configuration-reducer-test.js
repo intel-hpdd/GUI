@@ -1,7 +1,7 @@
 import {
   ADD_LNET_CONFIGURATION_ITEMS,
   default as lnetConfigurationReducer
-} from '../../../../source/iml/server/lnet-configuration-reducer.js';
+} from '../../../../source/iml/lnet/lnet-configuration-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
 describe('lnet configuration reducer', () => {

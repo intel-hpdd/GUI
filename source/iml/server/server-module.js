@@ -69,8 +69,6 @@ import serversToApiObjectsFactory from './servers-to-api-objects';
 import createOrUpdateHostsStreamFactory from './create-or-update-hosts-stream';
 import serverReducer from './server-reducer';
 import serverStream from './server-stream';
-import lnetConfigurationReducer from './lnet-configuration-reducer';
-import lnetConfigurationStream from './lnet-configuration-stream';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import addServerModalTemplate from './assets/html/add-server-modal';
@@ -142,6 +140,4 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .factory('serversToApiObjects', serversToApiObjectsFactory)
   .value('serverReducer', serverReducer)
   .factory('serverStream', serverStream)
-  .value('lnetConfigurationReducer', lnetConfigurationReducer)
-  .factory('lnetConfigurationStream', lnetConfigurationStream)
   .name;

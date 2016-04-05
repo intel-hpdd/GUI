@@ -1,4 +1,4 @@
-import serverModule from '../../../../source/iml/server/server-module';
+import serverModule from '../../../../source/iml/lnet/lnet-module';
 import highlandModule from '../../../../source/iml/highland/highland-module';
 import highland from 'highland';
 

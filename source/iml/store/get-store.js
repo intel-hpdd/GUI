@@ -29,7 +29,7 @@ import {ADD_TARGET_ITEMS} from '../target/target-reducer.js';
 import {ADD_ALERT_INDICATOR_ITEMS} from '../alert-indicator/alert-indicator-reducer.js';
 import {ADD_JOB_INDICATOR_ITEMS} from '../job-indicator/job-indicator-reducer.js';
 import {ADD_SERVER_ITEMS} from '../server/server-reducer.js';
-import {ADD_LNET_CONFIGURATION_ITEMS} from '../server/lnet-configuration-reducer.js';
+import {ADD_LNET_CONFIGURATION_ITEMS} from '../lnet/lnet-configuration-reducer.js';
 
 import {lensProp, view} from 'intel-fp';
 

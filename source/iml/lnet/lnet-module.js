@@ -32,6 +32,8 @@ import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
 import getNetworkInterfaceStreamFactory from './get-network-interface-stream';
+import lnetConfigurationReducer from './lnet-configuration-reducer';
+import lnetConfigurationStream from './lnet-configuration-stream';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import configureLnetTemplate from './assets/html/configure-lnet';
@@ -46,4 +48,6 @@ export default angular.module('lnetModule', [
 .component('lnetStatus', lnetStatus)
 .filter('removeUsedLnetOptions', removeUsedLnetOptionsFilter)
 .factory('getNetworkInterfaceStream', getNetworkInterfaceStreamFactory)
+.value('lnetConfigurationReducer', lnetConfigurationReducer)
+.factory('lnetConfigurationStream', lnetConfigurationStream)
 .name;
