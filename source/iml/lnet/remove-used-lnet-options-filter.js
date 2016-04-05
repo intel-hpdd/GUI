@@ -23,7 +23,7 @@
 
 import * as fp from 'intel-fp';
 
-export default (): Function => (options: Array<Object>, networkInterfaces: Array<Object>, networkInterface: Object) => {
+export default (): Function => (options:Array<Object>, networkInterfaces:Array<Object>, networkInterface:Object) => {
 
   const nids = fp.flow(
     fp.filter(x => x !== networkInterface),

@@ -54,6 +54,7 @@
     "del": "2.2.0",
     "eslint": "2.2.0",
     "eslint-plugin-flow-vars": "0.2.1",
+    "eslint-plugin-flowtype": "2.2.2",
     "gulp": "https://github.com/gulpJS/gulp.git#4.0",
     "gulp-babel": "6.1.2",
     "gulp-inject": "3.0.0",
