@@ -87,7 +87,7 @@ export type Store = {
   select: (key: string) => HighlandStream;
 };
 
-export default function createStore (reducers: Object): Store {
+export default function createStore (reducers:Object):Store {
   const stream = highland();
   const combined = combineReducers(reducers);
 
@@ -99,7 +99,7 @@ export default function createStore (reducers: Object): Store {
 
   return {
     dispatch: stream.write.bind(stream),
-    select (key: string): HighlandStream {
+    select (key:string): HighlandStream {
       return rebindDestroy(
         map(state => state[key]),
         view()
