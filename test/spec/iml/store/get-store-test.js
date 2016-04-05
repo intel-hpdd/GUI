@@ -5,6 +5,7 @@ describe('get store', () => {
   var targetReducer, createStore, store,
     alertIndicatorReducer, alertIndicatorStream,
     jobIndicatorReducer, serverReducer, jobIndicatorStream,
+    lnetConfigurationReducer, lnetConfigurationStream,
     socketStream, serverStream, stream, CACHE_INITIAL_DATA;
 
   beforeEach(module(storeModule, $provide => {
@@ -20,6 +21,9 @@ describe('get store', () => {
     serverReducer = {};
     $provide.value('serverReducer', serverReducer);
 
+    lnetConfigurationReducer = {};
+    $provide.value('lnetConfigurationReducer', lnetConfigurationReducer);
+
     jobIndicatorStream = highland();
     $provide.value('jobIndicatorStream', jobIndicatorStream);
 
@@ -28,6 +32,9 @@ describe('get store', () => {
 
     serverStream = highland();
     $provide.value('serverStream', serverStream);
+
+    lnetConfigurationStream = highland();
+    $provide.value('lnetConfigurationStream', lnetConfigurationStream);
 
     stream = highland();
     socketStream = jasmine.createSpy('highland')
@@ -68,7 +75,8 @@ describe('get store', () => {
       targets: targetReducer,
       alertIndicators: alertIndicatorReducer,
       jobIndicators: jobIndicatorReducer,
-      server: serverReducer
+      server: serverReducer,
+      lnetConfiguration: lnetConfigurationReducer
     });
   });
 
@@ -129,6 +137,15 @@ describe('get store', () => {
     expect(store.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_SERVER_ITEMS',
       payload: ['more hosts']
+    });
+  });
+
+  it('should update lnetConfiguration when new items arrive from a persistent socket', () => {
+    lnetConfigurationStream.write(['more lnet configurations']);
+
+    expect(store.dispatch).toHaveBeenCalledOnceWith({
+      type: 'ADD_LNET_CONFIGURATION_ITEMS',
+      payload: ['more lnet configurations']
     });
   });
 });
