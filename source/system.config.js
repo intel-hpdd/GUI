@@ -39,6 +39,7 @@ System.config({
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
     'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
     'intel-big-differ': 'node_modules/intel-big-differ/dest/source/big-differ-module.js',
+    'intel-qs-parsers': 'node_modules/intel-qs-parsers/dist/source',
     'angular-ui-bootstrap': 'node_modules/angular-ui-bootstrap/index.js',
     'dist/ui-bootstrap-tpls': 'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     'angular-resource': 'node_modules/angular-resource/index.js',

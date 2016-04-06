@@ -1,4 +1,4 @@
-import qsToOldQsParser from '../../../../source/iml/qs-to-old-qs-parser/qs-to-old-qs-parser';
+import statusQsToOldQsParser from '../../../../source/iml/status/status-qs-to-old-qs-parser.js';
 
 describe('qs to old qs parser', () => {
   const inputOutput = {
@@ -21,7 +21,7 @@ describe('qs to old qs parser', () => {
       output = output.message;
 
     it(`should parse ${(input || ' empty input ')}  to ${output}`, () => {
-      let result = qsToOldQsParser(input);
+      let result = statusQsToOldQsParser(input);
 
       if (result instanceof Error)
         result = result.message;

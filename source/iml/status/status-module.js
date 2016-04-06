@@ -22,15 +22,15 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import parselyBoxModule from '../parsely-box/parsely-box-module';
-import multiStreamModule from '../multi-stream/multi-stream-module';
-import routeStreamModule from '../route-stream/route-stream-module';
-import qsFromLocationModule from '../qs-from-location/qs-from-location-module';
-import commonStatusSearchesModule from '../status/common-status-searches/common-status-searches-module';
-import extendScopeModule from '../extend-scope-module';
-import actionDropdownModule from '../action-dropdown/action-dropdown-module';
-import qsToInputParserFactory from './qs-to-input-parser';
-import inputToQsParserFactory from './input-to-qs-parser';
+import parselyBoxModule from '../parsely-box/parsely-box-module.js';
+import multiStreamModule from '../multi-stream/multi-stream-module.js';
+import routeStreamModule from '../route-stream/route-stream-module.js';
+import qsFromLocationModule from '../qs-from-location/qs-from-location-module.js';
+import commonStatusSearchesModule from '../status/common-status-searches/common-status-searches-module.js';
+import extendScopeModule from '../extend-scope-module.js';
+import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
+import statusQsToInputParser from './status-qs-to-input-parser.js';
+import statusInputToQsParser from './status-input-to-qs-parser.js';
 
 import StatusController from './status-controller';
 import StatusQueryController from './status-query-controller';
@@ -47,6 +47,6 @@ export default angular.module('status', [
   .controller('StatusQueryController', StatusQueryController)
   .controller('DeferredActionDropdownCtrl', DeferredActionDropdownCtrl)
   .component('deferredActionDropdown', deferredActionDropdownComponent)
-  .factory('inputToQsParser', inputToQsParserFactory)
-  .factory('qsToInputParser', qsToInputParserFactory)
+  .value('statusInputToQsParser', statusInputToQsParser)
+  .value('statusQsToInputParser', statusQsToInputParser)
   .name;

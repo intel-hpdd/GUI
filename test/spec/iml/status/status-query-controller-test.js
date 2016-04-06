@@ -9,7 +9,7 @@ describe('status query controller', function () {
   beforeEach(module(statusModule));
 
   var ctrl, $scope, $location, routeStream, s,
-    inputToQsParser, qsToInputParser;
+    statusInputToQsParser, statusQsToInputParser;
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
@@ -23,19 +23,19 @@ describe('status query controller', function () {
     routeStream = jasmine.createSpy('routeStream').and.returnValue(s);
 
     ctrl = $controller('StatusQueryController', {
-      $scope: $scope,
-      $location: $location,
-      routeStream: routeStream,
-      inputToQsParser: inputToQsParser,
-      qsToInputParser: qsToInputParser
+      $scope,
+      $location,
+      routeStream,
+      statusInputToQsParser,
+      statusQsToInputParser
     });
   }));
 
   it('should set the controller properties', function () {
     const instance = window.extendWithConstructor(StatusQueryController, {
       parserFormatter: {
-        parser: inputToQsParser,
-        formatter: qsToInputParser
+        parser: statusInputToQsParser,
+        formatter: statusQsToInputParser
       },
       onSubmit: jasmine.any(Function)
     });

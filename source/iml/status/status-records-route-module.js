@@ -29,7 +29,7 @@ import loadingTemplate from '../loading/assets/html/loading';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import statusTemplate from './assets/html/status';
 
-import qsToOldQsParser from '../qs-to-old-qs-parser/qs-to-old-qs-parser';
+import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 
 export default angular.module('statusRecordsRouteModule', [
   loadingTemplate, statusTemplate
@@ -56,7 +56,7 @@ export default angular.module('statusRecordsRouteModule', [
 
           const qsFromLocationToOld = flow(
             qsFromLocation,
-            qsToOldQsParser
+            statusQsToOldQsParser
           );
 
           if (!isStatus($location) && segment.clearWatcher)
@@ -70,7 +70,7 @@ export default angular.module('statusRecordsRouteModule', [
 
             const qsFromLocationToOld = flow(
               qsFromLocation,
-              qsToOldQsParser
+              statusQsToOldQsParser
             );
 
             var qs = qsFromLocationToOld();

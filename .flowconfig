@@ -14,3 +14,5 @@ node_modules/intel-flow-highland/libs/highland.js
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
+module.name_mapper='^intel-parsely/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-parsely/dist/source/\1.js.flow'
+module.name_mapper='^intel-qs-parsers/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-qs-parsers/dist/source/\1.js.flow'

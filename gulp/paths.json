@@ -34,7 +34,8 @@
       "node_modules*/intel-pdsh-parser/dist/source/index.js",
       "node_modules*/jquery/dist/jquery.js",
       "node_modules*/sprintf-js/src/sprintf.js",
-      "node_modules*/intel-parsely/dist/source/*.js"
+      "node_modules*/intel-parsely/dist/source/*.js",
+      "node_modules*/intel-qs-parsers/dist/source/*.js"
     ],
     "source": "source/iml*/**/*.js",
     "config": "source/system.config.js",
