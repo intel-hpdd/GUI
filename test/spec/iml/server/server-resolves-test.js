@@ -2,7 +2,7 @@ import highland from 'highland';
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('server resolves', () => {
-  var socketStream, getStore, lnetStream;
+  var getStore;
 
   beforeEach(module(serverModule, $provide => {
     getStore = {
@@ -10,13 +10,6 @@ describe('server resolves', () => {
         .and.callFake(() => highland())
     };
     $provide.value('getStore', getStore);
-
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake((path) => {
-        if (path === '/lnet_configuration')
-          return (lnetStream = highland());
-      });
-    $provide.value('socketStream', socketStream);
   }));
 
   var serverResolves;
@@ -36,9 +29,6 @@ describe('server resolves', () => {
       $rootScope = _$rootScope_;
 
       promise = serverResolves();
-      lnetStream.write({
-        objects: []
-      });
 
       $rootScope.$apply();
     }));
@@ -56,12 +46,7 @@ describe('server resolves', () => {
     });
 
     it('should create a lnet configuration stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
-        jsonMask: 'objects(state,host,resource_uri)',
-        qs: {
-          dehydrate__host: false
-        }
-      });
+      expect(getStore.select).toHaveBeenCalledOnceWith('lnetConfiguration');
     });
 
     it('should return an object of streams', () => {

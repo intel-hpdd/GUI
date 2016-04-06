@@ -29,6 +29,7 @@ import {ADD_TARGET_ITEMS} from '../target/target-reducer.js';
 import {ADD_ALERT_INDICATOR_ITEMS} from '../alert-indicator/alert-indicator-reducer.js';
 import {ADD_JOB_INDICATOR_ITEMS} from '../job-indicator/job-indicator-reducer.js';
 import {ADD_SERVER_ITEMS} from '../server/server-reducer.js';
+import {ADD_LNET_CONFIGURATION_ITEMS} from '../lnet/lnet-configuration-reducer.js';
 
 import {lensProp, view} from 'intel-fp';
 
@@ -40,6 +41,7 @@ export default function (targetReducer:Function, createStore:createStore,
                          alertIndicatorReducer:Function, alertIndicatorStream:HighlandStream,
                          jobIndicatorReducer:Function, jobIndicatorStream:HighlandStream,
                          serverReducer:Function, serverStream:HighlandStream,
+                         lnetConfigurationReducer:Function, lnetConfigurationStream:HighlandStream,
                          socketStream:SocketStream, CACHE_INITIAL_DATA:Object):Store {
   'ngInject';
 
@@ -47,7 +49,8 @@ export default function (targetReducer:Function, createStore:createStore,
     targets: targetReducer,
     alertIndicators: alertIndicatorReducer,
     jobIndicators: jobIndicatorReducer,
-    server: serverReducer
+    server: serverReducer,
+    lnetConfiguration: lnetConfigurationReducer
   });
 
   store.dispatch({ type: ADD_TARGET_ITEMS, payload: CACHE_INITIAL_DATA.target });
@@ -69,6 +72,9 @@ export default function (targetReducer:Function, createStore:createStore,
 
   serverStream
   .each(payload => store.dispatch({ type: ADD_SERVER_ITEMS, payload}));
+
+  lnetConfigurationStream
+  .each(payload => store.dispatch({ type: ADD_LNET_CONFIGURATION_ITEMS, payload}));
 
   return store;
 }

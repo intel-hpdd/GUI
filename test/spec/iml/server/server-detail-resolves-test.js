@@ -15,6 +15,8 @@ describe('server detail resolves', () => {
         .and.callFake(key => {
           if (key === 'server')
             return (serverStream = highland());
+          else if (key === 'lnetConfiguration')
+            return (lnetStream = highland());
           else
             return highland();
         })
@@ -38,9 +40,6 @@ describe('server detail resolves', () => {
 
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(path => {
-        if (path === '/lnet_configuration/')
-          return (lnetStream = highland());
-
         if (path === '/corosync_configuration')
           return (corosyncStream = highland());
 
@@ -66,10 +65,6 @@ describe('server detail resolves', () => {
 
       promise = serverDetailResolves();
 
-      serverStream.write({});
-      lnetStream.write({
-        objects: []
-      });
       networkInterfaceStream.write({});
       corosyncStream.write({
         objects: [{}]
@@ -127,12 +122,51 @@ describe('server detail resolves', () => {
     });
 
     it('should create a lnet configuration stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration/', {
-        jsonMask: 'objects(available_actions,state,resource_uri,locks)',
-        qs: {
-          host__id: '1',
-          limit: 0
-        }
+      expect(getStore.select).toHaveBeenCalledOnceWith('lnetConfiguration');
+    });
+
+    describe('filtering lnet configuration data', () => {
+      beforeEach(() => {
+        lnetStream.write([
+          {
+            id: '1',
+            host: '/api/host/1/',
+            state: 'lnet_up',
+            resource_uri: '/api/lnet_configuration/1/',
+            label: 'lnet configuration'
+          }, {
+            id: '2',
+            host: '/api/host/2/',
+            state: 'lnet_up',
+            resource_uri: '/api/lnet_configuration/2/',
+            label: 'lnet configuration'
+          }
+        ]);
+
+        promise.then(resolves => {
+          resolves.lnetConfigurationStream.each(spy);
+        });
+        $rootScope.$apply();
+      });
+
+      it('should return the item associated with the route', () => {
+        expect(spy).toHaveBeenCalledOnceWith({
+          id: '1',
+          host: '/api/host/1/',
+          state: 'lnet_up',
+          resource_uri: '/api/lnet_configuration/1/',
+          label: 'lnet configuration'
+        });
+      });
+
+      it('should not return items not associated with the route', () => {
+        expect(spy).not.toHaveBeenCalledWith({
+          id: '2',
+          host: '/api/host/2/',
+          state: 'lnet_up',
+          resource_uri: '/api/lnet_configuration/2/',
+          label: 'lnet configuration'
+        });
       });
     });
 

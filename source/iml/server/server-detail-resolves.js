@@ -59,17 +59,12 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
       }
     };
 
-    var merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
+    const lnetConfigurationStream = addProperty(rebindDestroy(
+      fp.map(fp.find(x => x.id === $route.current.params.id)),
+      getStore.select('lnetConfiguration')
+    ));
 
-    var s = socketStream('/lnet_configuration/', merge({}, {
-      jsonMask: 'objects(available_actions,state,resource_uri,locks)'
-    }));
-
-    const s2 = s
-      .through(rebindDestroy(getFlatObjOrNull));
-
-    const lnetConfigurationStream = resolveStream(s2)
-      .then(addProperty);
+    const merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
 
     var networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
       jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'

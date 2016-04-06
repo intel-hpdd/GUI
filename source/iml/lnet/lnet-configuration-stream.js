@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,33 +21,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function serverResolvesFactory ($q, resolveStream, addProperty, rebindDestroy, getStore) {
+import {map} from 'intel-fp';
+import type {SocketStream} from '../socket/socket-stream.js';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
+
+export default function (socketStream:SocketStream, rebindDestroy:fnToStreamToStream):HighlandStream {
   'ngInject';
 
-  return function serverResolves () {
-    const jobMonitorStream = addProperty(
-      getStore
-        .select('jobIndicators')
-    );
-
-    const alertMonitorStream = addProperty(
-      getStore
-        .select('alertIndicators')
-    );
-
-    const lnetConfigurationStream = addProperty(
-      getStore
-        .select('lnetConfiguration')
-    );
-
-    const serversStream = getStore
-      .select('server');
-
-    return $q.all({
-      jobMonitorStream,
-      alertMonitorStream,
-      lnetConfigurationStream,
-      serversStream
-    });
-  };
+  return rebindDestroy(
+    map(x => x.objects),
+    socketStream('/lnet_configuration', {
+      qs: {
+        dehydrate__host: false
+      }
+    })
+  );
 }
