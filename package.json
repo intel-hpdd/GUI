@@ -78,7 +78,8 @@
     "intel-math": "5.0.0",
     "intel-maybe": "1.0.0",
     "intel-obj": "5.0.2",
-    "intel-parsely": "1.0.1",
+    "intel-parsely": "1.0.2",
+    "intel-qs-parsers": "1.0.0",
     "intel-pdsh-parser": "1.0.1",
     "intel-road-runner": "1.0.1",
     "intel-socket-worker": "3.0.0",
@@ -99,7 +100,7 @@
     "nvd3": "1.8.1",
     "pre-commit": "1.1.2",
     "sprintf-js": "1.0.3",
-    "systemjs": "0.19.24",
-    "systemjs-builder": "0.15.13"
+    "systemjs": "0.19.25",
+    "systemjs-builder": "0.15.14"
   }
 }

@@ -4,10 +4,10 @@ import statusModule from '../../../../source/iml/status/status-module';
 describe('the input to qs parser', () => {
   beforeEach(module(statusModule));
 
-  var inputToQsParser;
+  var statusInputToQsParser;
 
-  beforeEach(inject(_inputToQsParser_ => {
-    inputToQsParser = _inputToQsParser_;
+  beforeEach(inject(_statusInputToQsParser_ => {
+    statusInputToQsParser = _statusInputToQsParser_;
   }));
 
   var inputOutput = {
@@ -29,7 +29,7 @@ describe('the input to qs parser', () => {
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, function () {
-      var result = inputToQsParser(input);
+      var result = statusInputToQsParser(input);
 
       if (result instanceof Error)
         result = result.message;

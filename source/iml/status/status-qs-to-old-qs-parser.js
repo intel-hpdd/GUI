@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,27 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import {lensProp, view} from 'intel-fp';
+import {always, flow} from 'intel-fp';
+import {like, ends, assign, inListOutOld, join} from 'intel-qs-parsers/qs-to-old-qs-parser.js';
+import {qsToInputTokens} from 'intel-qs-parsers/tokens.js';
+import * as parsely from 'intel-parsely';
 
-export default function StatusQueryController ($scope, $location, routeStream,
-                                               statusInputToQsParser, statusQsToInputParser) {
-  'ngInject';
+const tokenizer = parsely.getLexer(qsToInputTokens);
+const parseStr = parsely.parse(always(''));
+const choices = parsely.choice([like, ends, inListOutOld, assign]);
+const expr = parsely.sepBy1(choices, join);
+const emptyOrExpr = parsely.optional(expr);
 
-  var p = $scope.propagateChange($scope, this, 'qs');
-  var rs = routeStream();
-
-  rs
-    .map(view(lensProp('qs')))
-    .through(p);
-
-  $scope.$on('$destroy', rs.destroy.bind(rs));
-
-  angular.extend(this, {
-    parserFormatter: {
-      parser: statusInputToQsParser,
-      formatter: statusQsToInputParser
-    },
-    onSubmit: $location.search.bind($location)
-  });
-}
+const qsToOldQsParser = parseStr([emptyOrExpr, parsely.endOfString]);
+export default flow(tokenizer, qsToOldQsParser, x => x.result);
