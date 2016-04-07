@@ -5,6 +5,7 @@
     <table class="table table-condensed">
       <thead>
         <tr>
+          <th>Name</th>
           <th>Active Host</th>
           <th>File System</th>
           <th>Space Free / Total</th>
@@ -13,6 +14,7 @@
       </thead>
       <tbody>
         <tr>
+          <td>{{targetDashboard.target.label}}</td>
           <td ng-switch on="targetDashboard.target.active_host" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
             <span ng-switch-when="null">{{ targetDashboard.target.active_host_name }}</span>
             <a ng-switch-default route-to="configure/server/{{targetDashboard.target.active_host | extractApi}}">{{ targetDashboard.target.active_host_name }}</a>
