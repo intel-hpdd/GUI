@@ -1,12 +1,13 @@
 import highland from 'highland';
-import targetDashboardModule 
+import targetDashboardModule
   from '../../../../source/iml/dashboard/target-dashboard-module';
 
 
 describe('Target dashboard', () => {
-  var $route, socketStream, s;
+  var $route, socketStream, s, getStore, spy;
 
   beforeEach(module(targetDashboardModule, function ($provide) {
+    spy = jasmine.createSpy('spy');
     $route = {
       current: {
         params: {},
@@ -14,12 +15,17 @@ describe('Target dashboard', () => {
       }
     };
 
+    $provide.value('$route', $route);
+
     s = highland();
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(s);
     $provide.value('socketStream', socketStream);
 
-    $provide.value('$route', $route);
+    getStore = {
+      select: jasmine.createSpy('select').and.returnValue(s)
+    };
+    $provide.value('getStore', getStore);
   }));
 
   describe('kind', function () {
@@ -176,7 +182,7 @@ describe('Target dashboard', () => {
   });
 
   describe('target stream', function () {
-    var $rootScope, targetDashboardTargetStream, promise;
+    var $rootScope, targetDashboardTargetStream, targetStream;
 
     beforeEach(inject(function (_$rootScope_, _targetDashboardTargetStream_) {
       $rootScope = _$rootScope_;
@@ -185,7 +191,7 @@ describe('Target dashboard', () => {
 
       targetDashboardTargetStream = _targetDashboardTargetStream_;
 
-      promise = targetDashboardTargetStream();
+      targetStream = targetDashboardTargetStream();
     }));
 
     it('should be a function', function () {
@@ -193,27 +199,26 @@ describe('Target dashboard', () => {
     });
 
     it('should call socketStream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith(
-        '/target/1',
-        {
-          jsonMask: 'active_host_name,filesystem_name,label'
-        }
-      );
+      expect(getStore.select).toHaveBeenCalledOnceWith('targets');
     });
 
     it('should stream data', function () {
-      var result;
-
-      promise.then(function (s) {
-        s.each(function (x) {
-          result = x;
-        });
-      });
-
-      s.write('foo');
+      targetStream.each(spy);
+      s.write([
+        {
+          id: '5',
+          name: 'target5'
+        }, {
+          id: '1',
+          name: 'target1'
+        }
+      ]);
       $rootScope.$apply();
 
-      expect(result).toEqual('foo');
+      expect(spy).toHaveBeenCalledOnceWith({
+        id: '1',
+        name: 'target1'
+      });
     });
   });
 
