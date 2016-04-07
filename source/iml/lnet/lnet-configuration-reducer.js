@@ -24,7 +24,7 @@
 export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 import type {Action} from '../store/create-store.js';
 
-export default function (state: Array<Object> = [], {type, payload}:Action):Array<Object> {
+export default function (state:Array<Object> = [], {type, payload}:Action):Array<Object> {
   switch (type) {
   case ADD_LNET_CONFIGURATION_ITEMS:
     return payload;

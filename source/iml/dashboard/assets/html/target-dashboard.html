@@ -13,7 +13,11 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{targetDashboard.target.active_host_name}}</td>
+          <td ng-switch on="targetDashboard.target.active_host" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+            <span ng-switch-when="null">{{ targetDashboard.target.active_host_name }}</span>
+            <a ng-switch-default route-to="configure/server/{{targetDashboard.target.active_host | extractApi}}">{{ targetDashboard.target.active_host_name }}</a>
+          </td>
+          <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{ targetDashboard.target.active_host_name }}</td>
           <td>{{targetDashboard.target.filesystem_name}}</td>
           <td as-property stream="targetDashboard.usageStream">
             <usage-info stream="prop.stream" prefix="bytes"></usage-info>
