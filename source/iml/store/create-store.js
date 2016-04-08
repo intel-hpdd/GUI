@@ -99,7 +99,7 @@ export default function createStore (reducers:Object):Store {
 
   return {
     dispatch: stream.write.bind(stream),
-    select (key:string): HighlandStream {
+    select (key:string):HighlandStream {
       return rebindDestroy(
         map(state => state[key]),
         view()
