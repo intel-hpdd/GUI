@@ -23,7 +23,7 @@
 
 import {memoize} from 'intel-fp';
 
-export default function (createDate) {
+export default function (createDate:(milliseconds:Number) => Date) {
   'ngInject';
 
   return memoize(createDate);
