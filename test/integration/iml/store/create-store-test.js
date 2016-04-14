@@ -109,6 +109,34 @@ describe('create store', () => {
       ]);
     });
 
+    it('should emit once per change', () => {
+      const s = store.select('stuff');
+
+      store.dispatch(deepFreeze({
+        type: SET_OTHER_STATE,
+        payload: [
+          {id: 3, name: 'some'},
+          {id: 4, name: 'stuff'}
+        ]
+      }));
+
+      store.dispatch(deepFreeze({
+        type: SET_OTHER_STATE,
+        payload: [
+          {id: 5, name: 'even'},
+          {id: 6, name: 'more'}
+        ]
+      }));
+
+      s.each(spy);
+
+      expect(spy)
+        .toHaveBeenCalledOnceWith([
+          {id: 1, name: 'foo'},
+          {id: 2, name: 'bar'}
+        ]);
+    });
+
     it('should not emit after destroy', () => {
       const s = store.select('stuff');
 
