@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 
-import {map} from 'intel-fp';
+import {map, flow, filter, tap} from 'intel-fp';
 import highland from 'highland';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import rebindDestroy from '../highland/rebind-destroy';
@@ -100,8 +100,14 @@ export default function createStore (reducers:Object):Store {
   return {
     dispatch: stream.write.bind(stream),
     select (key:string):HighlandStream {
+      var lastItem;
+
       return rebindDestroy(
-        map(state => state[key]),
+        flow(
+          map(state => state[key]),
+          filter(x => x !== lastItem),
+          tap(x => lastItem = x)
+        ),
         view()
       );
     }

@@ -1185,7 +1185,8 @@
         },
         "readable-stream": {
           "version": "1.1.13",
-          "from": "readable-stream@>=1.1.9 <1.2.0"
+          "from": "readable-stream@1.1.13",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/readable-stream/-/readable-stream-1.1.13.tgz"
         }
       }
     },
@@ -2356,11 +2357,13 @@
         },
         "glob": {
           "version": "5.0.15",
-          "from": "glob@>=5.0.3 <6.0.0"
+          "from": "glob@5.0.15",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/glob/-/glob-5.0.15.tgz"
         },
         "isarray": {
           "version": "0.0.1",
-          "from": "isarray@0.0.1"
+          "from": "isarray@0.0.1",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/isarray/-/isarray-0.0.1.tgz"
         },
         "readable-stream": {
           "version": "1.0.33",
@@ -2496,7 +2499,8 @@
       "dependencies": {
         "async": {
           "version": "1.5.2",
-          "from": "async@>=1.4.0 <2.0.0"
+          "from": "async@1.5.2",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/async/-/async-1.5.2.tgz"
         },
         "source-map": {
           "version": "0.4.4",
@@ -2660,7 +2664,8 @@
       "dependencies": {
         "lodash": {
           "version": "4.8.2",
-          "from": "lodash@>=4.3.0 <5.0.0"
+          "from": "lodash@4.8.2",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/lodash/-/lodash-4.8.2.tgz"
         }
       }
     },
@@ -2707,9 +2712,8 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-flow-highland/-/intel-flow-highland-2.2.0.tgz"
     },
     "intel-fp": {
-      "version": "4.2.1",
-      "from": "intel-fp@4.2.1",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-fp/-/intel-fp-4.2.1.tgz"
+      "version": "4.2.3",
+      "from": "intel-fp@4.2.3"
     },
     "intel-jasmine-junit-reporter": {
       "version": "1.0.0",
@@ -2771,7 +2775,15 @@
     },
     "intel-parsely": {
       "version": "1.0.2",
-      "from": "intel-parsely@1.0.2"
+      "from": "intel-parsely@1.0.2",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-parsely/-/intel-parsely-1.0.2.tgz",
+      "dependencies": {
+        "intel-fp": {
+          "version": "4.2.1",
+          "from": "intel-fp@4.2.1",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-fp/-/intel-fp-4.2.1.tgz"
+        }
+      }
     },
     "intel-pdsh-parser": {
       "version": "1.0.1",
@@ -2811,9 +2823,15 @@
       "version": "1.0.0",
       "from": "intel-qs-parsers@1.0.0",
       "dependencies": {
+        "intel-fp": {
+          "version": "4.2.1",
+          "from": "intel-fp@4.2.1",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-fp/-/intel-fp-4.2.1.tgz"
+        },
         "intel-parsely": {
           "version": "1.0.2",
-          "from": "intel-parsely@1.0.2"
+          "from": "intel-parsely@1.0.2",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-parsely/-/intel-parsely-1.0.2.tgz"
         }
       }
     },
@@ -4054,7 +4072,8 @@
       "dependencies": {
         "isarray": {
           "version": "0.0.1",
-          "from": "isarray@0.0.1"
+          "from": "isarray@0.0.1",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/isarray/-/isarray-0.0.1.tgz"
         }
       }
     },
@@ -4234,7 +4253,8 @@
       "dependencies": {
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@15001.1001.0-dev-harmony-fb",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         }
       }
     },
@@ -4260,7 +4280,8 @@
       "dependencies": {
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@15001.1001.0-dev-harmony-fb",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         }
       }
     },
@@ -4569,7 +4590,8 @@
       "dependencies": {
         "isarray": {
           "version": "0.0.1",
-          "from": "isarray@0.0.1"
+          "from": "isarray@0.0.1",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/isarray/-/isarray-0.0.1.tgz"
         },
         "socket.io-parser": {
           "version": "2.2.2",
@@ -4945,7 +4967,8 @@
         },
         "cliui": {
           "version": "2.1.0",
-          "from": "cliui@>=2.1.0 <3.0.0"
+          "from": "cliui@2.1.0",
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/cliui/-/cliui-2.1.0.tgz"
         },
         "window-size": {
           "version": "0.1.0",
