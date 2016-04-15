@@ -256,6 +256,26 @@ describe('read write heat map chart', () => {
           expect(d3Chart.dispatch.on)
             .toHaveBeenCalledOnceWith('click', jasmine.any(Function));
         });
+
+        it('should ensure that minimum distance between current and next is 16 seconds', () => {
+          const onClick = d3Chart.dispatch.on.calls.argsFor(0)[1];
+          const points = {
+            current: {
+              id: 1,
+              ts: 1460659210347 // 2016-04-14T18:40:10.347Z
+            }, next: {
+              ts: 1460659214570 // 2016-04-14T18:40:14.570Z
+            }
+          };
+
+          onClick(points);
+
+          expect(routeSegmentUrl).toHaveBeenCalledOnceWith('app.jobstats', {
+            id: 1,
+            startDate: '2016-04-14T18:39:58.570Z',
+            endDate: '2016-04-14T18:40:14.570Z'
+          });
+        });
       });
 
       describe('before updating', () => {
