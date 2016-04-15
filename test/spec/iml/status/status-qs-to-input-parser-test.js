@@ -1,7 +1,7 @@
 import statusModule from '../../../../source/iml/status/status-module';
 
 
-describe('qs to input parser test', () => {
+describe('status qs to input parser test', () => {
   beforeEach(module(statusModule));
 
   var statusQsToInputParser;
@@ -12,17 +12,17 @@ describe('qs to input parser test', () => {
 
   const inputOutput = {
     '': '',
-    'a': new Error('Expected equals got end of string'),
+    'a': new Error('Expected one of contains, ends with, in, equals'),
     'a= ': new Error('Expected value got end of string'),
-    'a b': new Error('Expected equals got value at character 2'),
+    'a b': new Error('Expected one of contains, ends with, in, equals'),
     'a__in =': new Error('Expected value got end of string'),
     'a__in = =': new Error('Expected value got equals at character 8'),
     '__in': new Error('Expected value got in at character 0'),
     '=': new Error('Expected value got equals at character 0'),
     '&': new Error('Expected value got join at character 0'),
-    'a &': new Error('Expected equals got join at character 2'),
-    'a = b &&': new Error('Expected end of string got join'),
-    'a__in=b&&': new Error('Expected end of string got join'),
+    'a &': new Error('Expected one of contains, ends with, in, equals'),
+    'a = b &&': new Error('Expected value got join at character 7'),
+    'a__in=b&&': new Error('Expected value got join at character 8'),
     'a=1&b__contains=foo': 'a = 1 and b contains foo',
     'a=1&b=2': 'a = 1 and b = 2',
     'a=b': 'a = b',

@@ -1,7 +1,7 @@
 import statusModule from '../../../../source/iml/status/status-module';
 
 
-describe('the input to qs parser', () => {
+describe('the status input to qs parser', () => {
   beforeEach(module(statusModule));
 
   var statusInputToQsParser;
@@ -12,9 +12,9 @@ describe('the input to qs parser', () => {
 
   var inputOutput = {
     '': '',
-    'a': new Error('Expected equals got end of string'),
+    'a': new Error('Expected one of in, contains, ends with, equals'),
     'a = ': new Error('Expected value got end of string'),
-    'a b': new Error('Expected equals got value at character 2'),
+    'a b': new Error('Expected one of in, contains, ends with, equals'),
     'a = [1,2,3]': new Error('Expected value got startList at character 4'),
     'a in 3': new Error('Expected startList got value at character 5'),
     'a=b': 'a=b',
