@@ -34,6 +34,7 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
 
   const routeSegmentUrl = $filter('routeSegmentUrl');
   const dataLens = view(lensProp('data'));
+  const maxMillisecondsDiff = 16000;
 
   return function getReadWriteHeatMapChart (overrides) {
     var { durationStream, rangeStream } = createStream;
@@ -89,8 +90,17 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
             });
 
             d3Chart.dispatch.on('click', function onClick (points) {
-              const startDate = new Date(points.current.ts).toISOString();
-              const endDate = points.next ? new Date(points.next.ts).toISOString() : new Date().toISOString();
+              var sDate = new Date(points.current.ts);
+              const eDate = ( points.next ? new Date(points.next.ts) : new Date() );
+              const dateDiff = eDate.getTime() - sDate.getTime();
+
+              if (dateDiff < maxMillisecondsDiff) {
+                const millisecondsToAdd = maxMillisecondsDiff - dateDiff;
+                sDate = new Date(sDate.valueOf() - millisecondsToAdd);
+              }
+
+              const startDate = sDate.toISOString();
+              const endDate = eDate.toISOString();
 
               $scope.$apply(function applyLocationChange () {
                 $location.path(routeSegmentUrl('app.jobstats', {
