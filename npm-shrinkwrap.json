@@ -37,9 +37,9 @@
       }
     },
     "acorn": {
-      "version": "3.0.4",
-      "from": "acorn@3.0.4",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/acorn/-/acorn-3.0.4.tgz"
+      "version": "3.1.0",
+      "from": "acorn@>=3.0.4 <4.0.0",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/acorn/-/acorn-3.1.0.tgz"
     },
     "acorn-jsx": {
       "version": "2.0.1",
@@ -74,29 +74,29 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/amdefine/-/amdefine-1.0.0.tgz"
     },
     "angular": {
-      "version": "1.5.3",
-      "from": "angular@1.5.3",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular/-/angular-1.5.3.tgz"
+      "version": "1.5.5",
+      "from": "angular@1.5.5",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular/-/angular-1.5.5.tgz"
     },
     "angular-animate": {
-      "version": "1.5.3",
-      "from": "angular-animate@1.5.3",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-animate/-/angular-animate-1.5.3.tgz"
+      "version": "1.5.5",
+      "from": "angular-animate@1.5.5",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-animate/-/angular-animate-1.5.5.tgz"
     },
     "angular-mocks": {
-      "version": "1.5.3",
-      "from": "angular-mocks@1.5.3",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-mocks/-/angular-mocks-1.5.3.tgz"
+      "version": "1.5.5",
+      "from": "angular-mocks@1.5.5",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-mocks/-/angular-mocks-1.5.5.tgz"
     },
     "angular-resource": {
-      "version": "1.5.3",
-      "from": "angular-resource@1.5.3",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-resource/-/angular-resource-1.5.3.tgz"
+      "version": "1.5.5",
+      "from": "angular-resource@1.5.5",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-resource/-/angular-resource-1.5.5.tgz"
     },
     "angular-route": {
-      "version": "1.5.3",
-      "from": "angular-route@1.5.3",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-route/-/angular-route-1.5.3.tgz"
+      "version": "1.5.5",
+      "from": "angular-route@1.5.5",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-route/-/angular-route-1.5.5.tgz"
     },
     "angular-ui-bootstrap": {
       "version": "1.3.2",
@@ -104,9 +104,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/angular-ui-bootstrap/-/angular-ui-bootstrap-1.3.2.tgz"
     },
     "ansi-escapes": {
-      "version": "1.3.0",
+      "version": "1.4.0",
       "from": "ansi-escapes@>=1.1.0 <2.0.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/ansi-escapes/-/ansi-escapes-1.3.0.tgz"
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/ansi-escapes/-/ansi-escapes-1.4.0.tgz"
     },
     "ansi-regex": {
       "version": "2.0.0",
@@ -266,9 +266,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-core/-/babel-core-6.7.4.tgz"
     },
     "babel-eslint": {
-      "version": "6.0.2",
-      "from": "babel-eslint@6.0.2",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-eslint/-/babel-eslint-6.0.2.tgz"
+      "version": "6.0.3",
+      "from": "babel-eslint@6.0.3",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-eslint/-/babel-eslint-6.0.3.tgz"
     },
     "babel-generator": {
       "version": "6.7.2",
@@ -358,9 +358,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-messages/-/babel-messages-6.7.2.tgz"
     },
     "babel-plugin-__coverage__": {
-      "version": "0.111111.0",
-      "from": "babel-plugin-__coverage__@0.111111.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-plugin-__coverage__/-/babel-plugin-__coverage__-0.111111.0.tgz"
+      "version": "0.111111.1",
+      "from": "babel-plugin-__coverage__@0.111111.1",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-plugin-__coverage__/-/babel-plugin-__coverage__-0.111111.1.tgz"
     },
     "babel-plugin-check-es2015-constants": {
       "version": "6.7.2",
@@ -1372,9 +1372,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/escope/-/escope-3.6.0.tgz"
     },
     "eslint": {
-      "version": "2.7.0",
-      "from": "eslint@2.7.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint/-/eslint-2.7.0.tgz",
+      "version": "2.8.0",
+      "from": "eslint@2.8.0",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint/-/eslint-2.8.0.tgz",
       "dependencies": {
         "chalk": {
           "version": "1.1.3",
@@ -1387,14 +1387,14 @@
           "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/glob/-/glob-7.0.3.tgz"
         },
         "globals": {
-          "version": "9.4.0",
+          "version": "9.5.0",
           "from": "globals@>=9.2.0 <10.0.0",
-          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/globals/-/globals-9.4.0.tgz"
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/globals/-/globals-9.5.0.tgz"
         },
         "lodash": {
-          "version": "4.8.2",
+          "version": "4.11.1",
           "from": "lodash@>=4.0.0 <5.0.0",
-          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/lodash/-/lodash-4.8.2.tgz"
+          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/lodash/-/lodash-4.11.1.tgz"
         },
         "shelljs": {
           "version": "0.6.0",
@@ -1414,9 +1414,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint-plugin-flow-vars/-/eslint-plugin-flow-vars-0.3.0.tgz"
     },
     "eslint-plugin-flowtype": {
-      "version": "2.2.6",
-      "from": "eslint-plugin-flowtype@2.2.6",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.2.6.tgz",
+      "version": "2.2.7",
+      "from": "eslint-plugin-flowtype@2.2.7",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.2.7.tgz",
       "dependencies": {
         "lodash": {
           "version": "4.11.1",
@@ -2606,9 +2606,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/iconv-lite/-/iconv-lite-0.4.13.tgz"
     },
     "ignore": {
-      "version": "3.0.14",
+      "version": "3.1.1",
       "from": "ignore@>=3.0.10 <4.0.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/ignore/-/ignore-3.0.14.tgz"
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/ignore/-/ignore-3.1.1.tgz"
     },
     "image-size": {
       "version": "0.4.0",
@@ -2663,9 +2663,8 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inquirer/-/inquirer-0.12.0.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.8.2",
-          "from": "lodash@4.8.2",
-          "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/lodash/-/lodash-4.8.2.tgz"
+          "version": "4.11.1",
+          "from": "lodash@>=4.3.0 <5.0.0"
         }
       }
     },
@@ -3783,9 +3782,9 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/modify-filename/-/modify-filename-1.1.0.tgz"
     },
     "moment": {
-      "version": "2.12.0",
-      "from": "moment@2.12.0",
-      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/moment/-/moment-2.12.0.tgz"
+      "version": "2.13.0",
+      "from": "moment@2.13.0",
+      "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/moment/-/moment-2.13.0.tgz"
     },
     "ms": {
       "version": "0.7.1",
@@ -4807,7 +4806,7 @@
       "resolved": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/table/-/table-3.7.8.tgz",
       "dependencies": {
         "lodash": {
-          "version": "4.8.2",
+          "version": "4.11.1",
           "from": "lodash@>=4.0.0 <5.0.0"
         }
       }
