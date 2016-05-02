@@ -29,7 +29,6 @@ export type ResettableGroupControllerType = {
 type ControlType = {
   $name: string,
   $addControl:Function,
-  $submitted?:boolean, 
   $formatters:Array<(val:any) => any>,
   $setViewValue: (val:any, evt?:string) => void,
   $setPristine: () => void,
@@ -43,12 +42,19 @@ type ItemType = {
 };
 
 const ResettableGroupController = class {
-  elements:Array<ItemType>;
-  formCtrl:Object;
+  elements:Array<ItemType> = [];
+  formCtrl:{
+    $addControl: (control:ControlType) => void
+  };
+  localApply:Function;
+
+  constructor ($scope:Object, localApply:Function) {
+    'ngInject';
+    this.localApply = localApply.bind(null, $scope);
+  }
 
   $onInit () {
     var resettableGroupController = this;
-    this.elements = [];
 
     const oldAddControl = this.formCtrl.$addControl;
     this.formCtrl.$addControl = function addControl (control:ControlType) {
@@ -57,7 +63,7 @@ const ResettableGroupController = class {
       if (control.$name === '')
         return;
 
-      if (control.$submitted !== undefined) {
+      if (control.$addControl !== undefined) {
         control.$addControl = addControl;
         return;
       }
@@ -78,6 +84,8 @@ const ResettableGroupController = class {
       entry.item.$setPristine();
       entry.item.$setUntouched();
       entry.item.$render();
+
+      this.localApply();
     });
   }
 };

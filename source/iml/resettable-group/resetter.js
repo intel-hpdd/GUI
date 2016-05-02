@@ -28,11 +28,6 @@ type ScopeType = {
   $apply: () => void
 };
 
-type ElementType = {
-  on: (evt:string, callback:() => void) => void,
-  unbind: (evt:string, callback:() => void) => void
-};
-
 export default () => {
   'ngInject';
 
@@ -40,16 +35,18 @@ export default () => {
     restrict: 'A',
     scope: {},
     require: '^resettableGroup',
-    link: (scope:ScopeType, element:ElementType, attrs:Object, resettableGroupCtrl:ResettableGroupControllerType) => {
+    link: (scope:ScopeType, element:Array<HTMLElement>, attrs:Object,
+      resettableGroupCtrl:ResettableGroupControllerType) => {
+
       function onClick () {
         resettableGroupCtrl.reset();
-        scope.$apply();
       }
 
-      element.on('click', onClick);
+      const el = element[0];
+      el.addEventListener('click', onClick);
 
       scope.$on('$destroy', () => {
-        element.unbind('click', onClick);
+        el.removeEventListener('click', onClick);
       });
     }
   };
