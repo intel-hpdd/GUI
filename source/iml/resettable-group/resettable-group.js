@@ -21,45 +21,69 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ResettableGroupController = class {
+export type ResettableGroupControllerType = {
+  $onInit:() => void,
+  reset:() => void
+};
+
+type ControlType = {
+  $name: string,
+  $addControl:Function,
+  $submitted?:boolean, 
+  $formatters:Array<(val:any) => any>,
+  $setViewValue: (val:any, evt?:string) => void,
+  $setPristine: () => void,
+  $setUntouched: () => void,
+  $render: () => void
+};
+
+type ItemType = {
+  initialValue: any,
+  item: ControlType
+};
+
+const ResettableGroupController = class {
+  elements:Array<ItemType>;
+  formCtrl:Object;
 
   $onInit () {
-    var elements = this.elements = [];
+    var resettableGroupController = this;
+    this.elements = [];
+
     const oldAddControl = this.formCtrl.$addControl;
-    this.formCtrl.$addControl = function addControl (control) {
+    this.formCtrl.$addControl = function addControl (control:ControlType) {
       oldAddControl(control);
 
       if (control.$name === '')
         return;
 
-      if (control.constructor.name === 'FormController') {
+      if (control.$submitted !== undefined) {
         control.$addControl = addControl;
         return;
       }
 
       const item = {initialValue: undefined, item: control};
-      elements.push(item);
+      resettableGroupController.elements.push(item);
 
       control.$formatters.push(val => {
         item.initialValue = val;
         return val;
       });
     };
+  }
 
-    this.reset = () => {
-      this.elements.forEach(entry => {
-        entry.item.$setViewValue(entry.initialValue);
-        entry.item.$setPristine();
-        entry.item.$setUntouched();
-        entry.item.$render();
-      });
-    };
+  reset () {
+    this.elements.forEach(entry => {
+      entry.item.$setViewValue(entry.initialValue);
+      entry.item.$setPristine();
+      entry.item.$setUntouched();
+      entry.item.$render();
+    });
   }
 };
 
 export default {
   scope: {},
-  bindings: {},
   require: {
     formCtrl: '^form'
   },

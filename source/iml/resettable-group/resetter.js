@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,6 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import type {ResettableGroupControllerType} from './resettable-group';
+
+type ScopeType = {
+  $on: (evt:string, callback:() => void) => void,
+  $apply: () => void
+};
+
+type ElementType = {
+  on: (evt:string, callback:() => void) => void,
+  unbind: (evt:string, callback:() => void) => void
+};
+
 export default () => {
   'ngInject';
 
@@ -26,10 +40,16 @@ export default () => {
     restrict: 'A',
     scope: {},
     require: '^resettableGroup',
-    controllerAs: 'ctrl',
-    link: (scope, element, attrs, resettableGroupCtrl) => {
-      element.on('click', () => {
+    link: (scope:ScopeType, element:ElementType, attrs:Object, resettableGroupCtrl:ResettableGroupControllerType) => {
+      function onClick () {
         resettableGroupCtrl.reset();
+        scope.$apply();
+      }
+
+      element.on('click', onClick);
+
+      scope.$on('$destroy', () => {
+        element.unbind('click', onClick);
       });
     }
   };

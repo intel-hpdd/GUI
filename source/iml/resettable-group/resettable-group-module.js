@@ -23,7 +23,9 @@
 
 import angular from 'angular';
 import resettableGroupComponent from './resettable-group.js';
+import resetter from './resetter.js';
 
 export default angular.module('resettableGroup', [])
   .component('resettableGroup', resettableGroupComponent)
+  .directive('resetter', resetter)
   .name;
