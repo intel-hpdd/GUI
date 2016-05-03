@@ -24,8 +24,7 @@
 import type {ResettableGroupControllerType} from './resettable-group';
 
 type ScopeType = {
-  $on: (evt:string, callback:() => void) => void,
-  $apply: () => void
+  $on: (evt:string, callback:() => void) => void
 };
 
 export default () => {

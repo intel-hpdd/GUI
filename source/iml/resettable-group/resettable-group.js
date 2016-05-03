@@ -42,7 +42,7 @@ type ItemType = {
 };
 
 const ResettableGroupController = class {
-  elements:Array<ItemType> = [];
+  controls:Array<ItemType> = [];
   formCtrl:{
     $addControl: (control:ControlType) => void
   };
@@ -53,23 +53,25 @@ const ResettableGroupController = class {
     this.localApply = localApply.bind(null, $scope);
   }
 
-  $onInit () {
-    var resettableGroupController = this;
+  addNestedForm (form:ControlType) {
+    form.$addControl = this.formCtrl.$addControl;
+  }
 
+  $onInit () {
     const oldAddControl = this.formCtrl.$addControl;
-    this.formCtrl.$addControl = function addControl (control:ControlType) {
-      oldAddControl(control);
+    this.formCtrl.$addControl = (control:ControlType) => {
+      oldAddControl.call(this, control);
 
       if (control.$name === '')
         return;
 
       if (control.$addControl !== undefined) {
-        control.$addControl = addControl;
+        this.addNestedForm(control);
         return;
       }
 
       const item = {initialValue: undefined, item: control};
-      resettableGroupController.elements.push(item);
+      this.controls.push(item);
 
       control.$formatters.push(val => {
         item.initialValue = val;
@@ -79,7 +81,7 @@ const ResettableGroupController = class {
   }
 
   reset () {
-    this.elements.forEach(entry => {
+    this.controls.forEach(entry => {
       entry.item.$setViewValue(entry.initialValue);
       entry.item.$setPristine();
       entry.item.$setUntouched();
