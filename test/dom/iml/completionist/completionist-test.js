@@ -9,7 +9,7 @@ describe('completionist', () => {
   beforeEach(inject(($rootScope, $compile) => {
     keydownEvent = key => {
       const event = new Event('keydown');
-      event.key = key;
+      event.keyCode = key;
 
       return event;
     };
@@ -90,14 +90,14 @@ describe('completionist', () => {
 
     it('should activate a choice on down arrow', () => {
       input
-        .dispatchEvent(keydownEvent('ArrowDown'));
+        .dispatchEvent(keydownEvent(40));
       $scope.$digest();
       expect(qs('li')).toHaveClass('active');
     });
 
     it('should populate the model on click', () => {
       input
-        .dispatchEvent(keydownEvent('ArrowDown'));
+        .dispatchEvent(keydownEvent(40));
       $scope.$digest();
       qs('li').dispatchEvent(
         new MouseEvent('click')
@@ -109,11 +109,11 @@ describe('completionist', () => {
 
     it('should populate the model on enter', () => {
       input
-        .dispatchEvent(keydownEvent('ArrowUp'));
+        .dispatchEvent(keydownEvent(38));
       $scope.$digest();
 
       input
-        .dispatchEvent(keydownEvent('Enter'));
+        .dispatchEvent(keydownEvent(13));
       $scope.$digest();
 
       expect($scope.query).toBe('bar');

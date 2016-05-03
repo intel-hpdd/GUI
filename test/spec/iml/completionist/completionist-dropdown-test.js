@@ -77,9 +77,9 @@ describe('completionist dropdown', () => {
         .args[1];
     });
 
-    describe('Escape', () => {
+    describe('escape', () => {
       beforeEach(() => {
-        data.name = 'Escape';
+        data.name = 'escape';
 
         onKeyPress(data);
       });
@@ -95,9 +95,9 @@ describe('completionist dropdown', () => {
       });
     });
 
-    describe('ArrowUp', () => {
+    describe('up', () => {
       beforeEach(() => {
-        data.name = 'ArrowUp';
+        data.name = 'up';
         onKeyPress(data);
       });
 
@@ -116,9 +116,9 @@ describe('completionist dropdown', () => {
       });
     });
 
-    describe('ArrowDown', () => {
+    describe('down', () => {
       beforeEach(() => {
-        data.name = 'ArrowDown';
+        data.name = 'down';
         onKeyPress(data);
       });
 
@@ -137,10 +137,10 @@ describe('completionist dropdown', () => {
       });
     });
 
-    describe('Enter', () => {
+    describe('enter', () => {
       beforeEach(() => {
         completionistDropdown.index = 0;
-        data.name = 'Enter';
+        data.name = 'enter';
         onKeyPress(data);
       });
 

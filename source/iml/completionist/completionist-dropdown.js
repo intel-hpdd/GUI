@@ -42,22 +42,22 @@ const CompletionistDropdownCtrl = class {
       const maxVal = this.values.length + 1;
 
       switch (x.name) {
-      case 'Escape':
+      case 'escape':
         x.event.preventDefault();
         this.completionist.emit(VALUES, []);
         break;
-      case 'ArrowUp':
+      case 'up':
         x.event.preventDefault();
         this.index = (maxVal + (this.index - 1)) % maxVal;
         this.localApply();
         break;
-      case 'ArrowDown':
+      case 'down':
         x.event.preventDefault();
         this.index = (this.index + 1) % maxVal;
         this.localApply();
         break;
-      case 'Enter':
-      case 'Tab':
+      case 'enter':
+      case 'tab':
         if (this.values[this.index] != null) {
           x.event.preventDefault();
           this.completionist.emit(VALUE, this.values[this.index]);
