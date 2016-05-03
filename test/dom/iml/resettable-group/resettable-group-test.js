@@ -88,7 +88,7 @@ describe('resettable group', () => {
       entry2.value = 'new entry 2';
       entry2.dispatchEvent(new Event('input'));
       month.value = 'september';
-      month.dispatchEvent(new Event('input'));
+      month.dispatchEvent(new Event('change'));
       yourName.value = 'Jane Doe';
       yourName.dispatchEvent(new Event('input'));
       yourEmail.value = 'newguy@newplace.com';
@@ -96,23 +96,23 @@ describe('resettable group', () => {
     });
 
     it('should have the new entry 1 value', () => {
-      expect(entry1.value).toEqual('new entry 1');
+      expect($scope.entry1).toEqual('new entry 1');
     });
 
     it('should have the new entry 2 value', () => {
-      expect(entry2.value).toEqual('new entry 2');
+      expect($scope.entry2).toEqual('new entry 2');
     });
 
     it('should have the new month value', () => {
-      expect(month.value).toEqual('september');
+      expect($scope.month).toEqual('september');
     });
 
     it('should have the new name value', () => {
-      expect(yourName.value).toEqual('Jane Doe');
+      expect($scope.yourName).toEqual('Jane Doe');
     });
 
     it('should have the new email value', () => {
-      expect(yourEmail.value).toEqual('newguy@newplace.com');
+      expect($scope.yourEmail).toEqual('newguy@newplace.com');
     });
 
     describe('resetting the top level form', () => {
