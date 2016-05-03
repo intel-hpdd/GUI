@@ -21,9 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {ResettableGroupControllerType} from './resettable-group';
+import type {ResettableGroupController} from './resettable-group';
 
-type ScopeType = {
+type scp = {
   $on: (evt:string, callback:() => void) => void
 };
 
@@ -34,8 +34,8 @@ export default () => {
     restrict: 'A',
     scope: {},
     require: '^resettableGroup',
-    link: (scope:ScopeType, element:Array<HTMLElement>, attrs:Object,
-      resettableGroupCtrl:ResettableGroupControllerType) => {
+    link: (scope:scp, element:Array<HTMLElement>, attrs:Object,
+      resettableGroupCtrl:ResettableGroupController) => {
 
       function onClick () {
         resettableGroupCtrl.reset();

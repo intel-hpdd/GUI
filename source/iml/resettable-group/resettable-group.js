@@ -21,12 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export type ResettableGroupControllerType = {
-  $onInit:() => void,
-  reset:() => void
-};
+import {tap, once} from 'intel-fp';
 
-type ControlType = {
+type ctrl = {
   $name: string,
   $addControl:Function,
   $formatters:Array<(val:any) => any>,
@@ -36,15 +33,15 @@ type ControlType = {
   $render: () => void
 };
 
-type ItemType = {
+type itm = {
   initialValue: any,
-  item: ControlType
+  item: ctrl
 };
 
-const ResettableGroupController = class {
-  controls:Array<ItemType> = [];
+export const ResettableGroupController = class {
+  controls:Array<itm> = [];
   formCtrl:{
-    $addControl: (control:ControlType) => void
+    $addControl: (control:ctrl) => void
   };
   localApply:Function;
 
@@ -53,31 +50,25 @@ const ResettableGroupController = class {
     this.localApply = localApply.bind(null, $scope);
   }
 
-  addNestedForm (form:ControlType) {
-    form.$addControl = this.formCtrl.$addControl;
-  }
-
   $onInit () {
     const oldAddControl = this.formCtrl.$addControl;
-    this.formCtrl.$addControl = (control:ControlType) => {
-      oldAddControl.call(this, control);
+    const addControl = (control:ctrl) => {
+      oldAddControl.call(this.formCtrl, control);
 
       if (control.$name === '')
         return;
 
       if (control.$addControl !== undefined) {
-        this.addNestedForm(control);
+        control.$addControl = addControl;
         return;
       }
 
       const item = {initialValue: undefined, item: control};
       this.controls.push(item);
-
-      control.$formatters.push(val => {
-        item.initialValue = val;
-        return val;
-      });
+      control.$formatters.push(tap(once(val => item.initialValue = val)));
     };
+
+    this.formCtrl.$addControl = addControl;
   }
 
   reset () {
@@ -86,9 +77,9 @@ const ResettableGroupController = class {
       entry.item.$setPristine();
       entry.item.$setUntouched();
       entry.item.$render();
-
-      this.localApply();
     });
+
+    this.localApply();
   }
 };
 
