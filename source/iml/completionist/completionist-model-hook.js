@@ -74,21 +74,13 @@ export default function completionistModelHook ($document:Array<Document>) {
           });
         };
 
-        switch (event.keyCode) {
-        case 38:
-          emitKeyPress('up');
-          break;
-        case 40:
-          emitKeyPress('down');
-          break;
-        case 13:
-          emitKeyPress('enter');
-          break;
-        case 27:
-          emitKeyPress('escape');
-          break;
-        case 9:
-          emitKeyPress('tab');
+        switch (event.key) {
+        case 'ArrowUp':
+        case 'ArrowDown':
+        case 'Enter':
+        case 'Escape':
+        case 'Tab':
+          emitKeyPress(event.key);
           break;
         }
       };
@@ -102,7 +94,7 @@ export default function completionistModelHook ($document:Array<Document>) {
 
         isFocused = true;
 
-        return ctrl.completionist.parse(
+        ctrl.completionist.parse(
           ctrl.ngModel.$viewValue,
           el.selectionStart
         );

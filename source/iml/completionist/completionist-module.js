@@ -23,11 +23,12 @@
 
 import angular from 'angular';
 import completionist from './completionist.js';
+import extendScopeModule from '../extend-scope-module.js';
 import completionistModelHook from './completionist-model-hook.js';
 import completionistDropdown from './completionist-dropdown.js';
 
 export default angular
-  .module('completionist', [])
+  .module('completionist', [extendScopeModule])
   .component('completionist', completionist)
   .component('completionistDropdown', completionistDropdown)
   .directive('completionistModelHook', completionistModelHook)
