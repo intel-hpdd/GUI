@@ -1,13 +1,9 @@
 import resettableGroupModule from '../../../../source/iml/resettable-group/resettable-group-module.js';
 
 describe('resettable group', () => {
-  var $scope, localApply, qs, el, entry1, entry2, yourName, yourEmail, resetButton,
-    inputEvent;
+  var $scope, qs, el, entry1, entry2, month, yourName, yourEmail, resetButton;
 
-  beforeEach(module(resettableGroupModule, ($provide) => {
-    localApply = jasmine.createSpy('localApply');
-    $provide.value('localApply', localApply);
-  }));
+  beforeEach(module(resettableGroupModule));
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `<form name="testForm">
@@ -19,6 +15,20 @@ describe('resettable group', () => {
     <ng-form name="subForm2">
       <label for="entry2">Entry 2</label>
       <input type="text" name="entry2" ng-model="entry2" placeholder="entry2" />
+      <select name="month" ng-model="month">
+        <option value="january">January</option>
+        <option value="february">February</option>
+        <option value="march">March</option>
+        <option value="april">April</option>
+        <option value="may" selected>May</option>
+        <option value="june">June</option>
+        <option value="july">July</option>
+        <option value="august">August</option>
+        <option value="september">September</option>
+        <option value="october">October</option>
+        <option value="november">November</option>
+        <option value="december">December</option>
+      </select>
     </ng-form>
     <label for="yourName">Name</label>
     <input type="text" name="yourName" ng-model="yourName" placeholder="Name" />
@@ -32,6 +42,7 @@ describe('resettable group', () => {
     $scope = $rootScope.$new();
     $scope.entry1 = 'entry 1';
     $scope.entry2 = 'entry 2';
+    $scope.month = 'may';
     $scope.yourName = 'John Doe';
     $scope.yourEmail = 'someone@someplace.com';
 
@@ -42,6 +53,7 @@ describe('resettable group', () => {
     qs = el.querySelector.bind(el);
     entry1 = qs('[name="entry1"]');
     entry2 = qs('[name="entry2"]');
+    month = qs('[name="month"]');
     yourName = qs('[name="yourName"]');
     yourEmail = qs('[name="yourEmail"]');
     resetButton = qs('button[resetter]');
@@ -56,6 +68,10 @@ describe('resettable group', () => {
       expect(entry2.value).toEqual('entry 2');
     });
 
+    it('should have default month of may', () => {
+      expect(month.value).toEqual('may');
+    });
+
     it('should have default name', () => {
       expect(yourName.value).toEqual('John Doe');
     });
@@ -67,16 +83,16 @@ describe('resettable group', () => {
 
   describe('setting new values on all forms and their elements', () => {
     beforeEach(() => {
-      inputEvent = new Event('input');
-
       entry1.value = 'new entry 1';
-      entry1.dispatchEvent(inputEvent);
+      entry1.dispatchEvent(new Event('input'));
       entry2.value = 'new entry 2';
-      entry2.dispatchEvent(inputEvent);
+      entry2.dispatchEvent(new Event('input'));
+      month.value = 'september';
+      month.dispatchEvent(new Event('input'));
       yourName.value = 'Jane Doe';
-      yourName.dispatchEvent(inputEvent);
+      yourName.dispatchEvent(new Event('input'));
       yourEmail.value = 'newguy@newplace.com';
-      yourEmail.dispatchEvent(inputEvent);
+      yourEmail.dispatchEvent(new Event('input'));
     });
 
     it('should have the new entry 1 value', () => {
@@ -85,6 +101,10 @@ describe('resettable group', () => {
 
     it('should have the new entry 2 value', () => {
       expect(entry2.value).toEqual('new entry 2');
+    });
+
+    it('should have the new month value', () => {
+      expect(month.value).toEqual('september');
     });
 
     it('should have the new name value', () => {
@@ -98,11 +118,6 @@ describe('resettable group', () => {
     describe('resetting the top level form', () => {
       beforeEach(() => {
         resetButton.click();
-        $scope.$digest();
-      });
-
-      it('should call localAppy', () => {
-        expect(localApply).toHaveBeenCalledOnce();
       });
 
       it('should have the original entry 1 value', () => {
@@ -111,6 +126,10 @@ describe('resettable group', () => {
 
       it('should have the original entry 2 value', () => {
         expect(entry2.value).toEqual('entry 2');
+      });
+
+      it('should have the original month value', () => {
+        expect(month.value).toEqual('may');
       });
 
       it('should have the original name value', () => {
@@ -129,6 +148,10 @@ describe('resettable group', () => {
         expect(entry2.classList.contains('ng-pristine')).toEqual(true);
       });
 
+      it('should put month in pristine state', () => {
+        expect(month.classList.contains('ng-pristine')).toEqual(true);
+      });
+
       it('should put yourName in pristine state', () => {
         expect(yourName.classList.contains('ng-pristine')).toEqual(true);
       });
@@ -143,6 +166,10 @@ describe('resettable group', () => {
 
       it('should indicate entry2 is not touched', () => {
         expect(entry2.classList.contains('ng-touched')).toEqual(false);
+      });
+
+      it('should indicate month is not touched', () => {
+        expect(month.classList.contains('ng-touched')).toEqual(false);
       });
 
       it('should indicate yourName is not touched', () => {

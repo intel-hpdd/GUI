@@ -22,10 +22,11 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import extendScopeModule from '../extend-scope-module.js';
 import resettableGroupComponent from './resettable-group.js';
 import resetter from './resetter.js';
 
-export default angular.module('resettableGroup', [])
+export default angular.module('resettableGroup', [extendScopeModule])
   .component('resettableGroup', resettableGroupComponent)
   .directive('resetter', resetter)
   .name;
