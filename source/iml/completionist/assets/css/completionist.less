@@ -1,0 +1,54 @@
+completionist-dropdown {
+  @timing: 0.2s;
+
+  display: block;
+  position: absolute;
+  background-color: @white;
+  width: ~"calc(100% - 92px)";
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: 1px solid @brand-primary;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 2px @brand-primary;
+    .transition-height-scale(@timing);
+  }
+
+  li {
+    padding: 0 35px;
+    border-bottom: 1px dotted @gray-lighter;
+    line-height: 32px;
+    box-sizing: border-box;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.active {
+      border-bottom: 1px dotted @link-hover-color;
+      background-color: @link-hover-color;
+      color: @white;
+    }
+
+    &.ng-enter,
+    &.ng-leave,
+    &.ng-move {
+      transition: height ease @timing, opacity ease @timing;
+    }
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active,
+    &.ng-move &.ng-enter-prepare {
+      opacity: 0;
+      height: 0;
+    }
+
+    &.ng-enter.ng-enter-active,
+    &.ng-leave,
+    &.ng-move.ng-move-active {
+      opacity: 1;
+      height: 33px;
+    }
+  }
+}
