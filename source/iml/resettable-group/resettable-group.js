@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {tap, once} from 'intel-fp';
+import {tap, once, flow, bindMethod} from 'intel-fp';
 
 type ctrl = {
   $name: string,
@@ -40,9 +40,7 @@ type itm = {
 
 export const ResettableGroupController = class {
   controls:Array<itm> = [];
-  formCtrl:{
-    $addControl: (control:ctrl) => void
-  };
+  formCtrl: ctrl;
   localApply:Function;
 
   constructor ($scope:Object, localApply:Function) {
@@ -51,24 +49,27 @@ export const ResettableGroupController = class {
   }
 
   $onInit () {
-    const oldAddControl = this.formCtrl.$addControl;
-    const addControl = (control:ctrl) => {
-      oldAddControl.call(this.formCtrl, control);
-
+    const addControl = (control:ctrl):ctrl => {
       if (control.$name === '')
-        return;
+        return control;
 
-      if (control.$addControl !== undefined) {
-        control.$addControl = addControl;
-        return;
+      if (control.$addControl) {
+        control.$addControl = flow(
+          addControl,
+          bindMethod('$addControl', control)
+        );
+
+        return control;
       }
 
       const item = {initialValue: undefined, item: control};
       this.controls.push(item);
       control.$formatters.push(tap(once(val => item.initialValue = val)));
+
+      return control;
     };
 
-    this.formCtrl.$addControl = addControl;
+    addControl(this.formCtrl);
   }
 
   reset () {
