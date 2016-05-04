@@ -8,7 +8,7 @@
       "node_modules*/intel-lodash-mixins/index.js",
       "node_modules*/intel-fp/dist/source/fp.js",
       "node_modules*/intel-maybe/dist/maybe.js",
-      "node_modules*/intel-math/dist/math.js",
+      "node_modules*/intel-math/dist/source/math.js",
       "node_modules*/intel-debounce/dist/debounce.js",
       "node_modules*/intel-obj/dist/source/obj.js",
       "node_modules*/highland/dist/highland.js",

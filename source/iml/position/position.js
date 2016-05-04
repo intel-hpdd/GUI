@@ -21,10 +21,8 @@
 
 import _ from 'intel-lodash-mixins';
 
-/**
- * Helper class, responsible for positioning.
- * @constructor
- */
+const asCalc = dimension => `calc(50% - ${dimension}px`;
+
 function Position ($window) {
   'ngInject';
 
@@ -133,11 +131,6 @@ function positionerFactory (positionFinder, DIRECTIONS) {
   }, {});
 
   return Object.create(Object.prototype, propertiesObject);
-}
-
-function asCalc (dimension) {
-  var prefix = new RegExp('AppleWebKit/').test(navigator.userAgent) ? '-webkit-' : '';
-  return `${prefix}calc(50% - ${dimension}px`;
 }
 
 export default Position;
