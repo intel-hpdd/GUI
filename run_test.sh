@@ -1,6 +1,6 @@
 #!/usr/bin/env bash -e
 
-nvm use 4
+. ~/.nvm/nvm.sh use 4
 rm -rf node_modules
 npm i
 
