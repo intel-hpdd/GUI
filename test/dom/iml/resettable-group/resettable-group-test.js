@@ -81,6 +81,34 @@ describe('resettable group', () => {
     });
   });
 
+  describe('verify controls', () => {
+    it('should contain entry1 on subForm1', () => {
+      expect($scope.subForm1.entry1).not.toBe(undefined);
+    });
+
+    it('should contain entry2 on subForm2', () => {
+      expect($scope.subForm2.entry2).not.toBe(undefined);
+    });
+
+    it('should contain yourName on testForm', () => {
+      expect($scope.testForm.yourName).not.toBe(undefined);
+    });
+
+    it('should contain yourEmail on testForm', () => {
+      expect($scope.testForm.yourEmail).not.toBe(undefined);
+    });
+
+    describe('in subforms', () => {
+      it('should not contain entry1 on testForm', () => {
+        expect($scope.testForm.entry1).toBe(undefined);
+      });
+
+      it('should not contain entry2 on testForm', () => {
+        expect($scope.testForm.entry2).toBe(undefined);
+      });
+    });
+  });
+
   describe('setting new values on all forms and their elements', () => {
     beforeEach(() => {
       entry1.value = 'new entry 1';
