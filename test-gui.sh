@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 pushd gulp
 ../node_modules/gulp/bin/gulp.js dev:build

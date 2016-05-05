@@ -51,7 +51,7 @@ System.config({
     'intel-angular-route-segment': 'node_modules/intel-angular-route-segment/build/angular-route-segment.js',
     'intel-fp': 'node_modules/intel-fp/dist/source/fp.js',
     'intel-obj': 'node_modules/intel-obj/dist/source/obj.js',
-    'intel-math': 'node_modules/intel-math/dist/math.js',
+    'intel-math': 'node_modules/intel-math/dist/source/math.js',
     'intel-extract-api': 'node_modules/intel-extract-api/index.js',
     'intel-parsely': 'node_modules/intel-parsely/dist/source/index.js',
     'intel-pdsh-parser': 'node_modules/intel-pdsh-parser/dist/source/index.js',
