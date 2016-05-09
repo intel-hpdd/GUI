@@ -35,6 +35,7 @@ import lineChart from './line-chart';
 import multiBarChart from './multi-bar-chart';
 import pieGraph from './pie-graph';
 import stackedAreaChart from './stacked-area-chart';
+import configToData$ from './config-to-data$';
 
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -48,6 +49,7 @@ export default angular.module('charts',
   ])
   .factory('baseChart', baseChartFactory)
   .factory('dateTicks', dateTicksFactory)
+  .factory('configToData$', configToData$)
   .directive('heatMap', heatMap)
   .directive('lineChart', lineChart)
   .directive('multiBarChart', multiBarChart)
