@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-. ~/.nvm/nvm.sh use 4
+. ~/.nvm/nvm.sh
+nvm use 4
 rm -rf node_modules
 npm i -d
 
