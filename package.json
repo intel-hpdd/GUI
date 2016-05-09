@@ -48,6 +48,7 @@
     "gulp": "https://github.com/gulpJS/gulp.git#4.0",
     "gulp-babel": "6.1.2",
     "gulp-inject": "3.0.0",
+    "less": "2.6.1",
     "gulp-less": "3.0.5",
     "gulp-minify-html": "1.0.6",
     "gulp-ng-annotate": "2.0.0",
