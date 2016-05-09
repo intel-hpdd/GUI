@@ -22,6 +22,7 @@
 import angular from 'angular';
 import {noop} from 'intel-fp';
 import _ from 'intel-lodash-mixins';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import chartTemplate from './assets/html/chart';
 

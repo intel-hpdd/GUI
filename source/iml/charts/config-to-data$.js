@@ -22,11 +22,12 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import {configChange} from '../charts/base-chart.js';
 import {invokeMethod} from 'intel-fp';
 
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import type rebindDestroy from '../highland/rebind-destroy.js';
+
+export const configChange = {};
 
 export default function configToDataFactory (rebindDestroy:rebindDestroy) {
   'ngInject';
