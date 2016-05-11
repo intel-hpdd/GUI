@@ -22,15 +22,18 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import tooltipModule from '../tooltip/tooltip-module';
-import {parselyBox, parseQuery} from './parsely-box';
+import tooltipModule from '../tooltip/tooltip-module.js';
+import completionistModule from '../completionist/completionist-module.js';
+import {parselyBox, parseQuery} from './parsely-box.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import parselyBoxTemplate from './assets/html/parsely-box';
 
 export default angular
 .module('parselyBox', [
-  tooltipModule, parselyBoxTemplate
+  completionistModule,
+  tooltipModule,
+  parselyBoxTemplate
 ])
 .directive('parselyBox', parselyBox)
 .directive('parseQuery', parseQuery)

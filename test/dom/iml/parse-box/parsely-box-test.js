@@ -1,39 +1,60 @@
 import parselyBoxModule from '../../../../source/iml/parsely-box/parsely-box-module';
 
-
-describe('parsely box', function () {
+describe('parsely box', () => {
   beforeEach(module(parselyBoxModule));
 
   var el, $scope, qs, searchButton,
-    indicator, tooltip, form, input;
+    indicator, tooltip, form, input, completionistDropdown;
 
-  beforeEach(inject(function ($rootScope, $compile) {
-    var template = '<parsely-box on-submit="::onSubmit(qs)" \
-query="::initialQuery" parser-formatter="::parserFormatter"></parsely-box>';
+  beforeEach(inject(($rootScope, $compile) => {
+    var template = `
+<parsely-box
+  on-submit="::onSubmit(qs)"
+  query="::initialQuery"
+  parser-formatter="::parserFormatter"
+  completer="::completer(value)"
+>
+</parsely-box>`;
+
 
     $scope = $rootScope.$new();
-    $scope.parserFormatter = {
-      parser: function match1 (str) {
+    Object.assign($scope, {
+      parserFormatter: {
+        parser (str) {
+          if (str === '')
+            return '';
+
+          if (str === '1')
+            return 1;
+
+          return new Error('str was not string 1');
+        },
+        formatter (num) {
+          if (num == null || num === '')
+            return '';
+
+          if (num === 1)
+            return '1';
+
+          throw new Error('num was not number 1');
+        }
+      },
+      completer (str) {
         if (str === '')
           return '';
 
         if (str === '1')
-          return 1;
-
-        return new Error('str was not string 1');
+          return [
+            {
+              start: 0,
+              end: 0,
+              suggestion: '+'
+            }
+          ];
       },
-      formatter: function match1 (num) {
-        if (num == null || num === '')
-          return '';
-
-        if (num === 1)
-          return '1';
-
-        throw new Error('num was not number 1');
-      }
-    };
-    $scope.onSubmit = jasmine.createSpy('onSubmit');
-    $scope.initialQuery = '';
+      onSubmit: jasmine.createSpy('onSubmit'),
+      initialQuery: ''
+    });
 
     el = $compile(template)($scope)[0];
     qs = el.querySelector.bind(el);
@@ -42,28 +63,34 @@ query="::initialQuery" parser-formatter="::parserFormatter"></parsely-box>';
     tooltip = qs.bind(el, '.tooltip');
     form = qs.bind(el, 'form');
     input = qs.bind(el, 'input');
+    completionistDropdown = qs.bind(el, 'completionist-dropdown');
     $scope.$digest();
   }));
 
-  describe('when valid', function () {
-    beforeEach(function () {
+  describe('when valid', () => {
+    beforeEach(() => {
       input().value = '1';
       input().dispatchEvent(new Event('input'));
     });
 
-    it('should enable the search box', function () {
+    it('should enable the search box', () => {
       expect(searchButton().disabled).toBe(false);
     });
 
-    it('should show the green check icon', function () {
+    it('should show the green check icon', () => {
       expect(indicator().classList.contains('fa-check-circle')).toBe(true);
     });
 
-    it('should not show the error tooltip', function () {
+    it('should not show the error tooltip', () => {
       expect(tooltip().classList.contains('in')).toBe(false);
     });
 
-    it('should call onSubmit when searching', function () {
+    it('should show the autocomplete suggestion', () => {
+      expect(completionistDropdown().querySelector('li'))
+        .toHaveText('+');
+    });
+
+    it('should call onSubmit when searching', () => {
       var event = new MouseEvent('click', {
         bubbles: true
       });
@@ -72,7 +99,7 @@ query="::initialQuery" parser-formatter="::parserFormatter"></parsely-box>';
       expect($scope.onSubmit).toHaveBeenCalledOnceWith(1);
     });
 
-    it('should call onSubmit form submission', function () {
+    it('should call onSubmit form submission', () => {
       var event = new Event('submit', {
         bubbles: true
       });
@@ -83,25 +110,25 @@ query="::initialQuery" parser-formatter="::parserFormatter"></parsely-box>';
     });
   });
 
-  describe('when invalid', function () {
-    beforeEach(function () {
+  describe('when invalid', () => {
+    beforeEach(() => {
       input().value = '2';
       input().dispatchEvent(new Event('input'));
     });
 
-    it('should disable the search box', function () {
+    it('should disable the search box', () => {
       expect(searchButton().disabled).toBe(true);
     });
 
-    it('should show the red x icon', function () {
+    it('should show the red x icon', () => {
       expect(indicator().classList.contains('fa-times-circle')).toBe(true);
     });
 
-    it('should not show the error tooltip', function () {
+    it('should not show the error tooltip', () => {
       expect(tooltip().classList.contains('in')).toBe(false);
     });
 
-    it('should show the parse error', function () {
+    it('should show the parse error', () => {
       var value = tooltip()
         .querySelector('.tooltip-inner span').innerHTML.trim();
 

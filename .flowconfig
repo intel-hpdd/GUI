@@ -2,7 +2,6 @@
 .*node_modules/babel-.*
 .*node_modules/babylon.*
 .*node_modules/intel-socket-worker.*
-.*intel-fp/test/fp-test.js
 .*node_modules/highland.*
 .*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 

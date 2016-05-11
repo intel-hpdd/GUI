@@ -21,18 +21,85 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always, flow} from 'intel-fp';
-import {join, assign, like, ends, inList} from 'intel-qs-parsers/input-to-qs-parser.js';
+import {flow, memoize} from 'intel-fp';
+import * as inputToQsParser from 'intel-qs-parsers/input-to-qs-parser.js';
 import * as parsely from 'intel-parsely';
 import {inputToQsTokens} from 'intel-qs-parsers/tokens.js';
+import type {tokensToResult} from 'intel-parsely';
 
-const tokenizer = parsely.getLexer(inputToQsTokens);
+export const tokenizer = parsely.getLexer(inputToQsTokens);
 
-const parseToStr = parsely.parse(always(''));
+const severity = parsely.matchValue('severity');
 
-const choices = parsely.choice([inList, like, ends, assign]);
-const expr = parsely.sepBy1(choices, join);
+// severity parser
+const severities = parsely.choice(
+[
+  'info',
+  'debug',
+  'critical',
+  'warning',
+  'error'
+]
+  .map(
+    severity => flow(
+      parsely.matchValue(severity),
+      parsely.onSuccess(x => x.toUpperCase())
+    )
+  )
+);
+
+const assignSeverity = inputToQsParser.assign(severity, severities);
+const inListSeverity = inputToQsParser.inList(severity, severities);
+const severityParser = parsely.choice([
+  inListSeverity,
+  assignSeverity
+]);
+
+// type parser
+const type = parsely.matchValueTo('type', 'record_type');
+const assign:tokensToResult = inputToQsParser.assign(type, inputToQsParser.value);
+const like:tokensToResult =  inputToQsParser.like(type, inputToQsParser.value);
+const ends:tokensToResult = inputToQsParser.ends(type, inputToQsParser.value);
+const inList:tokensToResult = inputToQsParser.inList(type, inputToQsTokens.value);
+const typeParser = parsely.choice([
+  inList,
+  like,
+  ends,
+  assign
+]);
+
+const begin = parsely.matchValue('begin');
+const end = parsely.matchValue('end');
+const beginOrEnd = parsely.choice([begin, end]);
+
+const rightHand = flow(
+  parsely.parseStr([
+    beginOrEnd,
+    inputToQsParser.ascOrDesc
+  ]),
+  parsely.onSuccess(x => x.split('-').reverse().join('-'))
+);
+
+const orderByParser = parsely.parseStr([
+  inputToQsParser.orderBy,
+  rightHand
+]);
+
+export const choices = parsely.choice([
+  severityParser,
+  typeParser,
+  inputToQsParser.offsetParser,
+  inputToQsParser.limitParser,
+  orderByParser,
+  inputToQsParser.dateParser(beginOrEnd)
+]);
+const expr = parsely.sepBy1(choices, inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
-const statusParser = parseToStr([emptyOrExpr, parsely.endOfString]);
+const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default flow(tokenizer, statusParser, x => x.result);
+
+export default memoize(flow(
+  tokenizer,
+  statusParser,
+  x => x.result
+));

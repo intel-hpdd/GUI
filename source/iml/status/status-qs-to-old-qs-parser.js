@@ -21,16 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always, flow} from 'intel-fp';
-import {like, ends, assign, inListOutOld, join} from 'intel-qs-parsers/qs-to-old-qs-parser.js';
+import {flow, memoize} from 'intel-fp';
+import {parser} from 'intel-qs-parsers/qs-to-old-qs-parser.js';
 import {qsToInputTokens} from 'intel-qs-parsers/tokens.js';
 import * as parsely from 'intel-parsely';
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
-const parseStr = parsely.parse(always(''));
-const choices = parsely.choice([like, ends, inListOutOld, assign]);
-const expr = parsely.sepBy1(choices, join);
-const emptyOrExpr = parsely.optional(expr);
-
-const qsToOldQsParser = parseStr([emptyOrExpr, parsely.endOfString]);
-export default flow(tokenizer, qsToOldQsParser, x => x.result);
+export default memoize(
+  flow(
+    tokenizer,
+    parser,
+    x => x.result
+  )
+);

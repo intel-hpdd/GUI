@@ -32,6 +32,7 @@ export function parselyBox () {
     scope: {},
     bindToController: {
       onSubmit: '&',
+      completer: '&',
       parserFormatter: '=',
       query: '=?'
     },
@@ -49,9 +50,9 @@ export function parseQuery () {
     scope: {
       parserFormatter: '='
     },
-    link: function link (scope, element, attrs, ctrl) {
+    link (scope, element, attrs, ctrl) {
       ctrl.$formatters.push(function parseToInput (x) {
-        var result = scope.parserFormatter.formatter(x);
+        const result = scope.parserFormatter.formatter(x);
 
         if (result instanceof Error)
           throw result;
@@ -60,7 +61,7 @@ export function parseQuery () {
       });
 
       ctrl.$parsers.push(function parseToQs (x) {
-        var result = scope.parserFormatter.parser(x);
+        const result = scope.parserFormatter.parser(x);
 
         if (result instanceof Error)
           return undefined;

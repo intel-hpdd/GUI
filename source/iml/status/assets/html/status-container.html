@@ -2,7 +2,7 @@
 <div class="status container container-full">
   <div class="row">
     <div class="col-xs-12">
-      <parsely-box on-submit="::ctrl.onSubmit(qs)" query="ctrl.qs" parser-formatter="::ctrl.parserFormatter"></parsely-box>
+      <parsely-box on-submit="::ctrl.onSubmit(qs)" query="ctrl.qs" parser-formatter="::ctrl.parserFormatter" completer="::ctrl.completer(value, cursorPosition)"></parsely-box>
       <common-status-searches></common-status-searches>
       <div app-view-segment="2" class="status-table"></div>
     </div>

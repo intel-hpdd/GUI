@@ -31,6 +31,7 @@ import extendScopeModule from '../extend-scope-module.js';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
 import statusQsToInputParser from './status-qs-to-input-parser.js';
 import statusInputToQsParser from './status-input-to-qs-parser.js';
+import statusCompleter from './status-completer.js';
 
 import StatusController from './status-controller';
 import StatusQueryController from './status-query-controller';
@@ -49,4 +50,5 @@ export default angular.module('status', [
   .component('deferredActionDropdown', deferredActionDropdownComponent)
   .value('statusInputToQsParser', statusInputToQsParser)
   .value('statusQsToInputParser', statusQsToInputParser)
+  .value('statusCompleter', statusCompleter)
   .name;
