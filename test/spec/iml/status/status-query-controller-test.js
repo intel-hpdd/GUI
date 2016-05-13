@@ -8,7 +8,7 @@ import StatusQueryController
 describe('status query controller', function () {
   beforeEach(module(statusModule));
 
-  var ctrl, $scope, $location, routeStream, s,
+  var ctrl, $scope, $location, routeStream, s, statusCompleter,
     statusInputToQsParser, statusQsToInputParser;
 
   beforeEach(inject(function ($controller, $rootScope) {
@@ -22,10 +22,13 @@ describe('status query controller', function () {
     spyOn(s, 'destroy');
     routeStream = jasmine.createSpy('routeStream').and.returnValue(s);
 
+    statusCompleter = 'completer';
+
     ctrl = $controller('StatusQueryController', {
       $scope,
       $location,
       routeStream,
+      statusCompleter,
       statusInputToQsParser,
       statusQsToInputParser
     });
@@ -37,6 +40,7 @@ describe('status query controller', function () {
         parser: statusInputToQsParser,
         formatter: statusQsToInputParser
       },
+      completer: statusCompleter,
       onSubmit: jasmine.any(Function)
     });
 

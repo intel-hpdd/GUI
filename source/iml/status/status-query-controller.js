@@ -22,7 +22,7 @@
 import angular from 'angular';
 import {lensProp, view} from 'intel-fp';
 
-export default function StatusQueryController ($scope, $location, routeStream,
+export default function StatusQueryController ($scope, $location, routeStream, statusCompleter,
                                                statusInputToQsParser, statusQsToInputParser) {
   'ngInject';
 
@@ -40,6 +40,7 @@ export default function StatusQueryController ($scope, $location, routeStream,
       parser: statusInputToQsParser,
       formatter: statusQsToInputParser
     },
+    completer: statusCompleter,
     onSubmit: $location.search.bind($location)
   });
 }
