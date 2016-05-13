@@ -21,27 +21,43 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import authModule from '../auth/auth-module';
-import navigateModule from '../navigate/navigate-module';
-import notificationModule from '../notification/notification-module';
-import environmentModule from '../environment-module';
-import commandModule from '../command/command-module';
-import extendScopeModule from '../extend-scope-module';
-import helpMapperModule from '../help-mapper/help-mapper-module.js';
-import AppCtrl from './app-controller';
-import {
-  appSessionFactory, appNotificationStreamFactory, alertStreamFactory
-}
-  from './app-resolves';
+import {find, __} from 'intel-fp';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 
-export default angular.module('app', [
-  authModule, navigateModule,
-  notificationModule, environmentModule,
-  commandModule, extendScopeModule, helpMapperModule
-])
-  .factory('appSession', appSessionFactory)
-  .factory('appNotificationStream', appNotificationStreamFactory)
-  .factory('appAlertStream', alertStreamFactory)
-  .controller('AppCtrl', AppCtrl)
-  .name;
+export default () => ({
+  restrict: 'A',
+  transclude: true,
+  template: `
+<a id="help-menu" ng-href="/static/webhelp/help_wrapper.html{{$ctrl.qs}}" target="_blank">
+  <i class="fa fa-question-circle"></i> Help
+</a>
+  `,
+  controllerAs: '$ctrl',
+  bindToController: 'true',
+  controller (routeStream:() => HighlandStream, $scope:Object, propagateChange:Function) {
+    'ngInject';
+
+    this.qs = '';
+
+    const rs = routeStream();
+
+    const p = propagateChange($scope, this, 'qs');
+
+    const map = {
+      server: '?server_tab.htm',
+      serverDetail: '?server_detail_page.htm',
+      mgt: '?mgts_tab.htm',
+      statusQuery: '?status_page.htm',
+      hsm: '?hsm_page.htm',
+      dashboard: '?dashboard_charts.htm'
+    };
+
+    rs
+      .map(r => r.contains)
+      .map(find(__, Object.keys(map)))
+      .map(x => map[x] || '')
+      .through(p);
+
+    $scope.$on('$destroy', () => rs.destroy());
+  }
+});

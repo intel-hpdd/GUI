@@ -30,9 +30,7 @@
         <li>
           <a id="log-menu" route-to="log/" target="_self"><i class="fa fa-book"></i> Logs</a>
         </li>
-        <li>
-          <a id="help-menu" href="/static/webhelp/help_wrapper.html" target="_blank"><i class="fa fa-question-circle"></i> Help</a>
-        </li>
+        <li help-mapper></li>
         <li ng-class="{active: app.$routeSegment.contains('status')}">
           <a class="navigation status-nav" ng-href="{{ app.link }}">
             <span ng-class="app.status.health" class="ng-cloak badge notification-counter">
