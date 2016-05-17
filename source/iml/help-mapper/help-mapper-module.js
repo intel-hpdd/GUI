@@ -22,26 +22,13 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import authModule from '../auth/auth-module';
-import navigateModule from '../navigate/navigate-module';
-import notificationModule from '../notification/notification-module';
-import environmentModule from '../environment-module';
-import commandModule from '../command/command-module';
-import extendScopeModule from '../extend-scope-module';
-import helpMapperModule from '../help-mapper/help-mapper-module.js';
-import AppCtrl from './app-controller';
-import {
-  appSessionFactory, appNotificationStreamFactory, alertStreamFactory
-}
-  from './app-resolves';
 
-export default angular.module('app', [
-  authModule, navigateModule,
-  notificationModule, environmentModule,
-  commandModule, extendScopeModule, helpMapperModule
+import routeStreamModule from '../route-stream/route-stream-module.js';
+import extendScopeModule from '../extend-scope-module.js';
+import helpMapperComponent from './help-mapper-directive.js';
+
+export default angular.module('helpMapper', [
+  routeStreamModule, extendScopeModule
 ])
-  .factory('appSession', appSessionFactory)
-  .factory('appNotificationStream', appNotificationStreamFactory)
-  .factory('appAlertStream', alertStreamFactory)
-  .controller('AppCtrl', AppCtrl)
+  .directive('helpMapper', helpMapperComponent)
   .name;
