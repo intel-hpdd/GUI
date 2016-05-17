@@ -60,7 +60,7 @@ const type = parsely.matchValueTo('type', 'record_type');
 const assign:tokensToResult = inputToQsParser.assign(type, inputToQsParser.value);
 const like:tokensToResult =  inputToQsParser.like(type, inputToQsParser.value);
 const ends:tokensToResult = inputToQsParser.ends(type, inputToQsParser.value);
-const inList:tokensToResult = inputToQsParser.inList(type, inputToQsTokens.value);
+const inList:tokensToResult = inputToQsParser.inList(type, inputToQsParser.value);
 const typeParser = parsely.choice([
   inList,
   like,

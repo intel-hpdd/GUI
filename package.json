@@ -71,7 +71,7 @@
     "intel-obj": "5.0.2",
     "intel-parsely": "3.0.0",
     "intel-pdsh-parser": "1.0.2",
-    "intel-qs-parsers": "3.0.0",
+    "intel-qs-parsers": "3.0.1",
     "intel-socket-worker": "3.1.0",
     "jasmine": "2.4.1",
     "jasmine-core": "2.4.1",
