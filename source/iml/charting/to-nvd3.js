@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import {curry} from 'intel-fp';
-import _ from 'intel-lodash-mixins';
+import {always, map} from 'intel-fp';
 import highland from 'highland';
 
 export default curry(2, function toNvd3 (keys, s) {
@@ -30,7 +30,7 @@ export default curry(2, function toNvd3 (keys, s) {
 
   return s
     .collect()
-    .tap(_.fmap(function (point) {
+    .tap(map(point => {
       keys.forEach(function createValue (key, index) {
         struct[index].values.push({
           x: new Date(point.ts),
@@ -38,6 +38,6 @@ export default curry(2, function toNvd3 (keys, s) {
         });
       });
     }))
-    .map(_.fidentity(struct))
+    .map(always(struct))
     .otherwise(highland([struct]));
 });

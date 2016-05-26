@@ -1,14 +1,14 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
+import {tail, identity} from 'intel-fp';
 
 describe('Server Status Step', () => {
   beforeEach(module(serverModule));
 
-  describe('controller', function () {
+  describe('controller', () => {
     var $stepInstance, data, serverStatus, testHostStream, hostlistFilter;
 
-    beforeEach(inject(function ($rootScope, $controller) {
+    beforeEach(inject(($rootScope, $controller) => {
       var $scope = $rootScope.$new();
 
       $stepInstance = {
@@ -41,37 +41,37 @@ describe('Server Status Step', () => {
       });
     }));
 
-    it('should set the pdsh expression on the scope', function () {
+    it('should set the pdsh expression on the scope', () => {
       expect(serverStatus.pdsh).toEqual(data.pdsh);
     });
 
-    it('should set hostnamesHash', function () {
+    it('should set hostnamesHash', () => {
       serverStatus.pdshUpdate('foo,bar', ['foo', 'bar'], {'foo': 1, 'bar': 1});
 
       expect(hostlistFilter.setHash).toHaveBeenCalledOnceWith({foo: 1, bar: 1});
     });
 
-    describe('transitioning', function () {
-      beforeEach(function () {
+    describe('transitioning', () => {
+      beforeEach(() => {
         serverStatus.transition('next');
       });
 
-      it('should delegate to $stepInstance', function () {
+      it('should delegate to $stepInstance', () => {
         expect($stepInstance.transition).toHaveBeenCalledOnceWith('next', {
           data: data,
           showCommand: false
         });
       });
 
-      it('should destroy the test host stream', function () {
+      it('should destroy the test host stream', () => {
         expect(testHostStream.destroy).toHaveBeenCalledOnce();
       });
     });
 
-    describe('on data', function () {
+    describe('on data', () => {
       var response;
 
-      beforeEach(function () {
+      beforeEach(() => {
         response = {
           valid: false,
           objects: [
@@ -86,24 +86,24 @@ describe('Server Status Step', () => {
         testHostStream.write(response);
       });
 
-      it('should set the hosts on the filter', function () {
+      it('should set the hosts on the filter', () => {
         expect(hostlistFilter.setHosts).toHaveBeenCalledOnceWith(response.objects);
       });
 
-      it('should set status validity', function () {
+      it('should set status validity', () => {
         expect(serverStatus.isValid).toBe(false);
       });
     });
   });
 
-  describe('the step', function () {
+  describe('the step', () => {
     var serverStatusStep;
 
-    beforeEach(inject(function (_serverStatusStep_) {
+    beforeEach(inject(_serverStatusStep_ => {
       serverStatusStep = _serverStatusStep_;
     }));
 
-    it('should be created as expected', function () {
+    it('should be created as expected', () => {
       expect(serverStatusStep).toEqual({
         templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-status-step.js',
         controller: 'ServerStatusStepCtrl as serverStatus',
@@ -112,10 +112,10 @@ describe('Server Status Step', () => {
       });
     });
 
-    describe('on enter', function () {
+    describe('on enter', () => {
       var data, getTestHostStream, onEnter, serversToApiObjects, resolveStream;
 
-      beforeEach(function () {
+      beforeEach(() => {
         getTestHostStream = jasmine.createSpy('getTestHostStream')
           .and.returnValue(highland());
 
@@ -130,7 +130,7 @@ describe('Server Status Step', () => {
           }]);
 
         resolveStream = jasmine.createSpy('resolveStream')
-          .and.returnValue(_.identity);
+          .and.returnValue(identity);
 
         data = {
           spring: jasmine.createSpy('spring'),
@@ -142,15 +142,15 @@ describe('Server Status Step', () => {
           }
         };
 
-        onEnter = _.last(serverStatusStep.onEnter);
+        onEnter = tail(serverStatusStep.onEnter);
         onEnter(data, getTestHostStream, serversToApiObjects, resolveStream);
       });
 
-      it('should convert the servers to api objects', function () {
+      it('should convert the servers to api objects', () => {
         expect(serversToApiObjects).toHaveBeenCalledOnceWith(data.servers);
       });
 
-      it('should test the api objects', function () {
+      it('should test the api objects', () => {
         expect(getTestHostStream).toHaveBeenCalledOnceWith(data.spring, {
           objects: [
             {
@@ -166,29 +166,29 @@ describe('Server Status Step', () => {
       });
     });
 
-    describe('transition', function () {
+    describe('transition', () => {
       var steps;
 
-      beforeEach(function () {
+      beforeEach(() => {
         steps = {
           addServersStep: {},
           selectServerProfileStep: {}
         };
       });
 
-      it('should go to add servers step for a previous action', function () {
+      it('should go to add servers step for a previous action', () => {
         var result = serverStatusStep.transition(steps, 'previous');
 
         expect(result).toEqual(steps.addServersStep);
       });
 
-      it('should go to select profile step for proceed and skip', function () {
+      it('should go to select profile step for proceed and skip', () => {
         var result = serverStatusStep.transition(steps, 'proceed and skip');
 
         expect(result).toEqual(steps.selectServerProfileStep);
       });
 
-      it('should go to select profile step for proceed', function () {
+      it('should go to select profile step for proceed', () => {
         var result = serverStatusStep.transition(steps, 'proceed');
 
         expect(result).toEqual(steps.selectServerProfileStep);

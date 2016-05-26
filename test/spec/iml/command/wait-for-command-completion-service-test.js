@@ -1,6 +1,6 @@
 
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
+import {noop} from 'intel-fp';
 import commandModule from '../../../../source/iml/command/command-module';
 
 describe('wait-for-command-completion-service', function () {
@@ -18,7 +18,7 @@ describe('wait-for-command-completion-service', function () {
 
     var throwIfServerErrors = function throwIfServerErrors (fn) {
       return function throwOrCall (response) {
-        if (_.compact(response.errors).length)
+        if (response.errors && response.errors.length)
           throw new Error(JSON.stringify(response.errors));
 
         return fn(response);
@@ -55,7 +55,7 @@ describe('wait-for-command-completion-service', function () {
         ])));
 
       function callWaitForCommandCompletion () {
-        stream.each(_.noop);
+        stream.each(noop);
       }
     });
   });

@@ -1,19 +1,19 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture';
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
+import * as fp from 'intel-fp';
 
 import {SelectServerProfileStepCtrl} from
   '../../../../source/iml/server/select-server-profile-step';
 
-describe('select server profile', function () {
+describe('select server profile', () => {
   beforeEach(module(serverModule));
 
-  describe('select server profile step ctrl', function () {
+  describe('select server profile step ctrl', () => {
     var $scope, $stepInstance, data,
       createHostProfiles, hostProfileStream, selectServerProfileStep;
 
-    beforeEach(inject(function ($rootScope, $controller) {
+    beforeEach(inject(($rootScope, $controller) => {
       $scope = $rootScope.$new();
       $stepInstance = {
         transition: jasmine.createSpy('transition')
@@ -36,7 +36,7 @@ describe('select server profile', function () {
       });
     }));
 
-    it('should setup the controller', function () {
+    it('should setup the controller', () => {
       const instance = window.extendWithConstructor(SelectServerProfileStepCtrl, {
         pdsh: data.pdsh,
         transition: jasmine.any(Function),
@@ -49,74 +49,74 @@ describe('select server profile', function () {
       expect(selectServerProfileStep).toEqual(instance);
     });
 
-    describe('transition', function () {
+    describe('transition', () => {
       var action;
-      beforeEach(function () {
+      beforeEach(() => {
         action = 'previous';
         selectServerProfileStep.transition(action);
       });
 
-      it('should end the hostProfileSpark', function () {
+      it('should end the hostProfileSpark', () => {
         expect(hostProfileStream.destroy).toHaveBeenCalledOnce();
       });
 
-      it('should call transition on the step instance', function () {
+      it('should call transition on the step instance', () => {
         expect($stepInstance.transition).toHaveBeenCalledOnceWith(action, {
           data: data
         });
       });
     });
 
-    describe('receiving data change on hostProfileSpark', function () {
+    describe('receiving data change on hostProfileSpark', () => {
       beforeEach(inject(() => {
         hostProfileStream.write(transformedHostProfileFixture);
       }));
 
-      it('should set the profiles', function () {
+      it('should set the profiles', () => {
         expect(selectServerProfileStep.profiles).toEqual(transformedHostProfileFixture);
       });
 
-      describe('receiving more data', function () {
-        beforeEach(function () {
+      describe('receiving more data', () => {
+        beforeEach(() => {
           hostProfileStream.write(transformedHostProfileFixture);
         });
 
-        it('should keep the same profile', function () {
+        it('should keep the same profile', () => {
           expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
 
-      describe('onSelected', function () {
-        beforeEach(function () {
+      describe('onSelected', () => {
+        beforeEach(() => {
           selectServerProfileStep.onSelected(transformedHostProfileFixture[0]);
         });
 
-        it('should set overridden to false', function () {
+        it('should set overridden to false', () => {
           expect(selectServerProfileStep.overridden).toEqual(false);
         });
 
-        it('should set the profile on the scope', function () {
+        it('should set the profile on the scope', () => {
           expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
     });
 
-    describe('get host path', function () {
+    describe('get host path', () => {
       var item;
-      beforeEach(function () {
+      beforeEach(() => {
         item = {
           address: 'address'
         };
       });
 
-      it('should retrieve the host address', function () {
+      it('should retrieve the host address', () => {
         expect(selectServerProfileStep.getHostPath(item)).toEqual(item.address);
       });
     });
 
-    describe('pdsh update', function () {
+    describe('pdsh update', () => {
       var pdsh, hostnames, hostnamesHash;
-      beforeEach(function () {
+      beforeEach(() => {
         pdsh = 'test[001-002].localdomain';
         hostnames = ['test001.localdomain', 'test002.localdomain'];
         hostnamesHash = {
@@ -125,27 +125,27 @@ describe('select server profile', function () {
         };
       });
 
-      beforeEach(function () {
+      beforeEach(() => {
         selectServerProfileStep.pdshUpdate(pdsh, hostnames, hostnamesHash);
       });
 
-      it('should have the hostnamesHash', function () {
+      it('should have the hostnamesHash', () => {
         expect(selectServerProfileStep.hostnamesHash).toEqual(hostnamesHash);
       });
     });
   });
 
-  describe('selectServerProfileStep', function () {
+  describe('selectServerProfileStep', () => {
     var $rootScope, selectServerProfileStep, resolveStream, NgPromise;
 
-    beforeEach(inject(function (_$rootScope_, _selectServerProfileStep_, _resolveStream_, $q) {
+    beforeEach(inject((_$rootScope_, _selectServerProfileStep_, _resolveStream_, $q) => {
       $rootScope = _$rootScope_;
       selectServerProfileStep = _selectServerProfileStep_;
       resolveStream = _resolveStream_;
       NgPromise = Object.getPrototypeOf($q.resolve()).constructor;
     }));
 
-    it('should contain the appropriate properties', function () {
+    it('should contain the appropriate properties', () => {
       expect(selectServerProfileStep).toEqual({
         templateUrl: '/static/chroma_ui/source/iml/server/assets/html/select-server-profile-step.js',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
@@ -156,7 +156,7 @@ describe('select server profile', function () {
       });
     });
 
-    it('should transition to the server status step', function () {
+    it('should transition to the server status step', () => {
       var steps = {
         serverStatusStep: {}
       };
@@ -164,12 +164,12 @@ describe('select server profile', function () {
       expect(selectServerProfileStep.transition(steps)).toEqual(steps.serverStatusStep);
     });
 
-    describe('on enter', function () {
+    describe('on enter', () => {
       var onEnter, data, createOrUpdateHostsStream,
         getHostProfiles, waitForCommandCompletion, result,
         response, spy;
 
-      beforeEach(function () {
+      beforeEach(() => {
         data = {
           spring: jasmine.createSpy('spring'),
           servers: [],
@@ -315,10 +315,8 @@ describe('select server profile', function () {
           .and.returnValue(highland([response]));
 
         waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-          .and.callFake(function () {
-            return function (val) {
-              return highland([val]);
-            };
+          .and.callFake(() => {
+            return val => highland([val]);
           });
 
         getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(highland([{
@@ -326,42 +324,42 @@ describe('select server profile', function () {
         }
         ]));
 
-        onEnter = _.last(selectServerProfileStep.onEnter);
+        onEnter = fp.tail(selectServerProfileStep.onEnter);
 
         result = onEnter(data, createOrUpdateHostsStream, getHostProfiles,
           waitForCommandCompletion, true, resolveStream);
 
         spy = jasmine.createSpy('spy');
 
-        result.hostProfileStream.then(function (stream) {
+        result.hostProfileStream.then(stream => {
           stream.each(spy);
         });
 
         $rootScope.$digest();
       });
 
-      it('should create or update the hosts', function () {
+      it('should create or update the hosts', () => {
         expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(data.servers);
       });
 
-      it('should wait for command completion', function () {
+      it('should wait for command completion', () => {
         expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should call getHostProfiles', function () {
-        var hosts = _.fmap(_.pluckPath('command_and_host.host'), response.objects);
+      it('should call getHostProfiles', () => {
+        const hosts = fp.map(x => x.command_and_host.host, response.objects);
 
         expect(getHostProfiles).toHaveBeenCalledOnceWith(data.spring, hosts);
       });
 
-      it('should return data and a hostProfileStream', function () {
+      it('should return data and a hostProfileStream', () => {
         expect(result).toEqual({
           data: data,
           hostProfileStream: jasmine.any(NgPromise)
         });
       });
 
-      it('should return the profiles', function () {
+      it('should return the profiles', () => {
         expect(spy).toHaveBeenCalledOnceWith({ some: 'profiles' });
       });
     });
