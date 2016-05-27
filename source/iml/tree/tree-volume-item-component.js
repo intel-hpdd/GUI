@@ -21,20 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import createStore from './create-store.js';
 
-import targetReducer from '../target/target-reducer.js';
-import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
-import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
-import serverReducer from '../server/server-reducer.js';
-import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
-import treeReducer from '../tree/tree-reducer.js';
-
-export default createStore({
-  targets: targetReducer,
-  alertIndicators: alertIndicatorReducer,
-  jobIndicators: jobIndicatorReducer,
-  server: serverReducer,
-  lnetConfiguration: lnetConfigurationReducer,
-  tree: treeReducer
-});
+export default {
+  bindings: {
+    record: '<'
+  },
+  template: `
+    <i class="fa fa-fw fa-hdd-o"></i> {{::$ctrl.record.label}}
+  `
+};

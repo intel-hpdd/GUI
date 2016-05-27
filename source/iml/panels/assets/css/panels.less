@@ -1,0 +1,30 @@
+.panels {
+  display: flex;
+  background-color: @gray-lighter;
+  border-left: @white;
+  flex-flow: row wrap;
+  min-height: ~"calc(100% - 53px)";
+  height: auto !important;
+  height: ~"calc(100% - 53px)";
+  flex-direction: column;
+
+  @media (min-width: @screen-tablet) {
+    flex-direction: row;
+  }
+
+  .side-panel {
+    align-items: stretch;
+    flex: 1 20%;
+  }
+
+  .main-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    flex: 1 80%;
+    background-color: @white;
+    border-left: darken(@gray-lighter, 10%);
+    box-shadow: 0 0 3px @gray;
+  }
+}

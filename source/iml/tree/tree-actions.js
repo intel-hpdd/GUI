@@ -21,20 +21,53 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import createStore from './create-store.js';
+import {
+  ADD_TREE_ITEMS,
+  TOGGLE_COLLECTION_OPEN,
+  TOGGLE_ITEM_OPEN
+} from './tree-types.js';
 
-import targetReducer from '../target/target-reducer.js';
-import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
-import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
-import serverReducer from '../server/server-reducer.js';
-import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
-import treeReducer from '../tree/tree-reducer.js';
+import type {
+  treeItemT
+} from './tree-types.js';
 
-export default createStore({
-  targets: targetReducer,
-  alertIndicators: alertIndicatorReducer,
-  jobIndicators: jobIndicatorReducer,
-  server: serverReducer,
-  lnetConfiguration: lnetConfigurationReducer,
-  tree: treeReducer
+export function addTreeItems (payload:treeItemT[]) {
+  return {
+    type: ADD_TREE_ITEMS,
+    payload
+  };
+}
+
+export const toggleCollectionOpen = (id:number, open:boolean) => {
+  return {
+    type: TOGGLE_COLLECTION_OPEN,
+    payload: {
+      id,
+      open
+    }
+  };
+};
+
+export const toggleItemOpen = (id:number, itemId:number, open:boolean) => {
+  return {
+    type: TOGGLE_ITEM_OPEN,
+    payload: {
+      id,
+      itemId,
+      open
+    }
+  };
+};
+
+let id = 1;
+
+export const createItem = (x:mixed) => ({
+  ...x,
+  treeId: id++,
+  open: false,
+  opens: {},
+  meta: {
+    offset: 0,
+    limit: 20
+  }
 });

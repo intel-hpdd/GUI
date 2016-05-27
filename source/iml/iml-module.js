@@ -65,6 +65,7 @@ import disconnectModalModule from './disconnect-modal/disconnect-modal-module.js
 import logModule from './logs/log-module.js';
 import logQueryRouteModule from './logs/log-query-route-module.js';
 import logRecordsRouteModule from './logs/log-records-route-module.js';
+import treeModule from './tree/tree-module.js';
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -81,7 +82,7 @@ export default angular.module('iml', [
   hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule,
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
   statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule, logModule,
-  logQueryRouteModule, logRecordsRouteModule, disconnectModalModule
+  logQueryRouteModule, logRecordsRouteModule, disconnectModalModule, treeModule
 ])
   .config($compileProvider => {
     'ngInject';

@@ -44,6 +44,7 @@ export default function serverDetailSegment ($routeSegmentProvider, GROUPS) {
       untilResolved: {
         templateUrl: loadingTemplate
       },
-      access: GROUPS.FS_ADMINS
+      access: GROUPS.FS_ADMINS,
+      dependencies: ['id']
     });
 }

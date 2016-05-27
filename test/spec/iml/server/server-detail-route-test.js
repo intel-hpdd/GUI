@@ -49,7 +49,8 @@ describe('server detail route', () => {
       untilResolved: {
         templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
       },
-      access: GROUPS.FS_ADMINS
+      access: GROUPS.FS_ADMINS,
+      dependencies: ['id']
     });
   });
 });

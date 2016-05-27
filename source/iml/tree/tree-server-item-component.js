@@ -21,20 +21,35 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import createStore from './create-store.js';
+import {
+  toggleItem
+} from './tree-utils.js';
 
-import targetReducer from '../target/target-reducer.js';
-import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
-import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
-import serverReducer from '../server/server-reducer.js';
-import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
-import treeReducer from '../tree/tree-reducer.js';
 
-export default createStore({
-  targets: targetReducer,
-  alertIndicators: alertIndicatorReducer,
-  jobIndicators: jobIndicatorReducer,
-  server: serverReducer,
-  lnetConfiguration: lnetConfigurationReducer,
-  tree: treeReducer
-});
+function treeServerItem () {
+  this.onOpen = toggleItem;
+}
+
+export default {
+  controller: treeServerItem,
+  bindings: {
+    record: '<',
+    parent: '<'
+  },
+  template: `
+    <i
+      class="fa fa-fw fa-chevron-right"
+      ng-click="$ctrl.onOpen($ctrl.parent.treeId, $ctrl.record.id, !$ctrl.parent.opens[$ctrl.record.id])"
+      ng-class="{'fa-rotate-90': $ctrl.parent.opens[$ctrl.record.id]}"
+    ></i>
+    <a route-to="configure/server/{{::$ctrl.record.id}}">
+      <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.fqdn}}
+    </a>
+    <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">
+      <tree-volume-collection
+        parent-id="$ctrl.parent.id"
+        host-id="$ctrl.record.id"
+      ></tree-volume-collection>
+    </div>
+  `
+};

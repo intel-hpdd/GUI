@@ -1,4 +1,6 @@
-html, body, .wrap {
+body,
+div[app-view-segment="0"],
+html {
   height: 100%;
 }
 
@@ -18,13 +20,6 @@ html, body, .wrap {
   background-color: @brand-info;
   border-color: darken(@brand-info, 10%);
   color: @white;
-}
-
-button.btn[disabled]:active {
-  background-color: @btn-link-disabled-color;
-  color: @gray-dark;
-  border-color: #6a6a6a;
-  .box-shadow(none);
 }
 
 a:hover {
@@ -92,7 +87,10 @@ html body div.container-full {
 
   color: @gray-light;
 
-  &:hover, &:focus, &:active, &.active {
+  &.active,
+  &:active,
+  &:focus,
+  &:hover {
     color: darken(@gray-light, 5%);
   }
 }
@@ -104,7 +102,9 @@ html body div.container-full {
 a {
   outline: none;
 
-  &:focus, &:active:focus, &.active:focus {
+  &.active:focus,
+  &:active:focus,
+  &:focus {
     outline: none;
   }
 }
@@ -112,10 +112,63 @@ a {
 .panel-group {
   .panel {
     .panel-title a {
-      &:hover, &:focus, &:active, &.active {
+      &.active,
+      &:active,
+      &:focus,
+      &:hover {
         text-decoration: none;
         border-bottom: 1px solid @gray-light;
       }
     }
   }
+}
+
+.btn-group > .btn:not(:first-child) {
+  &.btn-info {
+    border-left-color: darken(@btn-info-border, 15%);
+  }
+
+  &.btn-success {
+    border-left-color: darken(@btn-success-border, 15%);
+  }
+}
+
+button.btn[disabled]:active {
+  background-color: @btn-link-disabled-color;
+  color: @gray-dark;
+  border-color: #6a6a6a;
+  .box-shadow(none);
+}
+
+.btn {
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+
+  &.disabled,
+  &.disabled:hover,
+  &:disabled,
+  &:disabled:hover {
+    background-color: @gray-light;
+    border-color: darken(@gray-light, 5%);
+    color: @gray-dark;
+  }
+
+  &.ng-leave.ng-leave-active {
+    display: none;
+  }
+
+  &.active:focus,
+  &:active:focus,
+  &:focus {
+    outline: none;
+  }
+
+  &.active,
+  &:active {
+    .box-shadow(inset 0 3px 5px rgba(0, 0, 0, .225));
+  }
+}
+
+button.close:focus {
+  outline: none;
 }

@@ -1,0 +1,18 @@
+tree-server-collection,
+tree-volume-collection,
+tree-server-item,
+tree-volume-item {
+  display: block;
+  margin-left: 10px;
+  margin-top: 5px;
+
+  .fa-chevron-right {
+    color: @gray-light;
+    transition: transform .1s ease-in-out;
+    cursor: pointer;
+  }
+
+  .children {
+    .transition-height-scale();
+  }
+}
