@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
-
 export default function exceptionInterceptor ($exceptionHandler, $q) {
   'ngInject';
 
@@ -30,7 +28,7 @@ export default function exceptionInterceptor ($exceptionHandler, $q) {
 
       if (rejection instanceof Error) {
         args.unshift(rejection);
-      } else if (_.isString(rejection)) {
+      } else if (typeof rejection === 'string') {
         args.unshift(null, rejection);
       } else {
         var error = new Error('Request Error');

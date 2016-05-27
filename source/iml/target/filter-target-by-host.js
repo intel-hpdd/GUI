@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
-import _ from 'intel-lodash-mixins';
+import extractApiId from 'intel-extract-api';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
@@ -37,7 +37,7 @@ export default function filterTargetByHost (id) {
     return fnA(x).concat(fnB(x));
   });
 
-  var eqId = fp.filter(fp.eqFn(fp.identity, _.extractApiId, id));
+  var eqId = fp.filter(fp.eqFn(fp.identity, extractApiId, id));
   var lengthProp = viewLens('length');
 
   return fp.map(fp.filter(fp.flow(concat(getFailover, primaryServer), eqId, lengthProp)));

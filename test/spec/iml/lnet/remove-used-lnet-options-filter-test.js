@@ -1,18 +1,18 @@
-import _ from 'intel-lodash-mixins';
+import {map} from 'intel-fp';
 
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
-describe('Remove used LNet options', function () {
+describe('Remove used LNet options', () => {
   beforeEach(module(lnetModule));
 
   var removeUsedLnetOptions, LNET_OPTIONS;
 
-  beforeEach(inject(function (_removeUsedLnetOptionsFilter_, _LNET_OPTIONS_) {
+  beforeEach(inject((_removeUsedLnetOptionsFilter_, _LNET_OPTIONS_) => {
     removeUsedLnetOptions = _removeUsedLnetOptionsFilter_;
     LNET_OPTIONS = _LNET_OPTIONS_;
   }));
 
-  it('should filter out used values', function () {
+  it('should filter out used values', () => {
     var networkInterfaces = createNetworkInterfaces([5, 6, 7]);
     var filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterfaces[0]);
 
@@ -29,18 +29,18 @@ describe('Remove used LNet options', function () {
     ]);
   });
 
-  it('should always have Not Lustre Network', function () {
+  it('should always have Not Lustre Network', () => {
     var networkInterface = createNetworkInterface(-1);
     var networkInterface0 = createNetworkInterface(0);
     var networkInterfaces = [networkInterface, networkInterface, networkInterface0];
 
     var filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterface0);
 
-    expect(filtered).toEqual(_.toArray(LNET_OPTIONS));
+    expect(filtered).toEqual(LNET_OPTIONS);
   });
 
-  it('should work when all options are used', function () {
-    var values = _.pluck(LNET_OPTIONS, 'value');
+  it('should work when all options are used', () => {
+    var values = map(x => x.value, LNET_OPTIONS);
     var networkInterfaces = createNetworkInterfaces(values);
     var filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterfaces[1]);
 

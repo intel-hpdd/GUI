@@ -1,11 +1,11 @@
-import _ from 'intel-lodash-mixins';
+import {noop, curry} from 'intel-fp';
 import highland from 'highland';
 
 
-describe('socket stream', function () {
+describe('socket stream', () => {
   var getEventSocket, socket, spy;
 
-  beforeEach(module('socket-module', function ($provide) {
+  beforeEach(module('socket-module', $provide => {
     socket = {
       connect: jasmine.createSpy('connect'),
       end: jasmine.createSpy('end'),
@@ -23,19 +23,19 @@ describe('socket stream', function () {
 
   var socketStream;
 
-  beforeEach(inject(function (_socketStream_) {
+  beforeEach(inject(_socketStream_ => {
     socketStream = _socketStream_;
   }));
 
-  it('should be a function', function () {
+  it('should be a function', () => {
     expect(socketStream).toEqual(jasmine.any(Function));
   });
 
-  it('should return a stream', function () {
+  it('should return a stream', () => {
     expect(highland.isStream(socketStream('/'))).toBe(true);
   });
 
-  it('should strip /api prefix', function () {
+  it('should strip /api prefix', () => {
     socketStream('/api/host/');
 
     expect(socket.send).toHaveBeenCalledOnceWith({
@@ -44,7 +44,7 @@ describe('socket stream', function () {
     });
   });
 
-  it('should default to empty options', function () {
+  it('should default to empty options', () => {
     socketStream('host/');
 
     expect(socket.send).toHaveBeenCalledOnceWith({
@@ -53,23 +53,23 @@ describe('socket stream', function () {
     });
   });
 
-  describe('ack', function () {
+  describe('ack', () => {
     var s;
 
-    beforeEach(function () {
+    beforeEach(() => {
       s = socketStream('host/', {}, true);
     });
 
-    it('should send data to the socket', function () {
-      s.each(_.noop);
+    it('should send data to the socket', () => {
+      s.each(noop);
       expect(socket.send).toHaveBeenCalledOnceWith({
         path: 'host/',
         options: {}
       }, jasmine.any(Function));
     });
 
-    it('should end after a response', function () {
-      s.each(_.noop);
+    it('should end after a response', () => {
+      s.each(noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -78,8 +78,8 @@ describe('socket stream', function () {
       expect(socket.end).toHaveBeenCalledOnce();
     });
 
-    it('should end after an error', function () {
-      s.each(_.noop);
+    it('should end after an error', () => {
+      s.each(noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -88,8 +88,8 @@ describe('socket stream', function () {
       expect(socket.end).toHaveBeenCalledOnce();
     });
 
-    it('should end if stream is paused', function () {
-      s.pull(_.noop);
+    it('should end if stream is paused', () => {
+      s.pull(noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -100,9 +100,9 @@ describe('socket stream', function () {
       expect(socket.end).toHaveBeenCalledOnce();
     });
 
-    it('should handle errors', function () {
-      s.errors(_.unary(spy))
-        .each(_.noop);
+    it('should handle errors', () => {
+      s.errors(curry(1, spy))
+        .each(noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -111,7 +111,7 @@ describe('socket stream', function () {
       expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
     });
 
-    it('should handle the response', function () {
+    it('should handle the response', () => {
       s.each(spy);
 
       var ack = socket.send.calls.mostRecent().args[1];
@@ -122,10 +122,10 @@ describe('socket stream', function () {
     });
   });
 
-  describe('stream', function () {
+  describe('stream', () => {
     var s, handler;
 
-    beforeEach(function () {
+    beforeEach(() => {
       s = socketStream('/host', {
         qs: { foo: 'bar' }
       });
@@ -133,11 +133,11 @@ describe('socket stream', function () {
       handler = socket.on.calls.mostRecent().args[1];
     });
 
-    it('should connect the socket', function () {
+    it('should connect the socket', () => {
       expect(socket.connect).toHaveBeenCalledOnce();
     });
 
-    it('should send data to the socket', function () {
+    it('should send data to the socket', () => {
       expect(socket.send).toHaveBeenCalledOnceWith({
         path: '/host',
         options: {
@@ -146,25 +146,25 @@ describe('socket stream', function () {
       });
     });
 
-    it('should end on destroy', function () {
+    it('should end on destroy', () => {
       s.destroy();
 
       expect(socket.end).toHaveBeenCalledOnce();
     });
 
-    it('should handle errors', function () {
+    it('should handle errors', () => {
       handler({
         error: new Error('boom!')
       });
 
       s
-        .errors(_.unary(spy))
-        .each(_.noop);
+        .errors(curry(1, spy))
+        .each(noop);
 
       expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
     });
 
-    it('should handle responses', function () {
+    it('should handle responses', () => {
       handler({ foo: 'bar' });
 
       s.each(spy);

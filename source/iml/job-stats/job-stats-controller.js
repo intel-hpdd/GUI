@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
-
 export default function JobStatsCtrl ($routeSegment, metrics, target) {
   'ngInject';
 
@@ -31,5 +29,5 @@ export default function JobStatsCtrl ($routeSegment, metrics, target) {
   jobStatsCtrl.startDate = $routeSegment.$routeParams.startDate;
   jobStatsCtrl.endDate = $routeSegment.$routeParams.endDate;
 
-  _.extend(jobStatsCtrl, metrics);
+  Object.assign(jobStatsCtrl, metrics);
 }
