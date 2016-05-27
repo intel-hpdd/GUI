@@ -46,6 +46,7 @@
     "eslint": "2.10.2",
     "eslint-plugin-flow-vars": "0.4.0",
     "eslint-plugin-flowtype": "2.2.7",
+    "font-awesome": "4.6.3",
     "gulp": "https://github.com/gulpJS/gulp.git#4.0",
     "gulp-babel": "6.1.2",
     "gulp-inject": "4.1.0",
