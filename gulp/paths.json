@@ -55,7 +55,7 @@
     "imports": "source/*styles/imports.less"
   },
   "assets": {
-    "fonts": "bower_components*/font-awesome/**/*.{woff,ttf,svg}",
+    "fonts": "node_modules*/font-awesome/**/*.{woff,ttf,svg}",
     "images": "source/**/*.{png,ico}"
   },
   "templates": {
