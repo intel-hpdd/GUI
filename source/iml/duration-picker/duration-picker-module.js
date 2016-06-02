@@ -31,6 +31,42 @@ import {DURATIONS, durationPicker} from './duration-picker';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import durationPickerTemplate from './assets/html/duration-picker';
 
+export type formControlT = {
+  $modelValue:number
+};
+
+export type unitControlT = {
+  $modelValue:string
+};
+
+export type rangeFormT = {
+  start: formControlT,
+  end: formControlT
+};
+
+export type durationFormT = {
+  unit: unitControlT,
+  size: formControlT
+};
+
+export type durationSubmitHandlerT = (chartType:string) =>
+  (overrides:Object, forms:{rangeForm:rangeFormT, durationForm:durationFormT}) => void;
+
+export type rangeConfigT = {
+  configType: 'range',
+  startDate: string,
+  endDate: string
+};
+
+export type durationConfigT = {
+  configType: 'duration',
+  size: number,
+  unit: string
+};
+
+export type durationPickerConfigT = rangeConfigT | durationConfigT;
+export type durationPayloadT = rangeConfigT & durationConfigT;
+
 export default angular.module('durationPicker', [
   uiBootstrapModule, serverMomentModule,
   tooltipModule, filtersModule,

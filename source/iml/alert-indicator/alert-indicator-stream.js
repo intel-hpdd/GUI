@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {SocketStream} from '../socket/socket-stream.js';
+import type {SocketStreamT} from '../socket/socket-module.js';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import {map} from 'intel-fp';
 
-export default function (socketStream:SocketStream, rebindDestroy:Function):HighlandStream {
+export default function (socketStream:SocketStreamT, rebindDestroy:Function):HighlandStream {
   'ngInject';
 
   return rebindDestroy(

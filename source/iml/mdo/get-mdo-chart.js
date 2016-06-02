@@ -24,8 +24,12 @@ import {identity} from 'intel-fp';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import mdoTemplate from './assets/html/mdo';
 
-export function getMdoChartFactory (createStream, getMdoStream, DURATIONS,
-                               chartCompiler, formatNumber) {
+import type {getMdoStreamT} from './mdo-module.js';
+import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
+import type {formatNumberT} from '../number-formatters/number-formatters-module.js';
+
+export function getMdoChartFactory (createStream, getMdoStream:getMdoStreamT, DURATIONS,
+                               chartCompiler:chartCompilerT, formatNumber:formatNumberT) {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];

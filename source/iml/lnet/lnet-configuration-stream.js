@@ -22,11 +22,11 @@
 // express and approved by Intel in writing.
 
 import {map} from 'intel-fp';
-import type {SocketStream} from '../socket/socket-stream.js';
+import type {SocketStreamT} from '../socket/socket-module.js';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
 
-export default function (socketStream:SocketStream, rebindDestroy:fnToStreamToStream):HighlandStream {
+export default function (socketStream:SocketStreamT, rebindDestroy:fnToStreamToStream):HighlandStream {
   'ngInject';
 
   return rebindDestroy(

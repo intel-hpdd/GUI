@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -22,11 +24,19 @@
 import angular from 'angular';
 import {always} from 'intel-fp';
 
-export function chartCompilerFactory ($compile, $q, getTemplatePromise,
-                                      resolveStream, addProperty, rebindDestroy) {
+import type {getTemplatePromiseT} from '../get-template-promise/get-template-promise-module.js';
+import type {resolveStreamT} from '../socket/socket-module.js';
+import type {addPropertyT, rebindDestroyT} from '../highland/highland-module.js';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+
+export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getTemplatePromise:getTemplatePromiseT,
+                                      resolveStream:resolveStreamT, addProperty:addPropertyT,
+                                      rebindDestroy:rebindDestroyT) {
   'ngInject';
 
-  return function chartCompiler (template, stream, fn) {
+  return function chartCompiler (template:string, stream:HighlandStream, fn:($scope:Object,
+    s:HighlandStream) => Object):Promise {
+
     return $q.all([
       getTemplatePromise(template),
       resolveStream(stream)

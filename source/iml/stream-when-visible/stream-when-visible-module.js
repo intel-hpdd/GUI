@@ -26,6 +26,9 @@ import highlandModule from '../highland/highland-module';
 import pageVisibilityModule from '../page-visibility/page-visibility-module';
 import {streamWhenVisible, documentHidden, documentVisible} from './stream-when-visible';
 
+import type {HighlandStream} from 'intel-flow-highland/include/highland';
+export type streamWhenChartVisibleT = (streamFn:() => HighlandStream) => HighlandStream;
+
 export default angular.module('streamWhenVisible', [highlandModule, pageVisibilityModule])
   .factory('streamWhenVisible', streamWhenVisible)
   .value('documentHidden', documentHidden)

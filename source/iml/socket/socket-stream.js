@@ -22,13 +22,11 @@
 // express and approved by Intel in writing.
 
 import {noop} from 'intel-fp';
-
 import highland from 'highland';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 
-export type SocketStream = (path:string, options:Object, isAck?:boolean) => HighlandStream;
+import type {SocketStreamT} from './socket-module.js';
 
-export default function socketStreamFactory (getEventSocket:Function, buildResponseError:Function):SocketStream {
+export default function socketStreamFactory (getEventSocket:Function, buildResponseError:Function):SocketStreamT {
   'ngInject';
 
   return function sendRequest (path, options, isAck) {

@@ -24,6 +24,9 @@ import angular from 'angular';
 import momentModule from './moment/moment-module';
 import environmentModule from './environment-module';
 
+import type moment from 'moment';
+export type getServerMoment = () => moment;
+
 export default angular.module('serverMoment', [momentModule, environmentModule])
   .factory('getServerMoment', getServerMomentFactory)
   .name;

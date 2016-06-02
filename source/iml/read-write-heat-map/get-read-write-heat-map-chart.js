@@ -25,9 +25,14 @@ import {values} from 'intel-obj';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
 
+import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
+import type {readWriteHeatMapTypesT} from './read-write-heat-map-module.js';
+import type {formatNumberT, formatBytesT} from '../number-formatters/number-formatters-module.js';
+
 export function getReadWriteHeatMapChartFactory (createStream, $location, $filter,
-                                                 getReadWriteHeatMapStream, DURATIONS, chartCompiler,
-                                                 readWriteHeatMapTypes, formatNumber, formatBytes) {
+                                                 getReadWriteHeatMapStream, DURATIONS, chartCompiler:chartCompilerT,
+                                                 readWriteHeatMapTypes:readWriteHeatMapTypesT,
+                                                 formatNumber:formatNumberT, formatBytes:formatBytesT) {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];

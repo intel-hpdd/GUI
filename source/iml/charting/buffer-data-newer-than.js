@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,7 +23,10 @@
 
 import {curry} from 'intel-fp';
 
-export default (getServerMoment, sortByDate) => {
+import type {getServerMoment} from '../server-moment-module.js';
+import type {sortByDate} from '../charting/sort-by-date.js';
+
+export default (getServerMoment:getServerMoment, sortByDate:sortByDate) => {
   'ngInject';
 
   return curry(2, function bufferDataNewerThan (size, unit) {

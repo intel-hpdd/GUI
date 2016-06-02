@@ -22,8 +22,12 @@
 // $FlowIgnore: HTML templates that flow does not recognize.
 import ostBalanceTemplate from './assets/html/ost-balance';
 
-export function getOstBalanceChartFactory (chartCompiler, streamWhenVisible,
-                                           getOstBalanceStream) {
+import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
+import type {streamWhenChartVisibleT} from '../stream-when-visible/stream-when-visible-module.js';
+import type {getOstBalanceStreamT} from './ost-balance-module.js';
+
+export function getOstBalanceChartFactory (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartVisibleT,
+                                           getOstBalanceStream:getOstBalanceStreamT) {
   'ngInject';
 
   const DEFAULT_PERCENTAGE = 0;

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,13 +23,19 @@
 
 import * as fp from 'intel-fp';
 
-export function createStream (streamWhenVisible, bufferDataNewerThan, getTimeParams) {
+import type {streamWhenChartVisibleT} from '../stream-when-visible/stream-when-visible-module.js';
+import type {bufferDataNewerThanT} from './charting-module.js';
+import type {getTimeParams} from './get-time-params.js';
+
+export function createStream (streamWhenVisible:streamWhenChartVisibleT, bufferDataNewerThan:bufferDataNewerThanT,
+  getTimeParams:getTimeParams) {
   'ngInject';
 
   const { getRequestRange, getRequestDuration } = getTimeParams;
 
-  const createStreamFn = fp.curry(6, function createStreamFn (durationFn, buffFn, streamFn,
-                                                           overrides, begin, end) {
+  const createStreamFn = fp.curry(6, function createStreamFn (durationFn:Function, buffFn:Function,
+                                                           streamFn:Function, overrides:Object, begin:number,
+                                                           end:number | string) {
     const getStreamArgs = fp.mapFn([
       durationFn(overrides),
       buffFn

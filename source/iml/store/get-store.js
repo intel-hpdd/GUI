@@ -22,8 +22,8 @@
 // express and approved by Intel in writing.
 
 
-import type {Store} from './create-store.js';
-import type {SocketStream} from '../socket/socket-stream.js';
+import type {StoreT} from './store-module.js';
+import type {SocketStreamT} from '../socket/socket-module.js';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import {ADD_TARGET_ITEMS} from '../target/target-reducer.js';
 import {ADD_ALERT_INDICATOR_ITEMS} from '../alert-indicator/alert-indicator-reducer.js';
@@ -35,14 +35,14 @@ import {lensProp, view} from 'intel-fp';
 
 const pluckObjects = view(lensProp('objects'));
 
-type createStore = (reducers: Object) => Store;
+type createStore = (reducers: Object) => StoreT;
 
 export default function (targetReducer:Function, createStore:createStore,
                          alertIndicatorReducer:Function, alertIndicatorStream:HighlandStream,
                          jobIndicatorReducer:Function, jobIndicatorStream:HighlandStream,
                          serverReducer:Function, serverStream:HighlandStream,
                          lnetConfigurationReducer:Function, lnetConfigurationStream:HighlandStream,
-                         socketStream:SocketStream, CACHE_INITIAL_DATA:Object):Store {
+                         socketStream:SocketStreamT, CACHE_INITIAL_DATA:Object):StoreT {
   'ngInject';
 
   const store = createStore({
