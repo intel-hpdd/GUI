@@ -25,7 +25,7 @@ describe('get OST balance stream', () => {
           return (targetStream = highland());
       });
 
-    getOstBalanceStream = getOstBalanceStreamFactory(highland, socketStream, formatBytes);
+    getOstBalanceStream = getOstBalanceStreamFactory(socketStream, formatBytes);
 
     fixtures = ostBalanceDataFixtures;
 

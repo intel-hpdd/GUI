@@ -33,6 +33,12 @@ import {getOstBalanceChartFactory} from './get-ost-balance-chart';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import ostBalanceTemplate from './assets/html/ost-balance';
 
+export type ostBalanceConfigT = {
+  percentage:number
+};
+
+export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStream;
+
 export default angular.module('ostBalance',[
   chartsModule, chartingModule,
   highlandModule, socketModule,

@@ -23,6 +23,9 @@ import angular from 'angular';
 import formatBytes from './format-bytes';
 import formatNumberFactory from './format-number';
 
+export type formatBytesT = (bytes:number, precision:number) => string;
+export type formatNumberT = (num:number, precision:number, strict:boolean) => string;
+
 export default angular.module('numberFormatters', [])
   .factory('formatNumber', formatNumberFactory)
   .value('formatBytes', formatBytes)

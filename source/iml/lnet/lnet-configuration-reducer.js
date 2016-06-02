@@ -22,9 +22,9 @@
 // express and approved by Intel in writing.
 
 export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
-import type {Action} from '../store/create-store.js';
+import type {ActionT} from '../store/store-module.js';
 
-export default function (state:Array<Object> = [], {type, payload}:Action):Array<Object> {
+export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
   switch (type) {
   case ADD_LNET_CONFIGURATION_ITEMS:
     return payload;

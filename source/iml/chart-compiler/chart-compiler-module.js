@@ -29,6 +29,9 @@ import getTemplatePromiseModule from '../get-template-promise/get-template-promi
 import socketModule from '../socket/socket-module';
 import highlandModule from '../highland/highland-module';
 
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+export type chartCompilerT = (template:string, stream:HighlandStream, fn:Function) => Promise;
+
 export default angular.module('chartCompiler', [getTemplatePromiseModule, socketModule, highlandModule])
   .factory('chartCompiler', chartCompilerFactory)
   .directive('chartCompiler', chartCompilerDirective)

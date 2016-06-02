@@ -33,6 +33,11 @@ import {getMdoChartFactory} from './get-mdo-chart';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import mdoChartTemplate from './assets/html/mdo';
 
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
+  buff:(s:HighlandStream)=>HighlandStream | HighlandStream) => HighlandStream;
+export type getMdoChartT = (chartStore:'mdoChart' | 'mdoTargetChart', overrides:Object) => Promise;
+
 export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
   socketModule, durationPickerModule, mdoChartTemplate

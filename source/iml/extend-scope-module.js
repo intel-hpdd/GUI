@@ -23,6 +23,8 @@ import angular from 'angular';
 
 import {curry} from 'intel-fp';
 
+export type localApplyT<R> = (scope:Object, fn?:(...rest:any[]) => R) => ?R;
+
 export default angular.module('extendScope', [])
   .config(['$provide', function addHandleExceptionMethod ($provide) {
     return $provide.decorator('$rootScope', ['$delegate', '$exceptionHandler',

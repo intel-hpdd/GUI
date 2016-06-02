@@ -23,11 +23,11 @@
 
 import {map, filter} from 'intel-fp';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-import type {Store} from '../store/create-store.js';
+import type {StoreT} from '../store/store-module.js';
 
 type streamToStream = (s:HighlandStream) => HighlandStream;
 
-export function mgtAlertIndicatorStream (getStore:Store, addProperty:streamToStream):streamToStream {
+export function mgtAlertIndicatorStream (getStore:StoreT, addProperty:streamToStream):streamToStream {
   'ngInject';
 
   return () => addProperty(
@@ -36,7 +36,7 @@ export function mgtAlertIndicatorStream (getStore:Store, addProperty:streamToStr
   );
 }
 
-export function mgtJobIndicatorStream (getStore:Store, addProperty:streamToStream):streamToStream {
+export function mgtJobIndicatorStream (getStore:StoreT, addProperty:streamToStream):streamToStream {
   'ngInject';
 
   return () => addProperty(
@@ -47,7 +47,7 @@ export function mgtJobIndicatorStream (getStore:Store, addProperty:streamToStrea
 
 type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
 
-export function mgtStream (getStore:Store, rebindDestroy:fnToStreamToStream):streamToStream {
+export function mgtStream (getStore:StoreT, rebindDestroy:fnToStreamToStream):streamToStream {
   'ngInject';
 
   return () => rebindDestroy(

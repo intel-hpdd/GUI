@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -24,10 +26,17 @@ import angular from 'angular';
 import * as fp from 'intel-fp';
 import * as obj from 'intel-obj';
 import {times, gte} from 'intel-math';
+import highland from 'highland';
+
+import type {SocketStreamT} from '../socket/socket-module.js';
+import type {formatBytesT} from '../number-formatters/number-formatters-module.js';
+import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export function getOstBalanceStreamFactory (λ, socketStream, formatBytes) {
+export function getOstBalanceStreamFactory (socketStream:SocketStreamT,
+  formatBytes:formatBytesT):Function {
+
   'ngInject';
 
   const mapMetrics = fp.flow(fp.map, obj.map);
@@ -48,7 +57,7 @@ export function getOstBalanceStreamFactory (λ, socketStream, formatBytes) {
   const asPercentage = fp.flow(times(100), Math.round);
   const asFormattedBytes = fp.flow(times(1024), fp.curry(2, formatBytes)(fp.__, 4));
 
-  return fp.curry(2, function getOstBalanceStream (percentage, overrides) {
+  return fp.curry(2, function getOstBalanceStream (percentage:number, overrides:Object):HighlandStream {
     const ltePercentage = fp.flow(
       fp.view(fp.compose(
         fp.lensProp('data'),
@@ -58,7 +67,7 @@ export function getOstBalanceStreamFactory (λ, socketStream, formatBytes) {
       gte(percentage)
     );
 
-    const s = λ(function generator (push, next) {
+    const s:HighlandStream = highland(function generator (push, next) {
       var struct = [
         { key: 'Used bytes', values: [] },
         { key: 'Free bytes', values: [] }
