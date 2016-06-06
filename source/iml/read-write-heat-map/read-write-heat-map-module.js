@@ -54,9 +54,14 @@ export type durationConfigT = {
   dataType: string
 };
 
+import type {
+  scopeToElementT
+} from '../chart-compiler/chart-compiler-module.js';
+
+
 export type heatMapConfigT = rangeConfigT | durationConfigT;
 export type heatMapDurationPayloadT = rangeConfigT & durationConfigT;
-export type getReadWriteHeatMapChartT = (overrides:Object) => Promise;
+export type getReadWriteHeatMapChartT = (overrides:Object) => Promise<scopeToElementT>;
 
 export default angular.module('readWriteHeatMap', [
   chartsModule, chartingModule, highlandModule,

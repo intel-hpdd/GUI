@@ -24,7 +24,7 @@
 import angular from 'angular';
 import getTemplatePromiseFactory from './get-template-promise';
 
-export type getTemplatePromiseT = (templateUrl:string) => Promise;
+export type getTemplatePromiseT = (templateUrl:string) => Promise<string>;
 
 export default angular.module('get-template-promise', [])
   .factory('getTemplatePromise', getTemplatePromiseFactory)

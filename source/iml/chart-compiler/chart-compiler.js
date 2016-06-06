@@ -28,6 +28,9 @@ import type {getTemplatePromiseT} from '../get-template-promise/get-template-pro
 import type {resolveStreamT} from '../socket/socket-module.js';
 import type {addPropertyT, rebindDestroyT} from '../highland/highland-module.js';
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {
+  scopeToElementT
+} from './chart-compiler-module.js';
 
 export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getTemplatePromise:getTemplatePromiseT,
                                       resolveStream:resolveStreamT, addProperty:addPropertyT,
@@ -35,7 +38,7 @@ export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getT
   'ngInject';
 
   return function chartCompiler (template:string, stream:HighlandStream, fn:($scope:Object,
-    s:HighlandStream) => Object):Promise {
+    s:HighlandStream) => Object):Promise<scopeToElementT> {
 
     return $q.all([
       getTemplatePromise(template),
@@ -48,16 +51,12 @@ export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getT
       rebindDestroy(always(compiler), s2);
       return compiler;
 
-      function compiler ($scope, $wrap) {
+      function compiler ($scope) {
         var cloned = el.clone();
 
         $scope.chart = fn($scope, s2.property());
 
         $scope.$on('$destroy', () => $scope.chart = null);
-
-        if ($wrap)
-          cloned = $wrap
-            .append(cloned);
 
         return $compile(cloned)($scope);
       }
