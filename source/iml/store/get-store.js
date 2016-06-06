@@ -22,27 +22,53 @@
 // express and approved by Intel in writing.
 
 
-import type {StoreT} from './store-module.js';
-import type {SocketStreamT} from '../socket/socket-module.js';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-import {ADD_TARGET_ITEMS} from '../target/target-reducer.js';
-import {ADD_ALERT_INDICATOR_ITEMS} from '../alert-indicator/alert-indicator-reducer.js';
-import {ADD_JOB_INDICATOR_ITEMS} from '../job-indicator/job-indicator-reducer.js';
-import {ADD_SERVER_ITEMS} from '../server/server-reducer.js';
-import {ADD_LNET_CONFIGURATION_ITEMS} from '../lnet/lnet-configuration-reducer.js';
+import {
+  ADD_TARGET_ITEMS
+} from '../target/target-reducer.js';
 
-import {lensProp, view} from 'intel-fp';
+import {
+  ADD_ALERT_INDICATOR_ITEMS
+} from '../alert-indicator/alert-indicator-reducer.js';
+
+import {
+  ADD_JOB_INDICATOR_ITEMS
+} from '../job-indicator/job-indicator-reducer.js';
+
+import {
+  ADD_SERVER_ITEMS
+} from '../server/server-reducer.js';
+
+import {
+  ADD_LNET_CONFIGURATION_ITEMS
+} from '../lnet/lnet-configuration-reducer.js';
+
+import {
+  lensProp,
+  view
+} from 'intel-fp';
+
+import type {
+  StoreT
+} from './store-module.js';
+
+import type {
+  SocketStreamT
+} from '../socket/socket-module.js';
+
+import type {
+  HighlandStreamT
+} from 'highland';
 
 const pluckObjects = view(lensProp('objects'));
 
 type createStore = (reducers: Object) => StoreT;
 
 export default function (targetReducer:Function, createStore:createStore,
-                         alertIndicatorReducer:Function, alertIndicatorStream:HighlandStream,
-                         jobIndicatorReducer:Function, jobIndicatorStream:HighlandStream,
-                         serverReducer:Function, serverStream:HighlandStream,
-                         lnetConfigurationReducer:Function, lnetConfigurationStream:HighlandStream,
-                         socketStream:SocketStreamT, CACHE_INITIAL_DATA:Object):StoreT {
+                         alertIndicatorReducer:Function, alertIndicatorStream:HighlandStreamT<mixed>,
+                         jobIndicatorReducer:Function, jobIndicatorStream:HighlandStreamT<mixed>,
+                         serverReducer:Function, serverStream:HighlandStreamT<mixed>,
+                         lnetConfigurationReducer:Function, lnetConfigurationStream:HighlandStreamT<mixed>,
+                         socketStream:SocketStreamT<mixed>, CACHE_INITIAL_DATA:Object):StoreT {
   'ngInject';
 
   const store = createStore({

@@ -24,21 +24,36 @@
 import angular from 'angular';
 import {always} from 'intel-fp';
 
-import type {getTemplatePromiseT} from '../get-template-promise/get-template-promise-module.js';
-import type {resolveStreamT} from '../socket/socket-module.js';
-import type {addPropertyT, rebindDestroyT} from '../highland/highland-module.js';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {
+  getTemplatePromiseT
+} from '../get-template-promise/get-template-promise-module.js';
+
+import type {
+  resolveStreamT
+} from '../socket/socket-module.js';
+
+import type {
+  addPropertyT,
+  rebindDestroyT
+} from '../highland/highland-module.js';
+
+import type {
+  HighlandStreamT
+} from 'highland';
+
 import type {
   scopeToElementT
 } from './chart-compiler-module.js';
 
+type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
+
 export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getTemplatePromise:getTemplatePromiseT,
-                                      resolveStream:resolveStreamT, addProperty:addPropertyT,
-                                      rebindDestroy:rebindDestroyT) {
+                                      resolveStream:resolveStreamT<mixed>, addProperty:addPropertyT,
+                                      rebindDestroy:rebindDestroyT<mixed, scopeToElementT>) {
   'ngInject';
 
-  return function chartCompiler (template:string, stream:HighlandStream, fn:($scope:Object,
-    s:HighlandStream) => Object):Promise<scopeToElementT> {
+  return function chartCompiler (template:string,
+    stream:HighlandStreamT<mixed>, fn:scopeToStreamToObject):Promise<scopeToElementT> {
 
     return $q.all([
       getTemplatePromise(template),

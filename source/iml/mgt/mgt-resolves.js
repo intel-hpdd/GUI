@@ -21,11 +21,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, filter} from 'intel-fp';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-import type {StoreT} from '../store/store-module.js';
+import {
+  map,
+  filter
+} from 'intel-fp';
 
-type streamToStream = (s:HighlandStream) => HighlandStream;
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  StoreT
+} from '../store/store-module.js';
+
+type streamToStream = (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export function mgtAlertIndicatorStream (getStore:StoreT, addProperty:streamToStream):streamToStream {
   'ngInject';
@@ -45,7 +54,7 @@ export function mgtJobIndicatorStream (getStore:StoreT, addProperty:streamToStre
   );
 }
 
-type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
+type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export function mgtStream (getStore:StoreT, rebindDestroy:fnToStreamToStream):streamToStream {
   'ngInject';

@@ -40,9 +40,13 @@ import configToData$ from './config-to-data$';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import chartTemplate from './assets/html/chart';
-import type {HighlandStream} from 'intel-flow-highland/include/highland';
 
-export type configToDataT = (data$Fn:(data:Object) => HighlandStream, config$:HighlandStream) => HighlandStream;
+import type {
+  HighlandStreamT
+} from 'highland';
+
+export type configToDataT = (data$Fn:(data:Object)
+  => HighlandStreamT<mixed>, config$:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export default angular.module('charts',
   [

@@ -31,9 +31,11 @@ import buildResponseErrorFactory from './build-response-error';
 import {resolveStreamFactory} from './resolve-stream';
 import getSpringFactory from './get-spring';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-export type SocketStreamT = (path:string, options:Object, isAck?:boolean) => HighlandStream;
-export type resolveStreamT = (stream:HighlandStream) => Promise<HighlandStream>;
+import type {
+  HighlandStreamT
+} from 'highland';
+export type SocketStreamT<T> = (path:string, options:Object, isAck?:boolean) => HighlandStreamT<T>;
+export type resolveStreamT<T> = (stream:HighlandStreamT<T>) => Promise<HighlandStreamT<T>>;
 
 export default angular.module('socket-module', [
   regeneratorModule, highlandModule,

@@ -28,6 +28,10 @@ import targetModule from '../target/target-module.js';
 import alertIndicatorModule from '../alert-indicator/alert-indicator-module.js';
 import jobIndicatorModule from '../job-indicator/job-indicator-module.js';
 
+import type {
+  HighlandStreamT
+} from 'highland';
+
 export type ActionT = {
   type: string;
   payload: any;
@@ -35,7 +39,7 @@ export type ActionT = {
 
 export type StoreT = {
   dispatch: Function;
-  select: (key: string) => HighlandStream;
+  select: (key: string) => HighlandStreamT<mixed>;
 };
 
 export default angular.module('store', [

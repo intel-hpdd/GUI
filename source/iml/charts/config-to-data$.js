@@ -24,16 +24,23 @@
 import highland from 'highland';
 import {invokeMethod} from 'intel-fp';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-import type rebindDestroy from '../highland/rebind-destroy.js';
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  rebindDestroyT
+} from '../highland/highland-module.js';
 
 export const configChange = {};
 
-export default function configToDataFactory (rebindDestroy:rebindDestroy) {
+type mixedStreamT = HighlandStreamT<mixed>;
+
+export default function configToDataFactory (rebindDestroy:rebindDestroyT<mixed, mixed>) {
   'ngInject';
 
-  return function configToData$ (data$Fn:(data:Object) => HighlandStream, config$:HighlandStream):HighlandStream {
-    var data$:?HighlandStream;
+  return function configToData$ (data$Fn:(data:Object) =>mixedStreamT, config$:mixedStreamT):mixedStreamT {
+    var data$:?mixedStreamT;
 
     function consume (error:Error, x:Object, push:Function, next:Function) {
       if (error) {

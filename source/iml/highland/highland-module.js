@@ -26,9 +26,14 @@ import highland from 'highland';
 import addProperty from './add-property';
 import rebindDestroy from './rebind-destroy';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-export type addPropertyT = (s:HighlandStream) => HighlandStream;
-export type rebindDestroyT = (fn:(s:HighlandStream) => HighlandStream, s:HighlandStream) => HighlandStream;
+import type {
+  HighlandStreamT
+} from 'highland';
+
+export type addPropertyT = (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+
+type streamToStream<T, R> = (s:HighlandStreamT<T>) => HighlandStreamT<R>;
+export type rebindDestroyT<T, R> = (fn:streamToStream<T, R>, s:HighlandStreamT<T>) => HighlandStreamT<R>;
 
 export default angular
   .module('highland', [])

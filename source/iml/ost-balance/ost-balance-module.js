@@ -29,6 +29,9 @@ import socketModule from '../socket/socket-module';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import {getOstBalanceStreamFactory} from './get-ost-balance-stream';
 import {getOstBalanceChartFactory} from './get-ost-balance-chart';
+import type {
+  HighlandStreamT
+} from 'highland';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import ostBalanceTemplate from './assets/html/ost-balance';
@@ -37,7 +40,7 @@ export type ostBalanceConfigT = {
   percentage:number
 };
 
-export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStream;
+export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStreamT<mixed>;
 
 export default angular.module('ostBalance',[
   chartsModule, chartingModule,

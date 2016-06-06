@@ -21,18 +21,33 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-import {map, flow, filter, tap} from 'intel-fp';
 import highland from 'highland';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
 import rebindDestroy from '../highland/rebind-destroy';
 
-import type {ActionT, StoreT} from './store-module.js';
+import {
+  map,
+  flow,
+  filter,
+  tap
+} from 'intel-fp';
 
-function combineReducers (reducers) {
+import type {
+  HighlandStreamT
+} from 'highland';
+
+
+import type {
+  ActionT,
+  StoreT
+} from './store-module.js';
+
+type reducersT = { [key: string]: (prev:mixed, curr:ActionT) => mixed };
+type combineT = { [key: string]: mixed };
+
+function combineReducers (reducers:reducersT) {
   const keys = Object.keys(reducers);
 
-  return function combination (state:Object = {}, action:ActionT):Object {
+  return function combination (state:combineT = {}, action:ActionT):combineT {
     var nextState = {};
     var changed = false;
 
@@ -48,8 +63,8 @@ function combineReducers (reducers) {
   };
 }
 
-type streamFn = () => HighlandStream;
-function broadcaster (s:HighlandStream):streamFn {
+type streamFn = () => HighlandStreamT<mixed>;
+function broadcaster (s:HighlandStreamT<Object>):streamFn {
   var latest;
 
   const viewers = [];
@@ -61,10 +76,12 @@ function broadcaster (s:HighlandStream):streamFn {
   });
 
   return () => {
-    const s = highland();
+    const s:HighlandStreamT<mixed> = highland();
 
     const oldDestroy = s.destroy.bind(s);
 
+
+    // $FlowIgnore: flow does not recogize this monkey-patch
     s.destroy = () => {
       oldDestroy();
       viewers.splice(viewers.indexOf(s), 1);
@@ -91,7 +108,7 @@ export default function createStore (reducers:Object):StoreT {
 
   return {
     dispatch: stream.write.bind(stream),
-    select (key:string):HighlandStream {
+    select (key:string):HighlandStreamT<mixed> {
       var lastItem;
 
       return rebindDestroy(

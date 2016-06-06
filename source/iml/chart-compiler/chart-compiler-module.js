@@ -23,16 +23,22 @@
 
 import angular from 'angular';
 
-import {chartCompilerFactory} from './chart-compiler';
-import {chartCompilerDirective} from './chart-compiler-directive';
+import {
+  chartCompilerFactory
+} from './chart-compiler';
+import {
+  chartCompilerDirective
+} from './chart-compiler-directive';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import socketModule from '../socket/socket-module';
 import highlandModule from '../highland/highland-module';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {
+  HighlandStreamT
+} from 'highland';
 
 export type scopeToElementT = (scope:Object) => HTMLElement[];
-export type chartCompilerT = (template:string, stream:HighlandStream, fn:Function) => Promise<scopeToElementT>;
+export type chartCompilerT = (template:string, stream:HighlandStreamT<mixed>, fn:Function) => Promise<scopeToElementT>;
 
 export default angular.module('chartCompiler', [getTemplatePromiseModule, socketModule, highlandModule])
   .factory('chartCompiler', chartCompilerFactory)

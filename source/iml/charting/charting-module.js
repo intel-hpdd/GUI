@@ -45,10 +45,12 @@ import sumByDate from './sum-by-date';
 import toNvd3 from './to-nvd3';
 import unionWithTargetFactory from './union-with-target';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland';
+import type {
+  HighlandStreamT
+} from 'highland';
 export type bufferDataNewerThanT = (size:number, unit:string) =>
-  (s:HighlandStream) => HighlandStream;
-export type sortByDateT = (stream:HighlandStream) => HighlandStream;
+  (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+export type sortByDateT = (stream:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export default angular.module('charting', [
   createDateModule, serverMomentModule,
