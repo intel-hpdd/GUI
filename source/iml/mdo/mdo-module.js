@@ -34,9 +34,13 @@ import {getMdoChartFactory} from './get-mdo-chart';
 import mdoChartTemplate from './assets/html/mdo';
 
 import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {
+  scopeToElementT
+} from '../chart-compiler/chart-compiler-module.js';
+
 export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
   buff:(s:HighlandStream)=>HighlandStream | HighlandStream) => HighlandStream;
-export type getMdoChartT = (chartStore:'mdoChart' | 'mdoTargetChart', overrides:Object) => Promise;
+export type getMdoChartT = (chartStore:'mdoChart' | 'mdoTargetChart', overrides:Object) => Promise<scopeToElementT>;
 
 export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
