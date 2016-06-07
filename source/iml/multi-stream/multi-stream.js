@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,32 +21,36 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, curry, always} from 'intel-fp';
+import highland from 'highland';
+import * as fp from 'intel-fp';
 
-export default function multiStreamFactory (highland) {
-  'ngInject';
+import type {
+  HighlandStreamT
+} from 'highland';
 
-  var empty = {};
+const empty = {};
 
-  return function multiStream (streams) {
-    return highland(function generator (push) {
-      var s = this;
+export default function multiStream (streams:HighlandStreamT<mixed>[]) {
+  return highland(function generator (push) {
+    const s:HighlandStreamT<mixed[]> = this;
 
-      var data = map(always(empty), streams);
-
+    const data:Array<mixed> = fp.map(
+      fp.always(empty),
       streams
-        .map(function toStream (s2, index) {
-          s._destructors.push(s2.destroy.bind(s2));
+    );
 
-          s2
-            .errors(curry(1, push))
-            .each(function update (x) {
-              data[index] = x;
+    streams
+      .forEach((s2:HighlandStreamT<mixed>, index:number) => {
+        s._destructors.push(s2.destroy.bind(s2));
 
-              if (data.indexOf(empty) === -1)
-                push(null, data.slice(0));
-            });
-        });
-    });
-  };
+        s2
+          .errors(e => push(e))
+          .each((x:mixed) => {
+            data[index] = x;
+
+            if (data.indexOf(empty) === -1)
+              push(null, data.slice(0));
+          });
+      });
+  });
 }
