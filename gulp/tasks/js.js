@@ -84,7 +84,6 @@ babel = babel.bind(null, {
   babelrc: false,
   plugins: [
     'transform-flow-strip-types',
-    'transform-strict-mode',
     'transform-es2015-modules-systemjs',
     'transform-class-properties',
     'transform-object-rest-spread'
