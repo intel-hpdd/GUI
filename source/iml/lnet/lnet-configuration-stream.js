@@ -23,10 +23,12 @@
 
 import {map} from 'intel-fp';
 import type {SocketStreamT} from '../socket/socket-module.js';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
-type fnToStreamToStream = (fn:Function, s:HighlandStream) => HighlandStream;
+import type {
+  HighlandStreamT
+} from 'highland';
+type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
-export default function (socketStream:SocketStreamT, rebindDestroy:fnToStreamToStream):HighlandStream {
+export default function (socketStream:SocketStreamT<mixed>, rebindDestroy:fnToStreamToStream):HighlandStreamT<mixed> {
   'ngInject';
 
   return rebindDestroy(

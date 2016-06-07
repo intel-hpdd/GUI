@@ -24,9 +24,12 @@
 import {noop} from 'intel-fp';
 import highland from 'highland';
 
-import type {SocketStreamT} from './socket-module.js';
+import type {
+  SocketStreamT
+} from './socket-module.js';
 
-export default function socketStreamFactory (getEventSocket:Function, buildResponseError:Function):SocketStreamT {
+export default function socketStreamFactory (getEventSocket:Function,
+  buildResponseError:Function):SocketStreamT<mixed> {
   'ngInject';
 
   return function sendRequest (path, options, isAck) {

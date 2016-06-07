@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,11 +21,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import {
+  curry
+} from 'intel-fp';
 
-export default curry(2, (fn, s) => {
+import type {
+  HighlandStreamT
+} from 'highland';
+
+type streamToStream<T, R> = (s:HighlandStreamT<T>) => HighlandStreamT<R>;
+
+export default curry(2, function <T, R>(fn:streamToStream<T, R>, s:HighlandStreamT<T>):HighlandStreamT<R> {
   const s2 = fn(s);
 
+  // $FlowIgnore: flow does not recognize this monkey-patching.
   s2.destroy = s.destroy.bind(s);
 
   return s2;

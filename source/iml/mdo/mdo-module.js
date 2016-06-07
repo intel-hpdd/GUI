@@ -33,13 +33,15 @@ import {getMdoChartFactory} from './get-mdo-chart';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import mdoChartTemplate from './assets/html/mdo';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+import type {
+  HighlandStreamT
+} from 'highland';
 import type {
   scopeToElementT
 } from '../chart-compiler/chart-compiler-module.js';
 
 export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
-  buff:(s:HighlandStream)=>HighlandStream | HighlandStream) => HighlandStream;
+  buff:(s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 export type getMdoChartT = (chartStore:'mdoChart' | 'mdoTargetChart', overrides:Object) => Promise<scopeToElementT>;
 
 export default angular.module('mdo', [

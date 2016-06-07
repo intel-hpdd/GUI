@@ -21,10 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
 import highland from 'highland';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland';
+import {
+  noop
+} from 'intel-fp';
+
+
+import type {
+  HighlandStreamT
+} from 'highland';
 
 export const documentHidden = {};
 export const documentVisible = {};
@@ -36,10 +42,10 @@ export function streamWhenVisible ($document:Array<Document>,
 
   const doc = $document[0];
 
-  return function streamWhenVisible (streamFn:() => HighlandStream) {
+  return function streamWhenVisible (streamFn:() => HighlandStreamT<mixed>) {
     var stream;
 
-    const visibleStream = highland();
+    const visibleStream:HighlandStreamT<mixed> = highland();
 
     if (!doc.hidden)
       onShow();
@@ -83,6 +89,7 @@ export function streamWhenVisible ($document:Array<Document>,
     }
 
     const oldDestroy = visibleStream.destroy.bind(visibleStream);
+    // $FlowIgnore: flow does not recogize this monkey-patch
     visibleStream.destroy = function destroy () {
       removeListener();
       oldDestroy();

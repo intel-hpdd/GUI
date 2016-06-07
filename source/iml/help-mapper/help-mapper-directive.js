@@ -22,7 +22,10 @@
 // express and approved by Intel in writing.
 
 import {find, __} from 'intel-fp';
-import type {HighlandStream} from 'intel-flow-highland/include/highland.js';
+
+import type {
+  HighlandStreamT
+} from 'highland';
 
 export default () => ({
   restrict: 'A',
@@ -34,7 +37,7 @@ export default () => ({
   `,
   controllerAs: '$ctrl',
   bindToController: 'true',
-  controller (routeStream:() => HighlandStream, $scope:Object, propagateChange:Function) {
+  controller (routeStream:() => HighlandStreamT<Object>, $scope:Object, propagateChange:Function) {
     'ngInject';
 
     this.qs = '';

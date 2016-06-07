@@ -21,13 +21,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry, map, __, flow, once} from 'intel-fp';
 import highland from 'highland';
+import {
+  curry,
+  map,
+  __,
+  flow,
+  once
+} from 'intel-fp';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland';
+import type {
+  HighlandStreamT
+} from 'highland';
 
 export function DeferredActionDropdownCtrl ($scope:Object, socketStream:Function,
-                                            multiStream:(xs:Array<HighlandStream>) => HighlandStream,
+                                            multiStream:(xs:Array<HighlandStreamT<mixed>>) => HighlandStreamT<mixed>,
                                             localApply:Function):void {
   'ngInject';
 
@@ -44,7 +52,7 @@ export function DeferredActionDropdownCtrl ($scope:Object, socketStream:Function
   ctrl.onEnter = once(() => {
     ctrl.loading = true;
 
-    const ms:HighlandStream = getMs(ctrl.row.affected);
+    const ms:HighlandStreamT<mixed> = getMs(ctrl.row.affected);
 
     ms
       .tap(() => ctrl.loading = false)

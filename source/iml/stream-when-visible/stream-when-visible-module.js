@@ -22,12 +22,22 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import highlandModule from '../highland/highland-module';
-import pageVisibilityModule from '../page-visibility/page-visibility-module';
-import {streamWhenVisible, documentHidden, documentVisible} from './stream-when-visible';
 
-import type {HighlandStream} from 'intel-flow-highland/include/highland';
-export type streamWhenChartVisibleT = (streamFn:() => HighlandStream) => HighlandStream;
+import highlandModule from '../highland/highland-module';
+
+import pageVisibilityModule from '../page-visibility/page-visibility-module';
+
+import {
+  streamWhenVisible,
+  documentHidden,
+  documentVisible
+} from './stream-when-visible';
+
+import type {
+  HighlandStreamT
+} from 'highland';
+
+export type streamWhenChartVisibleT = (streamFn:() => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export default angular.module('streamWhenVisible', [highlandModule, pageVisibilityModule])
   .factory('streamWhenVisible', streamWhenVisible)
