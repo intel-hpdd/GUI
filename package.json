@@ -8,12 +8,10 @@
     "test": "cd gulp && gulp test:once",
     "test:gulp": "cd gulp && JASMINE_CONFIG_PATH=jasmine.json NODE_ENV=test ../node_modules/jasmine/bin/jasmine.js",
     "postversion": "cd gulp && gulp prod",
-    "jscs": "jscs .",
     "eslint": "eslint ./",
     "cover": "echo \"No coverage specified\""
   },
   "pre-commit": [
-    "jscs",
     "eslint",
     "test:dev"
   ],
@@ -77,7 +75,6 @@
     "jasmine-core": "2.4.1",
     "jasmine-reporters": "1.0.2",
     "jquery": "2.2.4",
-    "jscs": "2.11.0",
     "karma": "0.13.22",
     "karma-chrome-launcher": "1.0.1",
     "karma-coverage": "1.0.0",
