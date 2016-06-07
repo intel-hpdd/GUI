@@ -25,16 +25,16 @@
     "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
   },
   "devDependencies": {
-    "angular": "1.5.5",
-    "angular-animate": "1.5.5",
-    "angular-mocks": "1.5.5",
-    "angular-resource": "1.5.5",
-    "angular-route": "1.5.5",
+    "angular": "1.5.6",
+    "angular-animate": "1.5.6",
+    "angular-mocks": "1.5.6",
+    "angular-resource": "1.5.6",
+    "angular-route": "1.5.6",
     "angular-ui-bootstrap": "1.3.3",
     "babel-eslint": "6.0.4",
     "babel-plugin-__coverage__": "1.11.111",
     "babel-plugin-syntax-flow": "6.8.0",
-    "babel-plugin-transform-class-properties": "6.9.0",
+    "babel-plugin-transform-class-properties": "6.9.1",
     "babel-plugin-transform-es2015-modules-systemjs": "6.9.0",
     "babel-plugin-transform-flow-strip-types": "6.8.0",
     "babel-plugin-transform-object-rest-spread": "6.8.0",
@@ -43,7 +43,7 @@
     "bootstrap": "3.3.6",
     "d3": "3.5.17",
     "del": "2.2.0",
-    "eslint": "2.10.2",
+    "eslint": "2.11.1",
     "eslint-plugin-flow-vars": "0.4.0",
     "eslint-plugin-flowtype": "2.2.7",
     "font-awesome": "4.6.3",
@@ -92,6 +92,6 @@
     "pre-commit": "1.1.3",
     "sprintf-js": "1.0.3",
     "systemjs": "0.19.29",
-    "systemjs-builder": "0.15.18"
+    "systemjs-builder": "0.15.19"
   }
 }
