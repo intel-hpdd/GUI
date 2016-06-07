@@ -27,5 +27,5 @@ import highlandModule from '../highland/highland-module';
 import multiStreamFactory from './multi-stream';
 
 export default angular.module('multiStream', [highlandModule])
-  .factory('multiStream', multiStreamFactory)
+  .value('multiStream', multiStreamFactory)
   .name;
