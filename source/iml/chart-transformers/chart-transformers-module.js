@@ -48,5 +48,5 @@ export type getConfT = (page:string) => HighlandStreamT<confTypes>;
 
 export default angular.module('chartTransformers', [])
   .factory('chartTransformer', chartTransformer)
-  .factory('getConf', getConf)
+  .value('getConf', getConf)
   .name;

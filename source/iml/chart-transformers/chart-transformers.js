@@ -30,6 +30,8 @@ import {
   curry, map
 } from 'intel-fp';
 
+import rebindDestroy from '../highland/rebind-destroy.js';
+
 import type {
   HighlandStreamT
 } from 'highland';
@@ -72,16 +74,12 @@ import type {
 type chartStreamsT = (x:durationPayloadT) => getMdoStreamT | (x:heatMapDurationPayloadT) => Function;
 type payloadsHashT = heatMapPayloadHashT | durationPayloadHashT | ostBalancePayloadHashT;
 
-export const getConf = (rebindDestroy:rebindDestroyT<payloadsHashT, scopeToElementT>) => {
-  'ngInject';
-
-  return (page:string) => {
-    return (s:HighlandStreamT<payloadsHashT>) => {
-      return rebindDestroy(
-        map((x) => withDefault(() => x[''], Maybe.of(x[page]))),
-        s
-      );
-    };
+export const getConf = (page:string) => {
+  return (s:HighlandStreamT<payloadsHashT>) => {
+    return rebindDestroy(
+      map((x) => withDefault(() => x[''], Maybe.of(x[page]))),
+      s
+    );
   };
 };
 
