@@ -48,6 +48,17 @@ import type {
 export type configToDataT = (data$Fn:(data:Object)
   => HighlandStreamT<mixed>, config$:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+import type {
+  ostBalancePayloadT
+} from '../ost-balance/ost-balance-module.js';
+
+export type configToData$T = (data$Fn:(x:durationPayloadT & ostBalancePayloadT) => HighlandStreamT<mixed>)
+  => HighlandStreamT<mixed>;
+
 export default angular.module('charts',
   [
     d3Module, nvModule, serverMomentModule, chartTemplate,

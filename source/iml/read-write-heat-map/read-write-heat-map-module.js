@@ -29,6 +29,7 @@ import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import { getReadWriteHeatMapStreamFactory } from './get-read-write-heat-map-stream';
 import { getReadWriteHeatMapChartFactory } from './get-read-write-heat-map-chart';
+import chartTransformerModule from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
@@ -44,14 +45,16 @@ export type rangeConfigT = {
   configType: 'range',
   startDate: string,
   endDate: string,
-  dataType: string
+  dataType: string,
+  page: string
 };
 
 export type durationConfigT = {
   configType: 'duration',
   size: number,
   unit: string,
-  dataType: string
+  dataType: string,
+  page: string
 };
 
 import type {
@@ -63,9 +66,18 @@ export type heatMapConfigT = rangeConfigT | durationConfigT;
 export type heatMapDurationPayloadT = rangeConfigT & durationConfigT;
 export type getReadWriteHeatMapChartT = (overrides:Object) => Promise<scopeToElementT>;
 
+export type heatMapPayloadHashT = {
+  [page:string]:heatMapDurationPayloadT
+};
+
+export type addReadWriteHeatMapActionT = {
+    type: 'ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS',
+    payload: heatMapDurationPayloadT[]
+};
+
 export default angular.module('readWriteHeatMap', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule, readWriteHeatMapTemplate
+  socketModule, durationPickerModule, readWriteHeatMapTemplate, chartTransformerModule
 ])
   .constant('readWriteHeatMapTypes', {
     READ_BYTES: 'stats_read_bytes',

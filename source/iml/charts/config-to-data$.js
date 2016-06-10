@@ -34,39 +34,41 @@ import type {
 
 export const configChange = {};
 
-type mixedStreamT = HighlandStreamT<mixed>;
-
 export default function configToDataFactory (rebindDestroy:rebindDestroyT<mixed, mixed>) {
   'ngInject';
 
-  return function configToData$ (data$Fn:(data:Object) =>mixedStreamT, config$:mixedStreamT):mixedStreamT {
-    var data$:?mixedStreamT;
+  return function configToData$ (data$Fn:(x:mixed) => HighlandStreamT<mixed>):(s:HighlandStreamT<mixed>)
+    => HighlandStreamT<mixed> {
 
-    function consume (error:Error, x:Object, push:Function, next:Function) {
-      if (error) {
-        push(error);
-        return next();
+    return (s:HighlandStreamT<mixed>) => {
+      var data$:?HighlandStreamT<mixed>;
+
+      function consume (error:Error, x:mixed, push:Function, next:Function) {
+        if (error) {
+          push(error);
+          return next();
+        }
+
+        if (data$) {
+          push(null, configChange);
+          data$.destroy();
+          data$ = null;
+        }
+
+        if (x === highland.nil) {
+          push(null, x);
+        } else {
+          data$ = data$Fn(x);
+
+          data$
+            .errors(e => push(e))
+            .each(x => push(null, x));
+
+          next();
+        }
       }
 
-      if (data$) {
-        push(null, configChange);
-        data$.destroy();
-        data$ = null;
-      }
-
-      if (x === highland.nil) {
-        push(null, x);
-      } else {
-        data$ = data$Fn(x);
-
-        data$
-          .errors(e => push(e))
-          .each(x => push(null, x));
-
-        next();
-      }
-    }
-
-    return rebindDestroy(invokeMethod('consume', [consume]), config$);
+      return rebindDestroy(invokeMethod('consume', [consume]), s);
+    };
   };
 }

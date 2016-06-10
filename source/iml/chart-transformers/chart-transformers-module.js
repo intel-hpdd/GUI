@@ -22,26 +22,18 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
 import {
-  chartCompilerFactory
-} from './chart-compiler';
-import {
-  chartCompilerDirective
-} from './chart-compiler-directive';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
-import socketModule from '../socket/socket-module';
-import highlandModule from '../highland/highland-module';
+  default as chartTransformer,
+  getConf
+} from './chart-transformer';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export type scopeToElementT = (scope:Object) => HTMLElement[];
-export type chartCompilerT = (template:string, stream:HighlandStreamT<mixed>,
-  fn:($scope:Object, stream:HighlandStreamT<mixed>) => Object) => Promise<scopeToElementT>;
+export type getConfT = (page:string) => HighlandStreamT<mixed>;
 
-export default angular.module('chartCompiler', [getTemplatePromiseModule, socketModule, highlandModule])
-  .factory('chartCompiler', chartCompilerFactory)
-  .directive('chartCompiler', chartCompilerDirective)
+export default angular.module('chartTransformers', [])
+  .factory('chartTransformer', chartTransformer)
+  .value('getConf', getConf)
   .name;

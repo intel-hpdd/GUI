@@ -53,6 +53,18 @@ import chartsContainerTemplate from './assets/html/charts-container';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import usageInfoTemplate from './usage-info/assets/html/usage-info';
 
+export type filesystemQueryT = {
+  qs: {
+    filesystem_id: number
+  }
+};
+
+export type targetQueryT = {
+  qs: {
+    id: number
+  }
+};
+
 export default angular
   .module('dashboard', [sortableModule, targetModule, fullScreenModule,
     numberFormattersModule, asPropertyModule, extendScopeModule,

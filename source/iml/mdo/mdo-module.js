@@ -29,24 +29,40 @@ import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import {getMdoStreamFactory} from './get-mdo-stream';
 import {getMdoChartFactory} from './get-mdo-chart';
+import chartTransformersModule from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import mdoChartTemplate from './assets/html/mdo';
 
 import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+import type {
   HighlandStreamT
 } from 'highland';
+
 import type {
   scopeToElementT
 } from '../chart-compiler/chart-compiler-module.js';
 
 export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
   buff:(s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-export type getMdoChartT = (chartStore:'mdoChart' | 'mdoTargetChart', overrides:Object) => Promise<scopeToElementT>;
+export type getMdoChartT = (page:string, overrides:filesystemQueryT | targetQueryT) => Promise<scopeToElementT>;
+export type addMdoActionT = {
+    type: 'ADD_MDO_CHART_ITEMS',
+    payload: durationPayloadT[]
+}
+
 
 export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule, mdoChartTemplate
+  socketModule, durationPickerModule, mdoChartTemplate, chartTransformersModule
 ])
   .factory('getMdoStream', getMdoStreamFactory)
   .factory('getMdoChart', getMdoChartFactory)
