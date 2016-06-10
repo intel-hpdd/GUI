@@ -30,11 +30,12 @@ var assets = require('./assets');
 var Builder = require('systemjs-builder');
 var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
+var destDir = require('../dest-dir');
 
 var builder = new Builder('./');
 var baseURL = builder.loader.baseURL;
 
-function prod () {
+function systemBuild () {
   return builder.loadConfig('dest/source/system.config.js')
     .then(function buildBundle () {
       builder.loader.baseURL = baseURL + 'dest/';
@@ -82,11 +83,33 @@ var build = gulp.parallel(
   css.buildCssProd
 );
 
-module.exports = gulp.series(
+module.exports.prod = gulp.series(
   cleaner,
   build,
-  prod,
+  systemBuild,
   revJs,
   templates.injectProd,
   clean.cleanBuilt
 );
+
+module.exports.prodLocal = gulp.series(
+  gulp.parallel(
+    clean.cleanTemplates,
+    clean.cleanStatic
+  ),
+  module.exports.prod,
+  function moveJs () {
+    return gulp
+      .src('dist/**/*', {
+        base: './dist'
+      })
+      .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  },
+  function moveTemplate () {
+    return gulp
+      .src('dist/index.html', {
+        base: './dist'
+      })
+      .pipe(gulp.dest('templates/new', { cwd: destDir }));
+  }
+)

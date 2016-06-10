@@ -47,7 +47,7 @@ describe('mgt route', () => {
   <mgt mgt-stream="$ctrl.mgtStream" alert-indicator-stream="$ctrl.mgtAlertIndicatorStream"
        job-indicator-stream="$ctrl.mgtJobIndicatorStream"></mgt>
 </div>`,
-        controller: jasmine.any(Array),
+        controller: jasmine.any(Function),
         controllerAs: '$ctrl',
         access: 'filesystem_administrators',
         resolve: ['mgtAlertIndicatorStream', 'mgtJobIndicatorStream', 'mgtStream'],

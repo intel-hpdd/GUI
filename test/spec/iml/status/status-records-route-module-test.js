@@ -1,5 +1,5 @@
 import angular from 'angular';
-import {noop, tail} from 'intel-fp';
+import {noop} from 'intel-fp';
 
 import statusRecordsRouteModule
   from '../../../../source/iml/status/status-records-route-module';
@@ -39,9 +39,9 @@ describe('status records route', function () {
         controller: 'StatusController',
         controllerAs: 'ctrl',
         templateUrl: '/static/chroma_ui/source/iml/status/assets/html/status.js',
-        watcher: jasmine.any(Array),
+        watcher: jasmine.any(Function),
         resolve: {
-          notificationStream: jasmine.any(Array)
+          notificationStream: jasmine.any(Function)
         },
         untilResolved: {
           templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
@@ -68,7 +68,7 @@ describe('status records route', function () {
           path: jasmine.createSpy('path')
         };
 
-        watcher = tail(routeSegment.watcher).bind(routeSegment);
+        watcher = routeSegment.watcher.bind(routeSegment);
       });
 
       it('should return the new qs', () => {
@@ -111,7 +111,7 @@ describe('status records route', function () {
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
 
-        notificationStream = tail(routeSegment.resolve.notificationStream);
+        notificationStream = routeSegment.resolve.notificationStream;
       });
 
       it('should call /alert with a qs', function () {

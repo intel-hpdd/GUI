@@ -56,5 +56,6 @@ module.exports.devBuild = gulp.series(
 
 module.exports.dev = gulp.series(
   module.exports.devBuild,
-  gulp.parallel(watch, test.continuous)
+  watch,
+  test.continuous
 );
