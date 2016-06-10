@@ -23,17 +23,30 @@
 
 import angular from 'angular';
 import {
-  default as chartTransformer,
+  chartTransformer,
   getConf
-} from './chart-transformer';
+} from './chart-transformers.js';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export type getConfT = (page:string) => HighlandStreamT<mixed>;
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+import type {
+  heatMapDurationPayloadT
+} from '../read-write-heat-map/read-write-heat-map-module.js';
+
+import type {
+  ostBalancePayloadT
+} from '../ost-balance/ost-balance-module.js';
+
+type confTypes = durationPayloadT | heatMapDurationPayloadT | ostBalancePayloadT;
+export type getConfT = (page:string) => HighlandStreamT<confTypes>;
 
 export default angular.module('chartTransformers', [])
   .factory('chartTransformer', chartTransformer)
-  .value('getConf', getConf)
+  .factory('getConf', getConf)
   .name;

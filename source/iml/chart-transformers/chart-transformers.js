@@ -27,12 +27,16 @@ import {
 } from 'intel-maybe';
 
 import {
-  curry
+  curry, map
 } from 'intel-fp';
 
 import type {
   HighlandStreamT
 } from 'highland';
+
+import type {
+  rebindDestroyT
+} from '../highland/highland-module.js';
 
 import type {
   durationPayloadT,
@@ -61,16 +65,27 @@ import type {
   getMdoStreamT
 } from '../mdo/mdo-module.js';
 
+import type {
+  scopeToElementT
+} from '../chart-compiler/chart-compiler-module.js';
+
 type chartStreamsT = (x:durationPayloadT) => getMdoStreamT | (x:heatMapDurationPayloadT) => Function;
 type payloadsHashT = heatMapPayloadHashT | durationPayloadHashT | ostBalancePayloadHashT;
 
-export const getConf = (page:string) => {
-  return (s:HighlandStreamT<payloadsHashT>) => {
-    return s.map((x) => withDefault(() => x[''], Maybe.of(x[page])));
+export const getConf = (rebindDestroy:rebindDestroyT<payloadsHashT, scopeToElementT>) => {
+  'ngInject';
+
+  return (page:string) => {
+    return (s:HighlandStreamT<payloadsHashT>) => {
+      return rebindDestroy(
+        map((x) => withDefault(() => x[''], Maybe.of(x[page]))),
+        s
+      );
+    };
   };
 };
 
-export default (createStream:createStreamT) => {
+export function chartTransformer (createStream:createStreamT) {
   'ngInject';
 
   return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:chartStreamsT,
@@ -95,4 +110,4 @@ export default (createStream:createStreamT) => {
       );
     }
   });
-};
+}
