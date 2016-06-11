@@ -9,6 +9,7 @@
 
 [libs]
 node_modules/intel-flow-highland/flow-typed
+node_modules/intel-flow-jasmine/flow-typed
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
