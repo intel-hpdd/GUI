@@ -23,7 +23,7 @@
 
 import angular from 'angular';
 import {
-  chartTransformer,
+  data$Fn,
   getConf
 } from './chart-transformers.js';
 
@@ -47,6 +47,6 @@ type confTypes = durationPayloadT | heatMapDurationPayloadT | ostBalancePayloadT
 export type getConfT = (page:string) => HighlandStreamT<confTypes>;
 
 export default angular.module('chartTransformers', [])
-  .factory('chartTransformer', chartTransformer)
+  .factory('data$Fn', data$Fn)
   .value('getConf', getConf)
   .name;

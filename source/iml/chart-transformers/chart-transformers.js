@@ -37,12 +37,7 @@ import type {
 } from 'highland';
 
 import type {
-  rebindDestroyT
-} from '../highland/highland-module.js';
-
-import type {
-  durationPayloadT,
-  durationPayloadHashT
+  durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
 
 import type {
@@ -50,13 +45,8 @@ import type {
 } from '../charting/charting-module.js';
 
 import type {
-  heatMapDurationPayloadT,
-  heatMapPayloadHashT
+  heatMapDurationPayloadT
 } from '../read-write-heat-map/read-write-heat-map-module.js';
-
-import type {
-  ostBalancePayloadHashT
-} from '../ost-balance/ost-balance-module.js';
 
 import type {
   filesystemQueryT,
@@ -67,23 +57,20 @@ import type {
   getMdoStreamT
 } from '../mdo/mdo-module.js';
 
-import type {
-  scopeToElementT
-} from '../chart-compiler/chart-compiler-module.js';
-
 type chartStreamsT = (x:durationPayloadT) => getMdoStreamT | (x:heatMapDurationPayloadT) => Function;
-type payloadsHashT = heatMapPayloadHashT | durationPayloadHashT | ostBalancePayloadHashT;
 
 export const getConf = (page:string) => {
-  return (s:HighlandStreamT<payloadsHashT>) => {
-    return rebindDestroy(
-      map((x) => withDefault(() => x[''], Maybe.of(x[page]))),
-      s
-    );
-  };
+  return rebindDestroy(
+    map(
+      (x) => withDefault(
+        () => x[''],
+        Maybe.of(x[page])
+      )
+    )
+  );
 };
 
-export function chartTransformer (createStream:createStreamT) {
+export function data$Fn (createStream:createStreamT) {
   'ngInject';
 
   return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:chartStreamsT,
