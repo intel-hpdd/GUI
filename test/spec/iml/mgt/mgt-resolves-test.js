@@ -1,17 +1,33 @@
 import mgtModule from '../../../../source/iml/mgt/mgt-module.js';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('mgt resolves', () => {
-  var addProperty, getStore;
+  var addProperty, store, resolvesModule;
+
+  beforeEachAsync(async function () {
+    store = {
+      select: jasmine.createSpy('select')
+    };
+
+    resolvesModule = await mock('source/iml/mgt/mgt-resolves.js', {
+      'source/iml/store/get-store': { default: store }
+    });
+  });
+
+  afterEach(resetAll);
 
   beforeEach(module(mgtModule, $provide => {
     addProperty = jasmine.createSpy('addProperty');
     $provide.value('addProperty', addProperty);
 
-    getStore = {
-      select: jasmine.createSpy('select')
-    };
-    $provide.value('getStore', getStore);
+    $provide.factory('mgtAlertIndicatorStream', resolvesModule.mgtAlertIndicatorStream);
+    $provide.factory('mgtJobIndicatorStream', resolvesModule.mgtJobIndicatorStream);
+    $provide.factory('mgtStream', resolvesModule.mgtStream);
   }));
 
   var mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
@@ -25,23 +41,23 @@ describe('mgt resolves', () => {
   it('should select alertIndicators', () => {
     mgtAlertIndicatorStream();
 
-    expect(getStore.select)
+    expect(store.select)
       .toHaveBeenCalledOnceWith('alertIndicators');
   });
 
   it('should select jobIndicators', () => {
     mgtJobIndicatorStream();
 
-    expect(getStore.select)
+    expect(store.select)
       .toHaveBeenCalledOnceWith('jobIndicators');
   });
 
   it('should select targets', () => {
-    getStore.select.and.returnValue(highland());
+    store.select.and.returnValue(highland());
 
     mgtStream();
 
-    expect(getStore.select)
+    expect(store.select)
       .toHaveBeenCalledOnceWith('targets');
   });
 
@@ -49,7 +65,7 @@ describe('mgt resolves', () => {
     const spy = jasmine.createSpy('spy');
     const s = highland();
 
-    getStore.select.and.returnValue(s);
+    store.select.and.returnValue(s);
 
     mgtStream()
       .each(spy);

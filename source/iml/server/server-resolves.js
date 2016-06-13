@@ -19,26 +19,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function serverResolvesFactory ($q, resolveStream, addProperty, rebindDestroy, getStore) {
+import store from '../store/get-store.js';
+
+export default function serverResolvesFactory ($q, resolveStream, addProperty) {
   'ngInject';
 
   return function serverResolves () {
     const jobMonitorStream = addProperty(
-      getStore
+      store
         .select('jobIndicators')
     );
 
     const alertMonitorStream = addProperty(
-      getStore
+      store
         .select('alertIndicators')
     );
 
     const lnetConfigurationStream = addProperty(
-      getStore
+      store
         .select('lnetConfiguration')
     );
 
-    const serversStream = getStore
+    const serversStream = store
       .select('server');
 
     return $q.all({

@@ -22,7 +22,10 @@
 // express and approved by Intel in writing.
 
 export const ADD_SERVER_ITEMS = 'ADD_SERVER_ITEMS';
-import type {ActionT} from '../store/store-module.js';
+
+import type {
+  ActionT
+} from '../store/store-module.js';
 
 export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
   switch (type) {

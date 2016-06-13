@@ -30,7 +30,6 @@ import readWriteBandwidthModule from '../read-write-bandwidth/read-write-bandwid
 import socketModule from '../socket/socket-module';
 import highlandModule from '../highland/highland-module';
 import TargetDashboardController from './target-dashboard-controller';
-import storeModule from '../store/store-module';
 import {
   targetDashboardKindFactory,
   targetDashboardResolvesFactory,
@@ -41,7 +40,7 @@ import {
 export default angular
   .module('targetDashboard', [
     extendScopeModule, fileUsageModule, spaceUsageModule, mdoModule, readWriteBandwidthModule,
-    socketModule, highlandModule, storeModule
+    socketModule, highlandModule
   ])
   .controller('TargetDashboardController', TargetDashboardController)
   .factory('targetDashboardKind', targetDashboardKindFactory)

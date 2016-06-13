@@ -73,33 +73,50 @@ export default angular.module('iml', [
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
   statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule
 ])
-  .config(['$compileProvider', function ($compileProvider) {
+  .config($compileProvider => {
+    'ngInject';
+
     $compileProvider.debugInfoEnabled(false);
-  }
-  ])
-  .config(['$locationProvider', function ($locationProvider) {
+  })
+  .config($locationProvider => {
+    'ngInject';
+
     $locationProvider.html5Mode(true).hashPrefix('!');
-  }
-  ])
-  .config(['$httpProvider', function ($httpProvider) {
+  })
+  .config($httpProvider => {
+    'ngInject';
+
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-  }
-  ])
-  .config(['modelFactoryProvider', function (modelFactoryProvider) {
+  })
+  .config(modelFactoryProvider => {
+    'ngInject';
+
     modelFactoryProvider.setUrlPrefix('/api/');
-  }
-  ])
-  .config(['$animateProvider', function ($animateProvider) {
+  })
+  .config($animateProvider => {
+    'ngInject';
+
     $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
-  }
-  ])
-  .config(['$routeSegmentProvider', function ($routeSegmentProvider) {
+  })
+  .config($routeSegmentProvider => {
+    'ngInject';
+
     $routeSegmentProvider.options.autoLoadTemplates = true;
     $routeSegmentProvider.options.strictMode = true;
     $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
-  }
-  ])
+  })
+  .run((targetDispatchSource, serverDispatchSource,
+      alertIndicatorDispatchSource, jobIndicatorDispatchSource,
+      lnetDispatchSource) => {
+    'ngInject';
+
+    targetDispatchSource;
+    serverDispatchSource;
+    alertIndicatorDispatchSource;
+    jobIndicatorDispatchSource;
+    lnetDispatchSource;
+  })
   .name;
 
 angular.bootstrap(document, ['iml'], {});

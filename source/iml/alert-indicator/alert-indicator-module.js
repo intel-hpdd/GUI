@@ -30,12 +30,15 @@ import extendScopeModule from '../extend-scope-module.js';
 import {RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
 import alertIndicatorReducer from './alert-indicator-reducer.js';
 import alertIndicatorStream from './alert-indicator-stream.js';
+import alertIndicatorDispatchSource from './alert-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import alertIndicatorTemplate from './assets/html/alert-indicator';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import stateLabelTemplate from './assets/html/state-label';
+
+export const ADD_ALERT_INDICATOR_ITEMS = 'ADD_ALERT_INDICATOR_ITEMS';
 
 export default angular.module('alertIndicator', [
   socketModule, popoverModule, uiBootstrapModule, highlandModule,
@@ -45,6 +48,7 @@ export default angular.module('alertIndicator', [
 .directive('recordState', recordStateDirective)
 .value('alertIndicatorReducer', alertIndicatorReducer)
 .factory('alertIndicatorStream', alertIndicatorStream)
+.factory('alertIndicatorDispatchSource', alertIndicatorDispatchSource)
 .constant('STATE_SIZE', {
   SMALL: 'small',
   MEDIUM: 'medium',

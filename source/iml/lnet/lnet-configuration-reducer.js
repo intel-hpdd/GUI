@@ -21,8 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 import type {ActionT} from '../store/store-module.js';
+
+import {
+  ADD_LNET_CONFIGURATION_ITEMS
+} from './lnet-module.js';
 
 export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
   switch (type) {

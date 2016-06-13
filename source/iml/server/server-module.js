@@ -49,7 +49,6 @@ import highlandModule from '../highland/highland-module';
 import asValueModule from '../as-value/as-value-module';
 import asStreamModule from '../as-stream/as-stream-module';
 import pdshModule from '../pdsh/pdsh-module';
-import storeModule from '../store/store-module';
 import SelectedServersService from './selected-servers-service';
 import {
   AddServerModalCtrl, openAddServerModalFactory, throwIfServerErrorsFactory
@@ -69,6 +68,7 @@ import serversToApiObjectsFactory from './servers-to-api-objects';
 import createOrUpdateHostsStreamFactory from './create-or-update-hosts-stream';
 import serverReducer from './server-reducer';
 import serverStream from './server-stream';
+import serverDispatchSource from './server-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import addServerModalTemplate from './assets/html/add-server-modal';
@@ -93,7 +93,7 @@ import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step';
 
 export default angular.module('server', [pdshModule, filtersModule, lnetModule,
     corosyncModule, pacemakerModule, socketModule, commandModule, actionDropdownModule,
-    jobIndicatorModule, alertIndicatorModule, stepsModule, storeModule,
+    jobIndicatorModule, alertIndicatorModule, stepsModule,
     extendScopeModule, highlandModule, asValueModule, asStreamModule,
     addServerStepTemplate, overrideButtonTemplate, uiBootstrapModule,
     addServerModalTemplate, serverStatusStepTemplate, confirmServerActionModalTemplate,
@@ -140,4 +140,5 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .factory('serversToApiObjects', serversToApiObjectsFactory)
   .value('serverReducer', serverReducer)
   .factory('serverStream', serverStream)
+  .factory('serverDispatchSource', serverDispatchSource)
   .name;

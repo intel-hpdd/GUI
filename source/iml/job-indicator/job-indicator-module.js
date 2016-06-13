@@ -31,9 +31,12 @@ import extendScopeModule from '../extend-scope-module.js';
 import jobIndicatorReducer from './job-indicator-reducer.js';
 import jobIndicatorStream from './job-indicator-stream.js';
 import jobStatusDirective from './job-indicator.js';
+import jobIndicatorDispatchSource from './job-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import jobIndicatorTemplate from './assets/html/job-indicator';
+
+export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
 export default angular.module('jobIndicator', [
   socketModule, popoverModule, uiBootstrapModule,
@@ -43,4 +46,5 @@ export default angular.module('jobIndicator', [
 .directive('jobStatus', jobStatusDirective)
 .value('jobIndicatorReducer', jobIndicatorReducer)
 .factory('jobIndicatorStream', jobIndicatorStream)
+.factory('jobIndicatorDispatchSource', jobIndicatorDispatchSource)
 .name;

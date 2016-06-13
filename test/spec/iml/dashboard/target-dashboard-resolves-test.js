@@ -2,9 +2,27 @@ import highland from 'highland';
 import targetDashboardModule
   from '../../../../source/iml/dashboard/target-dashboard-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Target dashboard', () => {
-  var $route, socketStream, s, getStore, spy;
+  var $route, socketStream, resolvesModule, s, store, spy;
+
+  beforeEachAsync(async function () {
+    s = highland();
+    store = {
+      select: jasmine
+        .createSpy('select')
+        .and
+        .returnValue(s)
+    };
+
+    resolvesModule = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
+      'source/iml/store/get-store': { default: store }
+    });
+  });
 
   beforeEach(module(targetDashboardModule, function ($provide) {
     spy = jasmine.createSpy('spy');
@@ -17,16 +35,18 @@ describe('Target dashboard', () => {
 
     $provide.value('$route', $route);
 
-    s = highland();
     socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(s);
+      .and
+      .returnValue(s);
     $provide.value('socketStream', socketStream);
 
-    getStore = {
-      select: jasmine.createSpy('select').and.returnValue(s)
-    };
-    $provide.value('getStore', getStore);
+    $provide.factory(
+      'targetDashboardTargetStream',
+      resolvesModule.targetDashboardTargetStreamFactory
+    );
   }));
+
+  afterEach(resetAll);
 
   describe('kind', function () {
     var targetDashboardKind;
@@ -199,7 +219,7 @@ describe('Target dashboard', () => {
     });
 
     it('should call socketStream', function () {
-      expect(getStore.select).toHaveBeenCalledOnceWith('targets');
+      expect(store.select).toHaveBeenCalledOnceWith('targets');
     });
 
     it('should stream data', function () {

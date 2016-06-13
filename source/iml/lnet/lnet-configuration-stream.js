@@ -21,11 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map} from 'intel-fp';
-import type {SocketStreamT} from '../socket/socket-module.js';
+import {
+  map
+} from 'intel-fp';
+
+import type {
+  SocketStreamT
+} from '../socket/socket-module.js';
+
 import type {
   HighlandStreamT
 } from 'highland';
+
 type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export default function (socketStream:SocketStreamT<mixed>, rebindDestroy:fnToStreamToStream):HighlandStreamT<mixed> {

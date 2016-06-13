@@ -4,9 +4,7 @@ describe('get store', () => {
   var targetReducer, createStore, store,
     alertIndicatorReducer,
     jobIndicatorReducer, serverReducer,
-    lnetConfigurationReducer;
-
-  var storeInstance;
+    lnetConfigurationReducer, storeInstance;
 
   beforeEachAsync(async function () {
     store = {

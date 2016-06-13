@@ -32,11 +32,13 @@ import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
 import getNetworkInterfaceStreamFactory from './get-network-interface-stream';
-import lnetConfigurationReducer from './lnet-configuration-reducer';
 import lnetConfigurationStream from './lnet-configuration-stream';
+import lnetDispatchSource from './lnet-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import configureLnetTemplate from './assets/html/configure-lnet';
+
+export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 
 export default angular.module('lnetModule', [
   extendScopeModule, bigDifferModule, filterModule,
@@ -48,6 +50,6 @@ export default angular.module('lnetModule', [
 .component('lnetStatus', lnetStatus)
 .filter('removeUsedLnetOptions', removeUsedLnetOptionsFilter)
 .factory('getNetworkInterfaceStream', getNetworkInterfaceStreamFactory)
-.value('lnetConfigurationReducer', lnetConfigurationReducer)
 .factory('lnetConfigurationStream', lnetConfigurationStream)
+.factory('lnetDispatchSource', lnetDispatchSource)
 .name;

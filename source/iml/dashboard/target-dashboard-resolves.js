@@ -19,7 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, find} from 'intel-fp';
+import store from '../store/get-store.js';
+
+import {
+  map,
+  find
+} from 'intel-fp';
 
 export function targetDashboardKindFactory ($route) {
   'ngInject';
@@ -63,12 +68,12 @@ export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart, g
   };
 }
 
-export function targetDashboardTargetStreamFactory ($route, getStore, rebindDestroy) {
+export function targetDashboardTargetStreamFactory ($route, rebindDestroy) {
   'ngInject';
 
   return () => rebindDestroy(
     map(find(x => x.id === $route.current.params.targetId)),
-    getStore.select('targets'));
+    store.select('targets'));
 }
 
 export function targetDashboardUsageStreamFactory ($route, resolveStream, socketStream, addProperty) {

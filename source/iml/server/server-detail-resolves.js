@@ -19,12 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import store from '../store/get-store.js';
 import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 export default function serverDetailResolvesFactory ($q, resolveStream, addProperty, rebindDestroy,
-                                                     getStore, socketStream, getNetworkInterfaceStream, $route) {
+                                                     socketStream, getNetworkInterfaceStream, $route) {
   'ngInject';
 
   return function serverDetailResolves () {
@@ -37,18 +38,18 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
     var getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
 
     const jobMonitorStream = addProperty(
-      getStore
+      store
         .select('jobIndicators')
     );
 
     const alertMonitorStream = addProperty(
-      getStore
+      store
         .select('alertIndicators')
     );
 
     const serverStream = rebindDestroy(
       fp.map(fp.find(x => x.id === $route.current.params.id)),
-      getStore
+      store
         .select('server')
     );
 
@@ -61,7 +62,8 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
 
     const lnetConfigurationStream = addProperty(rebindDestroy(
       fp.map(fp.find(x => x.id === $route.current.params.id)),
-      getStore.select('lnetConfiguration')
+      store
+        .select('lnetConfiguration')
     ));
 
     const merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);

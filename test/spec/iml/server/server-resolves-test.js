@@ -1,15 +1,29 @@
 import highland from 'highland';
 import serverModule from '../../../../source/iml/server/server-module';
 
-describe('server resolves', () => {
-  var getStore;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module(serverModule, $provide => {
-    getStore = {
+describe('server resolves', () => {
+  let store, resolvesModule;
+
+  beforeEachAsync(async function () {
+    store = {
       select: jasmine.createSpy('select')
         .and.callFake(() => highland())
     };
-    $provide.value('getStore', getStore);
+
+    resolvesModule = await mock('source/iml/server/server-resolves.js', {
+      'source/iml/store/get-store': { default: store }
+    });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(serverModule, $provide => {
+    $provide.factory('serverResolves', resolvesModule.default);
   }));
 
   var serverResolves;
@@ -34,19 +48,19 @@ describe('server resolves', () => {
     }));
 
     it('should create a jobMonitorStream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('jobIndicators');
+      expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
     });
 
     it('should create an alertMonitorStream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('alertIndicators');
+      expect(store.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
     it('should create a servers stream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('server');
+      expect(store.select).toHaveBeenCalledOnceWith('server');
     });
 
     it('should create a lnet configuration stream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('lnetConfiguration');
+      expect(store.select).toHaveBeenCalledOnceWith('lnetConfiguration');
     });
 
     it('should return an object of streams', () => {

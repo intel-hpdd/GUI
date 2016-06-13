@@ -1,27 +1,40 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('server detail resolves', () => {
-  var getStore, socketStream, getNetworkInterfaceStream,
+  var store, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
+    resolvesModule,
     $route, serverDetailResolves, spy;
+
+  beforeEachAsync(async function () {
+    store = {
+      select: jasmine.createSpy('select')
+          .and.callFake(key => {
+            if (key === 'server')
+              return (serverStream = highland());
+            else if (key === 'lnetConfiguration')
+              return (lnetStream = highland());
+            else
+              return highland();
+          })
+    };
+
+    resolvesModule = await mock('source/iml/server/server-detail-resolves.js', {
+      'source/iml/store/get-store': { default: store }
+    });
+  });
+
+  afterEach(resetAll);
 
   beforeEach(module(serverModule, $provide => {
     spy = jasmine.createSpy('spy');
-    getStore = {
-      select: jasmine.createSpy('select')
-        .and.callFake(key => {
-          if (key === 'server')
-            return (serverStream = highland());
-          else if (key === 'lnetConfiguration')
-            return (lnetStream = highland());
-          else
-            return highland();
-        })
-    };
-    $provide.value('getStore', getStore);
 
     $route = {
       current: {
@@ -47,6 +60,8 @@ describe('server detail resolves', () => {
           return (pacemakerStream = highland());
       });
     $provide.value('socketStream', socketStream);
+
+    $provide.factory('serverDetailResolves', resolvesModule.default);
   }));
 
   beforeEach(inject(_serverDetailResolves_ => {
@@ -77,15 +92,15 @@ describe('server detail resolves', () => {
     }));
 
     it('should create a jobMonitorStream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('jobIndicators');
+      expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
     });
 
     it('should create an alertMonitorStream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('alertIndicators');
+      expect(store.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
     it('should create a serverStream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('server');
+      expect(store.select).toHaveBeenCalledOnceWith('server');
     });
 
     describe('filtering server data', () => {
@@ -122,7 +137,7 @@ describe('server detail resolves', () => {
     });
 
     it('should create a lnet configuration stream', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('lnetConfiguration');
+      expect(store.select).toHaveBeenCalledOnceWith('lnetConfiguration');
     });
 
     describe('filtering lnet configuration data', () => {

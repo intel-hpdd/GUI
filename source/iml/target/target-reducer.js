@@ -21,8 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
-import type {ActionT} from '../store/store-module.js';
+import {
+  ADD_TARGET_ITEMS
+} from './target-module.js';
+
+import type {
+  ActionT
+} from '../store/store-module.js';
 
 export default function targetReducer (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
   switch (type) {

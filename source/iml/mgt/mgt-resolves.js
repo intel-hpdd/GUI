@@ -21,6 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import store from '../store/get-store.js';
+
 import {
   map,
   filter
@@ -30,38 +32,34 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-import type {
-  StoreT
-} from '../store/store-module.js';
-
 type streamToStream = (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
-export function mgtAlertIndicatorStream (getStore:StoreT, addProperty:streamToStream):streamToStream {
+export function mgtAlertIndicatorStream (addProperty:streamToStream):streamToStream {
   'ngInject';
 
   return () => addProperty(
-    getStore
+    store
       .select('alertIndicators')
   );
 }
 
-export function mgtJobIndicatorStream (getStore:StoreT, addProperty:streamToStream):streamToStream {
+export function mgtJobIndicatorStream (addProperty:streamToStream):streamToStream {
   'ngInject';
 
   return () => addProperty(
-    getStore
+    store
       .select('jobIndicators')
   );
 }
 
 type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
-export function mgtStream (getStore:StoreT, rebindDestroy:fnToStreamToStream):streamToStream {
+export function mgtStream (rebindDestroy:fnToStreamToStream):streamToStream {
   'ngInject';
 
   return () => rebindDestroy(
     map(filter(x => x.kind === 'MGT')),
-    getStore
+    store
       .select('targets')
   );
 }

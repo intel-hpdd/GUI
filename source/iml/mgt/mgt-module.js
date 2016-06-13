@@ -31,13 +31,12 @@ import asValueModule from '../as-value/as-value-module.js';
 import routeToModule from '../route-to/route-to-module.js';
 import mgtComponent from './mgt-component.js';
 import {mgtAlertIndicatorStream, mgtJobIndicatorStream, mgtStream} from './mgt-resolves.js';
-import storeModule from '../store/store-module.js';
 
 export default angular.module('mgtModule', [
   extractApiFilterModule, actionDropdownModule,
   alertIndicatorModule, jobIndicatorModule,
   asStreamModule, routeToModule,
-  asValueModule, storeModule
+  asValueModule
 ])
   .component('mgt', mgtComponent)
   .factory('mgtAlertIndicatorStream', mgtAlertIndicatorStream)
