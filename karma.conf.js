@@ -10,7 +10,6 @@ module.exports = function (config) {
       {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
       {pattern: 'dest/source/system.config.js', included: true, watched: true},
       {pattern: 'karma-test-shim.js', included: true, watched: true},
-      {pattern: 'src/test/matchers.js', included: true, watched: true},
 
       // paths loaded via module imports
       {pattern: 'dest/node_modules/**/*.js', included: false, watched: true},

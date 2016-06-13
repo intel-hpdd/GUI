@@ -44,7 +44,7 @@ System.import('/base/dest/test/global-setup.js')
   .then(function () {
     window.__karma__.start();
   }, function (error) {
-    window.__karma__.error(error.stack || error);
+    window.__karma__.error(error.message + ' ' + error.stack);
   });
 
 

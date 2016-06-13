@@ -176,4 +176,12 @@ beforeEach(angular.mock.module(fixturesModule));
     window.d3.timer.flush();
     Date.now = now;
   };
+
+  window.beforeEachAsync = runAsync => {
+    beforeEach(done => {
+      runAsync()
+      .then(done)
+      .catch(done.fail);
+    });
+  };
 }());
