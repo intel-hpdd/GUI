@@ -22,8 +22,8 @@
 // express and approved by Intel in writing.
 
 import createStore from './create-store.js';
-import targetReducer from '../target/target-reducer.js';
 
+import targetReducer from '../target/target-reducer.js';
 import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
 import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
 import serverReducer from '../server/server-reducer.js';

@@ -1,15 +1,7 @@
-import alertIndicatorModule from '../../../../source/iml/alert-indicator/alert-indicator-module.js';
+import alertIndicatorReducer from '../../../../source/iml/alert-indicator/alert-indicator-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
 describe('alert indicator reducer', () => {
-  beforeEach(module(alertIndicatorModule));
-
-  var alertIndicatorReducer;
-
-  beforeEach(inject(_alertIndicatorReducer_ => {
-    alertIndicatorReducer = _alertIndicatorReducer_;
-  }));
-
   it('should be a function', () => {
     expect(alertIndicatorReducer).toEqual(jasmine.any(Function));
   });

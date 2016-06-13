@@ -1,15 +1,7 @@
-import jobIndicatorModule from '../../../../source/iml/job-indicator/job-indicator-module.js';
+import jobIndicatorReducer from '../../../../source/iml/job-indicator/job-indicator-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
 describe('job indicator reducer', () => {
-  beforeEach(module(jobIndicatorModule));
-
-  var jobIndicatorReducer;
-
-  beforeEach(inject(_jobIndicatorReducer_ => {
-    jobIndicatorReducer = _jobIndicatorReducer_;
-  }));
-
   it('should be a function', () => {
     expect(jobIndicatorReducer).toEqual(jasmine.any(Function));
   });

@@ -28,7 +28,6 @@ import socketModule from '../socket/socket-module.js';
 import popoverModule from '../popover/popover-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import {RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
-import alertIndicatorReducer from './alert-indicator-reducer.js';
 import alertIndicatorStream from './alert-indicator-stream.js';
 import alertIndicatorDispatchSource from './alert-indicator-dispatch-source.js';
 
@@ -46,7 +45,6 @@ export default angular.module('alertIndicator', [
 ])
 .controller('RecordStateCtrl', RecordStateCtrl)
 .directive('recordState', recordStateDirective)
-.value('alertIndicatorReducer', alertIndicatorReducer)
 .factory('alertIndicatorStream', alertIndicatorStream)
 .factory('alertIndicatorDispatchSource', alertIndicatorDispatchSource)
 .constant('STATE_SIZE', {

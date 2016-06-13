@@ -22,7 +22,6 @@
 import angular from 'angular';
 import filterTargetByFs from './filter-target-by-fs';
 import filterTargetByHost from './filter-target-by-host';
-import targetReducer from './target-reducer';
 import targetDispatchSource from './target-dispatch-source.js';
 
 export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
@@ -30,6 +29,5 @@ export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
 export default angular.module('target', [])
   .value('filterTargetByFs', filterTargetByFs)
   .value('filterTargetByHost', filterTargetByHost)
-  .value('targetReducer', targetReducer)
   .factory('targetDispatchSource', targetDispatchSource)
   .name;

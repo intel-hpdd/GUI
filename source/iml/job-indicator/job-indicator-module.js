@@ -28,7 +28,6 @@ import socketModule from '../socket/socket-module.js';
 import popoverModule from '../popover/popover-module.js';
 import tooltipModule from '../tooltip/tooltip-module.js';
 import extendScopeModule from '../extend-scope-module.js';
-import jobIndicatorReducer from './job-indicator-reducer.js';
 import jobIndicatorStream from './job-indicator-stream.js';
 import jobStatusDirective from './job-indicator.js';
 import jobIndicatorDispatchSource from './job-indicator-dispatch-source.js';
@@ -44,7 +43,6 @@ export default angular.module('jobIndicator', [
   jobIndicatorTemplate, highlandModule
 ])
 .directive('jobStatus', jobStatusDirective)
-.value('jobIndicatorReducer', jobIndicatorReducer)
 .factory('jobIndicatorStream', jobIndicatorStream)
 .factory('jobIndicatorDispatchSource', jobIndicatorDispatchSource)
 .name;

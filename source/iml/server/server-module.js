@@ -66,7 +66,6 @@ import {waitUntilLoadedCtrl, waitUntilLoadedStep} from './wait-until-loaded-step
 import serverDetailResolvesFactory from './server-detail-resolves';
 import serversToApiObjectsFactory from './servers-to-api-objects';
 import createOrUpdateHostsStreamFactory from './create-or-update-hosts-stream';
-import serverReducer from './server-reducer';
 import serverStream from './server-stream';
 import serverDispatchSource from './server-dispatch-source.js';
 
@@ -138,7 +137,6 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .factory('waitUntilLoadedStep', waitUntilLoadedStep)
   .factory('serverDetailResolves', serverDetailResolvesFactory)
   .factory('serversToApiObjects', serversToApiObjectsFactory)
-  .value('serverReducer', serverReducer)
   .factory('serverStream', serverStream)
   .factory('serverDispatchSource', serverDispatchSource)
   .name;

@@ -1,17 +1,10 @@
-import targetModule from '../../../../source/iml/target/target-module.js';
+import targetReducer from '../../../../source/iml/target/target-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
 describe('target reducer', () => {
-  beforeEach(module(targetModule));
-
-  var targetReducer;
-
-  beforeEach(inject(_targetReducer_ => {
-    targetReducer = _targetReducer_;
-  }));
-
   it('should be a function', () => {
-    expect(targetReducer).toEqual(jasmine.any(Function));
+    expect(targetReducer)
+      .toEqual(jasmine.any(Function));
   });
 
   it('should return the payload on ADD_TARGET_ITEMS', () => {
