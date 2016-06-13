@@ -21,17 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 
-import * as ENV from './environment.js';
-
-const environmentModule = angular.module('environment', []);
-
-environmentModule.value('ENV', ENV);
-
-Object.keys(ENV)
-  .forEach(key => environmentModule
-    .value(key, ENV[key])
-  );
-
-export default environmentModule.name;
+export const STATIC_URL = window.STATIC_URL;
+export const CACHE_INITIAL_DATA = window.CACHE_INITIAL_DATA;
+export const UI_ROOT = document.baseURI;
+export const HELP_TEXT = window.HELP_TEXT;
+export const IS_RELEASE = window.IS_RELEASE;
+export const ALLOW_ANONYMOUS_READ = window.ALLOW_ANONYMOUS_READ;
+export const SERVER_TIME_DIFF = window.SERVER_TIME_DIFF;
+export const VERSION = window.VERSION;
+export const BUILD = window.BUILD;
+export const BASE = `${window.location.protocol}//${window.location.hostname}`;
+export const API = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/`;
+export const RUNTIME_VERSION = window.IS_RELEASE ? window.version : `Build ${window.BUILD}`;
