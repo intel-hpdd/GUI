@@ -21,47 +21,70 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import highland from 'highland';
-import {invokeMethod} from 'intel-fp';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
+
+import {
+  curry, map
+} from 'intel-fp';
+
 import rebindDestroy from '../highland/rebind-destroy.js';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export const configChange = {};
+import type {
+  durationPickerConfigT
+} from '../duration-picker/duration-picker-module.js';
 
-export default function configToData$ (data$Fn:(x:mixed) => HighlandStreamT<mixed>):(s:HighlandStreamT<mixed>)
-    => HighlandStreamT<mixed> {
+import type {
+  createStreamT
+} from '../charting/charting-module.js';
 
-  return (s:HighlandStreamT<mixed>) => {
-    var data$:?HighlandStreamT<mixed>;
+import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
 
-    function consume (error:Error, x:mixed, push:Function, next:Function) {
-      if (error) {
-        push(error);
-        return next();
-      }
+type configToStreamT = (x:durationPickerConfigT) => HighlandStreamT<mixed>;
 
-      if (data$) {
-        push(null, configChange);
-        data$.destroy();
-        data$ = null;
-      }
+export const getConf = (page:string) => {
+  return rebindDestroy(
+    map(
+      x => withDefault(
+        () => x[''],
+        Maybe.of(x[page])
+      )
+    )
+  );
+};
 
-      if (x === highland.nil) {
-        push(null, x);
-      } else {
-        data$ = data$Fn(x);
+export function data$Fn (createStream:createStreamT) {
+  'ngInject';
 
-        data$
-          .errors(e => push(e))
-          .each(x => push(null, x));
+  return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:configToStreamT,
+    x:durationPickerConfigT):HighlandStreamT<mixed> => {
 
-        next();
-      }
+    var { durationStream, rangeStream } = createStream;
+    durationStream = durationStream(overrides);
+    rangeStream = rangeStream(overrides);
+
+    switch (x.configType) {
+    case 'duration':
+      return durationStream(
+        chartStreamFn(x),
+        x.size,
+        x.unit
+      );
+    default:
+      return rangeStream(
+        chartStreamFn(x),
+        x.startDate,
+        x.endDate
+      );
     }
-
-    return rebindDestroy(invokeMethod('consume', [consume]), s);
-  };
+  });
 }

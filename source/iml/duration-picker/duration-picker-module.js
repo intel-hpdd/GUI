@@ -55,17 +55,23 @@ export type durationSubmitHandlerT = (chartType:string) =>
 export type rangeConfigT = {
   configType: 'range',
   startDate: string,
-  endDate: string
+  endDate: string,
+  page: string
 };
 
 export type durationConfigT = {
   configType: 'duration',
   size: number,
-  unit: string
+  unit: string,
+  page: string
 };
 
 export type durationPickerConfigT = rangeConfigT | durationConfigT;
 export type durationPayloadT = rangeConfigT & durationConfigT;
+
+export type durationPayloadHashT = {
+  [page:string]:durationPayloadT
+};
 
 export default angular.module('durationPicker', [
   uiBootstrapModule, serverMomentModule,

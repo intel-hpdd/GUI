@@ -22,26 +22,31 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
 import {
-  chartCompilerFactory
-} from './chart-compiler';
-import {
-  chartCompilerDirective
-} from './chart-compiler-directive';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
-import socketModule from '../socket/socket-module';
-import highlandModule from '../highland/highland-module';
+  data$Fn,
+  getConf
+} from './chart-transformers.js';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export type scopeToElementT = (scope:Object) => HTMLElement[];
-export type chartCompilerT = (template:string, stream:HighlandStreamT<mixed>,
-  fn:($scope:Object, stream:HighlandStreamT<mixed>) => Object) => Promise<scopeToElementT>;
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
 
-export default angular.module('chartCompiler', [getTemplatePromiseModule, socketModule, highlandModule])
-  .factory('chartCompiler', chartCompilerFactory)
-  .directive('chartCompiler', chartCompilerDirective)
+import type {
+  heatMapDurationPayloadT
+} from '../read-write-heat-map/read-write-heat-map-module.js';
+
+import type {
+  ostBalancePayloadT
+} from '../ost-balance/ost-balance-module.js';
+
+type confTypes = durationPayloadT | heatMapDurationPayloadT | ostBalancePayloadT;
+export type getConfT = (page:string) => HighlandStreamT<confTypes>;
+
+export default angular.module('chartTransformers', [])
+  .factory('data$Fn', data$Fn)
+  .value('getConf', getConf)
   .name;

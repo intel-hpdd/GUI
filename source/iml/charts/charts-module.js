@@ -41,13 +41,6 @@ import configToData$ from './config-to-data$';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import chartTemplate from './assets/html/chart';
 
-import type {
-  HighlandStreamT
-} from 'highland';
-
-export type configToDataT = (data$Fn:(data:Object)
-  => HighlandStreamT<mixed>, config$:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-
 export default angular.module('charts',
   [
     d3Module, nvModule, serverMomentModule, chartTemplate,
@@ -55,10 +48,10 @@ export default angular.module('charts',
   ])
   .factory('baseChart', baseChartFactory)
   .factory('dateTicks', dateTicksFactory)
-  .factory('configToData$', configToData$)
   .directive('heatMap', heatMap)
   .directive('lineChart', lineChart)
   .directive('multiBarChart', multiBarChart)
   .directive('pieGraph', pieGraph)
   .directive('stackedAreaChart', stackedAreaChart)
+  .value('configToData$', configToData$)
   .name;
