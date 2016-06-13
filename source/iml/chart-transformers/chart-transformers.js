@@ -37,7 +37,7 @@ import type {
 } from 'highland';
 
 import type {
-  durationPayloadT
+  durationPickerConfigT
 } from '../duration-picker/duration-picker-module.js';
 
 import type {
@@ -45,19 +45,11 @@ import type {
 } from '../charting/charting-module.js';
 
 import type {
-  heatMapDurationPayloadT
-} from '../read-write-heat-map/read-write-heat-map-module.js';
-
-import type {
   filesystemQueryT,
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-import type {
-  getMdoStreamT
-} from '../mdo/mdo-module.js';
-
-type chartStreamsT = (x:durationPayloadT) => getMdoStreamT | (x:heatMapDurationPayloadT) => Function;
+type configToStreamT = (x:durationPickerConfigT) => HighlandStreamT<mixed>;
 
 export const getConf = (page:string) => {
   return rebindDestroy(
@@ -73,8 +65,8 @@ export const getConf = (page:string) => {
 export function data$Fn (createStream:createStreamT) {
   'ngInject';
 
-  return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:chartStreamsT,
-    x:durationPayloadT):HighlandStreamT<mixed> => {
+  return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:configToStreamT,
+    x:durationPickerConfigT):HighlandStreamT<mixed> => {
 
     var { durationStream, rangeStream } = createStream;
     durationStream = durationStream(overrides);
