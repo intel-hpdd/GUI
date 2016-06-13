@@ -28,6 +28,7 @@ import loadingTemplate from '../loading/assets/html/loading';
 export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):void {
   'ngInject';
 
+
   $routeSegmentProvider
     .when('/configure/mgt', 'app.mgt')
     .within('app')
@@ -38,7 +39,7 @@ export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):v
   <mgt mgt-stream="$ctrl.mgtStream" alert-indicator-stream="$ctrl.mgtAlertIndicatorStream"
        job-indicator-stream="$ctrl.mgtJobIndicatorStream"></mgt>
 </div>`,
-      controller (mgtStream, mgtAlertIndicatorStream, mgtJobIndicatorStream) {
+      controller: function controller (mgtStream, mgtAlertIndicatorStream, mgtJobIndicatorStream) {
         'ngInject';
 
         this.mgtStream = mgtStream();
