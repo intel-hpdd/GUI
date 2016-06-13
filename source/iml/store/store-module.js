@@ -21,13 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import getStore from './get-store.js';
-import createStore from './create-store.js';
-import targetModule from '../target/target-module.js';
-import alertIndicatorModule from '../alert-indicator/alert-indicator-module.js';
-import jobIndicatorModule from '../job-indicator/job-indicator-module.js';
-
 import type {
   HighlandStreamT
 } from 'highland';
@@ -41,12 +34,3 @@ export type StoreT = {
   dispatch: Function;
   select: (key: string) => HighlandStreamT<mixed>;
 };
-
-export default angular.module('store', [
-  targetModule,
-  alertIndicatorModule,
-  jobIndicatorModule
-])
-  .factory('getStore', getStore)
-  .value('createStore', createStore)
-  .name;

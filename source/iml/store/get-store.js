@@ -21,86 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import createStore from './create-store.js';
+import targetReducer from '../target/target-reducer.js';
 
-import {
-  ADD_TARGET_ITEMS
-} from '../target/target-reducer.js';
+import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
+import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
+import serverReducer from '../server/server-reducer.js';
+import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
 
-import {
-  ADD_ALERT_INDICATOR_ITEMS
-} from '../alert-indicator/alert-indicator-reducer.js';
-
-import {
-  ADD_JOB_INDICATOR_ITEMS
-} from '../job-indicator/job-indicator-reducer.js';
-
-import {
-  ADD_SERVER_ITEMS
-} from '../server/server-reducer.js';
-
-import {
-  ADD_LNET_CONFIGURATION_ITEMS
-} from '../lnet/lnet-configuration-reducer.js';
-
-import {
-  lensProp,
-  view
-} from 'intel-fp';
-
-import type {
-  StoreT
-} from './store-module.js';
-
-import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
-
-import type {
-  HighlandStreamT
-} from 'highland';
-
-const pluckObjects = view(lensProp('objects'));
-
-type createStore = (reducers: Object) => StoreT;
-
-export default function (targetReducer:Function, createStore:createStore,
-                         alertIndicatorReducer:Function, alertIndicatorStream:HighlandStreamT<mixed>,
-                         jobIndicatorReducer:Function, jobIndicatorStream:HighlandStreamT<mixed>,
-                         serverReducer:Function, serverStream:HighlandStreamT<mixed>,
-                         lnetConfigurationReducer:Function, lnetConfigurationStream:HighlandStreamT<mixed>,
-                         socketStream:SocketStreamT<mixed>, CACHE_INITIAL_DATA:Object):StoreT {
-  'ngInject';
-
-  const store = createStore({
-    targets: targetReducer,
-    alertIndicators: alertIndicatorReducer,
-    jobIndicators: jobIndicatorReducer,
-    server: serverReducer,
-    lnetConfiguration: lnetConfigurationReducer
-  });
-
-  store.dispatch({ type: ADD_TARGET_ITEMS, payload: CACHE_INITIAL_DATA.target });
-  store.dispatch({ type: ADD_SERVER_ITEMS, payload: CACHE_INITIAL_DATA.host});
-
-  socketStream('/target', {
-    qs: {
-      limit: 0
-    }
-  })
-  .map(pluckObjects)
-  .each(payload => store.dispatch({ type: ADD_TARGET_ITEMS, payload }));
-
-  alertIndicatorStream
-  .each(payload => store.dispatch({ type: ADD_ALERT_INDICATOR_ITEMS, payload }));
-
-  jobIndicatorStream
-  .each(payload => store.dispatch({ type: ADD_JOB_INDICATOR_ITEMS, payload }));
-
-  serverStream
-  .each(payload => store.dispatch({ type: ADD_SERVER_ITEMS, payload}));
-
-  lnetConfigurationStream
-  .each(payload => store.dispatch({ type: ADD_LNET_CONFIGURATION_ITEMS, payload}));
-
-  return store;
-}
+export default createStore({
+  targets: targetReducer,
+  alertIndicators: alertIndicatorReducer,
+  jobIndicators: jobIndicatorReducer,
+  server: serverReducer,
+  lnetConfiguration: lnetConfigurationReducer
+});
