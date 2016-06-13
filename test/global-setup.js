@@ -111,10 +111,6 @@ beforeEach(() => {
   });
 });
 
-beforeEach(() => {
-  angular.mock.inject.strictDi(true);
-});
-
 beforeEach(angular.mock.module(fixturesModule));
 
 (function () {

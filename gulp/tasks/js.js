@@ -79,7 +79,21 @@ exports.systemConfigDev = function systemConfigDev () {
   .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
 };
 
-babel = babel.bind(null, {
+var babelDev = babel.bind(null, {
+  presets: [],
+  babelrc: false,
+  plugins: [
+    'check-es2015-constants',
+    'transform-flow-strip-types',
+    'transform-es2015-modules-systemjs',
+    'transform-class-properties',
+    'transform-object-rest-spread',
+    'transform-async-to-generator',
+    'transform-es2015-classes'
+  ]
+});
+
+var babelProd = babel.bind(null, {
   presets: ['es2015'],
   babelrc: false,
   plugins: [
@@ -95,22 +109,24 @@ function jsSource (fn) {
     since: gulp.lastRun(fn),
     base: '.'
   })
-  .pipe(sourcemaps.init())
-  .pipe(babel())
-  .pipe(ngAnnotate({
-    single_quotes: true
-  }))
-  .pipe(sourcemaps.write({ sourceRoot: '' }));
+  .pipe(sourcemaps.init());
 }
 
 exports.jsSourceDev = function jsSourceDev () {
   return jsSource(jsSourceDev)
+  .pipe(babelDev())
+  .pipe(sourcemaps.write({ sourceRoot: '/static/chroma_ui' }))
   .pipe(gulp.dest('./dest'))
   .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
 };
 
 exports.jsSourceProd = function jsSourceProd () {
   return jsSource(jsSourceProd)
+  .pipe(babelProd())
+  .pipe(ngAnnotate({
+    single_quotes: true
+  }))
+  .pipe(sourcemaps.write({ sourceRoot: '' }))
   .pipe(gulp.dest('./dest'));
 };
 
@@ -120,10 +136,7 @@ exports.jsTest = function jsTest () {
     base: '.'
   })
   .pipe(sourcemaps.init())
-  .pipe(babel())
-  .pipe(ngAnnotate({
-    single_quotes: true
-  }))
+  .pipe(babelDev())
   .pipe(sourcemaps.write({ sourceRoot: '' }))
   .pipe(gulp.dest('./dest'));
 };

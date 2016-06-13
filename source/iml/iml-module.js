@@ -102,6 +102,4 @@ export default angular.module('iml', [
   ])
   .name;
 
-angular.bootstrap(document, ['iml'], {
-  strictDi: true
-});
+angular.bootstrap(document, ['iml'], {});

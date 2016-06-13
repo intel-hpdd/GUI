@@ -1,6 +1,4 @@
 import highland from 'highland';
-
-import {tail} from 'intel-fp';
 import {AddCopytoolModalCtrl} from '../../../../source/iml/hsm/add-copytool-modal';
 import hsmModule from '../../../../source/iml/hsm/hsm-module';
 
@@ -127,8 +125,8 @@ describe('Add copytool modal', () => {
         backdrop: 'static',
         windowClass: 'add-copytool-modal',
         resolve: {
-          fsStream: jasmine.any(Array),
-          workerStream: jasmine.any(Array)
+          fsStream: jasmine.any(Function),
+          workerStream: jasmine.any(Function)
         }
       });
     });
@@ -143,7 +141,7 @@ describe('Add copytool modal', () => {
         rs = {};
         resolveStream = jasmine.createSpy('resolveStream').and.returnValue(rs);
 
-        getResolve = (name) => tail($uibModal.open.calls.mostRecent().args[0].resolve[name]);
+        getResolve = (name) => $uibModal.open.calls.mostRecent().args[0].resolve[name];
       });
 
       describe('fs stream', () => {

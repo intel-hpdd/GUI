@@ -5,13 +5,30 @@ var css = require('./css');
 var templates = require('./templates');
 var assets = require('./assets');
 
-module.exports = function watch () {
-  gulp.watch(paths.js.source, js.jsSourceDev);
-  gulp.watch(paths.js.deps, js.jsDepsDev);
-  gulp.watch(paths.js.config, js.jsDepsDev);
-  gulp.watch(paths.templates.angular, templates.ngDev);
-  gulp.watch([paths.assets.fonts, paths.assets.images], assets.assetsDev);
-  gulp.watch(paths.js.tests, js.jsTest);
-  gulp.watch(paths.js.testDeps, js.jsTestDeps);
-  gulp.watch(paths.less.imports, css.buildCssDev);
+const watchers = [];
+
+module.exports = function watch (done) {
+  watchers = [
+    gulp.watch(paths.js.source, js.jsSourceDev),
+    gulp.watch([paths.js.deps, paths.js.config], js.jsDepsDev),
+    gulp.watch(paths.templates.angular, templates.ngDev),
+    gulp.watch([paths.assets.fonts, paths.assets.images], assets.assetsDev),
+    gulp.watch(paths.js.tests, js.jsTest),
+    gulp.watch(paths.js.testDeps, js.jsTestDeps),
+    gulp.watch(paths.less.imports, css.buildCssDev)
+  ];
+
+  process.on('SIGINT', cleanShutdown);
+  process.on('SIGTERM', cleanShutdown);
+
+  done();
+};
+
+function cleanShutdown (x) {
+  console.log('Shutting down watch');
+  watchers.forEach(function (w) {
+    w.close();
+  });
+
+  process.exit(0);
 };
