@@ -1,18 +1,14 @@
 import highland from 'highland';
 import {noop} from 'intel-fp';
 
-import chartsModule from '../../../../source/iml/charts/charts-module.js';
-import {configChange} from '../../../../source/iml/charts/config-to-data$.js';
+import {
+  default as configToData$,
+  configChange
+} from '../../../../source/iml/charts/config-to-data$.js';
 
 describe('configToData$', () => {
-  var configToData$, data$Fn, config$, data$, spy;
+  var data$Fn, config$, data$, spy;
   const e = new Error('oh noooos!');
-
-  beforeEach(module(chartsModule));
-
-  beforeEach(inject((_configToData$_) => {
-    configToData$ = _configToData$_;
-  }));
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -45,7 +41,8 @@ describe('configToData$', () => {
       config$ = highland();
       config$.write({percentage: 10});
 
-      data$ = configToData$(data$Fn, config$);
+      data$ = config$
+        .through(configToData$(data$Fn));
     });
 
     it('should return a factory function', () => {

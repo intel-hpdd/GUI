@@ -62,7 +62,7 @@ type chartStreamsT = (x:durationPayloadT) => getMdoStreamT | (x:heatMapDurationP
 export const getConf = (page:string) => {
   return rebindDestroy(
     map(
-      (x) => withDefault(
+      x => withDefault(
         () => x[''],
         Maybe.of(x[page])
       )
