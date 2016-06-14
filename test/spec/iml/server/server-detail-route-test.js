@@ -1,8 +1,9 @@
 import angular from 'angular';
 import serverDetailRouteModule from '../../../../source/iml/server/server-detail-route-module';
 
-
-import {noop} from 'intel-fp';
+import {
+  noop
+} from 'intel-fp';
 
 describe('server detail route', () => {
 

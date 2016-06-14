@@ -27,16 +27,22 @@ import {
   ADD_JOB_INDICATOR_ITEMS
 } from './job-indicator-module.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import {
+  ALLOW_ANONYMOUS_READ
+} from '../environment.js';
 
-export default function jobIndicatorDispatchFactory (jobIndicatorStream:HighlandStreamT<mixed>) {
-  'ngInject';
+import socketStream from '../socket/socket-stream.js';
 
-  return jobIndicatorStream
-    .each(payload => store.dispatch({
-      type: ADD_JOB_INDICATOR_ITEMS,
-      payload
-    }));
-}
+if (ALLOW_ANONYMOUS_READ)
+  socketStream('/job/', {
+    jsonMask: 'objects(write_locks,read_locks,description)',
+    qs: {
+      limit: 0,
+      state__in: ['pending', 'tasked']
+    }
+  })
+  .map(x => x.objects)
+  .each(payload => store.dispatch({
+    type: ADD_JOB_INDICATOR_ITEMS,
+    payload
+  }));

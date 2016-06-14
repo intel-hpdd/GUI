@@ -1,4 +1,3 @@
-import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
 import {
@@ -10,7 +9,6 @@ describe('server detail resolves', () => {
   var store, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
-    resolvesModule,
     $route, serverDetailResolves, spy;
 
   beforeEachAsync(async function () {
@@ -26,14 +24,26 @@ describe('server detail resolves', () => {
           })
     };
 
-    resolvesModule = await mock('source/iml/server/server-detail-resolves.js', {
-      'source/iml/store/get-store': { default: store }
+    socketStream = jasmine.createSpy('socketStream')
+      .and.callFake(path => {
+        if (path === '/corosync_configuration')
+          return (corosyncStream = highland());
+
+        if (path === '/pacemaker_configuration')
+          return (pacemakerStream = highland());
+      });
+
+    networkInterfaceStream = highland();
+
+    getNetworkInterfaceStream = jasmine.createSpy('getNetworkInterfaceStream')
+      .and.returnValue(networkInterfaceStream);
+
+    const mod = await mock('source/iml/server/server-detail-resolves.js', {
+      'source/iml/store/get-store.js': { default: store },
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/lnet/get-network-interface-stream.js': { default: getNetworkInterfaceStream }
     });
-  });
 
-  afterEach(resetAll);
-
-  beforeEach(module(serverModule, $provide => {
     spy = jasmine.createSpy('spy');
 
     $route = {
@@ -43,41 +53,20 @@ describe('server detail resolves', () => {
         }
       }
     };
-    $provide.value('$route', $route);
 
-    networkInterfaceStream = highland();
+    serverDetailResolves = mod.default($route);
+  });
 
-    getNetworkInterfaceStream = jasmine.createSpy('getNetworkInterfaceStream')
-      .and.returnValue(networkInterfaceStream);
-    $provide.value('getNetworkInterfaceStream', getNetworkInterfaceStream);
-
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(path => {
-        if (path === '/corosync_configuration')
-          return (corosyncStream = highland());
-
-        if (path === '/pacemaker_configuration')
-          return (pacemakerStream = highland());
-      });
-    $provide.value('socketStream', socketStream);
-
-    $provide.factory('serverDetailResolves', resolvesModule.default);
-  }));
-
-  beforeEach(inject(_serverDetailResolves_ => {
-    serverDetailResolves = _serverDetailResolves_;
-  }));
+  afterEach(resetAll);
 
   it('should be a function', () => {
     expect(serverDetailResolves).toEqual(jasmine.any(Function));
   });
 
   describe('getting a promise', () => {
-    var $rootScope, promise;
+    var promise;
 
-    beforeEach(inject(_$rootScope_ => {
-      $rootScope = _$rootScope_;
-
+    beforeEach(() => {
       promise = serverDetailResolves();
 
       networkInterfaceStream.write({});
@@ -87,9 +76,7 @@ describe('server detail resolves', () => {
       pacemakerStream.write({
         objects: []
       });
-
-      $rootScope.$apply();
-    }));
+    });
 
     it('should create a jobMonitorStream', () => {
       expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
@@ -104,7 +91,7 @@ describe('server detail resolves', () => {
     });
 
     describe('filtering server data', () => {
-      beforeEach(() => {
+      beforeEachAsync(async function () {
         serverStream.write([
           {
             id: '1',
@@ -115,10 +102,8 @@ describe('server detail resolves', () => {
           }
         ]);
 
-        promise.then(resolves => {
-          resolves.serverStream.each(spy);
-        });
-        $rootScope.$apply();
+        const resolves = await promise;
+        resolves.serverStream.each(spy);
       });
 
       it('should return the server associated with the route', () => {
@@ -141,7 +126,7 @@ describe('server detail resolves', () => {
     });
 
     describe('filtering lnet configuration data', () => {
-      beforeEach(() => {
+      beforeEachAsync(async function () {
         lnetStream.write([
           {
             id: '1',
@@ -158,10 +143,8 @@ describe('server detail resolves', () => {
           }
         ]);
 
-        promise.then(resolves => {
-          resolves.lnetConfigurationStream.each(spy);
-        });
-        $rootScope.$apply();
+        const resolves = await promise;
+        resolves.lnetConfigurationStream.each(spy);
       });
 
       it('should return the item associated with the route', () => {
@@ -215,12 +198,10 @@ describe('server detail resolves', () => {
       });
     });
 
-    it('should return an object of streams', () => {
-      promise.then(spy);
+    itAsync('should return an object of streams', async function () {
+      const result = await promise;
 
-      $rootScope.$apply();
-
-      expect(spy.calls.mostRecent().args[0]).toEqual({
+      expect(result).toEqual({
         jobMonitorStream: jasmine.any(Object),
         alertMonitorStream: jasmine.any(Object),
         serverStream: jasmine.any(Object),

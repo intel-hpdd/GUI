@@ -19,9 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
-export function getMemoryUsageStreamFactory (λ, socketStream, chartPlugins) {
+import {
+  curry
+} from 'intel-fp';
+
+export default function getMemoryUsageStreamFactory (chartPlugins) {
   'ngInject';
 
   const types = {
@@ -40,7 +45,7 @@ export function getMemoryUsageStreamFactory (λ, socketStream, chartPlugins) {
   };
 
   return curry(2, function getMemoryUsageStream (requestRange, buff) {
-    const s = λ((push, next) => {
+    const s = highland((push, next) => {
       var params = requestRange({
         qs: {
           reduce_fn: 'average',

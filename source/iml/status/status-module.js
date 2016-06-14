@@ -23,7 +23,6 @@
 
 import angular from 'angular';
 import parselyBoxModule from '../parsely-box/parsely-box-module.js';
-import multiStreamModule from '../multi-stream/multi-stream-module.js';
 import routeStreamModule from '../route-stream/route-stream-module.js';
 import qsFromLocationModule from '../qs-from-location/qs-from-location-module.js';
 import commonStatusSearchesModule from '../status/common-status-searches/common-status-searches-module.js';
@@ -40,8 +39,8 @@ import {
 } from './deferred-action-dropdown';
 
 export default angular.module('status', [
-  parselyBoxModule, multiStreamModule,
-  routeStreamModule, qsFromLocationModule, commonStatusSearchesModule,
+  parselyBoxModule, routeStreamModule,
+  qsFromLocationModule, commonStatusSearchesModule,
   extendScopeModule, actionDropdownModule
 ])
   .controller('StatusController', StatusController)

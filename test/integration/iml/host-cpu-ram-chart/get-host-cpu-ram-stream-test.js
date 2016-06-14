@@ -1,26 +1,47 @@
 import highland from 'highland';
 import moment from 'moment';
+
 import hostCpuRamDataFixtures from
   '../../../data-fixtures/host-cpu-ram-data-fixtures';
+
 import hostCpuRamChartModule from
-'../../../../source/iml/host-cpu-ram-chart/host-cpu-ram-chart-module';
+  '../../../../source/iml/host-cpu-ram-chart/host-cpu-ram-chart-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('The host cpu ram stream', () => {
-  var socketStream, serverStream, getServerMoment;
+  var socketStream, serverStream,
+    getServerMoment, getHostCpuRamStreamFactory;
 
-  beforeEach(module(hostCpuRamChartModule, $provide => {
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => (serverStream = highland()));
 
-    $provide.value('socketStream', socketStream);
+    const mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-    getServerMoment = jasmine.createSpy('getServerMoment')
-      .and.returnValue(moment('2013-11-18T20:59:30+00:00'));
+    getHostCpuRamStreamFactory = mod.default;
+  });
+
+  beforeEach(module(hostCpuRamChartModule, $provide => {
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
+      .and
+      .returnValue(
+        moment('2013-11-18T20:59:30+00:00')
+      );
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getHostCpuRamStream', getHostCpuRamStreamFactory);
   }));
 
   var getHostCpuRamStream, fixtures, spy, revert;
+
+  afterEach(resetAll);
 
   beforeEach(inject(_getHostCpuRamStream_ => {
     spy = jasmine.createSpy('spy');
@@ -32,9 +53,7 @@ describe('The host cpu ram stream', () => {
     revert = patchRateLimit();
   }));
 
-  afterEach(() => {
-    revert();
-  });
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getHostCpuRamStream).toEqual(jasmine.any(Function));

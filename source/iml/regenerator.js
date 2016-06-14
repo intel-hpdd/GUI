@@ -21,23 +21,32 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map} from 'intel-fp';
-import type {SocketStreamT} from '../socket/socket-module.js';
 import type {
   HighlandStreamT
 } from 'highland';
 
-export default function (socketStream:SocketStreamT<mixed>, rebindDestroy:Function):HighlandStreamT<mixed> {
-  'ngInject';
+type streamToVoid = (x:HighlandStreamT<mixed>) => void;
 
-  return rebindDestroy(
-    map(x => x.objects),
-    socketStream('/job/', {
-      jsonMask: 'objects(write_locks,read_locks,description)',
-      qs: {
-        limit: 0,
-        state__in: ['pending', 'tasked']
-      }
-    })
-  );
-}
+export default (setup:Function, teardown:streamToVoid) => {
+  var cache:Object = {};
+
+  var getter = function get () {
+    var args = [].slice.call(arguments, 0);
+    var key = args.shift();
+
+    if (cache[key]) {
+      teardown(cache[key]);
+      delete cache[key];
+    }
+
+    return (cache[key] = setup.apply(setup, args));
+  };
+
+  getter.destroy = function destroy () {
+    Object.keys(cache).forEach(function teardownItem (key) {
+      teardown(cache[key]);
+    });
+  };
+
+  return getter;
+};

@@ -1,26 +1,37 @@
-import {ActionDropdownCtrl} from '../../../../source/iml/action-dropdown/action-dropdown';
 import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('action dropdown', function () {
-  beforeEach(module(actionDropdownModule));
-
   var $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,
-    commandModalStream, s;
+    commandModalStream, s, ActionDropdownCtrl;
 
-  beforeEach(inject(function ($rootScope, $controller) {
-    $scope = $rootScope.$new();
-
-    actionStream = highland();
-    handleAction = jasmine.createSpy('handleAction')
-      .and.returnValue(actionStream);
-
+  beforeEachAsync(async function () {
     commandStream = highland();
     spyOn(commandStream, 'destroy');
     getCommandStream = jasmine.createSpy('getCommandStream')
       .and.returnValue(commandStream);
+
+    const mod = await mock('source/iml/action-dropdown/action-dropdown.js', {
+      'source/iml/command/get-command-stream.js': { default: getCommandStream }
+    });
+    ActionDropdownCtrl = mod.ActionDropdownCtrl;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(actionDropdownModule));
+
+  beforeEach(inject(function ($rootScope, $controller) {
+    $scope = $rootScope.$new();
+    actionStream = highland();
+    handleAction = jasmine.createSpy('handleAction')
+      .and.returnValue(actionStream);
 
     commandModalStream = highland();
     openCommandModal = jasmine.createSpy('openCommandModal')
@@ -30,11 +41,10 @@ describe('action dropdown', function () {
 
     s = highland();
 
-    ctrl = $controller('ActionDropdownCtrl', {
+    ctrl = $controller(ActionDropdownCtrl, {
       $scope: $scope,
       actionDescriptionCache: {},
       handleAction: handleAction,
-      getCommandStream: getCommandStream,
       openCommandModal: openCommandModal
     }, {
       stream: s

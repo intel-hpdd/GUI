@@ -1,29 +1,34 @@
-import lnetModule from '../../../../source/iml/lnet/lnet-module';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('get network interface stream', function () {
-  var socketStream, ss;
+  var socketStream, ss, getNetworkInterfaceStream, stream;
 
-  beforeEach(module(lnetModule, function ($provide) {
+  beforeEachAsync(async function () {
     ss = highland();
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(ss);
     spyOn(ss, 'write');
 
-    $provide.value('socketStream', socketStream);
-  }));
 
-  var getNetworkInterfaceStream, stream;
+    const mod = await mock('source/iml/lnet/get-network-interface-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-  beforeEach(inject(function (_getNetworkInterfaceStream_) {
-    getNetworkInterfaceStream = _getNetworkInterfaceStream_;
+    getNetworkInterfaceStream = mod.default;
+
     stream = getNetworkInterfaceStream({
       qs: {
         host__id: '1'
       }
     });
-  }));
+  });
+
+  afterEach(resetAll);
 
   it('should be a function', function () {
     expect(getNetworkInterfaceStream).toEqual(jasmine.any(Function));

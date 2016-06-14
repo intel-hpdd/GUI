@@ -20,9 +20,21 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+import getCommandStream from '../command/get-command-stream.js';
 
+const set = fp.curry(3, (ctx, name, x) => ctx[name] = x);
 
-export function CommandMonitorCtrl ($scope, commandMonitor, openCommandModal, getCommandStream) {
+const notCancelled = fp.filter(
+  fp.flow(
+    fp.view(
+      fp.lensProp('cancelled')
+    ),
+    fp.not
+  )
+);
+
+export default function CommandMonitorCtrl ($scope, openCommandModal) {
   'ngInject';
 
   var commandMonitorCtrl = this;
@@ -34,9 +46,21 @@ export function CommandMonitorCtrl ($scope, commandMonitor, openCommandModal, ge
       .finally(stream.destroy.bind(stream));
   };
 
-  const set = fp.curry(3, (ctx, name, x) => ctx[name] = x);
+  const commandMonitor$ = socketStream('/command', {
+    qs: {
+      limit: 0,
+      errored: false,
+      complete: false
+    }
+  });
 
-  commandMonitor
+  commandMonitor$
+    .map(
+      fp.flow(
+        fp.view(fp.lensProp('objects')),
+        notCancelled
+      )
+    )
     .tap(set(this, 'lastObjects'))
     .tap(fp.flow(
       fp.view(fp.lensProp('length')),
@@ -45,32 +69,5 @@ export function CommandMonitorCtrl ($scope, commandMonitor, openCommandModal, ge
     .stopOnError($scope.handleException)
     .each($scope.localApply.bind(null, $scope));
 
-  $scope.$on('$destroy', commandMonitor.destroy.bind(commandMonitor));
-}
-
-export function commandMonitorFactory (socketStream) {
-  'ngInject';
-
-  var stream = socketStream('/command', {
-    qs: {
-      limit: 0,
-      errored: false,
-      complete: false
-    }
-  });
-
-  var notCancelled = fp.filter(fp.flow(
-    fp.view(fp.lensProp('cancelled')),
-    fp.not
-  ));
-
-  var s2 = stream
-    .map(fp.flow(
-      fp.view(fp.lensProp('objects')),
-      notCancelled
-    ));
-
-  s2.destroy = stream.destroy.bind(stream);
-
-  return s2;
+  $scope.$on('$destroy', () => commandMonitor$.destroy());
 }

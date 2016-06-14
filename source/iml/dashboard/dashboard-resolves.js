@@ -19,43 +19,40 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function dashboardFsStreamFactory (resolveStream, socketStream, addProperty) {
-  'ngInject';
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+import addProperty from '../highland/add-property.js';
 
-  return function dashboardFsStream () {
-    return resolveStream(socketStream('/filesystem', {
-      jsonMask: 'objects(id,label)',
-      qs: { limit: 0 }
-    }))
-      .then(function addThroughProperty (s) {
-        var s2 = s
-          .pluck('objects');
-
-        s2.destroy = s.destroy.bind(s);
-
-        return s2.through(addProperty);
-      });
-  };
-}
-export function dashboardHostStreamFactory (resolveStream, socketStream, addProperty) {
-  'ngInject';
-
-  return dashboardStreamFactory(resolveStream, socketStream, addProperty, '/host', {
+export function dashboardFsStream () {
+  return resolveStream(socketStream('/filesystem', {
     jsonMask: 'objects(id,label)',
     qs: { limit: 0 }
-  });
+  }))
+    .then(function addThroughProperty (s) {
+      var s2 = s
+        .pluck('objects');
+
+      s2.destroy = s.destroy.bind(s);
+
+      return s2.through(addProperty);
+    });
 }
 
-export function dashboardTargetStreamFactory (resolveStream, socketStream, addProperty) {
-  'ngInject';
+export const dashboardHostStream = dashboardStreamFactory(
+  socketStream, addProperty, '/host', {
+    jsonMask: 'objects(id,label)',
+    qs: { limit: 0 }
+  }
+);
 
-  return dashboardStreamFactory(resolveStream, socketStream, addProperty, '/target', {
+export const dashboardTargetStream = dashboardStreamFactory(
+  socketStream, addProperty, '/target', {
     jsonMask: 'objects(id,label,kind,filesystems,filesystem_id,failover_servers,primary_server)',
     qs: { limit: 0 }
-  });
-}
+  }
+);
 
-function dashboardStreamFactory (resolveStream, socketStream, addProperty, path, opts) {
+function dashboardStreamFactory (socketStream, addProperty, path, opts) {
   return function dashboardStream () {
     return resolveStream(socketStream(path, opts))
       .then(function addThroughProperty (s) {

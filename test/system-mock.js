@@ -1,67 +1,78 @@
+// @flow
+
 import * as obj from 'intel-obj';
 
-const origDeps = {};
+const origDeps = new Set();
+const origModules = {};
 
-export function mock (name, mocks) {
-  const objReducer = obj.reduce(() => ({}));
+const objReducer = obj.reduce(() => ({}));
 
+declare class System {
+  static delete(key:string):void;
+  static set(key:string, mod:Object):void;
+  static newModule(val:Object):any;
+  static import(key:string):Promise<Object>;
+  static normalizeSync(key:string):string;
+  static map:{ [key:string]: string };
+  static get(key:string):Object;
+}
+
+export function mock (name:string, mocks:{ [key: string]: Object }) {
   mocks = objReducer((val, key, out) => {
     out[normalizeName(key)] = val;
 
     return out;
   }, mocks);
 
-  const promises = obj.reduce([], (val, key, out) => {
-    if (origDeps[key])
+  objReducer((val, key) => {
+    if (origDeps.has(key))
       throw new Error(`${key} needs to be reset before mocking`);
 
-    out.push(
-        getOrImport(key)
-        .then(m => origDeps[key] = m)
-        .then(() => System.delete(key))
-        .then(() => System.set(key, System.newModule(val)))
-    );
+    const oldDep = System.get(key);
 
-    return out;
+    if (oldDep)
+      origModules[key] = oldDep;
+
+    System.delete(key);
+    System.set(key, System.newModule(val));
+    origDeps.add(key);
   }, mocks);
 
   const normalizedName = normalizeName(name);
-  return Promise.all(promises)
-    .then(() => getOrImport(normalizedName))
-    .then(m => origDeps[normalizedName] = m)
-    .then(() => System.delete(normalizedName))
-    .then(() => System.import(normalizedName));
+
+  const oldDep = System.get(normalizedName);
+
+  if (oldDep)
+    origModules[normalizedName] = oldDep;
+
+  System.delete(normalizedName);
+  origDeps.add(normalizedName);
+  return System.import(normalizedName);
 }
 
-function getOrImport (name) {
-  const existingModule = System.get(name);
-
-  return existingModule ? Promise.resolve(existingModule) : System.import(name);
-}
-
-function normalizeName (name) {
+function normalizeName (name:string) {
   name = System.map[name] || name;
   return System.normalizeSync(name);
 }
 
-export function reset (name) {
+export function reset (name:string) {
   const origName = name;
-  name = System.map[name] || name;
-  name = System.normalizeSync(name);
+  name = normalizeName(name);
 
-  if (!origDeps[name])
+  if (!origDeps.has(name))
     throw new Error(`${origName} is not mocked`);
 
   System.delete(name);
-  System.set(name, System.newModule(origDeps[name]));
+  origDeps.delete(name);
+
+  if(origModules[name]) {
+    System.set(name, origModules[name]);
+    delete origModules[name];
+  }
 }
 
 export function resetAll () {
-  Object
-  .keys(origDeps)
-  .map(x => {
-    System.delete(x);
-    System.set(x, System.newModule(origDeps[x]));
-    delete origDeps[x];
-  });
+  Array
+  .from(origDeps)
+  .map(reset);
 }

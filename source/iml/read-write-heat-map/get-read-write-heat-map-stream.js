@@ -19,12 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import socketStream from '../socket/socket-stream.js';
 import * as fp from 'intel-fp';
-import {values} from 'intel-obj';
+import highland from 'highland';
+import unionWithTarget from '../charting/union-with-target.js';
+
+import {
+  values
+} from 'intel-obj';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export function getReadWriteHeatMapStreamFactory (highland, socketStream, chartPlugins) {
+export default function getReadWriteHeatMapStreamFactory (chartPlugins) {
   'ngInject';
 
   var headName = fp.flow(fp.head, viewLens('name'));
@@ -55,7 +61,7 @@ export function getReadWriteHeatMapStreamFactory (highland, socketStream, chartP
       socketStream('/target/metric', params, true)
         .through(chartPlugins.objToPoints)
         .through(buff)
-        .through(chartPlugins.unionWithTarget)
+        .through(unionWithTarget)
         .through(requestRange.setLatest)
         .flatten()
         .through(chartPlugins.removeDupsBy(fp.eqFn(idLens, idLens)))

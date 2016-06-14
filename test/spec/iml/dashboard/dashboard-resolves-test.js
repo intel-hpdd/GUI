@@ -1,27 +1,33 @@
 import highland from 'highland';
 import {identity, noop} from 'intel-fp';
 
-import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('dashboard resolves', function () {
-  var resolveStream, socketStream, s, addProperty, $q;
+  var resolveStream, socketStream, s, addProperty, $q, $rootScope, mod;
 
-  beforeEach(module(dashboardModule, $provide => {
+  beforeEachAsync(async function () {
     s = highland();
 
     resolveStream = jasmine.createSpy('resolveStream');
-    $provide.value('resolveStream', resolveStream);
 
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(s);
-    $provide.value('socketStream', socketStream);
 
     addProperty = jasmine.createSpy('addProperty')
       .and.callFake(identity);
-    $provide.value('addProperty', addProperty);
-  }));
 
-  var $rootScope;
+    mod = await mock('source/iml/dashboard/dashboard-resolves.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/highland/add-property.js': { default: addProperty }
+    });
+  });
+
+  afterEach(resetAll);
 
   beforeEach(inject(function (_$rootScope_, _$q_) {
     $rootScope = _$rootScope_;
@@ -33,10 +39,10 @@ describe('dashboard resolves', function () {
   describe('fs stream', function () {
     var dashboardFsStream, promise;
 
-    beforeEach(inject(function (_dashboardFsStream_) {
-      dashboardFsStream = _dashboardFsStream_;
+    beforeEach(() => {
+      dashboardFsStream = mod.dashboardFsStream;
       promise = dashboardFsStream();
-    }));
+    });
 
     it('should be a function', function () {
       expect(dashboardFsStream).toEqual(jasmine.any(Function));
@@ -85,11 +91,11 @@ describe('dashboard resolves', function () {
   describe('host stream', function () {
     var dashboardHostStream, promise;
 
-    beforeEach(inject(function (_dashboardHostStream_) {
-      dashboardHostStream = _dashboardHostStream_;
+    beforeEach(() => {
+      dashboardHostStream = mod.dashboardHostStream;
 
       promise = dashboardHostStream();
-    }));
+    });
 
     it('should be a function', function () {
       expect(dashboardHostStream).toEqual(jasmine.any(Function));
@@ -134,11 +140,11 @@ describe('dashboard resolves', function () {
   describe('target stream', function () {
     var dashboardTargetStream, promise;
 
-    beforeEach(inject(function (_dashboardTargetStream_) {
-      dashboardTargetStream = _dashboardTargetStream_;
+    beforeEach(() => {
+      dashboardTargetStream = mod.dashboardTargetStream;
 
       promise = dashboardTargetStream();
-    }));
+    });
 
     it('should be a function', function () {
       expect(dashboardTargetStream).toEqual(jasmine.any(Function));

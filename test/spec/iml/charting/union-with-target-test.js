@@ -1,25 +1,29 @@
 import highland from 'highland';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('union with target', function () {
-  var socketStream, targetStream;
+  var socketStream, targetStream, spy, unionWithTarget;
 
-  beforeEach(module(chartingModule, function ($provide) {
+  beforeEachAsync(async function () {
     targetStream = highland();
 
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(targetStream);
 
-    $provide.value('socketStream', socketStream);
-  }));
-
-  var unionWithTarget, spy;
-
-  beforeEach(inject(function (_unionWithTarget_) {
-    unionWithTarget = _unionWithTarget_;
-
     spy = jasmine.createSpy('spy');
-  }));
+
+    const mod = await mock('source/iml/charting/union-with-target.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    unionWithTarget = mod.default;
+  });
+
+  afterEach(resetAll);
 
   it('should be a function', function () {
     expect(unionWithTarget).toEqual(jasmine.any(Function));

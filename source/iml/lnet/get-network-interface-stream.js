@@ -19,29 +19,30 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+import LNET_OPTIONS from './lnet-options.js';
 
-export default function getNetworkInterfaceStreamFactory (socketStream, LNET_OPTIONS) {
-  'ngInject';
+import {
+  map
+} from 'intel-fp';
 
-  return function getNetworkInterfaceStream (params) {
-    var stream = socketStream('/network_interface', params || {});
+export default function getNetworkInterfaceStream (params) {
+  var stream = socketStream('/network_interface', params || {});
 
-    var s2 = stream
-      .pluck('objects')
-      .map(map(function setNidIfEmpty (x) {
-        if (!x.nid)
-          x.nid = {
-            lnd_type: x.lnd_types[0],
-            lnd_network: LNET_OPTIONS[0].value,
-            network_interface: x.resource_uri
-          };
+  var s2 = stream
+    .pluck('objects')
+    .map(map(function setNidIfEmpty (x) {
+      if (!x.nid)
+        x.nid = {
+          lnd_type: x.lnd_types[0],
+          lnd_network: LNET_OPTIONS[0].value,
+          network_interface: x.resource_uri
+        };
 
-        return x;
-      }));
+      return x;
+    }));
 
-    s2.destroy = stream.destroy.bind(stream);
+  s2.destroy = stream.destroy.bind(stream);
 
-    return s2;
-  };
+  return s2;
 }

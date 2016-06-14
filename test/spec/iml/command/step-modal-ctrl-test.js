@@ -1,8 +1,12 @@
 import highland from 'highland';
 import commandModule from '../../../../source/iml/command/command-module';
 
-describe('step modal', function () {
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
+describe('step modal', function () {
   beforeEach(module(commandModule));
 
   describe('step modal controller', function () {
@@ -115,25 +119,25 @@ describe('step modal', function () {
   });
 
   describe('open step modal', function () {
-    var $uibModal, socketStream, stream;
+    var $uibModal, socketStream, stream, job;
 
-    beforeEach(module(function ($provide) {
-      socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
-        return (stream = highland());
+    beforeEachAsync(async function () {
+      socketStream = jasmine.createSpy('socketStream')
+        .and
+        .callFake(function () {
+          return (stream = highland());
+        });
+
+      const mod = await mock('source/iml/command/step-modal-ctrl.js', {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
       });
-      $provide.value('socketStream', socketStream);
 
       $uibModal = {
         open: jasmine.createSpy('open')
       };
 
-      $provide.value('$uibModal', $uibModal);
-    }));
-
-    var openStepModal, job;
-
-    beforeEach(inject(function (_openStepModal_) {
-      openStepModal = _openStepModal_;
+      const openStepModal = mod
+        .openStepModalFactory($uibModal);
 
       job = {
         id: '1',
@@ -144,7 +148,9 @@ describe('step modal', function () {
       };
 
       openStepModal(job);
-    }));
+    });
+
+    afterEach(resetAll);
 
     it('should open the modal with the expected object', function () {
       expect($uibModal.open).toHaveBeenCalledOnceWith({

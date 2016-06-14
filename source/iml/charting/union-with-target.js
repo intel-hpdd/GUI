@@ -19,34 +19,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+
+import {
+  curry
+} from 'intel-fp';
+
 import _ from 'intel-lodash-mixins';
 
+const adder = curry(2, function adder (s, x) {
+  const record = _.find(s, { id: x.id });
 
-export default function unionWithTargetFactory (socketStream) {
-  'ngInject';
+  if (record && record.name)
+    x.name = record.name;
 
-  var adder = curry(2, function adder (s, x) {
-    var record = _.find(s, { id: x.id });
+  return x;
+});
 
-    if (record && record.name)
-      x.name = record.name;
+export default function unionWithTarget (s) {
+  var targetStream = socketStream('/target', {
+    qs: { limit: 0 },
+    jsonMask: 'objects(id,name)'
+  }, true)
+    .pluck('objects');
 
-    return x;
-  });
-
-  return function unionWithTarget (s) {
-    var targetStream = socketStream('/target', {
-      qs: { limit: 0 },
-      jsonMask: 'objects(id,name)'
-    }, true)
-      .pluck('objects');
-
-    return s
-      .collect()
-      .zip(targetStream)
-      .flatMap(function addNames (streams) {
-        return streams[0].map(adder(streams[1]));
-      });
-  };
+  return s
+    .collect()
+    .zip(targetStream)
+    .flatMap(function addNames (streams) {
+      return streams[0].map(adder(streams[1]));
+    });
 }

@@ -23,6 +23,8 @@ import angular from 'angular';
 import _ from 'intel-lodash-mixins';
 import {curry} from 'intel-fp';
 
+import resolveStream from '../resolve-stream.js';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import selectServerProfileStepTemplate from './assets/html/select-server-profile-step';
 
@@ -100,9 +102,9 @@ export function selectServerProfileStep () {
     templateUrl: selectServerProfileStepTemplate,
     controller: 'SelectServerProfileStepCtrl as selectServerProfile',
     onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
-      'waitForCommandCompletion', 'showCommand', 'resolveStream',
+      'waitForCommandCompletion', 'showCommand',
       function onEnter (data, createOrUpdateHostsStream, getHostProfiles,
-                        waitForCommandCompletion, showCommand, resolveStream) {
+                        waitForCommandCompletion, showCommand) {
         var getProfiles = _.partial(getHostProfiles, data.spring);
 
         var hostProfileStream = createOrUpdateHostsStream(data.servers)

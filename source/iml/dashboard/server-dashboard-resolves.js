@@ -19,6 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+
 export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBandwidthChart,
                                                      getCpuUsageChart, getMemoryUsageChart) {
   'ngInject';
@@ -43,7 +46,7 @@ export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBan
   };
 }
 
-export function serverDashboardHostStreamResolvesFactory ($route, resolveStream, socketStream) {
+export function serverDashboardHostStreamResolvesFactory ($route) {
   'ngInject';
 
   return () => resolveStream(

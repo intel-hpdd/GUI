@@ -22,15 +22,15 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {always} from 'intel-fp';
+import {
+  always
+} from 'intel-fp';
+
+import resolveStream from '../resolve-stream.js';
 
 import type {
   getTemplatePromiseT
 } from '../get-template-promise/get-template-promise-module.js';
-
-import type {
-  resolveStreamT
-} from '../socket/socket-module.js';
 
 import type {
   addPropertyT,
@@ -47,15 +47,15 @@ import type {
 
 type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
 
-export function chartCompilerFactory ($compile:Function, $q:typeof Promise, getTemplatePromise:getTemplatePromiseT,
-                                      resolveStream:resolveStreamT<mixed>, addProperty:addPropertyT,
+export function chartCompilerFactory ($compile:Function, getTemplatePromise:getTemplatePromiseT,
+                                      addProperty:addPropertyT,
                                       rebindDestroy:rebindDestroyT<mixed, scopeToElementT>) {
   'ngInject';
 
   return function chartCompiler (template:string,
     stream:HighlandStreamT<mixed>, fn:scopeToStreamToObject):Promise<scopeToElementT> {
 
-    return $q.all([
+    return Promise.all([
       getTemplatePromise(template),
       resolveStream(stream)
     ])

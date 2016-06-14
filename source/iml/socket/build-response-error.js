@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,25 +21,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function buildResponseErrorFactory () {
-  'ngInject';
+type responseT = {
+  error: Error | string | { [key: string]: string }
+};
 
-  return function buildResponseError (response) {
-    var error;
+export default function buildResponseError (response:responseT):Error {
+  const error = response.error;
 
-    if (response.error instanceof Error)
-      error = response.error;
-    else if (typeof response.error === 'string')
-      error = new Error(response.error);
-    else
-      error = Object.keys(response.error)
-        .reduce(function fillOutProperties (error, key) {
-          if (key !== 'message')
-            error[key] = response.error[key];
-
-          return error;
-        }, new Error(response.error.message));
-
+  if (error instanceof Error)
     return error;
-  };
+  else if (typeof error === 'string')
+    return new Error(error);
+  else
+    return Object.keys(error)
+      .reduce(function fillOutProperties (err:Error, key:string) {
+        if (key !== 'message')
+          // $FlowIgnore: flow does not recogize this monkey-patch
+          err[key] = error[key];
+
+        return err;
+      }, new Error(error.message));
 }

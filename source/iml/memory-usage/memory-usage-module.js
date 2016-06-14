@@ -26,11 +26,10 @@ import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import numberFormattersModule from '../number-formatters/number-formatters-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
-import {getMemoryUsageStreamFactory} from './get-memory-usage-stream';
+import getMemoryUsageStreamFactory from './get-memory-usage-stream';
 import {getMemoryUsageChartFactory} from './get-memory-usage-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -39,7 +38,7 @@ import memoryUsageChartTemplate from './assets/html/memory-usage-chart';
 export default angular.module('memoryUsageModule', [
   chartsModule, chartingModule,
   highlandModule, configToggleModule,
-  socketModule, durationPickerModule,
+  durationPickerModule,
   numberFormattersModule, streamWhenVisibleModule,
   memoryUsageChartTemplate
 ])

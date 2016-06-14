@@ -23,57 +23,50 @@
 
 import {noop} from 'intel-fp';
 import highland from 'highland';
+import getEventSocket from '../socket-worker/get-event-socket.js';
+import buildResponseError from './build-response-error.js';
 
-import type {
-  SocketStreamT
-} from './socket-module.js';
+export default function sendRequest (path:string, options:Object, isAck:boolean = false) {
+  var socket = getEventSocket();
 
-export default function socketStreamFactory (getEventSocket:Function,
-  buildResponseError:Function):SocketStreamT<mixed> {
-  'ngInject';
+  socket.connect();
 
-  return function sendRequest (path, options, isAck) {
-    var socket = getEventSocket();
-
-    socket.connect();
-
-    var data = {
-      path: path.replace(/^\/?api/, ''),
-      options: options || {}
-    };
-
-    var end = socket.end.bind(socket);
-
-    var stream;
-    if (isAck) {
-      stream = highland(push => {
-        socket.send(data, function ack (response) {
-          if ('error' in response)
-            push(buildResponseError(response));
-          else
-            push(null, response);
-
-          if (stream.paused)
-            stream.emit('end');
-          else
-            push(null, highland.nil);
-        });
-      });
-
-      stream.once('end', end);
-      stream.on('error', noop);
-    } else {
-      socket.send(data);
-      stream = highland('message', socket).map(response => {
-        if ('error' in response)
-          throw buildResponseError(response);
-
-        return response;
-      });
-
-      stream._destructors.push(end);
-    }
-
-    return stream;
+  var data = {
+    path: path.replace(/^\/?api/, ''),
+    options: options || {}
   };
+
+  var end = socket.end.bind(socket);
+
+  var stream;
+  if (isAck) {
+    stream = highland(push => {
+      socket.send(data, function ack (response) {
+        if ('error' in response)
+          push(buildResponseError(response));
+        else
+          push(null, response);
+
+        if (stream.paused)
+          stream.emit('end');
+        else
+          push(null, highland.nil);
+      });
+    });
+
+    stream.once('end', end);
+    stream.on('error', noop);
+  } else {
+    socket.send(data);
+    stream = highland('message', socket).map(response => {
+      if ('error' in response)
+        throw buildResponseError(response);
+
+      return response;
+    });
+
+    stream._destructors.push(end);
+  }
+
+  return stream;
 }

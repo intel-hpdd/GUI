@@ -2,16 +2,35 @@ import angular from 'angular';
 import highland from 'highland';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 import networkInterfaceDataFixtures from '../../../data-fixtures/network-interface-fixtures';
-import {ConfigureLnetController} from '../../../../source/iml/lnet/configure-lnet';
-import {curry} from 'intel-fp';
+import {
+  curry
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Configure LNet', () => {
+  var $scope, ctrl, networkInterfaceStream, ss, insertHelpFilter,
+    socketStream, networkInterfaceResponse, waitForCommandCompletion,
+    mod, ConfigureLnetController;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine.createSpy('socketStream');
+
+    mod = await mock('source/iml/lnet/configure-lnet.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    ConfigureLnetController = mod.ConfigureLnetController;
+  });
+
+  afterEach(resetAll);
+
   beforeEach(module(lnetModule));
 
   describe('Controller', () => {
-    var $scope, ctrl, networkInterfaceStream, ss, insertHelpFilter,
-      socketStream, networkInterfaceResponse, waitForCommandCompletion;
-
     beforeEach(inject(($rootScope, $controller) => {
       waitForCommandCompletion = jasmine
         .createSpy('waitForCommandCompletion')
@@ -27,14 +46,14 @@ describe('Configure LNet', () => {
       spyOn(networkInterfaceStream, 'destroy');
 
       ss = highland();
-      socketStream = jasmine.createSpy('socketStream')
+      socketStream
         .and.returnValue(ss);
 
       spyOn($scope, '$on').and.callThrough();
 
       insertHelpFilter = jasmine.createSpy('insertHelpFilter');
 
-      ctrl = $controller('ConfigureLnetController',
+      ctrl = $controller(ConfigureLnetController,
         {
           $scope,
           socketStream,

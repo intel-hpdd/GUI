@@ -1,19 +1,13 @@
-import _ from 'intel-lodash-mixins';
-import regeneratorModule
-  from '../../../../source/iml/regenerator/regenerator-module';
+import regenerator from '../../../source/iml/regenerator.js';
 
 describe('Regenerator module', () => {
-  beforeEach(module(regeneratorModule));
+  var setup, teardown, getter;
 
-  var regenerator, setup, teardown, getter;
-
-  beforeEach(inject(function (_regenerator_) {
-    regenerator = _regenerator_;
-
+  beforeEach(() => {
     setup = jasmine.createSpy('setup').and.returnValue('setup');
     teardown = jasmine.createSpy('teardown');
     getter = regenerator(setup, teardown);
-  }));
+  });
 
   describe('getting an object from the cache', function () {
     describe('item hasn\'t been created in the cache yet', function () {
@@ -32,7 +26,8 @@ describe('Regenerator module', () => {
 
     describe('item already in the cache', function () {
       beforeEach(function () {
-        _.times(2, _.partial(getter, 'item'));
+        getter('item');
+        getter('item');
       });
 
       it('should call the teardown function once', function () {

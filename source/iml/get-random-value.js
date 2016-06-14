@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,45 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import global from './global.js';
 
-export default angular.module('regenerator-module', [])
-  .factory('regenerator', function regeneratorFactory () {
-    'ngInject';
-
-    /**
-     * returns a function that regenerates an item
-     * with the provided setup and teardown
-     * functions.
-     * @param {Function} setup
-     * @param {Function} teardown
-     * @returns {Function}
-     */
-    return function regenerator (setup, teardown) {
-      var cache = {};
-
-      var getter = function get () {
-        var args = [].slice.call(arguments, 0);
-        var key = args.shift();
-
-        if (cache[key]) {
-          teardown(cache[key]);
-          delete cache[key];
-        }
-
-        return (cache[key] = setup.apply(setup, args));
-      };
-
-      getter.destroy = function destroy () {
-        Object.keys(cache).forEach(function teardownItem (key) {
-          teardown(cache[key]);
-        });
-
-        cache = setup = teardown = null;
-      };
-
-      return getter;
-    };
-  }
-)
-.name;
+export const crypto = global.crypto;
+export default () => {
+  const array = new Uint32Array(1);
+  return crypto.getRandomValues(array)[0];
+};

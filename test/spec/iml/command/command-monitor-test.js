@@ -1,114 +1,61 @@
 import highland from 'highland';
 
-describe('Command monitor controller', function () {
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  var $scope, ctrl, getCommandStream,
-    commandStream, commandMonitor,
-    openCommandModal, openCommandModalPromise;
+describe('Command monitor controller', () => {
+  let $scope, ctrl,
+    getCommandStream, commandStream,
+    openCommandModal, openCommandModalPromise,
+    commandModule, socketStream,
+    stream;
 
-  beforeEach(module('command'));
-
-  beforeEach(inject(function ($rootScope, $controller, $q) {
-    $scope = $rootScope.$new();
-
-    spyOn($scope, '$on').and.callThrough();
+  beforeEachAsync(async function () {
+    stream = highland();
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .returnValue(stream);
+    spyOn(stream, 'destroy');
 
     commandStream = highland();
     spyOn(commandStream, 'destroy');
-    getCommandStream = jasmine.createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    getCommandStream = jasmine
+      .createSpy('getCommandStream')
+      .and
+      .returnValue(commandStream);
 
-    commandMonitor = highland();
-    spyOn(commandMonitor, 'destroy');
+    commandModule = await mock('source/iml/command/command-monitor.js', {
+      'source/iml/socket/socket-stream': { default: socketStream },
+      'source/iml/command/get-command-stream': { default: getCommandStream }
+    });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module('command'));
+
+  beforeEach(inject(($rootScope, $controller, $q) => {
+    $scope = $rootScope.$new();
+    spyOn($scope, '$on')
+      .and
+      .callThrough();
 
     openCommandModalPromise = $q.when();
-
     openCommandModal = jasmine.createSpy('openCommandModal')
       .and.returnValue({
         result: openCommandModalPromise
       });
 
-    ctrl = $controller('CommandMonitorCtrl', {
-      $scope: $scope,
-      commandMonitor: commandMonitor,
-      openCommandModal: openCommandModal,
-      getCommandStream: getCommandStream
+    ctrl = $controller(commandModule.default, {
+      $scope,
+      openCommandModal: openCommandModal
     });
   }));
 
-  describe('destroy', function () {
-    it('should listen', function () {
-      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
-    });
-
-    it('should end the monitor on destroy', function () {
-      var handler = $scope.$on.calls.mostRecent().args[1];
-
-      handler();
-
-      expect(commandMonitor.destroy).toHaveBeenCalledOnce();
-    });
-  });
-
-  describe('handling responses', function () {
-    var lastObjects;
-
-    beforeEach(function () {
-      lastObjects = [{}];
-
-      commandMonitor.write(lastObjects);
-    });
-
-    it('should update length', function () {
-      expect(ctrl.length).toEqual(1);
-    });
-
-    it('should save the last response', function () {
-      expect(ctrl.lastObjects).toEqual(lastObjects);
-    });
-
-    describe('show pending', function () {
-      beforeEach(function () {
-        ctrl.showPending();
-      });
-
-      it('should open the command modal with the stream', function () {
-        expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
-      });
-
-      it('should call getCommandStream with the last response', function () {
-        expect(getCommandStream).toHaveBeenCalledOnceWith(lastObjects);
-      });
-
-      it('should end the stream after the modal closes', function () {
-        openCommandModalPromise.finally(function whenModalClosed () {
-          expect(commandStream.destroy).toHaveBeenCalledOnce();
-        });
-
-        $scope.$digest();
-      });
-    });
-  });
-});
-
-describe('Command monitor', function () {
-  'use strict';
-
-  var socketStream, stream;
-
-  beforeEach(module('command', function ($provide) {
-    stream = highland();
-    socketStream = jasmine.createSpy('requestSocket').and.returnValue(stream);
-    $provide.value('socketStream', socketStream);
-  }));
-
-  var commandMonitor;
-
-  beforeEach(inject(function (_commandMonitor_) {
-    commandMonitor = _commandMonitor_;
-  }));
-
-  it('should request data', function () {
+  it('should request data', () => {
     expect(socketStream).toHaveBeenCalledOnceWith('/command', {
       qs: {
         limit: 0,
@@ -118,24 +65,66 @@ describe('Command monitor', function () {
     });
   });
 
-  it('should return a stream', function () {
-    var proto = Object.getPrototypeOf(highland());
-
-    expect(Object.getPrototypeOf(commandMonitor)).toBe(proto);
-  });
-
-  it('should filter cancelled commands', function () {
-    stream.write({
-      objects: [
-        { cancelled: true },
-        { cancelled: false }
-      ]
+  describe('destroy', () => {
+    it('should listen', () => {
+      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
     });
 
-    commandMonitor.each(function (x) {
-      expect(x).toEqual([
+    it('should end the monitor on destroy', () => {
+      var handler = $scope.$on.calls.mostRecent().args[1];
+
+      handler();
+
+      expect(stream.destroy).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('handling responses', () => {
+    var lastObjects;
+
+    beforeEach(() => {
+      lastObjects = {
+        objects: [
+          { cancelled: true },
+          { cancelled: false }
+        ]
+      };
+
+      stream.write(lastObjects);
+    });
+
+    it('should update length', () => {
+      expect(ctrl.length).toEqual(1);
+    });
+
+    it('should save the last response', () => {
+      expect(ctrl.lastObjects).toEqual([
         { cancelled: false }
       ]);
+    });
+
+    describe('show pending', () => {
+      beforeEach(() => {
+        ctrl.showPending();
+      });
+
+      it('should open the command modal with the stream', () => {
+        expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
+      });
+
+      it('should call getCommandStream with the last response', () => {
+        expect(getCommandStream).toHaveBeenCalledOnceWith([
+          { cancelled: false }
+        ]);
+      });
+
+      it('should end the stream after the modal closes', () => {
+        openCommandModalPromise.finally(() => {
+          expect(commandStream.destroy).toHaveBeenCalledOnce();
+        });
+
+        $scope.$digest();
+      });
     });
   });
 });

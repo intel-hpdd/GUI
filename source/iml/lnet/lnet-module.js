@@ -24,16 +24,12 @@
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
 import bigDifferModule from 'intel-big-differ';
-import socketModule from '../socket/socket-module';
 import commandModule from '../command/command-module';
 import filterModule from '../filters/filters-module';
 import {ConfigureLnetController, configureLnetComponent} from './configure-lnet';
 import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
-import getNetworkInterfaceStreamFactory from './get-network-interface-stream';
-import lnetConfigurationStream from './lnet-configuration-stream';
-import lnetDispatchSource from './lnet-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import configureLnetTemplate from './assets/html/configure-lnet';
@@ -42,14 +38,11 @@ export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 
 export default angular.module('lnetModule', [
   extendScopeModule, bigDifferModule, filterModule,
-  socketModule, commandModule, configureLnetTemplate
+  commandModule, configureLnetTemplate
 ])
 .value('LNET_OPTIONS', options)
 .controller('ConfigureLnetController', ConfigureLnetController)
 .component('configureLnet', configureLnetComponent)
 .component('lnetStatus', lnetStatus)
 .filter('removeUsedLnetOptions', removeUsedLnetOptionsFilter)
-.factory('getNetworkInterfaceStream', getNetworkInterfaceStreamFactory)
-.factory('lnetConfigurationStream', lnetConfigurationStream)
-.factory('lnetDispatchSource', lnetDispatchSource)
 .name;

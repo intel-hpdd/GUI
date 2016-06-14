@@ -1,13 +1,16 @@
 import highland from 'highland';
-import {mock, resetAll} from '../../../system-mock.js';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('target dispatch source', () => {
   let store, stream, socketStream;
 
   beforeEachAsync(async function () {
     const CACHE_INITIAL_DATA = {
-      target: ['targets'],
-      host: ['host']
+      target: ['targets']
     };
 
     stream = highland();
@@ -21,12 +24,14 @@ describe('target dispatch source', () => {
       dispatch: jasmine.createSpy('dispatch')
     };
 
-    const targetDispatchFactory = await mock('source/iml/target/target-dispatch-source.js', {
+    await mock('source/iml/target/target-dispatch-source.js', {
       'source/iml/store/get-store.js': { default: store },
-      'source/iml/environment': { CACHE_INITIAL_DATA }
+      'source/iml/environment.js': {
+        CACHE_INITIAL_DATA,
+        ALLOW_ANONYMOUS_READ: true
+      },
+      'source/iml/socket/socket-stream.js': { default: socketStream }
     });
-
-    targetDispatchFactory.default(socketStream);
   });
 
   afterEach(resetAll);

@@ -19,13 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function getCpuUsageStreamFactory (λ, socketStream, chartPlugins) {
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
+
+export default function getCpuUsageStreamFactory (chartPlugins) {
   'ngInject';
 
   const types = ['user', 'system', 'iowait'];
 
   return function getCpuUsageStream (requestRange, buff) {
-    const s = λ((push, next) => {
+    const s = highland((push, next) => {
       const params = requestRange({
         qs: {
           reduce_fn: 'average',

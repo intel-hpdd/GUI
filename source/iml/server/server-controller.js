@@ -23,6 +23,8 @@ import {values} from 'intel-obj';
 import {filter, eqFn, identity, view, flow,
   lensProp, always, find} from 'intel-fp';
 
+import getCommandStream from '../command/get-command-stream.js';
+
 const viewLens = flow(lensProp, view);
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -30,8 +32,7 @@ import confirmServerActionModalTemplate from './assets/html/confirm-server-actio
 
 export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFilter,
                                     serverActions, selectedServers, openCommandModal,
-                                    openAddServerModal, getCommandStream,
-                                    overrideActionClick, streams) {
+                                    openAddServerModal, overrideActionClick, streams) {
   'ngInject';
 
   $scope.server = {

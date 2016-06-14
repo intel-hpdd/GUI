@@ -19,20 +19,31 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, lensProp, view, flow} from 'intel-fp';
+
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+import addProperty from '../highland/add-property.js';
+import rebindDestroy from '../highland/rebind-destroy.js';
+
+import {
+  map,
+  lensProp,
+  view,
+  flow
+} from 'intel-fp';
 
 const pluckObjects = map(view(lensProp('objects')));
 
-export function hsmFsCollStream (resolveStream, socketStream, addProperty, rebindDestroy) {
-  'ngInject';
-
-  return function fsCollStreamFactory () {
-    return resolveStream(socketStream('/filesystem', {
-      jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
-    }))
-      .then(rebindDestroy(flow(
-        pluckObjects,
-        addProperty
-      )));
-  };
+export default function fsCollStreamFactory () {
+  return resolveStream(socketStream('/filesystem', {
+    jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
+  }))
+    .then(
+      rebindDestroy(
+        flow(
+          pluckObjects,
+          addProperty
+        )
+      )
+    );
 }

@@ -22,30 +22,28 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
+import socketStream from '../socket/socket-stream.js';
 
 import {
-  CACHE_INITIAL_DATA
+  CACHE_INITIAL_DATA,
+  ALLOW_ANONYMOUS_READ
 } from '../environment.js';
 
 import {
   ADD_SERVER_ITEMS
 } from './server-reducer.js';
 
-import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
+store.dispatch({
+  type: ADD_SERVER_ITEMS,
+  payload: CACHE_INITIAL_DATA.host
+});
 
-export default function serverDispatchFactory (serverStream:SocketStreamT<mixed>) {
-  'ngInject';
-
-  store.dispatch({
-    type: ADD_SERVER_ITEMS,
-    payload: CACHE_INITIAL_DATA.host
-  });
-
-  return serverStream
+if (ALLOW_ANONYMOUS_READ)
+  socketStream('/host', {
+    qs: { limit: 0 }
+  })
+    .map(x => x.objects)
     .each(payload => store.dispatch({
       type: ADD_SERVER_ITEMS,
       payload
     }));
-}

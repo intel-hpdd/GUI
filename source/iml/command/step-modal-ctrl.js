@@ -20,7 +20,14 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, invokeMethod, always} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+
+import {
+  map,
+  invokeMethod,
+  always
+} from 'intel-fp';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import stepModalTemplate from './assets/html/step-modal';
 
@@ -58,7 +65,7 @@ export function StepModalCtrl ($scope, stepsStream, jobStream, COMMAND_STATES) {
   p('steps', stepsStream);
 }
 
-export function openStepModalFactory ($uibModal, socketStream) {
+export function openStepModalFactory ($uibModal) {
   'ngInject';
 
   var extractApiId = map(invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));

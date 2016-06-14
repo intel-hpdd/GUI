@@ -26,132 +26,120 @@ import angular from 'angular';
 import * as fp from 'intel-fp';
 import * as obj from 'intel-obj';
 import highland from 'highland';
+import socketStream from '../socket/socket-stream.js';
+import formatBytes from '../number-formatters/format-bytes.js';
+
 import {
   times,
   gte
 } from 'intel-math';
 
 import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
-
-import type {
-  formatBytesT
-} from '../number-formatters/number-formatters-module.js';
-
-import type {
   HighlandStreamT
 } from 'highland';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
+const mapMetrics = fp.flow(fp.map, obj.map);
+const filterMetrics = fp.flow(fp.filter, obj.map);
+const valuesLens = fp.lensProp('values');
+const compareLocale = fp.flow(
+  fp.invokeMethod('reverse', []),
+  fp.over(fp.lensProp('0'), fp.arrayWrap),
+  fp.invoke(fp.invokeMethod('localeCompare'))
+);
+const cmp = fp.wrapArgs(
+  fp.flow(
+    fp.map(viewLens('x')),
+    fp.chainL(fp.wrapArgs(compareLocale))
+  )
+);
+const sortOsts = fp.invokeMethod('sort', [cmp]);
+const asPercentage = fp.flow(times(100), Math.round);
+const asFormattedBytes = fp.flow(times(1024), fp.curry(2, formatBytes)(fp.__, 4));
 
-export function getOstBalanceStreamFactory (socketStream:SocketStreamT<mixed>,
-  formatBytes:formatBytesT<mixed>):Function {
-
-  'ngInject';
-
-  const mapMetrics = fp.flow(fp.map, obj.map);
-  const filterMetrics = fp.flow(fp.filter, obj.map);
-  const valuesLens = fp.lensProp('values');
-  const compareLocale = fp.flow(
-    fp.invokeMethod('reverse', []),
-    fp.over(fp.lensProp('0'), fp.arrayWrap),
-    fp.invoke(fp.invokeMethod('localeCompare'))
+export default fp.curry(2, function getOstBalanceStream (percentage:number, overrides:Object):HighlandStreamT<mixed> {
+  const ltePercentage = fp.flow(
+    fp.view(fp.compose(
+      fp.lensProp('data'),
+      fp.lensProp('detail'),
+      fp.lensProp('percentUsed')
+    )),
+    gte(percentage)
   );
-  const cmp = fp.wrapArgs(
-    fp.flow(
-      fp.map(viewLens('x')),
-      fp.chainL(fp.wrapArgs(compareLocale))
-    )
-  );
-  const sortOsts = fp.invokeMethod('sort', [cmp]);
-  const asPercentage = fp.flow(times(100), Math.round);
-  const asFormattedBytes = fp.flow(times(1024), fp.curry(2, formatBytes)(fp.__, 4));
 
-  return fp.curry(2, function getOstBalanceStream (percentage:number, overrides:Object):HighlandStreamT<mixed> {
-    const ltePercentage = fp.flow(
-      fp.view(fp.compose(
-        fp.lensProp('data'),
-        fp.lensProp('detail'),
-        fp.lensProp('percentUsed')
-      )),
-      gte(percentage)
-    );
+  const s:HighlandStreamT<mixed> = highland(function generator (push, next) {
+    var struct = [
+      { key: 'Used bytes', values: [] },
+      { key: 'Free bytes', values: [] }
+    ];
 
-    const s:HighlandStreamT<mixed> = highland(function generator (push, next) {
-      var struct = [
-        { key: 'Used bytes', values: [] },
-        { key: 'Free bytes', values: [] }
-      ];
-
-      const toNvd3 = obj.reduce(struct, (metrics, key, arr) => {
-        fp.map(function pushItems (item) {
-          arr[0].values.push({
-            x: key,
-            y: item.data.used,
-            detail: item.data.detail
-          });
-          arr[1].values.push({
-            x: key,
-            y: item.data.free,
-            detail: item.data.detail
-          });
-        }, metrics);
-
-        return arr;
-      });
-
-      var ostBalanceStream = socketStream('/target/metric', angular.merge({
-        qs: {
-          kind: 'OST',
-          metrics: 'kbytestotal,kbytesfree',
-          latest: true
-        }
-      }, overrides), true)
-        .map(obj.pickBy(viewLens('length')))
-        .map(mapMetrics(function (item) {
-          item.data.free = item.data.kbytesfree / item.data.kbytestotal;
-          item.data.used = 1 - item.data.free;
-
-          item.data.detail = {
-            percentFree: asPercentage(item.data.free),
-            percentUsed: asPercentage(item.data.used),
-            bytesFree: asFormattedBytes(item.data.kbytesfree),
-            bytesUsed: asFormattedBytes(item.data.kbytestotal - item.data.kbytesfree),
-            bytesTotal: asFormattedBytes(item.data.kbytestotal)
-          };
-
-          return item;
-        }))
-        .map(filterMetrics(ltePercentage));
-
-      var targetStream = socketStream('/target', {
-        qs: { limit: 0 },
-        jsonMask: 'objects(id,name)'
-      }, true)
-        .pluck('objects');
-
-      ostBalanceStream
-        .zip(targetStream)
-        .map(function convertKeys ([ostBalanceMetrics, targets]) {
-          return obj.reduce({}, function reducer (val, key, result) {
-            const findTarget = fp.find(fp.eqFn(fp.identity, viewLens('id'), key));
-
-            const target = findTarget(targets);
-            const name = (target ? target.name : key);
-
-            result[name] = val;
-          }, ostBalanceMetrics);
-        })
-        .map(toNvd3)
-        .map(fp.map(fp.over(valuesLens, fp.wrapArgs(fp.invoke(sortOsts)))))
-        .each(function pushData (x) {
-          push(null, x);
-          next();
+    const toNvd3 = obj.reduce(struct, (metrics, key, arr) => {
+      fp.map(function pushItems (item) {
+        arr[0].values.push({
+          x: key,
+          y: item.data.used,
+          detail: item.data.detail
         });
+        arr[1].values.push({
+          x: key,
+          y: item.data.free,
+          detail: item.data.detail
+        });
+      }, metrics);
+
+      return arr;
     });
 
-    return s
-      .ratelimit(1, 10000);
+    var ostBalanceStream = socketStream('/target/metric', angular.merge({
+      qs: {
+        kind: 'OST',
+        metrics: 'kbytestotal,kbytesfree',
+        latest: true
+      }
+    }, overrides), true)
+      .map(obj.pickBy(viewLens('length')))
+      .map(mapMetrics(function (item) {
+        item.data.free = item.data.kbytesfree / item.data.kbytestotal;
+        item.data.used = 1 - item.data.free;
+
+        item.data.detail = {
+          percentFree: asPercentage(item.data.free),
+          percentUsed: asPercentage(item.data.used),
+          bytesFree: asFormattedBytes(item.data.kbytesfree),
+          bytesUsed: asFormattedBytes(item.data.kbytestotal - item.data.kbytesfree),
+          bytesTotal: asFormattedBytes(item.data.kbytestotal)
+        };
+
+        return item;
+      }))
+      .map(filterMetrics(ltePercentage));
+
+    var targetStream = socketStream('/target', {
+      qs: { limit: 0 },
+      jsonMask: 'objects(id,name)'
+    }, true)
+      .pluck('objects');
+
+    ostBalanceStream
+      .zip(targetStream)
+      .map(function convertKeys ([ostBalanceMetrics, targets]) {
+        return obj.reduce({}, function reducer (val, key, result) {
+          const findTarget = fp.find(fp.eqFn(fp.identity, viewLens('id'), key));
+
+          const target = findTarget(targets);
+          const name = (target ? target.name : key);
+
+          result[name] = val;
+        }, ostBalanceMetrics);
+      })
+      .map(toNvd3)
+      .map(fp.map(fp.over(valuesLens, fp.wrapArgs(fp.invoke(sortOsts)))))
+      .each(function pushData (x) {
+        push(null, x);
+        next();
+      });
   });
-}
+
+  return s
+    .ratelimit(1, 10000);
+});

@@ -1,11 +1,28 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import angular from 'angular';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('add server modal', () => {
+  var spring, addServerModalCtrlModule;
+  beforeEachAsync(async function () {
+    spring = {
+      destroy: jasmine.createSpy('destroy')
+    };
+    const getSpring = jasmine.createSpy('getSpring').and.returnValue(spring);
+    addServerModalCtrlModule = await mock('source/iml/server/add-server-modal-ctrl.js', {
+      'source/iml/socket/get-spring.js': { default: getSpring}
+    });
+  });
+
+  afterEach(resetAll);
+
   beforeEach(module(serverModule));
 
   describe('controller', function () {
-    var addServerModalCtrl, $scope, stepsManager, spring,
+    var addServerModalCtrl, $scope, stepsManager,
       resultEndPromise, invokeController;
     var deps = {};
 
@@ -26,14 +43,8 @@ describe('add server modal', () => {
       $scope = $rootScope.$new();
       $scope.$on = jasmine.createSpy('$on');
 
-      spring = {
-        destroy: jasmine.createSpy('destroy')
-      };
-
       angular.extend(deps, {
         $scope: $scope,
-        getSpring: jasmine.createSpy('getSpring')
-          .and.returnValue(spring),
         $uibModalInstance: {
           close: jasmine.createSpy('$uibModalInstance')
         },
@@ -47,7 +58,7 @@ describe('add server modal', () => {
       });
 
       invokeController = function invokeController (moreDeps) {
-        addServerModalCtrl = $controller('AddServerModalCtrl', angular.extend(deps, moreDeps));
+        addServerModalCtrl = $controller(addServerModalCtrlModule.AddServerModalCtrl, angular.extend(deps, moreDeps));
       };
     }));
 

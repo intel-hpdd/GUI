@@ -21,9 +21,12 @@
 
 import angular from 'angular';
 import extractApi from 'intel-extract-api';
-import {map} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+import {
+  map
+} from 'intel-fp';
 
-export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal, socketStream) {
+export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal) {
   'ngInject';
 
   var pendingTransitions = [];
@@ -61,7 +64,7 @@ export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal, socket
 }
 
 
-export function getJobStreamFactory (socketStream, jobTree) {
+export function getJobStreamFactory (jobTree) {
   'ngInject';
 
   return function getJobStream (jobs) {

@@ -21,7 +21,7 @@
 
 import store from '../store/get-store.js';
 
-export default function serverResolvesFactory ($q, resolveStream, addProperty) {
+export default function serverResolvesFactory (addProperty) {
   'ngInject';
 
   return function serverResolves () {
@@ -43,11 +43,21 @@ export default function serverResolvesFactory ($q, resolveStream, addProperty) {
     const serversStream = store
       .select('server');
 
-    return $q.all({
-      jobMonitorStream,
+    return Promise
+      .all([
+        jobMonitorStream,
+        alertMonitorStream,
+        lnetConfigurationStream,
+        serversStream
+      ])
+      .then(([jobMonitorStream,
       alertMonitorStream,
       lnetConfigurationStream,
-      serversStream
-    });
+      serversStream]) => ({
+        jobMonitorStream,
+        alertMonitorStream,
+        lnetConfigurationStream,
+        serversStream
+      }));
   };
 }

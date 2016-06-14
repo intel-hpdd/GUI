@@ -1,29 +1,32 @@
-import actionDropdownModule
-  from '../../../../source/iml/action-dropdown/action-dropdown-module';
 import highland from 'highland';
 
-describe('handle action', function () {
-  var socketStream, actionStream, openConfirmActionModal, openResult;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module(actionDropdownModule, function ($provide) {
+describe('handle action', function () {
+  var socketStream, actionStream, handleAction,
+    openConfirmActionModal, openResult;
+
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(function () {
         return (actionStream = highland());
       });
-    $provide.value('socketStream', socketStream);
 
     openResult = { resultStream: highland() };
     openConfirmActionModal = jasmine.createSpy('openConfirmActionModal')
       .and.returnValue(openResult);
-    $provide.value('openConfirmActionModal', openConfirmActionModal);
-  }));
 
-  var $rootScope, handleAction;
+    const mod = await mock('source/iml/action-dropdown/handle-action.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-  beforeEach(inject(function (_$rootScope_, _handleAction_) {
-    $rootScope = _$rootScope_;
-    handleAction = _handleAction_;
-  }));
+    handleAction = mod.default(openConfirmActionModal);
+  });
+
+  afterEach(resetAll);
 
   describe('job', function () {
     var record, action;
@@ -70,8 +73,6 @@ describe('handle action', function () {
 
       openResult.resultStream.write(true);
 
-      $rootScope.$digest();
-
       actionStream.write({});
     });
 
@@ -81,7 +82,6 @@ describe('handle action', function () {
       }, true);
 
       openResult.resultStream.write(true);
-      $rootScope.$digest();
       actionStream.write({ foo: 'bar' });
     });
 
@@ -91,7 +91,6 @@ describe('handle action', function () {
       }, true);
 
       openResult.resultStream.write(false);
-      $rootScope.$digest();
       actionStream.write({ foo: 'bar' });
     });
   });
@@ -169,8 +168,6 @@ describe('handle action', function () {
 
         openResult.resultStream.write(true);
 
-        $rootScope.$digest();
-
         actionStream.write({});
       });
 
@@ -183,8 +180,6 @@ describe('handle action', function () {
         });
 
         openResult.resultStream.write(true);
-
-        $rootScope.$digest();
 
         actionStream.write({});
       });

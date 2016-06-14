@@ -58,6 +58,7 @@
     "expectStreamToContainItem": false,
     "spyOn": false,
     "it": false,
+    "itAsync": false,
     "describe": false,
     "expect": false,
     "beforeEach": false,

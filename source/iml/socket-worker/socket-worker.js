@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,40 +21,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {__, curry} from 'intel-fp';
+import getWebWorker from './get-web-worker.js';
+import disconnectListener from '../disconnect-modal/disconnect-listener.js';
+import {STATIC_URL} from '../environment.js';
 
-export default function socketWorkerFactory (getWebWorker, disconnectModal, $timeout, STATIC_URL) {
-  'ngInject';
+const worker = getWebWorker(`${STATIC_URL}node_modules/intel-socket-worker/dist/bundle.js`);
 
-  var modal;
-  var worker = getWebWorker(STATIC_URL + 'node_modules/intel-socket-worker/dist/bundle.js');
-  var timedOut = curry(4, $timeout)(__, 0, true);
+worker.addEventListener('message', ev => {
+  const data = ev.data;
 
-  worker.addEventListener('message', function onMessage (ev) {
-    var data = ev.data;
+  if (data.type === 'reconnecting')
+    disconnectListener.emit('open');
 
-    var onReconnecting = timedOut(function onReconnecting () {
-      if (!modal)
-        modal = disconnectModal();
-    });
+  if (data.type === 'reconnect')
+    disconnectListener.emit('close');
+});
 
-    var onReconnect = timedOut(function onReconnected () {
-      if (modal) {
-        modal.close();
-        modal = null;
-      }
-    });
+worker.addEventListener('error', err => {
+  throw err;
+});
 
-    if (data.type === 'reconnecting')
-      onReconnecting(undefined);
-
-    if (data.type === 'reconnect')
-      onReconnect(undefined);
-  });
-
-  worker.addEventListener('error', timedOut(function onError (err) {
-    throw err;
-  }));
-
-  return worker;
-}
+export default worker;

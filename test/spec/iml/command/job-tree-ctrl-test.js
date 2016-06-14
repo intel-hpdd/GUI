@@ -2,22 +2,39 @@ import angular from 'angular';
 import highland from 'highland';
 import commandModule from '../../../../source/iml/command/command-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('job tree', function () {
   beforeEach(module(commandModule));
 
   describe('job tree ctrl', function () {
-
     var $scope, jobTree, getJobStream, jobStream, socketStream,
-      GROUPS, openStepModal, job, ss;
+      GROUPS, openStepModal, job, ss, JobTreeCtrl;
+
+    beforeEachAsync(async function () {
+      ss = highland();
+      socketStream = jasmine
+          .createSpy('socketStream')
+          .and
+          .returnValue(ss);
+
+      const mod = await mock('source/iml/command/job-tree-ctrl.js', {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      });
+
+      JobTreeCtrl = mod.JobTreeCtrl;
+    });
+
+    afterEach(resetAll);
 
     beforeEach(inject(function ($rootScope, $controller) {
       jobStream = highland();
       spyOn(jobStream, 'destroy');
       getJobStream = jasmine.createSpy('getJobStream')
         .and.returnValue(jobStream);
-      ss = highland();
-      socketStream = jasmine.createSpy('socketStream')
-        .and.returnValue(ss);
 
       GROUPS = {};
 
@@ -37,12 +54,11 @@ describe('job tree', function () {
         available_transitions: [{}]
       };
 
-      jobTree = $controller('JobTreeCtrl', {
-        $scope: $scope,
-        getJobStream: getJobStream,
-        GROUPS: GROUPS,
-        openStepModal: openStepModal,
-        socketStream: socketStream
+      jobTree = $controller(JobTreeCtrl, {
+        $scope,
+        getJobStream,
+        GROUPS,
+        openStepModal
       });
     }));
 
@@ -111,24 +127,25 @@ describe('job tree', function () {
   });
 
   describe('get job stream', function () {
-    var socketStream, jobTree, ss;
+    var socketStream, jobTree, ss, stream;
 
-    beforeEach(module(function ($provide) {
+    beforeEachAsync(async function () {
       ss = highland();
-      socketStream = jasmine.createSpy('socketStream')
-        .and.returnValue(ss);
+      socketStream = jasmine
+          .createSpy('socketStream')
+          .and
+          .returnValue(ss);
+
+      const mod = await mock('source/iml/command/job-tree-ctrl.js', {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      });
 
       jobTree = jasmine.createSpy('jobTree');
-
-      $provide.value('socketStream', socketStream);
-      $provide.value('jobTree', jobTree);
-    }));
-
-    var stream;
-
-    beforeEach(inject(function (getJobStream) {
+      const getJobStream = mod.getJobStreamFactory(jobTree);
       stream = getJobStream(['/api/job/1/', '/api/job/2/']);
-    }));
+    });
+
+    afterEach(resetAll);
 
     it('should call socketStream', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/job', {

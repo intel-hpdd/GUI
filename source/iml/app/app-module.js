@@ -31,7 +31,9 @@ import extendScopeModule from '../extend-scope-module';
 import helpMapperModule from '../help-mapper/help-mapper-module.js';
 import AppCtrl from './app-controller';
 import {
-  appSessionFactory, appNotificationStreamFactory, alertStreamFactory
+  appSessionFactory,
+  appNotificationStream,
+  alertStream
 }
   from './app-resolves';
 
@@ -41,7 +43,7 @@ export default angular.module('app', [
   commandModule, extendScopeModule, helpMapperModule
 ])
   .factory('appSession', appSessionFactory)
-  .factory('appNotificationStream', appNotificationStreamFactory)
-  .factory('appAlertStream', alertStreamFactory)
+  .value('appNotificationStream', appNotificationStream)
+  .value('appAlertStream', alertStream)
   .controller('AppCtrl', AppCtrl)
   .name;

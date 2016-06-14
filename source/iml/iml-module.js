@@ -61,6 +61,12 @@ import statusRecordsRouteModule from './status/status-records-route-module';
 import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
 import mgtRouteModule from './mgt/mgt-route-module';
+import disconnectModalModule from './disconnect-modal/disconnect-modal-module.js';
+import './target/target-dispatch-source.js';
+import './alert-indicator/alert-indicator-dispatch-source.js';
+import './lnet/lnet-dispatch-source.js';
+import './server/server-dispatch-source.js';
+import './job-indicator/job-indicator-dispatch-source.js';
 
 export default angular.module('iml', [
   uiBootstrapModule, ngResource, ngRoute, ngAnimate, 'route-segment', 'view-segment',
@@ -71,7 +77,7 @@ export default angular.module('iml', [
   serverDetailRouteModule, jobStatsModule, jobStatsRouteModule,
   hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule,
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
-  statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule
+  statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule, disconnectModalModule
 ])
   .config($compileProvider => {
     'ngInject';
@@ -105,17 +111,6 @@ export default angular.module('iml', [
     $routeSegmentProvider.options.autoLoadTemplates = true;
     $routeSegmentProvider.options.strictMode = true;
     $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
-  })
-  .run((targetDispatchSource, serverDispatchSource,
-      alertIndicatorDispatchSource, jobIndicatorDispatchSource,
-      lnetDispatchSource) => {
-    'ngInject';
-
-    targetDispatchSource;
-    serverDispatchSource;
-    alertIndicatorDispatchSource;
-    jobIndicatorDispatchSource;
-    lnetDispatchSource;
   })
   .name;
 

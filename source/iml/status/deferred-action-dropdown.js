@@ -22,6 +22,9 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
+import socketStream from '../socket/socket-stream.js';
+import multiStream from '../multi-stream.js';
+
 import {
   curry,
   map,
@@ -34,17 +37,16 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-export function DeferredActionDropdownCtrl ($scope:Object, socketStream:Function,
-                                            multiStream:(xs:Array<HighlandStreamT<mixed>>) => HighlandStreamT<mixed>,
+export function DeferredActionDropdownCtrl ($scope:Object,
                                             localApply:Function):void {
   'ngInject';
 
   const ctrl = this;
-
-  socketStream = curry(2, socketStream);
-  const getActions = map(socketStream(__, {
+  const curriedSocketStream = curry(2, socketStream);
+  const getActions = map(curriedSocketStream(__, {
     jsonMask: 'resource_uri,available_actions,locks,id,label'
   }));
+
   const getMs = flow(getActions, multiStream);
 
   ctrl.ms = highland();

@@ -24,13 +24,10 @@
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import highlandModule from '../highland/highland-module.js';
-import socketModule from '../socket/socket-module.js';
 import popoverModule from '../popover/popover-module.js';
 import tooltipModule from '../tooltip/tooltip-module.js';
 import extendScopeModule from '../extend-scope-module.js';
-import jobIndicatorStream from './job-indicator-stream.js';
 import jobStatusDirective from './job-indicator.js';
-import jobIndicatorDispatchSource from './job-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import jobIndicatorTemplate from './assets/html/job-indicator';
@@ -38,11 +35,9 @@ import jobIndicatorTemplate from './assets/html/job-indicator';
 export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
 export default angular.module('jobIndicator', [
-  socketModule, popoverModule, uiBootstrapModule,
+  popoverModule, uiBootstrapModule,
   tooltipModule, extendScopeModule,
   jobIndicatorTemplate, highlandModule
 ])
 .directive('jobStatus', jobStatusDirective)
-.factory('jobIndicatorStream', jobIndicatorStream)
-.factory('jobIndicatorDispatchSource', jobIndicatorDispatchSource)
 .name;

@@ -1,13 +1,17 @@
-describe('get event socket', function () {
-  var socketWorker, getRandomValue, emitter;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module('socket-module', function ($provide) {
+describe('get event socket', () => {
+  var socketWorker, getRandomValue, emitter,
+    getEventSocket, eventSocket;
+
+  beforeEachAsync(async function () {
     socketWorker = {
       addEventListener: jasmine.createSpy('addEventListener'),
       postMessage: jasmine.createSpy('postMessage')
     };
-
-    $provide.value('EventEmitter', EventEmitter);
 
     emitter = {
       once: jasmine.createSpy('once'),
@@ -18,57 +22,57 @@ describe('get event socket', function () {
       return emitter;
     }
 
-    $provide.value('socketWorker', socketWorker);
-
     getRandomValue = jasmine.createSpy('getRandomValue').and.returnValue(5);
-    $provide.value('getRandomValue', getRandomValue);
-  }));
 
-  var getEventSocket, eventSocket;
-
-  beforeEach(inject(function (_getEventSocket_) {
-    getEventSocket = _getEventSocket_;
+    const getEventSocketModule = await mock('source/iml/socket-worker/get-event-socket.js', {
+      'source/iml/event-emitter.js': { default: EventEmitter },
+      'source/iml/get-random-value.js': { default: getRandomValue },
+      'source/iml/socket-worker/socket-worker.js': { default: socketWorker }
+    });
+    getEventSocket = getEventSocketModule.default;
     eventSocket = getEventSocket();
-  }));
+  });
 
-  it('should be a function', function () {
+  afterEach(resetAll);
+
+  it('should be a function', () => {
     expect(getEventSocket).toEqual(jasmine.any(Function));
   });
 
-  it('should have a connect method', function () {
+  it('should have a connect method', () => {
     expect(eventSocket.connect).toEqual(jasmine.any(Function));
   });
 
-  it('should have a send method', function () {
+  it('should have a send method', () => {
     expect(eventSocket.send).toEqual(jasmine.any(Function));
   });
 
-  it('should get an id', function () {
+  it('should get an id', () => {
     expect(getRandomValue).toHaveBeenCalledOnce();
   });
 
-  describe('connect', function () {
-    beforeEach(function () {
+  describe('connect', () => {
+    beforeEach(() => {
       eventSocket.connect();
     });
 
-    it('should send a postMessage to the worker', function () {
+    it('should send a postMessage to the worker', () => {
       expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({ type: 'connect', id: 5 });
     });
 
-    it('should return if connect was already called without end', function () {
+    it('should return if connect was already called without end', () => {
       eventSocket.connect();
       expect(socketWorker.postMessage).toHaveBeenCalledOnce();
     });
   });
 
-  it('should send a message', function () {
+  it('should send a message', () => {
     eventSocket.send();
 
     expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({ type: 'send', id: 5 });
   });
 
-  it('should send a message with a payload', function () {
+  it('should send a message with a payload', () => {
     eventSocket.send({ path: '/host' });
 
     expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
@@ -78,22 +82,22 @@ describe('get event socket', function () {
     });
   });
 
-  it('should not end if not connected', function () {
+  it('should not end if not connected', () => {
     eventSocket.end();
 
     expect(emitter.removeAllListeners).not.toHaveBeenCalled();
   });
 
-  it('should removeAllListeners on end', function () {
+  it('should removeAllListeners on end', () => {
     eventSocket.connect();
     eventSocket.end();
     expect(emitter.removeAllListeners).toHaveBeenCalledOnce();
   });
 
-  describe('ack', function () {
+  describe('ack', () => {
     var ack, spy;
 
-    beforeEach(function () {
+    beforeEach(() => {
       eventSocket.connect();
 
       spy = jasmine.createSpy('spy');
@@ -103,7 +107,7 @@ describe('get event socket', function () {
       ack = eventSocket.once.calls.mostRecent().args[1];
     });
 
-    it('should send a message with a payload and ack', function () {
+    it('should send a message with a payload and ack', () => {
       expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
         type: 'send',
         id: 5,
@@ -112,11 +116,11 @@ describe('get event socket', function () {
       });
     });
 
-    it('should register a once listener on ack send', function () {
+    it('should register a once listener on ack send', () => {
       expect(emitter.once).toHaveBeenCalledOnceWith('message', jasmine.any(Function));
     });
 
-    it('should ack the response', function () {
+    it('should ack the response', () => {
       ack({ foo: 'bar' });
 
       expect(spy).toHaveBeenCalledOnceWith({ foo: 'bar' });

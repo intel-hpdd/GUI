@@ -5,15 +5,24 @@ import readWriteHeatMapDataFixtures from
 
 import chartingModule from '../../../../source/iml/charting/charting-module';
 
-import {lensProp, view} from 'intel-fp';
-import {clone} from 'intel-obj';
-import {getReadWriteHeatMapStreamFactory}
-  from '../../../../source/iml/read-write-heat-map/get-read-write-heat-map-stream';
+import {
+  lensProp,
+  view
+} from 'intel-fp';
+
+import {
+  clone
+} from 'intel-obj';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('the read write heat map stream', () => {
-  var socketStream, getServerMoment, streams;
+  var socketStream, getServerMoment, streams, getReadWriteHeatMapStreamFactory;
 
-  beforeEach(module(chartingModule, $provide => {
+  beforeEachAsync(async function () {
     streams = {
       heatMap: [],
       target: []
@@ -31,8 +40,16 @@ describe('the read write heat map stream', () => {
         return s;
       });
 
-    $provide.value('socketStream', socketStream);
+    await mock('source/iml/charting/union-with-target.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
+    const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-stream.js', {});
+
+    getReadWriteHeatMapStreamFactory = mod.default;
+  });
+
+  beforeEach(module(chartingModule, $provide => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2014-01-07T14:42:50+00:00'));
 
@@ -44,7 +61,7 @@ describe('the read write heat map stream', () => {
   beforeEach(inject(chartPlugins => {
     spy = jasmine.createSpy('spy');
 
-    getReadWriteHeatMapStream = getReadWriteHeatMapStreamFactory(highland, socketStream, chartPlugins);
+    getReadWriteHeatMapStream = getReadWriteHeatMapStreamFactory(chartPlugins);
 
     fixtures = readWriteHeatMapDataFixtures;
 
@@ -54,6 +71,8 @@ describe('the read write heat map stream', () => {
   afterEach(() => {
     revert();
   });
+
+  afterEach(resetAll);
 
   it('should return a factory function', () => {
     expect(getReadWriteHeatMapStream)

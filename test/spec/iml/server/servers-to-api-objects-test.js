@@ -1,13 +1,9 @@
-import serverModule from '../../../../source/iml/server/server-module';
+import serversToApiObjects from '../../../../source/iml/server/servers-to-api-objects.js';
 
 describe('servers to api objects', function () {
-  beforeEach(module(serverModule));
+  var ADD_SERVER_AUTH_CHOICES, servers;
 
-  var serversToApiObjects, ADD_SERVER_AUTH_CHOICES, servers;
-
-  beforeEach(inject(function (_serversToApiObjects_) {
-    serversToApiObjects = _serversToApiObjects_;
-
+  beforeEach(function () {
     ADD_SERVER_AUTH_CHOICES = {
       EXISTING_KEYS: 'existing_keys_choice',
       ROOT_PASSWORD: 'id_password_root',
@@ -20,7 +16,7 @@ describe('servers to api objects', function () {
         'lotus-34vm6.iml.intel.com'
       ]
     };
-  }));
+  });
 
   it('should munge servers added with an existing key', function () {
     servers.auth_type = ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS;

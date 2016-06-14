@@ -19,7 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {__, invoke} from 'intel-fp';
+import {
+  dashboardFsStream,
+  dashboardHostStream,
+  dashboardTargetStream
+} from './dashboard-resolves.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import dashboardTemplate from './assets/html/dashboard';
@@ -37,9 +41,9 @@ export default function dashboardSegment ($routeSegmentProvider) {
       controllerAs: 'dashboard',
       templateUrl: dashboardTemplate,
       resolve: {
-        fsStream: ['dashboardFsStream', invoke(__, [])],
-        hostStream: ['dashboardHostStream', invoke(__, [])],
-        targetStream: ['dashboardTargetStream', invoke(__, [])]
+        fsStream: dashboardFsStream,
+        hostStream: dashboardHostStream,
+        targetStream: dashboardTargetStream
       },
       middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
       untilResolved: {

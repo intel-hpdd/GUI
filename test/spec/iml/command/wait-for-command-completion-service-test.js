@@ -1,20 +1,41 @@
 
 import highland from 'highland';
 import {noop} from 'intel-fp';
-import commandModule from '../../../../source/iml/command/command-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('wait-for-command-completion-service', function () {
-  var getCommandStream, commandStream,
-    openCommandModal, waitForCommandCompletion;
+  var getCommandStream, commandStream, spy,
+    openCommandModal, waitForCommandCompletion,
+    waitForCommandCompletionModule;
 
-  beforeEach(module(commandModule, function ($provide) {
+  beforeEachAsync(async function () {
     commandStream = highland();
     getCommandStream = jasmine.createSpy('getCommandStream')
       .and.returnValue(commandStream);
-    $provide.value('getCommandStream', getCommandStream);
 
+    waitForCommandCompletionModule = await mock(
+      'source/iml/command/wait-for-command-completion-service.js', {
+        'source/iml/command/get-command-stream.js': { default: getCommandStream }
+      });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(function () {
+    spy = jasmine.createSpy('spy');
+
+    const commandState = {
+      CANCELLED: 'cancelled',
+      FAILED: 'failed',
+      SUCCEEDED: 'succeeded',
+      PENDING: 'pending',
+      WAITING: 'waiting to run',
+      RUNNING: 'running'
+    };
     openCommandModal = jasmine.createSpy('openCommandModal');
-    $provide.value('openCommandModal', openCommandModal);
 
     var throwIfServerErrors = function throwIfServerErrors (fn) {
       return function throwOrCall (response) {
@@ -24,16 +45,10 @@ describe('wait-for-command-completion-service', function () {
         return fn(response);
       };
     };
-    $provide.value('throwIfServerErrors', throwIfServerErrors);
-  }));
 
-  var spy;
-
-  beforeEach(inject(function (_waitForCommandCompletion_) {
-    waitForCommandCompletion = _waitForCommandCompletion_;
-
-    spy = jasmine.createSpy('spy');
-  }));
+    waitForCommandCompletion = waitForCommandCompletionModule.default(
+      commandState, openCommandModal, throwIfServerErrors);
+  });
 
   describe('response with errors', function () {
     var response;

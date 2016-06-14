@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,29 +21,4 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
-
-export function resolveStreamFactory ($q) {
-  'ngInject';
-
-  return (stream) => {
-    const deferred = $q.defer();
-
-    stream.pull((error, x) => {
-      if (error)
-        x = {
-          __HighlandStreamError__: true,
-          error
-        };
-
-      const s2 = stream.tap(noop);
-      s2.write(x);
-
-      s2.destroy = stream.destroy.bind(stream);
-
-      deferred.resolve(s2);
-    });
-
-    return deferred.promise;
-  };
-}
+export default window;

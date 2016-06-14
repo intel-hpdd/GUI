@@ -27,6 +27,7 @@ import {ActionDropdownCtrl, actionDropdown, actionDescriptionCache} from './acti
 import {ConfirmActionModalCtrl, openConfirmActionModalFactory} from './confirm-action-modal';
 import groupActionsFilter from './group-actions';
 import handleActionFactory from './handle-action';
+import uiBootstrapModule from 'angular-ui-bootstrap';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import actionDropdownTemplate from './assets/html/action-dropdown';
@@ -35,7 +36,8 @@ import actionDropdownTemplate from './assets/html/action-dropdown';
 import confirmActionModalTemplate from './assets/html/confirm-action-modal';
 
 export default angular.module('action-dropdown-module', [
-  commandModule, actionDropdownTemplate, confirmActionModalTemplate
+  commandModule, actionDropdownTemplate, confirmActionModalTemplate,
+  uiBootstrapModule
 ])
   .factory('actionDescriptionCache', actionDescriptionCache)
   .controller('ActionDropdownCtrl', ActionDropdownCtrl)

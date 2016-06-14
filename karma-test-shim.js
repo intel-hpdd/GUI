@@ -9,19 +9,6 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 window.__karma__.loaded = function () {};
 
 System.baseURL = '/base/dest/';
-System.packages['http://localhost:9876/base/dest/source/iml'] = {
-  format: 'register',
-  defaultExtension: 'js',
-  map: Object.keys(window.__karma__.files)
-    .filter(onlyAppFiles)
-    .reduce(function createPathRecords (pathsMapping, appPath) {
-      // creates local module name mapping to global path with karma's fingerprint in path, e.g.:
-      // './hero.service': '/base/src/app/hero.service.js?f4523daf879cfb7310ef6242682ccf10b2041b3e'
-      var moduleName = appPath.replace(/^\/base\/dist\/iml\//, './').replace(/\.js$/, '');
-      pathsMapping[moduleName] = appPath + '?' + window.__karma__.files[appPath];
-      return pathsMapping;
-    }, {})
-};
 
 System.meta = Object.keys(System.meta)
   .reduce(function (obj, key) {
@@ -53,12 +40,6 @@ function filePath2moduleName (filePath) {
   replace(/^\//, '');              // remove / prefix
   //replace(/\.\w+$/, '');           // remove suffix
 }
-
-
-function onlyAppFiles (filePath) {
-  return /^\/base\/dest\/iml\/.*\.js$/.test(filePath);
-}
-
 
 function onlySpecFiles (path) {
   return /\/.+-test\.js$/.test(path);

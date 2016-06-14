@@ -19,25 +19,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {compose, lensProp, mapped, view} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
 
-export default function getCommandStreamFactory (socketStream) {
-  'ngInject';
+import {
+  compose,
+  lensProp,
+  mapped,
+  view
+} from 'intel-fp';
 
-  return function getCommandStream (commandList) {
-    var options = {
-      qs: {
-        id__in: view(compose(mapped, lensProp('id')), commandList)
-      }
-    };
-
-    var stream = socketStream('/command', options);
-
-    stream.write({ objects: commandList });
-
-    var s2 = stream.pluck('objects');
-    s2.destroy = stream.destroy.bind(stream);
-
-    return s2;
+export default (commandList) => {
+  var options = {
+    qs: {
+      id__in: view(compose(mapped, lensProp('id')), commandList)
+    }
   };
-}
+
+  var stream = socketStream('/command', options);
+
+  stream.write({ objects: commandList });
+
+  var s2 = stream.pluck('objects');
+  s2.destroy = stream.destroy.bind(stream);
+
+  return s2;
+};

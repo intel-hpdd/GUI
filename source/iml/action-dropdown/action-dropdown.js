@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import getCommandStream from '../command/get-command-stream.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import actionDropdownTemplate from './assets/html/action-dropdown';
@@ -40,7 +41,7 @@ export function actionDescriptionCache ($sce) {
 
 export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
                                     actionDescriptionCache, openCommandModal,
-                                    getCommandStream, localApply, propagateChange) {
+                                    localApply, propagateChange) {
   'ngInject';
 
   const setConfirmOpen = isOpen => this.confirmOpen = isOpen;

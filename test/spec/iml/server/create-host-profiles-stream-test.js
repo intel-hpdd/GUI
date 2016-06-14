@@ -3,7 +3,17 @@ import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture';
 import highland from 'highland';
 
-import {compose, lensProp, mapped, set} from 'intel-fp';
+import {
+  compose,
+  lensProp,
+  mapped,
+  set
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('host profile then', () => {
   beforeEach(module(serverModule));
@@ -249,15 +259,10 @@ describe('host profile then', () => {
   });
 
   describe('create host profiles', function () {
-    var socketStream, streams, waitForCommandCompletion, completionResult;
+    var socketStream, streams, profile, spy,
+      waitForCommandCompletion, completionResult;
 
-    beforeEach(module(function ($provide) {
-      completionResult = jasmine.createSpy('innerWait')
-        .and.returnValue(highland());
-      waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-        .and.returnValue(completionResult);
-      $provide.value('waitForCommandCompletion', waitForCommandCompletion);
-
+    beforeEachAsync(async function () {
       streams = [];
 
       socketStream = jasmine
@@ -268,18 +273,25 @@ describe('host profile then', () => {
 
           return stream;
         });
-      $provide.value('socketStream', socketStream);
-    }));
 
-    var profile, spy;
+      const mod = await mock('source/iml/server/create-host-profiles-stream.js', {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      });
 
-    beforeEach(inject(function ($q, createHostProfiles) {
+      completionResult = jasmine.createSpy('innerWait')
+        .and.returnValue(highland());
+      waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
+        .and.returnValue(completionResult);
+
+      const createHostProfiles = mod.createHostProfilesFactory(waitForCommandCompletion);
       profile = transformedHostProfileFixture[0];
 
       spy = jasmine.createSpy('spy');
       createHostProfiles(profile, false)
         .each(spy);
-    }));
+    });
+
+    afterEach(resetAll);
 
     it('should fetch the hosts', function () {
       expect(socketStream).toHaveBeenCalledOnceWith('/host', {

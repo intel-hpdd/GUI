@@ -19,8 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import socketStream from '../socket/socket-stream.js';
+
 export default function ConfirmServerActionModalCtrl ($scope, $uibModalInstance,
-                                         hosts, action, socketStream) {
+                                         hosts, action) {
   'ngInject';
 
   $scope.confirmServerActionModal = {

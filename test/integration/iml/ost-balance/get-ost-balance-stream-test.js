@@ -5,18 +5,20 @@ import ostBalanceModule from
   '../../../../source/iml/ost-balance/ost-balance-module';
 
 import * as fp from 'intel-fp';
-import {clone} from 'intel-obj';
-import {getOstBalanceStreamFactory}
-  from '../../../../source/iml/ost-balance/get-ost-balance-stream';
+import {
+  clone
+} from 'intel-obj';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('get OST balance stream', () => {
-  var socketStream, targetStream, ostMetricsStream;
+  var socketStream, targetStream, ostMetricsStream,
+    getOstBalanceStream, fixtures, revert;
 
-  beforeEach(module(ostBalanceModule));
-
-  var getOstBalanceStream, fixtures, revert;
-
-  beforeEach(inject(formatBytes => {
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake((path) => {
         if (path === '/target/metric')
@@ -25,16 +27,23 @@ describe('get OST balance stream', () => {
           return (targetStream = highland());
       });
 
-    getOstBalanceStream = getOstBalanceStreamFactory(socketStream, formatBytes);
+
+    const mod = await mock('source/iml/ost-balance/get-ost-balance-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getOstBalanceStream = mod.default;
 
     fixtures = ostBalanceDataFixtures;
 
     revert = patchRateLimit();
-  }));
-
-  afterEach(() => {
-    revert();
   });
+
+  beforeEach(module(ostBalanceModule));
+
+  afterEach(resetAll);
+
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getOstBalanceStream).toEqual(jasmine.any(Function));

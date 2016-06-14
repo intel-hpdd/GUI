@@ -27,7 +27,6 @@ import fileUsageModule from '../file-usage/file-usage-module';
 import spaceUsageModule from '../space-usage/space-usage-module';
 import mdoModule from '../mdo/mdo-module';
 import readWriteBandwidthModule from '../read-write-bandwidth/read-write-bandwidth-module';
-import socketModule from '../socket/socket-module';
 import highlandModule from '../highland/highland-module';
 import TargetDashboardController from './target-dashboard-controller';
 import {
@@ -40,7 +39,7 @@ import {
 export default angular
   .module('targetDashboard', [
     extendScopeModule, fileUsageModule, spaceUsageModule, mdoModule, readWriteBandwidthModule,
-    socketModule, highlandModule
+    highlandModule
   ])
   .controller('TargetDashboardController', TargetDashboardController)
   .factory('targetDashboardKind', targetDashboardKindFactory)

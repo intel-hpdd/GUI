@@ -20,12 +20,17 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {pick} from 'intel-obj';
+
+import socketStream from '../socket/socket-stream.js';
+
+import {
+  pick
+} from 'intel-obj';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import configureCorosyncTemplate from './assets/html/configure-corosync';
 
-export function ConfigureCorosyncController ($scope, socketStream, waitForCommandCompletion,
+export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
                                              propagateChange, insertHelpFilter) {
   'ngInject';
 

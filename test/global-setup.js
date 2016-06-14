@@ -113,75 +113,94 @@ beforeEach(() => {
 
 beforeEach(angular.mock.module(fixturesModule));
 
-(function () {
-  'use strict';
+window.λ = window.highland;
 
-  window.λ = window.highland;
+window.extendWithConstructor = (constructor, obj) => {
+  const scope = Object.create({}, {});
+  angular.extend(scope, obj);
+  Object.getPrototypeOf(scope).constructor = constructor;
 
-  window.extendWithConstructor = (constructor, obj) => {
-    const scope = Object.create({}, {});
-    angular.extend(scope, obj);
-    Object.getPrototypeOf(scope).constructor = constructor;
-
-    return scope;
+  return scope;
+};
+/**
+ * HOF. Allows equal expectation to take on a more
+ * fluent interface.
+ * @param {*} expected
+ * @returns {Function}
+ */
+window.expectToEqual = function expectToEqualWrap (expected) {
+  return function expectToEqual (val) {
+    expect(val).toEqual(expected);
   };
-  /**
-   * HOF. Allows equal expectation to take on a more
-   * fluent interface.
-   * @param {*} expected
-   * @returns {Function}
-   */
-  window.expectToEqual = function expectToEqualWrap (expected) {
-    return function expectToEqual (val) {
-      expect(val).toEqual(expected);
-    };
-  };
+};
 
-  /**
-   * Curried. Checks if a stream contains a collection
-   * with the given sub-item.
-   * @param {Function | Object | String} value
-   * @param {Highland.Stream} s
-   */
-  window.expectStreamToContainItem = curry(2, function expectStreamToContainItem (value, s) {
-    return s.each(x => expect(find(x, value)).toBeTruthy());
-  });
+/**
+ * Curried. Checks if a stream contains a collection
+ * with the given sub-item.
+ * @param {Function | Object | String} value
+ * @param {Highland.Stream} s
+ */
+window.expectStreamToContainItem = curry(2, function expectStreamToContainItem (value, s) {
+  return s.each(x => expect(find(x, value)).toBeTruthy());
+});
 
-  window.convertNvDates = function convertNvDates (s) {
-    return s.tap(map(function (item) {
-      item.values.forEach(function (value) {
-        value.x = value.x.toJSON();
-      });
-    }));
-  };
-
-  window.patchRateLimit = function patchRateLimit () {
-    var proto = Object.getPrototypeOf(highland());
-    var oldRateLimit = proto.ratelimit;
-
-    proto.ratelimit = function ratelimit () {
-      return this.tap(noop);
-    };
-
-    return function revert () {
-      proto.ratelimit = oldRateLimit;
-    };
-  };
-
-  window.flushD3Transitions = function flushD3Transitions () {
-    var now = Date.now;
-    Date.now = function () {
-      return Infinity;
-    };
-    window.d3.timer.flush();
-    Date.now = now;
-  };
-
-  window.beforeEachAsync = runAsync => {
-    beforeEach(done => {
-      runAsync()
-      .then(done)
-      .catch(done.fail);
+window.convertNvDates = function convertNvDates (s) {
+  return s.tap(map(function (item) {
+    item.values.forEach(function (value) {
+      value.x = value.x.toJSON();
     });
+  }));
+};
+
+window.patchRateLimit = function patchRateLimit () {
+  var proto = Object.getPrototypeOf(highland());
+  var oldRateLimit = proto.ratelimit;
+
+  proto.ratelimit = function ratelimit () {
+    return this.tap(noop);
   };
-}());
+
+  return function revert () {
+    proto.ratelimit = oldRateLimit;
+  };
+};
+
+window.flushD3Transitions = function flushD3Transitions () {
+  var now = Date.now;
+  Date.now = function () {
+    return Infinity;
+  };
+  window.d3.timer.flush();
+  Date.now = now;
+};
+
+window.beforeEachAsync = runAsync => {
+  beforeEach(done => {
+    runAsync()
+    .then(done)
+    .catch(done.fail);
+  });
+};
+
+window.itAsync = (desc, runAsync) => {
+  it(desc, done => {
+    runAsync()
+    .then(done)
+    .catch(done.fail);
+  });
+};
+
+let name = 'source/iml/socket-worker/get-web-worker.js';
+name = System.map[name] || name;
+name = System.normalizeSync(name);
+
+System.delete(name);
+System.set(name, System.newModule({
+  default: jasmine
+    .createSpy('getWebWorker')
+    .and
+    .returnValue({
+      addEventListener: jasmine.createSpy('addEventListener'),
+      postMessage: jasmine.createSpy('postMessage')
+    })
+}));

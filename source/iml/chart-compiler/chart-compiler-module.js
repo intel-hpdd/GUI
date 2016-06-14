@@ -30,7 +30,6 @@ import {
   chartCompilerDirective
 } from './chart-compiler-directive';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
-import socketModule from '../socket/socket-module';
 import highlandModule from '../highland/highland-module';
 
 import type {
@@ -41,7 +40,7 @@ export type scopeToElementT = (scope:Object) => HTMLElement[];
 export type chartCompilerT = (template:string, stream:HighlandStreamT<mixed>,
   fn:($scope:Object, stream:HighlandStreamT<mixed>) => Object) => Promise<scopeToElementT>;
 
-export default angular.module('chartCompiler', [getTemplatePromiseModule, socketModule, highlandModule])
+export default angular.module('chartCompiler', [getTemplatePromiseModule, highlandModule])
   .factory('chartCompiler', chartCompilerFactory)
   .directive('chartCompiler', chartCompilerDirective)
   .name;

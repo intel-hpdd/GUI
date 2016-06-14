@@ -1,22 +1,28 @@
-import hsmModule from '../../../../source/iml/hsm/hsm-module';
 import highland from 'highland';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('hsm resolve', () => {
   var s, resolveStream, getCopytoolOperationStream,
     getCopytoolStream, copytoolOperationStream, copytoolStream,
     $route;
 
-  beforeEach(module(hsmModule, ($provide) => {
-    s = highland();
-
+  beforeEachAsync(async function () {
     resolveStream = jasmine.createSpy('resolveStream');
-    $provide.value('resolveStream', resolveStream);
 
     getCopytoolOperationStream = jasmine.createSpy('getCopytoolOperationStream');
-    $provide.value('getCopytoolOperationStream', getCopytoolOperationStream);
-
     getCopytoolStream = jasmine.createSpy('getCopytoolStream');
-    $provide.value('getCopytoolStream', getCopytoolStream);
+
+    const mod = await mock('source/iml/hsm/hsm-resolves.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/hsm/get-copytool-operation-stream.js': { default: getCopytoolOperationStream },
+      'source/iml/hsm/get-copytool-stream.js': { default: getCopytoolStream }
+    });
+
+    s = highland();
 
     $route = {
       current: {
@@ -26,13 +32,11 @@ describe('hsm resolve', () => {
       }
     };
 
-    $provide.value('$route', $route);
-  }));
+    copytoolOperationStream = mod.copytoolOperationStream($route);
+    copytoolStream = mod.copytoolStream($route);
+  });
 
-  beforeEach(inject((_copytoolOperationStream_, _copytoolStream_) => {
-    copytoolOperationStream = _copytoolOperationStream_;
-    copytoolStream = _copytoolStream_;
-  }));
+  afterEach(resetAll);
 
   describe('copytoolOperationStream', () => {
     beforeEach(() => {

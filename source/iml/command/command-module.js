@@ -20,12 +20,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import socketModule from '../socket/socket-module';
 import extendScopeModule from '../extend-scope-module';
-import {CommandMonitorCtrl, commandMonitorFactory} from './command-monitor';
+import CommandMonitorCtrl from './command-monitor';
 import {CommandModalCtrl, openCommandModalFactory} from './command-modal-ctrl';
-import getCommandStreamFactory from './get-command-stream';
-import {DeferredCommandModalBtnCtrl} from './deferred-cmd-modal-btn-controller';
+import DeferredCommandModalBtnCtrl from './deferred-cmd-modal-btn-controller';
 import {deferredCmdModalBtnDirective} from './deferred-cmd-modal-btn-directive';
 import {JobTreeCtrl, getJobStreamFactory} from './job-tree-ctrl';
 import {StepModalCtrl, openStepModalFactory} from './step-modal-ctrl';
@@ -47,7 +45,7 @@ import jobStatesTemplate from './assets/html/job-states';
 import stepModalTemplate from './assets/html/step-modal';
 
 export default angular.module('command', [
-  socketModule, extendScopeModule,
+  extendScopeModule,
   commandModalTemplate, deferredCmdModalBtnTemplate,
   jobStatesTemplate, stepModalTemplate,
   commandMonitorTemplate, jobTemplate
@@ -64,8 +62,6 @@ export default angular.module('command', [
   .controller('CommandMonitorCtrl', CommandMonitorCtrl)
   .controller('CommandModalCtrl', CommandModalCtrl)
   .factory('openCommandModal', openCommandModalFactory)
-  .factory('commandMonitor', commandMonitorFactory)
-  .factory('getCommandStream', getCommandStreamFactory)
   .directive('deferredCmdModalBtn', deferredCmdModalBtnDirective)
   .controller('JobTreeCtrl', JobTreeCtrl)
   .factory('getJobStream', getJobStreamFactory)

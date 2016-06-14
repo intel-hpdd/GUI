@@ -32,8 +32,6 @@ import {
 }
   from './add-copytool-modal';
 import HsmCtrl from './hsm-controller';
-import getCopytoolOperationStreamFactory from './get-copytool-operation-stream';
-import getCopytoolStreamFactory from './get-copytool-stream';
 import hsmCdtStatusDirective from './hsm-cdt-status-directive';
 import {copytoolOperationStream, copytoolStream, agentVsCopytoolChartResolve} from './hsm-resolves';
 
@@ -117,7 +115,5 @@ export default angular.module('hsm', [
   .factory('copytoolOperationStream', copytoolOperationStream)
   .factory('copytoolStream', copytoolStream)
   .factory('agentVsCopytoolChartResolve', agentVsCopytoolChartResolve)
-  .factory('getCopytoolOperationStream', getCopytoolOperationStreamFactory)
-  .factory('getCopytoolStream', getCopytoolStreamFactory)
   .directive('hsmCdtStatus', hsmCdtStatusDirective)
   .name;

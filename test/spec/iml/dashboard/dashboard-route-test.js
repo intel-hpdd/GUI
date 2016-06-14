@@ -36,9 +36,9 @@ describe('dashboard route', () => {
         controllerAs: 'dashboard',
         templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/dashboard.js',
         resolve: {
-          fsStream: ['dashboardFsStream', jasmine.any(Function)],
-          hostStream: ['dashboardHostStream', jasmine.any(Function)],
-          targetStream: ['dashboardTargetStream', jasmine.any(Function)]
+          fsStream: jasmine.any(Function),
+          hostStream: jasmine.any(Function),
+          targetStream: jasmine.any(Function)
         },
         middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
         untilResolved: {

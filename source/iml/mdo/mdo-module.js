@@ -25,9 +25,8 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import {getMdoStreamFactory} from './get-mdo-stream';
+import getMdoStreamFactory from './get-mdo-stream';
 import {getMdoChartFactory} from './get-mdo-chart';
 import chartTransformersModule from '../chart-transformers/chart-transformers-module.js';
 
@@ -62,7 +61,7 @@ export type addMdoActionT = {
 
 export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule, mdoChartTemplate, chartTransformersModule
+  durationPickerModule, mdoChartTemplate, chartTransformersModule
 ])
   .factory('getMdoStream', getMdoStreamFactory)
   .factory('getMdoChart', getMdoChartFactory)

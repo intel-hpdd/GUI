@@ -1,32 +1,48 @@
 import highland from 'highland';
 
-import {curry, noop} from 'intel-fp';
+import {
+  curry,
+  noop
+} from 'intel-fp';
 
-import {ConfigureCorosyncController} from '../../../../source/iml/corosync/configure-corosync';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('configure corosync', () => {
+  var s, bindings, ctrl, $scope, socketStream, mod,
+    socketResponse, waitForCommandCompletion, insertHelpFilter;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine.createSpy('socketStream');
+
+    mod = await mock('source/iml/corosync/configure-corosync.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+  });
+
+  afterEach(resetAll);
+
   beforeEach(module('corosyncModule', 'highland', $exceptionHandlerProvider => {
     $exceptionHandlerProvider.mode('log');
   }));
 
   describe('controller', () => {
-    var s, bindings, ctrl, $scope, socketStream,
-      socketResponse, waitForCommandCompletion, insertHelpFilter;
-
     beforeEach(inject(($controller, $rootScope, addProperty) => {
       $scope = $rootScope.$new();
-
-      socketResponse = highland();
-      socketStream = jasmine.createSpy('socketStream')
-        .and
-        .returnValue(
-          socketResponse.through(addProperty)
-        );
 
       waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
         .and.callFake((bool, x) => {
           return [x];
         });
+
+      socketResponse = highland();
+      socketStream
+        .and
+        .returnValue(
+          socketResponse.through(addProperty)
+        );
 
       s = highland();
       spyOn(s, 'destroy');
@@ -42,10 +58,9 @@ describe('configure corosync', () => {
       insertHelpFilter = jasmine.createSpy('insertHelpFilter');
 
       ctrl = $controller(
-        'ConfigureCorosyncController',
+        mod.ConfigureCorosyncController,
         {
           $scope,
-          socketStream,
           insertHelpFilter,
           waitForCommandCompletion: curry(2, waitForCommandCompletion)
         },
@@ -72,20 +87,17 @@ describe('configure corosync', () => {
     });
 
     it('should setup the controller as expected', () => {
+
       expect(ctrl)
-        .toEqual(
-          window.extendWithConstructor(
-            ConfigureCorosyncController,
-            {
-              stream: jasmine.any(Object),
-              alertStream: jasmine.any(Object),
-              jobStream: jasmine.any(Object),
-              observer: jasmine.any(Object),
-              getDiffMessage: jasmine.any(Function),
-              save: jasmine.any(Function)
-            }
-          )
-        );
+        .toEqual(window.extendWithConstructor(
+          mod.ConfigureCorosyncController, {
+            stream: jasmine.any(Object),
+            alertStream: jasmine.any(Object),
+            jobStream: jasmine.any(Object),
+            observer: jasmine.any(Object),
+            getDiffMessage: jasmine.any(Function),
+            save: jasmine.any(Function)
+          }));
     });
 
     it('should invoke insertHelpFilter on a diff', () => {

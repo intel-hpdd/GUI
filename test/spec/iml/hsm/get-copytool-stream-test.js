@@ -1,22 +1,27 @@
-import λ from 'highland';
-import hsmModule from '../../../../source/iml/hsm/hsm-module';
+import highland from 'highland';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('get copytool stream', () => {
-  var socketStream, stream;
+  var socketStream, stream, getCopytoolStream;
 
-  beforeEach(module(hsmModule, ($provide) => {
-    stream = λ();
+  beforeEachAsync(async function () {
+    stream = highland();
 
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(stream);
-    $provide.value('socketStream', socketStream);
-  }));
 
-  var getCopytoolStream;
+    const mod = await mock('source/iml/hsm/get-copytool-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-  beforeEach(inject((_getCopytoolStream_) => {
-    getCopytoolStream = _getCopytoolStream_;
-  }));
+    getCopytoolStream = mod.default;
+  });
+
+  afterEach(resetAll);
 
   it('should get a stream', () => {
     getCopytoolStream();

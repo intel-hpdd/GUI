@@ -1,11 +1,19 @@
-import {noop, curry} from 'intel-fp';
 import highland from 'highland';
 
+import {
+  noop,
+  curry
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('socket stream', () => {
-  var getEventSocket, socket, spy;
+  var getEventSocket, socket, spy, socketStream;
 
-  beforeEach(module('socket-module', $provide => {
+  beforeEachAsync(async function () {
     socket = {
       connect: jasmine.createSpy('connect'),
       end: jasmine.createSpy('end'),
@@ -15,17 +23,19 @@ describe('socket stream', () => {
 
     spy = jasmine.createSpy('spy');
 
-    getEventSocket = jasmine.createSpy('getEventSocket')
-      .and.returnValue(socket);
+    getEventSocket = jasmine
+      .createSpy('getEventSocket')
+      .and
+      .returnValue(socket);
 
-    $provide.value('getEventSocket', getEventSocket);
-  }));
+    const socketStreamModule = await mock('source/iml/socket/socket-stream.js', {
+      'source/iml/socket-worker/get-event-socket.js': { default: getEventSocket }
+    });
 
-  var socketStream;
+    socketStream = socketStreamModule.default;
+  });
 
-  beforeEach(inject(_socketStream_ => {
-    socketStream = _socketStream_;
-  }));
+  afterEach(resetAll);
 
   it('should be a function', () => {
     expect(socketStream).toEqual(jasmine.any(Function));

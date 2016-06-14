@@ -1,11 +1,32 @@
 import serverModule from '../../../../source/iml/server/server-module';
-import λ from 'highland';
+import highland from 'highland';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Confirm server action modal', () => {
   beforeEach(module(serverModule));
 
   var $scope, $uibModalInstance, hosts, convertedJob,
-    action, socketStream, stream, confirmServer;
+    action, socketStream, stream, confirmServer,
+    ConfirmServerActionModalCtrl;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine.createSpy('socketStream')
+      .and.callFake(() => {
+        return (stream = highland());
+      });
+
+    const mod = await mock('source/iml/server/confirm-server-action-modal-ctrl.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    ConfirmServerActionModalCtrl = mod.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(inject(($rootScope, $controller) => {
     $scope = $rootScope.$new();
@@ -31,17 +52,11 @@ describe('Confirm server action modal', () => {
         .and.returnValue(convertedJob)
     };
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => {
-        return (stream = λ());
-      });
-
-    $controller('ConfirmServerActionModalCtrl', {
+    $controller(ConfirmServerActionModalCtrl, {
       $scope,
       $uibModalInstance,
       hosts,
-      action,
-      socketStream
+      action
     });
 
     confirmServer = $scope.confirmServerActionModal;

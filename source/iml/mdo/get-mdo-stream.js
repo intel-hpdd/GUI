@@ -19,10 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {lensProp, over, map} from 'intel-fp';
-import {reduce} from 'intel-obj';
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
-export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
+
+import {
+  lensProp,
+  over,
+  map
+} from 'intel-fp';
+
+import {
+  reduce
+} from 'intel-obj';
+
+
+export default function getMdoStreamFactory (chartPlugins) {
   'ngInject';
 
   const alwaysObjectLiteral = () => { return {}; };
@@ -55,7 +67,7 @@ export function getMdoStreamFactory (λ, socketStream, chartPlugins) {
     .join(',');
 
   return function getMdoStream (requestRange, buff) {
-    const s = λ((push, next) => {
+    const s = highland((push, next) => {
       var params = requestRange({
         qs: {
           reduce_fn: 'sum',

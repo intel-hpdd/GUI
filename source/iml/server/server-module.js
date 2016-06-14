@@ -38,7 +38,6 @@ import filtersModule from '../filters/filters-module';
 import lnetModule from '../lnet/lnet-module';
 import corosyncModule from '../corosync/corosync-module';
 import pacemakerModule from '../pacemaker/pacemaker-module';
-import socketModule from '../socket/socket-module';
 import commandModule from '../command/command-module';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module';
 import jobIndicatorModule from '../job-indicator/job-indicator-module';
@@ -61,13 +60,11 @@ import {getHostProfilesFactory, createHostProfilesFactory} from './create-host-p
 import {addServerStepsFactory, getAddServerManagerFactory} from './get-add-server-manager';
 import getTestHostStreamFactory from './get-test-host-stream';
 import hostlistFilterFactory from './hostlist-filter';
-import {ServerStatusStepCtrl, serverStatusStepFactory} from './server-status-step';
+import {ServerStatusStepCtrl, serverStatusStep} from './server-status-step';
 import {waitUntilLoadedCtrl, waitUntilLoadedStep} from './wait-until-loaded-step';
 import serverDetailResolvesFactory from './server-detail-resolves';
-import serversToApiObjectsFactory from './servers-to-api-objects';
-import createOrUpdateHostsStreamFactory from './create-or-update-hosts-stream';
-import serverStream from './server-stream';
-import serverDispatchSource from './server-dispatch-source.js';
+import serversToApiObjects from './servers-to-api-objects';
+import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import addServerModalTemplate from './assets/html/add-server-modal';
@@ -91,7 +88,7 @@ import serverStatusStepTemplate from './assets/html/server-status-step';
 import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step';
 
 export default angular.module('server', [pdshModule, filtersModule, lnetModule,
-    corosyncModule, pacemakerModule, socketModule, commandModule, actionDropdownModule,
+    corosyncModule, pacemakerModule, commandModule, actionDropdownModule,
     jobIndicatorModule, alertIndicatorModule, stepsModule,
     extendScopeModule, highlandModule, asValueModule, asStreamModule,
     addServerStepTemplate, overrideButtonTemplate, uiBootstrapModule,
@@ -127,16 +124,14 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .factory('getHostProfiles', getHostProfilesFactory)
   .factory('createHostProfiles', createHostProfilesFactory)
   .factory('addServerSteps', addServerStepsFactory)
-  .factory('createOrUpdateHostsStream', createOrUpdateHostsStreamFactory)
+  .value('createOrUpdateHostsStream', createOrUpdateHostsStream)
   .factory('getAddServerManager', getAddServerManagerFactory)
   .factory('getTestHostStream', getTestHostStreamFactory)
   .factory('hostlistFilter', hostlistFilterFactory)
   .controller('ServerStatusStepCtrl', ServerStatusStepCtrl)
-  .factory('serverStatusStep', serverStatusStepFactory)
+  .value('serverStatusStep', serverStatusStep)
   .controller('WaitUntilLoadedCtrl', waitUntilLoadedCtrl)
   .factory('waitUntilLoadedStep', waitUntilLoadedStep)
   .factory('serverDetailResolves', serverDetailResolvesFactory)
-  .factory('serversToApiObjects', serversToApiObjectsFactory)
-  .factory('serverStream', serverStream)
-  .factory('serverDispatchSource', serverDispatchSource)
+  .value('serversToApiObjects', serversToApiObjects)
   .name;

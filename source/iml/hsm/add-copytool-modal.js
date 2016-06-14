@@ -21,10 +21,13 @@
 
 import angular from 'angular';
 
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import addCopytoolModalTemplate from './assets/html/add-copytool-modal';
 
-export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, socketStream, fsStream) {
+export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, fsStream) {
   'ngInject';
 
   var addCopytoolModalCtrl = this;
@@ -69,14 +72,14 @@ export function openAddCopytoolModalFactory ($uibModal) {
       backdrop: 'static',
       windowClass: 'add-copytool-modal',
       resolve: {
-        fsStream (resolveStream, socketStream) {
+        fsStream () {
           'ngInject';
 
           return resolveStream(socketStream('/filesystem', {
             jsonMask: 'objects(resource_uri,label)'
           }));
         },
-        workerStream (resolveStream, socketStream) {
+        workerStream () {
           'ngInject';
 
           return resolveStream(socketStream('/host', {

@@ -9,16 +9,16 @@ describe('chart compiler', () => {
 
   beforeEach(module(chartCompilerModule));
 
-  beforeEach(inject(($compile, $q, resolveStream, addProperty, rebindDestroy) => {
+  beforeEach(inject(($compile, addProperty, rebindDestroy) => {
     s = λ();
 
     chartFn = jasmine.createSpy('chartFn')
       .and.returnValue('chartObj');
 
     getTemplatePromise = jasmine.createSpy('getTemplatePromise')
-      .and.returnValue($q.when('<div class="template">foo</div>'));
+      .and.returnValue(Promise.resolve('<div class="template">foo</div>'));
 
-    chartCompiler = chartCompilerFactory($compile, $q, getTemplatePromise, resolveStream,
+    chartCompiler = chartCompilerFactory($compile, getTemplatePromise,
       addProperty, rebindDestroy);
     compilerPromise = chartCompiler('template/path', s, chartFn);
   }));
@@ -41,14 +41,15 @@ describe('chart compiler', () => {
       $scope, s1, s2, spy;
 
     beforeEach(inject(($rootScope) => {
+      $scope = $rootScope.$new();
+    }));
+
+    beforeEachAsync(async function () {
       spy = jasmine.createSpy('spy');
 
       s.write('foo');
 
-      compilerPromise
-        .then((c) => compiler = c);
-
-      $scope = $rootScope.$new();
+      compiler = await compilerPromise;
 
       $scope.$digest();
 
@@ -56,7 +57,7 @@ describe('chart compiler', () => {
       s1 = chartFn.calls.mostRecent().args[1];
       node = compiler($scope);
       s2 = chartFn.calls.mostRecent().args[1];
-    }));
+    });
 
     it('should work when compile called again', () => {
       expect(node).toHaveClass('template');
@@ -101,17 +102,18 @@ describe('chart compiler', () => {
     var node, compiler, $scope;
 
     beforeEach(inject(($rootScope) => {
+      $scope = $rootScope.$new();
+    }));
+
+    beforeEachAsync(async function () {
       s.write('foo');
 
-      compilerPromise
-        .then((c) => compiler = c);
-
-      $scope = $rootScope.$new();
+      compiler = await compilerPromise;
 
       $scope.$digest();
 
       node = compiler($scope);
-    }));
+    });
 
     it('should be a compiled element', () => {
       expect(node).toHaveClass('template');

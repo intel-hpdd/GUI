@@ -1,40 +1,52 @@
-import hsmFsModule from
-  '../../../../source/iml/hsm/hsm-fs-module';
 
-import λ from 'highland';
-import {identity} from 'intel-fp';
+import highland from 'highland';
+
+import {
+  identity
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('hsm fs resolve', () => {
   var socketStream, s, resolveStream, fsCollStream,
-    addProperty, $q, $rootScope;
+    addProperty, promise;
 
-  beforeEach(module(hsmFsModule, ($provide) => {
-    s = λ();
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(s);
-    $provide.value('socketStream', socketStream);
+  beforeEachAsync(async function () {
+    s = highland();
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .returnValue(s);
 
-    resolveStream = jasmine.createSpy('resolveStream');
-    $provide.value('resolveStream', resolveStream);
+    promise = Promise.resolve(s);
 
-    addProperty = jasmine.createSpy('addProperty')
-      .and.callFake(identity);
+    resolveStream = jasmine
+      .createSpy('resolveStream')
+      .and
+      .returnValue(promise);
 
-    $provide.value('addProperty', addProperty);
-  }));
+    addProperty = jasmine
+      .createSpy('addProperty')
+      .and
+      .callFake(identity);
 
-  beforeEach(inject((_hsmFsCollStream_, _$q_, _$rootScope_) => {
-    fsCollStream = _hsmFsCollStream_;
-    $q = _$q_;
-    $rootScope = _$rootScope_;
+    const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/highland/add-property.js': { default: addProperty }
+    });
 
-    resolveStream.and.returnValue($q.when(s));
-  }));
+    fsCollStream = mod.default;
+  });
+
+  afterEach(resetAll);
 
   describe('fsCollStream', () => {
     beforeEach(() => {
       fsCollStream();
-      $rootScope.$digest();
     });
 
     it('should invoke socketStream with a call to filesystem', () => {
@@ -47,7 +59,9 @@ describe('hsm fs resolve', () => {
       expect(resolveStream).toHaveBeenCalledOnceWith(s);
     });
 
-    it('should send the stream through addProperty', () => {
+    itAsync('should send the stream through addProperty', async function () {
+      await promise;
+
       expect(addProperty).toHaveBeenCalledOnce();
     });
   });

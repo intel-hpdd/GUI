@@ -1,31 +1,52 @@
 import highland from 'highland';
-import {mock, resetAll} from '../../../system-mock.js';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('job indicator dispatch source', () => {
-  let store, jobIndicatorStream;
+  let store, socketStream, stream;
 
   beforeEachAsync(async function () {
-    jobIndicatorStream = highland();
-
     store = {
       dispatch: jasmine.createSpy('dispatch')
     };
 
-    const jobIndicatorDispatchFactory = await mock('source/iml/job-indicator/job-indicator-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store }
-    });
+    stream = highland();
+    socketStream = jasmine.createSpy('socketStream')
+      .and.returnValue(stream);
 
-    jobIndicatorDispatchFactory.default(jobIndicatorStream);
+    await mock('source/iml/job-indicator/job-indicator-dispatch-source.js', {
+      'source/iml/store/get-store.js': { default: store },
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/environment.js': {
+        ALLOW_ANONYMOUS_READ: true
+      }
+    });
   });
 
   afterEach(resetAll);
 
-  it('should update jobs when new items arrive from a persistent socket', () => {
-    jobIndicatorStream.write(['more jobs']);
+  it('should request pending and tasked jobs', () => {
+    expect(socketStream)
+      .toHaveBeenCalledOnceWith('/job/', {
+        jsonMask: 'objects(write_locks,read_locks,description)',
+        qs: {
+          limit: 0,
+          state__in: ['pending', 'tasked']
+        }
+      });
+  });
+
+  it('should pluck objects out of the stream', () => {
+    stream.write({
+      meta: 'meta',
+      objects: [{ foo: 'bar' }]
+    });
 
     expect(store.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_JOB_INDICATOR_ITEMS',
-      payload: ['more jobs']
+      payload: [{ foo: 'bar' }]
     });
   });
 });

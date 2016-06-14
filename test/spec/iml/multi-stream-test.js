@@ -1,14 +1,11 @@
 import {curry} from 'intel-fp';
 import highland from 'highland';
-import multiStreamModule from '../../../../source/iml/multi-stream/multi-stream-module';
+import multiStream from '../../../source/iml/multi-stream.js';
 
 describe('multi stream', () => {
-  beforeEach(module(multiStreamModule));
+  var spy, errSpy, s1, s2, ms;
 
-  var multiStream, spy, errSpy, s1, s2, ms;
-
-  beforeEach(inject(function (_multiStream_) {
-    multiStream = _multiStream_;
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
     errSpy = jasmine.createSpy('errSpy');
 
@@ -20,7 +17,7 @@ describe('multi stream', () => {
     ms
       .stopOnError(curry(1, errSpy))
       .each(spy);
-  }));
+  });
 
   it('should be a function', function () {
     expect(multiStream).toEqual(jasmine.any(Function));

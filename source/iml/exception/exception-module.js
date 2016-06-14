@@ -25,7 +25,6 @@ import angular from 'angular';
 import modelFactoryModule from '../model-factory/model-factory-module';
 import filtersModule from '../filters/filters-module';
 import windowUnloadModule from '../window-unload/window-unload-module';
-import socketModule from '../socket/socket-module';
 import environment from '../environment-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import exceptionHandlerConfig from './exception-handler';
@@ -40,7 +39,7 @@ import {
 export default angular.module('exceptionModule', [
   uiBootstrapModule, modelFactoryModule,
   filtersModule, windowUnloadModule,
-  socketModule, environment
+  environment
 ])
 .config(exceptionHandlerConfig)
 .config($httpProvider => {
@@ -52,5 +51,5 @@ export default angular.module('exceptionModule', [
 .factory('exceptionModal', exceptionModalFactory)
 .controller('ExceptionModalCtrl', ExceptionModalCtrl)
 .value('stackTraceContainsLineNumber', stackTraceContainsLineNumbers)
-.factory('sendStackTraceToRealTime', sendStackTraceToRealTime)
+.value('sendStackTraceToRealTime', sendStackTraceToRealTime)
 .name;

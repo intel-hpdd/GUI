@@ -1,19 +1,37 @@
 import highland from 'highland';
 
-import statusModule from  '../../../../source/iml/status/status-module';
+import statusModule from  '../../../../source/iml/status/status-module.js';
 
-import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import {
+  flow,
+  lensProp,
+  view,
+  invokeMethod
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('deferred action dropdown', () => {
-  var socketStream, s;
+  var socketStream, s, mod;
 
-  beforeEach(module(statusModule, $provide => {
+  beforeEachAsync(async function () {
     s = highland();
-
     socketStream = jasmine.createSpy('socketStream')
       .and.returnValue(s);
-    $provide.value('socketStream', socketStream);
+
+    mod = await mock('source/iml/status/deferred-action-dropdown.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+  });
+
+  beforeEach(module(statusModule, ($controllerProvider) => {
+    $controllerProvider.register('DeferredActionDropdownCtrl', mod.DeferredActionDropdownCtrl);
   }));
+
+  afterEach(resetAll);
 
   var el, $scope, qs, actionDropdown,
     dropdownButton, loadingButton,

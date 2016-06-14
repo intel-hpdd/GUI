@@ -1,18 +1,30 @@
 import _ from 'intel-lodash-mixins';
 import highland from 'highland';
 import exceptionModule from '../../../../source/iml/exception/exception-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Exception modal controller', () => {
   var $scope, createController, getMessage, plainError, responseError,
     stackTraceContainsLineNumber, sendStackTraceToRealTime, s,
-    reverseStream, socketStream;
+    reverseStream, socketStream, mod;
 
-  beforeEach(module(exceptionModule, function ($provide) {
+  beforeEachAsync(async () => {
     reverseStream = highland();
 
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(reverseStream);
-    $provide.value('socketStream', socketStream);
-  }));
+    socketStream = jasmine.createSpy('socketStream')
+      .and.returnValue(reverseStream);
+
+    mod = await mock('source/iml/exception/exception-modal-controller.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(exceptionModule));
 
   beforeEach(inject(function ($rootScope, $controller) {
     $scope = $rootScope.$new();
@@ -47,7 +59,7 @@ describe('Exception modal controller', () => {
         stackTraceContainsLineNumber: stackTraceContainsLineNumber
       }, deps);
 
-      $controller('ExceptionModalCtrl', deps);
+      $controller(mod.ExceptionModalCtrl, deps);
     };
 
     getMessage = function getMessage (name) {
@@ -57,7 +69,7 @@ describe('Exception modal controller', () => {
     };
   }));
 
-  it('should convert a string cause to a message', function () {
+  it('should convert a string cause to a message', () => {
     plainError.cause = 'fooz';
 
     createController({
@@ -67,7 +79,7 @@ describe('Exception modal controller', () => {
     expect(getMessage('cause')).toEqual({name: 'cause', value: 'fooz'});
   });
 
-  it('should return the expected messages for a plain error', function () {
+  it('should return the expected messages for a plain error', () => {
     //Patch the stack as it becomes inconsistent as it's moved around.
     plainError.stack = 'ERROOR!';
 
@@ -81,7 +93,7 @@ describe('Exception modal controller', () => {
     ]);
   });
 
-  it('should return the expected messages for a response error', function () {
+  it('should return the expected messages for a response error', () => {
     //Patch the stack as it becomes inconsistent as it's moved around.
     responseError.stack = 'ERROOR!';
 
@@ -101,7 +113,7 @@ describe('Exception modal controller', () => {
     ]);
   });
 
-  it('should not throw when handling a plain error', function () {
+  it('should not throw when handling a plain error', () => {
     function create () {
       createController({cause: null, exception: plainError});
     }
@@ -109,34 +121,34 @@ describe('Exception modal controller', () => {
     expect(create).not.toThrow();
   });
 
-  describe('handling non-strings when expecting multiline', function () {
+  describe('handling non-strings when expecting multiline', () => {
     var create;
 
-    beforeEach(function () {
+    beforeEach(() => {
       responseError.stack = 5;
 
-      create = function () {
+      create = () => {
         createController({cause: null, exception: responseError});
       };
     });
 
-    it('should handle non-strings when expecting a multiline one', function () {
+    it('should handle non-strings when expecting a multiline one', () => {
       expect(create).not.toThrow();
     });
 
-    it('should print the string representation of the value', function () {
+    it('should print the string representation of the value', () => {
       create();
 
       expect(getMessage('Client Stack Trace')).toEqual({name: 'Client Stack Trace', value: '5'});
     });
   });
 
-  describe('circular references', function () {
-    beforeEach(function () {
+  describe('circular references', () => {
+    beforeEach(() => {
       responseError.response.config.data.foo = responseError.response;
     });
 
-    it('should not throw when handling a circular reference', function () {
+    it('should not throw when handling a circular reference', () => {
       function create () {
         createController({cause: null, exception: responseError});
       }
@@ -144,15 +156,15 @@ describe('Exception modal controller', () => {
       expect(create).not.toThrow();
     });
 
-    it('should return the string representation of the cyclic structure', function () {
+    it('should return the string representation of the cyclic structure', () => {
       createController({cause: null, exception: responseError});
 
       expect(getMessage('data')).toEqual({name: 'data', value: '[object Object]'});
     });
   });
 
-  describe('stack trace format from server', function () {
-    beforeEach(function () {
+  describe('stack trace format from server', () => {
+    beforeEach(() => {
       plainError.statusCode = '400';
 
       createController({
@@ -161,68 +173,68 @@ describe('Exception modal controller', () => {
       });
     });
 
-    it('should add the status code to the output', function () {
+    it('should add the status code to the output', () => {
       expect(getMessage('Status Code')).toEqual({
         name: 'Status Code',
         value: '400'
       });
     });
 
-    it('should not call sendStackTraceToRealTime', function () {
+    it('should not call sendStackTraceToRealTime', () => {
       expect(sendStackTraceToRealTime).not.toHaveBeenCalled();
     });
 
-    it('should have a loadingStack value of undefined', function () {
+    it('should have a loadingStack value of undefined', () => {
       expect($scope.exceptionModal.loadingStack).toEqual(undefined);
     });
   });
 
-  describe('stack trace format in production mode', function () {
-    beforeEach(function () {
+  describe('stack trace format in production mode', () => {
+    beforeEach(() => {
       createController({
         cause: 'fooz',
         exception: plainError
       });
     });
 
-    describe('before resolving', function () {
-      it('should call stackTraceContainsLineNumber', function () {
+    describe('before resolving', () => {
+      it('should call stackTraceContainsLineNumber', () => {
         expect(stackTraceContainsLineNumber).toHaveBeenCalled();
       });
 
-      it('should call sendStackTraceToRealTime', function () {
+      it('should call sendStackTraceToRealTime', () => {
         expect(sendStackTraceToRealTime).toHaveBeenCalled();
       });
 
-      it('should have a loadingStack value of true', function () {
+      it('should have a loadingStack value of true', () => {
         expect($scope.exceptionModal.loadingStack).toEqual(true);
       });
     });
 
-    describe('after de-uglifying', function () {
+    describe('after de-uglifying', () => {
       var formattedStackTrace = 'formattedStackTrace';
 
-      beforeEach(function () {
+      beforeEach(() => {
         s.write({ stack: formattedStackTrace });
         s.end();
       });
 
-      it('should have a loadingStack value of false', function () {
+      it('should have a loadingStack value of false', () => {
         expect($scope.exceptionModal.loadingStack).toEqual(false);
       });
 
-      it('should have the formatted stack trace', function () {
+      it('should have the formatted stack trace', () => {
         expect(_.find($scope.exceptionModal.messages, { name: 'Client Stack Trace' }).value)
           .toEqual(formattedStackTrace);
       });
     });
   });
 
-  describe('stack trace contains line number factory', function () {
+  describe('stack trace contains line number factory', () => {
     var stackTraceContainsLineNumberFactory;
-    beforeEach(inject(function (_stackTraceContainsLineNumber_) {
-      stackTraceContainsLineNumberFactory = _stackTraceContainsLineNumber_;
-    }));
+    beforeEach(() => {
+      stackTraceContainsLineNumberFactory = mod.stackTraceContainsLineNumbers;
+    });
 
     [
       {stack: 'at some-file-location/file.js:85:13'},
@@ -230,9 +242,9 @@ describe('Exception modal controller', () => {
       {stack: 'at some-file-location/file.js:85:13 '},
       {stack: 'at some-file-location/file.js:85:13adsf'},
       {stack: 'some-file-location/file.js:85:13 more text'}
-    ].forEach(function checkForLineAndColumnNumbers (stack) {
-      describe('contains line number', function () {
-        it('should indicate that ' + stack.stack + ' contains line numbers and columns', function () {
+    ].forEach(stack => {
+      describe('contains line number', () => {
+        it('should indicate that ' + stack.stack + ' contains line numbers and columns', () => {
           expect(stackTraceContainsLineNumberFactory(stack)).toEqual(true);
         });
       });
@@ -242,20 +254,20 @@ describe('Exception modal controller', () => {
       {stack: 'at some-file-location/file.js:85'},
       {stack: 'at some-file-location/file.js:85:'},
       {stack: 'at some-file-location/file.js:8513'}
-    ].forEach(function checkForLineAndColumnNumbers (stack) {
-      describe('does not contain line number', function () {
-        it('should indicate that ' + stack.stack + ' doesn\'t contain both line and column numbers', function () {
+    ].forEach(stack => {
+      describe('does not contain line number', () => {
+        it('should indicate that ' + stack.stack + ' doesn\'t contain both line and column numbers', () => {
           expect(stackTraceContainsLineNumberFactory(stack)).toEqual(false);
         });
       });
     });
   });
 
-  describe('send stack trace to real time factory', function () {
+  describe('send stack trace to real time factory', () => {
     var exception, sendStackTraceToRealTime, result;
 
-    beforeEach(inject(function (_sendStackTraceToRealTime_) {
-      sendStackTraceToRealTime = _sendStackTraceToRealTime_;
+    beforeEach(() => {
+      sendStackTraceToRealTime = mod.sendStackTraceToRealTime;
 
       exception = {
         cause: 'cause',
@@ -265,9 +277,9 @@ describe('Exception modal controller', () => {
       };
 
       result = sendStackTraceToRealTime(exception);
-    }));
+    });
 
-    it('should send the request', function () {
+    it('should send the request', () => {
       expect(socketStream).toHaveBeenCalledOnceWith('/srcmap-reverse', {
         method: 'post',
         cause: exception.cause,
@@ -277,7 +289,7 @@ describe('Exception modal controller', () => {
       }, true);
     });
 
-    it('should return a stream', function () {
+    it('should return a stream', () => {
       expect(highland.isStream(result)).toBe(true);
     });
 
@@ -299,12 +311,12 @@ describe('Exception modal controller', () => {
         expected: 'stack'
       }
     ].forEach(function testProcessResponse (data) {
-      describe('and process response', function () {
-        it(data.message + ' set the exception.stack to response.data', function () {
+      describe('and process response', () => {
+        it(data.message + ' set the exception.stack to response.data', () => {
           reverseStream.write(data.response);
           reverseStream.end();
 
-          result.each(function verifyResolvedStackTrace (updatedException) {
+          result.each(updatedException => {
             expect(updatedException.stack).toEqual(data.expected);
           });
         });
