@@ -3,33 +3,45 @@ import * as obj from 'intel-obj';
 const origDeps = {};
 
 export function mock (name, mocks) {
-  name = System.map[name] || name;
-
   const objReducer = obj.reduce(() => ({}));
 
   mocks = objReducer((val, key, out) => {
-    key = System.map[key] || key;
-    key = System.normalizeSync(key);
-
-    out[key] = val;
+    out[normalizeName(key)] = val;
 
     return out;
   }, mocks);
 
-  objReducer((val, key) => {
+  const promises = obj.reduce([], (val, key, out) => {
     if (origDeps[key])
       throw new Error(`${key} needs to be reset before mocking`);
 
-    origDeps[key] = System.get(key);
+    out.push(
+        getOrImport(key)
+        .then(m => origDeps[key] = m)
+        .then(() => System.delete(key))
+        .then(() => System.set(key, System.newModule(val)))
+    );
 
-    System.delete(key);
-    System.set(key, System.newModule(val));
+    return out;
   }, mocks);
 
-  const normalizedName = System.normalizeSync(name);
-  origDeps[normalizedName] = System.get(normalizedName);
-  System.delete(normalizedName);
-  return System.import(name);
+  const normalizedName = normalizeName(name);
+  return Promise.all(promises)
+    .then(() => getOrImport(normalizedName))
+    .then(m => origDeps[normalizedName] = m)
+    .then(() => System.delete(normalizedName))
+    .then(() => System.import(normalizedName));
+}
+
+function getOrImport (name) {
+  const existingModule = System.get(name);
+
+  return existingModule ? Promise.resolve(existingModule) : System.import(name);
+}
+
+function normalizeName (name) {
+  name = System.map[name] || name;
+  return System.normalizeSync(name);
 }
 
 export function reset (name) {
