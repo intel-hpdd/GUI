@@ -21,9 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  ADD_ALERT_INDICATOR_ITEMS
-} from './alert-indicator-module.js';
+
+export const ADD_ALERT_INDICATOR_ITEMS = 'ADD_ALERT_INDICATOR_ITEMS';
 
 import type {
   ActionT

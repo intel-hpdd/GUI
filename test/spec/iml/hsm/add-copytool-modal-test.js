@@ -1,14 +1,32 @@
 import highland from 'highland';
-import {AddCopytoolModalCtrl} from '../../../../source/iml/hsm/add-copytool-modal';
 import hsmModule from '../../../../source/iml/hsm/hsm-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('Add copytool modal', () => {
+  var $scope, addCopytoolModalCtrl, s, AddCopytoolModalCtrl, mod,
+    $uibModalInstance, socketStream, workerStream, fsStream, resolveStream;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine.createSpy('socketStream');
+    resolveStream = jasmine.createSpy('resolveStream');
+
+    mod = await mock('source/iml/hsm/add-copytool-modal.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    AddCopytoolModalCtrl = mod.AddCopytoolModalCtrl;
+  });
+
+  afterEach(resetAll);
+
   beforeEach(module(hsmModule));
 
   describe('add copytool modal controller', () => {
-    var $scope, addCopytoolModalCtrl, s,
-      $uibModalInstance, socketStream, workerStream, fsStream;
-
     beforeEach(inject(($controller, $rootScope) => {
       $scope = $rootScope.$new();
 
@@ -17,15 +35,14 @@ describe('Add copytool modal', () => {
       };
 
       s = highland();
-
-      socketStream = jasmine.createSpy('socketStream')
+      socketStream
         .and.returnValue(s);
 
       workerStream = highland();
 
       fsStream = highland();
 
-      addCopytoolModalCtrl = $controller('AddCopytoolModalCtrl', {
+      addCopytoolModalCtrl = $controller(AddCopytoolModalCtrl, {
         $scope,
         $uibModalInstance,
         λ: highland,
@@ -93,9 +110,9 @@ describe('Add copytool modal', () => {
   });
 
   describe('open', () => {
-    var $uibModal, openResult;
+    var $uibModal, openResult, result;
 
-    beforeEach(module(($provide) => {
+    beforeEach(() => {
 
       openResult = {
         result: jasmine.createSpy('result')
@@ -105,14 +122,8 @@ describe('Add copytool modal', () => {
           .and.returnValue(openResult)
       };
 
-      $provide.value('$uibModal', $uibModal);
-    }));
-
-    var result;
-
-    beforeEach(inject((openAddCopytoolModal) => {
-      result = openAddCopytoolModal();
-    }));
+      result = mod.openAddCopytoolModalFactory($uibModal)();
+    });
 
     it('should return the result', () => {
       expect(result).toEqual(openResult.result);
@@ -132,14 +143,16 @@ describe('Add copytool modal', () => {
     });
 
     describe('resolving deps', () => {
-      var resolveStream, socketStream, getResolve, s, rs;
+      var getResolve, s, rs;
 
       beforeEach(() => {
         s = {};
-        socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+        socketStream
+          .and.returnValue(s);
 
         rs = {};
-        resolveStream = jasmine.createSpy('resolveStream').and.returnValue(rs);
+        resolveStream
+          .and.returnValue(rs);
 
         getResolve = (name) => $uibModal.open.calls.mostRecent().args[0].resolve[name];
       });

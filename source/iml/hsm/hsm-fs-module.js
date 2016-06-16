@@ -27,13 +27,10 @@ import helpModule from '../help-module';
 import highlandModule from '../highland/highland-module';
 import routeStreamModule from '../route-stream/route-stream-module';
 import HsmFsCtrl from './hsm-fs-controller';
-import {hsmFsCopytoolStream, hsmFsCollStream} from './hsm-fs-resolves';
 
 export default angular.module('hsmFs', [
   commandModule, helpModule,
   highlandModule, routeStreamModule
 ])
 .controller('HsmFsCtrl', HsmFsCtrl)
-.factory('hsmFsCopytoolStream', hsmFsCopytoolStream)
-.factory('hsmFsCollStream', hsmFsCollStream)
 .name;

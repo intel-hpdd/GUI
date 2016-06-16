@@ -25,10 +25,9 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 
-import { getFileUsageStreamFactory } from './get-file-usage-stream';
+import getFileUsageStreamFactory from './get-file-usage-stream';
 import { getFileUsageChartFactory } from './get-file-usage-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -36,7 +35,7 @@ import fileUsageChartTemplate from './assets/html/file-usage-chart';
 
 export default angular.module('fileUsageModule', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule,
+  durationPickerModule,
   fileUsageChartTemplate
 ])
   .factory('getFileUsageStream', getFileUsageStreamFactory)

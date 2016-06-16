@@ -20,6 +20,10 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+import rebindDestroy from '../highland/rebind-destroy.js';
+import addProperty from '../highland/add-property.js';
 
 import {
   map,
@@ -68,7 +72,7 @@ export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart, g
   };
 }
 
-export function targetDashboardTargetStreamFactory ($route, rebindDestroy) {
+export function targetDashboardTargetStreamFactory ($route) {
   'ngInject';
 
   return () => rebindDestroy(
@@ -76,7 +80,7 @@ export function targetDashboardTargetStreamFactory ($route, rebindDestroy) {
     store.select('targets'));
 }
 
-export function targetDashboardUsageStreamFactory ($route, resolveStream, socketStream, addProperty) {
+export function targetDashboardUsageStreamFactory ($route) {
   'ngInject';
 
   return function targetDashboardUsageStream () {

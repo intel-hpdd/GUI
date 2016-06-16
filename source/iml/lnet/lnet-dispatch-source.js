@@ -23,21 +23,25 @@
 
 
 import store from '../store/get-store.js';
+import socketStream from '../socket/socket-stream.js';
 
 import {
   ADD_LNET_CONFIGURATION_ITEMS
 } from './lnet-module.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import {
+  ALLOW_ANONYMOUS_READ
+} from '../environment.js';
 
-export default function lnetDispatchFactory (lnetConfigurationStream:HighlandStreamT<mixed>) {
-  'ngInject';
 
-  return lnetConfigurationStream
-    .each(payload => store.dispatch({
-      type: ADD_LNET_CONFIGURATION_ITEMS,
-      payload
-    }));
-}
+if (ALLOW_ANONYMOUS_READ)
+  socketStream('/lnet_configuration', {
+    qs: {
+      dehydrate__host: false
+    }
+  })
+  .map(x => x.objects)
+  .each(payload => store.dispatch({
+    type: ADD_LNET_CONFIGURATION_ITEMS,
+    payload
+  }));

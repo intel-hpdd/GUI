@@ -21,7 +21,9 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function handleActionFactory (socketStream, openConfirmActionModal) {
+import socketStream from '../socket/socket-stream.js';
+
+export default function handleActionFactory (openConfirmActionModal) {
   'ngInject';
 
   /**

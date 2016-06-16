@@ -24,12 +24,9 @@
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import highlandModule from '../highland/highland-module.js';
-import socketModule from '../socket/socket-module.js';
 import popoverModule from '../popover/popover-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import {RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
-import alertIndicatorStream from './alert-indicator-stream.js';
-import alertIndicatorDispatchSource from './alert-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import alertIndicatorTemplate from './assets/html/alert-indicator';
@@ -37,16 +34,12 @@ import alertIndicatorTemplate from './assets/html/alert-indicator';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import stateLabelTemplate from './assets/html/state-label';
 
-export const ADD_ALERT_INDICATOR_ITEMS = 'ADD_ALERT_INDICATOR_ITEMS';
-
 export default angular.module('alertIndicator', [
-  socketModule, popoverModule, uiBootstrapModule, highlandModule,
+  popoverModule, uiBootstrapModule, highlandModule,
   extendScopeModule, alertIndicatorTemplate, stateLabelTemplate
 ])
 .controller('RecordStateCtrl', RecordStateCtrl)
 .directive('recordState', recordStateDirective)
-.factory('alertIndicatorStream', alertIndicatorStream)
-.factory('alertIndicatorDispatchSource', alertIndicatorDispatchSource)
 .constant('STATE_SIZE', {
   SMALL: 'small',
   MEDIUM: 'medium',

@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {__, invoke} from 'intel-fp';
+import fsCollStreamFactory from './hsm-fs-resolves.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import hsmFsTemplate from './assets/html/hsm-fs';
@@ -39,7 +39,7 @@ export default function hsmSegment ($routeSegmentProvider, GROUPS) {
       templateUrl: hsmFsTemplate,
       access: GROUPS.FS_ADMINS,
       resolve: {
-        fsStream: ['hsmFsCollStream', invoke(__, [])]
+        fsStream: fsCollStreamFactory
       },
       middleware: [
         'allowAnonymousReadMiddleware',

@@ -1,19 +1,15 @@
-import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('create or update hosts stream', function () {
-  var socketStream, CACHE_INITIAL_DATA, hostStreams;
+  var socketStream, CACHE_INITIAL_DATA, hostStreams,
+    server, spy, resultStream;
 
-  beforeEach(module(serverModule, function ($provide) {
-    CACHE_INITIAL_DATA = {
-      server_profile: [{
-        name: 'default',
-        resource_uri: '/api/server_profile/default/'
-      }]
-    };
-    $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
-
+  beforeEachAsync(async function () {
     hostStreams = [];
 
     socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
@@ -23,11 +19,21 @@ describe('create or update hosts stream', function () {
 
       return stream;
     });
-    $provide.value('socketStream', socketStream);
-  }));
 
-  var server, spy, resultStream;
-  beforeEach(inject(function (createOrUpdateHostsStream) {
+    CACHE_INITIAL_DATA = {
+      server_profile: [{
+        name: 'default',
+        resource_uri: '/api/server_profile/default/'
+      }]
+    };
+
+    const mod = await mock('source/iml/server/create-or-update-hosts-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/environment.js': { CACHE_INITIAL_DATA }
+    });
+
+    const createOrUpdateHostsStream = mod.default;
+
     spy = jasmine.createSpy('spy');
 
     server = {
@@ -39,7 +45,9 @@ describe('create or update hosts stream', function () {
     };
 
     resultStream = createOrUpdateHostsStream(server);
-  }));
+  });
+
+  afterEach(resetAll);
 
   it('should return a stream', function () {
     expect(Object.getPrototypeOf(resultStream)).toBe(Object.getPrototypeOf(highland()));

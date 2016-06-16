@@ -1,41 +1,49 @@
 import highland from 'highland';
 import moment from 'moment';
-import agentVsCopytoolFixtures from
-  '../../../data-fixtures/agent-vs-copytool-fixtures';
 
+import agentVsCopytoolFixtures from '../../../data-fixtures/agent-vs-copytool-fixtures';
 import chartingModule from '../../../../source/iml/charting/charting-module';
 
-import {getAgentVsCopytoolStreamFactory} from
-  '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-stream';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('agent vs copytool stream', () => {
-  var socketStream, metricStream;
-
   beforeEach(module(chartingModule, $provide => {
     var getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
-
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => (metricStream = highland()));
-
-    $provide.value('socketStream', socketStream);
   }));
 
-  var revert, getAgentVsCopytoolStream, fixtures;
+  var revert, getAgentVsCopytoolStreamFactory, getAgentVsCopytoolStream, fixtures,
+    socketStream, metricStream;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .callFake(() => (metricStream = highland()));
+
+    const mod = await mock('source/iml/agent-vs-copytool/agent-vs-copytool-stream', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getAgentVsCopytoolStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(inject(chartPlugins => {
     fixtures = agentVsCopytoolFixtures;
 
-    getAgentVsCopytoolStream = getAgentVsCopytoolStreamFactory(highland, socketStream, chartPlugins);
+    getAgentVsCopytoolStream = getAgentVsCopytoolStreamFactory(chartPlugins);
 
     revert = patchRateLimit();
   }));
 
-  afterEach(() => {
-    revert();
-  });
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getAgentVsCopytoolStream).toEqual(jasmine.any(Function));

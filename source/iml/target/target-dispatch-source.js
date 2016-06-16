@@ -23,28 +23,24 @@
 
 
 import store from '../store/get-store.js';
+import socketStream from '../socket/socket-stream.js';
 
 import {
   ADD_TARGET_ITEMS
 } from './target-module.js';
 
-import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
-
 import {
-  CACHE_INITIAL_DATA
+  CACHE_INITIAL_DATA,
+  ALLOW_ANONYMOUS_READ
 } from '../environment.js';
 
-export default function targetDispatchFactory (socketStream:SocketStreamT<{objects: mixed[]}>) {
-  'ngInject';
+store.dispatch({
+  type: ADD_TARGET_ITEMS,
+  payload: CACHE_INITIAL_DATA.target
+});
 
-  store.dispatch({
-    type: ADD_TARGET_ITEMS,
-    payload: CACHE_INITIAL_DATA.target
-  });
-
-  return socketStream('/target', {
+if (ALLOW_ANONYMOUS_READ)
+  socketStream('/target', {
     qs: {
       limit: 0
     }
@@ -54,4 +50,3 @@ export default function targetDispatchFactory (socketStream:SocketStreamT<{objec
     type: ADD_TARGET_ITEMS,
     payload
   }));
-}

@@ -20,7 +20,18 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, lensProp, view} from 'intel-fp';
+
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+import addProperty from '../highland/add-property.js';
+import rebindDestroy from '../highland/rebind-destroy.js';
+
+import {
+  map,
+  lensProp,
+  view
+} from 'intel-fp';
+
 
 export function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, getOstBalanceChart,
                                                 getMdoChart, getReadWriteBandwidthChart,
@@ -57,7 +68,7 @@ export function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, g
   };
 }
 
-export function baseDashboardFsStreamFactory ($route, resolveStream, socketStream, addProperty, rebindDestroy) {
+export function baseDashboardFsStreamFactory ($route) {
   'ngInject';
 
   return function baseDashboardFsStream () {

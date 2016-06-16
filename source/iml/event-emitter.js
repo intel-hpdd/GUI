@@ -21,38 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
-
-import type {
-  HighlandStreamT
-} from 'highland';
-
-import type {
-  rebindDestroyT
-} from '../highland/highland-module.js';
-
-import {
-  map
-} from 'intel-fp';
-
-type body = Array<{ affected: string[], message: string }>;
-type resp = { objects: body };
-
-type bodyStream = HighlandStreamT<body>;
-
-export default function (socketStream:SocketStreamT<resp>, rebindDestroy:rebindDestroyT<resp, body>):bodyStream {
-  'ngInject';
-
-  return rebindDestroy(
-    map(x => x.objects),
-    socketStream('/alert/', {
-      jsonMask: 'objects(affected,message)',
-      qs: {
-        limit: 0,
-        active: true
-      }
-    })
-  );
+declare class EventEmitterT {
+  constructor():void;
+  emit(event: string, ...args:Array<any>): boolean;
+  on(event: string, listener: Function): EventEmitterT;
+  once(event: string, listener: Function): EventEmitterT;
 }
+
+import highland from 'highland';
+
+const EventEmitter:typeof EventEmitterT = Object.getPrototypeOf(
+  // $FlowIgnore: cannot extend declaration and keep types.
+  Object.getPrototypeOf(highland())
+).constructor;
+
+export default EventEmitter;

@@ -5,22 +5,36 @@ import readWriteBandwidthDataFixtures from
 import readWriteBandwidthModule from
   '../../../../source/iml/read-write-bandwidth/read-write-bandwidth-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('The read write bandwidth stream', () => {
-  var socketStream, serverStream, getServerMoment;
+  var socketStream, serverStream, getServerMoment,
+    getReadWriteBandwidthStreamFactory;
 
-  beforeEach(module(readWriteBandwidthModule, ($provide) => {
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => {
         return (serverStream = highland());
       });
 
-    $provide.value('socketStream', socketStream);
+    const mod = await mock('source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
+    getReadWriteBandwidthStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(readWriteBandwidthModule, ($provide) => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2013-12-11T13:15:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getReadWriteBandwidthStream', getReadWriteBandwidthStreamFactory);
   }));
 
   var getReadWriteBandwidthStream, fixtures, spy, revert;

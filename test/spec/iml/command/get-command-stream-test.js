@@ -1,21 +1,29 @@
 import angular from 'angular';
 import highland from 'highland';
 
-describe('get the command stream', function () {
-  var socketStream, stream, getCommandStream, commandList, result;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module('command', function ($provide) {
+describe('get the command stream', function () {
+  var socketStream, stream, getCommandStream, getCommandStreamModule,
+    commandList, result;
+
+  beforeEachAsync(async function () {
     stream = highland();
     socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
-    $provide.value('socketStream', socketStream);
-  }));
+    getCommandStreamModule = await mock('source/iml/command/get-command-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-  beforeEach(inject(function (_getCommandStream_) {
-    getCommandStream = _getCommandStream_;
+    getCommandStream = getCommandStreamModule.default;
+
     commandList = wrap({}, {}).objects;
-
     result = getCommandStream(commandList);
-  }));
+  });
+
+  afterEach(resetAll);
 
   it('should invoke socketStream', function () {
     expect(socketStream).toHaveBeenCalledOnceWith('/command', {

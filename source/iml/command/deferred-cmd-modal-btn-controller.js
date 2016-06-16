@@ -19,9 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {map, arrayWrap, noop} from 'intel-fp';
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
 
-export function DeferredCommandModalBtnCtrl (socketStream, openCommandModal, resolveStream) {
+import {
+  map,
+  arrayWrap,
+  noop
+} from 'intel-fp';
+
+export default function DeferredCommandModalBtnCtrl (openCommandModal) {
   'ngInject';
 
   const setLoading = x => this.loading = x;

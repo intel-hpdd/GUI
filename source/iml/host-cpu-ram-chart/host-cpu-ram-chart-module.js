@@ -26,9 +26,8 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import {getHostCpuRamStreamFactory} from './get-host-cpu-ram-stream';
+import getHostCpuRamStreamFactory from './get-host-cpu-ram-stream';
 import {getHostCpuRamChartFactory} from './get-host-cpu-ram-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -36,7 +35,7 @@ import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
 
 export default angular.module('hostCpuRamChart', [
   chartsModule, chartingModule,
-  highlandModule, socketModule,
+  highlandModule,
   durationPickerModule, hostCpuRamChartTemplate
 ])
   .factory('getHostCpuRamStream', getHostCpuRamStreamFactory)

@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
+import socketStream from '../socket/socket-stream.js';
 
 export function ExceptionModalCtrl ($scope, $document, exception,
                                     stackTraceContainsLineNumber, sendStackTraceToRealTime) {
@@ -97,7 +98,7 @@ export function ExceptionModalCtrl ($scope, $document, exception,
       value: opts.transform(item)
     });
   }
-  
+
   function lookupAnd (func) {
     return function (value) {
       if (!value) return false;
@@ -114,8 +115,6 @@ export function ExceptionModalCtrl ($scope, $document, exception,
 var regex = /^.+\:\d+\:\d+.*$/;
 
 export function stackTraceContainsLineNumbers (stackTrace) {
-  'ngInject';
-
   return stackTrace.stack.split('\n')
     .some(function verifyStackTraceContainsLineNumbers (val) {
       var match = val.trim().match(regex);
@@ -123,22 +122,18 @@ export function stackTraceContainsLineNumbers (stackTrace) {
     });
 }
 
-export function sendStackTraceToRealTime (socketStream) {
-  'ngInject';
+export function sendStackTraceToRealTime (exception) {
+  return socketStream('/srcmap-reverse', {
+    method: 'post',
+    cause: exception.cause,
+    message: exception.message,
+    stack: exception.stack,
+    url: exception.url
+  }, true)
+    .map(function processResponse (x) {
+      if (x && x.data)
+        exception.stack = x.data;
 
-  return function sendStackTraceToRealTime (exception) {
-    return socketStream('/srcmap-reverse', {
-      method: 'post',
-      cause: exception.cause,
-      message: exception.message,
-      stack: exception.stack,
-      url: exception.url
-    }, true)
-      .map(function processResponse (x) {
-        if (x && x.data)
-          exception.stack = x.data;
-
-        return exception;
-      });
-  };
+      return exception;
+    });
 }

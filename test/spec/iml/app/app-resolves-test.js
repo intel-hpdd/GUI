@@ -1,116 +1,96 @@
-import appModule from '../../../../source/iml/app/app-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-describe('app resolves', function () {
-  var resolveStream, socketStream, promise, stream;
+describe('app resolves', () => {
+  var socketStream, resolveStream,
+    promise, stream, appModule, CACHE_INITIAL_DATA;
 
-  beforeEach(module(appModule, function ($provide) {
+  beforeEachAsync(async function () {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
     resolveStream.and.returnValue(promise);
-    $provide.value('resolveStream', resolveStream);
 
     stream = {};
     socketStream = jasmine.createSpy('socketStream');
     socketStream.and.returnValue(stream);
-    $provide.value('socketStream', socketStream);
-  }));
 
-  describe('app alert stream', function () {
-    var appAlertStream;
+    CACHE_INITIAL_DATA = {
+      session: {}
+    };
 
-    beforeEach(inject(function (_appAlertStream_) {
-      appAlertStream = _appAlertStream_;
-    }));
+    appModule = await mock('source/iml/app/app-resolves.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/environment.js': { CACHE_INITIAL_DATA }
+    });
+  });
 
-    it('should return a function', function () {
-      expect(appAlertStream).toEqual(jasmine.any(Function));
+  afterEach(resetAll);
+
+  describe('app alert stream', () => {
+    var result;
+
+    beforeEach(() => {
+      result = appModule.alertStream();
     });
 
-    describe('when invoked', function () {
-      var result;
+    it('should return a promise', () => {
+      expect(result).toBe(promise);
+    });
 
-      beforeEach(function () {
-        result = appAlertStream();
-      });
-
-      it('should return a promise', function () {
-        expect(result).toBe(promise);
-      });
-
-      it('should create a socket connection', function () {
-        expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
-          jsonMask: 'objects(message)',
-          qs: {
-            severity__in: ['WARNING', 'ERROR'],
-            limit: 0,
-            active: true
-          }
-        });
-      });
-
-      it('should call resolveStream with a stream', function () {
-        expect(resolveStream).toHaveBeenCalledOnceWith(stream);
+    it('should create a socket connection', () => {
+      expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
+        jsonMask: 'objects(message)',
+        qs: {
+          severity__in: ['WARNING', 'ERROR'],
+          limit: 0,
+          active: true
+        }
       });
     });
   });
 
-  describe('app notification stream', function () {
-    var appNotificationStream;
+  describe('app notification stream', () => {
+    var result;
 
-    beforeEach(inject(function (_appNotificationStream_) {
-      appNotificationStream = _appNotificationStream_;
-    }));
-
-    it('should return a function', function () {
-      expect(appNotificationStream).toEqual(jasmine.any(Function));
+    beforeEach(() => {
+      result = appModule.appNotificationStream();
     });
 
-    describe('when invoked', function () {
-      var result;
+    it('should return a promise', () => {
+      expect(result).toBe(promise);
+    });
 
-      beforeEach(function () {
-        result = appNotificationStream();
-      });
+    it('should create a socket connection', () => {
+      expect(socketStream).toHaveBeenCalledOnceWith('/health');
+    });
 
-      it('should return a promise', function () {
-        expect(result).toBe(promise);
-      });
-
-      it('should create a socket connection', function () {
-        expect(socketStream).toHaveBeenCalledOnceWith('/health');
-      });
-
-      it('should call resolveStream with a stream', function () {
-        expect(resolveStream).toHaveBeenCalledOnceWith(stream);
-      });
+    it('should call resolveStream with a stream', () => {
+      expect(resolveStream).toHaveBeenCalledOnceWith(stream);
     });
   });
 
-  describe('app session', function () {
+  describe('app session', () => {
     var appSession, SessionModel,
-      session, CACHE_INITIAL_DATA;
+      session;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(() => {
       session = {};
-      SessionModel = jasmine.createSpy('SessionModel')
-        .and.returnValue(session);
-      $provide.value('SessionModel', SessionModel);
+      SessionModel = jasmine
+        .createSpy('SessionModel')
+        .and
+        .returnValue(session);
 
-      CACHE_INITIAL_DATA = {
-        session: {}
-      };
-      $provide.value('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
-    }));
+      appSession = appModule.appSessionFactory(SessionModel);
+    });
 
-    beforeEach(inject(function (_appSession_) {
-      appSession = _appSession_;
-    }));
-
-    it('should return the session', function () {
+    it('should return the session', () => {
       expect(appSession).toBe(session);
     });
 
-    it('should call the session with initial data', function () {
+    it('should call the session with initial data', () => {
       expect(SessionModel).toHaveBeenCalledOnceWith(CACHE_INITIAL_DATA.session);
     });
   });

@@ -19,31 +19,28 @@ describe('Target dashboard', () => {
         .returnValue(s)
     };
 
-    resolvesModule = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
-      'source/iml/store/get-store': { default: store }
-    });
-  });
+    socketStream = jasmine.createSpy('socketStream');
 
-  beforeEach(module(targetDashboardModule, function ($provide) {
-    spy = jasmine.createSpy('spy');
+    resolvesModule = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
+      'source/iml/store/get-store': { default: store },
+      'source/iml/socket/socket-stream': { default: socketStream }
+    });
+
     $route = {
       current: {
         params: {},
         $$route: {}
       }
     };
+  });
 
+  beforeEach(module(targetDashboardModule, function ($provide) {
+    spy = jasmine.createSpy('spy');
     $provide.value('$route', $route);
 
-    socketStream = jasmine.createSpy('socketStream')
+    socketStream
       .and
       .returnValue(s);
-    $provide.value('socketStream', socketStream);
-
-    $provide.factory(
-      'targetDashboardTargetStream',
-      resolvesModule.targetDashboardTargetStreamFactory
-    );
   }));
 
   afterEach(resetAll);
@@ -51,9 +48,9 @@ describe('Target dashboard', () => {
   describe('kind', function () {
     var targetDashboardKind;
 
-    beforeEach(inject(function (_targetDashboardKind_) {
-      targetDashboardKind = _targetDashboardKind_;
-    }));
+    beforeEach(() => {
+      targetDashboardKind = resolvesModule.targetDashboardKindFactory($route);
+    });
 
     it('should return the target kind', function () {
       $route.current.$$route.kind = 'MDT';
@@ -204,12 +201,13 @@ describe('Target dashboard', () => {
   describe('target stream', function () {
     var $rootScope, targetDashboardTargetStream, targetStream;
 
-    beforeEach(inject(function (_$rootScope_, _targetDashboardTargetStream_) {
+    beforeEach(inject(function (_$rootScope_) {
       $rootScope = _$rootScope_;
 
       $route.current.params.targetId = '1';
 
-      targetDashboardTargetStream = _targetDashboardTargetStream_;
+      targetDashboardTargetStream = resolvesModule
+        .targetDashboardTargetStreamFactory($route);
 
       targetStream = targetDashboardTargetStream();
     }));
@@ -245,11 +243,13 @@ describe('Target dashboard', () => {
   describe('usage stream', function () {
     var $rootScope, targetDashboardUsageStream, promise;
 
-    beforeEach(inject(function (_$rootScope_, _targetDashboardUsageStream_) {
+    beforeEach(inject(function (_$rootScope_) {
       $rootScope = _$rootScope_;
-      targetDashboardUsageStream = _targetDashboardUsageStream_;
 
       $route.current.params.targetId = '1';
+
+      targetDashboardUsageStream = resolvesModule
+        .targetDashboardUsageStreamFactory($route);
 
       promise = targetDashboardUsageStream();
     }));
@@ -266,14 +266,8 @@ describe('Target dashboard', () => {
       );
     });
 
-    it('should stream data', function () {
+    itAsync('should stream data', async function () {
       var result;
-
-      promise.then(function (s) {
-        s.each(function (x) {
-          result = x;
-        });
-      });
 
       s.write([{
         data: {
@@ -281,6 +275,12 @@ describe('Target dashboard', () => {
           kbytestotal: 2000
         }
       }]);
+
+      const s2 = await promise;
+      s2.each(function (x) {
+        result = x;
+      });
+
       $rootScope.$apply();
 
       expect(result).toEqual({

@@ -136,13 +136,10 @@ describe('select server profile', () => {
   });
 
   describe('selectServerProfileStep', () => {
-    var $rootScope, selectServerProfileStep, resolveStream, NgPromise;
+    var selectServerProfileStep;
 
-    beforeEach(inject((_$rootScope_, _selectServerProfileStep_, _resolveStream_, $q) => {
-      $rootScope = _$rootScope_;
+    beforeEach(inject((_selectServerProfileStep_) => {
       selectServerProfileStep = _selectServerProfileStep_;
-      resolveStream = _resolveStream_;
-      NgPromise = Object.getPrototypeOf($q.resolve()).constructor;
     }));
 
     it('should contain the appropriate properties', () => {
@@ -150,7 +147,7 @@ describe('select server profile', () => {
         templateUrl: '/static/chroma_ui/source/iml/server/assets/html/select-server-profile-step.js',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
         onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
-          'waitForCommandCompletion', 'showCommand', 'resolveStream', jasmine.any(Function)
+          'waitForCommandCompletion', 'showCommand', jasmine.any(Function)
         ],
         transition: jasmine.any(Function)
       });
@@ -169,7 +166,7 @@ describe('select server profile', () => {
         getHostProfiles, waitForCommandCompletion, result,
         response, spy;
 
-      beforeEach(() => {
+      beforeEachAsync(async function () {
         data = {
           spring: jasmine.createSpy('spring'),
           servers: [],
@@ -327,15 +324,12 @@ describe('select server profile', () => {
         onEnter = fp.tail(selectServerProfileStep.onEnter);
 
         result = onEnter(data, createOrUpdateHostsStream, getHostProfiles,
-          waitForCommandCompletion, true, resolveStream);
+          waitForCommandCompletion, true);
 
         spy = jasmine.createSpy('spy');
 
-        result.hostProfileStream.then(stream => {
-          stream.each(spy);
-        });
-
-        $rootScope.$digest();
+        const stream = await result.hostProfileStream;
+        stream.each(spy);
       });
 
       it('should create or update the hosts', () => {
@@ -355,7 +349,7 @@ describe('select server profile', () => {
       it('should return data and a hostProfileStream', () => {
         expect(result).toEqual({
           data: data,
-          hostProfileStream: jasmine.any(NgPromise)
+          hostProfileStream: jasmine.any(Promise)
         });
       });
 

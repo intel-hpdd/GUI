@@ -3,8 +3,27 @@ import cpuUsageDataFixtures from '../../../data-fixtures/cpu-usage-fixtures';
 import highland from 'highland';
 import moment from 'moment';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('get cpu usage stream', () => {
-  var socketStream, serverStream, getServerMoment;
+  var socketStream, serverStream,
+    getServerMoment, getCpuUsageStreamFactory;
+
+  beforeEachAsync(async function () {
+    socketStream = jasmine.createSpy('socketStream')
+      .and.callFake(() => (serverStream = highland()));
+
+    const mod = await mock('source/iml/cpu-usage/get-cpu-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getCpuUsageStreamFactory = mod.default;
+  });
+
+  beforeEach(resetAll);
 
   beforeEach(module(cpuUsageModule, $provide => {
     socketStream = jasmine.createSpy('socketStream')
@@ -16,6 +35,7 @@ describe('get cpu usage stream', () => {
       .and.returnValue(moment('2014-04-11T01:18:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getCpuUsageStream', getCpuUsageStreamFactory);
   }));
 
   var getCpuUsageStream, fixtures, revert, spy;
@@ -30,9 +50,7 @@ describe('get cpu usage stream', () => {
     revert = patchRateLimit();
   }));
 
-  afterEach(() => {
-    revert();
-  });
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getCpuUsageStream).toEqual(jasmine.any(Function));

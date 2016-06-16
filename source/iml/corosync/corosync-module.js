@@ -24,7 +24,6 @@
 
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
-import socketModule from '../socket/socket-module';
 import commandModule from '../command/command-module';
 import corosyncStateComponent from './corosync-state';
 import filterModule from '../filters/filters-module';
@@ -37,7 +36,6 @@ import configureCorosyncTemplate from './assets/html/configure-corosync';
 export default angular
   .module('corosyncModule', [
     extendScopeModule,
-    socketModule,
     commandModule,
     bigDifferModule,
     filterModule,

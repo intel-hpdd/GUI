@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import socketModule from '../socket/socket-module';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import loadingHtml from '../loading/assets/html/loading';
@@ -32,7 +31,7 @@ import appHtml from './assets/html/app';
 import {__, invoke, identity} from 'intel-fp';
 
 export default angular.module('appRouteModule', [
-  loadingHtml, appHtml, socketModule
+  loadingHtml, appHtml
 ])
 .config(function appSegment ($routeSegmentProvider) {
   'ngInject';

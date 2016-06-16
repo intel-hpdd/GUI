@@ -5,21 +5,41 @@ import mdoDataFixtures
 import mdoModule
   from '../../../../source/iml/mdo/mdo-module';
 
-describe('mdo stream', () => {
-  var socketStream, serverStream, getServerMoment;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module(mdoModule, $provide => {
+
+describe('mdo stream', () => {
+  var socketStream, serverStream,
+    getServerMoment, getMdoStreamFactory;
+
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => {
         return (serverStream = highland());
       });
 
+    const mod = await mock('source/iml/mdo/get-mdo-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getMdoStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(mdoModule, $provide => {
     $provide.value('socketStream', socketStream);
 
-    getServerMoment = jasmine.createSpy('getServerMoment')
-      .and.returnValue(moment('2013-11-15T19:25:20+00:00'));
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
+      .and
+      .returnValue(moment('2013-11-15T19:25:20+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getMdoStream', getMdoStreamFactory);
   }));
 
   var getMdoStream, fixtures, spy, revert;
@@ -34,9 +54,7 @@ describe('mdo stream', () => {
     revert = patchRateLimit();
   }));
 
-  afterEach(() => {
-    revert();
-  });
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getMdoStream).toEqual(jasmine.any(Function));

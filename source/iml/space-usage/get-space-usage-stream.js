@@ -20,11 +20,14 @@
 // express and approved by Intel in writing.
 
 
-export function getSpaceUsageStreamFactory (λ, socketStream, chartPlugins) {
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
+
+export default function getSpaceUsageStreamFactory (chartPlugins) {
   'ngInject';
 
   return function getSpaceUsageStream (requestRange, buff) {
-    var s = λ((push, next) => {
+    var s = highland((push, next) => {
       var params = requestRange({
         qs: {
           metrics: 'kbytestotal,kbytesfree',

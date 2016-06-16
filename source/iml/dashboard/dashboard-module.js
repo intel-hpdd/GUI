@@ -42,10 +42,6 @@ import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import {chartsContainer} from './charts-container-directive';
 import DashboardCtrl from './dashboard-controller';
 import {usageInfoDirective, UsageInfoController} from './usage-info/usage-info';
-import {
-  dashboardFsStreamFactory, dashboardHostStreamFactory, dashboardTargetStreamFactory
-}
-  from './dashboard-resolves';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import chartsContainerTemplate from './assets/html/charts-container';
@@ -66,7 +62,8 @@ export type targetQueryT = {
 };
 
 export default angular
-  .module('dashboard', [sortableModule, targetModule, fullScreenModule,
+  .module('dashboard', [
+    sortableModule, targetModule, fullScreenModule,
     numberFormattersModule, asPropertyModule, extendScopeModule,
     hostCpuRamChartModule, mdoModule, cpuUsageModule,
     memoryUsageModule, fileUsageModule, spaceUsageModule,
@@ -75,9 +72,6 @@ export default angular
   ])
   .directive('chartsContainer', chartsContainer)
   .controller('DashboardCtrl', DashboardCtrl)
-  .factory('dashboardFsStream', dashboardFsStreamFactory)
-  .factory('dashboardHostStream', dashboardHostStreamFactory)
-  .factory('dashboardTargetStream', dashboardTargetStreamFactory)
   .directive('usageInfo', usageInfoDirective)
   .controller('UsageInfoController', UsageInfoController)
   .name;

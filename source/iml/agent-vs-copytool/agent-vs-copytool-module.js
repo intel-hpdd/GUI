@@ -25,7 +25,6 @@ import angular from 'angular';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import debounceModule from '../debounce/debounce-module';
@@ -37,12 +36,12 @@ import legendModule from '../charting/types/legend/legend-module';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
-import {getAgentVsCopytoolStreamFactory} from './agent-vs-copytool-stream';
+import getAgentVsCopytoolStreamFactory from './agent-vs-copytool-stream';
 import {getAgentVsCopytoolChartFactory} from './get-agent-vs-copytool-chart';
 
 export default angular.module('agentVsCopytool', [
   chartingModule, highlandModule, configToggleModule,
-  socketModule, durationPickerModule, streamWhenVisibleModule,
+  durationPickerModule, streamWhenVisibleModule,
   debounceModule, chartModule, axisModule,
   labelModule, lineModule, legendModule, agentVsCopytoolTemplate
 ])

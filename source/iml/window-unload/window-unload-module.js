@@ -25,6 +25,10 @@ import angular from 'angular';
 
 import {windowUnloadFactory} from './window-unload';
 
+export type windowUnloadT = {
+  unloading: boolean
+};
+
 export default angular.module('windowUnload', [])
   .factory('windowUnload', windowUnloadFactory)
   .name;

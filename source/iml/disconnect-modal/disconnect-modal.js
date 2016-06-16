@@ -19,12 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import type {windowUnloadT} from '../window-unload/window-unload-module.js';
 
-export default function disconnectModalFactory ($uibModal, windowUnload) {
+export default function disconnectModalFactory ($uibModal:Object, windowUnload:windowUnloadT, $timeout:Function) {
   'ngInject';
 
-  const defaultOptions = {
+  const options = {
     backdrop: 'static',
     keyboard: false,
     template: `
@@ -36,12 +36,25 @@ export default function disconnectModalFactory ($uibModal, windowUnload) {
     windowClass: 'disconnect-modal'
   };
 
-  return function open (opts) {
-    if (windowUnload.unloading)
-      return null;
+  var modal;
+  function close () {
+    $timeout(() => {
+      if (modal)
+        modal.close();
 
-    const options = angular.merge(defaultOptions, opts);
+      modal = null;
+    });
+  }
 
-    return $uibModal.open(options);
+  function open () {
+    $timeout(() => {
+      if (!windowUnload.unloading && !modal)
+        modal = $uibModal.open(options);
+    });
+  }
+
+  return {
+    open,
+    close
   };
 }

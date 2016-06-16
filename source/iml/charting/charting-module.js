@@ -27,7 +27,6 @@ import serverMomentModule from '../server-moment-module';
 import highlandModule from '../highland/highland-module';
 import d3Module from '../d3/d3-module';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
-import socketModule from '../socket/socket-module';
 import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import bufferDataNewerThan from './buffer-data-newer-than';
 import chartPlugins from './chart-plugins';
@@ -43,7 +42,7 @@ import sortByDateFactory from './sort-by-date';
 import sortBy from './sort-by';
 import sumByDate from './sum-by-date';
 import toNvd3 from './to-nvd3';
-import unionWithTargetFactory from './union-with-target';
+import unionWithTarget from './union-with-target';
 
 import type {
   HighlandStreamT
@@ -60,7 +59,7 @@ export type createStreamT = {
 export default angular.module('charting', [
   createDateModule, serverMomentModule,
   highlandModule, d3Module, getTemplatePromiseModule,
-  socketModule, chartCompilerModule
+  chartCompilerModule
 ])
   .factory('bufferDataNewerThan', bufferDataNewerThan)
   .factory('chartPlugins', chartPlugins)
@@ -78,5 +77,5 @@ export default angular.module('charting', [
   .value('sortBy', sortBy)
   .factory('sumByDate', sumByDate)
   .value('toNvd3', toNvd3)
-  .factory('unionWithTarget', unionWithTargetFactory)
+  .value('unionWithTarget', unionWithTarget)
   .name;

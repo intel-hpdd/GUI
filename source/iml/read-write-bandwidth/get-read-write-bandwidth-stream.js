@@ -19,11 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function getReadWriteBandwidthStreamFactory (λ, socketStream, chartPlugins) {
+import highland from 'highland';
+import socketStream from '../socket/socket-stream.js';
+
+export default function getReadWriteBandwidthStreamFactory (chartPlugins) {
   'ngInject';
 
   return function getReadWriteBandwidthStream (requestRange, buff) {
-    const s = λ((push, next) => {
+    const s = highland((push, next) => {
       const params = requestRange({
         qs: {
           reduce_fn: 'sum',

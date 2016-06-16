@@ -19,8 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {lensProp, view, map, flow, every} from 'intel-fp';
 import _ from 'intel-lodash-mixins';
+import socketStream from '../socket/socket-stream.js';
+
+import {
+  lensProp,
+  view,
+  map,
+  flow,
+  every
+} from 'intel-fp';
 
 const viewLens = flow(lensProp, view);
 var objectsLens = viewLens('objects');
@@ -84,7 +92,7 @@ export function getHostProfilesFactory (CACHE_INITIAL_DATA) {
   };
 }
 
-export function createHostProfilesFactory (socketStream, waitForCommandCompletion) {
+export function createHostProfilesFactory (waitForCommandCompletion) {
   'ngInject';
 
   return function createHostProfiles (profile, showCommands) {

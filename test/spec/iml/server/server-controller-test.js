@@ -3,13 +3,34 @@ import serverModule from '../../../../source/iml/server/server-module';
 import λ from 'highland';
 import {identity} from 'intel-fp';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('server', () => {
   var $scope, pdshFilter, naturalSortFilter,
     server, $uibModal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
     commandStream, openResult, commandModalResult,
-    getCommandStream, overrideActionClick;
+    getCommandStream, overrideActionClick, serverController;
+
+  beforeEachAsync(async function () {
+    commandStream = λ();
+
+    getCommandStream = jasmine.createSpy('getCommandStream')
+      .and.returnValue(commandStream);
+
+    const serverControllerModule = await mock(
+      'source/iml/server/server-controller.js', {
+        'source/iml/command/get-command-stream.js': { default: getCommandStream }
+      });
+
+    serverController = serverControllerModule.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(module(serverModule));
 
@@ -25,10 +46,6 @@ describe('server', () => {
       open: jasmine.createSpy('open').and.returnValue(openResult)
     };
 
-    commandStream = λ();
-
-    getCommandStream = jasmine.createSpy('getCommandStream')
-      .and.returnValue(commandStream);
     spyOn(commandStream, 'destroy');
 
     serversStream = λ();
@@ -77,7 +94,7 @@ describe('server', () => {
 
     $scope.$on = jasmine.createSpy('$on');
 
-    $controller('ServerCtrl', {
+    $controller(serverController, {
       $scope,
       $q,
       $uibModal,

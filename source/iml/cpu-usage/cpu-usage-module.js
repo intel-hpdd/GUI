@@ -25,10 +25,9 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 
-import {getCpuUsageStreamFactory} from './get-cpu-usage-stream';
+import getCpuUsageStreamFactory from './get-cpu-usage-stream';
 import {getCpuUsageChartFactory} from './get-cpu-usage-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -36,7 +35,7 @@ import cpuUsageTemplate from './assets/html/cpu-usage';
 
 export default angular.module('cpuUsageModule', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule, cpuUsageTemplate
+  durationPickerModule, cpuUsageTemplate
 ])
   .factory('getCpuUsageStream', getCpuUsageStreamFactory)
   .factory('getCpuUsageChart', getCpuUsageChartFactory)

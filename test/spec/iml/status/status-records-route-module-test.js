@@ -1,13 +1,28 @@
-import angular from 'angular';
-import {noop} from 'intel-fp';
+import {
+  noop
+} from 'intel-fp';
 
-import statusRecordsRouteModule
-  from '../../../../source/iml/status/status-records-route-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('status records route', function () {
-  var $routeSegmentProvider;
+  var $routeSegmentProvider, mod, resolveStream, socketStream;
 
-  beforeEach(module(function () {
+  beforeEachAsync(async function () {
+    resolveStream = jasmine.createSpy('resolveStream');
+    socketStream = jasmine.createSpy('socketStream');
+
+    mod = await mock('source/iml/status/status-records-route-module.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     $routeSegmentProvider = {
       $get: function get () {},
       segment: jasmine.createSpy('$routeSegmentProvider.segment')
@@ -16,10 +31,8 @@ describe('status records route', function () {
     $routeSegmentProvider.within = jasmine.createSpy('within')
       .and.returnValue($routeSegmentProvider);
 
-    angular.module('route-segment', []).provider({
-      $routeSegment: $routeSegmentProvider
-    });
-  }, 'route-segment', statusRecordsRouteModule));
+    mod.statusSegment($routeSegmentProvider);
+  });
 
   beforeEach(inject(noop));
 
@@ -99,14 +112,13 @@ describe('status records route', function () {
     });
 
     describe('resolve', function () {
-      var resolveStream, socketStream,
-        qsFromLocation, notificationStream;
+      var qsFromLocation, notificationStream;
 
       beforeEach(function () {
-        resolveStream = jasmine.createSpy('resolveStream')
+        resolveStream
           .and.returnValue('promise');
 
-        socketStream = jasmine.createSpy('socketStream')
+        socketStream
           .and.returnValue('socket');
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
@@ -117,7 +129,7 @@ describe('status records route', function () {
       it('should call /alert with a qs', function () {
         qsFromLocation.and.returnValue('foo=bar&baz__in=1,2&bap=3&bim__in=4,5,6');
 
-        notificationStream(resolveStream, socketStream, qsFromLocation);
+        notificationStream(qsFromLocation);
 
         expect(socketStream)
           .toHaveBeenCalledOnceWith('/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6');
@@ -126,7 +138,7 @@ describe('status records route', function () {
       it('should call /alert without a qs', function () {
         qsFromLocation.and.returnValue('');
 
-        notificationStream(resolveStream, socketStream, qsFromLocation);
+        notificationStream(qsFromLocation);
 
         expect(socketStream).toHaveBeenCalledOnceWith('/alert/');
       });
@@ -134,7 +146,7 @@ describe('status records route', function () {
       it('should call resolveStream with socket', function () {
         qsFromLocation.and.returnValue('');
 
-        notificationStream(resolveStream, socketStream, qsFromLocation);
+        notificationStream(qsFromLocation);
 
         expect(resolveStream).toHaveBeenCalledOnceWith('socket');
       });
@@ -142,7 +154,7 @@ describe('status records route', function () {
       it('should resolve the stream', function () {
         qsFromLocation.and.returnValue('');
 
-        var res = notificationStream(resolveStream, socketStream, qsFromLocation);
+        var res = notificationStream(qsFromLocation);
 
         expect(res).toBe('promise');
       });

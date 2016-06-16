@@ -1,16 +1,7 @@
-import socketModule from '../../../../source/iml/socket/socket-module';
-
+import buildResponseError from '../../../../source/iml/socket/build-response-error.js';
 
 describe('build response error', () => {
-  beforeEach(module(socketModule));
-
-  var buildResponseError;
-
-  beforeEach(inject(function (_buildResponseError_) {
-    buildResponseError = _buildResponseError_;
-  }));
-
-  it('should keep an existing error', function () {
+  it('should keep an existing error', () => {
     var response = {
       error: new Error('boom!')
     };
@@ -18,7 +9,7 @@ describe('build response error', () => {
     expect(buildResponseError(response)).toBe(response.error);
   });
 
-  it('should wrap a string error in an Error', function () {
+  it('should wrap a string error in an Error', () => {
     var response = {
       error: 'boom!'
     };
@@ -28,7 +19,7 @@ describe('build response error', () => {
     expect(buildResponseError(response)).toEqual(error);
   });
 
-  it('should convert an object literal to an error instance', function () {
+  it('should convert an object literal to an error instance', () => {
     var response = {
       error: {
         message: 'boom!',

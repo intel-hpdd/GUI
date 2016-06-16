@@ -19,12 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import angular from 'angular';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import serverStatusStepTemplate from './assets/html/server-status-step';
 
-import angular from 'angular';
+import {
+  curry
+} from 'intel-fp';
 
-import {curry} from 'intel-fp';
+import resolveStream from '../resolve-stream.js';
 
 export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
                                       OVERRIDE_BUTTON_TYPES, data, testHostStream,
@@ -80,31 +84,26 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
     .each(localApply.bind(null, $scope));
 }
 
+export const serverStatusStep = {
+  templateUrl: serverStatusStepTemplate,
+  controller: 'ServerStatusStepCtrl as serverStatus',
+  onEnter: ['data', 'getTestHostStream', 'serversToApiObjects',
+    function onEnter (data, getTestHostStream, serversToApiObjects) {
+      var objects = serversToApiObjects(data.servers);
 
-export function serverStatusStepFactory () {
-  'ngInject';
-
-  return {
-    templateUrl: serverStatusStepTemplate,
-    controller: 'ServerStatusStepCtrl as serverStatus',
-    onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', 'resolveStream',
-      function onEnter (data, getTestHostStream, serversToApiObjects, resolveStream) {
-        var objects = serversToApiObjects(data.servers);
-
-        return {
-          testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
-          data: data
-        };
-      }
-    ],
-    /**
-     * Move to another step in the flow
-     * @param {Object} steps
-     * @param {String} action
-     * @returns {Object} The step to move to.
-     */
-    transition: function transition (steps, action) {
-      return (action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep);
+      return {
+        testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
+        data: data
+      };
     }
-  };
-}
+  ],
+  /**
+   * Move to another step in the flow
+   * @param {Object} steps
+   * @param {String} action
+   * @returns {Object} The step to move to.
+   */
+  transition: function transition (steps, action) {
+    return (action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep);
+  }
+};

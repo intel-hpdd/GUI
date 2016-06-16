@@ -1,8 +1,27 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-import {tail, identity} from 'intel-fp';
+import {
+  tail,
+  identity
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Server Status Step', () => {
+  var mod, resolveStream;
+  beforeEachAsync(async function () {
+    resolveStream = jasmine.createSpy('resolveStream');
+
+    mod = await mock('source/iml/server/server-status-step.js', {
+      'source/iml/resolve-stream.js': { default: resolveStream }
+    });
+  });
+
+  afterEach(resetAll);
+
   beforeEach(module(serverModule));
 
   describe('controller', () => {
@@ -32,7 +51,7 @@ describe('Server Status Step', () => {
         return hostlistFilter;
       }
 
-      serverStatus = $controller('ServerStatusStepCtrl', {
+      serverStatus = $controller(mod.ServerStatusStepCtrl, {
         $scope: $scope,
         $stepInstance: $stepInstance,
         data: data,
@@ -98,22 +117,21 @@ describe('Server Status Step', () => {
 
   describe('the step', () => {
     var serverStatusStep;
-
-    beforeEach(inject(_serverStatusStep_ => {
-      serverStatusStep = _serverStatusStep_;
-    }));
+    beforeEach(() => {
+      serverStatusStep = mod.serverStatusStep;
+    });
 
     it('should be created as expected', () => {
       expect(serverStatusStep).toEqual({
         templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-status-step.js',
         controller: 'ServerStatusStepCtrl as serverStatus',
-        onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', 'resolveStream', jasmine.any(Function)],
+        onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', jasmine.any(Function)],
         transition: jasmine.any(Function)
       });
     });
 
     describe('on enter', () => {
-      var data, getTestHostStream, onEnter, serversToApiObjects, resolveStream;
+      var data, getTestHostStream, onEnter, serversToApiObjects;
 
       beforeEach(() => {
         getTestHostStream = jasmine.createSpy('getTestHostStream')
@@ -128,8 +146,7 @@ describe('Server Status Step', () => {
             address: 'lotus-34vm6.iml.intel.com',
             auth_type: 'existing_keys_choice'
           }]);
-
-        resolveStream = jasmine.createSpy('resolveStream')
+        resolveStream
           .and.returnValue(identity);
 
         data = {

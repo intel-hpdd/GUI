@@ -5,22 +5,36 @@ import memoryUsageDataFixtures from
 import memoryUsageModule from
   '../../../../source/iml/memory-usage/memory-usage-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('The memory usage stream', () => {
-  var socketStream, serverStream, getServerMoment;
+  var socketStream, serverStream, getServerMoment,
+    getMemoryUsageStreamFactory;
 
-  beforeEach(module(memoryUsageModule, $provide => {
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => {
         return (serverStream = highland());
       });
 
-    $provide.value('socketStream', socketStream);
+    const mod = await mock('source/iml/memory-usage/get-memory-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
+    getMemoryUsageStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(memoryUsageModule, $provide => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2014-04-14T13:23:00.000Z'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getMemoryUsageStream', getMemoryUsageStreamFactory);
   }));
 
   var getMemoryUsageStream, fixtures, spy, revert;

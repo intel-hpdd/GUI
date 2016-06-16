@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,14 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function getSpringFactory (regenerator, socketStream) {
-  'ngInject';
+import regenerator from '../regenerator.js';
+import socketStream from '../socket/socket-stream.js';
 
-  return function getSpring () {
-    return regenerator(function setup (path, params) {
-      return socketStream(path, params);
-    }, function teardown (stream) {
-      stream.destroy();
-    });
-  };
-}
+import type {
+  HighlandStreamT
+} from 'highland';
+
+export default () => {
+  return regenerator((path, params) => {
+    return socketStream(path, params);
+  }, function teardown (stream:HighlandStreamT<mixed>) {
+    stream.destroy();
+  });
+};

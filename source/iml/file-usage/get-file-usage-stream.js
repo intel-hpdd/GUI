@@ -19,13 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
-export function getFileUsageStreamFactory (λ, socketStream, chartPlugins) {
+import {
+  curry
+} from 'intel-fp';
+
+export default function getFileUsageStreamFactory (chartPlugins) {
   'ngInject';
 
   return curry(3, function getFileUsageStream (keyName, requestRange, buff) {
-    const s = λ((push, next) => {
+    const s = highland((push, next) => {
       const params = requestRange({
         qs: {
           metrics: 'filestotal,filesfree',

@@ -2,6 +2,10 @@ import highland from 'highland';
 import baseDashboardModule from
   '../../../../source/iml/dashboard/base-dashboard-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('base dashboard resolves', () => {
   var $route;
@@ -193,21 +197,23 @@ describe('base dashboard resolves', () => {
   });
 
   describe('fs stream', () => {
-    var socketStream, s;
+    var socketStream, s, baseDashboardFsStream;
 
-    beforeEach(module(($provide) => {
+    beforeEachAsync(async function () {
       s = highland();
-      socketStream = jasmine.createSpy('socketStream')
-        .and.returnValue(s);
-      $provide.value('socketStream', socketStream);
-    }));
+      socketStream = jasmine
+        .createSpy('socketStream')
+        .and
+        .returnValue(s);
 
-    var $rootScope, baseDashboardFsStream;
+      const mod = await mock('source/iml/dashboard/base-dashboard-chart-resolves.js', {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      });
 
-    beforeEach(inject((_$rootScope_, _baseDashboardFsStream_) => {
-      $rootScope = _$rootScope_;
-      baseDashboardFsStream = _baseDashboardFsStream_;
-    }));
+      baseDashboardFsStream = mod.baseDashboardFsStreamFactory($route);
+    });
+
+    afterEach(resetAll);
 
     describe('with id', () => {
       var promise;
@@ -227,21 +233,20 @@ id,osts,mdts(id),mgt(primary_server,primary_server_name)',
         });
       });
 
-      it('should stream data', () => {
+      itAsync('should stream data', async function () {
         var result;
-
-        promise.then((s) => {
-          s.each((x) => {
-            result = x;
-          });
-        });
 
         s.write({
           objects: ['foo']
         });
-        $rootScope.$apply();
 
-        expect(result).toEqual(['foo']);
+        const s2 = await promise;
+        s2.each((x) => {
+          result = x;
+        });
+
+        expect(result)
+          .toEqual(['foo']);
       });
     });
 
@@ -249,6 +254,7 @@ id,osts,mdts(id),mgt(primary_server,primary_server_name)',
       var promise;
 
       beforeEach(() => {
+        $route.current.params = {};
         promise = baseDashboardFsStream();
       });
 
@@ -260,21 +266,20 @@ id,osts,mdts(id),mgt(primary_server,primary_server_name)',
         });
       });
 
-      it('should stream data', () => {
+      itAsync('should stream data', async function () {
         var result;
-
-        promise.then((s) => {
-          s.each((x) => {
-            result = x;
-          });
-        });
 
         s.write({
           objects: ['foo']
         });
-        $rootScope.$apply();
 
-        expect(result).toEqual(['foo']);
+        const s2 = await promise;
+        s2.each((x) => {
+          result = x;
+        });
+
+        expect(result)
+          .toEqual(['foo']);
       });
     });
   });

@@ -21,9 +21,10 @@
 
 import {curry} from 'intel-fp';
 import _ from 'intel-lodash-mixins';
+import highland from 'highland';
+import getCommandStream from '../command/get-command-stream.js';
 
-
-export default function waitForCommandCompletionFactory (highland, COMMAND_STATES, getCommandStream,
+export default function waitForCommandCompletionFactory (COMMAND_STATES,
                                                           openCommandModal, throwIfServerErrors) {
   'ngInject';
 

@@ -19,9 +19,23 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import resolveStream from '../resolve-stream.js';
+import getCopytoolStream from './get-copytool-stream.js';
+import getCopytoolOperationStream from './get-copytool-operation-stream.js';
 
-import {default as Maybe, withDefault} from 'intel-maybe';
-import {over, lensProp, view, flow, map, mapped} from 'intel-fp';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
+
+import {
+  over,
+  lensProp,
+  view,
+  flow,
+  map,
+  mapped
+} from 'intel-fp';
 
 const fsParams = (filesystem_id) => {
   return {
@@ -50,7 +64,7 @@ const routePath = flow(
   withDefault(() => { return {}; })
 );
 
-export function copytoolOperationStream (resolveStream, getCopytoolOperationStream, $route) {
+export function copytoolOperationStream ($route) {
   'ngInject';
 
   return flow(
@@ -60,7 +74,7 @@ export function copytoolOperationStream (resolveStream, getCopytoolOperationStre
   ).bind(null, $route);
 }
 
-export function copytoolStream (resolveStream, getCopytoolStream, $route) {
+export function copytoolStream ($route) {
   'ngInject';
 
   return flow(

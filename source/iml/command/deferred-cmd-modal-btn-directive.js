@@ -19,7 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always} from 'intel-fp';
+import {
+  always
+} from 'intel-fp';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn';
 

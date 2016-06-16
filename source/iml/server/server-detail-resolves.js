@@ -20,12 +20,16 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+import rebindDestroy from '../highland/rebind-destroy.js';
+import addProperty from '../highland/add-property.js';
+import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
 import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function serverDetailResolvesFactory ($q, resolveStream, addProperty, rebindDestroy,
-                                                     socketStream, getNetworkInterfaceStream, $route) {
+export default function serverDetailResolvesFactory ($route) {
   'ngInject';
 
   return function serverDetailResolves () {
@@ -98,14 +102,31 @@ export default function serverDetailResolvesFactory ($q, resolveStream, addPrope
         return s.through(addProperty);
       });
 
-    return $q.all({
-      jobMonitorStream: jobMonitorStream,
-      alertMonitorStream: alertMonitorStream,
-      serverStream: serverStream,
-      lnetConfigurationStream: lnetConfigurationStream,
-      networkInterfaceStream: networkInterfaceStream,
-      corosyncConfigurationStream: corosyncConfigurationStream,
-      pacemakerConfigurationStream: pacemakerConfigurationStream
-    });
+    return Promise.all([
+      jobMonitorStream,
+      alertMonitorStream,
+      serverStream,
+      lnetConfigurationStream,
+      networkInterfaceStream,
+      corosyncConfigurationStream,
+      pacemakerConfigurationStream
+    ])
+    .then(([
+      jobMonitorStream,
+      alertMonitorStream,
+      serverStream,
+      lnetConfigurationStream,
+      networkInterfaceStream,
+      corosyncConfigurationStream,
+      pacemakerConfigurationStream
+    ]) => ({
+      jobMonitorStream,
+      alertMonitorStream,
+      serverStream,
+      lnetConfigurationStream,
+      networkInterfaceStream,
+      corosyncConfigurationStream,
+      pacemakerConfigurationStream
+    }));
   };
 }

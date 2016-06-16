@@ -19,9 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {values} from 'intel-obj';
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
-export function getAgentVsCopytoolStreamFactory (highland, socketStream, chartPlugins) {
+import {
+  values
+} from 'intel-obj';
+
+export default function getAgentVsCopytoolStreamFactory (chartPlugins) {
   'ngInject';
 
   return function getAgentVsCopytoolStream (requestRange, buff) {

@@ -21,7 +21,13 @@
 
 import angular from 'angular';
 
-import {flow, invokeMethod} from 'intel-fp';
+import resolveStream from '../resolve-stream.js';
+import socketStream from '../socket/socket-stream.js';
+
+import {
+  flow,
+  invokeMethod
+} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import loadingTemplate from '../loading/assets/html/loading';
@@ -34,24 +40,41 @@ import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 export default angular.module('statusRecordsRouteModule', [
   loadingTemplate, statusTemplate
 ])
-  .config(function statusSegment ($routeSegmentProvider) {
-    'ngInject';
+  .config(statusSegment)
+  .name;
 
-    var qs;
+export function statusSegment ($routeSegmentProvider) {
+  'ngInject';
 
-    var isStatus = flow(
-      invokeMethod('path', []),
-      RegExp.prototype.test.bind(/^\/status/)
-    );
+  var qs;
 
-    $routeSegmentProvider
-      .within('app')
-      .within('statusQuery')
-      .segment('statusRecords', {
-        controller: 'StatusController',
-        controllerAs: 'ctrl',
-        templateUrl: statusTemplate,
-        watcher: function watcher ($location, segment, qsFromLocation) {
+  var isStatus = flow(
+    invokeMethod('path', []),
+    RegExp.prototype.test.bind(/^\/status/)
+  );
+
+  $routeSegmentProvider
+    .within('app')
+    .within('statusQuery')
+    .segment('statusRecords', {
+      controller: 'StatusController',
+      controllerAs: 'ctrl',
+      templateUrl: statusTemplate,
+      watcher: function watcher ($location, segment, qsFromLocation) {
+        'ngInject';
+
+        const qsFromLocationToOld = flow(
+          qsFromLocation,
+          statusQsToOldQsParser
+        );
+
+        if (!isStatus($location) && segment.clearWatcher)
+          segment.clearWatcher();
+
+        return isStatus($location) ? (qs = qsFromLocationToOld()) : qs;
+      },
+      resolve: {
+        notificationStream: function notificationStream (qsFromLocation) {
           'ngInject';
 
           const qsFromLocationToOld = flow(
@@ -59,30 +82,16 @@ export default angular.module('statusRecordsRouteModule', [
             statusQsToOldQsParser
           );
 
-          if (!isStatus($location) && segment.clearWatcher)
-            segment.clearWatcher();
+          var qs = qsFromLocationToOld();
 
-          return isStatus($location) ? (qs = qsFromLocationToOld()) : qs;
-        },
-        resolve: {
-          notificationStream: function notificationStream (resolveStream, socketStream, qsFromLocation) {
-            'ngInject';
+          if (qs.length)
+            qs = '?' + qs;
 
-            const qsFromLocationToOld = flow(
-              qsFromLocation,
-              statusQsToOldQsParser
-            );
-
-            var qs = qsFromLocationToOld();
-            if (qs.length)
-              qs = '?' + qs;
-
-            return resolveStream(socketStream('/alert/' + qs));
-          }
-        },
-        untilResolved: {
-          templateUrl: loadingTemplate
+          return resolveStream(socketStream('/alert/' + qs));
         }
-      });
-  })
-  .name;
+      },
+      untilResolved: {
+        templateUrl: loadingTemplate
+      }
+    });
+}

@@ -5,21 +5,36 @@ import spaceUsageDataFixtures from
 import spaceUsageModule from
   '../../../../source/iml/space-usage/space-usage-module';
 
-describe('space usage stream', () => {
-  var socketStream, serverStream, getServerMoment;
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-  beforeEach(module(spaceUsageModule, $provide => {
+describe('space usage stream', () => {
+  var socketStream, serverStream, getServerMoment,
+    getSpaceUsageStreamFactory;
+
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => {
         return (serverStream = highland());
       });
 
-    $provide.value('socketStream', socketStream);
+    const mod = await mock('source/iml/space-usage/get-space-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
+    getSpaceUsageStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(spaceUsageModule, $provide => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2014-04-14T13:12:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getSpaceUsageStream', getSpaceUsageStreamFactory);
   }));
 
   var getSpaceUsageStream, fixtures, spy, revert;

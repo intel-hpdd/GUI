@@ -4,22 +4,38 @@ import moment from 'moment';
 
 import fileUsageModule from '../../../../source/iml/file-usage/file-usage-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('file usage stream', () => {
-  var socketStream, serverStream, getServerMoment;
+  var socketStream, serverStream, getServerMoment,
+    getFileUsageStreamFactory;
 
-  beforeEach(module(fileUsageModule, $provide => {
+  beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => {
         return (serverStream = highland());
       });
 
-    $provide.value('socketStream', socketStream);
+    const mod = await mock('source/iml/file-usage/get-file-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-    getServerMoment = jasmine.createSpy('getServerMoment')
-      .and.returnValue(moment('2014-04-14T13:40:00+00:00'));
+    getFileUsageStreamFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(fileUsageModule, $provide => {
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
+      .and
+      .returnValue(moment('2014-04-14T13:40:00+00:00'));
 
     $provide.value('getServerMoment', getServerMoment);
+    $provide.factory('getFileUsageStream', getFileUsageStreamFactory);
   }));
 
   var getFileUsageStream, fixtures, spy, revert;
@@ -34,9 +50,7 @@ describe('file usage stream', () => {
     revert = patchRateLimit();
   }));
 
-  afterEach(() => {
-    revert();
-  });
+  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getFileUsageStream).toEqual(jasmine.any(Function));

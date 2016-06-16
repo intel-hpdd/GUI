@@ -25,9 +25,8 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import socketModule from '../socket/socket-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import { getReadWriteHeatMapStreamFactory } from './get-read-write-heat-map-stream';
+import getReadWriteHeatMapStreamFactory from './get-read-write-heat-map-stream';
 import { getReadWriteHeatMapChartFactory } from './get-read-write-heat-map-chart';
 import chartTransformerModule from '../chart-transformers/chart-transformers-module.js';
 
@@ -77,7 +76,7 @@ export type addReadWriteHeatMapActionT = {
 
 export default angular.module('readWriteHeatMap', [
   chartsModule, chartingModule, highlandModule,
-  socketModule, durationPickerModule, readWriteHeatMapTemplate, chartTransformerModule
+  durationPickerModule, readWriteHeatMapTemplate, chartTransformerModule
 ])
   .constant('readWriteHeatMapTypes', {
     READ_BYTES: 'stats_read_bytes',

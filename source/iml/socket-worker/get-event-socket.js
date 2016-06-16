@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,80 +21,85 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import highland from 'highland';
 
-export const EventEmitter = Object.getPrototypeOf(Object.getPrototypeOf(highland())).constructor;
+import EventEmitter from '../event-emitter.js';
+import getRandomValue from '../get-random-value.js';
+import socketWorker from './socket-worker.js';
 
-export function getEventSocketFactory (socketWorker, getRandomValue, EventEmitter) {
-  'ngInject';
+const eventSockets = {};
 
-  var eventSockets = {};
+socketWorker.addEventListener('message', ev => {
+  if (!ev.data.id)
+    return;
 
-  socketWorker.addEventListener('message', function messageHandler (ev) {
-    if (!ev.data.id)
+  if (!eventSockets[ev.data.id])
+    return;
+
+  var eventSocket = eventSockets[ev.data.id];
+
+  eventSocket.emit(ev.data.type, ev.data.payload);
+}, false);
+
+export default function getEventSocket () {
+  var id = getRandomValue();
+
+  var emitter = new EventEmitter();
+  var eventSocket = Object.create(emitter);
+
+  eventSocket.connect = function connect () {
+    if (eventSockets[id])
       return;
 
-    if (!eventSockets[ev.data.id])
-      return;
+    eventSockets[id] = eventSocket;
 
-    var eventSocket = eventSockets[ev.data.id];
-
-    eventSocket.emit(ev.data.type, ev.data.payload);
-  }, false);
-
-  return function getEventSocket () {
-    var id = getRandomValue();
-
-    var emitter = new EventEmitter();
-    var eventSocket = Object.create(emitter);
-
-    eventSocket.connect = function connect () {
-      if (eventSockets[id])
-        return;
-
-      eventSockets[id] = eventSocket;
-
-      socketWorker.postMessage({
-        type: 'connect',
-        id: id
-      });
-    };
-
-    eventSocket.end = function end () {
-      if (!eventSockets[id])
-        return;
-
-      socketWorker.postMessage({
-        type: 'end',
-        id: id
-      });
-
-      eventSockets[id].removeAllListeners();
-
-      delete eventSockets[id];
-
-      eventSocket = emitter = null;
-    };
-
-    eventSocket.send = function send (payload, ack) {
-      var message = {
-        type: 'send',
-        id: id
-      };
-
-      if (payload)
-        message.payload = payload;
-
-      if (ack) {
-        message.ack = true;
-        eventSocket.once('message', function messageHandler (resp) {
-          ack(resp);
-        });
-      }
-
-      socketWorker.postMessage(message);
-    };
-
-    return eventSocket;
+    socketWorker.postMessage({
+      type: 'connect',
+      id: id
+    });
   };
+
+  eventSocket.end = function end () {
+    if (!eventSockets[id])
+      return;
+
+    socketWorker.postMessage({
+      type: 'end',
+      id: id
+    });
+
+    eventSockets[id].removeAllListeners();
+
+    delete eventSockets[id];
+
+    eventSocket = emitter = null;
+  };
+
+  type messageT = {
+    type: string,
+    id: number,
+    payload?: mixed,
+    ack?: boolean
+  };
+
+  eventSocket.send = function send (payload:mixed, ack?:Function) {
+    var message:messageT = {
+      type: 'send',
+      id
+    };
+
+    if (payload)
+      message.payload = payload;
+
+    if (ack && eventSocket) {
+      message.ack = true;
+      eventSocket.once('message', function messageHandler (resp:mixed) {
+        // $FlowIgnore: already guarded by if block above.
+        ack(resp);
+      });
+    }
+
+    socketWorker.postMessage(message);
+  };
+
+  return eventSocket;
 }

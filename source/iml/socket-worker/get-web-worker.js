@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,18 +21,5 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import cryptoModule from '../crypto/crypto-module';
-import disconnectModalModule from '../disconnect-modal/disconnect-modal-module';
-import {EventEmitter, getEventSocketFactory} from './get-event-socket';
-import socketWorkerFactory from './socket-worker';
 
-export default angular
-  .module('socket-worker', [cryptoModule, disconnectModalModule])
-  .value('getWebWorker', function getWebWorkerFactory (url) {
-    return new Worker(url);
-  })
-  .value('EventEmitter', EventEmitter)
-  .factory('getEventSocket', getEventSocketFactory)
-  .factory('socketWorker', socketWorkerFactory)
-  .name;
+export default (url:string) => new Worker(url);

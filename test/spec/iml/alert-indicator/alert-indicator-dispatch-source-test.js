@@ -1,31 +1,56 @@
 import highland from 'highland';
-import {mock, resetAll} from '../../../system-mock.js';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('alert indicator dispatch source', () => {
-  let store, alertIndicatorStream;
+  let store, stream, socketStream;
 
   beforeEachAsync(async function () {
-    alertIndicatorStream = highland();
-
     store = {
       dispatch: jasmine.createSpy('dispatch')
     };
 
-    const alertIndicatorDispatchFactory = await mock('source/iml/alert-indicator/alert-indicator-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store }
-    });
+    stream = highland();
+    spyOn(stream, 'destroy');
 
-    alertIndicatorDispatchFactory.default(alertIndicatorStream);
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and.returnValue(stream);
+
+    await mock('source/iml/alert-indicator/alert-indicator-dispatch-source.js', {
+      'source/iml/store/get-store.js': { default: store },
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/environment.js': {
+        ALLOW_ANONYMOUS_READ: true
+      }
+    });
   });
 
   afterEach(resetAll);
 
-  it('should update alerts when new items arrive from a persistent socket', () => {
-    alertIndicatorStream.write(['more alerts']);
+  it('should request alerts', () => {
+    expect(socketStream)
+      .toHaveBeenCalledOnceWith('/alert/', {
+        jsonMask: 'objects(affected,message)',
+        qs: {
+          limit: 0,
+          active: true
+        }
+      });
+  });
 
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
-      type: 'ADD_ALERT_INDICATOR_ITEMS',
-      payload: ['more alerts']
+  it('should update alerts when new items arrive from a persistent socket', () => {
+    stream.write({
+      objects: ['more alerts']
     });
+
+    expect(store.dispatch)
+      .toHaveBeenCalledOnceWith({
+        type: 'ADD_ALERT_INDICATOR_ITEMS',
+        payload: ['more alerts']
+      });
   });
 });

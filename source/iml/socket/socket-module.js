@@ -21,28 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import regeneratorModule from '../regenerator/regenerator-module';
-import highlandModule from '../highland/highland-module';
-import cryptoModule from '../crypto/crypto-module';
-import socketWorkerModule from '../socket-worker/socket-worker-module';
-import socketStreamFactory from './socket-stream';
-import buildResponseErrorFactory from './build-response-error';
-import {resolveStreamFactory} from './resolve-stream';
-import getSpringFactory from './get-spring';
 
 import type {
   HighlandStreamT
 } from 'highland';
-export type SocketStreamT<T> = (path:string, options:Object, isAck?:boolean) => HighlandStreamT<T>;
-export type resolveStreamT<T> = (stream:HighlandStreamT<T>) => Promise<HighlandStreamT<T>>;
 
-export default angular.module('socket-module', [
-  regeneratorModule, highlandModule,
-  cryptoModule, socketWorkerModule
-])
-.factory('socketStream', socketStreamFactory)
-.factory('buildResponseError', buildResponseErrorFactory)
-.factory('resolveStream', resolveStreamFactory)
-.factory('getSpring', getSpringFactory)
-.name;
+export type SocketStreamT<T> = (path:string, options:Object, isAck?:boolean) => HighlandStreamT<T>;

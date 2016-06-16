@@ -2,14 +2,37 @@ import highland from 'highland';
 import {flow, lensProp, view, invokeMethod} from 'intel-fp';
 import commandModule from '../../../../source/iml/command/command-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('deferred command modal button directive exports', () => {
-  let socketStream, openCommandModal, modalStream, resolveStream, Stream;
+  let socketStream, openCommandModal,
+    modalStream, resolveStream, DeferredCommandModalBtnCtrl;
 
-  beforeEach(module(commandModule, ($provide) => {
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(highland());
-    $provide.value('socketStream', socketStream);
+  beforeEachAsync(async function () {
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .returnValue(highland());
 
+    resolveStream = jasmine
+      .createSpy('resolveStream')
+      .and
+      .returnValue(Promise.resolve());
+
+    const mod = await mock('source/iml/command/deferred-cmd-modal-btn-controller.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/resolve-stream.js': { default: resolveStream }
+    });
+
+    DeferredCommandModalBtnCtrl = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(commandModule, ($provide, $controllerProvider) => {
     modalStream = highland();
     openCommandModal = jasmine.createSpy('openCommandModal')
       .and.returnValue({
@@ -17,17 +40,7 @@ describe('deferred command modal button directive exports', () => {
       });
     $provide.value('openCommandModal', openCommandModal);
 
-    Stream = highland().constructor;
-
-    resolveStream = jasmine.createSpy('resolveStream');
-    $provide.value('resolveStream', resolveStream);
-
-    $provide.decorator('resolveStream', ($delegate, $q) => {
-      'ngInject';
-
-      return $delegate.and.returnValue($q.when());
-    });
-
+    $controllerProvider.register('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl);
   }));
 
   let $scope, cleanText, el, qs,
@@ -74,7 +87,8 @@ describe('deferred command modal button directive exports', () => {
     });
 
     it('should pass a stream resolveStream', () => {
-      expect(resolveStream).toHaveBeenCalledOnceWith(jasmine.any(Stream));
+      expect(highland.isStream(resolveStream.calls.argsFor(0)[0]))
+        .toBe(true);
     });
 
     it('should pass a stream to openCommandModal', () => {

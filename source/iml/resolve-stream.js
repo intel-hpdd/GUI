@@ -22,24 +22,29 @@
 // express and approved by Intel in writing.
 
 import {
-  map
+  noop
 } from 'intel-fp';
-import type {
-  SocketStreamT
-} from '../socket/socket-module.js';
+
 import type {
   HighlandStreamT
 } from 'highland';
 
-type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+export default (stream:HighlandStreamT<mixed>) => {
+  return new Promise((resolve) => {
+    stream.pull((error, x) => {
+      if (error)
+        x = {
+          __HighlandStreamError__: true,
+          error
+        };
 
-export default function (socketStream:SocketStreamT<mixed>, rebindDestroy:fnToStreamToStream):HighlandStreamT<mixed> {
-  'ngInject';
+      const s2 = stream.tap(noop);
+      s2.write(x);
 
-  return rebindDestroy(
-    map(x => x.objects),
-    socketStream('/host', {
-      qs: { limit: 0 }
-    })
-  );
-}
+      // $FlowIgnore: flow does not recognize this monkey-patching.
+      s2.destroy = stream.destroy.bind(stream);
+
+      resolve(s2);
+    });
+  });
+};

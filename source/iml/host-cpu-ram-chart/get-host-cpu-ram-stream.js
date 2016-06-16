@@ -19,11 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function getHostCpuRamStreamFactory (λ, socketStream, chartPlugins) {
+import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
+
+export default function getHostCpuRamStreamFactory (chartPlugins) {
   'ngInject';
 
   return function getHostCpuRamStream (requestRange, buff) {
-    var s = λ((push, next) => {
+    var s = highland((push, next) => {
       var params = requestRange({
         qs: {
           reduce_fn: 'average',
