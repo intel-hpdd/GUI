@@ -12,23 +12,30 @@ describe('server reducer', () => {
 
   describe('matching type', () => {
     it('should return the payload', () => {
-      expect(ostBalanceChartReducer({
-        '': {
-          percentage: 10,
-          page: ''
-        }
-      },
+      expect(
+        ostBalanceChartReducer(
+          {
+            '': {
+              percentage: 10,
+              page: ''
+            }
+          },
+          {
+            type: ADD_OST_BALANCE_CHART_ITEMS,
+            payload: [{
+              percentage: 85,
+              page: '8'
+            }]
+          }
+        )
+      )
+      .toEqual(
         {
-          type: ADD_OST_BALANCE_CHART_ITEMS,
-          payload: [{
-            percentage: 85,
-            page: '8'
-          }]
-        })).toEqual({
           '': {
             percentage: 10,
             page: ''
-          }, '8': {
+          },
+          '8': {
             percentage: 85,
             page: '8'
           }
@@ -39,27 +46,34 @@ describe('server reducer', () => {
 
   describe('updating a matching type', () => {
     it('should return the payload', () => {
-      expect(ostBalanceChartReducer({
-        '': {
-          percentage: 10,
-          page: ''
-        },
-        '8': {
-          percentage: 85,
-          page: '8'
-        }
-      },
+      expect(
+        ostBalanceChartReducer(
+          {
+            '': {
+              percentage: 10,
+              page: ''
+            },
+            '8': {
+              percentage: 85,
+              page: '8'
+            }
+          },
+          {
+            type: ADD_OST_BALANCE_CHART_ITEMS,
+            payload: [{
+              percentage: 23,
+              page: '8'
+            }]
+          }
+        )
+      )
+      .toEqual(
         {
-          type: ADD_OST_BALANCE_CHART_ITEMS,
-          payload: [{
-            percentage: 23,
-            page: '8'
-          }]
-        })).toEqual({
           '': {
             percentage: 10,
             page: ''
-          }, '8': {
+          },
+          '8': {
             percentage: 23,
             page: '8'
           }
