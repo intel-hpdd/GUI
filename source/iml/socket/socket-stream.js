@@ -26,6 +26,20 @@ import highland from 'highland';
 import getEventSocket from '../socket-worker/get-event-socket.js';
 import buildResponseError from './build-response-error.js';
 
+import type {
+  HighlandStreamT
+} from 'highland';
+
+type apiResponseT = {
+  objects: Array<Object>
+};
+
+type errorRespT = {
+  error?: { [key: string]: string }
+};
+
+type apiResponseWithErrorT = (apiResponseT & errorRespT);
+
 export default function sendRequest (path:string, options:Object, isAck:boolean = false) {
   var socket = getEventSocket();
 
@@ -41,9 +55,11 @@ export default function sendRequest (path:string, options:Object, isAck:boolean 
   var stream;
   if (isAck) {
     stream = highland(push => {
-      socket.send(data, function ack (response) {
-        if ('error' in response)
-          push(buildResponseError(response));
+      socket.send(data, function ack (response:apiResponseWithErrorT) {
+        const error = response.error;
+
+        if (error)
+          push(buildResponseError(error));
         else
           push(null, response);
 
@@ -58,13 +74,15 @@ export default function sendRequest (path:string, options:Object, isAck:boolean 
     stream.on('error', noop);
   } else {
     socket.send(data);
-    stream = highland('message', socket)
-      .map(response => {
-        if ('error' in response)
-          throw buildResponseError(response);
+    const s:HighlandStreamT<apiResponseWithErrorT> = highland('message', socket);
+    stream = s.map((response):apiResponseT => {
+      const error = response.error;
 
-        return response;
-      });
+      if (error)
+        throw buildResponseError(error);
+
+      return response;
+    });
 
     stream._destructors.push(end);
   }

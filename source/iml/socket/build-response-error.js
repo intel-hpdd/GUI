@@ -21,13 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-type responseT = {
-  error: Error | string | { [key: string]: string }
-};
 
-export default function buildResponseError (response:responseT):Error {
-  const error = response.error;
+type errorT = (Error | string | { [key: string]: string });
 
+
+export default function buildResponseError (error:errorT):Error {
   if (error instanceof Error)
     return error;
   else if (typeof error === 'string')

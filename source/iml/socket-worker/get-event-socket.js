@@ -81,7 +81,7 @@ class EventSocket extends EventEmitter {
 
     delete eventSockets[this.id];
   }
-  send (payload:?mixed, ack?:(resp:mixed) => void) {
+  send (payload:?mixed, ack?:(resp:Object) => void) {
     var message:messageT = {
       type: 'send',
       id: this.id
@@ -92,7 +92,7 @@ class EventSocket extends EventEmitter {
 
     if (ack) {
       message.ack = true;
-      this.once('message', (resp:mixed) => {
+      this.once('message', (resp:Object) => {
         // $FlowIgnore: already guarded by if block above.
         ack(resp);
       });
