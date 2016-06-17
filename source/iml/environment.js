@@ -21,16 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import global from './global.js';
 
-export const STATIC_URL = window.STATIC_URL;
-export const CACHE_INITIAL_DATA = window.CACHE_INITIAL_DATA;
+export const STATIC_URL = global.STATIC_URL;
+export const CACHE_INITIAL_DATA = global.CACHE_INITIAL_DATA;
 export const UI_ROOT = document.baseURI;
-export const HELP_TEXT = window.HELP_TEXT;
-export const IS_RELEASE = window.IS_RELEASE;
-export const ALLOW_ANONYMOUS_READ = window.ALLOW_ANONYMOUS_READ;
-export const SERVER_TIME_DIFF = window.SERVER_TIME_DIFF;
-export const VERSION = window.VERSION;
-export const BUILD = window.BUILD;
-export const BASE = `${window.location.protocol}//${window.location.hostname}`;
-export const API = `${window.location.protocol}//${window.location.hostname}:${window.location.port}/api/`;
-export const RUNTIME_VERSION = window.IS_RELEASE ? window.version : `Build ${window.BUILD}`;
+export const HELP_TEXT = global.HELP_TEXT;
+export const IS_RELEASE = global.IS_RELEASE;
+export const ALLOW_ANONYMOUS_READ = global.ALLOW_ANONYMOUS_READ;
+export const SERVER_TIME_DIFF = global.SERVER_TIME_DIFF;
+export const VERSION = global.VERSION;
+export const BUILD = global.BUILD;
+export const BASE = `${global.location.protocol}//${global.location.hostname}`;
+export const API = `${BASE}:${global.location.port}/api/`;
+export const RUNTIME_VERSION = IS_RELEASE ? VERSION : `Build ${BUILD}`;
