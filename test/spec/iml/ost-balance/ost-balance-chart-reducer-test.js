@@ -37,7 +37,7 @@ describe('server reducer', () => {
     });
   });
 
-  describe('matching type', () => {
+  describe('updating a matching type', () => {
     it('should return the payload', () => {
       expect(ostBalanceChartReducer({
         '': {
