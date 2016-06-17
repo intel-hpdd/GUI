@@ -21,17 +21,42 @@ describe('server reducer', () => {
           unit: 'minutes',
           page: ''
         }
-      }, {
-        type: ADD_MDO_CHART_ITEMS,
-        payload: [{
-          configType: 'duration',
-          startDate: 'startDate',
-          endDate: 'endDate',
-          size: 3,
-          unit: 'hours',
-          page: 'target8'
-        }]
-      })).toEqual({
+      },
+        {
+          type: ADD_MDO_CHART_ITEMS,
+          payload: [{
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 3,
+            unit: 'hours',
+            page: 'target8'
+          }]
+        })).toEqual({
+          '': {
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          },
+          'target8': {
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 3,
+            unit: 'hours',
+            page: 'target8'
+          }
+        }
+      );
+    });
+  });
+
+  describe('updating a matching type', () => {
+    it('should return the payload', () => {
+      expect(mdoChartReducer({
         '': {
           configType: 'range',
           startDate: 'startDate',
@@ -39,7 +64,8 @@ describe('server reducer', () => {
           size: 10,
           unit: 'minutes',
           page: ''
-        }, 'target8': {
+        },
+        'target8': {
           configType: 'duration',
           startDate: 'startDate',
           endDate: 'endDate',
@@ -47,7 +73,36 @@ describe('server reducer', () => {
           unit: 'hours',
           page: 'target8'
         }
-      });
+      },
+        {
+          type: ADD_MDO_CHART_ITEMS,
+          payload: [{
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 50,
+            unit: 'minutes',
+            page: 'target8'
+          }]
+        })).toEqual({
+          '': {
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          },
+          'target8': {
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 50,
+            unit: 'minutes',
+            page: 'target8'
+          }
+        }
+      );
     });
   });
 

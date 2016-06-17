@@ -22,18 +22,44 @@ describe('server reducer', () => {
           unit: 'minutes',
           page: ''
         }
-      }, {
-        type: ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS,
-        payload: [{
-          dataType: 'dataType',
-          configType: 'duration',
-          startDate: 'startDate',
-          endDate: 'endDate',
-          size: 3,
-          unit: 'hours',
-          page: 'target8'
-        }]
-      })).toEqual({
+      },
+        {
+          type: ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS,
+          payload: [{
+            dataType: 'dataType',
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 3,
+            unit: 'hours',
+            page: 'target8'
+          }]
+        })).toEqual({
+          '': {
+            dataType: 'dataType',
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          }, 'target8': {
+            dataType: 'dataType',
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 3,
+            unit: 'hours',
+            page: 'target8'
+          }
+        }
+      );
+    });
+  });
+
+  describe('matching type', () => {
+    it('should return the payload', () => {
+      expect(readWriteHeatMapChartReducer({
         '': {
           dataType: 'dataType',
           configType: 'range',
@@ -42,7 +68,8 @@ describe('server reducer', () => {
           size: 10,
           unit: 'minutes',
           page: ''
-        }, 'target8': {
+        },
+        'target8': {
           dataType: 'dataType',
           configType: 'duration',
           startDate: 'startDate',
@@ -51,7 +78,38 @@ describe('server reducer', () => {
           unit: 'hours',
           page: 'target8'
         }
-      });
+      },
+        {
+          type: ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS,
+          payload: [{
+            dataType: 'dataType',
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 15,
+            unit: 'minutes',
+            page: 'target8'
+          }]
+        })).toEqual({
+          '': {
+            dataType: 'dataType',
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          }, 'target8': {
+            dataType: 'dataType',
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 15,
+            unit: 'minutes',
+            page: 'target8'
+          }
+        }
+      );
     });
   });
 
