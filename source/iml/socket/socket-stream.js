@@ -58,12 +58,13 @@ export default function sendRequest (path:string, options:Object, isAck:boolean 
     stream.on('error', noop);
   } else {
     socket.send(data);
-    stream = highland('message', socket).map(response => {
-      if ('error' in response)
-        throw buildResponseError(response);
+    stream = highland('message', socket)
+      .map(response => {
+        if ('error' in response)
+          throw buildResponseError(response);
 
-      return response;
-    });
+        return response;
+      });
 
     stream._destructors.push(end);
   }

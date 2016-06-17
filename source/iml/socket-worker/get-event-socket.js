@@ -26,7 +26,18 @@ import EventEmitter from '../event-emitter.js';
 import getRandomValue from '../get-random-value.js';
 import socketWorker from './socket-worker.js';
 
-const eventSockets = {};
+type eventSocketsT = {
+  [key: number]: EventSocket
+};
+
+type messageT = {
+  type: string,
+  id: number,
+  payload?: mixed,
+  ack?: boolean
+};
+
+const eventSockets:eventSocketsT = {};
 
 socketWorker.addEventListener('message', ev => {
   if (!ev.data.id)
@@ -40,66 +51,58 @@ socketWorker.addEventListener('message', ev => {
   eventSocket.emit(ev.data.type, ev.data.payload);
 }, false);
 
-export default function getEventSocket () {
-  var id = getRandomValue();
-
-  var emitter = new EventEmitter();
-  var eventSocket = Object.create(emitter);
-
-  eventSocket.connect = function connect () {
-    if (eventSockets[id])
+class EventSocket extends EventEmitter {
+  id:number;
+  constructor(id:number) {
+    super();
+    this.id = id;
+  }
+  connect () {
+    if (eventSockets[this.id])
       return;
 
-    eventSockets[id] = eventSocket;
+    eventSockets[this.id] = this;
 
     socketWorker.postMessage({
       type: 'connect',
-      id: id
+      id: this.id
     });
-  };
-
-  eventSocket.end = function end () {
-    if (!eventSockets[id])
+  }
+  end () {
+    if (!eventSockets[this.id])
       return;
 
     socketWorker.postMessage({
       type: 'end',
-      id: id
+      id: this.id
     });
 
-    eventSockets[id].removeAllListeners();
+    eventSockets[this.id].removeAllListeners();
 
-    delete eventSockets[id];
-
-    eventSocket = emitter = null;
-  };
-
-  type messageT = {
-    type: string,
-    id: number,
-    payload?: mixed,
-    ack?: boolean
-  };
-
-  eventSocket.send = function send (payload:mixed, ack?:Function) {
+    delete eventSockets[this.id];
+  }
+  send (payload:?mixed, ack?:(resp:mixed) => void) {
     var message:messageT = {
       type: 'send',
-      id
+      id: this.id
     };
 
     if (payload)
       message.payload = payload;
 
-    if (ack && eventSocket) {
+    if (ack) {
       message.ack = true;
-      eventSocket.once('message', function messageHandler (resp:mixed) {
+      this.once('message', (resp:mixed) => {
         // $FlowIgnore: already guarded by if block above.
         ack(resp);
       });
     }
 
     socketWorker.postMessage(message);
-  };
-
-  return eventSocket;
+  }
 }
+
+export default () => {
+  const id = getRandomValue();
+  return new EventSocket(id);
+};

@@ -19,8 +19,9 @@ describe('get event socket', () => {
     };
 
     function EventEmitter () {
-      return emitter;
+      return this;
     }
+    EventEmitter.prototype = emitter;
 
     getRandomValue = jasmine.createSpy('getRandomValue').and.returnValue(5);
 
