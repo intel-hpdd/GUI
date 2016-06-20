@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,23 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function chartPlugins (sumByDate, removeEpochData, roundData,
-                           nameSeries, bufferDataNewerThan, sortBy, sortByDate,
-                           removeDups, removeDupsBy, toNvd3, unionWithTarget, objToPoints) {
-  'ngInject';
+import type {durationPayloadT} from './duration-picker-module.js';
+import type {heatMapDurationPayloadT} from '../read-write-heat-map/read-write-heat-map-module.js';
+import getServerMoment from '../get-server-moment.js';
 
-  return {
-    sumByDate,
-    removeEpochData,
-    roundData,
-    nameSeries,
-    bufferDataNewerThan,
-    sortBy,
-    sortByDate,
-    removeDups,
-    removeDupsBy,
-    toNvd3,
-    unionWithTarget,
-    objToPoints
-  };
-}
+type durationPayloadsT = (heatMapDurationPayloadT | durationPayloadT);
+
+export default (overrides:Object):durationPayloadsT => Object.assign(
+  {
+    configType: 'duration',
+    size: 10,
+    unit: 'minutes',
+    startDate: getServerMoment()
+      .subtract(10, 'minutes')
+      .seconds(0)
+      .milliseconds(0)
+      .toDate().valueOf(),
+    endDate: getServerMoment()
+      .seconds(0)
+      .milliseconds(0)
+      .toDate().valueOf()
+  },
+  overrides
+);

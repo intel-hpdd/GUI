@@ -1,18 +1,29 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
 
-import {getMdoChartFactory} from
-  '../../../../source/iml/mdo/get-mdo-chart';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('MDO chart', () => {
   var chartCompiler, getMdoStream,
     durationStream, rangeStream,
-    createStream, DURATIONS, formatNumber,
-    getMdoChart;
+    createStream, getMdoChart,
+    getMdoChartFactory;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     getMdoStream = {};
 
+    const mod = await mock('source/iml/mdo/get-mdo-chart.js', {
+      'source/iml/mdo/get-mdo-stream.js': { default: getMdoStream }
+    });
+    getMdoChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     chartCompiler = jasmine.createSpy('chartCompiler');
 
     durationStream = jasmine.createSpy('durationStream')
@@ -26,15 +37,7 @@ describe('MDO chart', () => {
       rangeStream: curry(4, rangeStream)
     };
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
-    formatNumber = jasmine.createSpy('formatNumber')
-      .and.returnValue('formatter');
-
-    getMdoChart = getMdoChartFactory(createStream, getMdoStream, DURATIONS,
-      chartCompiler, formatNumber);
+    getMdoChart = getMdoChartFactory(createStream, chartCompiler);
 
     getMdoChart({
       qs: {

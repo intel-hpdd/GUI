@@ -22,13 +22,12 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
+import bufferDataNewerThan from './buffer-data-newer-than.js';
+import {getTimeParams} from './get-time-params.js';
 
 import type {streamWhenChartVisibleT} from '../stream-when-visible/stream-when-visible-module.js';
-import type {bufferDataNewerThanT} from './charting-module.js';
-import type {getTimeParams} from './get-time-params.js';
 
-export function createStream (streamWhenVisible:streamWhenChartVisibleT, bufferDataNewerThan:bufferDataNewerThanT,
-  getTimeParams:getTimeParams) {
+export default (streamWhenVisible:streamWhenChartVisibleT) => {
   'ngInject';
 
   const { getRequestRange, getRequestDuration } = getTimeParams;
@@ -55,4 +54,4 @@ export function createStream (streamWhenVisible:streamWhenChartVisibleT, bufferD
     durationStream: createStreamFn(getRequestDuration, bufferDataNewerThan),
     rangeStream: createStreamFn(getRequestRange, fp.always(fp.identity))
   };
-}
+};

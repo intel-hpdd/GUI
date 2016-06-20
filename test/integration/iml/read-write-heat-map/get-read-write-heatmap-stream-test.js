@@ -3,8 +3,6 @@ import moment from 'moment';
 import readWriteHeatMapDataFixtures from
   '../../../data-fixtures/read-write-heat-map-fixtures';
 
-import chartingModule from '../../../../source/iml/charting/charting-module';
-
 import {
   lensProp,
   view
@@ -19,8 +17,9 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-describe('the read write heat map stream', () => {
-  var socketStream, getServerMoment, streams, getReadWriteHeatMapStreamFactory;
+('the read write heat map stream', () => {
+  var socketStream, getServerMoment, streams, bufferDataNewerThan,
+    getRequestDuration;
 
   beforeEachAsync(async function () {
     streams = {
@@ -40,33 +39,34 @@ describe('the read write heat map stream', () => {
         return s;
       });
 
-    await mock('source/iml/charting/union-with-target.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
-
-    const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-stream.js', {});
-
-    getReadWriteHeatMapStreamFactory = mod.default;
-  });
-
-  beforeEach(module(chartingModule, $provide => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2014-01-07T14:42:50+00:00'));
 
-    $provide.value('getServerMoment', getServerMoment);
-  }));
+    await mock('source/iml/charting/union-with-target.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {});
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
+
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {});
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
+    const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-stream.js', {});
+
+    getReadWriteHeatMapStream = mod.default;
+  });
 
   var getReadWriteHeatMapStream, fixtures, spy, revert;
 
-  beforeEach(inject(chartPlugins => {
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-
-    getReadWriteHeatMapStream = getReadWriteHeatMapStreamFactory(chartPlugins);
 
     fixtures = readWriteHeatMapDataFixtures;
 
     revert = patchRateLimit();
-  }));
+  });
 
   afterEach(() => {
     revert();
@@ -82,7 +82,7 @@ describe('the read write heat map stream', () => {
   describe('fetching 10 minutes ago', () => {
     var readWriteHeatMapStream;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -90,7 +90,7 @@ describe('the read write heat map stream', () => {
 
       readWriteHeatMapStream
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {

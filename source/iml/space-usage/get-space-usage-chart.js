@@ -21,9 +21,10 @@
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import spaceUsageTemplate from './assets/html/space-usage-chart';
+import getSpaceUsageStream from './get-space-usage-stream.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getSpaceUsageChartFactory (createStream, getSpaceUsageStream,
-                                           DURATIONS, chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -75,4 +76,4 @@ export function getSpaceUsageChartFactory (createStream, getSpaceUsageStream,
       return conf;
     });
   };
-}
+};

@@ -3,17 +3,30 @@ const {inject} = angular.mock;
 import highland from 'highland';
 
 import {curry} from 'intel-fp';
-import {getCpuUsageChartFactory} from
-  '../../../../source/iml/cpu-usage/get-cpu-usage-chart';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('cpu usage chart', () => {
   var chartCompiler, getCpuUsageStream,
     durationStream, rangeStream, createStream,
-    DURATIONS, getCpuUsageChart;
+    getCpuUsageChart, getCpuUsageChartFactory;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     getCpuUsageStream = {};
 
+    const mod = await mock('source/iml/cpu-usage/get-cpu-usage-chart.js', {
+      'source/iml/cpu-usage/get-cpu-usage-stream.js': { default: getCpuUsageStream }
+    });
+
+    getCpuUsageChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -27,12 +40,7 @@ describe('cpu usage chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
-    getCpuUsageChart = getCpuUsageChartFactory(createStream,
-      getCpuUsageStream, DURATIONS, chartCompiler);
+    getCpuUsageChart = getCpuUsageChartFactory(createStream, chartCompiler);
 
     getCpuUsageChart({
       qs: {

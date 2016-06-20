@@ -24,7 +24,6 @@
 import angular from 'angular';
 import d3Module from '../d3/d3-module';
 import nvModule from '../nv/nv-module';
-import serverMomentModule from '../server-moment-module';
 import heatMapModule from '../heat-map/heat-map-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
@@ -43,8 +42,9 @@ import chartTemplate from './assets/html/chart';
 
 export default angular.module('charts',
   [
-    d3Module, nvModule, serverMomentModule, chartTemplate,
-    uiBootstrapModule, heatMapModule, streamWhenVisibleModule
+    d3Module, nvModule, chartTemplate,
+    uiBootstrapModule, heatMapModule,
+    streamWhenVisibleModule
   ])
   .factory('baseChart', baseChartFactory)
   .factory('dateTicks', dateTicksFactory)

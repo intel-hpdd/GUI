@@ -2,25 +2,36 @@ import highland from 'highland';
 
 import {__, invoke} from 'intel-fp';
 
-import {getOstBalanceChartFactory} from
-  '../../../../source/iml/ost-balance/get-ost-balance-chart';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('get ost balance chart', () => {
-  var getOstBalanceStream,
+  var getOstBalanceStream, getOstBalanceChartFactory,
     chartCompiler, streamWhenVisible,
     getOstBalanceChart;
+
+  beforeEachAsync(async function () {
+    getOstBalanceStream = jasmine.createSpy('getOstBalanceStream')
+      .and.callFake(() => highland());
+
+    const mod = await mock('source/iml/ost-balance/get-ost-balance-chart.js', {
+      'source/iml/ost-balance/get-ost-balance-stream.js': { default: getOstBalanceStream }
+    });
+    getOstBalanceChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
       .and.callFake(invoke(__, []));
 
-    getOstBalanceStream = jasmine.createSpy('getOstBalanceStream')
-      .and.callFake(() => highland());
-
     chartCompiler = jasmine.createSpy('chartCompiler');
 
     getOstBalanceChart = getOstBalanceChartFactory(chartCompiler,
-      streamWhenVisible, getOstBalanceStream);
+      streamWhenVisible);
 
     getOstBalanceChart({
       qs: {

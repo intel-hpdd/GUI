@@ -26,8 +26,7 @@ import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import getSpaceUsageStreamFactory from './get-space-usage-stream';
-import { getSpaceUsageChartFactory } from './get-space-usage-chart';
+import getSpaceUsageChartFactory from './get-space-usage-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import spaceUsageTemplate from './assets/html/space-usage-chart';
@@ -36,6 +35,5 @@ export default angular.module('spaceUsageModule', [
   chartsModule, chartingModule, highlandModule,
   durationPickerModule, spaceUsageTemplate
 ])
-  .factory('getSpaceUsageStream', getSpaceUsageStreamFactory)
   .factory('getSpaceUsageChart', getSpaceUsageChartFactory)
   .name;

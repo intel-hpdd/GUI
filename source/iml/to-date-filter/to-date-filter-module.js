@@ -23,8 +23,7 @@
 
 import angular from 'angular';
 import toDateFilter from './to-date-filter.js';
-import createDateModule from '../create-date/create-date-module.js';
 
-export default angular.module('toDateFilter', [createDateModule])
-  .filter('toDate', toDateFilter)
+export default angular.module('toDateFilter', [])
+  .filter('toDate', () => toDateFilter)
   .name;

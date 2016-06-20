@@ -26,8 +26,7 @@ import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import getReadWriteHeatMapStreamFactory from './get-read-write-heat-map-stream';
-import { getReadWriteHeatMapChartFactory } from './get-read-write-heat-map-chart';
+import getReadWriteHeatMapChartFactory from './get-read-write-heat-map-chart';
 import chartTransformerModule from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -84,6 +83,5 @@ export default angular.module('readWriteHeatMap', [
     READ_IOPS: 'stats_read_iops',
     WRITE_IOPS: 'stats_write_iops'
   })
-  .factory('getReadWriteHeatMapStream', getReadWriteHeatMapStreamFactory)
   .factory('getReadWriteHeatMapChart', getReadWriteHeatMapChartFactory)
   .name;

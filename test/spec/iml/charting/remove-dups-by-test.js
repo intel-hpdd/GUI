@@ -1,16 +1,13 @@
 import highland from 'highland';
 import _ from 'intel-lodash-mixins';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+import removeDupsBy from '../../../../source/iml/charting/remove-dups-by.js';
 
 describe('the remove dups plugin', function () {
-  beforeEach(module(chartingModule));
+  var spy;
 
-  var removeDupsBy, spy;
-
-  beforeEach(inject(function (_removeDupsBy_) {
-    removeDupsBy = _removeDupsBy_;
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-  }));
+  });
 
   it('should remove dups by a comparator and timestamp', function () {
     highland([

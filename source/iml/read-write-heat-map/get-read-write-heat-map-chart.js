@@ -19,21 +19,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatNumber from '../number-formatters/format-number.js';
-import formatBytes from '../number-formatters/format-bytes.js';
-
 import {__, flow, lensProp, view} from 'intel-fp';
 import {values} from 'intel-obj';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
+import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
+import formatBytes from '../number-formatters/format-bytes.js';
+import formatNumber from '../number-formatters/format-number.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
 import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
 import type {readWriteHeatMapTypesT} from './read-write-heat-map-module.js';
 
-export function getReadWriteHeatMapChartFactory (createStream, $location, $filter,
-                                                 getReadWriteHeatMapStream, DURATIONS, chartCompiler:chartCompilerT,
-                                                 readWriteHeatMapTypes:readWriteHeatMapTypesT) {
+export default (createStream, $location, $filter,
+  chartCompiler:chartCompilerT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -151,4 +151,4 @@ export function getReadWriteHeatMapChartFactory (createStream, $location, $filte
         return formatNumber(z, 2, true) + ' IOPS';
       };
   }
-}
+};

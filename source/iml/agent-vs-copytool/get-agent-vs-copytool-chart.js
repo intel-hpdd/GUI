@@ -23,12 +23,14 @@ import {flow, eq, map, eqFn, lensProp, view,
   unwrap, invokeMethod} from 'intel-fp';
 import {pickBy, values} from 'intel-obj';
 import moment from 'moment';
+import getAgentVsCopytoolStream from './get-agent-vs-copytool-stream.js';
+import createDate from '../create-date.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
 
-export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, createStream, createDate,
-                                                DURATIONS, chartCompiler, d3) {
+export default (createStream, chartCompiler, d3) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -118,4 +120,4 @@ export function getAgentVsCopytoolChartFactory (getAgentVsCopytoolStream, create
       return conf;
     });
   };
-}
+};

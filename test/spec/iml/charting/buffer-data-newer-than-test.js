@@ -1,25 +1,27 @@
 import moment from 'moment';
 import highland from 'highland';
 import _ from 'intel-lodash-mixins';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('buffer data newer than', function () {
-  var getServerMoment;
+  var getServerMoment, bufferDataNewerThan, spy;
 
-  beforeEach(module(chartingModule, function ($provide) {
-
+  beforeEachAsync(async function () {
+    spy = jasmine.createSpy('spy');
     getServerMoment = jasmine.createSpy('getServerMoment');
 
-    $provide.value('getServerMoment', getServerMoment);
-  }));
+    const mod = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
 
-  var bufferDataNewerThan, spy;
+    bufferDataNewerThan = mod.default;
+  });
 
-  beforeEach(inject(function (_bufferDataNewerThan_) {
-    bufferDataNewerThan = _bufferDataNewerThan_;
-
-    spy = jasmine.createSpy('spy');
-  }));
+  afterEach(resetAll);
 
   it('should flatten milliseconds single seconds', function () {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:03.565Z'));

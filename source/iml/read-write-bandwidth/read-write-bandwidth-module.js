@@ -27,8 +27,7 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 
-import getReadWriteBandwidthStreamFactory from './get-read-write-bandwidth-stream';
-import {getReadWriteBandwidthChartFactory} from './get-read-write-bandwidth-chart';
+import getReadWriteBandwidthChartFactory from './get-read-write-bandwidth-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth';
@@ -37,6 +36,5 @@ export default angular.module('readWriteBandwidth', [
   chartsModule, chartingModule, highlandModule,
   durationPickerModule, readWriteBandwidthTemplate
 ])
-  .factory('getReadWriteBandwidthStream', getReadWriteBandwidthStreamFactory)
   .factory('getReadWriteBandwidthChart', getReadWriteBandwidthChartFactory)
   .name;

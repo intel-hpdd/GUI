@@ -26,8 +26,7 @@ import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
-import getOstBalanceStream from './get-ost-balance-stream';
-import {getOstBalanceChartFactory} from './get-ost-balance-chart';
+import getOstBalanceChartFactory from './get-ost-balance-chart';
 import chartTransformersModule from '../chart-transformers/chart-transformers-module.js';
 
 import type {
@@ -59,5 +58,4 @@ export default angular.module('ostBalance',[
   getTemplatePromiseModule, ostBalanceTemplate, chartTransformersModule
 ])
   .factory('getOstBalanceChart', getOstBalanceChartFactory)
-  .value('getOstBalanceStream', getOstBalanceStream)
   .name;

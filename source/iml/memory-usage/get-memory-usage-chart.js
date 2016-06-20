@@ -19,13 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatBytes from '../number-formatters/format-bytes.js';
-
 // $FlowIgnore: HTML templates that flow does not recognize.
 import memoryUsageChartTemplate from './assets/html/memory-usage-chart';
+import getMemoryUsageStream from './get-memory-usage-stream.js';
+import formatBytes from '../number-formatters/format-bytes.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getMemoryUsageChartFactory (getMemoryUsageStream, createStream,
-                                            DURATIONS, chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -75,4 +75,4 @@ export function getMemoryUsageChartFactory (getMemoryUsageStream, createStream,
       return conf;
     });
   };
-}
+};

@@ -1,17 +1,28 @@
 import highland from 'highland';
 
 import {curry} from 'intel-fp';
-import { getSpaceUsageChartFactory } from
-  '../../../../source/iml/space-usage/get-space-usage-chart';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('space usage chart', () => {
   var chartCompiler, getSpaceUsageStream,
     durationStream, rangeStream, createStream,
-    getSpaceUsageChart, DURATIONS;
+    getSpaceUsageChart, getSpaceUsageChartFactory;
+
+  beforeEachAsync(async function () {
+    getSpaceUsageStream = {};
+    const mod = await mock('source/iml/space-usage/get-space-usage-chart.js', {
+      'source/iml/space-usage/get-space-usage-stream.js': { default: getSpaceUsageStream }
+    });
+    getSpaceUsageChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(() => {
-    getSpaceUsageStream = {};
-
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -25,12 +36,8 @@ describe('space usage chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
     getSpaceUsageChart = getSpaceUsageChartFactory(createStream,
-      getSpaceUsageStream, DURATIONS, chartCompiler);
+      chartCompiler);
 
     getSpaceUsageChart({
       qs: {

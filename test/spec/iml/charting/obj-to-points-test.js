@@ -1,16 +1,12 @@
 import highland from 'highland';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+import objToPoints from '../../../../source/iml/charting/obj-to-points.js';
 
 describe('the obj to points plugin', function () {
-  beforeEach(module(chartingModule));
+  var spy;
 
-  var objToPoints, spy;
-
-  beforeEach(inject(function (_objToPoints_) {
-    objToPoints = _objToPoints_;
-
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-  }));
+  });
 
   it('should convert obj to a points stream', function () {
     highland([

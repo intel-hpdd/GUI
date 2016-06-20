@@ -20,21 +20,18 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
+import highland from 'highland';
 
-export default function objToPointsFactory (highland) {
-  'ngInject';
+export default function objToPoints (s) {
+  var reduce = highland.flip(_.partialRight(_.reduce, []));
 
-  return function objToPoints (s) {
-    var reduce = highland.flip(_.partialRight(_.reduce, []));
+  return s.flatMap(reduce(function flatten (arr, vals, key) {
+    var setId = highland.flip(_.set('id'), key);
+    var setName = highland.flip(_.set('name'), key);
 
-    return s.flatMap(reduce(function flatten (arr, vals, key) {
-      var setId = highland.flip(_.set('id'), key);
-      var setName = highland.flip(_.set('name'), key);
+    vals.map(setId);
+    vals.map(setName);
 
-      vals.map(setId);
-      vals.map(setName);
-
-      return arr.concat(vals);
-    }));
-  };
+    return arr.concat(vals);
+  }));
 }

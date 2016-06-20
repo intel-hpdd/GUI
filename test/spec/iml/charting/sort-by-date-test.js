@@ -1,15 +1,12 @@
 import highland from 'highland';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+import sortByDate from '../../../../source/iml/charting/sort-by-date.js';
 
 describe('the sort by date plugin', function () {
-  beforeEach(module(chartingModule));
+  var spy;
 
-  var sortByDate, spy;
-
-  beforeEach(inject(function (_sortByDate_) {
-    sortByDate = _sortByDate_;
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-  }));
+  });
 
   it('should sort items by date', function () {
     highland([

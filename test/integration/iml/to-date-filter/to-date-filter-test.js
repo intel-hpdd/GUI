@@ -1,16 +1,22 @@
-import toDateFilterModule from '../../../../source/iml/to-date-filter/to-date-filter-module.js';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('to date filter', () => {
-  var toDate, result;
-  beforeEach(module(toDateFilterModule));
+  var createDate, result, mod, d;
+  beforeEachAsync(async function () {
+    createDate = jasmine.createSpy('createDate')
+      .and.returnValue('2015-05-05T00:00:00.000Z');
+    mod = await mock('source/iml/to-date-filter/to-date-filter.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+  });
 
-  beforeEach(inject(function ($filter) {
-    toDate = $filter('toDate');
-
-    result = toDate(1460492750371);
-  }));
+  afterEach(resetAll);
 
   it('should return the date object', () => {
-    expect(result).toEqual(new Date(1460492750371));
+    result = mod.default(d);
+    expect(result).toEqual('2015-05-05T00:00:00.000Z');
   });
 });

@@ -19,24 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import global from './global.js';
 
-import momentModule from './moment/moment-module';
-import environmentModule from './environment-module';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
-import type moment from 'moment';
-export type getServerMoment = () => moment;
-
-export default angular.module('serverMoment', [momentModule, environmentModule])
-  .factory('getServerMoment', getServerMomentFactory)
-  .name;
-
-function getServerMomentFactory (moment, SERVER_TIME_DIFF) {
-  'ngInject';
-
-  return function getServerMoment () {
-    return moment
-      .apply(moment, arguments)
-      .add(SERVER_TIME_DIFF);
-  };
-}
+export default (arg:string | number) => withDefault(
+  () => new global.Date(),
+  Maybe.of(arg)
+    .map(x => new global.Date(x))
+);

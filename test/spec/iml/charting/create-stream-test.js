@@ -1,12 +1,14 @@
-import {createStream as createStreamFactory}
-  from '../../../../source/iml/charting/create-stream';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('create stream', function () {
   var createStream, streamWhenVisible,
     bufferDataNewerThan, getTimeParams,
     requestRangeInner, requestDurationInner;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
       .and.returnValue('streamWhenVisible');
     bufferDataNewerThan = jasmine.createSpy('bufferDataNewerThan')
@@ -25,8 +27,15 @@ describe('create stream', function () {
         .and.returnValue(requestDurationInner)
     };
 
-    createStream = createStreamFactory(streamWhenVisible, bufferDataNewerThan, getTimeParams);
+    const mod = await mock('source/iml/charting/create-stream.js', {
+      'source/iml/charting/buffer-data-newer-than.js': { default :bufferDataNewerThan },
+      'source/iml/charting/get-time-params.js': { getTimeParams }
+    });
+
+    createStream = mod.default(streamWhenVisible);
   });
+
+  afterEach(resetAll);
 
   it('should return an object', () => {
     expect(createStream).toEqual({

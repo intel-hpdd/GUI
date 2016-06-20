@@ -26,8 +26,7 @@ import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import getMdoStreamFactory from './get-mdo-stream';
-import {getMdoChartFactory} from './get-mdo-chart';
+import getMdoChartFactory from './get-mdo-chart';
 import chartTransformersModule from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -63,6 +62,5 @@ export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
   durationPickerModule, mdoChartTemplate, chartTransformersModule
 ])
-  .factory('getMdoStream', getMdoStreamFactory)
   .factory('getMdoChart', getMdoChartFactory)
   .name;

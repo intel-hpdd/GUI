@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
+import moment from 'moment';
 
-export default function (d3, moment) {
+export default function (d3) {
   'ngInject';
 
   var month = d3.time.format('%b %d %H:%M');

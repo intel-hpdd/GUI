@@ -1,18 +1,35 @@
 import moment from 'moment';
 import highland from 'highland';
 import {noop} from 'intel-fp';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('the get time params module', () => {
-  var getServerMoment;
+  var getServerMoment, createDate, getRequestRange,
+    getRequestDuration, getTimeParams;
 
-  beforeEach(module(chartingModule));
+  beforeEachAsync(async function () {
+    getServerMoment = jasmine.createSpy('getServerMoment');
+    createDate = jasmine.createSpy('createDate');
+
+    const mod = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment },
+      'source/iml/create-date.js': { default: createDate }
+    });
+
+    getRequestRange = mod.getRequestRange;
+    getRequestDuration = mod.getRequestDuration;
+    getTimeParams = mod.getTimeParams;
+  });
+
+  afterEach(resetAll);
 
   describe('getRequestRange', () => {
-    var getRequestRange;
-
-    beforeEach(module(($provide) => {
-      getServerMoment = jasmine.createSpy('getServerMoment')
+    beforeEach(() => {
+      getServerMoment
         .and.callFake((d, f) => {
           // We always convert local time to utc time
           // implicitly before send.
@@ -21,13 +38,7 @@ describe('the get time params module', () => {
           // so they will run in different time zones.
           return moment.utc(d, f);
         });
-
-      $provide.value('getServerMoment', getServerMoment);
-    }));
-
-    beforeEach(inject((_getRequestRange_) => {
-      getRequestRange = _getRequestRange_;
-    }));
+    });
 
     it('should return a function', () => {
       expect(getRequestRange).toEqual(jasmine.any(Function));
@@ -75,10 +86,8 @@ describe('the get time params module', () => {
   });
 
   describe('getRequestDuration', () => {
-    var getRequestDuration, createDate;
-
-    beforeEach(module(($provide) => {
-      getServerMoment = jasmine.createSpy('getServerMoment')
+    beforeEach(() => {
+      getServerMoment
         .and.callFake(() => {
           // We always convert local time to utc time
           // implicitly before send.
@@ -88,22 +97,14 @@ describe('the get time params module', () => {
           return moment.utc('2015-04-30T00:00:00.000Z');
         });
 
-      $provide.value('getServerMoment', getServerMoment);
-
-      createDate = jasmine.createSpy('createDate')
-        .and.callFake((d) => {
+      createDate
+        .and.callFake(d => {
           if (!d)
             d = '2015-04-30T00:00:10.000Z';
 
           return new Date(d);
         });
-
-      $provide.value('createDate', createDate);
-    }));
-
-    beforeEach(inject((_getRequestDuration_) => {
-      getRequestDuration = _getRequestDuration_;
-    }));
+    });
 
     it('should return a function', () => {
       expect(getRequestDuration).toEqual(jasmine.any(Function));
@@ -162,12 +163,6 @@ describe('the get time params module', () => {
   });
 
   describe('getTimeParams', () => {
-    var getTimeParams;
-
-    beforeEach(inject((_getTimeParams_) => {
-      getTimeParams = _getTimeParams_;
-    }));
-
     it('should return time param functions', () => {
       expect(getTimeParams).toEqual({
         getRequestDuration: jasmine.any(Function),

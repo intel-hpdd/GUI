@@ -21,84 +21,79 @@
 
 import angular from 'angular';
 
-import {curry, tail, identity} from 'intel-fp';
+import {
+  curry,
+  tail,
+  identity
+} from 'intel-fp';
 
-export const getRequestRange = (getServerMoment) => {
-  'ngInject';
+import getServerMoment from '../get-server-moment.js';
+import createDate from '../create-date.js';
 
-  return curry(3, function getRequestRangeOuter (overrides, begin, end) {
-    getRequestRange.setLatest = identity;
+export const getRequestRange = curry(3, function getRequestRangeOuter (overrides, begin, end) {
+  getRequestRange.setLatest = identity;
 
-    return getRequestRange;
+  return getRequestRange;
 
-    function getRequestRange (params) {
-      params = angular.merge({}, params, overrides);
-      params.qs.begin = getServerMoment(begin).toISOString();
-      params.qs.end = getServerMoment(end).toISOString();
+  function getRequestRange (params) {
+    params = angular.merge({}, params, overrides);
+    params.qs.begin = getServerMoment(begin).toISOString();
+    params.qs.end = getServerMoment(end).toISOString();
 
-      return params;
-    }
-  });
-};
+    return params;
+  }
+});
 
 
-export const getRequestDuration = (getServerMoment, createDate) => {
-  'ngInject';
+export const getRequestDuration = curry(3, function getRequestDurationOuter (overrides, size, unit) {
+  var latest;
 
-  return curry(3, function getRequestDurationOuter (overrides, size, unit) {
-    var latest;
-
-    getRequestDuration.setLatest = function setLatest (s) {
-      return s
-        .collect()
-        .tap(function setLatest (x) {
-          if (x && x.length)
-            latest = tail(x).ts;
-          else
-            latest = null;
-        })
-        .flatten();
-    };
-
-    return getRequestDuration;
-
-    function getRequestDuration (params) {
-      params = angular.merge({}, params, overrides);
-
-      if (latest) {
-        var latestDate = createDate(latest);
-
-        params.qs.end = latestDate.toISOString();
-        params.qs.begin = createDate().toISOString();
-        params.qs.update = true;
-      } else {
-        var end = getServerMoment()
-          .milliseconds(0);
-
-        var secs = end.seconds();
-        end.seconds(secs - (secs % 10));
-
-        params.qs.end = end
-          .clone()
-          .add(10, 'seconds')
-          .toISOString();
-
-        params.qs.begin = end
-          .subtract(size, unit)
-          .subtract(10, 'seconds')
-          .toISOString();
-      }
-
-      return params;
-    }
-  });
-};
-
-export const getTimeParams = (getRequestDuration, getRequestRange) => {
-  'ngInject';
-
-  return {
-    getRequestDuration,
-    getRequestRange
+  getRequestDuration.setLatest = function setLatest (s) {
+    return s
+      .collect()
+      .tap(function setLatest (x) {
+        if (x && x.length)
+          latest = tail(x).ts;
+        else
+          latest = null;
+      })
+      .flatten();
   };
+
+  return getRequestDuration;
+
+  function getRequestDuration (params) {
+    params = angular.merge({}, params, overrides);
+
+    if (latest) {
+      var latestDate = createDate(latest);
+
+      params.qs.end = latestDate.toISOString();
+      params.qs.begin = createDate().toISOString();
+      params.qs.update = true;
+    } else {
+      var end = getServerMoment()
+        .milliseconds(0);
+
+      var secs = end.seconds();
+      end.seconds(secs - (secs % 10));
+
+      params.qs.end = end
+        .clone()
+        .add(10, 'seconds')
+        .toISOString();
+
+      params.qs.begin = end
+        .subtract(size, unit)
+        .subtract(10, 'seconds')
+        .toISOString();
+    }
+
+    return params;
+  }
+});
+
+export const getTimeParams = {
+  getRequestDuration,
+  getRequestRange
 };

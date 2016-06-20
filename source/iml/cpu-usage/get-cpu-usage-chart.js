@@ -21,9 +21,10 @@
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import cpuUsageTemplate from './assets/html/cpu-usage';
+import getCpuUsageStream from './get-cpu-usage-stream.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getCpuUsageChartFactory (createStream, getCpuUsageStream,
-                                         DURATIONS, chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -73,4 +74,4 @@ export function getCpuUsageChartFactory (createStream, getCpuUsageStream,
       return conf;
     });
   };
-}
+};

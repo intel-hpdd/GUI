@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,13 +21,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function createDateFactory ($window) {
-  'ngInject';
+import moment from 'moment';
+import {SERVER_TIME_DIFF} from './environment.js';
 
-  return function createDate (arg) {
-    if (arg)
-      return new $window.Date(arg);
-    else
-      return new $window.Date();
-  };
+/*eslint no-unused-vars: 0 */
+// $FlowIgnore: twix does monkey-patching of moment. it does not export anything useful.
+import twix from 'twix';
+
+export default function getServerMoment () {
+  return moment
+    .apply(moment, arguments)
+    .add(SERVER_TIME_DIFF);
 }

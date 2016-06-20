@@ -2,8 +2,11 @@ import highland from 'highland';
 import moment from 'moment';
 import mdoDataFixtures
   from '../../../data-fixtures/mdo-data-fixture';
-import mdoModule
-  from '../../../../source/iml/mdo/mdo-module';
+
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 import {
   mock,
@@ -12,8 +15,8 @@ import {
 
 
 describe('mdo stream', () => {
-  var socketStream, serverStream,
-    getServerMoment, getMdoStreamFactory;
+  var socketStream, serverStream, bufferDataNewerThan,
+    getServerMoment, getMdoStream, getRequestDuration;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
@@ -21,38 +24,45 @@ describe('mdo stream', () => {
         return (serverStream = highland());
       });
 
-    const mod = await mock('source/iml/mdo/get-mdo-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
-
-    getMdoStreamFactory = mod.default;
-  });
-
-  afterEach(resetAll);
-
-  beforeEach(module(mdoModule, $provide => {
-    $provide.value('socketStream', socketStream);
-
     getServerMoment = jasmine
       .createSpy('getServerMoment')
       .and
       .returnValue(moment('2013-11-15T19:25:20+00:00'));
 
-    $provide.value('getServerMoment', getServerMoment);
-    $provide.factory('getMdoStream', getMdoStreamFactory);
-  }));
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-  var getMdoStream, fixtures, spy, revert;
+    const createDate = jasmine.createSpy('createDate')
+      .and.callFake(arg => withDefault(
+        () => new Date(),
+        Maybe.of(arg)
+          .map(x => new Date(x))));
 
-  beforeEach(inject(_getMdoStream_ => {
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
+    const mod = await mock('source/iml/mdo/get-mdo-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getMdoStream = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  var fixtures, spy, revert;
+
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-
-    getMdoStream = _getMdoStream_;
 
     fixtures = mdoDataFixtures;
 
     revert = patchRateLimit();
-  }));
+  });
 
   afterEach(() => revert());
 
@@ -63,7 +73,7 @@ describe('mdo stream', () => {
   describe('fetching 10 minutes ago', () => {
     var mdoStream;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -72,7 +82,7 @@ describe('mdo stream', () => {
       mdoStream
         .through(convertNvDates)
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {

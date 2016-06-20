@@ -1,25 +1,40 @@
 import moment from 'moment';
 import _ from 'intel-lodash-mixins';
+import durationPickerTemplate from '../../../../source/iml/duration-picker/assets/html/duration-picker';
+import tooltipModule from '../../../../source/iml/tooltip/tooltip-module.js';
+import filtersModule from '../../../../source/iml/filters/filters-module.js';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('the duration picker', () => {
   var $scope, el, $timeout, dropdownButton,
-    dropdownMenu, input, DURATIONS,
-    getErrorText;
+    dropdownMenu, input,
+    getErrorText, mod;
 
-  beforeEach(module('durationPicker', function ($provide) {
-    $provide.value('getServerMoment', () => moment('2015-05-03T07:35'));
+  beforeEach(module(durationPickerTemplate, tooltipModule, filtersModule));
+
+  beforeEachAsync(async function () {
+    mod = await mock('source/iml/duration-picker/duration-picker.js', {
+      'source/iml/get-server-moment.js': { default: () => moment('2015-05-03T07:35') }
+    });
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(($provide, $compileProvider) => {
+    $compileProvider.directive('durationPicker', mod.durationPickerDirective);
   }));
 
-  beforeEach(inject(function ($rootScope, $compile, _$timeout_, _DURATIONS_) {
-    DURATIONS = _DURATIONS_;
-
+  beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     const template = '<duration-picker start-unit="{{ startUnit }}" start-size="{{ startSize }}"></duration-picker>';
-
 
     $timeout = _$timeout_;
 
     $scope = $rootScope.$new();
-    $scope.startUnit = DURATIONS.MINUTES;
+    $scope.startUnit = 'minutes';
     $scope.startSize = 10;
 
     el = $compile(template)($scope);
@@ -43,14 +58,14 @@ describe('the duration picker', () => {
   describe('when choosing a duration', function () {
     it('should default to minutes', function () {
       dropdownButton.click();
-      var minutes = _.capitalize(DURATIONS.MINUTES);
+      var minutes = _.capitalize('minutes');
 
       expect(dropdownButton.filter(`:contains("${minutes}")`).length).toEqual(1);
     });
 
     it('should change the duration unit when the user clicks a dropdown item', function () {
       dropdownButton.click();
-      var hours = _.capitalize(DURATIONS.HOURS);
+      var hours = _.capitalize('hours');
 
       dropdownMenu.find(`a:contains("${hours}")`).click();
 

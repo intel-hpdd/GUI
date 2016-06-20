@@ -19,13 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function sortByDateFactory (sortBy) {
-  'ngInject';
+import sortBy from './sort-by.js';
 
-  return function sortByDate (s) {
-    return s
-      .through(sortBy(function byDate (a, b) {
-        return new Date(a.ts) - new Date(b.ts);
-      }));
-  };
+export default function sortByDate (s) {
+  return s
+    .through(sortBy(function byDate (a, b) {
+      return new Date(a.ts) - new Date(b.ts);
+    }));
 }

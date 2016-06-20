@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
+import moment from 'moment';
 
-export default function heatMap (moment, dateTicks, getHeatMapChart, baseChart) {
+export default function heatMap (dateTicks, getHeatMapChart, baseChart) {
   'ngInject';
 
   return baseChart({

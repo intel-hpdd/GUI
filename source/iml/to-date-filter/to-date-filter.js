@@ -22,11 +22,6 @@
 // express and approved by Intel in writing.
 
 import {memoize} from 'intel-fp';
+import createDate from '../create-date.js';
 
-type msToDate = (milliseconds:number) => Date;
-
-export default function (createDate:msToDate):msToDate {
-  'ngInject';
-
-  return memoize(createDate);
-}
+export default memoize(createDate);

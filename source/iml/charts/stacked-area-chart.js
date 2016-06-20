@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function stackedAreaChart (d3, moment, dateTicks, baseChart) {
+import moment from 'moment';
+
+export default function stackedAreaChart (d3, dateTicks, baseChart) {
   'ngInject';
 
   var colors = d3.scale.category20c();

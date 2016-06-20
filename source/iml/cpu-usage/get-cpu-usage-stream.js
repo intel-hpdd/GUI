@@ -20,49 +20,47 @@
 // express and approved by Intel in writing.
 
 import socketStream from '../socket/socket-stream.js';
+import removeDups from '../charting/remove-dups.js';
+import toNvd3 from '../charting/to-nvd3.js';
 import highland from 'highland';
 
-export default function getCpuUsageStreamFactory (chartPlugins) {
-  'ngInject';
+const types = ['user', 'system', 'iowait'];
 
-  const types = ['user', 'system', 'iowait'];
-
-  return function getCpuUsageStream (requestRange, buff) {
-    const s = highland((push, next) => {
-      const params = requestRange({
-        qs: {
-          reduce_fn: 'average',
-          metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait'
-        }
-      });
-
-      socketStream('/host/metric', params, true)
-        .flatten()
-        .tap(function mapper (x) {
-          types.forEach(function (type) {
-            x.data[type] = ((100 * x.data['cpu_' + type] + (x.data.cpu_total / 2)) / x.data.cpu_total) / 100;
-          });
-        })
-        .map(function calculateCpuAndRam (x) {
-          x.data.read = x.data.stats_read_bytes;
-          x.data.write = -x.data.stats_write_bytes;
-
-          return x;
-        })
-        .through(buff)
-        .through(requestRange.setLatest)
-        .through(chartPlugins.removeDups)
-        .through(chartPlugins.toNvd3(types))
-        .each(function pushData (x) {
-          push(null, x);
-          next();
-        });
+export default (requestRange, buff) => {
+  const s = highland((push, next) => {
+    const params = requestRange({
+      qs: {
+        reduce_fn: 'average',
+        metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait'
+      }
     });
 
-    const s2 = s.ratelimit(1, 10000);
+    socketStream('/host/metric', params, true)
+      .flatten()
+      .tap(function mapper (x) {
+        types.forEach(function (type) {
+          x.data[type] = ((100 * x.data['cpu_' + type] + (x.data.cpu_total / 2)) / x.data.cpu_total) / 100;
+        });
+      })
+      .map(function calculateCpuAndRam (x) {
+        x.data.read = x.data.stats_read_bytes;
+        x.data.write = -x.data.stats_write_bytes;
 
-    s2.destroy = s.destroy.bind(s);
+        return x;
+      })
+      .through(buff)
+      .through(requestRange.setLatest)
+      .through(removeDups)
+      .through(toNvd3(types))
+      .each(function pushData (x) {
+        push(null, x);
+        next();
+      });
+  });
 
-    return s2;
-  };
-}
+  const s2 = s.ratelimit(1, 10000);
+
+  s2.destroy = s.destroy.bind(s);
+
+  return s2;
+};

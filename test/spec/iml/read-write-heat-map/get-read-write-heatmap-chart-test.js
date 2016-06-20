@@ -1,17 +1,33 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
 import {values} from 'intel-obj';
-import {getReadWriteHeatMapChartFactory}
-  from '../../../../source/iml/read-write-heat-map/get-read-write-heat-map-chart';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('read write heat map chart', () => {
   var $location, $filter, chartCompiler, compiled,
-    DURATIONS,
     getReadWriteHeatMapStream, durationStream, rangeStream, createStream,
     routeSegmentUrl, readWriteHeatMapTypes,
-    getReadWriteHeatMapChart, readWriteHeatMapStream, readWriteHeatMapChart;
+    getReadWriteHeatMapChart, readWriteHeatMapStream, readWriteHeatMapChart,
+    getReadWriteHeatMapChartFactory;
 
   var types = ['stats_read_bytes', 'stats_write_bytes', 'stats_read_iops', 'stats_write_iops'];
+
+  beforeEachAsync(async function () {
+    readWriteHeatMapStream = {};
+    getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream')
+      .and.returnValue(readWriteHeatMapStream);
+
+    const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-chart.js', {
+      'source/iml/read-write-heat-map/get-read-write-heat-map-stream.js': { default: getReadWriteHeatMapStream }
+    });
+    getReadWriteHeatMapChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
 
   beforeEach(() => {
     compiled = {};
@@ -25,10 +41,6 @@ describe('read write heat map chart', () => {
       READ_IOPS: 'stats_read_iops',
       WRITE_IOPS: 'stats_write_iops'
     };
-
-    readWriteHeatMapStream = {};
-    getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream')
-      .and.returnValue(readWriteHeatMapStream);
 
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
@@ -50,13 +62,8 @@ describe('read write heat map chart', () => {
       path: jasmine.createSpy('path')
     };
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
     getReadWriteHeatMapChart = getReadWriteHeatMapChartFactory(createStream, $location, $filter,
-      getReadWriteHeatMapStream, DURATIONS, chartCompiler,
-      readWriteHeatMapTypes);
+      chartCompiler, readWriteHeatMapTypes);
     readWriteHeatMapChart = getReadWriteHeatMapChart({
       qs: {
         host_id: '1'

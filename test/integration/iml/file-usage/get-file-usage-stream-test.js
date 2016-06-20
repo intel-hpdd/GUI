@@ -1,8 +1,11 @@
-import highland from 'highland';
 import fileUsageDataFixtures from '../../../data-fixtures/file-usage-fixtures';
+import highland from 'highland';
 import moment from 'moment';
 
-import fileUsageModule from '../../../../source/iml/file-usage/file-usage-module';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 import {
   mock,
@@ -11,7 +14,7 @@ import {
 
 describe('file usage stream', () => {
   var socketStream, serverStream, getServerMoment,
-    getFileUsageStreamFactory;
+    bufferDataNewerThan, getFileUsageStream, getRequestDuration;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
@@ -19,31 +22,40 @@ describe('file usage stream', () => {
         return (serverStream = highland());
       });
 
-    const mod = await mock('source/iml/file-usage/get-file-usage-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
-
-    getFileUsageStreamFactory = mod.default;
-  });
-
-  afterEach(resetAll);
-
-  beforeEach(module(fileUsageModule, $provide => {
     getServerMoment = jasmine
       .createSpy('getServerMoment')
       .and
       .returnValue(moment('2014-04-14T13:40:00+00:00'));
 
-    $provide.value('getServerMoment', getServerMoment);
-    $provide.factory('getFileUsageStream', getFileUsageStreamFactory);
-  }));
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-  var getFileUsageStream, fixtures, spy, revert;
+    const createDate = jasmine.createSpy('createDate')
+      .and.callFake(arg => withDefault(
+        () => new Date(),
+        Maybe.of(arg)
+          .map(x => new Date(x))));
 
-  beforeEach(inject((_getFileUsageStream_) => {
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
+    const mod = await mock('source/iml/file-usage/get-file-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getFileUsageStream = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  var fixtures, spy, revert;
+
+  beforeEach(inject(() => {
     spy = jasmine.createSpy('spy');
-
-    getFileUsageStream = _getFileUsageStream_;
 
     fixtures = fileUsageDataFixtures;
 
@@ -59,7 +71,7 @@ describe('file usage stream', () => {
   describe('fetching 10 minutes ago', () => {
     var fileUsageStream;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -68,7 +80,7 @@ describe('file usage stream', () => {
       fileUsageStream
         .through(convertNvDates)
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {

@@ -1,17 +1,28 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
 
-import { getMemoryUsageChartFactory } from
-  '../../../../source/iml/memory-usage/get-memory-usage-chart';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('memory usage chart', () => {
   var chartCompiler, createStream, getMemoryUsageStream,
-    durationStream, rangeStream,
-    getMemoryUsageChart, DURATIONS;
+    durationStream, rangeStream, getMemoryUsageChartFactory,
+    getMemoryUsageChart;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     getMemoryUsageStream = {};
 
+    const mod = await mock('source/iml/memory-usage/get-memory-usage-chart.js', {
+      'source/iml/memory-usage/get-memory-usage-stream.js': { default: getMemoryUsageStream }
+    });
+    getMemoryUsageChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -25,12 +36,7 @@ describe('memory usage chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
-    getMemoryUsageChart = getMemoryUsageChartFactory(getMemoryUsageStream, createStream,
-      DURATIONS, chartCompiler);
+    getMemoryUsageChart = getMemoryUsageChartFactory(createStream, chartCompiler);
 
     getMemoryUsageChart({
       qs: {

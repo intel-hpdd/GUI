@@ -21,9 +21,10 @@
 
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
+import getCpuUsageChart from '../cpu-usage/get-cpu-usage-chart.js';
 
 export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBandwidthChart,
-                                                     getCpuUsageChart, getMemoryUsageChart) {
+                                                     getMemoryUsageChart) {
   'ngInject';
 
   return function serverDashboardChartResolves () {

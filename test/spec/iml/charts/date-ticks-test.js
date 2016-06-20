@@ -1,13 +1,13 @@
 import chartsModule from '../../../../source/iml/charts/charts-module';
+import moment from 'moment';
 
 describe('date ticks', function () {
 
-  var moment, dateTicks, start;
+  var dateTicks, start;
 
   beforeEach(module(chartsModule));
 
-  beforeEach(inject(function (_moment_, _dateTicks_) {
-    moment = _moment_;
+  beforeEach(inject(function (_dateTicks_) {
     dateTicks = _dateTicks_;
     start = moment('2013-11-11 00:00');
   }));

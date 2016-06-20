@@ -21,9 +21,10 @@
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
+import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getHostCpuRamChartFactory (createStream, getHostCpuRamStream,
-                                           DURATIONS, chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -72,4 +73,4 @@ export function getHostCpuRamChartFactory (createStream, getHostCpuRamStream,
       return conf;
     });
   };
-}
+};

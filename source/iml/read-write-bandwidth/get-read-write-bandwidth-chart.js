@@ -19,13 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatBytes from '../number-formatters/format-bytes.js';
-
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth';
+import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
+import formatBytes from '../number-formatters/format-bytes.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getReadWriteBandwidthChartFactory (createStream, getReadWriteBandwidthStream, DURATIONS,
-                                                   chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   var DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -79,4 +79,4 @@ export function getReadWriteBandwidthChartFactory (createStream, getReadWriteBan
       return conf;
     });
   };
-}
+};

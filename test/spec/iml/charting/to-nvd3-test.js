@@ -1,15 +1,13 @@
 import highland from 'highland';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+import toNvd3 from '../../../../source/iml/charting/to-nvd3.js';
 
 describe('the to nvd3 plugin', function () {
-  beforeEach(module(chartingModule));
 
-  var toNvd3, spy;
+  var spy;
 
-  beforeEach(inject(function (_toNvd3_) {
-    toNvd3 = _toNvd3_;
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-  }));
+  });
 
   it('should convert items to nvd3 format', function () {
     highland([

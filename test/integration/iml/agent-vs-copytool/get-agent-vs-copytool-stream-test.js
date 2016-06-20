@@ -2,7 +2,11 @@ import highland from 'highland';
 import moment from 'moment';
 
 import agentVsCopytoolFixtures from '../../../data-fixtures/agent-vs-copytool-fixtures';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 import {
   mock,
@@ -10,15 +14,9 @@ import {
 } from '../../../system-mock.js';
 
 describe('agent vs copytool stream', () => {
-  beforeEach(module(chartingModule, $provide => {
-    var getServerMoment = jasmine.createSpy('getServerMoment')
-      .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
 
-    $provide.value('getServerMoment', getServerMoment);
-  }));
-
-  var revert, getAgentVsCopytoolStreamFactory, getAgentVsCopytoolStream, fixtures,
-    socketStream, metricStream;
+  var revert, getAgentVsCopytoolStream, fixtures, getRequestDuration,
+    socketStream, metricStream, bufferDataNewerThan;
 
   beforeEachAsync(async function () {
     socketStream = jasmine
@@ -26,22 +24,38 @@ describe('agent vs copytool stream', () => {
       .and
       .callFake(() => (metricStream = highland()));
 
-    const mod = await mock('source/iml/agent-vs-copytool/agent-vs-copytool-stream', {
+    var getServerMoment = jasmine.createSpy('getServerMoment')
+      .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
+
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
+
+    const createDate = jasmine.createSpy('createDate')
+      .and.callFake(arg => withDefault(
+        () => new Date(),
+        Maybe.of(arg)
+          .map(x => new Date(x))));
+
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
+    const mod = await mock('source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
 
-    getAgentVsCopytoolStreamFactory = mod.default;
+    getAgentVsCopytoolStream = mod.default;
   });
 
   afterEach(resetAll);
 
-  beforeEach(inject(chartPlugins => {
+  beforeEach(() => {
     fixtures = agentVsCopytoolFixtures;
-
-    getAgentVsCopytoolStream = getAgentVsCopytoolStreamFactory(chartPlugins);
-
     revert = patchRateLimit();
-  }));
+  });
 
   afterEach(() => revert());
 
@@ -52,7 +66,7 @@ describe('agent vs copytool stream', () => {
   describe('fetching 10 minutes ago', () => {
     var agentVsCopytoolStream, spy;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -62,7 +76,7 @@ describe('agent vs copytool stream', () => {
 
       agentVsCopytoolStream
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {

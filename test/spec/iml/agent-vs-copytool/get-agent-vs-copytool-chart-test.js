@@ -2,11 +2,33 @@ import {identity} from 'intel-fp';
 import agentVsCopytoolModule from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 describe('get agent vs copytool chart exports', () => {
   var createStream, getAgentVsCopytoolStream, createDate,
-    chartCompiler, durationStream, durationStreamInstance, rangeStream, rangeStreamInstance;
+    chartCompiler, durationStream, durationStreamInstance,
+    rangeStream, rangeStreamInstance, getAgentVsCopytoolChart,
+    agentVsCopytoolChart, d3, timeScale, linearScale, ordinalScale,
+    getAgentVsCopytoolChartFactory;
 
-  beforeEach(module(agentVsCopytoolModule, ($provide) => {
+  beforeEachAsync(async function () {
+    getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream');
+    createDate = jasmine.createSpy('createDate');
+
+    const mod = await mock('source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js', {
+      'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': { default: getAgentVsCopytoolStream },
+      'source/iml/create-date.js': { default: createDate }
+    });
+
+    getAgentVsCopytoolChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module(agentVsCopytoolModule, () => {
     durationStreamInstance = highland();
     spyOn(durationStreamInstance, 'destroy');
     durationStream = jasmine.createSpy('durationStream')
@@ -22,25 +44,12 @@ describe('get agent vs copytool chart exports', () => {
       rangeStream: jasmine.createSpy('rangeStreamWrapper')
         .and.returnValue(rangeStream)
     };
-    $provide.value('createStream', createStream);
-
-    getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream');
-    $provide.value('getAgentVsCopytoolStream', getAgentVsCopytoolStream);
 
     chartCompiler = jasmine.createSpy('chartCompiler')
       .and.returnValue('chartCompiler');
-    $provide.value('chartCompiler', chartCompiler);
-
-    createDate = jasmine.createSpy('createDate');
-    $provide.value('createDate', createDate);
   }));
 
-  var getAgentVsCopytoolChart, agentVsCopytoolChart, d3,
-    timeScale, linearScale, ordinalScale;
-
-  beforeEach(inject((_getAgentVsCopytoolChart_, _d3_) => {
-    getAgentVsCopytoolChart = _getAgentVsCopytoolChart_;
-
+  beforeEach(inject((_d3_) => {
     d3 = _d3_;
     spyOn(d3.time, 'scale').and.callFake(() => {
       timeScale = {};
@@ -86,6 +95,9 @@ describe('get agent vs copytool chart exports', () => {
 
       return ordinalScale;
     });
+
+    getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
+      createStream, chartCompiler, d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
       foo: 'bar'

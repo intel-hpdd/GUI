@@ -22,27 +22,11 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import createDateModule from '../create-date/create-date-module';
-import serverMomentModule from '../server-moment-module';
 import highlandModule from '../highland/highland-module';
 import d3Module from '../d3/d3-module';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import chartCompilerModule from '../chart-compiler/chart-compiler-module';
-import bufferDataNewerThan from './buffer-data-newer-than';
-import chartPlugins from './chart-plugins';
-import {createStream} from './create-stream';
-import {getRequestRange, getRequestDuration, getTimeParams} from './get-time-params';
-import nameSeries from './name-series';
-import objToPointsFactory from './obj-to-points';
-import removeDupsBy from './remove-dups-by';
-import removeDups from './remove-dups';
-import removeEpochData from './remove-epoch-data';
-import roundData from './round-data';
-import sortByDateFactory from './sort-by-date';
-import sortBy from './sort-by';
-import sumByDate from './sum-by-date';
-import toNvd3 from './to-nvd3';
-import unionWithTarget from './union-with-target';
+import createStream from './create-stream';
 
 import type {
   HighlandStreamT
@@ -57,25 +41,8 @@ export type createStreamT = {
 
 
 export default angular.module('charting', [
-  createDateModule, serverMomentModule,
-  highlandModule, d3Module, getTemplatePromiseModule,
-  chartCompilerModule
+  highlandModule, d3Module,
+  getTemplatePromiseModule, chartCompilerModule
 ])
-  .factory('bufferDataNewerThan', bufferDataNewerThan)
-  .factory('chartPlugins', chartPlugins)
   .factory('createStream', createStream)
-  .factory('getRequestRange', getRequestRange)
-  .factory('getRequestDuration', getRequestDuration)
-  .factory('getTimeParams', getTimeParams)
-  .value('nameSeries', nameSeries)
-  .factory('objToPoints', objToPointsFactory)
-  .value('removeDupsBy', removeDupsBy)
-  .value('removeDups', removeDups)
-  .value('removeEpochData', removeEpochData)
-  .value('roundData', roundData)
-  .factory('sortByDate', sortByDateFactory)
-  .value('sortBy', sortBy)
-  .factory('sumByDate', sumByDate)
-  .value('toNvd3', toNvd3)
-  .value('unionWithTarget', unionWithTarget)
   .name;

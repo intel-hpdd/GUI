@@ -1,16 +1,12 @@
 import highland from 'highland';
-import chartingModule from '../../../../source/iml/charting/charting-module';
+import removeDups from '../../../../source/iml/charting/remove-dups.js';
 
 describe('the remove dups plugin', function () {
+  var spy;
 
-  beforeEach(module(chartingModule));
-
-  var removeDups, spy;
-
-  beforeEach(inject(function (_removeDups_) {
-    removeDups = _removeDups_;
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-  }));
+  });
 
   it('should remove dups', function () {
     highland([

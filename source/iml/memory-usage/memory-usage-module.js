@@ -28,8 +28,7 @@ import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
-import getMemoryUsageStreamFactory from './get-memory-usage-stream';
-import {getMemoryUsageChartFactory} from './get-memory-usage-chart';
+import getMemoryUsageChartFactory from './get-memory-usage-chart';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import memoryUsageChartTemplate from './assets/html/memory-usage-chart';
@@ -41,6 +40,5 @@ export default angular.module('memoryUsageModule', [
   streamWhenVisibleModule,
   memoryUsageChartTemplate
 ])
-  .factory('getMemoryUsageStream', getMemoryUsageStreamFactory)
   .factory('getMemoryUsageChart', getMemoryUsageChartFactory)
   .name;

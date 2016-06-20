@@ -1,16 +1,31 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
-import {getReadWriteBandwidthChartFactory} from
-  '../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart';
+
+import {DURATIONS} from '../../../../source/iml/duration-picker/duration-picker.js';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('get read write bandwidth chart', () => {
-  var chartCompiler, createStream, getReadWriteBandwidthStream, DURATIONS,
-    durationStream, rangeStream,
-    getReadWriteBandwidthChart;
+  var chartCompiler, createStream, getReadWriteBandwidthStream,
+    durationStream, rangeStream, getReadWriteBandwidthChart,
+    getReadWriteBandwidthChartFactory;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     getReadWriteBandwidthStream = {};
 
+    const mod = await mock('source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js', {
+      'source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js': { default: getReadWriteBandwidthStream }
+    });
+
+    getReadWriteBandwidthChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -24,12 +39,8 @@ describe('get read write bandwidth chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
     getReadWriteBandwidthChart = getReadWriteBandwidthChartFactory(createStream,
-      getReadWriteBandwidthStream, DURATIONS, chartCompiler);
+      chartCompiler);
 
     getReadWriteBandwidthChart({
       qs: {

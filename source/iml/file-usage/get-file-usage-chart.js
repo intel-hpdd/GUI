@@ -21,9 +21,10 @@
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import fileUsageChartTemplate from './assets/html/file-usage-chart';
+import getFileUsageStream from './get-file-usage-stream.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
 
-export function getFileUsageChartFactory (createStream, getFileUsageStream,
-                                          DURATIONS, chartCompiler) {
+export default (createStream, chartCompiler) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -76,4 +77,4 @@ export function getFileUsageChartFactory (createStream, getFileUsageStream,
       return conf;
     });
   };
-}
+};

@@ -22,42 +22,37 @@
 // express and approved by Intel in writing.
 
 import {curry} from 'intel-fp';
+import getServerMoment from '../get-server-moment.js';
+import sortByDate from './sort-by-date.js';
 
-import type {getServerMoment} from '../server-moment-module.js';
-import type {sortByDate} from '../charting/sort-by-date.js';
+export default curry(2, function bufferDataNewerThan (size, unit) {
+  var buffer = [];
 
-export default (getServerMoment:getServerMoment, sortByDate:sortByDate) => {
-  'ngInject';
+  return function bufferDataNewerThanInner (s) {
+    var leadingEdge;
 
-  return curry(2, function bufferDataNewerThan (size, unit) {
-    var buffer = [];
+    return s
+      .collect()
+      .tap(function assignLeadingEdge () {
+        leadingEdge = getServerMoment()
+          .milliseconds(0).subtract(size, unit);
 
-    return function bufferDataNewerThanInner (s) {
-      var leadingEdge;
+        var secs = leadingEdge.seconds();
+        leadingEdge.seconds(secs - (secs % 10));
 
-      return s
-        .collect()
-        .tap(function assignLeadingEdge () {
-          leadingEdge = getServerMoment()
-            .milliseconds(0).subtract(size, unit);
-
-          var secs = leadingEdge.seconds();
-          leadingEdge.seconds(secs - (secs % 10));
-
-          leadingEdge = leadingEdge.valueOf();
-        })
-        .flatMap(function concatData (x) {
-          return buffer.concat(x);
-        })
-        .filter(function removeStaleData (point) {
-          return new Date(point.ts).valueOf() >= leadingEdge;
-        })
-        .through(sortByDate)
-        .collect()
-        .tap(function assignBuffer (x) {
-          buffer = x;
-        })
-        .flatten();
-    };
-  });
-};
+        leadingEdge = leadingEdge.valueOf();
+      })
+      .flatMap(function concatData (x) {
+        return buffer.concat(x);
+      })
+      .filter(function removeStaleData (point) {
+        return new Date(point.ts).valueOf() >= leadingEdge;
+      })
+      .through(sortByDate)
+      .collect()
+      .tap(function assignBuffer (x) {
+        buffer = x;
+      })
+      .flatten();
+  };
+});

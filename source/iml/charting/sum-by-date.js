@@ -19,32 +19,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function sumByDate () {
-  'ngInject';
+export default function sumByDate (s) {
+  return s
+    .group('ts')
+    .doto(function sum (grouped) {
+      Object.keys(grouped)
+        .forEach(function (key) {
+          grouped[key] = grouped[key].reduce(function (obj, x) {
+            Object.keys(x.data).forEach(function (dataKey) {
+              var d = obj[dataKey] || 0;
 
-  return function sumByDate (s) {
-    return s
-      .group('ts')
-      .doto(function sum (grouped) {
-        Object.keys(grouped)
-          .forEach(function (key) {
-            grouped[key] = grouped[key].reduce(function (obj, x) {
-              Object.keys(x.data).forEach(function (dataKey) {
-                var d = obj[dataKey] || 0;
+              obj[dataKey] = d + x.data[dataKey];
+            });
 
-                obj[dataKey] = d + x.data[dataKey];
-              });
-
-              return obj;
-            }, {});
-          });
-      })
-      .flatMap(function (grouped) {
-        return Object.keys(grouped).map(function (ts) {
-          var x = grouped[ts];
-          x.ts = ts;
-          return x;
+            return obj;
+          }, {});
         });
+    })
+    .flatMap(function (grouped) {
+      return Object.keys(grouped).map(function (ts) {
+        var x = grouped[ts];
+        x.ts = ts;
+        return x;
       });
-  };
+    });
 }

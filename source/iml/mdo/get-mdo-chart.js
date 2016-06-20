@@ -19,18 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatNumber from '../number-formatters/format-number.js';
-
 import {identity} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import mdoTemplate from './assets/html/mdo';
 
-import type {getMdoStreamT} from './mdo-module.js';
+import getMdoStream from './get-mdo-stream.js';
+import formatNumber from '../number-formatters/format-number.js';
+import {DURATIONS} from '../duration-picker/duration-picker.js';
+
 import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
 
-export function getMdoChartFactory (createStream, getMdoStream:getMdoStreamT, DURATIONS,
-                               chartCompiler:chartCompilerT) {
+export default (createStream, chartCompiler:chartCompilerT) => {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
@@ -81,4 +81,4 @@ export function getMdoChartFactory (createStream, getMdoStream:getMdoStreamT, DU
       return conf;
     });
   };
-}
+};

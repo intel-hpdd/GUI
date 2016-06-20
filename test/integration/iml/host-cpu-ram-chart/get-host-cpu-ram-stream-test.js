@@ -4,8 +4,10 @@ import moment from 'moment';
 import hostCpuRamDataFixtures from
   '../../../data-fixtures/host-cpu-ram-data-fixtures';
 
-import hostCpuRamChartModule from
-  '../../../../source/iml/host-cpu-ram-chart/host-cpu-ram-chart-module';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 import {
   mock,
@@ -13,21 +15,14 @@ import {
 } from '../../../system-mock.js';
 
 describe('The host cpu ram stream', () => {
-  var socketStream, serverStream,
-    getServerMoment, getHostCpuRamStreamFactory;
+  var socketStream, serverStream, bufferDataNewerThan,
+    getServerMoment, getHostCpuRamStream,
+    getRequestDuration;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(() => (serverStream = highland()));
 
-    const mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
-
-    getHostCpuRamStreamFactory = mod.default;
-  });
-
-  beforeEach(module(hostCpuRamChartModule, $provide => {
     getServerMoment = jasmine
       .createSpy('getServerMoment')
       .and
@@ -35,23 +30,40 @@ describe('The host cpu ram stream', () => {
         moment('2013-11-18T20:59:30+00:00')
       );
 
-    $provide.value('getServerMoment', getServerMoment);
-    $provide.factory('getHostCpuRamStream', getHostCpuRamStreamFactory);
-  }));
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-  var getHostCpuRamStream, fixtures, spy, revert;
+    const createDate = jasmine.createSpy('createDate')
+      .and.callFake(arg => withDefault(
+        () => new Date(),
+        Maybe.of(arg)
+          .map(x => new Date(x))));
+
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
+    const mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
+
+    getHostCpuRamStream = mod.default;
+  });
+
+  var fixtures, spy, revert;
 
   afterEach(resetAll);
 
-  beforeEach(inject(_getHostCpuRamStream_ => {
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-
-    getHostCpuRamStream = _getHostCpuRamStream_;
 
     fixtures = hostCpuRamDataFixtures;
 
     revert = patchRateLimit();
-  }));
+  });
 
   afterEach(() => revert());
 
@@ -62,7 +74,7 @@ describe('The host cpu ram stream', () => {
   describe('fetching 10 minutes ago', () => {
     var hostCpuRamStream;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -71,7 +83,7 @@ describe('The host cpu ram stream', () => {
       hostCpuRamStream
         .through(convertNvDates)
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {

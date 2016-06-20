@@ -1,16 +1,29 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
-import {getHostCpuRamChartFactory} from
-  '../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart';
+import {DURATIONS} from '../../../../source/iml/duration-picker/duration-picker.js';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('host cpu ram chart', () => {
   var chartCompiler, getHostCpuRamStream, getHostCpuRamChart,
-    DURATIONS,
+    getHostCpuRamChartFactory,
     durationStream, rangeStream, createStream;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     getHostCpuRamStream = {};
+    const mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js', {
+      'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': { default: getHostCpuRamStream }
+    });
 
+    getHostCpuRamChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -24,12 +37,7 @@ describe('host cpu ram chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
-    getHostCpuRamChart = getHostCpuRamChartFactory(createStream,
-      getHostCpuRamStream, DURATIONS, chartCompiler);
+    getHostCpuRamChart = getHostCpuRamChartFactory(createStream, chartCompiler);
 
     getHostCpuRamChart('Metadata Servers', {
       qs: { role: 'MDS' }

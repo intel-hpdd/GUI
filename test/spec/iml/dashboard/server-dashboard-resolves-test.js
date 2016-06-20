@@ -1,20 +1,32 @@
-import serverDashboardModule
-  from '../../../../source/iml/dashboard/server-dashboard-module';
-
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('server dashboard resolves', () => {
   var getReadWriteBandwidthChart, getCpuUsageChart,
-    getMemoryUsageChart, $route;
+    getMemoryUsageChart, $route, serverDashboardChartResolvesFactory;
 
-  beforeEach(module(serverDashboardModule, function ($provide) {
-    getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
-    $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
-
+  beforeEachAsync(async function () {
     getCpuUsageChart = jasmine.createSpy('getCpuUsageChart');
-    $provide.value('getCpuUsageChart', getCpuUsageChart);
 
+    const mod = await mock('source/iml/dashboard/server-dashboard-resolves.js', {
+      'source/iml/cpu-usage/get-cpu-usage-chart.js': { default: getCpuUsageChart }
+    });
+
+    serverDashboardChartResolvesFactory = mod.serverDashboardChartResolvesFactory;
+  });
+
+  afterEach(resetAll);
+
+  var $q, $rootScope, serverDashboardChartResolves;
+
+  beforeEach(inject(function (_$q_, _$rootScope_) {
+    $q = _$q_;
+    $rootScope = _$rootScope_;
+
+    getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
     getMemoryUsageChart = jasmine.createSpy('getMemoryUsageChart');
-    $provide.value('getMemoryUsageChart', getMemoryUsageChart);
 
     $route = {
       current: {
@@ -23,15 +35,9 @@ describe('server dashboard resolves', () => {
         }
       }
     };
-    $provide.value('$route', $route);
-  }));
 
-  var $q, $rootScope, serverDashboardChartResolves;
-
-  beforeEach(inject(function (_$q_, _$rootScope_, _serverDashboardChartResolves_) {
-    $q = _$q_;
-    $rootScope = _$rootScope_;
-    serverDashboardChartResolves = _serverDashboardChartResolves_;
+    serverDashboardChartResolves = serverDashboardChartResolvesFactory(
+      $route, $q, getReadWriteBandwidthChart, getMemoryUsageChart);
   }));
 
   it('should return a function', function () {

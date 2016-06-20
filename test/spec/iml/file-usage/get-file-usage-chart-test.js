@@ -1,18 +1,31 @@
 import highland from 'highland';
 import {curry} from 'intel-fp';
-import {getFileUsageChartFactory} from
-  '../../../../source/iml/file-usage/get-file-usage-chart';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('file usage chart', () => {
   var chartCompiler, getFileUsageStream, fileUsageStream,
     durationStream, rangeStream, createStream,
-    getFileUsageChart, DURATIONS;
+    getFileUsageChart, getFileUsageChartFactory;
 
-  beforeEach(() => {
+  beforeEachAsync(async function () {
     fileUsageStream = {};
     getFileUsageStream = jasmine.createSpy('getFileUsageStream')
       .and.returnValue(fileUsageStream);
 
+    const mod = await mock('source/iml/file-usage/get-file-usage-chart.js', {
+      'source/iml/file-usage/get-file-usage-stream.js': { default: getFileUsageStream }
+    });
+
+    getFileUsageChartFactory = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(() => {
     durationStream = jasmine.createSpy('durationStream')
       .and.callFake(() => highland());
 
@@ -26,12 +39,7 @@ describe('file usage chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    DURATIONS = {
-      MINUTES: 'minutes'
-    };
-
-    getFileUsageChart = getFileUsageChartFactory(createStream,
-      getFileUsageStream, DURATIONS, chartCompiler);
+    getFileUsageChart = getFileUsageChartFactory(createStream, chartCompiler);
 
     getFileUsageChart('foo', 'bar', {
       qs: {

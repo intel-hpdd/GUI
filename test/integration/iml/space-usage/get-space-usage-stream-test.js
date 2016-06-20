@@ -2,8 +2,12 @@ import highland from 'highland';
 import moment from 'moment';
 import spaceUsageDataFixtures from
   '../../../data-fixtures/space-usage-fixtures';
-import spaceUsageModule from
-  '../../../../source/iml/space-usage/space-usage-module';
+
+
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 import {
   mock,
@@ -12,7 +16,8 @@ import {
 
 describe('space usage stream', () => {
   var socketStream, serverStream, getServerMoment,
-    getSpaceUsageStreamFactory;
+    getSpaceUsageStream, bufferDataNewerThan,
+    getRequestDuration;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
@@ -20,35 +25,43 @@ describe('space usage stream', () => {
         return (serverStream = highland());
       });
 
+    getServerMoment = jasmine.createSpy('getServerMoment')
+      .and.returnValue(moment('2014-04-14T13:12:00+00:00'));
+
+    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
+      'source/iml/get-server-moment.js': { default: getServerMoment }
+    });
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
+
+    const createDate = jasmine.createSpy('createDate')
+      .and.callFake(arg => withDefault(
+        () => new Date(),
+        Maybe.of(arg)
+          .map(x => new Date(x))));
+
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date.js': { default: createDate }
+    });
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
+
     const mod = await mock('source/iml/space-usage/get-space-usage-stream.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
 
-    getSpaceUsageStreamFactory = mod.default;
+    getSpaceUsageStream = mod.default;
   });
 
   afterEach(resetAll);
 
-  beforeEach(module(spaceUsageModule, $provide => {
-    getServerMoment = jasmine.createSpy('getServerMoment')
-      .and.returnValue(moment('2014-04-14T13:12:00+00:00'));
+  var fixtures, spy, revert;
 
-    $provide.value('getServerMoment', getServerMoment);
-    $provide.factory('getSpaceUsageStream', getSpaceUsageStreamFactory);
-  }));
-
-  var getSpaceUsageStream, fixtures, spy, revert;
-
-
-  beforeEach(inject(_getSpaceUsageStream_ => {
+  beforeEach(() => {
     spy = jasmine.createSpy('spy');
-
-    getSpaceUsageStream = _getSpaceUsageStream_;
 
     fixtures = spaceUsageDataFixtures;
 
     revert = patchRateLimit();
-  }));
+  });
 
   afterEach(() => {
     revert();
@@ -61,7 +74,7 @@ describe('space usage stream', () => {
   describe('fetching 10 minutes ago', () => {
     var spaceUsageStream;
 
-    beforeEach(inject((getRequestDuration, bufferDataNewerThan) => {
+    beforeEach(() => {
       var buff = bufferDataNewerThan(10, 'minutes');
       var requestDuration = getRequestDuration({}, 10, 'minutes');
 
@@ -70,7 +83,7 @@ describe('space usage stream', () => {
       spaceUsageStream
         .through(convertNvDates)
         .each(spy);
-    }));
+    });
 
     describe('when there is data', () => {
       beforeEach(() => {
