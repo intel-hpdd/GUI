@@ -1,0 +1,24 @@
+.log.container {
+  .no-records {
+    margin-top: 50px;
+
+    h1 {
+      color: @gray-light;
+    }
+  }
+
+  .log-table {
+    &.ng-enter {
+      transition: 0.1s;
+      opacity: 0;
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+    }
+
+    &.ng-leave {
+      display: none;
+    }
+  }
+}

@@ -52,7 +52,8 @@ export default () => ({
       mgt: '?mgts_tab.htm',
       statusQuery: '?status_page.htm',
       hsm: '?hsm_page.htm',
-      dashboard: '?dashboard_charts.htm'
+      dashboard: '?dashboard_charts.htm',
+      logQuery: '?logs_page.htm'
     };
 
     rs

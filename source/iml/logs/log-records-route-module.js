@@ -19,39 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import angular from 'angular';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
+import logRecordsSegment from './log-records-route.js';
 
-export default function StatusController ($scope, $location, notificationStream) {
-  'ngInject';
+// $FlowIgnore: HTML templates that flow does not recognize.
+import loadingTemplate from '../loading/assets/html/loading';
 
-  const s = notificationStream
-    .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
-    .pluck('objects');
-
-  $scope.propagateChange($scope, this, 'data', s);
-
-  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
-
-  var types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
-  var getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
-    fp.lensProp,
-    fp.view
-  );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-  var ctrl = this;
-  this.pageChanged = function pageChanged () {
-    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
-  };
-}
+export default angular.module('logRecordsRouteModule', [
+  loadingTemplate
+])
+  .config(logRecordsSegment)
+  .name;

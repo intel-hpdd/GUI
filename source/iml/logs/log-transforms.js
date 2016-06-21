@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,37 +23,22 @@
 
 import * as fp from 'intel-fp';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
+const getHostByFqdn = (hosts, fqdn) => fp.find(
+  x => x.fqdn === fqdn,
+  hosts
+);
 
-export default function StatusController ($scope, $location, notificationStream) {
-  'ngInject';
+type objArr = Object[];
 
-  const s = notificationStream
-    .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
-    .pluck('objects');
+export function addHostIds ([servers, logs]:objArr) {
+  logs.objects = logs.objects.map(log => {
+    const host = getHostByFqdn(servers, log.fqdn);
 
-  $scope.propagateChange($scope, this, 'data', s);
+    return {
+      ...log,
+      host_id: host && host.id
+    };
+  });
 
-  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
-
-  var types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
-  var getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
-    fp.lensProp,
-    fp.view
-  );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-  var ctrl = this;
-  this.pageChanged = function pageChanged () {
-    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
-  };
+  return logs;
 }

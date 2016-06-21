@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,39 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-
-import {
-  addCurrentPage
-} from '../api-transforms.js';
-
-export default function StatusController ($scope, $location, notificationStream) {
-  'ngInject';
-
-  const s = notificationStream
-    .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
-    .pluck('objects');
-
-  $scope.propagateChange($scope, this, 'data', s);
-
-  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
-
-  var types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
-  var getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
-    fp.lensProp,
-    fp.view
-  );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-  var ctrl = this;
-  this.pageChanged = function pageChanged () {
-    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
+export function addCurrentPage <T: {meta: Object}> (o:T):T {
+  return {
+    ...o,
+    meta: {
+      ...o.meta,
+      current_page: o.meta.limit === 0 ? 1 : (o.meta.offset / o.meta.limit) + 1
+    }
   };
 }

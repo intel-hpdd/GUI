@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,39 +21,23 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
-
-export default function StatusController ($scope, $location, notificationStream) {
+export default function logQuerySegment ($routeSegmentProvider:Object) {
   'ngInject';
 
-  const s = notificationStream
-    .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
-    .pluck('objects');
-
-  $scope.propagateChange($scope, this, 'data', s);
-
-  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
-
-  var types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
-  var getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
-    fp.lensProp,
-    fp.view
-  );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-  var ctrl = this;
-  this.pageChanged = function pageChanged () {
-    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
-  };
+  $routeSegmentProvider
+    .when('/log', 'app.logQuery.logRecords')
+    .within('app')
+    .segment('logQuery', {
+      controllerAs: '$ctrl',
+      middleware: ['allowAnonymousReadMiddleware', 'eulaStateMiddleware'],
+      template: `
+<h3 class="page-header">
+  <i class="fa fa-book"></i> Logs
+</h3>
+<div class="container log container-full">
+<log-query></log-query>
+<div app-view-segment="2" class="log-table"></div>
+`
+    });
 }

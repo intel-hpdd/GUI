@@ -40,14 +40,14 @@ type errorRespT = {
 
 type apiResponseWithErrorT = (apiResponseT & errorRespT);
 
-export default function sendRequest (path:string, options:Object, isAck:boolean = false) {
+export default function sendRequest (path:string, options:Object = {}, isAck:boolean = false) {
   var socket = getEventSocket();
 
   socket.connect();
 
   var data = {
     path: path.replace(/^\/?api/, ''),
-    options: options || {}
+    options
   };
 
   var end = socket.end.bind(socket);

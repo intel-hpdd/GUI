@@ -1,13 +1,16 @@
-import statusModule from '../../../../source/iml/status/status-module';
+import {
+  tokenizer,
+  choices
+} from '../../../../source/iml/status/status-input-to-qs-parser.js';
 
-describe('status completer', () => {
-  beforeEach(module(statusModule));
+import completer from '../../../../source/iml/completionist/completer.js';
 
-  var statusCompleter;
+describe('completer', () => {
+  let statusCompleter;
 
-  beforeEach(inject((_statusCompleter_) => {
-    statusCompleter = _statusCompleter_;
-  }));
+  beforeEach(() => {
+    statusCompleter = completer(tokenizer, choices);
+  });
 
   const inputOutput = {
     '': [

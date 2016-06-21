@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,39 +21,51 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import logInputToQsParser from './log-input-to-qs-parser.js';
+import logQsToInputParser from './log-qs-to-input-parser.js';
+import logCompleter from './log-completer.js';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
+import type {
+  HighlandStreamT
+} from 'highland';
 
-export default function StatusController ($scope, $location, notificationStream) {
+type fnTo$ = () => HighlandStreamT<Object>;
+
+export function controller ($scope:Object, $location:Object,
+                            routeStream:fnTo$, propagateChange:Function) {
   'ngInject';
 
-  const s = notificationStream
-    .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
-    .pluck('objects');
+  const p = propagateChange($scope, this, 'qs');
+  const rs = routeStream();
 
-  $scope.propagateChange($scope, this, 'data', s);
+  rs
+    .map(x => x.qs)
+    .through(p);
 
-  $scope.$on('$destroy', notificationStream.destroy.bind(notificationStream));
+  $scope.$on('$destroy', () => rs.destroy());
 
-  var types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
-  var getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
-    fp.lensProp,
-    fp.view
-  );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
-
-  var ctrl = this;
-  this.pageChanged = function pageChanged () {
-    $location.search('offset', (ctrl.meta.current_page - 1) * ctrl.meta.limit);
-  };
+  Object.assign(this, {
+    parserFormatter: {
+      parser: logInputToQsParser,
+      formatter: logQsToInputParser
+    },
+    completer: logCompleter,
+    onSubmit: $location.search.bind($location)
+  });
 }
+
+export default {
+  controller,
+  template: `
+<div class="row">
+  <div class="col-xs-12">
+    <parsely-box
+      on-submit="::$ctrl.onSubmit(qs)"
+      query="$ctrl.qs"
+      parser-formatter="::$ctrl.parserFormatter"
+      completer="::$ctrl.completer(value, cursorPosition)"
+    ></parsely-box>
+  </div>
+</div>
+  `
+};

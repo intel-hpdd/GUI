@@ -19,10 +19,10 @@
         </td>
         <td class="hidden-xs">{{ row.record_type }}</td>
         <td>
-          <a target="_self" route-to="log/around-{{ row.begin | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+          <a route-to="log/?datetime__gte={{ row.begin | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
         </td>
         <td>
-          <a ng-if="!row.active" target="_self" route-to="log/around-{{ row.end | date:'yyyy-MM-ddTHH:mm:ssZ' }}/">{{ row.end | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+          <a ng-if="!row.active" route-to="log/?datetime__gte={{ row.end | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
         </td>
         <td>{{ row.message }}</td>
         <td>
