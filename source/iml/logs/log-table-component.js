@@ -25,6 +25,8 @@
 function controller ($location:Object) {
   'ngInject';
 
+  this.$onDestroy = () => this.log$.destroy();
+
   this.pageChanged = meta => {
     $location.search('offset', (meta.current_page - 1) * meta.limit);
   };
