@@ -169,7 +169,7 @@ describe('create store', () => {
         payload: {id: 1, name: 'boop'}
       });
 
-      expect(spy).toHaveBeenCalledWith([
+      expect(spy).toHaveBeenCalledOnceWith([
         {id: 1, name: 'boop'},
         {id: 2, name: 'bar'}
       ]);
