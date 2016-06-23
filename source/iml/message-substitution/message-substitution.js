@@ -22,8 +22,13 @@
 // express and approved by Intel in writing.
 
 import {
-  GROUPS
+  GROUPS,
+  Authorization
 } from '../auth/authorization.js';
+
+import {
+  uriPropertiesLink
+} from '../route-utils.js';
 
 type substitutionT = {
   end: number,
@@ -32,73 +37,48 @@ type substitutionT = {
   start: number
 };
 
-export const MessageSubstitutionCtrl = ($scope:Object) => {
-  'ngInject';
+export const MessageSubstitutionCtrl = class {
+  substituteMessage:string = '';
+  substitutions:Array<substitutionT>;
+  message:string;
+  $compile:Function;
+  $element:Object;
+  $scope:Object;
 
-  $scope.ctrl.GROUPS = GROUPS;
-  const substitutions = $scope.ctrl.substitutions
-    .sort((a, b) => a.start - b.start);
-  const substitutionsHash = substitutions.reduce((outHash, sub) => {
-    outHash[sub.start + '-' + sub.end] = sub;
+  constructor ($scope:Object, $element:Object, $compile:Function) {
+    'ngInject';
 
-    return outHash;
-  }, {});
-  const message = $scope.ctrl.message;
-  const groups = computeGroups(message, substitutions);
-  const replacedGroups = substituteGroups(groups, substitutionsHash);
+    this.$scope = $scope;
+    this.$element = $element;
+    this.$compile = $compile;
 
-  $scope.ctrl.substitutedMessage = replacedGroups.join('');
+    const auth = Authorization();
+    const substitutions = this.substitutions
+      .sort((a, b) => b.start - a.start);
 
+    this.substituteMessage = substitutions.reduce((str, sub) => {
+      const start = str.substring(0, sub.start -1);
+      const end = str.substring(sub.end - 1);
+      var label = sub.label;
+
+      if (auth.groupAllowed(GROUPS.FS_ADMINS))
+        label = uriPropertiesLink(sub.resource_uri, sub.label);
+
+      return start + label + end;
+
+    }, this.message);
+  }
+
+  $postLink () {
+    const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(this.$scope);
+    this.$element[0].appendChild(compiledEl[0]);
+  }
 };
 
-function substituteGroups (groups, substitutionsHash) {
-  return Object.keys(groups).reduce((outGroups, key) => {
-    var label = groups[key];
-    var substitution = substitutionsHash[key];
-    if (substitution)
-      label = `<a href="${substitution.resource_uri}">${substitution.label}</a>`;
-
-    outGroups.push(label);
-    return outGroups;
-  }, []);
-}
-
-function computeGroups (message, substitutions:Array<substitutionT>) {
-  var groupLocation = 0;
-  const groups = substitutions.reduce((outGroups, sub) => {
-    outGroups[(groupLocation + 1) + '-' + (sub.start - 1)] =
-      message.substring(
-        groupLocation - 1,
-        sub.start - 1
-      );
-
-    outGroups[sub.start + '-' + sub.end] = message.substring(
-      sub.start - 1,
-      sub.end - 1
-    );
-
-    groupLocation = sub.end;
-    return outGroups;
-  }, {});
-
-  if (groupLocation < message.length)
-    groups[(groupLocation + 1) + '-' + message.length] = message.substring(groupLocation - 1);
-
-  return groups;
-}
-
-export const messageSubstitution = () => {
-  'ngInject';
-
-  return {
-    restrict: 'E',
-    scope: {},
-    bindToController: {
-      message: '=',
-      substitutions: '='
-    },
-    controller: 'MessageSubstitutionCtrl',
-    controllerAs: 'ctrl',
-    template: '<div restrict-to="{{ ctrl.GROUPS.FS_ADMINS }}">{{ctrl.substitutedMessage}}</div>'
-  };
+export const messageSubstitution = {
+  bindings: {
+    message: '<',
+    substitutions: '<'
+  },
+  controller: 'MessageSubstitutionCtrl'
 };

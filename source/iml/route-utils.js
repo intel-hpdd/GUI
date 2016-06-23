@@ -21,11 +21,33 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import authModule from '../auth/auth-module.js';
-import {MessageSubstitutionCtrl, messageSubstitution} from './message-substitution.js';
+export function uriPropertiesLink (resource_uri:string, label:string)
+{
+  if (resource_uri) {
+    var url = apiPathToUiPath(resource_uri);
 
-export default angular.module('messageSubstitution', [authModule])
-  .controller('MessageSubstitutionCtrl', MessageSubstitutionCtrl)
-  .component('messageSubstitution', messageSubstitution)
-  .name;
+    if (resource_uri.indexOf('host') !== -1) {
+      var absoluteUrl = '/ui/' + url;
+      return `<a href="${absoluteUrl}">${label}</a>`;
+    }
+
+    return `<a class="navigation" href="${url}">${label}</a>`;
+  } else {
+    return '';
+  }
+}
+
+export function apiPathToUiPath (resource_uri:string)
+{
+  /* Given an API resource URI for an object,
+     return the UI URI for the detail view */
+  var resource = resource_uri.split('/')[2];
+  var id = resource_uri.split('/')[3];
+
+  if (resource == 'filesystem')
+    return `/configure/filesystem/detail/${id}/`;
+  else if (resource == 'host')
+    return `configure/server/${id}/`;
+  else
+    return `/${resource}/${id}/`;
+}

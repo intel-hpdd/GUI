@@ -19,26 +19,29 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function Authorization (CACHE_INITIAL_DATA) {
-  'ngInject';
+import {CACHE_INITIAL_DATA} from '../environment.js';
+
+export function Authorization () {
 
   var session = CACHE_INITIAL_DATA.session;
 
-  this.readEnabled = session.read_enabled;
+  return {
+    readEnabled: session.read_enabled,
+    groupAllowed: function groupAllowed (groupName) {
 
-  this.groupAllowed = function groupAllowed (groupName) {
-    var hasGroups = session.user && Array.isArray(session.user.groups);
+      var hasGroups = session.user && Array.isArray(session.user.groups);
 
-    return hasGroups && session.user.groups.some(function some (group) {
-      //Superusers can do everything.
-      if (group.name === GROUPS.SUPERUSERS) return true;
+      return hasGroups && session.user.groups.some(function some (group) {
+        //Superusers can do everything.
+        if (group.name === GROUPS.SUPERUSERS) return true;
 
-      //Filesystem administrators can do everything a filesystem user can do.
-      if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
+        //Filesystem administrators can do everything a filesystem user can do.
+        if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
 
-      // Fallback to matching on names.
-      return group.name === groupName;
-    });
+        // Fallback to matching on names.
+        return group.name === groupName;
+      });
+    }
   };
 }
 
