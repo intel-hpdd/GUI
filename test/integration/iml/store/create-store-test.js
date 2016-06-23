@@ -153,5 +153,26 @@ describe('create store', () => {
         {id: 2, name: 'bar'}
       ]);
     });
+
+    it('should not remove other viewers when destroy is called twice', () => {
+      store.select('stuff');
+      const s2 = store.select('stuff');
+      const s3 = store.select('stuff');
+
+      s3.each(spy);
+
+      s2.destroy();
+      s2.destroy();
+
+      store.dispatch({
+        type: UPDATE_STATE,
+        payload: {id: 1, name: 'boop'}
+      });
+
+      expect(spy).toHaveBeenCalledOnceWith([
+        {id: 1, name: 'boop'},
+        {id: 2, name: 'bar'}
+      ]);
+    });
   });
 });
