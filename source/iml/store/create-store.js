@@ -84,7 +84,11 @@ function broadcaster (s:HighlandStreamT<Object>):streamFn {
     // $FlowIgnore: flow does not recogize this monkey-patch
     s.destroy = () => {
       oldDestroy();
-      viewers.splice(viewers.indexOf(s), 1);
+
+      const idx = viewers.indexOf(s);
+
+      if (idx !== -1)
+        viewers.splice(idx, 1);
     };
 
     if (latest)
