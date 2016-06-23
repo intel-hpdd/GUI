@@ -28,19 +28,19 @@ export default function AppCtrl ($scope, $routeSegment, session, navigate, ENV, 
   var login = navigate.bind(null, 'login/');
 
   angular.extend(this, {
-    $routeSegment: $routeSegment,
+    $routeSegment,
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
     COPYRIGHT_YEAR: help.get('copyright_year'),
-    GROUPS: GROUPS,
-    session: session,
+    GROUPS,
+    session,
     status: {},
     user: session.user,
     loggedIn: loggedIn(),
     onClick: (loggedIn() ? logout : login),
     isCollapsed: true,
-    login: login,
-    logout: logout,
-    alertStream: alertStream
+    login,
+    logout,
+    alertStream
   });
 
   function loggedIn () {

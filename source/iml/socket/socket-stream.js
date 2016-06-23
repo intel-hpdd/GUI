@@ -45,7 +45,7 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
 
   socket.connect();
 
-  var data = {
+  const data = {
     path: path.replace(/^\/?api/, ''),
     options
   };

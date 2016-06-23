@@ -1,8 +1,10 @@
 import angular from 'angular';
 import appRouteModule from '../../../../source/iml/app/app-route-module';
 
-
-import {noop, identity} from 'intel-fp';
+import {
+  noop,
+  identity
+} from 'intel-fp';
 
 describe('app route', function () {
   var $routeSegmentProvider;

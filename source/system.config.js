@@ -37,6 +37,7 @@ System.config({
     lodash: 'bower_components/lodash/dist/lodash.js',
     'intel-maybe': 'node_modules/intel-maybe/dist/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
+    'intel-flat-map-changes': 'node_modules/intel-flat-map-changes/dist/source/index.js',
     'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
     'intel-big-differ': 'node_modules/intel-big-differ/dest/source/big-differ-module.js',
     'intel-qs-parsers': 'node_modules/intel-qs-parsers/dist/source',

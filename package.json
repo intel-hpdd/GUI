@@ -63,6 +63,7 @@
     "intel-debounce": "1.0.0",
     "intel-deep-freeze": "1.0.1",
     "intel-extract-api": "1.0.2",
+    "intel-flat-map-changes": "1.0.2",
     "intel-flow-highland": "3.1.0",
     "intel-flow-jasmine": "1.0.0",
     "intel-fp": "4.4.0",
