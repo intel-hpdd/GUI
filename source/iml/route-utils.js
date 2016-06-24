@@ -21,15 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import extractApi from 'intel-extract-api';
+
 export function apiPathToUiPath (resource_uri:string)
 {
   if (!resource_uri)
     return '';
-    
+
   /* Given an API resource URI for an object,
      return the UI URI for the detail view */
   var resource = resource_uri.split('/')[2];
-  var id = resource_uri.split('/')[3];
+  var id = extractApi(resource_uri);
 
   if (resource == 'filesystem')
     return `/ui/configure/filesystem/detail/${id}/`;
