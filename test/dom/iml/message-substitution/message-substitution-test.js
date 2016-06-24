@@ -1,4 +1,3 @@
-import angular from 'angular';
 import {GROUPS} from '../../../../source/iml/auth/authorization.js';
 import {
   mock,
@@ -21,14 +20,13 @@ describe('message substitution component', () => {
         GROUPS
       }
     });
-
-    angular.module('messageSubstitution', [])
-      .component('messageSubstitution', mod.messageSubstitution);
   });
 
   afterEach(resetAll);
 
-  beforeEach(module('messageSubstitution'));
+  beforeEach(module(($compileProvider) => {
+    $compileProvider.component('messageSubstitution', mod.messageSubstitution);
+  }));
 
   beforeEach(inject(function (_$compile_, $rootScope) {
 
@@ -80,7 +78,7 @@ describe('message substitution component', () => {
       });
 
       it('should link to the lotus server', () => {
-        expect(links.item(0).getAttribute('href')).toEqual('/ui/configure/server/1/');
+        expect(links.item(0).getAttribute('href')).toEqual('configure/server/1/');
       });
 
       it('should display the lotus server label', () => {
@@ -92,7 +90,7 @@ describe('message substitution component', () => {
       });
 
       it('should link to the filesystem', () => {
-        expect(links.item(1).getAttribute('href')).toEqual('/ui/configure/filesystem/detail/2/');
+        expect(links.item(1).getAttribute('href')).toEqual('configure/filesystem/detail/2/');
       });
 
       it('should display the filesystem label', () => {

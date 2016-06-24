@@ -48,6 +48,23 @@
     "eol-last": [
       2,
       "unix"
+    ],
+    "eqeqeq": [
+      "error",
+      "allow-null"
+    ],
+    "camelcase": [
+      "error",
+      {
+        "properties": "never"
+      }
+    ],
+    brace-style: [
+      "error",
+      "1tbs", 
+      {
+        "allowSingleLine": true
+      }
     ]
   },
   "globals": {

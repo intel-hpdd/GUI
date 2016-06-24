@@ -1,4 +1,3 @@
-import angular from 'angular';
 import {curry} from 'intel-fp';
 
 import {
@@ -98,16 +97,15 @@ describe('authorization', () => {
         mod = await mock('source/iml/auth/authorization.js', {
           'source/iml/environment.js': {CACHE_INITIAL_DATA}
         });
-
-        angular.module('auth')
-          .value('authorization', mod.authorization)
-          .directive('restrict', mod.restrict)
-          .directive('restrictTo', mod.restrictTo);
       });
 
       afterEach(resetAll);
 
-      beforeEach(module('auth'));
+      beforeEach(module(($provide, $compileProvider) => {
+        $provide.value('authorization', mod.authorization);
+        $compileProvider.directive('restrict', mod.restrict);
+        $compileProvider.directive('restrictTo', mod.restrictTo);
+      }));
 
       var $scope, genRestrictTo, genRestrict;
 

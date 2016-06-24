@@ -23,20 +23,16 @@
 
 import extractApi from 'intel-extract-api';
 
-export function apiPathToUiPath (resource_uri:string)
-{
-  if (!resource_uri)
-    return '';
+export function apiPathToUiPath (resourceUri:string) {
+  var resource = resourceUri.split('/')[2];
+  var id = extractApi(resourceUri);
 
-  /* Given an API resource URI for an object,
-     return the UI URI for the detail view */
-  var resource = resource_uri.split('/')[2];
-  var id = extractApi(resource_uri);
-
-  if (resource == 'filesystem')
-    return `/ui/configure/filesystem/detail/${id}/`;
-  else if (resource == 'host')
-    return `/ui/configure/server/${id}/`;
-  else
-    return `/ui/${resource}/${id}/`;
+  switch(resource) {
+  case 'filesystem':
+    return `configure/filesystem/detail/${id}/`;
+  case 'host':
+    return `configure/server/${id}/`;
+  default:
+    return `${resource}/${id}/`;
+  }
 }

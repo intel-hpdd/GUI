@@ -31,8 +31,6 @@ describe('The authorization service', function () {
 
   afterEach(resetAll);
 
-  beforeEach(module('auth'));
-
   it('should have a method telling if read is enabled', function () {
     expect(authorization.readEnabled).toBe(true);
   });
