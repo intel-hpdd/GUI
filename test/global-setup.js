@@ -190,7 +190,7 @@ window.itAsync = (desc, runAsync) => {
   });
 };
 
-let CACHE_INITIAL_DATA = {
+const CACHE_INITIAL_DATA = {
   session: {
     read_enabled: true,
     user: {
@@ -202,9 +202,9 @@ let CACHE_INITIAL_DATA = {
     }
   }
 };
-let ALLOW_ANONYMOUS_READ = true;
-let STATIC_URL = 'static/chroma_ui/';
-let location = {
+const ALLOW_ANONYMOUS_READ = true;
+const STATIC_URL = 'static/chroma_ui/';
+const location = {
   protocol: 'https',
   hostname: 'localhost'
 };

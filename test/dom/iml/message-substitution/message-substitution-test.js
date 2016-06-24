@@ -59,7 +59,6 @@ describe('message substitution component', () => {
       groupAllowed
         .and.returnValue(true);
       el = $compile(template)($scope)[0];
-      document.body.appendChild(el);
       messageEl = el.querySelector.bind(el, 'div');
       $scope.$digest();
     });
@@ -108,7 +107,6 @@ describe('message substitution component', () => {
       groupAllowed
         .and.returnValue(false);
       el = $compile(template)($scope)[0];
-      document.body.appendChild(el);
       messageEl = el.querySelector.bind(el, 'div');
       $scope.$digest();
     });
