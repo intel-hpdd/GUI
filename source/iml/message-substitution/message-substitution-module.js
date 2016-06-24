@@ -22,7 +22,9 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {messageSubstitution} from './message-substitution.js';
+import {
+  messageSubstitution
+} from './message-substitution.js';
 
 export default angular.module('messageSubstitution', [])
   .component('messageSubstitution', messageSubstitution)
