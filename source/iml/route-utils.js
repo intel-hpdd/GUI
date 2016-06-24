@@ -21,23 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
-import environmentModule from '../environment-module';
-import SessionModel from './session-model';
-import UserModel from './user-model';
-import {authorization, GROUPS, restrictTo, restrict} from './authorization';
+import extractApi from 'intel-extract-api';
 
-export default angular.module('auth', [modelFactoryModule, environmentModule])
-  .value('EULA_STATES', {
-    EULA: 'eula',
-    PASS: 'pass',
-    DENIED: 'denied'
-  })
-  .factory('SessionModel', SessionModel)
-  .factory('UserModel', UserModel)
-  .value('authorization', authorization)
-  .constant('GROUPS', GROUPS)
-  .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict)
-  .name;
+export function apiPathToUiPath (resourceUri:string) {
+  var resource = resourceUri.split('/')[2];
+  var id = extractApi(resourceUri);
+
+  switch(resource) {
+  case 'filesystem':
+    return `configure/filesystem/detail/${id}/`;
+  case 'host':
+    return `configure/server/${id}/`;
+  default:
+    return `${resource}/${id}/`;
+  }
+}

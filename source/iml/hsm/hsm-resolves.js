@@ -37,10 +37,10 @@ import {
   mapped
 } from 'intel-fp';
 
-const fsParams = (filesystem_id) => {
+const fsParams = (filesystemId) => {
   return {
     qs: {
-      filesystem_id
+      filesystem_id: filesystemId
     }
   };
 };

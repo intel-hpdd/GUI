@@ -19,14 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function Authorization (CACHE_INITIAL_DATA) {
-  'ngInject';
+import {CACHE_INITIAL_DATA} from '../environment.js';
 
-  var session = CACHE_INITIAL_DATA.session;
+var session = CACHE_INITIAL_DATA.session;
 
-  this.readEnabled = session.read_enabled;
+export const authorization = {
+  readEnabled: session.read_enabled,
+  groupAllowed: function groupAllowed (groupName) {
 
-  this.groupAllowed = function groupAllowed (groupName) {
     var hasGroups = session.user && Array.isArray(session.user.groups);
 
     return hasGroups && session.user.groups.some(function some (group) {
@@ -39,8 +39,8 @@ export function Authorization (CACHE_INITIAL_DATA) {
       // Fallback to matching on names.
       return group.name === groupName;
     });
-  };
-}
+  }
+};
 
 export const GROUPS = Object.freeze({
   SUPERUSERS: 'superusers',

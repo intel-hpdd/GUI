@@ -1,10 +1,14 @@
-import authModule from '../../../../source/iml/auth/auth-module';
+import {GROUPS} from '../../../../source/iml/auth/authorization.js';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('The authorization service', function () {
-  var authorization, GROUPS, CACHE_INITIAL_DATA;
+  var authorization, mod, CACHE_INITIAL_DATA;
 
-  beforeEach(module(authModule, function ($provide) {
+  beforeEachAsync(async function () {
     CACHE_INITIAL_DATA = {
       session: {
         read_enabled: true,
@@ -18,13 +22,14 @@ describe('The authorization service', function () {
       }
     };
 
-    $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
-  }));
+    mod = await mock('source/iml/auth/authorization.js', {
+      'source/iml/environment.js': { CACHE_INITIAL_DATA }
+    });
 
-  beforeEach(inject(function (_authorization_, _GROUPS_) {
-    authorization = _authorization_;
-    GROUPS = _GROUPS_;
-  }));
+    authorization = mod.authorization;
+  });
+
+  afterEach(resetAll);
 
   it('should have a method telling if read is enabled', function () {
     expect(authorization.readEnabled).toBe(true);

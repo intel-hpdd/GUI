@@ -190,12 +190,35 @@ window.itAsync = (desc, runAsync) => {
   });
 };
 
-let name = 'source/iml/socket-worker/get-web-worker.js';
-name = System.map[name] || name;
-name = System.normalizeSync(name);
+let CACHE_INITIAL_DATA = {
+  session: {
+    read_enabled: true,
+    user: {
+      groups: [
+        {id: '1', name: 'superusers', resource_uri: '/api/group/1/'},
+        {id: '2', name: 'filesystem_administrators', resource_uri: '/api/group/1/'},
+        {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
+      ]
+    }
+  }
+};
+let ALLOW_ANONYMOUS_READ = true;
+let STATIC_URL = 'static/chroma_ui/';
+let location = {
+  protocol: 'https',
+  hostname: 'localhost'
+};
 
-System.delete(name);
-System.set(name, System.newModule({
+systemMock('source/iml/global.js', {
+  default: {
+    CACHE_INITIAL_DATA,
+    ALLOW_ANONYMOUS_READ,
+    STATIC_URL,
+    location
+  }
+});
+
+systemMock('source/iml/socket-worker/get-web-worker.js', {
   default: jasmine
     .createSpy('getWebWorker')
     .and
@@ -203,4 +226,13 @@ System.set(name, System.newModule({
       addEventListener: jasmine.createSpy('addEventListener'),
       postMessage: jasmine.createSpy('postMessage')
     })
-}));
+});
+
+function systemMock (file, mod) {
+  let name = file;
+  name = System.map[name] || name;
+  name = System.normalizeSync(name);
+
+  System.delete(name);
+  System.set(name, System.newModule(mod));
+}

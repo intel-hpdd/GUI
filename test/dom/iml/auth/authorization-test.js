@@ -1,8 +1,12 @@
 import {curry} from 'intel-fp';
-import authModule from '../../../../source/iml/auth/auth-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('authorization', () => {
-  var data;
+  var data, mod;
   data = [
     {
       sessionGroups: [{name: 'superusers'}],
@@ -80,7 +84,7 @@ describe('authorization', () => {
 
   data.forEach(function (test) {
     describe('module', function () {
-      beforeEach(module(authModule, function ($provide) {
+      beforeEachAsync(async function () {
         var CACHE_INITIAL_DATA = {
           session: {
             read_enabled: true,
@@ -90,7 +94,17 @@ describe('authorization', () => {
           }
         };
 
-        $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
+        mod = await mock('source/iml/auth/authorization.js', {
+          'source/iml/environment.js': {CACHE_INITIAL_DATA}
+        });
+      });
+
+      afterEach(resetAll);
+
+      beforeEach(module(($provide, $compileProvider) => {
+        $provide.value('authorization', mod.authorization);
+        $compileProvider.directive('restrict', mod.restrict);
+        $compileProvider.directive('restrictTo', mod.restrictTo);
       }));
 
       var $scope, genRestrictTo, genRestrict;
