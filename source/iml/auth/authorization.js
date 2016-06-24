@@ -21,29 +21,26 @@
 
 import {CACHE_INITIAL_DATA} from '../environment.js';
 
-export function Authorization () {
+var session = CACHE_INITIAL_DATA.session;
 
-  var session = CACHE_INITIAL_DATA.session;
+export const authorization = {
+  readEnabled: session.read_enabled,
+  groupAllowed: function groupAllowed (groupName) {
 
-  return {
-    readEnabled: session.read_enabled,
-    groupAllowed: function groupAllowed (groupName) {
+    var hasGroups = session.user && Array.isArray(session.user.groups);
 
-      var hasGroups = session.user && Array.isArray(session.user.groups);
+    return hasGroups && session.user.groups.some(function some (group) {
+      //Superusers can do everything.
+      if (group.name === GROUPS.SUPERUSERS) return true;
 
-      return hasGroups && session.user.groups.some(function some (group) {
-        //Superusers can do everything.
-        if (group.name === GROUPS.SUPERUSERS) return true;
+      //Filesystem administrators can do everything a filesystem user can do.
+      if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
 
-        //Filesystem administrators can do everything a filesystem user can do.
-        if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
-
-        // Fallback to matching on names.
-        return group.name === groupName;
-      });
-    }
-  };
-}
+      // Fallback to matching on names.
+      return group.name === groupName;
+    });
+  }
+};
 
 export const GROUPS = Object.freeze({
   SUPERUSERS: 'superusers',

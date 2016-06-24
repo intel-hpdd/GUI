@@ -23,11 +23,11 @@
 
 import {
   GROUPS,
-  Authorization
+  authorization
 } from '../auth/authorization.js';
 
 import {
-  uriPropertiesLink
+  apiPathToUiPath
 } from '../route-utils.js';
 
 type substitutionT = {
@@ -45,14 +45,13 @@ export const MessageSubstitutionCtrl = class {
   $element:Object;
   $scope:Object;
 
-  constructor ($scope:Object, $element:Object, $compile:Function) {
+  constructor ($scope:Object, $element:HTMLElement[], $compile:Function) {
     'ngInject';
 
     this.$scope = $scope;
     this.$element = $element;
     this.$compile = $compile;
 
-    const auth = Authorization();
     const substitutions = this.substitutions
       .sort((a, b) => b.start - a.start);
 
@@ -61,8 +60,11 @@ export const MessageSubstitutionCtrl = class {
       const end = str.substring(sub.end - 1);
       var label = sub.label;
 
-      if (auth.groupAllowed(GROUPS.FS_ADMINS))
-        label = uriPropertiesLink(sub.resource_uri, sub.label);
+      if (authorization.groupAllowed(GROUPS.FS_ADMINS)) {
+        var path = apiPathToUiPath(sub.resource_uri);
+        var target = (sub.resource_uri.indexOf('host') === -1) ? 'target="_self"' : '';
+        label = `<a href="${path}" ${target}>${sub.label}</a>`;
+      }
 
       return start + label + end;
 
@@ -80,5 +82,5 @@ export const messageSubstitution = {
     message: '<',
     substitutions: '<'
   },
-  controller: 'MessageSubstitutionCtrl'
+  controller: MessageSubstitutionCtrl
 };

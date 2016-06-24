@@ -26,7 +26,7 @@ import modelFactoryModule from '../model-factory/model-factory-module';
 import environmentModule from '../environment-module';
 import SessionModel from './session-model';
 import UserModel from './user-model';
-import {Authorization, GROUPS, restrictTo, restrict} from './authorization';
+import {authorization, GROUPS, restrictTo, restrict} from './authorization';
 
 export default angular.module('auth', [modelFactoryModule, environmentModule])
   .value('EULA_STATES', {
@@ -36,7 +36,7 @@ export default angular.module('auth', [modelFactoryModule, environmentModule])
   })
   .factory('SessionModel', SessionModel)
   .factory('UserModel', UserModel)
-  .service('authorization', Authorization)
+  .value('authorization', authorization)
   .constant('GROUPS', GROUPS)
   .directive('restrictTo', restrictTo)
   .directive('restrict', restrict)

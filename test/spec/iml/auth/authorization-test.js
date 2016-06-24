@@ -1,4 +1,3 @@
-import authModule from '../../../../source/iml/auth/auth-module.js';
 import {GROUPS} from '../../../../source/iml/auth/authorization.js';
 
 import {
@@ -26,17 +25,13 @@ describe('The authorization service', function () {
     mod = await mock('source/iml/auth/authorization.js', {
       'source/iml/environment.js': { CACHE_INITIAL_DATA }
     });
+
+    authorization = mod.authorization;
   });
 
   afterEach(resetAll);
 
-  beforeEach(module(authModule, $provide => {
-    $provide.service('authorization', mod.Authorization);
-  }));
-
-  beforeEach(inject(_authorization_ => {
-    authorization = _authorization_;
-  }));
+  beforeEach(module('auth'));
 
   it('should have a method telling if read is enabled', function () {
     expect(authorization.readEnabled).toBe(true);

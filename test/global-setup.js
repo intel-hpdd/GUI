@@ -190,6 +190,20 @@ window.itAsync = (desc, runAsync) => {
   });
 };
 
+window.CACHE_INITIAL_DATA = {
+  session: {
+    read_enabled: true,
+    user: {
+      groups: [
+        {id: '1', name: 'superusers', resource_uri: '/api/group/1/'},
+        {id: '2', name: 'filesystem_administrators', resource_uri: '/api/group/1/'},
+        {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
+      ]
+    }
+  }
+};
+window.ALLOW_ANONYMOUS_READ = true;
+
 let name = 'source/iml/socket-worker/get-web-worker.js';
 name = System.map[name] || name;
 name = System.normalizeSync(name);
