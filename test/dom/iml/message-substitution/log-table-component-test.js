@@ -13,7 +13,6 @@ describe('log table component', () => {
     $scope.log$ = log$;
     template = '<log-table log$="::log$"></log-table>';
     el = $compile(template)($scope)[0];
-    document.body.appendChild(el);
     $scope.$digest();
   }));
 
