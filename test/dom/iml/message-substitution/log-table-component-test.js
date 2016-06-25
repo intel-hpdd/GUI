@@ -15,7 +15,7 @@ describe('log table component', () => {
       objects: [
         {
           resource_uri: '/api/host/1/',
-          datetime: new Date('2015-05-05 00:00:00Z'),
+          datetime: new Date('2016-06-25T00:00:00.000Z'),
           host_id: 1,
           fqdn: 'test001.localdomain',
           tag: 'cluster_sim',
@@ -54,7 +54,7 @@ describe('log table component', () => {
       dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) span');
       fqdnLink = el.querySelector.bind(el, 'table tr td:nth-of-type(2) a');
       fqdnSpan = el.querySelector.bind(el, 'table tr td:nth-of-type(2) span');
-      fqdnRestricted = el.querySelector.bind(el, 'table tr td.invisible:nth-of-type(3)');
+      fqdnRestricted = el.querySelector.bind(el, 'table tr td:nth-of-type(3)');
       tag = el.querySelector.bind(el, 'table tr td:nth-of-type(4)');
       message = el.querySelector.bind(el, 'table tr td:nth-of-type(5)');
       messageLink = el.querySelector.bind(el, 'table tr td:nth-of-type(5) a');
@@ -65,7 +65,7 @@ describe('log table component', () => {
     });
 
     it('should contain a date in the first column', () => {
-      expect(dateField().textContent.trim()).toEqual('2015-05-05 00:00:00');
+      expect(dateField().textContent.trim()).toEqual('2016-06-25 00:00:00');
     });
 
     it('should link to the fqdn in the second column', () => {
@@ -81,7 +81,7 @@ describe('log table component', () => {
     });
 
     it('should set the restricted fqdn to be invisible in the third column', () => {
-      expect(fqdnRestricted().textContent.trim()).toEqual('test001.localdomain');
+      expect(fqdnRestricted().className.indexOf('invisible') > -1).toBe(true);
     });
 
     it('should display the tag in the fourth column', () => {
@@ -126,11 +126,11 @@ describe('log table component', () => {
     });
 
     it('should contain a date in the first column', () => {
-      expect(dateField().textContent.trim()).toEqual('2015-05-05 00:00:00');
+      expect(dateField().textContent.trim()).toEqual('2016-06-25 00:00:00');
     });
 
     it('should not display the second column', () => {
-      expect(fqdnLink().className.indexOf('invisible') > -1);
+      expect(fqdnLink().className.indexOf('invisible') > -1).toBe(true);
     });
 
     it('should display the fqdn in the third column', () => {
