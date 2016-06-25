@@ -60,8 +60,6 @@ describe('log table component', () => {
       messageLink = el.querySelector.bind(el, 'table tr td:nth-of-type(5) a');
     }));
 
-    afterEach(() => log$.destroy());
-
     it('should contain a table', () => {
       expect(table()).not.toBeNull();
     });
@@ -122,8 +120,6 @@ describe('log table component', () => {
       message = el.querySelector.bind(el, 'table tr td:nth-of-type(5)');
       messageLink = el.querySelector.bind(el, 'table tr td:nth-of-type(5) a');
     }));
-
-    afterEach(() => log$.destroy());
 
     it('should contain a table', () => {
       expect(table()).not.toBeNull();
