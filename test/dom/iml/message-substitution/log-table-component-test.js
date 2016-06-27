@@ -15,7 +15,7 @@ describe('log table component', () => {
       objects: [
         {
           resource_uri: '/api/host/1/',
-          datetime: new Date('2016-06-25T00:00:00.000Z'),
+          datetime: '2016-06-23T19:11:40.568729+00:00',
           host_id: 1,
           fqdn: 'test001.localdomain',
           tag: 'cluster_sim',
@@ -65,7 +65,7 @@ describe('log table component', () => {
     });
 
     it('should contain a date in the first column', () => {
-      expect(dateField().textContent.trim()).toEqual('2016-06-25 00:00:00');
+      expect(dateField().textContent.trim()).toEqual('2016-06-23 19:11:40');
     });
 
     it('should link to the fqdn in the second column', () => {
@@ -126,7 +126,7 @@ describe('log table component', () => {
     });
 
     it('should contain a date in the first column', () => {
-      expect(dateField().textContent.trim()).toEqual('2016-06-25 00:00:00');
+      expect(dateField().textContent.trim()).toEqual('2016-06-23 19:11:40');
     });
 
     it('should not display the second column', () => {
