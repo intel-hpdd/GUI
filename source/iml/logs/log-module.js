@@ -23,6 +23,9 @@
 
 import angular from 'angular';
 
+import asValueModule from '../as-value/as-value-module.js';
+import authModule from '../auth/auth-module.js';
+import messageSubstitutionModule from '../message-substitution/message-substitution-module.js';
 import logQueryComponent from './log-query-component.js';
 import logTableComponent from './log-table-component.js';
 
@@ -30,7 +33,10 @@ import logTableComponent from './log-table-component.js';
 import loadingTemplate from '../loading/assets/html/loading';
 
 export default angular.module('logModule', [
-  loadingTemplate
+  loadingTemplate,
+  authModule,
+  asValueModule,
+  messageSubstitutionModule
 ])
   .component('logQuery', logQueryComponent)
   .component('logTable', logTableComponent)

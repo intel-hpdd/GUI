@@ -65,7 +65,8 @@ export default {
             {{ ::row.tag }}
           </td>
           <td>
-            {{ ::row.message }}
+            <message-substitution message="::row.message" substitutions="::row.substitutions">
+            </message-substitution>
           </td>
         </tr>
       </tbody>
