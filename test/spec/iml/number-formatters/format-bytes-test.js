@@ -1,16 +1,22 @@
-import numberFormattersModule
-  from '../../../../source/iml/number-formatters/number-formatters-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 
 describe('Format bytes', function () {
+  let tests, formatBytes;
 
-  var tests, formatBytes;
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/number-formatters/format-bytes.js', {});
 
-  beforeEach(module(numberFormattersModule));
+    formatBytes = mod.default;
+  });
 
-  beforeEach(inject(function (_formatBytes_) {
-    formatBytes = _formatBytes_;
+  afterEach(resetAll);
 
+
+  beforeEach(() => {
     tests = [
       {
         in: [320, 3],
@@ -73,9 +79,9 @@ describe('Format bytes', function () {
         out: ''
       }
     ];
-  }));
+  });
 
-  it('should determine the best size and suffix to display', function () {
+  it('should determine the best size and suffix to display', () => {
     tests.forEach(function (test) {
       expect(formatBytes.apply(null, test.in)).toEqual(test.out);
     });

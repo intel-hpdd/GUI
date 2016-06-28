@@ -24,13 +24,12 @@
 import angular from 'angular';
 import d3Module from '../d3/d3-module';
 import nvModule from '../nv/nv-module';
-import numberFormattersModule from '../number-formatters/number-formatters-module';
 import getHeatMapChartFactory from './get-heat-map-chart';
 import getHeatMapLegendFactory from './get-heat-map-legend';
 import getHeatMapFactory from './get-heat-map';
 
 export default angular
-  .module('heatMap', [d3Module, nvModule, numberFormattersModule])
+  .module('heatMap', [d3Module, nvModule])
   .factory('getHeatMapChart', getHeatMapChartFactory)
   .factory('getHeatMapLegend', getHeatMapLegendFactory)
   .factory('getHeatMap', getHeatMapFactory)

@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function throughput (formatBytes) {
+import formatBytes from '../number-formatters/format-bytes.js';
+
+export default function throughput () {
   'ngInject';
 
   return function (bytes, bps, precision) {

@@ -21,10 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-import angular from 'angular';
-
-
 export default function ServerDetailController (
   $scope:Object, streams:Object,
   overrideActionClick:Function, propagateChange:Function
@@ -33,7 +29,7 @@ export default function ServerDetailController (
 
   var serverDetailController = this;
 
-  angular.extend(this, {
+  Object.assign(this, {
     lnetConfigurationStream: streams.lnetConfigurationStream,
     jobMonitorStream: streams.jobMonitorStream,
     alertMonitorStream: streams.alertMonitorStream,

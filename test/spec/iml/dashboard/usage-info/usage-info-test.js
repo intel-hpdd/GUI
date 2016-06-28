@@ -1,9 +1,10 @@
 import highland from 'highland';
-import dashboardModule from '../../../../../source/iml/dashboard/dashboard-module';
+import dashboardModule from '../../../../../source/iml/dashboard/dashboard-module.js';
+import formatBytes from '../../../../../source/iml/number-formatters/format-bytes.js';
 
 
 describe('usage info', () => {
-  var ctrl, formatBytes, formatNumber,
+  var ctrl,
     $scope, $exceptionHandler, stream, fs;
 
   beforeEach(module(dashboardModule));
@@ -11,18 +12,13 @@ describe('usage info', () => {
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
 
-    formatBytes = {};
-    formatNumber = {};
-
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
 
     stream = highland();
 
     ctrl = $controller('UsageInfoController', {
       $scope,
-      $exceptionHandler,
-      formatBytes,
-      formatNumber
+      $exceptionHandler
     }, {
       stream: stream,
       id: '1',

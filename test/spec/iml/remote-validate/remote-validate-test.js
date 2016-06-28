@@ -1,40 +1,63 @@
 import angular from 'angular';
-import remoteValidateModule from '../../../../source/iml/remote-validate/remote-validate-module';
 
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Remote validate directive', () => {
-  var controller, formControllerSpy, $q, remoteValidateFormService, $scope, $element;
+  var controller, formControllerSpy, $q, $scope, $element;
 
   function createComponent (name) {
     return jasmine.createSpyObj(name, ['$setValidity']);
   }
 
-  beforeEach(module(remoteValidateModule));
+  let remoteValidateForm,
+    remoteValidateComponent;
 
-  beforeEach(inject(function ($controller, $rootScope, _$q_, _remoteValidateFormService_) {
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/remote-validate/remote-validate.js', {});
+
+    ({
+      remoteValidateForm,
+      remoteValidateComponent
+    } = mod);
+  });
+
+  afterEach(resetAll);
+
+  beforeEach(module($compileProvider => {
+    $compileProvider.directive('remoteValidateForm', () => remoteValidateForm);
+    $compileProvider.directive('remoteValidateComponent', () => remoteValidateComponent);
+  }));
+
+  beforeEach(inject(($controller, $rootScope, _$q_) => {
     $q = _$q_;
-    remoteValidateFormService = _remoteValidateFormService_;
 
     $scope = $rootScope.$new();
+
     $element = {
-      controller: function () {
+      controller: () => {
         formControllerSpy = createComponent('formController');
         return formControllerSpy;
       }
     };
 
-    controller = $controller(remoteValidateFormService.controller, {$scope: $scope, $element: $element});
+    controller = $controller(remoteValidateForm.controller, {
+      $scope,
+      $element
+    });
   }));
 
-  describe('controller', function () {
-    it('should register components', function () {
+  describe('controller', () => {
+    it('should register components', () => {
       var obj = {};
       controller.registerComponent('foo', obj);
 
       expect(controller.components.foo).toBe(obj);
     });
 
-    it('should get components', function () {
+    it('should get components', () => {
       var obj = {};
       controller.registerComponent('foo', obj);
 
@@ -42,7 +65,7 @@ describe('Remote validate directive', () => {
       expect(controller.getComponent('bar')).toBeUndefined();
     });
 
-    it('should reset components validity', function () {
+    it('should reset components validity', () => {
       $scope.serverValidationError = {
         foo: ['bar']
       };
@@ -58,28 +81,28 @@ describe('Remote validate directive', () => {
       expect($scope.serverValidationError.foo).toBeUndefined();
     });
 
-    it('should have the form registered as a component', function () {
+    it('should have the form registered as a component', () => {
       expect(controller.getComponent('__all__')).toBe(formControllerSpy);
     });
   });
 
-  describe('linking function', function () {
+  describe('linking function', () => {
     var deferred;
 
-    beforeEach(inject(function (remoteValidateFormService) {
+    beforeEach(() => {
       deferred = $q.defer();
 
       controller.registerComponent('foo', createComponent('foo'));
       controller.registerComponent('bar', createComponent('bar'));
 
-      remoteValidateFormService.link($scope, $element, {validate: 'validate'}, controller);
+      remoteValidateForm.link($scope, $element, {validate: 'validate'}, controller);
       $scope.$digest();
 
       $scope.validate = deferred.promise;
       $scope.$digest();
-    }));
+    });
 
-    it('should mark components with validation errors', function () {
+    it('should mark components with validation errors', () => {
       expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
       expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalled();
 
@@ -97,7 +120,7 @@ describe('Remote validate directive', () => {
       expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalledWith('server', false);
     });
 
-    it('should reset validity when the component has no errors', function () {
+    it('should reset validity when the component has no errors', () => {
       expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
 
       $scope.serverValidationError.foo = ['blah'];
@@ -110,7 +133,7 @@ describe('Remote validate directive', () => {
       expect($scope.serverValidationError.foo).toBeUndefined();
     });
 
-    it('should map the __all__ property to the form itself', function () {
+    it('should map the __all__ property to the form itself', () => {
       expect(formControllerSpy.$setValidity).not.toHaveBeenCalled();
 
       deferred.reject({
@@ -126,29 +149,27 @@ describe('Remote validate directive', () => {
   });
 
 
-  describe('form component directive', function () {
-    it('should return a configuration object', inject(function (remoteValidateComponentService) {
-      expect(remoteValidateComponentService).toEqual(jasmine.any(Object));
-      expect(remoteValidateComponentService.link).toEqual(jasmine.any(Function));
-    }));
-
+  describe('form component directive', () => {
     it('should register it\'s model onto the form controller',
-      inject(function (remoteValidateComponentService, $rootScope) {
-        var controllers = [controller, jasmine.createSpy('ngModel')];
-        var scope = $rootScope.$new();
-        var attrs = {name: 'foo'};
+      inject($rootScope => {
+        const controllers = [controller, jasmine.createSpy('ngModel')];
+        const scope = $rootScope.$new();
+        const attrs = {
+          name: 'foo'
+        };
 
-        remoteValidateComponentService.link(scope, {}, attrs, controllers);
+        remoteValidateComponent.link(scope, {}, attrs, controllers);
 
-        expect(controller.getComponent('foo')).toBe(controllers[1]);
+        expect(controller.getComponent('foo'))
+          .toBe(controllers[1]);
       })
     );
   });
 
-  describe('testing the directive set', function () {
-    var form, getDeferred;
+  describe('testing the directive set', () => {
+    let form, getDeferred;
 
-    beforeEach(inject(function ($rootScope, $compile) {
+    beforeEach(inject(($rootScope, $compile) => {
       const template = `
         <form name="testForm" remote-validate-form validate="validate">
           <ul ng-repeat="error in serverValidationError.__all__">
@@ -161,8 +182,8 @@ describe('Remote validate directive', () => {
       form = $compile(template)($scope);
       $scope.$digest();
 
-      getDeferred = function () {
-        var deferred = $q.defer();
+      getDeferred = () => {
+        const deferred = $q.defer();
 
         angular.extend($scope, {
           validate: deferred.promise
@@ -172,7 +193,7 @@ describe('Remote validate directive', () => {
       };
     }));
 
-    it('should validate fields', function () {
+    it('should validate fields', () => {
       getDeferred().reject({
         data: {
           __all__: 'uh-oh',

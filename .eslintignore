@@ -1,4 +1,5 @@
 karma.conf.js
+flow-typed/angular.js
 test/data-fixtures/
 coverage/**
 gulp/**
