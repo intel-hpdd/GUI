@@ -94,7 +94,7 @@ describe('log table component', () => {
     });
 
     it('should link to the fqdn in the message column', () => {
-      expect(messageLink().getAttribute('href')).toEqual('configure/server/1/');
+      expect(messageLink().getAttribute('route-to')).toEqual('configure/server/1/');
     });
   });
 
