@@ -77,7 +77,7 @@ describe('message substitution component', () => {
       });
 
       it('should link to the lotus server', () => {
-        expect(links.item(0).getAttribute('href')).toEqual('configure/server/1/');
+        expect(links.item(0).getAttribute('route-to')).toEqual('configure/server/1/');
       });
 
       it('should display the lotus server label', () => {
@@ -89,7 +89,7 @@ describe('message substitution component', () => {
       });
 
       it('should link to the filesystem', () => {
-        expect(links.item(1).getAttribute('href')).toEqual('configure/filesystem/detail/2/');
+        expect(links.item(1).getAttribute('route-to')).toEqual('configure/filesystem/detail/2/');
       });
 
       it('should display the filesystem label', () => {
