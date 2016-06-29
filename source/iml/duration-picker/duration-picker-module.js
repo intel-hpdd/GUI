@@ -23,11 +23,9 @@
 
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import tooltipModule from '../tooltip/tooltip-module';
-import filtersModule from '../filters/filters-module';
-import {
-  durationPickerDirective
-} from './duration-picker.js';
+import tooltipModule from '../tooltip/tooltip-module.js';
+import filtersModule from '../filters/filters-module.js';
+import {durationPickerDirective} from './duration-picker.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import durationPickerTemplate from './assets/html/duration-picker';
