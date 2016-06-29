@@ -42,14 +42,14 @@ export const MessageSubstitutionCtrl = class {
   substitutions:Array<substitutionT>;
   message:string;
   $compile:Function;
-  $element:Object;
+  $element:HTMLElement;
   $scope:Object;
 
   constructor ($scope:Object, $element:HTMLElement[], $compile:Function) {
     'ngInject';
 
     this.$scope = $scope;
-    this.$element = $element;
+    this.$element = $element[0];
     this.$compile = $compile;
 
     const substitutions = this.substitutions
@@ -73,7 +73,7 @@ export const MessageSubstitutionCtrl = class {
 
   $postLink () {
     const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(this.$scope);
-    this.$element[0].appendChild(compiledEl[0]);
+    this.$element.appendChild(compiledEl[0]);
   }
 };
 

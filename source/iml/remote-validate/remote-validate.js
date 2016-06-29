@@ -20,132 +20,93 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
 import _ from 'intel-lodash-mixins';
 
-export function remoteValidateFormFactory () {
-  'ngInject';
+export const remoteValidateForm = {
+  restrict: 'A',
+  scope: true,
+  controller: function ($scope, $element) {
+    'ngInject';
 
-  return {
-    restrict: 'A',
-    scope: true,
-    controller: function ($scope, $element) {
-      'ngInject';
+    var formController = $element.controller('form');
 
-      var formController = $element.controller('form');
+    if (formController === undefined)
+      throw new Error('formController not found, needed by remote-validate-form');
 
-      if (formController === undefined)
-        throw new Error('formController not found, needed by remote-validate-form');
+    this.components = {
+      '__all__': formController
+    };
 
-      this.components = {
-        '__all__': formController
+    // We don't need element anymore. Kill the reference.
+    $element = null;
+
+    this.registerComponent = function (name, ngModel) {
+      this.components[name] = ngModel;
+    }.bind(this);
+
+    this.getComponent = function (name) {
+      return this.components[name];
+    }.bind(this);
+
+    this.resetComponentsValidity = function () {
+      _(this.components).forEach(function (component, name) {
+        component.$setValidity('server', true);
+        delete $scope.serverValidationError[name];
+      });
+    }.bind(this);
+
+    $scope.$on('$destroy', function () {
+      this.components = null;
+    }.bind(this));
+  },
+  link: function link (scope, el, attrs, formController) {
+    scope.serverValidationError = {};
+
+    function callbackBuilder (func) {
+      return function callback (resp) {
+        formController.resetComponentsValidity();
+
+        (func || angular.noop)(resp);
+
+        return resp;
       };
-
-      // We don't need element anymore. Kill the reference.
-      $element = null;
-
-      /**
-       * Adds a new component to the object literal.
-       * @name registerComponent
-       * @param {string} name The Name of the component.
-       * @param {object} ngModel The model bound to the component.
-       * @type {function}
-       */
-      this.registerComponent = function (name, ngModel) {
-        this.components[name] = ngModel;
-      }.bind(this);
-
-      /**
-       * Returns the component if it exists.
-       * @type {function}
-       * @returns {ngModel|undefined}
-       */
-      this.getComponent = function (name) {
-        return this.components[name];
-      }.bind(this);
-
-      /**
-       * Sets all registered components to a valid state.
-       * Also deletes error message associated with that component.
-       * @type {function}
-       */
-      this.resetComponentsValidity = function () {
-        _(this.components).forEach(function (component, name) {
-          component.$setValidity('server', true);
-          delete $scope.serverValidationError[name];
-        });
-      }.bind(this);
-
-      $scope.$on('$destroy', function () {
-        this.components = null;
-      }.bind(this));
-    },
-    link: function link (scope, el, attrs, formController) {
-      scope.serverValidationError = {};
-
-      /**
-       * Abstracts common code from success and errback functions.
-       * @param {Function} [func]
-       * @returns {Function}
-       */
-      function callbackBuilder (func) {
-        return function callback (resp) {
-          formController.resetComponentsValidity();
-
-          (func || angular.noop)(resp);
-
-          return resp;
-        };
-      }
-
-      /**
-       * Called when a remote request succeeds.
-       * @type {Function}
-       */
-      var success = callbackBuilder();
-
-      /**
-       * called when a remote request fails.
-       * @type {Function}
-       */
-      var errback = callbackBuilder(function errbackCallback (resp) {
-        _(resp.data).forEach(function (errorList, field) {
-          var component = formController.getComponent(field);
-
-          if (component) {
-            if (_.isString(errorList))
-              errorList = [errorList];
-
-            component.$setValidity('server', false);
-            scope.serverValidationError[field] = errorList;
-          }
-        });
-      });
-
-      var deregisterWatch = scope.$watch(attrs.validate, function validateWatcher (newValidate, oldValidate) {
-        if (newValidate === oldValidate) return;
-
-        newValidate.then(success, errback);
-      });
-
-      scope.$on('$destroy', function () {
-        scope.serverValidationError = null;
-        deregisterWatch();
-      });
     }
-  };
-}
 
-export function remoteValidateComponentFactory () {
-  'ngInject';
+    var success = callbackBuilder();
 
-  return {
-    require: ['^remoteValidateForm', 'ngModel'],
-    restrict: 'A',
-    link: function (scope, el, attrs, ctrls) {
-      var formController = ctrls[0];
-      var ngModel = ctrls[1];
-      formController.registerComponent(attrs.name, ngModel);
-    }
-  };
-}
+    var errback = callbackBuilder(function errbackCallback (resp) {
+      _(resp.data).forEach(function (errorList, field) {
+        var component = formController.getComponent(field);
+
+        if (component) {
+          if (_.isString(errorList))
+            errorList = [errorList];
+
+          component.$setValidity('server', false);
+          scope.serverValidationError[field] = errorList;
+        }
+      });
+    });
+
+    var deregisterWatch = scope.$watch(attrs.validate, function validateWatcher (newValidate, oldValidate) {
+      if (newValidate === oldValidate) return;
+
+      newValidate.then(success, errback);
+    });
+
+    scope.$on('$destroy', function () {
+      scope.serverValidationError = null;
+      deregisterWatch();
+    });
+  }
+};
+
+export const remoteValidateComponent = {
+  require: ['^remoteValidateForm', 'ngModel'],
+  restrict: 'A',
+  link: function (scope, el, attrs, ctrls) {
+    var formController = ctrls[0];
+    var ngModel = ctrls[1];
+    formController.registerComponent(attrs.name, ngModel);
+  }
+};

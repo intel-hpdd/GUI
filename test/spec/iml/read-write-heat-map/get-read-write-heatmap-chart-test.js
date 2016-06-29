@@ -1,12 +1,12 @@
 import highland from 'highland';
-import {identity, curry} from 'intel-fp';
+import {curry} from 'intel-fp';
 import {values} from 'intel-obj';
 import {getReadWriteHeatMapChartFactory}
   from '../../../../source/iml/read-write-heat-map/get-read-write-heat-map-chart';
 
 describe('read write heat map chart', () => {
   var $location, $filter, chartCompiler, compiled,
-    formatNumber, formatBytes, DURATIONS,
+    DURATIONS,
     getReadWriteHeatMapStream, durationStream, rangeStream, createStream,
     routeSegmentUrl, readWriteHeatMapTypes,
     getReadWriteHeatMapChart, readWriteHeatMapStream, readWriteHeatMapChart;
@@ -36,12 +36,6 @@ describe('read write heat map chart', () => {
     rangeStream = jasmine.createSpy('rangeStream')
       .and.callFake(() => highland());
 
-    formatNumber = jasmine.createSpy('formatNumber')
-      .and.callFake(identity);
-
-    formatBytes = jasmine.createSpy('formatBytes')
-      .and.callFake(identity);
-
     routeSegmentUrl = jasmine.createSpy('routeSegmentUrl');
 
     $filter = jasmine.createSpy('$filter')
@@ -62,7 +56,7 @@ describe('read write heat map chart', () => {
 
     getReadWriteHeatMapChart = getReadWriteHeatMapChartFactory(createStream, $location, $filter,
       getReadWriteHeatMapStream, DURATIONS, chartCompiler,
-      readWriteHeatMapTypes, formatNumber, formatBytes);
+      readWriteHeatMapTypes);
     readWriteHeatMapChart = getReadWriteHeatMapChart({
       qs: {
         host_id: '1'

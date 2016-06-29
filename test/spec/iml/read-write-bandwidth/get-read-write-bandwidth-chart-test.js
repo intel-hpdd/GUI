@@ -5,7 +5,7 @@ import {getReadWriteBandwidthChartFactory} from
 
 describe('get read write bandwidth chart', () => {
   var chartCompiler, createStream, getReadWriteBandwidthStream, DURATIONS,
-    formatBytes, durationStream, rangeStream,
+    durationStream, rangeStream,
     getReadWriteBandwidthChart;
 
   beforeEach(() => {
@@ -24,15 +24,12 @@ describe('get read write bandwidth chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    formatBytes = jasmine.createSpy('formatBytes')
-      .and.returnValue('formatter');
-
     DURATIONS = {
       MINUTES: 'minutes'
     };
 
     getReadWriteBandwidthChart = getReadWriteBandwidthChartFactory(createStream,
-      getReadWriteBandwidthStream, DURATIONS, chartCompiler, formatBytes);
+      getReadWriteBandwidthStream, DURATIONS, chartCompiler);
 
     getReadWriteBandwidthChart({
       qs: {

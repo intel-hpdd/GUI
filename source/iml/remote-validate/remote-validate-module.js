@@ -22,13 +22,13 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {identity} from 'intel-fp';
 
-import {remoteValidateFormFactory, remoteValidateComponentFactory} from './remote-validate';
+import {
+  remoteValidateForm,
+  remoteValidateComponent
+} from './remote-validate.js';
 
 export default angular.module('remote-validate', [])
-  .factory('remoteValidateFormService', remoteValidateFormFactory)
-  .factory('remoteValidateComponentService', remoteValidateComponentFactory)
-  .directive('remoteValidateForm', ['remoteValidateFormService', identity])
-  .directive('remoteValidateComponent', ['remoteValidateComponentService', identity])
+  .directive('remoteValidateForm', () => remoteValidateForm)
+  .directive('remoteValidateComponent', () => remoteValidateComponent)
   .name;

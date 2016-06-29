@@ -1,9 +1,24 @@
-import numberFormattersModule from '../../../../source/iml/number-formatters/number-formatters-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Format number', () => {
+  let formatNumber;
 
-  var formatNumber, $window;
-  var tests = [
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/number-formatters/format-number.js', {
+      'source/iml/global.js': {
+        Intl: null
+      }
+    });
+
+    formatNumber = mod.default;
+  });
+
+  afterEach(resetAll);
+
+  const tests = [
     // non 0 numbers
     {
       in: [22, 10],
@@ -91,48 +106,37 @@ describe('Format number', () => {
     }
   ];
 
-  beforeEach(module(numberFormattersModule));
 
-  beforeEach(inject(function (_formatNumber_) {
-    formatNumber = _formatNumber_;
-  }));
-
-  describe('with Intl.NumberFormat polyfill', function () {
-
-    beforeEach(inject(function (_$window_) {
-      $window = _$window_;
-      $window.Intl = null;
-    }));
-
-    describe('standard mode', function () {
-      tests.forEach(function (test) {
-        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
+  describe('with Intl.NumberFormat polyfill', () => {
+    describe('standard mode', () => {
+      tests.forEach(test => {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
           expect(formatNumber.apply(null, test.in)).toEqual(test.out);
         });
       });
     });
 
-    describe('strict mode', function () {
-      tests.forEach(function (test) {
-        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
+    describe('strict mode', () => {
+      tests.forEach(test => {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
           expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
         });
       });
     });
   });
 
-  describe('without polyfill', function () {
-    describe('standard mode', function () {
-      tests.forEach(function (test) {
-        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
+  describe('without polyfill', () => {
+    describe('standard mode', () => {
+      tests.forEach(test => {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
           expect(formatNumber.apply(null, test.in)).toEqual(test.out);
         });
       });
     });
 
-    describe('strict mode', function () {
-      tests.forEach(function (test) {
-        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, function () {
+    describe('strict mode', () => {
+      tests.forEach(test => {
+        it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
           expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
         });
       });

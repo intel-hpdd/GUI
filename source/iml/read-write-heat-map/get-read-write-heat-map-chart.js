@@ -19,6 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import formatNumber from '../number-formatters/format-number.js';
+import formatBytes from '../number-formatters/format-bytes.js';
+
 import {__, flow, lensProp, view} from 'intel-fp';
 import {values} from 'intel-obj';
 
@@ -27,12 +30,10 @@ import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
 
 import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
 import type {readWriteHeatMapTypesT} from './read-write-heat-map-module.js';
-import type {formatNumberT, formatBytesT} from '../number-formatters/number-formatters-module.js';
 
 export function getReadWriteHeatMapChartFactory (createStream, $location, $filter,
                                                  getReadWriteHeatMapStream, DURATIONS, chartCompiler:chartCompilerT,
-                                                 readWriteHeatMapTypes:readWriteHeatMapTypesT,
-                                                 formatNumber:formatNumberT, formatBytes:formatBytesT) {
+                                                 readWriteHeatMapTypes:readWriteHeatMapTypesT) {
   'ngInject';
 
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];

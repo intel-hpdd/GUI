@@ -7,7 +7,7 @@ import { getMemoryUsageChartFactory } from
 describe('memory usage chart', () => {
   var chartCompiler, createStream, getMemoryUsageStream,
     durationStream, rangeStream,
-    formatBytes, getMemoryUsageChart, DURATIONS;
+    getMemoryUsageChart, DURATIONS;
 
   beforeEach(() => {
     getMemoryUsageStream = {};
@@ -25,15 +25,12 @@ describe('memory usage chart', () => {
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    formatBytes = jasmine.createSpy('formatBytes')
-      .and.returnValue('formatter');
-
     DURATIONS = {
       MINUTES: 'minutes'
     };
 
     getMemoryUsageChart = getMemoryUsageChartFactory(getMemoryUsageStream, createStream,
-      DURATIONS, chartCompiler, formatBytes);
+      DURATIONS, chartCompiler);
 
     getMemoryUsageChart({
       qs: {

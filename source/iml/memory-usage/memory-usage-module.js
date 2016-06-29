@@ -27,7 +27,6 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import numberFormattersModule from '../number-formatters/number-formatters-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import getMemoryUsageStreamFactory from './get-memory-usage-stream';
 import {getMemoryUsageChartFactory} from './get-memory-usage-chart';
@@ -39,7 +38,7 @@ export default angular.module('memoryUsageModule', [
   chartsModule, chartingModule,
   highlandModule, configToggleModule,
   durationPickerModule,
-  numberFormattersModule, streamWhenVisibleModule,
+  streamWhenVisibleModule,
   memoryUsageChartTemplate
 ])
   .factory('getMemoryUsageStream', getMemoryUsageStreamFactory)

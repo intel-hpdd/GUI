@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import formatBytes from '../number-formatters/format-bytes.js';
+import formatNumber from '../number-formatters/format-number.js';
 import angular from 'angular';
 import helpModule from '../help-module';
-import numberFormattersModule from '../number-formatters/number-formatters-module';
 import pdshFilter from './pdsh-filter';
-import {identity} from 'intel-fp';
 import capitalizeFilter from './capitalize-filter';
 import insertHelpFilter from './insert-help-filter';
 import naturalSortFilter from './natural-sort-filter';
@@ -34,9 +34,9 @@ import pathMaxLengthFilter from './path-max-length-filter';
 import roundFilter from './round-filter';
 import throughputFilter from './throughput-filter';
 
-export default angular.module('filters', [helpModule, numberFormattersModule])
-  .filter('fmtBytes', ['formatBytes', identity])
-  .filter('fmtNumber', ['formatNumber', identity])
+export default angular.module('filters', [helpModule])
+  .filter('fmtBytes', () => formatBytes)
+  .filter('fmtNumber', () => formatNumber)
   .filter('capitalize', capitalizeFilter)
   .filter('pdsh', pdshFilter)
   .filter('insertHelp', insertHelpFilter)

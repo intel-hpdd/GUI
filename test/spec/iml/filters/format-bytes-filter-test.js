@@ -1,15 +1,10 @@
 import filterModule from '../../../../source/iml/filters/filters-module';
+import formatBytes from '../../../../source/iml/number-formatters/format-bytes.js';
 
 describe('format bytes filter', () => {
-  var formatBytes;
+  let fmtBytesFilter;
 
-  beforeEach(module(filterModule, $provide => {
-    formatBytes = {};
-
-    $provide.value('formatBytes', formatBytes);
-  }));
-
-  var fmtBytesFilter;
+  beforeEach(module(filterModule));
 
   beforeEach(inject(_fmtBytesFilter_ => {
     fmtBytesFilter = _fmtBytesFilter_;

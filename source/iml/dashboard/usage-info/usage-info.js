@@ -21,11 +21,13 @@
 
 import * as fp from 'intel-fp';
 
+import formatNumber from '../../number-formatters/format-number.js';
+import formatBytes from '../../number-formatters/format-bytes.js';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import usageInfoTemplate from './assets/html/usage-info';
 
-export function UsageInfoController ($scope, propagateChange, addProperty,
-                                     formatNumber, formatBytes) {
+export function UsageInfoController ($scope, propagateChange, addProperty) {
   'ngInject';
 
   this.format = this.prefix === 'bytes' ? formatBytes : formatNumber;
