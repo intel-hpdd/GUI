@@ -43,7 +43,7 @@ describe('get cpu usage stream', () => {
     });
 
     getCpuUsageStream = mod.default;
-  });
+  }, 10000);
 
   var fixtures, revert, spy;
 
