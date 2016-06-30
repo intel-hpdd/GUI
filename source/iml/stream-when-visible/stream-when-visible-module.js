@@ -25,8 +25,6 @@ import angular from 'angular';
 
 import highlandModule from '../highland/highland-module';
 
-import pageVisibilityModule from '../page-visibility/page-visibility-module';
-
 import {
   streamWhenVisible,
   documentHidden,
@@ -39,7 +37,7 @@ import type {
 
 export type streamWhenChartVisibleT = (streamFn:() => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
-export default angular.module('streamWhenVisible', [highlandModule, pageVisibilityModule])
+export default angular.module('streamWhenVisible', [highlandModule])
   .factory('streamWhenVisible', streamWhenVisible)
   .value('documentHidden', documentHidden)
   .value('documentVisible', documentVisible)

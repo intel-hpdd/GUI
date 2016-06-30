@@ -1,12 +1,34 @@
 import highland from 'highland';
-import {noop} from 'intel-fp';
+import {
+  noop
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 
 import streamWhenVisibleModule from '../../../../source/iml/stream-when-visible/stream-when-visible-module';
 
 describe('stream when visible', () => {
   var $document, pageVisibility, removeListener,
     visibilityStream, streamFn, inStream, stream,
-    documentHidden, documentVisible;
+    documentHidden, documentVisible, mod;
+
+  beforeEachAsync(async function () {
+    removeListener = jasmine.createSpy('removeListener');
+    pageVisibility = jasmine.createSpy('pageVisibility')
+      .and.returnValue(removeListener);
+
+    mod = await mock('source/iml/stream-when-visible/stream-when-visible.js', {
+      'source/iml/page-visibility.js': {
+        default: pageVisibility
+      }
+    });
+  });
+
+  afterEach(resetAll);
 
   beforeEach(module(streamWhenVisibleModule, $provide => {
     $document = {
@@ -14,17 +36,13 @@ describe('stream when visible', () => {
     };
     $provide.value('$document', [$document]);
 
-    removeListener = jasmine.createSpy('removeListener');
-    pageVisibility = jasmine.createSpy('pageVisibility')
-      .and.returnValue(removeListener);
-    $provide.value('pageVisibility', pageVisibility);
-
     $provide.value('highland', () => {
       visibilityStream = highland();
       spyOn(visibilityStream, 'destroy');
 
       return visibilityStream;
     });
+    $provide.factory('streamWhenVisible', mod.streamWhenVisible);
 
     documentHidden = 'hidden';
     $provide.value('documentHidden', documentHidden);

@@ -23,6 +23,8 @@
 
 import highland from 'highland';
 
+import pageVisibility from '../page-visibility.js';
+
 import {
   noop
 } from 'intel-fp';
@@ -36,8 +38,8 @@ export const documentHidden = {};
 export const documentVisible = {};
 
 export function streamWhenVisible ($document:Array<Document>,
-                                   documentHidden:typeof documentHidden, documentVisible:typeof documentVisible,
-                                   pageVisibility:Function):Function {
+                                   documentHidden:typeof documentHidden,
+                                   documentVisible:typeof documentVisible):Function {
   'ngInject';
 
   const doc = $document[0];
