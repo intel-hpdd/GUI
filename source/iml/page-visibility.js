@@ -23,35 +23,38 @@
 
 import * as fp from 'intel-fp';
 
-export default function pageVisibilityFactory ($document:Array<Document>, $timeout:Function):Function {
-  'ngInject';
+import global from './global.js';
 
-  return function pageVisibility (onHide:Function, onShow:Function, timeout:number):Function {
-    const doc = $document[0];
+export default function pageVisibility (onHide:Function, onShow:Function, timeout:number = 0):Function {
+  let id;
 
-    const timeoutState = {};
-    const timeoutLens = fp.lensProp('cancelled');
+  const setCancelled = () => {
+    id = setTimeout(() => {
+      id = null;
+      onHide();
+    }, timeout);
+  };
 
-    const setCancelled = fp.flow(
-      fp.partial(0, $timeout, [onHide, timeout, false]),
-      fp.set(timeoutLens, timeoutState)
-    );
+  const cancelTimeout = () => {
+    let shouldClear = id != null;
 
-    const cancelTimeout = fp.flow(
-      fp.partial(0, fp.view, [timeoutLens, timeoutState]),
-      fp.bindMethod('cancel', $timeout)
-    );
+    if (shouldClear)
+      global.clearTimeout(id);
 
-    const onVisibilityChange = fp.partial(0, fp.cond(
-      [fp.view(fp.lensProp('hidden')), setCancelled],
-      [fp.flow(cancelTimeout, fp.not), fp.partial(0, onShow, [])]
-    ), [doc]);
+    id = null;
 
-    doc.addEventListener('visibilitychange', onVisibilityChange);
+    return shouldClear;
+  };
 
-    return () => {
-      cancelTimeout();
-      doc.removeEventListener('visibilitychange', onVisibilityChange);
-    };
+  const onVisibilityChange = fp.cond(
+    [() => global.document.hidden, setCancelled],
+    [fp.flow(cancelTimeout, fp.not), onShow]
+  );
+
+  global.document.addEventListener('visibilitychange', onVisibilityChange);
+
+  return () => {
+    cancelTimeout();
+    global.document.removeEventListener('visibilitychange', onVisibilityChange);
   };
 }
