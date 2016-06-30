@@ -174,12 +174,14 @@ window.flushD3Transitions = function flushD3Transitions () {
   Date.now = now;
 };
 
-window.beforeEachAsync = runAsync => {
+window.beforeEachAsync = (runAsync:Function, timeout:number) => {
+  timeout = timeout || jasmine.DEFAULT_TIMEOUT_INTERVAL;
+
   beforeEach(done => {
     runAsync()
     .then(done)
     .catch(done.fail);
-  });
+  }, timeout);
 };
 
 window.itAsync = (desc, runAsync) => {
