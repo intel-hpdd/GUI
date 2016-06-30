@@ -51,7 +51,7 @@ describe('The host cpu ram stream', () => {
     });
 
     getHostCpuRamStream = mod.default;
-  });
+  }, 10000);
 
   var fixtures, spy, revert;
 
