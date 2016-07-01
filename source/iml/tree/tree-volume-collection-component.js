@@ -43,6 +43,8 @@ import type {
 } from 'angular';
 
 function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
+  'ngInject';
+  
   function computePage (meta) {
     const currentPage = (meta.offset / meta.limit) + 1;
     return (currentPage - 1) * meta.limit;

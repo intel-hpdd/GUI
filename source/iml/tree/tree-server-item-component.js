@@ -27,6 +27,8 @@ import {
 
 
 function treeServerItem () {
+  'ngInject';
+  
   this.onOpen = toggleItem;
 }
 
