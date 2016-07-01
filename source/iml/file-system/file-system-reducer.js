@@ -21,22 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import createStore from './create-store.js';
+export const ADD_FS_ITEMS = 'ADD_FS_ITEMS';
 
-import targetReducer from '../target/target-reducer.js';
-import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
-import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
-import serverReducer from '../server/server-reducer.js';
-import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
-import treeReducer from '../tree/tree-reducer.js';
-import fileSystemReducer from '../file-system/file-system-reducer.js';
+import type {
+  ActionT
+} from '../store/store-module.js';
 
-export default createStore({
-  targets: targetReducer,
-  alertIndicators: alertIndicatorReducer,
-  jobIndicators: jobIndicatorReducer,
-  server: serverReducer,
-  lnetConfiguration: lnetConfigurationReducer,
-  tree: treeReducer,
-  fileSystems: fileSystemReducer
-});
+export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+  switch (type) {
+  case ADD_FS_ITEMS:
+    return payload;
+  default:
+    return state;
+  }
+}

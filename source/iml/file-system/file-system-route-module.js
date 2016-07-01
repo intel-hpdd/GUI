@@ -21,22 +21,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import createStore from './create-store.js';
+import angular from 'angular';
+import fileSystemRoute from './file-system-route.js';
 
-import targetReducer from '../target/target-reducer.js';
-import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
-import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
-import serverReducer from '../server/server-reducer.js';
-import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
-import treeReducer from '../tree/tree-reducer.js';
-import fileSystemReducer from '../file-system/file-system-reducer.js';
+// $FlowIgnore: HTML templates that flow does not recognize.
+import loadingTemplate from '../loading/assets/html/loading';
+import authModule from '../auth/auth-module.js';
 
-export default createStore({
-  targets: targetReducer,
-  alertIndicators: alertIndicatorReducer,
-  jobIndicators: jobIndicatorReducer,
-  server: serverReducer,
-  lnetConfiguration: lnetConfigurationReducer,
-  tree: treeReducer,
-  fileSystems: fileSystemReducer
-});
+export default angular.module('fileSystemRoute', [
+  loadingTemplate, authModule
+])
+  .config(fileSystemRoute)
+  .name;

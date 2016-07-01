@@ -113,8 +113,6 @@ beforeEach(() => {
 
 beforeEach(angular.mock.module(fixturesModule));
 
-window.λ = window.highland;
-
 window.extendWithConstructor = (constructor, obj) => {
   const scope = Object.create({}, {});
   angular.extend(scope, obj);
