@@ -52,11 +52,11 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
 
   var end = socket.end.bind(socket);
 
-  var stream;
+  var stream:HighlandStreamT<apiResponseT>;
   if (isAck) {
     stream = highland(push => {
       socket.send(data, function ack (response:apiResponseWithErrorT) {
-        const error = response.error;
+        const error = (response != null) && response.error;
 
         if (error)
           push(buildResponseError(error));

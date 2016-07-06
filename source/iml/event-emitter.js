@@ -36,7 +36,6 @@ export type EventEmitterT = EventEmitter;
 import highland from 'highland';
 
 const EE:typeof EventEmitter = Object.getPrototypeOf(
-  // $FlowIgnore: cannot extend declaration and keep types.
   Object.getPrototypeOf(highland())
 ).constructor;
 

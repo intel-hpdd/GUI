@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function noSpace (parts:string[], ...args:mixed[]):string {
+export function noSpace (parts:string[], ...args:any[]):string {
   const built = parts.reduce(
     (acc, p, i) => acc + args[i - 1] + p
   );
