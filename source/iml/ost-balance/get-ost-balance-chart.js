@@ -32,7 +32,7 @@ export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartV
   const DEFAULT_PERCENTAGE = 0;
 
   return function getOstBalanceChart (overrides) {
-    const stream = streamWhenVisible(() => getOstBalanceStream(DEFAULT_PERCENTAGE, overrides));
+    const stream = streamWhenVisible(() => getOstBalanceStream(overrides, DEFAULT_PERCENTAGE));
 
     return chartCompiler(ostBalanceTemplate, stream, ($scope, stream) => {
       const conf = {
@@ -40,7 +40,7 @@ export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartV
         stream,
         onSubmit () {
           conf.stream.destroy();
-          conf.stream = streamWhenVisible(() => getOstBalanceStream(conf.percentage, overrides));
+          conf.stream = streamWhenVisible(() => getOstBalanceStream(overrides, conf.percentage));
         },
         options: {
           setup (d3Chart, d3) {

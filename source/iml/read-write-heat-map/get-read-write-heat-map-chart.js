@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {__, flow, lensProp, view} from 'intel-fp';
+import {flow, lensProp, view} from 'intel-fp';
 import {values} from 'intel-obj';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -44,8 +44,8 @@ export default (createStream, $location, $filter,
 
   return function getReadWriteHeatMapChart (overrides) {
     var { durationStream, rangeStream } = createStream;
-    durationStream = durationStream(__, overrides);
-    rangeStream = rangeStream(__, overrides);
+    durationStream = durationStream(overrides);
+    rangeStream = rangeStream(overrides);
 
     var initStream = durationStream(
       getReadWriteHeatMapStream(readWriteHeatMapTypes.READ_BYTES),

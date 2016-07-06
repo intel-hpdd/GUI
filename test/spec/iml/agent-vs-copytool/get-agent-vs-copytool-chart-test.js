@@ -115,16 +115,16 @@ describe('get agent vs copytool chart exports', () => {
 
   it('should create a duration stream', () => {
     expect(createStream.durationStream)
-      .toHaveBeenCalledOnceWith(getAgentVsCopytoolStream, {
+      .toHaveBeenCalledOnceWith({
         foo: 'bar'
-      });
+      }, getAgentVsCopytoolStream);
   });
 
   it('should create a range stream', () => {
     expect(createStream.rangeStream)
-      .toHaveBeenCalledOnceWith(getAgentVsCopytoolStream, {
+      .toHaveBeenCalledOnceWith({
         foo: 'bar'
-      });
+      }, getAgentVsCopytoolStream);
   });
 
   it('should create a xScale', () => {

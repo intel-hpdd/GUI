@@ -93,11 +93,11 @@ describe('read write heat map chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(readWriteHeatMapStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, readWriteHeatMapStream, 10, 'minutes');
   });
 
   it('should create an initial stream with expected data', () => {
@@ -169,11 +169,11 @@ describe('read write heat map chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(readWriteHeatMapStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, readWriteHeatMapStream, 5, 'hours');
         });
       });
 

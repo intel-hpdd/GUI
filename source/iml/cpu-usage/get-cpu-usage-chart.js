@@ -30,8 +30,8 @@ export default (createStream, chartCompiler) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getCpuUsageChart (overrides) {
-    const durationStream = createStream.durationStream(getCpuUsageStream, overrides);
-    const rangeStream = createStream.rangeStream(getCpuUsageStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getCpuUsageStream);
+    const rangeStream = createStream.rangeStream(overrides, getCpuUsageStream); 
 
     return chartCompiler(cpuUsageTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

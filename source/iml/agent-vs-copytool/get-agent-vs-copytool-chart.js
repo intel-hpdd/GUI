@@ -36,8 +36,8 @@ export default (createStream, chartCompiler, d3) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getAgentVsCopytoolChart (overrides) {
-    const durationStream = createStream.durationStream(getAgentVsCopytoolStream, overrides);
-    const rangeStream = createStream.rangeStream(getAgentVsCopytoolStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getAgentVsCopytoolStream);
+    const rangeStream = createStream.rangeStream(overrides, getAgentVsCopytoolStream);
 
     const xScale = d3.time.scale();
     const yScale = d3.scale.linear();

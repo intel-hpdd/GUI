@@ -62,11 +62,11 @@ describe('get read write bandwidth chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getReadWriteBandwidthStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, getReadWriteBandwidthStream, 10, 'minutes');
   });
 
   describe('setup', () => {
@@ -158,11 +158,11 @@ describe('get read write bandwidth chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getReadWriteBandwidthStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, getReadWriteBandwidthStream, 5, 'hours');
         });
       });
 
@@ -177,11 +177,11 @@ describe('get read write bandwidth chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getReadWriteBandwidthStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getReadWriteBandwidthStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

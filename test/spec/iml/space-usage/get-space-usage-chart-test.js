@@ -59,11 +59,11 @@ describe('space usage chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getSpaceUsageStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, getSpaceUsageStream, 10, 'minutes');
   });
 
   describe('config', () => {
@@ -165,11 +165,11 @@ describe('space usage chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getSpaceUsageStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, getSpaceUsageStream, 5, 'hours');
         });
       });
 
@@ -184,11 +184,11 @@ describe('space usage chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getSpaceUsageStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getSpaceUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

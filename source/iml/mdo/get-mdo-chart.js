@@ -36,8 +36,8 @@ export default (createStream, chartCompiler:chartCompilerT) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getMdoChart (overrides) {
-    const durationStream = createStream.durationStream(getMdoStream, overrides);
-    const rangeStream = createStream.rangeStream(getMdoStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getMdoStream);
+    const rangeStream = createStream.rangeStream(overrides, getMdoStream);
 
     return chartCompiler(mdoTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

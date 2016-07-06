@@ -61,11 +61,11 @@ describe('get ost balance chart', () => {
 
   it('should create a new stream', function () {
     expect(getOstBalanceStream)
-      .toHaveBeenCalledOnceWith(0, {
+      .toHaveBeenCalledOnceWith({
         qs: {
           filesystem_id: '1'
         }
-      });
+      }, 0);
   });
 
   describe('conf setup', () => {
@@ -107,11 +107,11 @@ describe('get ost balance chart', () => {
 
       it('should create a new stream', () => {
         expect(getOstBalanceStream)
-          .toHaveBeenCalledOnceWith(10, {
+          .toHaveBeenCalledOnceWith({
             qs: {
               filesystem_id: '1'
             }
-          });
+          }, 10);
       });
 
       it('should call streamWhenVisible', function () {

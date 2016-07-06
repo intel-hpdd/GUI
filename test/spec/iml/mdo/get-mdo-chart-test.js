@@ -59,11 +59,11 @@ describe('MDO chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getMdoStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, getMdoStream, 10, 'minutes');
   });
 
   describe('setup', () => {
@@ -154,11 +154,11 @@ describe('MDO chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getMdoStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, getMdoStream, 5, 'hours');
         });
       });
 
@@ -173,11 +173,11 @@ describe('MDO chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getMdoStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getMdoStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

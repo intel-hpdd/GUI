@@ -31,8 +31,8 @@ export default (createStream, chartCompiler) => {
   var DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getReadWriteBandwidthChart (overrides) {
-    const durationStream = createStream.durationStream(getReadWriteBandwidthStream, overrides);
-    const rangeStream = createStream.rangeStream(getReadWriteBandwidthStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getReadWriteBandwidthStream);
+    const rangeStream = createStream.rangeStream(overrides, getReadWriteBandwidthStream);
 
     return chartCompiler(readWriteBandwidthTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {
