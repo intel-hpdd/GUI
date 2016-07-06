@@ -43,8 +43,21 @@ import type {
   ostBalancePayloadT
 } from '../ost-balance/ost-balance-module.js';
 
+import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+
+import type {
+  durationPickerConfigT
+} from '../duration-picker/duration-picker-module.js';
+
 type confTypes = durationPayloadT | heatMapDurationPayloadT | ostBalancePayloadT;
+export type configToStreamT = (x:durationPickerConfigT) => HighlandStreamT<mixed>;
 export type getConfT = (page:string) => HighlandStreamT<confTypes>;
+export type data$FnT = (overrides:filesystemQueryT | targetQueryT,
+                        chartStreamFn:configToStreamT,
+                        x:durationPickerConfigT) => HighlandStreamT<mixed>;
 
 export default angular.module('chartTransformers', [])
   .factory('data$Fn', data$Fn)

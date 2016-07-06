@@ -49,7 +49,9 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-type configToStreamT = (x:durationPickerConfigT) => HighlandStreamT<mixed>;
+import type {
+  configToStreamT
+} from './chart-transformers-module.js';
 
 export const getConf = (page:string) => {
   return rebindDestroy(
