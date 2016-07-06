@@ -33,6 +33,7 @@
     ],
     "no-func-assign": 0,
     "no-constant-condition": 0,
+    "no-unsafe-finally": 0,
     "no-multiple-empty-lines": [
       2,
       {
@@ -61,7 +62,7 @@
     ],
     brace-style: [
       "error",
-      "1tbs", 
+      "1tbs",
       {
         "allowSingleLine": true
       }

@@ -2,12 +2,6 @@
 
 import treeReducer from '../../../../source/iml/tree/tree-reducer.js';
 
-import {
-  ADD_TREE_ITEMS,
-  TOGGLE_COLLECTION_OPEN,
-  TOGGLE_ITEM_OPEN
-} from '../../../../source/iml/tree/tree-types.js';
-
 describe('treeReducer', () => {
   let getTreeItem;
 
@@ -26,7 +20,7 @@ describe('treeReducer', () => {
   describe('adding tree items', () => {
     it('should return the new state', () => {
       const result = treeReducer({}, {
-        type: ADD_TREE_ITEMS,
+        type: 'ADD_TREE_ITEMS',
         payload: [
           getTreeItem()
         ]
@@ -44,7 +38,7 @@ describe('treeReducer', () => {
           [1]: getTreeItem()
         },
         {
-          type: ADD_TREE_ITEMS,
+          type: 'ADD_TREE_ITEMS',
           payload: [
             {
               treeId: 2,
@@ -79,7 +73,7 @@ describe('treeReducer', () => {
           [1]: getTreeItem()
         },
         {
-          type: ADD_TREE_ITEMS,
+          type: 'ADD_TREE_ITEMS',
           payload: [
             {
               treeId: 1,
@@ -112,7 +106,7 @@ describe('treeReducer', () => {
   describe('toggle collection', () => {
     it('should return existing state when id is not found', () => {
       const result = treeReducer({}, {
-        type: TOGGLE_COLLECTION_OPEN,
+        type: 'TOGGLE_COLLECTION_OPEN',
         payload: {
           id: 1,
           open: true
@@ -129,7 +123,7 @@ describe('treeReducer', () => {
           [1]: getTreeItem()
         },
         {
-          type: TOGGLE_COLLECTION_OPEN,
+          type: 'TOGGLE_COLLECTION_OPEN',
           payload: {
             id: 1,
             open: true
@@ -155,7 +149,7 @@ describe('treeReducer', () => {
   describe('toggle item', () => {
     it('should return existing state when id is not found', () => {
       const result = treeReducer({}, {
-        type: TOGGLE_ITEM_OPEN,
+        type: 'TOGGLE_ITEM_OPEN',
         payload: {
           id: 1,
           itemId: 2,
@@ -173,7 +167,7 @@ describe('treeReducer', () => {
           [1]: getTreeItem()
         },
         {
-          type: TOGGLE_ITEM_OPEN,
+          type: 'TOGGLE_ITEM_OPEN',
           payload: {
             id: 1,
             itemId: 2,
