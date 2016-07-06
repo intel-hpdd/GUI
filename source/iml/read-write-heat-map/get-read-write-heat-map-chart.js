@@ -19,124 +19,171 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {flow, lensProp, view} from 'intel-fp';
-import {values} from 'intel-obj';
+// @flow
+
+import {
+  flow,
+  lensProp,
+  view
+} from 'intel-fp';
+import {
+  values
+} from 'intel-obj';
+import {
+  $scopeT
+} from 'angular';
+import flatMapChanges from 'intel-flat-map-changes';
+
+import {
+  DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
+  UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
+} from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 import formatNumber from '../number-formatters/format-number.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import getStore from '../store/get-store.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
-import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
-import type {readWriteHeatMapTypesT} from './read-write-heat-map-module.js';
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
 
-export default (createStream, $location, $filter,
-  chartCompiler:chartCompilerT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  readWriteHeatMapTypesT,
+  heatMapDurationPayloadT,
+  heatMapPayloadHashT
+} from './read-write-heat-map-module.js';
+import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
+
+type routeSegmentUrlT = (name:string, conf:{id: number, startDate: string, endDate: string}) => string;
+type $filterT = (name:string) => routeSegmentUrlT;
+
+export default ($location:$locationT, $filter:$filterT,
+                chartCompiler:chartCompilerT, localApply:localApplyT,
+                data$Fn:data$FnT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
   'ngInject';
-
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   const routeSegmentUrl = $filter('routeSegmentUrl');
   const dataLens = view(lensProp('data'));
   const maxMillisecondsDiff = 16000;
 
-  return function getReadWriteHeatMapChart (overrides) {
-    var { durationStream, rangeStream } = createStream;
-    durationStream = durationStream(overrides);
-    rangeStream = rangeStream(overrides);
-
-    var initStream = durationStream(
-      getReadWriteHeatMapStream(readWriteHeatMapTypes.READ_BYTES),
-      ...DEFAULT_DURATION
-    );
-
-    return chartCompiler(readWriteHeatMapTemplate, initStream, ($scope, stream) => {
-      initStream = null;
-
-      const conf = {
-        stream,
-        modelType: readWriteHeatMapTypes.READ_BYTES,
-        type: readWriteHeatMapTypes.READ_BYTES,
-        TYPES: values(readWriteHeatMapTypes),
-        toReadableType (type) {
-          var readable = type
-            .split('_')
-            .splice(1)
-            .join(' ')
-            .replace('bytes', 'Byte/s')
-            .replace('iops', 'IOPS');
-
-          return readable.charAt(0).toUpperCase() + readable.slice(1);
-        },
-        onSubmit ({ rangeForm, durationForm }) {
-          conf.stream.destroy();
-          conf.type = conf.modelType;
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              getReadWriteHeatMapStream(conf.type),
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              getReadWriteHeatMapStream(conf.type),
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        },
-        options: {
-          setup (d3Chart) {
-            d3Chart.margin({
-              left: 70,
-              bottom: 50,
-              right: 50
-            });
-
-            d3Chart.dispatch.on('click', function onClick (points) {
-              var sDate = new Date(points.current.ts);
-              const eDate = ( points.next ? new Date(points.next.ts) : new Date() );
-              const dateDiff = eDate.getTime() - sDate.getTime();
-
-              if (dateDiff < maxMillisecondsDiff) {
-                const millisecondsToAdd = maxMillisecondsDiff - dateDiff;
-                sDate = new Date(sDate.valueOf() - millisecondsToAdd);
-              }
-
-              const startDate = sDate.toISOString();
-              const endDate = eDate.toISOString();
-
-              $scope.$apply(function applyLocationChange () {
-                $location.path(routeSegmentUrl('app.jobstats', {
-                  id: points.current.id,
-                  startDate,
-                  endDate
-                }));
-              });
-            });
-            d3Chart.formatter(getFormatter(conf.type));
-            d3Chart.zValue(flow(dataLens, view(lensProp(conf.type))));
-
-            d3Chart.xAxis().ticks(3);
-          },
-          beforeUpdate: function beforeUpdate (d3Chart) {
-            d3Chart.formatter(getFormatter(conf.type));
-            d3Chart.zValue(flow(dataLens, view(lensProp(conf.type))));
-            d3Chart.xAxisDetail(conf.toReadableType(conf.type));
-          }
-        },
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1]
-      };
-
-      $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
-      });
-
-      return conf;
+  return function getReadWriteHeatMapChart (overrides:filesystemQueryT | targetQueryT, page:string) {
+    getStore.dispatch({
+      type: DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
+      payload: durationPayload({
+        dataType: 'stats_read_bytes',
+        page
+      })
     });
+
+    const config1$ = getStore.select('readWriteHeatMapCharts');
+
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, (x:heatMapDurationPayloadT) => getReadWriteHeatMapStream(x.dataType))
+        )
+      );
+
+    return chartCompiler(readWriteHeatMapTemplate, initStream,
+      ($scope:$scopeT, stream:HighlandStreamT<heatMapPayloadHashT>) => {
+
+        const conf = {
+          stream,
+          TYPES: values(readWriteHeatMapTypes),
+          configType: '',
+          page: '',
+          dataType: '',
+          startDate: '',
+          endDate: '',
+          size: 1,
+          unit: '',
+          toReadableType (type) {
+            var readable = type
+              .split('_')
+              .splice(1)
+              .join(' ')
+              .replace('bytes', 'Byte/s')
+              .replace('iops', 'IOPS');
+
+            return readable.charAt(0).toUpperCase() + readable.slice(1);
+          },
+          onSubmit: durationSubmitHandler(UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS, {page}),
+          options: {
+            setup (d3Chart) {
+              d3Chart.margin({
+                left: 70,
+                bottom: 50,
+                right: 50
+              });
+
+              d3Chart.dispatch.on('click', function onClick (points) {
+                var sDate = new Date(points.current.ts);
+                const eDate = ( points.next ? new Date(points.next.ts) : new Date() );
+                const dateDiff = eDate.getTime() - sDate.getTime();
+
+                if (dateDiff < maxMillisecondsDiff) {
+                  const millisecondsToAdd = maxMillisecondsDiff - dateDiff;
+                  sDate = new Date(sDate.valueOf() - millisecondsToAdd);
+                }
+
+                const startDate = sDate.toISOString();
+                const endDate = eDate.toISOString();
+
+                $scope.$apply(function applyLocationChange () {
+                  $location.path(routeSegmentUrl('app.jobstats', {
+                    id: points.current.id,
+                    startDate,
+                    endDate
+                  }));
+                });
+              });
+              d3Chart.formatter(getFormatter(conf.dataType));
+              d3Chart.zValue(flow(dataLens, view(lensProp(conf.dataType))));
+
+              d3Chart.xAxis().ticks(3);
+            },
+            beforeUpdate: function beforeUpdate (d3Chart) {
+              d3Chart.formatter(getFormatter(conf.dataType));
+              d3Chart.zValue(flow(dataLens, view(lensProp(conf.dataType))));
+              d3Chart.xAxisDetail(conf.toReadableType(conf.dataType));
+            }
+          }
+        };
+
+        const config2$ = getStore.select('readWriteHeatMapCharts');
+        config2$
+         .through(getConf(page))
+         .each((x:heatMapDurationPayloadT) => {
+           Object.assign(conf, x);
+           localApply($scope);
+         });
+
+        $scope.$on('$destroy', () => {
+          stream.destroy();
+          config1$.destroy();
+          config2$.destroy();
+        });
+
+        return conf;
+      });
   };
 
   function getFormatter (type) {

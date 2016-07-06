@@ -15,7 +15,7 @@ describe('duration submit handler', () => {
       'source/iml/store/get-store.js': { default: getStore }
     });
 
-    durationSubmitter = mod.default('chart_type');
+    durationSubmitter = mod.default('chart_type', {page: 'base'});
   });
 
   afterEach(resetAll);
@@ -37,12 +37,13 @@ describe('duration submit handler', () => {
 
       expect(getStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',
-        payload: [{
+        payload: {
+          page: 'base',
           configType: 'range',
           startDate: '2016-05-05T01:00:00',
           endDate: '2016-05-05T01:05:00',
           dataType: 'my-data-type'
-        }]
+        }
       });
     });
   });
@@ -64,12 +65,13 @@ describe('duration submit handler', () => {
 
       expect(getStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',
-        payload: [{
+        payload: {
+          page: 'base',
           configType: 'duration',
           size: 15,
           unit: 'hours',
           dataType: 'my-data-type'
-        }]
+        }
       });
     });
   });

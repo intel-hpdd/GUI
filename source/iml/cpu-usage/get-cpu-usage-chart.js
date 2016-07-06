@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,39 +21,72 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {
+  always
+} from 'intel-fp';
+import flatMapChanges from 'intel-flat-map-changes';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import cpuUsageTemplate from './assets/html/cpu-usage';
 import getCpuUsageStream from './get-cpu-usage-stream.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import getStore from '../store/get-store.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
-export default (createStream, chartCompiler) => {
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
+import {
+  UPDATE_CPU_USAGE_CHART_ITEMS,
+  DEFAULT_CPU_USAGE_CHART_ITEMS
+} from './cpu-usage-chart-reducer.js';
+import type {
+  $scopeT
+} from 'angular';
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
+
+export default (chartCompiler:chartCompilerT, localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
+  return function getCpuUsageChart (overrides:targetQueryT, page:string) {
+    getStore.dispatch({
+      type: DEFAULT_CPU_USAGE_CHART_ITEMS,
+      payload: durationPayload({page})
+    });
 
-  return function getCpuUsageChart (overrides) {
-    const durationStream = createStream.durationStream(overrides, getCpuUsageStream);
-    const rangeStream = createStream.rangeStream(overrides, getCpuUsageStream); 
+    const config1$ = getStore.select('cpuUsageCharts');
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, always(getCpuUsageStream))
+        )
+      );
 
-    return chartCompiler(cpuUsageTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
+    return chartCompiler(cpuUsageTemplate, initStream, ($scope:$scopeT, stream) => {
       const conf = {
         stream,
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1],
-        onSubmit ( { rangeForm, durationForm } ) {
-          conf.stream.destroy();
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        },
+        configType: '',
+        page: '',
+        startDate: '',
+        endDate: '',
+        size: 1,
+        unit:'',
+        onSubmit: durationSubmitHandler(UPDATE_CPU_USAGE_CHART_ITEMS, {page}),
         options: {
           setup (d3Chart, d3) {
             d3Chart.useInteractiveGuideline(true);
@@ -67,8 +102,18 @@ export default (createStream, chartCompiler) => {
         }
       };
 
-      $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
+      const config2$ = getStore.select('cpuUsageCharts');
+      config2$
+        .through(getConf(page))
+        .each((x:durationPayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
+
+      $scope.$on('$destroy', () => {
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

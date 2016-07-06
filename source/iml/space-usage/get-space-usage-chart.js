@@ -19,39 +19,70 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {
+  always
+} from 'intel-fp';
+import flatMapChanges from 'intel-flat-map-changes';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import spaceUsageTemplate from './assets/html/space-usage-chart';
 import getSpaceUsageStream from './get-space-usage-stream.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import getStore from '../store/get-store.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
-export default (createStream, chartCompiler) => {
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
+import {
+  DEFAULT_SPACE_USAGE_CHART_ITEMS,
+  UPDATE_SPACE_USAGE_CHART_ITEMS
+} from './space-usage-chart-reducer.js';
+
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
+
+export default (chartCompiler:chartCompilerT, localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
+  return function getSpaceUsageChart (overrides:targetQueryT, page:string) {
+    getStore.dispatch({
+      type: DEFAULT_SPACE_USAGE_CHART_ITEMS,
+      payload: durationPayload({page})
+    });
 
-  return function getSpaceUsageChart (overrides) {
-    const durationStream = createStream.durationStream(overrides, getSpaceUsageStream);
-    const rangeStream = createStream.rangeStream(overrides, getSpaceUsageStream);
+    const config1$ = getStore.select('spaceUsageCharts');
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, always(getSpaceUsageStream))
+        )
+      );
 
-    return chartCompiler(spaceUsageTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
+    return chartCompiler(spaceUsageTemplate, initStream, ($scope:$scopeT, stream) => {
       const conf = {
         stream,
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1],
-        onSubmit ( { rangeForm, durationForm } ) {
-          conf.stream.destroy();
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        },
+        configType: '',
+        page: '',
+        startDate: '',
+        endDate: '',
+        size: 1,
+        unit:'',
+        onSubmit: durationSubmitHandler(UPDATE_SPACE_USAGE_CHART_ITEMS, {page}),
         options: {
           setup (d3Chart, d3) {
             d3Chart.useInteractiveGuideline(true);
@@ -69,8 +100,18 @@ export default (createStream, chartCompiler) => {
         }
       };
 
-      $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
+      const config2$ = getStore.select('spaceUsageCharts');
+      config2$
+        .through(getConf(page))
+        .each((x:durationPayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
+
+      $scope.$on('$destroy', () => {
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

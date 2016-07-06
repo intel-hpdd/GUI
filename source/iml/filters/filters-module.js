@@ -33,6 +33,7 @@ import paginateFilter from './paginate-filter';
 import pathMaxLengthFilter from './path-max-length-filter';
 import roundFilter from './round-filter';
 import throughputFilter from './throughput-filter';
+import toDateFilter from './to-date-filter.js';
 
 export default angular.module('filters', [helpModule])
   .filter('fmtBytes', () => formatBytes)
@@ -45,4 +46,5 @@ export default angular.module('filters', [helpModule])
   .filter('pathMaxLength', pathMaxLengthFilter)
   .filter('round', roundFilter)
   .filter('throughput', throughputFilter)
+  .filter('toDate', () => toDateFilter)
   .name;

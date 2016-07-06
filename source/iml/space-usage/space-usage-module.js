@@ -31,6 +31,15 @@ import getSpaceUsageChartFactory from './get-space-usage-chart';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import spaceUsageTemplate from './assets/html/space-usage-chart';
 
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+export type addSpaceUsageActionT = {
+    type: 'UPDATE_SPACE_USAGE_CHART_ITEMS' | 'DEFAULT_SPACE_USAGE_CHART_ITEMS',
+    payload: durationPayloadT
+};
+
 export default angular.module('spaceUsageModule', [
   chartsModule, chartingModule, highlandModule,
   durationPickerModule, spaceUsageTemplate

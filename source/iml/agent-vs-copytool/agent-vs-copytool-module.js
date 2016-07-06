@@ -38,6 +38,15 @@ import legendModule from '../charting/types/legend/legend-module';
 import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
 import getAgentVsCopytoolChartFactory from './get-agent-vs-copytool-chart';
 
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+export type addAgentVsCopytoolActionT = {
+    type: 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS' | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+    payload: durationPayloadT
+}
+
 export default angular.module('agentVsCopytool', [
   chartingModule, highlandModule, configToggleModule,
   durationPickerModule, streamWhenVisibleModule,

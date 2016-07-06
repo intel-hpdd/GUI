@@ -21,29 +21,41 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import chartsModule from '../charts/charts-module';
-import chartingModule from '../charting/charting-module';
-import highlandModule from '../highland/highland-module';
-import durationPickerModule from '../duration-picker/duration-picker-module';
-
-import getReadWriteBandwidthChartFactory from './get-read-write-bandwidth-chart';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth';
+export const UPDATE_CPU_USAGE_CHART_ITEMS = 'UPDATE_CPU_USAGE_CHART_ITEMS';
+export const DEFAULT_CPU_USAGE_CHART_ITEMS = 'DEFAULT_CPU_USAGE_CHART_ITEMS';
 
 import type {
+  durationPayloadHashT,
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
 
-export type readWriteBandwidthActionT = {
-    type: 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS' | 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS',
-    payload: durationPayloadT
-};
+import type {
+  addCpuUsageActionT
+} from './cpu-usage-module.js';
 
-export default angular.module('readWriteBandwidth', [
-  chartsModule, chartingModule, highlandModule,
-  durationPickerModule, readWriteBandwidthTemplate
-])
-  .factory('getReadWriteBandwidthChart', getReadWriteBandwidthChartFactory)
-  .name;
+function mergeState (state:durationPayloadHashT, payload:durationPayloadT) {
+  return Object.assign(
+    {},
+    state,
+    {
+      [payload.page]: {...state[payload.page], ...payload}
+    }
+  );
+}
+
+export default function (state:durationPayloadHashT = {},
+  {type, payload}:addCpuUsageActionT):durationPayloadHashT {
+
+  switch (type) {
+  case DEFAULT_CPU_USAGE_CHART_ITEMS:
+    if (!state[payload.page])
+      state = mergeState(state, payload);
+
+    return state;
+  case UPDATE_CPU_USAGE_CHART_ITEMS:
+    return mergeState(state, payload);
+
+  default:
+    return state;
+  }
+}

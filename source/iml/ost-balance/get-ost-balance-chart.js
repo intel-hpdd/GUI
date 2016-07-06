@@ -19,28 +19,71 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
+import flatMapChanges from 'intel-flat-map-changes';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import ostBalanceTemplate from './assets/html/ost-balance';
+
+import {
+  DEFAULT_OST_BALANCE_CHART_ITEMS,
+  UPDATE_OST_BALANCE_CHART_ITEMS
+} from './ost-balance-chart-reducer.js';
+
 import getOstBalanceStream from './get-ost-balance-stream.js';
+import getStore from '../store/get-store.js';
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
 
-import type {chartCompilerT} from '../chart-compiler/chart-compiler-module.js';
-import type {streamWhenChartVisibleT} from '../stream-when-visible/stream-when-visible-module.js';
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  streamWhenChartVisibleT
+} from '../stream-when-visible/stream-when-visible-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
 
-export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartVisibleT) => {
+export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartVisibleT,
+                localApply:localApplyT) => {
   'ngInject';
 
-  const DEFAULT_PERCENTAGE = 0;
+  return function getOstBalanceChart (overrides:filesystemQueryT | targetQueryT,
+    page:string) {
 
-  return function getOstBalanceChart (overrides) {
-    const stream = streamWhenVisible(() => getOstBalanceStream(overrides, DEFAULT_PERCENTAGE));
+    getStore.dispatch({ type: DEFAULT_OST_BALANCE_CHART_ITEMS, payload: {
+      percentage: 0,
+      page
+    }});
 
-    return chartCompiler(ostBalanceTemplate, stream, ($scope, stream) => {
+    const config1$:HighlandStream = getStore.select('ostBalanceCharts');
+
+    const initStream = config1$
+      .through(getConf(page))
+      .through(flatMapChanges(
+        (x:ostBalancePayloadT) => {
+          return streamWhenVisible(() => getOstBalanceStream(x.percentage, overrides));
+        }
+      ));
+
+    return chartCompiler(ostBalanceTemplate, initStream, ($scope:Object,
+      stream:HighlandStream<{[page:string]: ostBalancePayloadT}>) => {
+
       const conf = {
-        percentage: DEFAULT_PERCENTAGE,
         stream,
-        onSubmit () {
-          conf.stream.destroy();
-          conf.stream = streamWhenVisible(() => getOstBalanceStream(overrides, conf.percentage));
+        percentage: 0,
+        page: '',
+        onSubmit (ostBalanceForm:Form) {
+          getStore.dispatch({
+            type: UPDATE_OST_BALANCE_CHART_ITEMS,
+            payload: {
+              percentage: ostBalanceForm.percentage.$modelValue,
+              page
+            }
+          });
         },
         options: {
           setup (d3Chart, d3) {
@@ -87,8 +130,18 @@ export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartV
         }
       };
 
+      const config2$:HighlandStreamT<{[page:string]: ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
+      config2$
+       .through(getConf(page))
+       .each((x:ostBalancePayloadT) => {
+         Object.assign(conf, x);
+         localApply($scope);
+       });
+
       $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

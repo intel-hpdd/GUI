@@ -29,16 +29,24 @@ export default (chartType:string, key:Object) => {
   return (overrides:Object,
       {rangeForm, durationForm}:{rangeForm:rangeFormT, durationForm:durationFormT}) => {
     if (rangeForm)
-      getStore.dispatch({ type: chartType, payload: [Object.assign({
-        configType: 'range',
-        startDate: rangeForm.start.$modelValue,
-        endDate: rangeForm.end.$modelValue
-      }, key, overrides)]});
+      getStore.dispatch({ type: chartType, payload: Object.assign(
+        {
+          configType: 'range',
+          startDate: rangeForm.start.$modelValue,
+          endDate: rangeForm.end.$modelValue
+        },
+        key,
+        overrides
+      )});
     else if (durationForm)
-      getStore.dispatch({ type: chartType, payload: [Object.assign({
-        configType: 'duration',
-        size: durationForm.size.$modelValue,
-        unit: durationForm.unit.$modelValue
-      }, key, overrides)]});
+      getStore.dispatch({ type: chartType, payload: Object.assign(
+        {
+          configType: 'duration',
+          size: durationForm.size.$modelValue,
+          unit: durationForm.unit.$modelValue
+        },
+        key,
+        overrides
+      )});
   };
 };

@@ -1,4 +1,7 @@
-import {identity} from 'intel-fp';
+import {
+  identity,
+  curry
+} from 'intel-fp';
 import agentVsCopytoolModule from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
 
@@ -8,19 +11,88 @@ import {
 } from '../../../system-mock.js';
 
 describe('get agent vs copytool chart exports', () => {
-  var createStream, getAgentVsCopytoolStream, createDate,
-    chartCompiler, durationStream, durationStreamInstance,
-    rangeStream, rangeStreamInstance, getAgentVsCopytoolChart,
+  var getAgentVsCopytoolStream, createDate,
+    chartCompiler, getAgentVsCopytoolChart,
     agentVsCopytoolChart, d3, timeScale, linearScale, ordinalScale,
-    getAgentVsCopytoolChartFactory;
+    getAgentVsCopytoolChartFactory, standardConfig, config1$,
+    config2$, selectStoreCount, getStore, durationPayload,
+    submitHandler, durationSubmitHandler, getConf, localApply,
+    data$Fn, initStream;
 
   beforeEachAsync(async function () {
     getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream');
     createDate = jasmine.createSpy('createDate');
 
+    standardConfig = {
+      configType: 'duration',
+      size: 10,
+      unit: 'minutes',
+      startDate: 1464812942650,
+      endDate: 1464812997102
+    };
+
+    config1$ = highland([{
+      'base': {...standardConfig}
+    }]);
+    spyOn(config1$, 'destroy');
+    config2$ = highland([{
+      'base': standardConfig
+    }]);
+    spyOn(config2$, 'destroy');
+    selectStoreCount = 0;
+
+    getStore = {
+      dispatch: jasmine.createSpy('dispatch'),
+      select: jasmine.createSpy('select').and.callFake(() => {
+        switch (selectStoreCount) {
+        case 0:
+          selectStoreCount++;
+          return config1$;
+        default:
+          return config2$;
+        }
+      })
+    };
+
+    durationPayload = jasmine.createSpy('durationPayload')
+      .and.callFake(x => {
+        return {...standardConfig, ...x};
+      });
+
+    submitHandler = jasmine.createSpy('submitHandler');
+    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+      .and.returnValue(submitHandler);
+
+    getConf = jasmine.createSpy('getConf')
+      .and.callFake(page => {
+        return s => {
+          return s.map(x => {
+            return x[page];
+          });
+        };
+      });
+
+    localApply = jasmine.createSpy('localApply');
+
+    initStream = highland();
+    spyOn(initStream, 'destroy');
+
+    data$Fn = jasmine.createSpy('data$Fn')
+      .and.callFake((overrides, fn) => {
+        fn()();
+        return initStream;
+      });
+
+    chartCompiler = jasmine.createSpy('chartCompiler')
+      .and.returnValue('chartCompiler');
+
     const mod = await mock('source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js', {
       'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': { default: getAgentVsCopytoolStream },
-      'source/iml/create-date.js': { default: createDate }
+      'source/iml/create-date.js': { default: createDate },
+      'source/iml/store/get-store.js': { default: getStore },
+      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
+      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
+      'source/iml/chart-transformers/chart-transformers.js': { getConf }
     });
 
     getAgentVsCopytoolChartFactory = mod.default;
@@ -28,26 +100,7 @@ describe('get agent vs copytool chart exports', () => {
 
   afterEach(resetAll);
 
-  beforeEach(module(agentVsCopytoolModule, () => {
-    durationStreamInstance = highland();
-    spyOn(durationStreamInstance, 'destroy');
-    durationStream = jasmine.createSpy('durationStream')
-      .and.returnValue(durationStreamInstance);
-
-    rangeStreamInstance = highland();
-    rangeStream = jasmine.createSpy('rangeStream')
-      .and.returnValue(rangeStreamInstance);
-
-    createStream = {
-      durationStream: jasmine.createSpy('durationStreamWrapper')
-        .and.returnValue(durationStream),
-      rangeStream: jasmine.createSpy('rangeStreamWrapper')
-        .and.returnValue(rangeStream)
-    };
-
-    chartCompiler = jasmine.createSpy('chartCompiler')
-      .and.returnValue('chartCompiler');
-  }));
+  beforeEach(module(agentVsCopytoolModule));
 
   beforeEach(inject((_d3_) => {
     d3 = _d3_;
@@ -97,11 +150,14 @@ describe('get agent vs copytool chart exports', () => {
     });
 
     getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-      createStream, chartCompiler, d3);
+      chartCompiler, localApply, curry(3, data$Fn), d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
       foo: 'bar'
     });
+
+    var s = chartCompiler.calls.argsFor(0)[1];
+    s.each(() => {});
   }));
 
   it('should return a function', () => {
@@ -109,22 +165,52 @@ describe('get agent vs copytool chart exports', () => {
       .toEqual(jasmine.any(Function));
   });
 
+  it('should dispatch to the store', () => {
+    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      type: 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+      payload: {
+        page: 'base',
+        configType: 'duration',
+        size: 10,
+        unit: 'minutes',
+        startDate: 1464812942650,
+        endDate: 1464812997102
+      }
+    });
+  });
+
+  it('should select the agentVsCopytoolCharts store', () => {
+    expect(getStore.select).toHaveBeenCalledOnceWith('agentVsCopytoolCharts');
+  });
+
+  it('should call getConf', () => {
+    expect(getConf).toHaveBeenCalledOnceWith('base');
+  });
+
+  it('should call data$Fn', () => {
+    expect(data$Fn).toHaveBeenCalledOnceWith(
+      {
+        foo: 'bar'
+      },
+      jasmine.any(Function),
+      standardConfig
+    );
+  });
+
+  it('should invoke the getAgentVsCopytoolStream', () => {
+    expect(getAgentVsCopytoolStream).toHaveBeenCalledOnce();
+  });
+
+  it('should invoke the chart compiler', () => {
+    expect(chartCompiler).toHaveBeenCalledOnceWith(
+      '/static/chroma_ui/source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.js',
+      jasmine.any(Object),
+      jasmine.any(Function)
+    );
+  });
+
   it('should return a chart compiler', () => {
     expect(agentVsCopytoolChart).toBe('chartCompiler');
-  });
-
-  it('should create a duration stream', () => {
-    expect(createStream.durationStream)
-      .toHaveBeenCalledOnceWith({
-        foo: 'bar'
-      }, getAgentVsCopytoolStream);
-  });
-
-  it('should create a range stream', () => {
-    expect(createStream.rangeStream)
-      .toHaveBeenCalledOnceWith({
-        foo: 'bar'
-      }, getAgentVsCopytoolStream);
   });
 
   it('should create a xScale', () => {
@@ -154,14 +240,6 @@ describe('get agent vs copytool chart exports', () => {
     });
   });
 
-  it('should call the chartCompiler', () => {
-    expect(chartCompiler)
-      .toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.js',
-        durationStreamInstance,
-        jasmine.any(Function));
-  });
-
   describe('compiler', () => {
     var $scope, s, config;
 
@@ -175,6 +253,12 @@ describe('get agent vs copytool chart exports', () => {
     it('should return a conf', () => {
       expect(config).toEqual({
         stream: s,
+        configType: 'duration',
+        page: '',
+        startDate: 1464812942650,
+        endDate: 1464812997102,
+        size: 10,
+        unit: 'minutes',
         xScale: timeScale,
         yScale: linearScale,
         onUpdate: [
@@ -198,49 +282,16 @@ describe('get agent vs copytool chart exports', () => {
         calcRange: jasmine.any(Function),
         xValue: jasmine.any(Function),
         xComparator: jasmine.any(Function),
-        size: 10,
-        unit: 'minutes',
         onSubmit: jasmine.any(Function)
       });
     });
 
-    it('should destroy the stream', () => {
+    it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(s.destroy)
-        .toHaveBeenCalledOnce();
-    });
-
-    describe('on submit', () => {
-      describe('with a duration', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            durationForm: {
-              size: { $modelValue: 5 },
-              unit: { $modelValue: 'hours' }
-            }
-          });
-        });
-
-        it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(5, 'hours');
-        });
-      });
-
-      describe('with a range', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            rangeForm: {
-              start: { $modelValue: '2015-05-03T07:25' },
-              end: { $modelValue: '2015-05-03T07:35' }
-            }
-          });
-        });
-
-        it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith('2015-05-03T07:25', '2015-05-03T07:35');
-        });
-      });
+      expect(initStream.destroy).toHaveBeenCalledOnce();
+      expect(config1$.destroy).toHaveBeenCalledOnce();
+      expect(config2$.destroy).toHaveBeenCalledOnce();
     });
 
     describe('on update', () => {
@@ -336,6 +387,27 @@ describe('get agent vs copytool chart exports', () => {
             .toHaveBeenCalledOnceWith('transform', 'translate(0,60)');
         });
       });
+    });
+  });
+
+  describe('on submit', () => {
+    var handler, $scope, config;
+
+    beforeEach(inject(($rootScope) => {
+      handler = chartCompiler.calls.mostRecent().args[2];
+      $scope = $rootScope.$new();
+
+      config = handler($scope, initStream);
+
+      config.onSubmit();
+    }));
+
+    it('should call durationSubmitHandler', () => {
+      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {page: 'base'});
+    });
+
+    it('should invoke the submit handler', () => {
+      expect(submitHandler).toHaveBeenCalledOnce();
     });
   });
 });

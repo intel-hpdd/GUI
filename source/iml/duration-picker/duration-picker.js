@@ -30,59 +30,40 @@ export const DURATIONS = {
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import durationPickerTemplate from './assets/html/duration-picker';
-import getServerMoment from '../get-server-moment.js';
 
-export function DurationPickerCtrl ($scope:Object) {
-  'ngInject';
+export default {
+  scope: {},
+  templateUrl: durationPickerTemplate,
+  bindings: {
+    type: '<',
+    size: '<',
+    unit: '<',
+    startDate: '<',
+    endDate: '<'
+  },
+  controller () {
+    'ngInject';
 
-  $scope.duration = {
-    type: 'duration',
-    unit: $scope.startUnit || DURATIONS.MINUTES,
-    size: parseInt($scope.startSize, 10) || 1,
-    units: [
-      { unit: DURATIONS.MINUTES, count: 60 },
-      { unit: DURATIONS.HOURS, count: 24 },
-      { unit: DURATIONS.DAYS, count: 31 },
-      { unit: DURATIONS.WEEKS, count: 4 }
-    ],
+    Object.assign(
+        this,
+      {
+        units: [
+          { unit: DURATIONS.MINUTES, count: 60 },
+          { unit: DURATIONS.HOURS, count: 24 },
+          { unit: DURATIONS.DAYS, count: 31 },
+          { unit: DURATIONS.WEEKS, count: 4 }
+        ],
+        getCount (unit) {
+          var item = this.units
+            .filter(item => item.unit === unit)
+            .pop();
 
-    getCount: function getCount (unit) {
-      var item = this.units.filter(function (item) {
-        return item.unit === unit;
-      }).pop();
-
-      if (item) return item.count;
-    },
-
-    setUnit: function setUnit (unit) {
-      this.unit = unit;
-      this.size = 1;
-    }
-  };
-
-  $scope.duration.startDate = getServerMoment()
-    .subtract(10, 'minutes')
-    .seconds(0)
-    .milliseconds(0)
-    .toDate();
-  $scope.duration.endDate = getServerMoment()
-    .seconds(0)
-    .milliseconds(0)
-    .toDate();
-
-  $scope.duration.currentUnit = $scope.duration.unit;
-  $scope.duration.currentSize = $scope.duration.size;
-}
-
-export const durationPickerDirective = function () {
-  return {
-    restrict: 'E',
-    replace: true,
-    controller: DurationPickerCtrl,
-    templateUrl: durationPickerTemplate,
-    scope: {
-      startUnit: '@',
-      startSize: '@'
-    }
-  };
+          if (item) return item.count;
+        },
+        setUnit (unit) {
+          this.unit = unit;
+          this.size = 1;
+        }
+      });
+  }
 };

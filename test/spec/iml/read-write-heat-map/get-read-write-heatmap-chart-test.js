@@ -7,198 +7,242 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-describe('read write heat map chart', () => {
-  var $location, $filter, chartCompiler, compiled,
-    getReadWriteHeatMapStream, durationStream, rangeStream, createStream,
-    routeSegmentUrl, readWriteHeatMapTypes,
-    getReadWriteHeatMapChart, readWriteHeatMapStream, readWriteHeatMapChart,
-    getReadWriteHeatMapChartFactory;
+describe('Read Write Heat Map chart', () => {
+  var chartCompiler, getReadWriteHeatMapStream, selectStoreCount,
+    submitHandler, config1$, config2$,
+    getReadWriteHeatMapChart, getStore, standardConfig,
+    durationPayload, data$Fn, initStream,
+    durationSubmitHandler, localApply, mod, routeSegmentUrl,
+    getConf, readWriteHeatMapTypes, $filter, $location;
 
-  var types = ['stats_read_bytes', 'stats_write_bytes', 'stats_read_iops', 'stats_write_iops'];
+  readWriteHeatMapTypes = {
+    READ_BYTES: 'stats_read_bytes',
+    WRITE_BYTES: 'stats_write_bytes',
+    READ_IOPS: 'stats_read_iops',
+    WRITE_IOPS: 'stats_write_iops'
+  };
 
   beforeEachAsync(async function () {
-    readWriteHeatMapStream = {};
-    getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream')
-      .and.returnValue(readWriteHeatMapStream);
+    getReadWriteHeatMapStream = jasmine.createSpy('getReadWriteHeatMapStream');
 
-    const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-chart.js', {
-      'source/iml/read-write-heat-map/get-read-write-heat-map-stream.js': { default: getReadWriteHeatMapStream }
+    standardConfig = {
+      configType: 'duration',
+      dataType: 'stats_read_bytes',
+      size: 10,
+      unit: 'minutes',
+      startDate: 1464812942650,
+      endDate: 1464812997102
+    };
+
+    config1$ = highland([{
+      'readWriteHeatMapChart': {...standardConfig}
+    }]);
+    spyOn(config1$, 'destroy');
+    config2$ = highland([{
+      'readWriteHeatMapChart': standardConfig
+    }]);
+    spyOn(config2$, 'destroy');
+    selectStoreCount = 0;
+
+    getStore = {
+      dispatch: jasmine.createSpy('dispatch'),
+      select: jasmine.createSpy('select').and.callFake(() => {
+        switch (selectStoreCount) {
+        case 0:
+          selectStoreCount++;
+          return config1$;
+        default:
+          return config2$;
+        }
+      })
+    };
+
+    durationPayload = jasmine.createSpy('durationPayload')
+      .and.callFake(x => {
+        return {...standardConfig, ...x};
+      });
+
+    submitHandler = jasmine.createSpy('submitHandler');
+    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+      .and.returnValue(submitHandler);
+
+    getConf = jasmine.createSpy('getConf')
+      .and.callFake(page => {
+        return s => {
+          return s.map(x => {
+            return x[page];
+          });
+        };
+      });
+
+    mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-chart.js', {
+      'source/iml/read-write-heat-map/get-read-write-heat-map-stream.js': { default: getReadWriteHeatMapStream },
+      'source/iml/store/get-store.js': { default: getStore },
+      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
+      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
+      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
     });
-    getReadWriteHeatMapChartFactory = mod.default;
   });
 
   afterEach(resetAll);
 
   beforeEach(() => {
-    compiled = {};
+    chartCompiler = jasmine.createSpy('chartCompiler');
 
-    chartCompiler = jasmine.createSpy('chartCompiler')
-      .and.returnValue(compiled);
+    initStream = highland();
+    spyOn(initStream, 'destroy');
 
-    readWriteHeatMapTypes = {
-      READ_BYTES: 'stats_read_bytes',
-      WRITE_BYTES: 'stats_write_bytes',
-      READ_IOPS: 'stats_read_iops',
-      WRITE_IOPS: 'stats_write_iops'
-    };
+    data$Fn = jasmine.createSpy('data$Fn')
+      .and.callFake((overrides, fn, x) => {
+        fn(x);
+        return initStream;
+      });
 
-    durationStream = jasmine.createSpy('durationStream')
-      .and.callFake(() => highland());
-
-    rangeStream = jasmine.createSpy('rangeStream')
-      .and.callFake(() => highland());
+    localApply = jasmine.createSpy('localApply');
 
     routeSegmentUrl = jasmine.createSpy('routeSegmentUrl');
-
     $filter = jasmine.createSpy('$filter')
       .and.returnValue(routeSegmentUrl);
-
-    createStream = {
-      durationStream: curry(4, durationStream),
-      rangeStream: curry(4, rangeStream)
-    };
 
     $location = {
       path: jasmine.createSpy('path')
     };
 
-    getReadWriteHeatMapChart = getReadWriteHeatMapChartFactory(createStream, $location, $filter,
-      chartCompiler, readWriteHeatMapTypes);
-    readWriteHeatMapChart = getReadWriteHeatMapChart({
-      qs: {
-        host_id: '1'
-      }
-    });
+    getReadWriteHeatMapChart = mod.default(
+      $location, $filter, chartCompiler, localApply,
+      curry(3, data$Fn), readWriteHeatMapTypes);
   });
 
-  it('should be a function', () => {
+  it('should return a factory function', () => {
     expect(getReadWriteHeatMapChart).toEqual(jasmine.any(Function));
   });
 
-  it('should request the routeSegmentUrl filter', () => {
+  it('should call $filter with routeSegmentUrl', () => {
     expect($filter).toHaveBeenCalledOnceWith('routeSegmentUrl');
   });
 
-  it('should compile a chart', () => {
-    expect(chartCompiler)
-      .toHaveBeenCalledOnceWith(
+  describe('for page readWriteHeatMapChart', () => {
+    beforeEach(() => {
+      getReadWriteHeatMapChart({
+        qs: {
+          host_id: '1'
+        }
+      }, 'readWriteHeatMapChart');
+
+      var s = chartCompiler.calls.argsFor(0)[1];
+      s.each(() => {});
+    });
+
+    it('should dispatch readWriteHeatMapChart to the store', () => {
+      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+        type: 'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS',
+        payload: {
+          page: 'readWriteHeatMapChart',
+          dataType: 'stats_read_bytes',
+          configType: 'duration',
+          size: 10,
+          unit: 'minutes',
+          startDate: 1464812942650,
+          endDate: 1464812997102
+        }
+      });
+    });
+
+    it('should select the readWriteHeatMap store', () => {
+      expect(getStore.select).toHaveBeenCalledOnceWith('readWriteHeatMapCharts');
+    });
+
+    it('should call getConf', () => {
+      expect(getConf).toHaveBeenCalledOnceWith('readWriteHeatMapChart');
+    });
+
+    it('should call data$Fn', () => {
+      expect(data$Fn).toHaveBeenCalledOnceWith(
+        {
+          qs: {
+            host_id: '1'
+          }
+        },
+        jasmine.any(Function),
+        standardConfig
+      );
+    });
+
+    it('should call getReadWriteHeatMapStream with the dataType', () => {
+      expect(getReadWriteHeatMapStream).toHaveBeenCalledOnceWith('stats_read_bytes');
+    });
+
+    it('should call the chart compiler', () => {
+      expect(chartCompiler).toHaveBeenCalledOnceWith(
         '/static/chroma_ui/source/iml/read-write-heat-map/assets/html/read-write-heat-map.js',
         jasmine.any(Object),
         jasmine.any(Function)
       );
+    });
   });
 
-  it('should return the compiledChart', () => {
-    expect(readWriteHeatMapChart).toEqual(compiled);
-  });
-
-  it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith({
-      qs: {
-        host_id: '1'
-      }
-    }, readWriteHeatMapStream, 10, 'minutes');
-  });
-
-  it('should create an initial stream with expected data', () => {
-    expect(getReadWriteHeatMapStream)
-      .toHaveBeenCalledOnceWith(readWriteHeatMapTypes.READ_BYTES);
-  });
-
-  describe('setup chart', () => {
-    var handler, $scope, stream,
-      chart;
+  describe('setup', () => {
+    var handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.calls.mostRecent().args[2];
+      getReadWriteHeatMapChart({
+        qs: {
+          host_id: '1'
+        }
+      }, 'readWriteHeatMapChart');
 
-      stream = highland();
-      spyOn(stream, 'destroy');
+      handler = chartCompiler.calls.mostRecent().args[2];
       $scope = $rootScope.$new();
 
-      chart = handler($scope, stream);
+      config = handler($scope, initStream);
     }));
 
     it('should return a config', () => {
-      expect(chart).toEqual({
-        stream,
-        modelType: readWriteHeatMapTypes.READ_BYTES,
-        type: readWriteHeatMapTypes.READ_BYTES,
-        TYPES: values(readWriteHeatMapTypes),
+      expect(config).toEqual({
+        stream: initStream,
+        TYPES: ['stats_read_bytes', 'stats_write_bytes', 'stats_read_iops', 'stats_write_iops'],
+        configType: 'duration',
+        page: '',
+        dataType: 'stats_read_bytes',
         toReadableType: jasmine.any(Function),
-        onSubmit: jasmine.any(Function),
+        startDate: 1464812942650,
+        endDate: 1464812997102,
+        size: 10,
+        unit: 'minutes',
+        onSubmit: submitHandler,
         options: {
           setup: jasmine.any(Function),
           beforeUpdate: jasmine.any(Function)
-        },
-        size: 10,
-        unit: 'minutes'
+        }
       });
+    });
+
+    it('should select the readWriteHeatMapChart store', () => {
+      expect(getStore.select).toHaveBeenCalledTwiceWith('readWriteHeatMapCharts');
+    });
+
+    it('should call getConf', () => {
+      expect(getConf).toHaveBeenCalledTwiceWith('readWriteHeatMapChart');
+    });
+
+    it('should call localApply', () => {
+      expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
     it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(stream.destroy).toHaveBeenCalledOnce();
+      expect(initStream.destroy).toHaveBeenCalledOnce();
+      expect(config1$.destroy).toHaveBeenCalledOnce();
+      expect(config2$.destroy).toHaveBeenCalledOnce();
     });
+
 
     const humanReadable = ['Read Byte/s', 'Write Byte/s', 'Read IOPS', 'Write IOPS'];
-    types.forEach((type, idx) => {
+    values(readWriteHeatMapTypes).forEach((type, idx) => {
       it('readable type should convert' + type + ' to ' + humanReadable[idx], () => {
-        expect(chart.toReadableType(type))
+        expect(config.toReadableType(type))
           .toEqual(humanReadable[idx]);
-      });
-    });
-
-    describe('on submit', () => {
-      describe('with a duration', () => {
-        beforeEach(() => {
-          chart.modelType = readWriteHeatMapTypes.READ_IOPS;
-
-          chart.onSubmit({
-            durationForm: {
-              size: { $modelValue: 5 },
-              unit: { $modelValue: 'hours' }
-            }
-          });
-        });
-
-        it('should call getReadWriteHeatMapStream', () => {
-          expect(getReadWriteHeatMapStream)
-            .toHaveBeenCalledOnceWith(readWriteHeatMapTypes.READ_IOPS);
-        });
-
-        it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith({
-            qs: {
-              host_id: '1'
-            }
-          }, readWriteHeatMapStream, 5, 'hours');
-        });
-      });
-
-      describe('with a range', () => {
-        beforeEach(() => {
-          chart.modelType = readWriteHeatMapTypes.WRITE_BYTES;
-
-          chart.onSubmit({
-            start: { $modelValue: '2015-05-03T07:25' },
-            end: { $modelValue: '2015-05-03T07:35' }
-          });
-
-          it('should call getReadWriteHeatMapStream', () => {
-            expect(getReadWriteHeatMapStream)
-              .toHaveBeenCalledOnceWith(readWriteHeatMapTypes.WRITE_BYTES);
-          });
-
-          it('should create a range stream', () => {
-            expect(rangeStream).toHaveBeenCalledOnceWith(readWriteHeatMapStream, {
-              qs: {
-                host_id: '1'
-              }
-            }, '2015-05-03T07:25', '2015-05-03T07:35');
-          });
-        });
       });
     });
 
@@ -226,7 +270,7 @@ describe('read write heat map chart', () => {
 
       describe('on setup', () => {
         beforeEach(() => {
-          chart.options.setup(d3Chart);
+          config.options.setup(d3Chart);
         });
 
         it('should setup the margin', () => {
@@ -281,7 +325,7 @@ describe('read write heat map chart', () => {
 
       describe('before updating', () => {
         beforeEach(() => {
-          chart.options.beforeUpdate(d3Chart);
+          config.options.beforeUpdate(d3Chart);
         });
 
         it('should setup a formatter', () => {
@@ -299,6 +343,36 @@ describe('read write heat map chart', () => {
             .toHaveBeenCalledOnceWith('Read Byte/s');
         });
       });
+    });
+  });
+
+  describe('on submit', () => {
+    var handler, $scope, config;
+
+    beforeEach(inject(($rootScope) => {
+      getReadWriteHeatMapChart({
+        qs: {
+          host_id: '1'
+        }
+      }, 'readWriteHeatMapChart');
+
+      handler = chartCompiler.calls.mostRecent().args[2];
+      $scope = $rootScope.$new();
+
+      config = handler($scope, initStream);
+
+      config.onSubmit();
+    }));
+
+    it('should call durationSubmitHandler', () => {
+      expect(durationSubmitHandler).toHaveBeenCalledOnceWith(
+        'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS',
+        {page: 'readWriteHeatMapChart'}
+      );
+    });
+
+    it('should invoke the submit handler', () => {
+      expect(submitHandler).toHaveBeenCalledOnce();
     });
   });
 });

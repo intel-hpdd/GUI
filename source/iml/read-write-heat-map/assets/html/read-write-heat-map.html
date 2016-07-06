@@ -8,16 +8,18 @@
   <div class="configuration" ng-if="configToggle.active()">
     <div class="well well-lg">
       <form name="readWriteHeatMapForm">
-        <duration-picker start-unit="{{ chart.unit }}" start-size="{{ chart.size }}"></duration-picker>
-        <div class="form-group" >
-          <label class="control-label">Select data to view</label>
-          <select name="type" class="form-control" ng-model="chart.modelType"
-                  ng-options="value as chart.toReadableType(value) for value in chart.TYPES"></select>
-        </div>
-        <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit(readWriteHeatMapForm))" class="btn btn-success btn-block" ng-disabled="readWriteHeatMapForm.$invalid">Update</button>
-        <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block">Cancel</button>
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <div class="form-group" >
+            <label class="control-label">Select data to view</label>
+            <select name="type" class="form-control" ng-model="chart.dataType"
+                    ng-options="value as chart.toReadableType(value) for value in chart.TYPES"></select>
+          </div>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({dataType: chart.dataType}, readWriteHeatMapForm))" class="btn btn-success btn-block" ng-disabled="readWriteHeatMapForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
       </form>
     </div>
   </div>
-  <heat-map options="::chart.options" stream="chart.stream"></heat-map>
+  <heat-map options="::chart.options" stream="::chart.stream"></heat-map>
 </div>

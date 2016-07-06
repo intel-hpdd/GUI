@@ -21,14 +21,14 @@
 
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
-import getCpuUsageChart from '../cpu-usage/get-cpu-usage-chart.js';
 
 export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBandwidthChart,
-                                                     getMemoryUsageChart) {
+                                                     getMemoryUsageChart, getCpuUsageChart) {
   'ngInject';
 
   return function serverDashboardChartResolves () {
     var serverId = $route.current.params.serverId;
+    const page = `server${serverId}`;
     var serverQs = {
       qs: {
         id: serverId
@@ -40,9 +40,9 @@ export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBan
         qs: {
           host_id: serverId
         }
-      }),
-      getCpuUsageChart(serverQs),
-      getMemoryUsageChart(serverQs)
+      }, page),
+      getCpuUsageChart(serverQs, page),
+      getMemoryUsageChart(serverQs, page)
     ]);
   };
 }

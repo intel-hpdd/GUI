@@ -21,24 +21,37 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS = 'ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS';
+export const UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS = 'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS';
+export const DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS = 'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS';
 
 import type {
   heatMapPayloadHashT,
-  addReadWriteHeatMapActionT
+  addReadWriteHeatMapActionT,
+  heatMapDurationPayloadT
 } from './read-write-heat-map-module.js';
+
+function mergeState (state:heatMapPayloadHashT, payload:heatMapDurationPayloadT) {
+  return Object.assign(
+    {},
+    state,
+    {
+      [payload.page]: {...state[payload.page], ...payload}
+    }
+  );
+}
 
 export default function (state:heatMapPayloadHashT = {},
   {type, payload}:addReadWriteHeatMapActionT):heatMapPayloadHashT {
 
   switch (type) {
-  case ADD_READ_WRITE_HEAT_MAP_CHART_ITEMS:
-    return payload.reduce((state, x) => {
-      return {
-        ...state,
-        [x.page]: x
-      };
-    }, state);
+  case DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS:
+    if (!state[payload.page])
+      state = mergeState(state, payload);
+
+    return state;
+  case UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS:
+    return mergeState(state, payload);
+
   default:
     return state;
   }

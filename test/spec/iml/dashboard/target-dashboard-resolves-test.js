@@ -109,7 +109,7 @@ describe('Target dashboard', () => {
           qs: {
             id: '1'
           }
-        });
+        }, 'target1');
       });
 
       it('should call fileUsageChart', function () {
@@ -122,7 +122,8 @@ describe('Target dashboard', () => {
             qs: {
               id: '1'
             }
-          }
+          },
+          'target1'
         );
       });
 
@@ -133,7 +134,7 @@ describe('Target dashboard', () => {
           qs: {
             id: '1'
           }
-        });
+        }, 'target1');
       });
 
       it('should return MDT charts', function () {
@@ -169,7 +170,7 @@ describe('Target dashboard', () => {
           qs: {
             id: '1'
           }
-        });
+        }, 'target1');
       });
 
       it('should call fileUsageChart', function () {
@@ -182,7 +183,8 @@ describe('Target dashboard', () => {
             qs: {
               id: '1'
             }
-          }
+          },
+          'target1'
         );
       });
 
@@ -193,7 +195,7 @@ describe('Target dashboard', () => {
           qs: {
             id: '1'
           }
-        });
+        }, 'target1');
       });
     });
   });

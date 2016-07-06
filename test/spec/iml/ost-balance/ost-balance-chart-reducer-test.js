@@ -1,84 +1,119 @@
 import {
-  ADD_OST_BALANCE_CHART_ITEMS,
+  UPDATE_OST_BALANCE_CHART_ITEMS,
+  DEFAULT_OST_BALANCE_CHART_ITEMS,
   default as ostBalanceChartReducer
 } from '../../../../source/iml/ost-balance/ost-balance-chart-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
-describe('server reducer', () => {
+describe('ost balance reducer', () => {
 
   it('should be a function', () => {
     expect(ostBalanceChartReducer).toEqual(jasmine.any(Function));
   });
 
   describe('matching type', () => {
-    it('should return the payload', () => {
-      expect(
-        ostBalanceChartReducer(
-          {
-            '': {
-              percentage: 10,
-              page: ''
+    describe('DEFAULT case', () => {
+      describe('without page data', () => {
+        it('should write the intial payload for the page', () => {
+          expect(
+            ostBalanceChartReducer(
+              {
+                'base': {
+                  percentage: 0,
+                  page: 'base'
+                }
+              },
+              {
+                type: DEFAULT_OST_BALANCE_CHART_ITEMS,
+                payload: {
+                  percentage: 15,
+                  page: 'fs1'
+                }
+              }
+            )
+          )
+          .toEqual(
+            {
+              'base': {
+                percentage: 0,
+                page: 'base'
+              },
+              'fs1': {
+                percentage: 15,
+                page: 'fs1'
+              }
             }
-          },
-          {
-            type: ADD_OST_BALANCE_CHART_ITEMS,
-            payload: [{
-              percentage: 85,
-              page: '8'
-            }]
-          }
-        )
-      )
-      .toEqual(
-        {
-          '': {
-            percentage: 10,
-            page: ''
-          },
-          '8': {
-            percentage: 85,
-            page: '8'
-          }
-        }
-      );
-    });
-  });
+          );
+        });
+      });
 
-  describe('updating a matching type', () => {
-    it('should return the payload', () => {
-      expect(
-        ostBalanceChartReducer(
+      describe('with page data', () => {
+        it('should NOT write the payload for the page', () => {
+          expect(
+            ostBalanceChartReducer(
+              {
+                'base': {
+                  percentage: 5,
+                  page: 'base'
+                }
+              },
+              {
+                type: DEFAULT_OST_BALANCE_CHART_ITEMS,
+                payload: {
+                  percentage: 15,
+                  page: 'base'
+                }
+              }
+            )
+          )
+          .toEqual(
+            {
+              'base': {
+                percentage: 5,
+                page: 'base'
+              }
+            }
+          );
+        });
+      });
+    });
+
+    describe('UPDATE case', () => {
+      it('should update the state', () => {
+        expect(
+          ostBalanceChartReducer(
+            {
+              '': {
+                percentage: 0,
+                page: ''
+              },
+              'target8': {
+                percentage: 5,
+                page: 'target8'
+              }
+            },
+            {
+              type: UPDATE_OST_BALANCE_CHART_ITEMS,
+              payload: {
+                percentage: 15,
+                page: 'target8'
+              }
+            }
+          )
+        )
+        .toEqual(
           {
             '': {
-              percentage: 10,
+              percentage: 0,
               page: ''
             },
-            '8': {
-              percentage: 85,
-              page: '8'
+            'target8': {
+              percentage: 15,
+              page: 'target8'
             }
-          },
-          {
-            type: ADD_OST_BALANCE_CHART_ITEMS,
-            payload: [{
-              percentage: 23,
-              page: '8'
-            }]
           }
-        )
-      )
-      .toEqual(
-        {
-          '': {
-            percentage: 10,
-            page: ''
-          },
-          '8': {
-            percentage: 23,
-            page: '8'
-          }
-        }
-      );
+        );
+      });
     });
   });
 

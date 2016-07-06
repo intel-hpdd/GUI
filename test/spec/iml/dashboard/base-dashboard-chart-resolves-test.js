@@ -77,19 +77,19 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the read write heat map chart', () => {
-        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith({});
+        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the ost balance chart', () => {
-        expect(getOstBalanceChart).toHaveBeenCalledOnceWith({});
+        expect(getOstBalanceChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mdo chart', () => {
-        expect(getMdoChart).toHaveBeenCalledOnceWith({});
+        expect(getMdoChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the read write bandwidth chart', () => {
-        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({});
+        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mds chart', () => {
@@ -98,7 +98,8 @@ describe('base dashboard resolves', () => {
           'Metadata Servers',
           {
             qs: { role: 'MDS' }
-          }
+          },
+          'mdsbase'
         );
       });
 
@@ -108,7 +109,8 @@ describe('base dashboard resolves', () => {
           'Object Storage Servers',
           {
             qs: { role: 'OSS' }
-          }
+          },
+          'ossbase'
         );
       });
     });
@@ -126,7 +128,7 @@ describe('base dashboard resolves', () => {
           qs: {
             filesystem_id: '1'
           }
-        });
+        }, '1');
       });
 
       it('should get the ost balance chart', () => {
@@ -134,7 +136,7 @@ describe('base dashboard resolves', () => {
           qs: {
             filesystem_id: '1'
           }
-        });
+        }, '1');
       });
 
       it('should get the mdo chart', () => {
@@ -142,7 +144,7 @@ describe('base dashboard resolves', () => {
           qs: {
             filesystem_id: '1'
           }
-        });
+        }, '1');
       });
 
       it('should get the read write bandwidth chart', () => {
@@ -150,7 +152,7 @@ describe('base dashboard resolves', () => {
           qs: {
             filesystem_id: '1'
           }
-        });
+        }, '1');
       });
 
       it('should get the mds chart', () => {
@@ -162,7 +164,8 @@ describe('base dashboard resolves', () => {
               role: 'MDS',
               filesystem_id: '1'
             }
-          }
+          },
+          'mds1'
         );
       });
 
@@ -175,7 +178,8 @@ describe('base dashboard resolves', () => {
               role: 'OSS',
               filesystem_id: '1'
             }
-          }
+          },
+          'oss1'
         );
       });
 

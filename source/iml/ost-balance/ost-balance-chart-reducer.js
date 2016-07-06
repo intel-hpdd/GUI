@@ -21,22 +21,37 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const ADD_OST_BALANCE_CHART_ITEMS = 'ADD_OST_BALANCE_CHART_ITEMS';
+export const UPDATE_OST_BALANCE_CHART_ITEMS = 'UPDATE_OST_BALANCE_CHART_ITEMS';
+export const DEFAULT_OST_BALANCE_CHART_ITEMS = 'DEFAULT_OST_BALANCE_CHART_ITEMS';
 
 import type {
+  ostBalancePayloadT,
   ostBalancePayloadHashT,
   addOstBalanceActionT
 } from './ost-balance-module.js';
 
-export default function (state:ostBalancePayloadHashT = {}, {type, payload}:addOstBalanceActionT):ostBalancePayloadHashT {
+function mergeState (state:ostBalancePayloadHashT, payload:ostBalancePayloadT) {
+  return Object.assign(
+    {},
+    state,
+    {
+      [payload.page]: {...state[payload.page], ...payload}
+    }
+  );
+}
+
+export default function (state:ostBalancePayloadHashT = {},
+  {type, payload}:addOstBalanceActionT):ostBalancePayloadHashT {
+
   switch (type) {
-  case ADD_OST_BALANCE_CHART_ITEMS:
-    return payload.reduce((state, x) => {
-      return {
-        ...state,
-        [x.page]: x
-      };
-    }, state);
+  case DEFAULT_OST_BALANCE_CHART_ITEMS:
+    if (!state[payload.page])
+      state = mergeState(state, payload);
+
+    return state;
+  case UPDATE_OST_BALANCE_CHART_ITEMS:
+    return mergeState(state, payload);
+
   default:
     return state;
   }

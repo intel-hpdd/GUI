@@ -30,6 +30,14 @@ import {
   find
 } from 'intel-fp';
 
+import type {
+  getMdoChartT
+} from '../mdo/mdo-module.js';
+
+import type {
+  getReadWriteHeatMapChartT
+} from '../read-write-heat-map/read-write-heat-map-module.js';
+
 export function targetDashboardKindFactory ($route) {
   'ngInject';
 
@@ -38,12 +46,15 @@ export function targetDashboardKindFactory ($route) {
   };
 }
 
-export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart, getSpaceUsageChart,
-                                                getMdoChart, getReadWriteBandwidthChart) {
+export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart,
+                                                getSpaceUsageChart,
+                                                getMdoChart:getMdoChartT,
+                                                getReadWriteBandwidthChart:getReadWriteHeatMapChartT) {
   'ngInject';
 
   return function targetDashboardResolves () {
     var targetId = $route.current.params.targetId;
+    const page = `target${targetId}`;
     var kind = $route.current.$$route.kind;
 
     var qs = {
@@ -54,20 +65,22 @@ export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart, g
 
     var title, key, chart;
 
-    if (kind === 'MDT') {
+    switch (kind) {
+    case 'MDT':
       title = 'File Usage';
       key = 'Files Used';
-      chart = getMdoChart;
-    } else {
-      chart = getReadWriteBandwidthChart;
+      chart = getMdoChart(qs, page);
+      break;
+    default:
+      chart = getReadWriteBandwidthChart(qs, page);
       title = 'Object Usage';
       key = 'Objects Used';
     }
 
     return $q.all([
-      chart(qs),
-      getFileUsageChart(title, key, qs),
-      getSpaceUsageChart(qs)
+      chart,
+      getFileUsageChart(title, key, qs, page),
+      getSpaceUsageChart(qs, page)
     ]);
   };
 }

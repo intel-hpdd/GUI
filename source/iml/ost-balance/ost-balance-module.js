@@ -27,7 +27,6 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import getOstBalanceChartFactory from './get-ost-balance-chart';
-import chartTransformersModule from '../chart-transformers/chart-transformers-module.js';
 
 import type {
   HighlandStreamT
@@ -48,14 +47,13 @@ export type ostBalancePayloadHashT = {
 };
 
 export type addOstBalanceActionT = {
-    type: 'ADD_OST_BALANCE_CHART_ITEMS',
-    payload: ostBalancePayloadT[]
+    type: 'DEFAULT_OST_BALANCE_CHART_ITEMS' | 'UPDATE_OST_BALANCE_CHART_ITEMS',
+    payload: ostBalancePayloadT
 };
 
 export default angular.module('ostBalance',[
-  chartsModule, chartingModule,
-  highlandModule,
-  getTemplatePromiseModule, ostBalanceTemplate, chartTransformersModule
+  chartsModule, chartingModule, highlandModule,
+  getTemplatePromiseModule, ostBalanceTemplate
 ])
   .factory('getOstBalanceChart', getOstBalanceChartFactory)
   .name;

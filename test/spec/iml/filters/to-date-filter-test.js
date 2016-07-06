@@ -8,7 +8,7 @@ describe('to date filter', () => {
   beforeEachAsync(async function () {
     createDate = jasmine.createSpy('createDate')
       .and.returnValue('2015-05-05T00:00:00.000Z');
-    mod = await mock('source/iml/to-date-filter/to-date-filter.js', {
+    mod = await mock('source/iml/filters/to-date-filter.js', {
       'source/iml/create-date.js': { default: createDate }
     });
   });

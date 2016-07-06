@@ -34,7 +34,6 @@ import lineChart from './line-chart';
 import multiBarChart from './multi-bar-chart';
 import pieGraph from './pie-graph';
 import stackedAreaChart from './stacked-area-chart';
-import configToData$ from './config-to-data$';
 
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -53,5 +52,4 @@ export default angular.module('charts',
   .directive('multiBarChart', multiBarChart)
   .directive('pieGraph', pieGraph)
   .directive('stackedAreaChart', stackedAreaChart)
-  .value('configToData$', configToData$)
   .name;

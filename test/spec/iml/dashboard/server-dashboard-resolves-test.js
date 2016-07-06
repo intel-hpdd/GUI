@@ -10,9 +10,7 @@ describe('server dashboard resolves', () => {
   beforeEachAsync(async function () {
     getCpuUsageChart = jasmine.createSpy('getCpuUsageChart');
 
-    const mod = await mock('source/iml/dashboard/server-dashboard-resolves.js', {
-      'source/iml/cpu-usage/get-cpu-usage-chart.js': { default: getCpuUsageChart }
-    });
+    const mod = await mock('source/iml/dashboard/server-dashboard-resolves.js', {});
 
     serverDashboardChartResolvesFactory = mod.serverDashboardChartResolvesFactory;
   });
@@ -37,7 +35,7 @@ describe('server dashboard resolves', () => {
     };
 
     serverDashboardChartResolves = serverDashboardChartResolvesFactory(
-      $route, $q, getReadWriteBandwidthChart, getMemoryUsageChart);
+      $route, $q, getReadWriteBandwidthChart, getMemoryUsageChart, getCpuUsageChart);
   }));
 
   it('should return a function', function () {
@@ -59,7 +57,7 @@ describe('server dashboard resolves', () => {
       qs: {
         host_id: '1'
       }
-    });
+    }, 'server1');
   });
 
   it('should setup the cpu usage chart', function () {
@@ -67,7 +65,7 @@ describe('server dashboard resolves', () => {
       qs: {
         id: '1'
       }
-    });
+    }, 'server1');
   });
 
   it('should setup the memory usage chart', function () {
@@ -75,7 +73,7 @@ describe('server dashboard resolves', () => {
       qs: {
         id: '1'
       }
-    });
+    }, 'server1');
   });
 
   it('should be a promise', function () {

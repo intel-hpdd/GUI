@@ -1,14 +1,14 @@
 import {
-  UPDATE_MDO_CHART_ITEMS,
-  DEFAULT_MDO_CHART_ITEMS,
-  default as mdoChartReducer
-} from '../../../../source/iml/mdo/mdo-chart-reducer.js';
+  UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS,
+  DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
+  default as readWriteBandwidthChartReducer
+} from '../../../../source/iml/read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
-describe('mdo reducer', () => {
+describe('Read Write Bandwidth reducer', () => {
 
   it('should be a function', () => {
-    expect(mdoChartReducer).toEqual(jasmine.any(Function));
+    expect(readWriteBandwidthChartReducer).toEqual(jasmine.any(Function));
   });
 
   describe('matching type', () => {
@@ -16,7 +16,7 @@ describe('mdo reducer', () => {
       describe('without page data', () => {
         it('should write the intial payload for the page', () => {
           expect(
-            mdoChartReducer(
+            readWriteBandwidthChartReducer(
               {
                 'base': {
                   configType: 'duration',
@@ -28,7 +28,7 @@ describe('mdo reducer', () => {
                 }
               },
               {
-                type: DEFAULT_MDO_CHART_ITEMS,
+                type: DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
                 payload: {
                   configType: 'duration',
                   startDate: 'startDate',
@@ -66,7 +66,7 @@ describe('mdo reducer', () => {
       describe('with page data', () => {
         it('should NOT write the payload for the page', () => {
           expect(
-            mdoChartReducer(
+            readWriteBandwidthChartReducer(
               {
                 'base': {
                   configType: 'duration',
@@ -78,7 +78,7 @@ describe('mdo reducer', () => {
                 }
               },
               {
-                type: DEFAULT_MDO_CHART_ITEMS,
+                type: DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
                 payload: {
                   configType: 'duration',
                   startDate: 'startDate',
@@ -109,7 +109,7 @@ describe('mdo reducer', () => {
     describe('UPDATE case', () => {
       it('should update the state', () => {
         expect(
-          mdoChartReducer(
+          readWriteBandwidthChartReducer(
             {
               '': {
                 configType: 'range',
@@ -129,7 +129,7 @@ describe('mdo reducer', () => {
               }
             },
             {
-              type: UPDATE_MDO_CHART_ITEMS,
+              type: UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS,
               payload: {
                 configType: 'duration',
                 size: 15,
@@ -165,7 +165,7 @@ describe('mdo reducer', () => {
 
   describe('non-matching type', () => {
     it('should return the state', () => {
-      expect(mdoChartReducer(deepFreeze([]), {
+      expect(readWriteBandwidthChartReducer(deepFreeze([]), {
         type: 'ADD_ALERT_INDICATOR_ITEMS',
         payload: {key: 'val'}
       })).toEqual([]);

@@ -32,10 +32,18 @@ import {
   view
 } from 'intel-fp';
 
+import type {
+  getMdoChartT
+} from '../mdo/mdo-module.js';
+
+import type {
+  getReadWriteHeatMapChartT
+} from '../read-write-heat-map/read-write-heat-map-module.js';
+
 
 export function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, getOstBalanceChart,
-                                                getMdoChart, getReadWriteBandwidthChart,
-                                                getReadWriteHeatMapChart, $q) {
+                                                getMdoChart:getMdoChartT, getReadWriteBandwidthChart,
+                                                getReadWriteHeatMapChart:getReadWriteHeatMapChartT, $q) {
   'ngInject';
 
   return function baseDashboardChart () {
@@ -50,20 +58,20 @@ export function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, g
       };
 
     return $q.all([
-      getReadWriteHeatMapChart(fsQs),
-      getOstBalanceChart(fsQs),
-      getMdoChart(fsQs),
-      getReadWriteBandwidthChart(fsQs),
+      getReadWriteHeatMapChart(fsQs, fsId || 'base'),
+      getOstBalanceChart(fsQs, fsId || 'base'),
+      getMdoChart(fsQs, fsId || 'base'),
+      getReadWriteBandwidthChart(fsQs, fsId || 'base'),
       getHostCpuRamChart('Metadata Servers', angular.merge({
         qs: {
           role: 'MDS'
         }
-      }, fsQs)),
+      }, fsQs), fsId ? (`mds${fsId}`) : 'mdsbase'),
       getHostCpuRamChart('Object Storage Servers', angular.merge({
         qs: {
           role: 'OSS'
         }
-      }, fsQs))
+      }, fsQs), fsId ? (`oss${fsId}`) : 'ossbase')
     ]);
   };
 }

@@ -1,14 +1,14 @@
 import {
-  UPDATE_MDO_CHART_ITEMS,
-  DEFAULT_MDO_CHART_ITEMS,
-  default as mdoChartReducer
-} from '../../../../source/iml/mdo/mdo-chart-reducer.js';
+  UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS,
+  DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
+  default as agentVsCopytoolChartReducer
+} from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-chart-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
-describe('mdo reducer', () => {
+describe('agent vs copytool chart reducer', () => {
 
   it('should be a function', () => {
-    expect(mdoChartReducer).toEqual(jasmine.any(Function));
+    expect(agentVsCopytoolChartReducer).toEqual(jasmine.any(Function));
   });
 
   describe('matching type', () => {
@@ -16,9 +16,10 @@ describe('mdo reducer', () => {
       describe('without page data', () => {
         it('should write the intial payload for the page', () => {
           expect(
-            mdoChartReducer(
+            agentVsCopytoolChartReducer(
               {
                 'base': {
+                  dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -28,8 +29,9 @@ describe('mdo reducer', () => {
                 }
               },
               {
-                type: DEFAULT_MDO_CHART_ITEMS,
+                type: DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
                 payload: {
+                  dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -43,6 +45,7 @@ describe('mdo reducer', () => {
           .toEqual(
             {
               'base': {
+                dataType: 'dataType',
                 configType: 'duration',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -51,6 +54,7 @@ describe('mdo reducer', () => {
                 page: 'base'
               },
               'fs1': {
+                dataType: 'dataType',
                 configType: 'duration',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -66,9 +70,10 @@ describe('mdo reducer', () => {
       describe('with page data', () => {
         it('should NOT write the payload for the page', () => {
           expect(
-            mdoChartReducer(
+            agentVsCopytoolChartReducer(
               {
                 'base': {
+                  dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -78,8 +83,9 @@ describe('mdo reducer', () => {
                 }
               },
               {
-                type: DEFAULT_MDO_CHART_ITEMS,
+                type: DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
                 payload: {
+                  dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -93,6 +99,7 @@ describe('mdo reducer', () => {
           .toEqual(
             {
               'base': {
+                dataType: 'dataType',
                 configType: 'duration',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -109,9 +116,10 @@ describe('mdo reducer', () => {
     describe('UPDATE case', () => {
       it('should update the state', () => {
         expect(
-          mdoChartReducer(
+          agentVsCopytoolChartReducer(
             {
               '': {
+                dataType: 'dataType',
                 configType: 'range',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -120,6 +128,7 @@ describe('mdo reducer', () => {
                 page: ''
               },
               'target8': {
+                dataType: 'dataType',
                 configType: 'duration',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -129,8 +138,9 @@ describe('mdo reducer', () => {
               }
             },
             {
-              type: UPDATE_MDO_CHART_ITEMS,
+              type: UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS,
               payload: {
+                dataType: 'dataType',
                 configType: 'duration',
                 size: 15,
                 unit: 'minutes',
@@ -142,6 +152,7 @@ describe('mdo reducer', () => {
         .toEqual(
           {
             '': {
+              dataType: 'dataType',
               configType: 'range',
               startDate: 'startDate',
               endDate: 'endDate',
@@ -150,6 +161,7 @@ describe('mdo reducer', () => {
               page: ''
             },
             'target8': {
+              dataType: 'dataType',
               configType: 'duration',
               startDate: 'startDate',
               endDate: 'endDate',
@@ -165,7 +177,7 @@ describe('mdo reducer', () => {
 
   describe('non-matching type', () => {
     it('should return the state', () => {
-      expect(mdoChartReducer(deepFreeze([]), {
+      expect(agentVsCopytoolChartReducer(deepFreeze([]), {
         type: 'ADD_ALERT_INDICATOR_ITEMS',
         payload: {key: 'val'}
       })).toEqual([]);

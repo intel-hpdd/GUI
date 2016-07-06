@@ -1,5 +1,7 @@
 import highland from 'highland';
-import {curry} from 'intel-fp';
+import {
+  curry
+} from 'intel-fp';
 
 import {
   mock,
@@ -8,16 +10,84 @@ import {
 
 describe('file usage chart', () => {
   var chartCompiler, getFileUsageStream, fileUsageStream,
-    durationStream, rangeStream, createStream,
-    getFileUsageChart, getFileUsageChartFactory;
+    standardConfig, getFileUsageChart, getFileUsageChartFactory,
+    config1$, config2$, selectStoreCount, getStore, durationPayload,
+    submitHandler, durationSubmitHandler, getConf, initStream,
+    data$Fn, localApply;
 
   beforeEachAsync(async function () {
     fileUsageStream = {};
     getFileUsageStream = jasmine.createSpy('getFileUsageStream')
       .and.returnValue(fileUsageStream);
 
+    standardConfig = {
+      configType: 'duration',
+      size: 10,
+      unit: 'minutes',
+      startDate: 1464812942650,
+      endDate: 1464812997102
+    };
+
+    config1$ = highland([{
+      'target1': {...standardConfig}
+    }]);
+    spyOn(config1$, 'destroy');
+    config2$ = highland([{
+      'target1': standardConfig
+    }]);
+    spyOn(config2$, 'destroy');
+    selectStoreCount = 0;
+
+    getStore = {
+      dispatch: jasmine.createSpy('dispatch'),
+      select: jasmine.createSpy('select').and.callFake(() => {
+        switch (selectStoreCount) {
+        case 0:
+          selectStoreCount++;
+          return config1$;
+        default:
+          return config2$;
+        }
+      })
+    };
+
+    durationPayload = jasmine.createSpy('durationPayload')
+      .and.callFake(x => {
+        return {...standardConfig, ...x};
+      });
+
+    submitHandler = jasmine.createSpy('submitHandler');
+    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+      .and.returnValue(submitHandler);
+
+    getConf = jasmine.createSpy('getConf')
+      .and.callFake(page => {
+        return s => {
+          return s.map(x => {
+            return x[page];
+          });
+        };
+      });
+
+    initStream = highland();
+    spyOn(initStream, 'destroy');
+
+    data$Fn = jasmine.createSpy('data$Fn')
+      .and.callFake((overrides, fn) => {
+        fn();
+        return initStream;
+      });
+
+    localApply = jasmine.createSpy('localApply');
+
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     const mod = await mock('source/iml/file-usage/get-file-usage-chart.js', {
-      'source/iml/file-usage/get-file-usage-stream.js': { default: getFileUsageStream }
+      'source/iml/file-usage/get-file-usage-stream.js': { default: getFileUsageStream },
+      'source/iml/store/get-store.js': { default: getStore },
+      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
+      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
+      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
     });
 
     getFileUsageChartFactory = mod.default;
@@ -26,30 +96,54 @@ describe('file usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    durationStream = jasmine.createSpy('durationStream')
-      .and.callFake(() => highland());
-
-    rangeStream = jasmine.createSpy('rangeStream')
-      .and.callFake(() => highland());
-
-    createStream = {
-      durationStream: curry(4, durationStream),
-      rangeStream: curry(4, rangeStream)
-    };
-
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
-    getFileUsageChart = getFileUsageChartFactory(createStream, chartCompiler);
+    getFileUsageChart = getFileUsageChartFactory(chartCompiler, localApply, curry(3, data$Fn));
 
     getFileUsageChart('foo', 'bar', {
       qs: {
         host_id: '1'
       }
-    });
+    }, 'target1');
+
+    var s = chartCompiler.calls.argsFor(0)[1];
+    s.each(() => {});
   });
 
   it('should return a factory function', () => {
     expect(getFileUsageChart).toEqual(jasmine.any(Function));
+  });
+
+  it('should dispatch fileUsageChart to the store', () => {
+    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      type: 'DEFAULT_FILE_USAGE_CHART_ITEMS',
+      payload: {
+        page: 'target1',
+        configType: 'duration',
+        size: 10,
+        unit: 'minutes',
+        startDate: 1464812942650,
+        endDate: 1464812997102
+      }
+    });
+  });
+
+  it('should select the fileUsageChart store', () => {
+    expect(getStore.select).toHaveBeenCalledOnceWith('fileUsageCharts');
+  });
+
+  it('should call getConf', () => {
+    expect(getConf).toHaveBeenCalledOnceWith('target1');
+  });
+
+  it('should call data$Fn', () => {
+    expect(data$Fn).toHaveBeenCalledOnceWith(
+      {
+        qs: {
+          host_id: '1'
+        }
+      },
+      jasmine.any(Function),
+      standardConfig
+    );
   });
 
   it('should call the chart compiler', () => {
@@ -63,14 +157,6 @@ describe('file usage chart', () => {
   it('should call getFileUsageStream with the key', function () {
     expect(getFileUsageStream)
       .toHaveBeenCalledWith('bar');
-  });
-
-  it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith({
-      qs: {
-        host_id: '1'
-      }
-    }, fileUsageStream, 10, 'minutes');
   });
 
   describe('config', () => {
@@ -91,20 +177,37 @@ describe('file usage chart', () => {
       expect(config).toEqual({
         title: 'foo',
         stream: jasmine.any(Object),
+        configType: 'duration',
+        page: '',
+        startDate: 1464812942650,
+        endDate: 1464812997102,
+        size: 10,
+        unit: 'minutes',
         onSubmit: jasmine.any(Function),
         options: {
           setup: jasmine.any(Function)
-        },
-        size: 10,
-        unit: 'minutes'
+        }
       });
+    });
+
+    it('should select the fileUsageChart store', () => {
+      expect(getStore.select).toHaveBeenCalledTwiceWith('fileUsageCharts');
+    });
+
+    it('should call getConf', () => {
+      expect(getConf).toHaveBeenCalledTwiceWith('target1');
+    });
+
+    it('should call localApply', () => {
+      expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
     it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(stream.destroy)
-        .toHaveBeenCalledOnce();
+      expect(initStream.destroy).toHaveBeenCalledOnce();
+      expect(config1$.destroy).toHaveBeenCalledOnce();
+      expect(config2$.destroy).toHaveBeenCalledOnce();
     });
 
     describe('setup', () => {
@@ -160,45 +263,26 @@ describe('file usage chart', () => {
         expect(chart.isArea).toHaveBeenCalledOnceWith(true);
       });
     });
+  });
 
-    describe('on submit', () => {
-      describe('with a duration', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            durationForm: {
-              size: { $modelValue: 5 },
-              unit: { $modelValue: 'hours' }
-            }
-          });
-        });
+  describe('on submit', () => {
+    var handler, $scope, config;
 
-        it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith({
-            qs: {
-              host_id: '1'
-            }
-          }, fileUsageStream, 5, 'hours');
-        });
-      });
+    beforeEach(inject(($rootScope) => {
+      handler = chartCompiler.calls.mostRecent().args[2];
+      $scope = $rootScope.$new();
 
-      describe('with a range', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            rangeForm: {
-              start: { $modelValue: '2015-05-03T07:25' },
-              end: { $modelValue: '2015-05-03T07:35' }
-            }
-          });
-        });
+      config = handler($scope, initStream);
 
-        it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith({
-            qs: {
-              host_id: '1'
-            }
-          }, fileUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
-        });
-      });
+      config.onSubmit();
+    }));
+
+    it('should call durationSubmitHandler', () => {
+      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_FILE_USAGE_CHART_ITEMS', {page: 'target1'});
+    });
+
+    it('should invoke the submit handler', () => {
+      expect(submitHandler).toHaveBeenCalledOnce();
     });
   });
 });

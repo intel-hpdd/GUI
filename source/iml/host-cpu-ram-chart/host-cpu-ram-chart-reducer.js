@@ -21,47 +21,41 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import highland from 'highland';
-import {invokeMethod} from 'intel-fp';
-import rebindDestroy from '../highland/rebind-destroy.js';
+export const UPDATE_HOST_CPU_RAM_CHART_ITEMS = 'UPDATE_HOST_CPU_RAM_CHART_ITEMS';
+export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS = 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS';
 
 import type {
-  HighlandStreamT
-} from 'highland';
+  addHostCpuRamActionT
+} from './host-cpu-ram-chart-module.js';
 
-export const configChange = {};
+import type {
+  durationPayloadHashT,
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
 
-export default function configToData$ (data$Fn:(x:mixed) => HighlandStreamT<mixed>):(s:HighlandStreamT<mixed>)
-    => HighlandStreamT<mixed> {
-
-  return (s:HighlandStreamT<mixed>) => {
-    var data$:?HighlandStreamT<mixed>;
-
-    function consume (error:Error, x:mixed, push:Function, next:Function) {
-      if (error) {
-        push(error);
-        return next();
-      }
-
-      if (data$) {
-        push(null, configChange);
-        data$.destroy();
-        data$ = null;
-      }
-
-      if (x === highland.nil) {
-        push(null, x);
-      } else {
-        data$ = data$Fn(x);
-
-        data$
-          .errors(e => push(e))
-          .each(x => push(null, x));
-
-        next();
-      }
+function mergeState (state:durationPayloadHashT, payload:durationPayloadT) {
+  return Object.assign(
+    {},
+    state,
+    {
+      [payload.page]: {...state[payload.page], ...payload}
     }
+  );
+}
 
-    return rebindDestroy(invokeMethod('consume', [consume]), s);
-  };
+export default function (state:durationPayloadHashT = {},
+  {type, payload}:addHostCpuRamActionT):durationPayloadHashT {
+
+  switch (type) {
+  case DEFAULT_HOST_CPU_RAM_CHART_ITEMS:
+    if (!state[payload.page])
+      state = mergeState(state, payload);
+
+    return state;
+  case UPDATE_HOST_CPU_RAM_CHART_ITEMS:
+    return mergeState(state, payload);
+
+  default:
+    return state;
+  }
 }

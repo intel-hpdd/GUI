@@ -19,40 +19,82 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
+import flatMapChanges from 'intel-flat-map-changes';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import getStore from '../store/get-store.js';
 
-export default (createStream, chartCompiler) => {
+import {
+  always
+} from 'intel-fp';
+import {
+  UPDATE_HOST_CPU_RAM_CHART_ITEMS,
+  DEFAULT_HOST_CPU_RAM_CHART_ITEMS
+} from './host-cpu-ram-chart-reducer.js';
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
+
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
+import type {
+  HighlandStreamT
+} from 'highland';
+import type {
+  durationPickerConfigT,
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+
+export default (chartCompiler:chartCompilerT,
+                data$Fn:data$FnT, localApply:localApplyT) => {
   'ngInject';
 
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
+  return function getHostCpuRamChart (title:string, overrides:filesystemQueryT | targetQueryT, page:string) {
 
-  return function getHostCpuRamChart (title, overrides) {
-    const durationStream = createStream.durationStream(overrides, getHostCpuRamStream);
-    const rangeStream = createStream.rangeStream(overrides, getHostCpuRamStream);
+    getStore.dispatch({
+      type: DEFAULT_HOST_CPU_RAM_CHART_ITEMS,
+      payload: durationPayload({page})
+    });
 
-    return chartCompiler(hostCpuRamChartTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
+    const config1$ = getStore.select('hostCpuRamCharts');
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, always(getHostCpuRamStream))
+        )
+      );
+
+    return chartCompiler(hostCpuRamChartTemplate, initStream,
+    ($scope:$scope, stream:HighlandStreamT<durationPickerConfigT>) => {
+
       const conf = {
         title,
         stream,
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1],
-        onSubmit ( { rangeForm, durationForm } ) {
-          conf.stream.destroy();
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        },
+        configType: '',
+        page: '',
+        startDate: '',
+        endDate: '',
+        size: 1,
+        unit:'',
+        onSubmit: durationSubmitHandler(UPDATE_HOST_CPU_RAM_CHART_ITEMS, {page}),
         options: {
           setup: function setup (d3Chart, d3) {
             d3Chart.useInteractiveGuideline(true);
@@ -66,8 +108,18 @@ export default (createStream, chartCompiler) => {
         }
       };
 
-      $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
+      const config2$ = getStore.select('hostCpuRamCharts');
+      config2$
+        .through(getConf(page))
+        .each((x:durationPayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
+
+      $scope.$on('$destroy', () => {
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

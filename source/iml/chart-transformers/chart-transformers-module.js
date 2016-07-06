@@ -57,7 +57,7 @@ export type configToStreamT = (x:durationPickerConfigT) => HighlandStreamT<mixed
 export type getConfT = (page:string) => HighlandStreamT<confTypes>;
 export type data$FnT = (overrides:filesystemQueryT | targetQueryT,
                         chartStreamFn:configToStreamT,
-                        x:durationPickerConfigT) => HighlandStreamT<mixed>;
+                        x:mixed) => HighlandStreamT<mixed>;
 
 export default angular.module('chartTransformers', [])
   .factory('data$Fn', data$Fn)

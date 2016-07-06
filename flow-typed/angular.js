@@ -5,6 +5,16 @@ declare module angular {
     $new():$scope;
     $digest():void;
     $apply(exp?:(string | (s:$scope) => any)):void;
+    $on(evt:string, listener:(
+      event:{
+        targetScope:$scope,
+        currentScope:$scope,
+        name:string,
+        stopPropagation:() => void,
+        preventDefault:() => void,
+        defaultPrevented:boolean
+      }
+    ) => void):void;
   }
   declare type $scopeT = $scope;
   declare class $location {

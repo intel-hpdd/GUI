@@ -1,5 +1,7 @@
 import highland from 'highland';
-import {curry} from 'intel-fp';
+import {
+  curry
+} from 'intel-fp';
 
 import {
   mock,
@@ -7,15 +9,85 @@ import {
 } from '../../../system-mock.js';
 
 describe('memory usage chart', () => {
-  var chartCompiler, createStream, getMemoryUsageStream,
-    durationStream, rangeStream, getMemoryUsageChartFactory,
-    getMemoryUsageChart;
+  var chartCompiler, getMemoryUsageStream, standardConfig,
+    getMemoryUsageChartFactory, config1$, config2$,
+    getMemoryUsageChart, selectStoreCount, getStore,
+    durationPayload, submitHandler, getConf, initStream,
+    durationSubmitHandler, data$Fn, localApply;
 
   beforeEachAsync(async function () {
     getMemoryUsageStream = {};
 
+    getMemoryUsageStream = jasmine.createSpy('getFileUsageStream');
+
+    standardConfig = {
+      configType: 'duration',
+      size: 10,
+      unit: 'minutes',
+      startDate: 1464812942650,
+      endDate: 1464812997102
+    };
+
+    config1$ = highland([{
+      'server1': {...standardConfig}
+    }]);
+    spyOn(config1$, 'destroy');
+    config2$ = highland([{
+      'server1': standardConfig
+    }]);
+    spyOn(config2$, 'destroy');
+    selectStoreCount = 0;
+
+    getStore = {
+      dispatch: jasmine.createSpy('dispatch'),
+      select: jasmine.createSpy('select').and.callFake(() => {
+        switch (selectStoreCount) {
+        case 0:
+          selectStoreCount++;
+          return config1$;
+        default:
+          return config2$;
+        }
+      })
+    };
+
+    durationPayload = jasmine.createSpy('durationPayload')
+      .and.callFake(x => {
+        return {...standardConfig, ...x};
+      });
+
+    submitHandler = jasmine.createSpy('submitHandler');
+    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+      .and.returnValue(submitHandler);
+
+    getConf = jasmine.createSpy('getConf')
+      .and.callFake(page => {
+        return s => {
+          return s.map(x => {
+            return x[page];
+          });
+        };
+      });
+
+    initStream = highland();
+    spyOn(initStream, 'destroy');
+
+    data$Fn = jasmine.createSpy('data$Fn')
+      .and.callFake((overrides, fn) => {
+        fn()();
+        return initStream;
+      });
+
+    localApply = jasmine.createSpy('localApply');
+
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     const mod = await mock('source/iml/memory-usage/get-memory-usage-chart.js', {
-      'source/iml/memory-usage/get-memory-usage-stream.js': { default: getMemoryUsageStream }
+      'source/iml/memory-usage/get-memory-usage-stream.js': { default: getMemoryUsageStream },
+      'source/iml/store/get-store.js': { default: getStore },
+      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
+      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
+      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
     });
     getMemoryUsageChartFactory = mod.default;
   });
@@ -23,30 +95,56 @@ describe('memory usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    durationStream = jasmine.createSpy('durationStream')
-      .and.callFake(() => highland());
-
-    rangeStream = jasmine.createSpy('rangeStream')
-      .and.callFake(() => highland());
-
-    createStream = {
-      durationStream: curry(4, durationStream),
-      rangeStream: curry(4, rangeStream)
-    };
-
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
-    getMemoryUsageChart = getMemoryUsageChartFactory(createStream, chartCompiler);
+    getMemoryUsageChart = getMemoryUsageChartFactory(
+      chartCompiler, localApply, curry(3, data$Fn)
+    );
 
     getMemoryUsageChart({
       qs: {
         host_id: '1'
       }
-    });
+    }, 'server1');
+
+    var s = chartCompiler.calls.argsFor(0)[1];
+    s.each(() => {});
   });
 
   it('should return a factory function', () => {
     expect(getMemoryUsageChart).toEqual(jasmine.any(Function));
+  });
+
+  it('should dispatch fileUsageChart to the store', () => {
+    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      type: 'DEFAULT_MEMORY_USAGE_CHART_ITEMS',
+      payload: {
+        page: 'server1',
+        configType: 'duration',
+        size: 10,
+        unit: 'minutes',
+        startDate: 1464812942650,
+        endDate: 1464812997102
+      }
+    });
+  });
+
+  it('should select the fileUsageChart store', () => {
+    expect(getStore.select).toHaveBeenCalledOnceWith('memoryUsageCharts');
+  });
+
+  it('should call getConf', () => {
+    expect(getConf).toHaveBeenCalledOnceWith('server1');
+  });
+
+  it('should call data$Fn', () => {
+    expect(data$Fn).toHaveBeenCalledOnceWith(
+      {
+        qs: {
+          host_id: '1'
+        }
+      },
+      jasmine.any(Function),
+      standardConfig
+    );
   });
 
   it('should call the chart compiler', () => {
@@ -57,12 +155,8 @@ describe('memory usage chart', () => {
     );
   });
 
-  it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith({
-      qs: {
-        host_id: '1'
-      }
-    }, getMemoryUsageStream, 10, 'minutes');
+  it('should call getMemoryUsageStream with the key', function () {
+    expect(getMemoryUsageStream).toHaveBeenCalledOnce();
   });
 
   describe('config', () => {
@@ -82,20 +176,37 @@ describe('memory usage chart', () => {
     it('should return a config', () => {
       expect(config).toEqual({
         stream: jasmine.any(Object),
+        configType: 'duration',
+        page: '',
+        startDate: 1464812942650,
+        endDate: 1464812997102,
+        size: 10,
+        unit: 'minutes',
         onSubmit: jasmine.any(Function),
         options: {
           setup: jasmine.any(Function)
-        },
-        size: 10,
-        unit: 'minutes'
+        }
       });
+    });
+
+    it('should select the memoryUsageChart store', () => {
+      expect(getStore.select).toHaveBeenCalledTwiceWith('memoryUsageCharts');
+    });
+
+    it('should call getConf', () => {
+      expect(getConf).toHaveBeenCalledTwiceWith('server1');
+    });
+
+    it('should call localApply', () => {
+      expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
     it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(stream.destroy)
-        .toHaveBeenCalledOnce();
+      expect(initStream.destroy).toHaveBeenCalledOnce();
+      expect(config1$.destroy).toHaveBeenCalledOnce();
+      expect(config2$.destroy).toHaveBeenCalledOnce();
     });
 
     describe('setup', () => {
@@ -129,45 +240,26 @@ describe('memory usage chart', () => {
         expect(d3Chart.xAxis.showMaxMin).toHaveBeenCalledOnceWith(false);
       });
     });
+  });
 
-    describe('on submit', () => {
-      describe('with a duration', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            durationForm: {
-              size: { $modelValue: 5 },
-              unit: { $modelValue: 'hours' }
-            }
-          });
-        });
+  describe('on submit', () => {
+    var handler, $scope, config;
 
-        it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith({
-            qs: {
-              host_id: '1'
-            }
-          }, getMemoryUsageStream, 5, 'hours');
-        });
-      });
+    beforeEach(inject(($rootScope) => {
+      handler = chartCompiler.calls.mostRecent().args[2];
+      $scope = $rootScope.$new();
 
-      describe('with a range', () => {
-        beforeEach(() => {
-          config.onSubmit({
-            rangeForm: {
-              start: { $modelValue: '2015-05-03T07:25' },
-              end: { $modelValue: '2015-05-03T07:35' }
-            }
-          });
-        });
+      config = handler($scope, initStream);
 
-        it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith({
-            qs: {
-              host_id: '1'
-            }
-          }, getMemoryUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
-        });
-      });
+      config.onSubmit();
+    }));
+
+    it('should call durationSubmitHandler', () => {
+      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_MEMORY_USAGE_CHART_ITEMS', {page: 'server1'});
+    });
+
+    it('should invoke the submit handler', () => {
+      expect(submitHandler).toHaveBeenCalledOnce();
     });
   });
 });

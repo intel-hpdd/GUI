@@ -19,25 +19,74 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {flow, eq, map, eqFn, lensProp, view,
-  unwrap, invokeMethod} from 'intel-fp';
-import {pickBy, values} from 'intel-obj';
+// @flow
+
+import flatMapChanges from 'intel-flat-map-changes';
+import {
+  flow,
+  eq,
+  map,
+  eqFn,
+  lensProp,
+  view,
+  unwrap,
+  invokeMethod,
+  always
+} from 'intel-fp';
+import {
+  pickBy,
+  values
+} from 'intel-obj';
+import {
+  DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
+  UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS
+} from './agent-vs-copytool-chart-reducer.js';
 import moment from 'moment';
 import getAgentVsCopytoolStream from './get-agent-vs-copytool-stream.js';
 import createDate from '../create-date.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import getStore from '../store/get-store.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
+
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
 
-export default (createStream, chartCompiler, d3) => {
+export default (chartCompiler:chartCompilerT,
+                localApply:localApplyT, data$Fn:data$FnT, d3) => {
   'ngInject';
 
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
+  return function getAgentVsCopytoolChart (overrides:Object) {
+    const page = 'base';
 
-  return function getAgentVsCopytoolChart (overrides) {
-    const durationStream = createStream.durationStream(overrides, getAgentVsCopytoolStream);
-    const rangeStream = createStream.rangeStream(overrides, getAgentVsCopytoolStream);
+    getStore.dispatch({
+      type: DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
+      payload: durationPayload({page})
+    });
+
+    const config1$ = getStore.select('agentVsCopytoolCharts');
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, always(getAgentVsCopytoolStream))
+        )
+      );
 
     const xScale = d3.time.scale();
     const yScale = d3.scale.linear();
@@ -73,9 +122,15 @@ export default (createStream, chartCompiler, d3) => {
 
     const mapProps = map(flow(lensProp, view));
 
-    return chartCompiler(agentVsCopytoolTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
+    return chartCompiler(agentVsCopytoolTemplate, initStream, ($scope, stream) => {
       const conf = {
         stream,
+        configType: '',
+        page: '',
+        startDate: '',
+        endDate: '',
+        size: 1,
+        unit: '',
         xScale,
         yScale,
         onUpdate: [
@@ -95,26 +150,21 @@ export default (createStream, chartCompiler, d3) => {
         xComparator,
         labels: mapProps(nameColorScale.domain()),
         colors: nameColorScale.range(),
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1],
-        onSubmit ({ rangeForm, durationForm }) {
-          conf.stream.destroy();
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        }
+        onSubmit: durationSubmitHandler(UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS, {page})
       };
 
+      const config2$ = getStore.select('agentVsCopytoolCharts');
+      config2$
+        .through(getConf(page))
+        .each((x:durationPayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
+
       $scope.$on('$destroy', () => {
-        conf.stream.destroy();
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

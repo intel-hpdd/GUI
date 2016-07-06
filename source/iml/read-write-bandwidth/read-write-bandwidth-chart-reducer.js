@@ -21,9 +21,42 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import toDateFilter from './to-date-filter.js';
+export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS';
+export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS';
 
-export default angular.module('toDateFilter', [])
-  .filter('toDate', () => toDateFilter)
-  .name;
+import type {
+  readWriteBandwidthActionT
+} from './read-write-bandwidth-module.js';
+
+import type {
+  durationPayloadHashT,
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+function mergeState (state:durationPayloadHashT, payload:durationPayloadT) {
+  return Object.assign(
+    {},
+    state,
+    {
+      [payload.page]: {...state[payload.page], ...payload}
+    }
+  );
+}
+
+
+export default function (state:durationPayloadHashT = {},
+  {type, payload}:readWriteBandwidthActionT):durationPayloadHashT {
+
+  switch (type) {
+  case DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS:
+    if (!state[payload.page])
+      state = mergeState(state, payload);
+
+    return state;
+  case UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS:
+    return mergeState(state, payload);
+
+  default:
+    return state;
+  }
+}

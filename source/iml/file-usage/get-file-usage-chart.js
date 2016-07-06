@@ -19,40 +19,71 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
+import flatMapChanges from 'intel-flat-map-changes';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import fileUsageChartTemplate from './assets/html/file-usage-chart';
 import getFileUsageStream from './get-file-usage-stream.js';
-import {DURATIONS} from '../duration-picker/duration-picker.js';
+import getStore from '../store/get-store.js';
+import durationPayload from '../duration-picker/duration-payload.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
-export default (createStream, chartCompiler) => {
+import {
+  getConf
+} from '../chart-transformers/chart-transformers.js';
+import {
+  UPDATE_FILE_USAGE_CHART_ITEMS,
+  DEFAULT_FILE_USAGE_CHART_ITEMS
+} from './file-usage-chart-reducer.js';
+
+import type {
+  chartCompilerT
+} from '../chart-compiler/chart-compiler-module.js';
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+import type {
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+import type {
+  data$FnT
+} from '../chart-transformers/chart-transformers-module.js';
+
+export default (chartCompiler:chartCompilerT,
+                localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
-  const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
+  return function getFileUsageChart (title:string, keyName:string, overrides:targetQueryT, page:string) {
+    getStore.dispatch({
+      type: DEFAULT_FILE_USAGE_CHART_ITEMS,
+      payload: durationPayload({page})
+    });
 
-  return function getFileUsageChart (title, keyName, overrides) {
-    const durationStream = createStream.durationStream(overrides, getFileUsageStream(keyName));
-    const rangeStream = createStream.rangeStream(overrides, getFileUsageStream(keyName));
+    const config1$ = getStore.select('fileUsageCharts');
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges(
+          data$Fn(overrides, () => getFileUsageStream(keyName))
+        )
+      );
 
-    return chartCompiler(fileUsageChartTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
+    return chartCompiler(fileUsageChartTemplate, initStream, ($scope, stream) => {
       const conf = {
         title,
         stream,
-        size: DEFAULT_DURATION[0],
-        unit: DEFAULT_DURATION[1],
-        onSubmit ({ rangeForm, durationForm }) {
-          conf.stream.destroy();
-
-          if (rangeForm)
-            conf.stream = rangeStream(
-              rangeForm.start.$modelValue,
-              rangeForm.end.$modelValue
-            );
-          else if (durationForm)
-            conf.stream = durationStream(
-              durationForm.size.$modelValue,
-              durationForm.unit.$modelValue
-            );
-        },
+        configType: '',
+        page: '',
+        startDate: '',
+        endDate: '',
+        size: 1,
+        unit:'',
+        onSubmit: durationSubmitHandler(UPDATE_FILE_USAGE_CHART_ITEMS, {page}),
         options: {
           setup (d3Chart, d3) {
             d3Chart.useInteractiveGuideline(true);
@@ -70,8 +101,18 @@ export default (createStream, chartCompiler) => {
         }
       };
 
-      $scope.$on('$destroy', function onDestroy () {
-        conf.stream.destroy();
+      const config2$ = getStore.select('fileUsageCharts');
+      config2$
+        .through(getConf(page))
+        .each((x:durationPayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
+
+      $scope.$on('$destroy', () => {
+        stream.destroy();
+        config1$.destroy();
+        config2$.destroy();
       });
 
       return conf;

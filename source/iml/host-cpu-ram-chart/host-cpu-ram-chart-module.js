@@ -32,9 +32,17 @@ import getHostCpuRamChartFactory from './get-host-cpu-ram-chart';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
 
+import type {
+  durationPayloadT
+} from '../duration-picker/duration-picker-module.js';
+
+export type addHostCpuRamActionT = {
+    type: 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS' | 'UPDATE_HOST_CPU_RAM_CHART_ITEMS',
+    payload: durationPayloadT
+};
+
 export default angular.module('hostCpuRamChart', [
-  chartsModule, chartingModule,
-  highlandModule,
+  chartsModule, chartingModule, highlandModule,
   durationPickerModule, hostCpuRamChartTemplate
 ])
   .factory('getHostCpuRamChart', getHostCpuRamChartFactory)

@@ -30,6 +30,16 @@ import serverReducer from '../server/server-reducer.js';
 import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
 import treeReducer from '../tree/tree-reducer.js';
 import fileSystemReducer from '../file-system/file-system-reducer.js';
+import readWriteHeatMapChartReducer from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
+import mdoChartReducer from '../mdo/mdo-chart-reducer.js';
+import ostBalanceChartReducer from '../ost-balance/ost-balance-chart-reducer.js';
+import readWriteBandwidthChartReducer from '../read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
+import hostCpuRamChartReducer from '../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js';
+import agentVsCopytoolChartReducer from '../agent-vs-copytool/agent-vs-copytool-chart-reducer.js';
+import fileUsageChartReducer from '../file-usage/file-usage-chart-reducer.js';
+import spaceUsageChartReducer from '../space-usage/space-usage-chart-reducer.js';
+import cpuUsageChartReducer from '../cpu-usage/cpu-usage-chart-reducer.js';
+import memoryUsageChartReducer from '../memory-usage/memory-usage-chart-reducer.js';
 
 export default createStore({
   targets: targetReducer,
@@ -38,5 +48,15 @@ export default createStore({
   server: serverReducer,
   lnetConfiguration: lnetConfigurationReducer,
   tree: treeReducer,
-  fileSystems: fileSystemReducer
+  fileSystems: fileSystemReducer,
+  readWriteHeatMapCharts: readWriteHeatMapChartReducer,
+  mdoCharts: mdoChartReducer,
+  ostBalanceCharts: ostBalanceChartReducer,
+  readWriteBandwidthCharts: readWriteBandwidthChartReducer,
+  hostCpuRamCharts: hostCpuRamChartReducer,
+  agentVsCopytoolCharts: agentVsCopytoolChartReducer,
+  fileUsageCharts: fileUsageChartReducer,
+  spaceUsageCharts: spaceUsageChartReducer,
+  cpuUsageCharts: cpuUsageChartReducer,
+  memoryUsageCharts: memoryUsageChartReducer
 });
