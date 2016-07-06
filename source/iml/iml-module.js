@@ -66,6 +66,7 @@ import logModule from './logs/log-module.js';
 import logQueryRouteModule from './logs/log-query-route-module.js';
 import logRecordsRouteModule from './logs/log-records-route-module.js';
 import treeModule from './tree/tree-module.js';
+import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -80,7 +81,7 @@ export default angular.module('iml', [
   dashboardRouteModule, baseDashboardModule, baseDashboardRouteModule, serverDashboardModule,
   serverDashboardRouteModule, targetDashboardModule, targetDashboardRouteModule, serverModule, serverRouteModule,
   serverDetailRouteModule, jobStatsModule, jobStatsRouteModule,
-  hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule,
+  hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule, multiTogglerModule,
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
   statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule, logModule,
   logQueryRouteModule, logRecordsRouteModule, disconnectModalModule, treeModule
