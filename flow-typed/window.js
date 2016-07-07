@@ -22,6 +22,8 @@ declare var window: {
   CACHE_INITIAL_DATA:cacheInitialDataT,
   HELP_TEXT:Object,
   IS_RELEASE:boolean,
+  addEventListener:(evName:string, cb:(ev:Object) => any, useCapture:boolean) => void,
+  removeEventListener:(evName:string, cb:(ev:Object) => any, useCapture:boolean) => void,
   ALLOW_ANONYMOUS_READ:boolean,
   SERVER_TIME_DIFF:number,
   VERSION:string,

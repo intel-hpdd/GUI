@@ -88,7 +88,7 @@ describe('file system component', () => {
 
     it('should link to the fs detail page', () => {
       expect(el.querySelector('td a').getAttribute('route-to'))
-        .toBe('configure/filesystem/detail/1');
+        .toBe('configure/filesystem/1');
     });
 
     it('should link to the server detail page', () => {

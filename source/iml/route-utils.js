@@ -29,7 +29,7 @@ export function apiPathToUiPath (resourceUri:string) {
 
   switch(resource) {
   case 'filesystem':
-    return `configure/filesystem/detail/${id}/`;
+    return `configure/filesystem/${id}/`;
   case 'host':
     return `configure/server/${id}/`;
   default:

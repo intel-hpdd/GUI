@@ -52,8 +52,7 @@ export default {
                 </td>
                 <td class="comma-list">
                   <a ng-repeat="fs in item.filesystems track by fs.id"
-                    route-to="configure/filesystem/detail/{{::fs.id}}"
-                    target="_self">{{::fs.name}}
+                    route-to="configure/filesystem/{{::fs.id}}">{{::fs.name}}
                   </a>
                 </td>
                 <td>{{item.volume_name}}</td>

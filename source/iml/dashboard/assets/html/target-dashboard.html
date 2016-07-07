@@ -24,7 +24,7 @@
           </td>
           <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{ targetDashboard.target.active_host_name }}</td>
           <td restrict-to="{{ app.GROUPS.FS_ADMINS }}">
-            <a route-to="configure/filesystem/detail/{{targetDashboard.target.filesystem_id}}" target="_self">{{ targetDashboard.target.filesystem_name }}</a>
+            <a route-to="configure/filesystem/{{targetDashboard.target.filesystem_id}}">{{ targetDashboard.target.filesystem_name }}</a>
           </td>
           <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{targetDashboard.target.filesystem_name}}</td>
           <td as-property stream="targetDashboard.usageStream">

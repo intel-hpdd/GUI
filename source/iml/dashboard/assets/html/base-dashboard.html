@@ -14,7 +14,7 @@
       <tbody>
         <tr ng-repeat="fs in baseDashboard.fs track by fs.id">
           <td restrict-to="{{ app.GROUPS.FS_ADMINS }}">
-            <a route-to="configure/filesystem/detail/{{fs.id}}/" target="_self">{{ fs.name }}</a>
+            <a route-to="configure/filesystem/{{fs.id}}/">{{ fs.name }}</a>
           </td>
           <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{ fs.name }}</td>
           <td>

@@ -62,8 +62,7 @@ export const MessageSubstitutionCtrl = class {
 
       if (authorization.groupAllowed(GROUPS.FS_ADMINS)) {
         var path = apiPathToUiPath(sub.resource_uri);
-        var target = (sub.resource_uri.indexOf('host') === -1) ? 'target="_self"' : '';
-        label = `<a route-to="${path}" ${target}>${sub.label}</a>`;
+        label = `<a route-to="${path}">${sub.label}</a>`;
       }
 
       return start + label + end;

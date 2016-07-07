@@ -89,15 +89,11 @@ describe('message substitution component', () => {
       });
 
       it('should link to the filesystem', () => {
-        expect(links.item(1).getAttribute('route-to')).toEqual('configure/filesystem/detail/2/');
+        expect(links.item(1).getAttribute('route-to')).toEqual('configure/filesystem/2/');
       });
 
       it('should display the filesystem label', () => {
         expect(links.item(1).textContent).toEqual('filesystem2');
-      });
-
-      it('should set a target of self on the filesystem link', () => {
-        expect(links.item(1).getAttribute('target')).toEqual('_self');
       });
     });
   });
