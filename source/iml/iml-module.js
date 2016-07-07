@@ -66,6 +66,9 @@ import logModule from './logs/log-module.js';
 import logQueryRouteModule from './logs/log-query-route-module.js';
 import logRecordsRouteModule from './logs/log-records-route-module.js';
 import treeModule from './tree/tree-module.js';
+import fileSystemRouteModule from './file-system/file-system-route-module.js';
+import fileSystemModule from './file-system/file-system-module.js';
+import oldRouteModule from './old-gui-shim/old-route-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
@@ -77,14 +80,15 @@ import './job-indicator/job-indicator-dispatch-source.js';
 export default angular.module('iml', [
   uiBootstrapModule, ngResource, ngRoute, ngAnimate, 'route-segment', 'view-segment',
   routeToModule, environmentModule, exceptionModule,
-  middlewareModule, loginModule, loginRouteModule, appModule, appRouteModule, dashboardModule,
+  middlewareModule, loginModule, loginRouteModule, appModule, appRouteModule, oldRouteModule, dashboardModule,
   dashboardRouteModule, baseDashboardModule, baseDashboardRouteModule, serverDashboardModule,
   serverDashboardRouteModule, targetDashboardModule, targetDashboardRouteModule, serverModule, serverRouteModule,
   serverDetailRouteModule, jobStatsModule, jobStatsRouteModule,
   hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule, multiTogglerModule,
   aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
   statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule, logModule,
-  logQueryRouteModule, logRecordsRouteModule, disconnectModalModule, treeModule
+  logQueryRouteModule, logRecordsRouteModule, disconnectModalModule, treeModule,
+  fileSystemModule, fileSystemRouteModule
 ])
   .config($compileProvider => {
     'ngInject';

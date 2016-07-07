@@ -42,7 +42,6 @@ export default {
         type="button"
         class="btn btn-success btn-lg"
         route-to="configure/filesystem/create/"
-        target="_self"
       >
         <i class="fa fa-plus-circle"></i>Create File System
       </a>
@@ -64,7 +63,7 @@ export default {
       <tbody>
         <tr ng-repeat="item in curr.val track by item.id">
           <td>
-            <a route-to="{{ 'configure/filesystem/detail/' + item.id }}" target="_self">
+            <a route-to="{{ 'configure/filesystem/' + item.id }}">
               <span>{{ ::item.name }}</span>
             </a>
           </td>
@@ -96,7 +95,7 @@ export default {
     <a
       type="button"
       class="btn btn-default add-fs-button btn-sm"
-      route-to="configure/filesystem/create/" target="_self"
+      route-to="configure/filesystem/create/"
     >
       <i class="fa fa-plus-circle text-success"></i> Create More File Systems
     </a>

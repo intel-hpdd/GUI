@@ -4,8 +4,13 @@ declare module angular {
   declare class $scope {
     $new():$scope;
     $digest():void;
+    $apply(exp?:(string | (s:$scope) => any)):void;
   }
   declare type $scopeT = $scope;
+  declare class $location {
+    path(p?:string):($location | string);
+  }
+  declare type $locationT = $location;
   declare class Module {
     provider(name:string, providerType:Function):Module;
     factory(name:string, providerFunction:Function):Module;

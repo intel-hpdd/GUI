@@ -108,7 +108,7 @@ export default {
       ng-click="$ctrl.onOpen($ctrl.x.treeId, !$ctrl.x.open)"
     ></i>
   </span>
-  <a route-to="configure/volume/" target="_self">
+  <a route-to="configure/volume/">
     <i class="fa fa-fw fa-folder-o"></i> Volumes <span ng-if="$ctrl.x.meta != null">({{$ctrl.x.meta.total_count}})</span>
   </a>
   <div class="children" ng-if="$ctrl.x.open">

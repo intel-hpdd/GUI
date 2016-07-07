@@ -72,12 +72,12 @@ describe('mgt component', () => {
 
     it('should render the first filesystem link', () => {
       expect(el.querySelector('td.comma-list a').getAttribute('route-to'))
-        .toBe('configure/filesystem/detail/1');
+        .toBe('configure/filesystem/1');
     });
 
     it('should render the second filesystem link', () => {
       expect(el.querySelectorAll('td.comma-list a')[1].getAttribute('route-to'))
-        .toBe('configure/filesystem/detail/2');
+        .toBe('configure/filesystem/2');
     });
 
     it('should render the volume name', () => {
