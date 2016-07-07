@@ -53,7 +53,14 @@ export default () => ({
       statusQuery: '?status_page.htm',
       hsm: '?hsm_page.htm',
       dashboard: '?dashboard_charts.htm',
-      logQuery: '?logs_page.htm'
+      logQuery: '?logs_page.htm',
+      oldPower: '?power_control_tab.htm',
+      fileSystem: '?file_systems_tab.htm',
+      oldFilesystemCreate: '?creating_a_file_system2.htm',
+      oldFilesystemDetail: '?file_systems_details_page.htm',
+      oldStorageResource: '?storage_tab.htm',
+      oldUser: '?users_tab.htm',
+      oldVolume: '?volumes_tab.htm'
     };
 
     rs
