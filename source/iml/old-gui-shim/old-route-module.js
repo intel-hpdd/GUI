@@ -22,13 +22,16 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
 import iframeShimComponent from './iframe-shim-component.js';
+
+import {
+  GROUPS
+} from '../auth/authorization.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import loadingTemplate from '../loading/assets/html/loading';
 
-const pathToConfig = (GROUPS, path) => {
+const pathToConfig = (path:string) => {
   return {
     access: GROUPS.FS_ADMINS,
     controller: function ($route) {
@@ -54,7 +57,7 @@ const pathToConfig = (GROUPS, path) => {
 export default angular.module('oldRoutes', [
   loadingTemplate
 ])
-  .config(function oldRoute ($routeSegmentProvider:Object, GROUPS:Object):void {
+  .config(function oldRoute ($routeSegmentProvider:Object):void {
     'ngInject';
 
     $routeSegmentProvider
@@ -69,16 +72,16 @@ export default angular.module('oldRoutes', [
       .when('/configure/storage', 'app.oldStorageResource')
       .when('/configure/storage/:id', 'app.oldStorageResourceDetail')
       .within('app')
-      .segment('oldVolume', pathToConfig(GROUPS, 'configureold/volume'))
-      .segment('oldPower', pathToConfig(GROUPS, 'configureold/power'))
-      .segment('oldFilesystemCreate', pathToConfig(GROUPS, 'configureold/filesystem/create'))
-      .segment('oldFilesystemDetail', pathToConfig(GROUPS, 'configureold/filesystem/detail'))
-      .segment('oldTarget', pathToConfig(GROUPS, '/targetold'))
-      .segment('oldUser', pathToConfig(GROUPS, '/configureold/user'))
-      .segment('oldUserDetail', pathToConfig(GROUPS, '/userold'))
-      .segment('oldStorageResource', pathToConfig(GROUPS, '/configureold/storage/'))
-      .segment('oldStorageResourceDetail', pathToConfig(GROUPS, '/storage_resourceold'))
-      .segment('oldSystemStatus', pathToConfig(GROUPS, '/system_statusold'));
+      .segment('oldVolume', pathToConfig('configureold/volume'))
+      .segment('oldPower', pathToConfig('configureold/power'))
+      .segment('oldFilesystemCreate', pathToConfig('configureold/filesystem/create'))
+      .segment('oldFilesystemDetail', pathToConfig('configureold/filesystem/detail'))
+      .segment('oldTarget', pathToConfig('/targetold'))
+      .segment('oldUser', pathToConfig('/configureold/user'))
+      .segment('oldUserDetail', pathToConfig('/userold'))
+      .segment('oldStorageResource', pathToConfig('/configureold/storage/'))
+      .segment('oldStorageResourceDetail', pathToConfig('/storage_resourceold'))
+      .segment('oldSystemStatus', pathToConfig('/system_statusold'));
   })
   .component('iframeShim', iframeShimComponent)
   .name;
