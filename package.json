@@ -1,6 +1,6 @@
 {
   "name": "intel-gui",
-  "version": "5.7.2",
+  "version": "5.8.0",
   "license": "MIT",
   "scripts": {
     "dev": "cd gulp && gulp dev",
