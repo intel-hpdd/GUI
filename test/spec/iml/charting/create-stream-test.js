@@ -59,7 +59,7 @@ describe('create stream', function () {
       begin = 5;
       end = 6;
 
-      durationStream = createStream.durationStream(streamFn, overrides, begin, end);
+      durationStream = createStream.durationStream(overrides, streamFn, begin, end);
       createFn = streamWhenVisible.calls.mostRecent().args[0];
     });
 
@@ -115,7 +115,7 @@ describe('create stream', function () {
       begin = 5;
       end = 6;
 
-      rangeStream = createStream.rangeStream(streamFn, overrides, begin, end);
+      rangeStream = createStream.rangeStream(overrides, streamFn, begin, end);
       createFn = streamWhenVisible.calls.mostRecent().args[0];
     });
 

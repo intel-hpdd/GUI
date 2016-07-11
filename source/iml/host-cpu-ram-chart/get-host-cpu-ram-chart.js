@@ -30,8 +30,8 @@ export default (createStream, chartCompiler) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getHostCpuRamChart (title, overrides) {
-    const durationStream = createStream.durationStream(getHostCpuRamStream, overrides);
-    const rangeStream = createStream.rangeStream(getHostCpuRamStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getHostCpuRamStream);
+    const rangeStream = createStream.rangeStream(overrides, getHostCpuRamStream);
 
     return chartCompiler(hostCpuRamChartTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

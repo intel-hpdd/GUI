@@ -62,11 +62,11 @@ describe('cpu usage chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getCpuUsageStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, getCpuUsageStream, 10, 'minutes');
   });
 
   describe('config', () => {
@@ -169,11 +169,11 @@ describe('cpu usage chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getCpuUsageStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, getCpuUsageStream, 5, 'hours');
         });
       });
 
@@ -188,11 +188,11 @@ describe('cpu usage chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getCpuUsageStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getCpuUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

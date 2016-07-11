@@ -30,8 +30,8 @@ export default (createStream, chartCompiler) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getFileUsageChart (title, keyName, overrides) {
-    const durationStream = createStream.durationStream(getFileUsageStream(keyName), overrides);
-    const rangeStream = createStream.rangeStream(getFileUsageStream(keyName), overrides);
+    const durationStream = createStream.durationStream(overrides, getFileUsageStream(keyName));
+    const rangeStream = createStream.rangeStream(overrides, getFileUsageStream(keyName));
 
     return chartCompiler(fileUsageChartTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

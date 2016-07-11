@@ -30,8 +30,8 @@ export default (createStream, chartCompiler) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getSpaceUsageChart (overrides) {
-    const durationStream = createStream.durationStream(getSpaceUsageStream, overrides);
-    const rangeStream = createStream.rangeStream(getSpaceUsageStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getSpaceUsageStream);
+    const rangeStream = createStream.rangeStream(overrides, getSpaceUsageStream);
 
     return chartCompiler(spaceUsageTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {

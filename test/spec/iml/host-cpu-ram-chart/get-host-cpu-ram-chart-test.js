@@ -57,9 +57,9 @@ describe('host cpu ram chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getHostCpuRamStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: { role: 'MDS' }
-    }, 10, 'minutes');
+    }, getHostCpuRamStream, 10, 'minutes');
   });
 
   describe('setup', () => {
@@ -154,9 +154,9 @@ describe('host cpu ram chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getHostCpuRamStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: { role: 'MDS' }
-          }, 5, 'hours');
+          }, getHostCpuRamStream, 5, 'hours');
         });
       });
 
@@ -171,9 +171,9 @@ describe('host cpu ram chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getHostCpuRamStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: { role: 'MDS' }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getHostCpuRamStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

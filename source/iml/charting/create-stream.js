@@ -33,7 +33,7 @@ export default (streamWhenVisible:streamWhenChartVisibleT) => {
   const { getRequestRange, getRequestDuration } = getTimeParams;
 
   const createStreamFn = fp.curry(6, function createStreamFn (durationFn:Function, buffFn:Function,
-                                                           streamFn:Function, overrides:Object, begin:number,
+                                                           overrides:Object, streamFn:Function, begin:number,
                                                            end:number | string) {
     const getStreamArgs = fp.mapFn([
       durationFn(overrides),

@@ -58,11 +58,11 @@ describe('memory usage chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(getMemoryUsageStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, getMemoryUsageStream, 10, 'minutes');
   });
 
   describe('config', () => {
@@ -142,11 +142,11 @@ describe('memory usage chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(getMemoryUsageStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, getMemoryUsageStream, 5, 'hours');
         });
       });
 
@@ -161,11 +161,11 @@ describe('memory usage chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(getMemoryUsageStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, getMemoryUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

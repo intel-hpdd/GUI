@@ -66,11 +66,11 @@ describe('file usage chart', () => {
   });
 
   it('should call durationStream', () => {
-    expect(durationStream).toHaveBeenCalledOnceWith(fileUsageStream, {
+    expect(durationStream).toHaveBeenCalledOnceWith({
       qs: {
         host_id: '1'
       }
-    }, 10, 'minutes');
+    }, fileUsageStream, 10, 'minutes');
   });
 
   describe('config', () => {
@@ -173,11 +173,11 @@ describe('file usage chart', () => {
         });
 
         it('should create a duration stream', () => {
-          expect(durationStream).toHaveBeenCalledOnceWith(fileUsageStream, {
+          expect(durationStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, 5, 'hours');
+          }, fileUsageStream, 5, 'hours');
         });
       });
 
@@ -192,11 +192,11 @@ describe('file usage chart', () => {
         });
 
         it('should create a range stream', () => {
-          expect(rangeStream).toHaveBeenCalledOnceWith(fileUsageStream, {
+          expect(rangeStream).toHaveBeenCalledOnceWith({
             qs: {
               host_id: '1'
             }
-          }, '2015-05-03T07:25', '2015-05-03T07:35');
+          }, fileUsageStream, '2015-05-03T07:25', '2015-05-03T07:35');
         });
       });
     });

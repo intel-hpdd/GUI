@@ -31,8 +31,8 @@ export default (createStream, chartCompiler) => {
   const DEFAULT_DURATION = [10, DURATIONS.MINUTES];
 
   return function getMemoryUsageChart (overrides) {
-    const durationStream = createStream.durationStream(getMemoryUsageStream, overrides);
-    const rangeStream = createStream.rangeStream(getMemoryUsageStream, overrides);
+    const durationStream = createStream.durationStream(overrides, getMemoryUsageStream);
+    const rangeStream = createStream.rangeStream(overrides, getMemoryUsageStream);
 
     return chartCompiler(memoryUsageChartTemplate, durationStream(...DEFAULT_DURATION), ($scope, stream) => {
       const conf = {
