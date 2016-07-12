@@ -21,9 +21,7 @@
 
 import * as fp from 'intel-fp';
 
-import {
-  Intl
-} from '../global.js';
+import global from '../global.js';
 
 const units = ['', 'k', 'M', 'B', 'T'];
 const is2or3 = fp.or([fp.eq(2), fp.eq(3)]);
@@ -52,7 +50,7 @@ export default function formatNumber (num, precision, strict) {
   pwr = Math.max(pwr, 0);
   num /= Math.pow(1000, pwr);
 
-  if (Intl)
+  if (global.Intl)
     return formatIntl();
   else
     return formatCustom();
@@ -100,7 +98,7 @@ export default function formatNumber (num, precision, strict) {
     if (strict)
       formatOptions.minimumSignificantDigits = precision;
 
-    var formatter = new Intl.NumberFormat('en-us', formatOptions);
+    var formatter = new global.Intl.NumberFormat('en-us', formatOptions);
 
     return sign + formatter.format(num) + units[pwr];
   }
