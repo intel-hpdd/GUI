@@ -69,6 +69,9 @@ export function streamWhenVisible ($document:Array<Document>,
     }
 
     function consume (error, x, push, next) {
+      if (visibleStream._nil_pushed)
+        return;
+
       if (error) {
         if (!doc.hidden)
           visibleStream.write({

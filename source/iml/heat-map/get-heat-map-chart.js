@@ -64,7 +64,6 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
 
       selection.each(function render (data) {
         var container = d3.select(this);
-        var that = this;
         var width = parseInt(container.style('width'), 10);
         var height = parseInt(container.style('height'), 10);
         var availableWidth = width - margin.left - margin.right;
@@ -232,12 +231,8 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           if (!point)
             return;
 
-          interactiveLayer.tooltip
-            .chartContainer(that.parentNode)
-            .position({
-              left: e.mouseX + margin.left,
-              top: e.mouseY + margin.top
-            })
+          interactiveLayer
+            .tooltip
             .data({
               value: xAxis.tickFormat()(e.pointXValue),
               series: [

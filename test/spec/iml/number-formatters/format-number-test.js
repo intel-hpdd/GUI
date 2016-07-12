@@ -9,7 +9,9 @@ describe('Format number', () => {
   beforeEachAsync(async function () {
     const mod = await mock('source/iml/number-formatters/format-number.js', {
       'source/iml/global.js': {
-        Intl: null
+        default: {
+          Intl: null
+        }
       }
     });
 

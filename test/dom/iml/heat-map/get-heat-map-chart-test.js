@@ -77,7 +77,8 @@ describe('get heat map chart test', function () {
     }));
 
     afterEach(function () {
-      document.body
+      document
+        .body
         .removeChild(div);
     });
 
@@ -184,22 +185,31 @@ describe('get heat map chart test', function () {
           query('.cell').dispatchEvent(event);
         });
 
+        afterEach(() => {
+          document
+            .body
+            .removeChild(
+              document
+                .querySelector('.nvtooltip')
+            );
+        });
+
         it('should show the tooltip', function () {
-          expect(div.querySelector('.nvtooltip')).not.toBe(null);
+          expect(document.querySelector('.nvtooltip')).not.toBe(null);
         });
 
         it('should show the z value', function () {
-          expect(div.querySelector('.nvtooltip .value').innerHTML)
+          expect(document.querySelector('.nvtooltip .value').innerHTML)
             .toEqual('8091667852.6');
         });
 
         it('should show the x value', function () {
-          expect(div.querySelector('.nvtooltip .x-value').innerHTML)
+          expect(document.querySelector('.nvtooltip .x-value').innerHTML)
             .toEqual('11:44:10');
         });
 
         it('should show the y value', function () {
-          expect(div.querySelector('tbody .key').innerHTML)
+          expect(document.querySelector('.nvtooltip tbody .key').innerHTML)
             .toEqual('OST003');
         });
       });
