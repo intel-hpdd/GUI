@@ -25,6 +25,12 @@
 // $FlowIgnore: HTML templates that flow does not recognize.
 import loadingTemplate from '../loading/assets/html/loading';
 
+import {
+  mgt$,
+  mgtJobIndicatorB,
+  mgtAlertIndicatorB
+} from './mgt-resolves.js';
+
 export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):void {
   'ngInject';
 
@@ -36,19 +42,18 @@ export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):v
       template: `
 <h3 class="page-header"><i class="fa fa-th"></i> MGT Configuration</h3>
 <div class="container container-full">
-  <mgt mgt-stream="$ctrl.mgtStream" alert-indicator-stream="$ctrl.mgtAlertIndicatorStream"
-       job-indicator-stream="$ctrl.mgtJobIndicatorStream"></mgt>
+  <mgt mgt-$="$ctrl.mgt$" alert-indicator-b="$ctrl.mgtAlertIndicatorB"
+       job-indicator-b="$ctrl.mgtJobIndicatorB"></mgt>
 </div>`,
-      controller: function controller (mgtStream, mgtAlertIndicatorStream, mgtJobIndicatorStream) {
+      controller: function controller () {
         'ngInject';
 
-        this.mgtStream = mgtStream();
-        this.mgtAlertIndicatorStream = mgtAlertIndicatorStream();
-        this.mgtJobIndicatorStream = mgtJobIndicatorStream();
+        this.mgt$ = mgt$();
+        this.mgtAlertIndicatorB = mgtAlertIndicatorB();
+        this.mgtJobIndicatorB = mgtJobIndicatorB();
       },
       controllerAs: '$ctrl',
       access: GROUPS.FS_ADMINS,
-      resolve: ['mgtAlertIndicatorStream', 'mgtJobIndicatorStream', 'mgtStream'],
       untilResolved: {
         templateUrl: loadingTemplate
       },

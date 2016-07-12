@@ -4,21 +4,18 @@ import {
 } from '../../../system-mock.js';
 
 describe('log records route', () => {
-  var $routeSegmentProvider, mod, rebindDestroy,
+  var $routeSegmentProvider, mod,
     resolveStream, socketStream, addCurrentPage;
 
   beforeEachAsync(async function () {
     resolveStream = jasmine.createSpy('resolveStream');
     socketStream = jasmine.createSpy('socketStream');
     addCurrentPage = jasmine.createSpy('addCurrentPage');
-    rebindDestroy = jasmine.createSpy('rebindDestroy')
-      .and.returnValue('rebindDestroy');
 
     mod = await mock('source/iml/logs/log-records-route.js', {
       'source/iml/resolve-stream.js': { default: resolveStream },
       'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/api-transforms.js': { addCurrentPage },
-      'source/iml/highland/rebind-destroy.js': { default: rebindDestroy }
+      'source/iml/api-transforms.js': { addCurrentPage }
     });
 
     $routeSegmentProvider = {
@@ -142,15 +139,6 @@ describe('log records route', () => {
 
         expect(socketStream)
           .toHaveBeenCalledOnceWith('/log/');
-      });
-
-      it('should call resolveStream with rebindDestroy', () => {
-        qsFromLocation.and.returnValue('');
-
-        log$(qsFromLocation);
-
-        expect(resolveStream)
-          .toHaveBeenCalledOnceWith('rebindDestroy');
       });
 
       it('should resolve the stream', () => {

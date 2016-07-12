@@ -34,8 +34,12 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-export const documentHidden = {};
-export const documentVisible = {};
+export const documentHidden = {
+  name: 'documentHidden'
+};
+export const documentVisible = {
+  name: 'documentVisible'
+};
 
 export function streamWhenVisible ($document:Array<Document>,
                                    documentHidden:typeof documentHidden,

@@ -19,36 +19,37 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function asProperty () {
+export default () => {
   return {
     restrict: 'A',
     transclude: true,
     scope: {
       stream: '=',
       args: '=?',
-      transform: '&?'
+      transform: '&?',
+      name: '<'
     },
     link: function link (scope, el, attrs, ctrl, $transclude) {
-      $transclude(function createNewPopover (clone, transcludedScope) {
-        if (transcludedScope.prop)
-          throw new Error('prop already set on transcluded scope.');
+      const name =  scope.name || 'viewer';
 
-        var prop = scope.stream.property();
+      $transclude((clone, transcludedScope) => {
+        if (transcludedScope.viewer)
+          throw new Error(`${name} already set on transcluded scope.`);
 
-        scope.$on('$destroy', prop.destroy.bind(prop));
+        let viewer = scope.stream();
+
+        scope.$on('$destroy', () => viewer.destroy());
 
         if (scope.transform)
-          prop = scope.transform({
-            stream: prop,
+          viewer = scope.transform({
+            stream: viewer,
             args: scope.args || []
           });
 
-        transcludedScope.prop = {
-          stream: prop
-        };
+        transcludedScope[name] = viewer;
 
         el.append(clone);
       });
     }
   };
-}
+};

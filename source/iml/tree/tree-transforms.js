@@ -23,7 +23,6 @@
 
 import * as obj from 'intel-obj';
 import * as fp from 'intel-fp';
-import rebindDestroy from '../highland/rebind-destroy.js';
 import flatMapChanges from 'intel-flat-map-changes';
 
 import {
@@ -46,26 +45,22 @@ import type {
 
 type treeItemToBooleanT = (x:treeItemT) => boolean;
 
-export const getChildBy = (fn:treeItemToBooleanT) => rebindDestroy(
-  fp.map(
-    fp.flow(
-      obj.values,
-      fp.filter(fn),
-      x => Maybe.of(x[0])
-    )
+export const getChildBy = (fn:treeItemToBooleanT) => fp.map(
+  fp.flow(
+    obj.values,
+    fp.filter(fn),
+    x => Maybe.of(x[0])
   )
 );
 
-export const emitOnItem = (fn:treeItemToBooleanT) => rebindDestroy(
-  fp.flow(
-    getChildBy(fn),
-    fp.map(
-      withDefault(
-        fp.always(false)
-      )
-    ),
-    fp.filter(x => x)
-  )
+export const emitOnItem = (fn:treeItemToBooleanT) => fp.flow(
+  getChildBy(fn),
+  fp.map(
+    withDefault(
+      fp.always(false)
+    )
+  ),
+  fp.filter(x => x)
 );
 
 export const hasChanges = (fn:treeItemToObjectT) => {
@@ -89,23 +84,21 @@ type treeItemToStreamT = (x:treeItemT) => HighlandStreamT<Object>;
 export const transformItems = (fn:treeItemToBooleanT, structFn:treeItemToObjectT, fnTo$:treeItemToStreamT) => {
   let latest = {};
 
-  return rebindDestroy(
-    fp.flow(
-      getChildBy(fn),
-      fp.map(
-        withDefault(() => createItem(structFn()))
-      ),
-      fp.tap(x => latest = x),
-      fp.filter(
-        hasChanges(x => x.meta.offset)
-      ),
-      flatMapChanges(fnTo$),
-      fp.map(
-        x => Object.assign(latest, x)
-      ),
-      fp.map(
-        x => addTreeItems([x])
-      )
+  return fp.flow(
+    getChildBy(fn),
+    fp.map(
+      withDefault(() => createItem(structFn()))
+    ),
+    fp.tap(x => latest = x),
+    fp.filter(
+      hasChanges(x => x.meta.offset)
+    ),
+    flatMapChanges(fnTo$),
+    fp.map(
+      x => Object.assign(latest, x)
+    ),
+    fp.map(
+      x => addTreeItems([x])
     )
   );
 };

@@ -27,7 +27,6 @@ import loadingTemplate from '../loading/assets/html/loading';
 
 import socketStream from '../socket/socket-stream.js';
 import resolveStream from '../resolve-stream.js';
-import rebindDestroy from '../highland/rebind-destroy.js';
 import statusQsToOldQsParser from '../status/status-qs-to-old-qs-parser.js';
 import store from '../store/get-store.js';
 import multiStream from '../multi-stream.js';
@@ -75,15 +74,13 @@ export default ($routeSegmentProvider:Object) => {
           ]);
 
           return resolveStream(
-            rebindDestroy(
-              fp.map(
+            m$
+              .map(
                 fp.flow(
                   addHostIds,
                   addCurrentPage
                 )
-              ),              
-              m$
-            )
+              )
           );
         }
       },

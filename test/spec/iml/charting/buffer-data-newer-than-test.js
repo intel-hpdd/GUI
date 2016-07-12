@@ -1,29 +1,36 @@
 import moment from 'moment';
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
 
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
-describe('buffer data newer than', function () {
+describe('buffer data newer than', () => {
   var getServerMoment, bufferDataNewerThan, spy;
 
   beforeEachAsync(async function () {
+    jasmine.clock().install();
+
     spy = jasmine.createSpy('spy');
     getServerMoment = jasmine.createSpy('getServerMoment');
 
     const mod = await mock('source/iml/charting/buffer-data-newer-than.js', {
-      'source/iml/get-server-moment.js': { default: getServerMoment }
+      'source/iml/get-server-moment.js': {
+        default: getServerMoment
+      }
     });
 
     bufferDataNewerThan = mod.default;
   });
 
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   afterEach(resetAll);
 
-  it('should flatten milliseconds single seconds', function () {
+  it('should flatten milliseconds single seconds', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:03.565Z'));
 
     highland([{ ts: '2015-05-10T23:50:00.000Z' }])
@@ -35,7 +42,7 @@ describe('buffer data newer than', function () {
     });
   });
 
-  it('should keep points within the window', function () {
+  it('should keep points within the window', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:50:59.999Z' }])
@@ -47,7 +54,7 @@ describe('buffer data newer than', function () {
     });
   });
 
-  it('should remove points outside the window', function () {
+  it('should remove points outside the window', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:49:50.000Z' }])
@@ -57,7 +64,7 @@ describe('buffer data newer than', function () {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should sort the dates', function () {
+  it('should sort the dates', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([
@@ -74,7 +81,7 @@ describe('buffer data newer than', function () {
     ]);
   });
 
-  it('should buffer points', function () {
+  it('should buffer points', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
     var s1 = highland();
@@ -84,18 +91,21 @@ describe('buffer data newer than', function () {
 
     s1
       .through(buff)
-      .each(_.noop);
+      .each(() => {});
+
+    s1.write({ ts: '2015-05-10T23:50:50.000Z' });
+    s1.end();
+    jasmine.clock().tick(1);
 
     s2
       .through(buff)
       .collect()
       .each(spy);
-
-    s1.write({ ts: '2015-05-10T23:50:50.000Z' });
     s2.write({ ts: '2015-05-10T23:51:50.000Z' });
     s2.write({ ts: '2015-05-10T23:52:50.000Z' });
-    s1.end();
     s2.end();
+    jasmine.clock().tick(1);
+
 
     expect(spy).toHaveBeenCalledOnceWith([
       { ts: '2015-05-10T23:50:50.000Z' },

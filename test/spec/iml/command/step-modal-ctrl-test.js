@@ -61,11 +61,11 @@ describe('step modal', function () {
       });
 
       it('should destroy the job stream', function () {
-        expect(jobStream.destroy).toHaveBeenCalledOnce();
+        expect(jobStream.destroy).toHaveBeenCalled();
       });
 
       it('should destroy the steps stream', function () {
-        expect(stepsStream.destroy).toHaveBeenCalledOnce();
+        expect(stepsStream.destroy).toHaveBeenCalled();
       });
     });
 

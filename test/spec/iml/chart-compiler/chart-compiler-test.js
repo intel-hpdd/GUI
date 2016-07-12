@@ -1,16 +1,21 @@
-import λ from 'highland';
-import {noop} from 'intel-fp';
+import highland from 'highland';
 import chartCompilerModule from '../../../../source/iml/chart-compiler/chart-compiler-module';
-import {chartCompilerFactory}
-  from '../../../../source/iml/chart-compiler/chart-compiler';
+
+import {
+  noop
+} from 'intel-fp';
+
+import {
+  chartCompilerFactory
+} from '../../../../source/iml/chart-compiler/chart-compiler';
 
 describe('chart compiler', () => {
   var chartCompiler, compilerPromise, getTemplatePromise, s, chartFn;
 
   beforeEach(module(chartCompilerModule));
 
-  beforeEach(inject(($compile, addProperty, rebindDestroy) => {
-    s = λ();
+  beforeEach(inject($compile => {
+    s = highland();
 
     chartFn = jasmine.createSpy('chartFn')
       .and.returnValue('chartObj');
@@ -18,8 +23,7 @@ describe('chart compiler', () => {
     getTemplatePromise = jasmine.createSpy('getTemplatePromise')
       .and.returnValue(Promise.resolve('<div class="template">foo</div>'));
 
-    chartCompiler = chartCompilerFactory($compile, getTemplatePromise,
-      addProperty, rebindDestroy);
+    chartCompiler = chartCompilerFactory($compile, getTemplatePromise);
     compilerPromise = chartCompiler('template/path', s, chartFn);
   }));
 

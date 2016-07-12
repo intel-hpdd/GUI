@@ -40,18 +40,18 @@ export function RecordStateCtrl ($scope, STATE_SIZE, propagateChange) {
     }
   });
 
-  const propertyStream = ctrl.alertStream.property();
+  const viewer$ = ctrl.alertStream();
   const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
   const recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
 
   const p = propagateChange($scope, ctrl, 'alerts');
 
-  propertyStream
+  viewer$
     .map(fp.filter(fp.flow(viewLens('affected'), recordFound)))
     .map(fp.map(viewLens('message')))
     .through(p);
 
-  $scope.$on('$destroy', propertyStream.destroy.bind(propertyStream));
+  $scope.$on('$destroy', viewer$.destroy.bind(viewer$));
 }
 
 export const recordStateDirective = () => {

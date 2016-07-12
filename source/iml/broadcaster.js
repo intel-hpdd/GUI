@@ -19,49 +19,49 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import λ from 'highland';
+// @flow
 
-export default function addProperty (s) {
+import highland from 'highland';
+
+export default function broadcaster (source$:HighlandStreamT<Object>):streamFn {
   var latest;
 
-  var s2 = s.consume(function setLatest (err, x, push, next) {
-    if (err)
-      return push(err);
+  const viewers = [];
 
-    if (x === λ.nil)
-      return push(null, λ.nil);
+  source$
+    .errors(error => {
+      const err = {
+        __HighlandStreamError__: true,
+        error
+      };
 
-    latest = x;
+      viewers.forEach(v => v.write(err));
+    })
+    .each(xs => {
+      latest = xs;
 
-    push(null, x);
+      viewers.forEach(v => v.write(xs));
+    });
 
-    next();
-  });
+  const fn = () => {
+    const viewer$:HighlandStreamT<mixed> = highland()
+      .onDestroy(() => {
+        const idx = viewers
+          .indexOf(viewer$);
 
-  s2.property = function property () {
-    var s = λ();
-    s.id = 'fork:' + s.id;
-    s.source = this;
+        if (idx !== -1)
+          viewers.splice(idx, 1);
+      });
 
     if (latest)
-      s.write(latest);
+      viewer$.write(latest);
 
-    this._consumers.push(s);
-    this._checkBackPressure();
+    viewers.push(viewer$);
 
-    var oldDestroy = s.destroy;
-
-    s.destroy = function destroy () {
-      if (s._nil_seen)
-        return;
-
-      oldDestroy.call(s);
-    };
-
-    return s;
+    return viewer$;
   };
 
-  s2.destroy = s.destroy.bind(s);
+  fn.endBroadcast = () => source$.destroy();
 
-  return s2;
+  return fn;
 }

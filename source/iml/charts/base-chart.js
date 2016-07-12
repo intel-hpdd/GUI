@@ -121,22 +121,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
             .call(chart);
         }
 
-        var deregister = scope.$watch('stream', function watcher (newVal, oldVal) {
-          if (newVal === oldVal) return;
-
-          chart.noData('Fetching new data...');
-          svg.datum([]);
-
-          render();
-
-          newVal
-            .map(toggleNoData)
-            .each(renderData);
-        });
-
         scope.$on('$destroy', function onDestroy () {
-          deregister();
-
           $window.removeEventListener('resize', throttled, false);
 
           if (fullScreenCtrl)

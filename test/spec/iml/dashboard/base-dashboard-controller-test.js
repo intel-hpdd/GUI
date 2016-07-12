@@ -2,13 +2,14 @@ import highland from 'highland';
 
 import baseDashboardModule from '../../../../source/iml/dashboard/base-dashboard-module';
 import BaseDashboardCtrl from '../../../../source/iml/dashboard/base-dashboard-controller';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('base dashboard controller', () => {
   beforeEach(module(baseDashboardModule));
 
   var $scope, fsStream, charts, baseDashboardCtrl, chart;
 
-  beforeEach(inject(($controller, $rootScope, addProperty) => {
+  beforeEach(inject(($controller, $rootScope) => {
     fsStream = highland();
     spyOn(fsStream, 'destroy');
 
@@ -27,7 +28,7 @@ describe('base dashboard controller', () => {
 
     baseDashboardCtrl = $controller('BaseDashboardCtrl', {
       $scope: $scope,
-      fsStream: fsStream.through(addProperty),
+      fsStream: broadcaster(fsStream),
       charts: charts
     });
   }));
@@ -35,7 +36,7 @@ describe('base dashboard controller', () => {
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(BaseDashboardCtrl, {
       fs: [],
-      fsStream: jasmine.any(Object),
+      fsStream: jasmine.any(Function),
       charts: charts
     });
 

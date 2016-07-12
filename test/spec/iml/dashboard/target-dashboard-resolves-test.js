@@ -279,7 +279,7 @@ describe('Target dashboard', () => {
       }]);
 
       const s2 = await promise;
-      s2.each(function (x) {
+      s2().each(function (x) {
         result = x;
       });
 

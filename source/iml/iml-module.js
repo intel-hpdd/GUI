@@ -72,6 +72,7 @@ import oldRouteModule from './old-gui-shim/old-route-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
 import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
 import resettableGroupModule from './resettable-group/resettable-group-module.js';
+import asViewerDirective from './as-viewer/as-viewer.js';
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -125,6 +126,7 @@ export default angular.module('iml', [
     $routeSegmentProvider.options.strictMode = true;
     $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
   })
+  .directive('asViewer', asViewerDirective)
   .name;
 
 angular.bootstrap(document, ['iml'], {});

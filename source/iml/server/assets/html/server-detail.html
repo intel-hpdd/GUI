@@ -59,8 +59,8 @@
         <div>
           State:
         </div>
-        <div as-property stream="::serverDetail.lnetConfigurationStream">
-          <lnet-status stream="::prop.stream"></lnet-status>
+        <div as-viewer stream="::serverDetail.lnetConfigurationStream">
+          <lnet-status stream="::viewer"></lnet-status>
         </div>
       </div>
       <div class="detail-row">
@@ -70,8 +70,8 @@
           <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
         </div>
       </div>
-      <div as-property stream="::serverDetail.lnetConfigurationStream">
-        <action-dropdown tooltip-placement="top" stream="::prop.stream"></action-dropdown>
+      <div as-viewer stream="::serverDetail.lnetConfigurationStream">
+        <action-dropdown tooltip-placement="top" stream="::viewer"></action-dropdown>
       </div>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>

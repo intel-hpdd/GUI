@@ -26,9 +26,9 @@ export default function TargetDashboardController ($scope, kind, charts, targetS
   'ngInject';
 
   var targetDashboard = angular.extend(this, {
-    charts: charts,
-    usageStream: usageStream,
-    kind: kind
+    charts,
+    usageStream,
+    kind
   });
 
   targetStream
@@ -36,7 +36,7 @@ export default function TargetDashboardController ($scope, kind, charts, targetS
 
   $scope.$on('$destroy', () => {
     targetStream.destroy();
-    usageStream.destroy();
+    usageStream.endBroadcast();
     map(invokeMethod('destroy', []), charts);
   });
 }

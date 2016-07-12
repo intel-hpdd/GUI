@@ -30,8 +30,8 @@ export default {
   controller () {
     this.$onDestroy = () => {
       this.fileSystem$.destroy();
-      this.alertIndicator$.destroy();
-      this.jobIndicator$.destroy();
+      this.alertIndicator$.endBroadcast();
+      this.jobIndicator$.endBroadcast();
     };
   },
   template: `

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import highland from 'highland';
+import * as fp from 'intel-fp';
 
 import {invokeMethod} from 'intel-fp';
 
@@ -42,7 +42,7 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
 
   var p = $scope.propagateChange($scope, hsmFs);
 
-  p('fileSystems', fsStream);
+  p('fileSystems', fsStream());
 
   const rs = routeStream();
 
@@ -56,13 +56,14 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
     })
     .each(({params: {fsId}}) => {
       if (fsId) {
-        fsStream2 = fsStream.property();
-        p('fs', fsStream2.flatMap(highland.findWhere({ id: fsId })));
+        fsStream2 = fsStream()
+          .map(fp.find(x => x.id === fsId));
+        p('fs', fsStream2);
       }
     });
 
   $scope.$on('$destroy', function onDestroy () {
     rs.destroy();
-    fsStream.destroy();
+    fsStream.endBroadcast();
   });
 }

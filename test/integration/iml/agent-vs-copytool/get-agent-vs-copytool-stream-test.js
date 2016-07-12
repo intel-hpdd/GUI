@@ -14,8 +14,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('agent vs copytool stream', () => {
-
-  var revert, getAgentVsCopytoolStream, fixtures, getRequestDuration,
+  var getAgentVsCopytoolStream, fixtures, getRequestDuration,
     socketStream, metricStream, bufferDataNewerThan;
 
   beforeEachAsync(async function () {
@@ -48,16 +47,19 @@ describe('agent vs copytool stream', () => {
     });
 
     getAgentVsCopytoolStream = mod.default;
+
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
 
   beforeEach(() => {
     fixtures = agentVsCopytoolFixtures;
-    revert = patchRateLimit();
   });
-
-  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getAgentVsCopytoolStream).toEqual(jasmine.any(Function));
@@ -82,6 +84,7 @@ describe('agent vs copytool stream', () => {
       beforeEach(() => {
         metricStream.write(fixtures[0].in);
         metricStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -95,6 +98,7 @@ describe('agent vs copytool stream', () => {
       it('should be idempotent', () => {
         metricStream.write(fixtures[0].in);
         metricStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -104,6 +108,7 @@ describe('agent vs copytool stream', () => {
       beforeEach(() => {
         metricStream.write({});
         metricStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty array', () => {
@@ -113,6 +118,7 @@ describe('agent vs copytool stream', () => {
       it('should populate if data comes in on next tick', () => {
         metricStream.write(fixtures[0].in);
         metricStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith(fixtures[0].out);
       });

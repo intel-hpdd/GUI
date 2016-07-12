@@ -65,7 +65,13 @@ describe('Configure LNet', () => {
           networkInterfaceStream
         }
       );
+
+      jasmine.clock().install();
     }));
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
 
     it('should listen for $destroy', () => {
       expect($scope.$on)

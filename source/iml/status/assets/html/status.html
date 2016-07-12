@@ -19,7 +19,7 @@
         </td>
         <td class="hidden-xs">{{ row.record_type }}</td>
         <td>
-          <a route-to="log/?datetime__gte={{ row.begin | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+          <a route-to="log/?datetime__gte={{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
         </td>
         <td>
           <a ng-if="!row.active" route-to="log/?datetime__gte={{ row.end | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>

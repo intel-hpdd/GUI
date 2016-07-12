@@ -51,9 +51,15 @@ describe('The host cpu ram stream', () => {
     });
 
     getHostCpuRamStream = mod.default;
+
+    jasmine.clock().install();
   }, 10000);
 
-  var fixtures, spy, revert;
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
+  var fixtures, spy;
 
   afterEach(resetAll);
 
@@ -61,11 +67,7 @@ describe('The host cpu ram stream', () => {
     spy = jasmine.createSpy('spy');
 
     fixtures = hostCpuRamDataFixtures;
-
-    revert = patchRateLimit();
   });
-
-  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getHostCpuRamStream).toEqual(jasmine.any(Function));
@@ -89,6 +91,7 @@ describe('The host cpu ram stream', () => {
       beforeEach(() => {
         serverStream.write(fixtures[0].in);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -102,6 +105,7 @@ describe('The host cpu ram stream', () => {
       it('should drop duplicate values', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -111,6 +115,7 @@ describe('The host cpu ram stream', () => {
       beforeEach(() => {
         serverStream.write([]);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -129,6 +134,7 @@ describe('The host cpu ram stream', () => {
       it('should populate if data comes in on next tick', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

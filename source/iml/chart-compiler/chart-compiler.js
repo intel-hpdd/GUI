@@ -22,20 +22,12 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {
-  always
-} from 'intel-fp';
-
 import resolveStream from '../resolve-stream.js';
+import broadcaster from '../broadcaster.js';
 
 import type {
   getTemplatePromiseT
 } from '../get-template-promise/get-template-promise-module.js';
-
-import type {
-  addPropertyT,
-  rebindDestroyT
-} from '../highland/highland-module.js';
 
 import type {
   HighlandStreamT
@@ -47,9 +39,7 @@ import type {
 
 type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
 
-export function chartCompilerFactory ($compile:Function, getTemplatePromise:getTemplatePromiseT,
-                                      addProperty:addPropertyT,
-                                      rebindDestroy:rebindDestroyT<mixed, scopeToElementT>) {
+export function chartCompilerFactory ($compile:Function, getTemplatePromise:getTemplatePromiseT) {
   'ngInject';
 
   return function chartCompiler (template:string,
@@ -61,15 +51,15 @@ export function chartCompilerFactory ($compile:Function, getTemplatePromise:getT
     ])
     .then(function compile ([template, stream]) {
       const el = angular.element(template);
-      const s2 = addProperty(stream);
+      const s2 = broadcaster(stream);
 
-      rebindDestroy(always(compiler), s2);
+      compiler.destroy = () => stream.destroy();
       return compiler;
 
       function compiler ($scope) {
         var cloned = el.clone();
 
-        $scope.chart = fn($scope, s2.property());
+        $scope.chart = fn($scope, s2());
 
         $scope.$on('$destroy', () => $scope.chart = null);
 

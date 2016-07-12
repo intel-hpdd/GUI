@@ -2,26 +2,25 @@ import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 import ServerDetailController from
   '../../../../source/iml/server/server-detail-controller';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('server detail controller', function () {
-  beforeEach(module(serverModule));
+  beforeEach(module(serverModule, $exceptionHandlerProvider => {
+    $exceptionHandlerProvider.mode('log');
+  }));
 
   var $scope, serverDetailController, serverStream, alertMonitorStream,
-    jobMonitorStream, overrideActionClick,
+    jobMonitorStream, overrideActionClick, $exceptionHandler,
     networkInterfaceStream, lnetConfigurationStream,
     pacemakerConfigurationStream, corosyncConfigurationStream;
 
-  beforeEach(inject(function ($controller, $rootScope, addProperty) {
+  beforeEach(inject(($controller, $rootScope, _$exceptionHandler_) => {
+    $exceptionHandler = _$exceptionHandler_;
+
     $scope = $rootScope.$new();
     spyOn($scope, '$on');
 
-    serverStream = highland()
-      .map(function (x) {
-        if (x instanceof Error)
-          throw x;
-
-        return x;
-      });
+    serverStream = highland();
     spyOn(serverStream, 'destroy');
     jobMonitorStream = highland();
     spyOn(jobMonitorStream, 'destroy');
@@ -29,7 +28,7 @@ describe('server detail controller', function () {
     spyOn(alertMonitorStream, 'destroy');
     networkInterfaceStream = highland();
     spyOn(networkInterfaceStream, 'destroy');
-    lnetConfigurationStream = highland().through(addProperty);
+    lnetConfigurationStream = highland();
     spyOn(lnetConfigurationStream, 'destroy');
     corosyncConfigurationStream = highland();
     spyOn(corosyncConfigurationStream, 'destroy');
@@ -42,13 +41,13 @@ describe('server detail controller', function () {
     serverDetailController = $controller('ServerDetailController', {
       $scope: $scope,
       streams: {
-        lnetConfigurationStream: lnetConfigurationStream,
-        jobMonitorStream: jobMonitorStream,
-        alertMonitorStream: alertMonitorStream,
-        corosyncConfigurationStream: corosyncConfigurationStream,
-        pacemakerConfigurationStream: pacemakerConfigurationStream,
-        networkInterfaceStream: networkInterfaceStream,
-        serverStream: serverStream
+        lnetConfigurationStream: broadcaster(lnetConfigurationStream),
+        jobMonitorStream: broadcaster(jobMonitorStream),
+        alertMonitorStream: broadcaster(alertMonitorStream),
+        corosyncConfigurationStream: broadcaster(corosyncConfigurationStream),
+        pacemakerConfigurationStream: broadcaster(pacemakerConfigurationStream),
+        networkInterfaceStream,
+        serverStream
       },
       overrideActionClick
     });
@@ -56,11 +55,11 @@ describe('server detail controller', function () {
 
   it('should setup the controller', function () {
     const instance = window.extendWithConstructor(ServerDetailController, {
-      lnetConfigurationStream: lnetConfigurationStream,
-      jobMonitorStream: jobMonitorStream,
-      alertMonitorStream: alertMonitorStream,
-      corosyncConfigurationStream: corosyncConfigurationStream,
-      pacemakerConfigurationStream: pacemakerConfigurationStream,
+      lnetConfigurationStream: jasmine.any(Function),
+      jobMonitorStream: jasmine.any(Function),
+      alertMonitorStream: jasmine.any(Function),
+      corosyncConfigurationStream: jasmine.any(Function),
+      pacemakerConfigurationStream: jasmine.any(Function),
       networkInterfaceStream: networkInterfaceStream,
       overrideActionClick
     });
@@ -108,10 +107,13 @@ describe('server detail controller', function () {
     });
 
     it('should re-push the error if not 404', function () {
-      expect(function () {
-        serverStream.write(err);
-      })
-        .toThrow(new Error('boom!'));
+      serverStream.write({
+        __HighlandStreamError__: true,
+        error: err
+      });
+
+      expect($exceptionHandler.errors)
+        .toEqual([new Error('boom!')]);
     });
   });
 

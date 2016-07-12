@@ -22,11 +22,9 @@
 import store from '../store/get-store.js';
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
-import rebindDestroy from '../highland/rebind-destroy.js';
-import addProperty from '../highland/add-property.js';
+import broadcaster from '../broadcaster.js';
 
 import {
-  map,
   find
 } from 'intel-fp';
 
@@ -88,9 +86,9 @@ export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart,
 export function targetDashboardTargetStreamFactory ($route) {
   'ngInject';
 
-  return () => rebindDestroy(
-    map(find(x => x.id === $route.current.params.targetId)),
-    store.select('targets'));
+  return () => store
+      .select('targets')
+      .map(find(x => x.id === $route.current.params.targetId));
 }
 
 export function targetDashboardUsageStreamFactory ($route) {
@@ -107,20 +105,15 @@ export function targetDashboardUsageStreamFactory ($route) {
           }
         }
       )
+      .map((x) => {
+        var data = x[0].data;
+
+        data.bytes_free = data.kbytesfree * 1024;
+        data.bytes_total = data.kbytestotal * 1024;
+
+        return data;
+      })
     )
-      .then(function addThroughProperty (s) {
-        var s2 = s
-          .map(function convertToBytes (x) {
-            var data = x[0].data;
-
-            data.bytes_free = data.kbytesfree * 1024;
-            data.bytes_total = data.kbytestotal * 1024;
-
-            return data;
-          });
-        s2.destroy = s.destroy.bind(s);
-
-        return addProperty(s2);
-      });
+      .then(broadcaster);
   };
 }

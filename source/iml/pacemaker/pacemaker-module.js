@@ -24,7 +24,6 @@
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
 import asValueModule from '../as-value/as-value-module';
-import asPropertyModule from '../as-property/as-property-module';
 
 import configurePacemakerDirective from './configure-pacemaker';
 import pacemakerStateDirective from './pacemaker-state';
@@ -37,7 +36,7 @@ import configurePacemakerTemplate from './assets/html/configure-pacemaker';
 
 export default angular.module('pacemaker', [
   extendScopeModule, asValueModule,
-  asPropertyModule, pacemakerStateTemplate,
+  pacemakerStateTemplate,
   configurePacemakerTemplate
 ])
 .directive('configurePacemaker', configurePacemakerDirective)

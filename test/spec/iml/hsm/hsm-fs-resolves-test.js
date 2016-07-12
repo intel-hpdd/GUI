@@ -12,7 +12,7 @@ import {
 
 describe('hsm fs resolve', () => {
   var socketStream, s, resolveStream, fsCollStream,
-    addProperty, promise;
+    broadcaster, promise;
 
   beforeEachAsync(async function () {
     s = highland();
@@ -28,15 +28,15 @@ describe('hsm fs resolve', () => {
       .and
       .returnValue(promise);
 
-    addProperty = jasmine
-      .createSpy('addProperty')
+    broadcaster = jasmine
+      .createSpy('broadcaster')
       .and
       .callFake(identity);
 
     const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream },
       'source/iml/resolve-stream.js': { default: resolveStream },
-      'source/iml/highland/add-property.js': { default: addProperty }
+      'source/iml/broadcaster.js': { default: broadcaster }
     });
 
     fsCollStream = mod.default;
@@ -59,10 +59,10 @@ describe('hsm fs resolve', () => {
       expect(resolveStream).toHaveBeenCalledOnceWith(s);
     });
 
-    itAsync('should send the stream through addProperty', async function () {
+    itAsync('should send the stream through broadcaster', async function () {
       await promise;
 
-      expect(addProperty).toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledOnce();
     });
   });
 });

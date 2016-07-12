@@ -4,12 +4,12 @@ import formatBytes from '../../../../../source/iml/number-formatters/format-byte
 
 
 describe('usage info', () => {
-  var ctrl,
-    $scope, $exceptionHandler, stream, fs;
+  let ctrl, $scope,
+    $exceptionHandler, stream, fs;
 
   beforeEach(module(dashboardModule));
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(($controller, $rootScope) => {
     $scope = $rootScope.$new();
 
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
@@ -20,30 +20,40 @@ describe('usage info', () => {
       $scope,
       $exceptionHandler
     }, {
-      stream: stream,
+      stream,
       id: '1',
       prefix: 'bytes'
     });
+
+    jasmine.clock().install();
   }));
 
-  it('should format as bytes', function () {
-    expect(ctrl.format).toBe(formatBytes);
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
-  it('should add a generateStats method', function () {
-    expect(ctrl.generateStats).toEqual(jasmine.any(Function));
+  it('should format as bytes', () => {
+    expect(ctrl.format)
+      .toBe(formatBytes);
   });
 
-  it('should set id on the controller', function () {
-    expect(ctrl.id).toBe('1');
+  it('should add a generateStats method', () => {
+    expect(ctrl.generateStats)
+      .toEqual(jasmine.any(Function));
   });
 
-  it('should set s2 on the controller', function () {
-    expect(highland.isStream(ctrl.s2)).toBe(true);
+  it('should set id on the controller', () => {
+    expect(ctrl.id)
+      .toBe('1');
   });
 
-  describe('with id', function () {
-    beforeEach(function () {
+  it('should set s2 on the controller', () => {
+    expect(highland.isStream(ctrl.s2()))
+      .toBe(true);
+  });
+
+  describe('with id', () => {
+    beforeEach(() => {
       fs = {
         id: '1',
         bytes_free: 10000,
@@ -62,37 +72,43 @@ describe('usage info', () => {
         }]);
     });
 
-    it('should set data on the controller', function () {
-      expect(ctrl.data).toEqual({
-        id: '1',
-        bytes_free: 10000,
-        bytes_total: 100000,
-        bytes_used: 90000,
-        filesfree: 50000,
-        filestotal: 500000
-      });
+    it('should set data on the controller', () => {
+      jasmine.clock().tick();
+
+      expect(ctrl.data)
+        .toEqual({
+          id: '1',
+          bytes_free: 10000,
+          bytes_total: 100000,
+          bytes_used: 90000,
+          filesfree: 50000,
+          filestotal: 500000
+        });
     });
 
-    it('should generate stats', function () {
+    it('should generate stats', () => {
       var results;
 
-      ctrl.generateStats(ctrl.s2.property())
+      ctrl.generateStats(ctrl.s2())
         .each(function (x) {
           results = x;
         });
 
-      expect(results).toEqual([
-        [
-          {
-            key: 'Free',
-            y: 10000
-          },
-          {
-            key: 'Used',
-            y: 90000
-          }
-        ]
-      ]);
+      jasmine.clock().tick();
+
+      expect(results)
+        .toEqual([
+          [
+            {
+              key: 'Free',
+              y: 10000
+            },
+            {
+              key: 'Used',
+              y: 90000
+            }
+          ]
+        ]);
     });
   });
 });

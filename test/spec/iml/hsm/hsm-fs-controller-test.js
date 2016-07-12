@@ -1,15 +1,26 @@
-import λ from 'highland';
-import {always} from 'intel-fp';
+import highland from 'highland';
+import {
+  always
+} from 'intel-fp';
 import HsmFsCtrl from '../../../../source/iml/hsm/hsm-fs-controller';
 import hsmFsModule from '../../../../source/iml/hsm/hsm-fs-module';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('HSM fs controller', function () {
   var ctrl, $scope, $location, $routeSegment,
-    fsStream, routeStream, rs;
+    fsStream, routeStream, rs, fsStreamB;
 
   beforeEach(module(hsmFsModule));
 
-  beforeEach(inject(function ($controller, $rootScope, addProperty) {
+  beforeEach(() => {
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
+  beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
 
     $routeSegment = {
@@ -20,10 +31,10 @@ describe('HSM fs controller', function () {
       path: jasmine.createSpy('path')
     };
 
-    fsStream = λ();
+    fsStream = highland();
     spyOn(fsStream, 'destroy');
 
-    rs = λ();
+    rs = highland();
     spyOn(rs, 'destroy');
     routeStream = jasmine.createSpy('routeStream')
       .and.returnValue(rs);
@@ -34,12 +45,15 @@ describe('HSM fs controller', function () {
       contains: jasmine.createSpy('contains')
         .and.returnValue(true)
     });
+    jasmine.clock().tick();
+
+    fsStreamB = broadcaster(fsStream);
 
     ctrl = $controller('HsmFsCtrl', {
       $scope,
       $routeSegment,
       $location,
-      fsStream: fsStream.through(addProperty),
+      fsStream: fsStreamB,
       routeStream
     });
   }));
@@ -92,6 +106,7 @@ describe('HSM fs controller', function () {
 
   it('should set fileSystems data', function () {
     fsStream.write([{ id: '1' }, { id: '2' }]);
+    jasmine.clock().tick();
 
     expect(ctrl.fileSystems).toEqual([{ id: '1' }, { id: '2' }]);
   });
@@ -107,6 +122,7 @@ describe('HSM fs controller', function () {
         label: 'bar'
       }
     ]);
+    jasmine.clock().tick();
 
     expect(ctrl.fs).toEqual({
       id: '1',
@@ -121,6 +137,7 @@ describe('HSM fs controller', function () {
       params: {},
       contains: always(true)
     });
+    jasmine.clock().tick();
 
     expect(ctrl.fs).toBe(null);
   });
@@ -134,6 +151,7 @@ describe('HSM fs controller', function () {
       },
       contains: always(true)
     });
+    jasmine.clock().tick();
 
     expect(ctrl.fs).toEqual({ id: '3' });
   });
@@ -144,12 +162,12 @@ describe('HSM fs controller', function () {
     });
 
     it('should destroy the fsStream', function () {
-      expect(fsStream.destroy).toHaveBeenCalledOnce();
+      expect(fsStream.destroy).toHaveBeenCalled();
     });
 
     it('should destroy the routeStream', () => {
       expect(rs.destroy)
-        .toHaveBeenCalledOnce();
+        .toHaveBeenCalled();
     });
   });
 });

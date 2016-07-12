@@ -50,21 +50,23 @@ describe('mdo stream', () => {
     });
 
     getMdoStream = mod.default;
+
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
 
-  var fixtures, spy, revert;
+  var fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
 
     fixtures = mdoDataFixtures;
-
-    revert = patchRateLimit();
   });
-
-  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getMdoStream).toEqual(jasmine.any(Function));
@@ -88,6 +90,7 @@ describe('mdo stream', () => {
       beforeEach(() => {
         serverStream.write(fixtures[0].in);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -101,6 +104,7 @@ describe('mdo stream', () => {
       it('should drop duplicate values', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -110,6 +114,7 @@ describe('mdo stream', () => {
       beforeEach(() => {
         serverStream.write([]);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -168,6 +173,7 @@ describe('mdo stream', () => {
       it('should populate if data comes in on next tick', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

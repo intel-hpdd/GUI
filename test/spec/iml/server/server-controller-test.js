@@ -1,7 +1,10 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
-import λ from 'highland';
-import {identity} from 'intel-fp';
+import highland from 'highland';
+
+import {
+  identity
+} from 'intel-fp';
 
 import {
   mock,
@@ -17,7 +20,7 @@ describe('server', () => {
     getCommandStream, overrideActionClick, serverController;
 
   beforeEachAsync(async function () {
-    commandStream = λ();
+    commandStream = highland();
 
     getCommandStream = jasmine.createSpy('getCommandStream')
       .and.returnValue(commandStream);
@@ -48,7 +51,7 @@ describe('server', () => {
 
     spyOn(commandStream, 'destroy');
 
-    serversStream = λ();
+    serversStream = highland();
     spyOn(serversStream, 'destroy');
 
     selectedServers = {
@@ -69,7 +72,7 @@ describe('server', () => {
     openCommandModal = jasmine.createSpy('openCommandModal')
       .and.returnValue(commandModalResult);
 
-    lnetConfigurationStream = λ();
+    lnetConfigurationStream = highland();
     spyOn(lnetConfigurationStream, 'destroy');
 
     openAddServerModal = jasmine.createSpy('openAddServerModal').and.returnValue({
@@ -85,9 +88,9 @@ describe('server', () => {
     naturalSortFilter = jasmine.createSpy('naturalSortFilter')
       .and.callFake(identity);
 
-    jobMonitorStream = λ();
+    jobMonitorStream = highland();
     spyOn(jobMonitorStream, 'destroy');
-    alertMonitorStream = λ();
+    alertMonitorStream = highland();
     spyOn(alertMonitorStream, 'destroy');
 
     overrideActionClick = jasmine.createSpy('overrideActionClick');
@@ -149,7 +152,7 @@ describe('server', () => {
   it('should transform a stream', () => {
     var spy = jasmine.createSpy('spy');
 
-    var s = λ([[
+    var s = highland([[
       {
         host: '/api/host/2/'
       },

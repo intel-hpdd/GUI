@@ -21,7 +21,6 @@
 
 
 import * as fp from 'intel-fp';
-import rebindDestroy from '../highland/rebind-destroy';
 import socketStream from '../socket/socket-stream.js';
 import angular from 'angular';
 
@@ -61,5 +60,5 @@ active_operations_count,available_actions,resource_uri,locks)'
   );
 
   return socketStream('/copytool', params)
-    .through(rebindDestroy(setStatuses));
+    .through(setStatuses);
 }

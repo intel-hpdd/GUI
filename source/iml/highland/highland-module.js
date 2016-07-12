@@ -23,22 +23,9 @@
 
 import angular from 'angular';
 import highland from 'highland';
-import addProperty from './add-property';
-import rebindDestroy from './rebind-destroy';
-
-import type {
-  HighlandStreamT
-} from 'highland';
-
-export type addPropertyT = (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-
-type streamToStream<T, R> = (s:HighlandStreamT<T>) => HighlandStreamT<R>;
-export type rebindDestroyT<T, R> = (fn:streamToStream<T, R>, s:HighlandStreamT<T>) => HighlandStreamT<R>;
 
 export default angular
   .module('highland', [])
   .value('λ', highland)
   .value('highland', highland)
-  .value('addProperty', addProperty)
-  .value('rebindDestroy', rebindDestroy)
   .name;

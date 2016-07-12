@@ -1,188 +1,120 @@
 import highland from 'highland';
-import {identity, noop} from 'intel-fp';
 
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
-describe('dashboard resolves', function () {
-  var resolveStream, socketStream, s, addProperty, $q, $rootScope, mod;
+describe('dashboard resolves', () => {
+  let s, spy, store, broadcaster, mod;
 
   beforeEachAsync(async function () {
+    spy = jasmine.createSpy('spy');
     s = highland();
 
-    resolveStream = jasmine.createSpy('resolveStream');
+    broadcaster = jasmine.createSpy('broadcaster')
+      .and
+      .callFake(x => () => x);
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(s);
-
-    addProperty = jasmine.createSpy('addProperty')
-      .and.callFake(identity);
+    store = {
+      select: jasmine
+        .createSpy('select')
+        .and
+        .returnValue(s)
+    };
 
     mod = await mock('source/iml/dashboard/dashboard-resolves.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream },
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/highland/add-property.js': { default: addProperty }
+      'source/iml/store/get-store.js': {
+        default: store
+      },
+      'source/iml/broadcaster.js': {
+        default: broadcaster
+      }
     });
   });
 
   afterEach(resetAll);
 
-  beforeEach(inject(function (_$rootScope_, _$q_) {
-    $rootScope = _$rootScope_;
-    $q = _$q_;
-
-    resolveStream.and.returnValue($q.when(s));
-  }));
-
-  describe('fs stream', function () {
-    var dashboardFsStream, promise;
+  describe('fs stream', () => {
+    let fsStream;
 
     beforeEach(() => {
-      dashboardFsStream = mod.dashboardFsStream;
-      promise = dashboardFsStream();
+      fsStream = mod.dashboardFsStream()();
     });
 
-    it('should be a function', function () {
-      expect(dashboardFsStream).toEqual(jasmine.any(Function));
+    it('should be a broadcaster', () => {
+      expect(broadcaster)
+        .toHaveBeenCalledOnce();
     });
 
-    it('should addProperty', function () {
-      promise.then(function (s) {
-        s.each(noop);
-      });
-
-      s.write({
-        objects: ['foo']
-      });
-      $rootScope.$apply();
-
-      expect(addProperty).toHaveBeenCalledOnce();
+    it('should select from the store', () => {
+      expect(store.select)
+        .toHaveBeenCalledOnceWith('fileSystems');
     });
 
-    it('should call socketStream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
-        jsonMask: 'objects(id,label)',
-        qs: {
-          limit: 0
-        }
-      });
-    });
+    it('should stream data', () => {
+      s.write(['foo']);
 
-    it('should stream data', function () {
-      var result;
+      fsStream.each(spy);
 
-      promise.then(function (s) {
-        s.each(function (x) {
-          result = x;
-        });
-      });
-
-      s.write({
-        objects: ['foo']
-      });
-      $rootScope.$apply();
-
-      expect(result).toEqual(['foo']);
+      expect(spy)
+        .toHaveBeenCalledOnceWith(['foo']);
     });
   });
 
-  describe('host stream', function () {
-    var dashboardHostStream, promise;
+  describe('host stream', () => {
+    let hostStream;
 
     beforeEach(() => {
-      dashboardHostStream = mod.dashboardHostStream;
-
-      promise = dashboardHostStream();
+      hostStream = mod.dashboardHostStream()();
     });
 
-    it('should be a function', function () {
-      expect(dashboardHostStream).toEqual(jasmine.any(Function));
+    it('should be a broadcaster', () => {
+      expect(broadcaster)
+        .toHaveBeenCalledOnce();
     });
 
-    it('should call socketStream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith('/host', {
-        jsonMask: 'objects(id,label)',
-        qs: {
-          limit: 0
-        }
-      });
+    it('should select from the store', () => {
+      expect(store.select)
+        .toHaveBeenCalledOnceWith('server');
     });
 
-    it('should addProperty', function () {
-      promise.then(function (s) {
-        s.each(noop);
-      });
 
-      s.write('foo');
-      $rootScope.$apply();
+    it('should stream data', () => {
+      s.write(['foo']);
 
-      expect(addProperty).toHaveBeenCalledOnce();
-    });
+      hostStream.each(spy);
 
-    it('should stream data', function () {
-      var result;
-
-      promise.then(function (s) {
-        s.each(function (x) {
-          result = x;
-        });
-      });
-
-      s.write('foo');
-      $rootScope.$apply();
-
-      expect(result).toEqual('foo');
+      expect(spy)
+        .toHaveBeenCalledOnceWith(['foo']);
     });
   });
 
-  describe('target stream', function () {
-    var dashboardTargetStream, promise;
+  describe('target stream', () => {
+    let targetStream;
 
     beforeEach(() => {
-      dashboardTargetStream = mod.dashboardTargetStream;
-
-      promise = dashboardTargetStream();
+      targetStream = mod.dashboardTargetStream()();
     });
 
-    it('should be a function', function () {
-      expect(dashboardTargetStream).toEqual(jasmine.any(Function));
+    it('should be a broadcaster', () => {
+      expect(broadcaster)
+        .toHaveBeenCalledOnce();
     });
 
-    it('should call socketStream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith('/target', {
-        jsonMask: 'objects(id,label,kind,filesystems,filesystem_id,failover_servers,primary_server)',
-        qs: {
-          limit: 0
-        }
-      });
+    it('should select from the store', () => {
+      expect(store.select)
+        .toHaveBeenCalledOnceWith('targets');
     });
 
-    it('should addProperty', function () {
-      promise.then(function (s) {
-        s.each(noop);
-      });
 
-      s.write('foo');
-      $rootScope.$apply();
+    it('should stream data', () => {
+      s.write(['foo']);
 
-      expect(addProperty).toHaveBeenCalledOnce();
-    });
+      targetStream.each(spy);
 
-    it('should stream data', function () {
-      var result;
-
-      promise.then(function (s) {
-        s.each(function (x) {
-          result = x;
-        });
-      });
-
-      s.write('foo');
-      $rootScope.$apply();
-
-      expect(result).toEqual('foo');
+      expect(spy)
+        .toHaveBeenCalledOnceWith(['foo']);
     });
   });
 });

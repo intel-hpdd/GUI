@@ -22,9 +22,9 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
+import broadcast from '../broadcaster.js';
 
 import {
-  map,
   filter
 } from 'intel-fp';
 
@@ -32,34 +32,24 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-type streamToStream = (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+type fnToStream = () => HighlandStreamT<mixed>;
 
-export function mgtAlertIndicatorStream (addProperty:streamToStream):streamToStream {
-  'ngInject';
-
-  return () => addProperty(
+export function mgtAlertIndicatorB ():fnToStream {
+  return broadcast(
     store
       .select('alertIndicators')
   );
 }
 
-export function mgtJobIndicatorStream (addProperty:streamToStream):streamToStream {
-  'ngInject';
-
-  return () => addProperty(
+export function mgtJobIndicatorB ():HighlandStreamT<mixed> {
+  return broadcast(
     store
       .select('jobIndicators')
   );
 }
 
-type fnToStreamToStream = (fn:Function, s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-
-export function mgtStream (rebindDestroy:fnToStreamToStream):streamToStream {
-  'ngInject';
-
-  return () => rebindDestroy(
-    map(filter(x => x.kind === 'MGT')),
-    store
-      .select('targets')
-  );
+export function mgt$ ():HighlandStreamT<mixed> {
+  return store
+    .select('targets')
+    .map(filter(x => x.kind === 'MGT'));
 }

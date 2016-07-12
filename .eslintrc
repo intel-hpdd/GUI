@@ -82,8 +82,7 @@
     "beforeEach": false,
     "beforeEachAsync": false,
     "afterEach": false,
-    "convertNvDates": false,
-    "patchRateLimit": false,
+    "convertNvDates": false
   },
   "env": {
     "es6": true,

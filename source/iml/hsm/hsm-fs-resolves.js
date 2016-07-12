@@ -22,8 +22,7 @@
 
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
-import addProperty from '../highland/add-property.js';
-import rebindDestroy from '../highland/rebind-destroy.js';
+import broadcaster from '../broadcaster.js';
 
 import {
   map,
@@ -39,11 +38,9 @@ export default function fsCollStreamFactory () {
     jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
   }))
     .then(
-      rebindDestroy(
-        flow(
-          pluckObjects,
-          addProperty
-        )
+      flow(
+        pluckObjects,
+        broadcaster
       )
     );
 }

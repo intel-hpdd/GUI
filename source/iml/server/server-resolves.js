@@ -20,22 +20,23 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
+import broadcaster from '../broadcaster.js';
 
-export default function serverResolvesFactory (addProperty) {
+export default function serverResolvesFactory () {
   'ngInject';
 
   return function serverResolves () {
-    const jobMonitorStream = addProperty(
+    const jobMonitorStream = broadcaster(
       store
         .select('jobIndicators')
     );
 
-    const alertMonitorStream = addProperty(
+    const alertMonitorStream = broadcaster(
       store
         .select('alertIndicators')
     );
 
-    const lnetConfigurationStream = addProperty(
+    const lnetConfigurationStream = broadcaster(
       store
         .select('lnetConfiguration')
     );

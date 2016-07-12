@@ -16,7 +16,9 @@ describe('Server Status Step', () => {
     resolveStream = jasmine.createSpy('resolveStream');
 
     mod = await mock('source/iml/server/server-status-step.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream }
+      'source/iml/resolve-stream.js': {
+        default: resolveStream
+      }
     });
   });
 
@@ -42,9 +44,16 @@ describe('Server Status Step', () => {
       };
 
       hostlistFilter = {
-        setHash: jasmine.createSpy('setHash').and.callFake(returnHostlistFilter),
-        setHosts: jasmine.createSpy('setHosts').and.callFake(returnHostlistFilter),
-        compute: jasmine.createSpy('compute')
+        setHash: jasmine
+          .createSpy('setHash')
+          .and
+          .callFake(returnHostlistFilter),
+        setHosts: jasmine
+          .createSpy('setHosts')
+          .and
+          .callFake(returnHostlistFilter),
+        compute: jasmine
+          .createSpy('compute')
       };
 
       function returnHostlistFilter () {
@@ -52,11 +61,11 @@ describe('Server Status Step', () => {
       }
 
       serverStatus = $controller(mod.ServerStatusStepCtrl, {
-        $scope: $scope,
-        $stepInstance: $stepInstance,
-        data: data,
-        testHostStream: testHostStream,
-        hostlistFilter: hostlistFilter
+        $scope,
+        $stepInstance,
+        data,
+        testHostStream,
+        hostlistFilter
       });
     }));
 

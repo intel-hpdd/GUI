@@ -17,7 +17,7 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-('the read write heat map stream', () => {
+describe('the read write heat map stream', () => {
   var socketStream, getServerMoment, streams, bufferDataNewerThan,
     getRequestDuration;
 
@@ -50,7 +50,11 @@ import {
     const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {});
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {});
+    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
+      'source/iml/create-date': {
+        default: () => new Date()
+      }
+    });
     getRequestDuration = getTimeParamsModule.getRequestDuration;
 
     const mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-stream.js', {});
@@ -58,18 +62,18 @@ import {
     getReadWriteHeatMapStream = mod.default;
   });
 
-  var getReadWriteHeatMapStream, fixtures, spy, revert;
+  var getReadWriteHeatMapStream, fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
 
     fixtures = readWriteHeatMapDataFixtures;
 
-    revert = patchRateLimit();
+    jasmine.clock().install();
   });
 
   afterEach(() => {
-    revert();
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
@@ -96,10 +100,12 @@ import {
       beforeEach(() => {
         streams.target[0].write({ objects: [] });
         streams.target[0].end();
+        jasmine.clock().tick(10000);
 
 
         streams.heatMap[0].write(clone(fixtures[0].in));
         streams.heatMap[0].end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -117,6 +123,7 @@ import {
         streams.heatMap[1].end();
         streams.target[1].write({ objects: [] });
         streams.target[1].end();
+        jasmine.clock().tick(10000);
 
         expect(spy)
           .toHaveBeenCalledWith(fixtures[0].out);
@@ -138,6 +145,7 @@ import {
           ]
         });
         streams.target[1].end();
+        jasmine.clock().tick(10000);
 
         var result = clone(fixtures[0].out);
 
@@ -155,6 +163,7 @@ import {
         streams.heatMap[0].end();
         streams.target[0].write({ objects: [] });
         streams.target[0].end();
+        jasmine.clock().tick(10000);
       });
 
       it('should populate if data comes in on next tick', () => {
@@ -162,6 +171,7 @@ import {
         streams.heatMap[1].end();
         streams.target[1].write({ objects: [] });
         streams.target[1].end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           [

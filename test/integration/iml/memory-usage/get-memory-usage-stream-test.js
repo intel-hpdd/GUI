@@ -48,22 +48,22 @@ describe('The memory usage stream', () => {
     });
 
     getMemoryUsageStream = mod.default;
+
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
 
-  var fixtures, spy, revert;
+  var fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
 
     fixtures = memoryUsageDataFixtures;
-
-    revert = patchRateLimit();
-  });
-
-  afterEach(() => {
-    revert();
   });
 
   it('should return a factory function', () => {
@@ -88,6 +88,7 @@ describe('The memory usage stream', () => {
       beforeEach(() => {
         serverStream.write(fixtures[0].in);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -101,6 +102,7 @@ describe('The memory usage stream', () => {
       it('should drop duplicate values', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -110,6 +112,7 @@ describe('The memory usage stream', () => {
       beforeEach(() => {
         serverStream.write([]);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -136,6 +139,7 @@ describe('The memory usage stream', () => {
       it('should populate if data comes in on next tick', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

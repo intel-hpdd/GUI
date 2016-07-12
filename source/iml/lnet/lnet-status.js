@@ -19,7 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {lensProp, view, maybe} from 'intel-fp';
+import {
+  lensProp,
+  view,
+  maybe
+} from 'intel-fp';
 
 export default {
   bindings: {
@@ -28,7 +32,8 @@ export default {
   controller ($scope, propagateChange) {
     'ngInject';
 
-    this.stream
+    this
+      .stream
       .map(maybe(view(lensProp('state'))))
       .through(propagateChange($scope, this, 'state'));
   },

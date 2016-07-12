@@ -1,6 +1,6 @@
 <div class="usage-info">
-  <div ng-if="ctrl.data[ctrl.prefix + '_total'] != null" as-property stream="ctrl.s2" transform="ctrl.generateStats(stream)">
-    <pie-graph stream="prop.stream"></pie-graph>
+  <div ng-if="ctrl.data[ctrl.prefix + '_total'] != null" as-viewer stream="ctrl.s2" transform="ctrl.generateStats(stream)">
+    <pie-graph stream="viewer"></pie-graph>
     <span>{{ ctrl.format(ctrl.data[ctrl.prefix + '_used']) }}  / {{ ctrl.format(ctrl.data[ctrl.prefix + '_total']) }}</span>
   </div>
   <div ng-if="ctrl.data[ctrl.prefix + '_total'] == null">

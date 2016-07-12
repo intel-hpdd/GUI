@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
+import {
+  noop
+} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import configurePacemakerTemplate from './assets/html/configure-pacemaker';

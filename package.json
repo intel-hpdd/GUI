@@ -57,7 +57,7 @@
     "gulp-ng-html2js": "0.2.2",
     "gulp-rev": "7.1.0",
     "gulp-sourcemaps": "1.6.0",
-    "highland": "2.9.0",
+    "highland": "3.0.0-beta.2",
     "intel-angular-route-segment": "1.6.1",
     "intel-big-differ": "1.0.0",
     "intel-debounce": "1.0.0",

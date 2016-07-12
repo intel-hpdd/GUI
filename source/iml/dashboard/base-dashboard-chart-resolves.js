@@ -20,14 +20,11 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
+import broadcaster from '../broadcaster.js';
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
-import addProperty from '../highland/add-property.js';
-import rebindDestroy from '../highland/rebind-destroy.js';
 
 import {
-  map,
   lensProp,
   view
 } from 'intel-fp';
@@ -88,14 +85,16 @@ export function baseDashboardFsStreamFactory ($route) {
         id: $route.current.params.fsId
       };
 
-    const pluckObjects = map(view(lensProp('objects')));
+    const pluckObjects = view(lensProp('objects'));
 
-    return resolveStream(socketStream('/filesystem', {
+    const s = socketStream('/filesystem', {
       jsonMask: 'objects(name,bytes_total,bytes_free,files_free,files_total,client_count,immutable_state,\
 id,osts,mdts(id),mgt(primary_server,primary_server_name)',
       qs
-    }))
-      .then(rebindDestroy(pluckObjects))
-      .then(addProperty);
+    })
+    .map(pluckObjects);
+
+    return resolveStream(s)
+      .then(broadcaster);
   };
 }

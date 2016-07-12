@@ -1,27 +1,34 @@
-import {flow, lensProp, view} from 'intel-fp';
-import asPropertyModule from
-  '../../../../source/iml/as-property/as-property-module';
-import highlandModule from
-  '../../../../source/iml/highland/highland-module';
 import highland from 'highland';
+import broadcaster from '../../../../source/iml/broadcaster.js';
+import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
 
-describe('as property', function () {
-  beforeEach(module(asPropertyModule, highlandModule));
+import {
+  flow,
+  lensProp,
+  view
+} from 'intel-fp';
 
-  var $compile, $scope, el, s, getText;
+describe('as viewer', () => {
+  let $compile, $scope, el, s, getText, v;
 
-  describe('with transform', function () {
-    beforeEach(inject(function ($rootScope, _$compile_, addProperty) {
+  beforeEach(module($compileProvider => {
+    $compileProvider.directive('asViewer', asViewerDirective);
+  }));
+
+  describe('with transform', () => {
+    beforeEach(inject(($rootScope, _$compile_) => {
       $compile = _$compile_;
 
-      var template = '<div as-property stream="stream" args="args" transform="add1(stream, args)">\
-        <span class="num" ng-init="setNum(prop.stream)">{{ num }}</span>\
-      </div>';
+      var template = `
+        <div as-viewer stream="stream" args="args" transform="add1(stream, args)">
+          <span class="num" ng-init="setNum(viewer)">{{ num }}</span>
+        </div>
+      `;
 
       $scope = $rootScope.$new();
+
       s = highland();
-      $scope.stream = s
-        .through(addProperty);
+      $scope.stream = broadcaster(s);
 
       $scope.args = [2];
 
@@ -30,7 +37,11 @@ describe('as property', function () {
       };
 
       $scope.setNum = function setNum (s) {
-        s.each(function (x) {
+        v = s;
+        spyOn(v, 'destroy')
+          .and
+          .callThrough();
+        v.each(function (x) {
           $scope.num = x;
         });
       };
@@ -42,39 +53,48 @@ describe('as property', function () {
       getText = flow(find, view(lensProp('textContent')));
     }));
 
-    it('should add 2 to num', function () {
+    it('should add 2 to num', () => {
       s.write(1);
       $scope.$digest();
 
-      expect(getText('.num')).toEqual('3');
+      expect(getText('.num'))
+        .toEqual('3');
+    });
+
+    it('should destroy the viewer when scope is destroyed', () => {
+      $scope.$destroy();
+
+      expect(v.destroy)
+        .toHaveBeenCalled();
     });
   });
 
   describe('without transform', function () {
-    beforeEach(inject(function ($rootScope, _$compile_, addProperty) {
+    beforeEach(inject(function ($rootScope, _$compile_) {
       $compile = _$compile_;
 
-      var template = '<div>\
-      <div as-property stream="stream">\
-        <span class="a" ng-init="setA(prop.stream)">{{ a }}</span>\
-      </div>\
-      <div as-property stream="stream">\
-        <span class="b" ng-init="setB(prop.stream)">{{ b }}</span>\
-      </div>\
-    </div>';
+      var template = `
+        <div>
+          <div as-viewer stream="stream">
+            <span class="a" ng-init="setA(viewer)">{{ a }}</span>
+          </div>
+          <div as-viewer stream="stream">
+            <span class="b" ng-init="setB(viewer)">{{ b }}</span>
+          </div>
+      </div>
+    `;
 
       $scope = $rootScope.$new();
       s = highland();
-      $scope.stream = s
-        .through(addProperty);
+      $scope.stream = broadcaster(s);
 
-      $scope.setA = function getA (s) {
+      $scope.setA = function setA (s) {
         s.each(function (x) {
           $scope.a = x.a;
         });
       };
 
-      $scope.setB = function getB (s) {
+      $scope.setB = function setB (s) {
         s.each(function (x) {
           $scope.b = x.b;
         });
@@ -89,7 +109,7 @@ describe('as property', function () {
 
     describe('multiple children', function () {
       beforeEach(function () {
-        $scope.stream.write({
+        s.write({
           a: 'eeey',
           b: 'bee'
         });
@@ -126,8 +146,8 @@ describe('as property', function () {
 
     describe('adding a child', function () {
       beforeEach(function () {
-        var template = '<div as-property stream="stream">\
-        <span class="c" ng-init="setC(prop.stream)">{{ c }}</span>\
+        var template = '<div as-viewer stream="stream">\
+        <span class="c" ng-init="setC(viewer)">{{ c }}</span>\
       </div>';
 
         $scope.setC = function setC (s) {

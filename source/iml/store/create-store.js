@@ -22,14 +22,7 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import rebindDestroy from '../highland/rebind-destroy';
-
-import {
-  map,
-  flow,
-  filter,
-  tap
-} from 'intel-fp';
+import broadcast from '../broadcaster.js';
 
 import type {
   HighlandStreamT
@@ -63,50 +56,13 @@ function combineReducers (reducers:reducersT) {
   };
 }
 
-type streamFn = () => HighlandStreamT<mixed>;
-function broadcaster (s:HighlandStreamT<Object>):streamFn {
-  var latest;
-
-  const viewers = [];
-
-  s.each(xs => {
-    latest = xs;
-
-    viewers.forEach(v => v.write(xs));
-  });
-
-  return () => {
-    const s:HighlandStreamT<mixed> = highland();
-
-    const oldDestroy = s.destroy.bind(s);
-
-
-    // $FlowIgnore: flow does not recogize this monkey-patch
-    s.destroy = () => {
-      oldDestroy();
-
-      const idx = viewers.indexOf(s);
-
-      if (idx !== -1)
-        viewers.splice(idx, 1);
-    };
-
-    if (latest)
-      s.write(latest);
-
-    viewers.push(s);
-
-    return s;
-  };
-}
-
 export default function createStore (reducers:Object):StoreT {
   const stream = highland();
   const combined = combineReducers(reducers);
 
-  const view = broadcaster(
+  const view = broadcast(
     stream
-      .scan({}, combined)
+      .scan(combined, {})
       .filter(x => Object.keys(x).length > 0)
   );
 
@@ -115,14 +71,10 @@ export default function createStore (reducers:Object):StoreT {
     select (key:string):HighlandStreamT<mixed> {
       var lastItem;
 
-      return rebindDestroy(
-        flow(
-          map(state => state[key]),
-          filter(x => x !== lastItem),
-          tap(x => lastItem = x)
-        ),
-        view()
-      );
+      return view()
+        .map(state => state[key])
+        .filter(x => x !== lastItem)
+        .tap(x => lastItem = x);
     }
   };
 }

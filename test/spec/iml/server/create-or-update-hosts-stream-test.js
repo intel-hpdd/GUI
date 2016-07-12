@@ -12,13 +12,16 @@ describe('create or update hosts stream', function () {
   beforeEachAsync(async function () {
     hostStreams = [];
 
-    socketStream = jasmine.createSpy('socketStream').and.callFake(function () {
-      var stream = highland();
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .callFake(() => {
+        var stream = highland();
 
-      hostStreams.push(stream);
+        hostStreams.push(stream);
 
-      return stream;
-    });
+        return stream;
+      });
 
     CACHE_INITIAL_DATA = {
       server_profile: [{
@@ -28,8 +31,12 @@ describe('create or update hosts stream', function () {
     };
 
     const mod = await mock('source/iml/server/create-or-update-hosts-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/environment.js': { CACHE_INITIAL_DATA }
+      'source/iml/socket/socket-stream.js': {
+        default: socketStream
+      },
+      'source/iml/environment.js': {
+        CACHE_INITIAL_DATA
+      }
     });
 
     const createOrUpdateHostsStream = mod.default;
@@ -44,7 +51,13 @@ describe('create or update hosts stream', function () {
       ]
     };
 
+    jasmine.clock().install();
+
     resultStream = createOrUpdateHostsStream(server);
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
@@ -87,19 +100,36 @@ describe('create or update hosts stream', function () {
       expect(socketStream).toHaveBeenCalledTwice();
     });
 
-    describe('response', function () {
+    describe('response', () => {
       var response;
 
-      beforeEach(function () {
+      beforeEach(() => {
         response = {
           objects: [
-            { command: { id: 1 }, host: { id: 1, address: 'storage0.localdomain' } },
-            { command: { id: 2 }, host: { id: 2, address: 'storage1.localdomain' } }
+            {
+              command: {
+                id: 1
+              },
+              host: {
+                id: 1,
+                address: 'storage0.localdomain'
+              }
+            },
+            {
+              command: {
+                id: 2
+              },
+              host: {
+                id: 2,
+                address: 'storage1.localdomain'
+              }
+            }
           ]
         };
 
         hostStreams[1].write(response);
         hostStreams[1].write(highland.nil);
+        jasmine.clock().tick();
       });
 
       it('should resolve with the expected response', function () {
@@ -215,6 +245,7 @@ describe('create or update hosts stream', function () {
         ]
       });
       hostStreams[2].write(highland.nil);
+      jasmine.clock().tick();
 
       expect(spy).toHaveBeenCalledOnceWith({
         objects: [

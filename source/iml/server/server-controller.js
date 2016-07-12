@@ -166,6 +166,6 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
 
   $scope.$on('$destroy', () => {
     values(streams)
-      .forEach((v) => v.destroy());
+      .forEach((v) => v.destroy ? v.destroy() : v.endBroadcast());
   });
 }

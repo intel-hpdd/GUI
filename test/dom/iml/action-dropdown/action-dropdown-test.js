@@ -21,7 +21,13 @@ describe('action dropdown directive', function () {
       view(lensProp('textContent')),
       invokeMethod('trim', [])
     );
+
+    jasmine.clock().install();
   }));
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
 
   var $scope, $timeout, el, button, records, groupHeaders,
     buttonGroup, verbs, tooltip, tooltipText;
@@ -240,6 +246,7 @@ describe('action dropdown directive', function () {
       it('should update the long_description if it changes', function () {
         records[0].available_actions[0].long_description = 'Description of action word';
         $scope.stream.write(records);
+        jasmine.clock().tick();
 
         expect(cleanText(tooltipText()))
           .toEqual('Description of action word');
@@ -269,6 +276,7 @@ describe('action dropdown directive', function () {
     it('should disable the button if there are write locks', function () {
       records[0].locks.write.push('locked ya!');
       $scope.stream.write(records);
+      jasmine.clock().tick();
 
       expect(button().disabled).toBe(true);
     });
@@ -277,6 +285,7 @@ describe('action dropdown directive', function () {
       records = JSON.parse(JSON.stringify(records));
       records[0].available_actions[0].verb = 'Action Word';
       $scope.stream.write(records);
+      jasmine.clock().tick();
 
       expect(cleanText(head(verbs()))).toEqual('Action Word');
     });

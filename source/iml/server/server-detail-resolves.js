@@ -22,11 +22,10 @@
 import store from '../store/get-store.js';
 import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
-import rebindDestroy from '../highland/rebind-destroy.js';
-import addProperty from '../highland/add-property.js';
 import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
 import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
+import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 export default function serverDetailResolvesFactory ($route) {
@@ -41,21 +40,19 @@ export default function serverDetailResolvesFactory ($route) {
     var getObjectsOrNull = fp.flow(viewLens('objects'), arrOrNull);
     var getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
 
-    const jobMonitorStream = addProperty(
+    const jobMonitorStream = broadcaster(
       store
         .select('jobIndicators')
     );
 
-    const alertMonitorStream = addProperty(
+    const alertMonitorStream = broadcaster(
       store
         .select('alertIndicators')
     );
 
-    const serverStream = rebindDestroy(
-      fp.map(fp.find(x => x.id === $route.current.params.id)),
-      store
-        .select('server')
-    );
+    const serverStream = store
+      .select('server')
+      .map(fp.find(x => x.id === $route.current.params.id));
 
     var allHostMatches = {
       qs: {
@@ -64,11 +61,11 @@ export default function serverDetailResolvesFactory ($route) {
       }
     };
 
-    const lnetConfigurationStream = addProperty(rebindDestroy(
-      fp.map(fp.find(x => x.id === $route.current.params.id)),
+    const lnetConfigurationStream = broadcaster(
       store
         .select('lnetConfiguration')
-    ));
+        .map(fp.find(x => x.id === $route.current.params.id))
+    );
 
     const merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
 
@@ -85,9 +82,7 @@ export default function serverDetailResolvesFactory ($route) {
     cs2.destroy = cs.destroy.bind(cs);
 
     var corosyncConfigurationStream = resolveStream(cs2)
-      .then(function addThroughProperty (s) {
-        return s.through(addProperty);
-      });
+      .then(broadcaster);
 
     var ps = socketStream('/pacemaker_configuration', merge({}, {
       jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
@@ -98,9 +93,7 @@ export default function serverDetailResolvesFactory ($route) {
     ps2.destroy = ps.destroy.bind(ps);
 
     var pacemakerConfigurationStream = resolveStream(ps2)
-      .then(function addThroughProperty (s) {
-        return s.through(addProperty);
-      });
+      .then(broadcaster);
 
     return Promise.all([
       jobMonitorStream,

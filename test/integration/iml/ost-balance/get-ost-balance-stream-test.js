@@ -16,7 +16,7 @@ import {
 
 describe('get OST balance stream', () => {
   var socketStream, targetStream, ostMetricsStream,
-    getOstBalanceStream, fixtures, revert;
+    getOstBalanceStream, fixtures, flushOnChange;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')
@@ -27,23 +27,28 @@ describe('get OST balance stream', () => {
           return (targetStream = highland());
       });
 
+    flushOnChange = jasmine.createSpy('flushOnChange')
+      .and.callFake(x => x);
 
     const mod = await mock('source/iml/ost-balance/get-ost-balance-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
+      'source/iml/socket/socket-stream.js': { default: socketStream },
+      'source/iml/chart-transformers/chart-transformers': { flushOnChange }
     });
 
     getOstBalanceStream = mod.default;
 
     fixtures = ostBalanceDataFixtures;
 
-    revert = patchRateLimit();
+    jasmine.clock().install();
   });
 
   beforeEach(module(ostBalanceModule));
 
-  afterEach(resetAll);
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
 
-  afterEach(() => revert());
+  afterEach(resetAll);
 
   it('should return a factory function', () => {
     expect(getOstBalanceStream).toEqual(jasmine.any(Function));
@@ -71,6 +76,12 @@ describe('get OST balance stream', () => {
 
         targetStream.write({ objects: [] });
         targetStream.end();
+
+        jasmine.clock().tick(10000);
+      });
+
+      it('should call flushOnChange', () => {
+        expect(flushOnChange).toHaveBeenCalledOnce();
       });
 
       it('should request data with overrides', () => {
@@ -98,6 +109,7 @@ describe('get OST balance stream', () => {
 
         ostMetricsStream.write(fixtures[0].in);
         ostMetricsStream.end();
+        jasmine.clock().tick(10000);
 
         targetStream.write({
           objects: []
@@ -142,6 +154,8 @@ describe('get OST balance stream', () => {
           ]
         });
         targetStream.end();
+
+        jasmine.clock().tick(10000);
       });
 
       it('should request data without overrides', () => {

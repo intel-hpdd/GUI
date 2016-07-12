@@ -1,5 +1,8 @@
-import mgtModule from '../../../../source/iml/mgt/mgt-module.js';
 import highland from 'highland';
+
+import broadcaster from '../../../../source/iml/broadcaster.js';
+import mgtModule from '../../../../source/iml/mgt/mgt-module.js';
+
 
 describe('mgt component', () => {
   beforeEach(module(mgtModule, $provide => {
@@ -8,16 +11,16 @@ describe('mgt component', () => {
 
   var el, $scope;
 
-  beforeEach(inject(($rootScope, $compile, addProperty) => {
+  beforeEach(inject(($rootScope, $compile) => {
     const template = `
-      <mgt mgt-stream="mgtStream" alert-indicator-stream="mgtAlertIndicatorStream"
-         job-indicator-stream="mgtJobIndicatorStream"></mgt>
+      <mgt mgt-$="mgtStream" alert-indicator-b="mgtAlertIndicatorStream"
+         job-indicator-b="mgtJobIndicatorStream"></mgt>
     `;
 
     $scope = $rootScope.$new();
     $scope.mgtStream = highland();
-    $scope.mgtAlertIndicatorStream = addProperty(highland());
-    $scope.mgtJobIndicatorStream = addProperty(highland());
+    $scope.mgtAlertIndicatorStream = broadcaster(highland());
+    $scope.mgtJobIndicatorStream = broadcaster(highland());
     el = $compile(template)($scope)[0];
     $scope.$digest();
   }));

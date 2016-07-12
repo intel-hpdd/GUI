@@ -27,8 +27,8 @@ export default function BaseDashboardCtrl ($scope, fsStream, charts) {
 
   var baseDashboard = angular.extend(this, {
     fs: [],
-    fsStream: fsStream,
-    charts: charts
+    fsStream,
+    charts
   });
 
   var STATES = Object.freeze({
@@ -36,8 +36,7 @@ export default function BaseDashboardCtrl ($scope, fsStream, charts) {
     MANAGED: 'managed'
   });
 
-  fsStream
-    .property()
+  fsStream()
     .tap(map(function setState (s) {
       s.STATES = STATES;
       s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
@@ -47,7 +46,7 @@ export default function BaseDashboardCtrl ($scope, fsStream, charts) {
     .each($scope.localApply.bind(null, $scope));
 
   $scope.$on('$destroy', () => {
-    fsStream.destroy();
+    fsStream.endBroadcast();
     map(invokeMethod('destroy', []), charts);
   });
 }

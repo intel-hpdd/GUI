@@ -27,11 +27,11 @@
             <a route-to="configure/filesystem/{{targetDashboard.target.filesystem_id}}">{{ targetDashboard.target.filesystem_name }}</a>
           </td>
           <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{targetDashboard.target.filesystem_name}}</td>
-          <td as-property stream="targetDashboard.usageStream">
-            <usage-info stream="prop.stream" prefix="bytes"></usage-info>
+          <td as-viewer stream="targetDashboard.usageStream">
+            <usage-info stream="viewer" prefix="bytes"></usage-info>
           </td>
-          <td as-property stream="targetDashboard.usageStream">
-            <usage-info stream="prop.stream" prefix="files"></usage-info>
+          <td as-viewer stream="targetDashboard.usageStream">
+            <usage-info stream="viewer" prefix="files"></usage-info>
           </td>
         </tr>
       </tbody>

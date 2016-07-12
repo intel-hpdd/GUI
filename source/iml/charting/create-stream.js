@@ -1,5 +1,3 @@
-// @flow
-
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,11 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
 import * as fp from 'intel-fp';
 import bufferDataNewerThan from './buffer-data-newer-than.js';
-import {getTimeParams} from './get-time-params.js';
 
-import type {streamWhenChartVisibleT} from '../stream-when-visible/stream-when-visible-module.js';
+import {
+  flushOnChange
+} from '../chart-transformers/chart-transformers.js';
+
+import {
+  getTimeParams
+} from './get-time-params.js';
+
+import type {
+  streamWhenChartVisibleT
+} from '../stream-when-visible/stream-when-visible-module.js';
 
 export default (streamWhenVisible:streamWhenChartVisibleT) => {
   'ngInject';
@@ -47,7 +56,11 @@ export default (streamWhenVisible:streamWhenChartVisibleT) => {
       invokeStream
     );
 
-    return streamWhenVisible(buildChain);
+    return flushOnChange(
+      streamWhenVisible(
+        buildChain
+      )
+    );
   });
 
   return {

@@ -5,11 +5,13 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-describe('handle action', function () {
+describe('handle action', () => {
   var socketStream, actionStream, handleAction,
     openConfirmActionModal, openResult;
 
   beforeEachAsync(async function () {
+    jasmine.clock().install();
+
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake(function () {
         return (actionStream = highland());
@@ -24,6 +26,10 @@ describe('handle action', function () {
     });
 
     handleAction = mod.default(openConfirmActionModal);
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
@@ -71,15 +77,18 @@ describe('handle action', function () {
         }, true);
       });
 
-      openResult.resultStream.write(true);
+      openResult
+        .resultStream
+        .write(true);
 
       actionStream.write({});
     });
 
     it('should skip the action result', function () {
-      handleAction(record, action).each(function (x) {
-        expect(x).toBeUndefined();
-      }, true);
+      handleAction(record, action)
+        .each(function (x) {
+          expect(x).toBeUndefined();
+        }, true);
 
       openResult.resultStream.write(true);
       actionStream.write({ foo: 'bar' });
@@ -169,6 +178,7 @@ describe('handle action', function () {
         openResult.resultStream.write(true);
 
         actionStream.write({});
+        jasmine.clock().tick();
       });
 
       it('should send the new state after confirm', function () {
@@ -182,6 +192,7 @@ describe('handle action', function () {
         openResult.resultStream.write(true);
 
         actionStream.write({});
+        jasmine.clock().tick();
       });
     });
   });

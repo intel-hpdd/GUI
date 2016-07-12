@@ -6,7 +6,8 @@ import {
 describe('create stream', function () {
   var createStream, streamWhenVisible,
     bufferDataNewerThan, getTimeParams,
-    requestRangeInner, requestDurationInner;
+    requestRangeInner, requestDurationInner,
+    flushOnChange;
 
   beforeEachAsync(async function () {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
@@ -27,9 +28,13 @@ describe('create stream', function () {
         .and.returnValue(requestDurationInner)
     };
 
+    flushOnChange = jasmine.createSpy('flushOnChange')
+      .and.callFake(x => x);
+
     const mod = await mock('source/iml/charting/create-stream.js', {
       'source/iml/charting/buffer-data-newer-than.js': { default :bufferDataNewerThan },
-      'source/iml/charting/get-time-params.js': { getTimeParams }
+      'source/iml/charting/get-time-params.js': { getTimeParams },
+      'source/iml/chart-transformers/chart-transformers.js': { flushOnChange }
     });
 
     createStream = mod.default(streamWhenVisible);
@@ -132,6 +137,11 @@ describe('create stream', function () {
     it('should call streamWhenVisible', () => {
       expect(streamWhenVisible)
         .toHaveBeenCalledOnceWith(jasmine.any(Function));
+    });
+
+    it('should call flushOnChange', () => {
+      expect(flushOnChange)
+        .toHaveBeenCalledOnceWith('streamWhenVisible');
     });
 
     it('should call request range', function () {

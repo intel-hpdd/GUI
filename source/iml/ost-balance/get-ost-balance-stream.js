@@ -30,6 +30,10 @@ import socketStream from '../socket/socket-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 
 import {
+  flushOnChange
+} from '../chart-transformers/chart-transformers.js';
+
+import {
   times,
   gte
 } from 'intel-math';
@@ -141,5 +145,6 @@ export default fp.curry(2, function getOstBalanceStream (percentage:number, over
   });
 
   return s
-    .ratelimit(1, 10000);
+    .ratelimit(1, 10000)
+    .through(flushOnChange);
 });

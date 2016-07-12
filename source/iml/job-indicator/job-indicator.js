@@ -132,16 +132,16 @@ export default function jobStatusDirective (localApply) {
           .each(localApply.bind(null, scope));
       });
 
-      var readStream = scope.jobStream.property();
-      var writeStream = scope.jobStream.property();
+      var readViewer = scope.jobStream();
+      var writeViewer = scope.jobStream();
 
-      readStream.through(calculateLocks('read'));
-      writeStream.through(calculateLocks('write'));
+      readViewer.through(calculateLocks('read'));
+      writeViewer.through(calculateLocks('write'));
 
       scope.$on('$destroy', function onDestroy () {
-        readStream.destroy();
-        writeStream.destroy();
-        readStream = writeStream = null;
+        readViewer.destroy();
+        writeViewer.destroy();
+        readViewer = writeViewer = null;
       });
     }
   };

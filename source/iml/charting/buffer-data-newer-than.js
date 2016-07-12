@@ -26,33 +26,27 @@ import getServerMoment from '../get-server-moment.js';
 import sortByDate from './sort-by-date.js';
 
 export default curry(2, function bufferDataNewerThan (size, unit) {
-  var buffer = [];
+  let buffer = [];
 
   return function bufferDataNewerThanInner (s) {
     var leadingEdge;
 
     return s
       .collect()
-      .tap(function assignLeadingEdge () {
+      .tap(() => {
         leadingEdge = getServerMoment()
           .milliseconds(0).subtract(size, unit);
 
-        var secs = leadingEdge.seconds();
+        const secs = leadingEdge.seconds();
         leadingEdge.seconds(secs - (secs % 10));
 
         leadingEdge = leadingEdge.valueOf();
       })
-      .flatMap(function concatData (x) {
-        return buffer.concat(x);
-      })
-      .filter(function removeStaleData (point) {
-        return new Date(point.ts).valueOf() >= leadingEdge;
-      })
+      .flatMap(x => buffer.concat(x))
+      .filter(point => new Date(point.ts).valueOf() >= leadingEdge)
       .through(sortByDate)
       .collect()
-      .tap(function assignBuffer (x) {
-        buffer = x;
-      })
+      .tap(x => buffer = x)
       .flatten();
   };
 });

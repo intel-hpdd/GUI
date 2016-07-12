@@ -19,44 +19,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import resolveStream from '../resolve-stream.js';
-import socketStream from '../socket/socket-stream.js';
-import addProperty from '../highland/add-property.js';
+import store from '../store/get-store.js';
+import broadcaster from '../broadcaster.js';
 
-export function dashboardFsStream () {
-  return resolveStream(socketStream('/filesystem', {
-    jsonMask: 'objects(id,label)',
-    qs: { limit: 0 }
-  }))
-    .then(function addThroughProperty (s) {
-      var s2 = s
-        .pluck('objects');
+export const dashboardFsStream = () => {
+  return broadcaster(
+    store
+      .select('fileSystems')
+  );
+};
 
-      s2.destroy = s.destroy.bind(s);
+export const dashboardHostStream = () => {
+  return broadcaster(
+    store
+      .select('server')
+  );
+};
 
-      return s2.through(addProperty);
-    });
-}
-
-export const dashboardHostStream = dashboardStreamFactory(
-  socketStream, addProperty, '/host', {
-    jsonMask: 'objects(id,label)',
-    qs: { limit: 0 }
-  }
-);
-
-export const dashboardTargetStream = dashboardStreamFactory(
-  socketStream, addProperty, '/target', {
-    jsonMask: 'objects(id,label,kind,filesystems,filesystem_id,failover_servers,primary_server)',
-    qs: { limit: 0 }
-  }
-);
-
-function dashboardStreamFactory (socketStream, addProperty, path, opts) {
-  return function dashboardStream () {
-    return resolveStream(socketStream(path, opts))
-      .then(function addThroughProperty (s) {
-        return s.through(addProperty);
-      });
-  };
-}
+export const dashboardTargetStream = () => {
+  return broadcaster(
+    store
+      .select('targets')
+  );
+};

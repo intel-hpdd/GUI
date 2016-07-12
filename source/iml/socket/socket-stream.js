@@ -65,8 +65,8 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
 
         if (stream.paused)
           stream.emit('end');
-        else
-          push(null, highland.nil);
+
+        push(null, highland.nil);
       });
     });
 
@@ -74,7 +74,8 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
     stream.on('error', noop);
   } else {
     socket.send(data);
-    const s:HighlandStreamT<apiResponseWithErrorT> = highland('message', socket);
+    const s:HighlandStreamT<apiResponseWithErrorT> = highland('message', socket)
+      .onDestroy(end);
     stream = s.map((response):apiResponseT => {
       const error = response.error;
 
@@ -83,8 +84,6 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
 
       return response;
     });
-
-    stream._destructors.push(end);
   }
 
   return stream;

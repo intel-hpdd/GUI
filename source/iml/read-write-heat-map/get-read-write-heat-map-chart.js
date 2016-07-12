@@ -21,26 +21,7 @@
 
 // @flow
 
-import {
-  flow,
-  lensProp,
-  view
-} from 'intel-fp';
-import {
-  values
-} from 'intel-obj';
-import {
-  $scopeT
-} from 'angular';
 import flatMapChanges from 'intel-flat-map-changes';
-
-import {
-  DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
-  UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
-} from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 import formatNumber from '../number-formatters/format-number.js';
@@ -49,24 +30,51 @@ import getStore from '../store/get-store.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
 import {
+  flow,
+  lensProp,
+  view
+} from 'intel-fp';
+
+import {
+  values
+} from 'intel-obj';
+
+import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
+
+
+import {
+  DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
+  UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
+} from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
+
+import type {
+  $scopeT
+} from 'angular';
 
 import type {
   chartCompilerT
 } from '../chart-compiler/chart-compiler-module.js';
+
 import type {
   localApplyT
 } from '../extend-scope-module.js';
+
 import type {
   readWriteHeatMapTypesT,
   heatMapDurationPayloadT,
   heatMapPayloadHashT
 } from './read-write-heat-map-module.js';
+
 import type {
   filesystemQueryT,
   targetQueryT
 } from '../dashboard/dashboard-module.js';
+
 import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';

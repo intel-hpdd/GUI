@@ -18,6 +18,14 @@ import {
 describe('host profile then', () => {
   beforeEach(module(serverModule));
 
+  beforeEach(() => {
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
   describe('get host profiles', function () {
     var CACHE_INITIAL_DATA;
 
@@ -329,6 +337,7 @@ describe('host profile then', () => {
       });
 
       it('should post unconfigured host profiles', function () {
+        jasmine.clock().tick();
         expect(socketStream).toHaveBeenCalledOnceWith('/host_profile', {
           method: 'post',
           json: {
@@ -343,6 +352,7 @@ describe('host profile then', () => {
       });
 
       it('should pass in the commands to wait for command completion', function () {
+        jasmine.clock().tick();
         expect(completionResult).toHaveBeenCalledOnceWith([
           {
             command: { command: 1 }

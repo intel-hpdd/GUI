@@ -155,9 +155,9 @@ describe('get ost balance chart', () => {
     it('should destroy the existing stream', function () {
       $scope.$destroy();
 
-      expect(s.destroy).toHaveBeenCalledOnce();
-      expect(config1$.destroy).toHaveBeenCalledOnce();
-      expect(config2$.destroy).toHaveBeenCalledOnce();
+      expect(s.destroy).toHaveBeenCalled();
+      expect(config1$.destroy).toHaveBeenCalled();
+      expect(config2$.destroy).toHaveBeenCalled();
     });
 
     describe('on submit', () => {

@@ -26,7 +26,6 @@ import angular from 'angular';
 import sortableModule from '../sortable/sortable-module';
 import targetModule from '../target/target-module';
 import fullScreenModule from '../full-screen/full-screen-module';
-import asPropertyModule from '../as-property/as-property-module';
 import extendScopeModule from '../extend-scope-module';
 import hostCpuRamChartModule from '../host-cpu-ram-chart/host-cpu-ram-chart-module';
 import mdoModule from '../mdo/mdo-module';
@@ -63,7 +62,7 @@ export type targetQueryT = {
 export default angular
   .module('dashboard', [
     sortableModule, targetModule, fullScreenModule,
-    asPropertyModule, extendScopeModule,
+    extendScopeModule,
     hostCpuRamChartModule, mdoModule, cpuUsageModule,
     memoryUsageModule, fileUsageModule, spaceUsageModule,
     ostBalanceModule, readWriteBandwidthModule, readWriteHeatMapModule, chartCompilerModule,

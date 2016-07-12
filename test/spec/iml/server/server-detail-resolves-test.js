@@ -144,7 +144,7 @@ describe('server detail resolves', () => {
         ]);
 
         const resolves = await promise;
-        resolves.lnetConfigurationStream.each(spy);
+        resolves.lnetConfigurationStream().each(spy);
       });
 
       it('should return the item associated with the route', () => {
@@ -201,15 +201,16 @@ describe('server detail resolves', () => {
     itAsync('should return an object of streams', async function () {
       const result = await promise;
 
-      expect(result).toEqual({
-        jobMonitorStream: jasmine.any(Object),
-        alertMonitorStream: jasmine.any(Object),
-        serverStream: jasmine.any(Object),
-        lnetConfigurationStream: jasmine.any(Object),
-        networkInterfaceStream: jasmine.any(Object),
-        corosyncConfigurationStream: jasmine.any(Object),
-        pacemakerConfigurationStream: jasmine.any(Object)
-      });
+      expect(result)
+        .toEqual({
+          jobMonitorStream: jasmine.any(Function),
+          alertMonitorStream: jasmine.any(Function),
+          serverStream: jasmine.any(Object),
+          lnetConfigurationStream: jasmine.any(Function),
+          networkInterfaceStream: jasmine.any(Object),
+          corosyncConfigurationStream: jasmine.any(Function),
+          pacemakerConfigurationStream: jasmine.any(Function)
+        });
     });
   });
 });

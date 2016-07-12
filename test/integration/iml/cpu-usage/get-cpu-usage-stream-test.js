@@ -43,21 +43,21 @@ describe('get cpu usage stream', () => {
     });
 
     getCpuUsageStream = mod.default;
+
+    jasmine.clock().install();
   }, 10000);
 
-  var fixtures, revert, spy;
+  var fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
 
     fixtures = cpuUsageDataFixtures;
-
-    revert = patchRateLimit();
   });
 
   afterEach(() => {
-    revert();
     resetAll();
+    jasmine.clock().uninstall();
   });
 
   it('should return a factory function', () => {
@@ -82,6 +82,7 @@ describe('get cpu usage stream', () => {
       beforeEach(() => {
         serverStream.write(fixtures[0].in);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -95,6 +96,7 @@ describe('get cpu usage stream', () => {
       it('should drop duplicate values', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -104,6 +106,7 @@ describe('get cpu usage stream', () => {
       beforeEach(() => {
         serverStream.write([]);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -126,6 +129,7 @@ describe('get cpu usage stream', () => {
       it('should populate if data comes in on next tick', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

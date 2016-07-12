@@ -48,21 +48,23 @@ describe('file usage stream', () => {
     });
 
     getFileUsageStream = mod.default;
+
+    jasmine.clock().install();
+  });
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
   afterEach(resetAll);
 
-  var fixtures, spy, revert;
+  var fixtures, spy;
 
   beforeEach(inject(() => {
     spy = jasmine.createSpy('spy');
 
     fixtures = fileUsageDataFixtures;
-
-    revert = patchRateLimit();
   }));
-
-  afterEach(() => revert());
 
   it('should return a factory function', () => {
     expect(getFileUsageStream).toEqual(jasmine.any(Function));
@@ -86,6 +88,7 @@ describe('file usage stream', () => {
       beforeEach(() => {
         serverStream.write(fixtures[0].in);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return a stream', () => {
@@ -99,6 +102,7 @@ describe('file usage stream', () => {
       it('should drop duplicate values', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -108,6 +112,7 @@ describe('file usage stream', () => {
       beforeEach(() => {
         serverStream.write([]);
         serverStream.end();
+        jasmine.clock().tick(10000);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -122,6 +127,7 @@ describe('file usage stream', () => {
       it('should populate if data comes in on next tick', () => {
         serverStream.write(fixtures[0].in[0]);
         serverStream.end();
+        jasmine.clock().tick(10000);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

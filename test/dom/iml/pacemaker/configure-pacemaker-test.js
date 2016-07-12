@@ -1,18 +1,23 @@
 import highland from 'highland';
-
+import broadcaster from '../../../../source/iml/broadcaster.js';
 import pacemakerModule from '../../../../source/iml/pacemaker/pacemaker-module';
+import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
 
-describe('configure pacemaker', function () {
-  beforeEach(module(pacemakerModule, 'highland'));
+describe('configure pacemaker', () => {
+  beforeEach(module(pacemakerModule, $compileProvider => {
+    $compileProvider.directive('asViewer', asViewerDirective);
+  }));
 
-  var el, $scope, query;
+  var el, $scope, query, s;
 
-  beforeEach(inject(function ($rootScope, $compile, addProperty) {
+  beforeEach(inject(($rootScope, $compile) => {
     const template = `<configure-pacemaker stream="::stream" alert-stream="::alertStream" job-stream="::jobStream">
 </configure-pacemaker>`;
 
+    s = highland();
+
     $scope = $rootScope.$new();
-    $scope.stream = highland().through(addProperty);
+    $scope.stream = broadcaster(s);
     $scope.alertStream = highland();
     $scope.jobStream = highland();
 
@@ -21,18 +26,18 @@ describe('configure pacemaker', function () {
     $scope.$digest();
   }));
 
-  it('should not render if stream has no data', function () {
+  it('should not render if stream has no data', () => {
     expect(query('.section-header')).toBeNull();
   });
 
-  it('should not render if stream has falsey data', function () {
-    $scope.stream.write(null);
+  it('should not render if stream has falsey data', () => {
+    s.write(null);
 
     expect(query('.section-header')).toBeNull();
   });
 
-  it('should render if stream has data', function () {
-    $scope.stream.write({});
+  it('should render if stream has data', () => {
+    s.write({});
 
     expect(query('.section-header')).not.toBeNull();
   });

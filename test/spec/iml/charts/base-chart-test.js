@@ -49,16 +49,13 @@ describe('base chart', () => {
   });
 
   describe('linking function', () => {
-    var linker, s, generateChart, scope, element, fullScreenCtrl, svg, deregister;
+    var linker, s, generateChart, scope, element, fullScreenCtrl, svg;
 
     beforeEach(() => {
-      deregister = jasmine.createSpy('deregister');
-
       s = highland();
 
       scope = {
         stream: s,
-        $watch: jasmine.createSpy('$watch').and.returnValue(deregister),
         $on: jasmine.createSpy('$on')
       };
 
@@ -135,10 +132,6 @@ describe('base chart', () => {
       expect(svg.attr).toHaveBeenCalledOnceWith('viewBox', '0 0 1248 450');
     });
 
-    it('should watch the stream object', () => {
-      expect(scope.$watch).toHaveBeenCalledOnceWith('stream', jasmine.any(Function));
-    });
-
     it('should register a destroy handler', () => {
       expect(scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
     });
@@ -161,10 +154,6 @@ describe('base chart', () => {
     describe('destroy handler', () => {
       beforeEach(() => {
         scope.$on.calls.argsFor(0)[1]();
-      });
-
-      it('should deregister the stream watcher', () => {
-        expect(deregister).toHaveBeenCalledOnce();
       });
 
       it('should remove the resize listener', () => {

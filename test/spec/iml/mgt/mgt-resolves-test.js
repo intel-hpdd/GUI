@@ -1,4 +1,3 @@
-import mgtModule from '../../../../source/iml/mgt/mgt-module.js';
 import highland from 'highland';
 
 import {
@@ -7,36 +6,27 @@ import {
 } from '../../../system-mock.js';
 
 describe('mgt resolves', () => {
-  var addProperty, store, resolvesModule;
+  let store, mgtStream,
+    mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
   beforeEachAsync(async function () {
     store = {
-      select: jasmine.createSpy('select')
+      select: jasmine
+        .createSpy('select')
+        .and
+        .returnValue(highland())
     };
 
-    resolvesModule = await mock('source/iml/mgt/mgt-resolves.js', {
+    const mod = await mock('source/iml/mgt/mgt-resolves.js', {
       'source/iml/store/get-store': { default: store }
     });
+
+    mgtStream = mod.mgt$;
+    mgtJobIndicatorStream = mod.mgtJobIndicatorB;
+    mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
   });
 
   afterEach(resetAll);
-
-  beforeEach(module(mgtModule, $provide => {
-    addProperty = jasmine.createSpy('addProperty');
-    $provide.value('addProperty', addProperty);
-
-    $provide.factory('mgtAlertIndicatorStream', resolvesModule.mgtAlertIndicatorStream);
-    $provide.factory('mgtJobIndicatorStream', resolvesModule.mgtJobIndicatorStream);
-    $provide.factory('mgtStream', resolvesModule.mgtStream);
-  }));
-
-  var mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
-
-  beforeEach(inject((_mgtStream_, _mgtJobIndicatorStream_, _mgtAlertIndicatorStream_) => {
-    mgtStream = _mgtStream_;
-    mgtJobIndicatorStream = _mgtJobIndicatorStream_;
-    mgtAlertIndicatorStream = _mgtAlertIndicatorStream_;
-  }));
 
   it('should select alertIndicators', () => {
     mgtAlertIndicatorStream();

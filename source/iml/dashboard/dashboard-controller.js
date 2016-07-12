@@ -52,9 +52,8 @@ export default function DashboardCtrl ($scope, $location, $routeSegment,
       } else {
         var filter = (dashboard.fs === item ? filterTargetByFs : filterTargetByHost);
 
-        targetSelectStream = targetStream.property();
+        targetSelectStream = targetStream();
         targetSelectStream
-          .pluck('objects')
           .through(filter(item.selected.id))
           .map(fp.filter(function removeMgt (x) {
             return x.kind !== 'MGT';
@@ -89,21 +88,16 @@ export default function DashboardCtrl ($scope, $location, $routeSegment,
 
   dashboard.type = dashboard.fs;
 
-  fsStream
+  fsStream()
     .through(p('fileSystems'));
 
-  hostStream
-    .pluck('objects')
+  hostStream()
     .through(p('hosts'));
 
-  // Drain the stream so we don't buffer forever.
-  targetStream
-    .each(fp.noop);
-
   $scope.$on('$destroy', function onDestroy () {
-    fsStream.destroy();
-    hostStream.destroy();
-    targetStream.destroy();
+    fsStream.endBroadcast();
+    hostStream.endBroadcast();
+    targetStream.endBroadcast();
     remove();
   });
 
@@ -139,15 +133,14 @@ export default function DashboardCtrl ($scope, $location, $routeSegment,
 
   function setData (params) {
     if (params.fsId) {
-      fsStream2 = fsStream.property();
+      fsStream2 = fsStream();
       fsStream2.flatMap(highland.findWhere({ id: params.fsId }))
         .through(p('fsData'));
 
       dashboard.type = dashboard.fs;
     } else if (params.serverId) {
-      hostStream2 = hostStream.property();
+      hostStream2 = hostStream();
       hostStream2
-        .pluck('objects')
         .flatMap(highland.findWhere({ id: params.serverId }))
         .through(p('hostData'));
 
@@ -155,9 +148,8 @@ export default function DashboardCtrl ($scope, $location, $routeSegment,
     }
 
     if (params.targetId) {
-      targetStream2 = targetStream.property();
+      targetStream2 = targetStream();
       targetStream2
-        .pluck('objects')
         .flatMap(highland.findWhere({ id: params.targetId }))
         .through(p('targetData'));
     }

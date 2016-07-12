@@ -37,7 +37,8 @@ export default function asValue (localApply, $exceptionHandler) {
 
         transcludedScope.curr = {};
 
-        scope.stream
+        scope
+          .stream
           .fork()
           .tap(v => transcludedScope.curr.val = v)
           .stopOnError(curry(1, $exceptionHandler))

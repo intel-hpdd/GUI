@@ -195,6 +195,10 @@ describe('space usage chart', () => {
 
       expect(stream.destroy)
         .toHaveBeenCalledOnce();
+      expect(config1$.destroy)
+        .toHaveBeenCalled();
+      expect(config2$.destroy)
+        .toHaveBeenCalled();
     });
 
     describe('setup', () => {

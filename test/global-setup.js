@@ -2,9 +2,8 @@ import angular from 'angular';
 import 'angular-mocks';
 
 import fixturesModule from './fixtures/fixtures';
-import highland from 'highland';
 import {find} from 'intel-lodash-mixins';
-import {curry, map, noop} from 'intel-fp';
+import {curry, map} from 'intel-fp';
 
 function cssMatcher (presentClasses, absentClasses) {
   return () => {
@@ -148,19 +147,6 @@ window.convertNvDates = function convertNvDates (s) {
       value.x = value.x.toJSON();
     });
   }));
-};
-
-window.patchRateLimit = function patchRateLimit () {
-  var proto = Object.getPrototypeOf(highland());
-  var oldRateLimit = proto.ratelimit;
-
-  proto.ratelimit = function ratelimit () {
-    return this.tap(noop);
-  };
-
-  return function revert () {
-    proto.ratelimit = oldRateLimit;
-  };
 };
 
 window.flushD3Transitions = function flushD3Transitions () {

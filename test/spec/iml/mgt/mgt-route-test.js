@@ -1,7 +1,9 @@
 import angular from 'angular';
 import mgtRouteModule from '../../../../source/iml/mgt/mgt-route-module';
 
-import {noop} from 'intel-fp';
+import {
+  noop
+} from 'intel-fp';
 
 describe('mgt route', () => {
   var $routeSegmentProvider;
@@ -44,13 +46,12 @@ describe('mgt route', () => {
         template: `
 <h3 class="page-header"><i class="fa fa-th"></i> MGT Configuration</h3>
 <div class="container container-full">
-  <mgt mgt-stream="$ctrl.mgtStream" alert-indicator-stream="$ctrl.mgtAlertIndicatorStream"
-       job-indicator-stream="$ctrl.mgtJobIndicatorStream"></mgt>
+  <mgt mgt-$="$ctrl.mgt$" alert-indicator-b="$ctrl.mgtAlertIndicatorB"
+       job-indicator-b="$ctrl.mgtJobIndicatorB"></mgt>
 </div>`,
         controller: jasmine.any(Function),
         controllerAs: '$ctrl',
         access: 'filesystem_administrators',
-        resolve: ['mgtAlertIndicatorStream', 'mgtJobIndicatorStream', 'mgtStream'],
         untilResolved: {
           templateUrl: '/static/chroma_ui/source/iml/loading/assets/html/loading.js'
         },

@@ -37,7 +37,7 @@ export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
   const ctrl = this;
 
   angular.extend(ctrl, {
-    observer: ctrl.stream.observe(),
+    observer: ctrl.stream(),
     getDiffMessage (state) {
       return insertHelpFilter(`${state.status}_diff`, state);
     },
@@ -55,23 +55,21 @@ export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
           ctrl.config
         )
       }, true)
-        .map(command => {
-          return { command };
-        })
+        .map(command => ({ command }))
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
         .through(propagateChange($scope, ctrl, 'saving'));
     }
   });
 
-  ctrl.stream
-    .property()
+  ctrl
+    .stream()
     .through(propagateChange($scope, ctrl, 'config'));
 
   $scope.$on('$destroy', () => {
-    ctrl.stream.destroy();
-    ctrl.alertStream.destroy();
-    ctrl.jobStream.destroy();
+    ctrl.stream.endBroadcast();
+    ctrl.alertStream.endBroadcast();
+    ctrl.jobStream.endBroadcast();
   });
 }
 

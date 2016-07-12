@@ -23,11 +23,12 @@ import * as fp from 'intel-fp';
 
 import formatNumber from '../../number-formatters/format-number.js';
 import formatBytes from '../../number-formatters/format-bytes.js';
+import broadcaster from '../../broadcaster.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import usageInfoTemplate from './assets/html/usage-info';
 
-export function UsageInfoController ($scope, propagateChange, addProperty) {
+export function UsageInfoController ($scope, propagateChange) {
   'ngInject';
 
   this.format = this.prefix === 'bytes' ? formatBytes : formatNumber;
@@ -68,7 +69,8 @@ export function UsageInfoController ($scope, propagateChange, addProperty) {
     fp.map(addMetrics(this.prefix))
   );
 
-  var s = this.stream
+  var s = this
+    .stream
     .flatten();
 
   if (this.id != null) {
@@ -81,10 +83,10 @@ export function UsageInfoController ($scope, propagateChange, addProperty) {
     s = fp.filter(eqId, s);
   }
 
-  this.s2 = addProperty(buildMetrics(s));
+  this.s2 = broadcaster(buildMetrics(s));
 
-  this.s2
-    .property()
+  this
+    .s2()
     .through(propagateChange($scope, this, 'data'));
 }
 

@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {invoke, __} from 'intel-fp';
+import {
+  invoke, __
+} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import targetDashboardTemplate from './assets/html/target-dashboard';

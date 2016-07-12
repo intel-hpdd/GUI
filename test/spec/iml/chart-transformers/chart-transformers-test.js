@@ -1,6 +1,16 @@
 import highland from 'highland';
-import {getConf, data$Fn}
-  from '../../../../source/iml/chart-transformers/chart-transformers.js';
+import {
+  getConf,
+  data$Fn,
+  flushOnChange
+} from '../../../../source/iml/chart-transformers/chart-transformers.js';
+
+import * as fp from 'intel-fp';
+
+import {
+  documentHidden,
+  documentVisible
+} from '../../../../source/iml/stream-when-visible/stream-when-visible.js';
 
 describe('chart transformer', () => {
   var s, config1, config2, spy;
@@ -34,29 +44,15 @@ describe('chart transformer', () => {
       expect(getConf).toEqual(jasmine.any(Function));
     });
 
-    describe('without page key', () => {
-      it('should take the default case', () => {
-        s = highland([{
-          '': config1
-        }]);
-        conf$(s)
-          .each(spy);
+    it('should take the matching case', () => {
+      s = highland([{
+        'base': config1,
+        'target8': config2
+      }]);
+      conf$(s)
+        .each(spy);
 
-        expect(spy).toHaveBeenCalledOnceWith(config1);
-      });
-    });
-
-    describe('with page key', () => {
-      it('should take the matching case', () => {
-        s = highland([{
-          '': config1,
-          'target8': config2
-        }]);
-        conf$(s)
-          .each(spy);
-
-        expect(spy).toHaveBeenCalledOnceWith(config2);
-      });
+      expect(spy).toHaveBeenCalledOnceWith(config2);
     });
   });
 
@@ -139,5 +135,50 @@ describe('chart transformer', () => {
         expect(s).toEqual(range$);
       });
     });
+  });
+});
+
+describe('flush on change', () => {
+  var source$, s, spy;
+
+  beforeEach(() => {
+    spy = jasmine.createSpy('spy');
+    source$ = highland();
+    s = flushOnChange(source$);
+    spyOn(s, 'destroy');
+  });
+
+  it('should write document hidden', () => {
+    s.each(spy);
+
+    expect(spy).toHaveBeenCalledOnceWith(documentHidden);
+  });
+
+  it('should write document visible', () => {
+    source$.write('foo');
+    s.each(spy);
+
+    expect(spy).toHaveBeenCalledOnceWith(documentVisible);
+  });
+
+  it('should catch errors', () => {
+    var error = new Error('it goes boom!');
+    source$.write({
+      __HighlandStreamError__: true,
+      error
+    });
+
+    s
+      .errors(fp.curry(1, spy))
+      .each(fp.noop);
+
+    expect(spy).toHaveBeenCalledOnceWith(error);
+  });
+
+  it('should handle ending a stream', () => {
+    source$.end();
+    s.each(spy);
+
+    expect(s.destroy).toHaveBeenCalled();
   });
 });

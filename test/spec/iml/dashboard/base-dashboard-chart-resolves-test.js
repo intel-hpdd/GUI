@@ -245,7 +245,7 @@ id,osts,mdts(id),mgt(primary_server,primary_server_name)',
         });
 
         const s2 = await promise;
-        s2.each((x) => {
+        s2().each((x) => {
           result = x;
         });
 
@@ -278,7 +278,7 @@ id,osts,mdts(id),mgt(primary_server,primary_server_name)',
         });
 
         const s2 = await promise;
-        s2.each((x) => {
+        s2().each((x) => {
           result = x;
         });
 

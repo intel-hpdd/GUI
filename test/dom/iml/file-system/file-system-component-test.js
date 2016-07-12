@@ -1,5 +1,5 @@
 import highland from 'highland';
-import addProperty from '../../../../source/iml/highland/add-property.js';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 import {
   mock,
@@ -24,8 +24,8 @@ describe('file system component', () => {
   beforeEach(inject(($rootScope, $compile) => {
     $scope = $rootScope.$new();
     $scope.fileSystem$ = highland();
-    $scope.alertIndicator$ = addProperty(highland());
-    $scope.jobIndicator$ = addProperty(highland());
+    $scope.alertIndicator$ = broadcaster(highland());
+    $scope.jobIndicator$ = broadcaster(highland());
 
     const template = `
     <file-system file-system-$="fileSystem$" alert-indicator-$="alertIndicator$"

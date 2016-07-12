@@ -6,7 +6,7 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-describe('action dropdown', function () {
+describe('action dropdown', () => {
   var $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,
     commandModalStream, s, ActionDropdownCtrl;
@@ -21,9 +21,18 @@ describe('action dropdown', function () {
       'source/iml/command/get-command-stream.js': { default: getCommandStream }
     });
     ActionDropdownCtrl = mod.ActionDropdownCtrl;
+
+    jasmine.clock().install();
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
+
+  afterEach(() => {
+    resetAll();
+    jasmine.clock().uninstall();
+  });
 
   beforeEach(module(actionDropdownModule));
 
@@ -105,6 +114,8 @@ describe('action dropdown', function () {
       actionStream.write('command');
       commandModalStream.write('done');
 
+      jasmine.clock().tick();
+
       expect(commandStream.destroy).toHaveBeenCalledOnce();
     });
 
@@ -165,6 +176,7 @@ describe('action dropdown', function () {
       ];
 
       s.write(data);
+      jasmine.clock().tick();
     });
 
     it('should indicate data has been received', () => {

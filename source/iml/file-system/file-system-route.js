@@ -1,5 +1,3 @@
-// @flow
-
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,13 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
+import store from '../store/get-store.js';
+import broadcaster from '../broadcaster.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import loadingTemplate from '../loading/assets/html/loading';
-
-
-import store from '../store/get-store.js';
-import addProperty from '../highland/add-property.js';
 
 export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):void {
   'ngInject';
@@ -42,12 +40,12 @@ export default function mgtRoute ($routeSegmentProvider:Object, GROUPS:Object):v
 
         this.fileSystem$ = store.select('fileSystems');
 
-        this.jobIndicator$ = addProperty(
+        this.jobIndicator$ = broadcaster(
           store
             .select('jobIndicators')
         );
 
-        this.alertIndicator$ = addProperty(
+        this.alertIndicator$ = broadcaster(
           store
           .select('alertIndicators')
         );

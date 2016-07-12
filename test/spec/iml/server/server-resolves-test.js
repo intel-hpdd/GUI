@@ -37,15 +37,11 @@ describe('server resolves', () => {
   });
 
   describe('getting a promise', () => {
-    var $rootScope, promise;
+    var promise;
 
-    beforeEach(inject((_$rootScope_) => {
-      $rootScope = _$rootScope_;
-
+    beforeEach(() => {
       promise = serverResolves();
-
-      $rootScope.$apply();
-    }));
+    });
 
     it('should create a jobMonitorStream', () => {
       expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
@@ -63,17 +59,17 @@ describe('server resolves', () => {
       expect(store.select).toHaveBeenCalledOnceWith('lnetConfiguration');
     });
 
-    it('should return an object of streams', () => {
-      promise.then((streams) => {
-        expect(streams).toEqual({
-          jobMonitorStream: jasmine.any(Object),
-          alertMonitorStream: jasmine.any(Object),
-          lnetConfigurationStream: jasmine.any(Object),
+    itAsync('should return an object of streams', async function () {
+      const result = await promise;
+
+
+      expect(result)
+        .toEqual({
+          jobMonitorStream: jasmine.any(Function),
+          alertMonitorStream: jasmine.any(Function),
+          lnetConfigurationStream: jasmine.any(Function),
           serversStream: jasmine.any(Object)
         });
-      });
-
-      $rootScope.$apply();
     });
   });
 });

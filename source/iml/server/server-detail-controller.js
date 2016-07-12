@@ -41,11 +41,11 @@ export default function ServerDetailController (
 
   const p = propagateChange($scope, serverDetailController);
 
-  streams.lnetConfigurationStream
-    .property()
+  streams.lnetConfigurationStream()
     .through(p('lnetConfiguration'));
 
-  streams.serverStream
+  streams
+    .serverStream
     .errors(function handle404 (err, push) {
       if (err.statusCode === 404) {
         push(null, null);
@@ -59,7 +59,7 @@ export default function ServerDetailController (
   $scope.$on('$destroy', function onDestroy () {
     Object.keys(streams)
       .forEach(function destroy (key) {
-        streams[key].destroy();
+        streams[key].destroy ? streams[key].destroy() : streams[key].endBroadcast();
       });
   });
 }

@@ -20,8 +20,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
-import rebindDestroy from '../highland/rebind-destroy';
 import socketStream from '../socket/socket-stream.js';
 
 import {
@@ -63,12 +61,14 @@ updated_at,started_at,throughput,type,state,path,description)',
     return item;
   });
 
-  const addMetrics = map(flow(
-    view(lensProp('objects')),
-    buildProgress,
-    buildThroughput
-  ));
+  const addMetrics = map(
+    flow(
+      view(lensProp('objects')),
+      buildProgress,
+      buildThroughput
+    )
+  );
 
   return socketStream('/copytool_operation', params)
-    .through(rebindDestroy(addMetrics));
+    .through(addMetrics);
 }

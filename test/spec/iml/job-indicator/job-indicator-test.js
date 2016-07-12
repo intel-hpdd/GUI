@@ -1,11 +1,12 @@
 import highland from 'highland';
+import broadcast from '../../../../source/iml/broadcaster.js';
 
 describe('job indicator', () => {
   beforeEach(module('jobIndicator'));
 
   var $scope, $timeout, element, node, getPopover, i, stream;
 
-  beforeEach(inject(function ($rootScope, $compile, _$timeout_, addProperty) {
+  beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     $timeout = _$timeout_;
 
     element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
@@ -14,7 +15,7 @@ describe('job indicator', () => {
 
     stream = highland();
 
-    $scope.stream = stream.through(addProperty);
+    $scope.stream = broadcast(stream);
     $scope.recordId = 'host/6';
 
     node = $compile(element)($scope);

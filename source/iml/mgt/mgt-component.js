@@ -23,7 +23,7 @@
 
 export default {
   template: `
-    <div as-value stream="::$ctrl.mgtStream">
+    <div as-value stream="::$ctrl.mgt$">
       <div ng-if="curr.val.length > 0" class="mgt-component">
         <h4 class="section-header">MGTs</h4>
         <table class="table">
@@ -47,8 +47,8 @@ export default {
                 </td>
                 <td>
                   <record-state display-type="'medium'"
-                    record-id="::item.resource_uri" alert-stream="::$ctrl.alertIndicatorStream"></record-state>
-                  <job-status record-id="::item.resource_uri" job-stream="::$ctrl.jobIndicatorStream"></job-status>
+                    record-id="::item.resource_uri" alert-stream="::$ctrl.alertIndicatorB"></record-state>
+                  <job-status record-id="::item.resource_uri" job-stream="::$ctrl.jobIndicatorB"></job-status>
                 </td>
                 <td class="comma-list">
                   <a ng-repeat="fs in item.filesystems track by fs.id"
@@ -74,14 +74,14 @@ export default {
 `,
   controller () {
     this.$onDestroy = () => {
-      this.mgtStream.destroy();
-      this.alertIndicatorStream.destroy();
-      this.jobIndicatorStream.destroy();
+      this.mgt$.destroy();
+      this.alertIndicatorB.endBroadcast();
+      this.jobIndicatorB.endBroadcast();
     };
   },
   bindings: {
-    mgtStream: '<',
-    alertIndicatorStream: '<',
-    jobIndicatorStream: '<'
+    mgt$: '<',
+    alertIndicatorB: '<',
+    jobIndicatorB: '<'
   }
 };

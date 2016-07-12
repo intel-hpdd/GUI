@@ -203,9 +203,9 @@ describe('cpu usage chart', () => {
     it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(initStream.destroy).toHaveBeenCalledOnce();
-      expect(config1$.destroy).toHaveBeenCalledOnce();
-      expect(config2$.destroy).toHaveBeenCalledOnce();
+      expect(initStream.destroy).toHaveBeenCalled();
+      expect(config1$.destroy).toHaveBeenCalled();
+      expect(config2$.destroy).toHaveBeenCalled();
     });
 
 

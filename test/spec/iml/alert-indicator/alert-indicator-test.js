@@ -1,4 +1,5 @@
 import highland from 'highland';
+import broadcast from '../../../../source/iml/broadcaster.js';
 import alertIndicatorModule from
   '../../../../source/iml/alert-indicator/alert-indicator-module';
 
@@ -7,11 +8,10 @@ describe('alert indicator', () => {
 
   describe('directive', () => {
     var $scope, element, node, popover, i,
-      stream, addProperty, stateLabel, alerts,
+      stream, stateLabel, alerts,
       tooltip;
 
-    beforeEach(inject(($rootScope, $compile, _addProperty_) => {
-      addProperty = _addProperty_;
+    beforeEach(inject(($rootScope, $compile) => {
 
       element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
       '</record-state>';
@@ -20,7 +20,7 @@ describe('alert indicator', () => {
 
       $scope = $rootScope.$new();
 
-      $scope.alertStream = stream.through(addProperty);
+      $scope.alertStream = broadcast(stream);
 
       $scope.recordId = 'host/6';
 

@@ -41,6 +41,10 @@ import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
 
+import {
+  hasChanges
+} from '../tree/tree-transforms.js';
+
 import type {
   chartCompilerT
 } from '../chart-compiler/chart-compiler-module.js';
@@ -76,6 +80,7 @@ export default (chartCompiler:chartCompilerT,
     const config1$ = getStore.select('hostCpuRamCharts');
     const initStream = config1$
       .through(getConf(page))
+      .filter(hasChanges(x => x))
       .through(
         flatMapChanges(
           data$Fn(overrides, always(getHostCpuRamStream))

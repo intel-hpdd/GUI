@@ -1,8 +1,8 @@
 import highland from 'highland';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 import {
-  curry,
-  noop
+  curry
 } from 'intel-fp';
 
 import {
@@ -12,6 +12,7 @@ import {
 
 describe('configure corosync', () => {
   var s, bindings, ctrl, $scope, socketStream, mod,
+    alertStream, jobStream,
     socketResponse, waitForCommandCompletion, insertHelpFilter;
 
   beforeEachAsync(async function () {
@@ -29,31 +30,32 @@ describe('configure corosync', () => {
   }));
 
   describe('controller', () => {
-    beforeEach(inject(($controller, $rootScope, addProperty) => {
+    beforeEach(inject(($controller, $rootScope) => {
       $scope = $rootScope.$new();
 
-      waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-        .and.callFake((bool, x) => {
-          return [x];
-        });
+      waitForCommandCompletion = jasmine
+        .createSpy('waitForCommandCompletion')
+        .and
+        .callFake((bool, x) => [x]);
 
       socketResponse = highland();
       socketStream
         .and
-        .returnValue(
-          socketResponse.through(addProperty)
-        );
+        .returnValue(socketResponse);
 
       s = highland();
       spyOn(s, 'destroy');
 
+      alertStream = highland();
+      jobStream = highland();
+
       bindings = {
-        stream: s.through(addProperty),
-        alertStream: highland(),
-        jobStream: highland()
+        stream: broadcaster(s),
+        alertStream: broadcaster(alertStream),
+        jobStream: broadcaster(jobStream)
       };
-      spyOn(bindings.alertStream, 'destroy');
-      spyOn(bindings.jobStream, 'destroy');
+      spyOn(alertStream, 'destroy');
+      spyOn(jobStream, 'destroy');
 
       insertHelpFilter = jasmine.createSpy('insertHelpFilter');
 
@@ -78,11 +80,11 @@ describe('configure corosync', () => {
       });
 
       it('should destroy the alert stream', () => {
-        expect(bindings.alertStream.destroy).toHaveBeenCalledOnce();
+        expect(alertStream.destroy).toHaveBeenCalledOnce();
       });
 
       it('should destroy the job stream', () => {
-        expect(bindings.jobStream.destroy).toHaveBeenCalledOnce();
+        expect(jobStream.destroy).toHaveBeenCalledOnce();
       });
     });
 
@@ -91,9 +93,9 @@ describe('configure corosync', () => {
       expect(ctrl)
         .toEqual(window.extendWithConstructor(
           mod.ConfigureCorosyncController, {
-            stream: jasmine.any(Object),
-            alertStream: jasmine.any(Object),
-            jobStream: jasmine.any(Object),
+            stream: jasmine.any(Function),
+            alertStream: jasmine.any(Function),
+            jobStream: jasmine.any(Function),
             observer: jasmine.any(Object),
             getDiffMessage: jasmine.any(Function),
             save: jasmine.any(Function)
@@ -161,10 +163,6 @@ describe('configure corosync', () => {
 
     describe('configure corosync stream', () => {
       beforeEach(() => {
-        ctrl.observer
-          .stopOnError(noop)
-          .each(noop);
-
         ctrl.config = {
           foo: 'baz'
         };

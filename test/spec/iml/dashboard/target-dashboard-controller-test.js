@@ -4,6 +4,7 @@ import targetDashboardModule
   from '../../../../source/iml/dashboard/target-dashboard-module';
 import TargetDashboardController
   from '../../../../source/iml/dashboard/target-dashboard-controller';
+import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('target dashboard', () => {
   beforeEach(module(targetDashboardModule));
@@ -28,14 +29,14 @@ describe('target dashboard', () => {
       charts: charts,
       kind: 'MDT',
       targetStream: targetStream,
-      usageStream: usageStream
+      usageStream: broadcaster(usageStream)
     });
   }));
 
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(TargetDashboardController, {
-      charts: charts,
-      usageStream: usageStream,
+      charts,
+      usageStream: jasmine.any(Function),
       kind: 'MDT'
     });
 

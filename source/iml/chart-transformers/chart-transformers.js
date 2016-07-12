@@ -21,6 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import highland from 'highland';
+
+import {
+  documentHidden,
+  documentVisible
+} from '../stream-when-visible/stream-when-visible.js';
+
 import {
   default as Maybe,
   withDefault
@@ -29,8 +36,6 @@ import {
 import {
   curry, map
 } from 'intel-fp';
-
-import rebindDestroy from '../highland/rebind-destroy.js';
 
 import type {
   HighlandStreamT
@@ -54,14 +59,7 @@ import type {
 } from './chart-transformers-module.js';
 
 export const getConf = (page:string) => {
-  return rebindDestroy(
-    map(
-      x => withDefault(
-        () => x[''],
-        Maybe.of(x[page])
-      )
-    )
-  );
+  return map(x => x[page]);
 };
 
 export function data$Fn (createStream:createStreamT) {
@@ -89,4 +87,30 @@ export function data$Fn (createStream:createStreamT) {
       );
     }
   });
+}
+
+export function flushOnChange (source$:HighlandStreamT<mixed>) {
+  let called = false;
+
+  const s2 = source$
+    .consume((err, x, push, next) => {
+      if (!called) {
+        push(null, documentVisible);
+        called = true;
+      }
+
+      if (err) {
+        push(err);
+        next();
+      } else if (x === highland.nil) {
+        push(err, x);
+      } else {
+        push(null, x);
+        next();
+      }
+    });
+
+  s2.write(documentHidden);
+
+  return s2;
 }
