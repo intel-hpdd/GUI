@@ -32,27 +32,39 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
   return function baseChart (overrides) {
     var defaultDirective = {
       restrict: 'E',
-      require: '^?fullScreen',
+      require: ['^?fullScreen', '^panels'],
       replace: true,
       scope: {
         stream: '=',
         options: '='
       },
       templateUrl: chartTemplate,
-      link: function link (scope, element, attrs, fullScreenCtrl) {
-        if (fullScreenCtrl) fullScreenCtrl.addListener(setChartViewBox);
+      link (scope, element, attrs, ctrls) {
+        const [fullScreenCtrl, panelsCtrl] = ctrls;
 
         var svg = d3.select(element[0].querySelector('svg'));
         var chart = config.generateChart(nv);
-        var render = createRenderer(svg, chart);
+        const render = createRenderer(svg, chart);
+        const renderNoTransition = () => {
+          let oldD = chart.duration();
+          chart.duration(0);
+
+          render();
+
+          chart.duration(oldD);
+        };
+
+        if (fullScreenCtrl)
+          fullScreenCtrl.addListener(renderNoTransition);
 
         svg
-          .attr('preserveAspectRatio', 'xMinYMid')
           .attr('width', '100%')
           .attr('height', '100%');
 
-        var throttled = _.throttle(setChartViewBox, 500);
+        const throttled = _.throttle(renderNoTransition, 500);
 
+
+        panelsCtrl.register(throttled);
         $window.addEventListener('resize', throttled);
 
         if (scope.options && scope.options.setup)
@@ -78,7 +90,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
           .map(toggleNoData)
           .each(renderData);
 
-        setChartViewBox();
+        render();
 
         function renderData (v) {
           var oldData = svg.datum() || [];
@@ -95,7 +107,8 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
               angular.extend(series, propsToCopy);
           });
 
-          svg.datum(v);
+          svg
+            .datum(v);
 
           config.onUpdate(chart, v);
 
@@ -107,26 +120,13 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
           config.afterUpdate(chart);
         }
 
-        /**
-         * Sets the viewBox of the chart to the current container width and height
-         */
-        function setChartViewBox () {
-          var rect = element[0]
-            .getBoundingClientRect();
-
-          svg
-            .attr('viewBox', '0 0 ' + rect.width + ' ' + rect.height)
-            .transition()
-            .duration(50)
-            .call(chart);
-        }
-
         scope.$on('$destroy', function onDestroy () {
+          panelsCtrl.deregister(throttled);
           $window.removeEventListener('resize', throttled, false);
 
           if (fullScreenCtrl)
             fullScreenCtrl
-              .removeListener(setChartViewBox);
+              .removeListener(renderNoTransition);
 
           if (chart.destroy)
             chart.destroy();
@@ -141,7 +141,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
 
     var config = {
       directive: defaultDirective,
-      generateChart: function generateChart () {
+      generateChart () {
         throw new Error('config::generateChart must be overriden.');
       },
       afterUpdate: noop,

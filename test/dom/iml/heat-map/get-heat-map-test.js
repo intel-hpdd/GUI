@@ -22,7 +22,7 @@ describe('the heat map', function () {
   var accessors = [
     'xValue', 'yValue', 'zValue',
     'xScale', 'yScale', 'colorScale',
-    'width', 'height'
+    'width', 'height', 'duration'
   ];
 
   accessors.forEach(function (accessor) {

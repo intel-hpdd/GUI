@@ -24,7 +24,8 @@ describe('get heat map chart test', function () {
 
   var accessors = [
     'margin', 'formatter', 'zValue',
-    'noData', 'xAxisLabel', 'xAxisDetail'
+    'noData', 'xAxisLabel', 'xAxisDetail',
+    'duration'
   ];
 
   accessors.forEach(function (accessor) {

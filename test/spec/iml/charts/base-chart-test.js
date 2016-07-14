@@ -37,7 +37,7 @@ describe('base chart', () => {
   it('should generate a directive definition object', () => {
     expect(baseChart()).toEqual({
       restrict: 'E',
-      require: '^?fullScreen',
+      require: ['^?fullScreen', '^panels'],
       replace: true,
       scope: {
         stream: '=',
@@ -49,7 +49,8 @@ describe('base chart', () => {
   });
 
   describe('linking function', () => {
-    var linker, s, generateChart, scope, element, fullScreenCtrl, svg;
+    let linker, s, generateChart, scope,
+      element, fullScreenCtrl, svg, panels;
 
     beforeEach(() => {
       s = highland();
@@ -99,9 +100,14 @@ describe('base chart', () => {
         removeListener: jasmine.createSpy('removeListener')
       };
 
+      panels = {
+        register: jasmine.createSpy('register'),
+        deregister: jasmine.createSpy('deregister')
+      };
+
       linker = ddo.link;
 
-      linker(scope, [element], {}, fullScreenCtrl);
+      linker(scope, [element], {}, [fullScreenCtrl, panels]);
     });
 
     it('should add a listener for the fullscreen controller', () => {
@@ -110,10 +116,6 @@ describe('base chart', () => {
 
     it('should generate the chart', () => {
       expect(generateChart).toHaveBeenCalledOnceWith(nv);
-    });
-
-    it('should set preserveAspectRatio on the svg element', () => {
-      expect(svg.attr).toHaveBeenCalledOnceWith('preserveAspectRatio', 'xMinYMid');
     });
 
     it('should set width on the svg element', () => {
@@ -128,8 +130,9 @@ describe('base chart', () => {
       expect($window.addEventListener).toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
     });
 
-    it('should set viewBox on the svg element', () => {
-      expect(svg.attr).toHaveBeenCalledOnceWith('viewBox', '0 0 1248 450');
+    it('should register a panel listener', () => {
+      expect(panels.register)
+        .toHaveBeenCalledOnceWith(jasmine.any(Function));
     });
 
     it('should register a destroy handler', () => {
@@ -159,6 +162,11 @@ describe('base chart', () => {
       it('should remove the resize listener', () => {
         expect($window.removeEventListener)
           .toHaveBeenCalledOnceWith('resize', jasmine.any(Function), false);
+      });
+
+      it('should deregister the panel listener', () => {
+        expect(panels.deregister)
+          .toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 
       it('should remove the full screen controller listener', () => {

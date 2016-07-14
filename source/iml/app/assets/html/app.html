@@ -52,11 +52,12 @@
     </ul>
   </div>
 </nav>
-<div class="panels">
-  <div class="side-panel" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+<panels>
+  <side-panel restrict-to="{{ app.GROUPS.FS_ADMINS }}">
     <h4 class="resource-heading page-header"><i class="fa fa-fw fa-sitemap" aria-hidden="true"></i>  Resources</h4>
     <tree-server-collection parent-id="0"></tree-server-collection>
-  </div>
+  </side-panel>
+  <slider-panel restrict-to="{{ app.GROUPS.FS_ADMINS }}"></slider-panel>
   <div class="main-panel">
     <div class="app-view" app-view-segment="1"></div>
     <footer class="text-center">
@@ -68,4 +69,4 @@
       </small>
     </footer>
   </div>
-</div>
+</panels>

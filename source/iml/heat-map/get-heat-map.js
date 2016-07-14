@@ -34,6 +34,7 @@ export default function getHeatMapFactory (d3) {
     var colorScale = _.noop;
     var width = 0;
     var height = 0;
+    var duration = 1000;
 
     function chart (selection) {
       selection.each(function render (data) {
@@ -81,7 +82,7 @@ export default function getHeatMapFactory (d3) {
         cell
           .attr('height', gridHeight)
           .transition()
-          .duration(1000)
+          .duration(duration)
           .ease('linear')
           .attr('width', calcWidth)
           .attr('x', getX)
@@ -94,13 +95,13 @@ export default function getHeatMapFactory (d3) {
           .attr('width', calcWidth)
           .attr('height', gridHeight)
           .transition()
-          .duration(1000)
+          .duration(duration)
           .ease('linear')
           .attr('x', getX);
 
         cell.exit()
           .transition()
-          .duration(1000)
+          .duration(duration)
           .ease('linear')
           .attr('width', 0)
           .remove();
@@ -166,6 +167,12 @@ export default function getHeatMapFactory (d3) {
     chart.height = function heightAccessor (_) {
       if (!arguments.length) return height;
       height = _;
+      return chart;
+    };
+
+    chart.duration = function durationAccessor (_) {
+      if (!arguments.length) return duration;
+      duration = _;
       return chart;
     };
 

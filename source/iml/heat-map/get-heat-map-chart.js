@@ -34,6 +34,8 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
 
     var noData = 'No Data Available.';
 
+    var duration = 1000;
+
     var formatter = _.identity;
     var zValue = _.noop;
     var xAxisLabel = '';
@@ -277,6 +279,7 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         heatMap
           .width(availableWidth)
           .height(availableHeight)
+          .duration(duration)
           .xScale(x)
           .yScale(y)
           .zScale(z)
@@ -295,7 +298,7 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         chartGroup.select('.x.axis')
           .attr('transform', translator(0, availableHeight))
           .transition()
-          .duration(1000)
+          .duration(duration)
           .call(xAxis);
 
         var detail;
@@ -364,6 +367,12 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
     chart.xAxisDetail = function xAxisLabelAccessor (_) {
       if (!arguments.length) return xAxisDetail;
       xAxisDetail = _;
+      return chart;
+    };
+
+    chart.duration = function durationAccessor (_) {
+      if (!arguments.length) return duration;
+      duration = _;
       return chart;
     };
 

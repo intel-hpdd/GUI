@@ -73,6 +73,9 @@ import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
 import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
 import resettableGroupModule from './resettable-group/resettable-group-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
+import sliderPanelComponent from './panels/slider-panel-component.js';
+import sidePanelComponent from './panels/side-panel-component.js';
+import panelsComponent from './panels/panels-component.js';
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -127,6 +130,9 @@ export default angular.module('iml', [
     $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
   })
   .directive('asViewer', asViewerDirective)
+  .component('sliderPanel', sliderPanelComponent)
+  .component('sidePanel', sidePanelComponent)
+  .component('panels', panelsComponent)
   .name;
 
 angular.bootstrap(document, ['iml'], {});
