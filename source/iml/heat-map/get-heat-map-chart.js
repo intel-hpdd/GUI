@@ -123,10 +123,6 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           .attr('class', 'legend-group');
 
         gEnter
-          .append('g')
-          .attr('class', 'nv-interactive');
-
-        gEnter
           .append('text')
           .attr('class', 'x label')
           .style('text-anchor', 'middle');
@@ -139,14 +135,17 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           .append('g')
           .attr('class', 'heat-map-group');
 
+        chartGroupGEnter
+          .append('g')
+          .attr('class', 'nv-interactive');
+
         // These operate on enter + update.
         var chartGroup = wrap.select('.chart-group')
           .attr('transform', translator(margin.left, margin.top));
         var legendGroup = wrap.select('.legend-group')
           .attr('transform', translator(margin.left, 0));
         var heatMapGroup = wrap.select('.heat-map-group');
-        var interactiveGroup = wrap.select('.nv-interactive')
-          .attr('transform', translator(margin.left, margin.top));
+        var interactiveGroup = wrap.select('.nv-interactive');
 
         var keys = _(merged)
           .pluck('name')
@@ -261,6 +260,8 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           var point = row[index - 1];
 
           var nextPoint = row[index];
+
+          d3.select('.nvtooltip').remove();
 
           chart.dispatch.click({
             current: point,

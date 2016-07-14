@@ -29,11 +29,6 @@ import {
 } from '../stream-when-visible/stream-when-visible.js';
 
 import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
-
-import {
   curry, map
 } from 'intel-fp';
 
