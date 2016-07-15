@@ -48,6 +48,7 @@ const rightHands = parsely.choice([
     )
   )
   .concat([
+    parsely.matchValueTo('none', 'false'),
     qsToInputParser.value,
     qsToInputParser.number
   ])

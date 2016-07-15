@@ -85,9 +85,22 @@ const orderByParser = parsely.parseStr([
   rightHand
 ]);
 
+// active parser
+const active = parsely.matchValue('active');
+const t = parsely.matchValue('true');
+const f = parsely.matchValueTo('false', 'none');
+const activeParser = inputToQsParser.assign(
+  active,
+  parsely.choice([
+    t,
+    f
+  ])
+);
+
 export const choices = parsely.choice([
   severityParser,
   typeParser,
+  activeParser,
   inputToQsParser.offsetParser,
   inputToQsParser.limitParser,
   orderByParser,

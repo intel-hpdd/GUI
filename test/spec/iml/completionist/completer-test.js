@@ -16,6 +16,7 @@ describe('completer', () => {
     '': [
       { start: Infinity, end: Infinity, suggestion: 'severity' },
       { start: Infinity, end: Infinity, suggestion: 'type' },
+      { start: Infinity, end: Infinity, suggestion: 'active' },
       { start: Infinity, end: Infinity, suggestion: 'offset' },
       { start: Infinity, end: Infinity, suggestion: 'limit' },
       { start: Infinity, end: Infinity, suggestion: 'order by' },
@@ -25,6 +26,7 @@ describe('completer', () => {
     'a': [
       { start: 0, end: 1, suggestion: 'severity' },
       { start: 0, end: 1, suggestion: 'type' },
+      { start: 0, end: 1, suggestion: 'active' },
       { start: 0, end: 1, suggestion: 'offset' },
       { start: 0, end: 1, suggestion: 'limit' },
       { start: 0, end: 1, suggestion: 'order by' },
