@@ -6,17 +6,18 @@ import interceptorsModule
   from '../../../../source/iml/interceptors/interceptor-module';
 
 describe('Login Controller', () => {
-  var userEulaStates = {
+  const userEulaStates = {
     EULA: 'eula',
     PASS: 'pass',
     DENIED: 'denied'
   };
 
-  var $uibModal, navigate;
+  let $uibModal, navigate;
 
   beforeEach(module(loginModule, interceptorsModule, $provide => {
     navigate = jasmine.createSpy('navigate');
     $provide.value('navigate', navigate);
+
 
     $provide.value('help', {
       get: jasmine.createSpy('help').and.returnValue('foo')
@@ -129,7 +130,7 @@ describe('Login Controller', () => {
       $httpBackend.flush();
 
       expect($uibModal.open.calls.count()).toEqual(0);
-      expect(navigate).toHaveBeenCalledOnceWith();
+      expect(navigate).toHaveBeenCalledOnce();
     });
 
     it('should logout when eula is rejected', () => {
@@ -149,7 +150,7 @@ describe('Login Controller', () => {
 
       $rootScope.$digest();
 
-      expect(navigate).toHaveBeenCalledWith();
+      expect(navigate).toHaveBeenCalledOnce();
     });
   });
 

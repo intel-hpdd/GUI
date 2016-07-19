@@ -13,16 +13,16 @@ describe('The job stats controller', () => {
       name: 'foo'
     };
 
-    var $routeSegment = {
-      $routeParams: {
-        startDate: '2014-01-30T22:08:11.423Z',
-        endDate: '2014-01-30T22:08:41.220Z'
-      }
+
+    const $stateParams = {
+      startDate: '2014-01-30T22:08:11.423Z',
+      endDate: '2014-01-30T22:08:41.220Z'
     };
+
 
     jobStatsCtrl = $controller('JobStatsCtrl', {
       target,
-      $routeSegment,
+      $stateParams,
       metrics: {
         read_bytes: [],
         write_bytes: [],

@@ -19,15 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function JobStatsCtrl ($routeSegment, metrics, target) {
+export default function JobStatsCtrl ($stateParams, metrics, target) {
   'ngInject';
 
   var jobStatsCtrl = this;
 
   jobStatsCtrl.name = target.name;
 
-  jobStatsCtrl.startDate = $routeSegment.$routeParams.startDate;
-  jobStatsCtrl.endDate = $routeSegment.$routeParams.endDate;
+  jobStatsCtrl.startDate = $stateParams.startDate;
+  jobStatsCtrl.endDate = $stateParams.endDate;
 
   Object.assign(jobStatsCtrl, metrics);
 }

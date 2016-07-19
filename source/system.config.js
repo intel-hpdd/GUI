@@ -28,6 +28,7 @@ System.config({
     'angular/angular': 'node_modules/angular/angular.js',
     'angular-mocks': 'node_modules/angular-mocks/ngMock.js',
     'angular-mocks/angular-mocks': 'node_modules/angular-mocks/angular-mocks.js',
+
     'jquery': 'node_modules/jquery/dist/jquery.js',
     d3: 'node_modules/d3/d3.js',
     nvd3: 'node_modules/nvd3/build/nv.d3.js',
@@ -45,11 +46,9 @@ System.config({
     'dist/ui-bootstrap-tpls': 'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
     'angular-resource': 'node_modules/angular-resource/index.js',
     'angular-resource/angular-resource': 'node_modules/angular-resource/angular-resource.js',
-    'angular-route': 'node_modules/angular-route/index.js',
-    'angular-route/angular-route': 'node_modules/angular-route/angular-route.js',
+    'angular-ui-router': 'node_modules/angular-ui-router/release/angular-ui-router.js',
     'angular-animate': 'node_modules/angular-animate/index.js',
     'angular-animate/angular-animate': 'node_modules/angular-animate/angular-animate.js',
-    'intel-angular-route-segment': 'node_modules/intel-angular-route-segment/build/angular-route-segment.js',
     'intel-fp': 'node_modules/intel-fp/dist/source/fp.js',
     'intel-obj': 'node_modules/intel-obj/dist/source/obj.js',
     'intel-math': 'node_modules/intel-math/dist/source/math.js',
@@ -82,17 +81,8 @@ System.config({
     'node_modules/angular-resource/index.js': {
       deps: ['angular']
     },
-    'node_modules/angular-animate/angular-animate.js': {
+    'node_modules/angular-ui-router/release/angular-ui-router.js': {
       deps: ['angular']
-    },
-    'node_modules/angular-route/angular-route.js': {
-      deps: ['angular']
-    },
-    'node_modules/intel-angular-route-segment/build/angular-route-segment.js': {
-      deps: [
-        'angular',
-        'angular-route'
-      ]
     },
     'bower_components/twix/bin/twix.js': {
       deps: [

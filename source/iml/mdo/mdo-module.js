@@ -32,11 +32,6 @@ import getMdoChartFactory from './get-mdo-chart';
 import mdoChartTemplate from './assets/html/mdo';
 
 import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
-
-import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
 
@@ -44,13 +39,8 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-import type {
-  scopeToElementT
-} from '../chart-compiler/chart-compiler-module.js';
-
 export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
   buff:(s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-export type getMdoChartT = (page:string, overrides:filesystemQueryT | targetQueryT) => Promise<scopeToElementT>;
 export type addMdoActionT = {
     type: 'DEFAULT_MDO_CHART_ITEMS' | 'UPDATE_MDO_CHART_ITEMS',
     payload: durationPayloadT

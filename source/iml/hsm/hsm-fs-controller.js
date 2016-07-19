@@ -22,10 +22,8 @@
 import angular from 'angular';
 import * as fp from 'intel-fp';
 
-import {invokeMethod} from 'intel-fp';
-
-export default function HsmFsCtrl ($scope, $routeSegment, $location,
-                                   routeStream, fsStream) {
+export default function HsmFsCtrl ($scope, $state,
+                                   qsStream, fsStream) {
   'ngInject';
 
   var fsStream2;
@@ -33,10 +31,9 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
   const hsmFs = angular.extend(this, {
     onUpdate () {
       const fsId = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
-      const path = $routeSegment.getSegmentUrl('app.hsmFs.hsm', {
+      $state.go('app.hsmFs.hsm', {
         fsId
       });
-      $location.path(path);
     }
   });
 
@@ -44,17 +41,20 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
 
   p('fileSystems', fsStream());
 
-  const rs = routeStream();
+  const qs$ = qsStream({
+    to: (state) => state.includes['app.hsmFs']
+  });
 
-  rs
-    .filter(invokeMethod('contains', ['hsmFs']))
+  qs$
     .tap(() => {
       if (fsStream2) {
         fsStream2.destroy();
         hsmFs.fs = fsStream2 = null;
       }
     })
-    .each(({params: {fsId}}) => {
+    .each(() => {
+      const fsId = $state.router.globals.params.fsId;
+
       if (fsId) {
         fsStream2 = fsStream()
           .map(fp.find(x => x.id === fsId));
@@ -62,8 +62,8 @@ export default function HsmFsCtrl ($scope, $routeSegment, $location,
       }
     });
 
-  $scope.$on('$destroy', function onDestroy () {
-    rs.destroy();
+  $scope.$on('$destroy', () => {
+    qs$.destroy();
     fsStream.endBroadcast();
   });
 }

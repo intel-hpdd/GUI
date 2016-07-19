@@ -21,14 +21,13 @@
 
 import angular from 'angular';
 
-export default function AppCtrl ($scope, $routeSegment, session, navigate, ENV, GROUPS,
+export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
                                  help, notificationStream, alertStream) {
   'ngInject';
 
   var login = navigate.bind(null, 'login/');
 
   angular.extend(this, {
-    $routeSegment,
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
     COPYRIGHT_YEAR: help.get('copyright_year'),
     GROUPS,
@@ -67,7 +66,7 @@ export default function AppCtrl ($scope, $routeSegment, session, navigate, ENV, 
       ctrl.link = '/ui/status/';
 
       if (status.health !== 'GOOD')
-        ctrl.link += '?severity__in=WARNING&severity__in=ERROR&active=true';
+        ctrl.link += '?severity__in=WARNING,ERROR&active=true';
     })
     .through(p);
 

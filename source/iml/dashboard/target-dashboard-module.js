@@ -29,12 +29,7 @@ import mdoModule from '../mdo/mdo-module';
 import readWriteBandwidthModule from '../read-write-bandwidth/read-write-bandwidth-module';
 import highlandModule from '../highland/highland-module';
 import TargetDashboardController from './target-dashboard-controller';
-import {
-  targetDashboardKindFactory,
-  targetDashboardResolvesFactory,
-  targetDashboardTargetStreamFactory,
-  targetDashboardUsageStreamFactory
-} from './target-dashboard-resolves';
+
 
 export default angular
   .module('targetDashboard', [
@@ -42,8 +37,4 @@ export default angular
     highlandModule
   ])
   .controller('TargetDashboardController', TargetDashboardController)
-  .factory('targetDashboardKind', targetDashboardKindFactory)
-  .factory('targetDashboardResolves', targetDashboardResolvesFactory)
-  .factory('targetDashboardTargetStream', targetDashboardTargetStreamFactory)
-  .factory('targetDashboardUsageStream', targetDashboardUsageStreamFactory)
   .name;

@@ -19,16 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import {map, invokeMethod} from 'intel-fp';
+import {
+  map,
+  invokeMethod
+} from 'intel-fp';
 
-export default function TargetDashboardController ($scope, kind, charts, targetStream, usageStream) {
+export default function TargetDashboardController ($scope, $stateParams, charts, targetStream, usageStream) {
   'ngInject';
 
-  var targetDashboard = angular.extend(this, {
+  const targetDashboard = Object.assign(this, {
     charts,
     usageStream,
-    kind
+    kind: $stateParams.kind
   });
 
   targetStream

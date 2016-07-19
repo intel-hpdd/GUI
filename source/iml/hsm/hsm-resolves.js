@@ -29,12 +29,8 @@ import {
 } from 'intel-maybe';
 
 import {
-  over,
-  lensProp,
-  view,
   flow,
-  map,
-  mapped
+  map
 } from 'intel-fp';
 
 const fsParams = (filesystemId) => {
@@ -45,50 +41,37 @@ const fsParams = (filesystemId) => {
   };
 };
 
-
-const maybeCurrent = flow(
-  over(lensProp('current'), Maybe.of),
-  view(lensProp('current'))
-);
-
 const routePath = flow(
-  maybeCurrent,
-  view(
-    flow(
-      lensProp('fsId'),
-      lensProp('params'),
-      mapped
-    )
-  ),
+  (x) => Maybe.of(x.fsId || null),
   map(fsParams),
-  withDefault(() => { return {}; })
+  withDefault(() => ({}))
 );
 
-export function copytoolOperationStream ($route) {
+export function copytoolOperationStream ($stateParams) {
   'ngInject';
 
   return flow(
     routePath,
     getCopytoolOperationStream,
     resolveStream
-  ).bind(null, $route);
+  )($stateParams);
 }
 
-export function copytoolStream ($route) {
+export function copytoolStream ($stateParams) {
   'ngInject';
 
   return flow(
     routePath,
     getCopytoolStream,
     resolveStream
-  ).bind(null, $route);
+  )($stateParams);
 }
 
-export function agentVsCopytoolChartResolve ($route, getAgentVsCopytoolChart) {
+export function agentVsCopytoolChart ($stateParams, getAgentVsCopytoolChart) {
   'ngInject';
 
   return flow(
     routePath,
     getAgentVsCopytoolChart
-  ).bind(null, $route);
+  )($stateParams);
 }

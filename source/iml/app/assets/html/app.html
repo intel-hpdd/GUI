@@ -10,10 +10,10 @@
   </div>
   <div class="navbar-collapse" uib-collapse="app.isCollapsed">
     <ul class="nav navbar-nav">
-      <li ng-class="{active: app.$routeSegment.contains('dashboard')}">
-        <a route-to="dashboard/" id="dashboard-menu"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
+      <li ui-sref-active="active">
+        <a ui-sref="app.dashboard.overview" id="dashboard-menu"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
       </li>
-      <li ng-class="{active: app.$routeSegment.contains('configure')}" restrict-to="{{ app.GROUPS.FS_ADMINS }}" uib-dropdown>
+      <li restrict-to="{{ app.GROUPS.FS_ADMINS }}" uib-dropdown>
         <a uib-dropdown-toggle href="#" id="configure-menu"><i class="fa fa-cog"></i> Configuration <i class="fa fa-caret-down"></i></a>
         <ul uib-dropdown-menu class="inverse-dropdown" role="menu" aria-labelledby="dropdownMenu">
           <li><a tabindex="-1" id="server-conf-item" route-to="configure/server/">Servers</a></li>
@@ -30,7 +30,7 @@
         <a id="log-menu" route-to="log/"><i class="fa fa-book"></i> Logs</a>
       </li>
       <li help-mapper></li>
-      <li ng-class="{active: app.$routeSegment.contains('status')}">
+      <li>
         <a class="navigation status-nav" ng-href="{{ app.link }}">
           <span ng-class="app.status.health" class="ng-cloak badge notification-counter">
             {{ app.status.count }}<sup ng-if="app.status.aboveLimit">+</sup>
@@ -59,7 +59,7 @@
   </side-panel>
   <slider-panel restrict-to="{{ app.GROUPS.FS_ADMINS }}"></slider-panel>
   <div class="main-panel">
-    <div class="app-view" app-view-segment="1"></div>
+    <ui-loader-view class="app-view" might-skip="true"></ui-loader-view>
     <footer class="text-center">
       <small>
         Intel&reg; Manager for Lustre* software {{ app.RUNTIME_VERSION }} is

@@ -22,37 +22,38 @@
 import angular from 'angular';
 
 
-export function appJobstatsTargetFactory ($route, TargetModel) {
+export function appJobstatsTarget ($stateParams, TargetModel) {
   'ngInject';
 
-  return function appJobstatsTarget () {
-    return TargetModel.get({
-      id: $route.current.params.id
-    }).$promise;
-  };
+  return TargetModel.get({
+    id: $stateParams.id
+  }).$promise;
 }
 
-export function appJobstatsMetricsFactory ($q, $route, TargetMetricModel) {
+export function appJobstatsMetrics ($q, $stateParams, TargetMetricModel) {
   'ngInject';
 
-  return function appJobstatsMetrics () {
-    var commonParams = {
-      begin: $route.current.params.startDate,
-      end: $route.current.params.endDate,
-      job: 'id',
-      id: $route.current.params.id
-    };
-    var metrics = ['read_bytes', 'write_bytes', 'read_iops', 'write_iops'];
-
-    var promises = metrics.reduce(function reducer (out, metric) {
-
-      var params = angular.merge({}, commonParams, {metrics: metric});
-
-      out[metric] = TargetMetricModel.getJobAverage(params);
-
-      return out;
-    }, {});
-
-    return $q.all(promises);
+  const commonParams = {
+    begin: $stateParams.startDate,
+    end: $stateParams.endDate,
+    job: 'id',
+    id: $stateParams.id
   };
+  const metrics = [
+    'read_bytes',
+    'write_bytes',
+    'read_iops',
+    'write_iops'
+  ];
+
+  var promises = metrics.reduce(function reducer (out, metric) {
+
+    var params = angular.merge({}, commonParams, {metrics: metric});
+
+    out[metric] = TargetMetricModel.getJobAverage(params);
+
+    return out;
+  }, {});
+
+  return $q.all(promises);
 }

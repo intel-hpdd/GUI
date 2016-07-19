@@ -1,14 +1,11 @@
 import highland from 'highland';
-import {
-  always
-} from 'intel-fp';
 import HsmFsCtrl from '../../../../source/iml/hsm/hsm-fs-controller';
 import hsmFsModule from '../../../../source/iml/hsm/hsm-fs-module';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
-describe('HSM fs controller', function () {
-  var ctrl, $scope, $location, $routeSegment,
-    fsStream, routeStream, rs, fsStreamB;
+describe('HSM fs controller', () => {
+  let ctrl, $scope, $state,
+    fsStream, qsStream, qs$, fsStreamB;
 
   beforeEach(module(hsmFsModule));
 
@@ -20,30 +17,31 @@ describe('HSM fs controller', function () {
     jasmine.clock().uninstall();
   });
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(($controller, $rootScope) => {
     $scope = $rootScope.$new();
 
-    $routeSegment = {
-      getSegmentUrl: jasmine.createSpy('getSegmentUrl')
-    };
-
-    $location = {
-      path: jasmine.createSpy('path')
+    $state = {
+      go: jasmine.createSpy('go'),
+      router: {
+        globals: {
+          params: {
+            fsId: '1'
+          }
+        }
+      }
     };
 
     fsStream = highland();
     spyOn(fsStream, 'destroy');
 
-    rs = highland();
-    spyOn(rs, 'destroy');
-    routeStream = jasmine.createSpy('routeStream')
-      .and.returnValue(rs);
-    rs.write({
-      params: {
-        fsId: '1'
-      },
-      contains: jasmine.createSpy('contains')
-        .and.returnValue(true)
+    qs$ = highland();
+    spyOn(qs$, 'destroy');
+    qsStream = jasmine
+      .createSpy('qsStream')
+      .and
+      .returnValue(qs$);
+    qs$.write({
+      qs: ''
     });
     jasmine.clock().tick();
 
@@ -51,67 +49,64 @@ describe('HSM fs controller', function () {
 
     ctrl = $controller('HsmFsCtrl', {
       $scope,
-      $routeSegment,
-      $location,
+      $state,
       fsStream: fsStreamB,
-      routeStream
+      qsStream
     });
   }));
 
-  it('should setup ctrl as expected', function () {
+  it('should setup ctrl as expected', () => {
     const instance = window.extendWithConstructor(HsmFsCtrl, {
       onUpdate: jasmine.any(Function)
     });
 
-    expect(ctrl).toEqual(instance);
+    expect(ctrl)
+      .toEqual(instance);
   });
 
-  describe('onUpdate', function () {
-    beforeEach(function () {
-      $routeSegment.getSegmentUrl.and.returnValue('/configure/hsm');
-    });
+  describe('onUpdate', () => {
+    it('should go to the new path without id', () => {
+      ctrl.selectedFs = null;
 
-    it('should getSegmentUrl without id', function () {
       ctrl.onUpdate();
 
-      expect($routeSegment.getSegmentUrl).toHaveBeenCalledOnceWith(
-        'app.hsmFs.hsm',
+      expect($state.go)
+        .toHaveBeenCalledOnceWith(
+          'app.hsmFs.hsm',
         {
           fsId: ''
         }
-      );
+        );
     });
 
-    it('should getSegmentUrl with id', function () {
+    it('should go to the new path with id', () => {
       ctrl.selectedFs = {
         id: '1'
       };
 
       ctrl.onUpdate();
 
-      expect($routeSegment.getSegmentUrl).toHaveBeenCalledOnceWith(
-        'app.hsmFs.hsm',
+      expect($state.go)
+        .toHaveBeenCalledOnceWith(
+          'app.hsmFs.hsm',
         {
           fsId: '1'
         }
-      );
-    });
-
-    it('should set the new path', function () {
-      ctrl.onUpdate();
-
-      expect($location.path).toHaveBeenCalledOnceWith('/configure/hsm');
+        );
     });
   });
 
-  it('should set fileSystems data', function () {
-    fsStream.write([{ id: '1' }, { id: '2' }]);
+  it('should set fileSystems data', () => {
+    fsStream.write([
+      { id: '1' },
+      { id: '2' }
+    ]);
     jasmine.clock().tick();
 
     expect(ctrl.fileSystems).toEqual([{ id: '1' }, { id: '2' }]);
   });
 
-  it('should set fs to the fsId', function () {
+  it('should set fs to the fsId', () => {
     fsStream.write([
       {
         id: '1',
@@ -130,43 +125,49 @@ describe('HSM fs controller', function () {
     });
   });
 
-  it('should filter out if fsId does not exist', function () {
-    fsStream.write([{ id: '1' }]);
+  it('should filter out if fsId does not exist', () => {
+    $state.router.globals.params.fsId = '';
 
-    rs.write({
-      params: {},
-      contains: always(true)
+    fsStream.write([
+      { id: '1' }
+    ]);
+
+    qs$.write({
+      qs: ''
     });
     jasmine.clock().tick();
 
     expect(ctrl.fs).toBe(null);
   });
 
-  it('should alter fs id on change', function () {
-    fsStream.write([{ id: '1' }, { id: '3' }]);
+  it('should alter fs id on change', () => {
+    $state.router.globals.params.fsId = '3';
 
-    rs.write({
-      params: {
-        fsId: '3'
-      },
-      contains: always(true)
+    fsStream.write([
+      { id: '1' },
+      { id: '3' }
+    ]);
+
+    qs$.write({
+      qs: ''
     });
     jasmine.clock().tick();
 
     expect(ctrl.fs).toEqual({ id: '3' });
   });
 
-  describe('destroy', function () {
-    beforeEach(function () {
+  describe('destroy', () => {
+    beforeEach(() => {
       $scope.$destroy();
     });
 
-    it('should destroy the fsStream', function () {
-      expect(fsStream.destroy).toHaveBeenCalled();
+    it('should destroy the fsStream', () => {
+      expect(fsStream.destroy)
+        .toHaveBeenCalled();
     });
 
-    it('should destroy the routeStream', () => {
-      expect(rs.destroy)
+    it('should destroy the qsStream', () => {
+      expect(qs$.destroy)
         .toHaveBeenCalled();
     });
   });

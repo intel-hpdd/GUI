@@ -30,7 +30,7 @@ import asStreamModule from '../as-stream/as-stream-module.js';
 import asValueModule from '../as-value/as-value-module.js';
 import routeToModule from '../route-to/route-to-module.js';
 import mgtComponent from './mgt-component.js';
-import {mgtAlertIndicatorStream, mgtJobIndicatorStream, mgtStream} from './mgt-resolves.js';
+import mgtPageComponent from './mgt-page-component.js';
 
 export default angular.module('mgtModule', [
   extractApiFilterModule, actionDropdownModule,
@@ -39,7 +39,5 @@ export default angular.module('mgtModule', [
   asValueModule
 ])
   .component('mgt', mgtComponent)
-  .factory('mgtAlertIndicatorStream', mgtAlertIndicatorStream)
-  .factory('mgtJobIndicatorStream', mgtJobIndicatorStream)
-  .factory('mgtStream', mgtStream)
+  .component('mgtPage', mgtPageComponent)
   .name;

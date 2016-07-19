@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,12 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import highland from 'highland';
 
-export default function broadcaster (source$:HighlandStreamT<Object>):streamFn {
-  var latest;
+import type {
+  HighlandStreamT
+} from 'highland';
+
+
+type streamFnT = () => HighlandStreamT<any>;
+
+export default function broadcaster (source$:HighlandStreamT<any>):streamFnT {
+  var latest:mixed;
 
   const viewers = [];
 
@@ -37,14 +44,14 @@ export default function broadcaster (source$:HighlandStreamT<Object>):streamFn {
 
       viewers.forEach(v => v.write(err));
     })
-    .each(xs => {
+    .each((xs:mixed) => {
       latest = xs;
 
       viewers.forEach(v => v.write(xs));
     });
 
   const fn = () => {
-    const viewer$:HighlandStreamT<mixed> = highland()
+    const viewer$:HighlandStreamT<any> = highland()
       .onDestroy(() => {
         const idx = viewers
           .indexOf(viewer$);

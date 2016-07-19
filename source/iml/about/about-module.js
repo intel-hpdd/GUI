@@ -24,7 +24,6 @@
 import angular from 'angular';
 import helpModule from '../help-module';
 import AboutCtrl from './about-controller';
-import aboutRoute from './about-route';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import aboutTemplate from './assets/html/about';
@@ -33,5 +32,4 @@ export default angular.module('about', [
   helpModule, aboutTemplate
 ])
 .controller('AboutCtrl', AboutCtrl)
-.config(aboutRoute)
 .name;

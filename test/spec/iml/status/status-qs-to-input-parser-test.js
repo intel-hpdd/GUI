@@ -1,15 +1,6 @@
-import statusModule from '../../../../source/iml/status/status-module';
-
+import statusQsToInputParser from '../../../../source/iml/status/status-qs-to-input-parser.js';
 
 describe('status qs to input parser test', () => {
-  beforeEach(module(statusModule));
-
-  var statusQsToInputParser;
-
-  beforeEach(inject(_statusQsToInputParser_ => {
-    statusQsToInputParser = _statusQsToInputParser_;
-  }));
-
   const inputOutput = {
     '': '',
     'a': new Error('Expected one of __contains, __endswith, __in, __gte, __lte, __gt, __lt, = got end of string'),

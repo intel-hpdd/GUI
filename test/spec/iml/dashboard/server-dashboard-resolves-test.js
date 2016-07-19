@@ -3,92 +3,139 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
+import highland from 'highland';
+
 describe('server dashboard resolves', () => {
-  var getReadWriteBandwidthChart, getCpuUsageChart,
-    getMemoryUsageChart, $route, serverDashboardChartResolvesFactory;
+  let serverDashboardChartResolves,
+    serverDashboardHostStreamResolves;
 
   beforeEachAsync(async function () {
-    getCpuUsageChart = jasmine.createSpy('getCpuUsageChart');
-
     const mod = await mock('source/iml/dashboard/server-dashboard-resolves.js', {});
 
-    serverDashboardChartResolvesFactory = mod.serverDashboardChartResolvesFactory;
+    ({
+      serverDashboardChartResolves,
+      serverDashboardHostStreamResolves
+    } = mod);
   });
 
   afterEach(resetAll);
 
-  var $q, $rootScope, serverDashboardChartResolves;
+  describe('chart resolves', () => {
+    let getReadWriteBandwidthChart,
+      getCpuUsageChart,
+      getMemoryUsageChart,
+      $stateParams,
+      promise;
 
-  beforeEach(inject(function (_$q_, _$rootScope_) {
-    $q = _$q_;
-    $rootScope = _$rootScope_;
+    beforeEach(() => {
+      getReadWriteBandwidthChart = jasmine
+        .createSpy('getReadWriteBandwidthChart')
+        .and
+        .returnValue('read/write data');
 
-    getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart');
-    getMemoryUsageChart = jasmine.createSpy('getMemoryUsageChart');
+      getMemoryUsageChart = jasmine
+        .createSpy('getMemoryUsageChart')
+        .and
+        .returnValue('memory usage data');
 
-    $route = {
-      current: {
-        params: {
-          serverId: '1'
-        }
-      }
-    };
+      getCpuUsageChart = jasmine
+        .createSpy('getCpuUsageChart')
+        .and
+        .returnValue('cpu usage data');
 
-    serverDashboardChartResolves = serverDashboardChartResolvesFactory(
-      $route, $q, getReadWriteBandwidthChart, getMemoryUsageChart, getCpuUsageChart);
-  }));
+      $stateParams = {
+        serverId: '1'
+      };
 
-  it('should return a function', function () {
-    expect(serverDashboardChartResolves).toEqual(jasmine.any(Function));
-  });
+      promise = serverDashboardChartResolves(
+        $stateParams,
+        getReadWriteBandwidthChart,
+        getMemoryUsageChart,
+        getCpuUsageChart
+      );
+    });
 
-  var res;
+    it('should return a function', () => {
+      expect(serverDashboardChartResolves)
+        .toEqual(jasmine.any(Function));
+    });
 
-  beforeEach(function () {
-    getReadWriteBandwidthChart.and.returnValue($q.when('read/write data'));
-    getCpuUsageChart.and.returnValue($q.when('cpu usage data'));
-    getMemoryUsageChart.and.returnValue($q.when('memory usage data'));
+    it('should setup the read write bandwidth chart', () => {
+      expect(getReadWriteBandwidthChart)
+        .toHaveBeenCalledOnceWith({
+          qs: {
+            host_id: '1'
+          }
+        }, 'server1');
+    });
 
-    res = serverDashboardChartResolves('1');
-  });
+    it('should setup the cpu usage chart', () => {
+      expect(getCpuUsageChart)
+        .toHaveBeenCalledOnceWith({
+          qs: {
+            id: '1'
+          }
+        }, 'server1');
+    });
 
-  it('should setup the read write bandwidth chart', function () {
-    expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({
-      qs: {
-        host_id: '1'
-      }
-    }, 'server1');
-  });
+    it('should setup the memory usage chart', () => {
+      expect(getMemoryUsageChart)
+        .toHaveBeenCalledOnceWith({
+          qs: {
+            id: '1'
+          }
+        }, 'server1');
+    });
 
-  it('should setup the cpu usage chart', function () {
-    expect(getCpuUsageChart).toHaveBeenCalledOnceWith({
-      qs: {
-        id: '1'
-      }
-    }, 'server1');
-  });
+    it('should be a promise', () => {
+      expect(promise)
+        .toBeAPromise();
+    });
 
-  it('should setup the memory usage chart', function () {
-    expect(getMemoryUsageChart).toHaveBeenCalledOnceWith({
-      qs: {
-        id: '1'
-      }
-    }, 'server1');
-  });
+    itAsync('should resolve with all the charts', async function () {
+      const res = await promise;
 
-  it('should be a promise', function () {
-    expect(res).toBeAPromise();
-  });
-
-  it('should resolve with all the charts', function () {
-    res.then(function (xs) {
-      expect(xs).toEqual([
+      expect(res).toEqual([
         'read/write data',
         'cpu usage data',
         'memory usage data'
       ]);
     });
+  });
 
-    $rootScope.$apply();
+  describe('host stream resolves', () => {
+    let $stateParams,
+      hostStream,
+      s;
+
+    beforeEach(() => {
+      $stateParams = {
+        serverId: 1
+      };
+
+      hostStream = highland();
+
+      s = serverDashboardHostStreamResolves($stateParams, () => hostStream);
+    });
+
+    it('should write to the stream', () => {
+      hostStream.write([{
+        id: 1,
+        foo: 'bar'
+      }]);
+
+      let result;
+
+      s
+        .each(x => result = x);
+
+      expect(result)
+        .toEqual(
+        {
+          id: 1,
+          foo: 'bar'
+        }
+        );
+    });
   });
 });

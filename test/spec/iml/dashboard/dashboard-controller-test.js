@@ -5,11 +5,12 @@ import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
 describe('dashboard controller', () => {
   beforeEach(module(dashboardModule));
 
-  var $scope, $location, $routeSegment,
+  let $scope, $location, $stateParams,
+    qsStream, qs$,
     fsStream, hostStream, targetStream,
-    $routeParams, dashboard;
+    dashboard;
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  beforeEach(inject(($controller, $rootScope) => {
     fsStream = highland();
     spyOn(fsStream, 'destroy');
     hostStream = highland();
@@ -20,11 +21,18 @@ describe('dashboard controller', () => {
     $scope = $rootScope.$new();
     spyOn($rootScope, '$on').and.callThrough();
 
-    $routeParams = {};
-    $routeSegment = {
-      $routeParams: $routeParams,
-      contains: jasmine.createSpy('contains')
-    };
+    $stateParams = {};
+
+    qs$ = highland();
+    spyOn(qs$, 'destroy');
+    qsStream = jasmine
+      .createSpy('qsStream')
+      .and
+      .returnValue(qs$);
+
+    qs$.write({
+      qs: ''
+    });2;
 
     $location = {
       path: jasmine.createSpy('path')
@@ -32,9 +40,9 @@ describe('dashboard controller', () => {
 
     dashboard = $controller('DashboardCtrl', {
       $scope,
-      $routeParams,
+      $stateParams,
       $location,
-      $routeSegment,
+      qsStream,
       fsStream: broadcaster(fsStream),
       hostStream: broadcaster(hostStream),
       targetStream: broadcaster(targetStream)
@@ -237,78 +245,10 @@ describe('dashboard controller', () => {
     it('should destroy the targetStream', () => {
       expect(targetStream.destroy).toHaveBeenCalled();
     });
-  });
 
-  describe('on route change success', () => {
-    var handler;
-
-    beforeEach(() => {
-      handler = $scope.$root.$on.calls.mostRecent().args[1];
-      $routeSegment.contains.and.returnValue(true);
-    });
-
-    it('should set fsData', () => {
-      handler(null, {
-        params: {
-          fsId: '5'
-        }
-      });
-
-      fsStream
-        .write([
-          {
-            id: '5'
-          }
-        ]);
-
-      jasmine.clock().tick();
-
-      expect(dashboard.fsData)
-        .toEqual({
-          id: '5'
-        });
-    });
-
-    it('should set hostData', () => {
-      handler(null, {
-        params: {
-          serverId: '6'
-        }
-      });
-
-      hostStream.write([
-        {
-          id: '6'
-        }
-      ]);
-
-      jasmine.clock().tick();
-
-      expect(dashboard.hostData)
-        .toEqual({
-          id: '6'
-        });
-    });
-
-    it('should set target data', () => {
-      handler(null, {
-        params: {
-          targetId: '8'
-        }
-      });
-
-      targetStream.write([
-        {
-          id: '8'
-        }
-      ]);
-
-      jasmine.clock().tick();
-
-      expect(dashboard.targetData)
-        .toEqual({
-          id: '8'
-        });
+    it('should destroy the qs$', () => {
+      expect(qs$.destroy)
+        .toHaveBeenCalledOnce();
     });
   });
 });

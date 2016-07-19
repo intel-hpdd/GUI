@@ -29,7 +29,6 @@ import mdoModule from '../mdo/mdo-module';
 import ostBalanceModule from '../ost-balance/ost-balance-module';
 import readWriteHeatMapModule from '../read-write-heat-map/read-write-heat-map-module';
 import BaseDashboardCtrl from './base-dashboard-controller';
-import {baseDashboardChartResolvesFactory, baseDashboardFsStreamFactory} from './base-dashboard-chart-resolves';
 
 export default angular
   .module('baseDashboard', [
@@ -37,6 +36,4 @@ export default angular
     mdoModule, ostBalanceModule, readWriteHeatMapModule
   ])
   .controller('BaseDashboardCtrl', BaseDashboardCtrl)
-  .factory('baseDashboardChartResolves', baseDashboardChartResolvesFactory)
-  .factory('baseDashboardFsStream', baseDashboardFsStreamFactory)
   .name;

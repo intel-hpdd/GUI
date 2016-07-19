@@ -1,6 +1,4 @@
 import highland from 'highland';
-import baseDashboardModule from
-  '../../../../source/iml/dashboard/base-dashboard-module';
 
 import {
   mock,
@@ -8,25 +6,30 @@ import {
 } from '../../../system-mock.js';
 
 describe('base dashboard resolves', () => {
-  var $route;
+  let baseDashboardChartResolves, baseDashboardFsStream;
 
-  beforeEach(module(baseDashboardModule, ($provide) => {
-    $route = {
-      current: {
-        params: {}
-      }
-    };
-    $provide.value('$route', $route);
-  }));
+  beforeEachAsync(async function () {
+    const mod = await mock(
+      'source/iml/dashboard/base-dashboard-chart-resolves.js',
+      {}
+    );
+
+    ({
+      baseDashboardChartResolves,
+      baseDashboardFsStream
+    } = mod);
+  });
+
+  afterEach(resetAll);
 
   describe('charts', () => {
-    var getHostCpuRamChart, getOstBalanceChart,
+    let getHostCpuRamChart, getOstBalanceChart,
       getMdoChart, getReadWriteBandwidthChart,
-      getReadWriteHeatMapChart,
+      getReadWriteHeatMapChart, getInst, $stateParams,
       mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart,
       readWriteHeatMapChart;
 
-    beforeEach(module('baseDashboard', ($provide) => {
+    beforeEach(() => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
       getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')
@@ -36,60 +39,64 @@ describe('base dashboard resolves', () => {
           else if (title === 'Object Storage Servers')
             return ossChart;
         });
-      $provide.value('getHostCpuRamChart', getHostCpuRamChart);
 
       ostBalanceChart = { name: 'ostBalanceChart' };
       getOstBalanceChart = jasmine.createSpy('getOstBalanceChart')
         .and.returnValue(ostBalanceChart);
-      $provide.value('getOstBalanceChart', getOstBalanceChart);
 
       mdoChart = { name: 'mdoChart' };
       getMdoChart = jasmine.createSpy('getMdoChart')
         .and.returnValue(mdoChart);
-      $provide.value('getMdoChart', getMdoChart);
 
       readWriteBandwidthChart = { name: 'readWriteBandwidthChart' };
       getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart')
         .and.returnValue(readWriteBandwidthChart);
-      $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
 
       readWriteHeatMapChart = { name: 'readWriteHeatMapChart' };
       getReadWriteHeatMapChart = jasmine.createSpy('getReadWriteHeatMapChart')
         .and.returnValue(readWriteHeatMapChart);
-      $provide.value('getReadWriteHeatMapChart', getReadWriteHeatMapChart);
-    }));
 
-    var $rootScope, baseDashboardChartResolves;
+      $stateParams = {};
 
-    beforeEach(inject((_$rootScope_, _baseDashboardChartResolves_) => {
-      $rootScope = _$rootScope_;
-
-      baseDashboardChartResolves = _baseDashboardChartResolves_;
-    }));
+      getInst = baseDashboardChartResolves.bind(
+        null,
+        $stateParams,
+        getHostCpuRamChart,
+        getOstBalanceChart,
+        getMdoChart,
+        getReadWriteBandwidthChart,
+        getReadWriteHeatMapChart
+      );
+    });
 
     it('should be a function', () => {
-      expect(baseDashboardChartResolves).toEqual(jasmine.any(Function));
+      expect(baseDashboardChartResolves)
+        .toEqual(jasmine.any(Function));
     });
 
     describe('without fs id', () => {
       beforeEach(() => {
-        baseDashboardChartResolves();
+        getInst();
       });
 
       it('should get the read write heat map chart', () => {
-        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith({}, 'base');
+        expect(getReadWriteHeatMapChart)
+          .toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the ost balance chart', () => {
-        expect(getOstBalanceChart).toHaveBeenCalledOnceWith({}, 'base');
+        expect(getOstBalanceChart)
+          .toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mdo chart', () => {
-        expect(getMdoChart).toHaveBeenCalledOnceWith({}, 'base');
+        expect(getMdoChart)
+          .toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the read write bandwidth chart', () => {
-        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({}, 'base');
+        expect(getReadWriteBandwidthChart)
+          .toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mds chart', () => {
@@ -119,40 +126,44 @@ describe('base dashboard resolves', () => {
       var promise;
 
       beforeEach(() => {
-        $route.current.params.fsId = '1';
-        promise = baseDashboardChartResolves();
+        $stateParams.fsId = '1';
+        promise = getInst();
       });
 
       it('should get the read write heat map chart', () => {
-        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith({
-          qs: {
-            filesystem_id: '1'
-          }
-        }, '1');
+        expect(getReadWriteHeatMapChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              filesystem_id: '1'
+            }
+          }, '1');
       });
 
       it('should get the ost balance chart', () => {
-        expect(getOstBalanceChart).toHaveBeenCalledOnceWith({
-          qs: {
-            filesystem_id: '1'
-          }
-        }, '1');
+        expect(getOstBalanceChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              filesystem_id: '1'
+            }
+          }, '1');
       });
 
       it('should get the mdo chart', () => {
-        expect(getMdoChart).toHaveBeenCalledOnceWith({
-          qs: {
-            filesystem_id: '1'
-          }
-        }, '1');
+        expect(getMdoChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              filesystem_id: '1'
+            }
+          }, '1');
       });
 
       it('should get the read write bandwidth chart', () => {
-        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({
-          qs: {
-            filesystem_id: '1'
-          }
-        }, '1');
+        expect(getReadWriteBandwidthChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              filesystem_id: '1'
+            }
+          }, '1');
       });
 
       it('should get the mds chart', () => {
@@ -183,9 +194,12 @@ describe('base dashboard resolves', () => {
         );
       });
 
-      it('should return an array of charts', () => {
-        promise.then((streams) => {
-          expect(streams).toEqual([
+
+      itAsync('should return an array of charts', async function () {
+        const streams = await promise;
+
+        expect(streams)
+          .toEqual([
             readWriteHeatMapChart,
             ostBalanceChart,
             mdoChart,
@@ -193,98 +207,43 @@ describe('base dashboard resolves', () => {
             mdsChart,
             ossChart
           ]);
-        });
-
-        $rootScope.$apply();
       });
     });
   });
 
   describe('fs stream', () => {
-    var socketStream, s, baseDashboardFsStream;
+    let $stateParams, fsStream, b;
 
-    beforeEachAsync(async function () {
-      s = highland();
-      socketStream = jasmine
-        .createSpy('socketStream')
-        .and
-        .returnValue(s);
+    beforeEach(() => {
+      $stateParams = {
+        fsId: 1
+      };
+      fsStream = highland();
 
-      const mod = await mock('source/iml/dashboard/base-dashboard-chart-resolves.js', {
-        'source/iml/socket/socket-stream.js': { default: socketStream }
-      });
-
-      baseDashboardFsStream = mod.baseDashboardFsStreamFactory($route);
+      b = baseDashboardFsStream(() => fsStream, $stateParams);
     });
 
-    afterEach(resetAll);
+    it('should stream data', () => {
+      let result;
 
-    describe('with id', () => {
-      var promise;
-
-      beforeEach(() => {
-        $route.current.params.fsId = '1';
-        promise = baseDashboardFsStream();
-      });
-
-      it('should call socketStream', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
-          jsonMask: 'objects(name,bytes_total,bytes_free,files_free,files_total,client_count,immutable_state,\
-id,osts,mdts(id),mgt(primary_server,primary_server_name)',
-          qs: {
-            id: '1'
+      fsStream
+        .write([
+          {
+            id: 1,
+            foo: 'bar'
           }
-        });
-      });
+        ]);
 
-      itAsync('should stream data', async function () {
-        var result;
+      b()
+      .each(x => result = x);
 
-        s.write({
-          objects: ['foo']
-        });
-
-        const s2 = await promise;
-        s2().each((x) => {
-          result = x;
-        });
-
-        expect(result)
-          .toEqual(['foo']);
-      });
-    });
-
-    describe('without id', () => {
-      var promise;
-
-      beforeEach(() => {
-        $route.current.params = {};
-        promise = baseDashboardFsStream();
-      });
-
-      it('should call socketStream', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
-          jsonMask: 'objects(name,bytes_total,bytes_free,files_free,files_total,client_count,immutable_state,\
-id,osts,mdts(id),mgt(primary_server,primary_server_name)',
-          qs: {}
-        });
-      });
-
-      itAsync('should stream data', async function () {
-        var result;
-
-        s.write({
-          objects: ['foo']
-        });
-
-        const s2 = await promise;
-        s2().each((x) => {
-          result = x;
-        });
-
-        expect(result)
-          .toEqual(['foo']);
-      });
+      expect(result)
+        .toEqual([
+          {
+            id: 1,
+            foo: 'bar'
+          }
+        ]);
     });
   });
 });

@@ -9,7 +9,7 @@ describe('server detail resolves', () => {
   var store, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
-    $route, serverDetailResolves, spy;
+    $stateParams, serverDetailResolves, spy;
 
   beforeEachAsync(async function () {
     store = {
@@ -46,15 +46,11 @@ describe('server detail resolves', () => {
 
     spy = jasmine.createSpy('spy');
 
-    $route = {
-      current: {
-        params: {
-          id: '1'
-        }
-      }
+    $stateParams = {
+      id: '1'
     };
 
-    serverDetailResolves = mod.default($route);
+    serverDetailResolves = mod.default($stateParams);
   });
 
   afterEach(resetAll);

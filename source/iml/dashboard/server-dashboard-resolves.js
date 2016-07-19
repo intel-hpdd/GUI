@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,41 +21,54 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import resolveStream from '../resolve-stream.js';
-import socketStream from '../socket/socket-stream.js';
+import * as fp from 'intel-fp';
 
-export function serverDashboardChartResolvesFactory ($route, $q, getReadWriteBandwidthChart,
-                                                     getMemoryUsageChart, getCpuUsageChart) {
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  chartT
+} from './dashboard-types.js';
+
+export function serverDashboardChartResolves (
+  $stateParams:{ serverId: string },
+  getReadWriteBandwidthChart:chartT,
+  getMemoryUsageChart:chartT,
+  getCpuUsageChart:chartT
+) {
   'ngInject';
 
-  return function serverDashboardChartResolves () {
-    var serverId = $route.current.params.serverId;
-    const page = `server${serverId}`;
-    var serverQs = {
-      qs: {
-        id: serverId
-      }
-    };
-
-    return $q.all([
-      getReadWriteBandwidthChart({
-        qs: {
-          host_id: serverId
-        }
-      }, page),
-      getCpuUsageChart(serverQs, page),
-      getMemoryUsageChart(serverQs, page)
-    ]);
+  const serverId = $stateParams.serverId;
+  const page = `server${serverId}`;
+  var serverQs = {
+    qs: {
+      id: serverId
+    }
   };
+
+  return Promise.all([
+    getReadWriteBandwidthChart({
+      qs: {
+        host_id: serverId
+      }
+    }, page),
+    getCpuUsageChart(serverQs, page),
+    getMemoryUsageChart(serverQs, page)
+  ]);
 }
 
-export function serverDashboardHostStreamResolvesFactory ($route) {
+export function serverDashboardHostStreamResolves (
+  $stateParams:{ serverId: string },
+  hostStream:() => HighlandStreamT<Object>
+) {
   'ngInject';
 
-  return () => resolveStream(
-    socketStream(
-      '/host/' + $route.current.params.serverId,
-      { jsonMask: 'label' }
+  return hostStream()
+    .map(
+      fp.filter(
+        x => x.id === $stateParams.serverId
+      )
     )
-  );
+    .map(x => x[0]);
 }

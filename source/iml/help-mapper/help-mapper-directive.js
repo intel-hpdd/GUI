@@ -21,54 +21,38 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {find, __} from 'intel-fp';
+// @flow
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import {
+  default as Maybe,
+  withDefault
+} from 'intel-maybe';
 
 export default () => ({
   restrict: 'A',
   transclude: true,
   template: `
-<a id="help-menu" ng-href="/static/webhelp/help_wrapper.html{{$ctrl.qs}}" target="_blank">
+<a id="help-menu" ng-href="/static/webhelp/help_wrapper.html{{$ctrl.page}}" target="_blank">
   <i class="fa fa-question-circle"></i> Help
 </a>
   `,
   controllerAs: '$ctrl',
   bindToController: 'true',
-  controller (routeStream:() => HighlandStreamT<Object>, $scope:Object, propagateChange:Function) {
+  controller ($state:Object, $transitions:Object) {
     'ngInject';
 
-    this.qs = '';
+    const getPage = ($current) => withDefault(
+      () => '',
+      Maybe
+        .of($current.data && $current.data.helpPage)
+        .map(x => '?' + x)
+    );
 
-    const rs = routeStream();
+    this.page = getPage($state.$current);
 
-    const p = propagateChange($scope, this, 'qs');
-
-    const map = {
-      server: '?server_tab.htm',
-      serverDetail: '?server_detail_page.htm',
-      mgt: '?mgts_tab.htm',
-      statusQuery: '?status_page.htm',
-      hsm: '?hsm_page.htm',
-      dashboard: '?dashboard_charts.htm',
-      logQuery: '?logs_page.htm',
-      oldPower: '?power_control_tab.htm',
-      fileSystem: '?file_systems_tab.htm',
-      oldFilesystemCreate: '?creating_a_file_system2.htm',
-      oldFilesystemDetail: '?file_systems_details_page.htm',
-      oldStorageResource: '?storage_tab.htm',
-      oldUser: '?users_tab.htm',
-      oldVolume: '?volumes_tab.htm'
-    };
-
-    rs
-      .map(r => r.contains)
-      .map(find(__, Object.keys(map)))
-      .map(x => map[x] || '')
-      .through(p);
-
-    $scope.$on('$destroy', () => rs.destroy());
+    $transitions.onSuccess(
+      {},
+      transition => this.page = getPage(transition.router.globals.$current)
+    );
   }
 });

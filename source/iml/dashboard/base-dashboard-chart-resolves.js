@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,80 +23,67 @@
 
 import angular from 'angular';
 import broadcaster from '../broadcaster.js';
-import resolveStream from '../resolve-stream.js';
-import socketStream from '../socket/socket-stream.js';
-
-import {
-  lensProp,
-  view
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import type {
-  getMdoChartT
-} from '../mdo/mdo-module.js';
+  HighlandStreamT
+} from 'highland';
 
 import type {
-  getReadWriteHeatMapChartT
-} from '../read-write-heat-map/read-write-heat-map-module.js';
+  chartT,
+  chartTitleT
+} from './dashboard-types.js';
 
-
-export function baseDashboardChartResolvesFactory ($route, getHostCpuRamChart, getOstBalanceChart,
-                                                getMdoChart:getMdoChartT, getReadWriteBandwidthChart,
-                                                getReadWriteHeatMapChart:getReadWriteHeatMapChartT, $q) {
+export function baseDashboardChartResolves (
+  $stateParams:{ fsId?: string },
+  getHostCpuRamChart:chartTitleT,
+  getOstBalanceChart:chartT,
+  getMdoChart:chartT,
+  getReadWriteBandwidthChart:chartT,
+  getReadWriteHeatMapChart:chartT
+) {
   'ngInject';
 
-  return function baseDashboardChart () {
-    var fsId = $route.current.params.fsId;
-    var fsQs = {};
+  const fsId = $stateParams.fsId;
+  let fsQs = {};
 
-    if (fsId)
-      fsQs = {
-        qs: {
-          filesystem_id: fsId
-        }
-      };
+  if (fsId)
+    fsQs = {
+      qs: {
+        filesystem_id: fsId
+      }
+    };
 
-    return $q.all([
-      getReadWriteHeatMapChart(fsQs, fsId || 'base'),
-      getOstBalanceChart(fsQs, fsId || 'base'),
-      getMdoChart(fsQs, fsId || 'base'),
-      getReadWriteBandwidthChart(fsQs, fsId || 'base'),
-      getHostCpuRamChart('Metadata Servers', angular.merge({
-        qs: {
-          role: 'MDS'
-        }
-      }, fsQs), fsId ? (`mds${fsId}`) : 'mdsbase'),
-      getHostCpuRamChart('Object Storage Servers', angular.merge({
-        qs: {
-          role: 'OSS'
-        }
-      }, fsQs), fsId ? (`oss${fsId}`) : 'ossbase')
-    ]);
-  };
+  return Promise.all([
+    getReadWriteHeatMapChart(fsQs, fsId || 'base'),
+    getOstBalanceChart(fsQs, fsId || 'base'),
+    getMdoChart(fsQs, fsId || 'base'),
+    getReadWriteBandwidthChart(fsQs, fsId || 'base'),
+    getHostCpuRamChart('Metadata Servers', angular.merge({
+      qs: {
+        role: 'MDS'
+      }
+    }, fsQs), fsId ? (`mds${fsId}`) : 'mdsbase'),
+    getHostCpuRamChart('Object Storage Servers', angular.merge({
+      qs: {
+        role: 'OSS'
+      }
+    }, fsQs), fsId ? (`oss${fsId}`) : 'ossbase')
+  ]);
 }
 
-export function baseDashboardFsStreamFactory ($route) {
+export function baseDashboardFsStream (
+  fsStream:() => HighlandStreamT<Object>,
+  $stateParams:{ fsId: string }
+) {
   'ngInject';
 
-  return function baseDashboardFsStream () {
-    var fsId = $route.current.params.fsId;
-    var qs = {};
-
-    if (fsId)
-      qs = {
-        id: $route.current.params.fsId
-      };
-
-    const pluckObjects = view(lensProp('objects'));
-
-    const s = socketStream('/filesystem', {
-      jsonMask: 'objects(name,bytes_total,bytes_free,files_free,files_total,client_count,immutable_state,\
-id,osts,mdts(id),mgt(primary_server,primary_server_name)',
-      qs
-    })
-    .map(pluckObjects);
-
-    return resolveStream(s)
-      .then(broadcaster);
-  };
+  return broadcaster(
+    fsStream()
+      .map(
+        fp.filter(
+          x => x.id === $stateParams.fsId
+        )
+      )
+  );
 }

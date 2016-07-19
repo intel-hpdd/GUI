@@ -27,13 +27,13 @@ import commandModule from '../command/command-module';
 import agentVsCopytoolModule from '../agent-vs-copytool/agent-vs-copytool-module';
 import helpModule from '../help-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
-import {
-  AddCopytoolModalCtrl, openAddCopytoolModalFactory
-}
-  from './add-copytool-modal';
 import HsmCtrl from './hsm-controller';
 import hsmCdtStatusDirective from './hsm-cdt-status-directive';
-import {copytoolOperationStream, copytoolStream, agentVsCopytoolChartResolve} from './hsm-resolves';
+
+import {
+  AddCopytoolModalCtrl,
+  openAddCopytoolModalFactory
+} from './add-copytool-modal';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import canceledTemplate from './assets/html/states/canceled';
@@ -112,8 +112,5 @@ export default angular.module('hsm', [
   .factory('openAddCopytoolModal', openAddCopytoolModalFactory)
   .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
   .controller('HsmCtrl', HsmCtrl)
-  .factory('copytoolOperationStream', copytoolOperationStream)
-  .factory('copytoolStream', copytoolStream)
-  .factory('agentVsCopytoolChartResolve', agentVsCopytoolChartResolve)
   .directive('hsmCdtStatus', hsmCdtStatusDirective)
   .name;

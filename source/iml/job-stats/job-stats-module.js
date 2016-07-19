@@ -24,8 +24,11 @@
 import angular from 'angular';
 import JobStatsCtrl from './job-stats-controller';
 import jobStatsTableDirective from './job-stats-table';
-import {appJobstatsMetricsFactory, appJobstatsTargetFactory} from './job-stats-resolves';
-import {targetModelFactory, targetMetricModelFactory} from './target-model';
+
+import {
+  targetModelFactory,
+  targetMetricModelFactory
+} from './target-model';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import jobStatsTableTemplate from './assets/html/job-stats-table';
@@ -34,8 +37,6 @@ export default angular.module('jobStats', [
   jobStatsTableTemplate
 ])
 .controller('JobStatsCtrl', JobStatsCtrl)
-.factory('appJobstatsMetrics', appJobstatsMetricsFactory)
-.factory('appJobstatsTarget', appJobstatsTargetFactory)
 .directive('jobStatsTable', jobStatsTableDirective)
 .factory('TargetModel', targetModelFactory)
 .factory('TargetMetricModel', targetMetricModelFactory)

@@ -8,7 +8,7 @@ import {
 
 describe('log query component controller', () => {
   let ctrl, $scope, $location, controller,
-    routeStream, s;
+    qsStream, s;
 
   beforeEachAsync(async function () {
     const mod = await mock('source/iml/logs/log-query-component.js', {
@@ -33,12 +33,15 @@ describe('log query component controller', () => {
 
     s = highland();
     spyOn(s, 'destroy');
-    routeStream = jasmine.createSpy('routeStream').and.returnValue(s);
+    qsStream = jasmine
+      .createSpy('qsStream')
+      .and
+      .returnValue(s);
 
     ctrl = $controller(controller, {
       $scope,
       $location,
-      routeStream,
+      qsStream,
       propagateChange
     });
   }));

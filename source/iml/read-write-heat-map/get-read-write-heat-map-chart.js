@@ -79,15 +79,11 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-type routeSegmentUrlT = (name:string, conf:{id: number, startDate: string, endDate: string}) => string;
-type $filterT = (name:string) => routeSegmentUrlT;
-
-export default ($location:$locationT, $filter:$filterT,
+export default ($state,
                 chartCompiler:chartCompilerT, localApply:localApplyT,
                 data$Fn:data$FnT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
   'ngInject';
 
-  const routeSegmentUrl = $filter('routeSegmentUrl');
   const dataLens = view(lensProp('data'));
   const maxMillisecondsDiff = 16000;
 
@@ -156,11 +152,11 @@ export default ($location:$locationT, $filter:$filterT,
                 const endDate = eDate.toISOString();
 
                 $scope.$apply(function applyLocationChange () {
-                  $location.path(routeSegmentUrl('app.jobstats', {
+                  $state.go('app.jobstats', {
                     id: points.current.id,
                     startDate,
                     endDate
-                  }));
+                  });
                 });
               });
               d3Chart.formatter(getFormatter(conf.dataType));

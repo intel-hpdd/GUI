@@ -1,16 +1,7 @@
-import statusModule from '../../../../source/iml/status/status-module';
-
+import statusInputToQsParser from '../../../../source/iml/status/status-input-to-qs-parser.js';
 
 describe('the status input to qs parser', () => {
-  beforeEach(module(statusModule));
-
-  var statusInputToQsParser;
-
-  beforeEach(inject(_statusInputToQsParser_ => {
-    statusInputToQsParser = _statusInputToQsParser_;
-  }));
-
-  var inputOutput = {
+  const inputOutput = {
     '': '',
     'a': new Error('Expected one of severity, type, active, offset, limit, order by, begin, end got a at character 0'),
     'severity = ': new Error('Expected one of info, debug, critical, warning, error got end of string'),

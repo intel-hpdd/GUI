@@ -1,35 +1,6 @@
 <h3 class="page-header dashboard-page-header"><i class="fa fa-bar-chart-o"></i> Dashboard</h3>
 <div class="container container-full dashboard-container">
   <div class="row">
-    <ol class="breadcrumb">
-      <li ng-if="!dashboard.fsData && !dashboard.hostData">
-        All File Systems
-      </li>
-      <li ng-if="dashboard.fsData || dashboard.hostData">
-        <a route-to="dashboard">All File Systems</a>
-      </li>
-
-      <li ng-if="dashboard.fsData && !dashboard.targetData">
-        File System: {{dashboard.fsData.label}}
-      </li>
-      <li ng-if="dashboard.fsData && dashboard.targetData">
-        <a route-to="dashboard/fs/{{dashboard.fsData.id}}">File System: {{dashboard.fsData.label}}</a>
-      </li>
-
-      <li ng-if="dashboard.hostData && !dashboard.targetData">
-        Server: {{dashboard.hostData.label}}
-      </li>
-      <li ng-if="dashboard.hostData && dashboard.targetData">
-        <a route-to="dashboard/server/{{dashboard.hostData.id}}">Server: {{dashboard.hostData.label}}</a>
-      </li>
-
-      <li ng-if="dashboard.targetData">
-        {{ dashboard.targetData.kind }}: {{ dashboard.targetData.label }}
-      </li>
-    </ol>
-  </div>
-
-  <div class="row">
     <div class="col-xs-12">
       <button class="btn btn-block btn-sm btn-primary configure-dashboard" ng-if="!dashboard.configure" ng-click="dashboard.onConfigure()">Configure Dashboard<i class="fa fa-cog"></i></button>
 
@@ -106,5 +77,5 @@
       </div>
     </div>
   </div>
-  <div app-view-segment="2"></div>
+  <ui-loader-view></ui-loader-view>
 </div>

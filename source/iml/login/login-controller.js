@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always} from 'intel-fp';
+import {
+  always
+} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import eulaTemplate from './assets/html/eula';
@@ -30,11 +32,6 @@ import accessDeniedTemplate from '../access-denied/assets/html/access-denied';
 export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
   'ngInject';
 
-  /**
-   * Initializes the eula modal and opens it.
-   * @param {UserModel} user
-   * @returns {Object} A promise that is resolved when the modal closes.
-   */
   function initializeEulaDialog (user) {
     return $uibModal.open({
       templateUrl: eulaTemplate,
@@ -48,10 +45,6 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
     }).result;
   }
 
-  /**
-   * Initializes the denied dialog and opens it.
-   * @returns {Object} A promise that is resolved when the dialog closes.
-   */
   var initializeDeniedDialog = function initializeDeniedLoginFn () {
     return $uibModal.open({
       templateUrl: accessDeniedTemplate,
@@ -74,7 +67,7 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
     .then(function (session) {
       return session.user.actOnEulaState(initializeEulaDialog, initializeDeniedDialog);
     })
-    .then(goToIndex)
+    .then(() => navigate())
     .catch(function (reason) {
       if (reason === 'dismiss')
         return SessionModel.delete().$promise;
@@ -87,10 +80,5 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
   };
 
   this.ALLOW_ANONYMOUS_READ = ALLOW_ANONYMOUS_READ;
-
-  this.goToIndex = goToIndex;
-
-  function goToIndex () {
-    navigate();
-  }
+  this.goToIndex = navigate;
 }

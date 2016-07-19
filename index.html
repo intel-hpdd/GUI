@@ -34,7 +34,9 @@
     </script>
   </head>
   <body>
-    <div app-view-segment="0"></div>
+    <ui-loader-view-root>
+      <ui-loader-view load-once="true"></ui-loader-view>
+    </ui-loader-view-root>
     <!-- inject:js -->
     <script src="/static/chroma_ui/node_modules/systemjs/dist/system.js"></script>
     <script src="/static/chroma_ui/source/system.config.js"></script>

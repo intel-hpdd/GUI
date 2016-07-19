@@ -8,7 +8,7 @@ import {
 describe('hsm resolve', () => {
   var s, resolveStream, getCopytoolOperationStream,
     getCopytoolStream, copytoolOperationStream, copytoolStream,
-    $route;
+    $stateParams;
 
   beforeEachAsync(async function () {
     resolveStream = jasmine.createSpy('resolveStream');
@@ -24,16 +24,12 @@ describe('hsm resolve', () => {
 
     s = highland();
 
-    $route = {
-      current: {
-        params: {
-          fsId: 1
-        }
-      }
+    $stateParams = {
+      fsId: 1
     };
 
-    copytoolOperationStream = mod.copytoolOperationStream($route);
-    copytoolStream = mod.copytoolStream($route);
+    copytoolOperationStream = mod.copytoolOperationStream.bind(null, $stateParams);
+    copytoolStream = mod.copytoolStream.bind(null, $stateParams);
   });
 
   afterEach(resetAll);
@@ -59,7 +55,7 @@ describe('hsm resolve', () => {
 
     describe('without fsId', () => {
       beforeEach(() => {
-        $route.current = null;
+        $stateParams.fsId = '';
         copytoolOperationStream();
       });
 
@@ -95,7 +91,7 @@ describe('hsm resolve', () => {
 
     describe('without fsId', () => {
       beforeEach(() => {
-        $route.current = null;
+        $stateParams.fsId = '';
         copytoolStream();
       });
 

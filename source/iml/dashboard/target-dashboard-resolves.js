@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -29,91 +31,83 @@ import {
 } from 'intel-fp';
 
 import type {
-  getMdoChartT
-} from '../mdo/mdo-module.js';
+  chartT,
+  chartTitleKeyT
+} from './dashboard-types.js';
 
-import type {
-  getReadWriteHeatMapChartT
-} from '../read-write-heat-map/read-write-heat-map-module.js';
-
-export function targetDashboardKindFactory ($route) {
+export function targetDashboardResolves (
+  $stateParams:{ kind: string, targetId: string },
+  getFileUsageChart:chartTitleKeyT,
+  getSpaceUsageChart:chartT,
+  getMdoChart:chartT,
+  getReadWriteBandwidthChart:chartT
+) {
   'ngInject';
 
-  return function targetDashboardKind () {
-    return $route.current.$$route.kind;
-  };
-}
+  var targetId = $stateParams.targetId;
+  const page = `target${targetId}`;
+  var kind = $stateParams.kind;
 
-export function targetDashboardResolvesFactory ($q, $route, getFileUsageChart,
-                                                getSpaceUsageChart,
-                                                getMdoChart:getMdoChartT,
-                                                getReadWriteBandwidthChart:getReadWriteHeatMapChartT) {
-  'ngInject';
-
-  return function targetDashboardResolves () {
-    var targetId = $route.current.params.targetId;
-    const page = `target${targetId}`;
-    var kind = $route.current.$$route.kind;
-
-    var qs = {
-      qs: {
-        id: targetId
-      }
-    };
-
-    var title, key, chart;
-
-    switch (kind) {
-    case 'MDT':
-      title = 'File Usage';
-      key = 'Files Used';
-      chart = getMdoChart(qs, page);
-      break;
-    default:
-      chart = getReadWriteBandwidthChart(qs, page);
-      title = 'Object Usage';
-      key = 'Objects Used';
+  var qs = {
+    qs: {
+      id: targetId
     }
-
-    return $q.all([
-      chart,
-      getFileUsageChart(title, key, qs, page),
-      getSpaceUsageChart(qs, page)
-    ]);
   };
+
+  var title, key, chart;
+
+  switch (kind) {
+  case 'MDT':
+    title = 'File Usage';
+    key = 'Files Used';
+    chart = getMdoChart(qs, page);
+    break;
+  default:
+    chart = getReadWriteBandwidthChart(qs, page);
+    title = 'Object Usage';
+    key = 'Objects Used';
+  }
+
+  return Promise.all([
+    chart,
+    getFileUsageChart(title, key, qs, page),
+    getSpaceUsageChart(qs, page)
+  ]);
 }
 
-export function targetDashboardTargetStreamFactory ($route) {
+export function targetDashboardTargetStream ($stateParams:{targetId: string}) {
   'ngInject';
 
-  return () => store
-      .select('targets')
-      .map(find(x => x.id === $route.current.params.targetId));
-}
-
-export function targetDashboardUsageStreamFactory ($route) {
-  'ngInject';
-
-  return function targetDashboardUsageStream () {
-    return resolveStream(
-      socketStream(
-        `/target/${$route.current.params.targetId}/metric/`,
-        {
-          qs: {
-            metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
-            latest: true
-          }
-        }
+  return store
+    .select('targets')
+    .map(
+      find(
+        x => x.id === $stateParams.targetId
       )
-      .map((x) => {
-        var data = x[0].data;
+    );
+}
 
-        data.bytes_free = data.kbytesfree * 1024;
-        data.bytes_total = data.kbytestotal * 1024;
+export function targetDashboardUsageStream ($stateParams:{targetId: string}) {
+  'ngInject';
 
-        return data;
-      })
+  return resolveStream(
+    socketStream(
+      `/target/${$stateParams.targetId}/metric/`,
+      {
+        qs: {
+          metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
+          latest: true
+        }
+      }
     )
-      .then(broadcaster);
-  };
+    .map((x) => {
+      const data = x[0].data;
+
+      data.bytes_free = data.kbytesfree * 1024;
+      data.bytes_total = data.kbytestotal * 1024;
+
+      return data;
+    })
+  )
+  .then(broadcaster);
 }
