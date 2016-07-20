@@ -11,8 +11,15 @@ import {
 } from '../../../system-mock.js';
 
 describe('hsm fs resolve', () => {
-  var socketStream, s, resolveStream, fsCollStream,
-    broadcaster, promise;
+  let socketStream,
+    s,
+    stream,
+    store,
+    resolveStream,
+    fsCollStream,
+    getData,
+    broadcaster,
+    promise;
 
   beforeEachAsync(async function () {
     s = highland();
@@ -20,6 +27,14 @@ describe('hsm fs resolve', () => {
       .createSpy('socketStream')
       .and
       .returnValue(s);
+
+    stream = highland();
+    store = {
+      select: jasmine
+        .createSpy('select')
+        .and
+        .returnValue(stream)
+    };
 
     promise = Promise.resolve(s);
 
@@ -34,12 +49,24 @@ describe('hsm fs resolve', () => {
       .callFake(identity);
 
     const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/promise-transforms.js': { resolveStream },
-      'source/iml/broadcaster.js': { default: broadcaster }
+      'source/iml/socket/socket-stream.js': {
+        default: socketStream
+      },
+      'source/iml/promise-transforms.js': {
+        resolveStream
+      },
+      'source/iml/broadcaster.js': {
+        default: broadcaster
+      },
+      'source/iml/store/get-store.js': {
+        default: store
+      }
     });
 
-    fsCollStream = mod.default;
+    ({
+      fsCollStream,
+      getData
+    } = mod);
   });
 
   afterEach(resetAll);
@@ -63,6 +90,38 @@ describe('hsm fs resolve', () => {
       await promise;
 
       expect(broadcaster).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('getData', () => {
+    beforeEach(() => {
+      stream
+        .write({
+          id: 1,
+          label: 1
+        });
+    });
+
+    itAsync('should return the matching fs', async function () {
+      const fs = await getData({
+        id: 1
+      });
+
+      expect(fs)
+        .toEqual({
+          label: null
+        });
+    });
+
+    itAsync('should return a null label ', async function () {
+      const fs = await getData({
+        id: 2
+      });
+
+      expect(fs)
+        .toEqual({
+          label: null
+        });
     });
   });
 });

@@ -25,8 +25,8 @@
 import jobStatsTemplate from './assets/html/job-stats';
 
 import {
-  appJobstatsTarget,
-  appJobstatsMetrics
+  appJobstatsMetrics,
+  getData
 } from './job-stats-resolves.js';
 
 export const jobStatsState = {
@@ -35,8 +35,12 @@ export const jobStatsState = {
   controller: 'JobStatsCtrl',
   controllerAs: 'jobStats',
   templateUrl: jobStatsTemplate,
+  data: {
+    kind: 'Job Stats',
+    icon: 'fa-tachometer'
+  },
   resolve: {
-    target: appJobstatsTarget,
-    metrics: appJobstatsMetrics
+    metrics: appJobstatsMetrics,
+    getData
   }
 };

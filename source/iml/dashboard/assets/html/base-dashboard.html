@@ -25,10 +25,10 @@
                 <help-tooltip ng-if="fs.state === fs.STATES.MONITORED" topic="monitored_filesystem" direction="right"></help-tooltip>
             </span>
           </td>
-          <td as-viewer stream="baseDashboard.fsStream">
+          <td as-viewer stream="baseDashboard.fsB">
             <usage-info stream="viewer" id="fs.id" prefix="bytes"></usage-info>
           </td>
-          <td as-viewer stream="baseDashboard.fsStream">
+          <td as-viewer stream="baseDashboard.fsB">
             <usage-info stream="viewer" id="fs.id" prefix="files"></usage-info>
           </td>
           <td>{{ fs.client_count }}</td>
@@ -37,6 +37,5 @@
     </table>
   </div>
 </div>
-
 <h4 class="section-header">Charts</h4>
 <charts-container charts="baseDashboard.charts"></charts-container>

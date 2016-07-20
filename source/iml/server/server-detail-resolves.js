@@ -28,8 +28,25 @@ import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 import {
+  matchById
+} from '../api-transforms.js';
+
+import {
+  streamToPromise
+} from '../promise-transforms.js';
+
+import {
   resolveStream
 } from '../promise-transforms.js';
+
+export const getData = ($stateParams) => {
+  'ngInject';
+
+  return streamToPromise(store
+    .select('server')
+    .map(matchById($stateParams.id))
+  );
+};
 
 export default function serverDetailResolves ($stateParams) {
   'ngInject';

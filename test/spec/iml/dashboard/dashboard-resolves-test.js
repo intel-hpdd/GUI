@@ -39,7 +39,7 @@ describe('dashboard resolves', () => {
     let fsStream;
 
     beforeEach(() => {
-      fsStream = mod.dashboardFsStream()();
+      fsStream = mod.dashboardFsB()();
     });
 
     it('should be a broadcaster', () => {
@@ -66,7 +66,7 @@ describe('dashboard resolves', () => {
     let hostStream;
 
     beforeEach(() => {
-      hostStream = mod.dashboardHostStream()();
+      hostStream = mod.dashboardHostB()();
     });
 
     it('should be a broadcaster', () => {
@@ -94,7 +94,7 @@ describe('dashboard resolves', () => {
     let targetStream;
 
     beforeEach(() => {
-      targetStream = mod.dashboardTargetStream()();
+      targetStream = mod.dashboardTargetB()();
     });
 
     it('should be a broadcaster', () => {

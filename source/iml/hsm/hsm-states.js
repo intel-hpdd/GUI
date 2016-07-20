@@ -23,7 +23,10 @@
 
 import * as fp from 'intel-fp';
 
-import fsCollStreamFactory from './hsm-fs-resolves.js';
+import {
+  getData,
+  fsCollStream
+} from './hsm-fs-resolves.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import hsmFsTemplate from './assets/html/hsm-fs';
@@ -54,7 +57,7 @@ export const hsmFsState = {
     skipWhen: fp.eq
   },
   resolve: {
-    fsStream: fsCollStreamFactory
+    fsStream: fsCollStream
   }
 };
 
@@ -71,10 +74,15 @@ export const hsmState = {
       dynamic: true
     }
   },
+  data: {
+    kind: 'HSM',
+    icon: 'fa-files-o'
+  },
   controller: 'HsmCtrl',
   controllerAs: 'hsm',
   templateUrl: hsmTemplate,
   resolve: {
+    getData,
     copytoolOperationStream,
     copytoolStream,
     agentVsCopytoolChart

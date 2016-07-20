@@ -22,21 +22,21 @@
 import store from '../store/get-store.js';
 import broadcaster from '../broadcaster.js';
 
-export const dashboardFsStream = () => {
+export const dashboardFsB = () => {
   return broadcaster(
     store
       .select('fileSystems')
   );
 };
 
-export const dashboardHostStream = () => {
+export const dashboardHostB = () => {
   return broadcaster(
     store
       .select('server')
   );
 };
 
-export const dashboardTargetStream = () => {
+export const dashboardTargetB = () => {
   return broadcaster(
     store
       .select('targets')

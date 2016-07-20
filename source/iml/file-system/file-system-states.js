@@ -55,13 +55,12 @@ export const fileSystemListState = {
     helpPage: 'file_systems_tab.htm',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    eulaState: true
+    eulaState: true,
+    kind: 'File Systems',
+    icon: 'fa-files-o'
   },
   controllerAs: '$ctrl',
   template: `
-<h3 class="page-header">
-<i class="fa fa-files-o" aria-hidden="true"></i> File Systems
-</h3>
 <div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
    job-indicator-$="$ctrl.jobIndicator$"></file-system>

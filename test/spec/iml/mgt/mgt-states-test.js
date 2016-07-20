@@ -22,7 +22,9 @@ describe('mgt states', () => {
           helpPage: 'mgts_tab.htm',
           access: GROUPS.FS_ADMINS,
           anonymousReadProtected: true,
-          eulaState: true
+          eulaState: true,
+          kind: 'MGTs',
+          icon: 'fa-bullseye'
         },
         resolve: {
           mgt$: jasmine.any(Function),

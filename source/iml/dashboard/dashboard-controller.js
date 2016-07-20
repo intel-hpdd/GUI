@@ -22,7 +22,7 @@
 import * as fp from 'intel-fp';
 
 export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
-                                       fsStream, hostStream, targetStream,
+                                       fsB, hostsB, targetsB,
                                        filterTargetByFs, filterTargetByHost) {
   'ngInject';
 
@@ -50,7 +50,7 @@ export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
       } else {
         const filterBy = (dashboard.fs === item ? filterTargetByFs : filterTargetByHost);
 
-        targetSelectStream = targetStream();
+        targetSelectStream = targetsB();
         targetSelectStream
           .through(filterBy(item.selected.id))
           .map(fp.filter((x) => x.kind !== 'MGT'))
@@ -63,12 +63,16 @@ export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
       if (item.selectedTarget)
         $state.go(`app.dashboard.${item.selectedTarget.kind.toLowerCase()}`, {
           id: item.selectedTarget.id,
-          resetState: false
+          resetState: true
         });
       else if (item.selected)
         $state.go(`app.dashboard.${item.name}`, {
           id: item.selected.id,
-          resetState: false
+          resetState: true
+        });
+      else
+        $state.go('app.dashboard.overview', {
+          resetState: true
         });
     },
     onConfigure () {
@@ -79,16 +83,16 @@ export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
     }
   });
 
-  fsStream()
+  fsB()
     .through(p('fileSystems'));
 
-  hostStream()
+  hostsB()
     .through(p('hosts'));
 
   $scope.$on('$destroy', () => {
-    fsStream.endBroadcast();
-    hostStream.endBroadcast();
-    targetStream.endBroadcast();
+    fsB.endBroadcast();
+    hostsB.endBroadcast();
+    targetsB.endBroadcast();
     qs$.destroy();
   });
 

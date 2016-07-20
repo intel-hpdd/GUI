@@ -2,7 +2,8 @@ import highland from 'highland';
 
 import {
   addCurrentPage,
-  rememberValue
+  rememberValue,
+  matchById
 } from '../../../source/iml/api-transforms.js';
 
 describe('api transforms', () => {
@@ -108,5 +109,13 @@ describe('api transforms', () => {
       expect(transformFn)
         .toHaveBeenCalledOnceWith('foo');
     });
+  });
+});
+
+describe('match by id', () => {
+  it('should match by the id', () => {
+    let matcher = matchById(7);
+    expect(matcher([{id:1, name:'a'}, {id:7, name:'b'}, {id:10, name:'c'}]))
+      .toEqual({id:7, name:'b'});
   });
 });

@@ -40,7 +40,6 @@ export const statusState = {
     skipWhen: fp.eq
   },
   template: `
-  <h3 class="page-header"><i class="fa fa-tachometer"></i> Status</h3>
   <div class="status container container-full">
     <ui-view></ui-view>
   </div>
@@ -71,6 +70,10 @@ export const tableState = {
       value: true,
       squash: true
     }
+  },
+  data: {
+    kind: 'Status',
+    icon: 'fa-tachometer'
   },
   resolve: {
     notification$ (qsFromLocation) {

@@ -25,7 +25,9 @@ describe('server states', () => {
             helpPage: 'server_tab.htm',
             access: GROUPS.FS_ADMINS,
             anonymousReadProtected: true,
-            eulaState: true
+            eulaState: true,
+            kind: 'Servers',
+            icon: 'fa-tasks'
           },
           resolve: {
             streams: jasmine.any(Function)
@@ -52,10 +54,13 @@ describe('server states', () => {
             helpPage: 'server_detail_page.htm',
             access: GROUPS.FS_ADMINS,
             anonymousReadProtected: true,
-            eulaState: true
+            eulaState: true,
+            kind: 'Server Detail',
+            icon: 'fa-tasks'
           },
           resolve: {
-            streams: jasmine.any(Function)
+            streams: jasmine.any(Function),
+            getData: jasmine.any(Function)
           }
         });
     });

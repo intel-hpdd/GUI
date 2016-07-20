@@ -8,16 +8,19 @@ import {
 } from '../../../../source/iml/auth/authorization.js';
 
 describe('hsm states', () => {
-  let mod, copytoolStream,
+  let mod,
+    copytoolStream,
     copytoolOperationStream,
     agentVsCopytoolChart,
-    fsCollStreamFactory;
+    fsCollStream,
+    getData;
 
   beforeEachAsync(async function () {
     copytoolStream = 'copytoolStream';
     copytoolOperationStream = 'copytoolOperationStream';
     agentVsCopytoolChart = 'agentVsCopytoolChart';
-    fsCollStreamFactory = 'fsCollStreamFactory';
+    fsCollStream = 'fsCollStream';
+    getData = 'getData';
 
     mod = await mock('source/iml/hsm/hsm-states.js', {
       'source/iml/hsm/hsm-resolves.js': {
@@ -26,7 +29,8 @@ describe('hsm states', () => {
         agentVsCopytoolChart
       },
       'source/iml/hsm/hsm-fs-resolves.js': {
-        default: fsCollStreamFactory
+        fsCollStream,
+        getData
       }
     });
   });
@@ -43,7 +47,7 @@ describe('hsm states', () => {
           controllerAs: 'hsmFs',
           templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm-fs.js',
           resolve: {
-            fsStream: 'fsCollStreamFactory'
+            fsStream: 'fsCollStream'
           },
           data: {
             helpPage: 'hsm_page.htm',
@@ -72,10 +76,15 @@ describe('hsm states', () => {
               dynamic: true
             }
           },
+          data: {
+            kind: 'HSM',
+            icon: 'fa-files-o'
+          },
           controller: 'HsmCtrl',
           controllerAs: 'hsm',
           templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm.js',
           resolve: {
+            getData: 'getData',
             copytoolOperationStream: 'copytoolOperationStream',
             copytoolStream: 'copytoolStream',
             agentVsCopytoolChart: 'agentVsCopytoolChart'

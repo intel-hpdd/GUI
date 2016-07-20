@@ -20,7 +20,10 @@
 // express and approved by Intel in writing.
 
 import serverResolves from './server-resolves.js';
-import serverDetailResolves from './server-detail-resolves.js';
+import {
+  default as serverDetailResolves,
+  getData
+} from './server-detail-resolves.js';
 
 import {
   GROUPS
@@ -41,7 +44,9 @@ export const serverState = {
     helpPage: 'server_tab.htm',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    eulaState: true
+    eulaState: true,
+    kind: 'Servers',
+    icon: 'fa-tasks'
   },
   params: {
     resetState: {
@@ -68,9 +73,12 @@ export const serverDetailState = {
     helpPage: 'server_detail_page.htm',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    eulaState: true
+    eulaState: true,
+    kind: 'Server Detail',
+    icon: 'fa-tasks'
   },
   resolve: {
-    streams: serverDetailResolves
+    streams: serverDetailResolves,
+    getData
   }
 };

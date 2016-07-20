@@ -23,7 +23,9 @@ describe('file system states', () => {
           helpPage: 'file_systems_tab.htm',
           access: GROUPS.FS_ADMINS,
           anonymousReadProtected: true,
-          eulaState: true
+          eulaState: true,
+          kind: 'File Systems',
+          icon: 'fa-files-o'
         },
         template: jasmine.any(String)
       });

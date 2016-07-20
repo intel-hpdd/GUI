@@ -60,6 +60,8 @@ import sidePanelComponent from './panels/side-panel-component.js';
 import rootPanelComponent from './panels/root-panel-component.js';
 import toggleSidePanelComponent from './panels/toggle-side-panel-component.js';
 import routeTransitions from './route-transitions.js';
+import breadcrumbComponent from './breadcrumb/breadcrumb.js';
+import pageTitleComponent from './page-title/page-title-component.js';
 
 import {
   uiLoaderViewDirective,
@@ -128,6 +130,7 @@ import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
 import './server/server-dispatch-source.js';
 import './file-system/file-system-dispatch-source.js';
+import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -255,6 +258,8 @@ export default angular.module('iml', [
   .component('rootPanel', rootPanelComponent)
   .component('toggleSidePanel', toggleSidePanelComponent)
   .component('uiLoaderViewRoot', uiLoaderViewRootComponent)
+  .component('breadcrumb', breadcrumbComponent)
+  .component('pageTitle', pageTitleComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)
   .name;

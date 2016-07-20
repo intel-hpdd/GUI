@@ -28,7 +28,6 @@ export default {
     mgtJobIndicatorB: '<'
   },
   template: `
-    <h3 class="page-header"><i class="fa fa-th"></i> MGT Configuration</h3>
     <div class="container container-full">
       <mgt
         mgt-$="$ctrl.mgt$"

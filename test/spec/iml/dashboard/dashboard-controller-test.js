@@ -43,9 +43,9 @@ describe('dashboard controller', () => {
       $stateParams,
       $state,
       qsStream,
-      fsStream: broadcaster(fsStream),
-      hostStream: broadcaster(hostStream),
-      targetStream: broadcaster(targetStream)
+      fsB: broadcaster(fsStream),
+      hostsB: broadcaster(hostStream),
+      targetsB: broadcaster(targetStream)
     });
 
     jasmine.clock().install();
@@ -189,7 +189,7 @@ describe('dashboard controller', () => {
         'app.dashboard.foo',
       {
         id: '5',
-        resetState: false
+        resetState: true
       }
       );
   });
@@ -211,7 +211,7 @@ describe('dashboard controller', () => {
         'app.dashboard.foo',
       {
         id: 7,
-        resetState: false
+        resetState: true
       }
       );
   });

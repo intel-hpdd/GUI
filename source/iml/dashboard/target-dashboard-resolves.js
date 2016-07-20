@@ -39,7 +39,7 @@ import type {
 } from './dashboard-types.js';
 
 export function targetDashboardResolves (
-  $stateParams:{ kind: string, targetId: string },
+  $stateParams:{ kind: string, id: string },
   getFileUsageChart:chartTitleKeyT,
   getSpaceUsageChart:chartT,
   getMdoChart:chartT,
@@ -47,13 +47,13 @@ export function targetDashboardResolves (
 ) {
   'ngInject';
 
-  var targetId = $stateParams.targetId;
-  const page = `target${targetId}`;
+  var id = $stateParams.id;
+  const page = `target${id}`;
   var kind = $stateParams.kind;
 
   var qs = {
     qs: {
-      id: targetId
+      id: id
     }
   };
 
@@ -78,24 +78,24 @@ export function targetDashboardResolves (
   ]);
 }
 
-export function targetDashboardTargetStream ($stateParams:{targetId: string}) {
+export function targetDashboardTargetStream ($stateParams:{id: string}) {
   'ngInject';
 
   return store
     .select('targets')
     .map(
       find(
-        x => x.id === $stateParams.targetId
+        x => x.id === $stateParams.id
       )
     );
 }
 
-export function targetDashboardUsageStream ($stateParams:{targetId: string}) {
+export function targetDashboardUsageStream ($stateParams:{id: string}) {
   'ngInject';
 
   return resolveStream(
     socketStream(
-      `/target/${$stateParams.targetId}/metric/`,
+      `/target/${$stateParams.id}/metric/`,
       {
         qs: {
           metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',

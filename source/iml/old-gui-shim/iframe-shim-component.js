@@ -48,19 +48,22 @@ export default {
     if (this.params.id)
       this.src += `/${this.params.id}`;
 
-    let token;
-
     const onLoad = () => {
       this.loading = false;
       $scope.$apply();
-      token = setInterval(() => {
-        frame.style.height = frame
-          .contentWindow
-          .document
-          .body
-          .scrollHeight + 'px';
-      }, 500);
     };
+
+    const token = setInterval(() => {
+      const body = frame
+        .contentWindow
+        .document
+        .body;
+
+      if (body)
+        frame
+          .style
+          .height = body.scrollHeight + 'px';
+    }, 200);
 
     const onMessage = ev => {
       $location.path(ev.data);
@@ -78,6 +81,6 @@ export default {
   },
   template: `
     <h2 ng-if="$ctrl.loading" class="loading-page text-center">Loading <i class="fa fa-spinner fa-spin fa-lg"></i></h2>
-    <iframe ng-src="{{::$ctrl.src}}" style="width: 100%; height: 100vh; border:0;"></iframe>
+    <iframe ng-src="{{::$ctrl.src}}"></iframe>
   `
 };

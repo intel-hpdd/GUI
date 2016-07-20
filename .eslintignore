@@ -1,5 +1,6 @@
 karma.conf.js
 flow-typed/angular.js
+flow-typed/angular-ui-router.js
 test/data-fixtures/
 coverage/**
 gulp/**

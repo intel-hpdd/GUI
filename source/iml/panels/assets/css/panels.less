@@ -126,6 +126,18 @@ root-panel {
       background-color: @white;
       border-left: darken(@gray-lighter, 10%);
 
+      page-title {
+        flex: 0 0 57px
+      }
+
+      breadcrumb {
+        flex: 0 0 56px
+      }
+
+      .app-view {
+        flex-grow: 1;
+      }
+
       > ui-loader-view > .ng-hide.loader-content:not(.ng-hide-animate) {
         visibility: hidden !important;
         display: initial !important;

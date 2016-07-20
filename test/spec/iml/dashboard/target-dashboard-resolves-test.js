@@ -101,7 +101,7 @@ describe('target dashboard', () => {
 
       beforeEach(function () {
         Object.assign($stateParams, {
-          targetId: '1',
+          id: '1',
           kind: 'MDT'
         });
 
@@ -154,7 +154,7 @@ describe('target dashboard', () => {
     describe('OST', () => {
       beforeEach(() => {
         Object.assign($stateParams, {
-          targetId: '1',
+          id: '1',
           kind: 'OST'
         });
 
@@ -200,7 +200,7 @@ describe('target dashboard', () => {
 
     beforeEach(() => {
       Object.assign($stateParams, {
-        targetId: '1'
+        id: '1'
       });
 
       targetStream = targetDashboardTargetStream($stateParams);
@@ -244,7 +244,7 @@ describe('target dashboard', () => {
 
     beforeEach(() => {
       Object.assign($stateParams, {
-        targetId: '1'
+        id: '1'
       });
 
       promise = targetDashboardUsageStream($stateParams);

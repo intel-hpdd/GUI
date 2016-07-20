@@ -23,6 +23,12 @@
 
 import extractApi from 'intel-extract-api';
 
+import Maybe from 'intel-maybe';
+
+import type {
+  TransitionT
+} from 'angular-ui-router';
+
 export function apiPathToUiPath (resourceUri:string) {
   var resource = resourceUri.split('/')[2];
   var id = extractApi(resourceUri);
@@ -35,4 +41,12 @@ export function apiPathToUiPath (resourceUri:string) {
   default:
     return `${resource}/${id}/`;
   }
+}
+
+export function getResolvedData (transition:TransitionT, resolveName:string):Maybe {
+  return Maybe.of(resolveName)
+    .map(n => {
+      if (transition.getResolveTokens().indexOf(n) > -1)
+        return transition.getResolveValue(n);
+    });
 }

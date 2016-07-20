@@ -210,3 +210,34 @@ describe('server detail resolves', () => {
     });
   });
 });
+
+describe('getting data', () => {
+  let result, store;
+  beforeEachAsync(async function () {
+    store = {
+      select: jasmine.createSpy('select')
+        .and.callFake(key => {
+          if (key === 'server')
+            return highland([
+              [
+                {id:5, name:'b'},
+                {id:7, name:'a'},
+                {id:10, name:'c'}
+              ]
+            ]);
+        })
+    };
+
+    const mod = await mock('source/iml/server/server-detail-resolves.js', {
+      'source/iml/store/get-store.js': { default: store }
+    });
+
+    result = await mod.getData({id:7});
+  });
+
+  afterEach(resetAll);
+
+  it('should returned the object matching the id', () => {
+    expect(result).toEqual({id:7, name:'a'});
+  });
+});

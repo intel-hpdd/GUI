@@ -22,6 +22,7 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
+import * as obj from 'intel-obj';
 
 import {
   serverDashboardHostStreamResolves,
@@ -29,9 +30,9 @@ import {
 } from './server-dashboard-resolves.js';
 
 import {
-  dashboardFsStream,
-  dashboardHostStream,
-  dashboardTargetStream
+  dashboardFsB,
+  dashboardHostB,
+  dashboardTargetB
 } from './dashboard-resolves.js';
 
 import {
@@ -44,6 +45,18 @@ import {
   targetDashboardUsageStream,
   targetDashboardTargetStream
 } from './target-dashboard-resolves.js';
+
+import {
+  streamToPromise
+} from '../promise-transforms.js';
+
+import {
+  matchById
+} from '../api-transforms.js';
+
+import type {
+  HighlandStreamT
+} from 'highland';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import dashboardTemplate from './assets/html/dashboard';
@@ -62,14 +75,20 @@ const containsAppDashboard = fp.flow(
   fp.eq(0)
 );
 
+const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id: string }) => {
+  return streamToPromise(b())
+    .then(matchById($stateParams.id))
+    .then(obj.pick('label'));
+};
+
 export const dashboardState = {
   name: 'app.dashboard',
   url: '/dashboard',
   redirectTo: 'app.dashboard.overview',
   resolve: {
-    fsStream: dashboardFsStream,
-    hostStream: dashboardHostStream,
-    targetStream: dashboardTargetStream
+    fsB: dashboardFsB,
+    hostsB: dashboardHostB,
+    targetsB: dashboardTargetB
   },
   data: {
     helpPage: 'dashboard_charts.htm',
@@ -93,9 +112,12 @@ export const dashboardOverviewState = {
       dynamic: true
     }
   },
+  data: {
+    kind: 'Dashboard',
+    icon: 'fa-bar-chart-o'
+  },
   resolve: {
-    charts: baseDashboardChartResolves,
-    fsStream: dashboardFsStream
+    charts: baseDashboardChartResolves
   }
 };
 
@@ -114,9 +136,14 @@ export const dashboardServerState = {
       dynamic: true
     }
   },
+  data: {
+    kind: 'Dashboard - Server',
+    icon: 'fa-bar-chart-o'
+  },
   resolve: {
     charts: serverDashboardChartResolves,
-    hostStream: serverDashboardHostStreamResolves
+    hostStream: serverDashboardHostStreamResolves,
+    getData: ['hostsB', '$stateParams', getDataFn]
   }
 };
 
@@ -135,10 +162,15 @@ export const dashboardMdtState = {
       dynamic: true
     }
   },
+  data: {
+    kind: 'Dashboard - MDT',
+    icon: 'fa-bar-chart-o'
+  },
   resolve: {
     charts: targetDashboardResolves,
     targetStream: targetDashboardTargetStream,
-    usageStream: targetDashboardUsageStream
+    usageStream: targetDashboardUsageStream,
+    getData: ['targetsB', '$stateParams', getDataFn]
   }
 };
 
@@ -148,6 +180,10 @@ export const dashboardOstState = {
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
   templateUrl: targetDashboardTemplate,
+  data: {
+    kind: 'Dashboard - OST',
+    icon: 'fa-bar-chart-o'
+  },
   params: {
     kind: {
       value: 'OST',
@@ -160,7 +196,8 @@ export const dashboardOstState = {
   resolve: {
     charts: targetDashboardResolves,
     targetStream: targetDashboardTargetStream,
-    usageStream: targetDashboardUsageStream
+    usageStream: targetDashboardUsageStream,
+    getData: ['targetsB', '$stateParams', getDataFn]
   }
 };
 
@@ -170,6 +207,10 @@ export const dashboardFsState = {
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,
+  data: {
+    kind: 'Dashboard - FS',
+    icon: 'fa-bar-chart-o'
+  },
   params: {
     kind: {
       value: 'fs',
@@ -181,6 +222,7 @@ export const dashboardFsState = {
   },
   resolve: {
     charts: baseDashboardChartResolves,
-    fsStream: baseDashboardFsStream
+    fsStream: baseDashboardFsStream,
+    getData: ['fsB', '$stateParams', getDataFn]
   }
 };

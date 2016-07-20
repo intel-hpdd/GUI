@@ -5,9 +5,9 @@ import {
 
 describe('dashboard states', () => {
   let mod,
-    dashboardFsStream,
-    dashboardHostStream,
-    dashboardTargetStream,
+    dashboardFsB,
+    dashboardHostB,
+    dashboardTargetB,
     baseDashboardChartResolves,
     baseDashboardFsStream,
     serverDashboardChartResolves,
@@ -17,9 +17,9 @@ describe('dashboard states', () => {
     targetDashboardTargetStream;
 
   beforeEachAsync(async function () {
-    dashboardFsStream = 'dashboardFsStream';
-    dashboardHostStream = 'dashboardHostStream';
-    dashboardTargetStream = 'dashboardTargetStream';
+    dashboardFsB = 'dashboardFsB';
+    dashboardHostB = 'dashboardHostB';
+    dashboardTargetB = 'dashboardTargetB';
     baseDashboardChartResolves = 'baseDashboardChartResolves';
     baseDashboardFsStream = 'baseDashboardFsStream';
     serverDashboardChartResolves = 'serverDashboardChartResolves';
@@ -30,9 +30,9 @@ describe('dashboard states', () => {
 
     mod = await mock('source/iml/dashboard/dashboard-states.js', {
       'source/iml/dashboard/dashboard-resolves.js': {
-        dashboardFsStream,
-        dashboardHostStream,
-        dashboardTargetStream
+        dashboardFsB,
+        dashboardHostB,
+        dashboardTargetB
       },
       'source/iml/dashboard/base-dashboard-chart-resolves.js': {
         baseDashboardChartResolves,
@@ -60,9 +60,9 @@ describe('dashboard states', () => {
           url: '/dashboard',
           redirectTo: 'app.dashboard.overview',
           resolve: {
-            fsStream: 'dashboardFsStream',
-            hostStream: 'dashboardHostStream',
-            targetStream: 'dashboardTargetStream'
+            fsB: 'dashboardFsB',
+            hostsB: 'dashboardHostB',
+            targetsB: 'dashboardTargetB'
           },
           data: {
             anonymousReadProtected: true,
@@ -91,9 +91,12 @@ describe('dashboard states', () => {
               dynamic: true
             }
           },
+          data: {
+            kind: 'Dashboard',
+            icon: 'fa-bar-chart-o'
+          },
           resolve: {
-            charts: 'baseDashboardChartResolves',
-            fsStream: 'dashboardFsStream'
+            charts: 'baseDashboardChartResolves'
           }
         });
     });
@@ -117,9 +120,14 @@ describe('dashboard states', () => {
               dynamic: true
             }
           },
+          data: {
+            kind: 'Dashboard - Server',
+            icon: 'fa-bar-chart-o'
+          },
           resolve: {
             charts: 'serverDashboardChartResolves',
-            hostStream: 'serverDashboardHostStreamResolves'
+            hostStream: 'serverDashboardHostStreamResolves',
+            getData: ['hostsB', '$stateParams', jasmine.any(Function)]
           }
         });
     });
@@ -143,10 +151,15 @@ describe('dashboard states', () => {
               dynamic: true
             }
           },
+          data: {
+            kind: 'Dashboard - MDT',
+            icon: 'fa-bar-chart-o'
+          },
           resolve: {
             charts: 'targetDashboardResolves',
             targetStream: 'targetDashboardTargetStream',
-            usageStream: 'targetDashboardUsageStream'
+            usageStream: 'targetDashboardUsageStream',
+            getData: ['targetsB', '$stateParams', jasmine.any(Function)]
           }
         });
     });
@@ -161,6 +174,10 @@ describe('dashboard states', () => {
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
+          data: {
+            kind: 'Dashboard - OST',
+            icon: 'fa-bar-chart-o'
+          },
           params: {
             kind: {
               value: 'OST',
@@ -173,7 +190,8 @@ describe('dashboard states', () => {
           resolve: {
             charts: 'targetDashboardResolves',
             targetStream: 'targetDashboardTargetStream',
-            usageStream: 'targetDashboardUsageStream'
+            usageStream: 'targetDashboardUsageStream',
+            getData: ['targetsB', '$stateParams', jasmine.any(Function)]
           }
         });
     });
@@ -188,6 +206,10 @@ describe('dashboard states', () => {
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
+          data: {
+            kind: 'Dashboard - FS',
+            icon: 'fa-bar-chart-o'
+          },
           params: {
             kind: {
               value: 'fs',
@@ -199,7 +221,8 @@ describe('dashboard states', () => {
           },
           resolve: {
             charts: 'baseDashboardChartResolves',
-            fsStream: 'baseDashboardFsStream'
+            fsStream: 'baseDashboardFsStream',
+            getData: ['fsB', '$stateParams', jasmine.any(Function)]
           }
         });
     });

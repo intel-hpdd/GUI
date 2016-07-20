@@ -42,3 +42,5 @@ export const rememberValue = fp.curry(2, (transformFn, in$) => {
     .map(() => v)
     .otherwise(() => [v]);
 });
+
+export const matchById = (id:string) => fp.find(x => x.id === id);

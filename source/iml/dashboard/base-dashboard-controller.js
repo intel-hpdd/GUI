@@ -22,12 +22,12 @@
 import angular from 'angular';
 import {map, invokeMethod, curry} from 'intel-fp';
 
-export default function BaseDashboardCtrl ($scope, fsStream, charts) {
+export default function BaseDashboardCtrl ($scope, fsB, charts) {
   'ngInject';
 
   var baseDashboard = angular.extend(this, {
     fs: [],
-    fsStream,
+    fsB,
     charts
   });
 
@@ -36,7 +36,7 @@ export default function BaseDashboardCtrl ($scope, fsStream, charts) {
     MANAGED: 'managed'
   });
 
-  fsStream()
+  fsB()
     .tap(map(function setState (s) {
       s.STATES = STATES;
       s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
@@ -46,7 +46,7 @@ export default function BaseDashboardCtrl ($scope, fsStream, charts) {
     .each($scope.localApply.bind(null, $scope));
 
   $scope.$on('$destroy', () => {
-    fsStream.endBroadcast();
+    fsB.endBroadcast();
     map(invokeMethod('destroy', []), charts);
   });
 }

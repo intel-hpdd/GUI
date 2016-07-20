@@ -29,6 +29,28 @@ import {
   authorization
 } from './auth/authorization.js';
 
+export type routeStateT = {
+  abstract?:boolean,
+  name:string,
+  url?:string,
+  controller?:string,
+  controllerAs?:string,
+  templateUrl?:string,
+  template?:string,
+  params?:Object,
+  data?:{
+    parent?:string,
+    anonymousReadProtected?:boolean,
+    eulaState?:boolean,
+    helpPage?:string,
+    skipWhen?:(name:string) => boolean,
+    label?:string,
+    parentName?:string,
+    access?:string
+  },
+  resolve?:Object
+};
+
 export default function routeTransitions ($transitions, navigate) {
   'ngInject';
 

@@ -22,9 +22,15 @@
 
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
+import store from '../store/get-store.js';
 
 import {
-  resolveStream
+  matchById
+} from '../api-transforms.js';
+
+import {
+  resolveStream,
+  streamToPromise
 } from '../promise-transforms.js';
 
 import {
@@ -36,7 +42,7 @@ import {
 
 const pluckObjects = map(view(lensProp('objects')));
 
-export default function fsCollStreamFactory () {
+export function fsCollStream () {
   return resolveStream(socketStream('/filesystem', {
     jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
   }))
@@ -47,3 +53,16 @@ export default function fsCollStreamFactory () {
       )
     );
 }
+
+export const getData = ($stateParams:{fsId?: string}) => {
+  'ngInject';
+
+  if ($stateParams.fsId)
+    return streamToPromise(
+      store
+        .select('fileSystems')
+        .map(matchById($stateParams.fsId))
+    );
+  else
+    return Promise.resolve({ label: null });
+};

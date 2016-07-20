@@ -76,6 +76,10 @@ describe('status states', () => {
               squash: true
             }
           },
+          data: {
+            kind: 'Status',
+            icon: 'fa-tachometer'
+          },
           resolve: {
             notification$: jasmine.any(Function)
           },

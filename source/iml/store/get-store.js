@@ -40,6 +40,7 @@ import fileUsageChartReducer from '../file-usage/file-usage-chart-reducer.js';
 import spaceUsageChartReducer from '../space-usage/space-usage-chart-reducer.js';
 import cpuUsageChartReducer from '../cpu-usage/cpu-usage-chart-reducer.js';
 import memoryUsageChartReducer from '../memory-usage/memory-usage-chart-reducer.js';
+import userReducer from '../user/user-reducer.js';
 
 export default createStore({
   targets: targetReducer,
@@ -58,5 +59,6 @@ export default createStore({
   fileUsageCharts: fileUsageChartReducer,
   spaceUsageCharts: spaceUsageChartReducer,
   cpuUsageCharts: cpuUsageChartReducer,
-  memoryUsageCharts: memoryUsageChartReducer
+  memoryUsageCharts: memoryUsageChartReducer,
+  users: userReducer
 });

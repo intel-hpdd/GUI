@@ -21,13 +21,25 @@
 
 import angular from 'angular';
 
+import moment from 'moment';
 
-export function appJobstatsTarget ($stateParams, TargetModel) {
-  'ngInject';
+type jobStatsParamsT = {
+  id:string,
+  startDate:string,
+  endDate:string
+};
 
+const fmt = (str) => moment(str)
+  .format('M/d/YY HH:mm:ss');
+
+export function getData ($stateParams:jobStatsParamsT, TargetModel) {
   return TargetModel.get({
     id: $stateParams.id
-  }).$promise;
+  })
+    .$promise
+    .then(t => ({
+      label: `${t.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
+    }));
 }
 
 export function appJobstatsMetrics ($q, $stateParams, TargetMetricModel) {

@@ -75,6 +75,10 @@ describe('status states', () => {
           resolve: {
             log$: jasmine.any(Function)
           },
+          data: {
+            kind: 'Logs',
+            icon: 'fa-book'
+          },
           component: 'logTable'
         });
     });

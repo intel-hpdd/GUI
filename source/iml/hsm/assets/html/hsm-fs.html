@@ -1,18 +1,4 @@
-<h3 class="page-header hsm-page-header"><i class="fa fa-files-o"></i> HSM</h3>
 <div class="container container-full hsm">
-  <div class="row">
-    <ol class="breadcrumb">
-      <li ng-if="!hsmFs.fs">
-        All File Systems
-      </li>
-      <li ng-if="hsmFs.fs">
-        <a route-to="configure/hsm">All File Systems</a>
-      </li>
-      <li ng-if="hsmFs.fs">
-        File System: {{hsmFs.fs.label}}
-      </li>
-    </ol>
-  </div>
   <div class="row">
     <div config-toggle class="col-xs-12">
       <button class="btn btn-block btn-sm btn-primary configure-hsm"

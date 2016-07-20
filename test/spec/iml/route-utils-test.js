@@ -1,4 +1,11 @@
-import {apiPathToUiPath} from '../../../source/iml/route-utils.js';
+import {
+  withDefault
+} from 'intel-maybe';
+
+import {
+  apiPathToUiPath,
+  getResolvedData
+} from '../../../source/iml/route-utils.js';
 
 describe('route utils', () => {
   it('should convert a filesystem api resource to a routeable link', () => {
@@ -14,5 +21,90 @@ describe('route utils', () => {
   it('should convert any other api resource to a routeable link', () => {
     expect(apiPathToUiPath('/api/volume/1/'))
       .toEqual('volume/1/');
+  });
+});
+
+describe('getResolvedData', () => {
+  let transition, resolveName, result;
+  beforeEach(() => {
+    transition = {
+      getResolveTokens: jasmine.createSpy('getResolveTokens'),
+      getResolveValue: jasmine.createSpy('getResolveValue')
+    };
+    resolveName = 'getData';
+  });
+
+  describe('with the resolve name', () => {
+    beforeEach(() => {
+      transition.getResolveTokens
+        .and
+        .returnValue([
+          'fsStream',
+          'targetStream',
+          'getData',
+          'otherStream'
+        ]);
+
+      transition
+        .getResolveValue
+        .and
+        .returnValue(
+        {
+          label: 'fs1',
+          kind: 'filesystem'
+        }
+        );
+
+      result = withDefault(
+        () => {},
+        getResolvedData(transition, resolveName)
+      );
+    });
+
+    it('should call getResolveTokens', () => {
+      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+    });
+
+    it('should call getResolveValue', () => {
+      expect(transition.getResolveValue).toHaveBeenCalledOnceWith('getData');
+    });
+
+    it('should return the data', () => {
+      expect(result)
+        .toEqual(
+        {
+          label: 'fs1',
+          kind: 'filesystem'
+        }
+        );
+    });
+  });
+
+  describe('without resolve name', () => {
+    beforeEach(() => {
+      transition.getResolveTokens.and
+        .returnValue([
+          'fsStream',
+          'targetStream',
+          'otherStream'
+        ]);
+
+      result = withDefault(
+        () => 'no match found',
+        getResolvedData(transition, resolveName)
+      );
+    });
+
+    it('should call getResolveTokens', () => {
+      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+    });
+
+    it('should not call getResolveValue', () => {
+      expect(transition.getResolveValue).not.toHaveBeenCalled();
+    });
+
+    it('should return the default result', () => {
+      expect(result).toBe('no match found');
+    });
   });
 });

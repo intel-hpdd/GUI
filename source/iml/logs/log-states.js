@@ -50,9 +50,6 @@ export const logState = {
     skipWhen: fp.eq
   },
   template: `
-  <h3 class="page-header">
-    <i class="fa fa-book"></i> Logs
-  </h3>
   <div class="container log container-full">
     <log-query></log-query>
     <ui-loader-view class="log-table"></ui-loader-view>
@@ -76,6 +73,10 @@ export const logTableState = {
     resetState: {
       dynamic: true
     }
+  },
+  data: {
+    kind: 'Logs',
+    icon: 'fa-book'
   },
   resolve: {
     log$ (qsFromLocation:Function) {

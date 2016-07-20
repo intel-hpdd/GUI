@@ -28,7 +28,7 @@ describe('base dashboard controller', () => {
 
     baseDashboardCtrl = $controller('BaseDashboardCtrl', {
       $scope: $scope,
-      fsStream: broadcaster(fsStream),
+      fsB: broadcaster(fsStream),
       charts: charts
     });
   }));
@@ -36,7 +36,7 @@ describe('base dashboard controller', () => {
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(BaseDashboardCtrl, {
       fs: [],
-      fsStream: jasmine.any(Function),
+      fsB: jasmine.any(Function),
       charts: charts
     });
 

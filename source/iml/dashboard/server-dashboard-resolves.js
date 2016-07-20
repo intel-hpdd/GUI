@@ -60,11 +60,11 @@ export function serverDashboardChartResolves (
 
 export function serverDashboardHostStreamResolves (
   $stateParams:{ id: string },
-  hostStream:() => HighlandStreamT<Object>
+  hostsB:() => HighlandStreamT<Object>
 ) {
   'ngInject';
 
-  return hostStream()
+  return hostsB()
     .map(
       fp.filter(
         x => x.id === $stateParams.id
