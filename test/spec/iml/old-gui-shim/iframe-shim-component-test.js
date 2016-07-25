@@ -3,9 +3,13 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-
 describe('iframe shim component', () => {
-  let context, el, $scope, $location, global;
+  let context,
+    el,
+    $scope,
+    $location,
+    global,
+    frame;
 
   beforeEachAsync(async function () {
     global = {
@@ -22,9 +26,24 @@ describe('iframe shim component', () => {
       }
     });
 
+    frame = {
+      style: {},
+      contentWindow: {
+        document: {
+          body: {
+            scrollHeight: 0
+          }
+        }
+      }
+    };
+
     el = {
       addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
+      removeEventListener: jasmine.createSpy('removeEventListener'),
+      querySelector: jasmine
+        .createSpy('querySelector')
+        .and
+        .returnValue(frame)
     };
 
     $scope = {
@@ -42,10 +61,16 @@ describe('iframe shim component', () => {
       }
     };
 
+    jasmine.clock().install();
+
     mod.default.controller.call(context, [el], $scope, $location);
   });
 
   afterEach(resetAll);
+
+  afterEach(() => {
+    jasmine.clock().uninstall();
+  });
 
   it('should set loading to true', () => {
     expect(context.loading)
@@ -74,6 +99,15 @@ describe('iframe shim component', () => {
     it('should apply the scope', () => {
       expect($scope.$apply)
         .toHaveBeenCalledOnce();
+    });
+
+    it('should set the frame height', () => {
+      frame.contentWindow.document.body.scrollHeight = 1000;
+
+      jasmine.clock().tick(500);
+
+      expect(frame.style.height)
+        .toBe('1000px');
     });
   });
 

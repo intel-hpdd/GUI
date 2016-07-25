@@ -21,6 +21,10 @@
 
 // @flow
 
+import {
+  GROUPS
+} from '../auth/authorization.js';
+
 export default [
   ['/configure/volume', 'app.oldVolume', 'configureold/volume', 'volumes_tab.htm'],
   ['/configure/power', 'app.oldPower', 'configureold/power', 'power_control_tab.htm'],
@@ -47,7 +51,10 @@ export default [
       <iframe-shim params="::$ctrl.params" path="${path}"></iframe-shim>
       `,
       data: {
-        helpPage
+        helpPage,
+        access: GROUPS.FS_ADMINS,
+        anonymousReadProtected: true,
+        eulaState: true
       }
     };
   });

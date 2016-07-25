@@ -40,16 +40,26 @@ export default {
   controller: function ($element:HTMLElement[], $scope:$scopeT, $location:$locationT) {
     'ngInject';
 
-    const frame = $element[0];
+    const frameShim = $element[0];
+    const frame = frameShim.querySelector('iframe');
     this.loading = true;
     this.src = `${UI_ROOT}${this.path}`;
 
     if (this.params.id)
       this.src += `/${this.params.id}`;
 
+    let token;
+
     const onLoad = () => {
       this.loading = false;
       $scope.$apply();
+      token = setInterval(() => {
+        frame.style.height = frame
+          .contentWindow
+          .document
+          .body
+          .scrollHeight + 'px';
+      }, 500);
     };
 
     const onMessage = ev => {
@@ -57,12 +67,13 @@ export default {
       $scope.$apply();
     };
 
-    frame.addEventListener('load', onLoad, true);
+    frameShim.addEventListener('load', onLoad, true);
     global.addEventListener('message', onMessage, false);
 
     this.$onDestroy = () => {
-      frame.removeEventListener('load', onLoad, true);
+      frameShim.removeEventListener('load', onLoad, true);
       global.removeEventListener('message', onMessage, false);
+      clearInterval(token);
     };
   },
   template: `
