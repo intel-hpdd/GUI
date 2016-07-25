@@ -237,16 +237,16 @@ describe('get legend', () => {
 
       describe('without labels', () => {
         beforeEach(() => {
-          legend.width(400);
+          legend.width(200);
           legendContainer.call(legend);
         });
 
         it('should not display the label', () => {
-          var labels = legendContainer.selectAll('.legend-wrap g text');
-          var displayIsNone = flow(invokeMethod('getAttribute', ['display']), eq('none'));
-          var hasLabels = flow(head, every(displayIsNone))(labels);
+          const labels = legendContainer.selectAll('.legend-wrap g text');
+          const displayIsNone = flow(invokeMethod('getAttribute', ['display']), eq('none'));
+          const noLabels = flow(head, every(displayIsNone))(labels);
 
-          expect(hasLabels).toEqual(true);
+          expect(noLabels).toBe(true);
         });
 
         it('should display the circles', () => {
