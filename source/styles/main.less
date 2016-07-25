@@ -38,8 +38,15 @@ a:hover {
   color: #0067B4;
 }
 
-html body div.container-full {
-  width: 100%;
+html body {
+  ui-loader-view-root > ui-loader-view > .ng-hide.loader-content:not(.ng-hide-animate) {
+    visibility: hidden;
+    display: block !important;
+  }
+
+  div.container-full {
+    width: 100%;
+  }
 }
 
 .invisible {

@@ -85,23 +85,9 @@
       padding-left: 5px;
     }
   }
-}
 
-ui-loader-view-root > ui-loader-view {
-  & > .ng-hide.loader-content:not(.ng-hide-animate) {
+  > ui-loader-view > .ng-hide.loader-content:not(.ng-hide-animate) {
     visibility: hidden;
     display: block !important;
-  }
-
-  & .main-panel > ui-loader-view {
-    & > .ng-hide.loader-content:not(.ng-hide-animate) {
-      visibility: hidden;
-      display: block !important;
-    }
-
-    & .dashboard-container > ui-loader-view > .ng-hide.loader-content:not(.ng-hide-animate) {
-      visibility: hidden;
-      display: block !important;
-    }
   }
 }
