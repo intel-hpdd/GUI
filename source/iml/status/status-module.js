@@ -23,31 +23,25 @@
 
 import angular from 'angular';
 import parselyBoxModule from '../parsely-box/parsely-box-module.js';
-import routeStreamModule from '../route-stream/route-stream-module.js';
 import qsFromLocationModule from '../qs-from-location/qs-from-location-module.js';
 import commonStatusSearchesModule from '../status/common-status-searches/common-status-searches-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
-import statusQsToInputParser from './status-qs-to-input-parser.js';
-import statusInputToQsParser from './status-input-to-qs-parser.js';
-import statusCompleter from './status-completer.js';
+import statusQueryComponent from './status-query-component.js';
+import statusRecordsComponent from './status-records-component.js';
 
-import StatusController from './status-controller';
-import StatusQueryController from './status-query-controller';
 import {
-  deferredActionDropdownComponent, DeferredActionDropdownCtrl
+  deferredActionDropdownComponent,
+  DeferredActionDropdownCtrl
 } from './deferred-action-dropdown';
 
 export default angular.module('status', [
-  parselyBoxModule, routeStreamModule,
+  parselyBoxModule,
   qsFromLocationModule, commonStatusSearchesModule,
   extendScopeModule, actionDropdownModule
 ])
-  .controller('StatusController', StatusController)
-  .controller('StatusQueryController', StatusQueryController)
   .controller('DeferredActionDropdownCtrl', DeferredActionDropdownCtrl)
+  .component('statusQuery', statusQueryComponent)
+  .component('statusRecords', statusRecordsComponent)
   .component('deferredActionDropdown', deferredActionDropdownComponent)
-  .value('statusInputToQsParser', statusInputToQsParser)
-  .value('statusQsToInputParser', statusQsToInputParser)
-  .value('statusCompleter', statusCompleter)
   .name;

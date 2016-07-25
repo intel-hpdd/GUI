@@ -24,58 +24,108 @@
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import ngResource from 'angular-resource';
-import ngRoute from 'angular-route';
-import 'intel-angular-route-segment';
+import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
 import environmentModule from './environment-module';
 import exceptionModule from './exception/exception-module';
 import routeToModule from './route-to/route-to-module';
-import middlewareModule from './middleware/middleware-module';
 import loginModule from './login/login-module';
-import loginRouteModule from './login/login-route-module';
 import appModule from './app/app-module';
-import appRouteModule from './app/app-route-module';
 import dashboardModule from './dashboard/dashboard-module';
-import dashboardRouteModule from './dashboard/dashboard-route-module';
 import baseDashboardModule from './dashboard/base-dashboard-module';
-import baseDashboardRouteModule from './dashboard/base-dashboard-route-module';
 import serverDashboardModule from './dashboard/server-dashboard-module';
-import serverDashboardRouteModule from './dashboard/server-dashboard-route-module';
 import targetDashboardModule from './dashboard/target-dashboard-module';
-import targetDashboardRouteModule from './dashboard/target-dashboard-route-module';
 import serverModule from './server/server-module';
-import serverRouteModule from './server/server-route-module';
-import serverDetailRouteModule from './server/server-detail-route-module';
 import jobStatsModule from './job-stats/job-stats-module';
-import jobStatsRouteModule from './job-stats/job-stats-route-module';
 import hsmFsModule from './hsm/hsm-fs-module';
-import hsmFsRouteModule from './hsm/hsm-fs-route-module';
 import hsmModule from './hsm/hsm-module';
-import hsmRouteModule from './hsm/hsm-route-module';
 import aboutModule from './about/about-module';
 import modalDecoratorModule from './modal-decorator/modal-decorator-module';
 import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
-import statusQueryRouteModule from './status/status-query-route-module';
-import statusRecordsRouteModule from './status/status-records-route-module';
 import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
-import mgtRouteModule from './mgt/mgt-route-module';
 import disconnectModalModule from './disconnect-modal/disconnect-modal-module.js';
 import logModule from './logs/log-module.js';
-import logQueryRouteModule from './logs/log-query-route-module.js';
-import logRecordsRouteModule from './logs/log-records-route-module.js';
 import treeModule from './tree/tree-module.js';
-import fileSystemRouteModule from './file-system/file-system-route-module.js';
 import fileSystemModule from './file-system/file-system-module.js';
-import oldRouteModule from './old-gui-shim/old-route-module.js';
+import qsStreamModule from './qs-stream/qs-stream-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
 import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
 import resettableGroupModule from './resettable-group/resettable-group-module.js';
+import oldRouteModule from './old-gui-shim/old-route-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
 import sliderPanelComponent from './panels/slider-panel-component.js';
 import sidePanelComponent from './panels/side-panel-component.js';
 import panelsComponent from './panels/panels-component.js';
+import routeTransitions from './route-transitions.js';
+
+import {
+  uiLoaderViewDirective,
+  uiLoaderViewRootComponent
+} from './loading-components.js';
+
+import {
+  loginState
+} from './login/login-states.js';
+
+
+import {
+  appState
+} from './app/app-states.js';
+
+import {
+  mgtState
+} from './mgt/mgt-states.js';
+
+import {
+  statusState,
+  queryState,
+  tableState
+} from './status/status-states.js';
+
+import {
+  aboutState
+} from './about/about-states.js';
+
+import {
+  serverState,
+  serverDetailState
+} from './server/server-states.js';
+
+import {
+  fileSystemListState
+} from './file-system/file-system-states.js';
+
+import {
+  logState,
+  logTableState
+} from './logs/log-states.js';
+
+import {
+  hsmFsState,
+  hsmState
+} from './hsm/hsm-states.js';
+
+import {
+  jobStatsState
+} from './job-stats/job-stats-states.js';
+
+import {
+  dashboardState,
+  dashboardOverviewState,
+  dashboardAbstractServerState,
+  dashboardServerState,
+  dashboardServerOstState,
+  dashboardServerMdtState,
+  dashboardFsState,
+  dashboardFsMdtState,
+  dashboardAbstractFsState,
+  dashboardFsOstState
+} from './dashboard/dashboard-states.js';
+
+import oldGUIStates from './old-gui-shim/old-gui-states.js';
+
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -83,18 +133,64 @@ import './server/server-dispatch-source.js';
 import './file-system/file-system-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 
+// $FlowIgnore: HTML templates that flow does not recognize.
+import loginTemplate from './login/assets/html/login';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import eulaTemplate from './login/assets/html/eula';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import appHtml from './app/assets/html/app';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import aboutTemplate from './about/assets/html/about';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import serverTemplate from './server/assets/html/server';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import serverDetailTemplate from './server/assets/html/server-detail';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import hsmFsTemplate from './hsm/assets/html/hsm-fs';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import hsmTemplate from './hsm/assets/html/hsm';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import dashboardTemplate from './dashboard/assets/html/dashboard';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import baseDashboardTemplate from './dashboard/assets/html/base-dashboard';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import targetDashboardTemplate from './dashboard/assets/html/target-dashboard';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import serverDashboardTemplate from './dashboard/assets/html/server-dashboard';
+
+// $FlowIgnore: HTML templates that flow does not recognize.
+import jobStatsTemplate from './job-stats/assets/html/job-stats';
+
 export default angular.module('iml', [
-  uiBootstrapModule, ngResource, ngRoute, ngAnimate, 'route-segment', 'view-segment',
-  routeToModule, environmentModule, exceptionModule,
-  middlewareModule, loginModule, loginRouteModule, appModule, appRouteModule, oldRouteModule, dashboardModule,
-  dashboardRouteModule, baseDashboardModule, baseDashboardRouteModule, serverDashboardModule,
-  serverDashboardRouteModule, targetDashboardModule, targetDashboardRouteModule, serverModule, serverRouteModule,
-  serverDetailRouteModule, jobStatsModule, jobStatsRouteModule,
-  hsmFsModule, hsmFsRouteModule, hsmModule, hsmRouteModule, multiTogglerModule,
-  aboutModule, modalDecoratorModule, interceptorModule, statusModule, statusQueryRouteModule,
-  statusRecordsRouteModule, modelFactoryModule, mgtModule, mgtRouteModule, logModule,
-  logQueryRouteModule, logRecordsRouteModule, disconnectModalModule, treeModule,
-  fileSystemModule, fileSystemRouteModule, chartTransformersModule, resettableGroupModule
+  loginTemplate, eulaTemplate,
+  appHtml, aboutTemplate, serverTemplate,
+  serverDetailTemplate, hsmFsTemplate,
+  dashboardTemplate, baseDashboardTemplate,
+  targetDashboardTemplate, serverDashboardTemplate,
+  hsmTemplate, jobStatsTemplate, uiBootstrapModule, ngResource, ngAnimate,
+  routeToModule, environmentModule, exceptionModule, uiRouter,
+  loginModule, qsStreamModule,
+  appModule, dashboardModule,
+  baseDashboardModule, serverDashboardModule,
+  targetDashboardModule, serverModule,
+  jobStatsModule, hsmFsModule,
+  hsmModule, multiTogglerModule,
+  modalDecoratorModule, interceptorModule, statusModule,
+  modelFactoryModule, mgtModule, logModule,
+  disconnectModalModule, treeModule, aboutModule,
+  fileSystemModule, chartTransformersModule, resettableGroupModule,
+  oldRouteModule
 ])
   .config($compileProvider => {
     'ngInject';
@@ -122,17 +218,51 @@ export default angular.module('iml', [
 
     $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
   })
-  .config($routeSegmentProvider => {
+  .config($urlMatcherFactoryProvider => {
     'ngInject';
 
-    $routeSegmentProvider.options.autoLoadTemplates = true;
-    $routeSegmentProvider.options.strictMode = true;
-    $routeSegmentProvider.options.resolveMiddleware = 'processMiddleware';
+    $urlMatcherFactoryProvider
+      .strictMode(false);
+  })
+  .config(($stateProvider) => {
+    'ngInject';
+
+    $stateProvider
+      .state(loginState)
+      .state(appState)
+      .state(mgtState)
+      .state(statusState)
+      .state(tableState)
+      .state(queryState)
+      .state(aboutState)
+      .state(serverState)
+      .state(serverDetailState)
+      .state(fileSystemListState)
+      .state(logTableState)
+      .state(logState)
+      .state(hsmFsState)
+      .state(hsmState)
+      .state(dashboardState)
+      .state(dashboardOverviewState)
+      .state(dashboardServerState)
+      .state(dashboardAbstractServerState)
+      .state(dashboardServerOstState)
+      .state(dashboardServerMdtState)
+      .state(dashboardFsState)
+      .state(dashboardFsMdtState)
+      .state(dashboardAbstractFsState)
+      .state(dashboardFsOstState)
+      .state(jobStatsState);
+
+    oldGUIStates.forEach(s => $stateProvider.state(s));
   })
   .directive('asViewer', asViewerDirective)
   .component('sliderPanel', sliderPanelComponent)
   .component('sidePanel', sidePanelComponent)
   .component('panels', panelsComponent)
+  .component('uiLoaderViewRoot', uiLoaderViewRootComponent)
+  .directive('uiLoaderView', uiLoaderViewDirective)
+  .run(routeTransitions)
   .name;
 
 angular.bootstrap(document, ['iml'], {});

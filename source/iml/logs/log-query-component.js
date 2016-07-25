@@ -32,17 +32,17 @@ import type {
 type fnTo$ = () => HighlandStreamT<Object>;
 
 export function controller ($scope:Object, $location:Object,
-                            routeStream:fnTo$, propagateChange:Function) {
+                            qsStream:fnTo$, propagateChange:Function) {
   'ngInject';
 
   const p = propagateChange($scope, this, 'qs');
-  const rs = routeStream();
+  const qs$ = qsStream();
 
-  rs
+  qs$
     .map(x => x.qs)
     .through(p);
 
-  $scope.$on('$destroy', () => rs.destroy());
+  $scope.$on('$destroy', () => qs$.destroy());
 
   Object.assign(this, {
     parserFormatter: {

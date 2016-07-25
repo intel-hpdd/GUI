@@ -29,11 +29,7 @@ import messageSubstitutionModule from '../message-substitution/message-substitut
 import logQueryComponent from './log-query-component.js';
 import logTableComponent from './log-table-component.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import loadingTemplate from '../loading/assets/html/loading';
-
 export default angular.module('logModule', [
-  loadingTemplate,
   authModule,
   asValueModule,
   messageSubstitutionModule

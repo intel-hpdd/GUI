@@ -25,12 +25,11 @@ import angular from 'angular';
 import commandModule from '../command/command-module';
 import helpModule from '../help-module';
 import highlandModule from '../highland/highland-module';
-import routeStreamModule from '../route-stream/route-stream-module';
 import HsmFsCtrl from './hsm-fs-controller';
 
 export default angular.module('hsmFs', [
   commandModule, helpModule,
-  highlandModule, routeStreamModule
+  highlandModule
 ])
 .controller('HsmFsCtrl', HsmFsCtrl)
 .name;

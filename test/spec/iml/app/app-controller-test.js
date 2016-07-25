@@ -2,10 +2,10 @@ import appModule from '../../../../source/iml/app/app-module';
 import highland from 'highland';
 
 
-describe('App controller', function () {
+describe('App controller', () => {
   beforeEach(module(appModule));
 
-  var $scope, $routeSegment, appController,
+  var $scope, appController,
     sessionFixture, deferred, navigate, help, ENV, GROUPS,
     alertStream, notificationStream;
 
@@ -20,7 +20,6 @@ describe('App controller', function () {
       RUNTIME_VERSION: 'dev'
     };
 
-    $routeSegment = {};
     navigate = jasmine.createSpy('navigate');
 
     $scope = $rootScope.$new();
@@ -45,7 +44,6 @@ describe('App controller', function () {
           .and.returnValue(deferred.promise)
       },
       navigate: navigate,
-      $routeSegment: $routeSegment,
       help: help,
       alertStream: alertStream,
       notificationStream: notificationStream,
@@ -66,10 +64,6 @@ describe('App controller', function () {
     appController.login();
 
     expect(navigate).toHaveBeenCalledOnceWith('login/');
-  });
-
-  it('should expose the $routeSegment on the controller', function () {
-    expect(appController.$routeSegment).toEqual($routeSegment);
   });
 
   it('should tell if the user is logged in', function () {

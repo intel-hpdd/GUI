@@ -1,18 +1,29 @@
 import helpMapperModule from '../../../../source/iml/help-mapper/help-mapper-module.js';
-import highland from 'highland';
 
 describe('help mapper', () => {
-  var routeStream;
+  let $state, $transitions;
 
   beforeEach(module(helpMapperModule, $provide => {
-    routeStream = highland();
-    $provide.value('routeStream', () => routeStream);
+    $state = {
+      $current: {
+        data: {
+
+        }
+      }
+    };
+
+    $transitions = {
+      onSuccess: jasmine.createSpy('onSuccess')
+    };
+
+    $provide.value('$transitions', $transitions);
+    $provide.value('$state', $state);
   }));
 
-  var el;
+  let el, $scope;
 
   beforeEach(inject(($compile, $rootScope) => {
-    const $scope = $rootScope.$new();
+    $scope = $rootScope.$new();
 
     const template = '<li help-mapper></li>';
     el = $compile(template)($scope)[0];
@@ -30,9 +41,25 @@ describe('help mapper', () => {
   });
 
   it('should end with a qs on matching route change', () => {
-    routeStream.write({
-      contains: x => x === 'server'
+    const fn = $transitions
+      .onSuccess
+      .calls
+      .mostRecent()
+      .args[1];
+
+    fn({
+      router: {
+        globals: {
+          $current: {
+            data: {
+              helpPage: 'server_tab.htm'
+            }
+          }
+        }
+      }
     });
+
+    $scope.$digest();
 
     expect(el.querySelector('a').getAttribute('ng-href'))
     .toBe('/static/webhelp/help_wrapper.html?server_tab.htm');

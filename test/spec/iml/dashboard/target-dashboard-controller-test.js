@@ -27,7 +27,9 @@ describe('target dashboard', () => {
     ctrl = $controller('TargetDashboardController', {
       $scope: $scope,
       charts: charts,
-      kind: 'MDT',
+      $stateParams: {
+        kind: 'MDT'
+      },
       targetStream: targetStream,
       usageStream: broadcaster(usageStream)
     });

@@ -28,7 +28,7 @@ import * as fp from 'intel-fp';
 import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function serverDetailResolvesFactory ($route) {
+export default function serverDetailResolvesFactory ($stateParams) {
   'ngInject';
 
   return function serverDetailResolves () {
@@ -52,11 +52,11 @@ export default function serverDetailResolvesFactory ($route) {
 
     const serverStream = store
       .select('server')
-      .map(fp.find(x => x.id === $route.current.params.id));
+      .map(fp.find(x => x.id === $stateParams.id));
 
     var allHostMatches = {
       qs: {
-        host__id: $route.current.params.id,
+        host__id: $stateParams.id,
         limit: 0
       }
     };
@@ -64,7 +64,7 @@ export default function serverDetailResolvesFactory ($route) {
     const lnetConfigurationStream = broadcaster(
       store
         .select('lnetConfiguration')
-        .map(fp.find(x => x.id === $route.current.params.id))
+        .map(fp.find(x => x.id === $stateParams.id))
     );
 
     const merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);

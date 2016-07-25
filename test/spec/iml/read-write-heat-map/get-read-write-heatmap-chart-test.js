@@ -18,8 +18,8 @@ describe('Read Write Heat Map chart', () => {
     submitHandler, config1$, config2$,
     getReadWriteHeatMapChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
-    durationSubmitHandler, localApply, mod, routeSegmentUrl,
-    getConf, readWriteHeatMapTypes, $filter, $location;
+    durationSubmitHandler, localApply, mod,
+    getConf, readWriteHeatMapTypes, $state;
 
   readWriteHeatMapTypes = {
     READ_BYTES: 'stats_read_bytes',
@@ -106,25 +106,17 @@ describe('Read Write Heat Map chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    routeSegmentUrl = jasmine.createSpy('routeSegmentUrl');
-    $filter = jasmine.createSpy('$filter')
-      .and.returnValue(routeSegmentUrl);
-
-    $location = {
-      path: jasmine.createSpy('path')
+    $state = {
+      go: jasmine.createSpy('go')
     };
 
     getReadWriteHeatMapChart = mod.default(
-      $location, $filter, chartCompiler, localApply,
+      $state, chartCompiler, localApply,
       curry(3, data$Fn), readWriteHeatMapTypes);
   });
 
   it('should return a factory function', () => {
     expect(getReadWriteHeatMapChart).toEqual(jasmine.any(Function));
-  });
-
-  it('should call $filter with routeSegmentUrl', () => {
-    expect($filter).toHaveBeenCalledOnceWith('routeSegmentUrl');
   });
 
   describe('for page readWriteHeatMapChart', () => {
@@ -321,11 +313,12 @@ describe('Read Write Heat Map chart', () => {
 
           onClick(points);
 
-          expect(routeSegmentUrl).toHaveBeenCalledOnceWith('app.jobstats', {
-            id: 1,
-            startDate: '2016-04-14T18:39:58.570Z',
-            endDate: '2016-04-14T18:40:14.570Z'
-          });
+          expect($state.go)
+            .toHaveBeenCalledOnceWith('app.jobstats', {
+              id: 1,
+              startDate: '2016-04-14T18:39:58.570Z',
+              endDate: '2016-04-14T18:40:14.570Z'
+            });
         });
       });
 

@@ -1,15 +1,27 @@
 import highland from 'highland';
-import {invokeMethod} from 'intel-fp';
+import {
+  invokeMethod
+} from 'intel-fp';
 
-import statusModule from '../../../../source/iml/status/status-module';
-import StatusController from '../../../../source/iml/status/status-controller';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-describe('status controller', () => {
-  beforeEach(module(statusModule));
+describe('status records component', () => {
+  let mod;
 
-  var $scope, $location, ctrl, notificationStream;
+  beforeEachAsync(async function () {
+    mod = await mock('source/iml/status/status-records-component.js', {});
+  });
 
-  beforeEach(inject(function ($controller, $rootScope) {
+  afterEach(resetAll);
+
+  beforeEach(module('extendScope'));
+
+  let $scope, $location, ctrl, notificationStream;
+
+  beforeEach(inject(($rootScope, propagateChange) => {
     $scope = $rootScope.$new();
 
     $location = {
@@ -19,15 +31,15 @@ describe('status controller', () => {
     notificationStream = highland();
     spyOn(notificationStream, 'destroy');
 
-    ctrl = $controller('StatusController', {
-      $scope: $scope,
-      $location: $location,
-      notificationStream: notificationStream
-    });
+    ctrl = {
+      notification$: notificationStream
+    };
+
+    mod.StatusController.call(ctrl, $scope, $location, propagateChange);
   }));
 
-  it('should return the expected controller properties', function () {
-    const instance = window.extendWithConstructor(StatusController, {
+  it('should return the expected controller properties', () => {
+    const instance = jasmine.objectContaining({
       isCommand: jasmine.any(Function),
       pageChanged: jasmine.any(Function)
     });
@@ -35,13 +47,13 @@ describe('status controller', () => {
     expect(ctrl).toEqual(instance);
   });
 
-  it('should destroy the notificationStream when the scope is destroyed', function () {
+  it('should destroy the notificationStream when the scope is destroyed', () => {
     $scope.$destroy();
     expect(notificationStream.destroy).toHaveBeenCalledOnce();
   });
 
-  describe('getting notificationStream data', function () {
-    beforeEach(function () {
+  describe('getting notificationStream data', () => {
+    beforeEach(() => {
       notificationStream.write({
         meta: {
           limit: 20,
@@ -56,7 +68,7 @@ describe('status controller', () => {
       });
     });
 
-    it('should set data on the controller', function () {
+    it('should set data on the controller', () => {
       expect(ctrl.data).toEqual([
         {
           foo: 'bar'
@@ -64,7 +76,7 @@ describe('status controller', () => {
       ]);
     });
 
-    it('should set meta on the controller', function () {
+    it('should set meta on the controller', () => {
       expect(ctrl.meta).toEqual({
         limit: 20,
         offset: 0,
@@ -74,7 +86,7 @@ describe('status controller', () => {
     });
   });
 
-  var types = {
+  const types = {
     CommandErroredAlert: 'toBeTruthy',
     CommandSuccessfulAlert: 'toBeTruthy',
     CommandRunningAlert: 'toBeTruthy',
@@ -82,15 +94,15 @@ describe('status controller', () => {
     FooBarred: 'toBeFalsy'
   };
 
-  Object.keys(types).forEach(function (type) {
-    it('should tell if ' + type + ' is a command', function () {
+  Object.keys(types).forEach(type => {
+    it('should tell if ' + type + ' is a command', () => {
       invokeMethod(types[type], [], expect(ctrl.isCommand({
         record_type: type
       })));
     });
   });
 
-  it('should set the location query string to the new offset', function () {
+  it('should set the location query string to the new offset', () => {
     ctrl.meta = {
       current_page: 5,
       limit: 20

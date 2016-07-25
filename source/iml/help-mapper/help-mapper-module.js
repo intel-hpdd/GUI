@@ -23,12 +23,11 @@
 
 import angular from 'angular';
 
-import routeStreamModule from '../route-stream/route-stream-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import helpMapperComponent from './help-mapper-directive.js';
 
 export default angular.module('helpMapper', [
-  routeStreamModule, extendScopeModule
+  extendScopeModule
 ])
   .directive('helpMapper', helpMapperComponent)
   .name;

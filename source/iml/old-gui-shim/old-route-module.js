@@ -1,5 +1,3 @@
-// @flow
-
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,67 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+// @flow
+
 import angular from 'angular';
 import iframeShimComponent from './iframe-shim-component.js';
 
-import {
-  GROUPS
-} from '../auth/authorization.js';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import loadingTemplate from '../loading/assets/html/loading';
-
-const pathToConfig = (path:string) => {
-  return {
-    access: GROUPS.FS_ADMINS,
-    controller: function ($route) {
-      'ngInject';
-
-      this.params = $route.current.params;
-    },
-    controllerAs: '$ctrl',
-    template: `
-    <iframe-shim params="::$ctrl.params" path="${path}"></iframe-shim>
-    `,
-    untilResolved: {
-      templateUrl: loadingTemplate
-    },
-    middleware: [
-      'allowAnonymousReadMiddleware',
-      'eulaStateMiddleware',
-      'authenticationMiddleware'
-    ]
-  };
-};
-
-export default angular.module('oldRoutes', [
-  loadingTemplate
-])
-  .config(function oldRoute ($routeSegmentProvider:Object):void {
-    'ngInject';
-
-    $routeSegmentProvider
-      .when('/configure/volume', 'app.oldVolume')
-      .when('/configure/power', 'app.oldPower')
-      .when('/configure/filesystem/create', 'app.oldFilesystemCreate')
-      .when('/configure/filesystem/:id', 'app.oldFilesystemDetail')
-      .when('/configure/user/', 'app.oldUser')
-      .when('/configure/user/:id', 'app.oldUserDetail')
-      .when('/target/:id', 'app.oldTarget')
-      .when('/system_status', 'app.oldSystemStatus')
-      .when('/configure/storage', 'app.oldStorageResource')
-      .when('/configure/storage/:id', 'app.oldStorageResourceDetail')
-      .within('app')
-      .segment('oldVolume', pathToConfig('configureold/volume'))
-      .segment('oldPower', pathToConfig('configureold/power'))
-      .segment('oldFilesystemCreate', pathToConfig('configureold/filesystem/create'))
-      .segment('oldFilesystemDetail', pathToConfig('configureold/filesystem/detail'))
-      .segment('oldTarget', pathToConfig('/targetold'))
-      .segment('oldUser', pathToConfig('/configureold/user'))
-      .segment('oldUserDetail', pathToConfig('/userold'))
-      .segment('oldStorageResource', pathToConfig('/configureold/storage/'))
-      .segment('oldStorageResourceDetail', pathToConfig('/storage_resourceold'))
-      .segment('oldSystemStatus', pathToConfig('/system_statusold'));
-  })
+export default angular
+  .module('oldRoutes', [])
   .component('iframeShim', iframeShimComponent)
   .name;

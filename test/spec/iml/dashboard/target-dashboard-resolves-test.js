@@ -1,14 +1,19 @@
 import highland from 'highland';
-import targetDashboardModule
-  from '../../../../source/iml/dashboard/target-dashboard-module';
 
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
-describe('Target dashboard', () => {
-  var $route, socketStream, resolvesModule, s, store, spy;
+describe('target dashboard', () => {
+  let socketStream,
+    targetDashboardResolves,
+    targetDashboardTargetStream,
+    targetDashboardUsageStream,
+    s,
+    store,
+    spy,
+    $stateParams;
 
   beforeEachAsync(async function () {
     s = highland();
@@ -19,133 +24,124 @@ describe('Target dashboard', () => {
         .returnValue(s)
     };
 
-    socketStream = jasmine.createSpy('socketStream');
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and
+      .returnValue(s);
 
-    resolvesModule = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
-      'source/iml/store/get-store': { default: store },
-      'source/iml/socket/socket-stream': { default: socketStream }
+    const mod = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
+      'source/iml/store/get-store': {
+        default: store
+      },
+      'source/iml/socket/socket-stream': {
+        default: socketStream
+      }
     });
 
-    $route = {
-      current: {
-        params: {},
-        $$route: {}
-      }
+    ({
+      targetDashboardResolves,
+      targetDashboardTargetStream,
+      targetDashboardUsageStream
+    } = mod);
+
+    spy = jasmine.createSpy('spy');
+
+    $stateParams = {
+
     };
   });
 
-  beforeEach(module(targetDashboardModule, function ($provide) {
-    spy = jasmine.createSpy('spy');
-    $provide.value('$route', $route);
-
-    socketStream
-      .and
-      .returnValue(s);
-  }));
-
   afterEach(resetAll);
 
-  describe('kind', function () {
-    var targetDashboardKind;
+  describe('chart resolves', () => {
+    let getFileUsageChart,
+      getSpaceUsageChart,
+      getMdoChart,
+      getReadWriteBandwidthChart,
+      getInst;
 
     beforeEach(() => {
-      targetDashboardKind = resolvesModule.targetDashboardKindFactory($route);
+      getFileUsageChart = jasmine
+        .createSpy('getFileUsageChart')
+        .and
+        .returnValue('fileUsageChart');
+
+      getSpaceUsageChart = jasmine
+        .createSpy('getSpaceUsageChart')
+        .and
+        .returnValue('spaceUsageChart');
+
+      getMdoChart = jasmine
+        .createSpy('getMdoChart')
+        .and
+        .returnValue('mdoChart');
+
+      getReadWriteBandwidthChart = jasmine
+        .createSpy('getReadWriteBandwidthChart')
+        .and
+        .returnValue('readWriteBandwidthChart');
+
+      getInst = targetDashboardResolves.bind(
+        null,
+        $stateParams,
+        getFileUsageChart,
+        getSpaceUsageChart,
+        getMdoChart,
+        getReadWriteBandwidthChart
+      );
     });
 
-    it('should return the target kind', function () {
-      $route.current.$$route.kind = 'MDT';
-
-      expect(targetDashboardKind()).toBe('MDT');
-    });
-  });
-
-  describe('chart resolves', function () {
-    var getFileUsageChart, getSpaceUsageChart,
-      getMdoChart, getReadWriteBandwidthChart;
-
-    beforeEach(module(function ($provide) {
-      getFileUsageChart = jasmine.createSpy('getFileUsageChart')
-        .and.returnValue('fileUsageChart');
-      $provide.value('getFileUsageChart', getFileUsageChart);
-
-      getSpaceUsageChart = jasmine.createSpy('getSpaceUsageChart')
-        .and.returnValue('spaceUsageChart');
-      $provide.value('getSpaceUsageChart', getSpaceUsageChart);
-
-      getMdoChart = jasmine.createSpy('getMdoChart')
-        .and.returnValue('mdoChart');
-      $provide.value('getMdoChart', getMdoChart);
-
-      getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart')
-        .and.returnValue('readWriteBandwidthChart');
-      $provide.value('getReadWriteBandwidthChart', getReadWriteBandwidthChart);
-    }));
-
-    var $rootScope, targetDashboardResolves;
-
-    beforeEach(inject(function (_$rootScope_, _targetDashboardResolves_) {
-      $rootScope = _$rootScope_;
-      targetDashboardResolves = _targetDashboardResolves_;
-    }));
-
-    it('should return a function', function () {
-      expect(targetDashboardResolves).toEqual(jasmine.any(Function));
+    it('should return a function', () => {
+      expect(targetDashboardResolves)
+        .toEqual(jasmine.any(Function));
     });
 
-    describe('MDT', function () {
-      var promise;
+    describe('MDT', () => {
+      let promise;
 
       beforeEach(function () {
-        $route.current.params.targetId = '1';
-        $route.current.$$route.kind = 'MDT';
+        Object.assign($stateParams, {
+          targetId: '1',
+          kind: 'MDT'
+        });
 
-        promise = targetDashboardResolves();
+        promise = getInst();
       });
 
-      it('should call mdoChart', function () {
-        $rootScope.$apply();
-
-        expect(getMdoChart).toHaveBeenCalledOnceWith({
-          qs: {
-            id: '1'
-          }
-        }, 'target1');
+      it('should call mdoChart', () => {
+        expect(getMdoChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              id: '1'
+            }
+          }, 'target1');
       });
 
-      it('should call fileUsageChart', function () {
-        $rootScope.$apply();
-
-        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'File Usage',
-          'Files Used',
+      it('should call fileUsageChart', () => {
+        expect(getFileUsageChart)
+          .toHaveBeenCalledOnceWith(
+            'File Usage',
+            'Files Used',
           {
             qs: {
               id: '1'
             }
           },
           'target1'
-        );
+          );
       });
 
-      it('should call spaceUsageChart', function () {
-        $rootScope.$apply();
-
-        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith({
-          qs: {
-            id: '1'
-          }
-        }, 'target1');
+      it('should call spaceUsageChart', () => {
+        expect(getSpaceUsageChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              id: '1'
+            }
+          }, 'target1');
       });
 
-      it('should return MDT charts', function () {
-        var result;
-
-        promise
-          .then(function (x) {
-            result = x;
-          });
-
-        $rootScope.$apply();
+      itAsync('should return MDT charts', async function () {
+        const result = await promise;
 
         expect(result).toEqual([
           'mdoChart',
@@ -155,117 +151,116 @@ describe('Target dashboard', () => {
       });
     });
 
-    describe('OST', function () {
-      beforeEach(function () {
-        $route.current.params.targetId = '1';
-        $route.current.$$route.kind = 'OST';
+    describe('OST', () => {
+      beforeEach(() => {
+        Object.assign($stateParams, {
+          targetId: '1',
+          kind: 'OST'
+        });
 
-        targetDashboardResolves();
+        getInst();
       });
 
-      it('should call readWriteBandwidthChart', function () {
-        $rootScope.$apply();
-
-        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({
-          qs: {
-            id: '1'
-          }
-        }, 'target1');
+      it('should call readWriteBandwidthChart', () => {
+        expect(getReadWriteBandwidthChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              id: '1'
+            }
+          }, 'target1');
       });
 
-      it('should call fileUsageChart', function () {
-        $rootScope.$apply();
-
-        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'Object Usage',
-          'Objects Used',
+      it('should call fileUsageChart', () => {
+        expect(getFileUsageChart)
+          .toHaveBeenCalledOnceWith(
+            'Object Usage',
+            'Objects Used',
           {
             qs: {
               id: '1'
             }
           },
-          'target1'
-        );
+            'target1'
+          );
       });
 
-      it('should call spaceUsageChart', function () {
-        $rootScope.$apply();
-
-        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith({
-          qs: {
-            id: '1'
-          }
-        }, 'target1');
+      it('should call spaceUsageChart', () => {
+        expect(getSpaceUsageChart)
+          .toHaveBeenCalledOnceWith({
+            qs: {
+              id: '1'
+            }
+          }, 'target1');
       });
     });
   });
 
-  describe('target stream', function () {
-    var $rootScope, targetDashboardTargetStream, targetStream;
+  describe('target stream', () => {
+    let targetStream;
 
-    beforeEach(inject(function (_$rootScope_) {
-      $rootScope = _$rootScope_;
+    beforeEach(() => {
+      Object.assign($stateParams, {
+        targetId: '1'
+      });
 
-      $route.current.params.targetId = '1';
-
-      targetDashboardTargetStream = resolvesModule
-        .targetDashboardTargetStreamFactory($route);
-
-      targetStream = targetDashboardTargetStream();
-    }));
-
-    it('should be a function', function () {
-      expect(targetDashboardTargetStream).toEqual(jasmine.any(Function));
+      targetStream = targetDashboardTargetStream($stateParams);
     });
 
-    it('should call socketStream', function () {
-      expect(store.select).toHaveBeenCalledOnceWith('targets');
+    it('should be a function', () => {
+      expect(targetDashboardTargetStream)
+        .toEqual(jasmine.any(Function));
     });
 
-    it('should stream data', function () {
-      targetStream.each(spy);
-      s.write([
-        {
-          id: '5',
-          name: 'target5'
-        }, {
+    it('should call socketStream', () => {
+      expect(store.select)
+        .toHaveBeenCalledOnceWith('targets');
+    });
+
+    it('should stream data', () => {
+      targetStream
+        .each(spy);
+      s
+        .write([
+          {
+            id: '5',
+            name: 'target5'
+          },
+          {
+            id: '1',
+            name: 'target1'
+          }
+        ]);
+
+      expect(spy)
+        .toHaveBeenCalledOnceWith({
           id: '1',
           name: 'target1'
-        }
-      ]);
-      $rootScope.$apply();
-
-      expect(spy).toHaveBeenCalledOnceWith({
-        id: '1',
-        name: 'target1'
-      });
+        });
     });
   });
 
-  describe('usage stream', function () {
-    var $rootScope, targetDashboardUsageStream, promise;
+  describe('usage stream', () => {
+    let promise;
 
-    beforeEach(inject(function (_$rootScope_) {
-      $rootScope = _$rootScope_;
+    beforeEach(() => {
+      Object.assign($stateParams, {
+        targetId: '1'
+      });
 
-      $route.current.params.targetId = '1';
+      promise = targetDashboardUsageStream($stateParams);
+    });
 
-      targetDashboardUsageStream = resolvesModule
-        .targetDashboardUsageStreamFactory($route);
-
-      promise = targetDashboardUsageStream();
-    }));
-
-    it('should call socketStream', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith(
-        '/target/1/metric/',
+    it('should call socketStream', () => {
+      expect(socketStream)
+        .toHaveBeenCalledOnceWith(
+          '/target/1/metric/',
         {
           qs: {
             metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
             latest: true
           }
         }
-      );
+        );
     });
 
     itAsync('should stream data', async function () {
@@ -279,18 +274,16 @@ describe('Target dashboard', () => {
       }]);
 
       const s2 = await promise;
-      s2().each(function (x) {
-        result = x;
-      });
+      s2()
+        .each(x => result = x);
 
-      $rootScope.$apply();
-
-      expect(result).toEqual({
-        kbytesfree: 1000,
-        kbytestotal: 2000,
-        bytes_free: 1024000,
-        bytes_total: 2048000
-      });
+      expect(result)
+        .toEqual({
+          kbytesfree: 1000,
+          kbytestotal: 2000,
+          bytes_free: 1024000,
+          bytes_total: 2048000
+        });
     });
   });
 });
