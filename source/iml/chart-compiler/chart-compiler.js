@@ -37,6 +37,10 @@ import type {
   scopeToElementT
 } from './chart-compiler-module.js';
 
+import {
+  waitForChartData
+} from '../chart-transformers/chart-transformers.js';
+
 type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
 
 export function chartCompilerFactory ($compile:Function, getTemplatePromise:getTemplatePromiseT) {
@@ -47,7 +51,8 @@ export function chartCompilerFactory ($compile:Function, getTemplatePromise:getT
 
     return Promise.all([
       getTemplatePromise(template),
-      resolveStream(stream)
+      resolveStream(stream
+        .through(waitForChartData))
     ])
     .then(function compile ([template, stream]) {
       const el = angular.element(template);
