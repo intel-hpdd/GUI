@@ -17,7 +17,7 @@ describe('tree server item component', () => {
     mod = await mock('source/iml/tree/tree-volume-item-component.js', {});
   });
 
-  beforeEach(module($compileProvider => {
+  beforeEach(module('filters', $compileProvider => {
     $compileProvider.component('treeVolumeItem', mod.default);
   }));
 
@@ -29,7 +29,8 @@ describe('tree server item component', () => {
 
     $scope.record = {
       id: 1,
-      label: 'disk1'
+      label: 'disk1',
+      size: 100000
     };
 
     $scope.parent = {
@@ -47,6 +48,6 @@ describe('tree server item component', () => {
 
   it('should render the label', () => {
     expect(el.textContent.trim())
-      .toBe('disk1');
+      .toBe('disk1 (97.66 kB)');
   });
 });
