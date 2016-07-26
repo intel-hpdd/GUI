@@ -55,7 +55,7 @@ export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
           ctrl.config
         )
       }, true)
-        .map(command => ({ command }))
+        .map(command => ([command]))
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
         .through(propagateChange($scope, ctrl, 'saving'));

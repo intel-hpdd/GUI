@@ -21,6 +21,7 @@
 
 import angular from 'angular';
 import socketStream from '../socket/socket-stream.js';
+import COMMAND_STATES from './command-states.js';
 
 import {
   map,
@@ -31,7 +32,7 @@ import {
 // $FlowIgnore: HTML templates that flow does not recognize.
 import stepModalTemplate from './assets/html/step-modal';
 
-export function StepModalCtrl ($scope, stepsStream, jobStream, COMMAND_STATES) {
+export function StepModalCtrl ($scope, stepsStream, jobStream) {
   'ngInject';
 
   angular.extend(this, {

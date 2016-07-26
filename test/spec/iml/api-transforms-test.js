@@ -1,5 +1,8 @@
+import highland from 'highland';
+
 import {
-  addCurrentPage
+  addCurrentPage,
+  rememberValue
 } from '../../../source/iml/api-transforms.js';
 
 describe('api transforms', () => {
@@ -38,6 +41,72 @@ describe('api transforms', () => {
             current_page: 2
           }
         });
+    });
+  });
+
+  describe('remember value', () => {
+    let spy,
+      in$,
+      transformFn;
+
+    beforeEach(() => {
+      transformFn = jasmine
+        .createSpy('transformFn');
+
+      spy = jasmine.createSpy('spy');
+      in$ = highland();
+
+      rememberValue(transformFn, in$)
+        .each(spy);
+
+      jasmine.clock().install();
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
+
+    it('should remember on a value', () => {
+      transformFn
+        .and
+        .callFake(s => highland([s]));
+
+      in$
+        .write('foo');
+
+      jasmine.clock().tick();
+
+      expect(spy)
+        .toHaveBeenCalledOnceWith('foo');
+    });
+
+    it('should remember when no value', () => {
+      transformFn
+        .and
+        .callFake(() => highland([]));
+
+      in$
+        .write('foo');
+
+      in$.end();
+
+      jasmine.clock().tick();
+
+      expect(spy)
+        .toHaveBeenCalledOnceWith('foo');
+    });
+
+    it('should call the transform fn', () => {
+      transformFn
+        .and
+        .callFake(() => highland([]));
+
+      in$
+        .write('foo');
+
+      expect(transformFn)
+        .toHaveBeenCalledOnceWith('foo');
     });
   });
 });

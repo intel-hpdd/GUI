@@ -288,8 +288,10 @@ describe('host profile then', () => {
 
       completionResult = jasmine.createSpy('innerWait')
         .and.returnValue(highland());
-      waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-        .and.returnValue(completionResult);
+      waitForCommandCompletion = jasmine
+        .createSpy('waitForCommandCompletion')
+        .and
+        .returnValue(completionResult);
 
       const createHostProfiles = mod.createHostProfilesFactory(waitForCommandCompletion);
       profile = transformedHostProfileFixture[0];
@@ -353,11 +355,14 @@ describe('host profile then', () => {
 
       it('should pass in the commands to wait for command completion', function () {
         jasmine.clock().tick();
-        expect(completionResult).toHaveBeenCalledOnceWith([
-          {
-            command: { command: 1 }
-          }
-        ]);
+        expect(completionResult)
+          .toHaveBeenCalledOnceWith(
+          [
+            {
+              command: 1
+            }
+          ]
+          );
       });
     });
   });

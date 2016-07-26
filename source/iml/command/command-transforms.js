@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,42 +21,27 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
+import * as fp from 'intel-fp';
+import COMMAND_STATES from './command-states.js';
 
-import socketStream from '../socket/socket-stream.js';
+const transformState = fp.over(fp.lensProp('state'));
+const viewLens = fp.flow(fp.lensProp, fp.view);
 
-import type {
-  commandResponseT,
-  commandT
-} from './command-types.js';
+export const setState = fp.cond(
+  [viewLens('cancelled'), transformState(fp.always(COMMAND_STATES.CANCELLED))],
+  [viewLens('errored'), transformState(fp.always(COMMAND_STATES.FAILED))],
+  [viewLens('complete'), transformState(fp.always(COMMAND_STATES.SUCCEEDED))],
+  [fp.always(true), transformState(fp.always(COMMAND_STATES.PENDING))]
+);
 
-import {
-  compose,
-  lensProp,
-  mapped,
-  view
-} from 'intel-fp';
+export const trimLogs = fp.over(
+  fp.lensProp('logs'),
+  fp.invokeMethod('trim', [])
+);
 
-export default (commandList:commandT[]):commandResponseT => {
-  const options = {
-    qs: {
-      id__in: view(
-        compose(
-          mapped,
-          lensProp('id')
-        ),
-        commandList
-      )
-    }
-  };
-
-  const stream:commandResponseT = socketStream('/command', options);
-
-  stream
-    .write({
-      objects: commandList
-    });
-
-  return stream
-    .pluck('objects');
-};
+export const isFinished = fp.flow(
+  setState,
+  x => x.state,
+  fp.eq(COMMAND_STATES.PENDING),
+  fp.not
+);

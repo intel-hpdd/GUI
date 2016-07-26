@@ -1,159 +1,108 @@
-
 import highland from 'highland';
-import {noop} from 'intel-fp';
+
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
-describe('wait-for-command-completion-service', function () {
-  var getCommandStream, commandStream, spy,
-    openCommandModal, waitForCommandCompletion,
-    waitForCommandCompletionModule;
+describe('wait-for-command-completion-service', () => {
+  let getCommandStream, commandStream, spy,
+    openCommandModal, waitForCommandCompletion;
 
   beforeEachAsync(async function () {
     commandStream = highland();
-    getCommandStream = jasmine.createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    spyOn(commandStream, 'destroy')
+      .and
+      .callThrough();
+    getCommandStream = jasmine
+      .createSpy('getCommandStream')
+      .and
+      .returnValue(commandStream);
 
-    waitForCommandCompletionModule = await mock(
-      'source/iml/command/wait-for-command-completion-service.js', {
-        'source/iml/command/get-command-stream.js': { default: getCommandStream }
+    spy = jasmine.createSpy('spy');
+    openCommandModal = jasmine
+      .createSpy('openCommandModal')
+      .and
+      .returnValue({
+        resultStream: highland()
       });
+
+    const mod = await mock(
+      'source/iml/command/wait-for-command-completion-service.js', {
+        'source/iml/command/get-command-stream.js': {
+          default: getCommandStream
+        }
+      });
+
+    waitForCommandCompletion = mod.default(
+      openCommandModal
+    );
+
+    jasmine.clock().install();
   });
 
   afterEach(resetAll);
 
-  beforeEach(function () {
-    spy = jasmine.createSpy('spy');
-
-    const commandState = {
-      CANCELLED: 'cancelled',
-      FAILED: 'failed',
-      SUCCEEDED: 'succeeded',
-      PENDING: 'pending',
-      WAITING: 'waiting to run',
-      RUNNING: 'running'
-    };
-    openCommandModal = jasmine.createSpy('openCommandModal');
-
-    var throwIfServerErrors = function throwIfServerErrors (fn) {
-      return function throwOrCall (response) {
-        if (response.errors && response.errors.length)
-          throw new Error(JSON.stringify(response.errors));
-
-        return fn(response);
-      };
-    };
-
-    waitForCommandCompletion = waitForCommandCompletionModule.default(
-      commandState, openCommandModal, throwIfServerErrors);
+  afterEach(() => {
+    jasmine.clock().uninstall();
   });
 
-  describe('response with errors', function () {
-    var response;
-
-    beforeEach(function () {
-      response = {
-        errors: [
-          { message: 'error message' }
-        ]
-      };
-    });
-
-    it('should throw an exception', function () {
-      var stream = waitForCommandCompletion(true, response);
-
-      expect(callWaitForCommandCompletion)
-        .toThrow(new Error(JSON.stringify([
-          { message: 'error message' }
-        ])));
-
-      function callWaitForCommandCompletion () {
-        stream.each(noop);
-      }
-    });
-  });
-
-  describe('no commands', function () {
-    [
-      {
-        commands: []
-      },
-      {
-        objects: [
-          {
-            no: 'commands'
-          }
-        ]
-      }
-    ].forEach(function handleResponse (response) {
-      var result;
-
-      beforeEach(function () {
-        result = waitForCommandCompletion(true, response);
-      });
-
-      it('should return a stream', function () {
-        expect(result).toEqual(jasmine.any(highland().constructor));
-      });
-
-      it('should resolve with the response that was passed in initially', function () {
-        result.each(spy);
-
-        expect(spy).toHaveBeenCalledOnceWith(response);
-      });
-    });
-  });
-
-  describe('contains finished commands', function () {
+  describe('contains commands', () => {
     var responseWithCommands;
 
-    beforeEach(function () {
+    beforeEach(() => {
       responseWithCommands = [
-        {
-          arg: 'arg',
-          command: { state: 'finished' }
-        }
+        {}
       ];
 
       waitForCommandCompletion(false, responseWithCommands)
         .each(spy);
     });
 
-    it('should call get command stream', function () {
-      expect(getCommandStream).toHaveBeenCalledWith([{ state: 'finished' }]);
+    it('should call get command stream', () => {
+      expect(getCommandStream)
+        .toHaveBeenCalledWith([
+          {}
+        ]);
     });
 
-    it('should not call openCommandModal', function () {
-      expect(openCommandModal).not.toHaveBeenCalled();
+    it('should not call openCommandModal', () => {
+      expect(openCommandModal)
+        .not
+        .toHaveBeenCalled();
     });
 
-    describe('on data', function () {
-      var data;
+    describe('on finish', () => {
+      let data;
 
-      beforeEach(function () {
+      beforeEach(() => {
         data = [
           {
-            state: 'not pending'
+            complete: true
           }
         ];
 
-        commandStream.write(data);
+        commandStream
+          .write(
+            data
+          );
       });
 
-      it('should destroy the command stream', function (done) {
-        const spy = jasmine.createSpy('spy');
+      it('should destroy the command stream', () => {
+        jasmine.clock().tick();
 
-        commandStream._destructors.push(spy);
-        commandStream._destructors.push(() => {
-          expect(spy).toHaveBeenCalledOnce();
-          done();
-        });
+        expect(commandStream.destroy)
+          .toHaveBeenCalledOnce();
       });
 
-      it('should resolve the result', function () {
-        expect(spy).toHaveBeenCalledOnceWith(responseWithCommands);
+      it('should resolve the result', () => {
+        expect(spy)
+          .toHaveBeenCalledOnceWith([
+            {
+              complete: true,
+              state: 'succeeded'
+            }
+          ]);
       });
     });
   });

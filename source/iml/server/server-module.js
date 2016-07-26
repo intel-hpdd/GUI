@@ -26,7 +26,6 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 
 import ServerCtrl from './server-controller';
 import serverActionsFactory from './server-actions';
-import serverResolvesFactory from './server-resolves';
 import ConfirmServerActionModalCtrl from './confirm-server-action-modal-ctrl';
 import {
   ADD_SERVER_AUTH_CHOICES, AddServerStepCtrl, addServersStepFactory
@@ -50,7 +49,8 @@ import asStreamModule from '../as-stream/as-stream-module';
 import pdshModule from '../pdsh/pdsh-module';
 import SelectedServersService from './selected-servers-service';
 import {
-  AddServerModalCtrl, openAddServerModalFactory, throwIfServerErrorsFactory
+  AddServerModalCtrl,
+  openAddServerModalFactory
 }
   from './add-server-modal-ctrl';
 import overrideActionClickFactory from './override-action-click';
@@ -62,7 +62,6 @@ import getTestHostStreamFactory from './get-test-host-stream';
 import hostlistFilterFactory from './hostlist-filter';
 import {ServerStatusStepCtrl, serverStatusStep} from './server-status-step';
 import {waitUntilLoadedCtrl, waitUntilLoadedStep} from './wait-until-loaded-step';
-import serverDetailResolvesFactory from './server-detail-resolves';
 import serversToApiObjects from './servers-to-api-objects';
 import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
@@ -108,7 +107,6 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .controller('ServerCtrl', ServerCtrl)
   .controller('ConfirmServerActionModalCtrl', ConfirmServerActionModalCtrl)
   .factory('serverActions', serverActionsFactory)
-  .factory('serverResolves', serverResolvesFactory)
   .constant('ADD_SERVER_AUTH_CHOICES', ADD_SERVER_AUTH_CHOICES)
   .controller('AddServerStepCtrl', AddServerStepCtrl)
   .factory('addServersStep', addServersStepFactory)
@@ -118,7 +116,6 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .controller('AddServerModalCtrl', AddServerModalCtrl)
   .service('selectedServers', SelectedServersService)
   .factory('openAddServerModal', openAddServerModalFactory)
-  .factory('throwIfServerErrors', throwIfServerErrorsFactory)
   .factory('overrideActionClick', overrideActionClickFactory)
   .directive('overrideButton', overrideButtonDirective)
   .factory('getHostProfiles', getHostProfilesFactory)
@@ -132,6 +129,5 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .value('serverStatusStep', serverStatusStep)
   .controller('WaitUntilLoadedCtrl', waitUntilLoadedCtrl)
   .factory('waitUntilLoadedStep', waitUntilLoadedStep)
-  .factory('serverDetailResolves', serverDetailResolvesFactory)
   .value('serversToApiObjects', serversToApiObjects)
   .name;

@@ -50,7 +50,7 @@ describe('server detail resolves', () => {
       id: '1'
     };
 
-    serverDetailResolves = mod.default($stateParams);
+    serverDetailResolves = mod.default;
   });
 
   afterEach(resetAll);
@@ -63,7 +63,7 @@ describe('server detail resolves', () => {
     var promise;
 
     beforeEach(() => {
-      promise = serverDetailResolves();
+      promise = serverDetailResolves($stateParams);
 
       networkInterfaceStream.write({});
       corosyncStream.write({

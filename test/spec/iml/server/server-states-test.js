@@ -23,7 +23,7 @@ describe('server states', () => {
             eulaState: true
           },
           resolve: {
-            streams: ['serverResolves', jasmine.any(Function)]
+            streams: jasmine.any(Function)
           }
         });
     });
@@ -35,11 +35,6 @@ describe('server states', () => {
         .toEqual({
           name: 'app.serverDetail',
           url: '/configure/server/:id',
-          params: {
-            id: {
-              dynamic: false
-            }
-          },
           controller: 'ServerDetailController',
           controllerAs: 'serverDetail',
           templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-detail.js',
@@ -50,7 +45,7 @@ describe('server states', () => {
             eulaState: true
           },
           resolve: {
-            streams: ['serverDetailResolves', jasmine.any(Function)]
+            streams: jasmine.any(Function)
           }
         });
     });

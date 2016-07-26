@@ -50,14 +50,6 @@ export default angular.module('command', [
   jobStatesTemplate, stepModalTemplate,
   commandMonitorTemplate, jobTemplate
 ])
-  .value('COMMAND_STATES', Object.freeze({
-    CANCELLED: 'cancelled',
-    FAILED: 'failed',
-    SUCCEEDED: 'succeeded',
-    PENDING: 'pending',
-    WAITING: 'waiting to run',
-    RUNNING: 'running'
-  }))
   .controller('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl)
   .controller('CommandMonitorCtrl', CommandMonitorCtrl)
   .controller('CommandModalCtrl', CommandModalCtrl)

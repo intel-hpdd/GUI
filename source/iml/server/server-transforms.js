@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,42 +21,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
-import socketStream from '../socket/socket-stream.js';
+import * as fp from 'intel-fp';
 
 import type {
-  commandResponseT,
-  commandT
-} from './command-types.js';
+  HighlandStreamT
+} from 'highland';
 
-import {
-  compose,
-  lensProp,
-  mapped,
-  view
-} from 'intel-fp';
+export function throwIfServerErrors (fn:Function) {
+  return (objects:Object[]) => {
+    const errors = objects
+      .map(x => x.error)
+      .filter(Boolean);
 
-export default (commandList:commandT[]):commandResponseT => {
-  const options = {
-    qs: {
-      id__in: view(
-        compose(
-          mapped,
-          lensProp('id')
-        ),
-        commandList
-      )
-    }
+    if (errors.length)
+      throw new Error(
+        JSON.stringify(
+          errors
+        )
+      );
+
+    return fn(objects);
   };
+}
 
-  const stream:commandResponseT = socketStream('/command', options);
-
-  stream
-    .write({
-      objects: commandList
-    });
-
-  return stream
-    .pluck('objects');
+export const getCommandAndHost = (s:HighlandStreamT<{ objects: Object[] }>) => {
+  return s
+    .map(x => x.objects)
+    .map(throwIfServerErrors(fp.identity))
+    .flatten()
+    .map(x => x.command_and_host)
+    .collect();
 };

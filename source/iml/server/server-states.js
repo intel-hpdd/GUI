@@ -19,11 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-import {
-  invoke,
-  __
-} from 'intel-fp';
+import serverResolves from './server-resolves.js';
+import serverDetailResolves from './server-detail-resolves.js';
 
 import {
   GROUPS
@@ -47,18 +44,13 @@ export const serverState = {
     eulaState: true
   },
   resolve: {
-    streams: ['serverResolves', invoke(__, [])]
+    streams: serverResolves
   }
 };
 
 export const serverDetailState = {
   name: 'app.serverDetail',
   url: '/configure/server/:id',
-  params: {
-    id: {
-      dynamic: false
-    }
-  },
   controller: 'ServerDetailController',
   controllerAs: 'serverDetail',
   templateUrl: serverDetailTemplate,
@@ -69,6 +61,6 @@ export const serverDetailState = {
     eulaState: true
   },
   resolve: {
-    streams: ['serverDetailResolves', invoke(__, [])]
+    streams: serverDetailResolves
   }
 };

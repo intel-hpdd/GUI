@@ -53,6 +53,7 @@ export function ConfigureLnetController ($scope, LNET_OPTIONS, insertHelpFilter,
           objects: fp.pluck('nid', ctrl.networkInterfaces)
         }
       }, true)
+        .map(x => [x.command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
         .through(propagateChange($scope, ctrl, 'saving'));

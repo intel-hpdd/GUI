@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,53 +21,41 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
-import _ from 'intel-lodash-mixins';
-import highland from 'highland';
+import * as fp from 'intel-fp';
 import getCommandStream from '../command/get-command-stream.js';
 
-export default function waitForCommandCompletionFactory (COMMAND_STATES,
-                                                          openCommandModal, throwIfServerErrors) {
+import {
+  setState,
+  isFinished
+} from './command-transforms.js';
+
+import type {
+  commandT
+} from './command-types.js';
+
+export default (openCommandModal:Function) => {
   'ngInject';
 
-  /**
-   * Makes sure all commands complete
-   * @param {Boolean} showModal
-   * @param {Object} response
-   * @returns {Highland.Stream} A stream that ends when all commands finish.
-   */
-  return curry(2, function waitForCommandCompletion (showModal, response) {
-    return highland([response])
-      .map(throwIfServerErrors(_.identity))
-      .flatten()
-      .pluck('command')
-      .compact()
-      .collect()
-      .filter(_.size)
-      .flatMap(wait)
-      .map(() => response)
-      .otherwise(highland([response]));
+  return fp.curry(2, (showModal:boolean, response:commandT[]) => {
+    const command$ = getCommandStream(response)
+      .map(
+        fp.map(setState)
+      );
 
-    function wait (commands) {
-      var stream = getCommandStream(commands);
+    if (showModal)
+      var modal$ = openCommandModal(
+        command$
+          .fork()
+      )
+        .resultStream
+        .each(() => modal$.destroy());
 
-      if (showModal) {
-        var fork = stream.fork();
-        openCommandModal(fork)
-          .resultStream
-          .each(fork.destroy.bind(fork));
-      }
 
-      var isFinished = _.compose(_.inverse, _.fisEqual(COMMAND_STATES.PENDING), _.property('state'));
-
-      return stream
-        .fork()
-        .filter(_.fevery(isFinished))
-        .tap(destroy);
-
-      function destroy () {
-        setTimeout(stream.destroy.bind(stream));
-      }
-    }
+    return command$
+      .fork()
+      .filter(
+        fp.every(isFinished)
+      )
+      .tap(() => setTimeout(() => command$.destroy()));
   });
-}
+};

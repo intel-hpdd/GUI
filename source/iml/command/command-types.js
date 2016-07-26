@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,42 +21,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
+export type commandT = {
+  cancelled: boolean,
+  complete: boolean,
+  created_at: string,
+  errored: boolean,
+  id: number,
+  jobs: mixed[],
+  logs: string,
+  message: string,
+  resource_uri: string
+};
 
-import socketStream from '../socket/socket-stream.js';
-
-import type {
-  commandResponseT,
-  commandT
-} from './command-types.js';
-
-import {
-  compose,
-  lensProp,
-  mapped,
-  view
-} from 'intel-fp';
-
-export default (commandList:commandT[]):commandResponseT => {
-  const options = {
-    qs: {
-      id__in: view(
-        compose(
-          mapped,
-          lensProp('id')
-        ),
-        commandList
-      )
-    }
-  };
-
-  const stream:commandResponseT = socketStream('/command', options);
-
-  stream
-    .write({
-      objects: commandList
-    });
-
-  return stream
-    .pluck('objects');
+export type commandResponseT = {
+  meta: {
+    limit: number,
+    next: string,
+    offset: number,
+    previous: ?number,
+    total_count: number
+  },
+  objects: commandT[]
 };

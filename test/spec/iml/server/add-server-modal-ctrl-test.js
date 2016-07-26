@@ -170,39 +170,4 @@ describe('add server modal', () => {
       });
     });
   });
-
-  describe('throw if server errors', function () {
-    var throwIfServerErrors, handler;
-
-    beforeEach(inject(function (_throwIfServerErrors_) {
-      handler = jasmine.createSpy('handler');
-      throwIfServerErrors = _throwIfServerErrors_(handler);
-    }));
-
-    it('should be a function', function () {
-      expect(throwIfServerErrors).toEqual(jasmine.any(Function));
-    });
-
-    it('should throw if there are any errors', function () {
-      expect(shouldThrow).toThrow(new Error('["fooz"]'));
-
-      function shouldThrow () {
-        throwIfServerErrors({
-          errors: ['fooz']
-        });
-      }
-    });
-
-    it('should call the handler if there are not any errors', function () {
-      var response = {
-        body: {
-          stuff: []
-        }
-      };
-
-      throwIfServerErrors(response);
-
-      expect(handler).toHaveBeenCalledOnceWith(response);
-    });
-  });
 });

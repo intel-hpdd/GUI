@@ -142,7 +142,7 @@ describe('configure corosync', () => {
       it('should wait for command completion', () => {
         socketResponse.write({});
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, {command: {} });
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, [{}]);
       });
 
       it('should stop on an error', inject($exceptionHandler => {

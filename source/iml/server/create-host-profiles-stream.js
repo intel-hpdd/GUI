@@ -124,9 +124,7 @@ export function createHostProfilesFactory (waitForCommandCompletion) {
       })
       .flatMap(createHostProfilesStream)
       .map(objectsLens)
-      .map(_.fmap(function getCommands (obj) {
-        return { command: obj.commands[0] };
-      }))
+      .map(_.fmap(obj => obj.commands[0]))
       .flatMap(waitForCommandCompletion(showCommands));
   };
 }

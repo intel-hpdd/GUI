@@ -2,13 +2,13 @@ import commandModule from '../../../../source/iml/command/command-module';
 import highland from 'highland';
 import angular from 'angular';
 
-describe('command modal', function () {
+describe('command modal', () => {
   beforeEach(module(commandModule));
 
-  describe('open command modal', function () {
+  describe('open command modal', () => {
     var $uibModal, stream;
 
-    beforeEach(module(function ($provide) {
+    beforeEach(module($provide => {
       $uibModal = {
         open: jasmine.createSpy('open')
       };
@@ -16,13 +16,13 @@ describe('command modal', function () {
       $provide.value('$uibModal', $uibModal);
     }));
 
-    beforeEach(inject(function (openCommandModal) {
+    beforeEach(inject(openCommandModal => {
       stream = jasmine.createSpy('stream');
 
       openCommandModal(stream);
     }));
 
-    it('should open the modal', function () {
+    it('should open the modal', () => {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
         templateUrl: '/static/chroma_ui/source/iml/command/assets/html/command-modal.js',
         controller: 'CommandModalCtrl',
@@ -36,24 +36,24 @@ describe('command modal', function () {
       });
     });
 
-    describe('commands', function () {
+    describe('commands', () => {
       var handle, commandStream;
 
-      beforeEach(function () {
+      beforeEach(() => {
         handle = $uibModal.open.calls.mostRecent().args[0].resolve.commandsStream;
         commandStream = handle();
       });
 
-      it('should provide a command stream', function () {
+      it('should provide a command stream', () => {
         expect(commandStream).toEqual(stream);
       });
     });
   });
 
-  describe('command modal ctrl', function () {
+  describe('command modal ctrl', () => {
     var commandsStream, commandModal;
 
-    beforeEach(inject(function ($rootScope, $controller) {
+    beforeEach(inject(($rootScope, $controller) => {
       commandsStream = highland();
 
       commandModal = $controller('CommandModalCtrl', {
@@ -62,11 +62,11 @@ describe('command modal', function () {
       });
     }));
 
-    it('should open the first accordion', function () {
+    it('should open the first accordion', () => {
       expect(commandModal.accordion0).toBe(true);
     });
 
-    var states = {
+    const states = {
       cancelled: { cancelled: true },
       failed: { errored: true },
       succeeded: { complete: true },
@@ -77,8 +77,8 @@ describe('command modal', function () {
       }
     };
 
-    Object.keys(states).forEach(function testState (state) {
-      it('should be in state ' + state, function () {
+    Object.keys(states).forEach((state) => {
+      it(`should be in state ${state}`, () => {
         commandsStream.write(wrap(states[state]));
 
         var expected = angular.extend({
@@ -90,7 +90,7 @@ describe('command modal', function () {
       });
     });
 
-    it('should trim logs', function () {
+    it('should trim logs', () => {
       commandsStream.write(wrap({
         logs: '    '
       }));
@@ -106,7 +106,7 @@ describe('command modal', function () {
     function wrap () {
       var commands = [].slice.call(arguments, 0);
 
-      return commands.map(function (command, index) {
+      return commands.map((command, index) => {
         return angular.extend({
           id: index + 1,
           logs: '',

@@ -21,7 +21,15 @@
 
 import angular from 'angular';
 import _ from 'intel-lodash-mixins';
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
+
+import {
+  getCommandAndHost
+} from './server-transforms.js';
+
+import {
+  rememberValue
+} from '../api-transforms.js';
 
 import resolveStream from '../resolve-stream.js';
 
@@ -91,7 +99,7 @@ export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHa
         profiles[0]
     );
   })
-  .stopOnError(curry(1, $exceptionHandler))
+  .stopOnError(fp.curry(1, $exceptionHandler))
   .each(localApply.bind(null, $scope));
 }
 
@@ -101,25 +109,45 @@ export function selectServerProfileStep () {
   return {
     templateUrl: selectServerProfileStepTemplate,
     controller: 'SelectServerProfileStepCtrl as selectServerProfile',
-    onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
-      'waitForCommandCompletion', 'showCommand',
-      function onEnter (data, createOrUpdateHostsStream, getHostProfiles,
-                        waitForCommandCompletion, showCommand) {
-        var getProfiles = _.partial(getHostProfiles, data.spring);
+    onEnter: function onEnter (
+      data,
+      createOrUpdateHostsStream,
+      getHostProfiles,
+      waitForCommandCompletion,
+      showCommand
+    ) {
+      'ngInject';
 
-        var hostProfileStream = createOrUpdateHostsStream(data.servers)
-          .pluck('objects')
-          .map(_.fmapProp('command_and_host'))
-          .flatMap(waitForCommandCompletion(showCommand))
-          .map(_.fmapProp('host'))
-          .flatMap(getProfiles);
+      var getProfiles = _.partial(getHostProfiles, data.spring);
 
-        return {
-          data: data,
-          hostProfileStream: resolveStream(hostProfileStream)
-        };
-      }
-    ],
+      const waitForCommand = fp.flow(
+        fp.map(
+          fp.map(
+            x => x.command
+          )
+        ),
+        waitForCommandCompletion(showCommand)
+      );
+
+      const hostProfileStream = createOrUpdateHostsStream(data.servers)
+        .through(getCommandAndHost)
+        .through(
+          rememberValue(
+            waitForCommand
+          )
+        )
+        .map(
+          fp.map(
+            x => x.host
+          )
+        )
+        .flatMap(getProfiles);
+
+      return {
+        data,
+        hostProfileStream: resolveStream(hostProfileStream)
+      };
+    },
     transition: function transition (steps) {
       return steps.serverStatusStep;
     }

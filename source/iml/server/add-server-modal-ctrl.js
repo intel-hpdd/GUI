@@ -83,22 +83,3 @@ export function openAddServerModalFactory ($uibModal) {
     });
   };
 }
-
-export function throwIfServerErrorsFactory () {
-  'ngInject';
-
-  /**
-   * HOF. Will throw if a bulk server response has errors
-   * or call the fn with the response.
-   * @param {Function} fn
-   * @returns {Function}
-   */
-  return function throwIfServerErrors (fn) {
-    return function throwOrCall (response) {
-      if (_.compact(response.errors).length)
-        throw new Error(JSON.stringify(response.errors));
-
-      return fn(response);
-    };
-  };
-}

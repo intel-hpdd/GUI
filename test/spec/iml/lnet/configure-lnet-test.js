@@ -166,11 +166,9 @@ describe('Configure LNet', () => {
       });
 
       it('should call waitForCommandCompletion with the last response', () => {
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, {
-          command: {
-            id: 10
-          }
-        });
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, [{
+          id: 10
+        }]);
       });
     });
 

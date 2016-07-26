@@ -1,5 +1,4 @@
 import highland from 'highland';
-import serverModule from '../../../../source/iml/server/server-module';
 
 import {
   mock,
@@ -7,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('server resolves', () => {
-  let store, resolvesModule;
+  let store, serverResolves;
 
   beforeEachAsync(async function () {
     store = {
@@ -15,22 +14,14 @@ describe('server resolves', () => {
         .and.callFake(() => highland())
     };
 
-    resolvesModule = await mock('source/iml/server/server-resolves.js', {
+    const mod = await mock('source/iml/server/server-resolves.js', {
       'source/iml/store/get-store': { default: store }
     });
+
+    serverResolves = mod.default;
   });
 
   afterEach(resetAll);
-
-  beforeEach(module(serverModule, $provide => {
-    $provide.factory('serverResolves', resolvesModule.default);
-  }));
-
-  var serverResolves;
-
-  beforeEach(inject(_serverResolves_ => {
-    serverResolves = _serverResolves_;
-  }));
 
   it('should be a function', () => {
     expect(serverResolves).toEqual(jasmine.any(Function));

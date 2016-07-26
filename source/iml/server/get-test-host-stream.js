@@ -21,7 +21,7 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function getTestHostStreamFactory (throwIfServerErrors) {
+export default function getTestHostStreamFactory () {
   'ngInject';
 
   return function getTestHostStream (spring, objects) {
@@ -35,7 +35,6 @@ export default function getTestHostStreamFactory (throwIfServerErrors) {
     });
 
     var s2 = stream
-      .map(throwIfServerErrors(_.identity))
       .tap(_.fmap(setUiName))
       .map(function checkTotalValidity (resp) {
         return {

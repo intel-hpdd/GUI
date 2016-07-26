@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,30 +23,45 @@
 
 import * as fp from 'intel-fp';
 
+import type {
+  $scopeT
+} from 'angular';
+
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  commandT
+} from './command-types.js';
+
+import {
+  setState,
+  trimLogs
+} from './command-transforms.js';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
 import commandModalTemplate from './assets/html/command-modal';
 
-export function CommandModalCtrl (commandsStream, $scope, COMMAND_STATES) {
+export function CommandModalCtrl (
+  commandsStream:HighlandStreamT<commandT>,
+  $scope:$scopeT,
+  propagateChange:Function
+) {
   'ngInject';
 
   this.accordion0 = true;
 
-  const transformState = fp.over(fp.lensProp('state'));
-  const viewLens = fp.flow(fp.lensProp, fp.view);
-
-  var setState = fp.cond(
-    [viewLens('cancelled'), transformState(fp.always(COMMAND_STATES.CANCELLED))],
-    [viewLens('errored'), transformState(fp.always(COMMAND_STATES.FAILED))],
-    [viewLens('complete'), transformState(fp.always(COMMAND_STATES.SUCCEEDED))],
-    [fp.always(true), transformState(fp.always(COMMAND_STATES.PENDING))]
+  const xForm = fp.map(
+    fp.map(
+      fp.flow(
+        trimLogs,
+        setState
+      )
+    )
   );
 
-  var xForm = fp.map(fp.map(fp.flow(
-    fp.over(fp.lensProp('logs'), fp.invokeMethod('trim', [])),
-    setState
-  )));
-
-  $scope.propagateChange(
+  propagateChange(
     $scope,
     this,
     'commands',
@@ -52,10 +69,10 @@ export function CommandModalCtrl (commandsStream, $scope, COMMAND_STATES) {
   );
 }
 
-export function openCommandModalFactory ($uibModal) {
+export function openCommandModalFactory ($uibModal:Object) {
   'ngInject';
 
-  return function openCommandModal (stream) {
+  return function openCommandModal (stream:HighlandStreamT<commandT>) {
     return $uibModal.open({
       templateUrl: commandModalTemplate,
       controller: 'CommandModalCtrl',

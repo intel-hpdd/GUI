@@ -49,16 +49,16 @@
     </div>
 
     <div class="save-btns" ng-if="configToggle.active()">
-      <div class="save-button btn-group block-dropdown" dropdown>
+      <div class="save-button btn-group block-dropdown" uib-dropdown>
         <button type="button" ng-click="::configToggle.setInactive(); $ctrl.save(true)" class="btn btn-success" ng-disabled="$ctrl.saving || diffContainer.noSubmit()">
           Save<i class="fa" ng-class="{'fa-spinner fa-spin': $ctrl.message, 'fa-check-circle-o': !$ctrl.message }"></i>
         </button>
 
-        <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle ng-disabled="$ctrl.saving || diffContainer.noSubmit()">
+        <button type="button" class="btn btn-success dropdown-toggle" uib-dropdown-toggle ng-disabled="$ctrl.saving || diffContainer.noSubmit()">
           <span class="caret"></span>
         </button>
 
-        <ul class="dropdown-menu btn-block" role="menu">
+        <ul class="dropdown-menu btn-block" uib-dropdown-menu role="menu">
           <li>
             <a ng-click="::configToggle.setInactive(); $ctrl.save(false)">Save and skip command view</a>
           </li>

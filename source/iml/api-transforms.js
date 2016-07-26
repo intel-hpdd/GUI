@@ -21,6 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp';
+
 export function addCurrentPage <T: {meta: Object}> (o:T):T {
   return {
     ...o,
@@ -30,3 +32,13 @@ export function addCurrentPage <T: {meta: Object}> (o:T):T {
     }
   };
 }
+
+export const rememberValue = fp.curry(2, (transformFn, in$) => {
+  let v;
+
+  return in$
+    .tap(x => v = x)
+    .flatMap(transformFn)
+    .map(() => v)
+    .otherwise(() => [v]);
+});

@@ -3,8 +3,9 @@ import transformedHostProfileFixture from '../../../data-fixtures/transformed-ho
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {SelectServerProfileStepCtrl} from
-  '../../../../source/iml/server/select-server-profile-step';
+import {
+  SelectServerProfileStepCtrl
+} from '../../../../source/iml/server/select-server-profile-step';
 
 describe('select server profile', () => {
   beforeEach(module(serverModule));
@@ -28,11 +29,11 @@ describe('select server profile', () => {
       data = { pdsh: 'storage0.localdomain' };
 
       selectServerProfileStep = $controller('SelectServerProfileStepCtrl', {
-        $scope: $scope,
-        $stepInstance: $stepInstance,
-        data: data,
-        hostProfileStream: hostProfileStream,
-        createHostProfiles: createHostProfiles
+        $scope,
+        $stepInstance,
+        data,
+        hostProfileStream,
+        createHostProfiles
       });
     }));
 
@@ -146,9 +147,7 @@ describe('select server profile', () => {
       expect(selectServerProfileStep).toEqual({
         templateUrl: '/static/chroma_ui/source/iml/server/assets/html/select-server-profile-step.js',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
-        onEnter: ['data', 'createOrUpdateHostsStream', 'getHostProfiles',
-          'waitForCommandCompletion', 'showCommand', jasmine.any(Function)
-        ],
+        onEnter: jasmine.any(Function),
         transition: jasmine.any(Function)
       });
     });
@@ -321,7 +320,7 @@ describe('select server profile', () => {
         }
         ]));
 
-        onEnter = fp.tail(selectServerProfileStep.onEnter);
+        onEnter = selectServerProfileStep.onEnter;
 
         result = onEnter(data, createOrUpdateHostsStream, getHostProfiles,
           waitForCommandCompletion, true);
@@ -333,7 +332,8 @@ describe('select server profile', () => {
       });
 
       it('should create or update the hosts', () => {
-        expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(data.servers);
+        expect(createOrUpdateHostsStream)
+          .toHaveBeenCalledOnceWith(data.servers);
       });
 
       it('should wait for command completion', () => {
