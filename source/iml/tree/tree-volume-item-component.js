@@ -27,6 +27,6 @@ export default {
     record: '<'
   },
   template: `
-    <i class="fa fa-fw fa-hdd-o"></i> {{::$ctrl.record.label}}
+    <i class="fa fa-fw fa-hdd-o"></i> {{::$ctrl.record.label}} ({{::$ctrl.record.size | fmtBytes}})
   `
 };

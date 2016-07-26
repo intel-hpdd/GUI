@@ -87,7 +87,8 @@ describe('tree volume collection component', () => {
           type: 'volume',
           hostId: 1,
           meta: {
-            offset: 10
+            offset: 10,
+            limit: 20
           }
         }]
       });
@@ -100,10 +101,22 @@ describe('tree volume collection component', () => {
           }
         ],
         meta: {
-          offset: 10
+          offset: 10,
+          limit: 20
         }
       });
       jasmine.clock().tick(1);
+    });
+
+    it('should call socketStream', () => {
+      expect(socketStream)
+        .toHaveBeenCalledOnceWith('/volume/', {
+          jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
+          qs: {
+            host_id: 1,
+            offset: 10
+          }
+        });
     });
 
     it('should hide the spinner when data comes in', () => {
@@ -138,7 +151,8 @@ describe('tree volume collection component', () => {
         socket$.write({
           objects: [],
           meta: {
-            offset: 10
+            offset: 10,
+            limit: 20
           }
         });
         jasmine.clock().tick(1);
@@ -160,7 +174,8 @@ describe('tree volume collection component', () => {
             }
           ],
           meta: {
-            offset: 10
+            offset: 10,
+            limit: 10
           }
         });
         jasmine.clock().tick(1);

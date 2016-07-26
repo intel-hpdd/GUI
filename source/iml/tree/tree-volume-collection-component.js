@@ -44,7 +44,7 @@ import type {
 
 function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
   'ngInject';
-  
+
   function computePage (meta) {
     const currentPage = (meta.offset / meta.limit) + 1;
     return (currentPage - 1) * meta.limit;
@@ -70,9 +70,7 @@ function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
   const fnTo$ = (item) => socketStream('/volume/', {
     jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
     qs: {
-      use: true,
       host_id: this.hostId,
-      primary: true,
       offset: computePage(item.meta)
     }
   });
