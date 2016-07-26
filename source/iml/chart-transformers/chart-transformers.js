@@ -109,3 +109,29 @@ export function flushOnChange (source$:HighlandStreamT<mixed>) {
 
   return s2;
 }
+
+export function waitForChartData (source$:HighlandStreamT<mixed>) {
+  var passedDocumentHidden = false;
+  var passedDocumentVisible = false;
+
+  const s2 = source$
+    .consume((err, x, push, next) => {
+      if (err) {
+        push(err);
+        next();
+      } else if (x === highland.nil) {
+        push(err, x);
+      } else if (x === documentHidden && !passedDocumentHidden) {
+        passedDocumentHidden = true;
+        next();
+      } else if (x === documentVisible && !passedDocumentVisible) {
+        passedDocumentVisible = true;
+        next();
+      } else {
+        push(null, x);
+        next();
+      }
+    });
+
+  return s2;
+}

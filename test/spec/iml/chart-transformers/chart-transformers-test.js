@@ -2,7 +2,8 @@ import highland from 'highland';
 import {
   getConf,
   data$Fn,
-  flushOnChange
+  flushOnChange,
+  waitForChartData
 } from '../../../../source/iml/chart-transformers/chart-transformers.js';
 
 import * as fp from 'intel-fp';
@@ -159,6 +160,57 @@ describe('flush on change', () => {
     s.each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith(documentVisible);
+  });
+
+  it('should catch errors', () => {
+    var error = new Error('it goes boom!');
+    source$.write({
+      __HighlandStreamError__: true,
+      error
+    });
+
+    s
+      .errors(fp.curry(1, spy))
+      .each(fp.noop);
+
+    expect(spy).toHaveBeenCalledOnceWith(error);
+  });
+
+  it('should handle ending a stream', () => {
+    source$.end();
+    s.each(spy);
+
+    expect(s.destroy).toHaveBeenCalled();
+  });
+});
+
+describe('waitForChartData', () => {
+  var source$, s, spy;
+
+  beforeEach(() => {
+    spy = jasmine.createSpy('spy');
+    source$ = highland();
+    s = waitForChartData(source$);
+    spyOn(s, 'destroy');
+
+    source$.write(documentHidden);
+    source$.write(documentVisible);
+    source$.write({x: 1});
+  });
+
+  it('should not pass documentHidden to the stream', () => {
+    s.each(spy);
+    expect(spy).not.toHaveBeenCalledWith(documentHidden);
+  });
+
+  it('should not pass documentVisible to the stream', () => {
+    s.each(spy);
+    expect(spy).not.toHaveBeenCalledWith(documentVisible);
+  });
+
+  it('should pass the data', () => {
+    s.each(spy);
+    expect(spy).toHaveBeenCalledOnceWith({x: 1});
   });
 
   it('should catch errors', () => {

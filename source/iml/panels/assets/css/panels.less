@@ -82,6 +82,11 @@ panels {
     border-left: darken(@gray-lighter, 10%);
     height: ~"calc(100vh - 55px)";
     overflow: scroll;
+
+    > ui-loader-view > .ng-hide.loader-content:not(.ng-hide-animate) {
+      visibility: hidden;
+      display: block !important;
+    }
   }
 }
 
