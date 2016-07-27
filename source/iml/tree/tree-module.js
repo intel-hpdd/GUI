@@ -29,6 +29,8 @@ import treeServerItemComponent from './tree-server-item-component.js';
 import treeVolumeItemComponent from './tree-volume-item-component.js';
 import treeFsCollectionComponent from './tree-fs-collection-component.js';
 import treeFsItemComponent from './tree-fs-item-component.js';
+import treeTargetCollectionComponentFactory from './tree-target-collection-component.js';
+import treeTargetItemComponent from './tree-target-item-component.js';
 
 export default angular.module('tree', [])
   .component('treeServerCollection', treeServerCollectionComponent)
@@ -37,4 +39,8 @@ export default angular.module('tree', [])
   .component('treeVolumeItem', treeVolumeItemComponent)
   .component('treeFsCollection', treeFsCollectionComponent)
   .component('treeFsItem', treeFsItemComponent)
+  .component('treeOstCollection', treeTargetCollectionComponentFactory('ost'))
+  .component('treeMgtCollection', treeTargetCollectionComponentFactory('mgt'))
+  .component('treeMdtCollection', treeTargetCollectionComponentFactory('mdt'))
+  .component('treeTargetItem', treeTargetItemComponent)
   .name;
