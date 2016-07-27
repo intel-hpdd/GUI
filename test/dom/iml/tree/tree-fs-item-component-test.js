@@ -58,6 +58,15 @@ describe('tree fs item component', () => {
       .toBe('configure/filesystem/1');
   });
 
+  it('should link to the server dashboard page', () => {
+    const route = el
+      .querySelector('a.dashboard-link')
+      .getAttribute('route-to');
+
+    expect(route)
+      .toBe('dashboard/fs/1');
+  });
+
   it('should render the label', () => {
     expect(el.querySelector('a').textContent.trim())
       .toBe('fs1');
