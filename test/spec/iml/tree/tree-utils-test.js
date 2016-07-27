@@ -10,6 +10,8 @@ describe('tree utils', () => {
   let toggleCollectionOpen,
     toggleItemOpen,
     toggleCollection,
+    updateCollectionOffset,
+    updateCollOffset,
     toggleItem,
     store;
 
@@ -37,6 +39,17 @@ describe('tree utils', () => {
         }
       }));
 
+    updateCollectionOffset = jasmine
+      .createSpy('updateCollectionOffset')
+      .and
+      .callFake((id, offset) => ({
+        type: 'UPDATE_COLLECTION_OFFSET',
+        payload: {
+          id,
+          offset
+        }
+      }));
+
     store = {
       dispatch: jasmine.createSpy('dispatch')
     };
@@ -44,14 +57,19 @@ describe('tree utils', () => {
     const mod = await mock('source/iml/tree/tree-utils.js', {
       'source/iml/tree/tree-actions.js': {
         toggleCollectionOpen,
-        toggleItemOpen
+        toggleItemOpen,
+        updateCollectionOffset
       },
       'source/iml/store/get-store.js': {
         default: store
       }
     });
 
-    ({toggleCollection, toggleItem} = mod);
+    ({
+      toggleCollection,
+      toggleItem,
+      updateCollOffset
+    } = mod);
   });
 
   afterEach(resetAll);
@@ -73,6 +91,28 @@ describe('tree utils', () => {
           payload: {
             id: 1,
             open: true
+          }
+        });
+    });
+  });
+
+  describe('update coll', () => {
+    beforeEach(() => {
+      updateCollOffset(1, 20);
+    });
+
+    it('should call toggle collection open', () => {
+      expect(updateCollectionOffset)
+        .toHaveBeenCalledOnceWith(1, 20);
+    });
+
+    it('should dispatch to the store', () => {
+      expect(store.dispatch)
+        .toHaveBeenCalledOnceWith({
+          type: 'UPDATE_COLLECTION_OFFSET',
+          payload: {
+            id: 1,
+            offset: 20
           }
         });
     });

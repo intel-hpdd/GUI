@@ -88,7 +88,7 @@ describe('tree volume collection component', () => {
           hostId: 1,
           meta: {
             offset: 10,
-            limit: 20
+            limit: 50
           }
         }]
       });
@@ -102,7 +102,7 @@ describe('tree volume collection component', () => {
         ],
         meta: {
           offset: 10,
-          limit: 20
+          limit: 50
         }
       });
       jasmine.clock().tick(1);
@@ -114,7 +114,8 @@ describe('tree volume collection component', () => {
           jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
           qs: {
             host_id: 1,
-            offset: 10
+            offset: 0,
+            limit: 50
           }
         });
     });
@@ -152,7 +153,7 @@ describe('tree volume collection component', () => {
           objects: [],
           meta: {
             offset: 10,
-            limit: 20
+            limit: 50
           }
         });
         jasmine.clock().tick(1);
@@ -175,7 +176,7 @@ describe('tree volume collection component', () => {
           ],
           meta: {
             offset: 10,
-            limit: 10
+            limit: 50
           }
         });
         jasmine.clock().tick(1);

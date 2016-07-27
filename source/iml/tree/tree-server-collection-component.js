@@ -76,7 +76,8 @@ function treeServerCollection ($scope:$scopeT, propagateChange:Function) {
   const fnTo$ = (item) => socketStream('/host/', {
     jsonMask: 'meta,objects(fqdn,id,resource_uri)',
     qs: {
-      offset: computePage(item.meta)
+      offset: computePage(item.meta),
+      limit: item.meta.limit
     }
   });
 
@@ -104,6 +105,7 @@ export default {
      parent="$ctrl.x"
      record="host"
      ></tree-server-item>
+     <tree-pager meta="$ctrl.x.meta" tree-id="::$ctrl.x.treeId"></tree-pager>
   </div>
 </div>
   `,

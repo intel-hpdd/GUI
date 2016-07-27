@@ -76,7 +76,8 @@ function treeFsCollection ($scope:$scopeT, propagateChange:Function) {
   const fnTo$ = (item) => socketStream('/filesystem/', {
     jsonMask: 'meta,objects(label,id,resource_uri)',
     qs: {
-      offset: computePage(item.meta)
+      offset: computePage(item.meta),
+      limit: item.meta.limit
     }
   });
 
@@ -104,6 +105,7 @@ export default {
      parent="$ctrl.x"
      record="fs"
      ></tree-fs-item>
+     <tree-pager meta="$ctrl.x.meta" tree-id="::$ctrl.x.treeId"></tree-pager>
   </div>
 </div>
   `,

@@ -24,6 +24,7 @@
 import {
   ADD_TREE_ITEMS,
   TOGGLE_COLLECTION_OPEN,
+  UPDATE_COLLECTION_OFFSET,
   TOGGLE_ITEM_OPEN,
   RESET_STATE
 } from './tree-types.js';
@@ -74,6 +75,23 @@ export default (state:treeHashT = {}, action:treeActionsT):treeHashT => {
       state,
       id,
       () => ({ open })
+    );
+  }
+  case UPDATE_COLLECTION_OFFSET: {
+    const {
+      id,
+      offset
+    } = action.payload;
+
+    return updateItem(
+      state,
+      id,
+      (x) => ({
+        meta: {
+          ...x.meta,
+          offset
+        }
+      })
     );
   }
   case TOGGLE_ITEM_OPEN: {

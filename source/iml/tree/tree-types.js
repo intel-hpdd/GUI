@@ -25,11 +25,13 @@ export const ADD_TREE_ITEMS = 'ADD_TREE_ITEMS';
 export const TOGGLE_COLLECTION_OPEN = 'TOGGLE_COLLECTION_OPEN';
 export const TOGGLE_ITEM_OPEN = 'TOGGLE_ITEM_OPEN';
 export const RESET_STATE = 'RESET_STATE';
+export const UPDATE_COLLECTION_OFFSET = 'UPDATE_COLLECTION_OFFSET';
 
 export type treeActionsT = (
   addItemsActionT |
   toggleItemOpenT |
   toggleCollectionOpenT |
+  updateCollectionOffsetT |
   resetStateT
 );
 export type treeItemListT = treeItemT[];
@@ -44,6 +46,14 @@ export type toggleCollectionOpenT = {
   payload: {
     id: number,
     open: boolean
+  }
+};
+
+export type updateCollectionOffsetT = {
+  type: 'UPDATE_COLLECTION_OFFSET',
+  payload: {
+    id: number,
+    offset: number
   }
 };
 

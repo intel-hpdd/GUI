@@ -26,6 +26,10 @@ import * as fp from 'intel-fp';
 import flatMapChanges from 'intel-flat-map-changes';
 
 import {
+  addCurrentPage
+} from '../api-transforms.js';
+
+import {
   addTreeItems,
   createItem
 } from '../tree/tree-actions.js';
@@ -94,6 +98,9 @@ export const transformItems = (fn:treeItemToBooleanT, structFn:treeItemToObjectT
       hasChanges(x => x.meta.offset)
     ),
     flatMapChanges(fnTo$),
+    fp.map(
+      addCurrentPage
+    ),
     fp.map(
       x => Object.assign(latest, x)
     ),

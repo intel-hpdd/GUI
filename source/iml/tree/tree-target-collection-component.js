@@ -78,6 +78,7 @@ export default (kind:string) => {
       jsonMask: 'meta,objects(label,id,resource_uri)',
       qs: {
         offset: computePage(item.meta),
+        limit: item.meta.limit,
         kind,
         filesystem_id: this.fsId
       }
@@ -106,6 +107,7 @@ export default (kind:string) => {
        record="target"
        kind="'${kind}'"
        ></tree-target-item>
+       <tree-pager meta="$ctrl.x.meta" tree-id="::$ctrl.x.treeId"></tree-pager>
     </div>
   </div>
     `,

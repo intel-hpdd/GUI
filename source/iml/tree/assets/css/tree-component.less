@@ -3,6 +3,17 @@ tree-volume-collection,
 tree-fs-collection,
 tree-ost-collection,
 tree-mgt-collection,
+tree-mdt-collection {
+  > div {
+    display: inline-block;
+  }
+}
+
+tree-server-collection,
+tree-volume-collection,
+tree-fs-collection,
+tree-ost-collection,
+tree-mgt-collection,
 tree-mdt-collection,
 tree-server-item,
 tree-fs-item,
@@ -24,5 +35,17 @@ tree-target-item {
 
   .dashboard-link {
     padding-left: 5px;
+  }
+
+  .pager {
+    margin: 5px 0 0 10px;
+
+    a,
+    .disabled>a,
+    .disabled>a:hover,
+    .disabled>a:focus {
+      background-color: transparent;
+      border: 0;
+    }
   }
 }

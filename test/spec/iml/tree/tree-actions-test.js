@@ -9,6 +9,7 @@ describe('tree actions', () => {
   let addTreeItems,
     createItem,
     toggleCollectionOpen,
+    updateCollectionOffset,
     toggleItemOpen;
 
   beforeEachAsync(async function () {
@@ -17,6 +18,7 @@ describe('tree actions', () => {
     ({
       addTreeItems,
       toggleCollectionOpen,
+      updateCollectionOffset,
       toggleItemOpen,
       createItem
     } = mod);
@@ -71,6 +73,21 @@ describe('tree actions', () => {
     });
   });
 
+  describe('update collection offset', () => {
+    it('should return a toggleCollectionOpenT', () => {
+      const resp = updateCollectionOffset(1, 20);
+
+      expect(resp)
+        .toEqual({
+          type: 'UPDATE_COLLECTION_OFFSET',
+          payload: {
+            id: 1,
+            offset: 20
+          }
+        });
+    });
+  });
+
   describe('toggle item open', () => {
     it('should return a toggleItemOpenT', () => {
       const resp = toggleItemOpen(1, 2, true);
@@ -103,7 +120,7 @@ describe('tree actions', () => {
           opens: {},
           meta: {
             offset: 0,
-            limit: 20
+            limit: 50
           }
         });
     });
@@ -128,7 +145,7 @@ describe('tree actions', () => {
           opens: {},
           meta: {
             offset: 0,
-            limit: 20
+            limit: 50
           }
         });
     });

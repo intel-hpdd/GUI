@@ -71,7 +71,8 @@ function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
     jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
     qs: {
       host_id: this.hostId,
-      offset: computePage(item.meta)
+      offset: computePage(item.meta),
+      limit: item.meta.limit
     }
   });
 
@@ -115,6 +116,7 @@ export default {
      parent="$ctrl.x"
      record="volume"
      ></tree-volume-item>
+     <tree-pager meta="$ctrl.x.meta" tree-id="::$ctrl.x.treeId"></tree-pager>
   </div>
 </div>
   `

@@ -22,63 +22,31 @@
 // express and approved by Intel in writing.
 
 import {
-  ADD_TREE_ITEMS,
-  TOGGLE_COLLECTION_OPEN,
-  TOGGLE_ITEM_OPEN,
-  UPDATE_COLLECTION_OFFSET
-} from './tree-types.js';
+  updateCollOffset
+} from './tree-utils.js';
 
-import type {
-  treeItemT
-} from './tree-types.js';
+export default {
+  bindings: {
+    meta: '<',
+    treeId: '<'
+  },
+  controller: function () {
+    'ngInject';
 
-export function addTreeItems (payload:treeItemT[]) {
-  return {
-    type: ADD_TREE_ITEMS,
-    payload
-  };
-}
-
-export const toggleCollectionOpen = (id:number, open:boolean) => {
-  return {
-    type: TOGGLE_COLLECTION_OPEN,
-    payload: {
-      id,
-      open
-    }
-  };
+    this.pageChange = (id, meta) => {
+      updateCollOffset(id, (meta.current_page - 1) * meta.limit);
+    };
+  },
+  template: `
+    <ul uib-pager
+       ng-if="$ctrl.meta.total_count > $ctrl.meta.limit"
+       align="false"
+       next-text="next ›"
+       previous-text="‹ prev"
+       items-per-page="$ctrl.meta.limit"
+       total-items="$ctrl.meta.total_count"
+       ng-change="$ctrl.pageChange($ctrl.treeId, $ctrl.meta)"
+       ng-model="$ctrl.meta.current_page"
+    ></ul>
+  `
 };
-
-export const toggleItemOpen = (id:number, itemId:number, open:boolean) => {
-  return {
-    type: TOGGLE_ITEM_OPEN,
-    payload: {
-      id,
-      itemId,
-      open
-    }
-  };
-};
-
-export const updateCollectionOffset = (id:number, offset:number) => {
-  return {
-    type: UPDATE_COLLECTION_OFFSET,
-    payload: {
-      id,
-      offset
-    }
-  };
-};
-
-let id = 1;
-
-export const createItem = (x:mixed) => ({
-  ...x,
-  treeId: id++,
-  open: false,
-  opens: {},
-  meta: {
-    offset: 0,
-    limit: 50
-  }
-});

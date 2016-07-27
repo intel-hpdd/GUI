@@ -146,6 +146,51 @@ describe('treeReducer', () => {
     });
   });
 
+  describe('updating collection offset', () => {
+    it('should return existing state when id is not found', () => {
+      const result = treeReducer({}, {
+        type: 'UPDATE_COLLECTION_OFFSET',
+        payload: {
+          id: 1,
+          offset: 20
+        }
+      });
+
+      expect(result)
+        .toEqual({});
+    });
+
+    it('should update offset on existing state', () => {
+      const result = treeReducer(
+        {
+          [1]: getTreeItem()
+        },
+        {
+          type: 'UPDATE_COLLECTION_OFFSET',
+          payload: {
+            id: 1,
+            offset: 20
+          }
+        }
+      );
+
+      expect(result)
+        .toEqual({
+          [1]: {
+            treeId: 1,
+            open: false,
+            opens: {},
+            parentTreeId: 0,
+            type: 'host',
+            meta: {
+              offset: 20
+            },
+            objects: []
+          }
+        });
+    });
+  });
+
   describe('toggle item', () => {
     it('should return existing state when id is not found', () => {
       const result = treeReducer({}, {

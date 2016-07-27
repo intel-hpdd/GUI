@@ -31,6 +31,7 @@ import treeFsCollectionComponent from './tree-fs-collection-component.js';
 import treeFsItemComponent from './tree-fs-item-component.js';
 import treeTargetCollectionComponentFactory from './tree-target-collection-component.js';
 import treeTargetItemComponent from './tree-target-item-component.js';
+import treePagerComponent from './tree-pager.js';
 
 export default angular.module('tree', [])
   .component('treeServerCollection', treeServerCollectionComponent)
@@ -43,4 +44,5 @@ export default angular.module('tree', [])
   .component('treeMgtCollection', treeTargetCollectionComponentFactory('mgt'))
   .component('treeMdtCollection', treeTargetCollectionComponentFactory('mdt'))
   .component('treeTargetItem', treeTargetItemComponent)
+  .component('treePager', treePagerComponent)
   .name;

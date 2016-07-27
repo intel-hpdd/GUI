@@ -12,8 +12,10 @@ import {
 } from '../../../system-mock.js';
 
 describe('tree transforms', () => {
-  let getChildBy, emitOnItem,
-    hasChanges, transformItems;
+  let getChildBy,
+    emitOnItem,
+    hasChanges,
+    transformItems;
 
   beforeEachAsync(async function () {
     const mod = await mock('source/iml/tree/tree-transforms.js', {});
@@ -148,7 +150,12 @@ describe('tree transforms', () => {
           type: 'host'
         }),
         () => highland([
-          {}
+          {
+            meta: {
+              offset: 0,
+              limit: 20
+            }
+          }
         ])
       )(s);
     });
@@ -158,7 +165,8 @@ describe('tree transforms', () => {
         '1': {
           parentId: 0,
           meta: {
-            offset: 0
+            offset: 0,
+            limit: 20
           }
         }
       });
@@ -172,7 +180,9 @@ describe('tree transforms', () => {
                 {
                   parentId: 0,
                   meta: {
-                    offset: 0
+                    offset: 0,
+                    limit: 20,
+                    current_page: 1
                   }
                 }
               ]
@@ -202,7 +212,8 @@ describe('tree transforms', () => {
                   treeId: 1,
                   meta: {
                     offset: 0,
-                    limit: 20
+                    limit: 20,
+                    current_page: 1
                   }
                 }
               ]
