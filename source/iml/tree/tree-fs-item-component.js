@@ -21,20 +21,33 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import {
+  toggleItem
+} from './tree-utils.js';
 
-import angular from 'angular';
-import treeServerCollectionComponent from './tree-server-collection-component.js';
-import treeVolumeCollectionComponent from './tree-volume-collection-component.js';
-import treeServerItemComponent from './tree-server-item-component.js';
-import treeVolumeItemComponent from './tree-volume-item-component.js';
-import treeFsCollectionComponent from './tree-fs-collection-component.js';
-import treeFsItemComponent from './tree-fs-item-component.js';
 
-export default angular.module('tree', [])
-  .component('treeServerCollection', treeServerCollectionComponent)
-  .component('treeVolumeCollection', treeVolumeCollectionComponent)
-  .component('treeServerItem', treeServerItemComponent)
-  .component('treeVolumeItem', treeVolumeItemComponent)
-  .component('treeFsCollection', treeFsCollectionComponent)
-  .component('treeFsItem', treeFsItemComponent)
-  .name;
+function treeServerItem () {
+  'ngInject';
+
+  this.onOpen = toggleItem;
+}
+
+export default {
+  controller: treeServerItem,
+  bindings: {
+    record: '<',
+    parent: '<'
+  },
+  template: `
+    <i
+      class="fa fa-fw fa-chevron-right"
+      ng-click="$ctrl.onOpen($ctrl.parent.treeId, $ctrl.record.id, !$ctrl.parent.opens[$ctrl.record.id])"
+      ng-class="{'fa-rotate-90': $ctrl.parent.opens[$ctrl.record.id]}"
+    ></i>
+    <a route-to="configure/filesystem/{{::$ctrl.record.id}}">
+      <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.label}}
+    </a>
+    <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">
+    </div>
+  `
+};
