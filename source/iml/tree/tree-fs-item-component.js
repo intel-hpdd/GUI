@@ -47,6 +47,9 @@ export default {
     <a route-to="configure/filesystem/{{::$ctrl.record.id}}">
       <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.label}}
     </a>
+    <a class="dashboard-link" route-to="dashboard/fs/{{::$ctrl.record.id}}">
+      <i class="fa fa-bar-chart-o"></i>
+    </a>
     <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">
     </div>
   `

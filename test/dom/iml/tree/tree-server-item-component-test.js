@@ -58,6 +58,15 @@ describe('tree server item component', () => {
       .toBe('configure/server/1');
   });
 
+  it('should link to the server dashboard page', () => {
+    const route = el
+      .querySelector('a.dashboard-link')
+      .getAttribute('route-to');
+
+    expect(route)
+      .toBe('dashboard/server/1');
+  });
+
   it('should render the fqdn', () => {
     expect(el.querySelector('a').textContent.trim())
       .toBe('lotus-34vm3.lotus.hpdd.lab.intel.com');
