@@ -12,7 +12,7 @@ System.baseURL = '/base/dest/';
 
 System.meta = Object.keys(System.meta)
   .reduce(function (obj, key) {
-    var testKey = key.replace(/^.+static\/chroma_ui\//, 'http://localhost:9876/base/dest/');
+    var testKey = key.replace(/^.+static\/chroma_ui\//, window.location.origin + '/base/dest/');
 
     obj[testKey] = System.meta[key];
 
