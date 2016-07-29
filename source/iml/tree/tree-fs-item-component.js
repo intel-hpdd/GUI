@@ -52,15 +52,15 @@ export default {
     </a>
     <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">
       <tree-mgt-collection
-        parent-id="$ctrl.parent.id"
+        parent-id="$ctrl.parent.treeId"
         fs-id="$ctrl.record.id"
       ></tree-mgt-collection>
       <tree-mdt-collection
-        parent-id="$ctrl.parent.id"
+        parent-id="$ctrl.parent.treeId"
         fs-id="$ctrl.record.id"
       ></tree-mdt-collection>
       <tree-ost-collection
-        parent-id="$ctrl.parent.id"
+        parent-id="$ctrl.parent.treeId"
         fs-id="$ctrl.record.id"
       ></tree-ost-collection>
     </div>

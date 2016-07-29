@@ -55,7 +55,11 @@ export default (kind:string) => {
       }
     });
 
-    const fn = (x:treeItemT) => x.parentTreeId === this.parentId && x.type === kind;
+    const fn = (x:treeItemT) => {
+      return x.parentTreeId === this.parentId &&
+        x.fsId === this.fsId &&
+        x.type === kind;
+    };
 
     function computePage (meta) {
       const currentPage = (meta.offset / meta.limit) + 1;
@@ -71,7 +75,8 @@ export default (kind:string) => {
 
     const structFn = fp.always({
       type: kind,
-      parentTreeId: this.parentId
+      parentTreeId: this.parentId,
+      fsId: this.fsId
     });
 
     const fnTo$ = (item) => socketStream('/target/', {
