@@ -27,17 +27,17 @@ export function Controller () {
   'ngInject';
 
   var onMove = (ev) => {
-    this.panels.onChange(ev.x);
+    this.rootPanel.onChange(ev.x);
   };
 
   this.onMouseDown = () => {
-    this.panels.setActive();
+    this.rootPanel.setActive();
     global.document.addEventListener('mousemove', onMove);
     global.document.addEventListener('mouseup', onUp);
   };
 
   var onUp = () => {
-    this.panels.setInactive();
+    this.rootPanel.setInactive();
     global.document.removeEventListener('mousemove', onMove);
     global.document.removeEventListener('mouseup', onUp);
   };
@@ -45,7 +45,7 @@ export function Controller () {
 
 export default {
   require: {
-    panels: '^panels'
+    rootPanel: '^rootPanel'
   },
   controller: Controller,
   template: `

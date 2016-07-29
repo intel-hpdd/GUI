@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('slider panel', () => {
-  let inst, panels, doc;
+  let inst, rootPanel, doc;
 
   beforeEachAsync(async function () {
     doc = {
@@ -20,14 +20,14 @@ describe('slider panel', () => {
       }
     });
 
-    panels = {
+    rootPanel = {
       setActive: jasmine.createSpy('setActive'),
       setInactive: jasmine.createSpy('register'),
       onChange: jasmine.createSpy('onChange')
     };
 
     inst = new mod.Controller();
-    inst.panels = panels;
+    inst.rootPanel = rootPanel;
   });
 
   afterEach(resetAll);
@@ -38,7 +38,7 @@ describe('slider panel', () => {
     });
 
     it('should set panel to active', () => {
-      expect(panels.setActive)
+      expect(rootPanel.setActive)
         .toHaveBeenCalledOnce();
     });
 
@@ -59,8 +59,8 @@ describe('slider panel', () => {
         });
       });
 
-      it('should trigger panels onChange', () => {
-        expect(panels.onChange)
+      it('should trigger rootPanel onChange', () => {
+        expect(rootPanel.onChange)
           .toHaveBeenCalledOnceWith(10);
       });
     });
@@ -71,7 +71,7 @@ describe('slider panel', () => {
       });
 
       it('should set panel to inactive', () => {
-        expect(panels.setInactive)
+        expect(rootPanel.setInactive)
           .toHaveBeenCalledOnce();
       });
 

@@ -37,7 +37,7 @@ describe('base chart', () => {
   it('should generate a directive definition object', () => {
     expect(baseChart()).toEqual({
       restrict: 'E',
-      require: ['^?fullScreen', '^panels'],
+      require: ['^?fullScreen', '^rootPanel'],
       replace: true,
       scope: {
         stream: '=',
@@ -50,7 +50,7 @@ describe('base chart', () => {
 
   describe('linking function', () => {
     let linker, s, generateChart, scope,
-      element, fullScreenCtrl, svg, panels;
+      element, fullScreenCtrl, svg, rootPanel;
 
     beforeEach(() => {
       s = highland();
@@ -100,14 +100,14 @@ describe('base chart', () => {
         removeListener: jasmine.createSpy('removeListener')
       };
 
-      panels = {
+      rootPanel = {
         register: jasmine.createSpy('register'),
         deregister: jasmine.createSpy('deregister')
       };
 
       linker = ddo.link;
 
-      linker(scope, [element], {}, [fullScreenCtrl, panels]);
+      linker(scope, [element], {}, [fullScreenCtrl, rootPanel]);
     });
 
     it('should add a listener for the fullscreen controller', () => {
@@ -131,7 +131,7 @@ describe('base chart', () => {
     });
 
     it('should register a panel listener', () => {
-      expect(panels.register)
+      expect(rootPanel.register)
         .toHaveBeenCalledOnceWith(jasmine.any(Function));
     });
 
@@ -165,7 +165,7 @@ describe('base chart', () => {
       });
 
       it('should deregister the panel listener', () => {
-        expect(panels.deregister)
+        expect(rootPanel.deregister)
           .toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 

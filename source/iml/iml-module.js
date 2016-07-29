@@ -57,7 +57,8 @@ import oldRouteModule from './old-gui-shim/old-route-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
 import sliderPanelComponent from './panels/slider-panel-component.js';
 import sidePanelComponent from './panels/side-panel-component.js';
-import panelsComponent from './panels/panels-component.js';
+import rootPanelComponent from './panels/root-panel-component.js';
+import toggleSidePanelComponent from './panels/toggle-side-panel-component.js';
 import routeTransitions from './route-transitions.js';
 
 import {
@@ -259,7 +260,8 @@ export default angular.module('iml', [
   .directive('asViewer', asViewerDirective)
   .component('sliderPanel', sliderPanelComponent)
   .component('sidePanel', sidePanelComponent)
-  .component('panels', panelsComponent)
+  .component('rootPanel', rootPanelComponent)
+  .component('toggleSidePanel', toggleSidePanelComponent)
   .component('uiLoaderViewRoot', uiLoaderViewRootComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)

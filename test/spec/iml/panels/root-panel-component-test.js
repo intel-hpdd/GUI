@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 
-describe('panels component', () => {
+describe('root panel component', () => {
   let inst, el, doc, overlay, raf;
 
   beforeEachAsync(async function () {
@@ -28,7 +28,7 @@ describe('panels component', () => {
 
     };
 
-    const mod = await mock('source/iml/panels/panels-component.js', {
+    const mod = await mock('source/iml/panels/root-panel-component.js', {
       'source/iml/global.js': {
         default: {
           requestAnimationFrame: raf,
@@ -151,6 +151,54 @@ describe('panels component', () => {
         expect(doc.body.removeChild)
           .toHaveBeenCalledOnceWith(overlay);
       });
+    });
+  });
+
+  describe('close', () => {
+    let spy;
+
+    beforeEach(() => {
+      spy = jasmine.createSpy('spy');
+      inst.register(spy);
+      inst.close();
+      raf.calls.mostRecent().args[0]();
+    });
+
+
+    it('should set side width to 0 pixels', () => {
+      expect(spy)
+        .toHaveBeenCalledOnceWith(
+        {
+          sideWidthPx: 0,
+          sideWidthPercentage: 0,
+          mainWidthPercentage: 100,
+          mainWidthPx: 1021
+        }
+        );
+    });
+  });
+
+  describe('open', () => {
+    let spy;
+
+    beforeEach(() => {
+      spy = jasmine.createSpy('spy');
+      inst.register(spy);
+      inst.open();
+      raf.calls.mostRecent().args[0]();
+    });
+
+
+    it('should set side width to 200 pixels', () => {
+      expect(spy)
+        .toHaveBeenCalledOnceWith(
+        {
+          sideWidthPx: 200,
+          sideWidthPercentage: 19.58863858961802,
+          mainWidthPercentage: 80.41136141038197,
+          mainWidthPx: 821
+        }
+        );
     });
   });
 });

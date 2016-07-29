@@ -32,7 +32,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
   return function baseChart (overrides) {
     var defaultDirective = {
       restrict: 'E',
-      require: ['^?fullScreen', '^panels'],
+      require: ['^?fullScreen', '^rootPanel'],
       replace: true,
       scope: {
         stream: '=',
@@ -40,7 +40,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
       },
       templateUrl: chartTemplate,
       link (scope, element, attrs, ctrls) {
-        const [fullScreenCtrl, panelsCtrl] = ctrls;
+        const [fullScreenCtrl, rootPanelCtrl] = ctrls;
 
         var svg = d3.select(element[0].querySelector('svg'));
         var chart = config.generateChart(nv);
@@ -64,7 +64,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
         const throttled = _.throttle(renderNoTransition, 500);
 
 
-        panelsCtrl.register(throttled);
+        rootPanelCtrl.register(throttled);
         $window.addEventListener('resize', throttled);
 
         if (scope.options && scope.options.setup)
@@ -121,7 +121,7 @@ export default function baseChartFactory ($window, nv, d3, documentHidden, docum
         }
 
         scope.$on('$destroy', function onDestroy () {
-          panelsCtrl.deregister(throttled);
+          rootPanelCtrl.deregister(throttled);
           $window.removeEventListener('resize', throttled, false);
 
           if (fullScreenCtrl)

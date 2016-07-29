@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('side panel component', () => {
-  let el, inst, panels;
+  let el, inst, rootPanel;
 
   beforeEachAsync(async function () {
     const mod = await mock(
@@ -16,25 +16,25 @@ describe('side panel component', () => {
       style: []
     };
 
-    panels = {
+    rootPanel = {
       register: jasmine.createSpy('register'),
       deregister: jasmine.createSpy('deregister')
     };
 
     inst = new mod.Controller([el]);
-    inst.panels = panels;
+    inst.rootPanel = rootPanel;
     inst.$onInit();
   });
 
   afterEach(resetAll);
 
   it('should register', () => {
-    expect(panels.register)
+    expect(rootPanel.register)
       .toHaveBeenCalledOnceWith(jasmine.any(Function));
   });
 
   it('should set flex-basis on change', () => {
-    const setWidth = panels
+    const setWidth = rootPanel
       .register
       .calls
       .mostRecent()
@@ -55,7 +55,7 @@ describe('side panel component', () => {
     });
 
     it('should deregister', () => {
-      expect(panels.deregister)
+      expect(rootPanel.deregister)
         .toHaveBeenCalledOnceWith(jasmine.any(Function));
     });
   });
