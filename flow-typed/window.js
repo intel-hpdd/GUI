@@ -28,5 +28,6 @@ declare var window: {
   SERVER_TIME_DIFF:number,
   VERSION:string,
   BUILD:string,
-  location:Location
+  location:Location,
+  requestAnimationFrame:(cb:Function) => number
 }

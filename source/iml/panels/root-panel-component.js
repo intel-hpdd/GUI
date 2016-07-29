@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -18,8 +20,6 @@
 // of the Materials, either expressly, by implication, inducement, estoppel or
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
-
-// @flow
 
 import global from '../global.js';
 
@@ -76,6 +76,18 @@ export function Controller ($element:HTMLElement[]) {
 
       running = false;
     });
+  };
+
+  this.close = () => {
+    this.setActive();
+    this.onChange(0);
+    this.setInactive();
+  };
+
+  this.open = () => {
+    this.setActive();
+    this.onChange(200);
+    this.setInactive();
   };
 
   this.setActive = () => {

@@ -1,4 +1,5 @@
 <notification-slider stream="app.alertStream"></notification-slider>
+<root-panel>
 <nav class="navbar navbar-inverse" role="navigation">
   <div class="navbar-header">
     <button class="navbar-toggle" ng-click="app.isCollapsed = !app.isCollapsed">
@@ -39,10 +40,10 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li ng-controller="CommandMonitorCtrl as commandMonitor" ng-include="'/static/chroma_ui/source/iml/command/assets/html/command-monitor.js'"></li>
-      <li>
-        <a route-to="about/">{{ app.RUNTIME_VERSION }}</a>
+      <li class="hidden-sm" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+        <toggle-side-panel></toggle-side-panel>
       </li>
+      <li ng-controller="CommandMonitorCtrl as commandMonitor" ng-include="'/static/chroma_ui/source/iml/command/assets/html/command-monitor.js'"></li>
       <li ng-if="app.loggedIn">
         <a id="account" route-to="configure/user/{{app.user.id}}/">{{ app.user.username }}</a>
       </li>
@@ -71,3 +72,4 @@
     </footer>
   </div>
 </panels>
+<root-panel>

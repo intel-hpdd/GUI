@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,23 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
-export function Controller ($element:HTMLElement[]) {
+export function Controller () {
   'ngInject';
 
-  this.$onInit = () => {
-    const s = $element[0].style;
+  let open = true;
 
-    const setWidth = (x) => {
-      s['flex-basis'] = `${x.sideWidthPercentage}%`;
-    };
-
-    this.rootPanel.register(setWidth);
-
-    this.$onDestroy = () => {
-      this.rootPanel.deregister(setWidth);
-    };
+  this.onClick = () => {
+    open ? this.rootPanel.close() : this.rootPanel.open();
+    open = !open;
   };
 }
 
@@ -43,5 +36,11 @@ export default {
   require: {
     rootPanel: '^rootPanel'
   },
-  controller: Controller
+  controller: Controller,
+  template: `
+    <div ng-click="$ctrl.onClick()">
+      <div class="side"></div>
+      <div class="main"></div>
+    </div>
+  `
 };
