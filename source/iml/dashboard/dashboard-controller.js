@@ -21,7 +21,7 @@
 
 import * as fp from 'intel-fp';
 
-export default function DashboardCtrl (qsStream, $scope, $location, $stateParams,
+export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
                                        fsStream, hostStream, targetStream,
                                        filterTargetByFs, filterTargetByHost) {
   'ngInject';
@@ -60,19 +60,16 @@ export default function DashboardCtrl (qsStream, $scope, $location, $stateParams
     onFilterView (item) {
       dashboard.onCancel();
 
-      var path = ['dashboard'];
-
-      if (item.selected)
-        path.push(item.name, item.selected.id);
-
       if (item.selectedTarget)
-        path.push(item.selectedTarget.kind, item.selectedTarget.id);
-
-      path = path.reduce((str, arg) => {
-        return (str += arg + '/');
-      }, '');
-
-      $location.path(path);
+        $state.go(`app.dashboard.${item.selectedTarget.kind.toLowerCase()}`, {
+          id: item.selectedTarget.id,
+          resetState: false
+        });
+      else if (item.selected)
+        $state.go(`app.dashboard.${item.name}`, {
+          id: item.selected.id,
+          resetState: false
+        });
     },
     onConfigure () {
       dashboard.configure = true;
@@ -99,7 +96,7 @@ export default function DashboardCtrl (qsStream, $scope, $location, $stateParams
     to: state => state.includes['app.dashboard']
   })
   .each(() => {
-    if ($stateParams.serverId)
+    if ($stateParams.kind === 'server')
       dashboard.type = dashboard.host;
     else
       dashboard.type = dashboard.fs;

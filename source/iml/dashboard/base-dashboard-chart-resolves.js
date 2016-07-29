@@ -35,7 +35,7 @@ import type {
 } from './dashboard-types.js';
 
 export function baseDashboardChartResolves (
-  $stateParams:{ fsId?: string },
+  $stateParams:{ id?: string },
   getHostCpuRamChart:chartTitleT,
   getOstBalanceChart:chartT,
   getMdoChart:chartT,
@@ -44,37 +44,37 @@ export function baseDashboardChartResolves (
 ) {
   'ngInject';
 
-  const fsId = $stateParams.fsId;
+  const id = $stateParams.id;
   let fsQs = {};
 
-  if (fsId)
+  if (id)
     fsQs = {
       qs: {
-        filesystem_id: fsId
+        filesystem_id: id
       }
     };
 
   return Promise.all([
-    getReadWriteHeatMapChart(fsQs, fsId || 'base'),
-    getOstBalanceChart(fsQs, fsId || 'base'),
-    getMdoChart(fsQs, fsId || 'base'),
-    getReadWriteBandwidthChart(fsQs, fsId || 'base'),
+    getReadWriteHeatMapChart(fsQs, id || 'base'),
+    getOstBalanceChart(fsQs, id || 'base'),
+    getMdoChart(fsQs, id || 'base'),
+    getReadWriteBandwidthChart(fsQs, id || 'base'),
     getHostCpuRamChart('Metadata Servers', angular.merge({
       qs: {
         role: 'MDS'
       }
-    }, fsQs), fsId ? (`mds${fsId}`) : 'mdsbase'),
+    }, fsQs), id ? (`mds${id}`) : 'mdsbase'),
     getHostCpuRamChart('Object Storage Servers', angular.merge({
       qs: {
         role: 'OSS'
       }
-    }, fsQs), fsId ? (`oss${fsId}`) : 'ossbase')
+    }, fsQs), id ? (`oss${id}`) : 'ossbase')
   ]);
 }
 
 export function baseDashboardFsStream (
   fsStream:() => HighlandStreamT<Object>,
-  $stateParams:{ fsId: string }
+  $stateParams:{ id: string }
 ) {
   'ngInject';
 
@@ -82,7 +82,7 @@ export function baseDashboardFsStream (
     fsStream()
       .map(
         fp.filter(
-          x => x.id === $stateParams.fsId
+          x => x.id === $stateParams.id
         )
       )
   );

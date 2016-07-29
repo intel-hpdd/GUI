@@ -126,7 +126,7 @@ describe('base dashboard resolves', () => {
       var promise;
 
       beforeEach(() => {
-        $stateParams.fsId = '1';
+        $stateParams.id = '1';
         promise = getInst();
       });
 
@@ -216,7 +216,7 @@ describe('base dashboard resolves', () => {
 
     beforeEach(() => {
       $stateParams = {
-        fsId: 1
+        id: 1
       };
       fsStream = highland();
 

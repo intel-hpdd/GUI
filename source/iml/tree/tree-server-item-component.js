@@ -47,7 +47,7 @@ export default {
     <a ui-sref="app.serverDetail({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.fqdn}}
     </a>
-    <a class="dashboard-link" route-to="dashboard/server/{{::$ctrl.record.id}}">
+    <a class="dashboard-link" ui-sref="app.dashboard.server({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-bar-chart-o"></i>
     </a>
     <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">

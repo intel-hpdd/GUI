@@ -35,7 +35,7 @@ export default {
     <a
       ng-if="$ctrl.kind !== 'mgt'"
       class="dashboard-link"
-      route-to="dashboard/fs/{{::$ctrl.fsId}}/{{::$ctrl.kind.toUpperCase()}}/{{::$ctrl.record.id}}"
+      ui-sref="{{'app.dashboard.' + $ctrl.kind + '({ id: $ctrl.record.id, resetState: true })'}}"
     >
       <i class="fa fa-bar-chart-o"></i>
     </a>

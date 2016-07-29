@@ -64,7 +64,8 @@ const containsAppDashboard = fp.flow(
 
 export const dashboardState = {
   name: 'app.dashboard',
-  abstract: true,
+  url: '/dashboard',
+  redirectTo: 'app.dashboard.overview',
   resolve: {
     fsStream: dashboardFsStream,
     hostStream: dashboardHostStream,
@@ -83,7 +84,7 @@ export const dashboardState = {
 
 export const dashboardOverviewState = {
   name: 'app.dashboard.overview',
-  url: '/dashboard',
+  url: '/',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,
@@ -98,27 +99,30 @@ export const dashboardOverviewState = {
   }
 };
 
-export const dashboardAbstractServerState = {
-  abstract: true,
-  name: 'app.dashboard.server',
-  template: '<div ui-view></div>'
-};
-
 export const dashboardServerState = {
-  name: 'app.dashboard.server.serverItem',
-  url: '/dashboard/server/:serverId',
+  name: 'app.dashboard.server',
+  url: '/server/:id',
   controller: 'ServerDashboardCtrl',
   controllerAs: 'serverDashboard',
   templateUrl: serverDashboardTemplate,
+  params: {
+    kind: {
+      value: 'server',
+      squash: true
+    },
+    resetState: {
+      dynamic: true
+    }
+  },
   resolve: {
     charts: serverDashboardChartResolves,
     hostStream: serverDashboardHostStreamResolves
   }
 };
 
-export const dashboardServerMdtState = {
-  name: 'app.dashboard.server.mdt',
-  url: '/dashboard/server/:serverId/MDT/:targetId',
+export const dashboardMdtState = {
+  name: 'app.dashboard.mdt',
+  url: '/MDT/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
   templateUrl: targetDashboardTemplate,
@@ -126,6 +130,9 @@ export const dashboardServerMdtState = {
     kind: {
       value: 'MDT',
       squash: true
+    },
+    resetState: {
+      dynamic: true
     }
   },
   resolve: {
@@ -135,9 +142,9 @@ export const dashboardServerMdtState = {
   }
 };
 
-export const dashboardServerOstState = {
-  name: 'app.dashboard.server.ost',
-  url: '/dashboard/server/:serverId/OST/:targetId',
+export const dashboardOstState = {
+  name: 'app.dashboard.ost',
+  url: '/OST/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
   templateUrl: targetDashboardTemplate,
@@ -145,6 +152,9 @@ export const dashboardServerOstState = {
     kind: {
       value: 'OST',
       squash: true
+    },
+    resetState: {
+      dynamic: true
     }
   },
   resolve: {
@@ -152,60 +162,25 @@ export const dashboardServerOstState = {
     targetStream: targetDashboardTargetStream,
     usageStream: targetDashboardUsageStream
   }
-};
-
-export const dashboardAbstractFsState = {
-  abstract: true,
-  name: 'app.dashboard.fs',
-  template: '<div ui-view></div>'
 };
 
 export const dashboardFsState = {
-  name: 'app.dashboard.fs.fsItem',
-  url: '/dashboard/fs/:fsId',
+  name: 'app.dashboard.fs',
+  url: '/fs/:id',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,
+  params: {
+    kind: {
+      value: 'fs',
+      squash: true
+    },
+    resetState: {
+      dynamic: true
+    }
+  },
   resolve: {
     charts: baseDashboardChartResolves,
     fsStream: baseDashboardFsStream
-  }
-};
-
-export const dashboardFsMdtState = {
-  name: 'app.dashboard.fs.mdt',
-  url: '/dashboard/fs/:fsId/MDT/:targetId',
-  controller: 'TargetDashboardController',
-  controllerAs: 'targetDashboard',
-  templateUrl: targetDashboardTemplate,
-  params: {
-    kind: {
-      value: 'MDT',
-      squash: true
-    }
-  },
-  resolve: {
-    charts: targetDashboardResolves,
-    targetStream: targetDashboardTargetStream,
-    usageStream: targetDashboardUsageStream
-  }
-};
-
-export const dashboardFsOstState = {
-  name: 'app.dashboard.fs.ost',
-  url: '/dashboard/fs/:fsId/OST/:targetId',
-  controller: 'TargetDashboardController',
-  controllerAs: 'targetDashboard',
-  templateUrl: targetDashboardTemplate,
-  params: {
-    kind: {
-      value: 'OST',
-      squash: true
-    }
-  },
-  resolve: {
-    charts: targetDashboardResolves,
-    targetStream: targetDashboardTargetStream,
-    usageStream: targetDashboardUsageStream
   }
 };

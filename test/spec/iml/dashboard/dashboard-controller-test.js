@@ -5,7 +5,7 @@ import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
 describe('dashboard controller', () => {
   beforeEach(module(dashboardModule));
 
-  let $scope, $location, $stateParams,
+  let $scope, $state, $stateParams,
     qsStream, qs$,
     fsStream, hostStream, targetStream,
     dashboard;
@@ -34,14 +34,14 @@ describe('dashboard controller', () => {
       qs: ''
     });2;
 
-    $location = {
-      path: jasmine.createSpy('path')
+    $state = {
+      go: jasmine.createSpy('go')
     };
 
     dashboard = $controller('DashboardCtrl', {
       $scope,
       $stateParams,
-      $location,
+      $state,
       qsStream,
       fsStream: broadcaster(fsStream),
       hostStream: broadcaster(hostStream),
@@ -184,11 +184,17 @@ describe('dashboard controller', () => {
       }
     });
 
-    expect($location.path)
-      .toHaveBeenCalledOnceWith('dashboard/foo/5/');
+    expect($state.go)
+      .toHaveBeenCalledOnceWith(
+        'app.dashboard.foo',
+      {
+        id: '5',
+        resetState: false
+      }
+      );
   });
 
-  it('should build a target and fs path', () => {
+  it('should build a target path', () => {
     dashboard.onFilterView({
       name: 'bar',
       selected: {
@@ -200,8 +206,14 @@ describe('dashboard controller', () => {
       }
     });
 
-    expect($location.path)
-      .toHaveBeenCalledOnceWith('dashboard/bar/6/foo/7/');
+    expect($state.go)
+      .toHaveBeenCalledOnceWith(
+        'app.dashboard.foo',
+      {
+        id: 7,
+        resetState: false
+      }
+      );
   });
 
   it('should set fileSystems on the dashboard', () => {

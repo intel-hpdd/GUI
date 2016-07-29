@@ -57,17 +57,18 @@ describe('dashboard states', () => {
       expect(mod.dashboardState)
         .toEqual({
           name: 'app.dashboard',
-          abstract: true,
+          url: '/dashboard',
+          redirectTo: 'app.dashboard.overview',
+          resolve: {
+            fsStream: 'dashboardFsStream',
+            hostStream: 'dashboardHostStream',
+            targetStream: 'dashboardTargetStream'
+          },
           data: {
             anonymousReadProtected: true,
             eulaState: true,
             helpPage: 'dashboard_charts.htm',
             skipWhen: jasmine.any(Function)
-          },
-          resolve: {
-            fsStream: 'dashboardFsStream',
-            hostStream: 'dashboardHostStream',
-            targetStream: 'dashboardTargetStream'
           },
           controller: 'DashboardCtrl',
           controllerAs: 'dashboard',
@@ -81,7 +82,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardOverviewState)
         .toEqual({
           name: 'app.dashboard.overview',
-          url: '/dashboard',
+          url: '/',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
@@ -98,26 +99,24 @@ describe('dashboard states', () => {
     });
   });
 
-  describe('dashboard abstract server state', () => {
-    it('should create the state', () => {
-      expect(mod.dashboardAbstractServerState)
-        .toEqual({
-          abstract: true,
-          name: 'app.dashboard.server',
-          template: '<div ui-view></div>'
-        });
-    });
-  });
-
   describe('dashboard server state', () => {
     it('should create the state', () => {
       expect(mod.dashboardServerState)
         .toEqual({
-          name: 'app.dashboard.server.serverItem',
-          url: '/dashboard/server/:serverId',
+          name: 'app.dashboard.server',
+          url: '/server/:id',
           controller: 'ServerDashboardCtrl',
           controllerAs: 'serverDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/server-dashboard.js',
+          params: {
+            kind: {
+              value: 'server',
+              squash: true
+            },
+            resetState: {
+              dynamic: true
+            }
+          },
           resolve: {
             charts: 'serverDashboardChartResolves',
             hostStream: 'serverDashboardHostStreamResolves'
@@ -126,12 +125,12 @@ describe('dashboard states', () => {
     });
   });
 
-  describe('dashboard server MDT state', () => {
+  describe('dashboard MDT state', () => {
     it('should create the state', () => {
-      expect(mod.dashboardServerMdtState)
+      expect(mod.dashboardMdtState)
         .toEqual({
-          name: 'app.dashboard.server.mdt',
-          url: '/dashboard/server/:serverId/MDT/:targetId',
+          name: 'app.dashboard.mdt',
+          url: '/MDT/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
@@ -139,6 +138,9 @@ describe('dashboard states', () => {
             kind: {
               value: 'MDT',
               squash: true
+            },
+            resetState: {
+              dynamic: true
             }
           },
           resolve: {
@@ -150,12 +152,12 @@ describe('dashboard states', () => {
     });
   });
 
-  describe('dashboard server OST state', () => {
+  describe('dashboard OST state', () => {
     it('should create the state', () => {
-      expect(mod.dashboardServerOstState)
+      expect(mod.dashboardOstState)
         .toEqual({
-          name: 'app.dashboard.server.ost',
-          url: '/dashboard/server/:serverId/OST/:targetId',
+          name: 'app.dashboard.ost',
+          url: '/OST/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
@@ -163,6 +165,9 @@ describe('dashboard states', () => {
             kind: {
               value: 'OST',
               squash: true
+            },
+            resetState: {
+              dynamic: true
             }
           },
           resolve: {
@@ -170,17 +175,6 @@ describe('dashboard states', () => {
             targetStream: 'targetDashboardTargetStream',
             usageStream: 'targetDashboardUsageStream'
           }
-        });
-    });
-  });
-
-  describe('dashboard abstract fs state', () => {
-    it('should create the state', () => {
-      expect(mod.dashboardAbstractFsState)
-        .toEqual({
-          abstract: true,
-          name: 'app.dashboard.fs',
-          template: '<div ui-view></div>'
         });
     });
   });
@@ -189,11 +183,20 @@ describe('dashboard states', () => {
     it('should create the state', () => {
       expect(mod.dashboardFsState)
         .toEqual({
-          name: 'app.dashboard.fs.fsItem',
-          url: '/dashboard/fs/:fsId',
+          name: 'app.dashboard.fs',
+          url: '/fs/:id',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
+          params: {
+            kind: {
+              value: 'fs',
+              squash: true
+            },
+            resetState: {
+              dynamic: true
+            }
+          },
           resolve: {
             charts: 'baseDashboardChartResolves',
             fsStream: 'baseDashboardFsStream'
@@ -201,53 +204,4 @@ describe('dashboard states', () => {
         });
     });
   });
-
-  describe('dashboard fs MDT state', () => {
-    it('should create the state', () => {
-      expect(mod.dashboardFsMdtState)
-        .toEqual({
-          name: 'app.dashboard.fs.mdt',
-          url: '/dashboard/fs/:fsId/MDT/:targetId',
-          controller: 'TargetDashboardController',
-          controllerAs: 'targetDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
-          params: {
-            kind: {
-              value: 'MDT',
-              squash: true
-            }
-          },
-          resolve: {
-            charts: 'targetDashboardResolves',
-            targetStream: 'targetDashboardTargetStream',
-            usageStream: 'targetDashboardUsageStream'
-          }
-        });
-    });
-  });
-
-  describe('dashboard fs OST state', () => {
-    it('should create the state', () => {
-      expect(mod.dashboardFsOstState)
-        .toEqual({
-          name: 'app.dashboard.fs.ost',
-          url: '/dashboard/fs/:fsId/OST/:targetId',
-          controller: 'TargetDashboardController',
-          controllerAs: 'targetDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
-          params: {
-            kind: {
-              value: 'OST',
-              squash: true
-            }
-          },
-          resolve: {
-            charts: 'targetDashboardResolves',
-            targetStream: 'targetDashboardTargetStream',
-            usageStream: 'targetDashboardUsageStream'
-          }
-        });
-    });
-  });
-
 });
