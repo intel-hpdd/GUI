@@ -20,7 +20,6 @@
 // express and approved by Intel in writing.
 
 import store from '../store/get-store.js';
-import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
 import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
 import _ from 'intel-lodash-mixins';
@@ -28,9 +27,13 @@ import * as fp from 'intel-fp';
 import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
+import {
+  resolveStream
+} from '../promise-transforms.js';
+
 export default function serverDetailResolves ($stateParams) {
   'ngInject';
-  
+
   var arrOrNull = fp.cond(
     [viewLens('length'), fp.identity],
     [fp.always(true), fp.always(null)]

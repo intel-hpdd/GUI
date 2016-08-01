@@ -15,7 +15,7 @@ describe('status states', () => {
     socketStream = jasmine.createSpy('socketStream');
 
     mod = await mock('source/iml/status/status-states.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
   });

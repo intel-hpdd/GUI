@@ -19,8 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
+
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 import {
   map,

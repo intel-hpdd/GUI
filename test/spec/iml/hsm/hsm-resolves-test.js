@@ -17,7 +17,7 @@ describe('hsm resolve', () => {
     getCopytoolStream = jasmine.createSpy('getCopytoolStream');
 
     const mod = await mock('source/iml/hsm/hsm-resolves.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/hsm/get-copytool-operation-stream.js': { default: getCopytoolOperationStream },
       'source/iml/hsm/get-copytool-stream.js': { default: getCopytoolStream }
     });
