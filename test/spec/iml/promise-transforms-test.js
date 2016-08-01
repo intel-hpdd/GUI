@@ -6,13 +6,8 @@ import {
 } from 'intel-fp';
 
 import {
-  pick
-} from 'intel-obj';
-
-import {
   resolveStream,
-  streamToPromise,
-  extendParentData
+  streamToPromise
 } from '../../../source/iml/promise-transforms.js';
 
 describe('resolve stream', () => {
@@ -104,11 +99,8 @@ describe('stream to promise', () => {
   itAsync('should return the data in a promise', async function () {
     s.write({foo: 'bar'});
 
-    const p = streamToPromise(s);
-    p.then(curry(1, spy));
-    await p;
-
-    expect(spy).toHaveBeenCalledOnceWith({foo: 'bar'});
+    const p = await streamToPromise(s);
+    expect(p).toEqual({foo: 'bar'});
   });
 
   itAsync('should handle errors', async function () {
@@ -129,40 +121,5 @@ describe('stream to promise', () => {
     await streamToPromise(s);
 
     expect(s.destroy).toHaveBeenCalledOnce();
-  });
-});
-
-describe('extend parent data', () => {
-  let data, s, parentData;
-  beforeEach(() => {
-    data = {
-      id: 3,
-      label: 'fs1-MDT0003',
-      kind: 'mdt'
-    };
-
-    parentData = {
-      id: 1,
-      label: 'fs'
-    };
-
-    s = highland();
-    s.write(data);
-  });
-
-  itAsync('should extend the data with a parent object', async function () {
-    let result = await streamToPromise(s)
-      .then(pick(['id', 'label', 'kind']))
-      .then(extendParentData(parentData));
-
-    expect(result).toEqual({
-      id: 3,
-      label: 'fs1-MDT0003',
-      kind: 'mdt',
-      parent: {
-        id: 1,
-        label: 'fs'
-      }
-    });
   });
 });

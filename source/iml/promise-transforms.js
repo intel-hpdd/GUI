@@ -48,10 +48,10 @@ export const resolveStream = (stream:HighlandStreamT<mixed>) => {
 };
 
 
-export function streamToPromise (s:HighlandStreamT<Object>):Promise<Object> {
+export function streamToPromise <A>(s:HighlandStreamT<A>):Promise<A> {
   return new Promise ((resolve:Function, reject:Function) => {
     return s
-    .pull((err:Error, x:Object) => {
+    .pull((err:Error, x:A) => {
       if (err)
         reject(err);
       else
@@ -60,11 +60,3 @@ export function streamToPromise (s:HighlandStreamT<Object>):Promise<Object> {
   })
   .then(fp.tap(s.destroy.bind(s)));
 }
-
-export const extendParentData = fp.curry(2,
-  (parent:Object, x:Object):Object =>
-    ({
-      ...x,
-      parent
-    })
-);
