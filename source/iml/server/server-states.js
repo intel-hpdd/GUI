@@ -43,6 +43,11 @@ export const serverState = {
     anonymousReadProtected: true,
     eulaState: true
   },
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   resolve: {
     streams: serverResolves
   }
@@ -54,6 +59,11 @@ export const serverDetailState = {
   controller: 'ServerDetailController',
   controllerAs: 'serverDetail',
   templateUrl: serverDetailTemplate,
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   data: {
     helpPage: 'server_detail_page.htm',
     access: GROUPS.FS_ADMINS,

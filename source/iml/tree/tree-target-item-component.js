@@ -29,7 +29,7 @@ export default {
     kind: '<'
   },
   template: `
-    <a route-to="target/{{::$ctrl.record.id}}">
+    <a ui-sref="app.oldTarget({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-bullseye"></i> {{::$ctrl.record.label}}
     </a>
     <a

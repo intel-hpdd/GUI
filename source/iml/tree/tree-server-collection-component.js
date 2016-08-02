@@ -96,7 +96,7 @@ export default {
     <i ng-switch-when="true" class="fa fa-fw fa-spin fa-refresh"></i>
     <i ng-switch-when="false" class="fa fa-fw fa-chevron-right" ng-click="$ctrl.onOpen($ctrl.x.treeId, !$ctrl.x.open)" ng-class="{'fa-rotate-90': $ctrl.x.open}"></i>
   </span>
-  <a route-to="configure/server/">
+  <a ui-sref="app.server({ resetState: true })">
     <i class="fa fa-fw fa-folder-o"></i> Servers <span ng-if="$ctrl.x.meta != null">({{$ctrl.x.meta.total_count}})</span>
   </a>
   <div class="children" ng-if="$ctrl.x.open">

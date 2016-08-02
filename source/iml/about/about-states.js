@@ -28,6 +28,11 @@ export const aboutState = {
   controller: 'AboutCtrl',
   controllerAs: 'about',
   templateUrl: aboutTemplate,
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   data: {
     anonymousReadProtected: true,
     eulaState: true

@@ -69,6 +69,13 @@ describe('status states', () => {
             begin__lt&end__in&end__contains&end__startswith&end__endswith&
             end__gte&end__gt&end__lte&end__lt&severity&
             record_type&active&offset&limit&order_by&begin&end`,
+          params: {
+            resetState: {
+              dynamic: true,
+              value: true,
+              squash: true
+            }
+          },
           resolve: {
             notification$: jasmine.any(Function)
           },

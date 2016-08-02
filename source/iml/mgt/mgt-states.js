@@ -35,6 +35,11 @@ export const mgtState = {
   name: 'app.mgt',
   url: '/configure/mgt',
   component: 'mgtPage',
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   data: {
     helpPage: 'mgts_tab.htm',
     access: GROUPS.FS_ADMINS,

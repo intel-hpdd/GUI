@@ -65,10 +65,10 @@ describe('tree volume collection component', () => {
   it('should link to the volumes page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('configure/volume/');
+      .toBe('app.oldVolume({ resetState: true })');
   });
 
   it('should show the spinner while data is fetching', () => {

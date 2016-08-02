@@ -87,6 +87,11 @@ export const dashboardOverviewState = {
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   resolve: {
     charts: baseDashboardChartResolves,
     fsStream: dashboardFsStream

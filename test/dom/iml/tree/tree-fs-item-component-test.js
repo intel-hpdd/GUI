@@ -52,10 +52,10 @@ describe('tree fs item component', () => {
   it('should link to the fs detail page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('configure/filesystem/1');
+      .toBe('app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the server dashboard page', () => {

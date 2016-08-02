@@ -47,10 +47,10 @@ describe('tree target item component', () => {
   it('should link to the target detail page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('target/1');
+      .toBe('app.oldTarget({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the target dashboard page', () => {

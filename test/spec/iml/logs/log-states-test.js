@@ -67,6 +67,11 @@ describe('status states', () => {
             order_by__contains&order_by__startswith&order_by__endswith&order_by__gte&
             order_by__gt&order_by__lte&order_by__lt&
             message_class&message&tag&fqdn&datetime&offset&limit&order_by`,
+          params: {
+            resetState: {
+              dynamic: true
+            }
+          },
           resolve: {
             log$: jasmine.any(Function)
           },

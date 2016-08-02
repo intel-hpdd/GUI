@@ -16,6 +16,11 @@ describe('server states', () => {
           url: '/configure/server',
           controller: 'ServerCtrl',
           templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server.js',
+          params: {
+            resetState: {
+              dynamic: true
+            }
+          },
           data: {
             helpPage: 'server_tab.htm',
             access: GROUPS.FS_ADMINS,
@@ -38,6 +43,11 @@ describe('server states', () => {
           controller: 'ServerDetailController',
           controllerAs: 'serverDetail',
           templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-detail.js',
+          params: {
+            resetState: {
+              dynamic: true
+            }
+          },
           data: {
             helpPage: 'server_detail_page.htm',
             access: GROUPS.FS_ADMINS,

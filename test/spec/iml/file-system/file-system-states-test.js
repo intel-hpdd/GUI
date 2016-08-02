@@ -14,6 +14,11 @@ describe('file system states', () => {
         name: 'app.fileSystem',
         controller: jasmine.any(Function),
         controllerAs: '$ctrl',
+        params: {
+          resetState: {
+            dynamic: true
+          }
+        },
         data: {
           helpPage: 'file_systems_tab.htm',
           access: GROUPS.FS_ADMINS,

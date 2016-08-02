@@ -32,7 +32,8 @@ export default function HsmFsCtrl ($scope, $state,
     onUpdate () {
       const fsId = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
       $state.go('app.hsmFs.hsm', {
-        fsId
+        fsId,
+        resetState: false
       });
     }
   });

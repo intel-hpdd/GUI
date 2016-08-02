@@ -52,10 +52,10 @@ describe('tree server item component', () => {
   it('should link to the server detail page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('configure/server/1');
+      .toBe('app.serverDetail({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the server dashboard page', () => {

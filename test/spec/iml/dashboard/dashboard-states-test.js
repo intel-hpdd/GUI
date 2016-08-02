@@ -85,6 +85,11 @@ describe('dashboard states', () => {
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
+          params: {
+            resetState: {
+              dynamic: true
+            }
+          },
           resolve: {
             charts: 'baseDashboardChartResolves',
             fsStream: 'dashboardFsStream'

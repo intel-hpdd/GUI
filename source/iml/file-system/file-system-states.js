@@ -46,6 +46,11 @@ export const fileSystemListState = {
       .select('alertIndicators')
     );
   },
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   data: {
     helpPage: 'file_systems_tab.htm',
     access: GROUPS.FS_ADMINS,

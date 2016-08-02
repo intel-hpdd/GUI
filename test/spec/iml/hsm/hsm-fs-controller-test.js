@@ -74,7 +74,8 @@ describe('HSM fs controller', () => {
         .toHaveBeenCalledOnceWith(
           'app.hsmFs.hsm',
         {
-          fsId: ''
+          fsId: '',
+          resetState: false
         }
         );
     });
@@ -90,7 +91,8 @@ describe('HSM fs controller', () => {
         .toHaveBeenCalledOnceWith(
           'app.hsmFs.hsm',
         {
-          fsId: '1'
+          fsId: '1',
+          resetState: false
         }
         );
     });
