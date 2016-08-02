@@ -54,8 +54,9 @@ export const logState = {
     <i class="fa fa-book"></i> Logs
   </h3>
   <div class="container log container-full">
-  <log-query></log-query>
-  <ui-loader-view class="log-table"></ui-loader-view>
+    <log-query></log-query>
+    <ui-loader-view class="log-table"></ui-loader-view>
+  </div>
   `
 };
 
