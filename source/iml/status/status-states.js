@@ -65,6 +65,13 @@ export const tableState = {
     'begin',
     'end'
   ])}`,
+  params: {
+    resetState: {
+      dynamic: true,
+      value: true,
+      squash: true
+    }
+  },
   resolve: {
     notification$ (qsFromLocation) {
       'ngInject';

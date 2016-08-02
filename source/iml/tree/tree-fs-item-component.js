@@ -44,7 +44,7 @@ export default {
       ng-click="$ctrl.onOpen($ctrl.parent.treeId, $ctrl.record.id, !$ctrl.parent.opens[$ctrl.record.id])"
       ng-class="{'fa-rotate-90': $ctrl.parent.opens[$ctrl.record.id]}"
     ></i>
-    <a route-to="configure/filesystem/{{::$ctrl.record.id}}">
+    <a ui-sref="app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.label}}
     </a>
     <a class="dashboard-link" route-to="dashboard/fs/{{::$ctrl.record.id}}">

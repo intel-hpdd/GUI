@@ -5,30 +5,30 @@
     <button class="navbar-toggle" ng-click="app.isCollapsed = !app.isCollapsed">
       <i class="fa fa-bars"></i>
     </button>
-    <a class="navbar-brand" route-to="">
+    <a class="navbar-brand" ui-sref="app.dashboard.overview({resetState: true })">
       <div class="logo"></div>
     </a>
   </div>
   <div class="navbar-collapse" uib-collapse="app.isCollapsed">
     <ul class="nav navbar-nav">
       <li ui-sref-active="active">
-        <a ui-sref="app.dashboard.overview" id="dashboard-menu"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
+        <a ui-sref="app.dashboard.overview({resetState: true })" id="dashboard-menu"><i class="fa fa-bar-chart-o"></i> Dashboard</a>
       </li>
       <li restrict-to="{{ app.GROUPS.FS_ADMINS }}" uib-dropdown>
         <a uib-dropdown-toggle href="#" id="configure-menu"><i class="fa fa-cog"></i> Configuration <i class="fa fa-caret-down"></i></a>
         <ul uib-dropdown-menu class="inverse-dropdown" role="menu" aria-labelledby="dropdownMenu">
-          <li><a tabindex="-1" id="server-conf-item" route-to="configure/server/">Servers</a></li>
-          <li><a tabindex="-1" id="power-conf-item" route-to="configure/power/">Power Control</a></li>
-          <li><a tabindex="-1" id="filesystem-conf-item" route-to="configure/filesystem/">File Systems</a></li>
-          <li><a tabindex="-1" id="hsm-conf-item" route-to="configure/hsm/">HSM</a></li>
-          <li><a tabindex="-1" id="storage-conf-item" route-to="configure/storage/">Storage</a></li>
-          <li><a tabindex="-1" id="user-conf-item" route-to="configure/user/">Users</a></li>
-          <li><a tabindex="-1" id="volume-conf-item" route-to="configure/volume/">Volumes</a></li>
-          <li><a tabindex="-1" id="mgt-conf-item" route-to="configure/mgt/">MGTs</a></li>
+          <li><a tabindex="-1" id="server-conf-item" ui-sref="app.server({ resetState: true })">Servers</a></li>
+          <li><a tabindex="-1" id="power-conf-item" ui-sref="app.oldPower({ resetState: true })">Power Control</a></li>
+          <li><a tabindex="-1" id="filesystem-conf-item" ui-sref="app.fileSystem({ resetState: true })">File Systems</a></li>
+          <li><a tabindex="-1" id="hsm-conf-item" ui-sref="app.hsmFs.hsm({ resetState: true })">HSM</a></li>
+          <li><a tabindex="-1" id="storage-conf-item" ui-sref="app.oldStorageResource({ resetState: true })">Storage</a></li>
+          <li><a tabindex="-1" id="user-conf-item" ui-sref="app.oldUser({ resetState: true })">Users</a></li>
+          <li><a tabindex="-1" id="volume-conf-item" ui-sref="app.oldVolume({ resetState: true })">Volumes</a></li>
+          <li><a tabindex="-1" id="mgt-conf-item" ui-sref="app.mgt({ resetState: true })">MGTs</a></li>
         </ul>
       </li>
-      <li>
-        <a id="log-menu" route-to="log/"><i class="fa fa-book"></i> Logs</a>
+      <li ui-sref-active="active">
+        <a id="log-menu" ui-sref="app.log.table({ resetState: true })"><i class="fa fa-book"></i> Logs</a>
       </li>
       <li help-mapper></li>
       <li>
@@ -44,8 +44,8 @@
       <li class="hidden-sm" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
         <toggle-side-panel></toggle-side-panel>
       </li>
-      <li ng-if="app.loggedIn">
-        <a id="account" route-to="configure/user/{{app.user.id}}/">{{ app.user.username }}</a>
+      <li ng-if="app.loggedIn" ui-sref-active="active">
+        <a id="account" ui-sref="app.oldUserDetail({ id: app.user.id, resetState: true })">{{ app.user.username }}</a>
       </li>
       <li>
         <a class="login-toggle" ng-class="{login: !app.loggedIn, logout: app.loggedIn}" ng-click="app.onClick()">{{ app.loggedIn? 'Logout': 'Login' }}</a>
@@ -66,8 +66,8 @@
       <small>
         Intel&reg; Manager for Lustre* software {{ app.RUNTIME_VERSION }} is
         Copyright &copy; {{ app.COPYRIGHT_YEAR }} Intel Corporation. All rights reserved.
-        <a route-to="about/" class="navigation">About Intel&reg; Manager for Lustre* software</a>
-        <a id="system-status" href="/ui/system_status/" restrict-to="{{ app.GROUPS.FS_ADMINS }}">System Status</a>
+        <a ui-sref="app.about({ resetState: true })" class="navigation">About Intel&reg; Manager for Lustre* software</a>
+        <a id="system-status" ui-sref="app.oldSystemStatus({ resetState: true })" restrict-to="{{ app.GROUPS.FS_ADMINS }}">System Status</a>
       </small>
     </footer>
   </div>

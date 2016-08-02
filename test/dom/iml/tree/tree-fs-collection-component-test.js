@@ -67,10 +67,10 @@ describe('tree fs collection component', () => {
   it('should link to the fs page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('configure/filesystem/');
+      .toBe('app.fileSystem({ resetState: true })');
   });
 
   it('should show the spinner while data is fetching', () => {

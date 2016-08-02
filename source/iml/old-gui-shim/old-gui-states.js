@@ -50,6 +50,11 @@ export default [
       template: `
       <iframe-shim params="::$ctrl.params" path="${path}"></iframe-shim>
       `,
+      params: {
+        resetState: {
+          dynamic: true
+        }
+      },
       data: {
         helpPage,
         access: GROUPS.FS_ADMINS,

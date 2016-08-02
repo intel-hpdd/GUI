@@ -11,6 +11,11 @@ describe('about states', () => {
         controller: 'AboutCtrl',
         controllerAs: 'about',
         templateUrl: '/static/chroma_ui/source/iml/about/assets/html/about.js',
+        params: {
+          resetState: {
+            dynamic: true
+          }
+        },
         data: {
           anonymousReadProtected: true,
           eulaState: true

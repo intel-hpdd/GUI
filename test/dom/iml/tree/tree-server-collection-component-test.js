@@ -65,10 +65,10 @@ describe('tree server collection component', () => {
   it('should link to the server page', () => {
     const route = el
       .querySelector('a')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('configure/server/');
+      .toBe('app.server({ resetState: true })');
   });
 
   it('should show the spinner while data is fetching', () => {

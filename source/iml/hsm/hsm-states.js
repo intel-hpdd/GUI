@@ -66,6 +66,9 @@ export const hsmState = {
       value: null,
       dynamic: false,
       squash: true
+    },
+    resetState: {
+      dynamic: true
     }
   },
   controller: 'HsmCtrl',

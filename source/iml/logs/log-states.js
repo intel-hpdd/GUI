@@ -72,6 +72,11 @@ export const logTableState = {
     'limit',
     'order_by'
   ])}`,
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
   resolve: {
     log$ (qsFromLocation:Function) {
       'ngInject';
