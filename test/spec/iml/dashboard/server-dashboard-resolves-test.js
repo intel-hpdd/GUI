@@ -44,7 +44,7 @@ describe('server dashboard resolves', () => {
         .returnValue('cpu usage data');
 
       $stateParams = {
-        serverId: '1'
+        id: '1'
       };
 
       promise = serverDashboardChartResolves(
@@ -110,7 +110,7 @@ describe('server dashboard resolves', () => {
 
     beforeEach(() => {
       $stateParams = {
-        serverId: 1
+        id: 1
       };
 
       hostStream = highland();

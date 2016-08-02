@@ -115,14 +115,10 @@ import {
 import {
   dashboardState,
   dashboardOverviewState,
-  dashboardAbstractServerState,
   dashboardServerState,
-  dashboardServerOstState,
-  dashboardServerMdtState,
-  dashboardFsState,
-  dashboardFsMdtState,
-  dashboardAbstractFsState,
-  dashboardFsOstState
+  dashboardOstState,
+  dashboardMdtState,
+  dashboardFsState
 } from './dashboard/dashboard-states.js';
 
 import oldGUIStates from './old-gui-shim/old-gui-states.js';
@@ -246,13 +242,9 @@ export default angular.module('iml', [
       .state(dashboardState)
       .state(dashboardOverviewState)
       .state(dashboardServerState)
-      .state(dashboardAbstractServerState)
-      .state(dashboardServerOstState)
-      .state(dashboardServerMdtState)
+      .state(dashboardOstState)
+      .state(dashboardMdtState)
       .state(dashboardFsState)
-      .state(dashboardFsMdtState)
-      .state(dashboardAbstractFsState)
-      .state(dashboardFsOstState)
       .state(jobStatsState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));

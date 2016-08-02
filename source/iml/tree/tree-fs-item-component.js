@@ -47,7 +47,7 @@ export default {
     <a ui-sref="app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-fw fa-server"></i> {{::$ctrl.record.label}}
     </a>
-    <a class="dashboard-link" route-to="dashboard/fs/{{::$ctrl.record.id}}">
+    <a class="dashboard-link" ui-sref="app.dashboard.fs({ id: $ctrl.record.id, resetState: true })">
       <i class="fa fa-bar-chart-o"></i>
     </a>
     <div class="children" ng-if="$ctrl.parent.opens[$ctrl.record.id]">

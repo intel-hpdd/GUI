@@ -56,10 +56,10 @@ describe('tree target item component', () => {
   it('should link to the target dashboard page', () => {
     const route = el
       .querySelector('a.dashboard-link')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('dashboard/fs/1/OST/1');
+      .toBe('app.dashboard.ost({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the label', () => {

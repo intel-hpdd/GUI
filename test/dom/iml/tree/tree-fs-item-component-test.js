@@ -58,13 +58,13 @@ describe('tree fs item component', () => {
       .toBe('app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })');
   });
 
-  it('should link to the server dashboard page', () => {
+  it('should link to the fs dashboard page', () => {
     const route = el
       .querySelector('a.dashboard-link')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('dashboard/fs/1');
+      .toBe('app.dashboard.fs({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the label', () => {

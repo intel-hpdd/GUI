@@ -32,25 +32,25 @@ import type {
 } from './dashboard-types.js';
 
 export function serverDashboardChartResolves (
-  $stateParams:{ serverId: string },
+  $stateParams:{ id: string },
   getReadWriteBandwidthChart:chartT,
   getMemoryUsageChart:chartT,
   getCpuUsageChart:chartT
 ) {
   'ngInject';
 
-  const serverId = $stateParams.serverId;
-  const page = `server${serverId}`;
+  const id = $stateParams.id;
+  const page = `server${id}`;
   var serverQs = {
     qs: {
-      id: serverId
+      id
     }
   };
 
   return Promise.all([
     getReadWriteBandwidthChart({
       qs: {
-        host_id: serverId
+        host_id: id
       }
     }, page),
     getCpuUsageChart(serverQs, page),
@@ -59,7 +59,7 @@ export function serverDashboardChartResolves (
 }
 
 export function serverDashboardHostStreamResolves (
-  $stateParams:{ serverId: string },
+  $stateParams:{ id: string },
   hostStream:() => HighlandStreamT<Object>
 ) {
   'ngInject';
@@ -67,7 +67,7 @@ export function serverDashboardHostStreamResolves (
   return hostStream()
     .map(
       fp.filter(
-        x => x.id === $stateParams.serverId
+        x => x.id === $stateParams.id
       )
     )
     .map(x => x[0]);

@@ -61,10 +61,10 @@ describe('tree server item component', () => {
   it('should link to the server dashboard page', () => {
     const route = el
       .querySelector('a.dashboard-link')
-      .getAttribute('route-to');
+      .getAttribute('ui-sref');
 
     expect(route)
-      .toBe('dashboard/server/1');
+      .toBe('app.dashboard.server({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the fqdn', () => {
