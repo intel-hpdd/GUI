@@ -15,7 +15,7 @@ describe('Add copytool modal', () => {
     resolveStream = jasmine.createSpy('resolveStream');
 
     mod = await mock('source/iml/hsm/add-copytool-modal.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
 

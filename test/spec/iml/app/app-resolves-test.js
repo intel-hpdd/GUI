@@ -21,7 +21,7 @@ describe('app resolves', () => {
     };
 
     appModule = await mock('source/iml/app/app-resolves.js', {
-      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/socket/socket-stream.js': { default: socketStream },
       'source/iml/environment.js': { CACHE_INITIAL_DATA }
     });

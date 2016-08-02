@@ -19,9 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import resolveStream from '../resolve-stream.js';
 import getCopytoolStream from './get-copytool-stream.js';
 import getCopytoolOperationStream from './get-copytool-operation-stream.js';
+
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 import {
   default as Maybe,

@@ -24,7 +24,7 @@ describe('deferred command modal button directive exports', () => {
 
     const mod = await mock('source/iml/command/deferred-cmd-modal-btn-controller.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/resolve-stream.js': { default: resolveStream }
+      'source/iml/promise-transforms.js': { resolveStream }
     });
 
     DeferredCommandModalBtnCtrl = mod.default;

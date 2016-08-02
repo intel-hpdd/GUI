@@ -5,7 +5,10 @@ import {
   curry
 } from 'intel-fp';
 
-import resolveStream from '../../../source/iml/resolve-stream.js';
+import {
+  resolveStream,
+  streamToPromise
+} from '../../../source/iml/promise-transforms.js';
 
 describe('resolve stream', () => {
   let stream, Stream, spy;
@@ -78,5 +81,45 @@ describe('resolve stream', () => {
       expect(spy)
         .toHaveBeenCalledOnceWith(new Error('boom!'));
     });
+  });
+});
+
+describe('stream to promise', () => {
+  let s, spy;
+  beforeEach(() => {
+    spy = jasmine.createSpy('spy');
+    s = highland();
+    spyOn(s, 'destroy');
+  });
+
+  it('should be a function', () => {
+    expect(streamToPromise).toEqual(jasmine.any(Function));
+  });
+
+  itAsync('should return the data in a promise', async function () {
+    s.write({foo: 'bar'});
+
+    const p = await streamToPromise(s);
+    expect(p).toEqual({foo: 'bar'});
+  });
+
+  itAsync('should handle errors', async function () {
+    const err = {
+      __HighlandStreamError__: true,
+      error: new Error('boom!')
+    };
+    s.write(err);
+
+    await streamToPromise(s)
+      .catch(curry(1, spy));
+
+    expect(spy).toHaveBeenCalledOnceWith(err.error);
+  });
+
+  itAsync('should destroy the stream when finished', async function () {
+    s.write('data');
+    await streamToPromise(s);
+
+    expect(s.destroy).toHaveBeenCalledOnce();
   });
 });

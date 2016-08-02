@@ -21,8 +21,11 @@
 
 import angular from 'angular';
 
-import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
+
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import addCopytoolModalTemplate from './assets/html/add-copytool-modal';

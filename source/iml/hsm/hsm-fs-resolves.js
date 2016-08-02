@@ -20,9 +20,12 @@
 // express and approved by Intel in writing.
 
 
-import resolveStream from '../resolve-stream.js';
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
+
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 import {
   map,

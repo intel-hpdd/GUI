@@ -31,7 +31,9 @@ import {
   rememberValue
 } from '../api-transforms.js';
 
-import resolveStream from '../resolve-stream.js';
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
 import selectServerProfileStepTemplate from './assets/html/select-server-profile-step';

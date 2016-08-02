@@ -24,11 +24,15 @@
 import parserPermutations from '../parser-permutations.js';
 
 import socketStream from '../socket/socket-stream.js';
-import resolveStream from '../resolve-stream.js';
 import statusQsToOldQsParser from '../status/status-qs-to-old-qs-parser.js';
 import store from '../store/get-store.js';
 import multiStream from '../multi-stream.js';
 import * as fp from 'intel-fp';
+
+import {
+  resolveStream
+} from '../promise-transforms.js';
+
 import {
   addHostIds
 } from './log-transforms.js';

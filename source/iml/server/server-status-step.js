@@ -28,7 +28,9 @@ import {
   curry
 } from 'intel-fp';
 
-import resolveStream from '../resolve-stream.js';
+import {
+  resolveStream
+} from '../promise-transforms.js';
 
 export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
                                       OVERRIDE_BUTTON_TYPES, data, testHostStream,

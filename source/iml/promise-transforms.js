@@ -21,15 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  noop
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export default (stream:HighlandStreamT<mixed>) => {
+export const resolveStream = (stream:HighlandStreamT<mixed>) => {
   return new Promise((resolve) => {
     stream.pull((error, x) => {
       if (error)
@@ -38,7 +36,7 @@ export default (stream:HighlandStreamT<mixed>) => {
           error
         };
 
-      const s2 = stream.tap(noop);
+      const s2 = stream.tap(fp.noop);
       s2.write(x);
 
       // $FlowIgnore: flow does not recognize this monkey-patching.
@@ -48,3 +46,17 @@ export default (stream:HighlandStreamT<mixed>) => {
     });
   });
 };
+
+
+export function streamToPromise <A>(s:HighlandStreamT<A>):Promise<A> {
+  return new Promise ((resolve:Function, reject:Function) => {
+    return s
+    .pull((err:Error, x:A) => {
+      if (err)
+        reject(err);
+      else
+        resolve(x);
+    });
+  })
+  .then(fp.tap(s.destroy.bind(s)));
+}

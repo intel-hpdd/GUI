@@ -35,7 +35,7 @@ describe('hsm fs resolve', () => {
 
     const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/resolve-stream.js': { default: resolveStream },
+      'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/broadcaster.js': { default: broadcaster }
     });
 

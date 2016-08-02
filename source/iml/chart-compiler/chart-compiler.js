@@ -22,7 +22,9 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import resolveStream from '../resolve-stream.js';
+import {
+  resolveStream
+} from '../promise-transforms.js';
 import broadcaster from '../broadcaster.js';
 
 import type {
