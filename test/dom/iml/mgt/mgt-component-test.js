@@ -62,7 +62,7 @@ describe('mgt component', () => {
 
     it('should link to the mgt detail page', () => {
       expect(el.querySelector('td a').getAttribute('route-to'))
-        .toBe('configure/mgt/1');
+        .toBe('target/1');
     });
 
     it('should render the first filesystem', () => {
