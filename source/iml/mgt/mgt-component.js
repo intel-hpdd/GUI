@@ -24,6 +24,16 @@
 export default {
   template: `
     <div as-value stream="::$ctrl.mgt$">
+      <div class="no-mgt well text-center" ng-if="curr.val.length === 0">
+        <h1>No MGTs are configured</h1>
+          <a
+            type="button"
+            class="btn btn-success btn-lg"
+            route-to="configure/filesystem/create/"
+          >
+            <i class="fa fa-plus-circle"></i>Create File System
+          </a>
+      </div>
       <div ng-if="curr.val.length > 0" class="mgt-component">
         <h4 class="section-header">MGTs</h4>
         <table class="table">
@@ -41,7 +51,7 @@ export default {
             <tbody>
               <tr ng-repeat="item in curr.val track by item.id">
                 <td>
-                  <a route-to="{{ 'configure/mgt/' + item.id }}">
+                  <a route-to="{{ 'target/' + item.id }}">
                     <span>{{ ::item.ha_label }}</span>
                   </a>
                 </td>
