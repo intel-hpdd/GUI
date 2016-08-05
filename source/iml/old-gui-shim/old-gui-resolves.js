@@ -36,6 +36,8 @@ import socketStream from '../socket/socket-stream.js';
 export const oldFilesystemDetailResolve = {
   resolve: {
     getData: ($stateParams:{ id: string }) => {
+      'ngInject';
+
       return streamToPromise(store.select('fileSystems'))
         .then(matchById($stateParams.id));
     }
@@ -45,6 +47,8 @@ export const oldFilesystemDetailResolve = {
 export const oldUserDetailResolve = {
   resolve: {
     getData: ($stateParams:{ id: string }) => {
+      'ngInject';
+
       return streamToPromise(store.select('users'))
         .then(matchById($stateParams.id))
         .then(
@@ -57,6 +61,8 @@ export const oldUserDetailResolve = {
 export const oldTargetResolve = {
   resolve: {
     getData: ($stateParams:{ id: string }) => {
+      'ngInject';
+
       return streamToPromise(store.select('targets'))
         .then(matchById($stateParams.id));
     }
@@ -66,6 +72,8 @@ export const oldTargetResolve = {
 export const oldStoragePluginResolve = {
   resolve: {
     getData: ($stateParams:{ id: string }) => {
+      'ngInject';
+
       return streamToPromise(socketStream(`/storage_resource/${$stateParams.id}`, {}, true))
         .then(fp.map(x => ({label: x.plugin_name})));
     }
