@@ -33,6 +33,8 @@ const fmt = (str) => moment(str)
   .format('M/d/YY HH:mm:ss');
 
 export function getData ($stateParams:jobStatsParamsT, TargetModel) {
+  'ngInject';
+  
   return TargetModel.get({
     id: $stateParams.id
   })
