@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -26,7 +28,7 @@ import {
   withDefault
 } from 'intel-maybe';
 
-export default (arg:string | number) => withDefault(
+export default (arg:?(string | number)):Date => withDefault(
   () => new global.Date(),
   Maybe.of(arg)
     .map(x => new global.Date(x))

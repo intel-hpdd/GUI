@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,9 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
+import store from '../store/get-store.js';
 import moment from 'moment';
+
+import {
+  matchById
+} from '../api-transforms.js';
+
+import {
+  streamToPromise,
+  resolveStream
+} from '../promise-transforms.js';
+
+import {
+  topDuration,
+  topRange
+} from './job-stats-top-stream.js';
 
 type jobStatsParamsT = {
   id:string,
@@ -29,45 +44,46 @@ type jobStatsParamsT = {
   endDate:string
 };
 
-const fmt = (str) => moment(str)
-  .format('M/d/YY HH:mm:ss');
+const fmt = str => moment(str)
+    .format('M/d/YY HH:mm:ss');
 
-export function getData ($stateParams:jobStatsParamsT, TargetModel) {
-  'ngInject';
-  
-  return TargetModel.get({
-    id: $stateParams.id
-  })
-    .$promise
-    .then(t => ({
-      label: `${t.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
-    }));
-}
-
-export function appJobstatsMetrics ($q, $stateParams, TargetMetricModel) {
+export function getData ($stateParams:jobStatsParamsT) {
   'ngInject';
 
-  const commonParams = {
-    begin: $stateParams.startDate,
-    end: $stateParams.endDate,
-    job: 'id',
-    id: $stateParams.id
-  };
-  const metrics = [
-    'read_bytes',
-    'write_bytes',
-    'read_iops',
-    'write_iops'
-  ];
-
-  var promises = metrics.reduce(function reducer (out, metric) {
-
-    var params = angular.merge({}, commonParams, {metrics: metric});
-
-    out[metric] = TargetMetricModel.getJobAverage(params);
-
-    return out;
-  }, {});
-
-  return $q.all(promises);
+  if (!$stateParams.id)
+    return {};
+  else
+    return streamToPromise(
+      store
+        .select('targets')
+        .map(matchById($stateParams.id))
+        .map(x => ({
+          label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
+        }))
+    );
 }
+
+export const jobstats$ = ($stateParams:jobStatsParamsT) => {
+  'ngInject';
+
+  if ($stateParams.id)
+    return resolveStream(
+      topRange(
+        $stateParams.startDate,
+        $stateParams.endDate,
+        {
+          id: $stateParams.id
+        }
+      )
+    );
+  else
+    return streamToPromise(
+      store
+        .select('jobStatsConfig')
+    )
+      .then(c => resolveStream(
+        topDuration(
+          c.duration
+        )
+      ));
+};

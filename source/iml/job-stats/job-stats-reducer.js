@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,19 +21,32 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTableTemplate from './assets/html/job-stats-table.html!text';
+export const SET_DURATION = 'SET_DURATION';
+export const SET_SORT = 'SET_SORT';
 
-export default function () {
-  'ngInject';
+import type {
+  ActionT
+} from '../store/store-module.js';
 
-  return {
-    scope: {
-      metric: '=',
-      metricName: '@',
-      filterBytes: '='
-    },
-    template: jobStatsTableTemplate,
-    restrict: 'E'
-  };
+const startingState = {
+  duration: 10,
+  orderBy: 'read_bytes',
+  desc: true
+};
+
+export default function (state:Object=startingState, {type, payload}:ActionT):Object {
+  switch (type) {
+  case SET_DURATION:
+    return {
+      ...state,
+      ...payload
+    };
+  case SET_SORT:
+    return {
+      ...state,
+      ...payload
+    };
+  default:
+    return state;
+  }
 }

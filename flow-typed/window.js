@@ -1,3 +1,5 @@
+// @flow
+
 declare class Crypto {
   getRandomValues(p:Uint32Array):Uint32Array;
 }
@@ -29,5 +31,6 @@ declare var window: {
   VERSION:string,
   BUILD:string,
   location:Location,
-  requestAnimationFrame:(cb:Function) => number
+  requestAnimationFrame:(cb:Function) => number,
+  Date:typeof Date
 }

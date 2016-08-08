@@ -13,7 +13,7 @@ describe('get store', () => {
     hostCpuRamChartReducer, agentVsCopytoolChartReducer,
     fileUsageChartReducer, spaceUsageChartReducer,
     cpuUsageChartReducer, memoryUsageChartReducer,
-    userReducer, storeInstance;
+    userReducer, storeInstance, jobStatsReducer;
 
   beforeEachAsync(async function () {
     store = {
@@ -42,6 +42,7 @@ describe('get store', () => {
     cpuUsageChartReducer = {};
     memoryUsageChartReducer = {};
     userReducer = {};
+    jobStatsReducer = {};
 
     let storeModule = await mock('source/iml/store/get-store.js', {
       'source/iml/target/target-reducer.js': { default: targetReducer },
@@ -64,7 +65,8 @@ describe('get store', () => {
       'source/iml/cpu-usage/cpu-usage-chart-reducer.js': { default: cpuUsageChartReducer },
       'source/iml/memory-usage/memory-usage-chart-reducer.js': { default: memoryUsageChartReducer },
       'source/iml/user/user-reducer.js': { default: userReducer },
-      'source/iml/store/create-store.js': { default: createStore }
+      'source/iml/store/create-store.js': { default: createStore },
+      'source/iml/job-stats/job-stats-reducer': { default: jobStatsReducer }
     });
     storeInstance = storeModule.default;
   });
@@ -94,7 +96,8 @@ describe('get store', () => {
       spaceUsageCharts: spaceUsageChartReducer,
       cpuUsageCharts: cpuUsageChartReducer,
       memoryUsageCharts: memoryUsageChartReducer,
-      users: userReducer
+      users: userReducer,
+      jobStatsConfig: jobStatsReducer
     });
   });
 });

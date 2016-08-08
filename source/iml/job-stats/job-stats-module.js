@@ -22,17 +22,8 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import JobStatsCtrl from './job-stats-controller';
-import jobStatsTableDirective from './job-stats-table';
-
-import {
-  targetModelFactory,
-  targetMetricModelFactory
-} from './target-model';
+import jobStatsTableComponent from './job-stats-table-component.js';
 
 export default angular.module('jobStats', [])
-.controller('JobStatsCtrl', JobStatsCtrl)
-.directive('jobStatsTable', jobStatsTableDirective)
-.factory('TargetModel', targetModelFactory)
-.factory('TargetMetricModel', targetMetricModelFactory)
+.component('jobStatsTable', jobStatsTableComponent)
 .name;
