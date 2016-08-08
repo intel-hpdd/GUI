@@ -89,6 +89,25 @@ beforeEach(() => {
         }
       };
     },
+    toBeTransparent () {
+      return {
+        compare: (el) => {
+          if (!(el instanceof Element))
+            el = el[0];
+
+          if (el.classList.contains('transparent'))
+            return {
+              pass: true,
+              message: `Expected '${angular.mock.dump(el)}' not to have class 'transparent'.`
+            };
+          else
+            return {
+              pass: false,
+              message: `Expected '${angular.mock.dump(el)}' to have class 'transparent'.`
+            };
+        }
+      };
+    },
     toBeAPromise () {
       return {
         compare (actual) {

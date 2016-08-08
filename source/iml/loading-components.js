@@ -102,12 +102,12 @@ export const uiLoaderViewDirective = () => {
       });
     },
     template: `
-    <div class="spinner-container" ng-show="loading">
+    <div class="spinner-container" ng-if="loading">
       <h2 class="loading-page text-center">
         Loading <i class="fa fa-spinner fa-spin fa-lg"></i>
       </h2>
     </div>
-    <div class="loader-content" ng-hide="loading">
+    <div class="loader-content" ng-class="{transparent: loading}">
       <div ui-view></div>
     </div>`
   };
