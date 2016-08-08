@@ -99,7 +99,7 @@ describe('loading component', () => {
 
   it('should hide the content', () => {
     expect(el.querySelector('.loader-content'))
-      .toBeTransparent();
+      .toHaveClass('transparent');
   });
 
   describe('on success', () => {
@@ -120,7 +120,7 @@ describe('loading component', () => {
 
     it('should hide the content', () => {
       expect(el.querySelector('.loader-content'))
-        .not.toBeTransparent();
+        .not.toHaveClass('transparent');
     });
   });
 });
