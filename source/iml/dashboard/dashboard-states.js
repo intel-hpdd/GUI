@@ -83,8 +83,7 @@ const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id: string })
 
 export const dashboardState = {
   name: 'app.dashboard',
-  url: '/dashboard',
-  redirectTo: 'app.dashboard.overview',
+  abstract: true,
   resolve: {
     fsB: dashboardFsB,
     hostsB: dashboardHostB,
@@ -103,7 +102,7 @@ export const dashboardState = {
 
 export const dashboardOverviewState = {
   name: 'app.dashboard.overview',
-  url: '/',
+  url: '/dashboard',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,
@@ -123,7 +122,7 @@ export const dashboardOverviewState = {
 
 export const dashboardServerState = {
   name: 'app.dashboard.server',
-  url: '/server/:id',
+  url: '/dashboard/server/:id',
   controller: 'ServerDashboardCtrl',
   controllerAs: 'serverDashboard',
   templateUrl: serverDashboardTemplate,
@@ -149,7 +148,7 @@ export const dashboardServerState = {
 
 export const dashboardMdtState = {
   name: 'app.dashboard.mdt',
-  url: '/MDT/:id',
+  url: '/dashboard/MDT/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
   templateUrl: targetDashboardTemplate,
@@ -176,7 +175,7 @@ export const dashboardMdtState = {
 
 export const dashboardOstState = {
   name: 'app.dashboard.ost',
-  url: '/OST/:id',
+  url: '/dashboard/OST/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
   templateUrl: targetDashboardTemplate,
@@ -203,7 +202,7 @@ export const dashboardOstState = {
 
 export const dashboardFsState = {
   name: 'app.dashboard.fs',
-  url: '/fs/:id',
+  url: '/dashboard/fs/:id',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
   templateUrl: baseDashboardTemplate,

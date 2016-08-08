@@ -57,8 +57,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardState)
         .toEqual({
           name: 'app.dashboard',
-          url: '/dashboard',
-          redirectTo: 'app.dashboard.overview',
+          abstract: true,
           resolve: {
             fsB: 'dashboardFsB',
             hostsB: 'dashboardHostB',
@@ -82,7 +81,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardOverviewState)
         .toEqual({
           name: 'app.dashboard.overview',
-          url: '/',
+          url: '/dashboard',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
@@ -107,7 +106,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardServerState)
         .toEqual({
           name: 'app.dashboard.server',
-          url: '/server/:id',
+          url: '/dashboard/server/:id',
           controller: 'ServerDashboardCtrl',
           controllerAs: 'serverDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/server-dashboard.js',
@@ -138,7 +137,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardMdtState)
         .toEqual({
           name: 'app.dashboard.mdt',
-          url: '/MDT/:id',
+          url: '/dashboard/MDT/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
@@ -170,7 +169,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardOstState)
         .toEqual({
           name: 'app.dashboard.ost',
-          url: '/OST/:id',
+          url: '/dashboard/OST/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
@@ -202,7 +201,7 @@ describe('dashboard states', () => {
       expect(mod.dashboardFsState)
         .toEqual({
           name: 'app.dashboard.fs',
-          url: '/fs/:id',
+          url: '/dashboard/fs/:id',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
           templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
