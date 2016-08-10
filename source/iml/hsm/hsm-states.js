@@ -21,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-
 import {
   getData,
   fsCollStream
@@ -53,8 +51,7 @@ export const hsmFsState = {
     helpPage: 'hsm_page.htm',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    eulaState: true,
-    skipWhen: fp.eq
+    eulaState: true
   },
   resolve: {
     fsStream: fsCollStream

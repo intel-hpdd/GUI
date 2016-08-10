@@ -5,19 +5,24 @@ import serverDashboardModule from '../../../../source/iml/dashboard/server-dashb
 describe('Server dashboard controller', () => {
   beforeEach(module(serverDashboardModule));
 
-  var $scope, ctrl, hostStream, charts;
+  var $scope, ctrl, hostStream, charts, chart;
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();
-    charts = [];
+    chart = {
+      stream: {
+        destroy: jasmine.createSpy('destroy')
+      }
+    };
+    charts = [chart];
 
     hostStream = highland();
     spyOn(hostStream, 'destroy');
 
     ctrl = $controller('ServerDashboardCtrl', {
-      $scope: $scope,
-      hostStream: hostStream,
-      charts: charts
+      $scope,
+      hostStream,
+      charts
     });
   }));
 

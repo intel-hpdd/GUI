@@ -30,8 +30,7 @@ describe('status states', () => {
           data: {
             helpPage: 'status_page.htm',
             anonymousReadProtected: true,
-            eulaState: true,
-            skipWhen: jasmine.any(Function)
+            eulaState: true
           },
           template: jasmine.any(String)
         });

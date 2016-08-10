@@ -50,8 +50,7 @@ export const logState = {
   data: {
     helpPage: 'logs_page.htm',
     anonymousReadProtected: true,
-    eulaState: true,
-    skipWhen: fp.eq
+    eulaState: true
   },
   template: `
   <div class="container log container-full">

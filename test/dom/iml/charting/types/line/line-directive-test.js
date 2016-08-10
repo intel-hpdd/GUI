@@ -39,16 +39,21 @@ describe('line directive', () => {
     $scope.xComparator = fp.eq;
     $scope.color = '#333333';
 
-    $scope.stream = highland([[1, 2, 3, 4]]);
+    $scope.stream = highland();
     $scope.onData = () => ['data'];
 
     el = $compile(template)($scope)[0];
+    document.body.appendChild(el);
+
     qs = fp.flow(
       fp.arrayWrap,
       fp.invokeMethod('querySelector', fp.__, el)
     );
     $scope.$digest();
+    $scope.stream.write([1, 2, 3, 4]);
   }));
+
+  afterEach(() => document.body.removeChild(el));
 
   it('should append a line', () => {
     expect(qs('.line')).not.toBeNull();

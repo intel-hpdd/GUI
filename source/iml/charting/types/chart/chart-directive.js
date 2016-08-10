@@ -76,12 +76,17 @@ export function charterDirective ($window, d3, debounce) {
       setDimenstions(ctrl.svg);
 
       scope.stream.each((xs) => {
-        ctrl.onUpdate.forEach((update) => update({
-          svg: ctrl.svg.datum(xs).transition().duration(2000),
-          width: ctrl.getWidth(),
-          height: ctrl.getHeight(),
-          xs
-        }));
+        ctrl.onUpdate.forEach((update) => {
+          if (!document.body.contains(ctrl.svg[0][0]))
+            return;
+
+          update({
+            svg: ctrl.svg.datum(xs).transition().duration(2000),
+            width: ctrl.getWidth(),
+            height: ctrl.getHeight(),
+            xs
+          });
+        });
       });
 
       const debounced = debounce(onResize, 100);

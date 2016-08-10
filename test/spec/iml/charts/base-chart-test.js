@@ -92,6 +92,7 @@ describe('base chart', () => {
       svg.duration.and.returnValue(svg);
       svg.call.and.returnValue(svg);
       svg.remove.and.returnValue(svg);
+      svg[0] = {};
 
       element = {
         querySelector: jasmine.createSpy('querySelector')

@@ -7,7 +7,6 @@ html {
   }
 }
 
-ui-loader-view-root,
 ui-loader-view,
 ui-view {
   display: block;
@@ -46,6 +45,10 @@ a:hover {
 .section-header {
   margin-top: 50px;
   color: #0067B4;
+}
+
+.section-top-margin {
+  margin-top: 50px;
 }
 
 html body {
@@ -182,6 +185,53 @@ button.close:focus {
   outline: none;
 }
 
-.transparent {
-  opacity: 0;
+@keyframes fadeIn {
+  0% {opacity: 0}
+  100% {opacity: 1}
+}
+
+@keyframes fadeOut {
+  0% {opacity: 1}
+  100% {opacity: 0}
+}
+
+ui-loader-view {
+  &::before {
+    .view-loader();
+  }
+
+  &.waiting {
+    position: relative;
+
+    &::before {
+      opacity: 1;
+      display: block;
+      position: absolute;
+      z-index: 999;
+    }
+  }
+
+  > [ui-view] {
+    transition: all .1s ease-in-out;
+
+    &.ng-enter {
+      animation: fadeIn .1s;
+      opacity: 1;
+    }
+
+    &.ng-leave {
+      animation: fadeOut .1s;
+      opacity: 0;
+    }
+
+    &.ng-animate {
+      .btn {
+        transition: none;
+      }
+
+      .badge.notification {
+        transition: none;
+      }
+    }
+  }
 }

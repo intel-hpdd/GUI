@@ -21,7 +21,9 @@
 
 import * as fp from 'intel-fp';
 
-export default function TargetDashboardController ($scope, $stateParams, charts, targetStream, usageStream) {
+export default function TargetDashboardController ($scope, $stateParams, charts, targetStream,
+  usageStream) {
+
   'ngInject';
 
   const targetDashboard = Object.assign(this, {

@@ -1,6 +1,17 @@
 iframe-shim {
   display: block;
 
+  &::before {
+    .view-loader();
+  }
+
+  &.loading {
+    &::before {
+      opacity: 1;
+      display: inline-block;
+    }
+  }
+
   iframe {
     width: 100%;
     border: 0;

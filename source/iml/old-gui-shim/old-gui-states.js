@@ -68,7 +68,9 @@ export default [
         anonymousReadProtected: true,
         eulaState: true,
         kind,
-        icon
-      }
-    }, resolve);
+        icon,
+        noSpinner: true
+      },
+      ...resolve
+    });
   });

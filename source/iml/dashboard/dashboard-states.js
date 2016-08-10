@@ -21,7 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
 import * as obj from 'intel-obj';
 
 import {
@@ -70,11 +69,6 @@ import targetDashboardTemplate from './assets/html/target-dashboard.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
 import serverDashboardTemplate from './assets/html/server-dashboard.html!text';
 
-const containsAppDashboard = fp.flow(
-  x => x.indexOf('app.dashboard'),
-  fp.eq(0)
-);
-
 const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id:string }) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
@@ -92,8 +86,7 @@ export const dashboardState = {
   data: {
     helpPage: 'dashboard_charts.htm',
     anonymousReadProtected: true,
-    eulaState: true,
-    skipWhen: containsAppDashboard
+    eulaState: true
   },
   controller: 'DashboardCtrl',
   controllerAs: 'dashboard',
