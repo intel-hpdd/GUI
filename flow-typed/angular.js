@@ -1,5 +1,10 @@
 // @flow
 
+type jqliteElement = {
+  get: (id:number) => HTMLElement;
+  [key:number]: HTMLElement;
+};
+
 declare module angular {
   declare class $scope {
     $new():$scope;
@@ -22,6 +27,18 @@ declare module angular {
     search(search?:string, val?:string):Object;
   }
   declare type $locationT = $location;
+  declare type animationCallbackT = (element:jqliteElement, phase:'start'|'close') => void;
+  declare class $animation {
+    leave(element:HTMLElement, options?:{
+      addClass:string,
+      from:Object,
+      removeClass:string,
+      to:Object
+    }):Promise<void>;
+    on(event:string, container:HTMLElement, callback:animationCallbackT):void;
+    off(event:string, container?:HTMLElement, callback?:animationCallbackT):void;
+  }
+  declare type $animationT = $animation;
   declare class Module {
     provider(name:string, providerType:Function):Module;
     factory(name:string, providerFunction:Function):Module;
@@ -41,7 +58,7 @@ declare module angular {
     module(name:string, dependencies: string[]):Module;
     bootstrap(element:(HTMLElement | Document), modules:string[], config:Object):void;
     merge(...rest:Object[]):Object;
-    element(el:(string | HTMLElement)): {
+    element(el:(string | Element)): {
       clone: () => HTMLElement
     };
   }

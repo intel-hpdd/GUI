@@ -149,6 +149,9 @@ export default function baseChart (overrides) {
 
 function createRenderer (svg, chart) {
   return function render () {
+    if (!document.body.contains(svg[0][0]))
+      return;
+
     if (chart.update)
       chart.update();
     else

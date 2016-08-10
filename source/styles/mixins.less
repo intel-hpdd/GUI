@@ -60,3 +60,15 @@
   -ms-user-select: @value;
   user-select: @value;
 }
+
+.view-loader(@color: #0067B4, @duration: 3s, @top: 50px, @left: 48%) {
+  content: '\f1ce';
+  opacity: 0;
+  display: none;
+  font-size: 3em;
+  font-family: FontAwesome;
+  animation: fa-spin @duration infinite ease-in-out;
+  transition:opacity .1s ease-in-out;
+  color: @color;
+  margin: @top 0 0 @left;
+}

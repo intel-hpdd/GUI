@@ -29,9 +29,9 @@ describe('base dashboard controller', () => {
     ];
 
     baseDashboardCtrl = $controller('BaseDashboardCtrl', {
-      $scope: $scope,
+      $scope,
       fsB: broadcaster(fsStream),
-      charts: charts
+      charts
     });
   }));
 

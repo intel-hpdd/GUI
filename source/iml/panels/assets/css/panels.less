@@ -1,6 +1,11 @@
 root-panel {
   display: block;
 
+  @media (max-width: @screen-tablet) {
+    height: ~"calc(100vh - 25px)";
+    overflow: auto;
+  }
+
   toggle-side-panel {
     .user-select();
     display: block;
@@ -19,7 +24,7 @@ root-panel {
 
     .side,
     .main {
-      transition: background-color .2s;
+      transition: background-color .1s ease-in-out;
       height: 15px;
       display: inline-block;
     }
@@ -134,11 +139,22 @@ root-panel {
         flex: 0 0 56px
       }
 
-      .app-view {
+      .view-container {
         flex-grow: 1;
+
+        &.waiting {
+          +footer {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
       }
     }
   }
+}
+
+footer {
+  transition: all .1s ease-in-out;
 }
 
 .overlay {

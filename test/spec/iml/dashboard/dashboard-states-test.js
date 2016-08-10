@@ -78,8 +78,7 @@ describe('dashboard states', () => {
           data: {
             anonymousReadProtected: true,
             eulaState: true,
-            helpPage: 'dashboard_charts.htm',
-            skipWhen: jasmine.any(Function)
+            helpPage: 'dashboard_charts.htm'
           },
           controller: 'DashboardCtrl',
           controllerAs: 'dashboard',

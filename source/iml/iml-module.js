@@ -46,11 +46,7 @@ import toggleSidePanelComponent from './panels/toggle-side-panel-component.js';
 import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
-
-import {
-  uiLoaderViewDirective,
-  uiLoaderViewRootComponent
-} from './loading-components.js';
+import uiLoaderViewDirective from './ui-loader-view-directive.js';
 
 import {
   loginState
@@ -212,7 +208,6 @@ export default angular.module('iml', [
   .component('sidePanel', sidePanelComponent)
   .component('rootPanel', rootPanelComponent)
   .component('toggleSidePanel', toggleSidePanelComponent)
-  .component('uiLoaderViewRoot', uiLoaderViewRootComponent)
   .component('breadcrumb', breadcrumbComponent)
   .component('pageTitle', pageTitleComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)

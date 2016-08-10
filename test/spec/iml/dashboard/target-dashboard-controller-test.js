@@ -27,12 +27,12 @@ describe('target dashboard', () => {
     spyOn(usageStream, 'destroy');
 
     ctrl = $controller('TargetDashboardController', {
-      $scope: $scope,
-      charts: charts,
+      $scope,
+      charts,
       $stateParams: {
         kind: 'MDT'
       },
-      targetStream: targetStream,
+      targetStream,
       usageStream: broadcaster(usageStream)
     });
   }));

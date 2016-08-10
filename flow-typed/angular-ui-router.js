@@ -274,7 +274,7 @@ declare module 'angular-ui-router' {
 
   declare class StateDeclaration {
     abstract:boolean;
-    data:any;
+    data?:any;
     name:string;
     onEnter:HookRegistrationT;
     onExit:HookRegistrationT;

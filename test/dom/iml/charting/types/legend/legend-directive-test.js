@@ -30,12 +30,14 @@ describe('legend directive', () => {
     `;
 
     $scope = $rootScope.$new();
-    $scope.stream = highland([1]);
+    $scope.stream = highland();
     $scope.scale =  d3.scale.ordinal()
       .domain(['running actions', 'waiting requests', 'idle workers'])
       .range(['#F3B600', '#A3B600', '#0067B4']);
 
     el = $compile(template)($scope)[0];
+    document.body.appendChild(el);
+
     d3.select(el)
       .style({
         display: 'inline-block',
@@ -46,8 +48,12 @@ describe('legend directive', () => {
       arrayWrap,
       invokeMethod('querySelector', __, el)
     );
+
     $scope.$digest();
+    $scope.stream.write(1);
   }));
+
+  afterEach(() => document.body.removeChild(el));
 
   it('should append three legend groups', () => {
     expect(el.querySelectorAll('.legend-group').length).toBe(3);
