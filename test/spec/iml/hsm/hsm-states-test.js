@@ -59,8 +59,7 @@ describe('hsm states', () => {
             helpPage: 'hsm_page.htm',
             access: GROUPS.FS_ADMINS,
             anonymousReadProtected: true,
-            eulaState: true,
-            skipWhen: jasmine.any(Function)
+            eulaState: true
           }
         });
     });

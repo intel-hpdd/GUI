@@ -27,7 +27,6 @@ export type routeStateT = {
     anonymousReadProtected?:boolean,
     eulaState?:boolean,
     helpPage?:string,
-    skipWhen?:(name:string) => boolean,
     label?:string,
     parentName?:string,
     access?:string

@@ -52,7 +52,8 @@ describe('old gui states', () => {
         'configureold/volume',
         'volumes_tab.htm',
         'Volumes',
-        'fa-th'
+        'fa-th',
+        {}
       ));
   });
 
@@ -65,7 +66,8 @@ describe('old gui states', () => {
         'configureold/power',
         'power_control_tab.htm',
         'Power Control',
-        'fa-bolt'
+        'fa-bolt',
+        {}
       ));
   });
 
@@ -78,21 +80,23 @@ describe('old gui states', () => {
         'configureold/filesystem/create',
         'creating_a_file_system2.htm',
         'Create File System',
-        'fa-files-o'
+        'fa-files-o',
+        {}
       ));
   });
 
   it('should contain the app.oldFilesystemDetail state', () => {
     const state = fp.find(x => x.name === 'app.oldFilesystemDetail', oldGuiStates);
     expect(state)
-      .toEqual(Object.assign(generateState(
+      .toEqual(generateState(
         '/configure/filesystem/:id',
         'app.oldFilesystemDetail',
         'configureold/filesystem/detail',
         'file_systems_details_page.htm',
         'File System Detail',
-        'fa-files-o'
-      ), resolve));
+        'fa-files-o',
+        resolve
+      ));
   });
 
   it('should contain the app.oldUser state', () => {
@@ -104,34 +108,37 @@ describe('old gui states', () => {
         '/configureold/user',
         'users_tab.htm',
         'Users',
-        'fa-users'
+        'fa-users',
+        {}
       ));
   });
 
   it('should contain the app.oldUserDetail state', () => {
     const state = fp.find(x => x.name === 'app.oldUserDetail', oldGuiStates);
     expect(state)
-      .toEqual(Object.assign(generateState(
+      .toEqual(generateState(
         '/configure/user/:id',
         'app.oldUserDetail',
         '/userold',
         'users_tab.htm',
         'User detail',
-        'fa-user'
-      ), resolve));
+        'fa-user',
+        resolve
+      ));
   });
 
   it('should contain the app.oldTarget state', () => {
     const state = fp.find(x => x.name === 'app.oldTarget', oldGuiStates);
     expect(state)
-      .toEqual(Object.assign(generateState(
+      .toEqual(generateState(
         '/target/:id',
         'app.oldTarget',
         '/targetold',
         '',
         'Target Detail',
-        'fa-bullseye'
-      ), resolve));
+        'fa-bullseye',
+        resolve
+      ));
   });
 
   it('should contain the app.oldSystemStatus state', () => {
@@ -143,7 +150,8 @@ describe('old gui states', () => {
         '/system_statusold',
         '',
         'System status',
-        'fa-database'
+        'fa-database',
+        {}
       ));
   });
 
@@ -156,25 +164,27 @@ describe('old gui states', () => {
         '/configureold/storage/',
         'storage_tab.htm',
         'Storage',
-        'fa-hdd-o'
+        'fa-hdd-o',
+        {}
       ));
   });
 
   it('should contain the app.oldStorageResourceDetail state', () => {
     const state = fp.find(x => x.name === 'app.oldStorageResourceDetail', oldGuiStates);
     expect(state)
-      .toEqual(Object.assign(generateState(
+      .toEqual(generateState(
         '/configure/storage/:id',
         'app.oldStorageResourceDetail',
         '/storage_resourceold',
         'storage_tab.htm',
         'Storage Detail',
-        'fa-hdd-o'
-      ), resolve));
+        'fa-hdd-o',
+        resolve
+      ));
   });
 });
 
-function generateState (url, name, path, helpPage, kind, icon) {
+function generateState (url, name, path, helpPage, kind, icon, resolve) {
   return {
     url,
     name,
@@ -194,7 +204,9 @@ function generateState (url, name, path, helpPage, kind, icon) {
       anonymousReadProtected: true,
       eulaState: true,
       kind,
-      icon
-    }
+      icon,
+      noSpinner: true
+    },
+    ...resolve
   };
 }

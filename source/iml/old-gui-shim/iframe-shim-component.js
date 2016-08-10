@@ -26,18 +26,21 @@ export default {
 
     const frameShim = $element[0];
     const frame = frameShim.querySelector('iframe');
-    this.loading = true;
     this.src = `${UI_ROOT}${this.path}`;
+    frameShim.classList.add('loading');
 
     if (this.params.id)
       this.src += `/${this.params.id}`;
 
     const onLoad = () => {
-      this.loading = false;
+      frameShim.classList.remove('loading');
       $scope.$apply();
     };
 
     const token = setInterval(() => {
+      if (!frame.contentWindow)
+        return;
+
       const body = frame
         .contentWindow
         .document
@@ -64,7 +67,6 @@ export default {
     };
   },
   template: `
-    <h2 ng-if="$ctrl.loading" class="loading-page text-center">Loading <i class="fa fa-spinner fa-spin fa-lg"></i></h2>
     <iframe ng-src="{{::$ctrl.src}}"></iframe>
   `
 };

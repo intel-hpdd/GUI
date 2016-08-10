@@ -24,12 +24,11 @@ export const statusState = {
   data: {
     helpPage: 'status_page.htm',
     anonymousReadProtected: true,
-    eulaState: true,
-    skipWhen: fp.eq
+    eulaState: true
   },
   template: `
   <div class="status container container-full">
-    <ui-view></ui-view>
+    <ui-loader-view></ui-loader-view>
   </div>
   `
 };

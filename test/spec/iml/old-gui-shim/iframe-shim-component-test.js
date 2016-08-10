@@ -40,6 +40,10 @@ describe('iframe shim component', () => {
     el = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener'),
+      classList: {
+        add: jasmine.createSpy('add'),
+        remove: jasmine.createSpy('remove')
+      },
       querySelector: jasmine
         .createSpy('querySelector')
         .and
@@ -73,8 +77,8 @@ describe('iframe shim component', () => {
   });
 
   it('should set loading to true', () => {
-    expect(context.loading)
-      .toBe(true);
+    expect(el.classList.add)
+      .toHaveBeenCalledOnceWith('loading');
   });
 
   it('should set the src', () => {
@@ -92,8 +96,8 @@ describe('iframe shim component', () => {
     });
 
     it('should set loading to false', () => {
-      expect(context.loading)
-        .toBe(false);
+      expect(el.classList.remove)
+        .toHaveBeenCalledOnceWith('loading');
     });
 
     it('should apply the scope', () => {
