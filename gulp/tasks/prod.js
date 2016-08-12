@@ -78,7 +78,7 @@ var build = gulp.parallel(
   js.socketWorkerProd,
   js.jsTest,
   js.jsTestDeps,
-  templates.ngProd,
+  assets.templatesProd,
   assets.assetsProd,
   css.buildCssProd
 );

@@ -19,10 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  map,
-  invokeMethod
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default function TargetDashboardController ($scope, $stateParams, charts, targetStream, usageStream) {
   'ngInject';
@@ -39,6 +36,6 @@ export default function TargetDashboardController ($scope, $stateParams, charts,
   $scope.$on('$destroy', () => {
     targetStream.destroy();
     usageStream.endBroadcast();
-    map(invokeMethod('destroy', []), charts);
+    fp.map(c => c.stream.destroy(), charts);
   });
 }

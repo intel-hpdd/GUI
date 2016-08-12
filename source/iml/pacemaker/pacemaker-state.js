@@ -22,7 +22,7 @@
 import {lensProp, view, safe} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import pacemakerStateTemplate from './assets/html/pacemaker-state';
+import pacemakerStateTemplate from './assets/html/pacemaker-state.html!text';
 
 export default function pacemakerState (propagateChange) {
   'ngInject';
@@ -32,7 +32,7 @@ export default function pacemakerState (propagateChange) {
     scope: {
       stream: '='
     },
-    templateUrl: pacemakerStateTemplate,
+    template: pacemakerStateTemplate,
     link: function link (scope) {
       scope.ctrl = {};
       var state = view(lensProp('state'));

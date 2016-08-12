@@ -30,9 +30,6 @@ import durationPickerModule from '../duration-picker/duration-picker-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import getMemoryUsageChartFactory from './get-memory-usage-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import memoryUsageChartTemplate from './assets/html/memory-usage-chart';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -45,8 +42,7 @@ export type addMemoryUsageActionT = {
 export default angular.module('memoryUsageModule', [
   chartsModule, chartingModule,
   highlandModule, configToggleModule,
-  durationPickerModule, streamWhenVisibleModule,
-  memoryUsageChartTemplate
+  durationPickerModule, streamWhenVisibleModule
 ])
   .factory('getMemoryUsageChart', getMemoryUsageChartFactory)
   .name;

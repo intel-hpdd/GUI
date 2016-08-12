@@ -3,18 +3,13 @@ import stepsModule from '../../../../source/iml/steps/steps-module';
 describe('Steps module', () => {
   beforeEach(module(stepsModule));
 
-  var getTemplatePromise;
-
-  beforeEach(module(function ($provide) {
+  beforeEach(module(($provide) => {
     $provide.value('foo', 'bar');
-
-    getTemplatePromise = jasmine.createSpy('getTemplatePromise');
-    $provide.value('getTemplatePromise', getTemplatePromise);
   }));
 
   var $rootScope, $scope, $q, $compile, stepsManager;
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$q_, _stepsManager_) {
+  beforeEach(inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
 
     $rootScope = _$rootScope_;
     $compile = _$compile_;
@@ -23,18 +18,16 @@ describe('Steps module', () => {
     stepsManager = _stepsManager_;
   }));
 
-  describe('step container', function () {
+  describe('step container', () => {
     var template, node;
 
-    beforeEach(function () {
+    beforeEach(() => {
       template = '<step-container manager="manager"></step-container>';
 
       $scope.manager = stepsManager();
 
-      getTemplatePromise.and.returnValue($q.when('<div>{{foo}}</div>'));
-
       $scope.manager.addStep('step', {
-        templateUrl: 'assets/html/step',
+        template: '<div>{{foo}}</div>',
         controller: function controller ($scope) {
           'ngInject';
 
@@ -44,18 +37,18 @@ describe('Steps module', () => {
       });
     });
 
-    describe('directive when all promises are resolved', function () {
-      beforeEach(function () {
+    describe('directive when all promises are resolved', () => {
+      beforeEach(() => {
         node = $compile(template)($scope);
 
         $scope.$digest();
       });
 
-      it('should start empty', function () {
+      it('should start empty', () => {
         expect(node.html()).toEqual('');
       });
 
-      it('should populate with the step on start.', function () {
+      it('should populate with the step on start.', () => {
         $scope.manager.start('step');
 
         $scope.$digest();
@@ -65,12 +58,10 @@ describe('Steps module', () => {
     });
 
 
-    describe('directive before all promises have resolved', function () {
-      beforeEach(function () {
-        getTemplatePromise.and.returnValue($q.when('<div>waiting</div>'));
-
+    describe('directive before all promises have resolved', () => {
+      beforeEach(() => {
         $scope.manager.addWaitingStep({
-          templateUrl: 'assets/html/waitingStep',
+          template: '<div>waiting</div>',
           controller: function controller ($scope) {
             'ngInject';
 
@@ -82,7 +73,7 @@ describe('Steps module', () => {
         node = $compile(template)($scope);
       });
 
-      it('should load the waiting template', function () {
+      it('should load the waiting template', () => {
         var deferred = $q.defer();
         var resolves = {
           resolve1: deferred.promise
@@ -97,17 +88,17 @@ describe('Steps module', () => {
     });
   });
 
-  describe('steps manager', function () {
+  describe('steps manager', () => {
     var stepsManagerInstance, waitingStep;
 
-    beforeEach(function () {
+    beforeEach(() => {
       stepsManagerInstance = stepsManager();
       waitingStep = {
-        templateUrl: 'iml/server/assets/html/wait-until-loaded-step.html'
+        template: 'untilLoadedTemplate'
       };
     });
 
-    it('should return the expected interface', function () {
+    it('should return the expected interface', () => {
       expect(stepsManagerInstance).toEqual({
         addWaitingStep: jasmine.any(Function),
         addStep: jasmine.any(Function),
@@ -123,9 +114,9 @@ describe('Steps module', () => {
       });
     });
 
-    describe('calling addWaitingStep multiple times', function () {
+    describe('calling addWaitingStep multiple times', () => {
       var error;
-      beforeEach(function () {
+      beforeEach(() => {
         try {
           stepsManagerInstance.addWaitingStep(waitingStep)
             .addWaitingStep(waitingStep);
@@ -134,15 +125,15 @@ describe('Steps module', () => {
         }
       });
 
-      it('should throw an error when addWaitingStep is called twice', function () {
+      it('should throw an error when addWaitingStep is called twice', () => {
         expect(error.message).toEqual('Cannot assign the waiting step as it is already defined.');
       });
     });
 
-    describe('interacting', function () {
+    describe('interacting', () => {
       var listener, step1, step2;
 
-      beforeEach(function () {
+      beforeEach(() => {
         listener = jasmine.createSpy('listener');
 
         step1 = {
@@ -169,11 +160,11 @@ describe('Steps module', () => {
           .start('step1');
       });
 
-      it('should start on step1', function () {
+      it('should start on step1', () => {
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
       });
 
-      it('should transition to step2', function () {
+      it('should transition to step2', () => {
         stepsManagerInstance.transition();
 
         $rootScope.$digest();
@@ -181,7 +172,7 @@ describe('Steps module', () => {
         expect(listener).toHaveBeenCalledOnceWith(step2, undefined);
       });
 
-      it('should transition back to step1', function () {
+      it('should transition back to step1', () => {
         stepsManagerInstance.transition();
 
         $rootScope.$digest();
@@ -194,7 +185,7 @@ describe('Steps module', () => {
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined);
       });
 
-      it('should destroy a listener', function () {
+      it('should destroy a listener', () => {
         stepsManagerInstance.destroy();
 
         stepsManagerInstance.transition();

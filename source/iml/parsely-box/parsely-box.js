@@ -22,7 +22,7 @@
 import {noop} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import parselyBoxTemplate from './assets/html/parsely-box';
+import parselyBoxTemplate from './assets/html/parsely-box.html!text';
 
 export function parselyBox () {
   'ngInject';
@@ -38,7 +38,7 @@ export function parselyBox () {
     },
     controllerAs: 'ctrl',
     controller: noop,
-    templateUrl: parselyBoxTemplate
+    template: parselyBoxTemplate
   };
 }
 

@@ -22,14 +22,12 @@
 // @flow
 
 import flatMapChanges from 'intel-flat-map-changes';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import getStore from '../store/get-store.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   always
@@ -42,9 +40,9 @@ import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
 
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
+// $FlowIgnore: HTML templates that flow does not recognize.
+import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth.html!text';
+
 import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
@@ -63,8 +61,7 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-export default (chartCompiler:chartCompilerT,
-                data$Fn:data$FnT, localApply:localApplyT) => {
+export default (data$Fn:data$FnT, localApply:localApplyT) => {
   'ngInject';
 
   return function getReadWriteBandwidthChart (overrides:filesystemQueryT | targetQueryT, page:string) {

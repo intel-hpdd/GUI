@@ -40,7 +40,8 @@
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li ng-controller="CommandMonitorCtrl as commandMonitor" ng-include="'/static/chroma_ui/source/iml/command/assets/html/command-monitor.js'"></li>
+      <li command-monitor>
+      </li>
       <li class="hidden-sm" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
         <toggle-side-panel></toggle-side-panel>
       </li>

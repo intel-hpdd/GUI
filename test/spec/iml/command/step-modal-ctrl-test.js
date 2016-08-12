@@ -6,13 +6,13 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-describe('step modal', function () {
+describe('step modal', () => {
   beforeEach(module(commandModule));
 
-  describe('step modal controller', function () {
+  describe('step modal controller', () => {
     var $scope, stepModal, stepsStream, jobStream;
 
-    beforeEach(inject(function ($rootScope, $controller) {
+    beforeEach(inject(($rootScope, $controller) => {
       spyOn($rootScope, '$on').and.callThrough();
 
       jobStream = highland();
@@ -29,11 +29,11 @@ describe('step modal', function () {
       });
     }));
 
-    it('should have a getDescription method', function () {
+    it('should have a getDescription method', () => {
       expect(stepModal.getDescription).toEqual(jasmine.any(Function));
     });
 
-    it('should return class_name if description starts with it', function () {
+    it('should return class_name if description starts with it', () => {
       var step = {
         class_name: 'foo',
         description: 'foo bar'
@@ -42,7 +42,7 @@ describe('step modal', function () {
       expect(stepModal.getDescription(step)).toEqual('foo');
     });
 
-    it('should return description if it does not start with class_name', function () {
+    it('should return description if it does not start with class_name', () => {
       var step = {
         class_name: 'baz',
         description: 'foo bar'
@@ -51,29 +51,29 @@ describe('step modal', function () {
       expect(stepModal.getDescription(step)).toEqual('foo bar');
     });
 
-    it('should listen for destroy', function () {
+    it('should listen for destroy', () => {
       expect($scope.$on).toHaveBeenCalledTwiceWith('$destroy', jasmine.any(Function));
     });
 
-    describe('destroy', function () {
-      beforeEach(function () {
+    describe('destroy', () => {
+      beforeEach(() => {
         $scope.$destroy();
       });
 
-      it('should destroy the job stream', function () {
+      it('should destroy the job stream', () => {
         expect(jobStream.destroy).toHaveBeenCalled();
       });
 
-      it('should destroy the steps stream', function () {
+      it('should destroy the steps stream', () => {
         expect(stepsStream.destroy).toHaveBeenCalled();
       });
     });
 
-    it('should have a list of steps', function () {
+    it('should have a list of steps', () => {
       expect(stepModal.steps).toEqual([]);
     });
 
-    it('should open the first accordion', function () {
+    it('should open the first accordion', () => {
       expect(stepModal.accordion0).toBe(true);
     });
 
@@ -97,39 +97,44 @@ describe('step modal', function () {
       }
     };
 
-    Object.keys(states).forEach(function assertState (state) {
-      it('should return the adjective ' + state + ' for the given job', function () {
+    Object.keys(states).forEach(state => {
+      it(`should return the adjective ${state} for the given job`, () => {
         var result = stepModal.getJobAdjective(states[state]);
 
         expect(result).toEqual(state);
       });
     });
 
-    it('should set job data', function () {
+    it('should set job data', () => {
       jobStream.write({foo: 'bar'});
 
       expect(stepModal.job).toEqual({foo: 'bar'});
     });
 
-    it('should set step data', function () {
+    it('should set step data', () => {
       stepsStream.write({foo: 'bar'});
 
       expect(stepModal.steps).toEqual({foo: 'bar'});
     });
   });
 
-  describe('open step modal', function () {
+  describe('open step modal', () => {
     var $uibModal, socketStream, stream, job;
 
     beforeEachAsync(async function () {
       socketStream = jasmine.createSpy('socketStream')
         .and
-        .callFake(function () {
+        .callFake(() => {
           return (stream = highland());
         });
 
       const mod = await mock('source/iml/command/step-modal-ctrl.js', {
-        'source/iml/socket/socket-stream.js': { default: socketStream }
+        'source/iml/socket/socket-stream.js': {
+          default: socketStream
+        },
+        'source/iml/command/assets/html/step-modal.html!text': {
+          default: 'stepModalTemplate'
+        }
       });
 
       $uibModal = {
@@ -152,9 +157,9 @@ describe('step modal', function () {
 
     afterEach(resetAll);
 
-    it('should open the modal with the expected object', function () {
+    it('should open the modal with the expected object', () => {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: '/static/chroma_ui/source/iml/command/assets/html/step-modal.js',
+        template: 'stepModalTemplate',
         controller: 'StepModalCtrl',
         controllerAs: 'stepModal',
         windowClass: 'step-modal',
@@ -166,29 +171,29 @@ describe('step modal', function () {
       });
     });
 
-    describe('get jobs and steps', function () {
+    describe('get jobs and steps', () => {
       var jobStream, stepsStream;
 
-      beforeEach(function () {
+      beforeEach(() => {
         var resolves = $uibModal.open.calls.mostRecent().args[0].resolve;
 
         jobStream = resolves.jobStream();
         stepsStream = resolves.stepsStream();
       });
 
-      it('should get the job', function () {
+      it('should get the job', () => {
         expect(socketStream).toHaveBeenCalledOnceWith('/job/1');
       });
 
-      it('should set last data', function () {
+      it('should set last data', () => {
         stepsStream.resume();
 
-        jobStream.each(function (x) {
+        jobStream.each((x) => {
           expect(x).toEqual(job);
         });
       });
 
-      it('should get the steps', function () {
+      it('should get the steps', () => {
         jobStream.resume();
         stepsStream.resume();
 
@@ -200,10 +205,10 @@ describe('step modal', function () {
         }, true);
       });
 
-      it('should return steps', function () {
+      it('should return steps', () => {
         jobStream.resume();
 
-        stepsStream.each(function (x) {
+        stepsStream.each((x) => {
           expect(x).toEqual([{ id: 1, name: 'step' }]);
         });
 

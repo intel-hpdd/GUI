@@ -29,15 +29,12 @@ import tooltipModule from '../tooltip/tooltip-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import jobStatusDirective from './job-indicator.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobIndicatorTemplate from './assets/html/job-indicator';
-
 export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
 export default angular.module('jobIndicator', [
   popoverModule, uiBootstrapModule,
   tooltipModule, extendScopeModule,
-  jobIndicatorTemplate, highlandModule
+  highlandModule
 ])
 .directive('jobStatus', jobStatusDirective)
 .name;

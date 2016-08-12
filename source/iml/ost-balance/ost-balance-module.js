@@ -25,15 +25,11 @@ import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import getOstBalanceChartFactory from './get-ost-balance-chart';
 
 import type {
   HighlandStreamT
 } from 'highland';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import ostBalanceTemplate from './assets/html/ost-balance';
 
 export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStreamT<mixed>;
 
@@ -52,8 +48,7 @@ export type addOstBalanceActionT = {
 };
 
 export default angular.module('ostBalance',[
-  chartsModule, chartingModule, highlandModule,
-  getTemplatePromiseModule, ostBalanceTemplate
+  chartsModule, chartingModule, highlandModule
 ])
   .factory('getOstBalanceChart', getOstBalanceChartFactory)
   .name;

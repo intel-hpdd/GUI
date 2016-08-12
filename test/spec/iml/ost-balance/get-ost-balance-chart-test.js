@@ -53,8 +53,12 @@ describe('get ost balance chart', () => {
         };
       });
 
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     const mod = await mock('source/iml/ost-balance/get-ost-balance-chart.js', {
       'source/iml/ost-balance/get-ost-balance-stream.js': { default: getOstBalanceStream },
+      'source/iml/ost-balance/assets/html/ost-balance.html!text': { default: 'ostBalanceTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/chart-transformers/chart-transformers.js': { getConf }
     });
@@ -67,11 +71,9 @@ describe('get ost balance chart', () => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
       .and.callFake(invoke(__, []));
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
     localApply = jasmine.createSpy('localApply');
 
-    getOstBalanceChart = getOstBalanceChartFactory(chartCompiler,
+    getOstBalanceChart = getOstBalanceChartFactory(
       streamWhenVisible, localApply);
 
     getOstBalanceChart({
@@ -111,7 +113,7 @@ describe('get ost balance chart', () => {
   it('should setup the OstBalanceChart', () => {
     expect(chartCompiler)
       .toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/ost-balance/assets/html/ost-balance.js',
+        'ostBalanceTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
       );

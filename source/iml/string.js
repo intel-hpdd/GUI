@@ -28,3 +28,13 @@ export function noSpace (parts:string[], ...args:any[]):string {
 
   return built.replace(/\s/g, '');
 }
+
+export function cleanTemplate (parts:string[], ...args:any[]):string {
+  const built = parts.reduce(
+    (acc, p, i) => acc + args[i - 1] + p
+  );
+
+  return built
+    .replace(/^\s+/gm, '')
+    .replace(/\n/g, '');
+}

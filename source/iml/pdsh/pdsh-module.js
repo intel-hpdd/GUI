@@ -28,12 +28,9 @@ import pdshParser from 'intel-pdsh-parser';
 
 import _ from 'intel-lodash-mixins';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import pdshTemplate from './assets/html/pdsh';
-
 export default angular.module('pdsh-module', [
   tooltipModule, uiBootstrapModule,
-  popoverModule, helpModule, pdshTemplate
+  popoverModule, helpModule
 ])
 .directive('pdsh', ['help', pdsh])
 .name;
@@ -53,7 +50,28 @@ function pdsh (help) {
       pdshPlaceholder: '@?'
     },
     restrict: 'E',
-    templateUrl: pdshTemplate,
+    template: `
+      <div class="input-group">
+        <div class="input-group-addon activate-popover"
+             uib-tooltip="Click for expanded hostlist expression."
+             tooltip-placement="top-left">
+          <i class="fa fa-list-ul"></i>
+        </div>
+        <iml-popover placement="bottom" title="Hosts" ng-if="pdsh.hostnameSections.length > 0">
+          <ul class="well">
+            <li ng-repeat="hostname in pdsh.hostnameSections"><span>{{::hostname}}</span></li>
+          </ul>
+        </iml-popover>
+        <input class="form-control" type="search" name="pdsh" placeholder="{{pdsh.pdshPlaceholder}}"
+               ng-model="pdsh.expression" ng-required="pdshRequired"
+               ng-model-options="{updateOn: 'default', debounce: {default: 100}}" />
+        <iml-tooltip class="error-tooltip" toggle="pdsh.pdshForm.pdsh.$invalid" direction="bottom">
+          <ul>
+            <li ng-repeat="message in pdsh.errorMessages">{{message}}</li>
+          </ul>
+        </iml-tooltip>
+      </div>
+    `,
     replace: true,
     require: '^form',
     link: function link (scope, elm, attrs, ctrl) {

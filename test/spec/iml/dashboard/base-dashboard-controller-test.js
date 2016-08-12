@@ -18,7 +18,9 @@ describe('base dashboard controller', () => {
     spyOn($scope, 'handleException');
 
     chart = {
-      destroy: jasmine.createSpy('destroy')
+      stream: {
+        destroy: jasmine.createSpy('destroy')
+      }
     };
 
     charts = [
@@ -86,7 +88,7 @@ describe('base dashboard controller', () => {
     });
 
     it('should destroy the charts', () => {
-      expect(chart.destroy)
+      expect(chart.stream.destroy)
         .toHaveBeenCalledTwice();
     });
   });

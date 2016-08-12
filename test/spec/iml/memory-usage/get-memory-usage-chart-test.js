@@ -84,6 +84,8 @@ describe('memory usage chart', () => {
 
     const mod = await mock('source/iml/memory-usage/get-memory-usage-chart.js', {
       'source/iml/memory-usage/get-memory-usage-stream.js': { default: getMemoryUsageStream },
+      'source/iml/memory-usage/assets/html/memory-usage-chart.html!text': { default: 'memoryUsageTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -96,7 +98,7 @@ describe('memory usage chart', () => {
 
   beforeEach(() => {
     getMemoryUsageChart = getMemoryUsageChartFactory(
-      chartCompiler, localApply, curry(3, data$Fn)
+      localApply, curry(3, data$Fn)
     );
 
     getMemoryUsageChart({
@@ -149,7 +151,7 @@ describe('memory usage chart', () => {
 
   it('should call the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
-      '/static/chroma_ui/source/iml/memory-usage/assets/html/memory-usage-chart.js',
+      'memoryUsageTemplate',
       jasmine.any(Object),
       jasmine.any(Function)
     );

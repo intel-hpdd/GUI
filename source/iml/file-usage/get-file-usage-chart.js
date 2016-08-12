@@ -24,11 +24,12 @@
 import flatMapChanges from 'intel-flat-map-changes';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import fileUsageChartTemplate from './assets/html/file-usage-chart';
+import fileUsageChartTemplate from './assets/html/file-usage-chart.html!text';
 import getFileUsageStream from './get-file-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   getConf
@@ -38,9 +39,6 @@ import {
   DEFAULT_FILE_USAGE_CHART_ITEMS
 } from './file-usage-chart-reducer.js';
 
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -54,8 +52,7 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (chartCompiler:chartCompilerT,
-                localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getFileUsageChart (title:string, keyName:string, overrides:targetQueryT, page:string) {

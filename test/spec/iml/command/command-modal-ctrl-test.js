@@ -1,46 +1,63 @@
-import commandModule from '../../../../source/iml/command/command-module';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
+
 import highland from 'highland';
-import angular from 'angular';
 
 describe('command modal', () => {
-  beforeEach(module(commandModule));
+  let CommandModalCtrl,
+    $uibModal,
+    stream;
+
+  beforeEach(module('extendScope'));
+
+  beforeEachAsync(async function () {
+    $uibModal = {
+      open: jasmine.createSpy('open')
+    };
+
+    stream = jasmine.createSpy('stream');
+
+    const mod = await mock('source/iml/command/command-modal-ctrl.js', {
+      'source/iml/command/assets/html/command-modal.html!text': {
+        default: 'commandModalTemplate'
+      }
+    });
+
+    mod.openCommandModalFactory($uibModal)(stream);
+    CommandModalCtrl = mod.CommandModalCtrl;
+  });
+
+  afterEach(resetAll);
 
   describe('open command modal', () => {
-    var $uibModal, stream;
-
-    beforeEach(module($provide => {
-      $uibModal = {
-        open: jasmine.createSpy('open')
-      };
-
-      $provide.value('$uibModal', $uibModal);
-    }));
-
-    beforeEach(inject(openCommandModal => {
-      stream = jasmine.createSpy('stream');
-
-      openCommandModal(stream);
-    }));
-
     it('should open the modal', () => {
-      expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: '/static/chroma_ui/source/iml/command/assets/html/command-modal.js',
-        controller: 'CommandModalCtrl',
-        controllerAs: 'commandModal',
-        windowClass: 'command-modal',
-        backdrop: 'static',
-        backdropClass: 'command-modal-backdrop',
-        resolve: {
-          commandsStream: jasmine.any(Function)
-        }
-      });
+      expect($uibModal.open)
+        .toHaveBeenCalledOnceWith({
+          template: 'commandModalTemplate',
+          controller: 'CommandModalCtrl',
+          controllerAs: 'commandModal',
+          windowClass: 'command-modal',
+          backdrop: 'static',
+          backdropClass: 'command-modal-backdrop',
+          resolve: {
+            commandsStream: jasmine.any(Function)
+          }
+        });
     });
 
     describe('commands', () => {
-      var handle, commandStream;
+      let handle, commandStream;
 
       beforeEach(() => {
-        handle = $uibModal.open.calls.mostRecent().args[0].resolve.commandsStream;
+        handle = $uibModal
+          .open
+          .calls
+          .mostRecent()
+          .args[0]
+          .resolve
+          .commandsStream;
         commandStream = handle();
       });
 
@@ -50,16 +67,17 @@ describe('command modal', () => {
     });
   });
 
-  describe('command modal ctrl', () => {
+  describe('ctrl', () => {
     var commandsStream, commandModal;
 
-    beforeEach(inject(($rootScope, $controller) => {
+    beforeEach(inject(($rootScope, propagateChange) => {
       commandsStream = highland();
 
-      commandModal = $controller('CommandModalCtrl', {
-        commandsStream: commandsStream,
-        $scope: $rootScope.$new()
-      });
+      commandModal = new CommandModalCtrl(
+        commandsStream,
+        $rootScope.$new(),
+        propagateChange
+      );
     }));
 
     it('should open the first accordion', () => {
@@ -81,7 +99,7 @@ describe('command modal', () => {
       it(`should be in state ${state}`, () => {
         commandsStream.write(wrap(states[state]));
 
-        var expected = angular.extend({
+        var expected = Object.assign({
           state: state,
           jobs: []
         }, states[state]);
@@ -107,7 +125,7 @@ describe('command modal', () => {
       var commands = [].slice.call(arguments, 0);
 
       return commands.map((command, index) => {
-        return angular.extend({
+        return Object.assign({
           id: index + 1,
           logs: '',
           jobs: []

@@ -14,7 +14,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Read Write Heat Map chart', () => {
-  var chartCompiler, getReadWriteHeatMapStream, selectStoreCount,
+  let chartCompiler, getReadWriteHeatMapStream, selectStoreCount,
     submitHandler, config1$, config2$,
     getReadWriteHeatMapChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
@@ -81,20 +81,22 @@ describe('Read Write Heat Map chart', () => {
         };
       });
 
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     mod = await mock('source/iml/read-write-heat-map/get-read-write-heat-map-chart.js', {
       'source/iml/read-write-heat-map/get-read-write-heat-map-stream.js': { default: getReadWriteHeatMapStream },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
+      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
+      'source/iml/read-write-heat-map/assets/html/read-write-heat-map.html!text': { default: 'heatMapTemplate' }
     });
   });
 
   afterEach(resetAll);
 
   beforeEach(() => {
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
     initStream = highland();
     spyOn(initStream, 'destroy');
 
@@ -111,7 +113,7 @@ describe('Read Write Heat Map chart', () => {
     };
 
     getReadWriteHeatMapChart = mod.default(
-      $state, chartCompiler, localApply,
+      $state, localApply,
       curry(3, data$Fn), readWriteHeatMapTypes);
   });
 
@@ -172,7 +174,7 @@ describe('Read Write Heat Map chart', () => {
 
     it('should call the chart compiler', () => {
       expect(chartCompiler).toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/read-write-heat-map/assets/html/read-write-heat-map.js',
+        'heatMapTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
       );

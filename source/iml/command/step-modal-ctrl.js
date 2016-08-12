@@ -30,7 +30,7 @@ import {
 } from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import stepModalTemplate from './assets/html/step-modal';
+import stepModalTemplate from './assets/html/step-modal.html!text';
 
 export function StepModalCtrl ($scope, stepsStream, jobStream) {
   'ngInject';
@@ -79,7 +79,7 @@ export function openStepModalFactory ($uibModal) {
     s2.destroy = jobStream.destroy.bind(jobStream);
 
     return $uibModal.open({
-      templateUrl: stepModalTemplate,
+      template: stepModalTemplate,
       controller: 'StepModalCtrl',
       controllerAs: 'stepModal',
       windowClass: 'step-modal',

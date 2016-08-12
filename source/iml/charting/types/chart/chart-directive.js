@@ -21,9 +21,13 @@
 
 import angular from 'angular';
 
-import {flow, invokeMethod} from 'intel-fp';
+import {
+  flow,
+  invokeMethod
+} from 'intel-fp';
+
 // $FlowIgnore: HTML templates that flow does not recognize.
-import charterTemplate from './assets/html/chart';
+import charterTemplate from './assets/html/chart.html!text';
 
 export function charterDirective ($window, d3, debounce) {
   'ngInject';
@@ -62,7 +66,7 @@ export function charterDirective ($window, d3, debounce) {
     require: 'charter',
     templateNamespace: 'svg',
     transclude: true,
-    templateUrl: charterTemplate,
+    template: charterTemplate,
     link (scope, el, attrs, ctrl) {
       const setDimenstions = flow(
         invokeMethod('attr', ['width', ctrl.getOuterWidth]),

@@ -19,15 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import aboutTemplate from './assets/html/about';
+import aboutTemplate from './assets/html/about.html!text';
 
 export const aboutState = {
   name: 'app.about',
   url: '/about',
   controller: 'AboutCtrl',
   controllerAs: 'about',
-  templateUrl: aboutTemplate,
+  template: aboutTemplate,
   params: {
     resetState: {
       dynamic: true

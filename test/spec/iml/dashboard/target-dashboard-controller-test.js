@@ -15,7 +15,9 @@ describe('target dashboard', () => {
     $scope = $rootScope.$new();
 
     charts = [{
-      destroy: jasmine.createSpy('destroy')
+      stream: {
+        destroy: jasmine.createSpy('destroy')
+      }
     }];
 
     targetStream = highland();
@@ -65,7 +67,7 @@ describe('target dashboard', () => {
     });
 
     it('should destroy the charts', () => {
-      expect(charts[0].destroy)
+      expect(charts[0].stream.destroy)
         .toHaveBeenCalledOnce();
     });
   });

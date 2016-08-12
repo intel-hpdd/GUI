@@ -4,11 +4,29 @@ import highland from 'highland';
 import * as fp from 'intel-fp';
 
 import {
-  SelectServerProfileStepCtrl
-} from '../../../../source/iml/server/select-server-profile-step';
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('select server profile', () => {
+  let SelectServerProfileStepCtrl,
+    selectServerProfileStep;
+
   beforeEach(module(serverModule));
+
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/server/select-server-profile-step.js', {
+      'source/iml/server/assets/html/select-server-profile-step.html!text': {
+        default: 'serverProfileStepTemplate'
+      }
+    });
+
+    SelectServerProfileStepCtrl = mod.SelectServerProfileStepCtrl;
+    selectServerProfileStep = mod.selectServerProfileStep();
+  });
+
+  afterEach(resetAll);
+
 
   describe('select server profile step ctrl', () => {
     var $scope, $stepInstance, data,
@@ -28,7 +46,7 @@ describe('select server profile', () => {
 
       data = { pdsh: 'storage0.localdomain' };
 
-      selectServerProfileStep = $controller('SelectServerProfileStepCtrl', {
+      selectServerProfileStep = $controller(SelectServerProfileStepCtrl, {
         $scope,
         $stepInstance,
         data,
@@ -137,15 +155,9 @@ describe('select server profile', () => {
   });
 
   describe('selectServerProfileStep', () => {
-    var selectServerProfileStep;
-
-    beforeEach(inject((_selectServerProfileStep_) => {
-      selectServerProfileStep = _selectServerProfileStep_;
-    }));
-
     it('should contain the appropriate properties', () => {
       expect(selectServerProfileStep).toEqual({
-        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/select-server-profile-step.js',
+        template: 'serverProfileStepTemplate',
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
         onEnter: jasmine.any(Function),
         transition: jasmine.any(Function)

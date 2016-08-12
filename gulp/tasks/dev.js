@@ -43,7 +43,7 @@ var builder = gulp.parallel(
   js.socketWorkerDev,
   js.jsTest,
   js.jsTestDeps,
-  templates.ngDev,
+  assets.templatesDev,
   assets.assetsDev,
   templates.indexDev,
   css.buildCssDev

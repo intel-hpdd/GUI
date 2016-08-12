@@ -29,14 +29,8 @@ import groupActionsFilter from './group-actions';
 import handleActionFactory from './handle-action';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import actionDropdownTemplate from './assets/html/action-dropdown';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import confirmActionModalTemplate from './assets/html/confirm-action-modal';
-
 export default angular.module('action-dropdown-module', [
-  commandModule, actionDropdownTemplate, confirmActionModalTemplate,
+  commandModule,
   uiBootstrapModule
 ])
   .factory('actionDescriptionCache', actionDescriptionCache)

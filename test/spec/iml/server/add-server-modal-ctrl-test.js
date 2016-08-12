@@ -1,32 +1,49 @@
-import serverModule from '../../../../source/iml/server/server-module';
-import angular from 'angular';
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
 describe('add server modal', () => {
-  var spring, addServerModalCtrlModule;
+  let spring,
+    $uibModal,
+    AddServerModalCtrl,
+    openAddServerModal;
+
   beforeEachAsync(async function () {
     spring = {
       destroy: jasmine.createSpy('destroy')
     };
-    const getSpring = jasmine.createSpy('getSpring').and.returnValue(spring);
-    addServerModalCtrlModule = await mock('source/iml/server/add-server-modal-ctrl.js', {
-      'source/iml/socket/get-spring.js': { default: getSpring}
+
+    const getSpring = jasmine
+      .createSpy('getSpring')
+      .and
+      .returnValue(spring);
+
+    $uibModal = {
+      open: jasmine.createSpy('$uibModal')
+    };
+
+    const mod = await mock('source/iml/server/add-server-modal-ctrl.js', {
+      'source/iml/server/assets/html/add-server-modal.html!text': {
+        default: 'addServerModalTemplate'
+      },
+      'source/iml/socket/get-spring.js': {
+        default: getSpring
+      }
     });
+
+    AddServerModalCtrl = mod.AddServerModalCtrl;
+    openAddServerModal = mod.openAddServerModalFactory($uibModal);
   });
 
   afterEach(resetAll);
 
-  beforeEach(module(serverModule));
-
-  describe('controller', function () {
-    var addServerModalCtrl, $scope, stepsManager,
+  describe('controller', () => {
+    let addServerModalCtrl, $scope, stepsManager,
       resultEndPromise, invokeController;
-    var deps = {};
+    let deps = {};
 
-    beforeEach(inject(function ($rootScope, $controller, $q) {
+    beforeEach(inject(($rootScope, $controller, $q) => {
       resultEndPromise = $q.defer();
 
       stepsManager = {
@@ -43,7 +60,7 @@ describe('add server modal', () => {
       $scope = $rootScope.$new();
       $scope.$on = jasmine.createSpy('$on');
 
-      angular.extend(deps, {
+      Object.assign(deps, {
         $scope: $scope,
         $uibModalInstance: {
           close: jasmine.createSpy('$uibModalInstance')
@@ -58,20 +75,18 @@ describe('add server modal', () => {
       });
 
       invokeController = function invokeController (moreDeps) {
-        addServerModalCtrl = $controller(addServerModalCtrlModule.AddServerModalCtrl, angular.extend(deps, moreDeps));
+        addServerModalCtrl = $controller(AddServerModalCtrl, Object.assign(deps, moreDeps));
       };
     }));
 
-    describe('when no step is provided', function () {
-      beforeEach(function () {
-        invokeController();
-      });
+    describe('when no step is provided', () => {
+      beforeEach(() => invokeController());
 
-      it('should invoke the steps manager', function () {
+      it('should invoke the steps manager', () => {
         expect(deps.getAddServerManager).toHaveBeenCalledOnce();
       });
 
-      it('should start the steps manager', function () {
+      it('should start the steps manager', () => {
         expect(stepsManager.start).toHaveBeenCalledOnceWith('addServersStep', {
           showCommand: false,
           data: {
@@ -82,64 +97,60 @@ describe('add server modal', () => {
         });
       });
 
-      it('should close the modal instance when the manager result ends', function () {
+      it('should close the modal instance when the manager result ends', () => {
         resultEndPromise.resolve('test');
 
         $scope.$digest();
         expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
       });
 
-      it('should contain the manager', function () {
+      it('should contain the manager', () => {
         expect(addServerModalCtrl.manager).toEqual(stepsManager);
       });
 
-      it('should set a destroy event listener', function () {
+      it('should set a destroy event listener', () => {
         expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
       });
 
-      describe('on close and destroy', function () {
-        beforeEach(function () {
+      describe('on close and destroy', () => {
+        beforeEach(() => {
           // Invoke the $destroy and closeModal functions
-          $scope.$on.calls.allArgs().forEach(function (call) {
+          $scope.$on.calls.allArgs().forEach((call) => {
             call[1]();
           });
         });
 
-        it('should destroy the manager', function () {
+        it('should destroy the manager', () => {
           expect(stepsManager.destroy).toHaveBeenCalledOnce();
         });
 
-        it('should destroy the spring', function () {
+        it('should destroy the spring', () => {
           expect(spring.destroy).toHaveBeenCalledOnce();
         });
 
-        it('should close the modal', function () {
+        it('should close the modal', () => {
           expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
         });
       });
     });
   });
 
-  describe('opening', function () {
-    var openAddServerModal, $uibModal, server, step;
-    beforeEach(module(function ($provide) {
-      $uibModal = {
-        open: jasmine.createSpy('$uibModal')
+  describe('opening', () => {
+    let server,
+      step;
+
+    beforeEach(() => {
+      server = {
+        address: 'hostname1'
       };
-
-      $provide.value('$uibModal', $uibModal);
-    }));
-
-    beforeEach(inject(function (_openAddServerModal_) {
-      server = { address: 'hostname1' };
       step = 'addServersStep';
-      openAddServerModal = _openAddServerModal_;
-      openAddServerModal(server, step);
-    }));
 
-    it('should open the modal', function () {
+      openAddServerModal(server, step);
+    });
+
+    it('should open the modal', () => {
       expect($uibModal.open).toHaveBeenCalledWith({
-        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/add-server-modal.js',
+        template: 'addServerModalTemplate',
         controller: 'AddServerModalCtrl as addServer',
         backdropClass: 'add-server-modal-backdrop',
         backdrop: 'static',
@@ -152,20 +163,21 @@ describe('add server modal', () => {
       });
     });
 
-    describe('checking resolve', function () {
-      var resolve;
-      beforeEach(function () {
+    describe('checking resolve', () => {
+      let resolve;
+
+      beforeEach(() => {
         resolve = $uibModal.open.calls.mostRecent().args[0].resolve;
       });
 
-      it('should return servers', function () {
+      it('should return servers', () => {
         expect(resolve.servers()).toEqual({
           auth_type: undefined,
           addresses: ['hostname1']
         });
       });
 
-      it('should return a step', function () {
+      it('should return a step', () => {
         expect(resolve.step()).toEqual(step);
       });
     });

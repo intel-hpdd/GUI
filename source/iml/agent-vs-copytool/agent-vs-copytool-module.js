@@ -33,9 +33,6 @@ import axisModule from '../charting/types/axis/axis-module';
 import labelModule from '../charting/types/label/label-module';
 import lineModule from '../charting/types/line/line-module';
 import legendModule from '../charting/types/legend/legend-module';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
 import getAgentVsCopytoolChartFactory from './get-agent-vs-copytool-chart';
 
 import type {
@@ -51,7 +48,7 @@ export default angular.module('agentVsCopytool', [
   chartingModule, highlandModule, configToggleModule,
   durationPickerModule, streamWhenVisibleModule,
   debounceModule, chartModule, axisModule,
-  labelModule, lineModule, legendModule, agentVsCopytoolTemplate
+  labelModule, lineModule, legendModule
 ])
   .factory('getAgentVsCopytoolChart', getAgentVsCopytoolChartFactory)
   .name;

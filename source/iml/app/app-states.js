@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,12 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import * as fp from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import appHtml from './assets/html/app';
+import appHtml from './assets/html/app.html!text';
 
 export const appState = {
   name: 'app',
@@ -32,7 +32,7 @@ export const appState = {
   redirectTo: 'app.dashboard.overview',
   controller: 'AppCtrl',
   controllerAs: 'app',
-  templateUrl: appHtml,
+  template: appHtml,
   resolve: {
     alertStream: ['appAlertStream', fp.invoke(fp.__, [])],
     notificationStream: ['appNotificationStream', fp.invoke(fp.__, [])],

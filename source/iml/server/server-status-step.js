@@ -22,7 +22,7 @@
 import angular from 'angular';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverStatusStepTemplate from './assets/html/server-status-step';
+import serverStatusStepTemplate from './assets/html/server-status-step.html!text';
 
 import {
   curry
@@ -87,7 +87,7 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
 }
 
 export const serverStatusStep = {
-  templateUrl: serverStatusStepTemplate,
+  template: serverStatusStepTemplate,
   controller: 'ServerStatusStepCtrl as serverStatus',
   onEnter: ['data', 'getTestHostStream', 'serversToApiObjects',
     function onEnter (data, getTestHostStream, serversToApiObjects) {

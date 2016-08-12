@@ -31,14 +31,11 @@ import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import configureLnetTemplate from './assets/html/configure-lnet';
-
 export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 
 export default angular.module('lnetModule', [
   extendScopeModule, bigDifferModule, filterModule,
-  commandModule, configureLnetTemplate
+  commandModule
 ])
 .value('LNET_OPTIONS', options)
 .controller('ConfigureLnetController', ConfigureLnetController)

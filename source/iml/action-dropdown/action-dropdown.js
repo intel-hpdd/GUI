@@ -23,7 +23,7 @@ import angular from 'angular';
 import getCommandStream from '../command/get-command-stream.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import actionDropdownTemplate from './assets/html/action-dropdown';
+import actionDropdownTemplate from './assets/html/action-dropdown.html!text';
 
 import {lensProp, eq, view, cond, mapped, compose,
   reduce, flow, identity, filter,
@@ -135,6 +135,6 @@ export function actionDropdown () {
     },
     controller: 'ActionDropdownCtrl',
     controllerAs: 'ctrl',
-    templateUrl: actionDropdownTemplate
+    template: actionDropdownTemplate
   };
 }

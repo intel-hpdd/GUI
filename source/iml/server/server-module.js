@@ -65,34 +65,11 @@ import {waitUntilLoadedCtrl, waitUntilLoadedStep} from './wait-until-loaded-step
 import serversToApiObjects from './servers-to-api-objects';
 import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import addServerModalTemplate from './assets/html/add-server-modal';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import addServerStepTemplate from './assets/html/add-server-step';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import confirmServerActionModalTemplate from './assets/html/confirm-server-action-modal';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import overrideButtonTemplate from './assets/html/override-button';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import selectServerProfileStepTemplate from './assets/html/select-server-profile-step';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import serverStatusStepTemplate from './assets/html/server-status-step';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step';
-
 export default angular.module('server', [pdshModule, filtersModule, lnetModule,
     corosyncModule, pacemakerModule, commandModule, actionDropdownModule,
     jobIndicatorModule, alertIndicatorModule, stepsModule,
     extendScopeModule, highlandModule, asValueModule, asStreamModule,
-    addServerStepTemplate, overrideButtonTemplate, uiBootstrapModule,
-    addServerModalTemplate, serverStatusStepTemplate, confirmServerActionModalTemplate,
-    selectServerProfileStepTemplate, waitUntilLoadedTemplate
+    uiBootstrapModule
   ])
   .constant('OVERRIDE_BUTTON_TYPES', {
     OVERRIDE: 'override',

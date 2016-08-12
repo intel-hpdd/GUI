@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTemplate from './assets/html/job-stats';
+import jobStatsTemplate from './assets/html/job-stats.html!text';
 
 import {
   appJobstatsMetrics,
@@ -34,7 +34,7 @@ export const jobStatsState = {
   url: '/dashboard/jobstats/:id/:startDate/:endDate',
   controller: 'JobStatsCtrl',
   controllerAs: 'jobStats',
-  templateUrl: jobStatsTemplate,
+  template: jobStatsTemplate,
   data: {
     kind: 'Job Stats',
     icon: 'fa-tachometer'

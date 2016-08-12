@@ -28,15 +28,9 @@ import popoverModule from '../popover/popover-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import {RecordStateCtrl, recordStateDirective} from './alert-indicator.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import alertIndicatorTemplate from './assets/html/alert-indicator';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import stateLabelTemplate from './assets/html/state-label';
-
 export default angular.module('alertIndicator', [
   popoverModule, uiBootstrapModule, highlandModule,
-  extendScopeModule, alertIndicatorTemplate, stateLabelTemplate
+  extendScopeModule
 ])
 .controller('RecordStateCtrl', RecordStateCtrl)
 .directive('recordState', recordStateDirective)

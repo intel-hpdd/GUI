@@ -85,6 +85,8 @@ describe('space usage chart', () => {
 
     const mod = await mock('source/iml/space-usage/get-space-usage-chart.js', {
       'source/iml/space-usage/get-space-usage-stream.js': { default: getSpaceUsageStream },
+      'source/iml/space-usage/assets/html/space-usage-chart.html!text': { default: 'spaceUsageTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -97,7 +99,7 @@ describe('space usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getSpaceUsageChart = getSpaceUsageChartFactory(chartCompiler,
+    getSpaceUsageChart = getSpaceUsageChartFactory(
       localApply, curry(3, data$Fn));
 
     getSpaceUsageChart({
@@ -150,7 +152,7 @@ describe('space usage chart', () => {
 
   it('should call the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
-      '/static/chroma_ui/source/iml/space-usage/assets/html/space-usage-chart.js',
+      'spaceUsageTemplate',
       jasmine.any(Object),
       jasmine.any(Function)
     );

@@ -28,9 +28,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getFileUsageChartFactory from './get-file-usage-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import fileUsageChartTemplate from './assets/html/file-usage-chart';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -42,7 +39,7 @@ export type addFileUsageActionT = {
 
 export default angular.module('fileUsageModule', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, fileUsageChartTemplate
+  durationPickerModule
 ])
   .factory('getFileUsageChart', getFileUsageChartFactory)
   .name;

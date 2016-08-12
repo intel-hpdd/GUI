@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, invokeMethod, curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default function BaseDashboardCtrl ($scope, fsB, charts) {
   'ngInject';
@@ -37,16 +37,16 @@ export default function BaseDashboardCtrl ($scope, fsB, charts) {
   });
 
   fsB()
-    .tap(map(function setState (s) {
+    .tap(fp.map(function setState (s) {
       s.STATES = STATES;
       s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
     }))
     .tap(x => baseDashboard.fs = x)
-    .stopOnError(curry(1, $scope.handleException))
+    .stopOnError(fp.curry(1, $scope.handleException))
     .each($scope.localApply.bind(null, $scope));
 
   $scope.$on('$destroy', () => {
     fsB.endBroadcast();
-    map(invokeMethod('destroy', []), charts);
+    fp.map(c => c.stream.destroy(), charts);
   });
 }

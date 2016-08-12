@@ -1,37 +1,55 @@
 import highland from 'highland';
-import {identity} from 'intel-fp';
-import chartsModule from '../../../../source/iml/charts/charts-module';
+
+import {
+  identity
+} from 'intel-fp';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('base chart', () => {
-  var $window, nv, d3;
+  let global,
+    nv,
+    d3,
+    baseChart;
 
-  beforeEach(module(chartsModule, $provide => {
-    $window = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
-    };
-
-    $provide.value('$window', $window);
-
-    nv = {};
-    $provide.value('nv', nv);
-
+  beforeEachAsync(async function () {
     d3 = {
       select: jasmine.createSpy('select')
         .and.callFake(identity)
     };
 
-    $provide.value('d3', d3);
-  }));
+    global = {
+      addEventListener: jasmine.createSpy('addEventListener'),
+      removeEventListener: jasmine.createSpy('removeEventListener')
+    };
 
-  var baseChart;
+    nv = {};
 
-  beforeEach(inject((_baseChart_) => {
-    baseChart = _baseChart_;
-  }));
+    const mod = await mock('source/iml/charts/base-chart.js', {
+      'source/iml/global.js': {
+        default: global
+      },
+      d3: {
+        default: d3
+      },
+      nvd3: {
+        default: nv
+      },
+      'source/iml/charts/assets/html/chart.html!text': { default: 'chartTemplate' }
+    });
+
+
+    baseChart = mod.default;
+  });
+
+  afterEach(resetAll);
 
   it('should return a factory function', () => {
-    expect(baseChart).toEqual(jasmine.any(Function));
+    expect(baseChart)
+      .toEqual(jasmine.any(Function));
   });
 
   it('should generate a directive definition object', () => {
@@ -43,7 +61,7 @@ describe('base chart', () => {
         stream: '=',
         options: '='
       },
-      templateUrl: '/static/chroma_ui/source/iml/charts/assets/html/chart.js',
+      template: 'chartTemplate',
       link: jasmine.any(Function)
     });
   });
@@ -127,7 +145,8 @@ describe('base chart', () => {
     });
 
     it('should add a resize listener', () => {
-      expect($window.addEventListener).toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
+      expect(global.addEventListener)
+        .toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
     });
 
     it('should register a panel listener', () => {
@@ -160,7 +179,7 @@ describe('base chart', () => {
       });
 
       it('should remove the resize listener', () => {
-        expect($window.removeEventListener)
+        expect(global.removeEventListener)
           .toHaveBeenCalledOnceWith('resize', jasmine.any(Function), false);
       });
 

@@ -9,7 +9,7 @@ describe('Command monitor controller', () => {
   let $scope, ctrl,
     getCommandStream, commandStream,
     openCommandModal, openCommandModalPromise,
-    commandModule, socketStream,
+    mod, socketStream,
     stream;
 
   beforeEachAsync(async function () {
@@ -27,15 +27,19 @@ describe('Command monitor controller', () => {
       .and
       .returnValue(commandStream);
 
-    commandModule = await mock('source/iml/command/command-monitor.js', {
-      'source/iml/socket/socket-stream': { default: socketStream },
-      'source/iml/command/get-command-stream': { default: getCommandStream }
+    mod = await mock('source/iml/command/command-monitor-directive.js', {
+      'source/iml/socket/socket-stream': {
+        default: socketStream
+      },
+      'source/iml/command/get-command-stream': {
+        default: getCommandStream
+      }
     });
   });
 
   afterEach(resetAll);
 
-  beforeEach(module('command'));
+  beforeEach(module('extendScope'));
 
   beforeEach(inject(($rootScope, $controller, $q) => {
     $scope = $rootScope.$new();
@@ -44,14 +48,15 @@ describe('Command monitor controller', () => {
       .callThrough();
 
     openCommandModalPromise = $q.when();
-    openCommandModal = jasmine.createSpy('openCommandModal')
+    openCommandModal = jasmine
+      .createSpy('openCommandModal')
       .and.returnValue({
         result: openCommandModalPromise
       });
 
-    ctrl = $controller(commandModule.default, {
+    ctrl = $controller(mod.CommandMonitorCtrl, {
       $scope,
-      openCommandModal: openCommandModal
+      openCommandModal
     });
   }));
 

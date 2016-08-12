@@ -15,6 +15,9 @@ describe('Add copytool modal', () => {
     resolveStream = jasmine.createSpy('resolveStream');
 
     mod = await mock('source/iml/hsm/add-copytool-modal.js', {
+      'source/iml/hsm/assets/html/add-copytool-modal.html!text': {
+        default: 'addCopytoolModalTemplate'
+      },
       'source/iml/promise-transforms.js': { resolveStream },
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
@@ -45,8 +48,6 @@ describe('Add copytool modal', () => {
       addCopytoolModalCtrl = $controller(AddCopytoolModalCtrl, {
         $scope,
         $uibModalInstance,
-        λ: highland,
-        socketStream,
         workerStream,
         fsStream
       });
@@ -131,7 +132,7 @@ describe('Add copytool modal', () => {
 
     it('should have the expected open config', () => {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/add-copytool-modal.js',
+        template: 'addCopytoolModalTemplate',
         controller: 'AddCopytoolModalCtrl as addCopytool',
         backdrop: 'static',
         windowClass: 'add-copytool-modal',

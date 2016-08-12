@@ -25,11 +25,12 @@ import {
 import flatMapChanges from 'intel-flat-map-changes';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import spaceUsageTemplate from './assets/html/space-usage-chart';
+import spaceUsageTemplate from './assets/html/space-usage-chart.html!text';
 import getSpaceUsageStream from './get-space-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   getConf
@@ -39,9 +40,6 @@ import {
   UPDATE_SPACE_USAGE_CHART_ITEMS
 } from './space-usage-chart-reducer.js';
 
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -55,7 +53,7 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (chartCompiler:chartCompilerT, localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getSpaceUsageChart (overrides:targetQueryT, page:string) {

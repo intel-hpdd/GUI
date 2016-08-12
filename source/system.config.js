@@ -28,7 +28,7 @@ System.config({
     'angular/angular': 'node_modules/angular/angular.js',
     'angular-mocks': 'node_modules/angular-mocks/ngMock.js',
     'angular-mocks/angular-mocks': 'node_modules/angular-mocks/angular-mocks.js',
-
+    text: 'node_modules/systemjs-plugin-text/text.js',
     'jquery': 'node_modules/jquery/dist/jquery.js',
     d3: 'node_modules/d3/d3.js',
     nvd3: 'node_modules/nvd3/build/nv.d3.js',

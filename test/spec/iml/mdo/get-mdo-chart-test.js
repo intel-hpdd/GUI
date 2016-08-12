@@ -66,8 +66,12 @@ describe('MDO chart', () => {
         };
       });
 
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     mod = await mock('source/iml/mdo/get-mdo-chart.js', {
       'source/iml/mdo/get-mdo-stream.js': { default: getMdoStream },
+      'source/iml/mdo/assets/html/mdo.html!text': { default: 'mdoTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -78,8 +82,6 @@ describe('MDO chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
     initStream = highland();
     spyOn(initStream, 'destroy');
 
@@ -88,7 +90,7 @@ describe('MDO chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getMdoChart = mod.default(chartCompiler, localApply, curry(3, data$Fn));
+    getMdoChart = mod.default(localApply, curry(3, data$Fn));
   });
 
   it('should return a factory function', () => {
@@ -143,7 +145,7 @@ describe('MDO chart', () => {
 
     it('should call the chart compiler', () => {
       expect(chartCompiler).toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/mdo/assets/html/mdo.js',
+        'mdoTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
       );

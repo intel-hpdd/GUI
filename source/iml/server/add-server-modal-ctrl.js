@@ -19,11 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import getSpring from '../socket/get-spring.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import addServerModalTemplate from './assets/html/add-server-modal';
-import getSpring from '../socket/get-spring.js';
+import addServerModalTemplate from './assets/html/add-server-modal.html!text';
 
 export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManager,
                                     servers, step) {
@@ -56,15 +55,9 @@ export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManag
 export function openAddServerModalFactory ($uibModal) {
   'ngInject';
 
-  /**
-   * Opens the add server modal
-   * @param {Object} [server]
-   * @param {Object} [step]
-   * @returns {Object}
-   */
   return function openAddServerModal (server, step) {
     return $uibModal.open({
-      templateUrl: addServerModalTemplate,
+      template: addServerModalTemplate,
       controller: 'AddServerModalCtrl as addServer',
       backdropClass: 'add-server-modal-backdrop',
       backdrop: 'static',
@@ -78,7 +71,7 @@ export function openAddServerModalFactory ($uibModal) {
               addresses: [server.address]
             };
         },
-        step: _.fidentity(step)
+        step: () => step
       }
     });
   };

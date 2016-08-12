@@ -29,11 +29,11 @@ export const DURATIONS = {
 };
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import durationPickerTemplate from './assets/html/duration-picker';
+import durationPickerTemplate from './assets/html/duration-picker.html!text';
 
 export default {
   scope: {},
-  templateUrl: durationPickerTemplate,
+  template: durationPickerTemplate,
   bindings: {
     type: '<',
     size: '<',

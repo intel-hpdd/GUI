@@ -11,8 +11,13 @@ describe('chart compiler directive', () => {
     spy = jasmine.createSpy('spy');
 
     $scope = $rootScope.$new();
-    $scope.chart = spy
-      .and.returnValue('<div class="tha-chart">I\'m a chart!</div>');
+    $scope.chart = {
+      template: '<div class="tha-chart">I\'m a chart!</div>',
+      stream: 'stream',
+      chartFn: spy
+        .and
+        .returnValue()
+    };
 
     el = $compile(template)($scope)[0];
     $scope.$apply();
@@ -22,10 +27,10 @@ describe('chart compiler directive', () => {
     expect(el.querySelector('.tha-chart')).not.toBeNull();
   });
 
-  it('should call the chart with a new scope', () => {
+  it('should call the chart with scope and stream', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
     expect(spy)
-      .toHaveBeenCalledOnceWith(jasmine.any($scopeConstructor));
+      .toHaveBeenCalledOnceWith(jasmine.any($scopeConstructor), 'stream');
   });
 });

@@ -28,9 +28,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getCpuUsageChartFactory from './get-cpu-usage-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import cpuUsageTemplate from './assets/html/cpu-usage';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -42,7 +39,7 @@ export type addCpuUsageActionT = {
 
 export default angular.module('cpuUsageModule', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, cpuUsageTemplate
+  durationPickerModule
 ])
   .factory('getCpuUsageChart', getCpuUsageChartFactory)
   .name;

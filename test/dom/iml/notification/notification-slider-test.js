@@ -8,7 +8,7 @@ describe('The notification slider directive', function () {
   var el, $scope, $timeout, findSlider;
 
   beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
-    var template = '<notification-slider stream="stream"></notification-slider>';
+    const template = '<notification-slider stream="stream"></notification-slider>';
 
     $timeout = _$timeout_;
 
@@ -18,10 +18,11 @@ describe('The notification slider directive', function () {
 
     el = $compile(template)($scope);
 
-    findSlider = el[0].querySelector
+    findSlider = el[0]
+      .querySelector
       .bind(el[0], '.notification-slider');
+
     $scope.$digest();
-    $timeout.flush();
   }));
 
   describe('a single alert', function () {

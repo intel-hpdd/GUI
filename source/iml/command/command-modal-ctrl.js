@@ -41,7 +41,7 @@ import {
 } from './command-transforms.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import commandModalTemplate from './assets/html/command-modal';
+import commandModalTemplate from './assets/html/command-modal.html!text';
 
 export function CommandModalCtrl (
   commandsStream:HighlandStreamT<commandT>,
@@ -74,7 +74,7 @@ export function openCommandModalFactory ($uibModal:Object) {
 
   return function openCommandModal (stream:HighlandStreamT<commandT>) {
     return $uibModal.open({
-      templateUrl: commandModalTemplate,
+      template: commandModalTemplate,
       controller: 'CommandModalCtrl',
       controllerAs: 'commandModal',
       windowClass: 'command-modal',

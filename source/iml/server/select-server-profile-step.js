@@ -36,7 +36,7 @@ import {
 } from '../promise-transforms.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import selectServerProfileStepTemplate from './assets/html/select-server-profile-step';
+import selectServerProfileStepTemplate from './assets/html/select-server-profile-step.html!text';
 
 export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHandler, OVERRIDE_BUTTON_TYPES,
                                              data, hostProfileStream, createHostProfiles, localApply) {
@@ -109,7 +109,7 @@ export function selectServerProfileStep () {
   'ngInject';
 
   return {
-    templateUrl: selectServerProfileStepTemplate,
+    template: selectServerProfileStepTemplate,
     controller: 'SelectServerProfileStepCtrl as selectServerProfile',
     onEnter: function onEnter (
       data,

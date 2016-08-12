@@ -26,14 +26,10 @@ import tooltipModule from '../tooltip/tooltip-module.js';
 import completionistModule from '../completionist/completionist-module.js';
 import {parselyBox, parseQuery} from './parsely-box.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import parselyBoxTemplate from './assets/html/parsely-box';
-
 export default angular
 .module('parselyBox', [
   completionistModule,
-  tooltipModule,
-  parselyBoxTemplate
+  tooltipModule
 ])
 .directive('parselyBox', parselyBox)
 .directive('parseQuery', parseQuery)

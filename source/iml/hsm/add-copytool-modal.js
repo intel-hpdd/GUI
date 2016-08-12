@@ -28,7 +28,7 @@ import {
 } from '../promise-transforms.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import addCopytoolModalTemplate from './assets/html/add-copytool-modal';
+import addCopytoolModalTemplate from './assets/html/add-copytool-modal.html!text';
 
 export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, fsStream) {
   'ngInject';
@@ -70,7 +70,7 @@ export function openAddCopytoolModalFactory ($uibModal) {
 
   return function openAddCopytoolModal () {
     return $uibModal.open({
-      templateUrl: addCopytoolModalTemplate,
+      template: addCopytoolModalTemplate,
       controller: 'AddCopytoolModalCtrl as addCopytool',
       backdrop: 'static',
       windowClass: 'add-copytool-modal',

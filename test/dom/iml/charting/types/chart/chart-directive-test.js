@@ -1,9 +1,16 @@
 import highland from 'highland';
 import d3 from 'd3';
+import angular from 'angular';
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
-import {__, arrayWrap, flow, identity, invokeMethod} from 'intel-fp';
+import {
+  __,
+  arrayWrap,
+  flow,
+  identity,
+  invokeMethod
+} from 'intel-fp';
 
 describe('chart directive', () => {
   var chartCtrl, $window;
@@ -28,7 +35,7 @@ describe('chart directive', () => {
       .and.callFake(identity));
   }));
 
-  var el, qs, $scope;
+  let el = 'bar', qs, $scope;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template  = `
@@ -41,7 +48,9 @@ describe('chart directive', () => {
     $scope.stream = highland();
     $scope.onUpdate = [];
 
-    el = $compile(template)($scope)[0];
+    el = angular.element(template)[0];
+    document.body.appendChild(el);
+
     d3.select(el)
       .style({
         display: 'inline-block',
@@ -49,12 +58,13 @@ describe('chart directive', () => {
         height: '200px'
       });
 
+    $compile(el)($scope);
+
     qs = flow(
       arrayWrap,
       invokeMethod('querySelector', __, el)
     );
 
-    document.body.appendChild(el);
     $scope.$digest();
   }));
 

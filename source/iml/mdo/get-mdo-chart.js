@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,16 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
+import flatMapChanges from 'intel-flat-map-changes';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   identity,
   always
 } from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import mdoTemplate from './assets/html/mdo';
+import mdoTemplate from './assets/html/mdo.html!text';
 
 import {
   DEFAULT_MDO_CHART_ITEMS,
@@ -46,9 +49,6 @@ import {
 } from '../chart-transformers/chart-transformers.js';
 
 import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
-import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
 import type {
@@ -62,8 +62,7 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (chartCompiler:chartCompilerT,
-                localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getMdoChart (overrides:filesystemQueryT | targetQueryT, page:string) {

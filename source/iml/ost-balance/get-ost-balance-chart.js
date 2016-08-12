@@ -22,9 +22,10 @@
 // @flow
 
 import flatMapChanges from 'intel-flat-map-changes';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import ostBalanceTemplate from './assets/html/ost-balance';
+import ostBalanceTemplate from './assets/html/ost-balance.html!text';
 
 import {
   DEFAULT_OST_BALANCE_CHART_ITEMS,
@@ -38,16 +39,13 @@ import {
 } from '../chart-transformers/chart-transformers.js';
 
 import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
-import type {
   streamWhenChartVisibleT
 } from '../stream-when-visible/stream-when-visible-module.js';
 import type {
   localApplyT
 } from '../extend-scope-module.js';
 
-export default (chartCompiler:chartCompilerT, streamWhenVisible:streamWhenChartVisibleT,
+export default (streamWhenVisible:streamWhenChartVisibleT,
                 localApply:localApplyT) => {
   'ngInject';
 

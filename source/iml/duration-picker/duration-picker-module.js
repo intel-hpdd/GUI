@@ -27,9 +27,6 @@ import tooltipModule from '../tooltip/tooltip-module.js';
 import filtersModule from '../filters/filters-module.js';
 import durationPickerComponent from './duration-picker.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import durationPickerTemplate from './assets/html/duration-picker';
-
 export type formControlT = {
   $modelValue:number
 };
@@ -73,8 +70,7 @@ export type durationPayloadHashT = {
 };
 
 export default angular.module('durationPicker', [
-  uiBootstrapModule, tooltipModule, filtersModule,
-  durationPickerTemplate
+  uiBootstrapModule, tooltipModule, filtersModule
 ])
 .component('durationPicker', durationPickerComponent)
 .name;

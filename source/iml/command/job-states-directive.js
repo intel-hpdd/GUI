@@ -21,7 +21,7 @@
 
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatesTemplate from './assets/html/job-states';
+import jobStatesTemplate from './assets/html/job-states.html!text';
 
 export default function jobStatesDirective () {
   'ngInject';
@@ -32,6 +32,6 @@ export default function jobStatesDirective () {
     },
     restrict: 'E',
     replace: true,
-    templateUrl: jobStatesTemplate
+    template: jobStatesTemplate
   };
 }

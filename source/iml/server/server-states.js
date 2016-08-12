@@ -30,16 +30,16 @@ import {
 } from '../auth/authorization.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverTemplate from './assets/html/server';
+import serverTemplate from './assets/html/server.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverDetailTemplate from './assets/html/server-detail';
+import serverDetailTemplate from './assets/html/server-detail.html!text';
 
 export const serverState = {
   name: 'app.server',
   url: '/configure/server',
   controller: 'ServerCtrl',
-  templateUrl: serverTemplate,
+  template: serverTemplate,
   data: {
     helpPage: 'server_tab.htm',
     access: GROUPS.FS_ADMINS,
@@ -63,7 +63,7 @@ export const serverDetailState = {
   url: '/configure/server/:id',
   controller: 'ServerDetailController',
   controllerAs: 'serverDetail',
-  templateUrl: serverDetailTemplate,
+  template: serverDetailTemplate,
   params: {
     resetState: {
       dynamic: true

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step';
+import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step.html!text';
 
 export function waitUntilLoadedCtrl ($scope) {
   'ngInject';
@@ -37,6 +37,6 @@ export function waitUntilLoadedStep () {
 
   return {
     controller: 'WaitUntilLoadedCtrl',
-    templateUrl: waitUntilLoadedTemplate
+    template: waitUntilLoadedTemplate
   };
 }

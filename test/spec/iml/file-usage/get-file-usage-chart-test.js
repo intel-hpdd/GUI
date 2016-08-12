@@ -84,6 +84,8 @@ describe('file usage chart', () => {
 
     const mod = await mock('source/iml/file-usage/get-file-usage-chart.js', {
       'source/iml/file-usage/get-file-usage-stream.js': { default: getFileUsageStream },
+      'source/iml/file-usage/assets/html/file-usage-chart.html!text': { default: 'fileUsageTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -96,7 +98,7 @@ describe('file usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getFileUsageChart = getFileUsageChartFactory(chartCompiler, localApply, curry(3, data$Fn));
+    getFileUsageChart = getFileUsageChartFactory(localApply, curry(3, data$Fn));
 
     getFileUsageChart('foo', 'bar', {
       qs: {
@@ -148,7 +150,7 @@ describe('file usage chart', () => {
 
   it('should call the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
-      '/static/chroma_ui/source/iml/file-usage/assets/html/file-usage-chart.js',
+      'fileUsageTemplate',
       jasmine.any(Object),
       jasmine.any(Function)
     );

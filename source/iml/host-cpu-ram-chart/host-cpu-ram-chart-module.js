@@ -29,9 +29,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getHostCpuRamChartFactory from './get-host-cpu-ram-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -43,7 +40,7 @@ export type addHostCpuRamActionT = {
 
 export default angular.module('hostCpuRamChart', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, hostCpuRamChartTemplate
+  durationPickerModule
 ])
   .factory('getHostCpuRamChart', getHostCpuRamChartFactory)
   .name;

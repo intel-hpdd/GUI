@@ -20,11 +20,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 
-export default angular.module('steps-module', [getTemplatePromiseModule])
-  .directive('stepContainer', ['$q', '$controller', '$compile', 'getTemplatePromise',
-    function stepContainerDirective ($q, $controller, $compile, getTemplatePromise) {
+export default angular.module('steps-module', [])
+  .directive('stepContainer', ['$q', '$controller', '$compile',
+    function stepContainerDirective ($q, $controller, $compile) {
       return {
         restrict: 'E',
         scope: {
@@ -40,20 +39,22 @@ export default angular.module('steps-module', [getTemplatePromiseModule])
            * @param {Object} [waitingStep]
            */
           scope.manager.registerChangeListener(function onChanges (step, resolves, waitingStep) {
-            if (!resolvesFinished && waitingStep && waitingStep.templateUrl) {
+            if (!resolvesFinished && waitingStep && waitingStep.template) {
               // Create new scope
               innerScope = scope.$new();
 
-              getTemplatePromise(waitingStep.templateUrl)
-                .then(function loadUntilTemplate (template) {
-                  // Make sure the resolves haven't finished before loading the template
-                  if (!resolvesFinished)
-                    loadUpSteps({ $scope: innerScope }, el, template, waitingStep.controller);
-                });
+              loadUpSteps(
+                {
+                  $scope: innerScope
+                },
+                el,
+                waitingStep.template,
+                waitingStep.controller
+              );
             }
 
             resolves = scope.manager.onEnter(resolves);
-            resolves.template = getTemplatePromise(step.templateUrl);
+            resolves.template = step.template;
 
             $q.all(resolves)
               .then(function (results) {
