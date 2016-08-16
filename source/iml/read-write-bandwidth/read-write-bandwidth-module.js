@@ -34,8 +34,8 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type readWriteBandwidthActionT = {
-    type: 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS' | 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS',
-    payload: durationPayloadT
+    type:'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS' | 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS',
+    payload:durationPayloadT
 };
 
 export default angular.module('readWriteBandwidth', [

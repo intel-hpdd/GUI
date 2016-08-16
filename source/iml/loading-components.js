@@ -67,7 +67,7 @@ export const uiLoaderViewDirective = () => {
     },
     controllerAs: '$ctrl',
     require: ['^uiLoaderViewRoot', 'uiLoaderView'],
-    link($scope:$scopeT & { loading: boolean }, el:HTMLElement[], attrs:Object, ctrls:Object[]) {
+    link($scope:$scopeT & { loading:boolean }, el:HTMLElement[], attrs:Object, ctrls:Object[]) {
       const [
         parent,
         ctrl

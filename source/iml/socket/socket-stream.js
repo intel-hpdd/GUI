@@ -31,11 +31,11 @@ import type {
 } from 'highland';
 
 type apiResponseT = {
-  objects: Array<Object>
+  objects:Array<Object>
 };
 
 type errorRespT = {
-  error?: { [key: string]: string }
+  error?:{ [key: string]: string }
 };
 
 type apiResponseWithErrorT = (apiResponseT & errorRespT);

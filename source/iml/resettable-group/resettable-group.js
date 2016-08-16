@@ -24,23 +24,23 @@
 import {tap, once, flow, bindMethod} from 'intel-fp';
 
 type ctrl = {
-  $name: string,
+  $name:string,
   $addControl:Function,
   $formatters:Array<(val:any) => any>,
-  $setViewValue: (val:any, evt?:string) => void,
-  $setPristine: () => void,
-  $setUntouched: () => void,
-  $render: () => void
+  $setViewValue:(val:any, evt?:string) => void,
+  $setPristine:() => void,
+  $setUntouched:() => void,
+  $render:() => void
 };
 
 type itm = {
-  initialValue: any,
-  item: ctrl
+  initialValue:any,
+  item:ctrl
 };
 
 export const ResettableGroupController = class {
   controls:Array<itm> = [];
-  formCtrl: ctrl;
+  formCtrl:ctrl;
   localApply:Function;
 
   constructor ($scope:Object, localApply:Function) {

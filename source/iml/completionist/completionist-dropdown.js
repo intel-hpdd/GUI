@@ -27,9 +27,9 @@ import {VALUES, VALUE, KEY_PRESS} from './completionist.js';
 const CompletionistDropdownCtrl = class {
   values:Array<?string> = [];
   index:number = -1;
-  completionist: CompletionistCtrl;
-  localApply: Function;
-  $onDestroy: Function;
+  completionist:CompletionistCtrl;
+  localApply:Function;
+  $onDestroy:Function;
   constructor ($scope:Object, localApply:Function) {
     'ngInject';
     this.localApply = localApply.bind(null, $scope);

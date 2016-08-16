@@ -34,8 +34,8 @@ import type {
 export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStreamT<mixed>;
 
 export type ostBalancePayloadT = {
-  percentage: number,
-  page: string
+  percentage:number,
+  page:string
 };
 
 export type ostBalancePayloadHashT = {
@@ -43,8 +43,8 @@ export type ostBalancePayloadHashT = {
 };
 
 export type addOstBalanceActionT = {
-    type: 'DEFAULT_OST_BALANCE_CHART_ITEMS' | 'UPDATE_OST_BALANCE_CHART_ITEMS',
-    payload: ostBalancePayloadT
+    type:'DEFAULT_OST_BALANCE_CHART_ITEMS' | 'UPDATE_OST_BALANCE_CHART_ITEMS',
+    payload:ostBalancePayloadT
 };
 
 export default angular.module('ostBalance',[

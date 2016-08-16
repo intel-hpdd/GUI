@@ -13,11 +13,11 @@ declare class System {
   static newModule(val:Object):any;
   static import(key:string):Promise<Object>;
   static normalizeSync(key:string):string;
-  static map:{ [key:string]: string };
+  static map:{ [key:string]:string };
   static get(key:string):Object;
 }
 
-export function mock (name:string, mocks:{ [key: string]: Object }) {
+export function mock (name:string, mocks:{ [key: string]:Object }) {
   mocks = objReducer((val, key, out) => {
     out[normalizeName(key)] = val;
 

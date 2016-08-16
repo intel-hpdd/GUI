@@ -25,12 +25,12 @@ import {CompletionistCtrl, VALUES, VALUE, KEY_PRESS} from './completionist.js';
 import {tap} from 'intel-fp';
 
 type ctrl = {
-  completionist: CompletionistCtrl;
-  ngModel: {
-    $viewValue: string;
-    $parsers: Array<Function>;
-    $setViewValue: (value:string) => void;
-    $render: () => void;
+  completionist:CompletionistCtrl;
+  ngModel:{
+    $viewValue:string;
+    $parsers:Array<Function>;
+    $setViewValue:(value:string) => void;
+    $render:() => void;
   };
 };
 

@@ -40,8 +40,8 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addAgentVsCopytoolActionT = {
-    type: 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS' | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
-    payload: durationPayloadT
+    type:'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS' | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+    payload:durationPayloadT
 }
 
 export default angular.module('agentVsCopytool', [

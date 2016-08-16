@@ -32,7 +32,7 @@ import type {
 } from './dashboard-types.js';
 
 export function serverDashboardChartResolves (
-  $stateParams:{ id: string },
+  $stateParams:{ id:string },
   getReadWriteBandwidthChart:chartT,
   getMemoryUsageChart:chartT,
   getCpuUsageChart:chartT
@@ -59,7 +59,7 @@ export function serverDashboardChartResolves (
 }
 
 export function serverDashboardHostStreamResolves (
-  $stateParams:{ id: string },
+  $stateParams:{ id:string },
   hostsB:() => HighlandStreamT<Object>
 ) {
   'ngInject';

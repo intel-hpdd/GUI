@@ -26,11 +26,11 @@ import type {
 } from 'highland';
 
 export type ActionT = {
-  type: string;
-  payload: any;
+  type:string;
+  payload:any;
 };
 
 export type StoreT = {
-  dispatch: Function;
-  select: (key: string) => HighlandStreamT<mixed>;
+  dispatch:Function;
+  select:(key:string) => HighlandStreamT<mixed>;
 };

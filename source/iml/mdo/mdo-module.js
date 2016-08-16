@@ -39,8 +39,8 @@ import type {
 export type getMdoStreamT = (requestRange:(overrides:Object) => Object,
   buff:(s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 export type addMdoActionT = {
-    type: 'DEFAULT_MDO_CHART_ITEMS' | 'UPDATE_MDO_CHART_ITEMS',
-    payload: durationPayloadT
+    type:'DEFAULT_MDO_CHART_ITEMS' | 'UPDATE_MDO_CHART_ITEMS',
+    payload:durationPayloadT
 }
 
 

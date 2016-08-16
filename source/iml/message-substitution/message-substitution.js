@@ -31,10 +31,10 @@ import {
 } from '../route-utils.js';
 
 type substitutionT = {
-  end: number,
-  label: string,
-  resource_uri: string,
-  start: number
+  end:number,
+  label:string,
+  resource_uri:string,
+  start:number
 };
 
 export const MessageSubstitutionCtrl = class {

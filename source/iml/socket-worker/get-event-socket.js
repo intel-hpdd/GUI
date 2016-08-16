@@ -31,10 +31,10 @@ type eventSocketsT = {
 };
 
 type messageT = {
-  type: string,
-  id: number,
-  payload?: mixed,
-  ack?: boolean
+  type:string,
+  id:number,
+  payload?:mixed,
+  ack?:boolean
 };
 
 const eventSockets:eventSocketsT = {};

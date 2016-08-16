@@ -29,26 +29,26 @@ import durationPickerModule from '../duration-picker/duration-picker-module';
 import getReadWriteHeatMapChartFactory from './get-read-write-heat-map-chart';
 
 export type readWriteHeatMapTypesT = {
-  READ_BYTES: 'stats_read_bytes',
-  WRITE_BYTES: 'stats_write_bytes',
-  READ_IOPS: 'stats_read_iops',
-  WRITE_IOPS: 'stats_write_iops'
+  READ_BYTES:'stats_read_bytes',
+  WRITE_BYTES:'stats_write_bytes',
+  READ_IOPS:'stats_read_iops',
+  WRITE_IOPS:'stats_write_iops'
 };
 
 export type rangeConfigT = {
-  configType: 'range',
-  startDate: string,
-  endDate: string,
-  dataType: string,
-  page: string
+  configType:'range',
+  startDate:string,
+  endDate:string,
+  dataType:string,
+  page:string
 };
 
 export type durationConfigT = {
-  configType: 'duration',
-  size: number,
-  unit: string,
-  dataType: string,
-  page: string
+  configType:'duration',
+  size:number,
+  unit:string,
+  dataType:string,
+  page:string
 };
 
 import type {
@@ -65,8 +65,8 @@ export type heatMapPayloadHashT = {
 };
 
 export type addReadWriteHeatMapActionT = {
-    type: 'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS' | 'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS',
-    payload: heatMapDurationPayloadT
+    type:'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS' | 'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS',
+    payload:heatMapDurationPayloadT
 };
 
 export default angular.module('readWriteHeatMap', [

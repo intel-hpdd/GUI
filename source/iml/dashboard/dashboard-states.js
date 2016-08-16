@@ -75,7 +75,7 @@ const containsAppDashboard = fp.flow(
   fp.eq(0)
 );
 
-const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id: string }) => {
+const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id:string }) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
     .then(obj.pick('label'));

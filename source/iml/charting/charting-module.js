@@ -34,8 +34,8 @@ export type bufferDataNewerThanT = (size:number, unit:string) =>
   (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 export type sortByDateT = (stream:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 export type createStreamT = {
-  durationStream: Function,
-  rangeStream: Function
+  durationStream:Function,
+  rangeStream:Function
 };
 
 

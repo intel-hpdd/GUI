@@ -36,30 +36,30 @@ export type unitControlT = {
 };
 
 export type rangeFormT = {
-  start: formControlT,
-  end: formControlT
+  start:formControlT,
+  end:formControlT
 };
 
 export type durationFormT = {
-  unit: unitControlT,
-  size: formControlT
+  unit:unitControlT,
+  size:formControlT
 };
 
 export type durationSubmitHandlerT = (chartType:string) =>
   (overrides:Object, forms:{rangeForm:rangeFormT, durationForm:durationFormT}) => void;
 
 export type rangeConfigT = {
-  configType: 'range',
-  startDate: string,
-  endDate: string,
-  page: string
+  configType:'range',
+  startDate:string,
+  endDate:string,
+  page:string
 };
 
 export type durationConfigT = {
-  configType: 'duration',
-  size: number,
-  unit: string,
-  page: string
+  configType:'duration',
+  size:number,
+  unit:string,
+  page:string
 };
 
 export type durationPickerConfigT = rangeConfigT | durationConfigT;

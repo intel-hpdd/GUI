@@ -36,8 +36,8 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-type bodyT = Array<{ affected: string[], message: string }>;
-type resp$T = HighlandStreamT<{ objects: bodyT }>;
+type bodyT = Array<{ affected:string[], message:string }>;
+type resp$T = HighlandStreamT<{ objects:bodyT }>;
 
 if (ALLOW_ANONYMOUS_READ) {
   const alert$:resp$T = socketStream('/alert/', {

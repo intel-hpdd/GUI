@@ -35,7 +35,7 @@ import type {
 } from './dashboard-types.js';
 
 export function baseDashboardChartResolves (
-  $stateParams:{ id?: string },
+  $stateParams:{ id?:string },
   getHostCpuRamChart:chartTitleT,
   getOstBalanceChart:chartT,
   getMdoChart:chartT,
@@ -74,7 +74,7 @@ export function baseDashboardChartResolves (
 
 export function baseDashboardFsStream (
   fsB:() => HighlandStreamT<Object>,
-  $stateParams:{ id: string }
+  $stateParams:{ id:string }
 ) {
   'ngInject';
 

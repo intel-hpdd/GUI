@@ -35,8 +35,8 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addMemoryUsageActionT = {
-  type: 'UPDATE_MEMORY_USAGE_CHART_ITEMS' | 'DEFAULT_MEMORY_USAGE_CHART_ITEMS',
-  payload: durationPayloadT
+  type:'UPDATE_MEMORY_USAGE_CHART_ITEMS' | 'DEFAULT_MEMORY_USAGE_CHART_ITEMS',
+  payload:durationPayloadT
 };
 
 export default angular.module('memoryUsageModule', [

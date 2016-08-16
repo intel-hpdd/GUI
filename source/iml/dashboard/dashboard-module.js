@@ -42,14 +42,14 @@ import DashboardCtrl from './dashboard-controller';
 import {usageInfoDirective, UsageInfoController} from './usage-info/usage-info';
 
 export type filesystemQueryT = {
-  qs: {
-    filesystem_id: number
+  qs:{
+    filesystem_id:number
   }
 };
 
 export type targetQueryT = {
-  qs: {
-    id: number
+  qs:{
+    id:number
   }
 };
 

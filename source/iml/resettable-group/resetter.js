@@ -24,7 +24,7 @@
 import type {ResettableGroupController} from './resettable-group';
 
 type scp = {
-  $on: (evt:string, callback:() => void) => void
+  $on:(evt:string, callback:() => void) => void
 };
 
 export default () => {

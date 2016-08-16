@@ -37,49 +37,49 @@ export type treeActionsT = (
 export type treeItemListT = treeItemT[];
 
 export type addItemsActionT = {
-  type: 'ADD_TREE_ITEMS',
-  payload: treeItemListT
+  type:'ADD_TREE_ITEMS',
+  payload:treeItemListT
 };
 
 export type toggleCollectionOpenT = {
-  type: 'TOGGLE_COLLECTION_OPEN',
-  payload: {
-    id: number,
-    open: boolean
+  type:'TOGGLE_COLLECTION_OPEN',
+  payload:{
+    id:number,
+    open:boolean
   }
 };
 
 export type updateCollectionOffsetT = {
-  type: 'UPDATE_COLLECTION_OFFSET',
-  payload: {
-    id: number,
-    offset: number
+  type:'UPDATE_COLLECTION_OFFSET',
+  payload:{
+    id:number,
+    offset:number
   }
 };
 
 export type toggleItemOpenT = {
-  type: 'TOGGLE_ITEM_OPEN',
-  payload: {
-    id: number,
-    itemId: number,
-    open: boolean
+  type:'TOGGLE_ITEM_OPEN',
+  payload:{
+    id:number,
+    itemId:number,
+    open:boolean
   }
 };
 
 export type resetStateT = {
-  type: 'RESET_STATE'
+  type:'RESET_STATE'
 }
 
 export type treeItemT = {
-  treeId: number,
-  open: boolean,
-  opens: {
+  treeId:number,
+  open:boolean,
+  opens:{
     [key: number]: boolean
   },
-  parentTreeId: number,
-  type: string,
-  meta: Object,
-  objects: Object[]
+  parentTreeId:number,
+  type:string,
+  meta:Object,
+  objects:Object[]
 };
 
 export type treeHashT = {

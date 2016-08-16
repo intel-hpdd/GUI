@@ -15,8 +15,8 @@ type cacheInitialDataT = {
 };
 
 declare var window: {
-  clearTimeout: (id:(number | null)) => void,
-  document: Document,
+  clearTimeout:(id:(number | null)) => void,
+  document:Document,
   crypto:Crypto,
   STATIC_URL:string,
   CACHE_INITIAL_DATA:cacheInitialDataT,

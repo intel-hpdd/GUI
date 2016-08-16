@@ -44,7 +44,7 @@ export function throwIfServerErrors (fn:Function) {
   };
 }
 
-export const getCommandAndHost = (s:HighlandStreamT<{ objects: Object[] }>) => {
+export const getCommandAndHost = (s:HighlandStreamT<{ objects:Object[] }>) => {
   return s
     .map(x => x.objects)
     .map(throwIfServerErrors(fp.identity))

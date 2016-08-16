@@ -23,7 +23,7 @@
 
 import * as fp from 'intel-fp';
 
-export function addCurrentPage <T: {meta: Object}> (o:T):T {
+export function addCurrentPage <T: {meta:Object}> (o:T):T {
   return {
     ...o,
     meta: {

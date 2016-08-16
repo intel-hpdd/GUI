@@ -39,7 +39,7 @@ import type {
 } from './dashboard-types.js';
 
 export function targetDashboardResolves (
-  $stateParams:{ kind: string, id: string },
+  $stateParams:{ kind:string, id:string },
   getFileUsageChart:chartTitleKeyT,
   getSpaceUsageChart:chartT,
   getMdoChart:chartT,
@@ -78,7 +78,7 @@ export function targetDashboardResolves (
   ]);
 }
 
-export function targetDashboardTargetStream ($stateParams:{id: string}) {
+export function targetDashboardTargetStream ($stateParams:{id:string}) {
   'ngInject';
 
   return store
@@ -90,7 +90,7 @@ export function targetDashboardTargetStream ($stateParams:{id: string}) {
     );
 }
 
-export function targetDashboardUsageStream ($stateParams:{id: string}) {
+export function targetDashboardUsageStream ($stateParams:{id:string}) {
   'ngInject';
 
   return resolveStream(

@@ -25,10 +25,10 @@ type argsToVoid = (...rest:any[]) => void;
 
 declare class EventEmitter {
   constructor():void;
-  emit(event: string, ...args:Array<any>): boolean;
-  on(event: string, listener: argsToVoid): EventEmitter;
-  once(event: string, listener: argsToVoid): EventEmitter;
-  removeAllListeners(event?: string): EventEmitter;
+  emit(event:string, ...args:Array<any>): boolean;
+  on(event:string, listener:argsToVoid): EventEmitter;
+  once(event:string, listener:argsToVoid): EventEmitter;
+  removeAllListeners(event?:string): EventEmitter;
 }
 
 export type EventEmitterT = EventEmitter;

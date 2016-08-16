@@ -54,7 +54,7 @@ export function fsCollStream () {
     );
 }
 
-export const getData = ($stateParams:{fsId?: string}) => {
+export const getData = ($stateParams:{fsId?:string}) => {
   'ngInject';
 
   if ($stateParams.fsId)

@@ -22,9 +22,9 @@
 // express and approved by Intel in writing.
 
 export type chartParamsT = {
-  qs?: {
-    id?: string,
-    filesystem_id?: string
+  qs?:{
+    id?:string,
+    filesystem_id?:string
   }
 };
 export type scopeToElementT = (scope:Object) => HTMLElement[];
