@@ -34,12 +34,9 @@ import {
   reduce
 } from 'intel-obj';
 
-
-const alwaysObjectLiteral = () => { return {}; };
-
 const statsPrefixRegex = /^stats_/;
 const dataLens = lensProp('data');
-const stripStatsPrefix = over(dataLens, reduce(alwaysObjectLiteral, (value, key, result) => {
+const stripStatsPrefix = over(dataLens, reduce(() => ({}), (value, key, result) => {
   var newKey = key.trim().replace(statsPrefixRegex, '');
   result[newKey] = value;
   return result;

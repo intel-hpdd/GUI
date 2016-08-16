@@ -77,7 +77,7 @@ export default fp.curry(2, function getOstBalanceStream (percentage:number, over
       { key: 'Free bytes', values: [] }
     ];
 
-    const toNvd3 = obj.reduce(struct, (metrics, key, arr) => {
+    const toNvd3 = obj.reduceArr(() => struct, (metrics, key, arr) => {
       fp.map(function pushItems (item) {
         arr[0].values.push({
           x: key,
@@ -127,13 +127,15 @@ export default fp.curry(2, function getOstBalanceStream (percentage:number, over
     ostBalanceStream
       .zip(targetStream)
       .map(function convertKeys ([ostBalanceMetrics, targets]) {
-        return obj.reduce({}, function reducer (val, key, result) {
+        return obj.reduce(() => ({}), function reducer (val, key, result) {
           const findTarget = fp.find(fp.eqFn(fp.identity, viewLens('id'), key));
 
           const target = findTarget(targets);
           const name = (target ? target.name : key);
 
           result[name] = val;
+
+          return result;
         }, ostBalanceMetrics);
       })
       .map(toNvd3)

@@ -40,14 +40,27 @@ function systemBuild () {
     .then(function buildBundle () {
       builder.loader.baseURL = baseURL + 'dest/';
 
-      builder.loader.meta = Object.keys(builder.loader.meta)
-      .reduce(function cleanMeta (obj, key) {
-        var testKey = key.replace(/^.+static\/chroma_ui\//, builder.loader.baseURL);
+      builder.loader.meta = Object
+        .keys(builder.loader.meta)
+        .reduce(function cleanMeta (obj, key) {
+          var testKey = key.replace(/^.+static\/chroma_ui\//, builder.loader.baseURL);
 
-        obj[testKey] = builder.loader.meta[key];
+          obj[testKey] = builder.loader.meta[key];
 
-        return obj;
-      }, {});
+          return obj;
+        }, {});
+
+      console.log(builder.loader.packages);
+
+      builder.loader.packages = Object
+        .keys(builder.loader.packages)
+        .reduce(function cleanPackages (obj, key) {
+          var testKey = key.replace(/^.+static\/chroma_ui\//, builder.loader.baseURL);
+
+          obj[testKey] = builder.loader.packages[key];
+
+          return obj;
+        }, {});
 
       return builder.buildStatic('source/iml/iml-module.js', 'dist/built.js', {
         runtime: false,

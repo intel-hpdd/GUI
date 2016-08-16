@@ -7,6 +7,7 @@
       "bower_components*/lodash/dist/lodash.js",
       "node_modules*/intel-lodash-mixins/index.js",
       "node_modules*/intel-fp/dist/source/fp.js",
+      "node_modules*/intel-obj/node_modules/intel-fp/dist/source/fp.js",
       "node_modules*/intel-maybe/dist/maybe.js",
       "node_modules*/intel-math/dist/source/math.js",
       "node_modules*/intel-flat-map-changes/dist/source/index.js",

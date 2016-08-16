@@ -58,6 +58,13 @@ System.config({
     'sprintf': 'node_modules/sprintf-js/src/sprintf.js',
     'intel-deep-freeze': 'node_modules/intel-deep-freeze/dist/source/index.js'
   },
+  packages: {
+    'intel-obj': {
+      map: {
+        'intel-fp': 'node_modules/intel-obj/node_modules/intel-fp/dist/source/fp.js'
+      }
+    }
+  },
   meta: {
     'node_modules/intel-big-differ/source/big-differ-module.js': {
       deps: [
