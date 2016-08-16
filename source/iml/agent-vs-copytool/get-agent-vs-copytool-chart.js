@@ -47,13 +47,11 @@ import createDate from '../create-date.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
 
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -65,10 +63,9 @@ import type {
 } from '../chart-transformers/chart-transformers-module.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart';
+import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart.html!text';
 
-export default (chartCompiler:chartCompilerT,
-                localApply:localApplyT, data$Fn:data$FnT, d3) => {
+export default (localApply:localApplyT, data$Fn:data$FnT, d3) => {
   'ngInject';
 
   return function getAgentVsCopytoolChart (overrides:Object) {

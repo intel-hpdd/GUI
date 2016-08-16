@@ -12,7 +12,9 @@ describe('HSM controller', () => {
     $scope = $rootScope.$new();
 
     agentVsCopytoolChart = {
-      destroy: jasmine.createSpy('destroy')
+      stream: {
+        destroy: jasmine.createSpy('destroy')
+      }
     };
 
     copytoolOperationStream = highland();
@@ -25,10 +27,10 @@ describe('HSM controller', () => {
 
     hsm = $controller('HsmCtrl', {
       $scope: $scope,
-      agentVsCopytoolChart: agentVsCopytoolChart,
-      openAddCopytoolModal: openAddCopytoolModal,
-      copytoolStream: copytoolStream,
-      copytoolOperationStream: copytoolOperationStream
+      agentVsCopytoolChart,
+      openAddCopytoolModal,
+      copytoolStream,
+      copytoolOperationStream
     });
   }));
 
@@ -87,7 +89,7 @@ describe('HSM controller', () => {
     });
 
     it('should destroy the chart', () => {
-      expect(agentVsCopytoolChart.destroy)
+      expect(agentVsCopytoolChart.stream.destroy)
         .toHaveBeenCalledOnce();
     });
   });

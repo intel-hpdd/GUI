@@ -22,12 +22,12 @@
 // @flow
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import loginTemplate from './assets/html/login';
+import loginTemplate from './assets/html/login.html!text';
 
 export const loginState = {
   name: 'login',
   url: '/login',
   controller: 'LoginCtrl',
   controllerAs: 'login',
-  templateUrl: loginTemplate
+  template: loginTemplate
 };

@@ -24,7 +24,7 @@ import {
 } from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import configurePacemakerTemplate from './assets/html/configure-pacemaker';
+import configurePacemakerTemplate from './assets/html/configure-pacemaker.html!text';
 
 export default function configurePacemaker () {
   return {
@@ -37,6 +37,6 @@ export default function configurePacemaker () {
     },
     controller: noop,
     controllerAs: 'ctrl',
-    templateUrl: configurePacemakerTemplate
+    template: configurePacemakerTemplate
   };
 }

@@ -12,7 +12,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('cpu usage chart', () => {
-  var chartCompiler, getCpuUsageStream, standardConfig,
+  let chartCompiler, getCpuUsageStream, standardConfig,
     config1$, config2$, selectStoreCount, getStore, durationPayload,
     submitHandler, durationSubmitHandler, getConf, initStream,
     data$Fn, localApply, getCpuUsageChart, getCpuUsageChartFactory;
@@ -87,7 +87,9 @@ describe('cpu usage chart', () => {
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
+      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
+      'source/iml/cpu-usage/assets/html/cpu-usage.html!text': { default: 'cpuUsage' }
     });
 
     getCpuUsageChartFactory = mod.default;
@@ -96,7 +98,7 @@ describe('cpu usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getCpuUsageChart = getCpuUsageChartFactory(chartCompiler, localApply, curry(3, data$Fn));
+    getCpuUsageChart = getCpuUsageChartFactory(localApply, curry(3, data$Fn));
 
     getCpuUsageChart({
       qs: {
@@ -148,7 +150,7 @@ describe('cpu usage chart', () => {
 
   it('should call the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
-      '/static/chroma_ui/source/iml/cpu-usage/assets/html/cpu-usage.js',
+      'cpuUsage',
       jasmine.any(Object),
       jasmine.any(Function)
     );

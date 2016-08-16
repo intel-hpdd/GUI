@@ -25,18 +25,11 @@ import helpModule from '../help-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import strategiesFactory from './strategies';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import tooltipTemplate from './assets/html/tooltip';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import helpTooltipTemplate from './assets/html/help-tooltip';
-
 import {imlTooltip, helpTooltip} from './tooltip';
 
 export default angular.module('iml-tooltip', [
   positionModule, helpModule,
-  uiBootstrapModule, tooltipTemplate,
-  helpTooltipTemplate
+  uiBootstrapModule
 ])
 .directive('imlTooltip', imlTooltip)
 .directive('helpTooltip', helpTooltip)

@@ -1,8 +1,21 @@
 import {
-  aboutState
-} from '../../../../source/iml/about/about-states.js';
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('about states', () => {
+  let aboutState;
+
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/about/about-states.js', {
+      'source/iml/about/assets/html/about.html!text': { default: 'aboutTemplate' }
+    });
+
+    aboutState = mod.aboutState;
+  });
+
+  afterEach(resetAll);
+
   it('should create the state', () => {
     expect(aboutState)
       .toEqual({
@@ -10,7 +23,7 @@ describe('about states', () => {
         url: '/about',
         controller: 'AboutCtrl',
         controllerAs: 'about',
-        templateUrl: '/static/chroma_ui/source/iml/about/assets/html/about.js',
+        template: 'aboutTemplate',
         params: {
           resetState: {
             dynamic: true

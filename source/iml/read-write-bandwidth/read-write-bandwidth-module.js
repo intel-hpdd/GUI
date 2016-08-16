@@ -29,9 +29,6 @@ import durationPickerModule from '../duration-picker/duration-picker-module';
 
 import getReadWriteBandwidthChartFactory from './get-read-write-bandwidth-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -43,7 +40,7 @@ export type readWriteBandwidthActionT = {
 
 export default angular.module('readWriteBandwidth', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, readWriteBandwidthTemplate
+  durationPickerModule
 ])
   .factory('getReadWriteBandwidthChart', getReadWriteBandwidthChartFactory)
   .name;

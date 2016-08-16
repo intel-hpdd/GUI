@@ -34,7 +34,7 @@ const notCancelled = fp.filter(
   )
 );
 
-export default function CommandMonitorCtrl ($scope, openCommandModal) {
+export function CommandMonitorCtrl ($scope, openCommandModal, localApply, $exceptionHandler) {
   'ngInject';
 
   var commandMonitorCtrl = this;
@@ -66,8 +66,21 @@ export default function CommandMonitorCtrl ($scope, openCommandModal) {
       fp.view(fp.lensProp('length')),
       set(this, 'length')
     ))
-    .stopOnError($scope.handleException)
-    .each($scope.localApply.bind(null, $scope));
+    .stopOnError((e) => $exceptionHandler(e))
+    .each(localApply.bind(null, $scope));
+
+  this.length = 1;
 
   $scope.$on('$destroy', () => commandMonitor$.destroy());
 }
+
+export default () => ({
+  restrict: 'A',
+  controller: CommandMonitorCtrl,
+  controllerAs: '$ctrl',
+  template: `
+    <a ng-if="$ctrl.length > 0" ng-click="$ctrl.showPending()">
+      <i class="fa fa-refresh fa-spin command-in-progress"></i>
+    </a>
+  `
+});

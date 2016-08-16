@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import {map, invokeMethod} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default function ServerDashboardCtrl ($scope, hostStream, charts) {
   'ngInject';
@@ -34,6 +34,6 @@ export default function ServerDashboardCtrl ($scope, hostStream, charts) {
 
   $scope.$on('$destroy', () => {
     hostStream.destroy();
-    map(invokeMethod('destroy', []), charts);
+    fp.map(c => c.stream.destroy(), charts);
   });
 }

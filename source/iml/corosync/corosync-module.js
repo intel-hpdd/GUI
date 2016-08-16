@@ -30,16 +30,12 @@ import filterModule from '../filters/filters-module';
 import {ConfigureCorosyncController, configureCorosyncComponent} from './configure-corosync';
 import bigDifferModule from 'intel-big-differ';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import configureCorosyncTemplate from './assets/html/configure-corosync';
-
 export default angular
   .module('corosyncModule', [
     extendScopeModule,
     commandModule,
     bigDifferModule,
-    filterModule,
-    configureCorosyncTemplate
+    filterModule
   ])
   .component('corosyncState', corosyncStateComponent)
   .controller('ConfigureCorosyncController', ConfigureCorosyncController)

@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import overrideButtonTemplate from './assets/html/override-button';
+import overrideButtonTemplate from './assets/html/override-button.html!text';
 
 export default function overrideButtonDirective (OVERRIDE_BUTTON_TYPES) {
   'ngInject';
@@ -33,7 +33,7 @@ export default function overrideButtonDirective (OVERRIDE_BUTTON_TYPES) {
       isValid: '=',
       onChange: '&'
     },
-    templateUrl: overrideButtonTemplate,
+    template: overrideButtonTemplate,
     link: function link (scope) {
       scope.types = OVERRIDE_BUTTON_TYPES;
 

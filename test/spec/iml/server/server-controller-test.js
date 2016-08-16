@@ -26,9 +26,16 @@ describe('server', () => {
       .and.returnValue(commandStream);
 
     const serverControllerModule = await mock(
-      'source/iml/server/server-controller.js', {
-        'source/iml/command/get-command-stream.js': { default: getCommandStream }
-      });
+      'source/iml/server/server-controller.js',
+      {
+        'source/iml/command/get-command-stream.js': {
+          default: getCommandStream
+        },
+        'source/iml/server/assets/html/confirm-server-action-modal.html!text': {
+          default: 'confirmServerActionModalTemplate'
+        }
+      }
+    );
 
     serverController = serverControllerModule.default;
   });
@@ -173,7 +180,7 @@ describe('server', () => {
     ]);
   });
 
-  describe('test table functionality', () => {
+  describe('table functionality', () => {
     describe('updating the expression', () => {
       beforeEach(() => {
         server.currentPage = 5;
@@ -284,7 +291,7 @@ describe('server', () => {
 
       it('should open a confirmation modal', () => {
         expect($uibModal.open).toHaveBeenCalledOnceWith({
-          templateUrl: '/static/chroma_ui/source/iml/server/assets/html/confirm-server-action-modal.js',
+          template: 'confirmServerActionModalTemplate',
           controller: 'ConfirmServerActionModalCtrl',
           windowClass: 'confirm-server-action-modal',
           keyboard: false,

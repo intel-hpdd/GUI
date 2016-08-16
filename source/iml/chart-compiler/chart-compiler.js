@@ -21,57 +21,33 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import {
   resolveStream
 } from '../promise-transforms.js';
-import broadcaster from '../broadcaster.js';
-
-import type {
-  getTemplatePromiseT
-} from '../get-template-promise/get-template-promise-module.js';
-
-import type {
-  HighlandStreamT
-} from 'highland';
-
-import type {
-  scopeToElementT
-} from './chart-compiler-module.js';
 
 import {
   waitForChartData
 } from '../chart-transformers/chart-transformers.js';
 
+import type {
+  HighlandStreamT
+} from 'highland';
+
 type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
 
-export function chartCompilerFactory ($compile:Function, getTemplatePromise:getTemplatePromiseT) {
-  'ngInject';
-
-  return function chartCompiler (template:string,
-    stream:HighlandStreamT<mixed>, fn:scopeToStreamToObject):Promise<scopeToElementT> {
-
-    return Promise.all([
-      getTemplatePromise(template),
-      resolveStream(stream
-        .through(waitForChartData))
-    ])
-    .then(function compile ([template, stream]) {
-      const el = angular.element(template);
-      const s2 = broadcaster(stream);
-
-      compiler.destroy = () => stream.destroy();
-      return compiler;
-
-      function compiler ($scope) {
-        var cloned = el.clone();
-
-        $scope.chart = fn($scope, s2());
-
-        $scope.$on('$destroy', () => $scope.chart = null);
-
-        return $compile(cloned)($scope);
-      }
-    });
-  };
-}
+export default (
+  template:string,
+  stream:HighlandStreamT<mixed>,
+  fn:scopeToStreamToObject
+):Promise<Object> =>
+  resolveStream(
+    stream
+    .through(waitForChartData)
+  )
+  .then(stream => {
+    return {
+      template,
+      stream,
+      chartFn: fn
+    };
+  });

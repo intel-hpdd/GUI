@@ -22,7 +22,7 @@
 import {curry, compose, lensProp, mapped, view} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import notificationSliderTemplate from './assets/html/notification-slider';
+import notificationSliderTemplate from './assets/html/notification-slider.html!text';
 
 
 export function NotificationSliderController ($scope, $timeout, localApply, $exceptionHandler) {
@@ -90,7 +90,7 @@ export function notificationSlider () {
     },
     controllerAs: 'ctrl',
     bindToController: true,
-    templateUrl: notificationSliderTemplate,
+    template: notificationSliderTemplate,
     controller: 'NotificationSliderController'
   };
 }

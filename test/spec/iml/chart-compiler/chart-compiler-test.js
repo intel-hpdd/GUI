@@ -1,141 +1,58 @@
 import highland from 'highland';
-import chartCompilerModule from '../../../../source/iml/chart-compiler/chart-compiler-module';
 
 import {
-  noop
-} from 'intel-fp';
-
-import {
-  chartCompilerFactory
-} from '../../../../source/iml/chart-compiler/chart-compiler';
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('chart compiler', () => {
-  var chartCompiler, compilerPromise, getTemplatePromise, s, chartFn;
+  let chartCompiler,
+    compilerPromise,
+    s,
+    chartFn;
 
-  beforeEach(module(chartCompilerModule));
+  beforeEachAsync(async function () {
+    const mod = await mock(
+      'source/iml/chart-compiler/chart-compiler.js',
+      {}
+    );
 
-  beforeEach(inject($compile => {
-    s = highland();
-
-    chartFn = jasmine.createSpy('chartFn')
-      .and.returnValue('chartObj');
-
-    getTemplatePromise = jasmine.createSpy('getTemplatePromise')
-      .and.returnValue(Promise.resolve('<div class="template">foo</div>'));
-
-    chartCompiler = chartCompilerFactory($compile, getTemplatePromise);
-    compilerPromise = chartCompiler('template/path', s, chartFn);
-  }));
-
-  it('should return a function', () => {
-    expect(chartCompiler).toEqual(jasmine.any(Function));
+    chartCompiler = mod.default;
   });
 
-  it('should call getTemplatePromise', () => {
-    expect(getTemplatePromise)
-      .toHaveBeenCalledOnceWith('template/path');
+  afterEach(resetAll);
+
+  beforeEach(() => {
+    s = highland();
+
+    chartFn = jasmine
+      .createSpy('chartFn')
+      .and
+      .returnValue('chartObj');
+
+    compilerPromise = chartCompiler('template/path', s, chartFn);
+  });
+
+  it('should be a function', () => {
+    expect(chartCompiler)
+      .toEqual(jasmine.any(Function));
   });
 
   it('should return back a promise', () => {
-    expect(compilerPromise).toBeAPromise();
+    expect(compilerPromise)
+      .toBeAPromise();
   });
 
-  describe('recompiling', () => {
-    var node, compiler,
-      $scope, s1, s2, spy;
+  itAsync('should resolve to the expected values', async function () {
+    s.write('foo');
 
-    beforeEach(inject(($rootScope) => {
-      $scope = $rootScope.$new();
-    }));
+    const obj = await compilerPromise;
 
-    beforeEachAsync(async function () {
-      spy = jasmine.createSpy('spy');
-
-      s.write('foo');
-
-      compiler = await compilerPromise;
-
-      $scope.$digest();
-
-      compiler($scope);
-      s1 = chartFn.calls.mostRecent().args[1];
-      node = compiler($scope);
-      s2 = chartFn.calls.mostRecent().args[1];
-    });
-
-    it('should work when compile called again', () => {
-      expect(node).toHaveClass('template');
-    });
-
-    it('should call chartFn twice', () => {
-      expect(chartFn)
-        .toHaveBeenCalledTwice();
-    });
-
-    it('should write to stream1', () => {
-      s1.each(spy);
-      s2.each(noop);
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith('foo');
-    });
-
-    it('should write to stream1', () => {
-      s1.each(noop);
-      s2.each(spy);
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith('foo');
-    });
-
-    it('should work when other instances are destroyed', () => {
-      s1.destroy();
-      s2.destroy();
-
-      compiler($scope);
-      const s3 = chartFn.calls.mostRecent().args[1];
-
-      s3.each(spy);
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith('foo');
-    });
-  });
-
-  describe('resolving promise', () => {
-    var node, compiler, $scope;
-
-    beforeEach(inject(($rootScope) => {
-      $scope = $rootScope.$new();
-    }));
-
-    beforeEachAsync(async function () {
-      s.write('foo');
-
-      compiler = await compilerPromise;
-
-      $scope.$digest();
-
-      node = compiler($scope);
-    });
-
-    it('should be a compiled element', () => {
-      expect(node).toHaveClass('template');
-    });
-
-    it('should call the chartFn', function () {
-      expect(chartFn)
-        .toHaveBeenCalledOnceWith($scope, jasmine.any(Object));
-    });
-
-    it('should set the chart on the scope', () => {
-      expect($scope.chart).toEqual('chartObj');
-    });
-
-    it('should set chart to null on destroy', () => {
-      $scope.$destroy();
-
-      expect($scope.chart).toBeNull();
-    });
+    expect(obj)
+      .toEqual({
+        template: 'template/path',
+        stream: jasmine.any(Object),
+        chartFn
+      });
   });
 });

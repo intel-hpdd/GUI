@@ -35,79 +35,10 @@ import {
   openAddCopytoolModalFactory
 } from './add-copytool-modal';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import canceledTemplate from './assets/html/states/canceled';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import erroredTemplate from './assets/html/states/errored';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import idleTemplate from './assets/html/states/idle';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import runningTemplate from './assets/html/states/running';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import startedTemplate from './assets/html/states/started';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import stoppedTemplate from './assets/html/states/stopped';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import unconfiguredTemplate from './assets/html/states/unconfigured';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import workingTemplate from './assets/html/states/working';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import archiveTemplate from './assets/html/ops/archive';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import removeTemplate from './assets/html/ops/remove';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import restoreTemplate from './assets/html/ops/restore';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import cdtStatusTemplate from './assets/html/cdt-status';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import addCopytoolModalTemplate from './assets/html/add-copytool-modal';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import agentBinaryTemplate from './assets/html/modal-tooltips/agent-binary-tooltip';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import archiveTooltipTemplate from './assets/html/modal-tooltips/archive-tooltip';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import mountpointTooltipTemplate from './assets/html/modal-tooltips/mountpoint-tooltip';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import disabledTemplate from './assets/html/cdt-status/disabled';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import enabledTemplate from './assets/html/cdt-status/enabled';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import nullTemplate from './assets/html/cdt-status/null';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import shutdownTemplate from './assets/html/cdt-status/shutdown';
-
 export default angular.module('hsm', [
   progressCircleModule, commandModule,
   helpModule, agentVsCopytoolModule,
-  configToggleModule, cdtStatusTemplate,
-  addCopytoolModalTemplate, canceledTemplate,
-  erroredTemplate, idleTemplate,
-  runningTemplate, startedTemplate,
-  stoppedTemplate, unconfiguredTemplate,
-  workingTemplate, archiveTemplate,
-  removeTemplate, restoreTemplate,
-  agentBinaryTemplate, archiveTooltipTemplate,
-  mountpointTooltipTemplate, disabledTemplate,
-  enabledTemplate, nullTemplate, shutdownTemplate
+  configToggleModule
 ])
   .factory('openAddCopytoolModal', openAddCopytoolModalFactory)
   .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)

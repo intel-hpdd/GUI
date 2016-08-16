@@ -22,12 +22,12 @@
 import angular from 'angular';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import fullScreenButtonTextTemplate from './assets/html/full-screen-button-text';
+import fullScreenButtonTextTemplate from './assets/html/full-screen-button-text.html!text';
 
 export function fullScreenBtn () {
   return {
     restrict: 'A',
-    templateUrl: fullScreenButtonTextTemplate,
+    template: fullScreenButtonTextTemplate,
     require: '^fullScreen',
     scope: {},
     link: function link (scope, wrappedEl, attrs, fullScreenCtrl) {

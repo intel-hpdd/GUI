@@ -18,6 +18,9 @@ describe('Server Status Step', () => {
     mod = await mock('source/iml/server/server-status-step.js', {
       'source/iml/resolve-stream.js': {
         default: resolveStream
+      },
+      'source/iml/server/assets/html/server-status-step.html!text': {
+        default: 'serverStatusStepTemplate'
       }
     });
   });
@@ -132,7 +135,7 @@ describe('Server Status Step', () => {
 
     it('should be created as expected', () => {
       expect(serverStatusStep).toEqual({
-        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-status-step.js',
+        template: 'serverStatusStepTemplate',
         controller: 'ServerStatusStepCtrl as serverStatus',
         onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', jasmine.any(Function)],
         transition: jasmine.any(Function)

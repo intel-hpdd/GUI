@@ -25,7 +25,7 @@ import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import configureLnetTemplate from './assets/html/configure-lnet';
+import configureLnetTemplate from './assets/html/configure-lnet.html!text';
 
 export function ConfigureLnetController ($scope, LNET_OPTIONS, insertHelpFilter,
                                          waitForCommandCompletion, propagateChange) {
@@ -87,5 +87,5 @@ export const configureLnetComponent = {
     activeFsMember: '<'
   },
   controller: ConfigureLnetController,
-  templateUrl: configureLnetTemplate
+  template: configureLnetTemplate
 };

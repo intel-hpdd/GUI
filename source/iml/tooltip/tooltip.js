@@ -23,10 +23,10 @@ import angular from 'angular';
 import _ from 'intel-lodash-mixins';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import tooltipTemplate from './assets/html/tooltip';
+import tooltipTemplate from './assets/html/tooltip.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import helpTooltipTemplate from './assets/html/help-tooltip';
+import helpTooltipTemplate from './assets/html/help-tooltip.html!text';
 
 export function imlTooltip (position, $timeout, $$rAF, strategies) {
   'ngInject';
@@ -39,7 +39,7 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
     restrict: 'E',
     transclude: true,
     replace: true,
-    templateUrl: tooltipTemplate,
+    template: tooltipTemplate,
     link: function link (scope, jqElement) {
       var deregister;
 
@@ -174,7 +174,7 @@ export function helpTooltip (help) {
     },
     restrict: 'E',
     replace: true,
-    templateUrl: helpTooltipTemplate,
+    template: helpTooltipTemplate,
     link: function link (scope) {
       scope.message = help.get(scope.topic);
 

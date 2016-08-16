@@ -2,7 +2,6 @@ var gulp = require('gulp');
 var paths = require('../paths.json');
 var js = require('./js');
 var css = require('./css');
-var templates = require('./templates');
 var assets = require('./assets');
 
 const watchers = [];
@@ -11,7 +10,7 @@ module.exports = function watch (done) {
   watchers = [
     gulp.watch(paths.js.source, js.jsSourceDev),
     gulp.watch([paths.js.deps, paths.js.config], js.jsDepsDev),
-    gulp.watch(paths.templates.angular, templates.ngDev),
+    gulp.watch(paths.assets.templates, assets.templatesDev),
     gulp.watch([paths.assets.fonts, paths.assets.images], assets.assetsDev),
     gulp.watch(paths.js.tests, js.jsTest),
     gulp.watch(paths.js.testDeps, js.jsTestDeps),

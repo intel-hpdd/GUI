@@ -23,12 +23,12 @@ import {always} from 'intel-fp';
 
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import chartsContainerTemplate from './assets/html/charts-container';
+import chartsContainerTemplate from './assets/html/charts-container.html!text';
 
 export const chartsContainer = always({
   restrict: 'E',
   scope: {
     charts: '='
   },
-  templateUrl: chartsContainerTemplate
+  template: chartsContainerTemplate
 });

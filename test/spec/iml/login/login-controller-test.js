@@ -2,8 +2,14 @@ import angular from 'angular';
 
 import loginModule
   from '../../../../source/iml/login/login-module';
+
 import interceptorsModule
   from '../../../../source/iml/interceptors/interceptor-module';
+
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 describe('Login Controller', () => {
   const userEulaStates = {
@@ -12,7 +18,25 @@ describe('Login Controller', () => {
     DENIED: 'denied'
   };
 
-  let $uibModal, navigate;
+  let $uibModal,
+    navigate,
+    LoginCtrl;
+
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/login/login-controller.js', {
+      'source/iml/login/assets/html/eula.html!text': {
+        default: 'eulaTemplate'
+      },
+      'source/iml/access-denied/assets/html/access-denied.html!text': {
+        default: 'accessDeniedTemplate'
+      }
+    });
+
+    LoginCtrl = mod.default;
+  });
+
+  afterEach(resetAll);
+
 
   beforeEach(module(loginModule, interceptorsModule, $provide => {
     navigate = jasmine.createSpy('navigate');
@@ -45,7 +69,7 @@ describe('Login Controller', () => {
             opened: $q.defer().resolve(true)
           };
 
-          $uibModal.instances[options.templateUrl || options.windowClass] = modalInstance;
+          $uibModal.instances[options.template || options.windowClass] = modalInstance;
 
           return modalInstance;
         });
@@ -62,7 +86,7 @@ describe('Login Controller', () => {
     $rootScope = _$rootScope_;
     sessionFixtures = fixtures.asName('session');
 
-    loginController = $controller('LoginCtrl', {
+    loginController = $controller(LoginCtrl, {
       user_EULA_STATES: userEulaStates,
       ALLOW_ANONYMOUS_READ: true
     });
@@ -112,7 +136,7 @@ describe('Login Controller', () => {
       expect($uibModal.open.calls.count()).toEqual(1);
 
       expect($uibModal.open).toHaveBeenCalledWith({
-        templateUrl: '/static/chroma_ui/source/iml/login/assets/html/eula.js',
+        template: 'eulaTemplate',
         keyboard: false,
         backdrop: 'static',
         controller: 'EulaCtrl',
@@ -138,7 +162,7 @@ describe('Login Controller', () => {
 
       $httpBackend.expectDELETE('session/').respond(204);
 
-      $uibModal.instances['/static/chroma_ui/source/iml/login/assets/html/eula.js'].dismiss('dismiss');
+      $uibModal.instances['eulaTemplate'].dismiss('dismiss');
 
       $httpBackend.flush();
     });
@@ -146,7 +170,7 @@ describe('Login Controller', () => {
     it('should login when eula is accepted', () => {
       $httpBackend.flush();
 
-      $uibModal.instances['/static/chroma_ui/source/iml/login/assets/html/eula.js'].close();
+      $uibModal.instances['eulaTemplate'].close();
 
       $rootScope.$digest();
 
@@ -204,7 +228,7 @@ describe('Login Controller', () => {
       expect($uibModal.open.calls.count()).toEqual(1);
 
       expect($uibModal.open).toHaveBeenCalledWith({
-        templateUrl: '/static/chroma_ui/source/iml/access-denied/assets/html/access-denied.js',
+        template: 'accessDeniedTemplate',
         keyboard: false,
         backdrop: 'static',
         controller: 'AccessDeniedCtrl',

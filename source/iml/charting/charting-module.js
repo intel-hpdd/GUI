@@ -24,7 +24,6 @@
 import angular from 'angular';
 import highlandModule from '../highland/highland-module';
 import d3Module from '../d3/d3-module';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
 import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import createStream from './create-stream';
 
@@ -42,7 +41,7 @@ export type createStreamT = {
 
 export default angular.module('charting', [
   highlandModule, d3Module,
-  getTemplatePromiseModule, chartCompilerModule
+  chartCompilerModule
 ])
   .factory('createStream', createStream)
   .name;

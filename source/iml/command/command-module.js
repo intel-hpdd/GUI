@@ -21,37 +21,36 @@
 
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
-import CommandMonitorCtrl from './command-monitor';
-import {CommandModalCtrl, openCommandModalFactory} from './command-modal-ctrl';
+import commandMonitorDirective from './command-monitor-directive.js';
 import DeferredCommandModalBtnCtrl from './deferred-cmd-modal-btn-controller';
-import {deferredCmdModalBtnDirective} from './deferred-cmd-modal-btn-directive';
-import {JobTreeCtrl, getJobStreamFactory} from './job-tree-ctrl';
-import {StepModalCtrl, openStepModalFactory} from './step-modal-ctrl';
 import jobStatesDirective from './job-states-directive';
 import jobTreeFactory from './job-tree-factory';
 import waitForCommandCompletionFactory from './wait-for-command-completion-service';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import commandModalTemplate from './assets/html/command-modal';
-// $FlowIgnore: HTML templates that flow does not recognize.
-import commandMonitorTemplate from './assets/html/command-monitor';
-// $FlowIgnore: HTML templates that flow does not recognize.
-import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn';
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobTemplate from './assets/html/job';
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatesTemplate from './assets/html/job-states';
-// $FlowIgnore: HTML templates that flow does not recognize.
-import stepModalTemplate from './assets/html/step-modal';
+import {
+  deferredCmdModalBtnDirective
+} from './deferred-cmd-modal-btn-directive';
+
+import {
+  JobTreeCtrl,
+  getJobStreamFactory
+} from './job-tree-ctrl';
+
+import {
+  StepModalCtrl,
+  openStepModalFactory
+} from './step-modal-ctrl';
+
+import {
+  CommandModalCtrl,
+  openCommandModalFactory
+} from './command-modal-ctrl';
 
 export default angular.module('command', [
-  extendScopeModule,
-  commandModalTemplate, deferredCmdModalBtnTemplate,
-  jobStatesTemplate, stepModalTemplate,
-  commandMonitorTemplate, jobTemplate
+  extendScopeModule
 ])
   .controller('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl)
-  .controller('CommandMonitorCtrl', CommandMonitorCtrl)
+  .directive('commandMonitor', commandMonitorDirective)
   .controller('CommandModalCtrl', CommandModalCtrl)
   .factory('openCommandModal', openCommandModalFactory)
   .directive('deferredCmdModalBtn', deferredCmdModalBtnDirective)

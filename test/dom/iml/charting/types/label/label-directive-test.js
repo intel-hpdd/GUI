@@ -1,10 +1,19 @@
 import highland from 'highland';
 import d3 from 'd3';
-import {__, flow, arrayWrap, invokeMethod} from 'intel-fp';
+import angular from 'angular';
+
 import labelModule from
   '../../../../../../source/iml/charting/types/label/label-module';
+
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
+
+import {
+  __,
+  flow,
+  arrayWrap,
+  invokeMethod
+} from 'intel-fp';
 
 describe('label directive', () => {
   beforeEach(module(labelModule, chartModule));
@@ -24,19 +33,22 @@ describe('label directive', () => {
     $scope.onData = () => ['data'];
     $scope.onUpdate = [spy];
 
-    el = $compile(template)($scope)[0];
+    el = angular.element(template)[0];
+    document.body.appendChild(el);
     d3.select(el)
       .style({
         display: 'inline-block',
         width: '200px',
         height: '200px'
       });
+
+    $compile(el)($scope)[0];
+
     qs = flow(
       arrayWrap,
       invokeMethod('querySelector', __, el)
     );
     label = qs.bind(null, '.label-group');
-    document.body.appendChild(el);
     $scope.$digest();
   }));
 

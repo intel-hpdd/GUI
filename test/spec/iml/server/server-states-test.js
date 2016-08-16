@@ -1,13 +1,31 @@
 import {
-  serverState,
-  serverDetailState
-} from '../../../../source/iml/server/server-states.js';
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 import {
   GROUPS
 } from '../../../../source/iml/auth/authorization.js';
 
 describe('server states', () => {
+  let serverState,
+    serverDetailState;
+
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/server/server-states.js', {
+      'source/iml/server/assets/html/server.html!text': { default: 'serverTemplate' },
+      'source/iml/server/assets/html/server-detail.html!text': { default: 'serverDetailTemplate' }
+    });
+
+    ({
+      serverState,
+      serverDetailState
+    } = mod);
+  });
+
+  afterEach(resetAll);
+
+
   describe('server state', () => {
     it('should create the state', () => {
       expect(serverState)
@@ -15,7 +33,7 @@ describe('server states', () => {
           name: 'app.server',
           url: '/configure/server',
           controller: 'ServerCtrl',
-          templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server.js',
+          template: 'serverTemplate',
           params: {
             resetState: {
               dynamic: true
@@ -44,7 +62,7 @@ describe('server states', () => {
           url: '/configure/server/:id',
           controller: 'ServerDetailController',
           controllerAs: 'serverDetail',
-          templateUrl: '/static/chroma_ui/source/iml/server/assets/html/server-detail.js',
+          template: 'serverDetailTemplate',
           params: {
             resetState: {
               dynamic: true

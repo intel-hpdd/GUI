@@ -24,23 +24,11 @@
 import angular from 'angular';
 
 import {
-  chartCompilerFactory
-} from './chart-compiler';
-import {
   chartCompilerDirective
 } from './chart-compiler-directive';
-import getTemplatePromiseModule from '../get-template-promise/get-template-promise-module';
+
 import highlandModule from '../highland/highland-module';
 
-import type {
-  HighlandStreamT
-} from 'highland';
-
-export type scopeToElementT = (scope:Object) => HTMLElement[];
-export type chartCompilerT = (template:string, stream:HighlandStreamT<mixed>,
-  fn:($scope:Object, stream:HighlandStreamT<mixed>) => Object) => Promise<scopeToElementT>;
-
-export default angular.module('chartCompiler', [getTemplatePromiseModule, highlandModule])
-  .factory('chartCompiler', chartCompilerFactory)
+export default angular.module('chartCompiler', [highlandModule])
   .directive('chartCompiler', chartCompilerDirective)
   .name;

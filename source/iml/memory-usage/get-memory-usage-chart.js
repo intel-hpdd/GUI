@@ -27,12 +27,13 @@ import {
 import flatMapChanges from 'intel-flat-map-changes';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import memoryUsageChartTemplate from './assets/html/memory-usage-chart';
+import memoryUsageChartTemplate from './assets/html/memory-usage-chart.html!text';
 import getMemoryUsageStream from './get-memory-usage-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   getConf
@@ -45,9 +46,6 @@ import {
 import type {
   $scopeT
 } from 'angular';
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -62,7 +60,7 @@ import type {
 } from '../chart-transformers/chart-transformers-module.js';
 
 
-export default (chartCompiler:chartCompilerT, localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getMemoryUsageChart (overrides:targetQueryT, page:string) {

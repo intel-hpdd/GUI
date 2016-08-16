@@ -19,14 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always} from 'intel-fp';
+import angular from 'angular';
 
-export const chartCompilerDirective = always({
-  restrict: 'A',
-  scope: {
-    chart: '='
-  },
-  link (scope, el) {
-    el.append(scope.chart(scope.$new()));
-  }
-});
+export const chartCompilerDirective = ($compile) => {
+  'ngInject';
+
+  return {
+    scope: {
+      chart: '='
+    },
+    link (scope, el) {
+      const template = angular.element(scope.chart.template)[0];
+      el[0].appendChild(template);
+
+      const childScope = scope.$new();
+      childScope.chart = scope.chart.chartFn(childScope, scope.chart.stream);
+      $compile(template)(childScope);
+    }
+  };
+};

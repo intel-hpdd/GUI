@@ -25,12 +25,10 @@ import angular from 'angular';
 
 import extendScopeModule from '../extend-scope-module';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import notificationSliderTemplate from './assets/html/notification-slider';
 import {NotificationSliderController, notificationSlider} from './notification-slider';
 
 export default angular.module('notificationModule', [
-  extendScopeModule, notificationSliderTemplate
+  extendScopeModule
 ])
   .controller('NotificationSliderController', NotificationSliderController)
   .directive('notificationSlider', notificationSlider)

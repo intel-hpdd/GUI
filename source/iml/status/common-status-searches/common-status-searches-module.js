@@ -25,11 +25,8 @@ import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import commonStatusSearches from './common-status-searches-component';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import commonStatusSearchesTemplate from './assets/html/common-status-searches';
-
 export default angular.module('commonStatusSearches', [
-  commonStatusSearchesTemplate, uiBootstrapModule
+  uiBootstrapModule
 ])
   .component('commonStatusSearches', commonStatusSearches)
   .name;

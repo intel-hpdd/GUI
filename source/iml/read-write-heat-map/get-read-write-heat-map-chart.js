@@ -28,6 +28,7 @@ import formatNumber from '../number-formatters/format-number.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import getStore from '../store/get-store.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   flow,
@@ -50,15 +51,11 @@ import {
 } from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
+import readWriteHeatMapTemplate from './assets/html/read-write-heat-map.html!text';
 
 import type {
   $scopeT
 } from 'angular';
-
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 
 import type {
   localApplyT
@@ -79,8 +76,7 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default ($state,
-                chartCompiler:chartCompilerT, localApply:localApplyT,
+export default ($state, localApply:localApplyT,
                 data$Fn:data$FnT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
   'ngInject';
 

@@ -29,10 +29,10 @@ import {
 } from './hsm-fs-resolves.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import hsmFsTemplate from './assets/html/hsm-fs';
+import hsmFsTemplate from './assets/html/hsm-fs.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import hsmTemplate from './assets/html/hsm';
+import hsmTemplate from './assets/html/hsm.html!text';
 
 import {
   copytoolStream,
@@ -48,7 +48,7 @@ export const hsmFsState = {
   name: 'app.hsmFs',
   controller: 'HsmFsCtrl',
   controllerAs: 'hsmFs',
-  templateUrl: hsmFsTemplate,
+  template: hsmFsTemplate,
   data: {
     helpPage: 'hsm_page.htm',
     access: GROUPS.FS_ADMINS,
@@ -80,7 +80,7 @@ export const hsmState = {
   },
   controller: 'HsmCtrl',
   controllerAs: 'hsm',
-  templateUrl: hsmTemplate,
+  template: hsmTemplate,
   resolve: {
     getData,
     copytoolOperationStream,

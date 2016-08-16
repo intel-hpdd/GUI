@@ -25,7 +25,7 @@ import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import alertIndicatorTemplate from './assets/html/alert-indicator';
+import alertIndicatorTemplate from './assets/html/alert-indicator.html!text';
 
 export function RecordStateCtrl ($scope, STATE_SIZE, propagateChange) {
   'ngInject';
@@ -67,6 +67,6 @@ export const recordStateDirective = () => {
     controller: 'RecordStateCtrl',
     controllerAs: 'ctrl',
     restrict: 'E',
-    templateUrl: alertIndicatorTemplate
+    template: alertIndicatorTemplate
   };
 };

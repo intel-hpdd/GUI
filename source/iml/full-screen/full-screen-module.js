@@ -24,12 +24,7 @@
 import angular from 'angular';
 import {fullScreen, fullScreenBtn} from './full-screen-directive';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import fullScreenButtonTextTemplate from './assets/html/full-screen-button-text';
-
-export default angular.module('fullScreen', [
-  fullScreenButtonTextTemplate
-])
+export default angular.module('fullScreen', [])
   .directive('fullScreen', fullScreen)
   .directive('fullScreenBtn', fullScreenBtn)
   .name;

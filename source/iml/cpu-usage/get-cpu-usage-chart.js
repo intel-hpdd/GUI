@@ -27,11 +27,12 @@ import {
 import flatMapChanges from 'intel-flat-map-changes';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import cpuUsageTemplate from './assets/html/cpu-usage';
+import cpuUsageTemplate from './assets/html/cpu-usage.html!text';
 import getCpuUsageStream from './get-cpu-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
   getConf
@@ -43,9 +44,6 @@ import {
 import type {
   $scopeT
 } from 'angular';
-import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -59,7 +57,7 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (chartCompiler:chartCompilerT, localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getCpuUsageChart (overrides:targetQueryT, page:string) {

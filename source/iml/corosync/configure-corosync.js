@@ -28,7 +28,7 @@ import {
 } from 'intel-obj';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import configureCorosyncTemplate from './assets/html/configure-corosync';
+import configureCorosyncTemplate from './assets/html/configure-corosync.html!text';
 
 export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
                                              propagateChange, insertHelpFilter) {
@@ -74,7 +74,7 @@ export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
 }
 
 export const configureCorosyncComponent = {
-  templateUrl: configureCorosyncTemplate,
+  template: configureCorosyncTemplate,
   bindings: {
     stream: '<',
     alertStream: '<',

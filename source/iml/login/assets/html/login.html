@@ -16,7 +16,7 @@
             ng-model="login.username"
             remote-validate-component
             placeholder="Username"
-            uib-tooltip-template="'/static/chroma_ui/source/iml/login/assets/html/login-user-error.js'"
+            uib-tooltip-template="'login-user-error.html'"
             tooltip-trigger="none"
             tooltip-class="error-tooltip"
             tooltip-is-open="serverValidationError.username.length"
@@ -31,7 +31,7 @@
             ng-model="login.password"
             remote-validate-component
             placeholder="Password"
-            uib-tooltip-template="'/static/chroma_ui/source/iml/login/assets/html/login-password-error.js'"
+            uib-tooltip-template="'login-password-error.html'"
             tooltip-trigger="none"
             tooltip-class="error-tooltip"
             tooltip-is-open="serverValidationError.password.length"

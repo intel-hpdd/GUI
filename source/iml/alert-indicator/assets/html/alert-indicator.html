@@ -2,7 +2,7 @@
   <span class="icon-wrap">
     <i class="fa activate-popover"
        ng-class="{'fa-exclamation-circle': ctrl.hasAlerts(), 'fa-check-circle': !ctrl.hasAlerts() }"
-       uib-tooltip-template="'/static/chroma_ui/source/iml/alert-indicator/assets/html/state-label.js'"
+       uib-tooltip-template="'state-label.html'"
        tooltip-placement="right"></i>
     <iml-popover placement="bottom" title="Alerts"
                  on-toggle="ctrl.onToggle(state)" ng-if="ctrl.hasAlerts()">

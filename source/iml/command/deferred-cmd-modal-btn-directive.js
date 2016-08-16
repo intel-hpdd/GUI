@@ -24,7 +24,7 @@ import {
 } from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn';
+import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn.html!text';
 
 export const deferredCmdModalBtnDirective = always({
   scope: {},
@@ -33,5 +33,5 @@ export const deferredCmdModalBtnDirective = always({
   },
   controller: 'DeferredCommandModalBtnCtrl',
   controllerAs: 'ctrl',
-  templateUrl: deferredCmdModalBtnTemplate
+  template: deferredCmdModalBtnTemplate
 });

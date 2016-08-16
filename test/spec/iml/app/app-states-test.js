@@ -1,13 +1,25 @@
 import {
-  appState
-} from '../../../../source/iml/app/app-states.js';
-
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
 import {
   identity
 } from 'intel-fp';
 
 describe('app states', () => {
+  let appState;
+
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/app/app-states.js', {
+      'source/iml/app/assets/html/app.html!text': { default: 'appTemplate' }
+    });
+
+    appState = mod.appState;
+  });
+
+  afterEach(resetAll);
+
   it('should create the state', () => {
     expect(appState)
       .toEqual({
@@ -16,7 +28,7 @@ describe('app states', () => {
         redirectTo: 'app.dashboard.overview',
         controller: 'AppCtrl',
         controllerAs: 'app',
-        templateUrl: jasmine.any(String),
+        template: 'appTemplate',
         resolve: {
           alertStream: ['appAlertStream', jasmine.any(Function)],
           notificationStream: ['appNotificationStream', jasmine.any(Function)],

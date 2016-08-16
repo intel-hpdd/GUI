@@ -25,11 +25,8 @@ import angular from 'angular';
 import helpModule from '../help-module';
 import AboutCtrl from './about-controller';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import aboutTemplate from './assets/html/about';
-
 export default angular.module('about', [
-  helpModule, aboutTemplate
+  helpModule
 ])
 .controller('AboutCtrl', AboutCtrl)
 .name;

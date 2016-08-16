@@ -24,10 +24,11 @@
 import flatMapChanges from 'intel-flat-map-changes';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart';
+import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart.html!text';
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import chartCompiler from '../chart-compiler/chart-compiler.js';
 import getStore from '../store/get-store.js';
 
 import {
@@ -46,9 +47,6 @@ import {
 } from '../tree/tree-transforms.js';
 
 import type {
-  chartCompilerT
-} from '../chart-compiler/chart-compiler-module.js';
-import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 import type {
@@ -66,8 +64,7 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-export default (chartCompiler:chartCompilerT,
-                data$Fn:data$FnT, localApply:localApplyT) => {
+export default (data$Fn:data$FnT, localApply:localApplyT) => {
   'ngInject';
 
   return function getHostCpuRamChart (title:string, overrides:filesystemQueryT | targetQueryT, page:string) {

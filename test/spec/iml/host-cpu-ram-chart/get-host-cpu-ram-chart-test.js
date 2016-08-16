@@ -66,8 +66,12 @@ describe('Host Cpu Ram chart', () => {
         };
       });
 
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js', {
       'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': { default: getHostCpuRamStream },
+      'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html!text': { default: 'hostCpuTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -78,8 +82,6 @@ describe('Host Cpu Ram chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
     initStream = highland();
     spyOn(initStream, 'destroy');
 
@@ -88,7 +90,7 @@ describe('Host Cpu Ram chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getHostCpuRamChart = mod.default(chartCompiler, curry(3, data$Fn), localApply);
+    getHostCpuRamChart = mod.default(curry(3, data$Fn), localApply);
   });
 
   it('should return a factory function', () => {
@@ -147,7 +149,7 @@ describe('Host Cpu Ram chart', () => {
 
     it('should call the chart compiler', () => {
       expect(chartCompiler).toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.js',
+        'hostCpuTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
       );

@@ -22,9 +22,6 @@
 import angular from 'angular';
 import AccessDeniedCtrl from './access-denied-modal-controller';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import accessDeniedTemplate from '../access-denied/assets/html/access-denied';
-
-export default angular.module('accessDenied', [accessDeniedTemplate])
+export default angular.module('accessDenied', [])
 .controller('AccessDeniedCtrl', AccessDeniedCtrl)
 .name;

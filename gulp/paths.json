@@ -24,6 +24,7 @@
       "node_modules*/angular-ui-bootstrap/index.js",
       "node_modules*/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
       "node_modules*/intel-big-differ/dest/source/*.js",
+      "node_modules*/systemjs-plugin-text/text.js",
       "bower_components*/fastdom/index.js",
       "node_modules*/moment/moment.js",
       "bower_components*/twix/bin/twix.js",
@@ -55,10 +56,10 @@
   },
   "assets": {
     "fonts": "node_modules*/font-awesome/**/*.{woff,ttf,svg}",
-    "images": "source/**/*.{png,ico}"
+    "images": "source/**/*.{png,ico}",
+    "templates": "source/iml*/**/*.html"
   },
   "templates": {
-    "index": "index.html",
-    "angular": "source/iml*/**/*.html"
+    "index": "index.html"
   }
 }

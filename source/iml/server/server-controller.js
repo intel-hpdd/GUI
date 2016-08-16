@@ -28,7 +28,7 @@ import getCommandStream from '../command/get-command-stream.js';
 const viewLens = flow(lensProp, view);
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import confirmServerActionModalTemplate from './assets/html/confirm-server-action-modal';
+import confirmServerActionModalTemplate from './assets/html/confirm-server-action-modal.html!text';
 
 export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFilter,
                                     serverActions, selectedServers, openCommandModal,
@@ -132,7 +132,7 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
       var hosts = this.getSelectedHosts(value);
 
       var modalInstance = $uibModal.open({
-        templateUrl: confirmServerActionModalTemplate,
+        template: confirmServerActionModalTemplate,
         controller: 'ConfirmServerActionModalCtrl',
         windowClass: 'confirm-server-action-modal',
         keyboard: false,

@@ -22,7 +22,7 @@
 import angular from 'angular';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import addServerStepTemplate from './assets/html/add-server-step';
+import addServerStepTemplate from './assets/html/add-server-step.html!text';
 
 export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
   EXISTING_KEYS: 'existing_keys_choice',
@@ -78,7 +78,7 @@ export function addServersStepFactory () {
   'ngInject';
 
   return {
-    templateUrl: addServerStepTemplate,
+    template: addServerStepTemplate,
     controller: 'AddServerStepCtrl as addServer',
     transition: function transition (steps) {
       return steps.serverStatusStep;

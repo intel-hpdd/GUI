@@ -11,7 +11,11 @@ describe('charts container', () => {
     spy = jasmine.createSpy('spy');
 
     $scope = $rootScope.$new();
-    $scope.charts = [spy];
+    $scope.charts = [{
+      template: '<foo></foo>',
+      stream: 'stream',
+      chartFn: spy
+    }];
 
     el = $compile(template)($scope)[0];
     $scope.$apply();
@@ -29,6 +33,6 @@ describe('charts container', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
     expect(spy)
-      .toHaveBeenCalledOnceWith(jasmine.any($scopeConstructor));
+      .toHaveBeenCalledOnceWith(jasmine.any($scopeConstructor), 'stream');
   });
 });

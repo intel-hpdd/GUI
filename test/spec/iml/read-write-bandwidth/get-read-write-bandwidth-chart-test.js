@@ -66,8 +66,14 @@ describe('Read Write Bandwidth chart', () => {
         };
       });
 
+    chartCompiler = jasmine.createSpy('chartCompiler');
+
     mod = await mock('source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js', {
-      'source/iml/mdo/get-read-write-bandwidth-stream.js': { default: getReadWriteBandwidthStream },
+      'source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js': { default: getReadWriteBandwidthStream },
+      'source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.html!text': {
+        default: 'rwBandwidthTemplate'
+      },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
       'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
@@ -78,8 +84,6 @@ describe('Read Write Bandwidth chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    chartCompiler = jasmine.createSpy('chartCompiler');
-
     initStream = highland();
     spyOn(initStream, 'destroy');
 
@@ -88,7 +92,7 @@ describe('Read Write Bandwidth chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getReadWriteBandwidthChart = mod.default(chartCompiler, curry(3, data$Fn), localApply);
+    getReadWriteBandwidthChart = mod.default(curry(3, data$Fn), localApply);
   });
 
   it('should return a factory function', () => {
@@ -143,7 +147,7 @@ describe('Read Write Bandwidth chart', () => {
 
     it('should call the chart compiler', () => {
       expect(chartCompiler).toHaveBeenCalledOnceWith(
-        '/static/chroma_ui/source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.js',
+        'rwBandwidthTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
       );

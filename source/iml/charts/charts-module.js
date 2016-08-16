@@ -27,7 +27,7 @@ import nvModule from '../nv/nv-module';
 import heatMapModule from '../heat-map/heat-map-module';
 import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import baseChartFactory from './base-chart';
+import baseChart from './base-chart';
 import dateTicksFactory from './date-ticks';
 import heatMap from './heat-map-chart';
 import lineChart from './line-chart';
@@ -35,17 +35,13 @@ import multiBarChart from './multi-bar-chart';
 import pieGraph from './pie-graph';
 import stackedAreaChart from './stacked-area-chart';
 
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import chartTemplate from './assets/html/chart';
-
 export default angular.module('charts',
   [
-    d3Module, nvModule, chartTemplate,
+    d3Module, nvModule,
     uiBootstrapModule, heatMapModule,
     streamWhenVisibleModule
   ])
-  .factory('baseChart', baseChartFactory)
+  .value('baseChart', baseChart)
   .factory('dateTicks', dateTicksFactory)
   .directive('heatMap', heatMap)
   .directive('lineChart', lineChart)

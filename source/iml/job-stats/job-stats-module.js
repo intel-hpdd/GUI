@@ -30,12 +30,7 @@ import {
   targetMetricModelFactory
 } from './target-model';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTableTemplate from './assets/html/job-stats-table';
-
-export default angular.module('jobStats', [
-  jobStatsTableTemplate
-])
+export default angular.module('jobStats', [])
 .controller('JobStatsCtrl', JobStatsCtrl)
 .directive('jobStatsTable', jobStatsTableDirective)
 .factory('TargetModel', targetModelFactory)

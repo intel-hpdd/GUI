@@ -28,9 +28,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getReadWriteHeatMapChartFactory from './get-read-write-heat-map-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import readWriteHeatMapTemplate from './assets/html/read-write-heat-map';
-
 export type readWriteHeatMapTypesT = {
   READ_BYTES: 'stats_read_bytes',
   WRITE_BYTES: 'stats_write_bytes',
@@ -74,7 +71,7 @@ export type addReadWriteHeatMapActionT = {
 
 export default angular.module('readWriteHeatMap', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, readWriteHeatMapTemplate
+  durationPickerModule
 ])
   .constant('readWriteHeatMapTypes', {
     READ_BYTES: 'stats_read_bytes',

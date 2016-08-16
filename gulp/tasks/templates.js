@@ -23,63 +23,8 @@
 
 var paths = require('../paths.json');
 var gulp = require('gulp');
-var minifyHtml = require('gulp-minify-html');
-var ngHtml2Js = require('gulp-ng-html2js');
-var sourcemaps = require('gulp-sourcemaps');
 var destDir = require('../dest-dir');
 var inject = require('gulp-inject');
-
-var template = 'System.register([\'angular\'], function (_export, _context) {\n\
-  var angular;\n\
-\n\
-  return {\n\
-    setters: [function (_angular) {\n\
-      angular = _angular.default;\n\
-    }],\n\
-    execute: function () {\n\
-      var name = angular.module(\'<%= template.url %>\', [])\n\
-        .run([\'$templateCache\', function ($templateCache) {\n\
-          $templateCache.put(\'<%= template.url %>\', \'<%= template.prettyEscapedContent %>\');\n\
-      }])\n\
-      .name;\n\
-\n\
-      _export(\'default\', name);\n\
-    }\n\
-  };\n\
-});';
-
-function ng (fn) {
-  return gulp.src(paths.templates.angular, {
-    since: gulp.lastRun(fn),
-    base: '.'
-  })
-    .pipe(sourcemaps.init())
-    .pipe(minifyHtml({
-      quotes: true,
-      empty: true
-    }))
-    .pipe(ngHtml2Js({
-      prefix: '/static/chroma_ui/',
-      stripPrefix: 'source/chroma_ui',
-      export: 'system',
-      rename: function (url) {
-        return url.replace(/\.html$/, '.js');
-      },
-      template: template
-    }))
-    .pipe(sourcemaps.write({ sourceRoot: '' }));
-}
-
-exports.ngDev = function ngDev () {
-  return ng(ngDev)
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
-};
-
-exports.ngProd = function ngProd () {
-  return ng(exports.ngProd)
-  .pipe(gulp.dest('./dest'));
-};
 
 function index (fn) {
   return gulp.src(paths.templates.index, {

@@ -1,13 +1,27 @@
-import serverModule from '../../../../source/iml/server/server-module';
-import _ from 'intel-lodash-mixins';
+import {
+  mock,
+  resetAll
+} from '../../../system-mock.js';
 
-import {AddServerStepCtrl} from
-  '../../../../source/iml/server/add-server-step';
+describe('Add server step', () => {
+  let AddServerStepCtrl,
+    addServersStep;
 
-describe('Add server step', function () {
-  beforeEach(module(serverModule));
+  beforeEachAsync(async function () {
+    const mod = await mock('source/iml/server/add-server-step.js', {
+      'source/iml/server/assets/html/add-server-step.html!text': {
+        default: 'addServerTemplate'
+      }
+    });
 
-  var $stepInstance, addServerStepCtrl;
+    AddServerStepCtrl = mod.AddServerStepCtrl;
+    addServersStep = mod.addServersStepFactory();
+  });
+
+  afterEach(resetAll);
+
+  let $stepInstance,
+    addServerStepCtrl;
 
   [
     {},
@@ -23,11 +37,11 @@ describe('Add server step', function () {
         addresses: ['foo1.localdomain']
       }
     }
-  ].forEach(function run (data) {
-    describe('controller', function () {
+  ].forEach(data => {
+    describe('controller', () => {
       var $scope;
 
-      beforeEach(inject(function ($controller, $rootScope) {
+      beforeEach(inject($rootScope => {
         $scope = $rootScope.$new();
 
         $stepInstance = {
@@ -35,14 +49,16 @@ describe('Add server step', function () {
           transition: jasmine.createSpy('transition')
         };
 
-        addServerStepCtrl = $controller('AddServerStepCtrl', {
-          $scope: $scope,
-          $stepInstance: $stepInstance,
-          data: _.clone(data)
-        });
+        addServerStepCtrl = new AddServerStepCtrl(
+          $scope,
+          $stepInstance,
+          {
+            ...data
+          }
+        );
       }));
 
-      it('should setup the controller', function () {
+      it('should setup the controller', () => {
         var expected = window.extendWithConstructor(AddServerStepCtrl, {
           fields: {
             auth_type: getDataInstallMethod(data),
@@ -61,7 +77,7 @@ describe('Add server step', function () {
         expect(addServerStepCtrl).toEqual(expected);
       });
 
-      it('should update the fields on pdsh change', function () {
+      it('should update the fields on pdsh change', () => {
         addServerStepCtrl.pdshUpdate('foo[01-02].com', ['foo01.com', 'foo02.com'],
           {'foo01.com': 1, 'foo02.com': 1});
 
@@ -72,16 +88,16 @@ describe('Add server step', function () {
         });
       });
 
-      describe('calling transition', function () {
-        beforeEach(function () {
+      describe('calling transition', () => {
+        beforeEach(() => {
           addServerStepCtrl.transition();
         });
 
-        it('should set add server to disabled', function () {
+        it('should set add server to disabled', () => {
           expect(addServerStepCtrl.disabled).toEqual(true);
         });
 
-        it('should call transition on the step instance', function () {
+        it('should call transition on the step instance', () => {
           var expected = {
             data: {
               servers: {
@@ -106,25 +122,19 @@ describe('Add server step', function () {
     }
   });
 
-  describe('add servers step', function () {
-    var addServersStep;
-
-    beforeEach(inject(function (_addServersStep_) {
-      addServersStep = _addServersStep_;
-    }));
-
-    it('should create the step with the expected interface', function () {
+  describe('add servers step', () => {
+    it('should create the step with the expected interface', () => {
       expect(addServersStep).toEqual({
-        templateUrl: '/static/chroma_ui/source/iml/server/assets/html/add-server-step.js',
+        template: 'addServerTemplate',
         controller: 'AddServerStepCtrl as addServer',
         transition: jasmine.any(Function)
       });
     });
 
-    describe('transition', function () {
+    describe('transition', () => {
       var steps, result;
 
-      beforeEach(function () {
+      beforeEach(() => {
         steps = {
           serverStatusStep: jasmine.createSpy('serverStatusStep')
         };
@@ -132,7 +142,7 @@ describe('Add server step', function () {
         result = addServersStep.transition(steps);
       });
 
-      it('should return the next step and data', function () {
+      it('should return the next step and data', () => {
         expect(result).toEqual(steps.serverStatusStep);
       });
     });

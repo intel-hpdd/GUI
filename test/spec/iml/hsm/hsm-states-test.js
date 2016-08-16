@@ -31,6 +31,12 @@ describe('hsm states', () => {
       'source/iml/hsm/hsm-fs-resolves.js': {
         fsCollStream,
         getData
+      },
+      'source/iml/hsm/assets/html/hsm-fs.html!text': {
+        default: 'hsmFsTemplate'
+      },
+      'source/iml/hsm/assets/html/hsm.html!text': {
+        default: 'hsmTemplate'
       }
     });
   });
@@ -45,7 +51,7 @@ describe('hsm states', () => {
           name: 'app.hsmFs',
           controller: 'HsmFsCtrl',
           controllerAs: 'hsmFs',
-          templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm-fs.js',
+          template: 'hsmFsTemplate',
           resolve: {
             fsStream: 'fsCollStream'
           },
@@ -82,7 +88,7 @@ describe('hsm states', () => {
           },
           controller: 'HsmCtrl',
           controllerAs: 'hsm',
-          templateUrl: '/static/chroma_ui/source/iml/hsm/assets/html/hsm.js',
+          template: 'hsmTemplate',
           resolve: {
             getData: 'getData',
             copytoolOperationStream: 'copytoolOperationStream',

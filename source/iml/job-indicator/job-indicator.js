@@ -26,7 +26,7 @@ import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import jobIndicatorTemplate from './assets/html/job-indicator';
+import jobIndicatorTemplate from './assets/html/job-indicator.html!text';
 
 export default function jobStatusDirective (localApply) {
   'ngInject';
@@ -37,7 +37,7 @@ export default function jobStatusDirective (localApply) {
       jobStream: '='
     },
     restrict: 'E',
-    templateUrl: jobIndicatorTemplate,
+    template: jobIndicatorTemplate,
 
     link: function link (scope) {
       var isOpened = false;

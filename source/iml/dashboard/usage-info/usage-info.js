@@ -26,7 +26,7 @@ import formatBytes from '../../number-formatters/format-bytes.js';
 import broadcaster from '../../broadcaster.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import usageInfoTemplate from './assets/html/usage-info';
+import usageInfoTemplate from './assets/html/usage-info.html!text';
 
 export function UsageInfoController ($scope, propagateChange) {
   'ngInject';
@@ -103,6 +103,6 @@ export function usageInfoDirective () {
     controller: 'UsageInfoController',
     controllerAs: 'ctrl',
     bindToController: true,
-    templateUrl: usageInfoTemplate
+    template: usageInfoTemplate
   };
 }

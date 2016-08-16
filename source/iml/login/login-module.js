@@ -32,17 +32,10 @@ import navigateModule from '../navigate/navigate-module';
 import LoginController from './login-controller';
 import EulaCtrl from './eula-modal-controller';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import loginPasswordErrorTemplate from './assets/html/login-password-error';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import loginUserErrorTemplate from './assets/html/login-user-error';
-
 export default angular.module('login',
   [
     authModule, remoteValidateModule, helpModule, atScrollBoundaryModule,
-    accessDeniedModule, tooltipModule, navigateModule, loginPasswordErrorTemplate,
-    loginUserErrorTemplate
+    accessDeniedModule, tooltipModule, navigateModule
   ])
   .controller('LoginCtrl', LoginController)
   .controller('EulaCtrl', EulaCtrl)

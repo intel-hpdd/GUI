@@ -28,16 +28,8 @@ import asValueModule from '../as-value/as-value-module';
 import configurePacemakerDirective from './configure-pacemaker';
 import pacemakerStateDirective from './pacemaker-state';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import pacemakerStateTemplate from './assets/html/pacemaker-state';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import configurePacemakerTemplate from './assets/html/configure-pacemaker';
-
 export default angular.module('pacemaker', [
-  extendScopeModule, asValueModule,
-  pacemakerStateTemplate,
-  configurePacemakerTemplate
+  extendScopeModule, asValueModule
 ])
 .directive('configurePacemaker', configurePacemakerDirective)
 .directive('pacemakerState', pacemakerStateDirective)

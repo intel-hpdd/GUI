@@ -1,11 +1,21 @@
 import highland from 'highland';
 import d3 from 'd3';
+import angular from 'angular';
+
+
 import axisModule from
   '../../../../../../source/iml/charting/types/axis/axis-module';
+
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
-import {__, flow, arrayWrap, invokeMethod, tail} from 'intel-fp';
+import {
+  __,
+  flow,
+  arrayWrap,
+  invokeMethod,
+  tail
+} from 'intel-fp';
 
 describe('axis directive', () => {
   beforeEach(module(axisModule, chartModule));
@@ -27,13 +37,8 @@ describe('axis directive', () => {
       .domain([0, 4])
       .range([0, 200]);
 
-    el = $compile(template)($scope)[0];
-    qs = flow(
-      arrayWrap,
-      invokeMethod('querySelector', __, el)
-    );
-    axis = qs.bind(null, '.axis');
-
+    el = angular.element(template)[0];
+    document.body.appendChild(el);
     d3.select(el)
       .style({
         display: 'inline-block',
@@ -41,7 +46,13 @@ describe('axis directive', () => {
         height: '200px'
       });
 
-    document.body.appendChild(el);
+    $compile(el)($scope)[0];
+
+    qs = flow(
+      arrayWrap,
+      invokeMethod('querySelector', __, el)
+    );
+    axis = qs.bind(null, '.axis');
     $scope.$digest();
   }));
 

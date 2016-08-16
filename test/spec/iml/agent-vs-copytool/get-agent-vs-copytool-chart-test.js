@@ -88,6 +88,8 @@ describe('get agent vs copytool chart exports', () => {
 
     const mod = await mock('source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js', {
       'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': { default: getAgentVsCopytoolStream },
+      'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html!text': { default: 'agentTemplate' },
+      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/create-date.js': { default: createDate },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
@@ -150,7 +152,7 @@ describe('get agent vs copytool chart exports', () => {
     });
 
     getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-      chartCompiler, localApply, curry(3, data$Fn), d3);
+      localApply, curry(3, data$Fn), d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
       foo: 'bar'
@@ -203,7 +205,7 @@ describe('get agent vs copytool chart exports', () => {
 
   it('should invoke the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
-      '/static/chroma_ui/source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.js',
+      'agentTemplate',
       jasmine.any(Object),
       jasmine.any(Function)
     );

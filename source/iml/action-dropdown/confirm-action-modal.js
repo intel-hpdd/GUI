@@ -22,7 +22,7 @@
 import {always} from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import confirmActionModalTemplate from './assets/html/confirm-action-modal';
+import confirmActionModalTemplate from './assets/html/confirm-action-modal.html!text';
 
 export function ConfirmActionModalCtrl  ($scope, title, confirmPrompts) {
   'ngInject';
@@ -38,7 +38,7 @@ export function openConfirmActionModalFactory ($uibModal) {
 
   return function openConfirmActionModal (title, confirmPrompts) {
     return $uibModal.open({
-      templateUrl: confirmActionModalTemplate,
+      template: confirmActionModalTemplate,
       controller: 'ConfirmActionModalCtrl',
       windowClass: 'confirm-action-modal',
       backdropClass: 'confirm-action-modal-backdrop',

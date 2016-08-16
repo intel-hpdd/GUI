@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTableTemplate from './assets/html/job-stats-table';
+import jobStatsTableTemplate from './assets/html/job-stats-table.html!text';
 
 export default function () {
   'ngInject';
@@ -31,7 +31,7 @@ export default function () {
       metricName: '@',
       filterBytes: '='
     },
-    templateUrl: jobStatsTableTemplate,
+    template: jobStatsTableTemplate,
     restrict: 'E'
   };
 }

@@ -46,6 +46,18 @@ describe('dashboard states', () => {
         targetDashboardResolves,
         targetDashboardUsageStream,
         targetDashboardTargetStream
+      },
+      'source/iml/dashboard/assets/html/dashboard.html!text': {
+        default: 'dashboardTemplate'
+      },
+      'source/iml/dashboard/assets/html/base-dashboard.html!text': {
+        default: 'baseDashboardTemplate'
+      },
+      'source/iml/dashboard/assets/html/target-dashboard.html!text': {
+        default: 'targetDashboardTemplate'
+      },
+      'source/iml/dashboard/assets/html/server-dashboard.html!text': {
+        default: 'serverDashboardTemplate'
       }
     });
   });
@@ -71,7 +83,7 @@ describe('dashboard states', () => {
           },
           controller: 'DashboardCtrl',
           controllerAs: 'dashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/dashboard.js'
+          template: 'dashboardTemplate'
         });
     });
   });
@@ -84,7 +96,7 @@ describe('dashboard states', () => {
           url: '/dashboard',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
+          template: 'baseDashboardTemplate',
           params: {
             resetState: {
               dynamic: true
@@ -109,7 +121,7 @@ describe('dashboard states', () => {
           url: '/dashboard/server/:id',
           controller: 'ServerDashboardCtrl',
           controllerAs: 'serverDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/server-dashboard.js',
+          template: 'serverDashboardTemplate',
           params: {
             kind: {
               value: 'server',
@@ -140,7 +152,7 @@ describe('dashboard states', () => {
           url: '/dashboard/MDT/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
+          template: 'targetDashboardTemplate',
           params: {
             kind: {
               value: 'MDT',
@@ -172,7 +184,7 @@ describe('dashboard states', () => {
           url: '/dashboard/OST/:id',
           controller: 'TargetDashboardController',
           controllerAs: 'targetDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/target-dashboard.js',
+          template: 'targetDashboardTemplate',
           data: {
             kind: 'Dashboard - OST',
             icon: 'fa-bar-chart-o'
@@ -204,7 +216,7 @@ describe('dashboard states', () => {
           url: '/dashboard/fs/:id',
           controller: 'BaseDashboardCtrl',
           controllerAs: 'baseDashboard',
-          templateUrl: '/static/chroma_ui/source/iml/dashboard/assets/html/base-dashboard.js',
+          template: 'baseDashboardTemplate',
           data: {
             kind: 'Dashboard - FS',
             icon: 'fa-bar-chart-o'

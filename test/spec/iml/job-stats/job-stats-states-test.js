@@ -15,6 +15,9 @@ describe('job stats states', () => {
     getData = 'getData';
 
     const mod = await mock('source/iml/job-stats/job-stats-states.js', {
+      'source/iml/job-stats/assets/html/job-stats.html!text': {
+        default: 'jobStatsTemplate'
+      },
       'source/iml/job-stats/job-stats-resolves.js': {
         appJobstatsTarget,
         appJobstatsMetrics,
@@ -34,7 +37,7 @@ describe('job stats states', () => {
         url: '/dashboard/jobstats/:id/:startDate/:endDate',
         controller: 'JobStatsCtrl',
         controllerAs: 'jobStats',
-        templateUrl: '/static/chroma_ui/source/iml/job-stats/assets/html/job-stats.js',
+        template: 'jobStatsTemplate',
         data: {
           kind: 'Job Stats',
           icon: 'fa-tachometer'

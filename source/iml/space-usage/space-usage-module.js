@@ -28,9 +28,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getSpaceUsageChartFactory from './get-space-usage-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import spaceUsageTemplate from './assets/html/space-usage-chart';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -42,7 +39,7 @@ export type addSpaceUsageActionT = {
 
 export default angular.module('spaceUsageModule', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, spaceUsageTemplate
+  durationPickerModule
 ])
   .factory('getSpaceUsageChart', getSpaceUsageChartFactory)
   .name;

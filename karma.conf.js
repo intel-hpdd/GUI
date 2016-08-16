@@ -15,6 +15,7 @@ module.exports = function (config) {
       {pattern: 'dest/node_modules/**/*.js', included: false, watched: true},
       {pattern: 'dest/bower_components/**/*.js', included: false, watched: true},
       {pattern: 'dest/source/iml/**/*.js', included: false, watched: true},
+      {pattern: 'dest/source/iml/**/*.html', included: false, watched: true},
       {pattern: 'dest/test/**/*.js', included: false, watched: true}
     ],
     reporters: ['progress'],

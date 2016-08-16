@@ -28,9 +28,6 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getMdoChartFactory from './get-mdo-chart';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import mdoChartTemplate from './assets/html/mdo';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -49,7 +46,7 @@ export type addMdoActionT = {
 
 export default angular.module('mdo', [
   chartsModule, chartingModule, highlandModule,
-  durationPickerModule, mdoChartTemplate
+  durationPickerModule
 ])
   .factory('getMdoChart', getMdoChartFactory)
   .name;

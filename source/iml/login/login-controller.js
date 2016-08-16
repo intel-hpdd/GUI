@@ -24,17 +24,17 @@ import {
 } from 'intel-fp';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import eulaTemplate from './assets/html/eula';
+import eulaTemplate from './assets/html/eula.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import accessDeniedTemplate from '../access-denied/assets/html/access-denied';
+import accessDeniedTemplate from '../access-denied/assets/html/access-denied.html!text';
 
 export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
   'ngInject';
 
   function initializeEulaDialog (user) {
     return $uibModal.open({
-      templateUrl: eulaTemplate,
+      template: eulaTemplate,
       controller: 'EulaCtrl',
       backdrop: 'static',
       keyboard: false,
@@ -47,7 +47,7 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
 
   var initializeDeniedDialog = function initializeDeniedLoginFn () {
     return $uibModal.open({
-      templateUrl: accessDeniedTemplate,
+      template: accessDeniedTemplate,
       controller: 'AccessDeniedCtrl',
       backdrop: 'static',
       keyboard: false,

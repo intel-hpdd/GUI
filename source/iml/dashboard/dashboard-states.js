@@ -59,16 +59,16 @@ import type {
 } from 'highland';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import dashboardTemplate from './assets/html/dashboard';
+import dashboardTemplate from './assets/html/dashboard.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import baseDashboardTemplate from './assets/html/base-dashboard';
+import baseDashboardTemplate from './assets/html/base-dashboard.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import targetDashboardTemplate from './assets/html/target-dashboard';
+import targetDashboardTemplate from './assets/html/target-dashboard.html!text';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverDashboardTemplate from './assets/html/server-dashboard';
+import serverDashboardTemplate from './assets/html/server-dashboard.html!text';
 
 const containsAppDashboard = fp.flow(
   x => x.indexOf('app.dashboard'),
@@ -97,7 +97,7 @@ export const dashboardState = {
   },
   controller: 'DashboardCtrl',
   controllerAs: 'dashboard',
-  templateUrl: dashboardTemplate
+  template: dashboardTemplate
 };
 
 export const dashboardOverviewState = {
@@ -105,7 +105,7 @@ export const dashboardOverviewState = {
   url: '/dashboard',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
-  templateUrl: baseDashboardTemplate,
+  template: baseDashboardTemplate,
   params: {
     resetState: {
       dynamic: true
@@ -125,7 +125,7 @@ export const dashboardServerState = {
   url: '/dashboard/server/:id',
   controller: 'ServerDashboardCtrl',
   controllerAs: 'serverDashboard',
-  templateUrl: serverDashboardTemplate,
+  template: serverDashboardTemplate,
   params: {
     kind: {
       value: 'server',
@@ -151,7 +151,7 @@ export const dashboardMdtState = {
   url: '/dashboard/MDT/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
-  templateUrl: targetDashboardTemplate,
+  template: targetDashboardTemplate,
   params: {
     kind: {
       value: 'MDT',
@@ -178,7 +178,7 @@ export const dashboardOstState = {
   url: '/dashboard/OST/:id',
   controller: 'TargetDashboardController',
   controllerAs: 'targetDashboard',
-  templateUrl: targetDashboardTemplate,
+  template: targetDashboardTemplate,
   data: {
     kind: 'Dashboard - OST',
     icon: 'fa-bar-chart-o'
@@ -205,7 +205,7 @@ export const dashboardFsState = {
   url: '/dashboard/fs/:id',
   controller: 'BaseDashboardCtrl',
   controllerAs: 'baseDashboard',
-  templateUrl: baseDashboardTemplate,
+  template: baseDashboardTemplate,
   data: {
     kind: 'Dashboard - FS',
     icon: 'fa-bar-chart-o'

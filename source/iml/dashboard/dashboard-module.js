@@ -41,12 +41,6 @@ import {chartsContainer} from './charts-container-directive';
 import DashboardCtrl from './dashboard-controller';
 import {usageInfoDirective, UsageInfoController} from './usage-info/usage-info';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import chartsContainerTemplate from './assets/html/charts-container';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import usageInfoTemplate from './usage-info/assets/html/usage-info';
-
 export type filesystemQueryT = {
   qs: {
     filesystem_id: number
@@ -65,8 +59,7 @@ export default angular
     extendScopeModule,
     hostCpuRamChartModule, mdoModule, cpuUsageModule,
     memoryUsageModule, fileUsageModule, spaceUsageModule,
-    ostBalanceModule, readWriteBandwidthModule, readWriteHeatMapModule, chartCompilerModule,
-    chartsContainerTemplate, usageInfoTemplate
+    ostBalanceModule, readWriteBandwidthModule, readWriteHeatMapModule, chartCompilerModule
   ])
   .directive('chartsContainer', chartsContainer)
   .controller('DashboardCtrl', DashboardCtrl)

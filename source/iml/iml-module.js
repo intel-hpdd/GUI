@@ -134,51 +134,22 @@ import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 
 // $FlowIgnore: HTML templates that flow does not recognize.
-import loginTemplate from './login/assets/html/login';
-
+import stateLabelTooltipTemplate from './alert-indicator/assets/html/state-label.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import eulaTemplate from './login/assets/html/eula';
-
+import agentBinaryTooltipTemplate from './hsm/assets/html/modal-tooltips/agent-binary-tooltip.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import appHtml from './app/assets/html/app';
-
+import mountpointTooltipTemplate from './hsm/assets/html/modal-tooltips/mountpoint-tooltip.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import aboutTemplate from './about/assets/html/about';
-
+import archiveTooltipTemplate from './hsm/assets/html/modal-tooltips/archive-tooltip.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverTemplate from './server/assets/html/server';
-
+import loginUserErrorTemplate from './login/assets/html/login-user-error.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import serverDetailTemplate from './server/assets/html/server-detail';
-
+import loginPasswordErrorTemplate from './login/assets/html/login-password-error.html!text';
 // $FlowIgnore: HTML templates that flow does not recognize.
-import hsmFsTemplate from './hsm/assets/html/hsm-fs';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import hsmTemplate from './hsm/assets/html/hsm';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import dashboardTemplate from './dashboard/assets/html/dashboard';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import baseDashboardTemplate from './dashboard/assets/html/base-dashboard';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import targetDashboardTemplate from './dashboard/assets/html/target-dashboard';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import serverDashboardTemplate from './dashboard/assets/html/server-dashboard';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTemplate from './job-stats/assets/html/job-stats';
+import jobTemplate from './command/assets/html/job.html!text';
 
 export default angular.module('iml', [
-  loginTemplate, eulaTemplate,
-  appHtml, aboutTemplate, serverTemplate,
-  serverDetailTemplate, hsmFsTemplate,
-  dashboardTemplate, baseDashboardTemplate,
-  targetDashboardTemplate, serverDashboardTemplate,
-  hsmTemplate, jobStatsTemplate, uiBootstrapModule, ngResource, ngAnimate,
+  uiBootstrapModule, ngResource, ngAnimate,
   routeToModule, environmentModule, exceptionModule, uiRouter,
   loginModule, qsStreamModule,
   appModule, dashboardModule,
@@ -262,6 +233,15 @@ export default angular.module('iml', [
   .component('pageTitle', pageTitleComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)
+  .run(($templateCache) => {
+    $templateCache.put('/static/chroma_ui/state-label.html', stateLabelTooltipTemplate);
+    $templateCache.put('/static/chroma_ui/agent-binary-tooltip.html', agentBinaryTooltipTemplate);
+    $templateCache.put('/static/chroma_ui/mountpoint-tooltip.html', mountpointTooltipTemplate);
+    $templateCache.put('/static/chroma_ui/archive-tooltip.html', archiveTooltipTemplate);
+    $templateCache.put('/static/chroma_ui/login-password-error.html', loginPasswordErrorTemplate);
+    $templateCache.put('/static/chroma_ui/login-user-error.html', loginUserErrorTemplate);
+    $templateCache.put('/static/chroma_ui/job.html', jobTemplate);
+  })
   .name;
 
 angular.bootstrap(document, ['iml'], {});
