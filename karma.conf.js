@@ -17,6 +17,9 @@ module.exports = function (config) {
       {pattern: 'dest/source/iml/**/*.js', included: false, watched: true},
       {pattern: 'dest/test/**/*.js', included: false, watched: true}
     ],
+    proxies: {
+      '/static/chroma_ui/': '/base/dest/'
+    },
     reporters: ['progress'],
     junitReporter: {
       outputDir: 'test-results',
