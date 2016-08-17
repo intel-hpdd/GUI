@@ -82,10 +82,10 @@ export const hasChanges = (fn:treeItemToObjectT) => {
   };
 };
 
-type treeItemToObjectT = () => Object;
+type treeItemToObjectT = (x:treeItemT) => Object;
 type treeItemToStreamT = (x:treeItemT) => HighlandStreamT<Object>;
 
-export const transformItems = (fn:treeItemToBooleanT, structFn:treeItemToObjectT, fnTo$:treeItemToStreamT) => {
+export const transformItems = (fn:treeItemToBooleanT, structFn:() => Object, fnTo$:treeItemToStreamT) => {
   let latest = {};
 
   return fp.flow(

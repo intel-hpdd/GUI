@@ -24,17 +24,19 @@
 import * as fp from 'intel-fp';
 
 import type {
-  HighlandStreamT
+  HighlandStreamT,
+  errorWrapT
 } from 'highland';
 
-export const resolveStream = (stream:HighlandStreamT<mixed>) => {
+
+export const resolveStream = <T> (stream:HighlandStreamT<T>):Promise<HighlandStreamT<T>> => {
   return new Promise((resolve) => {
     stream.pull((error, x) => {
       if (error)
-        x = {
+        x = ({
           __HighlandStreamError__: true,
           error
-        };
+        }:errorWrapT);
 
       const s2 = stream.tap(fp.noop);
       s2.write(x);

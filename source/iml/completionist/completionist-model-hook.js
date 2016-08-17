@@ -66,7 +66,7 @@ export default function completionistModelHook ($document:Array<Document>) {
       };
       ctrl.completionist.register(VALUE, onValue);
 
-      const onKeyDown = event => {
+      const onKeyDown = (event:KeyboardEvent) => {
         const emitKeyPress = (name:string) => {
           ctrl.completionist.emit(KEY_PRESS, {
             name,
