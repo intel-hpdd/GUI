@@ -31,7 +31,8 @@ import {
 
 
 import type {
-  HighlandStreamT
+  HighlandStreamT,
+  errorWrapT
 } from 'highland';
 
 export const documentHidden = {
@@ -72,16 +73,16 @@ export function streamWhenVisible ($document:Array<Document>,
         .each(noop);
     }
 
-    function consume (error, x, push, next) {
+    function consume (error:Error, x, push, next) {
       if (visibleStream._nil_pushed)
         return;
 
       if (error) {
         if (!doc.hidden)
-          visibleStream.write({
+          visibleStream.write(({
             __HighlandStreamError__: true,
             error
-          });
+          }:errorWrapT));
 
         next();
       } else if (x === highland.nil) {

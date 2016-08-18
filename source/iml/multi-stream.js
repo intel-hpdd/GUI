@@ -30,7 +30,7 @@ import type {
 
 const empty = {};
 
-export default function multiStream (streams:HighlandStreamT<mixed>[]) {
+export default function multiStream <T> (streams:HighlandStreamT<T>[]) {
   return highland(function generator (push) {
     const s:HighlandStreamT<mixed[]> = this;
 
@@ -40,12 +40,12 @@ export default function multiStream (streams:HighlandStreamT<mixed>[]) {
     );
 
     streams
-      .forEach((s2:HighlandStreamT<mixed>, index:number) => {
+      .forEach((s2:HighlandStreamT<T>, index:number) => {
         s._destructors.push(s2.destroy.bind(s2));
 
         s2
           .errors(e => push(e))
-          .each((x:mixed) => {
+          .each((x:T) => {
             data[index] = x;
 
             if (data.indexOf(empty) === -1)

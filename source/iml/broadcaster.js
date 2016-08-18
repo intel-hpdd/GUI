@@ -24,7 +24,8 @@
 import highland from 'highland';
 
 import type {
-  HighlandStreamT
+  HighlandStreamT,
+  errorWrapT
 } from 'highland';
 
 
@@ -37,7 +38,7 @@ export default function broadcaster (source$:HighlandStreamT<any>):streamFnT {
 
   source$
     .errors(error => {
-      const err = {
+      const err:errorWrapT = {
         __HighlandStreamError__: true,
         error
       };

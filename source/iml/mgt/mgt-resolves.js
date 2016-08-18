@@ -41,7 +41,7 @@ export function mgtAlertIndicatorB ():fnToStream {
   );
 }
 
-export function mgtJobIndicatorB ():HighlandStreamT<mixed> {
+export function mgtJobIndicatorB ():fnToStream {
   return broadcast(
     store
       .select('jobIndicators')

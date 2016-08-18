@@ -32,5 +32,5 @@ export type ActionT = {
 
 export type StoreT = {
   dispatch:Function;
-  select:(key:string) => HighlandStreamT<mixed>;
+  select:(key:string) => HighlandStreamT<any>;
 };
