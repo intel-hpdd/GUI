@@ -21,9 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  ADD_TARGET_ITEMS
-} from './target-module.js';
+export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
 
 import type {
   ActionT

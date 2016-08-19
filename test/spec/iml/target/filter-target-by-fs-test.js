@@ -1,14 +1,10 @@
 import highland from 'highland';
-import targetModule from '../../../../source/iml/target/target-module';
+import filterTargetByFs from '../../../../source/iml/target/filter-target-by-fs.js';
 
 describe('filter target by fs', () => {
-  beforeEach(module(targetModule));
+  var data;
 
-  var filterTargetByFs, data;
-
-  beforeEach(inject(function (_filterTargetByFs_) {
-    filterTargetByFs = _filterTargetByFs_;
-
+  beforeEach(() => {
     data = [
       [
         {
@@ -31,7 +27,7 @@ describe('filter target by fs', () => {
         }
       ]
     ];
-  }));
+  });
 
   it('should return the targets with the matching fs', function () {
     var result;

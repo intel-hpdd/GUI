@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -23,7 +25,7 @@ import * as fp from 'intel-fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function filterTargetByFs (id) {
+export default function filterTargetByFs (id:number) {
   var idLens = fp.lensProp('id');
   var fsLens = viewLens('filesystems');
   var fsIdLens = viewLens('filesystem_id');

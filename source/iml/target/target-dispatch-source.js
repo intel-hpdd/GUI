@@ -27,7 +27,7 @@ import socketStream from '../socket/socket-stream.js';
 
 import {
   ADD_TARGET_ITEMS
-} from './target-module.js';
+} from './target-reducer.js';
 
 import {
   CACHE_INITIAL_DATA,
