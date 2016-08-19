@@ -266,7 +266,7 @@ declare module 'angular-ui-router' {
     href(stateOrName:StateOrNameT, params?:RawParamsT, options?:HrefOptionsT):string;
     includes(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;
     is(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;
-    reload(reloadState:StateOrNameT):Promise<StateT>;
+    reload(reloadState?:StateOrNameT):Promise<StateT>;
     target(identifier:StateOrNameT, params:ParamsOrArrayT, options?:TransitionOptionsT):TargetStateT;
     transitionT(to:StateOrNameT, toParams?:RawParamsT, options?:TransitionOptionsT):Promise<StateT>;
   }
