@@ -262,7 +262,7 @@ declare module 'angular-ui-router' {
     //get():Array<StateDeclarationT>;
     get(stateOrName:StateOrNameT):StateDeclarationT;
     //get(stateOrName:StateOrNameT, base:StateOrNameT):StateDeclarationT;
-    go(to:StateOrNameT, params:RawParamsT, options:TransitionOptionsT):Promise<StateT>;
+    go(to:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):Promise<StateT>;
     href(stateOrName:StateOrNameT, params?:RawParamsT, options?:HrefOptionsT):string;
     includes(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;
     is(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;

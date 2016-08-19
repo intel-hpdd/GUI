@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,26 +21,35 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import highland from 'highland';
 
-export default ($transitions, qsFromLocation) => {
+import type {
+  qsFromLocationT
+} from '../qs-from-location/qs-from-location-module.js';
+
+import type {
+  TransitionT,
+  TransitionServiceT,
+  StateParamsT,
+  HookMatchCriteriaT
+} from 'angular-ui-router';
+
+export default ($transitions:TransitionServiceT, qsFromLocation:qsFromLocationT) => {
   'ngInject';
 
-  return (match = () => true) => {
+  return (params:StateParamsT, match:HookMatchCriteriaT = {}) => {
     var s = highland();
 
-    const d = $transitions.onSuccess(match, () => {
+    const d = $transitions.onSuccess(match, (t:TransitionT) => {
       s.write({
-        qs: qsFromLocation()
+        qs: qsFromLocation(t.params())
       });
     });
 
     s.onDestroy(d);
 
     s.write({
-      qs: qsFromLocation()
+      qs: qsFromLocation(params)
     });
 
     return s;

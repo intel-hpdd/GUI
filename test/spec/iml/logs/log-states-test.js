@@ -84,7 +84,7 @@ describe('status states', () => {
     });
 
     describe('resolve', () => {
-      var qsFromLocation, log$;
+      var qsFromLocation, $stateParams, log$;
 
       beforeEach(() => {
         resolveStream
@@ -96,6 +96,9 @@ describe('status states', () => {
           .returnValue('socket');
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
+        $stateParams = {
+          param: 'val'
+        };
 
         log$ = mod.logTableState.resolve.log$;
       });
@@ -103,7 +106,7 @@ describe('status states', () => {
       it('should call /alert with a qs', () => {
         qsFromLocation.and.returnValue('foo=bar&baz__in=1,2&bap=3&bim__in=4,5,6');
 
-        log$(qsFromLocation);
+        log$(qsFromLocation, $stateParams);
 
         expect(socketStream)
           .toHaveBeenCalledOnceWith('/log/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6');

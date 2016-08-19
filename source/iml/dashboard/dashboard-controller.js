@@ -21,7 +21,12 @@
 
 import * as fp from 'intel-fp';
 
-export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
+import type {
+  StateServiceT,
+  StateParamsT
+} from 'angular-ui-router';
+
+export default function DashboardCtrl (qsStream, $scope, $state:StateServiceT, $stateParams:StateParamsT,
                                        fsB, hostsB, targetsB,
                                        filterTargetByFs, filterTargetByHost) {
   'ngInject';
@@ -96,7 +101,7 @@ export default function DashboardCtrl (qsStream, $scope, $state, $stateParams,
     qs$.destroy();
   });
 
-  const qs$ = qsStream({
+  const qs$ = qsStream($stateParams, {
     to: state => state.includes['app.dashboard']
   })
   .each(() => {

@@ -78,6 +78,12 @@ describe('dashboard controller', () => {
       .toEqual(dashboard.fs);
   });
 
+  it('should call qsStream', () => {
+    expect(qsStream).toHaveBeenCalledOnceWith($stateParams, {
+      to: jasmine.any(Function)
+    });
+  });
+
   describe('item changed', () => {
     it('should set targets to null if no item is selected', () => {
       dashboard

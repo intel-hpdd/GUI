@@ -7,7 +7,7 @@ import {
 
 
 describe('log query component controller', () => {
-  let ctrl, $scope, $location, controller,
+  let ctrl, $scope, $location, $stateParams, controller,
     qsStream, s;
 
   beforeEachAsync(async function () {
@@ -31,6 +31,10 @@ describe('log query component controller', () => {
       search: jasmine.createSpy('search')
     };
 
+    $stateParams = {
+      param: 'val'
+    };
+
     s = highland();
     spyOn(s, 'destroy');
     qsStream = jasmine
@@ -41,6 +45,7 @@ describe('log query component controller', () => {
     ctrl = $controller(controller, {
       $scope,
       $location,
+      $stateParams,
       qsStream,
       propagateChange
     });
@@ -56,6 +61,10 @@ describe('log query component controller', () => {
         completer: 'completer',
         onSubmit: jasmine.any(Function)
       }));
+  });
+
+  it('should call qsStream', () => {
+    expect(qsStream).toHaveBeenCalledOnceWith($stateParams);
   });
 
   it('should set the current qs', () => {

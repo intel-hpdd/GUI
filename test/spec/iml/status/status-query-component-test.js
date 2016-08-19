@@ -7,7 +7,7 @@ import {
 
 describe('status query controller', () => {
   let ctrl, $location,
-    qsStream, s, statusCompleter,
+    qsStream, s, statusCompleter, $stateParams,
     statusInputToQsParser, statusQsToInputParser,
     mod;
 
@@ -23,6 +23,10 @@ describe('status query controller', () => {
       .createSpy('qsStream')
       .and
       .returnValue(s);
+
+    $stateParams = {
+      param: 'val'
+    };
 
     statusCompleter = 'completer';
     statusQsToInputParser = 'statusQsToInputParser';
@@ -45,7 +49,7 @@ describe('status query controller', () => {
 
   beforeEach(inject(($rootScope, propagateChange) => {
     const $scope = $rootScope.$new();
-    ctrl = new mod.StatusQueryController($scope, $location, qsStream, propagateChange);
+    ctrl = new mod.StatusQueryController($scope, $location, qsStream, propagateChange, $stateParams);
   }));
 
   afterEach(resetAll);
@@ -62,6 +66,10 @@ describe('status query controller', () => {
 
     expect(ctrl)
       .toEqual(instance);
+  });
+
+  it('should call qsStream', () => {
+    expect(qsStream).toHaveBeenCalledOnceWith($stateParams);
   });
 
   it('should set the current qs', () => {

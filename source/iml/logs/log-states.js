@@ -29,6 +29,10 @@ import store from '../store/get-store.js';
 import multiStream from '../multi-stream.js';
 import * as fp from 'intel-fp';
 
+import type {
+  StateParamsT
+} from 'angular-ui-router';
+
 import {
   resolveStream
 } from '../promise-transforms.js';
@@ -40,6 +44,10 @@ import {
 import {
   addCurrentPage
 } from '../api-transforms.js';
+
+import type {
+  qsFromLocationT
+} from '../qs-from-location/qs-from-location-module.js';
 
 export const logState = {
   name: 'app.log',
@@ -79,7 +87,7 @@ export const logTableState = {
     icon: 'fa-book'
   },
   resolve: {
-    log$ (qsFromLocation:Function) {
+    log$ (qsFromLocation:qsFromLocationT, $stateParams:StateParamsT) {
       'ngInject';
 
       const qsFromLocationToOld = fp.flow(
@@ -87,7 +95,7 @@ export const logTableState = {
         statusQsToOldQsParser
       );
 
-      var qs = qsFromLocationToOld();
+      var qs = qsFromLocationToOld($stateParams);
 
       if (qs.length)
         qs = '?' + qs;

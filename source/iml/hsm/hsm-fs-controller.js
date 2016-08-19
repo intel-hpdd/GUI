@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -22,8 +24,25 @@
 import angular from 'angular';
 import * as fp from 'intel-fp';
 
-export default function HsmFsCtrl ($scope, $state,
-                                   qsStream, fsStream) {
+import type {
+  StateServiceT,
+  StateParamsT
+} from 'angular-ui-router';
+
+import type {
+  $scopeT
+} from 'angular';
+
+import type {
+  fsCollStream
+} from './hsm-fs-resolves.js';
+
+import type {
+  qsStreamT
+} from '../qs-stream/qs-stream-module.js';
+
+export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateParams:StateParamsT,
+                                   qsStream:qsStreamT, fsStream:fsCollStream) {
   'ngInject';
 
   var fsStream2;
@@ -42,7 +61,7 @@ export default function HsmFsCtrl ($scope, $state,
 
   p('fileSystems', fsStream());
 
-  const qs$ = qsStream({
+  const qs$ = qsStream($stateParams, {
     to: (state) => state.includes['app.hsmFs']
   });
 
