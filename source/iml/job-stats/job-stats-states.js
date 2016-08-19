@@ -21,26 +21,38 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobStatsTemplate from './assets/html/job-stats.html!text';
+import {
+  GROUPS
+} from '../auth/authorization.js';
 
 import {
-  appJobstatsMetrics,
+  jobstats$,
   getData
 } from './job-stats-resolves.js';
 
 export const jobStatsState = {
   name: 'app.jobstats',
-  url: '/dashboard/jobstats/:id/:startDate/:endDate',
-  controller: 'JobStatsCtrl',
-  controllerAs: 'jobStats',
-  template: jobStatsTemplate,
-  data: {
-    kind: 'Job Stats',
-    icon: 'fa-tachometer'
-  },
+  url: '/jobstats?id&startDate&endDate',
   resolve: {
-    metrics: appJobstatsMetrics,
+    jobstats$,
     getData
-  }
+  },
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
+  data: {
+    helpPage: 'view_job_statistics.htm',
+    access: GROUPS.FS_ADMINS,
+    anonymousReadProtected: true,
+    eulaState: true,
+    kind: 'Job Stats',
+    icon: 'fa-signal'
+  },
+  template: `
+  <div class="container container-full">
+    <job-stats-table stats-$="$resolve.jobstats$"></job-stats-table>
+  </div>
+  `
 };

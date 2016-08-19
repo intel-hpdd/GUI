@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -30,6 +32,10 @@ import {
 import getServerMoment from '../get-server-moment.js';
 import createDate from '../create-date.js';
 
+import type {
+  HighlandStreamT
+} from 'highland';
+
 export const getRequestRange = curry(3, function getRequestRangeOuter (overrides, begin, end) {
   getRequestRange.setLatest = identity;
 
@@ -45,10 +51,10 @@ export const getRequestRange = curry(3, function getRequestRangeOuter (overrides
 });
 
 
-export const getRequestDuration = curry(3, function getRequestDurationOuter (overrides, size, unit) {
+export const getRequestDuration = curry(3, function getRequestDurationOuter (overrides:Object, size:number, unit:string) {
   var latest;
 
-  getRequestDuration.setLatest = function setLatest (s) {
+  getRequestDuration.setLatest = function setLatest (s:HighlandStreamT<{ts:string}[]>) {
     return s
       .collect()
       .tap(function setLatest (x) {
@@ -62,7 +68,7 @@ export const getRequestDuration = curry(3, function getRequestDurationOuter (ove
 
   return getRequestDuration;
 
-  function getRequestDuration (params) {
+  function getRequestDuration (params:Object) {
     params = angular.merge({}, params, overrides);
 
     if (latest) {
