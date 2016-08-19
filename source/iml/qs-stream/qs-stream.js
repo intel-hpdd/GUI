@@ -30,14 +30,13 @@ import type {
 import type {
   TransitionT,
   TransitionServiceT,
-  StateParamsT,
   HookMatchCriteriaT
 } from 'angular-ui-router';
 
 export default ($transitions:TransitionServiceT, qsFromLocation:qsFromLocationT) => {
   'ngInject';
 
-  return (params:StateParamsT, match:HookMatchCriteriaT = {}) => {
+  return (params:Object, match:HookMatchCriteriaT = {}) => {
     var s = highland();
 
     const d = $transitions.onSuccess(match, (t:TransitionT) => {

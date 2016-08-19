@@ -32,10 +32,6 @@ import {
 } from '../promise-transforms.js';
 
 import type {
-  StateParamsT
-} from 'angular-ui-router';
-
-import type {
   qsFromLocationT
 } from '../qs-from-location/qs-from-location-module.js';
 
@@ -84,7 +80,7 @@ export const tableState = {
     icon: 'fa-tachometer'
   },
   resolve: {
-    notification$ (qsFromLocation:qsFromLocationT, $stateParams:StateParamsT) {
+    notification$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
       'ngInject';
 
       const qsFromLocationToOld = fp.flow(

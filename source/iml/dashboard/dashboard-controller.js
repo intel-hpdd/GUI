@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,19 +23,36 @@
 
 import * as fp from 'intel-fp';
 
+import filterTargetByFs from '../target/filter-target-by-fs.js';
+import filterTargetByHost from '../target/filter-target-by-host.js';
+
 import type {
-  StateServiceT,
-  StateParamsT
+  $scopeT
+} from 'angular';
+
+import type {
+  StateServiceT
 } from 'angular-ui-router';
 
-export default function DashboardCtrl (qsStream, $scope, $state:StateServiceT, $stateParams:StateParamsT,
-                                       fsB, hostsB, targetsB,
-                                       filterTargetByFs, filterTargetByHost) {
+import type {
+  qsStreamT
+} from '../qs-stream/qs-stream-module.js';
+
+import type {
+  dashboardFsB,
+  dashboardHostB,
+  dashboardTargetB
+} from './dashboard-resolves.js';
+
+export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $state:StateServiceT,
+  $stateParams:{kind:string}, fsB:dashboardFsB, hostsB:dashboardHostB, targetsB:dashboardTargetB,
+  propagateChange:Function) {
+
   'ngInject';
 
   let targetSelectStream;
 
-  const p = $scope.propagateChange($scope, this);
+  const p = propagateChange($scope, this);
 
   var dashboard = Object.assign(this, {
     fs: {

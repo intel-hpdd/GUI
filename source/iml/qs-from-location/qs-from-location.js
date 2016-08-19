@@ -22,18 +22,21 @@
 // express and approved by Intel in writing.
 
 import type {
-  StateParamsT,
   StateServiceT
 } from 'angular-ui-router';
+
+import global from '../global.js';
 
 export default function qsFromLocationFactory ($state:StateServiceT) {
   'ngInject';
 
-  return function qsFromLocation (params:StateParamsT):string {
-    let parts = new $state.router.urlMatcherFactory.UrlMatcher($state.transition.to().url)
+  const UrlMatcher = $state.router.urlMatcherFactory.UrlMatcher;
+
+  return function qsFromLocation (params:Object):string {
+    const parts = new UrlMatcher($state.transition.to().url)
       .format(params)
       .split('?');
 
-    return parts.length > 1 ? parts.pop() : '';
+    return parts.length > 1 ? global.decodeURIComponent(parts.pop()) : '';
   };
 }

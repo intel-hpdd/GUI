@@ -29,10 +29,6 @@ import store from '../store/get-store.js';
 import multiStream from '../multi-stream.js';
 import * as fp from 'intel-fp';
 
-import type {
-  StateParamsT
-} from 'angular-ui-router';
-
 import {
   resolveStream
 } from '../promise-transforms.js';
@@ -87,7 +83,7 @@ export const logTableState = {
     icon: 'fa-book'
   },
   resolve: {
-    log$ (qsFromLocation:qsFromLocationT, $stateParams:StateParamsT) {
+    log$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
       'ngInject';
 
       const qsFromLocationToOld = fp.flow(

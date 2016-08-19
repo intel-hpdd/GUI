@@ -31,15 +31,11 @@ import type {
 } from 'angular';
 
 import type {
-  StateParamsT
-} from 'angular-ui-router';
-
-import type {
   qsStreamT
 } from '../qs-stream/qs-stream-module.js';
 
 export function StatusQueryController ($scope:$scopeT, $location:$locationT, qsStream:qsStreamT,
-  propagateChange:Function, $stateParams:StateParamsT) {
+  propagateChange:Function, $stateParams:Object) {
 
   'ngInject';
 

@@ -26,10 +26,6 @@ import logQsToInputParser from './log-qs-to-input-parser.js';
 import logCompleter from './log-completer.js';
 
 import type {
-  StateParamsT
-} from 'angular-ui-router';
-
-import type {
   $scopeT,
   $locationT
 } from 'angular';
@@ -38,7 +34,7 @@ import type {
   qsStreamT
 } from '../qs-stream/qs-stream-module.js';
 
-export function controller ($scope:$scopeT, $location:$locationT, $stateParams:StateParamsT,
+export function controller ($scope:$scopeT, $location:$locationT, $stateParams:Object,
                             qsStream:qsStreamT, propagateChange:Function) {
   'ngInject';
 

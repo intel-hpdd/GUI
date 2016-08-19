@@ -24,11 +24,7 @@
 import angular from 'angular';
 import qsFromLocationFactory from './qs-from-location';
 
-import type {
-  StateParamsT
-} from 'angular-ui-router';
-
-export type qsFromLocationT = (params:StateParamsT) => string;
+export type qsFromLocationT = (params:Object) => string;
 
 export default angular.module('qsFromLocation', [])
   .factory('qsFromLocation', qsFromLocationFactory)

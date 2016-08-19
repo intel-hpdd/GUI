@@ -21,12 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from 'intel-fp';
 
 import type {
-  StateServiceT,
-  StateParamsT
+  StateServiceT
 } from 'angular-ui-router';
 
 import type {
@@ -41,13 +39,13 @@ import type {
   qsStreamT
 } from '../qs-stream/qs-stream-module.js';
 
-export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateParams:StateParamsT,
-                                   qsStream:qsStreamT, fsStream:fsCollStream) {
+export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateParams:Object,
+                                   qsStream:qsStreamT, fsStream:fsCollStream, propagateChange:Function) {
   'ngInject';
 
   var fsStream2;
 
-  const hsmFs = angular.extend(this, {
+  const hsmFs = Object.assign(this, {
     onUpdate () {
       const fsId = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
       $state.go('app.hsmFs.hsm', {
@@ -57,7 +55,7 @@ export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateP
     }
   });
 
-  var p = $scope.propagateChange($scope, hsmFs);
+  var p = propagateChange($scope, hsmFs);
 
   p('fileSystems', fsStream());
 
