@@ -31,6 +31,6 @@ export type ActionT = {
 };
 
 export type StoreT = {
-  dispatch:Function;
+  dispatch:(x:any) => boolean;
   select:(key:string) => HighlandStreamT<any>;
 };
