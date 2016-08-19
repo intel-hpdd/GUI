@@ -33,10 +33,10 @@ export default function qsFromLocationFactory ($state:StateServiceT) {
   const UrlMatcher = $state.router.urlMatcherFactory.UrlMatcher;
 
   return function qsFromLocation (params:Object):string {
-    const parts = new UrlMatcher($state.transition.to().url)
-      .format(params)
-      .split('?');
+    let parts = new UrlMatcher($state.transition.to().url)
+      .format(params) || '';
 
+    parts = parts.split('?');
     return parts.length > 1 ? global.decodeURIComponent(parts.pop()) : '';
   };
 }
