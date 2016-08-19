@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 import parserPermutations from '../parser-permutations.js';
@@ -30,6 +30,10 @@ import * as fp from 'intel-fp';
 import {
   resolveStream
 } from '../promise-transforms.js';
+
+import type {
+  qsFromLocationT
+} from '../qs-from-location/qs-from-location-module.js';
 
 export const statusState = {
   name: 'app.status',
@@ -76,7 +80,7 @@ export const tableState = {
     icon: 'fa-tachometer'
   },
   resolve: {
-    notification$ (qsFromLocation) {
+    notification$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
       'ngInject';
 
       const qsFromLocationToOld = fp.flow(
@@ -84,7 +88,7 @@ export const tableState = {
         statusQsToOldQsParser
       );
 
-      var qs = qsFromLocationToOld();
+      var qs = qsFromLocationToOld($stateParams);
 
       if (qs.length)
         qs = '?' + qs;

@@ -26,17 +26,20 @@ import logQsToInputParser from './log-qs-to-input-parser.js';
 import logCompleter from './log-completer.js';
 
 import type {
-  HighlandStreamT
-} from 'highland';
+  $scopeT,
+  $locationT
+} from 'angular';
 
-type fnTo$ = () => HighlandStreamT<Object>;
+import type {
+  qsStreamT
+} from '../qs-stream/qs-stream-module.js';
 
-export function controller ($scope:Object, $location:Object,
-                            qsStream:fnTo$, propagateChange:Function) {
+export function controller ($scope:$scopeT, $location:$locationT, $stateParams:Object,
+                            qsStream:qsStreamT, propagateChange:Function) {
   'ngInject';
 
   const p = propagateChange($scope, this, 'qs');
-  const qs$ = qsStream();
+  const qs$ = qsStream($stateParams);
 
   qs$
     .map(x => x.qs)

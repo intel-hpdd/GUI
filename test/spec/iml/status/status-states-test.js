@@ -88,7 +88,7 @@ describe('status states', () => {
     });
 
     describe('resolve', function () {
-      var qsFromLocation, notification$;
+      var qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
         resolveStream
@@ -98,6 +98,13 @@ describe('status states', () => {
         socketStream
           .and
           .returnValue('socket');
+
+        $stateParams = {
+          foo: 'bar',
+          baz__in: ['1', '2'],
+          bap: '3',
+          bim__in: ['4', '5', '6']
+        };
 
         qsFromLocation = jasmine.createSpy('qsFromLocation');
 
@@ -109,7 +116,7 @@ describe('status states', () => {
           .and
           .returnValue('foo=bar&baz__in=1,2&bap=3&bim__in=4,5,6');
 
-        notification$(qsFromLocation);
+        notification$(qsFromLocation, $stateParams);
 
         expect(socketStream)
           .toHaveBeenCalledOnceWith('/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6');

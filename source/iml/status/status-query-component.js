@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,16 +21,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import statusQsToInputParser from './status-qs-to-input-parser.js';
 import statusInputToQsParser from './status-input-to-qs-parser.js';
 import statusCompleter from './status-completer.js';
 
-export function StatusQueryController ($scope, $location, qsStream, propagateChange) {
+import type {
+  $scopeT,
+  $locationT
+} from 'angular';
+
+import type {
+  qsStreamT
+} from '../qs-stream/qs-stream-module.js';
+
+export function StatusQueryController ($scope:$scopeT, $location:$locationT, qsStream:qsStreamT,
+  propagateChange:Function, $stateParams:Object) {
+
   'ngInject';
 
-  const qs$ = qsStream();
+  const qs$ = qsStream($stateParams);
   const p = propagateChange($scope, this, 'qs');
 
   qs$

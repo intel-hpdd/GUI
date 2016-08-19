@@ -1,14 +1,10 @@
-import targetModule from '../../../../source/iml/target/target-module';
 import highland from 'highland';
+import filterTargetByHost from '../../../../source/iml/target/filter-target-by-host.js';
 
 describe('filter target by host', () => {
-  beforeEach(module(targetModule));
+  var data;
 
-  var filterTargetByHost, data;
-
-  beforeEach(inject(function (_filterTargetByHost_) {
-    filterTargetByHost = _filterTargetByHost_;
-
+  beforeEach(() => {
     data = [
       [
         {
@@ -31,7 +27,7 @@ describe('filter target by host', () => {
         }
       ]
     ];
-  }));
+  });
 
   it('should return targets matching host id', function () {
     var result;

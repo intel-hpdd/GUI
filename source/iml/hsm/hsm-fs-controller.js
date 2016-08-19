@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,16 +21,31 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from 'intel-fp';
 
-export default function HsmFsCtrl ($scope, $state,
-                                   qsStream, fsStream) {
+import type {
+  StateServiceT
+} from 'angular-ui-router';
+
+import type {
+  $scopeT
+} from 'angular';
+
+import type {
+  fsCollStream
+} from './hsm-fs-resolves.js';
+
+import type {
+  qsStreamT
+} from '../qs-stream/qs-stream-module.js';
+
+export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateParams:Object,
+                                   qsStream:qsStreamT, fsStream:fsCollStream, propagateChange:Function) {
   'ngInject';
 
   var fsStream2;
 
-  const hsmFs = angular.extend(this, {
+  const hsmFs = Object.assign(this, {
     onUpdate () {
       const fsId = hsmFs.selectedFs ? hsmFs.selectedFs.id : '';
       $state.go('app.hsmFs.hsm', {
@@ -38,11 +55,11 @@ export default function HsmFsCtrl ($scope, $state,
     }
   });
 
-  var p = $scope.propagateChange($scope, hsmFs);
+  var p = propagateChange($scope, hsmFs);
 
   p('fileSystems', fsStream());
 
-  const qs$ = qsStream({
+  const qs$ = qsStream($stateParams, {
     to: (state) => state.includes['app.hsmFs']
   });
 

@@ -41,6 +41,10 @@ import {
   addCurrentPage
 } from '../api-transforms.js';
 
+import type {
+  qsFromLocationT
+} from '../qs-from-location/qs-from-location-module.js';
+
 export const logState = {
   name: 'app.log',
   data: {
@@ -79,7 +83,7 @@ export const logTableState = {
     icon: 'fa-book'
   },
   resolve: {
-    log$ (qsFromLocation:Function) {
+    log$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
       'ngInject';
 
       const qsFromLocationToOld = fp.flow(
@@ -87,7 +91,7 @@ export const logTableState = {
         statusQsToOldQsParser
       );
 
-      var qs = qsFromLocationToOld();
+      var qs = qsFromLocationToOld($stateParams);
 
       if (qs.length)
         qs = '?' + qs;

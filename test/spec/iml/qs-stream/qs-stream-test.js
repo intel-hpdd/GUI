@@ -22,7 +22,14 @@ describe('qs stream', () => {
     qsFromLocation = jasmine
       .createSpy('qsFromLocation')
       .and
-      .returnValues('foo=bar&baz=bap', 'foo=baz');
+      .callFake(obj => {
+        return Object.keys(obj)
+          .reduce((str, key) => {
+            str = (str === '') ? str : str + '&';
+            str += key + '=' + obj[key];
+            return str;
+          }, '');
+      });
 
     const mod = await mock('source/iml/qs-stream/qs-stream.js', {});
 
@@ -37,7 +44,7 @@ describe('qs stream', () => {
   });
 
   it('should deregister the listener on stream destruction', () => {
-    qsStream()
+    qsStream({})
       .destroy();
 
     expect(destructor)
@@ -48,8 +55,9 @@ describe('qs stream', () => {
     var fn;
 
     beforeEach(() => {
-      qsStream()
+      qsStream({foo: 'bar', baz: 'bap'})
         .each(spy);
+
       fn = $transitions
         .onSuccess
         .calls
@@ -65,7 +73,10 @@ describe('qs stream', () => {
     });
 
     it('should push a new qs onSuccess', () => {
-      fn();
+      fn({
+        params: jasmine.createSpy('params')
+          .and.returnValue({foo: 'baz'})
+      });
 
       expect(spy)
         .toHaveBeenCalledOnceWith({

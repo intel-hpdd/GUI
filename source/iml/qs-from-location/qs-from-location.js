@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,11 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function qsFromLocationFactory ($location) {
+import type {
+  StateServiceT
+} from 'angular-ui-router';
+
+import global from '../global.js';
+
+export default function qsFromLocationFactory ($state:StateServiceT) {
   'ngInject';
 
-  return function qsFromLocation () {
-    var parts = $location.absUrl().split('?');
-    return parts.length > 1 ? parts.pop() : '';
+  const UrlMatcher = $state.router.urlMatcherFactory.UrlMatcher;
+
+  return function qsFromLocation (params:Object):string {
+    let parts = new UrlMatcher($state.transition.to().url)
+      .format(params) || '';
+
+    parts = parts.split('?');
+    return parts.length > 1 ? global.decodeURIComponent(parts.pop()) : '';
   };
 }

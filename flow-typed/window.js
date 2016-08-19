@@ -32,5 +32,6 @@ declare var window: {
   BUILD:string,
   location:Location,
   requestAnimationFrame:(cb:Function) => number,
-  Date:typeof Date
+  Date:typeof Date,
+  decodeURIComponent(str:string):string
 }

@@ -4,7 +4,7 @@ import hsmFsModule from '../../../../source/iml/hsm/hsm-fs-module';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('HSM fs controller', () => {
-  let ctrl, $scope, $state,
+  let ctrl, $scope, $state, $stateParams,
     fsStream, qsStream, qs$, fsStreamB;
 
   beforeEach(module(hsmFsModule));
@@ -31,6 +31,10 @@ describe('HSM fs controller', () => {
       }
     };
 
+    $stateParams = {
+      param: 'val'
+    };
+
     fsStream = highland();
     spyOn(fsStream, 'destroy');
 
@@ -50,6 +54,7 @@ describe('HSM fs controller', () => {
     ctrl = $controller('HsmFsCtrl', {
       $scope,
       $state,
+      $stateParams,
       fsStream: fsStreamB,
       qsStream
     });
@@ -156,6 +161,12 @@ describe('HSM fs controller', () => {
     jasmine.clock().tick();
 
     expect(ctrl.fs).toEqual({ id: '3' });
+  });
+
+  it('should call qsStream', () => {
+    expect(qsStream).toHaveBeenCalledOnceWith($stateParams, {
+      to: jasmine.any(Function)
+    });
   });
 
   describe('destroy', () => {
