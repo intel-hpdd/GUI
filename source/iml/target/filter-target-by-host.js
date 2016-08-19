@@ -26,7 +26,7 @@ import extractApiId from 'intel-extract-api';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function filterTargetByHost (id) {
+export default function filterTargetByHost (id:number) {
   var failoverServersLens = viewLens('failover_servers');
   var primaryServer = viewLens('primary_server');
 
