@@ -37,7 +37,7 @@ describe('help mapper', () => {
 
   it('should not end with a qs', () => {
     expect(el.querySelector('a').getAttribute('ng-href'))
-      .toBe('/static/webhelp/help_wrapper.html');
+      .toBe('/static/webhelp/');
   });
 
   it('should end with a qs on matching route change', () => {
@@ -62,6 +62,6 @@ describe('help mapper', () => {
     $scope.$digest();
 
     expect(el.querySelector('a').getAttribute('ng-href'))
-    .toBe('/static/webhelp/help_wrapper.html?server_tab.htm');
+    .toBe('/static/webhelp/?server_tab.htm');
   });
 });

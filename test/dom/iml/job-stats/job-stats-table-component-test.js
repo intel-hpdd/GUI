@@ -165,7 +165,7 @@ describe('jobstats table component', () => {
 
     it('should have a help link', () => {
       expect(el.querySelector('h4 a').getAttribute('href'))
-        .toBe('/static/webhelp/help_wrapper.html?view_job_statistics.htm');
+        .toBe('/static/webhelp/?view_job_statistics.htm');
     });
   });
 });

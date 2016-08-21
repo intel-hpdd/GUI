@@ -30,13 +30,13 @@ import {
 
 export default () => ({
   restrict: 'A',
-  transclude: true,
   template: `
-<a id="help-menu" ng-href="/static/webhelp/help_wrapper.html{{$ctrl.page}}" target="_blank">
+<a id="help-menu" ng-href="/static/webhelp/{{vm.page}}" target="_blank">
   <i class="fa fa-question-circle"></i> Help
 </a>
   `,
-  controllerAs: '$ctrl',
+  $scope: {},
+  controllerAs: 'vm',
   bindToController: 'true',
   controller ($state:Object, $transitions:Object) {
     'ngInject';
@@ -52,7 +52,8 @@ export default () => ({
 
     $transitions.onSuccess(
       {},
-      transition => this.page = getPage(transition.router.globals.$current)
+      transition =>
+        this.page = getPage(transition.router.globals.$current)
     );
   }
 });

@@ -124,7 +124,7 @@ export default {
           Jobstats not found.
           <br />
           Please ensure you have enabled jobstats.
-          Refer to this <a href="/static/webhelp/help_wrapper.html?view_job_statistics.htm" target="_blank">help page</a>
+          Refer to this <a href="/static/webhelp/?view_job_statistics.htm" target="_blank">help page</a>
           for more information.
         </h4>
       </div>
