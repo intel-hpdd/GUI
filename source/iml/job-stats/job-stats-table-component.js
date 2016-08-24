@@ -152,12 +152,12 @@ export default {
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('read_bytes')">
-                  read MB <i class="fa" ng-class="$ctrl.getClass('read_bytes')"></i>
+                  read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes')"></i>
                 </a>
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('write_bytes')">
-                  write MB <i class="fa" ng-class="$ctrl.getClass('write_bytes')"></i>
+                  write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes')"></i>
                 </a>
               </th>
               <th>
