@@ -45,7 +45,6 @@ describe('job stats states', () => {
         },
         data: {
           helpPage: 'view_job_statistics.htm',
-          access: 'FS_ADMINS',
           anonymousReadProtected: true,
           eulaState: true,
           kind: 'Job Stats',
