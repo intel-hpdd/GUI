@@ -22,10 +22,6 @@
 // express and approved by Intel in writing.
 
 import {
-  GROUPS
-} from '../auth/authorization.js';
-
-import {
   jobstats$,
   getData
 } from './job-stats-resolves.js';
@@ -44,7 +40,6 @@ export const jobStatsState = {
   },
   data: {
     helpPage: 'view_job_statistics.htm',
-    access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     eulaState: true,
     kind: 'Job Stats',
