@@ -27,8 +27,10 @@
           <li><a tabindex="-1" id="mgt-conf-item" ui-sref="app.mgt({ resetState: true })">MGTs</a></li>
         </ul>
       </li>
-      <li ui-sref-active="active">
-        <a ui-sref="app.jobstats({ resetState: true })"><i class="fa fa-signal"></i> Jobstats</a>
+      <li>
+        <a ui-sref="app.jobstats({
+          resetState: true
+        })" ui-sref-opts="{inherit: false, reload: true}"><i class="fa fa-signal"></i> Jobstats</a>
       </li>
       <li ui-sref-active="active">
         <a id="log-menu" ui-sref="app.log.table({ resetState: true })"><i class="fa fa-book"></i> Logs</a>
