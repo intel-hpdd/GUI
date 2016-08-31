@@ -25,8 +25,6 @@ import type {
   StateServiceT
 } from 'angular-ui-router';
 
-import global from '../global.js';
-
 export default function qsFromLocationFactory ($state:StateServiceT) {
   'ngInject';
 
@@ -37,6 +35,6 @@ export default function qsFromLocationFactory ($state:StateServiceT) {
       .format(params) || '';
 
     parts = parts.split('?');
-    return parts.length > 1 ? global.decodeURIComponent(parts.pop()) : '';
+    return parts.length > 1 ? parts.pop() : '';
   };
 }

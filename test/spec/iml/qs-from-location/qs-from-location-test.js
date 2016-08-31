@@ -4,16 +4,10 @@ import {
 } from '../../../system-mock.js';
 
 describe('qs from location', () => {
-  let qsFromLocation, format, mod, global;
+  let qsFromLocation, format, mod;
 
   beforeEachAsync(async function () {
-    global = {
-      decodeURIComponent: jasmine.createSpy('decodeURIComponent')
-    };
-
-    mod = await mock('source/iml/qs-from-location/qs-from-location.js', {
-      'source/iml/global.js': { default: global }
-    });
+    mod = await mock('source/iml/qs-from-location/qs-from-location.js', {});
   });
 
   afterEach(resetAll);
@@ -48,17 +42,12 @@ describe('qs from location', () => {
     var result;
     beforeEach(() => {
       format.and.returnValue('/status?severity=info&record_type=active');
-      global.decodeURIComponent.and.callFake(x => x);
 
       result = qsFromLocation({severity: 'info', record_type: 'active'});
     });
 
     it('should return the qs', function () {
       expect(result).toEqual('severity=info&record_type=active');
-    });
-
-    it('should call decodeURIComponent', () => {
-      expect(global.decodeURIComponent).toHaveBeenCalledOnceWith('severity=info&record_type=active');
     });
   });
 
