@@ -114,7 +114,7 @@ describe('status states', () => {
       it('should call /alert with a qs', () => {
         qsFromLocation
           .and
-          .returnValue('foo=bar&baz__in=1,2&bap=3&bim__in=4,5,6');
+          .returnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
 
         notification$(qsFromLocation, $stateParams);
 

@@ -19,12 +19,12 @@ describe('status qs to input parser test', () => {
     'a=1&b__contains=foo': 'a = 1 and b contains foo',
     'a=1&b=2': 'a = 1 and b = 2',
     'a=b': 'a = b',
-    'a__in=1,2,3': 'a in [1, 2, 3]',
+    'a__in=1%2C2%2C3': 'a in [1, 2, 3]',
     'a=b&c=d&x__in=1': 'a = b and c = d and x in [1]',
-    'a__in=2&b__in=3,4,5': 'a in [2] and b in [3, 4, 5]',
-    'b__in=1&a__in=2&b__in=3,4,5': 'b in [1] and a in [2] and b in [3, 4, 5]',
+    'a__in=2&b__in=3%2C4%2C5': 'a in [2] and b in [3, 4, 5]',
+    'b__in=1&a__in=2&b__in=3%2C4%2C5': 'b in [1] and a in [2] and b in [3, 4, 5]',
     'b__in=1&c=1': 'b in [1] and c = 1',
-    'b__in=1&c=1&a__in=2&b__in=3,4,5&e=4&x__endswith=9':
+    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=9':
       'b in [1] and c = 1 and a in [2] and b in [3, 4, 5] and e = 4 and x ends with 9'
   };
 
