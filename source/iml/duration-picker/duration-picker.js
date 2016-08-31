@@ -25,7 +25,9 @@ export const DURATIONS = {
   MINUTES: 'minutes',
   HOURS: 'hours',
   DAYS: 'days',
-  WEEKS: 'weeks'
+  WEEKS: 'weeks',
+  MONTHS: 'months',
+  YEARS: 'years'
 };
 
 // $FlowIgnore: HTML templates that flow does not recognize.
@@ -51,7 +53,9 @@ export default {
           { unit: DURATIONS.MINUTES, count: 60 },
           { unit: DURATIONS.HOURS, count: 24 },
           { unit: DURATIONS.DAYS, count: 31 },
-          { unit: DURATIONS.WEEKS, count: 4 }
+          { unit: DURATIONS.WEEKS, count: 4 },
+          { unit: DURATIONS.MONTHS, count: 12 },
+          { unit: DURATIONS.YEARS, count: 5 }
         ],
         getCount (unit) {
           var item = this.units
