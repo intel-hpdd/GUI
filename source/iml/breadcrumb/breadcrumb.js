@@ -42,9 +42,9 @@ import type {
 const defaultToObj = withDefault(() => ({}));
 
 const Controller = class {
-  loaded:boolean = true;
   stack:Array<breadcrumbT> = [];
   poppedStateEvent:boolean;
+  loading:boolean;
   onSuccessEvent:boolean;
   originalStackLength:number;
   $onDestroy:Function;
@@ -92,28 +92,31 @@ const Controller = class {
     updateStack(curRoute, data);
 
     const destroyOnStart = $transitions.onStart(
-      {},
-      () => {
-        this.poppedStateEvent = false;
-        this.onSuccessEvent = false;
-        this.loaded = false;
+     {},
+     () => {
+       this.poppedStateEvent = false;
+       this.onSuccessEvent = false;
+       this.loading = true;
 
-        return true;
+       return true;
+     }
+   );
+
+    const destroyOnSuccess = $transitions.onSuccess(
+      {},
+      (transition:TransitionT) => {
+        this.onSuccessEvent = true;
+        this.loading = false;
+
+        const curRoute = transition.to();
+        const data = defaultToObj(
+         getResolvedData(transition, 'getData')
+       );
+
+        this.originalStackLength = this.stack.length;
+        updateStack(curRoute, data);
       }
     );
-
-    const destroyOnSuccess = $transitions.onSuccess({}, (transition) => {
-      this.onSuccessEvent = true;
-      this.loaded = true;
-
-      const curRoute = transition.to();
-      const data = defaultToObj(
-        getResolvedData(transition, 'getData')
-      );
-
-      this.originalStackLength = this.stack.length;
-      updateStack(curRoute, data);
-    });
 
     const handlePopState = () => {
       this.poppedStateEvent = true;
@@ -134,7 +137,7 @@ const Controller = class {
 export default {
   controller: Controller,
   template: `
-<ol class="breadcrumb" ng-if="$ctrl.loaded">
+<ol class="breadcrumb" ng-class="{loading: $ctrl.loading}">
   <li ng-repeat="breadcrumb in $ctrl.stack">
     <span ng-if="$last">
       <i class="fa" ng-class="breadcrumb.icon"></i> {{breadcrumb.kind}}<span ng-if="breadcrumb.label"> : </span>{{breadcrumb.label}}

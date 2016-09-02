@@ -8,7 +8,7 @@ import {
 describe('breadcrumb', () => {
   let getResolvedData, mod, breadcrumbComponent, $scope,
     $compile, el, $transitions, $state, $stateParams, template,
-    linkIcon, link, onSuccess, onStart, global;
+    linkIcon, link, ol, onSuccess, onStart, global;
 
   beforeEachAsync(async function () {
     getResolvedData = jasmine.createSpy('getResolvedData');
@@ -85,7 +85,9 @@ describe('breadcrumb', () => {
         .returnValue(Maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
+      $transitions.onStart.calls.argsFor(0)[1]();
       $scope.$digest();
+      ol = el.querySelector.bind(el, 'ol');
       link = el.querySelector.bind(el, 'li:first-child > span');
       linkIcon = el.querySelector.bind(el, 'li:nth-of-type(1) i');
     });
@@ -98,12 +100,8 @@ describe('breadcrumb', () => {
       expect(linkIcon()).toHaveClass('icon1');
     });
 
-    it('should not render while loading', () => {
-      $transitions.onStart.calls.argsFor(0)[1]();
-      $scope.$digest();
-
-      expect(el.querySelector('ol'))
-        .toBeNull();
+    it('should have a loading class on the ol', () => {
+      expect(ol().classList.contains('loading')).toBe(true);
     });
 
     describe('navigating to dashboard filesystem', () => {
@@ -132,6 +130,7 @@ describe('breadcrumb', () => {
         transitionSuccess(transition);
 
         $scope.$digest();
+        ol = el.querySelector.bind(el, 'ol');
         link = el.querySelector.bind(el, 'li:nth-of-type(1) a');
         link2 = el.querySelector.bind(el, 'li:nth-of-type(2) > span');
         linkIcon2 = el.querySelector.bind(el, 'li:nth-of-type(2) i');
@@ -161,6 +160,10 @@ describe('breadcrumb', () => {
 
       it('should display the icon for the filesystem', () => {
         expect(linkIcon2()).toHaveClass('icon2');
+      });
+
+      it('should not have a loading class on the ol', () => {
+        expect(ol().classList.contains('loading')).toBe(false);
       });
 
       describe('navigating to target', () => {
