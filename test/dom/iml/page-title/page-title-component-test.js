@@ -7,7 +7,7 @@ import {
 
 describe('page title component', () => {
   let $state, $transitions, pageTitleComponent, getResolvedData,
-    $scope, $compile, template, el, link, linkIcon, destroyOnExit,
+    $scope, $compile, template, el, link, linkIcon, destroyOnStart,
     destroyOnSuccess;
 
   beforeEachAsync(async function () {
@@ -36,12 +36,12 @@ describe('page title component', () => {
       }
     };
 
-    destroyOnExit = jasmine.createSpy('destroyOnExit');
+    destroyOnStart = jasmine.createSpy('destroyOnStart');
     destroyOnSuccess = jasmine.createSpy('destroyOnSuccess');
 
     $transitions = {
-      onExit: jasmine.createSpy('onExit')
-        .and.returnValue(destroyOnExit),
+      onStart: jasmine.createSpy('onStart')
+        .and.returnValue(destroyOnStart),
       onSuccess: jasmine.createSpy('onSuccess')
         .and.returnValue(destroyOnSuccess)
     };
@@ -57,7 +57,7 @@ describe('page title component', () => {
     template = '<page-title></page-title>';
   }));
 
-  describe('before a successful transition', () => {
+  describe('when the transition starts', () => {
     beforeEach(() => {
       getResolvedData
         .and.returnValue(Maybe.of({
@@ -66,17 +66,14 @@ describe('page title component', () => {
         }));
 
       el = $compile(template)($scope)[0];
-
-      $transitions.onExit.calls.argsFor(0)[1]();
-
+      $transitions.onStart.calls.argsFor(0)[1]();
       $scope.$digest();
 
-      link = el.querySelector.bind(el, 'h3');
-      linkIcon = el.querySelector.bind(el, 'h3 > i');
+      link = el.querySelector('h3');
     });
 
-    it('should not display the page title', () => {
-      expect(link()).toEqual(null);
+    it('should display the loading class on h3', () => {
+      expect(link.classList.contains('loading')).toBe(true);
     });
   });
 
@@ -114,6 +111,10 @@ describe('page title component', () => {
       linkIcon = el.querySelector.bind(el, 'h3 > i');
     });
 
+    it('should not have a loading class on the h3', () => {
+      expect(link().classList.contains('loading')).toBe(false);
+    });
+
     it('should display the kind and label', () => {
       expect(link().textContent.trim()).toEqual('Dashboard : fs1-MDT0000');
     });
@@ -137,7 +138,10 @@ describe('page title component', () => {
     });
 
     it('should destroy onStart', () => {
-      expect(destroyOnExit).toHaveBeenCalledOnce();
+      expect(destroyOnStart).toHaveBeenCalledOnce();
+    });
+
+    it('should destroy onSuccess', () => {
       expect(destroyOnSuccess).toHaveBeenCalledOnce();
     });
   });
