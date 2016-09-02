@@ -40,46 +40,45 @@ export default {
   controller: function ($state:StateServiceT, $transitions:TransitionT) {
     'ngInject';
 
+    var ctrl = this;
     const route = $state.router.globals.$current;
     const resolvedData = defaultToObj(
       getResolvedData($state.transition, 'getData')
     );
 
-    this.page = {
+    ctrl.page = {
       ...resolvedData,
       ...route.data
     };
 
-    const destroyOnBefore = $transitions.onExit(
+    const destroyOnBefore = $transitions.onStart(
       {},
-      () => {
-        this.loading = true;
-      }
+      () => ctrl.loading = true
     );
 
     const destroyOnSuccess = $transitions.onSuccess(
       {},
-      transition => {
-        this.loading = false;
+      (transition:TransitionT) => {
+        ctrl.loading = false;
 
         const resolvedData = defaultToObj(
           getResolvedData(transition, 'getData')
         );
 
-        this.page = {
+        ctrl.page = {
           ...resolvedData,
           ...transition.to().data
         };
       }
     );
 
-    this.$onDestroy = () => {
+    ctrl.$onDestroy = () => {
       destroyOnBefore();
       destroyOnSuccess();
     };
   },
   template: `
-    <h3 ng-if="!$ctrl.loading">
+    <h3 ng-class="{loading: $ctrl.loading}">
       <i class="fa" ng-class="$ctrl.page.icon"></i>
       {{$ctrl.page.kind}}<span ng-if="$ctrl.page.label"> : </span>{{$ctrl.page.label}}
     </h3>
