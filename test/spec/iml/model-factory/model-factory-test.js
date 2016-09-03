@@ -41,7 +41,7 @@ describe('model factory', function () {
   });
 
   it('should throw if a url is not passed', function () {
-    expect(modelFactory.bind(null, {})).toThrow();
+    expect(() => modelFactory({})).toThrow();
   });
 
   it('should allow a url prefix to be set', function () {

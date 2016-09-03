@@ -21,7 +21,7 @@
 
 import {noop} from 'intel-fp';
 
-export default function (modelFactory, EULA_STATES) {
+export default (modelFactory, EULA_STATES) => {
   'ngInject';
 
   var UserModel = modelFactory({
@@ -50,4 +50,4 @@ export default function (modelFactory, EULA_STATES) {
   };
 
   return UserModel;
-}
+};

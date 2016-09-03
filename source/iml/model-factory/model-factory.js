@@ -21,7 +21,7 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function () {
+export default function modelFactory () {
   var urlPrefix = '';
 
   return {

@@ -24,9 +24,9 @@
 var paths = require('../paths.json');
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var ngAnnotate = require('gulp-ng-annotate');
 var sourcemaps = require('gulp-sourcemaps');
 var destDir = require('../dest-dir');
+var relativeSourcemapsSource = require('gulp-relative-sourcemaps-source');
 
 function jsDeps (fn) {
   return gulp.src(paths.js.deps, {
@@ -85,11 +85,11 @@ var babelDev = babel.bind(null, {
   plugins: [
     'check-es2015-constants',
     'transform-flow-strip-types',
-    'transform-es2015-modules-systemjs',
     'transform-class-properties',
     'transform-object-rest-spread',
     'transform-async-to-generator',
-    'transform-es2015-classes'
+    'transform-es2015-classes',
+    'transform-es2015-modules-systemjs'
   ]
 });
 
@@ -98,9 +98,15 @@ var babelProd = babel.bind(null, {
   babelrc: false,
   plugins: [
     'transform-flow-strip-types',
-    'transform-es2015-modules-systemjs',
     'transform-class-properties',
-    'transform-object-rest-spread'
+    'transform-object-rest-spread',
+    [
+      'angularjs-annotate',
+      {
+        explicitOnly: true
+      }
+    ],
+    'transform-es2015-modules-systemjs'
   ]
 });
 
@@ -123,9 +129,7 @@ exports.jsSourceDev = function jsSourceDev () {
 exports.jsSourceProd = function jsSourceProd () {
   return jsSource(jsSourceProd)
   .pipe(babelProd())
-  .pipe(ngAnnotate({
-    single_quotes: true
-  }))
+  .pipe(relativeSourcemapsSource({dest: 'dest'}))
   .pipe(sourcemaps.write({ sourceRoot: '' }))
   .pipe(gulp.dest('./dest'));
 };

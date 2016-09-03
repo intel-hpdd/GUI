@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 
-export default function (modelFactory, UserModel) {
+export default (modelFactory, UserModel) => {
   'ngInject';
 
   var Session = modelFactory({ url: 'session' });
@@ -40,4 +40,4 @@ export default function (modelFactory, UserModel) {
   };
 
   return Session;
-}
+};

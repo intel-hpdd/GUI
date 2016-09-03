@@ -234,6 +234,8 @@ export default angular.module('iml', [
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)
   .run(($templateCache) => {
+    'ngInject';
+
     $templateCache.put('/static/chroma_ui/state-label.html', stateLabelTooltipTemplate);
     $templateCache.put('/static/chroma_ui/agent-binary-tooltip.html', agentBinaryTooltipTemplate);
     $templateCache.put('/static/chroma_ui/mountpoint-tooltip.html', mountpointTooltipTemplate);
@@ -244,4 +246,8 @@ export default angular.module('iml', [
   })
   .name;
 
-angular.bootstrap(document, ['iml'], {});
+angular.bootstrap(
+  document,
+  ['iml'],
+  {}
+);

@@ -50,8 +50,6 @@ function systemBuild () {
           return obj;
         }, {});
 
-      console.log(builder.loader.packages);
-
       builder.loader.packages = Object
         .keys(builder.loader.packages)
         .reduce(function cleanPackages (obj, key) {
@@ -76,7 +74,11 @@ function revJs () {
     loadMaps: true
   }))
   .pipe(rev())
-  .pipe(sourcemaps.write('.'))
+  .pipe(sourcemaps.write('.', {
+    mapSources: function(sourcePath) {
+      return sourcePath.replace(/^\.\.\/source\//, '../dest/source/');
+    }
+  }))
   .pipe(gulp.dest('dist'));
 }
 
@@ -89,8 +91,6 @@ var build = gulp.parallel(
   js.jsDepsProd,
   js.jsSourceProd,
   js.socketWorkerProd,
-  js.jsTest,
-  js.jsTestDeps,
   assets.templatesProd,
   assets.assetsProd,
   css.buildCssProd
