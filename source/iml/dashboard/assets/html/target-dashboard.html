@@ -15,7 +15,7 @@
       <tbody>
         <tr>
           <td restrict-to="{{ app.GROUPS.FS_ADMINS }}">
-            <a route-to="configure/{{targetDashboard.target.kind | lowercase}}/{{targetDashboard.target.id}}">{{ targetDashboard.target.label }}</a>
+            <a route-to="target/{{targetDashboard.target.id}}">{{ targetDashboard.target.label }}</a>
           </td>
           <td restrict="{{ app.GROUPS.FS_ADMINS }}"> {{targetDashboard.target.label}} </td>
           <td ng-switch on="targetDashboard.target.active_host" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
