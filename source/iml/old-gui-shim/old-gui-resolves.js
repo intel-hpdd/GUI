@@ -49,7 +49,10 @@ export const oldUserDetailResolve = {
     getData: ($stateParams:{ id:string }) => {
       'ngInject';
 
-      return streamToPromise(store.select('users'))
+      return streamToPromise(
+        store.select('users')
+          .filter(xs => xs.length)
+      )
         .then(matchById($stateParams.id))
         .then(
           fp.map(x => ({label: x.username}))
