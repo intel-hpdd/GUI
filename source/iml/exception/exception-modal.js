@@ -41,7 +41,7 @@ const template = '<div class="modal-header"> \
     </button> \
   </div>';
 
-export default function ($uibModal) {
+export default ($uibModal) => {
   'ngInject';
 
   var defaultOptions = {
@@ -57,4 +57,4 @@ export default function ($uibModal) {
 
     return $uibModal.open(options);
   };
-}
+};

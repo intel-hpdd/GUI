@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function (UI_ROOT) {
+export default (UI_ROOT) => {
   'ngInject';
 
   return {
@@ -30,4 +30,4 @@ export default function (UI_ROOT) {
       });
     }
   };
-}
+};

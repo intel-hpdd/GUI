@@ -21,7 +21,7 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function ($cacheFactory) {
+export default ($cacheFactory) => {
   'ngInject';
 
   var cache = $cacheFactory('pathMaxLength', { number: 1024 });
@@ -87,4 +87,4 @@ export default function ($cacheFactory) {
 
     return cache.put(cacheKey, path);
   };
-}
+};

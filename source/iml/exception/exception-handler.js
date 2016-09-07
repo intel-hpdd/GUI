@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function ($provide) {
+export default ($provide) => {
   'ngInject';
 
   $provide.decorator('$exceptionHandler', function ($injector, windowUnload, $delegate) {
@@ -56,4 +56,4 @@ export default function ($provide) {
       return cache[serviceName] || (cache[serviceName] = $injector.get(serviceName));
     }
   });
-}
+};

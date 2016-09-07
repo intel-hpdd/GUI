@@ -22,7 +22,7 @@
 import _ from 'intel-lodash-mixins';
 import moment from 'moment';
 
-export default function (d3) {
+export default (d3) => {
   'ngInject';
 
   var month = d3.time.format('%b %d %H:%M');
@@ -54,4 +54,4 @@ export default function (d3) {
   function toMoment (d) {
     return moment(d).utc().toDate();
   }
-}
+};

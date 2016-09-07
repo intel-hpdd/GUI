@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function () {
+export default () => {
   'ngInject';
 
   return function (jqElement, scope, events) {
@@ -50,4 +50,4 @@ export default function () {
       events = null;
     };
   };
-}
+};
