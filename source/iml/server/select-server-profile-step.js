@@ -20,6 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
+import highland from 'highland';
 import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
 
@@ -124,11 +125,11 @@ export function selectServerProfileStep () {
 
       const waitForCommand = fp.flow(
         fp.map(
-          fp.map(
-            x => x.command
-          )
+          x => x.command
         ),
-        waitForCommandCompletion(showCommand)
+        fp.filter(Boolean),
+        x =>
+          x.length ? waitForCommandCompletion(showCommand, x): highland([])
       );
 
       const hostProfileStream = createOrUpdateHostsStream(data.servers)

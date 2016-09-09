@@ -267,8 +267,11 @@ describe('host profile then', () => {
   });
 
   describe('create host profiles', function () {
-    var socketStream, streams, profile, spy,
-      waitForCommandCompletion, completionResult;
+    let socketStream,
+      streams,
+      profile,
+      spy,
+      waitForCommandCompletion;
 
     beforeEachAsync(async function () {
       streams = [];
@@ -286,12 +289,10 @@ describe('host profile then', () => {
         'source/iml/socket/socket-stream.js': { default: socketStream }
       });
 
-      completionResult = jasmine.createSpy('innerWait')
-        .and.returnValue(highland());
       waitForCommandCompletion = jasmine
         .createSpy('waitForCommandCompletion')
         .and
-        .returnValue(completionResult);
+        .returnValue(highland());
 
       const createHostProfiles = mod.createHostProfilesFactory(waitForCommandCompletion);
       profile = transformedHostProfileFixture[0];
@@ -355,8 +356,9 @@ describe('host profile then', () => {
 
       it('should pass in the commands to wait for command completion', function () {
         jasmine.clock().tick();
-        expect(completionResult)
+        expect(waitForCommandCompletion)
           .toHaveBeenCalledOnceWith(
+            false,
           [
             {
               command: 1

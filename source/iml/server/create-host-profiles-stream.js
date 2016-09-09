@@ -20,12 +20,14 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
+import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
 import {
   lensProp,
   view,
   map,
+  filter,
   flow,
   every
 } from 'intel-fp';
@@ -97,34 +99,37 @@ export function createHostProfilesFactory (waitForCommandCompletion) {
 
   return function createHostProfiles (profile, showCommands) {
     var findInProfiles = _.findInCollection(['address'], profile.hosts);
-    var createHostProfilesStream = _.partialRight(_.partial(socketStream, '/host_profile'), true);
 
     return socketStream('/host', {
       jsonMask: 'objects(id,address,server_profile)',
       qs: { limit: 0 }
     }, true)
       .map(objectsLens)
-      .map(_.ffilter(function limitToUnconfigured (server) {
-        return server.server_profile && server.server_profile.initial_state === 'unconfigured';
-      }))
-      .map(_.ffilter(findInProfiles))
-      .map(_.fmap(function buildProfiles (server) {
-        return {
-          host: server.id,
-          profile: profile.name
-        };
-      }))
-      .map(function buildRequest (hostProfiles) {
-        return {
-          method: 'post',
-          json: {
-            objects: hostProfiles
-          }
-        };
-      })
-      .flatMap(createHostProfilesStream)
+      .map(
+        flow(
+          filter(
+            x => x.server_profile && x.server_profile.initial_state === 'unconfigured'
+          ),
+          filter(findInProfiles),
+          map(x => ({
+            host: x.id,
+            profile: profile.name
+          })),
+          objects => ({
+            method: 'post',
+            json: {
+              objects
+            }
+          })
+        )
+      )
+      .flatMap(x => socketStream('/host_profile', x, true))
       .map(objectsLens)
-      .map(_.fmap(obj => obj.commands[0]))
-      .flatMap(waitForCommandCompletion(showCommands));
+      .map(
+        map(
+          x => x.commands[0]
+        )
+      )
+      .flatMap(x => x.length ? waitForCommandCompletion(showCommands, x): highland([]));
   };
 }

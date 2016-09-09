@@ -173,9 +173,14 @@ describe('select server profile', () => {
     });
 
     describe('on enter', () => {
-      var onEnter, data, createOrUpdateHostsStream,
-        getHostProfiles, waitForCommandCompletion, result,
-        response, spy;
+      let onEnter,
+        data,
+        createOrUpdateHostsStream,
+        getHostProfiles,
+        waitForCommandCompletion,
+        result,
+        response,
+        spy;
 
       beforeEachAsync(async function () {
         data = {
@@ -315,6 +320,58 @@ describe('select server profile', () => {
               },
               error: null,
               traceback: null
+            },
+            {
+              command_and_host: {
+                command: false,
+                host: {
+                  address: 'lotus-34vm7.iml.intel.com',
+                  available_actions: [],
+                  available_jobs: [],
+                  available_transitions: [],
+                  boot_time: null,
+                  client_mounts: [],
+                  content_type_id: 35,
+                  corosync_reported_up: false,
+                  fqdn: 'lotus-34vm7.iml.intel.com',
+                  id: '33',
+                  immutable_state: true,
+                  install_method: 'existing_keys_choice',
+                  label: 'lotus-34vm7.iml.intel.com',
+                  locks: {
+                    read: [],
+                    write: [
+                      391
+                    ]
+                  },
+                  member_of_active_filesystem: false,
+                  needs_fence_reconfiguration: false,
+                  needs_update: false,
+                  nids: [],
+                  nodename: 'lotus-34vm7',
+                  private_key: null,
+                  private_key_passphrase: null,
+                  properties: '{}',
+                  resource_uri: '/api/host/34/',
+                  root_pw: null,
+                  server_profile: {
+                    default: false,
+                    initial_state: 'unconfigured',
+                    managed: false,
+                    name: 'default',
+                    resource_uri: '/api/server_profile/default/',
+                    ui_description: 'An unconfigured server.',
+                    ui_name: 'Unconfigured Server',
+                    user_selectable: false,
+                    worker: false
+                  },
+                  state: 'undeployed',
+                  state_modified_at: '2014-12-10T17:11:03.273059+00:00',
+                  version: null
+                }
+              },
+              error: null,
+              traceback: null
             }
           ]
         };
@@ -323,9 +380,9 @@ describe('select server profile', () => {
           .and.returnValue(highland([response]));
 
         waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-          .and.callFake(() => {
-            return val => highland([val]);
-          });
+          .and
+          .callFake(val => highland([val]));
+
 
         getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(highland([{
           some: 'profiles'
@@ -348,8 +405,16 @@ describe('select server profile', () => {
           .toHaveBeenCalledOnceWith(data.servers);
       });
 
-      it('should wait for command completion', () => {
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+      it('should pass commands to wait for command completion', () => {
+        const commands = fp.flow(
+          x => x.objects,
+          fp.map(x => x.command_and_host),
+          fp.map(x => x.command),
+          fp.filter(x => x)
+        )(response);
+
+        expect(waitForCommandCompletion)
+          .toHaveBeenCalledOnceWith(true, commands);
       });
 
       it('should call getHostProfiles', () => {
