@@ -1,34 +1,43 @@
-const Controller = function Controller () {
+import global from './global';
+
+const Controller = function Controller ($scope) {
   'ngInject';
 
   let ctrl = this;
-  const callbacks = {
-    confirm: ctrl.onConfirm || (() => {}),
-    confirmed: ctrl.onConfirmed
+  const resetDefault = () => {
+    ctrl.default = true;
+    global.removeEventListener('click', resetDefault, true);
   };
 
   Object.assign(ctrl, {
-    state: 'default',
-    click (state) {
-      ctrl.state = state;
-      callbacks[state]();
+    default: true,
+    onDefaultClicked () {
+      ctrl.default = false;
+      ctrl.defaultClick();
+      global.addEventListener('click', resetDefault, true);
+    },
+    onConfirmClicked () {
+      ctrl.confirmClick();
+      global.removeEventListener('click', resetDefault, true);
     }
   });
+
+  $scope.$on('$destroy', resetDefault);
 };
 
 
 export default {
   controller: Controller,
   bindings: {
-    onConfirm: '&',
-    onConfirmed: '&'
+    defaultClick: '&',
+    confirmClick: '&'
   },
   transclude: {
     default: 'defaultButton',
     verify: 'verifyButton'
   },
   template: `
-  <div ng-transclude="default" ng-if="$ctrl.state === 'default'" ng-click="$ctrl.click('confirm')"></div>
-  <div ng-transclude="verify" ng-if="$ctrl.state === 'confirm'" ng-click="$ctrl.click('confirmed')"></div>
+  <div ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefaultClicked()"></div>
+  <div ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirmClicked()"></div>
   `
 };
