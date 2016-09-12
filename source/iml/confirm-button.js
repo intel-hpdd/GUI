@@ -1,35 +1,46 @@
 import global from './global';
 
-const Controller = function Controller ($scope) {
+const Controller = function Controller ($element, $scope) {
   'ngInject';
 
   let ctrl = this;
+  let removeResetListener;
   const resetDefault = () => {
     ctrl.default = true;
-    global.removeEventListener('click', resetDefault, true);
+    $scope.$digest();
+    removeResetListener();
   };
+  removeResetListener = () => global
+    .removeEventListener('mouseup', resetDefault);
+
+  const componentmouseup = (e) => e.stopPropagation();
+  $element[0].addEventListener('mouseup', componentmouseup, true);
+  const removeComponentListener = () => $element[0]
+    .removeEventListener('mouseup', componentmouseup, true);
 
   Object.assign(ctrl, {
     default: true,
-    onDefaultClicked () {
+    onDefault () {
       ctrl.default = false;
-      ctrl.defaultClick();
-      global.addEventListener('click', resetDefault, true);
+      global.addEventListener('mouseup', resetDefault);
     },
-    onConfirmClicked () {
+    onConfirm () {
       ctrl.confirmClick();
-      global.removeEventListener('click', resetDefault, true);
+      removeResetListener();
+      removeComponentListener();
     }
   });
 
-  $scope.$on('$destroy', resetDefault);
+  ctrl.$onDestroy = () => {
+    removeResetListener();
+    removeComponentListener();
+  };
 };
 
 
 export default {
   controller: Controller,
   bindings: {
-    defaultClick: '&',
     confirmClick: '&'
   },
   transclude: {
@@ -37,7 +48,7 @@ export default {
     verify: 'verifyButton'
   },
   template: `
-  <div ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefaultClicked()"></div>
-  <div ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirmClicked()"></div>
+  <span ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefault()"></span>
+  <span ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirm()"></span>
   `
 };
