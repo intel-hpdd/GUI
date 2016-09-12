@@ -4,35 +4,36 @@ const Controller = function Controller ($element, $scope) {
   'ngInject';
 
   let ctrl = this;
-  let removeResetListener;
+  let removeResetListener, removeComponentListener, removeListeners;
   const resetDefault = () => {
     ctrl.default = true;
     $scope.$digest();
-    removeResetListener();
+    removeListeners();
   };
   removeResetListener = () => global
     .removeEventListener('mouseup', resetDefault);
 
   const componentmouseup = (e) => e.stopPropagation();
-  $element[0].addEventListener('mouseup', componentmouseup, true);
-  const removeComponentListener = () => $element[0]
+  removeComponentListener = () => $element[0]
     .removeEventListener('mouseup', componentmouseup, true);
+
+  removeListeners = () => {
+    removeResetListener();
+    removeComponentListener();
+  };
 
   Object.assign(ctrl, {
     default: true,
     onDefault () {
       ctrl.default = false;
+      $element[0].addEventListener('mouseup', componentmouseup, true);
       global.addEventListener('mouseup', resetDefault);
     },
     onConfirm () {
       ctrl.confirmClick();
-      removeResetListener();
-      removeComponentListener();
+      removeListeners();
     },
-    $onDestroy () {
-      removeResetListener();
-      removeComponentListener();
-    }
+    $onDestroy: removeListeners
   });
 };
 
