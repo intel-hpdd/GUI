@@ -28,13 +28,12 @@ const Controller = function Controller ($element, $scope) {
       ctrl.confirmClick();
       removeResetListener();
       removeComponentListener();
+    },
+    $onDestroy () {
+      removeResetListener();
+      removeComponentListener();
     }
   });
-
-  ctrl.$onDestroy = () => {
-    removeResetListener();
-    removeComponentListener();
-  };
 };
 
 
