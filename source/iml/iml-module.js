@@ -47,6 +47,7 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
+import confirmButtonComponent from './confirm-button.js';
 
 import {
   loginState
@@ -210,6 +211,7 @@ export default angular.module('iml', [
   .component('toggleSidePanel', toggleSidePanelComponent)
   .component('breadcrumb', breadcrumbComponent)
   .component('pageTitle', pageTitleComponent)
+  .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)
   .run(($templateCache) => {
