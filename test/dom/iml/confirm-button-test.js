@@ -4,11 +4,17 @@ import {
 } from '../../system-mock.js';
 
 describe('confirm button', () => {
-  let mod, spy1, spy2, defaultButton, verifyButton;
+  let mod, spy1, spy2, defaultButton, verifyButton, global;
   beforeEachAsync(async function () {
     spy1 = jasmine.createSpy('spy1');
     spy2 = jasmine.createSpy('spy2');
-    mod = await mock('source/iml/confirm-button.js', {});
+    global = document;
+    spyOn(global, 'addEventListener').and.callThrough();
+    spyOn(global, 'removeEventListener').and.callThrough();
+
+    mod = await mock('source/iml/confirm-button.js', {
+      'source/iml/global.js': { default: global }
+    });
   });
 
   afterEach(resetAll);
@@ -25,7 +31,7 @@ describe('confirm button', () => {
     $scope.spy2 = spy2;
 
     const template = `
-    <confirm-button on-confirm="spy1()" on-confirmed="spy2()">
+    <confirm-button default-click="spy1()" confirm-click="spy2()">
       <default-button>
         <button>Delete</button>
       </default-button>
@@ -51,12 +57,16 @@ describe('confirm button', () => {
       expect(verifyButton()).toBe(null);
     });
 
-    it('should not call onConfirm', () => {
+    it('should not call defaultClick', () => {
       expect(spy1).not.toHaveBeenCalled();
     });
 
-    it('should not call onConfirmed', () => {
+    it('should not call confirmClick', () => {
       expect(spy2).not.toHaveBeenCalled();
+    });
+
+    it('should not have added an event listener', () => {
+      expect(global.addEventListener).not.toHaveBeenCalled();
     });
   });
 
@@ -74,12 +84,37 @@ describe('confirm button', () => {
       expect(verifyButton()).not.toBe(null);
     });
 
-    it('should call onConfirm', () => {
+    it('should call defaultClick', () => {
       expect(spy1).toHaveBeenCalledOnce();
     });
 
-    it('should not call onConfirmed', () => {
+    it('should not call confirmClick', () => {
       expect(spy2).not.toHaveBeenCalled();
+    });
+
+    it('should call addEventListener', () => {
+      expect(global.addEventListener)
+        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), true);
+    });
+
+    describe('cancel confirm', () => {
+      beforeEach(() => {
+        document.body.click();
+        $scope.$digest();
+      });
+
+      it('should call removeEventListener', () => {
+        expect(global.removeEventListener)
+          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), true);
+      });
+
+      it('should display the default button', () => {
+        expect(defaultButton()).not.toBe(null);
+      });
+
+      it('should not display the verify button', () => {
+        expect(verifyButton()).toBe(null);
+      });
     });
 
     describe('confirmed state', () => {
@@ -92,17 +127,26 @@ describe('confirm button', () => {
         expect(defaultButton()).toBe(null);
       });
 
-      it('should not display the verify button', () => {
-        expect(verifyButton()).toBe(null);
-      });
-
-      it('should not call onConfirm a second time', () => {
+      it('should not call defaultClick a second time', () => {
         expect(spy1).toHaveBeenCalledOnce();
       });
 
-      it('should call onConfirmed', () => {
+      it('should call confirmClick', () => {
         expect(spy2).toHaveBeenCalledOnce();
       });
+
+      it('should remove the event listener', () => {
+        expect(global.removeEventListener)
+          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), true);
+      });
+    });
+  });
+
+  describe('destroy', () => {
+    it('should remove the event listener', () => {
+      $scope.$destroy();
+      expect(global.removeEventListener)
+        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), true);
     });
   });
 });
