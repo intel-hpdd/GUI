@@ -47,12 +47,14 @@ const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, 
 
   Object.assign(ctrl, {
     default: true,
+    confirmed: false,
     onDefault (e:MouseEvent) {
       ctrl.default = false;
       e.stopPropagation();
       global.addEventListener('click', resetDefault, false);
     },
     onConfirm (e:MouseEvent) {
+      ctrl.confirmed = true;
       e.stopPropagation();
       ctrl.confirmClick();
       removeResetListener();
@@ -69,10 +71,12 @@ export default {
   },
   transclude: {
     default: 'defaultButton',
-    verify: 'verifyButton'
+    verify: 'verifyButton',
+    waiting: 'waitingButton'
   },
   template: `
   <span ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefault($event.originalEvent)"></span>
-  <span ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
+  <span ng-transclude="verify" ng-if="!$ctrl.default && !$ctrl.confirmed" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
+  <span ng-transclude="waiting" ng-if="$ctrl.confirmed"></span>
   `
 };
