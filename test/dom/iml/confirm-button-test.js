@@ -18,7 +18,7 @@ describe('confirm button', () => {
 
   afterEach(resetAll);
 
-  beforeEach(module($compileProvider => {
+  beforeEach(module('extendScope', $compileProvider => {
     $compileProvider.component('confirmButton', mod.default);
   }));
 
@@ -88,18 +88,18 @@ describe('confirm button', () => {
 
     it('should call addEventListener', () => {
       expect(global.addEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
+        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
     });
 
     describe('cancel confirm', () => {
       beforeEach(() => {
-        document.dispatchEvent(new MouseEvent('mouseup'));
+        document.dispatchEvent(new MouseEvent('click'));
         $scope.$digest();
       });
 
       it('should call removeEventListener', () => {
         expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
+          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
       });
 
       it('should display the default button', () => {
@@ -127,7 +127,7 @@ describe('confirm button', () => {
 
       it('should remove the event listener', () => {
         expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
+          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
       });
     });
   });
@@ -136,7 +136,7 @@ describe('confirm button', () => {
     it('should remove the event listener from global', () => {
       $scope.$destroy();
       expect(global.removeEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
+        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
     });
   });
 });
