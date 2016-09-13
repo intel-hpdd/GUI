@@ -87,8 +87,8 @@ describe('extend scope test', () => {
         localApply($scope, spy);
       });
 
-      it('should invoke the function', () => {
-        expect(spy).toHaveBeenCalled();
+      it('should not invoke the function', () => {
+        expect(spy).not.toHaveBeenCalled();
       });
 
       it('should not call $digest', () => {
