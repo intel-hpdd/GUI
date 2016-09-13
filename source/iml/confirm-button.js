@@ -24,37 +24,36 @@
 import global from './global';
 
 import type {
-  $jqliteElement,
+  jqliteElement,
   $scopeT
 } from 'angular';
 
-const Controller = function Controller ($element:$jqliteElement, $scope:$scopeT) {
+import type {
+  localApplyT
+} from './extend-scope-module.js';
+
+const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, localApply:localApplyT) {
   'ngInject';
 
   let ctrl = this;
   let removeResetListener;
-  const resetDefault = (e:MouseEvent) => {
-    const confirmButton = $element[0].querySelector('button');
-
-    if (e.target === confirmButton) {
-      e.stopPropagation();
-      return;
-    }
-
+  const resetDefault = () => {
     ctrl.default = true;
-    $scope.$digest();
+    localApply($scope);
     removeResetListener();
   };
   removeResetListener = () => global
-    .removeEventListener('mouseup', resetDefault, false);
+    .removeEventListener('click', resetDefault, false);
 
   Object.assign(ctrl, {
     default: true,
-    onDefault () {
+    onDefault (e:MouseEvent) {
       ctrl.default = false;
-      global.addEventListener('mouseup', resetDefault, false);
+      e.stopPropagation();
+      global.addEventListener('click', resetDefault, false);
     },
-    onConfirm () {
+    onConfirm (e:MouseEvent) {
+      e.stopPropagation();
       ctrl.confirmClick();
       removeResetListener();
     },
@@ -73,7 +72,7 @@ export default {
     verify: 'verifyButton'
   },
   template: `
-  <span ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefault()"></span>
-  <span ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirm()"></span>
+  <span ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefault($event.originalEvent)"></span>
+  <span ng-transclude="verify" ng-if="!$ctrl.default" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
   `
 };

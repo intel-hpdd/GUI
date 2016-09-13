@@ -21,7 +21,7 @@ declare module angular {
     path(p?:string):($location | string);
     search(search?:string, val?:string):Object;
   }
-  declare type $jqliteElement = {
+  declare type jqliteElement = {
     get: (id:number) => HTMLElement;
     [key:number]: HTMLElement;
   };
