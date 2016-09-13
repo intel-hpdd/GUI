@@ -77,6 +77,28 @@ describe('extend scope test', () => {
     it('should return the value of fn', function () {
       expect(localApply($scope, always(3))).toBe(3);
     });
+
+    describe('with destroyed scope', () => {
+      let spy;
+      beforeEach(() => {
+        spy = jasmine.createSpy('spy');
+        $scope.$destroy();
+        spyOn($scope, '$digest');
+        localApply($scope, spy);
+      });
+
+      it('should invoke the function', () => {
+        expect(spy).toHaveBeenCalled();
+      });
+
+      it('should not call $digest', () => {
+        expect($scope.$digest).not.toHaveBeenCalled();
+      });
+
+      it('should not invoke the exception handler', () => {
+        expect($exceptionHandler).not.toHaveBeenCalled();
+      });
+    });
   });
 
   describe('exception handler', function () {
