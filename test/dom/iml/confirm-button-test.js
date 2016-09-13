@@ -59,7 +59,7 @@ describe('confirm button', () => {
       expect(verifyButton()).toBe(null);
     });
 
-    it('should not call confirmclick', () => {
+    it('should not call confirmClick', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
@@ -82,13 +82,13 @@ describe('confirm button', () => {
       expect(verifyButton()).not.toBe(null);
     });
 
-    it('should not call confirmclick', () => {
+    it('should not call confirmClick', () => {
       expect(spy).not.toHaveBeenCalled();
     });
 
     it('should call addEventListener', () => {
       expect(global.addEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
+        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
     });
 
     describe('cancel confirm', () => {
@@ -99,7 +99,7 @@ describe('confirm button', () => {
 
       it('should call removeEventListener', () => {
         expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
+          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
       });
 
       it('should display the default button', () => {
@@ -127,24 +127,16 @@ describe('confirm button', () => {
 
       it('should remove the event listener', () => {
         expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
+          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
       });
     });
   });
 
   describe('destroy', () => {
-    beforeEach(() => {
-      $scope.$destroy();
-    });
-
     it('should remove the event listener from global', () => {
+      $scope.$destroy();
       expect(global.removeEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
-    });
-
-    it('should remove the component event listener', () => {
-      expect(el.removeEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), true);
+        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function), false);
     });
   });
 });
