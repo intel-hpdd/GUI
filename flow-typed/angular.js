@@ -1,10 +1,5 @@
 // @flow
 
-type jqliteElement = {
-  get: (id:number) => HTMLElement;
-  [key:number]: HTMLElement;
-};
-
 declare module angular {
   declare class $scope {
     $new():$scope;
@@ -26,6 +21,10 @@ declare module angular {
     path(p?:string):($location | string);
     search(search?:string, val?:string):Object;
   }
+  declare type $jqliteElement = {
+    get: (id:number) => HTMLElement;
+    [key:number]: HTMLElement;
+  };
   declare type $locationT = $location;
   declare type animationCallbackT = (element:jqliteElement, phase:'start'|'close') => void;
   declare class $animation {
