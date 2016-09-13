@@ -35,10 +35,18 @@ import type {
 const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, localApply:localApplyT) {
   'ngInject';
 
-  let ctrl = this;
+  type T = {
+    onDefault:(e:MouseEvent) => void,
+    onConfirm:(e:MouseEvent) => void,
+    $onDestroy:() => void,
+    confirmClick:() => void,
+    state:'default' | 'confirm' | 'confirmed'
+  };
+  const ctrl:T = this;
+
   let removeResetListener;
   const resetDefault = () => {
-    ctrl.default = true;
+    ctrl.state = 'default';
     localApply($scope);
     removeResetListener();
   };
@@ -46,15 +54,14 @@ const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, 
     .removeEventListener('click', resetDefault, false);
 
   Object.assign(ctrl, {
-    default: true,
-    confirmed: false,
+    state: 'default',
     onDefault (e:MouseEvent) {
-      ctrl.default = false;
+      ctrl.state = 'confirm';
       e.stopPropagation();
       global.addEventListener('click', resetDefault, false);
     },
     onConfirm (e:MouseEvent) {
-      ctrl.confirmed = true;
+      ctrl.state = 'confirmed';
       e.stopPropagation();
       ctrl.confirmClick();
       removeResetListener();
@@ -75,8 +82,10 @@ export default {
     waiting: 'waitingButton'
   },
   template: `
-  <span ng-transclude="default" ng-if="$ctrl.default" ng-click="$ctrl.onDefault($event.originalEvent)"></span>
-  <span ng-transclude="verify" ng-if="!$ctrl.default && !$ctrl.confirmed" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
-  <span ng-transclude="waiting" ng-if="$ctrl.confirmed"></span>
+  <span ng-switch="$ctrl.state">
+    <span ng-transclude="default" ng-switch-when="default" ng-click="$ctrl.onDefault($event.originalEvent)"></span>
+    <span ng-transclude="verify" ng-switch-when="confirm" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
+    <span ng-transclude="waiting" ng-switch-when="confirmed"></span>
+  </span>
   `
 };
