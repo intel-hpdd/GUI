@@ -4,7 +4,7 @@ import {
 } from '../../system-mock.js';
 
 describe('confirm button', () => {
-  let mod, spy, defaultButton, verifyButton, global;
+  let mod, spy, defaultButton, verifyButton, waitingButton, global;
   beforeEachAsync(async function () {
     spy = jasmine.createSpy('spy');
     global = document;
@@ -36,6 +36,9 @@ describe('confirm button', () => {
       <verify-button>
         <button>Confirm Delete</button>
       </verify-button>
+      <waiting-button>
+        <button>Waiting</button>
+      </waiting-button>
     </confirm-button>
     `;
 
@@ -48,6 +51,7 @@ describe('confirm button', () => {
 
     defaultButton = el.querySelector.bind(el, 'default-button');
     verifyButton = el.querySelector.bind(el, 'verify-button');
+    waitingButton = el.querySelector.bind(el, 'waiting-button');
   }));
 
   describe('default state', () => {
@@ -57,6 +61,10 @@ describe('confirm button', () => {
 
     it('should not display the verify button', () => {
       expect(verifyButton()).toBe(null);
+    });
+
+    it('should not display the waiting button', () => {
+      expect(waitingButton()).toBe(null);
     });
 
     it('should not call confirmClick', () => {
@@ -80,6 +88,10 @@ describe('confirm button', () => {
 
     it('should display the verify button', () => {
       expect(verifyButton()).not.toBe(null);
+    });
+
+    it('should not display the waiting button', () => {
+      expect(waitingButton()).toBe(null);
     });
 
     it('should not call confirmClick', () => {
@@ -109,6 +121,14 @@ describe('confirm button', () => {
       it('should not display the verify button', () => {
         expect(verifyButton()).toBe(null);
       });
+
+      it('should not display the waiting button', () => {
+        expect(waitingButton()).toBe(null);
+      });
+
+      it('should not call confirmClick', () => {
+        expect(spy).not.toHaveBeenCalled();
+      });
     });
 
     describe('confirmed state', () => {
@@ -121,7 +141,15 @@ describe('confirm button', () => {
         expect(defaultButton()).toBe(null);
       });
 
-      it('should call confirmclick', () => {
+      it('should not display the verify button', () => {
+        expect(verifyButton()).toBe(null);
+      });
+
+      it('should display the waiting button', () => {
+        expect(waitingButton()).not.toBe(null);
+      });
+
+      it('should call confirmClick', () => {
         expect(spy).toHaveBeenCalledOnce();
       });
 
