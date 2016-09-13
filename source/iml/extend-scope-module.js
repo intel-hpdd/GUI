@@ -63,7 +63,7 @@ export default angular.module('extendScope', [])
         $exceptionHandler(e);
       } finally {
         try {
-          if (!scope.$root.$$phase)
+          if (!scope.$$destroyed && !scope.$root.$$phase)
             scope.$digest();
         } catch (e) {
           $exceptionHandler(e);
