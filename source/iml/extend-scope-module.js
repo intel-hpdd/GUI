@@ -56,9 +56,6 @@ export default angular.module('extendScope', [])
   }])
   .factory('localApply', ['$exceptionHandler', function localApplyFactory ($exceptionHandler) {
     return function localApply (scope, fn) {
-      if (scope.$$destroyed)
-        return;
-        
       try {
         if (typeof fn === 'function')
           return fn();
