@@ -96,7 +96,7 @@ describe('file system component', () => {
         .toBe('configure/server/1');
     });
 
-    it('should render the management server', () => {
+    it('should render the primary management server', () => {
       expect(el.querySelectorAll('td a')[1])
         .toHaveText('test001');
     });
