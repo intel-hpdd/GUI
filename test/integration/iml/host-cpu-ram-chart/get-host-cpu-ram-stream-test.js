@@ -2,7 +2,7 @@ import highland from 'highland';
 import moment from 'moment';
 
 import hostCpuRamDataFixtures from
-  '../../../data-fixtures/host-cpu-ram-data-fixtures';
+  '../../../data-fixtures/host-cpu-ram-data-fixtures.json!json';
 
 import {
   default as Maybe,

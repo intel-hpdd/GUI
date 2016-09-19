@@ -1,7 +1,8 @@
 import highland from 'highland';
 import moment from 'moment';
 
-import agentVsCopytoolFixtures from '../../../data-fixtures/agent-vs-copytool-fixtures';
+import agentVsCopytoolFixtures
+  from '../../../data-fixtures/agent-vs-copytool-fixtures.json!json';
 
 import {
   default as Maybe,

@@ -145,6 +145,14 @@ exports.jsTest = function jsTest () {
   .pipe(gulp.dest('./dest'));
 };
 
+exports.jsTestFixtures = function jsTestFixtures () {
+  return gulp.src(paths.js.testFixtures, {
+    since: gulp.lastRun(jsTestFixtures),
+    base: '.'
+  })
+  .pipe(gulp.dest('./dest'));
+};
+
 exports.jsTestDeps = function jsTestDeps () {
   return gulp.src(paths.js.testDeps, {
     since: gulp.lastRun(jsTestDeps),

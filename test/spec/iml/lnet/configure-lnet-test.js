@@ -1,7 +1,9 @@
 import angular from 'angular';
 import highland from 'highland';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
-import networkInterfaceDataFixtures from '../../../data-fixtures/network-interface-fixtures';
+
+import networkInterfaceDataFixtures 
+  from '../../../data-fixtures/network-interface-fixtures.json!json';
 import {
   curry
 } from 'intel-fp';

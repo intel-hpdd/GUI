@@ -1,6 +1,7 @@
-import cpuUsageDataFixtures from '../../../data-fixtures/cpu-usage-fixtures';
 import highland from 'highland';
 import moment from 'moment';
+import cpuUsageDataFixtures
+  from '../../../data-fixtures/cpu-usage-fixtures.json!json';
 
 import {
   default as Maybe,

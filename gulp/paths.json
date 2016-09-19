@@ -26,6 +26,7 @@
       "node_modules*/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
       "node_modules*/intel-big-differ/dest/source/*.js",
       "node_modules*/systemjs-plugin-text/text.js",
+      "node_modules*/systemjs-plugin-json/json.js",
       "bower_components*/fastdom/index.js",
       "node_modules*/moment/moment.js",
       "bower_components*/twix/bin/twix.js",
@@ -42,6 +43,7 @@
     "config": "source/system.config.js",
     "socketWorker": "node_modules*/intel-socket-worker/dist/bundle.js",
     "tests": "test/**/*.js",
+    "testFixtures": "test/data-fixtures/*.json",
     "testDeps": [
       "node_modules*/angular-mocks/angular-mocks.js",
       "node_modules*/angular-mocks/ngMock.js",

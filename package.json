@@ -94,6 +94,7 @@
     "sprintf-js": "1.0.3",
     "systemjs": "0.19.38",
     "systemjs-builder": "0.15.31",
+    "systemjs-plugin-json": "0.1.0",
     "systemjs-plugin-text": "0.0.9"
   }
 }

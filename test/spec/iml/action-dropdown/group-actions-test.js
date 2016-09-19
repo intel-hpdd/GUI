@@ -1,5 +1,6 @@
 import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
-import groupActionsFixtures from '../../../data-fixtures/group-actions-fixtures';
+import groupActionsFixtures
+  from '../../../data-fixtures/group-actions-fixtures.json!json';
 
 
 describe('ordering groups', () => {

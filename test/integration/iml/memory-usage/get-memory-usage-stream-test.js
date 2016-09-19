@@ -1,7 +1,7 @@
 import highland from 'highland';
 import moment from 'moment';
 import memoryUsageDataFixtures from
-  '../../../data-fixtures/memory-usage-fixtures';
+  '../../../data-fixtures/memory-usage-fixtures.json!json';
 
 import {
   default as Maybe,

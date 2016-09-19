@@ -9,7 +9,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 window.__karma__.loaded = function () {};
 
 var testFiles = Object.keys(window.__karma__.files)
-  .filter(f => /\/.+-test\.js$/.test(f))
+  .filter(f => /\/.+-test\.(js|json)$/.test(f))
   .map(f => f.replace(/^\//, ''))
   .map(f => f.replace(/^base\/dest\//, ''));
 

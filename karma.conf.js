@@ -16,7 +16,8 @@ module.exports = function (config) {
       {pattern: 'dest/bower_components/**/*.js', included: false, watched: true},
       {pattern: 'dest/source/iml/**/*.js', included: false, watched: true},
       {pattern: 'dest/source/iml/**/*.html', included: false, watched: true},
-      {pattern: 'dest/test/**/*.js', included: false, watched: true}
+      {pattern: 'dest/test/**/*.js', included: false, watched: true},
+      {pattern: 'dest/test/data-fixtures/*.json', included: false, watched: true}
     ],
     proxies: {
       '/static/chroma_ui/': '/base/dest/'

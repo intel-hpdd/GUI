@@ -1,7 +1,7 @@
 import highland from 'highland';
 import moment from 'moment';
 import spaceUsageDataFixtures from
-  '../../../data-fixtures/space-usage-fixtures';
+  '../../../data-fixtures/space-usage-fixtures.json!json';
 
 
 import {

@@ -1,6 +1,6 @@
 import highland from 'highland';
 import ostBalanceDataFixtures from
-  '../../../data-fixtures/ost-balance-data-fixtures';
+  '../../../data-fixtures/ost-balance-data-fixtures.json!json';
 import ostBalanceModule from
   '../../../../source/iml/ost-balance/ost-balance-module';
 

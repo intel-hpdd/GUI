@@ -1,7 +1,7 @@
 import highland from 'highland';
 import moment from 'moment';
 import mdoDataFixtures
-  from '../../../data-fixtures/mdo-data-fixture';
+  from '../../../data-fixtures/mdo-data-fixture.json!json';
 
 import {
   default as Maybe,

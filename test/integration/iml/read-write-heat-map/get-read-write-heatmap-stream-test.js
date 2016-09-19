@@ -1,7 +1,7 @@
 import highland from 'highland';
 import moment from 'moment';
 import readWriteHeatMapDataFixtures from
-  '../../../data-fixtures/read-write-heat-map-fixtures';
+  '../../../data-fixtures/read-write-heat-map-fixtures.json!json';
 
 import {
   lensProp,

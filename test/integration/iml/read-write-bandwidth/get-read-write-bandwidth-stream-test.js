@@ -1,7 +1,7 @@
 import highland from 'highland';
 import moment from 'moment';
 import readWriteBandwidthDataFixtures from
-  '../../../data-fixtures/read-write-bandwidth-fixtures';
+  '../../../data-fixtures/read-write-bandwidth-fixtures.json!json';
 
 import {
   default as Maybe,

@@ -1,5 +1,6 @@
 import serverModule from '../../../../source/iml/server/server-module';
-import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture';
+import transformedHostProfileFixture
+  from '../../../data-fixtures/transformed-host-profile-fixture.json!json';
 import highland from 'highland';
 import * as fp from 'intel-fp';
 

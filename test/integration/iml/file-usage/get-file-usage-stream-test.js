@@ -1,6 +1,8 @@
-import fileUsageDataFixtures from '../../../data-fixtures/file-usage-fixtures';
 import highland from 'highland';
 import moment from 'moment';
+
+import fileUsageDataFixtures
+  from '../../../data-fixtures/file-usage-fixtures.json!json';
 
 import {
   default as Maybe,
