@@ -45,7 +45,13 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['ChromeNoProxy', 'Firefox'],
+    customLaunchers: {
+      ChromeNoProxy: {
+        base: 'Chrome',
+        flags: ['--no-proxy-server']
+      }
+    },
     captureTimeout: 60000,
     browserDisconnectTimeout: 20000,
     browserNoActivityTimeout: 60000,
