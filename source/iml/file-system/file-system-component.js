@@ -53,7 +53,7 @@ export default {
         <tr>
           <th>File System</th>
           <th>Status</th>
-          <th>Management Server</th>
+          <th>Primary MGS</th>
           <th>Metadata Server Count</th>
           <th>Connected Clients</th>
           <th>Space Used / Total</th>
