@@ -81,7 +81,7 @@ export default ($state, localApply:localApplyT,
   'ngInject';
 
   const dataLens = view(lensProp('data'));
-  const maxMillisecondsDiff = 16000;
+  const maxMillisecondsDiff = 30000;
 
   return function getReadWriteHeatMapChart (overrides:filesystemQueryT | targetQueryT, page:string) {
     getStore.dispatch({

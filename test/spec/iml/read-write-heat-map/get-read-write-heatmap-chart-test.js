@@ -302,7 +302,7 @@ describe('Read Write Heat Map chart', () => {
             .toHaveBeenCalledOnceWith('click', jasmine.any(Function));
         });
 
-        it('should ensure that minimum distance between current and next is 16 seconds', () => {
+        it('should ensure that minimum distance between current and next is 30 seconds', () => {
           const onClick = d3Chart.dispatch.on.calls.argsFor(0)[1];
           const points = {
             current: {
@@ -318,7 +318,7 @@ describe('Read Write Heat Map chart', () => {
           expect($state.go)
             .toHaveBeenCalledOnceWith('app.jobstats', {
               id: 1,
-              startDate: '2016-04-14T18:39:58.570Z',
+              startDate: '2016-04-14T18:39:44.570Z',
               endDate: '2016-04-14T18:40:14.570Z'
             });
         });
