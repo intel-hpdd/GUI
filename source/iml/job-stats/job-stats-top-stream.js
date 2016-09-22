@@ -29,7 +29,7 @@ import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
 
 import {
   normalize,
-  getAverage,
+  calculateData,
   collectById
 } from './job-stats-transforms.js';
 
@@ -57,10 +57,12 @@ const getData$ = (builder, buffer) =>
         .through(normalize)
         .through(b)
         .through(d.setLatest)
-        .through(getAverage)
+        .through(calculateData)
         .map(fp.map(x => ({
           id: x.id,
-          [metric]: x.data
+          [`${metric}_average`]: x.data.average,
+          [`${metric}_min`]: x.data.min,
+          [`${metric}_max`]: x.data.max
         })));
     };
   };

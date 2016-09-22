@@ -23,7 +23,7 @@ describe('job stats reducer', () => {
     expect(jobStatsReducer(undefined, {}))
       .toEqual({
         duration: 10,
-        orderBy: 'read_bytes',
+        orderBy: 'read_bytes_average',
         desc: true
       });
   });
@@ -37,7 +37,7 @@ describe('job stats reducer', () => {
     }))
       .toEqual({
         duration: 5,
-        orderBy: 'read_bytes',
+        orderBy: 'read_bytes_average',
         desc: true
       });
   });
@@ -46,13 +46,13 @@ describe('job stats reducer', () => {
     expect(jobStatsReducer(undefined, {
       type: 'SET_SORT',
       payload: {
-        orderBy: 'write_bytes',
+        orderBy: 'write_bytes_average',
         desc: false
       }
     }))
       .toEqual({
         duration: 10,
-        orderBy: 'write_bytes',
+        orderBy: 'write_bytes_average',
         desc: false
       });
   });

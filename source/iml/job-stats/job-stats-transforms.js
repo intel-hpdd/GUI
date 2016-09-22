@@ -86,12 +86,16 @@ export const collectById = (
     return arr;
   }));
 
-export const getAverage = (s:HighlandStreamT<flatDataT[]>) =>
+export const calculateData = (s:HighlandStreamT<flatDataT[]>) =>
   s
   .group('id')
   .map(
     obj.map(
-      (xs:flatDataT) => math.averageBy(x => x.data, xs)
+      (xs:flatDataT) => ({
+        average: math.averageBy(x => x.data, xs),
+        min: math.minBy(x => x.data, xs),
+        max: math.maxBy(x => x.data, xs)
+      })
     )
   )
   .map(reduceToStruct);

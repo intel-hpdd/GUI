@@ -151,23 +151,63 @@ export default {
                 </a>
               </th>
               <th>
-                <a ng-click="$ctrl.sortProp('read_bytes')">
-                  Average Read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes')"></i>
+                <a ng-click="$ctrl.sortProp('read_bytes_average')">
+                  Avg. Read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes_average')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('read_bytes_min')">
+                  Min. Read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes_min')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('read_bytes_max')">
+                  Max. Read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes_max')"></i>
                 </a>
               </th>
               <th>
-                <a ng-click="$ctrl.sortProp('write_bytes')">
-                  Average Write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes')"></i>
+                <a ng-click="$ctrl.sortProp('write_bytes_average')">
+                  Avg. Write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes_average')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('write_bytes_min')">
+                  Min. Write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes_min')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('write_bytes_max')">
+                  Max. Write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes_max')"></i>
                 </a>
               </th>
               <th>
-                <a ng-click="$ctrl.sortProp('read_iops')">
-                  Average Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops')"></i>
+                <a ng-click="$ctrl.sortProp('read_iops_average')">
+                  Avg. Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops_average')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('read_iops_min')">
+                  Min. Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops_min')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('read_iops_max')">
+                  Max. Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops_max')"></i>
                 </a>
               </th>
               <th>
-                <a ng-click="$ctrl.sortProp('write_iops')">
-                Average Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops')"></i>
+                <a ng-click="$ctrl.sortProp('write_iops_average')">
+                Avg. Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops_average')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('write_iops_min')">
+                Min. Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops_min')"></i>
+                </a>
+              </th>
+              <th class="visible-lg">
+                <a ng-click="$ctrl.sortProp('write_iops_max')">
+                Max. Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops_max')"></i>
                 </a>
               </th>
             </tr>
@@ -178,16 +218,40 @@ export default {
                 {{x.id}}
               </td>
               <td>
-                {{ x.read_bytes | throughput }}
+                {{ x.read_bytes_average | throughput }}
+              </td>
+              <td class="visible-lg">
+                {{ x.read_bytes_min | throughput }}
+              </td>
+              <td class="visible-lg">
+                {{ x.read_bytes_max | throughput }}
               </td>
               <td>
-                {{ x.write_bytes | throughput }}
+                {{ x.write_bytes_average | throughput }}
+              </td>
+              <td class="visible-lg">
+                {{ x.write_bytes_min | throughput }}
+              </td>
+              <td class="visible-lg">
+                {{ x.write_bytes_max | throughput }}
               </td>
               <td>
-                {{ x.read_iops | round:3 }}
+                {{ x.read_iops_average | round:3 }}
+              </td>
+              <td class="visible-lg">
+                {{ x.read_iops_min | round:3 }}
+              </td>
+              <td class="visible-lg">
+                {{ x.read_iops_max | round:3 }}
               </td>
               <td>
-                {{ x.write_iops | round:3 }}
+                {{ x.write_iops_average | round:3 }}
+              </td>
+              <td class="visible-lg">
+                {{ x.write_iops_min | round:3 }}
+              </td>
+              <td class="visible-lg">
+                {{ x.write_iops_max | round:3 }}
               </td>
             </tr>
           </tbody>

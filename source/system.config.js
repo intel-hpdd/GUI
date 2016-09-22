@@ -64,6 +64,11 @@ System.config({
       map: {
         'intel-fp': 'node_modules/intel-obj/node_modules/intel-fp/dist/source/fp.js'
       }
+    },
+    'intel-math': {
+      map: {
+        'intel-fp': 'node_modules/intel-obj/node_modules/intel-fp/dist/source/fp.js'
+      }
     }
   },
   meta: {

@@ -72,7 +72,9 @@ export const jobstats$ = ($stateParams:jobStatsParamsT) => {
         $stateParams.startDate,
         $stateParams.endDate,
         {
-          id: $stateParams.id
+          qs: {
+            id: $stateParams.id
+          }
         }
       )
     );

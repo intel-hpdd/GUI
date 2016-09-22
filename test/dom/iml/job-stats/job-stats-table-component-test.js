@@ -60,38 +60,38 @@ describe('jobstats table component', () => {
     beforeEach(() => {
       config$.write({
         duration: 10,
-        orderBy: 'read_bytes',
+        orderBy: 'read_bytes_average',
         desc: true
       });
 
       $scope.jobstats$.write([
         {
           id: 'cp.0',
-          read_bytes: 1024,
-          write_bytes: 1024,
-          read_iops: 100,
-          write_iops: 100
+          read_bytes_average: 1024,
+          write_bytes_average: 1024,
+          read_iops_average: 100,
+          write_iops_average: 100
         },
         {
           id: 'dd.0',
-          read_bytes: 2048,
-          write_bytes: 2048,
-          read_iops: 200,
-          write_iops: 200
+          read_bytes_average: 2048,
+          write_bytes_average: 2048,
+          read_iops_average: 200,
+          write_iops_average: 200
         }
       ]);
     });
 
-    it('should start sorting read_bytes desc', () => {
+    it('should start sorting read_bytes_average desc', () => {
       expect(el.querySelectorAll('th a i')[1])
         .toHaveClass('fa-sort-desc');
     });
 
-    it('should put highest read_bytes first', () => {
+    it('should put highest read_bytes_average first', () => {
       const elm = el
         .querySelector('tbody')
         .querySelector('tr')
-        .querySelectorAll('td')[2];
+        .querySelectorAll('td')[1];
 
       expect(elm)
         .toHaveText('2.000 kB/s');
@@ -118,7 +118,7 @@ describe('jobstats table component', () => {
           .toHaveBeenCalledOnceWith({
             type: 'SET_SORT',
             payload: {
-              orderBy: 'read_bytes',
+              orderBy: 'read_bytes_average',
               desc: false
             }
           });
@@ -127,7 +127,7 @@ describe('jobstats table component', () => {
       it('should toggle the selector', () => {
         config$.write({
           duration: 10,
-          orderBy: 'read_bytes',
+          orderBy: 'read_bytes_average',
           desc: false
         });
 
@@ -135,17 +135,17 @@ describe('jobstats table component', () => {
           .toHaveClass('fa-sort-asc');
       });
 
-      it('should put lowest read_bytes first', () => {
+      it('should put lowest read_bytes_average first', () => {
         config$.write({
           duration: 10,
-          orderBy: 'read_bytes',
+          orderBy: 'read_bytes_average',
           desc: false
         });
 
         const elm = el
           .querySelector('tbody')
           .querySelector('tr')
-          .querySelectorAll('td')[2];
+          .querySelectorAll('td')[1];
 
         expect(elm)
           .toHaveText('1.000 kB/s');

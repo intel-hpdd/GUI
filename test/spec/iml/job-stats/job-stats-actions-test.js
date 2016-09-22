@@ -33,13 +33,13 @@ describe('job stats actions', () => {
   });
 
   it('should set sort', () => {
-    const resp = setSort('read_bytes', true);
+    const resp = setSort('read_bytes_average', true);
 
     expect(resp)
       .toEqual({
         type: 'SET_SORT',
         payload: {
-          orderBy: 'read_bytes',
+          orderBy: 'read_bytes_average',
           desc: true
         }
       });

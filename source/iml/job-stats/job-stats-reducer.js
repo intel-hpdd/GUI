@@ -30,7 +30,7 @@ import type {
 
 const startingState = {
   duration: 10,
-  orderBy: 'read_bytes',
+  orderBy: 'read_bytes_average',
   desc: true
 };
 

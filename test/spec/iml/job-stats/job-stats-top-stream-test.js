@@ -150,17 +150,33 @@ describe('job stats top stream', () => {
           .toEqual([
             {
               id: 'cp.0',
-              read_bytes: 189914311.44027776,
-              write_bytes: 189914311.44027776,
-              read_iops: 189914311.44027776,
-              write_iops: 189914311.44027776
+              read_bytes_min: 174396378.92222223,
+              read_bytes_max: 205432243.9583333,
+              read_bytes_average: 189914311.44027776,
+              write_bytes_min: 174396378.92222223,
+              write_bytes_max: 205432243.9583333,
+              write_bytes_average: 189914311.44027776,
+              read_iops_min: 174396378.92222223,
+              read_iops_max: 205432243.9583333,
+              read_iops_average: 189914311.44027776,
+              write_iops_min: 174396378.92222223,
+              write_iops_max: 205432243.9583333,
+              write_iops_average: 189914311.44027776
             },
             {
               id: 'dd.0',
-              read_bytes: 180879592.5972222,
-              write_bytes: 180879592.5972222,
-              read_iops: 180879592.5972222,
-              write_iops: 180879592.5972222
+              read_bytes_min: 157565007.50277779,
+              read_bytes_max: 204194177.69166663,
+              read_bytes_average: 180879592.5972222,
+              write_bytes_min: 157565007.50277779,
+              write_bytes_max: 204194177.69166663,
+              write_bytes_average: 180879592.5972222,
+              read_iops_min: 157565007.50277779,
+              read_iops_max: 204194177.69166663,
+              read_iops_average: 180879592.5972222,
+              write_iops_min: 157565007.50277779,
+              write_iops_max: 204194177.69166663,
+              write_iops_average: 180879592.5972222
             }
           ]);
       });
@@ -263,17 +279,33 @@ describe('job stats top stream', () => {
           .toEqual([
             {
               id: 'cp.0',
-              read_bytes: 189914311.44027776,
-              write_bytes: 189914311.44027776,
-              read_iops: 189914311.44027776,
-              write_iops: 189914311.44027776
+              read_bytes_min: 174396378.92222223,
+              read_bytes_max: 205432243.9583333,
+              read_bytes_average: 189914311.44027776,
+              write_bytes_min: 174396378.92222223,
+              write_bytes_max: 205432243.9583333,
+              write_bytes_average: 189914311.44027776,
+              read_iops_min: 174396378.92222223,
+              read_iops_max: 205432243.9583333,
+              read_iops_average: 189914311.44027776,
+              write_iops_min: 174396378.92222223,
+              write_iops_max: 205432243.9583333,
+              write_iops_average: 189914311.44027776
             },
             {
               id: 'dd.0',
-              read_bytes: 180879592.5972222,
-              write_bytes: 180879592.5972222,
-              read_iops: 180879592.5972222,
-              write_iops: 180879592.5972222
+              read_bytes_min: 157565007.50277779,
+              read_bytes_max: 204194177.69166663,
+              read_bytes_average: 180879592.5972222,
+              write_bytes_min: 157565007.50277779,
+              write_bytes_max: 204194177.69166663,
+              write_bytes_average: 180879592.5972222,
+              read_iops_min: 157565007.50277779,
+              read_iops_max: 204194177.69166663,
+              read_iops_average: 180879592.5972222,
+              write_iops_min: 157565007.50277779,
+              write_iops_max: 204194177.69166663,
+              write_iops_average: 180879592.5972222
             }
           ]);
       });

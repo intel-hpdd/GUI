@@ -12,7 +12,7 @@ import {
 describe('job stats transforms', () => {
   let reduceToStruct,
     collectById,
-    getAverage,
+    calculateData,
     normalize;
 
   beforeEachAsync(async function () {
@@ -24,7 +24,7 @@ describe('job stats transforms', () => {
     ({
       reduceToStruct,
       collectById,
-      getAverage,
+      calculateData,
       normalize
     } = mod);
   });
@@ -101,12 +101,12 @@ describe('job stats transforms', () => {
     });
   });
 
-  describe('getAverage', () => {
+  describe('calculateData', () => {
     itAsync('should work with empty data', async function () {
       const s = highland([]);
 
       const result = await streamToPromise(
-        getAverage(s)
+        calculateData(s)
       );
 
       expect(result).toEqual([]);
@@ -137,16 +137,24 @@ describe('job stats transforms', () => {
       ]);
 
       const result = await streamToPromise(
-        getAverage(s)
+        calculateData(s)
       );
 
       expect(result).toEqual([
         {
-          data: 189914311.440277765,
+          data: {
+            average: 189914311.440277765,
+            max: 205432243.9583333,
+            min: 174396378.92222223
+          },
           id: 'cp.0'
         },
         {
-          data: 180879592.5972222,
+          data: {
+            average: 180879592.5972222,
+            max: 204194177.69166663,
+            min: 157565007.50277779
+          },
           id: 'dd.0'
         }
       ]);
