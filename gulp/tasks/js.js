@@ -38,7 +38,7 @@ function jsDeps (fn) {
 exports.jsDepsDev = function jsDepsDev () {
   return jsDeps(jsDepsDev)
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 exports.jsDepsProd = function jsDepsProd () {
@@ -57,7 +57,7 @@ function socketWorker (fn) {
 exports.socketWorkerDev = function socketWorkerDev () {
   return socketWorker(socketWorkerDev)
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 exports.socketWorkerProd = function socketWorkerProd () {
@@ -76,7 +76,7 @@ function systemConfig (fn) {
 exports.systemConfigDev = function systemConfigDev () {
   return systemConfig(systemConfigDev)
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 var babelDev = babel.bind(null, {
@@ -123,7 +123,7 @@ exports.jsSourceDev = function jsSourceDev () {
   .pipe(babelDev())
   .pipe(sourcemaps.write({ sourceRoot: '/static/chroma_ui' }))
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 exports.jsSourceProd = function jsSourceProd () {

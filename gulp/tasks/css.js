@@ -48,7 +48,7 @@ module.exports.buildCssDev = function buildCssDev () {
   return buildCss(buildCssDev, '')
   .pipe(sourcemaps.write({ sourceRoot: '' }))
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 

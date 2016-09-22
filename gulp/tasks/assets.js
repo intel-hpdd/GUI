@@ -39,7 +39,7 @@ function templates (fn) {
 exports.templatesDev = function templatesDev () {
   return templates(templatesDev)
     .pipe(gulp.dest('./dest'))
-    .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+    .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 }
 
 exports.templatesProd = function templatesProd () {
@@ -64,7 +64,7 @@ function assets (fn) {
 exports.assetsDev = function assetsDev () {
   return assets(assetsDev)
   .pipe(gulp.dest('./dest'))
-  .pipe(gulp.symlink('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
 };
 
 exports.assetsProd = function assetsProd () {
