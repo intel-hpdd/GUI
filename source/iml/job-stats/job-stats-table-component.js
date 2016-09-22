@@ -152,22 +152,22 @@ export default {
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('read_bytes')">
-                  read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes')"></i>
+                  Average Read Bandwidth <i class="fa" ng-class="$ctrl.getClass('read_bytes')"></i>
                 </a>
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('write_bytes')">
-                  write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes')"></i>
+                  Average Write Bandwidth <i class="fa" ng-class="$ctrl.getClass('write_bytes')"></i>
                 </a>
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('read_iops')">
-                  Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops')"></i>
+                  Average Read IOPS <i class="fa" ng-class="$ctrl.getClass('read_iops')"></i>
                 </a>
               </th>
               <th>
                 <a ng-click="$ctrl.sortProp('write_iops')">
-                Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops')"></i>
+                Average Write IOPS <i class="fa" ng-class="$ctrl.getClass('write_iops')"></i>
                 </a>
               </th>
             </tr>
