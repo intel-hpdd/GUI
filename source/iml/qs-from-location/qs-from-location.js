@@ -31,7 +31,10 @@ export default function qsFromLocationFactory ($state:StateServiceT) {
   const UrlMatcher = $state.router.urlMatcherFactory.UrlMatcher;
 
   return function qsFromLocation (params:Object):string {
-    let parts = new UrlMatcher($state.transition.to().url)
+    let parts = new UrlMatcher(
+      $state.transition.to().url,
+      $state.router.urlMatcherFactory.paramTypes
+    )
       .format(params) || '';
 
     parts = parts.split('?');

@@ -29,7 +29,7 @@
     "angular-mocks": "1.5.8",
     "angular-resource": "1.5.8",
     "angular-ui-bootstrap": "1.3.3",
-    "angular-ui-router": "1.0.0-beta.1",
+    "angular-ui-router": "1.0.0-beta.3",
     "babel-eslint": "6.1.2",
     "babel-plugin-__coverage__": "11.0.0",
     "babel-plugin-angularjs-annotate": "0.5.1",
