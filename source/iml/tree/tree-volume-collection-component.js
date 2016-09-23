@@ -72,7 +72,8 @@ function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
     qs: {
       host_id: this.hostId,
       offset: computePage(item.meta),
-      limit: item.meta.limit
+      limit: item.meta.limit,
+      order_by: 'label'
     }
   });
 

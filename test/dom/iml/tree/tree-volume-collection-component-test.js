@@ -115,7 +115,8 @@ describe('tree volume collection component', () => {
           qs: {
             host_id: 1,
             offset: 0,
-            limit: 50
+            limit: 50,
+            order_by: 'label'
           }
         });
     });
