@@ -17,6 +17,7 @@ describe('qs from location', () => {
     let state = {
       router: {
         urlMatcherFactory: {
+          paramTypes: 'paramTypes',
           UrlMatcher: jasmine.createSpy('UrlMatcher')
           .and.returnValue({
             format: format
