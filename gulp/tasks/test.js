@@ -10,11 +10,3 @@ function runServer (options) {
 }
 
 module.exports.continuous = runServer({});
-module.exports.once = runServer({
-  singleRun: true,
-  reporters: ['dots']
-});
-module.exports.ci = runServer({
-  singleRun: true,
-  reporters: ['dots', 'junit']
-});

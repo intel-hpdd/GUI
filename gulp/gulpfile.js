@@ -13,5 +13,3 @@ gulp.task('dev', tasks.dev.dev);
 gulp.task('dev:build', tasks.dev.devBuild);
 gulp.task('prod', tasks.prod.prod);
 gulp.task('prod:local', tasks.prod.prodLocal);
-gulp.task('test:once', tasks.test.once);
-gulp.task('test:ci', tasks.test.ci);
