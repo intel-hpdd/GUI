@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-pushd gulp
-../node_modules/gulp/bin/gulp.js dev:build
-../node_modules/gulp/bin/gulp.js test:ci
-popd
+BABEL_ENV=coverage npm run dev:build
+npm run karma:single -- --reporters coverage,junit
 mkdir -p ../results
 mv ./test-results/*.xml ../results
