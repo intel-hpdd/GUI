@@ -26,6 +26,7 @@ import * as obj from 'intel-obj';
 import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
+import sumByDate from '../charting/sum-by-date.js';
 
 import {
   normalize,
@@ -54,9 +55,11 @@ const getData$ = (builder, buffer) =>
 
       return socketStream('/target/metric', params, true)
         .map(obj.values)
-        .through(normalize)
+        .flatten()
         .through(b)
         .through(d.setLatest)
+        .through(sumByDate)
+        .through(normalize)
         .through(calculateData)
         .map(fp.map(x => ({
           id: x.id,

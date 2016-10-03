@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,28 +21,49 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function sumByDate (s) {
-  return s
+import * as obj from 'intel-obj';
+import * as fp from 'intel-fp';
+
+import type {
+  HighlandStreamT
+} from 'highland';
+
+type statT = {
+  data:{
+    [key:string]:number
+  },
+  ts:string
+};
+
+type sumT = (xs:Array<statT[]>) => Array<statT[]>
+const sum:sumT = fp
+  .map(
+    fp
+      .chainL((a:statT, b:statT) =>
+        obj.reduce(
+          () => ({
+            ...a
+          }),
+          (v:number, k:string, o:statT):statT => ({
+            ...o,
+            data: {
+              ...o.data,
+              [k]: (o.data[k] || 0) + v
+            }
+          }),
+          b.data
+        )
+      )
+    );
+
+type statStreamT = HighlandStreamT<statT>;
+export default (s:statStreamT):statStreamT =>
+  s
     .group('ts')
-    .doto(function sum (grouped) {
-      Object.keys(grouped)
-        .forEach(function (key) {
-          grouped[key] = grouped[key].reduce(function (obj, x) {
-            Object.keys(x.data).forEach(function (dataKey) {
-              var d = obj[dataKey] || 0;
-
-              obj[dataKey] = d + x.data[dataKey];
-            });
-
-            return obj;
-          }, {});
-        });
-    })
-    .flatMap(function (grouped) {
-      return Object.keys(grouped).map(function (ts) {
-        var x = grouped[ts];
-        x.ts = ts;
-        return x;
-      });
-    });
-}
+    .map(
+      fp.flow(
+        obj.values,
+        sum
+      )
+    )
+    .flatten();

@@ -54,48 +54,47 @@ export const reduceToStruct:reduceFnT = obj.reduceArr(
     })
 );
 
-export const normalize = (s:HighlandStreamT<dataT[]>) =>
+export const normalize = (s:HighlandStreamT<dataT>) =>
   s
-  .flatten()
-  .map((x:dataT) =>
-    reduceToStruct(x.data)
-      .map(d => ({
-        ...d,
-        ts: x.ts
-      }))
+  .map(
+    fp.flow(
+      (x:dataT) => x.data,
+      reduceToStruct
+    )
   )
   .flatten();
-
-export const collectById = (
-  streams:HighlandStreamT<HighlandStreamT<flatDataT[]>>
-):HighlandStreamT<{id:string, [key:string]:number }> =>
-  streams
-  .merge()
-  .flatten()
-  .collect()
-  .map(fp.reduce([], (arr, curr) => {
-    const v = fp.find(x => x.id === curr.id, arr);
-
-    if (v)
-      Object.assign(v, curr);
-    else
-      arr.push({
-        ...curr
-      });
-
-    return arr;
-  }));
 
 export const calculateData = (s:HighlandStreamT<flatDataT[]>) =>
   s
   .group('id')
   .map(
     obj.map(
-      (xs:flatDataT) => ({
-        average: math.averageBy(x => x.data, xs),
-        min: math.minBy(x => x.data, xs),
-        max: math.maxBy(x => x.data, xs)
+      (xs:flatDataT[]):{average:number, min:number, max:number} => ({
+        average: math.averageBy((x:flatDataT) => x.data, xs),
+        min: math.minBy((x:flatDataT) => x.data, xs),
+        max: math.maxBy((x:flatDataT) => x.data, xs)
       })
     )
   )
   .map(reduceToStruct);
+
+
+export const collectById = (
+    streams:HighlandStreamT<HighlandStreamT<flatDataT[]>>
+  ):HighlandStreamT<{id:string, [key:string]:number }> =>
+    streams
+    .merge()
+    .flatten()
+    .collect()
+    .map(fp.reduce([], (arr, curr) => {
+      const v = fp.find(x => x.id === curr.id, arr);
+
+      if (v)
+        Object.assign(v, curr);
+      else
+        arr.push({
+          ...curr
+        });
+
+      return arr;
+    }));

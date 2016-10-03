@@ -1,6 +1,7 @@
 // @flow
 
 import highland from 'highland';
+import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json!json';
 
 import {
   mock,
@@ -34,24 +35,7 @@ describe('job stats top stream', () => {
       .createSpy('socketStream')
       .and
       .callFake(() => highland([
-        {
-          '1': [
-            {
-              data: {
-                'cp.0': 174396378.92222223,
-                'dd.0': 157565007.50277779
-              },
-              ts: '2016-08-09T15:03:00+00:00'
-            },
-            {
-              data: {
-                'cp.0': 205432243.9583333,
-                'dd.0': 204194177.69166663
-              },
-              ts: '2016-08-09T15:04:00+00:00'
-            }
-          ]
-        }
+        jobStatsFixture
       ]));
 
     requestDuration = jasmine
@@ -149,34 +133,34 @@ describe('job stats top stream', () => {
         expect(result)
           .toEqual([
             {
-              id: 'cp.0',
-              read_bytes_min: 174396378.92222223,
-              read_bytes_max: 205432243.9583333,
-              read_bytes_average: 189914311.44027776,
-              write_bytes_min: 174396378.92222223,
-              write_bytes_max: 205432243.9583333,
-              write_bytes_average: 189914311.44027776,
-              read_iops_min: 174396378.92222223,
-              read_iops_max: 205432243.9583333,
-              read_iops_average: 189914311.44027776,
-              write_iops_min: 174396378.92222223,
-              write_iops_max: 205432243.9583333,
-              write_iops_average: 189914311.44027776
+              'id': 'dd.0',
+              'read_bytes_average': 571473.92,
+              'read_bytes_min': 0,
+              'read_bytes_max': 5242880,
+              'write_bytes_average': 571473.92,
+              'write_bytes_min': 0,
+              'write_bytes_max': 5242880,
+              'read_iops_average': 571473.92,
+              'read_iops_min': 0,
+              'read_iops_max': 5242880,
+              'write_iops_average': 571473.92,
+              'write_iops_min': 0,
+              'write_iops_max': 5242880
             },
             {
-              id: 'dd.0',
-              read_bytes_min: 157565007.50277779,
-              read_bytes_max: 204194177.69166663,
-              read_bytes_average: 180879592.5972222,
-              write_bytes_min: 157565007.50277779,
-              write_bytes_max: 204194177.69166663,
-              write_bytes_average: 180879592.5972222,
-              read_iops_min: 157565007.50277779,
-              read_iops_max: 204194177.69166663,
-              read_iops_average: 180879592.5972222,
-              write_iops_min: 157565007.50277779,
-              write_iops_max: 204194177.69166663,
-              write_iops_average: 180879592.5972222
+              'id': 'cp.0',
+              'read_bytes_average': 43767562.24,
+              'read_bytes_min': 0,
+              'read_bytes_max': 84410368,
+              'write_bytes_average': 43767562.24,
+              'write_bytes_min': 0,
+              'write_bytes_max': 84410368,
+              'read_iops_average': 43767562.24,
+              'read_iops_min': 0,
+              'read_iops_max': 84410368,
+              'write_iops_average': 43767562.24,
+              'write_iops_min': 0,
+              'write_iops_max': 84410368
             }
           ]);
       });
@@ -278,34 +262,34 @@ describe('job stats top stream', () => {
         expect(result)
           .toEqual([
             {
-              id: 'cp.0',
-              read_bytes_min: 174396378.92222223,
-              read_bytes_max: 205432243.9583333,
-              read_bytes_average: 189914311.44027776,
-              write_bytes_min: 174396378.92222223,
-              write_bytes_max: 205432243.9583333,
-              write_bytes_average: 189914311.44027776,
-              read_iops_min: 174396378.92222223,
-              read_iops_max: 205432243.9583333,
-              read_iops_average: 189914311.44027776,
-              write_iops_min: 174396378.92222223,
-              write_iops_max: 205432243.9583333,
-              write_iops_average: 189914311.44027776
+              'id': 'dd.0',
+              'read_bytes_average': 571473.92,
+              'read_bytes_min': 0,
+              'read_bytes_max': 5242880,
+              'write_bytes_average': 571473.92,
+              'write_bytes_min': 0,
+              'write_bytes_max': 5242880,
+              'read_iops_average': 571473.92,
+              'read_iops_min': 0,
+              'read_iops_max': 5242880,
+              'write_iops_average': 571473.92,
+              'write_iops_min': 0,
+              'write_iops_max': 5242880
             },
             {
-              id: 'dd.0',
-              read_bytes_min: 157565007.50277779,
-              read_bytes_max: 204194177.69166663,
-              read_bytes_average: 180879592.5972222,
-              write_bytes_min: 157565007.50277779,
-              write_bytes_max: 204194177.69166663,
-              write_bytes_average: 180879592.5972222,
-              read_iops_min: 157565007.50277779,
-              read_iops_max: 204194177.69166663,
-              read_iops_average: 180879592.5972222,
-              write_iops_min: 157565007.50277779,
-              write_iops_max: 204194177.69166663,
-              write_iops_average: 180879592.5972222
+              'id': 'cp.0',
+              'read_bytes_average': 43767562.24,
+              'read_bytes_min': 0,
+              'read_bytes_max': 84410368,
+              'write_bytes_average': 43767562.24,
+              'write_bytes_min': 0,
+              'write_bytes_max': 84410368,
+              'read_iops_average': 43767562.24,
+              'read_iops_min': 0,
+              'read_iops_max': 84410368,
+              'write_iops_average': 43767562.24,
+              'write_iops_min': 0,
+              'write_iops_max': 84410368
             }
           ]);
       });

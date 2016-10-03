@@ -47,6 +47,12 @@ export default (requestRange, buff) => {
       .through(removeEpochData)
       .through(roundData)
       .through(sumByDate)
+      .map(
+        x => ({
+          ...x.data,
+          ts: x.ts
+        }
+      ))
       .through(nameSeries({
         hsm_actions_waiting: 'waiting requests',
         hsm_actions_running: 'running actions',
