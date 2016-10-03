@@ -22,7 +22,7 @@ module.exports = function (config) {
     proxies: {
       '/static/chroma_ui/': '/base/dest/'
     },
-    reporters: ['progress'],
+    reporters: ['jasmine-diff', 'progress'],
     junitReporter: {
       outputDir: 'test-results',
       suite: 'karma-tests (new ui)'
