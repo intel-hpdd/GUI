@@ -1,10 +1,12 @@
+'use strict';
+
 var gulp = require('gulp');
 var paths = require('../paths.json');
 var js = require('./js');
 var css = require('./css');
 var assets = require('./assets');
 
-const watchers = [];
+let watchers = [];
 
 module.exports = function watch (done) {
   watchers = [

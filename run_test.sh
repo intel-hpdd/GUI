@@ -2,7 +2,7 @@
 set -e
 
 . ~/.nvm/nvm.sh
-nvm use 4
+nvm use 6
 rm -rf node_modules
 npm i -d
 

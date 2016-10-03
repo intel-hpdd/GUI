@@ -9,7 +9,7 @@
         [
           "angularjs-annotate",
           {
-            explicitOnly: true
+            "explicitOnly": true
           }
         ],
         "transform-es2015-modules-systemjs"
@@ -18,7 +18,12 @@
     "coverage": {
       "presets": [],
       "plugins": [
-        [ "__coverage__", { "only": "source/iml/" } ],
+        [
+          "__coverage__",
+          {
+            "only": "source/iml/"
+          } 
+        ],
         "check-es2015-constants",
         "transform-flow-strip-types",
         "transform-class-properties",
