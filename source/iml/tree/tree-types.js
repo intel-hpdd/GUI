@@ -74,14 +74,16 @@ export type treeItemT = {
   treeId:number,
   open:boolean,
   opens:{
-    [key: number]: boolean
+    [key:number]:boolean
   },
   parentTreeId:number,
   type:string,
   meta:Object,
-  objects:Object[]
+  objects?:Object[],
+  fsId?:string,
+  hostId?:string
 };
 
 export type treeHashT = {
-  [key: number]: treeItemT
+  [key:number]:treeItemT
 };

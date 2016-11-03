@@ -1,5 +1,4 @@
-import {flow, invokeMethod, map,
-  curry, eq, head, every} from 'intel-fp';
+import * as fp from 'intel-fp';
 import legendModule from
     '../../../../../../source/iml/charting/types/legend/legend-module';
 
@@ -208,29 +207,43 @@ describe('get legend', () => {
 
         it('should display the label', () => {
           var labels = legendContainer.selectAll('.legend-wrap g text');
-          var displayIsInherit = flow(invokeMethod('getAttribute', ['display']), eq('inherit'));
-          var hasLabels = flow(head, every(displayIsInherit))(labels);
+          var displayIsInherit = fp.flow(
+            fp.invokeMethod('getAttribute', ['display']),
+            fp.eq('inherit')
+          );
+          var hasLabels = fp.flow(
+            fp.head, fp.every(displayIsInherit)
+          )(labels);
 
           expect(hasLabels).toEqual(true);
         });
 
         it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = flow(invokeMethod('getAttribute', ['display']), eq(null));
-          var hasCircles = flow(head, every(displayPropNotSet))(circles);
+          var displayPropNotSet = fp.flow(
+            fp.invokeMethod('getAttribute', ['display']),
+            fp.eq(null)
+          );
+          var hasCircles = fp.flow(
+            fp.head,
+            fp.every(displayPropNotSet)
+          )(circles);
 
           expect(hasCircles).toEqual(true);
         });
 
         it('should not overlap with others', () => {
-          itemDimensions = flow(head, map(getItemDimensions))(legendContainer
+          itemDimensions = fp.flow(
+            fp.head,
+            fp.map(getItemDimensions)
+          )(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = head(legendContainer.selectAll('.legend-wrap g text'));
+          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
@@ -243,44 +256,59 @@ describe('get legend', () => {
 
         it('should not display the label', () => {
           const labels = legendContainer.selectAll('.legend-wrap g text');
-          const displayIsNone = flow(invokeMethod('getAttribute', ['display']), eq('none'));
-          const noLabels = flow(head, every(displayIsNone))(labels);
+          const displayIsNone = fp.flow(
+            fp.invokeMethod('getAttribute', ['display']),
+            fp.eq('none')
+          );
+          const noLabels = fp.flow(
+            fp.head, fp.every(displayIsNone)
+          )(labels);
 
           expect(noLabels).toBe(true);
         });
 
         it('should display the circles', () => {
           var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = flow(invokeMethod('getAttribute', ['display']), eq(null));
-          var hasCircles = flow(head, every(displayPropNotSet))(circles);
+          var displayPropNotSet = fp.flow(
+            fp.invokeMethod('getAttribute', ['display']),
+            fp.eq(null));
+          var hasCircles = fp.flow(
+            fp.head,
+            fp.every(displayPropNotSet)
+          )(circles);
 
           expect(hasCircles).toEqual(true);
         });
 
         it('should not overlap with others', () => {
-          itemDimensions = flow(head, map(getItemDimensions))(legendContainer
+          itemDimensions = fp.flow(
+            fp.head, fp.map(getItemDimensions)
+          )(legendContainer
             .selectAll('.legend-wrap > g'));
 
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = head(legendContainer.selectAll('.legend-wrap g text'));
+          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
     });
 
-    var noCollision = curry(2, detectCollision);
+    var noCollision = fp.curry2(detectCollision);
     function verifyNoIntersections (itemDimensions) {
       return itemDimensions.every((dims, index, arr) => {
-        return every(noCollision(dims), arr.slice(index + 1));
+        return fp.every(noCollision(dims), arr.slice(index + 1));
       });
     }
 
     function verifyInExpectedOrder (labels, componentNames) {
       return labels.every((label, index) => {
-        return flow(invokeMethod('indexOf', [label.textContent]), eq(index))(componentNames);
+        return fp.flow(
+          fp.invokeMethod('indexOf', [label.textContent]),
+          fp.eq(index)
+        )(componentNames);
       });
     }
 

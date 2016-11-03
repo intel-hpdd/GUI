@@ -39,7 +39,7 @@ export type ostBalancePayloadT = {
 };
 
 export type ostBalancePayloadHashT = {
-  [page:string]: ostBalancePayloadT
+  [page:string]:ostBalancePayloadT
 };
 
 export type addOstBalanceActionT = {

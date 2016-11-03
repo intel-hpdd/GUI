@@ -1,16 +1,9 @@
 import highland from 'highland';
 import d3 from 'd3';
 import angular from 'angular';
+import * as fp from 'intel-fp';
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
-
-import {
-  __,
-  arrayWrap,
-  flow,
-  identity,
-  invokeMethod
-} from 'intel-fp';
 
 describe('chart directive', () => {
   var chartCtrl, $window;
@@ -32,7 +25,8 @@ describe('chart directive', () => {
     $provide.value('$window', $window);
 
     $provide.value('debounce', jasmine.createSpy('debounce')
-      .and.callFake(identity));
+      .and
+      .callFake(fp.identity));
   }));
 
   let el = 'bar', qs, $scope;
@@ -60,10 +54,7 @@ describe('chart directive', () => {
 
     $compile(el)($scope);
 
-    qs = flow(
-      arrayWrap,
-      invokeMethod('querySelector', __, el)
-    );
+    qs = (expr) => el.querySelector(expr);
 
     $scope.$digest();
   }));

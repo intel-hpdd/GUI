@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {memoize} from 'intel-fp';
+import * as fp from 'intel-fp';
 import createDate from '../create-date.js';
 
-export default memoize(createDate);
+export default fp.memoize(createDate);

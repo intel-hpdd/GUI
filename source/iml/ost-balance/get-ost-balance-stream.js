@@ -43,31 +43,45 @@ import type {
 } from 'highland';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-const mapMetrics = fp.flow(fp.map, obj.map);
-const filterMetrics = fp.flow(fp.filter, obj.map);
+const mapMetrics = fp.flow(
+  fp.map,
+  obj.map
+);
+const filterMetrics = fp.flow(
+  fp.filter,
+  obj.map
+);
 const valuesLens = fp.lensProp('values');
 const compareLocale = fp.flow(
   fp.invokeMethod('reverse', []),
   fp.over(fp.lensProp('0'), fp.arrayWrap),
   fp.invoke(fp.invokeMethod('localeCompare'))
 );
-const cmp = fp.wrapArgs(
+
+const cmp = (...args) =>
   fp.flow(
     fp.map(viewLens('x')),
-    fp.chainL(fp.wrapArgs(compareLocale))
-  )
-);
-const sortOsts = fp.invokeMethod('sort', [cmp]);
-const asPercentage = fp.flow(times(100), Math.round);
-const asFormattedBytes = fp.flow(times(1024), fp.curry(2, formatBytes)(fp.__, 4));
+    fp.chainL((...args) => compareLocale(args))
+  )(args);
 
-export default fp.curry(2, function getOstBalanceStream (percentage:number, overrides:Object):HighlandStreamT<mixed> {
+const asPercentage = fp.flow(
+  times(100),
+  Math.round
+);
+const asFormattedBytes = fp.flow(
+  times(1024),
+  x => formatBytes(x, 4)
+);
+
+export default fp.curry2(function getOstBalanceStream (percentage:number, overrides:Object):HighlandStreamT<mixed> {
   const ltePercentage = fp.flow(
-    fp.view(fp.compose(
-      fp.lensProp('data'),
-      fp.lensProp('detail'),
-      fp.lensProp('percentUsed')
-    )),
+    fp.view(
+      fp.compose(
+        fp.lensProp('data'),
+        fp.lensProp('detail'),
+        fp.lensProp('percentUsed')
+      )
+    ),
     gte(percentage)
   );
 
@@ -139,8 +153,13 @@ export default fp.curry(2, function getOstBalanceStream (percentage:number, over
         }, ostBalanceMetrics);
       })
       .map(toNvd3)
-      .map(fp.map(fp.over(valuesLens, fp.wrapArgs(fp.invoke(sortOsts)))))
-      .each(function pushData (x) {
+      .map(fp.map(
+        fp.over(
+          valuesLens,
+          xs => xs.sort(cmp)
+        )
+      ))
+      .each((x) => {
         push(null, x);
         next();
       });

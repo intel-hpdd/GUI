@@ -34,7 +34,7 @@ export default function multiStream <T> (streams:HighlandStreamT<T>[]) {
   return highland(function generator (push) {
     const s:HighlandStreamT<mixed[]> = this;
 
-    const data:Array<mixed> = fp.map(
+    const data:any[] = fp.map(
       fp.always(empty),
       streams
     );

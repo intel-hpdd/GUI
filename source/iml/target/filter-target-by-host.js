@@ -35,7 +35,7 @@ export default function filterTargetByHost (id:number) {
     [fp.always(true), fp.always([])]
   );
 
-  var concat = fp.curry(3, function concat (fnA, fnB, x) {
+  var concat = fp.curry3(function concat (fnA, fnB, x) {
     return fnA(x).concat(fnB(x));
   });
 

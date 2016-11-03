@@ -1,12 +1,11 @@
 import angular from 'angular';
 import highland from 'highland';
+import * as fp from 'intel-fp';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
-import networkInterfaceDataFixtures 
+import networkInterfaceDataFixtures
   from '../../../data-fixtures/network-interface-fixtures.json!json';
-import {
-  curry
-} from 'intel-fp';
+
 
 import {
   mock,
@@ -61,7 +60,7 @@ describe('Configure LNet', () => {
           socketStream,
           insertHelpFilter,
           networkInterfaceStream: jasmine.any(Object),
-          waitForCommandCompletion: curry(2, waitForCommandCompletion)
+          waitForCommandCompletion: fp.curry2(waitForCommandCompletion)
         },
         {
           networkInterfaceStream

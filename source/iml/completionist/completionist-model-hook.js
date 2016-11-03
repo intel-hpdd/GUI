@@ -21,8 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {CompletionistCtrl, VALUES, VALUE, KEY_PRESS} from './completionist.js';
-import {tap} from 'intel-fp';
+import {
+  CompletionistCtrl,
+  VALUES,
+  VALUE,
+  KEY_PRESS
+} from './completionist.js';
 
 type ctrl = {
   completionist:CompletionistCtrl;
@@ -34,7 +38,7 @@ type ctrl = {
   };
 };
 
-export default function completionistModelHook ($document:Array<Document>) {
+export default function completionistModelHook ($document:Document[]) {
   'ngInject';
 
   return {
@@ -46,13 +50,14 @@ export default function completionistModelHook ($document:Array<Document>) {
       const el = element[0];
 
       ctrl.ngModel.$parsers.unshift(
-        tap(
-          (value:string):void =>
-            ctrl.completionist.parse(
-              value,
-              el.selectionStart
-            )
-        )
+        (value:string):string => {
+          ctrl.completionist.parse(
+            value,
+            el.selectionStart
+          );
+
+          return value;
+        }
       );
 
       const onValue = value => {

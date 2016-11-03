@@ -1,7 +1,5 @@
 import highland from 'highland';
-import {
-  invokeMethod
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -96,7 +94,7 @@ describe('status records component', () => {
 
   Object.keys(types).forEach(type => {
     it('should tell if ' + type + ' is a command', () => {
-      invokeMethod(types[type], [], expect(ctrl.isCommand({
+      fp.invokeMethod(types[type], [], expect(ctrl.isCommand({
         record_type: type
       })));
     });

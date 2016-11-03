@@ -19,20 +19,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import extractApi from 'intel-extract-api';
 import socketStream from '../socket/socket-stream.js';
-import {
-  map
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal) {
   'ngInject';
 
   var pendingTransitions = [];
 
-  angular.extend(this, {
-    GROUPS: GROUPS,
+  Object.assign(this, {
+    GROUPS,
     jobs: [],
     openStep: openStepModal,
     showTransition: function showTransition (job) {
@@ -70,7 +67,7 @@ export function getJobStreamFactory (jobTree) {
   return function getJobStream (jobs) {
     var stream = socketStream('/job', {
       qs: {
-        id__in: map(extractApi, jobs),
+        id__in: fp.map(extractApi, jobs),
         limit: 0
       }
     });

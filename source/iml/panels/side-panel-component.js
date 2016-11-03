@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 export function Controller ($element:HTMLElement[]) {
   'ngInject';
 
@@ -28,7 +28,7 @@ export function Controller ($element:HTMLElement[]) {
     const s = $element[0].style;
 
     const setWidth = (x) => {
-      s['flex-basis'] = `${x.sideWidthPercentage}%`;
+      s.flexBasis = `${x.sideWidthPercentage}%`;
     };
 
     this.rootPanel.register(setWidth);

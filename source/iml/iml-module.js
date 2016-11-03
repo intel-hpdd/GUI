@@ -130,19 +130,12 @@ import './file-system/file-system-dispatch-source.js';
 import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import stateLabelTooltipTemplate from './alert-indicator/assets/html/state-label.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import agentBinaryTooltipTemplate from './hsm/assets/html/modal-tooltips/agent-binary-tooltip.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import mountpointTooltipTemplate from './hsm/assets/html/modal-tooltips/mountpoint-tooltip.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import archiveTooltipTemplate from './hsm/assets/html/modal-tooltips/archive-tooltip.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import loginUserErrorTemplate from './login/assets/html/login-user-error.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import loginPasswordErrorTemplate from './login/assets/html/login-password-error.html!text';
-// $FlowIgnore: HTML templates that flow does not recognize.
 import jobTemplate from './command/assets/html/job.html!text';
 
 export default angular.module('iml', [

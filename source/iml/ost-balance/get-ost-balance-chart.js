@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,12 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import flatMapChanges from 'intel-flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import ostBalanceTemplate from './assets/html/ost-balance.html!text';
 
 import {
@@ -34,6 +33,7 @@ import {
 
 import getOstBalanceStream from './get-ost-balance-stream.js';
 import getStore from '../store/get-store.js';
+
 import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
@@ -41,9 +41,23 @@ import {
 import type {
   streamWhenChartVisibleT
 } from '../stream-when-visible/stream-when-visible-module.js';
+
+import type {
+  ostBalancePayloadT
+} from '../ost-balance/ost-balance-module.js';
+
+import type {
+  filesystemQueryT,
+  targetQueryT
+} from '../dashboard/dashboard-module.js';
+
 import type {
   localApplyT
 } from '../extend-scope-module.js';
+
+import type {
+  HighlandStreamT
+} from 'highland';
 
 export default (streamWhenVisible:streamWhenChartVisibleT,
                 localApply:localApplyT) => {
@@ -57,7 +71,7 @@ export default (streamWhenVisible:streamWhenChartVisibleT,
       page
     }});
 
-    const config1$:HighlandStream = getStore.select('ostBalanceCharts');
+    const config1$:HighlandStreamT<{[page:string]:ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
 
     const initStream = config1$
       .through(getConf(page))
@@ -68,13 +82,13 @@ export default (streamWhenVisible:streamWhenChartVisibleT,
       ));
 
     return chartCompiler(ostBalanceTemplate, initStream, ($scope:Object,
-      stream:HighlandStream<{[page:string]: ostBalancePayloadT}>) => {
+      stream:HighlandStreamT<{[page:string]:ostBalancePayloadT}>) => {
 
       const conf = {
         stream,
         percentage: 0,
         page: '',
-        onSubmit (ostBalanceForm:Form) {
+        onSubmit (ostBalanceForm:{ percentage:{$modelValue:number} }) {
           getStore.dispatch({
             type: UPDATE_OST_BALANCE_CHART_ITEMS,
             payload: {
@@ -128,7 +142,7 @@ export default (streamWhenVisible:streamWhenChartVisibleT,
         }
       };
 
-      const config2$:HighlandStreamT<{[page:string]: ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
+      const config2$:HighlandStreamT<{[page:string]:ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
       config2$
        .through(getConf(page))
        .each((x:ostBalancePayloadT) => {

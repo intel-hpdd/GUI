@@ -1,7 +1,5 @@
 import highland from 'highland';
 
-import {__, invoke} from 'intel-fp';
-
 import {
   mock,
   resetAll
@@ -69,7 +67,8 @@ describe('get ost balance chart', () => {
 
   beforeEach(() => {
     streamWhenVisible = jasmine.createSpy('streamWhenVisible')
-      .and.callFake(invoke(__, []));
+      .and
+      .callFake(x => x());
 
     localApply = jasmine.createSpy('localApply');
 

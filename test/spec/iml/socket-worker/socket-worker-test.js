@@ -1,4 +1,6 @@
-import {find, eqFn, flow, view, lensProp, identity} from 'intel-fp';
+
+import * as fp from 'intel-fp';
+
 import {
   mock,
   resetAll
@@ -9,8 +11,10 @@ describe('socket worker', () => {
     STATIC_URL, socketWorker, disconnectListener;
 
   beforeEachAsync(async function () {
-    arg0Eq = eqFn(identity, view(flow(lensProp(0), lensProp('args'))));
-    getArg1 = view(flow(lensProp(1), lensProp('args')));
+    arg0Eq = fp.eqFn(
+      fp.identity,
+      fp.view(fp.flow(fp.lensProp(0), fp.lensProp('args'))));
+    getArg1 = fp.view(fp.flow(fp.lensProp(1), fp.lensProp('args')));
 
     worker = {
       addEventListener: jasmine
@@ -60,8 +64,8 @@ describe('socket worker', () => {
   });
 
   it('should throw on error', () => {
-    const getError = flow(
-      find(arg0Eq('error')),
+    const getError = fp.flow(
+      fp.find(arg0Eq('error')),
       getArg1
     );
 
@@ -75,8 +79,8 @@ describe('socket worker', () => {
     var handler;
 
     beforeEach(() => {
-      const getMessage = flow(
-        find(arg0Eq('message')),
+      const getMessage = fp.flow(
+        fp.find(arg0Eq('message')),
         getArg1
       );
 

@@ -19,23 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
+import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import COMMAND_STATES from './command-states.js';
-
-import {
-  map,
-  invokeMethod,
-  always
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import stepModalTemplate from './assets/html/step-modal.html!text';
 
 export function StepModalCtrl ($scope, stepsStream, jobStream) {
   'ngInject';
 
-  angular.extend(this, {
+  Object.assign(this, {
     steps: [],
     accordion0: true,
     getJobAdjective: function getJobAdjective (job) {
@@ -69,7 +61,9 @@ export function StepModalCtrl ($scope, stepsStream, jobStream) {
 export function openStepModalFactory ($uibModal) {
   'ngInject';
 
-  var extractApiId = map(invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1']));
+  var extractApiId = fp.map(
+    fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1'])
+  );
 
   return function openStepModal (job) {
     var jobStream = socketStream('/job/' + job.id);
@@ -85,8 +79,8 @@ export function openStepModalFactory ($uibModal) {
       windowClass: 'step-modal',
       backdrop: 'static',
       resolve: {
-        jobStream: always(s2),
-        stepsStream: always(jobStream.fork()
+        jobStream: fp.always(s2),
+        stepsStream: fp.always(jobStream.fork()
           .pluck('steps')
           .map(extractApiId)
           .flatMap(function getSteps (stepIds) {

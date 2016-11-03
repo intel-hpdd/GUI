@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,11 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import flatMapChanges from 'intel-flat-map-changes';
+import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart.html!text';
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
 import durationPayload from '../duration-picker/duration-payload.js';
@@ -31,9 +31,6 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 import getStore from '../store/get-store.js';
 
-import {
-  always
-} from 'intel-fp';
 import {
   UPDATE_HOST_CPU_RAM_CHART_ITEMS,
   DEFAULT_HOST_CPU_RAM_CHART_ITEMS
@@ -47,18 +44,26 @@ import {
 } from '../tree/tree-transforms.js';
 
 import type {
+  $scopeT
+} from 'angular';
+
+import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
+
 import type {
   HighlandStreamT
 } from 'highland';
+
 import type {
   durationPickerConfigT,
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
+
 import type {
   localApplyT
 } from '../extend-scope-module.js';
+
 import type {
   filesystemQueryT,
   targetQueryT
@@ -80,12 +85,12 @@ export default (data$Fn:data$FnT, localApply:localApplyT) => {
       .filter(hasChanges(x => x))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getHostCpuRamStream))
+          data$Fn(overrides, fp.always(getHostCpuRamStream))
         )
       );
 
     return chartCompiler(hostCpuRamChartTemplate, initStream,
-    ($scope:$scope, stream:HighlandStreamT<durationPickerConfigT>) => {
+    ($scope:$scopeT, stream:HighlandStreamT<durationPickerConfigT>) => {
 
       const conf = {
         title,

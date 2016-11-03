@@ -21,16 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp';
 import flatMapChanges from 'intel-flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import {
-  identity,
-  always
-} from 'intel-fp';
-
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import mdoTemplate from './assets/html/mdo.html!text';
 
 import {
@@ -76,7 +70,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getMdoStream))
+          data$Fn(overrides, fp.always(getMdoStream))
         )
       );
 
@@ -95,7 +89,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
             chart.useInteractiveGuideline(true);
 
             chart.interactiveLayer.tooltip
-              .headerFormatter(identity);
+              .headerFormatter(fp.identity);
 
             chart.yAxis.tickFormat((d) => formatNumber(d, 2, true));
 

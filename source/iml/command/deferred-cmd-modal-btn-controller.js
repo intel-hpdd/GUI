@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,19 +21,24 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 
 import {
   resolveStream
 } from '../promise-transforms.js';
 
-import {
-  map,
-  arrayWrap,
-  noop
-} from 'intel-fp';
+import type {
+  commandT
+} from './command-types.js';
 
-export default function DeferredCommandModalBtnCtrl (openCommandModal) {
+import type {
+  HighlandStreamT
+} from 'highland';
+
+type openCommandModalT = (x:Promise<HighlandStreamT<commandT[]>>) => Object;
+
+export default function DeferredCommandModalBtnCtrl (openCommandModal:openCommandModalT) {
   'ngInject';
 
   const setLoading = x => this.loading = x;
@@ -41,12 +48,15 @@ export default function DeferredCommandModalBtnCtrl (openCommandModal) {
 
     const stream = socketStream(this.resourceUri);
 
-    const wrapped = resolveStream(map(arrayWrap, stream));
+    const wrapped = resolveStream(
+      stream
+        .map(fp.arrayWrap)
+    );
 
     openCommandModal(wrapped)
       .resultStream
       .tap(setLoading.bind(null, false))
       .tap(stream.destroy.bind(stream))
-      .pull(noop);
+      .pull(fp.noop);
   };
 }

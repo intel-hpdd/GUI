@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,15 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import global from '../global.js';
 
 export function Controller () {
   'ngInject';
 
-  var onMove = (ev) => {
-    this.rootPanel.onChange(ev.x);
+  var onMove = (ev:MouseEvent) => {
+    this.rootPanel.onChange(ev.clientX);
   };
 
   this.onMouseDown = () => {

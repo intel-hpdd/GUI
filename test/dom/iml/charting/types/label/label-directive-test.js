@@ -8,12 +8,6 @@ import labelModule from
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
-import {
-  __,
-  flow,
-  arrayWrap,
-  invokeMethod
-} from 'intel-fp';
 
 describe('label directive', () => {
   beforeEach(module(labelModule, chartModule));
@@ -44,10 +38,7 @@ describe('label directive', () => {
 
     $compile(el)($scope)[0];
 
-    qs = flow(
-      arrayWrap,
-      invokeMethod('querySelector', __, el)
-    );
+    qs = (expr) => el.querySelector(expr);
     label = qs.bind(null, '.label-group');
     $scope.$digest();
   }));

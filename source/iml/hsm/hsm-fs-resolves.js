@@ -20,6 +20,8 @@
 // express and approved by Intel in writing.
 
 
+import * as fp from 'intel-fp';
+
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
 import store from '../store/get-store.js';
@@ -33,21 +35,18 @@ import {
   streamToPromise
 } from '../promise-transforms.js';
 
-import {
-  map,
-  lensProp,
-  view,
-  flow
-} from 'intel-fp';
-
-const pluckObjects = map(view(lensProp('objects')));
+const pluckObjects = fp.map(
+  fp.view(
+    fp.lensProp('objects')
+  )
+);
 
 export function fsCollStream () {
   return resolveStream(socketStream('/filesystem', {
     jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
   }))
     .then(
-      flow(
+      fp.flow(
         pluckObjects,
         broadcaster
       )

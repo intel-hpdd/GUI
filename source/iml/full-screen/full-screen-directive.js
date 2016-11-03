@@ -21,7 +21,6 @@
 
 import angular from 'angular';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import fullScreenButtonTextTemplate from './assets/html/full-screen-button-text.html!text';
 
 export function fullScreenBtn () {

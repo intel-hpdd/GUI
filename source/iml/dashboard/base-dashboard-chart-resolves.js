@@ -73,7 +73,7 @@ export function baseDashboardChartResolves (
 }
 
 export function baseDashboardFsStream (
-  fsB:() => HighlandStreamT<Object>,
+  fsB:() => HighlandStreamT<Object[]>,
   $stateParams:{ id:string }
 ) {
   'ngInject';

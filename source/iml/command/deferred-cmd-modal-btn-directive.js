@@ -19,14 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  always
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn.html!text';
 
-export const deferredCmdModalBtnDirective = always({
+export const deferredCmdModalBtnDirective = fp.always({
   scope: {},
   bindToController: {
     resourceUri: '='

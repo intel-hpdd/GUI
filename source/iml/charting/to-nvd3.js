@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,18 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
-import {always, map} from 'intel-fp';
+import * as fp from 'intel-fp';
 import highland from 'highland';
 
-export default curry(2, function toNvd3 (keys, s) {
+export default fp.curry2((keys, s) => {
   var struct = keys.map(function pushItem (key) {
     return { key: key, values: [] };
   });
 
   return s
     .collect()
-    .tap(map(point => {
+    .tap(fp.map(point => {
       keys.forEach(function createValue (key, index) {
         struct[index].values.push({
           x: new Date(point.ts),
@@ -38,6 +39,6 @@ export default curry(2, function toNvd3 (keys, s) {
         });
       });
     }))
-    .map(always(struct))
+    .map(fp.always(struct))
     .otherwise(highland([struct]));
 });

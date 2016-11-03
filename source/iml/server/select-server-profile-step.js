@@ -36,7 +36,6 @@ import {
   resolveStream
 } from '../promise-transforms.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import selectServerProfileStepTemplate from './assets/html/select-server-profile-step.html!text';
 
 export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHandler, OVERRIDE_BUTTON_TYPES,
@@ -102,7 +101,7 @@ export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHa
         profiles[0]
     );
   })
-  .stopOnError(fp.curry(1, $exceptionHandler))
+  .stopOnError(fp.unary($exceptionHandler))
   .each(localApply.bind(null, $scope));
 }
 

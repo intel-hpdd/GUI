@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import commonStatusSearchesTemplate from './assets/html/common-status-searches.html!text';
 
 export default {

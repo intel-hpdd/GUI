@@ -19,10 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 import _ from 'intel-lodash-mixins';
 
-export default curry(2, function removeDupsFactory (cmp, s) {
+export default fp.curry2(function removeDupsFactory (cmp, s) {
   return s.uniqBy(function removeDups (a, b) {
     return _.eqProp('ts', a, b) && cmp(a, b);
   });

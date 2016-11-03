@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step.html!text';
 
 export function waitUntilLoadedCtrl ($scope) {

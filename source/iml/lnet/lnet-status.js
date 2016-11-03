@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,47 +21,71 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  lensProp,
-  view,
-  maybe
-} from 'intel-fp';
+import Inferno from 'inferno';
+import InfernoDOM from 'inferno-dom';
+
+type statesT =
+  | 'lnet_up'
+  | 'lnet_down'
+  | 'lnet_unloaded'
+  | 'configured'
+  | 'unconfigured'
+  | 'undeployed';
+
+type stateT = {
+  state:?statesT
+};
+
+function LnetStatusComponent ({state}:stateT) {
+  switch (state) {
+  case 'lnet_up':
+    return (<span>
+        <i class="fa fa-plug text-success"></i> LNet Up
+      </span>);
+  case 'lnet_down':
+    return (<span>
+        <i class="fa fa-plug text-danger"></i> LNet Down
+      </span>);
+  case 'lnet_unloaded':
+    return (<span>
+        <i class="fa fa-plug text-warning"></i> LNet Unloaded
+      </span>);
+  case 'configured':
+    return (<span>
+        <i class="fa fa-plug text-info"></i> Configured
+      </span>);
+  case 'unconfigured':
+    return (<span>
+      <i class="fa fa-plug"></i> Unconfigured
+    </span>);
+  case 'undeployed':
+    return (<span>
+      <i class="fa fa-plug"></i> Undeployed
+    </span>);
+  case null:
+    return (<span>
+      <i class="fa fa-plug text-warning"></i> Unknown
+    </span>);
+  default:
+    return <span></span>;
+  }
+}
 
 export default {
   bindings: {
     stream: '<'
   },
-  controller ($scope, propagateChange) {
+  controller: function ($element:HTMLElement[]) {
     'ngInject';
 
     this
       .stream
-      .map(maybe(view(lensProp('state'))))
-      .through(propagateChange($scope, this, 'state'));
-  },
-  template: `
-<span>
-  <span ng-if="$ctrl.state === null">
-    <i class="fa fa-plug text-warning"></i> Unknown
-  </span>
-  <span ng-if="$ctrl.state === 'lnet_up'">
-    <i class="fa fa-plug text-success"></i> LNet Up
-  </span>
-  <span ng-if="$ctrl.state === 'lnet_down'">
-    <i class="fa fa-plug text-danger"></i> LNet Down
-  </span>
-  <span ng-if="$ctrl.state === 'lnet_unloaded'">
-    <i class="fa fa-plug text-warning"></i> LNet Unloaded
-  </span>
-  <span ng-if="$ctrl.state === 'configured'">
-    <i class="fa fa-plug text-info"></i> Configured
-  </span>
-  <span ng-if="$ctrl.state === 'unconfigured'">
-    <i class="fa fa-plug"></i> Unconfigured
-  </span>
-  <span ng-if="$ctrl.state === 'undeployed'">
-    <i class="fa fa-plug"></i> Undeployed
-  </span>
-</span>
-`
+      .filter(Boolean)
+      .each(({state}:stateT) =>
+        InfernoDOM.render(
+          <LnetStatusComponent state={state} />,
+          $element[0]
+        )
+      );
+  }
 };

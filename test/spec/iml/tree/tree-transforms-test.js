@@ -2,9 +2,7 @@
 
 import highland from 'highland';
 
-import {
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import {
   mock,
@@ -39,7 +37,7 @@ describe('tree transforms', () => {
 
       getChildBy(x => x.id === 1)(s)
         .map(
-          withDefault(() => false)
+          maybe.withDefault(() => false)
         )
         .each(spy);
     });
@@ -70,7 +68,8 @@ describe('tree transforms', () => {
   });
 
   describe('emitOnItem', () => {
-    let s, spy;
+    let s,
+      spy;
 
     beforeEach(() => {
       s = highland();

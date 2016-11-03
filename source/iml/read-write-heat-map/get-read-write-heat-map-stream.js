@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -30,6 +32,10 @@ import {
   values
 } from 'intel-obj';
 
+import type {
+  HighlandStreamT
+} from 'highland';
+
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 var headName = fp.flow(fp.head, viewLens('name'));
@@ -38,16 +44,16 @@ var compareLocale = fp.flow(
     fp.over(fp.lensProp(0), fp.arrayWrap),
     fp.invoke(fp.invokeMethod('localeCompare'))
   );
-var cmp = fp.wrapArgs(
+const cmp = (...args) =>
   fp.flow(
     fp.map(headName),
-    fp.chainL(fp.wrapArgs(compareLocale))
-  )
-);
+    fp.chainL((...args) => compareLocale(args))
+  )(args);
+
 var sortOsts = fp.invokeMethod('sort', [cmp]);
 
-export default fp.curry(3, function getReadWriteHeatMapStream (type, requestRange, buff) {
-  var s = highland(function generator (push, next) {
+export default fp.curry3((type:string, requestRange:Function, buff:Function):HighlandStreamT<any> => {
+  return highland(function generator (push, next) {
     var params = requestRange({
       qs: {
         kind: 'OST',
@@ -71,11 +77,6 @@ export default fp.curry(3, function getReadWriteHeatMapStream (type, requestRang
         push(null, x);
         next();
       });
-  });
-
-  const s2 = s.ratelimit(1, 10000);
-
-  s2.destroy = s.destroy.bind(s);
-
-  return s2;
+  })
+  .ratelimit(1, 10000);
 });

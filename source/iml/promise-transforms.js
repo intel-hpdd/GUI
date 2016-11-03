@@ -41,7 +41,7 @@ export const resolveStream = <T> (stream:HighlandStreamT<T>):Promise<HighlandStr
       const s2 = stream.tap(fp.noop);
       s2.write(x);
 
-      // $FlowIgnore: flow does not recognize this monkey-patching.
+      // $FlowFixMe: flow does not recognize this monkey-patching.
       s2.destroy = stream.destroy.bind(stream);
 
       resolve(s2);
@@ -51,14 +51,18 @@ export const resolveStream = <T> (stream:HighlandStreamT<T>):Promise<HighlandStr
 
 
 export function streamToPromise <A>(s:HighlandStreamT<A>):Promise<A> {
-  return new Promise ((resolve:Function, reject:Function) => {
-    return s
-    .pull((err:Error, x:A) => {
-      if (err)
-        reject(err);
-      else
-        resolve(x);
-    });
-  })
-  .then(fp.tap(s.destroy.bind(s)));
+  return new Promise (
+    (resolve, reject) =>
+      s
+        .pull((err:Error, x:A) => {
+          if (err)
+            reject(err);
+          else
+            resolve(x);
+        })
+  )
+  .then(x => {
+    s.destroy();
+    return x;
+  });
 }

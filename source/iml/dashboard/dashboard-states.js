@@ -57,19 +57,12 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import dashboardTemplate from './assets/html/dashboard.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import baseDashboardTemplate from './assets/html/base-dashboard.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import targetDashboardTemplate from './assets/html/target-dashboard.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import serverDashboardTemplate from './assets/html/server-dashboard.html!text';
 
-const getDataFn = (b:() => HighlandStreamT<Object>, $stateParams:{ id:string }) => {
+const getDataFn = (b:() => HighlandStreamT<Object[]>, $stateParams:{ id:string }) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
     .then(obj.pick('label'));

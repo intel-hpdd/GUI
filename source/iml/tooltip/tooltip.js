@@ -22,10 +22,7 @@
 import angular from 'angular';
 import _ from 'intel-lodash-mixins';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import tooltipTemplate from './assets/html/tooltip.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import helpTooltipTemplate from './assets/html/help-tooltip.html!text';
 
 export function imlTooltip (position, $timeout, $$rAF, strategies) {

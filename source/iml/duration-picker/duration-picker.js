@@ -30,7 +30,6 @@ export const DURATIONS = {
   YEARS: 'years'
 };
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import durationPickerTemplate from './assets/html/duration-picker.html!text';
 
 export default {

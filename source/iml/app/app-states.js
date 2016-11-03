@@ -23,7 +23,6 @@
 
 import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import appHtml from './assets/html/app.html!text';
 
 export const appState = {
@@ -34,8 +33,8 @@ export const appState = {
   controllerAs: 'app',
   template: appHtml,
   resolve: {
-    alertStream: ['appAlertStream', fp.invoke(fp.__, [])],
-    notificationStream: ['appNotificationStream', fp.invoke(fp.__, [])],
+    alertStream: ['appAlertStream', (x:Function) => x()],
+    notificationStream: ['appNotificationStream', (x:Function) => x()],
     session: ['appSession', fp.identity]
   }
 };

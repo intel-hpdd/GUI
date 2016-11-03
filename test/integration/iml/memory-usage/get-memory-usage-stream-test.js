@@ -1,12 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
+import * as maybe from 'intel-maybe';
+
 import memoryUsageDataFixtures from
   '../../../data-fixtures/memory-usage-fixtures.json!json';
-
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
 
 import {
   mock,
@@ -32,11 +29,18 @@ describe('The memory usage stream', () => {
     });
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-    const createDate = jasmine.createSpy('createDate')
-      .and.callFake(arg => withDefault(
-        () => new Date(),
-        Maybe.of(arg)
-          .map(x => new Date(x))));
+    const createDate = jasmine
+      .createSpy('createDate')
+      .and
+      .callFake(
+        arg => maybe.withDefault(
+          () => new Date(),
+          maybe.map(
+            x => new Date(x),
+            maybe.of(arg)
+          )
+        )
+      );
 
     const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/create-date.js': { default: createDate }

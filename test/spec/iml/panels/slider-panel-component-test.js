@@ -55,7 +55,7 @@ describe('slider panel', () => {
     describe('on mousemove', () => {
       beforeEach(() => {
         doc.addEventListener.calls.argsFor(0)[1]({
-          x: 10
+          clientX: 10
         });
       });
 

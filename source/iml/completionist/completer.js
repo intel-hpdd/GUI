@@ -30,7 +30,8 @@ import {
 } from 'intel-qs-parsers/input-to-qs-parser.js';
 
 import type {
-  tokensToResult
+  tokensToResult,
+  result
 } from 'intel-parsely';
 
 const blacklist = [
@@ -55,20 +56,28 @@ export default (tokenizer:Function, parser:tokensToResult) => {
     fp.flow(
       tokenizer,
       parsely.sepByInfinity(parser, and),
-      parsely.onSuccess(() => []),
-      parsely.onError(e => {
-        return e.expected
+      ({result}:result) => {
+        if (typeof result === 'string') {
+          return [];
+        } else {
+          const {
+            start,
+            end
+          } = result;
+
+          return result
+          .expected
           .reduce((arr, x) => {
             return arr.concat(lookup[x] || x);
           }, [])
           .filter(x => blacklist.indexOf(x) === -1)
           .map(x => ({
-            start: e.start,
-            end: e.end,
+            start,
+            end,
             suggestion: x
           }));
-      }),
-      x => x.result
+        }
+      }
     )
   );
 };

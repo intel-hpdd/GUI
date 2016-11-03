@@ -1,6 +1,7 @@
 import highland from 'highland';
 import d3 from 'd3';
 import angular from 'angular';
+import * as fp from 'intel-fp';
 
 
 import axisModule from
@@ -8,14 +9,6 @@ import axisModule from
 
 import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
-
-import {
-  __,
-  flow,
-  arrayWrap,
-  invokeMethod,
-  tail
-} from 'intel-fp';
 
 describe('axis directive', () => {
   beforeEach(module(axisModule, chartModule));
@@ -48,10 +41,7 @@ describe('axis directive', () => {
 
     $compile(el)($scope)[0];
 
-    qs = flow(
-      arrayWrap,
-      invokeMethod('querySelector', __, el)
-    );
+    qs = (expr) => el.querySelector(expr);
     axis = qs.bind(null, '.axis');
     $scope.$digest();
   }));
@@ -74,7 +64,7 @@ describe('axis directive', () => {
   });
 
   it('should have an upper tick', function () {
-    expect(tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
+    expect(fp.last([].slice.call(el.querySelectorAll('.tick text'))).textContent)
       .toEqual('4.0');
   });
 
@@ -84,7 +74,7 @@ describe('axis directive', () => {
 
     window.flushD3Transitions();
 
-    expect(tail([].slice.call(el.querySelectorAll('.tick text'))).textContent)
+    expect(fp.last([].slice.call(el.querySelectorAll('.tick text'))).textContent)
       .toEqual('3.0');
   });
 });

@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 import highland from 'highland';
 import getEventSocket from '../socket-worker/get-event-socket.js';
 import buildResponseError from './build-response-error.js';
@@ -30,18 +30,12 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-type apiResponseT = {
-  objects:Array<Object>
-};
-
 type errorRespT = {
-  error?:{ [key: string]: string }
+  error?:{ [key:string]:string }
 };
 
-type apiResponseWithErrorT = (apiResponseT & errorRespT);
-
-export default function sendRequest (path:string, options:Object = {}, isAck:boolean = false) {
-  var socket = getEventSocket();
+export default function sendRequest <B> (path:string, options:Object = {}, isAck:boolean = false):HighlandStreamT<B> {
+  const socket = getEventSocket();
 
   socket.connect();
 
@@ -50,12 +44,12 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
     options
   };
 
-  var end = socket.end.bind(socket);
+  const end = socket.end.bind(socket);
 
-  var stream:HighlandStreamT<apiResponseT>;
+  let stream:HighlandStreamT<B>;
   if (isAck) {
     stream = highland(push => {
-      socket.send(data, function ack (response:apiResponseWithErrorT) {
+      socket.send(data, function ack (response:B & errorRespT) {
         const error = (response != null) && response.error;
 
         if (error)
@@ -71,12 +65,12 @@ export default function sendRequest (path:string, options:Object = {}, isAck:boo
     });
 
     stream.once('end', end);
-    stream.on('error', noop);
+    stream.on('error', fp.noop);
   } else {
     socket.send(data);
-    const s:HighlandStreamT<apiResponseWithErrorT> = highland('message', socket)
+    const s:HighlandStreamT<B & errorRespT> = highland('message', socket)
       .onDestroy(end);
-    stream = s.map((response):apiResponseT => {
+    stream = s.map((response):B => {
       const error = response.error;
 
       if (error)

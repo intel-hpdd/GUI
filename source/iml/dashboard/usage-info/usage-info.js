@@ -24,8 +24,6 @@ import * as fp from 'intel-fp';
 import formatNumber from '../../number-formatters/format-number.js';
 import formatBytes from '../../number-formatters/format-bytes.js';
 import broadcaster from '../../broadcaster.js';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import usageInfoTemplate from './assets/html/usage-info.html!text';
 
 export function UsageInfoController ($scope, propagateChange) {
@@ -33,7 +31,7 @@ export function UsageInfoController ($scope, propagateChange) {
 
   this.format = this.prefix === 'bytes' ? formatBytes : formatNumber;
 
-  var normalize = fp.curry(2, function normalize (prefix, x) {
+  var normalize = fp.curry2(function normalize (prefix, x) {
     [prefix + '_free', prefix + '_total'].forEach(function normalizeProps (key) {
       var single = key.split('_').join('');
 
@@ -44,7 +42,7 @@ export function UsageInfoController ($scope, propagateChange) {
     return x;
   });
 
-  var addMetrics = fp.curry(2, function addMetrics (prefix, x) {
+  var addMetrics = fp.curry2(function addMetrics (prefix, x) {
     x[prefix + '_used'] = x[prefix + '_total'] - x[prefix + '_free'];
 
     return x;

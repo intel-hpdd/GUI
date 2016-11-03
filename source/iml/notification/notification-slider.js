@@ -19,9 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry, compose, lensProp, mapped, view} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import notificationSliderTemplate from './assets/html/notification-slider.html!text';
 
 
@@ -36,22 +35,22 @@ export function NotificationSliderController ($scope, $timeout, localApply, $exc
     5000
   );
 
-  const objectLens = lensProp('objects');
+  const objectLens = fp.lensProp('objects');
 
   this
     .stream
     .map(
-      view(
-        compose(
+      fp.view(
+        fp.compose(
           objectLens,
-          mapped,
-          lensProp('message')
+          fp.mapped,
+          fp.lensProp('message')
         )
       )
     )
-    .map(view(objectLens))
-    .filter(view(lensProp('length')))
-    .stopOnError(curry(1, $exceptionHandler))
+    .map(fp.view(objectLens))
+    .filter(fp.view(fp.lensProp('length')))
+    .stopOnError(fp.unary($exceptionHandler))
     .each(function (x) {
       if (x.length > 1)
         $scope.message = x.length + ' active alerts';

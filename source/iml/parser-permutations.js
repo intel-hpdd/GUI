@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,11 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
-import {
-  xProd
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 const modifiers = [
   '__in',
@@ -37,7 +35,7 @@ const modifiers = [
 ];
 
 export default (items:Array<string>) =>
-    xProd(items, modifiers)
+    fp.xProd(items, modifiers)
     .map(x => x.join(''))
     .concat(items)
     .join('&');

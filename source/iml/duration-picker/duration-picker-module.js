@@ -63,7 +63,15 @@ export type durationConfigT = {
 };
 
 export type durationPickerConfigT = rangeConfigT | durationConfigT;
-export type durationPayloadT = rangeConfigT & durationConfigT;
+export type durationPayloadT = {
+  configType:'duration' | 'range',
+  size:number,
+  unit:string,
+  page:string,
+  startDate:string,
+  endDate:string,
+  page:string
+};
 
 export type durationPayloadHashT = {
   [page:string]:durationPayloadT

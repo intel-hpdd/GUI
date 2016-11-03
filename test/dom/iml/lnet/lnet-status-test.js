@@ -1,17 +1,18 @@
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 import highland from 'highland';
 
-describe('LNet status directive', function () {
+describe('LNet status directive', () => {
   beforeEach(module(lnetModule));
 
-  var el, $scope;
+  let el,
+    $scope;
 
-  beforeEach(inject(function ($rootScope, $compile) {
+  beforeEach(inject(($rootScope, $compile) => {
     const template = '<lnet-status stream="stream"></lnet-status>';
 
     $scope = $rootScope.$new();
     $scope.stream = highland();
-    el = $compile(template)($scope);
+    el = $compile(template)($scope)[0];
     $scope.$digest();
   }));
 
@@ -24,21 +25,21 @@ describe('LNet status directive', function () {
     ['Undeployed', 'undeployed'],
     ['Unknown', null]
   ]
-    .forEach(function (state) {
-      it('should display state for ' + state, () => {
+    .forEach(state => {
+      it(`should display state for ${state[0]}`, () => {
         $scope.stream.write({
           state: state[1]
         });
 
-        expect(el[0].querySelector('span span').textContent.trim())
+        expect(el.querySelector('span').textContent.trim())
           .toEqual(state[0]);
       });
     });
 
-  it('should display nothing when there is no data', function () {
-    $scope.stream.end();
+  it('should display nothing when there is no data', () => {
+    $scope.stream.write();
 
-    expect(el[0].querySelector('span span'))
-      .toEqual(null);
+    expect(el.querySelector('span'))
+      .toBeNull();
   });
 });

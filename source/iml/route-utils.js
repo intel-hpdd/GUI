@@ -23,7 +23,11 @@
 
 import extractApi from 'intel-extract-api';
 
-import Maybe from 'intel-maybe';
+import * as maybe from 'intel-maybe';
+
+import type {
+  Maybe
+} from 'intel-maybe';
 
 import type {
   TransitionT
@@ -43,10 +47,12 @@ export function apiPathToUiPath (resourceUri:string) {
   }
 }
 
-export function getResolvedData (transition:TransitionT, resolveName:string):Maybe {
-  return Maybe.of(resolveName)
-    .map(n => {
+export const getResolvedData = (transition:TransitionT, resolveName:string):Maybe<any> => {
+  return maybe.map(
+    n => {
       if (transition.getResolveTokens().indexOf(n) > -1)
         return transition.getResolveValue(n);
-    });
-}
+    },
+    maybe.of(resolveName)
+  );
+};

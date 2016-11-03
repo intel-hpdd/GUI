@@ -28,16 +28,13 @@ import {
   documentVisible
 } from '../stream-when-visible/stream-when-visible.js';
 
-import {
-  curry, map
-} from 'intel-fp';
-
+import * as fp from 'intel-fp';
 import type {
   HighlandStreamT
 } from 'highland';
 
 import type {
-  durationPickerConfigT
+  durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
 
 import type {
@@ -53,15 +50,14 @@ import type {
   configToStreamT
 } from './chart-transformers-module.js';
 
-export const getConf = (page:string) => {
-  return map(x => x[page]);
-};
+export const getConf = (page:string) =>
+  highland.map(x => x[page]);
 
 export function data$Fn (createStream:createStreamT) {
   'ngInject';
 
-  return curry(3, (overrides:filesystemQueryT | targetQueryT, chartStreamFn:configToStreamT,
-    x:durationPickerConfigT):HighlandStreamT<mixed> => {
+  return fp.curry3((overrides:filesystemQueryT | targetQueryT, chartStreamFn:configToStreamT,
+    x:durationPayloadT):HighlandStreamT<mixed> => {
 
     var { durationStream, rangeStream } = createStream;
     durationStream = durationStream(overrides);

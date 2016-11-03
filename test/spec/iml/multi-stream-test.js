@@ -1,4 +1,4 @@
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 import highland from 'highland';
 import multiStream from '../../../source/iml/multi-stream.js';
 
@@ -15,7 +15,7 @@ describe('multi stream', () => {
     spyOn(s2, 'destroy');
     ms = multiStream([s1, s2]);
     ms
-      .stopOnError(curry(1, errSpy))
+      .stopOnError(fp.unary(errSpy))
       .each(spy);
   });
 

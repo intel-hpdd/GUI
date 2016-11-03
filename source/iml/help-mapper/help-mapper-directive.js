@@ -21,12 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 export default () => ({
   restrict: 'A',
@@ -41,11 +36,12 @@ export default () => ({
   controller ($state:Object, $transitions:Object) {
     'ngInject';
 
-    const getPage = ($current) => withDefault(
+    const getPage = ($current) => maybe.withDefault(
       () => '',
-      Maybe
-        .of($current.data && $current.data.helpPage)
-        .map(x => '?' + x)
+      maybe.map(
+        (x:string) => `?${x}`,
+        maybe.of($current.data && $current.data.helpPage)
+      )
     );
 
     this.page = getPage($state.$current);

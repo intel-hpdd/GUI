@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {identity} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function getLabelFactory (d3) {
   'ngInject';
@@ -29,7 +29,7 @@ export function getLabelFactory (d3) {
     var fill = '#FFFFFF';
     var width = 0;
     var height = 0;
-    var data = identity;
+    var data = fp.identity;
 
     function label (selection) {
       selection.each(function () {
@@ -63,7 +63,7 @@ export function getLabelFactory (d3) {
 
         labelGroup
           .select('.label-text')
-          .text(identity)
+          .text(fp.identity)
           .attr('x', () => width / 2)
           .attr('y', function () {
             const boundingBox = this.getBoundingClientRect();

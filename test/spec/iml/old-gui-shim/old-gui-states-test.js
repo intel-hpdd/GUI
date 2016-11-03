@@ -6,8 +6,12 @@ import {
 import * as fp from 'intel-fp';
 
 describe('old gui states', () => {
-  let oldGuiStates, resolve, oldFilesystemDetailResolve,
-    oldUserDetailResolve, oldTargetResolve, oldStoragePluginResolve;
+  let oldGuiStates,
+    resolve,
+    oldFilesystemDetailResolve,
+    oldUserDetailResolve,
+    oldTargetResolve,
+    oldStoragePluginResolve;
 
   beforeEachAsync(async function () {
     resolve = {

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -22,7 +24,7 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
-import _ from 'intel-lodash-mixins';
+import angular from 'angular';
 import * as fp from 'intel-fp';
 import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
@@ -39,7 +41,7 @@ import {
   resolveStream
 } from '../promise-transforms.js';
 
-export const getData = ($stateParams) => {
+export const getData = ($stateParams:{id:string}) => {
   'ngInject';
 
   return streamToPromise(store
@@ -48,7 +50,7 @@ export const getData = ($stateParams) => {
   );
 };
 
-export default function serverDetailResolves ($stateParams) {
+export default function serverDetailResolves ($stateParams:{id:string}) {
   'ngInject';
 
   var arrOrNull = fp.cond(
@@ -86,7 +88,7 @@ export default function serverDetailResolves ($stateParams) {
       .map(fp.find(x => x.host === `/api/host/${$stateParams.id}/`))
   );
 
-  const merge = fp.curry(3, _.merge)(fp.__, fp.__, allHostMatches);
+  const merge = fp.curry2((a, b) => angular.merge(a, b, allHostMatches));
 
   var networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
     jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
@@ -98,7 +100,6 @@ export default function serverDetailResolves ($stateParams) {
 
   var cs2 = cs
     .through(getFlatObjOrNull);
-  cs2.destroy = cs.destroy.bind(cs);
 
   var corosyncConfigurationStream = resolveStream(cs2)
     .then(broadcaster);
@@ -109,7 +110,6 @@ export default function serverDetailResolves ($stateParams) {
 
   var ps2 = ps
     .through(getFlatObjOrNull);
-  ps2.destroy = ps.destroy.bind(ps);
 
   var pacemakerConfigurationStream = resolveStream(ps2)
     .then(broadcaster);

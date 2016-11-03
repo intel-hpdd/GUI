@@ -1,6 +1,7 @@
 import highland from 'highland';
+import * as fp from 'intel-fp';
 import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
-import {flow, view, lensProp, invokeMethod, head} from 'intel-fp';
+
 
 describe('action dropdown directive', function () {
   var handleAction, openCommandModal, getCommandStream, cleanText;
@@ -17,9 +18,9 @@ describe('action dropdown directive', function () {
     openCommandModal = jasmine.createSpy('openCommandModal');
     $provide.value('openCommandModal', openCommandModal);
 
-    cleanText = flow(
-      view(lensProp('textContent')),
-      invokeMethod('trim', [])
+    cleanText = fp.flow(
+      fp.view(fp.lensProp('textContent')),
+      fp.invokeMethod('trim', [])
     );
 
     jasmine.clock().install();
@@ -180,7 +181,7 @@ describe('action dropdown directive', function () {
     });
 
     it('should display the first header', function () {
-      expect(cleanText(head(groupHeaders()))).toEqual('server001');
+      expect(cleanText(fp.head(groupHeaders()))).toEqual('server001');
     });
 
     it('should display the second header', function () {
@@ -201,7 +202,7 @@ describe('action dropdown directive', function () {
     });
 
     it('should put the lowest order host action first', function () {
-      expect(cleanText(head(verbs()))).toEqual('Reboot');
+      expect(cleanText(fp.head(verbs()))).toEqual('Reboot');
     });
 
     it('should put the highest order LNet action last', function () {
@@ -221,7 +222,7 @@ describe('action dropdown directive', function () {
       beforeEach(function () {
         button().click();
         var mouseOver = new MouseEvent('mouseover');
-        head(verbs()).dispatchEvent(mouseOver);
+        fp.head(verbs()).dispatchEvent(mouseOver);
         $timeout.flush();
         $timeout.verifyNoPendingTasks();
       });
@@ -256,7 +257,7 @@ describe('action dropdown directive', function () {
     describe('clicking a verb', function () {
       beforeEach(function () {
         button().click();
-        head(verbs()).click();
+        fp.head(verbs()).click();
       });
 
       it('should cause the action to be handled', function () {
@@ -287,7 +288,7 @@ describe('action dropdown directive', function () {
       $scope.stream.write(records);
       jasmine.clock().tick();
 
-      expect(cleanText(head(verbs()))).toEqual('Action Word');
+      expect(cleanText(fp.head(verbs()))).toEqual('Action Word');
     });
   });
 });

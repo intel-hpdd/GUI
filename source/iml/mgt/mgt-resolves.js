@@ -21,12 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp';
 import store from '../store/get-store.js';
 import broadcast from '../broadcaster.js';
-
-import {
-  filter
-} from 'intel-fp';
 
 import type {
   HighlandStreamT
@@ -51,5 +48,5 @@ export function mgtJobIndicatorB ():fnToStream {
 export function mgt$ ():HighlandStreamT<mixed> {
   return store
     .select('targets')
-    .map(filter(x => x.kind === 'MGT'));
+    .map(fp.filter(x => x.kind === 'MGT'));
 }

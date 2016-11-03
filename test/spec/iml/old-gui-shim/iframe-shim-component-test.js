@@ -28,11 +28,9 @@ describe('iframe shim component', () => {
 
     frame = {
       style: {},
-      contentWindow: {
-        document: {
-          body: {
-            scrollHeight: 0
-          }
+      contentDocument: {
+        body: {
+          scrollHeight: 0
         }
       }
     };
@@ -106,7 +104,7 @@ describe('iframe shim component', () => {
     });
 
     it('should set the frame height', () => {
-      frame.contentWindow.document.body.scrollHeight = 1000;
+      frame.contentDocument.body.scrollHeight = 1000;
 
       jasmine.clock().tick(500);
 

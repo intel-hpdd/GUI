@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 import extractApi from 'intel-extract-api';
-import {memoize} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 type stringFn = (resourceUri:string) => string;
-export default ():stringFn => memoize(extractApi);
+export default ():stringFn => fp.memoize(extractApi);

@@ -22,12 +22,8 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
-import {
-  curry,
-  tail,
-  identity
-} from 'intel-fp';
+import * as fp from 'intel-fp';
+import * as maybe from 'intel-maybe';
 
 import getServerMoment from '../get-server-moment.js';
 import createDate from '../create-date.js';
@@ -36,8 +32,15 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-export const getRequestRange = curry(3, function getRequestRangeOuter (overrides, begin, end) {
-  getRequestRange.setLatest = identity;
+type statT = {
+  data:{
+    [key:string]:number
+  },
+  ts:string
+};
+
+export const getRequestRange = fp.curry3(function getRequestRangeOuter (overrides, begin, end) {
+  getRequestRange.setLatest = fp.identity;
 
   return getRequestRange;
 
@@ -51,17 +54,21 @@ export const getRequestRange = curry(3, function getRequestRangeOuter (overrides
 });
 
 
-export const getRequestDuration = curry(3, function getRequestDurationOuter (overrides:Object, size:number, unit:string) {
+export const getRequestDuration = fp.curry3(function getRequestDurationOuter (overrides:Object, size:number, unit:string) {
   var latest;
 
-  getRequestDuration.setLatest = function setLatest (s:HighlandStreamT<{ts:string}[]>) {
+  getRequestDuration.setLatest = function setLatest (s:HighlandStreamT<statT>) {
     return s
       .collect()
-      .tap(function setLatest (x) {
-        if (x && x.length)
-          latest = tail(x).ts;
-        else
-          latest = null;
+      .tap((xs) => {
+        const last = maybe.map(
+          x => x.ts,
+          fp.last(xs)
+        );
+        latest = maybe.withDefault(
+          () => null,
+          last
+        );
       })
       .flatten();
   };

@@ -3,7 +3,7 @@ import 'angular-mocks';
 
 import fixturesModule from './fixtures/fixtures';
 import {find} from 'intel-lodash-mixins';
-import {curry, map} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 function cssMatcher (presentClasses, absentClasses) {
   return () => {
@@ -176,12 +176,12 @@ window.expectToEqual = function expectToEqualWrap (expected) {
  * @param {Function | Object | String} value
  * @param {Highland.Stream} s
  */
-window.expectStreamToContainItem = curry(2, function expectStreamToContainItem (value, s) {
+window.expectStreamToContainItem = fp.curry2(function expectStreamToContainItem (value, s) {
   return s.each(x => expect(find(x, value)).toBeTruthy());
 });
 
 window.convertNvDates = function convertNvDates (s) {
-  return s.tap(map(function (item) {
+  return s.tap(fp.map(function (item) {
     item.values.forEach(function (value) {
       value.x = value.x.toJSON();
     });

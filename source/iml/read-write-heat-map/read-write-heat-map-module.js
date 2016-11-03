@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import angular from 'angular';
 import chartsModule from '../charts/charts-module';
 import chartingModule from '../charting/charting-module';
@@ -35,29 +35,19 @@ export type readWriteHeatMapTypesT = {
   WRITE_IOPS:'stats_write_iops'
 };
 
-export type rangeConfigT = {
-  configType:'range',
-  startDate:string,
-  endDate:string,
-  dataType:string,
-  page:string
-};
-
-export type durationConfigT = {
-  configType:'duration',
-  size:number,
-  unit:string,
-  dataType:string,
-  page:string
-};
+import type {
+  durationPayloadT,
+  durationConfigT,
+  rangeConfigT
+} from '../duration-picker/duration-picker-module.js';
 
 import type {
   scopeToElementT
-} from '../chart-compiler/chart-compiler-module.js';
+} from '../dashboard/dashboard-types.js';
 
 
-export type heatMapConfigT = rangeConfigT | durationConfigT;
-export type heatMapDurationPayloadT = rangeConfigT & durationConfigT;
+export type heatMapConfigT = (rangeConfigT & {dataType:string })  | (durationConfigT & { dataType:string });
+export type heatMapDurationPayloadT = durationPayloadT & { dataType:string };
 export type getReadWriteHeatMapChartT = (overrides:Object) => Promise<scopeToElementT>;
 
 export type heatMapPayloadHashT = {

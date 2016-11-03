@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function legendDirective (getLegend) {
   'ngInject';
@@ -45,7 +45,7 @@ export function legendDirective (getLegend) {
           .padding(20);
 
         svg
-          .select(always(node))
+          .select(fp.always(node))
           .call(legend);
       };
 

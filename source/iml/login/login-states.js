@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,9 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import loginTemplate from './assets/html/login.html!text';
 
 export const loginState = {

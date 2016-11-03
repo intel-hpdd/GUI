@@ -33,7 +33,7 @@ import {
 } from 'intel-obj';
 
 export default (requestRange, buff) => {
-  const s = highland((push, next) => {
+  return highland((push, next) => {
     const params = requestRange({
       qs: {
         role: 'MDT',
@@ -69,11 +69,6 @@ export default (requestRange, buff) => {
         push(null, x);
         next();
       });
-  });
-
-  const s2 = s.ratelimit(1, 10000);
-
-  s2.destroy = s.destroy.bind(s);
-
-  return s2;
+  })
+    .ratelimit(1, 10000);
 };

@@ -1,9 +1,6 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-import {
-  tail,
-  identity
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -159,7 +156,7 @@ describe('Server Status Step', () => {
             auth_type: 'existing_keys_choice'
           }]);
         resolveStream
-          .and.returnValue(identity);
+          .and.returnValue(fp.identity);
 
         data = {
           spring: jasmine.createSpy('spring'),
@@ -171,7 +168,7 @@ describe('Server Status Step', () => {
           }
         };
 
-        onEnter = tail(serverStatusStep.onEnter);
+        onEnter = fp.last(serverStatusStep.onEnter);
         onEnter(data, getTestHostStream, serversToApiObjects, resolveStream);
       });
 

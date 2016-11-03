@@ -19,9 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import parselyBoxTemplate from './assets/html/parsely-box.html!text';
 
 export function parselyBox () {
@@ -37,7 +36,7 @@ export function parselyBox () {
       query: '=?'
     },
     controllerAs: 'ctrl',
-    controller: noop,
+    controller: fp.noop,
     template: parselyBoxTemplate
   };
 }

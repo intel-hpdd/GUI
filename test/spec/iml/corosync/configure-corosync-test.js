@@ -1,9 +1,7 @@
 import highland from 'highland';
+import * as fp from 'intel-fp';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
-import {
-  curry
-} from 'intel-fp';
 
 import {
   mock,
@@ -64,7 +62,7 @@ describe('configure corosync', () => {
         {
           $scope,
           insertHelpFilter,
-          waitForCommandCompletion: curry(2, waitForCommandCompletion)
+          waitForCommandCompletion: fp.curry2(waitForCommandCompletion)
         },
         bindings
       );

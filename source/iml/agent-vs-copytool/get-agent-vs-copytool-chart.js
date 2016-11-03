@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,20 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import flatMapChanges from 'intel-flat-map-changes';
-import {
-  flow,
-  eq,
-  map,
-  eqFn,
-  lensProp,
-  view,
-  unwrap,
-  invokeMethod,
-  always
-} from 'intel-fp';
+import * as fp from 'intel-fp';
+
 import {
   pickBy,
   values
@@ -48,6 +39,8 @@ import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
+import d3 from 'd3';
+
 import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
@@ -62,10 +55,9 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import agentVsCopytoolTemplate from './assets/html/agent-vs-copytool-chart.html!text';
 
-export default (localApply:localApplyT, data$Fn:data$FnT, d3) => {
+export default (localApply:localApplyT, data$Fn:data$FnT) => {
   'ngInject';
 
   return function getAgentVsCopytoolChart (overrides:Object) {
@@ -81,7 +73,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT, d3) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getAgentVsCopytoolStream))
+          data$Fn(overrides, fp.always(getAgentVsCopytoolStream))
         )
       );
 
@@ -91,22 +83,22 @@ export default (localApply:localApplyT, data$Fn:data$FnT, d3) => {
       .domain(['running actions', 'waiting requests', 'idle workers'])
       .range(['#F3B600', '#A3B600', '#0067B4']);
 
-    const without = flow(
-      eq,
+    const without = fp.flow(
+      fp.eq,
       (fn) => (x, y) => !fn(y)
     );
-    const getNumbers = flow(
+    const getNumbers = fp.flow(
       pickBy(without('ts')),
       values
     );
-    const getMax = flow(
-      map(getNumbers),
-      unwrap,
+    const getMax = fp.flow(
+      fp.map(getNumbers),
+      fp.unwrap,
       d3.max
     );
 
-    var getTime = invokeMethod('getTime', []);
-    var xComparator = eqFn(getTime, getTime);
+    var getTime = fp.invokeMethod('getTime', []);
+    var xComparator = fp.eqFn(getTime, getTime);
 
     const getDate = (d) => createDate(d.ts);
 
@@ -117,7 +109,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT, d3) => {
       return [range.format({ implicitYear: false })];
     }
 
-    const mapProps = map(flow(lensProp, view));
+    const mapProps = fp.map(fp.flow(fp.lensProp, fp.view));
 
     return chartCompiler(agentVsCopytoolTemplate, initStream, ($scope, stream) => {
       const conf = {

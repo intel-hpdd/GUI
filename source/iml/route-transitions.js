@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import {
   CACHE_INITIAL_DATA
 } from './environment.js';
@@ -29,15 +29,12 @@ import {
   authorization
 } from './auth/authorization.js';
 
-export type routeStateT = {
-  abstract?:boolean,
-  name:string,
-  url?:string,
-  controller?:string,
-  controllerAs?:string,
-  templateUrl?:string,
-  template?:string,
-  params?:Object,
+import type {
+  TransitionServiceT,
+  StateDeclarationT
+} from 'angular-ui-router';
+
+export type routeStateT = StateDeclarationT & {
   data?:{
     parent?:string,
     anonymousReadProtected?:boolean,
@@ -46,11 +43,10 @@ export type routeStateT = {
     label?:string,
     parentName?:string,
     access?:string
-  },
-  resolve?:Object
+  }
 };
 
-export default function routeTransitions ($transitions, navigate) {
+export default function routeTransitions ($transitions:TransitionServiceT, navigate:Function) {
   'ngInject';
 
   const allowAnonymousReadPredicate = {

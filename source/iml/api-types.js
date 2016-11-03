@@ -21,36 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  mgt$,
-  mgtJobIndicatorB,
-  mgtAlertIndicatorB
-} from './mgt-resolves.js';
-
-import {
-  GROUPS
-} from '../auth/authorization.js';
-
-export const mgtState = {
-  name: 'app.mgt',
-  url: '/configure/mgt',
-  component: 'mgtPage',
-  params: {
-    resetState: {
-      dynamic: true
-    }
-  },
-  data: {
-    helpPage: 'mgts_tab.htm',
-    access: GROUPS.FS_ADMINS,
-    anonymousReadProtected: true,
-    eulaState: true,
-    kind: 'MGTs',
-    icon: 'fa-bullseye'
-  },
-  resolve: {
-    mgt$,
-    mgtAlertIndicatorB,
-    mgtJobIndicatorB
-  }
+export type hostT = {
+  resource_uri:string,
+  id:string,
+  label:string
 };

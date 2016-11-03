@@ -19,13 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import socketStream from '../socket/socket-stream.js';
+import * as fp from 'intel-fp';
 import highland from 'highland';
-
-import {
-  curry
-} from 'intel-fp';
-
+import socketStream from '../socket/socket-stream.js';
 import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
@@ -44,7 +40,7 @@ const types = {
   }
 };
 
-export default curry(2, function getMemoryUsageStream (requestRange, buff) {
+export default fp.curry2(function getMemoryUsageStream (requestRange, buff) {
   const s = highland((push, next) => {
     var params = requestRange({
       qs: {

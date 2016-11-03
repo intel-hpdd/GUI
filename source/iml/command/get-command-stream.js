@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,36 +21,31 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import socketStream from '../socket/socket-stream.js';
+import * as fp from 'intel-fp';
 
 import type {
-  commandResponseT,
   commandT
 } from './command-types.js';
 
-import {
-  compose,
-  lensProp,
-  mapped,
-  view
-} from 'intel-fp';
+import type {
+  HighlandStreamT
+} from 'highland';
 
-export default (commandList:commandT[]):commandResponseT => {
+export default (commandList:commandT[]):HighlandStreamT<commandT[]> => {
   const options = {
     qs: {
-      id__in: view(
-        compose(
-          mapped,
-          lensProp('id')
+      id__in: fp.view(
+        fp.compose(
+          fp.mapped,
+          fp.lensProp('id')
         ),
         commandList
       )
     }
   };
 
-  const stream:commandResponseT = socketStream('/command', options);
+  const stream:HighlandStreamT<{objects:commandT[]}> = socketStream('/command', options);
 
   stream
     .write({

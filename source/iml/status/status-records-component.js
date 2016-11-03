@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,15 +21,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
 import * as fp from 'intel-fp';
 
 import {
   addCurrentPage
 } from '../api-transforms.js';
 
-export function StatusController ($scope, $location, propagateChange) {
+import type {
+  $scopeT,
+  $locationT
+} from 'angular';
+
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  Curry4
+} from 'intel-fp';
+
+type propagateChangeT = Curry4<$scopeT, Object, string, HighlandStreamT<any>, HighlandStreamT<any>>
+
+export function StatusController ($scope:$scopeT, $location:$locationT, propagateChange:propagateChangeT) {
   'ngInject';
 
   const s = this.notification$
@@ -50,7 +65,10 @@ export function StatusController ($scope, $location, propagateChange) {
     fp.lensProp,
     fp.view
   );
-  this.isCommand = fp.flow(getType, fp.invoke(fp.__, [fp.zipObject(types, types)]));
+  this.isCommand = fp.flow(
+    getType,
+    fn => fn(fp.zipObject(types, types))
+  );
 
   this.pageChanged = () => {
     $location.search('offset', (this.meta.current_page - 1) * this.meta.limit);

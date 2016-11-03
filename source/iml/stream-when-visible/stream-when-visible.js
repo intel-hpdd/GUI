@@ -22,13 +22,8 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-
+import * as fp from 'intel-fp';
 import pageVisibility from '../page-visibility.js';
-
-import {
-  noop
-} from 'intel-fp';
-
 
 import type {
   HighlandStreamT,
@@ -70,7 +65,7 @@ export function streamWhenVisible ($document:Array<Document>,
 
       stream
         .consume(consume)
-        .each(noop);
+        .each(fp.noop);
     }
 
     function consume (error:Error, x, push, next) {
@@ -99,7 +94,7 @@ export function streamWhenVisible ($document:Array<Document>,
     }
 
     const oldDestroy = visibleStream.destroy.bind(visibleStream);
-    // $FlowIgnore: flow does not recogize this monkey-patch
+    // $FlowFixMe: flow does not recogize this monkey-patch
     visibleStream.destroy = function destroy () {
       removeListener();
       oldDestroy();

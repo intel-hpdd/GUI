@@ -4,9 +4,12 @@ import {
 } from '../../../system-mock.js';
 
 describe('create stream', function () {
-  var createStream, streamWhenVisible,
-    bufferDataNewerThan, getTimeParams,
-    requestRangeInner, requestDurationInner,
+  let createStream,
+    streamWhenVisible,
+    bufferDataNewerThan,
+    getTimeParams,
+    requestRangeInner,
+    requestDurationInner,
     flushOnChange;
 
   beforeEachAsync(async function () {

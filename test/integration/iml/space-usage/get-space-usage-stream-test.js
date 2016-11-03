@@ -4,10 +4,7 @@ import spaceUsageDataFixtures from
   '../../../data-fixtures/space-usage-fixtures.json!json';
 
 
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import {
   mock,
@@ -34,10 +31,16 @@ describe('space usage stream', () => {
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
     const createDate = jasmine.createSpy('createDate')
-      .and.callFake(arg => withDefault(
-        () => new Date(),
-        Maybe.of(arg)
-          .map(x => new Date(x))));
+      .and
+      .callFake(
+        arg => maybe.withDefault(
+          () => new Date(),
+          maybe.map(
+            x => new Date(x),
+            maybe.of(arg)
+          )
+        )
+      );
 
     const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/create-date.js': { default: createDate }

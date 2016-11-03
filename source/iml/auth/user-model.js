@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default (modelFactory, EULA_STATES) => {
   'ngInject';
@@ -30,7 +30,7 @@ export default (modelFactory, EULA_STATES) => {
   });
 
   UserModel.prototype.actOnEulaState = function actOnEulaState (showFunc, denyFunc, passFunc) {
-    passFunc = passFunc || noop;
+    passFunc = passFunc || fp.noop;
 
     var result;
 

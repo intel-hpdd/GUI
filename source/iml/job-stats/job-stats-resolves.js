@@ -23,6 +23,7 @@
 
 import store from '../store/get-store.js';
 import moment from 'moment';
+import * as maybe from 'intel-maybe';
 
 import {
   matchById
@@ -57,9 +58,16 @@ export function getData ($stateParams:jobStatsParamsT) {
       store
         .select('targets')
         .map(matchById($stateParams.id))
-        .map(x => ({
-          label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
-        }))
+        .map(
+          maybe.map(x => ({
+            label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
+          }))
+        )
+        .map(
+          maybe.withDefault(() => ({
+            label: ''
+          }))
+        )
     );
 }
 

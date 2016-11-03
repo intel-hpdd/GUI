@@ -30,14 +30,17 @@ System.config({
     'angular-mocks/angular-mocks': 'node_modules/angular-mocks/angular-mocks.js',
     text: 'node_modules/systemjs-plugin-text/text.js',
     json: 'node_modules/systemjs-plugin-json/json.js',
-    'jquery': 'node_modules/jquery/dist/jquery.js',
+    jquery: 'node_modules/jquery/dist/jquery.js',
     d3: 'node_modules/d3/d3.js',
     nvd3: 'node_modules/nvd3/build/nv.d3.js',
     moment: 'node_modules/moment/moment.js',
     twix: 'bower_components/twix/bin/twix.js',
     highland: 'node_modules/highland/dist/highland.js',
     lodash: 'bower_components/lodash/dist/lodash.js',
-    'intel-maybe': 'node_modules/intel-maybe/dist/maybe.js',
+    'inferno': 'node_modules/inferno/dist/inferno.js',
+    'inferno/dist': 'node_modules/inferno/dist',
+    'inferno-dom': 'node_modules/inferno-dom/inferno-dom.js',
+    'intel-maybe': 'node_modules/intel-maybe/dist/source/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
     'intel-flat-map-changes': 'node_modules/intel-flat-map-changes/dist/source/index.js',
     'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
@@ -56,20 +59,8 @@ System.config({
     'intel-extract-api': 'node_modules/intel-extract-api/index.js',
     'intel-parsely': 'node_modules/intel-parsely/dist/source/index.js',
     'intel-pdsh-parser': 'node_modules/intel-pdsh-parser/dist/source/index.js',
-    'sprintf': 'node_modules/sprintf-js/src/sprintf.js',
+    sprintf: 'node_modules/sprintf-js/src/sprintf.js',
     'intel-deep-freeze': 'node_modules/intel-deep-freeze/dist/source/index.js'
-  },
-  packages: {
-    'intel-obj': {
-      map: {
-        'intel-fp': 'node_modules/intel-obj/node_modules/intel-fp/dist/source/fp.js'
-      }
-    },
-    'intel-math': {
-      map: {
-        'intel-fp': 'node_modules/intel-obj/node_modules/intel-fp/dist/source/fp.js'
-      }
-    }
   },
   meta: {
     'node_modules/intel-big-differ/source/big-differ-module.js': {

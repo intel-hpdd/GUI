@@ -21,7 +21,6 @@
 
 import angular from 'angular';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import addServerStepTemplate from './assets/html/add-server-step.html!text';
 
 export const ADD_SERVER_AUTH_CHOICES = Object.freeze({

@@ -22,23 +22,33 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
+import * as maybe from 'intel-maybe';
 
-const getHostByFqdn = (hosts, fqdn) => fp.find(
-  x => x.fqdn === fqdn,
-  hosts
-);
+const getHostByFqdn = (hosts, fqdn) =>
+  maybe.map(
+    x => x.id,
+    fp.find(
+      x => x.fqdn === fqdn,
+      hosts
+    )
+  );
 
-type objArr = Object[];
+type objArr = [Object[], Object];
 
 export function addHostIds ([servers, logs]:objArr) {
-  logs.objects = logs.objects.map(log => {
-    const host = getHostByFqdn(servers, log.fqdn);
+  logs.objects = logs
+    .objects
+    .map(log => {
+      const hostId = maybe.withDefault(
+        () => {},
+        getHostByFqdn(servers, log.fqdn)
+      );
 
-    return {
-      ...log,
-      host_id: host && host.id
-    };
-  });
+      return {
+        ...log,
+        host_id: hostId
+      };
+    });
 
   return logs;
 }

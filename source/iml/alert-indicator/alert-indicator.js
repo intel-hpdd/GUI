@@ -23,8 +23,6 @@ import angular from 'angular';
 import * as fp from 'intel-fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import alertIndicatorTemplate from './assets/html/alert-indicator.html!text';
 
 export function RecordStateCtrl ($scope, STATE_SIZE, propagateChange) {

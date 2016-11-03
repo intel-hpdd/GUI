@@ -19,11 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  noop
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import configurePacemakerTemplate from './assets/html/configure-pacemaker.html!text';
 
 export default function configurePacemaker () {
@@ -35,7 +31,7 @@ export default function configurePacemaker () {
       alertStream: '=',
       jobStream: '='
     },
-    controller: noop,
+    controller: fp.noop,
     controllerAs: 'ctrl',
     template: configurePacemakerTemplate
   };

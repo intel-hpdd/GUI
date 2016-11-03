@@ -22,11 +22,10 @@
 'use strict';
 
 var del = require('del');
-var fp = require('intel-fp');
 var path = require('path');
 var destDir = require('../dest-dir');
 
-var cleanOutside = fp.curry(2, del)(fp.__, {
+const cleanOutside = x => del(x, {
   force: true
 });
 

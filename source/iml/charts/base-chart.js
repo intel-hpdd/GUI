@@ -24,14 +24,9 @@ import d3 from 'd3';
 import nv from 'nvd3';
 import global from '../global.js';
 
+import * as fp from 'intel-fp';
 
 import _ from 'intel-lodash-mixins';
-
-import {
-  noop
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import chartTemplate from './assets/html/chart.html!text';
 
 import {
@@ -154,8 +149,8 @@ export default function baseChart (overrides) {
     generateChart () {
       throw new Error('config::generateChart must be overriden.');
     },
-    afterUpdate: noop,
-    onUpdate: noop
+    afterUpdate: fp.noop,
+    onUpdate: fp.noop
   };
 
   angular.merge(config, overrides);

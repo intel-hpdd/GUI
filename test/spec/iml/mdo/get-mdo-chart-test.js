@@ -1,5 +1,5 @@
 import highland from 'highland';
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -90,7 +90,7 @@ describe('MDO chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getMdoChart = mod.default(localApply, curry(3, data$Fn));
+    getMdoChart = mod.default(localApply, fp.curry3(data$Fn));
   });
 
   it('should return a factory function', () => {

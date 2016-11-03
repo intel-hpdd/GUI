@@ -27,7 +27,7 @@ import getRandomValue from '../get-random-value.js';
 import socketWorker from './socket-worker.js';
 
 type eventSocketsT = {
-  [key: number]: EventSocket
+  [key:number]:EventSocket
 };
 
 type messageT = {
@@ -39,16 +39,19 @@ type messageT = {
 
 const eventSockets:eventSocketsT = {};
 
-socketWorker.addEventListener('message', ev => {
-  if (!ev.data.id)
+// $FlowFixMe Track: https://github.com/facebook/flow/pull/2680
+socketWorker.addEventListener('message', (ev:{data:Object}) => {
+  const data:Object = ev.data;
+
+  if (!data.id)
     return;
 
-  if (!eventSockets[ev.data.id])
+  if (!eventSockets[data.id])
     return;
 
-  var eventSocket = eventSockets[ev.data.id];
+  var eventSocket = eventSockets[data.id];
 
-  eventSocket.emit(ev.data.type, ev.data.payload);
+  eventSocket.emit(data.type, data.payload);
 }, false);
 
 class EventSocket extends EventEmitter {
@@ -81,7 +84,7 @@ class EventSocket extends EventEmitter {
 
     delete eventSockets[this.id];
   }
-  send (payload:?mixed, ack?:(resp:Object) => void) {
+  send (payload:?mixed, ack?:(resp:any) => void) {
     var message:messageT = {
       type: 'send',
       id: this.id
@@ -93,7 +96,7 @@ class EventSocket extends EventEmitter {
     if (ack) {
       message.ack = true;
       this.once('message', (resp:Object) => {
-        // $FlowIgnore: already guarded by if block above.
+        // $FlowFixMe: already guarded by if block above.
         ack(resp);
       });
     }

@@ -20,13 +20,9 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import serverStatusStepTemplate from './assets/html/server-status-step.html!text';
 
-import {
-  curry
-} from 'intel-fp';
 
 import {
   resolveStream
@@ -82,7 +78,7 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
         .setHosts(resp.objects)
         .compute();
     })
-    .stopOnError(curry(1, $exceptionHandler))
+    .stopOnError(fp.unary($exceptionHandler))
     .each(localApply.bind(null, $scope));
 }
 

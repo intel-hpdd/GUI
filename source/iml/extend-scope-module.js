@@ -20,8 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import type {
   $scopeT
@@ -33,7 +32,7 @@ export default angular.module('extendScope', [])
   .config(['$provide', function addHandleExceptionMethod ($provide) {
     return $provide.decorator('$rootScope', ['$delegate', '$exceptionHandler',
       function addExceptionHandler ($delegate, $exceptionHandler) {
-        $delegate.handleException = curry(1, $exceptionHandler);
+        $delegate.handleException = fp.unary($exceptionHandler);
 
         return $delegate;
       }]);
@@ -75,12 +74,12 @@ export default angular.module('extendScope', [])
   .factory('propagateChange', function propagateChangeFactory ($exceptionHandler, localApply) {
     'ngInject';
 
-    return curry(4, function propagateChange ($scope, obj, prop, s) {
+    return fp.curry4(function propagateChange ($scope, obj, prop, s) {
       return s
         .tap((x) => {
           obj[prop] = x;
         })
-        .stopOnError(curry(1, $exceptionHandler))
+        .stopOnError(fp.unary($exceptionHandler))
         .each(localApply.bind(null, $scope));
     });
   })

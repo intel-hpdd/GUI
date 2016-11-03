@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,31 +21,42 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from 'intel-fp';
 
-export default function BaseDashboardCtrl ($scope, fsB, charts) {
+import type {
+  Curry4
+} from 'intel-fp';
+
+import type {
+  $scopeT
+} from 'angular';
+
+const STATES = Object.freeze({
+  MONITORED: 'monitored',
+  MANAGED: 'managed'
+});
+
+export default function BaseDashboardCtrl (
+  $scope:$scopeT,
+  fsB:Function,
+  charts:Object[],
+  propagateChange:Curry4<$scopeT,Object,string,Object,Object>
+) {
   'ngInject';
 
-  var baseDashboard = angular.extend(this, {
+  Object.assign(this, {
     fs: [],
     fsB,
     charts
   });
 
-  var STATES = Object.freeze({
-    MONITORED: 'monitored',
-    MANAGED: 'managed'
-  });
-
   fsB()
-    .tap(fp.map(function setState (s) {
-      s.STATES = STATES;
-      s.state = (s.immutable_state ? STATES.MONITORED : STATES.MANAGED);
-    }))
-    .tap(x => baseDashboard.fs = x)
-    .stopOnError(fp.curry(1, $scope.handleException))
-    .each($scope.localApply.bind(null, $scope));
+    .map(fp.map(x => ({
+      ...x,
+      STATES,
+      state :x.immutable_state ? STATES.MONITORED : STATES.MANAGED
+    })))
+    .through(propagateChange($scope, this, 'fs'));
 
   $scope.$on('$destroy', () => {
     fsB.endBroadcast();

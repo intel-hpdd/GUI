@@ -1,3 +1,5 @@
+// @flow
+
 //
 // INTEL CONFIDENTIAL
 //
@@ -19,8 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-// @flow
-
+import * as fp from 'intel-fp';
 import flatMapChanges from 'intel-flat-map-changes';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
@@ -31,12 +32,6 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
-  flow,
-  lensProp,
-  view
-} from 'intel-fp';
-
-import {
   values
 } from 'intel-obj';
 
@@ -44,13 +39,11 @@ import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
 
-
 import {
   DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
   UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
 } from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteHeatMapTemplate from './assets/html/read-write-heat-map.html!text';
 
 import type {
@@ -63,8 +56,7 @@ import type {
 
 import type {
   readWriteHeatMapTypesT,
-  heatMapDurationPayloadT,
-  heatMapPayloadHashT
+  heatMapDurationPayloadT
 } from './read-write-heat-map-module.js';
 
 import type {
@@ -76,11 +68,19 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default ($state, localApply:localApplyT,
+import type {
+  HighlandStreamT
+} from 'highland';
+
+import type {
+  StateServiceT
+} from 'angular-ui-router';
+
+export default ($state:StateServiceT, localApply:localApplyT,
                 data$Fn:data$FnT, readWriteHeatMapTypes:readWriteHeatMapTypesT) => {
   'ngInject';
 
-  const dataLens = view(lensProp('data'));
+  const dataLens = fp.view(fp.lensProp('data'));
   const maxMillisecondsDiff = 30000;
 
   return function getReadWriteHeatMapChart (overrides:filesystemQueryT | targetQueryT, page:string) {
@@ -103,7 +103,7 @@ export default ($state, localApply:localApplyT,
       );
 
     return chartCompiler(readWriteHeatMapTemplate, initStream,
-      ($scope:$scopeT, stream:HighlandStreamT<heatMapPayloadHashT>) => {
+      ($scope:$scopeT, stream:HighlandStreamT<Object[]>) => {
 
         const conf = {
           stream,
@@ -156,13 +156,19 @@ export default ($state, localApply:localApplyT,
                 });
               });
               d3Chart.formatter(getFormatter(conf.dataType));
-              d3Chart.zValue(flow(dataLens, view(lensProp(conf.dataType))));
+              d3Chart.zValue(fp.flow(
+                dataLens,
+                fp.view(fp.lensProp(conf.dataType))
+              ));
 
               d3Chart.xAxis().ticks(3);
             },
             beforeUpdate: function beforeUpdate (d3Chart) {
               d3Chart.formatter(getFormatter(conf.dataType));
-              d3Chart.zValue(flow(dataLens, view(lensProp(conf.dataType))));
+              d3Chart.zValue(fp.flow(
+                dataLens,
+                fp.view(fp.lensProp(conf.dataType))
+              ));
               d3Chart.xAxisDetail(conf.toReadableType(conf.dataType));
             }
           }

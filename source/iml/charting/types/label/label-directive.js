@@ -19,9 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
-import {__, invoke, always} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function labelDirective (d3, getLabel) {
   'ngInject';
@@ -41,14 +39,18 @@ export function labelDirective (d3, getLabel) {
         const label = getLabel()
           .data(scope.onData);
 
-        scope.onUpdate
-          .forEach(invoke(__, [angular.extend({
-            label,
-            node: d3.select(node)
-          }, conf)]));
+        scope
+          .onUpdate
+          .forEach(x => x(
+            {
+              label,
+              node: d3.select(node),
+              ...conf
+            }
+          ));
 
         conf.svg
-          .select(always(node))
+          .select(fp.always(node))
           .call(label);
       };
 

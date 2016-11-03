@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default function asValue (localApply, $exceptionHandler) {
   'ngInject';
@@ -41,7 +41,7 @@ export default function asValue (localApply, $exceptionHandler) {
           .stream
           .fork()
           .tap(v => transcludedScope.curr.val = v)
-          .stopOnError(curry(1, $exceptionHandler))
+          .stopOnError(fp.unary($exceptionHandler))
           .each(localApply.bind(null, transcludedScope));
 
 

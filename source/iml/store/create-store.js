@@ -34,8 +34,8 @@ import type {
   StoreT
 } from './store-module.js';
 
-type reducersT = { [key: string]: (prev:mixed, curr:ActionT) => mixed };
-type combineT = { [key: string]: mixed };
+type reducersT = { [key:string]:(prev:mixed, curr:ActionT) => mixed };
+type combineT = { [key:string]:mixed };
 
 function combineReducers (reducers:reducersT) {
   const keys = Object.keys(reducers);
@@ -60,7 +60,7 @@ export default function createStore (reducers:Object):StoreT {
   const stream = highland();
   const combined = combineReducers(reducers);
 
-  type fnToStrMap$T = () => HighlandStreamT<{ [key:string]: mixed }>;
+  type fnToStrMap$T = () => HighlandStreamT<{ [key:string]:mixed }>;
 
   const view:fnToStrMap$T = broadcast(
     stream

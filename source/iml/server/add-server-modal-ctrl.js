@@ -21,7 +21,6 @@
 
 import getSpring from '../socket/get-spring.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import addServerModalTemplate from './assets/html/add-server-modal.html!text';
 
 export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManager,

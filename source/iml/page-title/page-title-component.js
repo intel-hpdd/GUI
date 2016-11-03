@@ -25,16 +25,16 @@ import {
   getResolvedData
 } from '../route-utils.js';
 
-import {
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import type {
   TransitionT,
   StateServiceT
 } from 'angular-ui-router';
 
-const defaultToObj = withDefault(() => ({}));
+const defaultToObj = maybe.withDefault(
+  () => ({})
+);
 
 export default {
   controller: function ($state:StateServiceT, $transitions:TransitionT) {

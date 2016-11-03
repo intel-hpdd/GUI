@@ -19,24 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import highland from 'highland';
 import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
-import {
-  lensProp,
-  over,
-  map
-} from 'intel-fp';
 
 import {
   reduce
 } from 'intel-obj';
 
 const statsPrefixRegex = /^stats_/;
-const dataLens = lensProp('data');
-const stripStatsPrefix = over(dataLens, reduce(() => ({}), (value, key, result) => {
+const dataLens = fp.lensProp('data');
+const stripStatsPrefix = fp.over(dataLens, reduce(() => ({}), (value, key, result) => {
   var newKey = key.trim().replace(statsPrefixRegex, '');
   result[newKey] = value;
   return result;
@@ -58,7 +54,7 @@ const stats = [
 ];
 
 const prependStats = ''.concat.bind('stats_');
-const metrics = map(prependStats, stats)
+const metrics = fp.map(prependStats, stats)
   .join(',');
 
 export default (requestRange, buff) => {

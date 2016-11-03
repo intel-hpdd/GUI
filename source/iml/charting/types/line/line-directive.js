@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {flow, invokeMethod, always} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function lineDirective (getLine) {
   'ngInject';
@@ -40,9 +40,9 @@ export function lineDirective (getLine) {
       const node = el[0];
       const line = getLine();
 
-      const callLine = flow(
-        invokeMethod('select', [always(node)]),
-        invokeMethod('call', [line])
+      const callLine = fp.flow(
+        fp.invokeMethod('select', [fp.always(node)]),
+        fp.invokeMethod('call', [line])
       );
 
       chartCtrl.dispatch.on(`event.line${line.getCount()}`, (type, args) => {

@@ -1,4 +1,4 @@
-import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import * as fp from 'intel-fp';
 import highland from 'highland';
 import asStreamModule from
   '../../../../source/iml/as-stream/as-stream-module';
@@ -43,7 +43,9 @@ describe('As stream', function () {
     el = compile($scope);
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = flow(find, view(lensProp('textContent')), invokeMethod('trim', []));
+    getText = fp.flow(
+      find,
+      fp.view(fp.lensProp('textContent')), fp.invokeMethod('trim', []));
   }));
 
   it('should throw if str is already on scope', function () {

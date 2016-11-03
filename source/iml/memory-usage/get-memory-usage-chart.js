@@ -21,12 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  always
-} from 'intel-fp';
+
+import * as fp from 'intel-fp';
 import flatMapChanges from 'intel-flat-map-changes';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import memoryUsageChartTemplate from './assets/html/memory-usage-chart.html!text';
 import getMemoryUsageStream from './get-memory-usage-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
@@ -74,7 +72,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getMemoryUsageStream))
+          data$Fn(overrides, fp.always(getMemoryUsageStream))
         )
       );
 

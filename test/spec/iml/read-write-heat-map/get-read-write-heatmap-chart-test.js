@@ -1,8 +1,5 @@
+import * as fp from 'intel-fp';
 import highland from 'highland';
-
-import {
-  curry
-} from 'intel-fp';
 
 import {
   values
@@ -114,7 +111,7 @@ describe('Read Write Heat Map chart', () => {
 
     getReadWriteHeatMapChart = mod.default(
       $state, localApply,
-      curry(3, data$Fn), readWriteHeatMapTypes);
+      fp.curry3(data$Fn), readWriteHeatMapTypes);
   });
 
   it('should return a factory function', () => {
