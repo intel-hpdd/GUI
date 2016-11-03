@@ -77,7 +77,7 @@ export const logTableState = {
       var qs = qsFromLocationToOld($stateParams);
 
       if (qs.length)
-        qs = '?' + qs;
+        qs = `?${qs}`;
 
       const m$ = multiStream([
         store

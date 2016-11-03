@@ -1,7 +1,5 @@
 import highland from 'highland';
-import {
-  noop
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -91,7 +89,7 @@ describe('stream when visible', () => {
 
     stream
       .errors(spy)
-      .each(noop);
+      .each(fp.noop);
 
     expect(spy)
       .toHaveBeenCalledOnce();

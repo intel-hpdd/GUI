@@ -5,12 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// @flow
-
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 export default () => ({
   restrict: 'A',
@@ -25,11 +20,12 @@ export default () => ({
   controller ($state:Object, $transitions:Object) {
     'ngInject';
 
-    const getPage = ($current) => withDefault(
+    const getPage = ($current) => maybe.withDefault(
       () => '',
-      Maybe
-        .of($current.data && $current.data.helpPage)
-        .map(x => '?' + x)
+      maybe.map(
+        (x:string) => `?${x}`,
+        maybe.of($current.data && $current.data.helpPage)
+      )
     );
 
     this.page = getPage($state.$current);

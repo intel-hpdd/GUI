@@ -1,5 +1,5 @@
 import highland from 'highland';
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -92,7 +92,7 @@ describe('Read Write Bandwidth chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getReadWriteBandwidthChart = mod.default(curry(3, data$Fn), localApply);
+    getReadWriteBandwidthChart = mod.default(fp.curry3(data$Fn), localApply);
   });
 
   it('should return a factory function', () => {

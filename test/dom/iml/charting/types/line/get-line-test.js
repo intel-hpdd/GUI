@@ -221,7 +221,7 @@ describe('get line', () => {
       it('should set stroke-dasharray to the total length of the line', () => {
         line.getAttribute('stroke-dasharray')
           .split(' ')
-          .map(fp.curry(1, parseInt))
+          .map(fp.unary(parseInt))
           .forEach((x) => expect(x).toBeGreaterThan(0));
       });
 

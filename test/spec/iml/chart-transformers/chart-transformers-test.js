@@ -170,7 +170,7 @@ describe('flush on change', () => {
     });
 
     s
-      .errors(fp.curry(1, spy))
+      .errors(fp.unary(spy))
       .each(fp.noop);
 
     expect(spy).toHaveBeenCalledOnceWith(error);
@@ -221,7 +221,7 @@ describe('waitForChartData', () => {
     });
 
     s
-      .errors(fp.curry(1, spy))
+      .errors(fp.unary(spy))
       .each(fp.noop);
 
     expect(spy).toHaveBeenCalledOnceWith(error);

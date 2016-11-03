@@ -6,6 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from 'intel-fp';
+import highland from 'highland';
 
 import type {
   $scopeT
@@ -24,11 +25,10 @@ import {
   trimLogs
 } from './command-transforms.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import commandModalTemplate from './assets/html/command-modal.html!text';
 
 export function CommandModalCtrl (
-  commandsStream:HighlandStreamT<commandT>,
+  commandsStream:HighlandStreamT<commandT[]>,
   $scope:$scopeT,
   propagateChange:Function
 ) {
@@ -36,7 +36,7 @@ export function CommandModalCtrl (
 
   this.accordion0 = true;
 
-  const xForm = fp.map(
+  const xForm = highland.map(
     fp.map(
       fp.flow(
         trimLogs,
@@ -56,7 +56,7 @@ export function CommandModalCtrl (
 export function openCommandModalFactory ($uibModal:Object) {
   'ngInject';
 
-  return function openCommandModal (stream:HighlandStreamT<commandT>) {
+  return function openCommandModal (stream:HighlandStreamT<commandT[]>) {
     return $uibModal.open({
       template: commandModalTemplate,
       controller: 'CommandModalCtrl',

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -6,16 +8,12 @@
 import socketStream from '../socket/socket-stream.js';
 import LNET_OPTIONS from './lnet-options.js';
 
-import {
-  map
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-export default function getNetworkInterfaceStream (params) {
-  var stream = socketStream('/network_interface', params || {});
-
-  var s2 = stream
+export default function getNetworkInterfaceStream (params:{}) {
+  return socketStream('/network_interface', params || {})
     .pluck('objects')
-    .map(map(function setNidIfEmpty (x) {
+    .map(fp.map(function setNidIfEmpty (x) {
       if (!x.nid)
         x.nid = {
           lnd_type: x.lnd_types[0],
@@ -25,8 +23,4 @@ export default function getNetworkInterfaceStream (params) {
 
       return x;
     }));
-
-  s2.destroy = stream.destroy.bind(stream);
-
-  return s2;
 }

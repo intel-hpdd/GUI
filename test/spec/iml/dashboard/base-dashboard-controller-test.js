@@ -7,7 +7,11 @@ import broadcaster from '../../../../source/iml/broadcaster.js';
 describe('base dashboard controller', () => {
   beforeEach(module(baseDashboardModule));
 
-  var $scope, fsStream, charts, baseDashboardCtrl, chart;
+  let $scope,
+    fsStream,
+    charts,
+    baseDashboardCtrl,
+    chart;
 
   beforeEach(inject(($controller, $rootScope) => {
     fsStream = highland();
@@ -42,40 +46,25 @@ describe('base dashboard controller', () => {
       charts: charts
     });
 
-    expect(baseDashboardCtrl).toEqual(scope);
+    expect(baseDashboardCtrl)
+      .toEqual(scope);
   });
 
   describe('streaming data', () => {
     beforeEach(() => {
-      fsStream.write({ id: 1 });
+      fsStream.write([{ id: 1 }]);
     });
 
     it('should wire up the fs stream', () => {
-      expect(baseDashboardCtrl.fs).toEqual({
+      expect(baseDashboardCtrl.fs).toEqual([{
         id: 1,
         STATES: Object.freeze({
           MONITORED: 'monitored',
           MANAGED: 'managed'
         }),
         state: 'managed'
-      });
+      }]);
     });
-
-    it('should locally apply the changes', () => {
-      expect($scope.localApply).toHaveBeenCalledOnce();
-    });
-  });
-
-  it('should call handleException on error', () => {
-    var err = {
-      __HighlandStreamError__: true,
-      error: new Error('boom!')
-    };
-
-    fsStream.write(err);
-
-    expect($scope.handleException.calls.mostRecent().args[0])
-      .toEqual(new Error('boom!'));
   });
 
   describe('on destroy', () => {

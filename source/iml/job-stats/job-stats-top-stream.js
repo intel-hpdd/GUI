@@ -79,7 +79,6 @@ export const topDuration = (duration:number=10, unit:string='minute', overrides:
       )
     )
     .through(collectById)
-
     .each(x => {
       push(null, x);
       next();

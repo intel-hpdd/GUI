@@ -1,13 +1,10 @@
 import highland from 'highland';
 import moment from 'moment';
+import * as maybe from 'intel-maybe';
 
 import fileUsageDataFixtures
   from '../../../data-fixtures/file-usage-fixtures.json!json';
 
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
 
 import {
   mock,
@@ -34,11 +31,17 @@ describe('file usage stream', () => {
     });
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-    const createDate = jasmine.createSpy('createDate')
-      .and.callFake(arg => withDefault(
+    const createDate = jasmine
+      .createSpy('createDate')
+      .and
+      .callFake(arg => maybe.withDefault(
         () => new Date(),
-        Maybe.of(arg)
-          .map(x => new Date(x))));
+        maybe.map(
+          x => new Date(x),
+          maybe.of(arg)
+        )
+      )
+    );
 
     const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/create-date.js': { default: createDate }

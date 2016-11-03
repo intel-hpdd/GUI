@@ -3,15 +3,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as fp from 'intel-fp';
 import {values} from 'intel-obj';
-import {filter, eqFn, identity, view, flow,
-  lensProp, always, find} from 'intel-fp';
 
 import getCommandStream from '../command/get-command-stream.js';
 
-const viewLens = flow(lensProp, view);
+const viewLens = fp.flow(fp.lensProp, fp.view);
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import confirmServerActionModalTemplate from './assets/html/confirm-server-action-modal.html!text';
 
 export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFilter,
@@ -35,10 +33,10 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
     toggleType: selectedServers.toggleType,
     transform (s, args) {
       const resourceUri = args[0];
-      const eqHost = eqFn(identity, viewLens('host'), resourceUri);
+      const eqHost = fp.eqFn(fp.identity, viewLens('host'), resourceUri);
 
       return s
-        .map(filter(eqHost))
+        .map(fp.filter(eqHost))
         .sequence();
     },
     addServer () {
@@ -95,8 +93,8 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
       $scope.server.setEditable(true);
     },
     getActionByValue (value) {
-      const eqValue = eqFn(identity, viewLens('value'), value);
-      return find(eqValue, serverActions);
+      const eqValue = fp.eqFn(fp.identity, viewLens('value'), value);
+      return fp.find(eqValue, serverActions);
     },
     getSelectedHosts (value) {
       var action = this.getActionByValue(value);
@@ -122,8 +120,8 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
         keyboard: false,
         backdrop: 'static',
         resolve: {
-          action: always(action),
-          hosts: always(hosts)
+          action: fp.always(action),
+          hosts: fp.always(hosts)
         }
       });
 

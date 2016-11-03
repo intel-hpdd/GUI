@@ -3,9 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {always} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import confirmActionModalTemplate from './assets/html/confirm-action-modal.html!text';
 
 export function ConfirmActionModalCtrl  ($scope, title, confirmPrompts) {
@@ -28,8 +26,8 @@ export function openConfirmActionModalFactory ($uibModal) {
       backdropClass: 'confirm-action-modal-backdrop',
       backdrop: 'static',
       resolve: {
-        title: always(title),
-        confirmPrompts: always(confirmPrompts)
+        title: fp.always(title),
+        confirmPrompts: fp.always(confirmPrompts)
       }
     });
   };

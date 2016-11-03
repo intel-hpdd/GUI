@@ -1,12 +1,15 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
-
-describe('server actions', function () {
-  var serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;
+describe('server actions', () => {
+  let serverActions,
+    hosts,
+    detectFs,
+    rewriteTargetConfig,
+    installUpdates;
 
   beforeEach(module(serverModule));
 
-  beforeEach(inject(function (_serverActions_) {
+  beforeEach(inject(_serverActions_ => {
     serverActions = _serverActions_;
 
     hosts = [
@@ -24,11 +27,11 @@ describe('server actions', function () {
     installUpdates = serverActions[2];
   }));
 
-  it('should be an array', function () {
+  it('should be an array', () => {
     expect(serverActions).toEqual(jasmine.any(Array));
   });
 
-  it('should contain actions', function () {
+  it('should contain actions', () => {
     expect(serverActions).toEqual([
       {
         value: 'Detect File Systems',
@@ -63,7 +66,7 @@ describe('server actions', function () {
     ]);
   });
 
-  it('should convert detect file systems hosts to a job', function () {
+  it('should convert detect file systems hosts to a job', () => {
     const result = detectFs.convertToJob(hosts);
 
     expect(result).toEqual([{
@@ -74,13 +77,13 @@ describe('server actions', function () {
     }]);
   });
 
-  it('should check if a re-write target configuration host is disabled', function () {
-    const result = rewriteTargetConfig.buttonDisabled(hosts[0]);
+  it('should check if a re-write target configuration host is disabled', () => {
+    const result = rewriteTargetConfig.buttonDisabled(hosts);
 
     expect(result).toBe(false);
   });
 
-  it('should convert install updates hosts to a job', function () {
+  it('should convert install updates hosts to a job', () => {
     const result = installUpdates.convertToJob(hosts);
 
     expect(result).toEqual([{

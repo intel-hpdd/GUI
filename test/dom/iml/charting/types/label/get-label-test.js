@@ -1,4 +1,4 @@
-import {__, identity, flow, arrayWrap, invokeMethod} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {getLabelFactory} from
   '../../../../../../source/iml/charting/types/label/get-label';
@@ -66,7 +66,8 @@ describe('get label', () => {
   });
 
   it('should have a data getter', () => {
-    expect(label.data()).toBe(identity);
+    expect(label.data())
+      .toBe(fp.identity);
   });
 
   it('should have a data setter', () => {
@@ -90,10 +91,7 @@ describe('get label', () => {
         .datum([1, 2, 3, 4, 5, 6])
         .call(label);
 
-      qs = flow(
-        arrayWrap,
-        invokeMethod('querySelector', __, svg)
-      );
+      qs = (expr) => svg.querySelector(expr);
     });
 
     afterEach(() => {

@@ -2,14 +2,9 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture
   from '../../../data-fixtures/transformed-host-profile-fixture.json!json';
-import highland from 'highland';
 
-import {
-  compose,
-  lensProp,
-  mapped,
-  set
-} from 'intel-fp';
+import highland from 'highland';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -229,16 +224,16 @@ describe('host profile then', () => {
       describe('with invalid profiles', () => {
         it('should not pass values down the stream', () => {
 
-          const profilesLens = compose(
-            lensProp('objects'),
-            mapped,
-            compose(
-              lensProp('host_profiles'),
-              lensProp('profiles_valid')
+          const profilesLens = fp.compose(
+            fp.lensProp('objects'),
+            fp.mapped,
+            fp.compose(
+              fp.lensProp('host_profiles'),
+              fp.lensProp('profiles_valid')
             )
           );
 
-          response = set(
+          response = fp.set(
             profilesLens,
             false,
             response

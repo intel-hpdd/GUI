@@ -17,7 +17,7 @@ export function addCurrentPage <T: {meta:Object}> (o:T):T {
   };
 }
 
-export const rememberValue = fp.curry(2, (transformFn, in$) => {
+export const rememberValue = fp.curry2((transformFn, in$) => {
   let v;
 
   return in$

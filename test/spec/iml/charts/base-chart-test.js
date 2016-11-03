@@ -1,8 +1,6 @@
 import highland from 'highland';
 
-import {
-  identity
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -18,7 +16,7 @@ describe('base chart', () => {
   beforeEachAsync(async function () {
     d3 = {
       select: jasmine.createSpy('select')
-        .and.callFake(identity)
+        .and.callFake(fp.identity)
     };
 
     global = {
@@ -108,7 +106,7 @@ describe('base chart', () => {
       };
 
       generateChart = jasmine.createSpy('generateChart')
-        .and.callFake(identity);
+        .and.callFake(fp.identity);
 
       var ddo = baseChart({
         generateChart: generateChart

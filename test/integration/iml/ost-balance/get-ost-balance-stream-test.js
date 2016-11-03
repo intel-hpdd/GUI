@@ -1,10 +1,12 @@
+import * as fp from 'intel-fp';
 import highland from 'highland';
-import ostBalanceDataFixtures from
-  '../../../data-fixtures/ost-balance-data-fixtures.json!json';
+
 import ostBalanceModule from
   '../../../../source/iml/ost-balance/ost-balance-module';
 
-import * as fp from 'intel-fp';
+import ostBalanceDataFixtures from
+  '../../../data-fixtures/ost-balance-data-fixtures.json!json';
+
 import {
   clone
 } from 'intel-obj';
@@ -15,8 +17,12 @@ import {
 } from '../../../system-mock.js';
 
 describe('get OST balance stream', () => {
-  var socketStream, targetStream, ostMetricsStream,
-    getOstBalanceStream, fixtures, flushOnChange;
+  let socketStream,
+    targetStream,
+    ostMetricsStream,
+    getOstBalanceStream,
+    fixtures,
+    flushOnChange;
 
   beforeEachAsync(async function () {
     socketStream = jasmine.createSpy('socketStream')

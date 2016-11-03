@@ -1,4 +1,4 @@
-import Maybe from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import {
   mock,
@@ -82,7 +82,7 @@ describe('breadcrumb', () => {
 
       getResolvedData
         .and
-        .returnValue(Maybe.of(undefined));
+        .returnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
       $transitions.onStart.calls.argsFor(0)[1]();
@@ -120,7 +120,7 @@ describe('breadcrumb', () => {
           to: jasmine.createSpy('to').and.returnValue(curRoute)
         };
 
-        getResolvedData.and.returnValue(Maybe.of({
+        getResolvedData.and.returnValue(maybe.of({
           label: 'fs1',
           kind: 'dashboard-fs'
         }));
@@ -181,7 +181,7 @@ describe('breadcrumb', () => {
             to: jasmine.createSpy('to').and.returnValue(curRoute)
           };
 
-          getResolvedData.and.returnValue(Maybe.of({
+          getResolvedData.and.returnValue(maybe.of({
             label: 'fs1-MDT0000',
             kind: 'dashboard-mdt'
           }));
@@ -249,7 +249,7 @@ describe('breadcrumb', () => {
               to: jasmine.createSpy('to').and.returnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(Maybe.of({
+            getResolvedData.and.returnValue(maybe.of({
               label: 'fs1',
               kind: 'dashboard-fs'
             }));
@@ -308,7 +308,7 @@ describe('breadcrumb', () => {
                 to: jasmine.createSpy('to').and.returnValue(curRoute)
               };
 
-              getResolvedData.and.returnValue(Maybe.of({
+              getResolvedData.and.returnValue(maybe.of({
                 kind: 'servers'
               }));
 
@@ -346,7 +346,7 @@ describe('breadcrumb', () => {
               to: jasmine.createSpy('to').and.returnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(Maybe.of({
+            getResolvedData.and.returnValue(maybe.of({
               label: 'fs1',
               kind: 'filesystem'
             }));
@@ -467,7 +467,7 @@ describe('breadcrumb', () => {
 
       getResolvedData
         .and
-        .returnValue(Maybe.of(undefined));
+        .returnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
 

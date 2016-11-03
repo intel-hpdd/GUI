@@ -1,10 +1,7 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
+import * as fp from 'intel-fp';
 import highland from 'highland';
-
-import {
-  identity
-} from 'intel-fp';
 
 import {
   mock,
@@ -93,7 +90,7 @@ describe('server', () => {
 
     pdshFilter = jasmine.createSpy('pdshFilter');
     naturalSortFilter = jasmine.createSpy('naturalSortFilter')
-      .and.callFake(identity);
+      .and.callFake(fp.identity);
 
     jobMonitorStream = highland();
     spyOn(jobMonitorStream, 'destroy');
@@ -264,7 +261,7 @@ describe('server', () => {
     });
 
     it('should get an action by value', () => {
-      var result = server.getActionByValue('Install Updates');
+      const result = server.getActionByValue('Install Updates');
 
       expect(result).toEqual({
         value: 'Install Updates'

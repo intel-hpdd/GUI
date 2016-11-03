@@ -1,13 +1,13 @@
 import moment from 'moment';
 import highland from 'highland';
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
   resetAll
 } from '../../../system-mock.js';
 
-describe('the get time params module', () => {
+describe('get time params', () => {
   var getServerMoment, createDate, getRequestRange,
     getRequestDuration, getTimeParams;
 
@@ -148,7 +148,7 @@ describe('the get time params module', () => {
 
         highland([{ ts: '2015-04-30T00:00:00.000Z' }])
           .through(requestDuration.setLatest)
-          .each(noop);
+          .each(fp.noop);
 
         expect(requestDuration(params)).toEqual({
           qs: {

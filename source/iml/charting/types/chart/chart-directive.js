@@ -4,13 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-
-import {
-  flow,
-  invokeMethod
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import charterTemplate from './assets/html/chart.html!text';
 
 export function charterDirective ($window, d3, debounce) {
@@ -52,9 +46,9 @@ export function charterDirective ($window, d3, debounce) {
     transclude: true,
     template: charterTemplate,
     link (scope, el, attrs, ctrl) {
-      const setDimenstions = flow(
-        invokeMethod('attr', ['width', ctrl.getOuterWidth]),
-        invokeMethod('attr', ['height', ctrl.getOuterHeight])
+      const setDimenstions = fp.flow(
+        fp.invokeMethod('attr', ['width', ctrl.getOuterWidth]),
+        fp.invokeMethod('attr', ['height', ctrl.getOuterHeight])
       );
 
       setDimenstions(ctrl.svg);

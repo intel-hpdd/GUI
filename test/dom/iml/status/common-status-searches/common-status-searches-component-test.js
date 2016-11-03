@@ -1,4 +1,4 @@
-import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import * as fp from 'intel-fp';
 import commonStatusSearchesModule
   from '../../../../../source/iml/status/common-status-searches/common-status-searches-module';
 
@@ -14,9 +14,9 @@ describe('common status searches', () => {
     $animate = _$animate_;
     $scope = $rootScope.$new();
 
-    cleanText = flow(
-      view(lensProp('textContent')),
-      invokeMethod('trim', [])
+    cleanText = fp.flow(
+      fp.view(fp.lensProp('textContent')),
+      fp.invokeMethod('trim', [])
     );
 
     el = $compile(template)($scope)[0];

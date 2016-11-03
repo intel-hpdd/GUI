@@ -1,5 +1,5 @@
 import highland from 'highland';
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -90,7 +90,7 @@ describe('Host Cpu Ram chart', () => {
 
     localApply = jasmine.createSpy('localApply');
 
-    getHostCpuRamChart = mod.default(curry(3, data$Fn), localApply);
+    getHostCpuRamChart = mod.default(fp.curry3(data$Fn), localApply);
   });
 
   it('should return a factory function', () => {

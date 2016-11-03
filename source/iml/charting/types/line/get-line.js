@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {noop, flow} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function getLineFactory ($location, d3) {
   'ngInject';
@@ -11,11 +11,11 @@ export function getLineFactory ($location, d3) {
   var counter = 0;
 
   return function getLine () {
-    var xScale = noop;
-    var yScale = noop;
-    var xValue = noop;
-    var yValue = noop;
-    var xComparator = noop;
+    var xScale = fp.noop;
+    var yScale = fp.noop;
+    var xValue = fp.noop;
+    var yValue = fp.noop;
+    var xComparator = fp.noop;
     var color = '#000000';
     var opacity = 1;
 
@@ -50,8 +50,8 @@ export function getLineFactory ($location, d3) {
           .attr('class', strPlusCount('clipPath'));
 
         const line = d3.svg.line()
-          .x(flow(xValue, xScale))
-          .y(flow(yValue, yScale));
+          .x(fp.flow(xValue, xScale))
+          .y(fp.flow(yValue, yScale));
 
         const lineCount = strPlusCount('line');
         const lineClassCount = `.${lineCount}`;

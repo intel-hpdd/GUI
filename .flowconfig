@@ -12,8 +12,11 @@ node_modules/intel-flow-highland/flow-typed
 node_modules/intel-flow-jasmine/flow-typed
 
 [options]
-suppress_comment= \\(.\\|\n\\)*\\$FlowIgnore
-module.name_mapper='^intel-parsely/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-parsely/dist/source/\1.js.flow'
+module.file_ext=.html!text
+module.file_ext=.json!json
+module.file_ext=.js
+module.name_mapper.extension='html!text' -> '<PROJECT_ROOT>/html.js'
+module.name_mapper.extension='json!json' -> '<PROJECT_ROOT>/json.js'
 module.name_mapper='^intel-qs-parsers/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-qs-parsers/dist/source/\1.js.flow'
 esproposal.class_instance_fields=enable
 experimental.strict_type_args=true

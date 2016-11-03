@@ -3,14 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  always
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import eulaTemplate from './assets/html/eula.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import accessDeniedTemplate from '../access-denied/assets/html/access-denied.html!text';
 
 export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, ALLOW_ANONYMOUS_READ) {
@@ -24,7 +19,7 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
       keyboard: false,
       windowClass: 'eula-modal',
       resolve: {
-        user: always(user)
+        user: fp.always(user)
       }
     }).result;
   }
@@ -36,7 +31,9 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
       backdrop: 'static',
       keyboard: false,
       resolve: {
-        message: always(help.get('access_denied_eula'))
+        message: fp.always(
+          help.get('access_denied_eula')
+        )
       }
     }).result;
   }.bind(this);

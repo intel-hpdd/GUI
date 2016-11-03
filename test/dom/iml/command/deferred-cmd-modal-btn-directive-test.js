@@ -1,5 +1,5 @@
 import highland from 'highland';
-import {flow, lensProp, view, invokeMethod} from 'intel-fp';
+import * as fp from 'intel-fp';
 import commandModule from '../../../../source/iml/command/command-module';
 
 import {
@@ -52,9 +52,9 @@ describe('deferred command modal button directive exports', () => {
     $scope = $rootScope.$new();
     $scope.resourceUri = '/api/command/1/';
 
-    cleanText = flow(
-      view(lensProp('textContent')),
-      invokeMethod('trim', [])
+    cleanText = fp.flow(
+      fp.view(fp.lensProp('textContent')),
+      fp.invokeMethod('trim', [])
     );
 
     el = $compile(template)($scope)[0];

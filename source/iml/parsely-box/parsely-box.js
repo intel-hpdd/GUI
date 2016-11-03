@@ -3,9 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import parselyBoxTemplate from './assets/html/parsely-box.html!text';
 
 export function parselyBox () {
@@ -21,7 +20,7 @@ export function parselyBox () {
       query: '=?'
     },
     controllerAs: 'ctrl',
-    controller: noop,
+    controller: fp.noop,
     template: parselyBoxTemplate
   };
 }

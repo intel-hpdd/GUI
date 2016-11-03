@@ -1,6 +1,4 @@
-import {
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import {
   apiPathToUiPath,
@@ -55,7 +53,7 @@ describe('getResolvedData', () => {
         }
         );
 
-      result = withDefault(
+      result = maybe.withDefault(
         () => {},
         getResolvedData(transition, resolveName)
       );
@@ -89,7 +87,7 @@ describe('getResolvedData', () => {
           'otherStream'
         ]);
 
-      result = withDefault(
+      result = maybe.withDefault(
         () => 'no match found',
         getResolvedData(transition, resolveName)
       );

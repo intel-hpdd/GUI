@@ -5,6 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as maybe from 'intel-maybe';
+
 import {
   ADD_TREE_ITEMS,
   TOGGLE_COLLECTION_OPEN,
@@ -18,23 +20,19 @@ import type {
   treeHashT
 } from './tree-types.js';
 
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
-
 function updateItem (state, id, fn) {
-  const nextStateM = Maybe
-    .of(state[id])
-    .map(x => ({
+  const nextStateM = maybe.map(
+    x => ({
       ...state,
       [id]: {
         ...x,
         ...fn(x)
       }
-    }));
+    }),
+    maybe.of(state[id])
+  );
 
-  return withDefault(
+  return maybe.withDefault(
     () => state,
     nextStateM
   );

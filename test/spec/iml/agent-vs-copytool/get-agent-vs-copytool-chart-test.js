@@ -1,7 +1,4 @@
-import {
-  identity,
-  curry
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 import agentVsCopytoolModule from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
 
@@ -152,7 +149,7 @@ describe('get agent vs copytool chart exports', () => {
     });
 
     getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-      localApply, curry(3, data$Fn), d3);
+      localApply, fp.curry3(data$Fn), d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
       foo: 'bar'
@@ -298,7 +295,7 @@ describe('get agent vs copytool chart exports', () => {
 
     describe('on update', () => {
       it('should update xScale domain', () => {
-        createDate.and.callFake(identity);
+        createDate.and.callFake(fp.identity);
 
         config.onUpdate[0]({
           xs: [

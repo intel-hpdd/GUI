@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {always} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function legendDirective (getLegend) {
   'ngInject';
@@ -29,7 +29,7 @@ export function legendDirective (getLegend) {
           .padding(20);
 
         svg
-          .select(always(node))
+          .select(fp.always(node))
           .call(legend);
       };
 

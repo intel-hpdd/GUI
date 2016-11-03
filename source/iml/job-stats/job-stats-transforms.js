@@ -8,6 +8,7 @@
 import * as fp from 'intel-fp';
 import * as obj from 'intel-obj';
 import * as math from 'intel-math';
+import * as maybe from 'intel-maybe';
 
 import type {
   HighlandStreamT
@@ -25,11 +26,18 @@ type dataT = {
 type flatDataT = {
   data:number,
   id:string
-}
+};
 
-type reduceFnT = (x:mapT) => flatDataT[];
+type metricDataT = {
+  id:string,
+  data:{
+    average:number,
+    max:number,
+    min:number
+  }
+};
 
-export const reduceToStruct:reduceFnT = obj.reduceArr(
+export const reduceToStruct = obj.reduceArr(
   () => [],
   (data:mapT, id:string, out:flatDataT[]) =>
     out.concat({
@@ -38,7 +46,7 @@ export const reduceToStruct:reduceFnT = obj.reduceArr(
     })
 );
 
-export const normalize = (s:HighlandStreamT<dataT>) =>
+export const normalize = (s:HighlandStreamT<dataT>):HighlandStreamT<flatDataT> =>
   s
   .map(
     fp.flow(
@@ -48,7 +56,7 @@ export const normalize = (s:HighlandStreamT<dataT>) =>
   )
   .flatten();
 
-export const calculateData = (s:HighlandStreamT<flatDataT[]>) =>
+export const calculateData = (s:HighlandStreamT<flatDataT>):HighlandStreamT<metricDataT[]> =>
   s
   .group('id')
   .map(
@@ -64,21 +72,32 @@ export const calculateData = (s:HighlandStreamT<flatDataT[]>) =>
 
 
 export const collectById = (
-    streams:HighlandStreamT<HighlandStreamT<flatDataT[]>>
-  ):HighlandStreamT<{id:string, [key:string]:number }> =>
+    streams:HighlandStreamT<HighlandStreamT<{id:string, [key:string]:number }[]>>
+  ):HighlandStreamT<{id:string, [key:string]:number }[]> =>
     streams
     .merge()
     .flatten()
     .collect()
-    .map(fp.reduce([], (arr, curr) => {
-      const v = fp.find(x => x.id === curr.id, arr);
+    .map(fp.reduce([], (arr, curr:{ id:string, [key:string]:number }) => {
+      const r = maybe.map(
+        x => {
+          Object.assign(x, curr);
+          return arr;
+        },
+        fp.find(
+          x => x.id === curr.id,
+          arr
+        )
+      );
 
-      if (v)
-        Object.assign(v, curr);
-      else
-        arr.push({
-          ...curr
-        });
+      return maybe.withDefault(
+        () => {
+          arr.push({
+            ...curr
+          });
 
-      return arr;
+          return arr;
+        },
+        r
+      );
     }));

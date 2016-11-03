@@ -4,14 +4,9 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
+import * as fp from 'intel-fp';
 import getCommandStream from '../command/get-command-stream.js';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import actionDropdownTemplate from './assets/html/action-dropdown.html!text';
-
-import {lensProp, eq, view, cond, mapped, compose,
-  reduce, flow, identity, filter,
-  not, arrayWrap, True} from 'intel-fp';
 
 export function actionDescriptionCache ($sce) {
   'ngInject';
@@ -43,7 +38,7 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
           record,
           action
         })
-          .reject(eq('fallback'))
+          .reject(fp.eq('fallback'))
           .otherwise(run);
       else
         stream = run();
@@ -63,38 +58,38 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
     receivedData: false
   });
 
-  const extractPathLengths = view(
-    compose(
-      mapped,
-      lensProp('locks'),
-      lensProp('write'),
-      lensProp('length')
+  const extractPathLengths = fp.view(
+    fp.compose(
+      fp.mapped,
+      fp.lensProp('locks'),
+      fp.lensProp('write'),
+      fp.lensProp('length')
     )
   );
 
   var p = propagateChange($scope, ctrl, 'records');
 
-  var asArray = cond(
-    [flow(Array.isArray, not), arrayWrap],
-    [True, identity]
+  var asArray = fp.cond(
+    [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
+    [fp.True, fp.identity]
   );
 
   const add = (x, y) => x + y;
 
   ctrl.stream
     .map(asArray)
-    .map(filter(x => x.locks && x[ctrl.actionsProperty]))
+    .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
     .tap(() => ctrl.receivedData = true)
-    .tap(flow(
+    .tap(fp.flow(
       extractPathLengths,
-      reduce(0, add),
+      fp.reduce(0, add),
       locks => ctrl.locks = locks
     ))
     .through(p);
 
   function runHandleAction (record, action) {
     return handleAction(record, action)
-      .filter(identity)
+      .filter(fp.identity)
       .flatMap(function openModal (x) {
         var stream = getCommandStream([x.command || x]);
 

@@ -45,10 +45,7 @@ describe('line directive', () => {
     el = $compile(template)($scope)[0];
     document.body.appendChild(el);
 
-    qs = fp.flow(
-      fp.arrayWrap,
-      fp.invokeMethod('querySelector', fp.__, el)
-    );
+    qs = expr => el.querySelector(expr);
     $scope.$digest();
     $scope.stream.write([1, 2, 3, 4]);
   }));

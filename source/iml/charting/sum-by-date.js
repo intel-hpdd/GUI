@@ -19,7 +19,7 @@ type statT = {
   ts:string
 };
 
-type sumT = (xs:Array<statT[]>) => Array<statT[]>
+type sumT = (xs:Array<statT[]>) => Array<statT>
 const sum:sumT = fp
   .map(
     fp

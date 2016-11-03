@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 
-type errorT = (Error | string | { [key: string]: string });
+type errorT = (Error | string | { [key:string]:string });
 
 
 export default function buildResponseError (error:errorT):Error {
@@ -18,7 +18,7 @@ export default function buildResponseError (error:errorT):Error {
     return Object.keys(error)
       .reduce(function fillOutProperties (err:Error, key:string) {
         if (key !== 'message')
-          // $FlowIgnore: flow does not recogize this monkey-patch
+          // $FlowFixMe: flow does not recogize this monkey-patch
           err[key] = error[key];
 
         return err;

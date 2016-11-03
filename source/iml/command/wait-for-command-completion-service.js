@@ -20,7 +20,7 @@ import type {
 export default (openCommandModal:Function) => {
   'ngInject';
 
-  return fp.curry(2, (showModal:boolean, response:commandT[]) => {
+  return fp.curry2((showModal:boolean, response:commandT[]) => {
     const command$ = getCommandStream(response)
       .map(
         fp.map(setState)

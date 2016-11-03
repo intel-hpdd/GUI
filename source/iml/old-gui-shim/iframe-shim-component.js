@@ -25,7 +25,7 @@ export default {
     'ngInject';
 
     const frameShim = $element[0];
-    const frame = frameShim.querySelector('iframe');
+    const frame:HTMLIFrameElement = (frameShim.querySelector('iframe'):any);
     this.src = `${UI_ROOT}${this.path}`;
     frameShim.classList.add('loading');
 
@@ -38,12 +38,12 @@ export default {
     };
 
     const token = setInterval(() => {
-      if (!frame.contentWindow)
+      if (!frame.contentDocument)
         return;
 
+      // $FlowFixMe: Track https://github.com/facebook/flow/pull/1783
       const body = frame
-        .contentWindow
-        .document
+        .contentDocument
         .body;
 
       if (body)

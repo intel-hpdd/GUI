@@ -1,12 +1,7 @@
 import highland from 'highland';
+import * as fp from 'intel-fp';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
-
-import {
-  flow,
-  lensProp,
-  view
-} from 'intel-fp';
 
 describe('as viewer', () => {
   let $compile, $scope, el, s, getText, v;
@@ -50,7 +45,9 @@ describe('as viewer', () => {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = flow(find, view(lensProp('textContent')));
+      getText = fp.flow(
+        find,
+        fp.view(fp.lensProp('textContent')));
     }));
 
     it('should add 2 to num', () => {
@@ -104,7 +101,9 @@ describe('as viewer', () => {
       $scope.$digest();
 
       var find = el[0].querySelector.bind(el[0]);
-      getText = flow(find, view(lensProp('textContent')));
+      getText = fp.flow(
+        find,
+        fp.view(fp.lensProp('textContent')));
     }));
 
     describe('multiple children', function () {

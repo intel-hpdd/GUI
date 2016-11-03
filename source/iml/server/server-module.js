@@ -50,11 +50,11 @@ import serversToApiObjects from './servers-to-api-objects';
 import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
 export default angular.module('server', [pdshModule, filtersModule, lnetModule,
-    corosyncModule, pacemakerModule, commandModule, actionDropdownModule,
-    jobIndicatorModule, alertIndicatorModule, stepsModule,
-    extendScopeModule, highlandModule, asValueModule, asStreamModule,
-    uiBootstrapModule
-  ])
+  corosyncModule, pacemakerModule, commandModule, actionDropdownModule,
+  jobIndicatorModule, alertIndicatorModule, stepsModule,
+  extendScopeModule, highlandModule, asValueModule, asStreamModule,
+  uiBootstrapModule
+])
   .constant('OVERRIDE_BUTTON_TYPES', {
     OVERRIDE: 'override',
     PROCEED: 'proceed',

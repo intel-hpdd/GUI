@@ -3,13 +3,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {flow, map, filter, eq, not, lensProp, view} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default function groupActionsFilter () {
-  const numDisplayGroups = flow(
-    map(view(lensProp('display_group'))),
-    filter(flow(eq(undefined), not)),
-    view(lensProp('length'))
+  const numDisplayGroups = fp.flow(
+    fp.map(fp.view(fp.lensProp('display_group'))),
+    fp.filter(fp.flow(fp.eq(undefined), fp.not)),
+    fp.view(fp.lensProp('length'))
   );
 
   // Sort items by display_group, then by display_order.

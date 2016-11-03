@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 import getServerMoment from '../get-server-moment.js';
 import sortByDate from './sort-by-date.js';
 
-export default curry(2, function bufferDataNewerThan (size, unit) {
+export default fp.curry2(function bufferDataNewerThan (size:number, unit:string) {
   let buffer = [];
 
   return function bufferDataNewerThanInner (s) {

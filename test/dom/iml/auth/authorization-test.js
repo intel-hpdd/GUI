@@ -1,4 +1,4 @@
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -112,7 +112,7 @@ describe('authorization', () => {
       beforeEach(inject(function ($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        var template = curry(2, function template (attr, val) {
+        var template = fp.curry2(function template (attr, val) {
           const str = `<div ${attr}="${val}"></div>`;
           return $compile(str)($scope);
         });

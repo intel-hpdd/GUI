@@ -3,20 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as fp from 'intel-fp';
 import _ from 'intel-lodash-mixins';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  lensProp,
-  view,
-  map,
-  filter,
-  flow,
-  every
-} from 'intel-fp';
-
-const viewLens = flow(lensProp, view);
+const viewLens = fp.flow(fp.lensProp, fp.view);
 var objectsLens = viewLens('objects');
 
 export function getHostProfilesFactory (CACHE_INITIAL_DATA) {
@@ -37,8 +29,8 @@ export function getHostProfilesFactory (CACHE_INITIAL_DATA) {
         if (x.error)
           throw new Error(x.error);
       })
-      .map(map(viewLens('host_profiles')))
-      .filter(every(viewLens('profiles_valid')))
+      .map(fp.map(viewLens('host_profiles')))
+      .filter(fp.every(viewLens('profiles_valid')))
       .map(function (hosts) {
         // Pull out the profiles and flatten them.
         var profiles = [{}]
@@ -90,12 +82,12 @@ export function createHostProfilesFactory (waitForCommandCompletion) {
     }, true)
       .map(objectsLens)
       .map(
-        flow(
-          filter(
+        fp.flow(
+          fp.filter(
             x => x.server_profile && x.server_profile.initial_state === 'unconfigured'
           ),
-          filter(findInProfiles),
-          map(x => ({
+          fp.filter(findInProfiles),
+          fp.map(x => ({
             host: x.id,
             profile: profile.name
           })),
@@ -110,7 +102,7 @@ export function createHostProfilesFactory (waitForCommandCompletion) {
       .flatMap(x => socketStream('/host_profile', x, true))
       .map(objectsLens)
       .map(
-        map(
+        fp.map(
           x => x.commands[0]
         )
       )

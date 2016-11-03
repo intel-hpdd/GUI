@@ -6,6 +6,7 @@
         "transform-flow-strip-types",
         "transform-class-properties",
         "transform-object-rest-spread",
+        "inferno",
         [
           "angularjs-annotate",
           {
@@ -22,12 +23,13 @@
           "__coverage__",
           {
             "only": "source/iml/"
-          } 
+          }
         ],
         "check-es2015-constants",
         "transform-flow-strip-types",
         "transform-class-properties",
         "transform-object-rest-spread",
+        "inferno",
         "transform-async-to-generator",
         "transform-es2015-classes",
         "transform-es2015-modules-systemjs"
@@ -40,9 +42,10 @@
         "transform-flow-strip-types",
         "transform-class-properties",
         "transform-object-rest-spread",
+        "inferno",
         "transform-async-to-generator",
         "transform-es2015-classes",
-        "transform-es2015-modules-systemjs"
+        "transform-es2015-modules-systemjs",
       ]
     }
   }

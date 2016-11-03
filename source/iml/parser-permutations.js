@@ -1,13 +1,11 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// @flow
-
-import {
-  xProd
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 const modifiers = [
   '__in',
@@ -21,7 +19,7 @@ const modifiers = [
 ];
 
 export default (items:Array<string>) =>
-    xProd(items, modifiers)
+    fp.xProd(items, modifiers)
     .map(x => x.join(''))
     .concat(items)
     .join('&');

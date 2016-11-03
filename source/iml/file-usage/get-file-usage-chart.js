@@ -1,13 +1,12 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// @flow
-
 import flatMapChanges from 'intel-flat-map-changes';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import fileUsageChartTemplate from './assets/html/file-usage-chart.html!text';
 import getFileUsageStream from './get-file-usage-stream.js';
 import getStore from '../store/get-store.js';
@@ -33,7 +32,8 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 import type {
-  data$FnT
+  data$FnT,
+  configToStreamT
 } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply:localApplyT, data$Fn:data$FnT) => {
@@ -50,7 +50,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, () => getFileUsageStream(keyName))
+          data$Fn(overrides, (() => getFileUsageStream(keyName):configToStreamT))
         )
       );
 

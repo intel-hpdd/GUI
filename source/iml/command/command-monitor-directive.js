@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -7,7 +9,15 @@ import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import getCommandStream from '../command/get-command-stream.js';
 
-const set = fp.curry(3, (ctx, name, x) => ctx[name] = x);
+import type {
+  $scopeT
+} from 'angular';
+
+import type {
+  localApplyT
+} from '../extend-scope-module.js';
+
+const set = fp.curry3((ctx, name, x) => ctx[name] = x);
 
 const notCancelled = fp.filter(
   fp.flow(
@@ -18,7 +28,8 @@ const notCancelled = fp.filter(
   )
 );
 
-export function CommandMonitorCtrl ($scope, openCommandModal, localApply, $exceptionHandler) {
+export function CommandMonitorCtrl ($scope:$scopeT, openCommandModal:Function,
+                                    localApply:localApplyT, $exceptionHandler:Function) {
   'ngInject';
 
   var commandMonitorCtrl = this;

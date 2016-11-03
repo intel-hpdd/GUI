@@ -1,9 +1,6 @@
 
 import highland from 'highland';
-
-import {
-  identity
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -46,7 +43,7 @@ describe('hsm fs resolve', () => {
     broadcaster = jasmine
       .createSpy('broadcaster')
       .and
-      .callFake(identity);
+      .callFake(fp.identity);
 
     const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
       'source/iml/socket/socket-stream.js': {
