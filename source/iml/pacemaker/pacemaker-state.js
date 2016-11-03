@@ -1,32 +1,51 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {lensProp, view, safe} from 'intel-fp';
+import Inferno from 'inferno';
+import InfernoDOM from 'inferno-dom';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
-import pacemakerStateTemplate from './assets/html/pacemaker-state.html!text';
-
-export default function pacemakerState (propagateChange) {
-  'ngInject';
-
-  return {
-    restrict: 'E',
-    scope: {
-      stream: '='
-    },
-    template: pacemakerStateTemplate,
-    link: function link (scope) {
-      scope.ctrl = {};
-      var state = view(lensProp('state'));
-      var p = propagateChange(scope, scope.ctrl, 'state');
-
-      scope.stream
-        .map(safe(1, state, null))
-        .through(p);
-
-      scope.$on('$destroy', scope.stream.destroy.bind(scope.stream));
-    }
-  };
+function PacemakerStateComponent ({state}:stateT) {
+  switch (state) {
+  case 'started':
+    return (<span>
+      <i class="fa fa-plug text-success"></i> Pacemaker Started
+    </span>);
+  case 'stopped':
+    return (<span>
+      <i class="fa fa-plug text-danger"></i> Pacemaker Stopped
+    </span>);
+  case 'unconfigured':
+    return (<span>
+        <i class="fa fa-plug"></i> Pacemaker Unconfigured
+      </span>);
+  default:
+    return <span></span>;
+  }
 }
+
+type stateT = {state:string};
+
+export default {
+  bindings: {
+    stream: '<'
+  },
+  controller: function ($element:HTMLElement[]) {
+    'ngInject';
+
+    this
+      .stream
+      .filter(Boolean)
+      .each(({state}:stateT) =>
+        InfernoDOM.render(
+          <PacemakerStateComponent state={state} />,
+          $element[0]
+        )
+      );
+
+    this.$onDestroy = () => this.stream.destroy();
+  }
+};

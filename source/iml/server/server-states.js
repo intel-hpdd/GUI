@@ -13,10 +13,7 @@ import {
   GROUPS
 } from '../auth/authorization.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import serverTemplate from './assets/html/server.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import serverDetailTemplate from './assets/html/server-detail.html!text';
 
 export const serverState = {

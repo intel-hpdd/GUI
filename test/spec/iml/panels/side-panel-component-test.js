@@ -4,7 +4,9 @@ import {
 } from '../../../system-mock.js';
 
 describe('side panel component', () => {
-  let el, inst, rootPanel;
+  let el,
+    inst,
+    rootPanel;
 
   beforeEachAsync(async function () {
     const mod = await mock(
@@ -45,7 +47,7 @@ describe('side panel component', () => {
     });
 
 
-    expect(el.style['flex-basis'])
+    expect(el.style.flexBasis)
       .toBe('25%');
   });
 

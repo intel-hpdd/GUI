@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {flow, memoize} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as inputToQsParser from 'intel-qs-parsers/input-to-qs-parser.js';
 import * as parsely from 'intel-parsely';
 import {inputToQsTokens} from 'intel-qs-parsers/tokens.js';
@@ -25,7 +25,7 @@ const severities = parsely.choice(
   'error'
 ]
   .map(
-    severity => flow(
+    severity => fp.flow(
       parsely.matchValue(severity),
       parsely.onSuccess(x => x.toUpperCase())
     )
@@ -56,7 +56,7 @@ const begin = parsely.matchValue('begin');
 const end = parsely.matchValue('end');
 const beginOrEnd = parsely.choice([begin, end]);
 
-const rightHand = flow(
+const rightHand = fp.flow(
   parsely.parseStr([
     beginOrEnd,
     inputToQsParser.ascOrDesc
@@ -95,7 +95,7 @@ const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
 
-export default memoize(flow(
+export default fp.memoize(fp.flow(
   tokenizer,
   statusParser,
   x => x.result

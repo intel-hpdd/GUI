@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {memoize} from 'intel-fp';
+import * as fp from 'intel-fp';
 import createDate from '../create-date.js';
 
-export default memoize(createDate);
+export default fp.memoize(createDate);

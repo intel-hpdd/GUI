@@ -10,10 +10,7 @@ import {
   fsCollStream
 } from './hsm-fs-resolves.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import hsmFsTemplate from './assets/html/hsm-fs.html!text';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import hsmTemplate from './assets/html/hsm.html!text';
 
 import {

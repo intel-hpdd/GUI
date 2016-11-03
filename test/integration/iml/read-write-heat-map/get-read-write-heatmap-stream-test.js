@@ -3,10 +3,7 @@ import moment from 'moment';
 import readWriteHeatMapDataFixtures from
   '../../../data-fixtures/read-write-heat-map-fixtures.json!json';
 
-import {
-  lensProp,
-  view
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   clone
@@ -130,7 +127,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should union with a target', () => {
-        streams.heatMap[1].write({ 1: view(lensProp(1))(clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: fp.view(fp.lensProp(1))(clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({
           objects: [
@@ -167,7 +164,7 @@ describe('the read write heat map stream', () => {
       });
 
       it('should populate if data comes in on next tick', () => {
-        streams.heatMap[1].write({ 1: view(lensProp(1))(clone(fixtures[0].in)) });
+        streams.heatMap[1].write({ 1: fp.view(fp.lensProp(1))(clone(fixtures[0].in)) });
         streams.heatMap[1].end();
         streams.target[1].write({ objects: [] });
         streams.target[1].end();

@@ -2,7 +2,12 @@ import completionistModule from '../../../../source/iml/completionist/completion
 
 
 describe('completionist', () => {
-  var $scope, el, qs, qsa, input, keydownEvent;
+  let $scope,
+    el,
+    qs,
+    qsa,
+    input,
+    keydownEvent;
 
   beforeEach(module(completionistModule));
 
@@ -98,10 +103,13 @@ describe('completionist', () => {
     it('should populate the model on click', () => {
       input
         .dispatchEvent(keydownEvent(40));
+
       $scope.$digest();
-      qs('li').dispatchEvent(
-        new MouseEvent('click')
-      );
+
+      qs('li')
+        .dispatchEvent(
+          new MouseEvent('click')
+        );
       $scope.$digest();
 
       expect($scope.query).toBe('foo');

@@ -5,6 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as maybe from 'intel-maybe';
+import store from '../store/get-store.js';
+import socketStream from '../socket/socket-stream.js';
+
 import {
   streamToPromise
 } from '../promise-transforms.js';
@@ -12,10 +16,6 @@ import {
 import {
   matchById
 } from '../api-transforms.js';
-
-import * as fp from 'intel-fp';
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
 
 export const oldFilesystemDetailResolve = {
   resolve: {
@@ -34,12 +34,20 @@ export const oldUserDetailResolve = {
       'ngInject';
 
       return streamToPromise(
-        store.select('users')
+        store
+          .select('users')
           .filter(xs => xs.length)
       )
         .then(matchById($stateParams.id))
         .then(
-          fp.map(x => ({label: x.username}))
+          maybe.map(
+            (x:Object) => ({label: x.username})
+          )
+        )
+        .then(
+          maybe.withDefault(
+            () => ({label: ''})
+          )
         );
     }
   }
@@ -62,7 +70,7 @@ export const oldStoragePluginResolve = {
       'ngInject';
 
       return streamToPromise(socketStream(`/storage_resource/${$stateParams.id}`, {}, true))
-        .then(fp.map(x => ({label: x.plugin_name})));
+        .then(x => ({label: x.plugin_name}));
     }
   }
 };

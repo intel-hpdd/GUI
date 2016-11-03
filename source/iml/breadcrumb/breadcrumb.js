@@ -6,15 +6,26 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from 'intel-fp';
+import * as maybe from 'intel-maybe';
 import global from '../global.js';
-
-import {
-  withDefault
-} from 'intel-maybe';
 
 import {
   getResolvedData
 } from '../route-utils.js';
+
+import type {
+  routeStateT
+} from '../route-transitions.js';
+
+import type {
+  TransitionT,
+  StateServiceT,
+  StateParamsT
+} from 'angular-ui-router';
+
+import type {
+  Maybe
+} from 'intel-maybe';
 
 export type breadcrumbT = {
   name:string,
@@ -29,20 +40,10 @@ export type breadcrumbDataT = {
   kind?:string
 }
 
-import type {
-  routeStateT
-} from '../route-transitions.js';
-
-import type {
-  TransitionT,
-  StateServiceT,
-  StateParamsT
-} from 'angular-ui-router';
-
-const defaultToObj = withDefault(() => ({}));
+const defaultToObj = maybe.withDefault(() => ({}));
 
 const Controller = class {
-  stack:Array<breadcrumbT> = [];
+  stack:breadcrumbT[] = [];
   poppedStateEvent:boolean;
   loading:boolean;
   onSuccessEvent:boolean;
@@ -52,8 +53,20 @@ const Controller = class {
     'ngInject';
 
     const nodeStackLocation = (kind:string):number => {
-      const item = fp.find(item => item.kind === kind, this.stack);
-      return this.stack.indexOf(item);
+      const item:Maybe<breadcrumbT> = fp.find(
+        item => item.kind === kind,
+        this.stack
+      );
+
+      const idx = maybe.map(
+        x => this.stack.indexOf(x),
+        item
+      );
+
+      return maybe.withDefault(
+        () => -1,
+        idx
+      );
     };
 
     const createBreadcrumb = (node:routeStateT, resolvedData:breadcrumbDataT):breadcrumbT => {

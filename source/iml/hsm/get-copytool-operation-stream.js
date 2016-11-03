@@ -3,15 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as fp from 'intel-fp';
 import angular from 'angular';
 import socketStream from '../socket/socket-stream.js';
-
-import {
-  flow,
-  map,
-  lensProp,
-  view
-} from 'intel-fp';
 
 export default function getCopytoolOperationStream (params) {
   params = angular.merge({}, {
@@ -23,7 +17,7 @@ updated_at,started_at,throughput,type,state,path,description)',
     }
   }, params || {});
 
-  const buildProgress = map(function buildProgress (item) {
+  const buildProgress = fp.map(function buildProgress (item) {
     const progress = item.processed_bytes / item.total_bytes * 100;
 
     item.progress = isFinite(progress) ? progress : 0;
@@ -31,7 +25,7 @@ updated_at,started_at,throughput,type,state,path,description)',
     return item;
   });
 
-  const buildThroughput = map(function buildThroughput (item) {
+  const buildThroughput = fp.map(function buildThroughput (item) {
     var elapsed = (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
@@ -45,9 +39,11 @@ updated_at,started_at,throughput,type,state,path,description)',
     return item;
   });
 
-  const addMetrics = map(
-    flow(
-      view(lensProp('objects')),
+  const addMetrics = fp.map(
+    fp.flow(
+      fp.view(
+        fp.lensProp('objects')
+      ),
       buildProgress,
       buildThroughput
     )

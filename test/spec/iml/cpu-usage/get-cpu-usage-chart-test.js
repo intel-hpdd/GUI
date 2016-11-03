@@ -1,10 +1,7 @@
 import angular from 'angular';
+import * as fp from 'intel-fp';
 const {inject} = angular.mock;
 import highland from 'highland';
-
-import {
-  curry
-} from 'intel-fp';
 
 import {
   mock,
@@ -98,7 +95,7 @@ describe('cpu usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getCpuUsageChart = getCpuUsageChartFactory(localApply, curry(3, data$Fn));
+    getCpuUsageChart = getCpuUsageChartFactory(localApply, fp.curry3(data$Fn));
 
     getCpuUsageChart({
       qs: {

@@ -19,8 +19,13 @@ export type EventEmitterT = EventEmitter;
 
 import highland from 'highland';
 
-const EE:typeof EventEmitter = Object.getPrototypeOf(
-  Object.getPrototypeOf(highland())
-).constructor;
+const EE:typeof EventEmitter = Object
+  .getPrototypeOf(
+    Object
+      .getPrototypeOf(
+        (highland():any)
+      )
+    )
+    .constructor;
 
 export default EE;

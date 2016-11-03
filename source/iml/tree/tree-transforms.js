@@ -5,8 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import highland from 'highland';
 import * as obj from 'intel-obj';
 import * as fp from 'intel-fp';
+import * as maybe from 'intel-maybe';
 import flatMapChanges from 'intel-flat-map-changes';
 
 import {
@@ -18,13 +20,13 @@ import {
   createItem
 } from '../tree/tree-actions.js';
 
-import {
-  default as Maybe,
-  withDefault
+import type {
+  Maybe
 } from 'intel-maybe';
 
 import type {
-  treeItemT
+  treeItemT,
+  treeHashT
 } from './tree-types.js';
 
 import type {
@@ -33,23 +35,25 @@ import type {
 
 type treeItemToBooleanT = (x:treeItemT) => boolean;
 
-export const getChildBy = (fn:treeItemToBooleanT) => fp.map(
+type getChildByT = (fn:treeItemToBooleanT) => (x:HighlandStreamT<treeHashT>) => HighlandStreamT<Maybe<treeItemT>>;
+export const getChildBy:getChildByT = fn => highland.map(
   fp.flow(
     obj.values,
     fp.filter(fn),
-    x => Maybe.of(x[0])
+    x => maybe.of(x[0])
   )
 );
 
-export const emitOnItem = (fn:treeItemToBooleanT) => fp.flow(
-  getChildBy(fn),
-  fp.map(
-    withDefault(
-      fp.always(false)
-    )
-  ),
-  fp.filter(x => x)
-);
+export const emitOnItem = (fn:treeItemToBooleanT) =>
+  fp.flow(
+    getChildBy(fn),
+    highland.map(
+      maybe.withDefault(
+        fp.always(false)
+      )
+    ),
+    highland.filter(x => x)
+  );
 
 export const hasChanges = (fn:treeItemToObjectT) => {
   let last;
@@ -69,26 +73,28 @@ export const hasChanges = (fn:treeItemToObjectT) => {
 type treeItemToObjectT = (x:treeItemT) => Object;
 type treeItemToStreamT = (x:treeItemT) => HighlandStreamT<Object>;
 
-export const transformItems = (fn:treeItemToBooleanT, structFn:() => Object, fnTo$:treeItemToStreamT) => {
+export const transformItems = (fn:treeItemToBooleanT, structFn:() => {type:string, parentTreeId:number}, fnTo$:treeItemToStreamT) => {
   let latest = {};
 
   return fp.flow(
     getChildBy(fn),
-    fp.map(
-      withDefault(() => createItem(structFn()))
+    highland.map(
+      maybe.withDefault(
+        () => createItem(structFn())
+      )
     ),
-    fp.tap(x => latest = x),
-    fp.filter(
+    highland.tap(x => latest = x),
+    highland.filter(
       hasChanges(x => x.meta.offset)
     ),
     flatMapChanges(fnTo$),
-    fp.map(
+    highland.map(
       addCurrentPage
     ),
-    fp.map(
+    highland.map(
       x => Object.assign(latest, x)
     ),
-    fp.map(
+    highland.map(
       x => addTreeItems([x])
     )
   );

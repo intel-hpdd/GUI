@@ -3,12 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  always
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 import flatMapChanges from 'intel-flat-map-changes';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import spaceUsageTemplate from './assets/html/space-usage-chart.html!text';
 import getSpaceUsageStream from './get-space-usage-stream.js';
 import getStore from '../store/get-store.js';
@@ -51,7 +48,7 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getSpaceUsageStream))
+          data$Fn(overrides, fp.always(getSpaceUsageStream))
         )
       );
 

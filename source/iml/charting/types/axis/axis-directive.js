@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {cond, eq, always, identity} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export function axisDirective (d3) {
   'ngInject';
@@ -24,9 +24,9 @@ export function axisDirective (d3) {
 
       const translateBottom = (a) => a.attr('transform', `translate(0,${chartCtrl.getHeight() - 20})`);
 
-      const translate = cond(
-        [eq('bottom'), always(translateBottom)],
-        [always(true), always(identity)]
+      const translate = fp.cond(
+        [fp.eq('bottom'), fp.always(translateBottom)],
+        [fp.always(true), fp.always(fp.identity)]
       );
 
       const axisEl = d3.select(el[0])

@@ -1,4 +1,4 @@
-import Maybe from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
 import {
   mock,
@@ -60,7 +60,7 @@ describe('page title component', () => {
   describe('when the transition starts', () => {
     beforeEach(() => {
       getResolvedData
-        .and.returnValue(Maybe.of({
+        .and.returnValue(maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
         }));
@@ -80,7 +80,7 @@ describe('page title component', () => {
   describe('after a successful transition', () => {
     beforeEach(() => {
       getResolvedData
-        .and.returnValue(Maybe.of({
+        .and.returnValue(maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
         }));
@@ -88,7 +88,7 @@ describe('page title component', () => {
       el = $compile(template)($scope)[0];
 
       getResolvedData
-        .and.returnValue(Maybe.of({
+        .and.returnValue(maybe.of({
           label: 'fs1-MDT0000',
           kind: 'Dashboard'
         }));
@@ -127,7 +127,7 @@ describe('page title component', () => {
   describe('on destroy', () => {
     beforeEach(() => {
       getResolvedData
-        .and.returnValue(Maybe.of({
+        .and.returnValue(maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
         }));

@@ -1,12 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
+import * as maybe from 'intel-maybe';
+
 import cpuUsageDataFixtures
   from '../../../data-fixtures/cpu-usage-fixtures.json!json';
-
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
 
 import {
   mock,
@@ -24,11 +21,17 @@ describe('get cpu usage stream', () => {
     getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2014-04-11T01:18:00+00:00'));
 
-    const createDate = jasmine.createSpy('createDate')
-      .and.callFake(arg => withDefault(
+    const createDate = jasmine
+      .createSpy('createDate')
+      .and
+      .callFake(arg => maybe.withDefault(
         () => new Date(),
-        Maybe.of(arg)
-          .map(x => new Date(x))));
+        maybe.map(
+          x => new Date(x),
+          maybe.of(arg)
+        )
+      )
+    );
 
     const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/get-server-moment.js': { default: getServerMoment },

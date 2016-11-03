@@ -1,9 +1,5 @@
 import highland from 'highland';
-
-import {
-  noop,
-  curry
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -71,7 +67,7 @@ describe('socket stream', () => {
     });
 
     it('should send data to the socket', () => {
-      s.each(noop);
+      s.each(fp.noop);
       expect(socket.send).toHaveBeenCalledOnceWith({
         path: 'host/',
         options: {}
@@ -79,7 +75,7 @@ describe('socket stream', () => {
     });
 
     it('should end after a response', () => {
-      s.each(noop);
+      s.each(fp.noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -89,7 +85,7 @@ describe('socket stream', () => {
     });
 
     it('should end after an error', () => {
-      s.each(noop);
+      s.each(fp.noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -99,7 +95,7 @@ describe('socket stream', () => {
     });
 
     it('should end if stream is paused', () => {
-      s.pull(noop);
+      s.pull(fp.noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -111,8 +107,8 @@ describe('socket stream', () => {
     });
 
     it('should handle errors', () => {
-      s.errors(curry(1, spy))
-        .each(noop);
+      s.errors(fp.unary(spy))
+        .each(fp.noop);
 
       var ack = socket.send.calls.mostRecent().args[1];
 
@@ -168,8 +164,8 @@ describe('socket stream', () => {
       });
 
       s
-        .errors(curry(1, spy))
-        .each(noop);
+        .errors(fp.unary(spy))
+        .each(fp.noop);
 
       expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
     });

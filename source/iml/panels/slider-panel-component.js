@@ -1,17 +1,17 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
-
-// @flow
 
 import global from '../global.js';
 
 export function Controller () {
   'ngInject';
 
-  var onMove = (ev) => {
-    this.rootPanel.onChange(ev.x);
+  var onMove = (ev:MouseEvent) => {
+    this.rootPanel.onChange(ev.clientX);
   };
 
   this.onMouseDown = () => {

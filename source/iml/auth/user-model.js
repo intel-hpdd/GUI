@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {noop} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 export default (modelFactory, EULA_STATES) => {
   'ngInject';
@@ -14,7 +14,7 @@ export default (modelFactory, EULA_STATES) => {
   });
 
   UserModel.prototype.actOnEulaState = function actOnEulaState (showFunc, denyFunc, passFunc) {
-    passFunc = passFunc || noop;
+    passFunc = passFunc || fp.noop;
 
     var result;
 

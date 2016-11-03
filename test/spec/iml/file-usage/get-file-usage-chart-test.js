@@ -1,7 +1,5 @@
 import highland from 'highland';
-import {
-  curry
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -98,7 +96,7 @@ describe('file usage chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getFileUsageChart = getFileUsageChartFactory(localApply, curry(3, data$Fn));
+    getFileUsageChart = getFileUsageChartFactory(localApply, fp.curry3(data$Fn));
 
     getFileUsageChart('foo', 'bar', {
       qs: {

@@ -3,11 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  noop
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import configurePacemakerTemplate from './assets/html/configure-pacemaker.html!text';
 
 export default function configurePacemaker () {
@@ -19,7 +15,7 @@ export default function configurePacemaker () {
       alertStream: '=',
       jobStream: '='
     },
-    controller: noop,
+    controller: fp.noop,
     controllerAs: 'ctrl',
     template: configurePacemakerTemplate
   };

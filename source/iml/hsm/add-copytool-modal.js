@@ -11,7 +11,6 @@ import {
   resolveStream
 } from '../promise-transforms.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import addCopytoolModalTemplate from './assets/html/add-copytool-modal.html!text';
 
 export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, fsStream) {

@@ -3,7 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step.html!text';
 
 export function waitUntilLoadedCtrl ($scope) {

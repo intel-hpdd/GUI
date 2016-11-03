@@ -3,14 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  always
-} from 'intel-fp';
-
-// $FlowIgnore: HTML templates that flow does not recognize.
+import * as fp from 'intel-fp';
 import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn.html!text';
 
-export const deferredCmdModalBtnDirective = always({
+export const deferredCmdModalBtnDirective = fp.always({
   scope: {},
   bindToController: {
     resourceUri: '='

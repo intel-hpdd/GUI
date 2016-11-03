@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 import _ from 'intel-lodash-mixins';
 
-export default curry(2, function nameSeries (seriesMap, s) {
+export default fp.curry2(function nameSeries (seriesMap, s) {
   return s.map(function transformSeries (x) {
     return _.transform(x, function (result, value, key) {
       var newKey = seriesMap[key] || key;

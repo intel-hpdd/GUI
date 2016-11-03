@@ -1,8 +1,11 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import * as fp from 'intel-fp';
 import getCopytoolStream from './get-copytool-stream.js';
 import getCopytoolOperationStream from './get-copytool-operation-stream.js';
 
@@ -10,15 +13,11 @@ import {
   resolveStream
 } from '../promise-transforms.js';
 
-import {
-  default as Maybe,
-  withDefault
-} from 'intel-maybe';
+import * as maybe from 'intel-maybe';
 
-import {
-  flow,
-  map
-} from 'intel-fp';
+import type {
+  Maybe
+} from 'intel-maybe';
 
 const fsParams = (filesystemId) => {
   return {
@@ -28,36 +27,38 @@ const fsParams = (filesystemId) => {
   };
 };
 
-const routePath = flow(
-  (x) => Maybe.of(x.fsId || null),
-  map(fsParams),
-  withDefault(() => ({}))
+const routePath = fp.flow(
+  (x:Object):Maybe<string> => maybe.of(x.fsId || null),
+  maybe.map(fsParams),
+  maybe.withDefault(
+    () => ({})
+  )
 );
 
-export function copytoolOperationStream ($stateParams) {
+export function copytoolOperationStream ($stateParams:{}) {
   'ngInject';
 
-  return flow(
+  return fp.flow(
     routePath,
     getCopytoolOperationStream,
     resolveStream
   )($stateParams);
 }
 
-export function copytoolStream ($stateParams) {
+export function copytoolStream ($stateParams:{}) {
   'ngInject';
 
-  return flow(
+  return fp.flow(
     routePath,
     getCopytoolStream,
     resolveStream
   )($stateParams);
 }
 
-export function agentVsCopytoolChart ($stateParams, getAgentVsCopytoolChart) {
+export function agentVsCopytoolChart ($stateParams:{}, getAgentVsCopytoolChart:Function) {
   'ngInject';
 
-  return flow(
+  return fp.flow(
     routePath,
     getAgentVsCopytoolChart
   )($stateParams);

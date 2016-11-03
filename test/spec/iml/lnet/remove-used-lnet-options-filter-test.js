@@ -1,5 +1,4 @@
-import {map} from 'intel-fp';
-
+import * as fp from 'intel-fp';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 describe('Remove used LNet options', () => {
@@ -40,7 +39,7 @@ describe('Remove used LNet options', () => {
   });
 
   it('should work when all options are used', () => {
-    var values = map(x => x.value, LNET_OPTIONS);
+    var values = fp.map(x => x.value, LNET_OPTIONS);
     var networkInterfaces = createNetworkInterfaces(values);
     var filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterfaces[1]);
 

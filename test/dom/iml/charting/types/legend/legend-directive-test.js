@@ -1,5 +1,4 @@
 import highland from 'highland';
-import {__, flow, arrayWrap, invokeMethod} from 'intel-fp';
 import legendModule from
   '../../../../../../source/iml/charting/types/legend/legend-module';
 import chartModule from
@@ -44,10 +43,7 @@ describe('legend directive', () => {
         width: '200px',
         height: '200px'
       });
-    qs = flow(
-      arrayWrap,
-      invokeMethod('querySelector', __, el)
-    );
+    qs = (expr) => el.querySelector(expr);
 
     $scope.$digest();
     $scope.stream.write(1);

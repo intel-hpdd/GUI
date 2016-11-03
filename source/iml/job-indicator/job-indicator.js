@@ -6,11 +6,9 @@
 import angular from 'angular';
 import _ from 'intel-lodash-mixins';
 import * as fp from 'intel-fp';
+import jobIndicatorTemplate from './assets/html/job-indicator.html!text';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-
-// $FlowIgnore: HTML templates that flow does not recognize.
-import jobIndicatorTemplate from './assets/html/job-indicator.html!text';
 
 export default function jobStatusDirective (localApply) {
   'ngInject';
@@ -92,7 +90,7 @@ export default function jobStatusDirective (localApply) {
       var mapLockedItemUri = fp.map(viewLens('locked_item_uri'));
       var mapDescription = fp.map(viewLens('description'));
 
-      var calculateLocks = fp.curry(2, function calculateLocks (type, s) {
+      var calculateLocks = fp.curry2(function calculateLocks (type, s) {
         var hasMatchingRecord = fp.flow(
           viewLens(type + '_locks'),
           mapLockedItemUri,

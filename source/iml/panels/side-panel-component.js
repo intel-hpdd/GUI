@@ -1,9 +1,9 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
-
-// @flow
 
 export function Controller ($element:HTMLElement[]) {
   'ngInject';
@@ -12,7 +12,7 @@ export function Controller ($element:HTMLElement[]) {
     const s = $element[0].style;
 
     const setWidth = (x) => {
-      s['flex-basis'] = `${x.sideWidthPercentage}%`;
+      s.flexBasis = `${x.sideWidthPercentage}%`;
     };
 
     this.rootPanel.register(setWidth);

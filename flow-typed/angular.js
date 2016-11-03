@@ -19,7 +19,7 @@ declare module angular {
   declare type $scopeT = $scope;
   declare class $location {
     path(p?:string):($location | string);
-    search(search?:string, val?:string):Object;
+    search(search?:string, val?:string | number):Object;
   }
   declare type jqliteElement = {
     get: (id:number) => HTMLElement;

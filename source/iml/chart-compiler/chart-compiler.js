@@ -17,7 +17,7 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<mixed>) => Object;
+type scopeToStreamToObject = ($scope:Object, s:HighlandStreamT<any>) => Object;
 
 export default (
   template:string,

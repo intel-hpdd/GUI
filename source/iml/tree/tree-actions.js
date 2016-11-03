@@ -56,7 +56,7 @@ export const updateCollectionOffset = (id:number, offset:number) => {
 
 let id = 1;
 
-export const createItem = (x:mixed) => ({
+export const createItem = (x:{type:string, parentTreeId:number}) => ({
   ...x,
   treeId: id++,
   open: false,

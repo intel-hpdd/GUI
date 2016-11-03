@@ -8,14 +8,11 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
+import * as fp from 'intel-fp';
 
 import {
   resolveStream
 } from '../promise-transforms.js';
-
-import {
-  find
-} from 'intel-fp';
 
 import type {
   chartT,
@@ -68,7 +65,7 @@ export function targetDashboardTargetStream ($stateParams:{id:string}) {
   return store
     .select('targets')
     .map(
-      find(
+      fp.find(
         x => x.id === $stateParams.id
       )
     );

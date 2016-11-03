@@ -5,8 +5,10 @@ import {
 
 import highland from 'highland';
 
-describe('old gui states', () => {
-  let getStore, socketStream, mod;
+describe('old gui resolves', () => {
+  let getStore,
+    socketStream,
+    mod;
 
   beforeEachAsync(async function () {
     getStore = {
@@ -24,14 +26,17 @@ describe('old gui states', () => {
 
   describe('old filesystem detail resolve', () => {
     itAsync('should resolve with the specified id', async function () {
-      getStore.select.and.callFake(key => {
-        if (key === 'fileSystems')
-          return highland([[
-            {id:5, label:'fs5'},
-            {id:7, label:'fs7'},
-            {id: 10, label:'fs10'}
-          ]]);
-      });
+      getStore
+        .select
+        .and
+        .callFake(key => {
+          if (key === 'fileSystems')
+            return highland([[
+              {id:5, label:'fs5'},
+              {id:7, label:'fs7'},
+              {id: 10, label:'fs10'}
+            ]]);
+        });
 
       const result = await mod.oldFilesystemDetailResolve.resolve.getData({id: 7});
       expect(result).toEqual({id:7, label:'fs7'});

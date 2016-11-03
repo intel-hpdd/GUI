@@ -3,9 +3,7 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
-import {
-  identity
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 describe('app states', () => {
   let appState;
@@ -32,7 +30,7 @@ describe('app states', () => {
         resolve: {
           alertStream: ['appAlertStream', jasmine.any(Function)],
           notificationStream: ['appNotificationStream', jasmine.any(Function)],
-          session: ['appSession', identity]
+          session: ['appSession', fp.identity]
         }
       });
   });

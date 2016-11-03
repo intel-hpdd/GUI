@@ -17,7 +17,7 @@ declare class System {
   static get(key:string):Object;
 }
 
-export function mock (name:string, mocks:{ [key: string]:Object }) {
+export function mock (name:string, mocks:{ [key:string]:Object }) {
   mocks = objReducer((val, key, out) => {
     out[normalizeName(key)] = val;
 

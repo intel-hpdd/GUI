@@ -1,5 +1,4 @@
-import {noop, always} from 'intel-fp';
-
+import * as fp from 'intel-fp';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 
 describe('extend scope test', () => {
@@ -51,7 +50,7 @@ describe('extend scope test', () => {
       try {
         localApply($scope);
       } catch (e) {
-        noop;
+        fp.noop;
       } finally {
         expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error('boom!'));
       }
@@ -75,7 +74,7 @@ describe('extend scope test', () => {
     });
 
     it('should return the value of fn', function () {
-      expect(localApply($scope, always(3))).toBe(3);
+      expect(localApply($scope, fp.always(3))).toBe(3);
     });
 
     describe('with destroyed scope', () => {

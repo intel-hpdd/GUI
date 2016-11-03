@@ -2,12 +2,8 @@ import highland from 'highland';
 
 import statusModule from  '../../../../source/iml/status/status-module.js';
 
-import {
-  flow,
-  lensProp,
-  view,
-  invokeMethod
-} from 'intel-fp';
+
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -47,9 +43,9 @@ describe('deferred action dropdown', () => {
       ]
     };
 
-    cleanText = flow(
-      view(lensProp('textContent')),
-      invokeMethod('trim', [])
+    cleanText = fp.flow(
+      fp.view(fp.lensProp('textContent')),
+      fp.invokeMethod('trim', [])
     );
 
     el = $compile(template)($scope)[0];

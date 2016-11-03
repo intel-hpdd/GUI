@@ -3,13 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {always} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-
-// $FlowIgnore: HTML templates that flow does not recognize.
 import chartsContainerTemplate from './assets/html/charts-container.html!text';
 
-export const chartsContainer = always({
+export const chartsContainer = fp.always({
   restrict: 'E',
   scope: {
     charts: '='

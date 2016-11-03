@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {flow, memoize} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as qsToInputParser from 'intel-qs-parsers/qs-to-input-parser.js';
 import {qsToInputTokens} from 'intel-qs-parsers/tokens.js';
 import * as parsely from 'intel-parsely';
@@ -26,7 +26,7 @@ const rightHands = parsely.choice([
   'ERROR'
 ]
   .map(
-    severity => flow(
+    severity => fp.flow(
       parsely.matchValue(severity),
       parsely.onSuccess(x => x.toLowerCase())
     )
@@ -62,8 +62,8 @@ const statusParser = parsely.parseStr([
   parsely.endOfString
 ]);
 
-export default memoize(
-  flow(
+export default fp.memoize(
+  fp.flow(
     tokenizer,
     statusParser,
     x => x.result

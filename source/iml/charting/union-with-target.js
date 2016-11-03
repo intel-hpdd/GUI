@@ -5,14 +5,10 @@
 
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  curry
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
-import _ from 'intel-lodash-mixins';
-
-const adder = curry(2, function adder (s, x) {
-  const record = _.find(s, { id: x.id });
+const adder = fp.curry2(function adder (s, x) {
+  const record = fp.find(y => y.id === x.id, s);
 
   if (record && record.name)
     x.name = record.name;

@@ -1,6 +1,5 @@
 import highland from 'highland';
-
-import {curry} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   mock,
@@ -100,7 +99,7 @@ describe('space usage chart', () => {
 
   beforeEach(() => {
     getSpaceUsageChart = getSpaceUsageChartFactory(
-      localApply, curry(3, data$Fn));
+      localApply, fp.curry3(data$Fn));
 
     getSpaceUsageChart({
       qs: {

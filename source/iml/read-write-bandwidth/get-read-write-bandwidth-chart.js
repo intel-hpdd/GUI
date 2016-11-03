@@ -1,11 +1,12 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-// @flow
-
 import flatMapChanges from 'intel-flat-map-changes';
+import * as fp from 'intel-fp';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
 import formatBytes from '../number-formatters/format-bytes.js';
 import durationPayload from '../duration-picker/duration-payload.js';
@@ -13,9 +14,7 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import getStore from '../store/get-store.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import {
-  always
-} from 'intel-fp';
+
 import {
   DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
   UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS
@@ -24,7 +23,6 @@ import {
   getConf
 } from '../chart-transformers/chart-transformers.js';
 
-// $FlowIgnore: HTML templates that flow does not recognize.
 import readWriteBandwidthTemplate from './assets/html/read-write-bandwidth.html!text';
 
 import type {
@@ -59,7 +57,7 @@ export default (data$Fn:data$FnT, localApply:localApplyT) => {
       .through(getConf(page))
       .through(
         flatMapChanges(
-          data$Fn(overrides, always(getReadWriteBandwidthStream))
+          data$Fn(overrides, fp.always(getReadWriteBandwidthStream))
         )
       );
 

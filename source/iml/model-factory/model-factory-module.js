@@ -1,4 +1,4 @@
-//@flow
+// @flow
 
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.

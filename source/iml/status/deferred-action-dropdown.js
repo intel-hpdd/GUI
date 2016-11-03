@@ -6,16 +6,9 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
+import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import multiStream from '../multi-stream.js';
-
-import {
-  curry,
-  map,
-  __,
-  flow,
-  once
-} from 'intel-fp';
 
 import type {
   HighlandStreamT
@@ -26,19 +19,23 @@ export function DeferredActionDropdownCtrl ($scope:Object,
   'ngInject';
 
   const ctrl = this;
-  const curriedSocketStream = curry(2, socketStream);
-  const getActions = map(curriedSocketStream(__, {
-    jsonMask: 'resource_uri,available_actions,locks,id,label'
-  }));
+  const getActions = fp.map(
+    (x:string) => socketStream(x, {
+      jsonMask: 'resource_uri,available_actions,locks,id,label'
+    })
+  );
 
-  const getMs = flow(getActions, multiStream);
+  const getMs = fp.flow(
+    getActions,
+    multiStream
+  );
 
   ctrl.ms = highland();
 
-  ctrl.onEnter = once(() => {
+  ctrl.onEnter = fp.once(() => {
     ctrl.loading = true;
 
-    const ms:HighlandStreamT<mixed> = getMs(ctrl.row.affected);
+    const ms:HighlandStreamT<any[]> = getMs(ctrl.row.affected);
 
     ms
       .tap(() => ctrl.loading = false)

@@ -1,4 +1,4 @@
-import {flow, lensProp, view} from 'intel-fp';
+import * as fp from 'intel-fp';
 import highland from 'highland';
 import asValueModule from '../../../../source/iml/as-value/as-value-module';
 
@@ -28,7 +28,9 @@ describe('As value', () => {
     $scope.$digest();
 
     var find = el[0].querySelector.bind(el[0]);
-    getText = flow(find, view(lensProp('textContent')));
+    getText = fp.flow(
+      find,
+      fp.view(fp.lensProp('textContent')));
   }));
 
   it('should be empty to start', function () {

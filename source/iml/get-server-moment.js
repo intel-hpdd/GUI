@@ -9,7 +9,7 @@ import moment from 'moment';
 import {SERVER_TIME_DIFF} from './environment.js';
 
 /*eslint no-unused-vars: 0 */
-// $FlowIgnore: twix does monkey-patching of moment. it does not export anything useful.
+// $FlowFixMe: twix does monkey-patching of moment. it does not export anything useful.
 import twix from 'twix';
 
 export default function getServerMoment () {

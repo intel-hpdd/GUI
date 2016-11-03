@@ -1,9 +1,5 @@
 import highland from 'highland';
-
-import {
-  noop,
-  curry
-} from 'intel-fp';
+import * as fp from 'intel-fp';
 
 import {
   resolveStream,
@@ -74,8 +70,8 @@ describe('resolve stream', () => {
       const s = await promise;
 
       s
-        .stopOnError(curry(1, spy))
-        .each(noop);
+        .stopOnError(fp.unary(spy))
+        .each(fp.noop);
 
 
       expect(spy)
@@ -111,7 +107,7 @@ describe('stream to promise', () => {
     s.write(err);
 
     await streamToPromise(s)
-      .catch(curry(1, spy));
+      .catch(fp.unary(spy));
 
     expect(spy).toHaveBeenCalledOnceWith(err.error);
   });

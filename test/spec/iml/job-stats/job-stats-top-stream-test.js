@@ -1,6 +1,7 @@
 // @flow
 
 import highland from 'highland';
+
 import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json!json';
 
 import {

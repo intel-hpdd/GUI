@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -11,9 +13,9 @@ const units = ['', 'k', 'M', 'B', 'T'];
 const is2or3 = fp.or([fp.eq(2), fp.eq(3)]);
 const is5or10 = fp.or([fp.eq(5), fp.eq(10)]);
 const toPrecision = fp.invokeMethod('toPrecision');
-const test = fp.bindMethod('test', fp.__);
+const test = fp.bindMethod('test');
 const toString = fp.invokeMethod('toString', []);
-const round = fp.invokeMethod('round', fp.__, Math);
+const round = x => Math.round(x);
 const endDotZero = /\.0/;
 const containsDot = /\./;
 const beginZeroDot = /^0./;
@@ -21,7 +23,7 @@ const notBeginZeroPlus = /[^0+$]/;
 const notBeginZeroAndContainsDot = fp.and([test(notBeginZeroPlus), test(containsDot)]);
 const isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n);
 
-export default function formatNumber (num, precision, strict) {
+export default function formatNumber (num:number, precision:number, strict:boolean) {
   num = isNumeric(num) ? num : 0;
   precision = isNumeric(precision) ? precision : 3;
 
@@ -42,7 +44,7 @@ export default function formatNumber (num, precision, strict) {
   function formatCustom () {
     var numStringArr = [toString(num)];
     var alwaysNormal = fp.always(toPrecision([precision], num));
-    var alwaysParseRoundOne = fp.always(parseFloat(round([num]).toPrecision(1)));
+    var alwaysParseRoundOne = fp.always(parseFloat(round(num).toPrecision(1)));
     var alwaysParseRoundOneFor = [notBeginZeroAndContainsDot, alwaysParseRoundOne];
     var strictCond = fp.cond(
       [test(endDotZero), alwaysNormal],
@@ -55,8 +57,8 @@ export default function formatNumber (num, precision, strict) {
     );
     var standardPrecisionCond = fp.cond(
       [fp.eq(1), fp.always(standardCond(numStringArr))],
-      [fp.always(is2or3), fp.always(+(num).toPrecision(precision).toString())],
-      [fp.always(is5or10), fp.always(toPrecision([])(num))]
+      [is2or3, fp.always(+(num).toPrecision(precision).toString())],
+      [is5or10, fp.always(toPrecision([])(num))]
     );
     var standardOrStrict = fp.cond(
       [fp.eq(true), strictPrecision],
@@ -74,7 +76,12 @@ export default function formatNumber (num, precision, strict) {
   }
 
   function formatIntl () {
-    var formatOptions = {
+    type formatOptionsT = {
+      maximumSignificantDigits?:number,
+      maximumFractionDigits?:number,
+      minimumSignificantDigits?:number
+    };
+    const formatOptions:formatOptionsT = {
       maximumSignificantDigits: precision,
       maximumFractionDigits: precision
     };
