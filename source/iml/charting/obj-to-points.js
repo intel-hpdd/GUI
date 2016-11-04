@@ -7,11 +7,11 @@ import _ from 'intel-lodash-mixins';
 import highland from 'highland';
 
 export default function objToPoints (s) {
-  var reduce = highland.flip(_.partialRight(_.reduce, []));
+  const reduce = highland.flip(_.partialRight(_.reduce, []));
 
   return s.flatMap(reduce(function flatten (arr, vals, key) {
-    var setId = highland.flip(_.set('id'), key);
-    var setName = highland.flip(_.set('name'), key);
+    const setId = highland.flip(_.set('id'), key);
+    const setName = highland.flip(_.set('name'), key);
 
     vals.map(setId);
     vals.map(setName);

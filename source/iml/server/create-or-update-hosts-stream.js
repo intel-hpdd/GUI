@@ -18,30 +18,30 @@ import {
  * @returns {Highland.Stream}
  */
 export default function createOrUpdateHostsStream (servers) {
-  var objects = serversToApiObjects(servers);
+  const objects = serversToApiObjects(servers);
 
   return socketStream('/host', {
     qs: { limit: 0 }
   }, true)
     .pluck('objects')
     .flatMap(function handleResponse (servers) {
-      var findByAddress = _.findInCollection(['address']);
+      const findByAddress = _.findInCollection(['address']);
 
-      var toPost = objects
+      const toPost = objects
         .filter(_.compose(_.inverse, findByAddress(servers)))
         .map(addDefaultProfile);
 
-      var postHostStream = updateHostStream('post', toPost);
+      const postHostStream = updateHostStream('post', toPost);
 
-      var undeployedServers = _.where(servers, { state: 'undeployed' });
-      var toPut = _.difference(objects, toPost)
+      const undeployedServers = _.where(servers, { state: 'undeployed' });
+      const toPut = _.difference(objects, toPost)
         .filter(findByAddress(undeployedServers))
         .map(addDefaultProfile);
 
-      var putHostStream = updateHostStream('put', toPut);
+      const putHostStream = updateHostStream('put', toPut);
 
-      var leftovers = _.difference(objects, toPut, toPost);
-      var unchangedServers = {
+      const leftovers = _.difference(objects, toPut, toPost);
+      const unchangedServers = {
         objects: servers
           .filter(findByAddress(leftovers))
           .map(function buildResponse (server) {

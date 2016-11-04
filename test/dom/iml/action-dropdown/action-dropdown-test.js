@@ -4,7 +4,7 @@ import actionDropdownModule from '../../../../source/iml/action-dropdown/action-
 
 
 describe('action dropdown directive', function () {
-  var handleAction, openCommandModal, getCommandStream, cleanText;
+  let handleAction, openCommandModal, getCommandStream, cleanText;
 
   beforeEach(module(actionDropdownModule, function ($provide) {
     handleAction = jasmine.createSpy('handleAction')
@@ -30,7 +30,7 @@ describe('action dropdown directive', function () {
     jasmine.clock().uninstall();
   });
 
-  var $scope, $timeout, el, button, records, groupHeaders,
+  let $scope, $timeout, el, button, records, groupHeaders,
     buttonGroup, verbs, tooltip, tooltipText;
 
   describe('before records are sent', () => {
@@ -39,7 +39,7 @@ describe('action dropdown directive', function () {
 
       $scope.stream = highland();
 
-      var template = '<action-dropdown stream="stream"></action-dropdown>';
+      const template = '<action-dropdown stream="stream"></action-dropdown>';
       el = $compile(template)($scope)[0];
       document.body.appendChild(el);
       $scope.$digest();
@@ -64,7 +64,7 @@ describe('action dropdown directive', function () {
       $scope.stream = highland();
       $scope.stream.write([]);
 
-      var template = '<action-dropdown stream="stream"></action-dropdown>';
+      const template = '<action-dropdown stream="stream"></action-dropdown>';
       el = $compile(template)($scope)[0];
       document.body.appendChild(el);
       $scope.$digest();
@@ -163,7 +163,7 @@ describe('action dropdown directive', function () {
 
       $scope.stream.write(records);
 
-      var template = '<action-dropdown stream="stream"></action-dropdown>';
+      const template = '<action-dropdown stream="stream"></action-dropdown>';
       el = $compile(template)($scope)[0];
       document.body.appendChild(el);
       $scope.$digest();
@@ -221,7 +221,7 @@ describe('action dropdown directive', function () {
     describe('mouseover a verb', function () {
       beforeEach(function () {
         button().click();
-        var mouseOver = new MouseEvent('mouseover');
+        const mouseOver = new MouseEvent('mouseover');
         fp.head(verbs()).dispatchEvent(mouseOver);
         $timeout.flush();
         $timeout.verifyNoPendingTasks();

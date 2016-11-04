@@ -23,7 +23,7 @@ describe('host profile then', () => {
   });
 
   describe('get host profiles', function () {
-    var CACHE_INITIAL_DATA;
+    let CACHE_INITIAL_DATA;
 
     beforeEach(module(function ($provide) {
       CACHE_INITIAL_DATA = {
@@ -99,7 +99,7 @@ describe('host profile then', () => {
       $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
     }));
 
-    var spring, hostProfilesStream, springStream;
+    let spring, hostProfilesStream, springStream;
 
     beforeEach(inject(function (getHostProfiles) {
       springStream = highland();
@@ -120,7 +120,7 @@ describe('host profile then', () => {
     });
 
     describe('response handling', function () {
-      var response, spy;
+      let response, spy;
 
       beforeEach(function () {
         spy = jasmine.createSpy('spy');
@@ -275,7 +275,7 @@ describe('host profile then', () => {
       socketStream = jasmine
         .createSpy('socketStream')
         .and.callFake(function () {
-          var stream = highland();
+          const stream = highland();
           streams.push(stream);
 
           return stream;

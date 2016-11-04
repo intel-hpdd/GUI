@@ -1,7 +1,7 @@
 import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
 
 describe('completionist dropdown', () => {
-  var completionistDropdown, completionist, localApply, $scope;
+  let completionistDropdown, completionist, localApply, $scope;
 
   beforeEach(module(completionistModule, $provide => {
     localApply = jasmine.createSpy('localApply');
@@ -59,7 +59,7 @@ describe('completionist dropdown', () => {
   });
 
   describe('on key press', () => {
-    var onKeyPress, data;
+    let onKeyPress, data;
 
     beforeEach(() => {
       data = {

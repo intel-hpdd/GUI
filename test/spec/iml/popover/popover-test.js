@@ -3,7 +3,7 @@ import popoverModule from '../../../../source/iml/popover/popover-module';
 
 
 describe('popover', () => {
-  var $window, $timeout, $scope, el, popover, button;
+  let $window, $timeout, $scope, el, popover, button;
 
   beforeEach(module(popoverModule));
 

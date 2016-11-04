@@ -9,7 +9,7 @@ import {
 describe('Confirm server action modal', () => {
   beforeEach(module(serverModule));
 
-  var $scope, $uibModalInstance, hosts, convertedJob,
+  let $scope, $uibModalInstance, hosts, convertedJob,
     action, socketStream, stream, confirmServer,
     ConfirmServerActionModalCtrl;
 

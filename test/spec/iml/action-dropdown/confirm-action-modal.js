@@ -6,10 +6,10 @@ describe('confirm action modal', function () {
   beforeEach(module(actionDropdownModule));
 
   describe('confirm action modal', function () {
-    var confirmAction, title, confirmPrompts;
+    let confirmAction, title, confirmPrompts;
 
     beforeEach(inject(function ($rootScope, $controller) {
-      var $scope = $rootScope.$new();
+      const $scope = $rootScope.$new();
 
       title = 'The Title';
       confirmPrompts = [];
@@ -33,7 +33,7 @@ describe('confirm action modal', function () {
   });
 
   describe('open confirm action modal', function () {
-    var $uibModal, openConfirmActionModal;
+    let $uibModal, openConfirmActionModal;
 
     beforeEach(module(function ($provide) {
       $uibModal = {
@@ -43,7 +43,7 @@ describe('confirm action modal', function () {
       $provide.value('$uibModal', $uibModal);
     }));
 
-    var title, confirmPrompts;
+    let title, confirmPrompts;
 
     beforeEach(inject(function (_openConfirmActionModal_) {
       title = 'The title';
@@ -68,7 +68,7 @@ describe('confirm action modal', function () {
     });
 
     describe('resolves', function () {
-      var resolve;
+      let resolve;
 
       beforeEach(function () {
         resolve = $uibModal.open.calls.mostRecent().args[0].resolve;

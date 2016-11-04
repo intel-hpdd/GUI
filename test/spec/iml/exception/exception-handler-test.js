@@ -1,7 +1,7 @@
 import exceptionModule from '../../../../source/iml/exception/exception-module';
 
 describe('exception handler', () => {
-  var oldExceptionHandler;
+  let oldExceptionHandler;
 
   beforeEach(module(function ($exceptionHandlerProvider) {
     $exceptionHandlerProvider.mode('log');
@@ -15,7 +15,7 @@ describe('exception handler', () => {
     windowUnload: { unloading: false }
   }));
 
-  var $exceptionHandler, exceptionModal, windowUnload, error, cause;
+  let $exceptionHandler, exceptionModal, windowUnload, error, cause;
 
   beforeEach(inject(function (_$exceptionHandler_, _exceptionModal_, _windowUnload_) {
     error = new Error('uh oh!');

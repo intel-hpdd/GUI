@@ -9,11 +9,11 @@ export function getLabelFactory (d3) {
   'ngInject';
 
   return function getLabel () {
-    var color = '#000000';
-    var fill = '#FFFFFF';
-    var width = 0;
-    var height = 0;
-    var data = fp.identity;
+    let color = '#000000';
+    let fill = '#FFFFFF';
+    let width = 0;
+    let height = 0;
+    let data = fp.identity;
 
     function label (selection) {
       selection.each(function () {

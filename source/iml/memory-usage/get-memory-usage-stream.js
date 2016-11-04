@@ -26,7 +26,7 @@ const types = {
 
 export default fp.curry2(function getMemoryUsageStream (requestRange, buff) {
   const s = highland((push, next) => {
-    var params = requestRange({
+    const params = requestRange({
       qs: {
         reduce_fn: 'average',
         metrics: 'mem_MemFree,mem_MemTotal,mem_SwapTotal,mem_SwapFree'

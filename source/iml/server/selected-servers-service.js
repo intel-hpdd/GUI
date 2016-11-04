@@ -6,7 +6,7 @@
 export default function SelectedServersService () {
   'ngInject';
 
-  var selectedServers = this;
+  const selectedServers = this;
 
   this.servers = {};
 
@@ -15,7 +15,7 @@ export default function SelectedServersService () {
    * @param {String} name
    */
   this.toggleType = function toggleType (name) {
-    var checked;
+    let checked;
 
     if (name === 'all')
       checked = function handleCheckedAll (key) {

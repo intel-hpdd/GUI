@@ -2,7 +2,7 @@ import windowUnloadModule from '../../../../source/iml/window-unload/window-unlo
 
 
 describe('window unload', () => {
-  var $window;
+  let $window;
 
   beforeEach(module(windowUnloadModule, $provide => {
     $window = {
@@ -11,7 +11,7 @@ describe('window unload', () => {
     $provide.value('$window', $window);
   }));
 
-  var windowUnload;
+  let windowUnload;
 
   beforeEach(inject((_windowUnload_) => {
     windowUnload = _windowUnload_;
@@ -26,7 +26,7 @@ describe('window unload', () => {
   });
 
   it('should change the unloading state once beforeunload has fired', () => {
-    var beforeUnload = $window.addEventListener.calls.mostRecent().args[1];
+    const beforeUnload = $window.addEventListener.calls.mostRecent().args[1];
 
     beforeUnload();
 

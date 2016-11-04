@@ -10,7 +10,7 @@ describe('step modal', () => {
   beforeEach(module(commandModule));
 
   describe('step modal controller', () => {
-    var $scope, stepModal, stepsStream, jobStream;
+    let $scope, stepModal, stepsStream, jobStream;
 
     beforeEach(inject(($rootScope, $controller) => {
       spyOn($rootScope, '$on').and.callThrough();
@@ -34,7 +34,7 @@ describe('step modal', () => {
     });
 
     it('should return class_name if description starts with it', () => {
-      var step = {
+      const step = {
         class_name: 'foo',
         description: 'foo bar'
       };
@@ -43,7 +43,7 @@ describe('step modal', () => {
     });
 
     it('should return description if it does not start with class_name', () => {
-      var step = {
+      const step = {
         class_name: 'baz',
         description: 'foo bar'
       };
@@ -77,7 +77,7 @@ describe('step modal', () => {
       expect(stepModal.accordion0).toBe(true);
     });
 
-    var states = {
+    const states = {
       'waiting to run': {
         state: 'pending'
       },
@@ -99,7 +99,7 @@ describe('step modal', () => {
 
     Object.keys(states).forEach(state => {
       it(`should return the adjective ${state} for the given job`, () => {
-        var result = stepModal.getJobAdjective(states[state]);
+        const result = stepModal.getJobAdjective(states[state]);
 
         expect(result).toEqual(state);
       });
@@ -119,7 +119,7 @@ describe('step modal', () => {
   });
 
   describe('open step modal', () => {
-    var $uibModal, socketStream, stream, job;
+    let $uibModal, socketStream, stream, job;
 
     beforeEachAsync(async function () {
       socketStream = jasmine.createSpy('socketStream')
@@ -172,10 +172,10 @@ describe('step modal', () => {
     });
 
     describe('get jobs and steps', () => {
-      var jobStream, stepsStream;
+      let jobStream, stepsStream;
 
       beforeEach(() => {
-        var resolves = $uibModal.open.calls.mostRecent().args[0].resolve;
+        const resolves = $uibModal.open.calls.mostRecent().args[0].resolve;
 
         jobStream = resolves.jobStream();
         stepsStream = resolves.stepsStream();

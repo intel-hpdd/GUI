@@ -1,7 +1,7 @@
 import filterModule from '../../../../source/iml/filters/filters-module';
 
 describe('Capitalize Filter', () => {
-  var capitalize;
+  let capitalize;
 
   beforeEach(module(filterModule));
 
@@ -9,7 +9,7 @@ describe('Capitalize Filter', () => {
     capitalize = $filter('capitalize');
   }));
 
-  var tests = [
+  const tests = [
     {input: 'foo', expected: 'Foo', expectedAll: 'Foo'},
     {input: 'foo bar', expected: 'Foo bar', expectedAll: 'Foo Bar'},
     {input: 'foo', expected: 'Foo', expectedAll: 'Foo'},
@@ -19,21 +19,21 @@ describe('Capitalize Filter', () => {
 
   tests.forEach(function runTest (test) {
     it(getDescription(test.input, test.expected), function expectFirst () {
-      var result = capitalize(test.input);
+      const result = capitalize(test.input);
 
       expect(test.expected).toEqual(result);
     });
 
     it(getDescription(test.input, test.expected, true), function expectAll () {
-      var result = capitalize(test.input, true);
+      const result = capitalize(test.input, true);
 
       expect(test.expectedAll).toEqual(result);
     });
   });
 
   function getDescription (input, expected, isAll) {
-    var description = `should convert ${input} to ${expected}`;
-    var allDescription = description + 'using all';
+    const description = `should convert ${input} to ${expected}`;
+    const allDescription = description + 'using all';
 
     return isAll ? allDescription : description;
   }

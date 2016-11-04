@@ -1,7 +1,7 @@
 import AboutCtrl from '../../../../source/iml/about/about-controller';
 
 describe('about controller', () => {
-  var help, ENV, ctrl;
+  let help, ENV, ctrl;
 
   beforeEach(() => {
     help = {

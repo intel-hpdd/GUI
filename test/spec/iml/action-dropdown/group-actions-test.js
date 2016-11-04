@@ -6,7 +6,7 @@ import groupActionsFixtures
 describe('ordering groups', () => {
   beforeEach(module(actionDropdownModule));
 
-  var groupActionsFilter;
+  let groupActionsFilter;
 
   beforeEach(inject(($filter) => {
     groupActionsFilter = $filter('groupActions');
@@ -14,7 +14,7 @@ describe('ordering groups', () => {
 
   it('should work', () => {
     groupActionsFixtures.forEach(function testItem (item) {
-      var result = groupActionsFilter(item.in);
+      const result = groupActionsFilter(item.in);
 
       expect(result).toEqual(item.out);
     });

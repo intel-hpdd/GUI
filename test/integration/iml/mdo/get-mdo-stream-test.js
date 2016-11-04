@@ -12,7 +12,7 @@ import {
 
 
 describe('mdo stream', () => {
-  var socketStream, serverStream, bufferDataNewerThan,
+  let socketStream, serverStream, bufferDataNewerThan,
     getServerMoment, getMdoStream, getRequestDuration;
 
   beforeEachAsync(async function () {
@@ -64,7 +64,7 @@ describe('mdo stream', () => {
 
   afterEach(resetAll);
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -77,11 +77,11 @@ describe('mdo stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var mdoStream;
+    let mdoStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       mdoStream = getMdoStream(requestDuration, buff);
 

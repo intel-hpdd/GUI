@@ -4,7 +4,7 @@ import broadcast from '../../../../source/iml/broadcaster.js';
 describe('job indicator', () => {
   beforeEach(module('jobIndicator'));
 
-  var $scope, $timeout, element, node, getPopover, i, stream;
+  let $scope, $timeout, element, node, getPopover, i, stream;
 
   beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     $timeout = _$timeout_;
@@ -31,7 +31,7 @@ describe('job indicator', () => {
 
   describe('toggling', function () {
     beforeEach(function () {
-      var response = [
+      const response = [
         {
           read_locks: [],
           write_locks: [
@@ -69,7 +69,7 @@ describe('job indicator', () => {
 
   describe('populate jobs on data change', function () {
     describe('write locks', function () {
-      var response;
+      let response;
       beforeEach(function () {
         response = [
           {
@@ -97,7 +97,7 @@ describe('job indicator', () => {
     });
 
     describe('read locks', function () {
-      var response;
+      let response;
       beforeEach(function () {
         response = [
           {
@@ -125,7 +125,7 @@ describe('job indicator', () => {
     });
 
     describe('read and write locks', function () {
-      var response;
+      let response;
 
       beforeEach(function () {
         response = [
@@ -153,7 +153,7 @@ describe('job indicator', () => {
       });
 
       it('should contain a read and write lock job message', function () {
-        var messages = $scope.readMessages
+        const messages = $scope.readMessages
           .concat($scope.writeMessages);
 
         expect(messages)
@@ -168,7 +168,7 @@ describe('job indicator', () => {
   });
 
   describe('lock icon interaction', function () {
-    var response;
+    let response;
 
     beforeEach(function () {
       response = [
@@ -215,13 +215,13 @@ describe('job indicator', () => {
       i[0].dispatchEvent(new MouseEvent('mouseover'));
       $timeout.flush();
 
-      var tooltip = node.find('.tooltip');
+      const tooltip = node.find('.tooltip');
       expect(tooltip).toBeShown();
     });
   });
 
   describe('read message updates', function () {
-    var response;
+    let response;
     beforeEach(function () {
       response = [
         {
@@ -287,7 +287,7 @@ describe('job indicator', () => {
   });
 
   describe('write message updates', function () {
-    var response;
+    let response;
     beforeEach(function () {
       response = [
         {

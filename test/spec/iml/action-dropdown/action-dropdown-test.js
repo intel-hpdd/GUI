@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('action dropdown', () => {
-  var $scope, ctrl, handleAction, actionStream,
+  let $scope, ctrl, handleAction, actionStream,
     getCommandStream, openCommandModal, commandStream,
     commandModalStream, s, ActionDropdownCtrl;
 
@@ -144,7 +144,7 @@ describe('action dropdown', () => {
   });
 
   describe('passing down data containing the actions property', () => {
-    var data;
+    let data;
     beforeEach(() => {
       data = [
         {

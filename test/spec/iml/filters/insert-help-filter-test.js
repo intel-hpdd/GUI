@@ -2,7 +2,7 @@ import filtersModule from '../../../../source/iml/filters/filters-module';
 
 
 describe('Insert help text filter', () => {
-  var insertHelp, help, result, helpFilter;
+  let insertHelp, help, result, helpFilter;
 
   beforeEach(module(filtersModule, $provide => {
     helpFilter = {

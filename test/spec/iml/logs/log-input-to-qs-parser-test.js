@@ -20,13 +20,13 @@ describe('the log input to qs parser', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, () => {
-      var result = logInputToQsParser(input);
+      let result = logInputToQsParser(input);
 
       if (result instanceof Error)
         result = result.message;

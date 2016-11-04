@@ -7,7 +7,7 @@ export default function EulaCtrl ($scope, $uibModalInstance, help, user) {
   'ngInject';
 
   function createAction (state) {
-    var action = state ? 'close' : 'dismiss';
+    const action = state ? 'close' : 'dismiss';
 
     return function () {
       user.accepted_eula = state;

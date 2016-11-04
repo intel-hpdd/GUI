@@ -108,7 +108,7 @@ describe('base chart', () => {
       generateChart = jasmine.createSpy('generateChart')
         .and.callFake(fp.identity);
 
-      var ddo = baseChart({
+      const ddo = baseChart({
         generateChart: generateChart
       });
 

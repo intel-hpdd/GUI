@@ -39,7 +39,7 @@ describe('Add server step', () => {
     }
   ].forEach(data => {
     describe('controller', () => {
-      var $scope;
+      let $scope;
 
       beforeEach(inject($rootScope => {
         $scope = $rootScope.$new();
@@ -59,7 +59,7 @@ describe('Add server step', () => {
       }));
 
       it('should setup the controller', () => {
-        var expected = window.extendWithConstructor(AddServerStepCtrl, {
+        const expected = window.extendWithConstructor(AddServerStepCtrl, {
           fields: {
             auth_type: getDataInstallMethod(data),
             pdsh: getPdshExpression(data)
@@ -98,7 +98,7 @@ describe('Add server step', () => {
         });
 
         it('should call transition on the step instance', () => {
-          var expected = {
+          const expected = {
             data: {
               servers: {
                 auth_type: getDataInstallMethod(data)
@@ -132,7 +132,7 @@ describe('Add server step', () => {
     });
 
     describe('transition', () => {
-      var steps, result;
+      let steps, result;
 
       beforeEach(() => {
         steps = {

@@ -2,7 +2,7 @@ import highland from 'highland';
 import broadcaster from '../../../source/iml/broadcaster.js';
 
 describe('broadcaster', () => {
-  var source$, broadcast, viewer1$, viewer2$, viewer3$, spy;
+  let source$, broadcast, viewer1$, viewer2$, viewer3$, spy;
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
     source$ = highland();
@@ -135,7 +135,7 @@ describe('broadcaster', () => {
   });
 
   describe('ending the broadcast', () => {
-    var viewer4$;
+    let viewer4$;
     beforeEach(() => {
       viewer1$ = broadcast();
       viewer2$ = broadcast();

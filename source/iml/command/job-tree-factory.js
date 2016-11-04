@@ -16,13 +16,13 @@ export default function jobTreeFactory () {
    * @returns {Object}
    */
   return function jobTree (jobs) {
-    var shallowestOccurrence = {};
+    const shallowestOccurrence = {};
 
-    var children = _(jobs).pluck('wait_for').flatten().unique().value();
-    var roots = _(jobs).pluck('resource_uri').difference(children).value();
+    const children = _(jobs).pluck('wait_for').flatten().unique().value();
+    const roots = _(jobs).pluck('resource_uri').difference(children).value();
 
-    var tree = roots.map(function buildTree (uri) {
-      var root = getAJob(uri);
+    const tree = roots.map(function buildTree (uri) {
+      const root = getAJob(uri);
       return jobChildren(root, 0);
     });
 
@@ -50,12 +50,12 @@ export default function jobTreeFactory () {
      * @returns {Object}
      */
     function jobChildren (job, depth) {
-      var shallowest = shallowestOccurrence[job.resource_uri];
+      const shallowest = shallowestOccurrence[job.resource_uri];
       if (shallowest == null || shallowest > depth)
         shallowestOccurrence[job.resource_uri] = depth;
 
-      var children = job.wait_for.reduce(function expandChildren (arr, uri) {
-        var child = getAJob(uri);
+      const children = job.wait_for.reduce(function expandChildren (arr, uri) {
+        const child = getAJob(uri);
 
         if (child)
           arr.push(jobChildren(child, depth + 1));
@@ -73,7 +73,7 @@ export default function jobTreeFactory () {
      * @param {Number} depth
      */
     function prune (job, depth) {
-      var childDepth = depth + 1;
+      const childDepth = depth + 1;
 
       job.children = job.children
         .filter(function pruneByDepth (child) {

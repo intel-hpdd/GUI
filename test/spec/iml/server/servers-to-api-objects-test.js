@@ -1,7 +1,7 @@
 import serversToApiObjects from '../../../../source/iml/server/servers-to-api-objects.js';
 
 describe('servers to api objects', function () {
-  var ADD_SERVER_AUTH_CHOICES, servers;
+  let ADD_SERVER_AUTH_CHOICES, servers;
 
   beforeEach(function () {
     ADD_SERVER_AUTH_CHOICES = {
@@ -21,7 +21,7 @@ describe('servers to api objects', function () {
   it('should munge servers added with an existing key', function () {
     servers.auth_type = ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS;
 
-    var result = serversToApiObjects(servers);
+    const result = serversToApiObjects(servers);
 
     expect(result).toEqual([
       {
@@ -39,7 +39,7 @@ describe('servers to api objects', function () {
     servers.auth_type = ADD_SERVER_AUTH_CHOICES.ROOT_PASSWORD;
     servers.root_password = 'foo';
 
-    var result = serversToApiObjects(servers);
+    const result = serversToApiObjects(servers);
 
     expect(result).toEqual([
       {
@@ -60,7 +60,7 @@ describe('servers to api objects', function () {
     servers.private_key = 'bar';
     servers.private_key_passphrase = 'baz';
 
-    var result = serversToApiObjects(servers);
+    const result = serversToApiObjects(servers);
 
     expect(result).toEqual([
       {

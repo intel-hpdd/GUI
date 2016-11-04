@@ -15,7 +15,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('the read write heat map stream', () => {
-  var socketStream, getServerMoment, streams, bufferDataNewerThan,
+  let socketStream, getServerMoment, streams, bufferDataNewerThan,
     getRequestDuration;
 
   beforeEachAsync(async function () {
@@ -26,7 +26,7 @@ describe('the read write heat map stream', () => {
 
     socketStream = jasmine.createSpy('socketStream')
       .and.callFake((path) => {
-        var s = highland();
+        const s = highland();
 
         if (path === '/target/metric')
           streams.heatMap.push(s);
@@ -59,7 +59,7 @@ describe('the read write heat map stream', () => {
     getReadWriteHeatMapStream = mod.default;
   });
 
-  var getReadWriteHeatMapStream, fixtures, spy;
+  let getReadWriteHeatMapStream, fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -81,11 +81,11 @@ describe('the read write heat map stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var readWriteHeatMapStream;
+    let readWriteHeatMapStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       readWriteHeatMapStream = getReadWriteHeatMapStream('stats_read_bytes', requestDuration, buff);
 
@@ -144,7 +144,7 @@ describe('the read write heat map stream', () => {
         streams.target[1].end();
         jasmine.clock().tick(10000);
 
-        var result = clone(fixtures[0].out);
+        const result = clone(fixtures[0].out);
 
         result[0][0].name = 'OST001';
         result[1][0].name = 'OST002';

@@ -5,7 +5,7 @@ import serverDashboardModule from '../../../../source/iml/dashboard/server-dashb
 describe('Server dashboard controller', () => {
   beforeEach(module(serverDashboardModule));
 
-  var $scope, ctrl, hostStream, charts, chart;
+  let $scope, ctrl, hostStream, charts, chart;
 
   beforeEach(inject(function ($controller, $rootScope) {
     $scope = $rootScope.$new();

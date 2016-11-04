@@ -39,7 +39,7 @@ export const getRequestRange = fp.curry3(function getRequestRangeOuter (override
 
 
 export const getRequestDuration = fp.curry3(function getRequestDurationOuter (overrides:Object, size:number, unit:string) {
-  var latest;
+  let latest;
 
   getRequestDuration.setLatest = function setLatest (s:HighlandStreamT<statT>) {
     return s
@@ -63,16 +63,16 @@ export const getRequestDuration = fp.curry3(function getRequestDurationOuter (ov
     params = angular.merge({}, params, overrides);
 
     if (latest) {
-      var latestDate = createDate(latest);
+      const latestDate = createDate(latest);
 
       params.qs.end = latestDate.toISOString();
       params.qs.begin = createDate().toISOString();
       params.qs.update = true;
     } else {
-      var end = getServerMoment()
+      const end = getServerMoment()
         .milliseconds(0);
 
-      var secs = end.seconds();
+      const secs = end.seconds();
       end.seconds(secs - (secs % 10));
 
       params.qs.end = end

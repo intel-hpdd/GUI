@@ -12,7 +12,7 @@ export default function formatBytes (bytes:number, precision:number) {
   precision = precision || 4;
 
   bytes = Math.max(bytes, 0);
-  var pwr = Math.floor(Math.log(bytes) / Math.log(1024));
+  let pwr = Math.floor(Math.log(bytes) / Math.log(1024));
   pwr = Math.min(pwr, units.length - 1);
   pwr = Math.max(pwr, 0);
   bytes /= Math.pow(1024, pwr);

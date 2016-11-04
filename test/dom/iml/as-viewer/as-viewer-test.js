@@ -14,7 +14,7 @@ describe('as viewer', () => {
     beforeEach(inject(($rootScope, _$compile_) => {
       $compile = _$compile_;
 
-      var template = `
+      const template = `
         <div as-viewer stream="stream" args="args" transform="add1(stream, args)">
           <span class="num" ng-init="setNum(viewer)">{{ num }}</span>
         </div>
@@ -44,7 +44,7 @@ describe('as viewer', () => {
       el = $compile(template)($scope);
       $scope.$digest();
 
-      var find = el[0].querySelector.bind(el[0]);
+      const find = el[0].querySelector.bind(el[0]);
       getText = fp.flow(
         find,
         fp.view(fp.lensProp('textContent')));
@@ -70,7 +70,7 @@ describe('as viewer', () => {
     beforeEach(inject(function ($rootScope, _$compile_) {
       $compile = _$compile_;
 
-      var template = `
+      const template = `
         <div>
           <div as-viewer stream="stream">
             <span class="a" ng-init="setA(viewer)">{{ a }}</span>
@@ -100,7 +100,7 @@ describe('as viewer', () => {
       el = $compile(template)($scope);
       $scope.$digest();
 
-      var find = el[0].querySelector.bind(el[0]);
+      const find = el[0].querySelector.bind(el[0]);
       getText = fp.flow(
         find,
         fp.view(fp.lensProp('textContent')));
@@ -145,7 +145,7 @@ describe('as viewer', () => {
 
     describe('adding a child', function () {
       beforeEach(function () {
-        var template = '<div as-viewer stream="stream">\
+        const template = '<div as-viewer stream="stream">\
         <span class="c" ng-init="setC(viewer)">{{ c }}</span>\
       </div>';
 
@@ -155,7 +155,7 @@ describe('as viewer', () => {
           });
         };
 
-        var child = $compile(template)($scope);
+        const child = $compile(template)($scope);
         el[0].appendChild(child[0]);
         s.write({
           a: 'a',

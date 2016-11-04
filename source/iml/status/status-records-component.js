@@ -38,13 +38,13 @@ export function StatusController ($scope:$scopeT, $location:$locationT, propagat
 
   $scope.$on('$destroy', () => this.notification$.destroy());
 
-  var types = [
+  const types = [
     'CommandErroredAlert',
     'CommandSuccessfulAlert',
     'CommandRunningAlert',
     'CommandCancelledAlert'
   ];
-  var getType = fp.flow(
+  const getType = fp.flow(
     fp.view(fp.lensProp('record_type')),
     fp.lensProp,
     fp.view

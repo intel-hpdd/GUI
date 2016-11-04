@@ -6,7 +6,7 @@ import legendModule from
 describe('get legend', () => {
   beforeEach(module(legendModule));
 
-  var d3, getLegend, div, svg, w, h,
+  let d3, getLegend, div, svg, w, h,
     mouseClick;
 
   beforeEach(inject((_getLegend_, _d3_) => {
@@ -38,9 +38,10 @@ describe('get legend', () => {
   });
 
   describe('instance', () => {
-    var componentNames, legend, legendContainer;
+    let legend,
+      legendContainer;
 
-    componentNames = [
+    const componentNames = [
       'running actions with stuff',
       'waiting requests in queue',
       'idle workers',
@@ -50,7 +51,7 @@ describe('get legend', () => {
     ];
 
     beforeEach(inject((d3) => {
-      var colorOrdinal = d3.scale.ordinal();
+      const colorOrdinal = d3.scale.ordinal();
       colorOrdinal.domain(componentNames);
       colorOrdinal.range(d3.scale.category10().range().slice(0, componentNames.length));
 
@@ -121,7 +122,7 @@ describe('get legend', () => {
     });
 
     describe('events', () => {
-      var onSelectionSpy, node;
+      let onSelectionSpy, node;
 
       beforeEach(() => {
         onSelectionSpy = jasmine.createSpy('onSelectionSpy');
@@ -201,17 +202,17 @@ describe('get legend', () => {
     });
 
     describe('layout', () => {
-      var itemDimensions;
+      let itemDimensions;
 
       describe('with labels', () => {
 
         it('should display the label', () => {
-          var labels = legendContainer.selectAll('.legend-wrap g text');
-          var displayIsInherit = fp.flow(
+          const labels = legendContainer.selectAll('.legend-wrap g text');
+          const displayIsInherit = fp.flow(
             fp.invokeMethod('getAttribute', ['display']),
             fp.eq('inherit')
           );
-          var hasLabels = fp.flow(
+          const hasLabels = fp.flow(
             fp.head, fp.every(displayIsInherit)
           )(labels);
 
@@ -219,12 +220,12 @@ describe('get legend', () => {
         });
 
         it('should display the circles', () => {
-          var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = fp.flow(
+          const circles = legendContainer.selectAll('.legend-wrap g circle');
+          const displayPropNotSet = fp.flow(
             fp.invokeMethod('getAttribute', ['display']),
             fp.eq(null)
           );
-          var hasCircles = fp.flow(
+          const hasCircles = fp.flow(
             fp.head,
             fp.every(displayPropNotSet)
           )(circles);
@@ -243,7 +244,7 @@ describe('get legend', () => {
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          const labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
@@ -268,11 +269,11 @@ describe('get legend', () => {
         });
 
         it('should display the circles', () => {
-          var circles = legendContainer.selectAll('.legend-wrap g circle');
-          var displayPropNotSet = fp.flow(
+          const circles = legendContainer.selectAll('.legend-wrap g circle');
+          const displayPropNotSet = fp.flow(
             fp.invokeMethod('getAttribute', ['display']),
             fp.eq(null));
-          var hasCircles = fp.flow(
+          const hasCircles = fp.flow(
             fp.head,
             fp.every(displayPropNotSet)
           )(circles);
@@ -290,13 +291,13 @@ describe('get legend', () => {
         });
 
         it('should be arranged in the appropriate order', () => {
-          var labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          const labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
           expect(verifyInExpectedOrder(labels, componentNames)).toBe(true);
         });
       });
     });
 
-    var noCollision = fp.curry2(detectCollision);
+    const noCollision = fp.curry2(detectCollision);
     function verifyNoIntersections (itemDimensions) {
       return itemDimensions.every((dims, index, arr) => {
         return fp.every(noCollision(dims), arr.slice(index + 1));
@@ -313,13 +314,13 @@ describe('get legend', () => {
     }
 
     function detectCollision (a, b) {
-      var horizontalIntersection = (a.right >= b.left && a.left <= b.left) || (b.right >= a.left && b.left <= a.left);
-      var verticalIntersection = a.top === b.top && a.bottom === b.bottom;
+      const horizontalIntersection = (a.right >= b.left && a.left <= b.left) || (b.right >= a.left && b.left <= a.left);
+      const verticalIntersection = a.top === b.top && a.bottom === b.bottom;
       return !horizontalIntersection || (horizontalIntersection && !verticalIntersection);
     }
 
     function getItemDimensions (item) {
-      var clientRect = item.getBoundingClientRect();
+      const clientRect = item.getBoundingClientRect();
       return {
         left: clientRect.left,
         right: clientRect.right,

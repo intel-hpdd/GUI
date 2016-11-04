@@ -16,7 +16,7 @@ import type {
 type streamFnT = () => HighlandStreamT<any>;
 
 export default function broadcaster (source$:HighlandStreamT<any>):streamFnT {
-  var latest:mixed;
+  let latest:mixed;
 
   const viewers = [];
 

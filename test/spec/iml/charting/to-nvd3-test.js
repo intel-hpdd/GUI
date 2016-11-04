@@ -3,7 +3,7 @@ import toNvd3 from '../../../../source/iml/charting/to-nvd3.js';
 
 describe('the to nvd3 plugin', function () {
 
-  var spy;
+  let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

@@ -52,7 +52,7 @@ describe('qs stream', () => {
   });
 
   describe('invoking', () => {
-    var fn;
+    let fn;
 
     beforeEach(() => {
       qsStream({foo: 'bar', baz: 'bap'})

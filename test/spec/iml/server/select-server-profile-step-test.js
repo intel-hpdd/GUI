@@ -30,7 +30,7 @@ describe('select server profile', () => {
 
 
   describe('select server profile step ctrl', () => {
-    var $scope, $stepInstance, data,
+    let $scope, $stepInstance, data,
       createHostProfiles, hostProfileStream, selectServerProfileStep;
 
     beforeEach(inject(($rootScope, $controller) => {
@@ -70,7 +70,7 @@ describe('select server profile', () => {
     });
 
     describe('transition', () => {
-      var action;
+      let action;
       beforeEach(() => {
         action = 'previous';
         selectServerProfileStep.transition(action);
@@ -122,7 +122,7 @@ describe('select server profile', () => {
     });
 
     describe('get host path', () => {
-      var item;
+      let item;
       beforeEach(() => {
         item = {
           address: 'address'
@@ -135,7 +135,7 @@ describe('select server profile', () => {
     });
 
     describe('pdsh update', () => {
-      var pdsh, hostnames, hostnamesHash;
+      let pdsh, hostnames, hostnamesHash;
       beforeEach(() => {
         pdsh = 'test[001-002].localdomain';
         hostnames = ['test001.localdomain', 'test002.localdomain'];
@@ -166,7 +166,7 @@ describe('select server profile', () => {
     });
 
     it('should transition to the server status step', () => {
-      var steps = {
+      const steps = {
         serverStatusStep: {}
       };
 

@@ -28,7 +28,7 @@ describe('server resolves', () => {
   });
 
   describe('getting a promise', () => {
-    var promise;
+    let promise;
 
     beforeEach(() => {
       promise = serverResolves();

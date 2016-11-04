@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('memory usage chart', () => {
-  var chartCompiler, getMemoryUsageStream, standardConfig,
+  let chartCompiler, getMemoryUsageStream, standardConfig,
     getMemoryUsageChartFactory, config1$, config2$,
     getMemoryUsageChart, selectStoreCount, getStore,
     durationPayload, submitHandler, getConf, initStream,
@@ -105,7 +105,7 @@ describe('memory usage chart', () => {
       }
     }, 'server1');
 
-    var s = chartCompiler.calls.argsFor(0)[1];
+    const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   });
 
@@ -160,7 +160,7 @@ describe('memory usage chart', () => {
   });
 
   describe('config', () => {
-    var handler, $scope, stream,
+    let handler, $scope, stream,
       config;
 
     beforeEach(inject(($rootScope) => {
@@ -210,7 +210,7 @@ describe('memory usage chart', () => {
     });
 
     describe('setup', () => {
-      var d3Chart;
+      let d3Chart;
 
       beforeEach(() => {
         d3Chart = {
@@ -243,7 +243,7 @@ describe('memory usage chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       handler = chartCompiler.calls.mostRecent().args[2];

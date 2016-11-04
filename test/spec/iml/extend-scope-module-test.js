@@ -2,14 +2,14 @@ import * as fp from 'intel-fp';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 
 describe('extend scope test', () => {
-  var $exceptionHandler;
+  let $exceptionHandler;
 
   beforeEach(module(extendScopeModule, $provide => {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));
 
-  var localApply, $scope;
+  let localApply, $scope;
 
   beforeEach(inject(function (_localApply_, $rootScope) {
     localApply = _localApply_;

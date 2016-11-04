@@ -25,7 +25,7 @@ export function serverDashboardChartResolves (
 
   const id = $stateParams.id;
   const page = `server${id}`;
-  var serverQs = {
+  const serverQs = {
     qs: {
       id
     }

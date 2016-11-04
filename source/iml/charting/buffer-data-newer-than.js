@@ -13,7 +13,7 @@ export default fp.curry2(function bufferDataNewerThan (size:number, unit:string)
   let buffer = [];
 
   return function bufferDataNewerThanInner (s) {
-    var leadingEdge;
+    let leadingEdge;
 
     return s
       .collect()

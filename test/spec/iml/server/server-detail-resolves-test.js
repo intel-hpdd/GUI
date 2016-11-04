@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('server detail resolves', () => {
-  var store, socketStream, getNetworkInterfaceStream,
+  let store, socketStream, getNetworkInterfaceStream,
     networkInterfaceStream, corosyncStream,
     pacemakerStream, lnetStream, serverStream,
     $stateParams, serverDetailResolves, spy;
@@ -60,7 +60,7 @@ describe('server detail resolves', () => {
   });
 
   describe('getting a promise', () => {
-    var promise;
+    let promise;
 
     beforeEach(() => {
       promise = serverDetailResolves($stateParams);

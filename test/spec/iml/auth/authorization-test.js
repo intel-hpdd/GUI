@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('The authorization service', function () {
-  var authorization, mod, CACHE_INITIAL_DATA;
+  let authorization, mod, CACHE_INITIAL_DATA;
 
   beforeEachAsync(async function () {
     CACHE_INITIAL_DATA = {

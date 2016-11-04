@@ -70,7 +70,7 @@ export default fp.curry2(function getOstBalanceStream (percentage:number, overri
   );
 
   const s:HighlandStreamT<mixed> = highland(function generator (push, next) {
-    var struct = [
+    const struct = [
       { key: 'Used bytes', values: [] },
       { key: 'Free bytes', values: [] }
     ];
@@ -92,7 +92,7 @@ export default fp.curry2(function getOstBalanceStream (percentage:number, overri
       return arr;
     });
 
-    var ostBalanceStream = socketStream('/target/metric', angular.merge({
+    const ostBalanceStream = socketStream('/target/metric', angular.merge({
       qs: {
         kind: 'OST',
         metrics: 'kbytestotal,kbytesfree',
@@ -116,7 +116,7 @@ export default fp.curry2(function getOstBalanceStream (percentage:number, overri
       }))
       .map(filterMetrics(ltePercentage));
 
-    var targetStream = socketStream('/target', {
+    const targetStream = socketStream('/target', {
       qs: { limit: 0 },
       jsonMask: 'objects(id,name)'
     }, true)

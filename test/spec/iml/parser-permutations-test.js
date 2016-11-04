@@ -6,7 +6,7 @@ import {
 
 describe('cross product', () => {
   it('should product the cross product of two arrays', () => {
-    var permutations = parserPermutations(
+    const permutations = parserPermutations(
       [
         'severity',
         'record_type',

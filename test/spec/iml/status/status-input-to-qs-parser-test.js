@@ -19,13 +19,13 @@ describe('the status input to qs parser', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, function () {
-      var result = statusInputToQsParser(input);
+      let result = statusInputToQsParser(input);
 
       if (result instanceof Error)
         result = result.message;

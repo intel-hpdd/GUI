@@ -10,7 +10,7 @@ import {
 import streamWhenVisibleModule from '../../../../source/iml/stream-when-visible/stream-when-visible-module';
 
 describe('stream when visible', () => {
-  var $document, pageVisibility, removeListener,
+  let $document, pageVisibility, removeListener,
     visibilityStream, streamFn, inStream, stream,
     documentHidden, documentVisible, mod;
 
@@ -48,7 +48,7 @@ describe('stream when visible', () => {
     $provide.value('documentVisible', documentVisible);
   }));
 
-  var streamWhenVisible, spy;
+  let streamWhenVisible, spy;
 
   beforeEach(inject((_streamWhenVisible_) => {
     streamWhenVisible = _streamWhenVisible_;

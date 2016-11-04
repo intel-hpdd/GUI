@@ -8,7 +8,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get agent vs copytool chart exports', () => {
-  var getAgentVsCopytoolStream, createDate,
+  let getAgentVsCopytoolStream, createDate,
     chartCompiler, getAgentVsCopytoolChart,
     agentVsCopytoolChart, d3, timeScale, linearScale, ordinalScale,
     getAgentVsCopytoolChartFactory, standardConfig, config1$,
@@ -134,7 +134,7 @@ describe('get agent vs copytool chart exports', () => {
             return currentRange;
         });
 
-      var currentRange;
+      let currentRange;
       ordinalScale.range = jasmine.createSpy('range')
         .and.callFake((xs) => {
           if (xs) {
@@ -155,7 +155,7 @@ describe('get agent vs copytool chart exports', () => {
       foo: 'bar'
     });
 
-    var s = chartCompiler.calls.argsFor(0)[1];
+    const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   }));
 
@@ -240,7 +240,7 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   describe('compiler', () => {
-    var $scope, s, config;
+    let $scope, s, config;
 
     beforeEach(inject(($rootScope) => {
       $scope = $rootScope.$new();
@@ -390,7 +390,7 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       handler = chartCompiler.calls.mostRecent().args[2];

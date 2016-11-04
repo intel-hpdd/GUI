@@ -5,7 +5,7 @@ describe('get heat map chart test', function () {
 
   beforeEach(module('heatMap'));
 
-  var getHeatMapChart, heatMapChart;
+  let getHeatMapChart, heatMapChart;
 
   beforeEach(inject(function (_getHeatMapChart_) {
     getHeatMapChart = _getHeatMapChart_;
@@ -22,7 +22,7 @@ describe('get heat map chart test', function () {
     expect(heatMapChart.destroy).toBe(_.noop);
   });
 
-  var accessors = [
+  const accessors = [
     'margin', 'formatter', 'zValue',
     'noData', 'xAxisLabel', 'xAxisDetail',
     'duration'
@@ -35,7 +35,7 @@ describe('get heat map chart test', function () {
     });
 
     it('should set ' + accessor, function () {
-      var val = { foo: 'bar' };
+      const val = { foo: 'bar' };
 
       heatMapChart[accessor](val);
 
@@ -44,7 +44,7 @@ describe('get heat map chart test', function () {
   });
 
   describe('when populated', function () {
-    var d3, svg, div, setup, query, queryAll;
+    let d3, svg, div, setup, query, queryAll;
 
     beforeEach(inject(function (_d3_) {
       d3 = _d3_;
@@ -172,13 +172,13 @@ describe('get heat map chart test', function () {
       });
 
       describe('when interacting', function () {
-        var clickSpy;
+        let clickSpy;
 
         beforeEach(function () {
           clickSpy = jasmine.createSpy('onMouseClick');
           heatMapChart.dispatch.on('click', clickSpy);
 
-          var event = new MouseEvent('mousemove', {
+          const event = new MouseEvent('mousemove', {
             clientX: 50,
             clientY: 50,
             bubbles: true });

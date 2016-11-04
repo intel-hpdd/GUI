@@ -24,7 +24,7 @@ export default function LoginCtrl ($uibModal, $q, SessionModel, help, navigate, 
     }).result;
   }
 
-  var initializeDeniedDialog = function initializeDeniedLoginFn () {
+  const initializeDeniedDialog = function initializeDeniedLoginFn () {
     return $uibModal.open({
       template: accessDeniedTemplate,
       controller: 'AccessDeniedCtrl',

@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('to date filter', () => {
-  var createDate, result, mod, d;
+  let createDate, result, mod, d;
   beforeEachAsync(async function () {
     createDate = jasmine.createSpy('createDate')
       .and.returnValue('2015-05-05T00:00:00.000Z');

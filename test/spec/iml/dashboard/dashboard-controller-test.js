@@ -248,7 +248,7 @@ describe('dashboard controller', () => {
 
   describe('on destroy', () => {
     beforeEach(() => {
-      var handler = $scope.$on.calls.argsFor(0)[1];
+      const handler = $scope.$on.calls.argsFor(0)[1];
       handler();
     });
 

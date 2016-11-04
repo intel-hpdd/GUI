@@ -33,7 +33,7 @@ socketWorker.addEventListener('message', (ev:{data:Object}) => {
   if (!eventSockets[data.id])
     return;
 
-  var eventSocket = eventSockets[data.id];
+  const eventSocket = eventSockets[data.id];
 
   eventSocket.emit(data.type, data.payload);
 }, false);
@@ -69,7 +69,7 @@ class EventSocket extends EventEmitter {
     delete eventSockets[this.id];
   }
   send (payload:?mixed, ack?:(resp:any) => void) {
-    var message:messageT = {
+    const message:messageT = {
       type: 'send',
       id: this.id
     };

@@ -53,7 +53,7 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
     }
   });
 
-  var serverStatusStep = this;
+  const serverStatusStep = this;
 
   testHostStream
     .tap(function (resp) {
@@ -71,7 +71,7 @@ export const serverStatusStep = {
   controller: 'ServerStatusStepCtrl as serverStatus',
   onEnter: ['data', 'getTestHostStream', 'serversToApiObjects',
     function onEnter (data, getTestHostStream, serversToApiObjects) {
-      var objects = serversToApiObjects(data.servers);
+      const objects = serversToApiObjects(data.servers);
 
       return {
         testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),

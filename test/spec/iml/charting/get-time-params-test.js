@@ -8,7 +8,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get time params', () => {
-  var getServerMoment, createDate, getRequestRange,
+  let getServerMoment, createDate, getRequestRange,
     getRequestDuration, getTimeParams;
 
   beforeEachAsync(async function () {
@@ -45,7 +45,7 @@ describe('get time params', () => {
     });
 
     describe('when invoked', () => {
-      var requestRange;
+      let requestRange;
 
       beforeEach(() => {
         requestRange = getRequestRange({
@@ -66,7 +66,7 @@ describe('get time params', () => {
       });
 
       it('should set the range on params', () => {
-        var params = { qs: {} };
+        const params = { qs: {} };
 
         expect(requestRange(params)).toEqual({
           qs: {
@@ -78,7 +78,7 @@ describe('get time params', () => {
       });
 
       it('should clone the params', () => {
-        var params = { qs: {} };
+        const params = { qs: {} };
 
         expect(requestRange(params)).not.toBe(params);
       });
@@ -111,7 +111,7 @@ describe('get time params', () => {
     });
 
     describe('invoking', () => {
-      var requestDuration;
+      let requestDuration;
 
       beforeEach(() => {
         requestDuration = getRequestDuration({
@@ -126,7 +126,7 @@ describe('get time params', () => {
       });
 
       it('should set begin and end params', () => {
-        var params = { qs: {} };
+        const params = { qs: {} };
 
         expect(requestDuration(params)).toEqual({
           qs: {
@@ -138,13 +138,13 @@ describe('get time params', () => {
       });
 
       it('should clone the params', () => {
-        var params = { qs: {} };
+        const params = { qs: {} };
 
         expect(requestDuration(params)).not.toEqual(params);
       });
 
       it('should update when latest is set', () => {
-        var params = { qs: {} };
+        const params = { qs: {} };
 
         highland([{ ts: '2015-04-30T00:00:00.000Z' }])
           .through(requestDuration.setLatest)

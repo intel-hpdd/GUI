@@ -1,9 +1,9 @@
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 describe('lnet options', function () {
-  var LNET_OPTIONS, expectedValues;
+  let LNET_OPTIONS;
 
-  expectedValues = Array.from(Array(11), (x, idx) => idx - 1)
+  const expectedValues = Array.from(Array(11), (x, idx) => idx - 1)
     .map(value => value === -1 ?
       {name: 'Not Lustre Network', value} :
       {name: `Lustre Network ${value}`, value}

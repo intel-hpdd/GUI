@@ -40,7 +40,7 @@ export function fullScreen () {
     controller: function FullScreenCtrl ($element, $scope, $document) {
       'ngInject';
 
-      var body = $document.find('body');
+      let body = $document.find('body');
       const fullScreenContainerClass = 'full-screen-container';
       const listeners = [];
 

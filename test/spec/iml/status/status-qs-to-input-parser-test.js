@@ -29,13 +29,13 @@ describe('status qs to input parser test', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, function () {
-      var result = statusQsToInputParser(input);
+      let result = statusQsToInputParser(input);
 
       if (result instanceof Error)
         result = result.message;

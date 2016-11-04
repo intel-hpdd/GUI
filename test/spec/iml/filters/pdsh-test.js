@@ -1,7 +1,8 @@
 describe('PDSH filter', function () {
   'use strict';
 
-  var pdsh, items, hostPath;
+  let pdsh,
+    items;
 
   beforeEach(module('filters'));
 
@@ -14,7 +15,7 @@ describe('PDSH filter', function () {
    * @param {Object} item
    * @returns {String}
    */
-  hostPath = function hostPath (item) {
+  const hostPath = function hostPath (item) {
     return item.host_name;
   };
 
@@ -35,26 +36,26 @@ describe('PDSH filter', function () {
     });
 
     it('should retrieve valid hostnames from the list of items', function () {
-      var hostnames = {hostname2: 1, 'hostname7': 1};
-      var result = pdsh(items, hostnames, hostPath, false);
+      const hostnames = {hostname2: 1, 'hostname7': 1};
+      const result = pdsh(items, hostnames, hostPath, false);
       expect(result).toEqual([{host_name: 'hostname2'}, {host_name: 'hostname7'}]);
     });
 
     it('should retrieve matching substrings from the list of items with fuzzy match', function () {
-      var hostnames = {hostname1: 1};
-      var result = pdsh(items, hostnames, hostPath, true);
+      const hostnames = {hostname1: 1};
+      const result = pdsh(items, hostnames, hostPath, true);
       expect(result).toEqual([{host_name: 'hostname1'}, {host_name: 'hostname10'}]);
     });
 
     it('should return no matches with fuzzy match turned off', function () {
-      var hostnames = {hostname: 1};
-      var result = pdsh(items, hostnames, hostPath, false);
+      const hostnames = {hostname: 1};
+      const result = pdsh(items, hostnames, hostPath, false);
       expect(result).toEqual([]);
     });
 
     it('should return no matches with fuzzy match', function () {
-      var hostnames = {notinthere: 1};
-      var result = pdsh(items, hostnames, hostPath, true);
+      const hostnames = {notinthere: 1};
+      const result = pdsh(items, hostnames, hostPath, true);
       expect(result).toEqual([]);
     });
   });

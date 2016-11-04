@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('app resolves', () => {
-  var socketStream, resolveStream,
+  let socketStream, resolveStream,
     promise, stream, appModule, CACHE_INITIAL_DATA;
 
   beforeEachAsync(async function () {
@@ -30,7 +30,7 @@ describe('app resolves', () => {
   afterEach(resetAll);
 
   describe('app alert stream', () => {
-    var result;
+    let result;
 
     beforeEach(() => {
       result = appModule.alertStream();
@@ -53,7 +53,7 @@ describe('app resolves', () => {
   });
 
   describe('app notification stream', () => {
-    var result;
+    let result;
 
     beforeEach(() => {
       result = appModule.appNotificationStream();
@@ -73,7 +73,7 @@ describe('app resolves', () => {
   });
 
   describe('app session', () => {
-    var appSession, SessionModel,
+    let appSession, SessionModel,
       session;
 
     beforeEach(() => {

@@ -87,7 +87,7 @@ describe('usage info', () => {
     });
 
     it('should generate stats', () => {
-      var results;
+      let results;
 
       ctrl.generateStats(ctrl.s2())
         .each(function (x) {

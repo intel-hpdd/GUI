@@ -1,7 +1,7 @@
 import exceptionModule from '../../../../source/iml/exception/exception-module';
 
 describe('exception modal', () => {
-  var $uibModal;
+  let $uibModal;
 
   beforeEach(module(exceptionModule, $provide => {
     $uibModal = {

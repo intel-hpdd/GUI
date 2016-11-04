@@ -9,32 +9,32 @@ export default function getHeatMapFactory (d3) {
   'ngInject';
 
   return function getHeatMap () {
-    var xScale = _.noop;
-    var yScale = _.noop;
-    var xValue = _.noop;
-    var yValue = _.noop;
-    var zValue = _.noop;
-    var zScale = _.noop;
-    var colorScale = _.noop;
-    var width = 0;
-    var height = 0;
-    var duration = 1000;
+    let xScale = _.noop;
+    let yScale = _.noop;
+    let xValue = _.noop;
+    let yValue = _.noop;
+    let zValue = _.noop;
+    let zScale = _.noop;
+    let colorScale = _.noop;
+    let width = 0;
+    let height = 0;
+    let duration = 1000;
 
     function chart (selection) {
       selection.each(function render (data) {
-        var container = d3.select(this);
+        let container = d3.select(this);
 
         chart.destroy = function destroy () {
           container.remove();
           container = selection = null;
         };
 
-        var getX = _.compose(xScale, xValue);
-        var getY = _.compose(yScale, yValue);
-        var getColor = _.compose(colorScale, zScale, zValue);
+        const getX = _.compose(xScale, xValue);
+        const getY = _.compose(yScale, yValue);
+        const getColor = _.compose(colorScale, zScale, zValue);
 
         // data join
-        var heatMapModel = container.selectAll('.heat-map-model')
+        const heatMapModel = container.selectAll('.heat-map-model')
           .data([data]);
 
         // Create the structure on enter.
@@ -42,7 +42,7 @@ export default function getHeatMapFactory (d3) {
           .append('g')
           .attr('class', 'heat-map-model');
 
-        var row = heatMapModel
+        const row = heatMapModel
           .selectAll('.row')
           .data(_.identity);
 
@@ -50,7 +50,7 @@ export default function getHeatMapFactory (d3) {
           .append('g')
           .attr('class', 'row');
 
-        var gridHeight = height / yScale.domain().length;
+        const gridHeight = height / yScale.domain().length;
 
         row
           .attr('transform', function (r) {
@@ -60,7 +60,7 @@ export default function getHeatMapFactory (d3) {
         row.exit()
           .remove();
 
-        var cell = row.selectAll('.cell')
+        const cell = row.selectAll('.cell')
           .data(_.identity, xValue);
 
         cell
@@ -91,9 +91,9 @@ export default function getHeatMapFactory (d3) {
           .remove();
 
         function calcWidth (d, i, a) {
-          var next = data[a][i + 1];
+          const next = data[a][i + 1];
 
-          var end = (next ? getX(next) : width);
+          const end = (next ? getX(next) : width);
 
           return end - getX(d);
         }

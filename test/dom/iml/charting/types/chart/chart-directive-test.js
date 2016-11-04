@@ -6,7 +6,7 @@ import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('chart directive', () => {
-  var chartCtrl, $window;
+  let chartCtrl, $window;
 
   beforeEach(module(chartModule, ($provide, $compileProvider) => {
     $compileProvider.directive('tester', () => {
@@ -128,7 +128,7 @@ describe('chart directive', () => {
   });
 
   describe('on updates', function () {
-    var spy;
+    let spy;
 
     beforeEach(() => {
       spy = jasmine.createSpy('spy');

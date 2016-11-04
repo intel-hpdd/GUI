@@ -20,7 +20,7 @@ export default function disconnectModalFactory ($uibModal:Object, windowUnload:w
     windowClass: 'disconnect-modal'
   };
 
-  var modal;
+  let modal;
   function close () {
     $timeout(() => {
       if (modal)

@@ -22,11 +22,11 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
     replace: true,
     template: tooltipTemplate,
     link: function link (scope, jqElement) {
-      var deregister;
+      let deregister;
 
-      var jqPreviousEl = jqElement.prev();
+      let jqPreviousEl = jqElement.prev();
 
-      var positioner = position.positioner(jqElement[0]);
+      const positioner = position.positioner(jqElement[0]);
 
       // look at the parent's previous sibling
       if (!jqPreviousEl.length)
@@ -35,8 +35,8 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
       if (!jqPreviousEl.length)
         throw new Error('Previous element not found for tooltip!');
 
-      var directions = _.values(position.DIRECTIONS),
-        directionsJoined = directions.join(' ');
+      const directions = _.values(position.DIRECTIONS);
+      const directionsJoined = directions.join(' ');
 
       directions.splice(directions.indexOf(scope.direction), 1);
       directions.unshift(scope.direction);
@@ -93,7 +93,7 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
         angular.element(position.$window).off('resize', throttledResize);
       }
 
-      var throttledResize = _.throttle(function onThrottle () {
+      const throttledResize = _.throttle(function onThrottle () {
         if (!jqElement.hasClass('in')) return;
 
         setPosition();
@@ -104,10 +104,11 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
        * Sets the position of the tooltip by placing a clone until a match is found.
        */
       function setPosition () {
-        var clone = jqElement[0].cloneNode(true),
-          jqClone = angular.element(clone),
-          clonePosition = position.positioner(clone),
-          windowPosition = position.positioner(position.$window);
+        let clone = jqElement[0].cloneNode(true);
+        let jqClone = angular.element(clone);
+
+        const clonePosition = position.positioner(clone);
+        const windowPosition = position.positioner(position.$window);
 
         jqClone.css('display', 'block');
 
@@ -120,11 +121,11 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
 
           jqClone.removeClass(directionsJoined).addClass(direction);
 
-          var calculatedClonePosition = position.position(direction, clonePosition);
+          const calculatedClonePosition = position.position(direction, clonePosition);
 
           _.extend(clone.style, calculatedClonePosition);
 
-          var fits = !position.overflows(direction, windowPosition, clonePosition);
+          const fits = !position.overflows(direction, windowPosition, clonePosition);
 
           if (fits) {
             scope.placement = direction;

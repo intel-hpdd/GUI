@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('MDO chart', () => {
-  var chartCompiler, getMdoStream, selectStoreCount,
+  let chartCompiler, getMdoStream, selectStoreCount,
     submitHandler, config1$, config2$,
     getMdoChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
@@ -105,7 +105,7 @@ describe('MDO chart', () => {
         }
       }, 'mdoChart');
 
-      var s = chartCompiler.calls.argsFor(0)[1];
+      const s = chartCompiler.calls.argsFor(0)[1];
       s.each(() => {});
     });
 
@@ -153,7 +153,7 @@ describe('MDO chart', () => {
   });
 
   describe('setup', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getMdoChart({
@@ -205,7 +205,7 @@ describe('MDO chart', () => {
     });
 
     describe('chart', () => {
-      var chart, tickFormat;
+      let chart, tickFormat;
 
       beforeEach(() => {
         tickFormat = jasmine.createSpy('tickFormat');
@@ -250,7 +250,7 @@ describe('MDO chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getMdoChart({

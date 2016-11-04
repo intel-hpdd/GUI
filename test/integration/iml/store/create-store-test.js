@@ -6,7 +6,7 @@ const SET_OTHER_STATE = 'SET_OTHER_STATE';
 const UPDATE_STATE = 'UPDATE_STATE';
 
 describe('create store', () => {
-  var store, spy;
+  let store, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

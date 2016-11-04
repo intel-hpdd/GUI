@@ -53,7 +53,7 @@ describe('create stream', function () {
   });
 
   describe('durationStream', () => {
-    var durationStream, streamFn,
+    let durationStream, streamFn,
       overrides, begin, end, createFn;
 
     beforeEach(() => {
@@ -109,7 +109,7 @@ describe('create stream', function () {
   });
 
   describe('rangeStream', () => {
-    var rangeStream, streamFn,
+    let rangeStream, streamFn,
       overrides, begin, end, createFn;
 
     beforeEach(() => {

@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Host Cpu Ram chart', () => {
-  var chartCompiler, getHostCpuRamStream, selectStoreCount,
+  let chartCompiler, getHostCpuRamStream, selectStoreCount,
     submitHandler, config1$, config2$,
     getHostCpuRamChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
@@ -109,7 +109,7 @@ describe('Host Cpu Ram chart', () => {
         'hostCpuRamChart'
       );
 
-      var s = chartCompiler.calls.argsFor(0)[1];
+      const s = chartCompiler.calls.argsFor(0)[1];
       s.each(() => {});
     });
 
@@ -157,7 +157,7 @@ describe('Host Cpu Ram chart', () => {
   });
 
   describe('setup', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getHostCpuRamChart(
@@ -214,7 +214,7 @@ describe('Host Cpu Ram chart', () => {
     });
 
     describe('chart', () => {
-      var chart, d3, formatter;
+      let chart, d3, formatter;
 
       beforeEach(() => {
         formatter = {};
@@ -262,7 +262,7 @@ describe('Host Cpu Ram chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getHostCpuRamChart(

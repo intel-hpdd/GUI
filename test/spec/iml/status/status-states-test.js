@@ -87,7 +87,7 @@ describe('status states', () => {
     });
 
     describe('resolve', function () {
-      var qsFromLocation, notification$, $stateParams;
+      let qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
         resolveStream

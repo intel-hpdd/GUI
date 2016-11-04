@@ -8,10 +8,10 @@ import _ from 'intel-lodash-mixins';
 export default ($cacheFactory) => {
   'ngInject';
 
-  var cache = $cacheFactory('pathMaxLength', { number: 1024 });
+  const cache = $cacheFactory('pathMaxLength', { number: 1024 });
 
   function splitUp (path) {
-    var components = { leadingSlash: '' };
+    const components = { leadingSlash: '' };
 
     if (path.charAt(0) === '/') {
       components.leadingSlash = '/';
@@ -25,9 +25,9 @@ export default ($cacheFactory) => {
   }
 
   function reducePath (pathComponents, maxLength) {
-    var path;
-    var parts = pathComponents.parts;
-    var pointer = Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
+    let path;
+    const parts = pathComponents.parts;
+    let pointer = Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
 
     parts[pointer] = '...';
 
@@ -38,7 +38,7 @@ export default ($cacheFactory) => {
         break;
 
       // pointer is also the # of elements BEFORE the pointer
-      var rightCount = parts.length - pointer - 1;
+      const rightCount = parts.length - pointer - 1;
       if (pointer > rightCount) {
         pointer -= 1;
         parts.splice(pointer, 1);
@@ -55,12 +55,12 @@ export default ($cacheFactory) => {
     if (!_.isString(path) || path.length <= maxLength)
       return path;
 
-    var cacheKey = maxLength + path;
-    var cachedPath = cache.get(cacheKey);
+    const cacheKey = maxLength + path;
+    const cachedPath = cache.get(cacheKey);
     if (!_.isUndefined(cachedPath))
       return cachedPath;
 
-    var pathComponents = splitUp(path);
+    const pathComponents = splitUp(path);
 
     if (pathComponents.parts.length > 0)
       path = reducePath(pathComponents, maxLength);

@@ -48,7 +48,7 @@ describe('wait-for-command-completion-service', () => {
   });
 
   describe('contains commands', () => {
-    var responseWithCommands;
+    let responseWithCommands;
 
     beforeEach(() => {
       responseWithCommands = [

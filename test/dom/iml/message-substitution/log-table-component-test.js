@@ -4,7 +4,7 @@ import global from '../../../../source/iml/global.js';
 import highland from 'highland';
 
 describe('log table component', () => {
-  var $scope, template, el, log$, table, dateField, fqdnLink,
+  let $scope, template, el, log$, table, dateField, fqdnLink,
     fqdnSpan, fqdnRestricted, tag, message, messageLink;
 
   beforeEach(() => {

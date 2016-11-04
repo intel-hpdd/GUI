@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('The read write bandwidth stream', () => {
-  var socketStream, serverStream, getServerMoment,
+  let socketStream, serverStream, getServerMoment,
     getReadWriteBandwidthStream, bufferDataNewerThan,
     getRequestDuration;
 
@@ -62,7 +62,7 @@ describe('The read write bandwidth stream', () => {
 
   afterEach(resetAll);
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -75,11 +75,11 @@ describe('The read write bandwidth stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var readWriteBandwidthStream;
+    let readWriteBandwidthStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       readWriteBandwidthStream = getReadWriteBandwidthStream(requestDuration, buff);
 

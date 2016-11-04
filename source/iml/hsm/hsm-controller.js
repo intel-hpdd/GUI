@@ -9,7 +9,7 @@ export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
                                  copytoolOperationStream, agentVsCopytoolChart) {
   'ngInject';
 
-  var hsm = angular.extend(this, {
+  const hsm = angular.extend(this, {
     chart: agentVsCopytoolChart,
     openAddModal () {
       hsm.modalOpen = true;
@@ -19,7 +19,7 @@ export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
     }
   });
 
-  var p = $scope.propagateChange($scope, hsm);
+  const p = $scope.propagateChange($scope, hsm);
 
   p('copytools', copytoolStream);
   p('copytoolOperations', copytoolOperationStream);

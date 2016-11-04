@@ -26,13 +26,13 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const buildThroughput = fp.map(function buildThroughput (item) {
-    var elapsed = (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
+    const elapsed = (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
       item.throughput = 0;
     } else {
       // bytes/sec
-      var throughput = item.processed_bytes / elapsed;
+      const throughput = item.processed_bytes / elapsed;
       item.throughput = isFinite(throughput) ? throughput : 0;
     }
 

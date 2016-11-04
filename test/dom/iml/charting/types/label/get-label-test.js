@@ -4,7 +4,7 @@ import {getLabelFactory} from
   '../../../../../../source/iml/charting/types/label/get-label';
 
 describe('get label', () => {
-  var d3, getLabel, svg, label;
+  let d3, getLabel, svg, label;
 
   beforeEach(module('d3'));
 
@@ -77,7 +77,7 @@ describe('get label', () => {
   });
 
   describe('rendering', () => {
-    var qs;
+    let qs;
 
     beforeEach(() => {
       label.data(() => ['data string']);

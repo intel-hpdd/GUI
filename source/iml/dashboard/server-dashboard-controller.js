@@ -9,7 +9,7 @@ import * as fp from 'intel-fp';
 export default function ServerDashboardCtrl ($scope, hostStream, charts) {
   'ngInject';
 
-  var serverDashboard = angular.extend(this, {
+  const serverDashboard = angular.extend(this, {
     charts
   });
 

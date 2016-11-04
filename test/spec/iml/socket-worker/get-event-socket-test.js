@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get event socket', () => {
-  var socketWorker, getRandomValue, emitter,
+  let socketWorker, getRandomValue, emitter,
     getEventSocket, eventSocket;
 
   beforeEachAsync(async function () {
@@ -96,7 +96,7 @@ describe('get event socket', () => {
   });
 
   describe('ack', () => {
-    var ack, spy;
+    let ack, spy;
 
     beforeEach(() => {
       eventSocket.connect();

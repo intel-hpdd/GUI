@@ -11,7 +11,7 @@ export default function ServerDetailController (
 ):void {
   'ngInject';
 
-  var serverDetailController = this;
+  const serverDetailController = this;
 
   Object.assign(this, {
     lnetConfigurationStream: streams.lnetConfigurationStream,

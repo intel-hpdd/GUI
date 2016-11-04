@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Exception modal controller', () => {
-  var $scope, createController, getMessage, plainError, responseError,
+  let $scope, createController, getMessage, plainError, responseError,
     stackTraceContainsLineNumber, sendStackTraceToRealTime, s,
     reverseStream, socketStream, mod;
 
@@ -122,7 +122,7 @@ describe('Exception modal controller', () => {
   });
 
   describe('handling non-strings when expecting multiline', () => {
-    var create;
+    let create;
 
     beforeEach(() => {
       responseError.stack = 5;
@@ -212,7 +212,7 @@ describe('Exception modal controller', () => {
     });
 
     describe('after de-uglifying', () => {
-      var formattedStackTrace = 'formattedStackTrace';
+      const formattedStackTrace = 'formattedStackTrace';
 
       beforeEach(() => {
         s.write({ stack: formattedStackTrace });
@@ -231,7 +231,7 @@ describe('Exception modal controller', () => {
   });
 
   describe('stack trace contains line number factory', () => {
-    var stackTraceContainsLineNumberFactory;
+    let stackTraceContainsLineNumberFactory;
     beforeEach(() => {
       stackTraceContainsLineNumberFactory = mod.stackTraceContainsLineNumbers;
     });
@@ -264,7 +264,7 @@ describe('Exception modal controller', () => {
   });
 
   describe('send stack trace to real time factory', () => {
-    var exception, sendStackTraceToRealTime, result;
+    let exception, sendStackTraceToRealTime, result;
 
     beforeEach(() => {
       sendStackTraceToRealTime = mod.sendStackTraceToRealTime;

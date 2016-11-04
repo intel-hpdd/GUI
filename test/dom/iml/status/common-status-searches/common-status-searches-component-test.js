@@ -5,7 +5,7 @@ import commonStatusSearchesModule
 describe('common status searches', () => {
   beforeEach(module(commonStatusSearchesModule, 'ngAnimateMock'));
 
-  var el, $scope, $animate, qs, cleanText,
+  let el, $scope, $animate, qs, cleanText,
     panelTitle, panelCollapse, searches;
 
   beforeEach(inject(($rootScope, $compile, _$animate_) => {
