@@ -48,10 +48,10 @@ export function CommandMonitorCtrl ($scope:$scopeT, openCommandModal:Function,
                                     localApply:localApplyT, $exceptionHandler:Function) {
   'ngInject';
 
-  var commandMonitorCtrl = this;
+  const commandMonitorCtrl = this;
 
   commandMonitorCtrl.showPending = function showPending () {
-    var stream = getCommandStream(commandMonitorCtrl.lastObjects);
+    const stream = getCommandStream(commandMonitorCtrl.lastObjects);
     openCommandModal(stream)
       .result
       .finally(stream.destroy.bind(stream));

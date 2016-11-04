@@ -264,7 +264,7 @@ describe('target dashboard', () => {
     });
 
     itAsync('should stream data', async function () {
-      var result;
+      let result;
 
       s.write([{
         data: {

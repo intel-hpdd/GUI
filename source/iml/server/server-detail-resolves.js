@@ -53,13 +53,13 @@ export const getData = ($stateParams:{id:string}) => {
 export default function serverDetailResolves ($stateParams:{id:string}) {
   'ngInject';
 
-  var arrOrNull = fp.cond(
+  const arrOrNull = fp.cond(
     [viewLens('length'), fp.identity],
     [fp.always(true), fp.always(null)]
   );
 
-  var getObjectsOrNull = fp.flow(viewLens('objects'), arrOrNull);
-  var getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
+  const getObjectsOrNull = fp.flow(viewLens('objects'), arrOrNull);
+  const getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
 
   const jobMonitorStream = broadcaster(
     store
@@ -75,7 +75,7 @@ export default function serverDetailResolves ($stateParams:{id:string}) {
     .select('server')
     .map(fp.find(x => x.id === $stateParams.id));
 
-  var allHostMatches = {
+  const allHostMatches = {
     qs: {
       host__id: $stateParams.id,
       limit: 0
@@ -90,28 +90,28 @@ export default function serverDetailResolves ($stateParams:{id:string}) {
 
   const merge = fp.curry2((a, b) => angular.merge(a, b, allHostMatches));
 
-  var networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
+  const networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
     jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
   })));
 
-  var cs = socketStream('/corosync_configuration', merge({}, {
+  const cs = socketStream('/corosync_configuration', merge({}, {
     jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
   }));
 
-  var cs2 = cs
+  const cs2 = cs
     .through(getFlatObjOrNull);
 
-  var corosyncConfigurationStream = resolveStream(cs2)
+  const corosyncConfigurationStream = resolveStream(cs2)
     .then(broadcaster);
 
-  var ps = socketStream('/pacemaker_configuration', merge({}, {
+  const ps = socketStream('/pacemaker_configuration', merge({}, {
     jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
   }));
 
-  var ps2 = ps
+  const ps2 = ps
     .through(getFlatObjOrNull);
 
-  var pacemakerConfigurationStream = resolveStream(ps2)
+  const pacemakerConfigurationStream = resolveStream(ps2)
     .then(broadcaster);
 
   return Promise.all([

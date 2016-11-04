@@ -8,7 +8,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Server Status Step', () => {
-  var mod, resolveStream;
+  let mod, resolveStream;
   beforeEachAsync(async function () {
     resolveStream = jasmine.createSpy('resolveStream');
 
@@ -27,10 +27,10 @@ describe('Server Status Step', () => {
   beforeEach(module(serverModule));
 
   describe('controller', () => {
-    var $stepInstance, data, serverStatus, testHostStream, hostlistFilter;
+    let $stepInstance, data, serverStatus, testHostStream, hostlistFilter;
 
     beforeEach(inject(($rootScope, $controller) => {
-      var $scope = $rootScope.$new();
+      const $scope = $rootScope.$new();
 
       $stepInstance = {
         transition: jasmine.createSpy('transition')
@@ -97,7 +97,7 @@ describe('Server Status Step', () => {
     });
 
     describe('on data', () => {
-      var response;
+      let response;
 
       beforeEach(() => {
         response = {
@@ -125,7 +125,7 @@ describe('Server Status Step', () => {
   });
 
   describe('the step', () => {
-    var serverStatusStep;
+    let serverStatusStep;
     beforeEach(() => {
       serverStatusStep = mod.serverStatusStep;
     });
@@ -140,7 +140,7 @@ describe('Server Status Step', () => {
     });
 
     describe('on enter', () => {
-      var data, getTestHostStream, onEnter, serversToApiObjects;
+      let data, getTestHostStream, onEnter, serversToApiObjects;
 
       beforeEach(() => {
         getTestHostStream = jasmine.createSpy('getTestHostStream')
@@ -193,7 +193,7 @@ describe('Server Status Step', () => {
     });
 
     describe('transition', () => {
-      var steps;
+      let steps;
 
       beforeEach(() => {
         steps = {
@@ -203,19 +203,19 @@ describe('Server Status Step', () => {
       });
 
       it('should go to add servers step for a previous action', () => {
-        var result = serverStatusStep.transition(steps, 'previous');
+        const result = serverStatusStep.transition(steps, 'previous');
 
         expect(result).toEqual(steps.addServersStep);
       });
 
       it('should go to select profile step for proceed and skip', () => {
-        var result = serverStatusStep.transition(steps, 'proceed and skip');
+        const result = serverStatusStep.transition(steps, 'proceed and skip');
 
         expect(result).toEqual(steps.selectServerProfileStep);
       });
 
       it('should go to select profile step for proceed', () => {
-        var result = serverStatusStep.transition(steps, 'proceed');
+        const result = serverStatusStep.transition(steps, 'proceed');
 
         expect(result).toEqual(steps.selectServerProfileStep);
       });

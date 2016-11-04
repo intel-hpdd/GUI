@@ -4,7 +4,7 @@ import {
 } from '../../system-mock.js';
 
 describe('get random value', () => {
-  var getRandomValues,
+  let getRandomValues,
     getRandomValue;
 
   beforeEachAsync(async function () {

@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('socket stream', () => {
-  var getEventSocket, socket, spy, socketStream;
+  let getEventSocket, socket, spy, socketStream;
 
   beforeEachAsync(async function () {
     socket = {
@@ -60,7 +60,7 @@ describe('socket stream', () => {
   });
 
   describe('ack', () => {
-    var s;
+    let s;
 
     beforeEach(() => {
       s = socketStream('host/', {}, true);
@@ -77,7 +77,7 @@ describe('socket stream', () => {
     it('should end after a response', () => {
       s.each(fp.noop);
 
-      var ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.calls.mostRecent().args[1];
 
       ack({});
 
@@ -87,7 +87,7 @@ describe('socket stream', () => {
     it('should end after an error', () => {
       s.each(fp.noop);
 
-      var ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.calls.mostRecent().args[1];
 
       ack({ error: 'boom!' });
 
@@ -97,7 +97,7 @@ describe('socket stream', () => {
     it('should end if stream is paused', () => {
       s.pull(fp.noop);
 
-      var ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.calls.mostRecent().args[1];
 
       ack({
         error: 'boom!'
@@ -110,7 +110,7 @@ describe('socket stream', () => {
       s.errors(fp.unary(spy))
         .each(fp.noop);
 
-      var ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.calls.mostRecent().args[1];
 
       ack({ error: 'boom!' });
 
@@ -120,7 +120,7 @@ describe('socket stream', () => {
     it('should handle the response', () => {
       s.each(spy);
 
-      var ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.calls.mostRecent().args[1];
 
       ack({ foo: 'bar' });
 
@@ -129,7 +129,7 @@ describe('socket stream', () => {
   });
 
   describe('stream', () => {
-    var s, handler;
+    let s, handler;
 
     beforeEach(() => {
       s = socketStream('/host', {

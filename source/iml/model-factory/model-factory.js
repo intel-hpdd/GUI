@@ -22,7 +22,7 @@
 import _ from 'intel-lodash-mixins';
 
 export default function modelFactory () {
-  var urlPrefix = '';
+  let urlPrefix = '';
 
   return {
     setUrlPrefix: function (url) {
@@ -32,7 +32,7 @@ export default function modelFactory () {
       'ngInject';
 
       return function getModel (config) {
-        var defaults = {
+        const defaults = {
           actions: {
             get: { method: 'GET' },
             save: { method: 'POST' },
@@ -48,7 +48,7 @@ export default function modelFactory () {
           subTypes: {}
         };
 
-        var merged = _.merge(defaults, config);
+        const merged = _.merge(defaults, config);
 
         if (merged.url === undefined) throw new Error('A url property must be provided to modelFactory!');
 
@@ -57,7 +57,7 @@ export default function modelFactory () {
             response: function (resp) {
               if (!Resource.subTypes) return resp.resource;
 
-              var boundAddSubTypes = addSubTypes.bind(null, Resource.subTypes);
+              const boundAddSubTypes = addSubTypes.bind(null, Resource.subTypes);
 
               if (action.isArray)
                 resp.resource.forEach(boundAddSubTypes);
@@ -69,7 +69,7 @@ export default function modelFactory () {
           };
         });
 
-        var Resource = $resource(urlPrefix + merged.url, merged.params, merged.actions);
+        const Resource = $resource(urlPrefix + merged.url, merged.params, merged.actions);
 
         return Resource;
 

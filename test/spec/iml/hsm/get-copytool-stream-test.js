@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get copytool stream', () => {
-  var socketStream, stream, getCopytoolStream;
+  let socketStream, stream, getCopytoolStream;
 
   beforeEachAsync(async function () {
     stream = highland();

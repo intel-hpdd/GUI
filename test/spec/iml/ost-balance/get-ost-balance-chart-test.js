@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get ost balance chart', () => {
-  var getOstBalanceStream, getOstBalanceChartFactory,
+  let getOstBalanceStream, getOstBalanceChartFactory,
     chartCompiler, streamWhenVisible, config1$, config2$,
     getOstBalanceChart, localApply, getStore, standardConfig,
     selectStoreCount, getConf;
@@ -81,7 +81,7 @@ describe('get ost balance chart', () => {
       }
     }, 'ostBalanceChart');
 
-    var s = chartCompiler.calls.argsFor(0)[1];
+    const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   });
 
@@ -128,7 +128,7 @@ describe('get ost balance chart', () => {
   });
 
   describe('conf setup', () => {
-    var fn, s, $scope, conf;
+    let fn, s, $scope, conf;
 
     beforeEach(inject(($rootScope) => {
       fn = chartCompiler.calls.argsFor(0)[2];
@@ -182,7 +182,7 @@ describe('get ost balance chart', () => {
     });
 
     describe('setup', () => {
-      var d3Chart, d3, formatter;
+      let d3Chart, d3, formatter;
 
       beforeEach(() => {
         d3Chart = {

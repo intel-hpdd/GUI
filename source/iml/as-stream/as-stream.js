@@ -33,7 +33,7 @@ export default function asStream (highland) {
         if (transcludedScope.str)
           throw new Error('str already set on transcluded scope.');
 
-        var stream = highland();
+        const stream = highland();
 
         scope.$watch('val', stream.write.bind(stream));
         scope.$on('$destroy', stream.destroy.bind(stream));

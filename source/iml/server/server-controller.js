@@ -64,7 +64,7 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
         });
     },
     getFilteredHosts () {
-      var filtered = pdshFilter(this.servers, this.hostnamesHash, this.getHostPath, this.pdshFuzzy);
+      const filtered = pdshFilter(this.servers, this.hostnamesHash, this.getHostPath, this.pdshFuzzy);
 
       return naturalSortFilter(filtered, this.getHostPath, this.reverse);
     },
@@ -113,7 +113,7 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
       return fp.find(eqValue, serverActions);
     },
     getSelectedHosts (value) {
-      var action = this.getActionByValue(value);
+      const action = this.getActionByValue(value);
 
 
       return this.getFilteredHosts()
@@ -126,10 +126,10 @@ export default function ServerCtrl ($scope, $uibModal, pdshFilter, naturalSortFi
         });
     },
     runAction (value) {
-      var action = this.getActionByValue(value);
-      var hosts = this.getSelectedHosts(value);
+      const action = this.getActionByValue(value);
+      const hosts = this.getSelectedHosts(value);
 
-      var modalInstance = $uibModal.open({
+      const modalInstance = $uibModal.open({
         template: confirmServerActionModalTemplate,
         controller: 'ConfirmServerActionModalCtrl',
         windowClass: 'confirm-server-action-modal',

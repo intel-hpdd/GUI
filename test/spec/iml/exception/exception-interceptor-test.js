@@ -1,7 +1,7 @@
 import exceptionModule from '../../../../source/iml/exception/exception-module';
 
 describe('Exception interceptor', () => {
-  var exceptionInterceptor, exceptionHandler, response, $rootScope, error, errbackSpy;
+  let exceptionInterceptor, exceptionHandler, response, $rootScope, error, errbackSpy;
 
   beforeEach(module({STATIC_URL: '/api/'}, exceptionModule, function ($provide) {
     $provide.value('$exceptionHandler', jasmine.createSpy('$exceptionHandler'));
@@ -35,7 +35,7 @@ describe('Exception interceptor', () => {
     });
 
     it('should call $exceptionHandler with a cause if passed a string.', function () {
-      var errorString = 'Uh Oh!';
+      const errorString = 'Uh Oh!';
 
       exceptionInterceptor.requestError(errorString);
 
@@ -43,7 +43,7 @@ describe('Exception interceptor', () => {
     });
 
     describe('custom error', function () {
-      var strangeError, customError;
+      let strangeError, customError;
 
       beforeEach(function () {
         strangeError = {foo: 'bar'};
@@ -64,13 +64,13 @@ describe('Exception interceptor', () => {
   });
 
   describe('response error', function ( ) {
-    var passThroughs = [400, 403];
+    const passThroughs = [400, 403];
 
     passThroughs.forEach(function testStatus (status) {
       it('should reject ' + status + ' errors', function () {
         response.status = status;
 
-        var out = exceptionInterceptor.responseError(response);
+        const out = exceptionInterceptor.responseError(response);
 
         out.then(null, errbackSpy);
 
@@ -97,7 +97,7 @@ describe('Exception interceptor', () => {
     });
 
     it('should reject 500 errors', function () {
-      var out = exceptionInterceptor.responseError(response);
+      const out = exceptionInterceptor.responseError(response);
 
       out.then(null, errbackSpy);
 
@@ -109,7 +109,7 @@ describe('Exception interceptor', () => {
     it('should call the $exceptionHandler with an error on 500s', function () {
       exceptionInterceptor.responseError(response);
 
-      var error = exceptionHandler.calls.mostRecent().args[0];
+      const error = exceptionHandler.calls.mostRecent().args[0];
 
       expect(error).toEqual(jasmine.any(Error));
     });

@@ -4,7 +4,7 @@ import {
 } from '../../system-mock.js';
 
 describe('route transitions', () => {
-  var CACHE_INITIAL_DATA, authorization, mod, $transitions,
+  let CACHE_INITIAL_DATA, authorization, mod, $transitions,
     routeTransitions, navigate;
   beforeEachAsync(async function () {
     CACHE_INITIAL_DATA = {
@@ -44,7 +44,7 @@ describe('route transitions', () => {
   });
 
   describe('allow anonymous read', () => {
-    var allowAnonymousReadPredicate, processAllowAnonymousRead;
+    let allowAnonymousReadPredicate, processAllowAnonymousRead;
     beforeEach(() => {
       const args = $transitions.onStart.calls.argsFor(0);
       allowAnonymousReadPredicate = args[0];
@@ -86,7 +86,7 @@ describe('route transitions', () => {
   });
 
   describe('eula', () => {
-    var eulaPredicate, processEula;
+    let eulaPredicate, processEula;
     beforeEach(() => {
       const args = $transitions.onStart.calls.argsFor(1);
       eulaPredicate = args[0];
@@ -128,7 +128,7 @@ describe('route transitions', () => {
   });
 
   describe('authentication', () => {
-    var authenticationPredicate, processAuthentication;
+    let authenticationPredicate, processAuthentication;
     beforeEach(() => {
       const args = $transitions.onStart.calls.argsFor(2);
       authenticationPredicate = args[0];
@@ -152,7 +152,7 @@ describe('route transitions', () => {
     });
 
     describe('processor', () => {
-      var transition, stateService;
+      let transition, stateService;
       beforeEach(() => {
         stateService = {
           target: jasmine.createSpy('target')
@@ -180,7 +180,7 @@ describe('route transitions', () => {
       });
 
       describe('when not authenticated', () => {
-        var result;
+        let result;
         beforeEach(() => {
           authorization.groupAllowed.and.returnValue(false);
           result = processAuthentication(transition);

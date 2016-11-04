@@ -97,8 +97,8 @@ export default (localApply:localApplyT, data$Fn:data$FnT) => {
       d3.max
     );
 
-    var getTime = fp.invokeMethod('getTime', []);
-    var xComparator = fp.eqFn(getTime, getTime);
+    const getTime = fp.invokeMethod('getTime', []);
+    const xComparator = fp.eqFn(getTime, getTime);
 
     const getDate = (d) => createDate(d.ts);
 

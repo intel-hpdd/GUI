@@ -30,7 +30,7 @@ export default angular.module('help', [
 .factory('help', ($sce, HELP_TEXT) => {
   'ngInject';
 
-  var trusted = {};
+  const trusted = {};
 
   function addToTrusted (key) {
     trusted[key] = $sce.trustAsHtml(HELP_TEXT[key]);

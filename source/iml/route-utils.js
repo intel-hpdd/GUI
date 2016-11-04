@@ -34,8 +34,8 @@ import type {
 } from 'angular-ui-router';
 
 export function apiPathToUiPath (resourceUri:string) {
-  var resource = resourceUri.split('/')[2];
-  var id = extractApi(resourceUri);
+  const resource = resourceUri.split('/')[2];
+  const id = extractApi(resourceUri);
 
   switch(resource) {
   case 'filesystem':

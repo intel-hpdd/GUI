@@ -76,7 +76,7 @@ describe('Command monitor controller', () => {
     });
 
     it('should end the monitor on destroy', () => {
-      var handler = $scope.$on.calls.mostRecent().args[1];
+      const handler = $scope.$on.calls.mostRecent().args[1];
 
       handler();
 
@@ -85,7 +85,7 @@ describe('Command monitor controller', () => {
   });
 
   describe('handling responses', () => {
-    var lastObjects;
+    let lastObjects;
 
     beforeEach(() => {
       lastObjects = {

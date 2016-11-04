@@ -57,7 +57,7 @@ export default {
           { unit: DURATIONS.YEARS, count: 5 }
         ],
         getCount (unit) {
-          var item = this.units
+          const item = this.units
             .filter(item => item.unit === unit)
             .pop();
 

@@ -8,7 +8,7 @@ describe('configure pacemaker', () => {
     $compileProvider.directive('asViewer', asViewerDirective);
   }));
 
-  var el, $scope, query, s;
+  let el, $scope, query, s;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `<configure-pacemaker stream="::stream" alert-stream="::alertStream" job-stream="::jobStream">

@@ -27,8 +27,8 @@ export default function insertHelpFilterFilter ($sce, help) {
   'ngInject';
 
   return function insertHelpFilter (key, params) {
-    var wrapper = help.get(key);
-    var value = wrapper.valueOf();
+    let wrapper = help.get(key);
+    const value = wrapper.valueOf();
 
     if (regexp.test(value) && params)
       wrapper = $sce.trustAsHtml(sprintf(value, params));

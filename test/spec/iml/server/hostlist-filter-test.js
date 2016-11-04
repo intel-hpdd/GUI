@@ -1,7 +1,7 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('hostlist filter service', function () {
-  var pdshFilter, naturalSortFilter;
+  let pdshFilter, naturalSortFilter;
 
   beforeEach(module(serverModule, function ($provide) {
     pdshFilter = jasmine.createSpy('pdshFilter');
@@ -11,7 +11,7 @@ describe('hostlist filter service', function () {
     $provide.value('naturalSortFilter', naturalSortFilter);
   }));
 
-  var hostlistFilter;
+  let hostlistFilter;
 
   beforeEach(inject(function (_hostlistFilter_) {
     hostlistFilter = _hostlistFilter_;

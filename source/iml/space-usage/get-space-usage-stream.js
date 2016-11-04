@@ -26,15 +26,15 @@ import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
 export default (requestRange, buff) => {
-  var s = highland((push, next) => {
-    var params = requestRange({
+  const s = highland((push, next) => {
+    const params = requestRange({
       qs: {
         metrics: 'kbytestotal,kbytesfree',
         reduce_fn: 'average'
       }
     });
 
-    var key = 'Space Used';
+    const key = 'Space Used';
 
     socketStream('/target/metric', params, true)
       .flatten()

@@ -2,7 +2,7 @@ import highland from 'highland';
 import objToPoints from '../../../../source/iml/charting/obj-to-points.js';
 
 describe('the obj to points plugin', function () {
-  var spy;
+  let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

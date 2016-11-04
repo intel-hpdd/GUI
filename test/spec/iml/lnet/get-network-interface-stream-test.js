@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get network interface stream', function () {
-  var socketStream, ss, getNetworkInterfaceStream, stream;
+  let socketStream, ss, getNetworkInterfaceStream, stream;
 
   beforeEachAsync(async function () {
     ss = highland();
@@ -47,7 +47,7 @@ describe('get network interface stream', function () {
   });
 
   it('should add a nid if missing', function () {
-    var response = {
+    const response = {
       objects: [
         {
           resource_uri: '/api/network_interface/1'

@@ -7,7 +7,7 @@ import asValueModule from
 
 
 describe('As stream', function () {
-  var s;
+  let s;
 
   beforeEach(module(asStreamModule, asValueModule, function ($provide) {
     $provide.value('highland', function () {
@@ -19,12 +19,12 @@ describe('As stream', function () {
     });
   }));
 
-  var $scope, $rootScope, el, getText, compile;
+  let $scope, $rootScope, el, getText, compile;
 
   beforeEach(inject(function (_$rootScope_, $compile) {
     $rootScope = _$rootScope_;
 
-    var template = '<div as-stream val="val">\
+    const template = '<div as-stream val="val">\
       <span class="txt" as-value stream="str">\
         {{ curr.val }}\
       </span>\
@@ -34,7 +34,7 @@ describe('As stream', function () {
     $scope.val = 'foo';
 
     compile = function compiler ($scope) {
-      var el = $compile(template)($scope);
+      const el = $compile(template)($scope);
       $scope.$digest();
 
       return el;
@@ -42,7 +42,7 @@ describe('As stream', function () {
 
     el = compile($scope);
 
-    var find = el[0].querySelector.bind(el[0]);
+    const find = el[0].querySelector.bind(el[0]);
     getText = fp.flow(
       find,
       fp.view(fp.lensProp('textContent')), fp.invokeMethod('trim', []));

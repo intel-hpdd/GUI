@@ -99,7 +99,7 @@ export default function completionistModelHook ($document:Document[]) {
       };
       el.addEventListener('keydown', onKeyDown);
 
-      var isFocused = false;
+      let isFocused = false;
 
       const onFocus = () => {
         if (isFocused)

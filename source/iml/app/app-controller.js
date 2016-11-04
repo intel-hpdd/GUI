@@ -25,7 +25,7 @@ export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
                                  help, notificationStream, alertStream) {
   'ngInject';
 
-  var login = navigate.bind(null, 'login/');
+  const login = navigate.bind(null, 'login/');
 
   angular.extend(this, {
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
@@ -51,9 +51,9 @@ export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
       .then(login);
   }
 
-  var LIMIT = 99;
+  const LIMIT = 99;
 
-  var ctrl = this;
+  const ctrl = this;
 
   const p = $scope.propagateChange($scope, this, 'status');
 

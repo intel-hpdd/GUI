@@ -75,18 +75,18 @@ function pdsh (help) {
     replace: true,
     require: '^form',
     link: function link (scope, elm, attrs, ctrl) {
-      var states = {
+      const states = {
         NEUTRAL: '',
         SUCCESS: 'has-success',
         ERROR: 'has-error'
       };
-      var parsedState = states.NEUTRAL;
-      var errorMessages = [];
-      var hostnames = [];
-      var hostnamesHash = {};
-      var hostnameSections = [];
-      var parsedExpression;
-      var pdshExpression = '';
+      let parsedState = states.NEUTRAL;
+      let errorMessages = [];
+      let hostnames = [];
+      let hostnamesHash = {};
+      let hostnameSections = [];
+      let parsedExpression;
+      let pdshExpression = '';
 
       if (!scope.pdshInitial)
         scope.pdshInitial = '';
@@ -100,7 +100,7 @@ function pdsh (help) {
       function parseExpressionForValidity (value) {
         scope.pdsh.parseExpression(value);
 
-        var validity = (_.isEmpty(value) || parsedState === states.SUCCESS ? true : false);
+        const validity = (_.isEmpty(value) || parsedState === states.SUCCESS ? true : false);
 
         ctrl.pdsh.$setValidity('pdsh', validity);
       }
@@ -117,7 +117,7 @@ function pdsh (help) {
         return value;
       }
 
-      var fired = false;
+      let fired = false;
 
       /**
        * Triggers the inital change.

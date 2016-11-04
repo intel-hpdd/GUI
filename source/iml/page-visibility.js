@@ -36,7 +36,7 @@ export default function pageVisibility (onHide:Function, onShow:Function, timeou
   };
 
   const cancelTimeout = () => {
-    let shouldClear = id != null;
+    const shouldClear = id != null;
 
     if (shouldClear)
       global.clearTimeout(id);

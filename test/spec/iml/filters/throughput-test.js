@@ -1,7 +1,7 @@
 import filterModule from '../../../../source/iml/filters/filters-module';
 
 describe('Throughput Filter', () => {
-  var throughput;
+  let throughput;
 
   beforeEach(module(filterModule));
 
@@ -9,7 +9,7 @@ describe('Throughput Filter', () => {
     throughput = $filter('throughput');
   }));
 
-  var tests = [
+  const tests = [
     {input: 1000, expected: '1000 B/s'},
     {input: 1000, bps: true, expected: '7.813 kb/s'},
     {input: 3045827469, expected: '2.837 GB/s'},
@@ -20,7 +20,7 @@ describe('Throughput Filter', () => {
 
   tests.forEach(function runTest (test) {
     it(getDescription(test.input, test.expected), function expectFormat () {
-      var result = throughput(test.input, test.bps);
+      const result = throughput(test.input, test.bps);
 
       expect(test.expected).toEqual(result);
     });

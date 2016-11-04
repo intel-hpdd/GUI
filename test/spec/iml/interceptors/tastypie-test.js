@@ -3,7 +3,7 @@ import interceptorsModule
 
 
 describe('tastypie interceptor', () => {
-  var tastypieInterceptor;
+  let tastypieInterceptor;
 
   beforeEach(module(interceptorsModule));
 
@@ -12,7 +12,7 @@ describe('tastypie interceptor', () => {
   }));
 
   it('should move other properties from tastypie response to a new prop', () => {
-    var result = tastypieInterceptor.response({
+    const result = tastypieInterceptor.response({
       data: {
         meta: {},
         objects: []
@@ -28,14 +28,14 @@ describe('tastypie interceptor', () => {
   });
 
   it('should not alter the resp if it doesn\'t look like it originated from tastypie', () => {
-    var resp = {
+    const resp = {
       data: {
         meta: {},
         object: {}
       }
     };
 
-    var result = tastypieInterceptor.response(resp);
+    const result = tastypieInterceptor.response(resp);
 
     expect(result).toEqual(resp);
   });

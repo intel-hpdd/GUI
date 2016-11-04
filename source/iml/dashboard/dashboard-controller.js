@@ -54,7 +54,7 @@ export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $stat
 
   const p = propagateChange($scope, this);
 
-  var dashboard = Object.assign(this, {
+  const dashboard = Object.assign(this, {
     fs: {
       name: 'fs',
       selected: null,

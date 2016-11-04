@@ -41,7 +41,7 @@ describe('add server modal', () => {
   describe('controller', () => {
     let addServerModalCtrl, $scope, stepsManager,
       resultEndPromise, invokeController;
-    let deps = {};
+    const deps = {};
 
     beforeEach(inject(($rootScope, $controller, $q) => {
       resultEndPromise = $q.defer();

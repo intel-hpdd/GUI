@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('hsm resolve', () => {
-  var s, resolveStream, getCopytoolOperationStream,
+  let s, resolveStream, getCopytoolOperationStream,
     getCopytoolStream, copytoolOperationStream, copytoolStream,
     $stateParams;
 

@@ -24,7 +24,7 @@ import moment from 'moment';
 export default function stackedAreaChart (d3, dateTicks, baseChart) {
   'ngInject';
 
-  var colors = d3.scale.category20c();
+  const colors = d3.scale.category20c();
 
   function keyColor (d) { return colors(d.key); }
 
@@ -37,13 +37,13 @@ export default function stackedAreaChart (d3, dateTicks, baseChart) {
     onUpdate: function onUpdate (chart, data) {
       if (!Array.isArray(data) || !data[0]) return;
 
-      var values = data[0].values;
+      const values = data[0].values;
 
       if (!Array.isArray(values) || !values[0]) return;
 
-      var start = values[0].x,
-        end = values[values.length - 1].x,
-        range = moment(start).twix(end);
+      const start = values[0].x;
+      const end = values[values.length - 1].x;
+      const range = moment(start).twix(end);
 
       chart.xAxis
         .axisLabel(range.format({implicitYear: false, twentyFourHour: true}))

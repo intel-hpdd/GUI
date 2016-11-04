@@ -40,7 +40,7 @@ export default {
   controller: function ($state:StateServiceT, $transitions:TransitionT) {
     'ngInject';
 
-    var ctrl = this;
+    const ctrl = this;
     const route = $state.router.globals.$current;
     const resolvedData = defaultToObj(
       getResolvedData($state.transition, 'getData')

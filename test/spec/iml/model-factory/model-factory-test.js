@@ -1,7 +1,7 @@
 describe('model factory', function () {
   'use strict';
 
-  var $httpBackend, $rootScope, modelFactoryProvider, modelFactory, SubTypeSpy, ItemResource, ItemsResource;
+  let $httpBackend, $rootScope, modelFactoryProvider, modelFactory, SubTypeSpy, ItemResource, ItemsResource;
 
   beforeEach(module('modelFactory', 'interceptors', {STATIC_URL: '/static'}, function (_modelFactoryProvider_) {
     modelFactoryProvider = _modelFactoryProvider_;
@@ -55,7 +55,7 @@ describe('model factory', function () {
   });
 
   it('should allow methods to be added to a resource', function () {
-    var ItemResource = modelFactory({
+    const ItemResource = modelFactory({
       url: 'item'
     });
 
@@ -64,7 +64,7 @@ describe('model factory', function () {
     };
 
 
-    var itemResource = ItemResource.get();
+    const itemResource = ItemResource.get();
 
     $httpBackend.flush();
     $rootScope.$digest();
@@ -77,7 +77,7 @@ describe('model factory', function () {
       return 'uh-oh!';
     };
 
-    var itemResource = ItemResource.get();
+    const itemResource = ItemResource.get();
 
     $httpBackend.flush();
     $rootScope.$digest();
@@ -117,7 +117,7 @@ describe('model factory', function () {
   });
 
   it('should handle nested subTypes', function () {
-    var SubType = modelFactory({url: 'nested'});
+    const SubType = modelFactory({url: 'nested'});
 
     SubType.subTypes = {
       nestedSubType: SubTypeSpy
@@ -140,7 +140,7 @@ describe('model factory', function () {
       return this.foo + 2;
     };
 
-    var itemsResource = ItemsResource.query();
+    const itemsResource = ItemsResource.query();
 
     $httpBackend.flush();
     $rootScope.$digest();
@@ -153,7 +153,7 @@ describe('model factory', function () {
       return 'uh-oh!';
     };
 
-    var itemResource = ItemsResource.query();
+    const itemResource = ItemsResource.query();
 
     $httpBackend.flush();
     $rootScope.$digest();
@@ -186,8 +186,8 @@ describe('model factory', function () {
   });
 
   it('should return new instances between calls', function () {
-    var ItemResource1 = modelFactory({ url: 'item' }),
-      ItemResource2 = modelFactory({ url: 'item' });
+    const ItemResource1 = modelFactory({ url: 'item' });
+    const ItemResource2 = modelFactory({ url: 'item' });
 
     expect(ItemResource1).not.toBe(ItemResource2);
   });

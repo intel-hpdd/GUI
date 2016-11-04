@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('space usage chart', () => {
-  var chartCompiler, getSpaceUsageStream, spaceUsageStream,
+  let chartCompiler, getSpaceUsageStream, spaceUsageStream,
     standardConfig, config1$, config2$, selectStoreCount,
     getStore, durationPayload, submitHandler,
     durationSubmitHandler, getConf, initStream,
@@ -107,7 +107,7 @@ describe('space usage chart', () => {
       }
     }, 'target1');
 
-    var s = chartCompiler.calls.argsFor(0)[1];
+    const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   });
 
@@ -162,7 +162,7 @@ describe('space usage chart', () => {
   });
 
   describe('config', () => {
-    var handler, $scope, stream,
+    let handler, $scope, stream,
       config;
 
     beforeEach(inject(($rootScope) => {
@@ -203,12 +203,12 @@ describe('space usage chart', () => {
     });
 
     describe('setup', () => {
-      var chart, formatter;
+      let chart, formatter;
 
       beforeEach(() => {
         formatter = {};
 
-        var d3 = {
+        const d3 = {
           format: jasmine.createSpy('format')
             .and.returnValue(formatter)
         };
@@ -258,7 +258,7 @@ describe('space usage chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       handler = chartCompiler.calls.mostRecent().args[2];

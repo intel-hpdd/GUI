@@ -3,7 +3,7 @@ import chartCompilerModule from '../../../../source/iml/chart-compiler/chart-com
 describe('chart compiler directive', () => {
   beforeEach(module(chartCompilerModule));
 
-  var $scope, el, spy;
+  let $scope, el, spy;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = '<div chart-compiler chart="chart"></div>';

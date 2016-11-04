@@ -13,7 +13,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Configure LNet', () => {
-  var $scope, ctrl, networkInterfaceStream, ss, insertHelpFilter,
+  let $scope, ctrl, networkInterfaceStream, ss, insertHelpFilter,
     socketStream, networkInterfaceResponse, waitForCommandCompletion,
     mod, ConfigureLnetController;
 

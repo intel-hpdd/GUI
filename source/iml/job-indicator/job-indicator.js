@@ -38,7 +38,7 @@ export default function jobStatusDirective (localApply) {
     template: jobIndicatorTemplate,
 
     link: function link (scope) {
-      var isOpened = false;
+      let isOpened = false;
 
       angular.extend(scope, {
         closeOthers: false,
@@ -64,23 +64,23 @@ export default function jobStatusDirective (localApply) {
           return (scope.writeMessages.length + scope.readMessages.length) > 0 || isOpened;
         },
         getLockTooltipMessage: function getLockTooltipMessage () {
-          var readMessages = scope.readMessages;
-          var writeMessages = scope.writeMessages;
-          var message = '';
-          var writeMessageMap, readMessageMap;
+          const readMessages = scope.readMessages;
+          const writeMessages = scope.writeMessages;
+          let message = '';
+          let writeMessageMap, readMessageMap;
 
           if (writeMessages.length > 0 && readMessages.length > 0) {
             writeMessageMap = {
               '1': 'There is 1 ongoing write lock operation and ',
               'other': 'There are {} ongoing write lock operations and '
             };
-            var writeMessage = _.pluralize(writeMessages.length, writeMessageMap);
+            const writeMessage = _.pluralize(writeMessages.length, writeMessageMap);
 
             readMessageMap = {
               '1': '1 pending read lock operation.',
               'other': '{} pending read lock operations.'
             };
-            var readMessage = _.pluralize(readMessages.length, readMessageMap);
+            const readMessage = _.pluralize(readMessages.length, readMessageMap);
 
             message = writeMessage + readMessage + ' Click to review details.';
 
@@ -103,18 +103,18 @@ export default function jobStatusDirective (localApply) {
       });
 
 
-      var mapLockedItemUri = fp.map(viewLens('locked_item_uri'));
-      var mapDescription = fp.map(viewLens('description'));
+      const mapLockedItemUri = fp.map(viewLens('locked_item_uri'));
+      const mapDescription = fp.map(viewLens('description'));
 
-      var calculateLocks = fp.curry2(function calculateLocks (type, s) {
-        var hasMatchingRecord = fp.flow(
+      const calculateLocks = fp.curry2(function calculateLocks (type, s) {
+        const hasMatchingRecord = fp.flow(
           viewLens(type + '_locks'),
           mapLockedItemUri,
           fp.some(fp.eq(scope.recordId))
         );
-        var findMatchingRecords = fp.filter(hasMatchingRecord);
+        const findMatchingRecords = fp.filter(hasMatchingRecord);
 
-        var xForm = fp.flow(
+        const xForm = fp.flow(
           findMatchingRecords,
           mapDescription,
           x => {
@@ -130,8 +130,8 @@ export default function jobStatusDirective (localApply) {
           .each(localApply.bind(null, scope));
       });
 
-      var readViewer = scope.jobStream();
-      var writeViewer = scope.jobStream();
+      let readViewer = scope.jobStream();
+      let writeViewer = scope.jobStream();
 
       readViewer.through(calculateLocks('read'));
       writeViewer.through(calculateLocks('write'));

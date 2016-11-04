@@ -24,7 +24,7 @@ import * as fp from 'intel-fp';
 export default (modelFactory, EULA_STATES) => {
   'ngInject';
 
-  var UserModel = modelFactory({
+  const UserModel = modelFactory({
     url: 'user/:id',
     params: { id: '@id' }
   });
@@ -32,7 +32,7 @@ export default (modelFactory, EULA_STATES) => {
   UserModel.prototype.actOnEulaState = function actOnEulaState (showFunc, denyFunc, passFunc) {
     passFunc = passFunc || fp.noop;
 
-    var result;
+    let result;
 
     switch (this.eula_state) {
     case EULA_STATES.PASS:

@@ -28,7 +28,7 @@ export default () => {
         if (transcludedScope.configToggle)
           throw new Error('configToggle already set on transcluded scope.');
 
-        var state;
+        let state;
 
         scope.configToggle = {
           inactive () {

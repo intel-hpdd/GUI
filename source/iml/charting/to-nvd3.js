@@ -25,7 +25,7 @@ import * as fp from 'intel-fp';
 import highland from 'highland';
 
 export default fp.curry2((keys, s) => {
-  var struct = keys.map(function pushItem (key) {
+  const struct = keys.map(function pushItem (key) {
     return { key: key, values: [] };
   });
 

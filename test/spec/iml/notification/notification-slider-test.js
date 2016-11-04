@@ -3,14 +3,14 @@ import highland from 'highland';
 import notificationModule from '../../../../source/iml/notification/notification-module';
 
 describe('The notification slider', () => {
-  var $exceptionHandler;
+  let $exceptionHandler;
 
   beforeEach(module(notificationModule, function ($provide) {
     $exceptionHandler = jasmine.createSpy('$exceptionHandler');
     $provide.value('$exceptionHandler', $exceptionHandler);
   }));
 
-  var $scope, $timeout, alertStream;
+  let $scope, $timeout, alertStream;
 
   beforeEach(inject(function ($controller, $rootScope, _$timeout_) {
     $scope = $rootScope.$new();

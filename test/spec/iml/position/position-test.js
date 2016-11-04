@@ -3,7 +3,7 @@ import _ from 'intel-lodash-mixins';
 import positionModule from '../../../../source/iml/position/position-module';
 
 describe('Positioning service', () => {
-  var position, $window;
+  let position, $window;
 
   beforeEach(module(positionModule));
 
@@ -33,7 +33,7 @@ describe('Positioning service', () => {
     expect(position.defaults).toEqual(jasmine.any(Object));
 
     _.forEach(position.DIRECTIONS, function (direction) {
-      var obj = position.defaults[direction];
+      const obj = position.defaults[direction];
 
       expect(obj).toEqual(jasmine.any(Object));
       expect(Object.keys(obj)).toContain('position');
@@ -46,7 +46,7 @@ describe('Positioning service', () => {
     it('should provide a positioner', function () {
       expect(position.positioner).toEqual(jasmine.any(Function));
 
-      var fakePosition = {
+      const fakePosition = {
         top: 10,
         left: 10,
         right: 20,
@@ -55,7 +55,7 @@ describe('Positioning service', () => {
         width: 10
       };
 
-      var tooltip = {
+      const tooltip = {
         getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').and.callFake(function () {
           return fakePosition;
         })
@@ -74,7 +74,7 @@ describe('Positioning service', () => {
     });
 
     it('should know the current position', function () {
-      var positioner = position.positioner($window);
+      const positioner = position.positioner($window);
 
       $window.innerHeight = 5;
 

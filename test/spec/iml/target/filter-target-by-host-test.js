@@ -2,7 +2,7 @@ import highland from 'highland';
 import filterTargetByHost from '../../../../source/iml/target/filter-target-by-host.js';
 
 describe('filter target by host', () => {
-  var data;
+  let data;
 
   beforeEach(() => {
     data = [
@@ -30,7 +30,7 @@ describe('filter target by host', () => {
   });
 
   it('should return targets matching host id', function () {
-    var result;
+    let result;
 
     highland(data)
       .through(filterTargetByHost('5'))
@@ -55,7 +55,7 @@ describe('filter target by host', () => {
   });
 
   it('should return nothing if targets do not match', function () {
-    var result = filterTargetByHost('10')(data);
+    const result = filterTargetByHost('10')(data);
 
     expect(result).toEqual([[]]);
   });

@@ -27,9 +27,9 @@ import notificationSliderTemplate from './assets/html/notification-slider.html!t
 export function NotificationSliderController ($scope, $timeout, localApply, $exceptionHandler) {
   'ngInject';
 
-  var promise;
+  let promise;
 
-  var closeAfter5Seconds = $timeout.bind(
+  const closeAfter5Seconds = $timeout.bind(
     null,
     () => $scope.open = false,
     5000

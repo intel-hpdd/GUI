@@ -31,9 +31,9 @@ export function UsageInfoController ($scope, propagateChange) {
 
   this.format = this.prefix === 'bytes' ? formatBytes : formatNumber;
 
-  var normalize = fp.curry2(function normalize (prefix, x) {
+  const normalize = fp.curry2(function normalize (prefix, x) {
     [prefix + '_free', prefix + '_total'].forEach(function normalizeProps (key) {
-      var single = key.split('_').join('');
+      const single = key.split('_').join('');
 
       if (single in x)
         x[key] = x[single];
@@ -42,13 +42,13 @@ export function UsageInfoController ($scope, propagateChange) {
     return x;
   });
 
-  var addMetrics = fp.curry2(function addMetrics (prefix, x) {
+  const addMetrics = fp.curry2(function addMetrics (prefix, x) {
     x[prefix + '_used'] = x[prefix + '_total'] - x[prefix + '_free'];
 
     return x;
   });
 
-  var prefix = this.prefix;
+  const prefix = this.prefix;
   this.generateStats = fp.map(function (x) {
     return [[
       {
@@ -62,17 +62,17 @@ export function UsageInfoController ($scope, propagateChange) {
     ]];
   });
 
-  var buildMetrics = fp.flow(
+  const buildMetrics = fp.flow(
     fp.map(normalize(this.prefix)),
     fp.map(addMetrics(this.prefix))
   );
 
-  var s = this
+  let s = this
     .stream
     .flatten();
 
   if (this.id != null) {
-    var eqId = fp.eqFn(
+    const eqId = fp.eqFn(
       fp.identity,
       fp.view(fp.lensProp('id')),
       this.id

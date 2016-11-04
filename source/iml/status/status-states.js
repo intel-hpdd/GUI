@@ -87,7 +87,7 @@ export const tableState = {
         statusQsToOldQsParser
       );
 
-      var qs = qsFromLocationToOld($stateParams);
+      let qs = qsFromLocationToOld($stateParams);
 
       if (qs.length)
         qs = '?' + qs;

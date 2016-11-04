@@ -3,7 +3,7 @@ import interceptorsModule
 
 
 describe('add static dir interceptor', () => {
-  var addStaticDirInterceptor;
+  let addStaticDirInterceptor;
 
   beforeEach(module(interceptorsModule, {
     STATIC_URL: '/static/'
@@ -14,23 +14,23 @@ describe('add static dir interceptor', () => {
   }));
 
   it('should remove the / if one is present at the start of the url', () => {
-    var result = addStaticDirInterceptor.request({url: '/adir/afile.html'});
+    const result = addStaticDirInterceptor.request({url: '/adir/afile.html'});
 
     expect(result).toEqual({url: '/static/adir/afile.html'});
   });
 
   it('should ignore non-html files', () => {
-    var config = {url: '/a/b/c'};
+    const config = {url: '/a/b/c'};
 
-    var result = addStaticDirInterceptor.request(config);
+    const result = addStaticDirInterceptor.request(config);
 
     expect(result).toEqual(config);
   });
 
   it('should ignore ui bootstrap files', () => {
-    var config = {url: '/template/modal.html'};
+    const config = {url: '/template/modal.html'};
 
-    var result = addStaticDirInterceptor.request(config);
+    const result = addStaticDirInterceptor.request(config);
 
     expect(result).toEqual(config);
   });

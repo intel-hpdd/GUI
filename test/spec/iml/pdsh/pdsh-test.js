@@ -2,7 +2,7 @@ import pdshModule from '../../../../source/iml/pdsh/pdsh-module.js';
 
 
 describe('PDSH directive', () => {
-  var $scope, $timeout, element, query, queryAll,
+  let $scope, $timeout, element, query, queryAll,
     inputField, groupAddOn, help, node, inputEvent, clickEvent;
 
   beforeEach(module(pdshModule, $provide => {
@@ -41,7 +41,7 @@ describe('PDSH directive', () => {
     }));
 
     describe('successful entry', function () {
-      var hostnames;
+      let hostnames;
 
       beforeEach(function () {
         inputField.value = 'hostname[1-3]';
@@ -58,7 +58,7 @@ describe('PDSH directive', () => {
       });
 
       describe('expression popover', function () {
-        var popover;
+        let popover;
         beforeEach(function () {
           groupAddOn.dispatchEvent(clickEvent);
           $scope.$digest();
@@ -114,7 +114,7 @@ describe('PDSH directive', () => {
         });
 
         it('should show the error tooltip', function () {
-          var tooltip = query('.error-tooltip li');
+          const tooltip = query('.error-tooltip li');
           expect(tooltip.length).not.toBeNull();
         });
       });
@@ -133,7 +133,7 @@ describe('PDSH directive', () => {
       });
 
       it('should show the error tooltip', function () {
-        var tooltip = query('.error-tooltip li');
+        const tooltip = query('.error-tooltip li');
         expect(tooltip).toBeNull();
       });
 
@@ -155,7 +155,7 @@ describe('PDSH directive', () => {
 
   describe('pdsh initial change', function () {
 
-    var initialValue;
+    let initialValue;
 
     beforeEach(module(pdshModule));
 

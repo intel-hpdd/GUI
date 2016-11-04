@@ -43,10 +43,10 @@ export default function formatNumber (num:number, precision:number, strict:boole
   num = isNumeric(num) ? num : 0;
   precision = isNumeric(precision) ? precision : 3;
 
-  var sign = num < 0 ? '-' : '';
+  const sign = num < 0 ? '-' : '';
   num = Math.abs(num);
 
-  var pwr = Math.floor(Math.log(num) / Math.log(1000));
+  let pwr = Math.floor(Math.log(num) / Math.log(1000));
 
   pwr = Math.min(pwr, units.length - 1);
   pwr = Math.max(pwr, 0);
@@ -58,25 +58,25 @@ export default function formatNumber (num:number, precision:number, strict:boole
     return formatCustom();
 
   function formatCustom () {
-    var numStringArr = [toString(num)];
-    var alwaysNormal = fp.always(toPrecision([precision], num));
-    var alwaysParseRoundOne = fp.always(parseFloat(round(num).toPrecision(1)));
-    var alwaysParseRoundOneFor = [notBeginZeroAndContainsDot, alwaysParseRoundOne];
-    var strictCond = fp.cond(
+    const numStringArr = [toString(num)];
+    const alwaysNormal = fp.always(toPrecision([precision], num));
+    const alwaysParseRoundOne = fp.always(parseFloat(round(num).toPrecision(1)));
+    const alwaysParseRoundOneFor = [notBeginZeroAndContainsDot, alwaysParseRoundOne];
+    const strictCond = fp.cond(
       [test(endDotZero), alwaysNormal],
       alwaysParseRoundOneFor
     );
-    var standardCond = fp.cond(
+    const standardCond = fp.cond(
       [test(beginZeroDot), alwaysNormal],
       alwaysParseRoundOneFor,
       [test(containsDot), alwaysNormal]
     );
-    var standardPrecisionCond = fp.cond(
+    const standardPrecisionCond = fp.cond(
       [fp.eq(1), fp.always(standardCond(numStringArr))],
       [is2or3, fp.always(+(num).toPrecision(precision).toString())],
       [is5or10, fp.always(toPrecision([])(num))]
     );
-    var standardOrStrict = fp.cond(
+    const standardOrStrict = fp.cond(
       [fp.eq(true), strictPrecision],
       [fp.always(true), fp.always(standardPrecisionCond(precision))]
     );
@@ -105,7 +105,7 @@ export default function formatNumber (num:number, precision:number, strict:boole
     if (strict)
       formatOptions.minimumSignificantDigits = precision;
 
-    var formatter = new global.Intl.NumberFormat('en-us', formatOptions);
+    const formatter = new global.Intl.NumberFormat('en-us', formatOptions);
 
     return sign + formatter.format(num) + units[pwr];
   }

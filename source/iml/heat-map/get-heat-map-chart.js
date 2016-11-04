@@ -25,39 +25,39 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
   'ngInject';
 
   return function getChart () {
-    var margin = {
+    let margin = {
       top: 0,
       right: 0,
       bottom: 0,
       left: 0
     };
 
-    var noData = 'No Data Available.';
+    let noData = 'No Data Available.';
 
-    var duration = 1000;
+    let duration = 1000;
 
-    var formatter = _.identity;
-    var zValue = _.noop;
-    var xAxisLabel = '';
-    var xAxisDetail = '';
+    let formatter = _.identity;
+    let zValue = _.noop;
+    let xAxisLabel = '';
+    let xAxisDetail = '';
 
-    var interactiveLayer = nv.interactiveGuideline();
+    const interactiveLayer = nv.interactiveGuideline();
 
-    var x = d3.time.scale();
-    var y = d3.scale.ordinal();
-    var z = d3.scale.linear()
+    const x = d3.time.scale();
+    const y = d3.scale.ordinal();
+    const z = d3.scale.linear()
       .range([0, 1]);
 
-    var xAxis = d3.svg.axis()
+    const xAxis = d3.svg.axis()
       .scale(x)
       .orient('bottom');
 
-    var colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
-    var color = d3.scale.linear()
+    const colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
+    const color = d3.scale.linear()
       .range(colors)
       .domain(d3.range(0, 1, 1.0 / (colors.length - 1)).concat(1));
 
-    var bisector = d3.bisector(xValue).left;
+    const bisector = d3.bisector(xValue).left;
 
     // jshint -W021
     function chart (selection) {
@@ -65,24 +65,24 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
       margin.left = 30;
 
       selection.each(function render (data) {
-        var container = d3.select(this);
-        var width = parseInt(container.style('width'), 10);
-        var height = parseInt(container.style('height'), 10);
-        var availableWidth = width - margin.left - margin.right;
-        var availableHeight = height - margin.top - margin.bottom;
+        let container = d3.select(this);
+        const width = parseInt(container.style('width'), 10);
+        const height = parseInt(container.style('height'), 10);
+        const availableWidth = width - margin.left - margin.right;
+        let availableHeight = height - margin.top - margin.bottom;
 
-        var merged = _.flatten(data);
+        const merged = _.flatten(data);
 
         // Display noData message if there's nothing to show.
         if (!merged.length) {
-          var xPos = width / 2;
-          var yPos = height / 2;
+          const xPos = width / 2;
+          const yPos = height / 2;
 
           //Remove any previously created chart components
           container.selectAll('g').remove();
           container.selectAll('.x.label').remove();
 
-          var noDataText = container
+          const noDataText = container
             .selectAll('.nv-noData')
             .data([noData]);
 
@@ -107,16 +107,16 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         // Setup containers and skeleton of chart
 
         // data join
-        var wrap = container.selectAll('g.heat-map-chart')
+        let wrap = container.selectAll('g.heat-map-chart')
           .data([data]);
 
         // Create the structure on enter.
-        var gEnter = wrap
+        let gEnter = wrap
           .enter()
           .append('g')
           .attr('class', 'heat-map-chart');
 
-        var chartGroupGEnter = gEnter
+        let chartGroupGEnter = gEnter
           .append('g')
           .attr('class', 'chart-group');
 
@@ -142,14 +142,14 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           .attr('class', 'nv-interactive');
 
         // These operate on enter + update.
-        var chartGroup = wrap.select('.chart-group')
+        const chartGroup = wrap.select('.chart-group')
           .attr('transform', translator(margin.left, margin.top));
-        var legendGroup = wrap.select('.legend-group')
+        const legendGroup = wrap.select('.legend-group')
           .attr('transform', translator(margin.left, 0));
-        var heatMapGroup = wrap.select('.heat-map-group');
-        var interactiveGroup = wrap.select('.nv-interactive');
+        const heatMapGroup = wrap.select('.heat-map-group');
+        const interactiveGroup = wrap.select('.nv-interactive');
 
-        var keys = _(merged)
+        const keys = _(merged)
           .pluck('name')
           .uniq()
           .value();
@@ -168,12 +168,12 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         //------------------------------------------------------------
         // Legend
 
-        var legend = d3.scale
+        const legend = d3.scale
           .linear()
           .domain([0, 99])
           .range([0, 1]);
 
-        var heatMapLegend = getHeatMapLegend();
+        let heatMapLegend = getHeatMapLegend();
 
         heatMapLegend
           .width(availableWidth)
@@ -214,20 +214,20 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
 
         interactiveGroup.call(interactiveLayer);
 
-        var getColor = _.compose(color, z, zValue);
+        const getColor = _.compose(color, z, zValue);
 
         interactiveLayer.dispatch.on('elementMousemove', function (e) {
-          var yRange = y.range();
-          var halfWidth = yRange[0] + 1;
-          var r = yRange.map(function add (val) {
+          const yRange = y.range();
+          const halfWidth = yRange[0] + 1;
+          const r = yRange.map(function add (val) {
             return val + halfWidth;
           });
 
-          var yIndex = d3.bisect(r, e.mouseY);
+          const yIndex = d3.bisect(r, e.mouseY);
 
-          var row = data[yIndex];
-          var index = bisector(row, e.pointXValue);
-          var point = row[index - 1];
+          const row = data[yIndex];
+          const index = bisector(row, e.pointXValue);
+          const point = row[index - 1];
 
           if (!point)
             return;
@@ -249,19 +249,19 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         });
 
         interactiveLayer.dispatch.on('elementClick', function (e) {
-          var yRange = y.range();
-          var halfWidth = yRange[0] + 1;
-          var r = yRange.map(function add (val) {
+          const yRange = y.range();
+          const halfWidth = yRange[0] + 1;
+          const r = yRange.map(function add (val) {
             return val + halfWidth;
           });
 
-          var yIndex = d3.bisect(r, e.mouseY);
+          const yIndex = d3.bisect(r, e.mouseY);
 
-          var row = data[yIndex];
-          var index = bisector(row, e.pointXValue);
-          var point = row[index - 1];
+          const row = data[yIndex];
+          const index = bisector(row, e.pointXValue);
+          const point = row[index - 1];
 
-          var nextPoint = row[index];
+          const nextPoint = row[index];
 
           d3.select('.nvtooltip').remove();
 
@@ -274,7 +274,7 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
         //------------------------------------------------------------
         // Setup heatmap
 
-        var heatMap = getHeatMap();
+        let heatMap = getHeatMap();
 
         heatMap
           .width(availableWidth)
@@ -301,7 +301,7 @@ export default function getHeatMapChart (nv, d3, getHeatMapLegend, getHeatMap) {
           .duration(duration)
           .call(xAxis);
 
-        var detail;
+        let detail;
 
         if (xAxisDetail)
           detail = xAxisDetail + ' - ';

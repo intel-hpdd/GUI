@@ -11,7 +11,7 @@ describe('job tree', function () {
   beforeEach(module(commandModule));
 
   describe('job tree ctrl', function () {
-    var $scope, jobTree, getJobStream, jobStream, socketStream,
+    let $scope, jobTree, getJobStream, jobStream, socketStream,
       GROUPS, openStepModal, job, ss, JobTreeCtrl;
 
     beforeEachAsync(async function () {
@@ -85,7 +85,7 @@ describe('job tree', function () {
     });
 
     it('should set the jobs', function () {
-      var response = [job];
+      const response = [job];
 
       jobStream.write(response);
 
@@ -127,7 +127,7 @@ describe('job tree', function () {
   });
 
   describe('get job stream', function () {
-    var socketStream, jobTree, ss, stream;
+    let socketStream, jobTree, ss, stream;
 
     beforeEachAsync(async function () {
       ss = highland();
@@ -157,13 +157,13 @@ describe('job tree', function () {
     });
 
     it('should return a stream', function () {
-      var proto = Object.getPrototypeOf(highland());
+      const proto = Object.getPrototypeOf(highland());
 
       expect(Object.getPrototypeOf(stream)).toBe(proto);
     });
 
     describe('convert to tree', function () {
-      var response;
+      let response;
 
       beforeEach(function () {
         response = {

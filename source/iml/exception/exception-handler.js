@@ -25,8 +25,8 @@ export default ($provide) => {
   $provide.decorator('$exceptionHandler', function ($injector, windowUnload, $delegate) {
     'ngInject';
 
-    var triggered;
-    var cache = {};
+    let triggered;
+    const cache = {};
 
     return function handleException (exception, cause) {
       //Always hit the delegate.
@@ -37,8 +37,8 @@ export default ($provide) => {
       triggered = true;
 
       // Lazy Load to avoid a $rootScope circular dependency.
-      var exceptionModal = get('exceptionModal'),
-        $document = get('$document');
+      const exceptionModal = get('exceptionModal');
+      const $document = get('$document');
 
       exception.cause = cause;
       exception.url = $document[0].URL;

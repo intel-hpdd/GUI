@@ -3,7 +3,7 @@ import filterModule
 
 
 describe('Round filter', () => {
-  var round;
+  let round;
 
   beforeEach(module(filterModule));
 
@@ -11,7 +11,7 @@ describe('Round filter', () => {
     round = $filter('round');
   }));
 
-  var tests = [
+  const tests = [
     {input: 1000.232332, expected: 1000},
     {input: 1000.232332, places: 2, expected: 1000.23},
     {input: 1000.235, places: 2, expected: 1000.24},
@@ -26,7 +26,7 @@ describe('Round filter', () => {
 
   tests.forEach(function runTest (test) {
     it(getDescription(test.input, test.expected), function expectFormat () {
-      var result = round(test.input, test.places);
+      const result = round(test.input, test.places);
 
       expect(test.expected).toEqual(result);
     });

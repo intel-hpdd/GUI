@@ -1,5 +1,5 @@
 describe('Natural Sort Filter', function () {
-  var naturalSort, hostnames, expected, predicate;
+  let naturalSort, hostnames, expected, predicate;
 
   beforeEach(module('filters'));
 
@@ -55,12 +55,12 @@ describe('Natural Sort Filter', function () {
   }));
 
   it('should sort the hostnames array in natural order', function () {
-    var naturalSortedHostNames = naturalSort(hostnames, predicate);
+    const naturalSortedHostNames = naturalSort(hostnames, predicate);
     expect(naturalSortedHostNames).toEqual(expected);
   });
 
   it('should sort the hostnames array in natural order and return the reversed array', function () {
-    var naturalSortedHostNames = naturalSort(hostnames, predicate, true);
+    const naturalSortedHostNames = naturalSort(hostnames, predicate, true);
     expect(naturalSortedHostNames).toEqual(expected.reverse());
   });
 });

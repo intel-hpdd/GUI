@@ -28,7 +28,7 @@ export const remoteValidateForm = {
   controller: function ($scope, $element) {
     'ngInject';
 
-    var formController = $element.controller('form');
+    const formController = $element.controller('form');
 
     if (formController === undefined)
       throw new Error('formController not found, needed by remote-validate-form');
@@ -72,11 +72,11 @@ export const remoteValidateForm = {
       };
     }
 
-    var success = callbackBuilder();
+    const success = callbackBuilder();
 
-    var errback = callbackBuilder(function errbackCallback (resp) {
+    const errback = callbackBuilder(function errbackCallback (resp) {
       _(resp.data).forEach(function (errorList, field) {
-        var component = formController.getComponent(field);
+        const component = formController.getComponent(field);
 
         if (component) {
           if (_.isString(errorList))
@@ -88,7 +88,7 @@ export const remoteValidateForm = {
       });
     });
 
-    var deregisterWatch = scope.$watch(attrs.validate, function validateWatcher (newValidate, oldValidate) {
+    const deregisterWatch = scope.$watch(attrs.validate, function validateWatcher (newValidate, oldValidate) {
       if (newValidate === oldValidate) return;
 
       newValidate.then(success, errback);
@@ -105,8 +105,8 @@ export const remoteValidateComponent = {
   require: ['^remoteValidateForm', 'ngModel'],
   restrict: 'A',
   link: function (scope, el, attrs, ctrls) {
-    var formController = ctrls[0];
-    var ngModel = ctrls[1];
+    const formController = ctrls[0];
+    const ngModel = ctrls[1];
     formController.registerComponent(attrs.name, ngModel);
   }
 };

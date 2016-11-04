@@ -27,7 +27,7 @@ export default function throughput () {
   return function (bytes, bps, precision) {
     if (bps) bytes *= 8;
 
-    var result = formatBytes(bytes, precision);
+    let result = formatBytes(bytes, precision);
     if (bps) result = result.replace(/B/, 'b');
     return result ? result + '/s' : '';
   };

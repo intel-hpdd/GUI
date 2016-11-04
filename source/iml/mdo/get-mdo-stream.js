@@ -33,7 +33,7 @@ import {
 const statsPrefixRegex = /^stats_/;
 const dataLens = fp.lensProp('data');
 const stripStatsPrefix = fp.over(dataLens, reduce(() => ({}), (value, key, result) => {
-  var newKey = key.trim().replace(statsPrefixRegex, '');
+  const newKey = key.trim().replace(statsPrefixRegex, '');
   result[newKey] = value;
   return result;
 }));
@@ -59,7 +59,7 @@ const metrics = fp.map(prependStats, stats)
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
-    var params = requestRange({
+    const params = requestRange({
       qs: {
         reduce_fn: 'sum',
         kind: 'MDT',

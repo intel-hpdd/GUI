@@ -7,7 +7,7 @@ describe('alert indicator', () => {
   beforeEach(module(alertIndicatorModule));
 
   describe('directive', () => {
-    var $scope, element, node, popover, i,
+    let $scope, element, node, popover, i,
       stream, stateLabel, alerts,
       tooltip;
 
@@ -46,7 +46,7 @@ describe('alert indicator', () => {
     });
 
     describe('response contains alerts', () => {
-      var response;
+      let response;
 
       beforeEach(() => {
         response = [

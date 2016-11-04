@@ -37,7 +37,7 @@ export default ($transitions:TransitionServiceT, qsFromLocation:qsFromLocationT)
   'ngInject';
 
   return (params:Object, match:HookMatchCriteriaT = {}) => {
-    var s = highland();
+    const s = highland();
 
     const d = $transitions.onSuccess(match, (t:TransitionT) => {
       s.write({

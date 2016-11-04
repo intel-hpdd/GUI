@@ -26,7 +26,7 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
   function (position, $timeout, $window, $compile) {
     'ngInject';
 
-    var template = '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
+    const template = '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
 <div class="arrow"></div>\
 <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\
 <div class="popover-content"></div>\
@@ -42,9 +42,9 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
         onToggle: '&'
       },
       link: function link (scope, el, attrs, ctrl, $transclude) {
-        var popoverLinker = $compile(template);
+        let popoverLinker = $compile(template);
 
-        var popoverButton = el.siblings('.activate-popover').eq(0),
+        let popoverButton = el.siblings('.activate-popover').eq(0),
           wrappedWindow = angular.element($window);
 
         if (!popoverButton) throw new Error('No popover button found.');
@@ -75,7 +75,7 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
           destroyPopover();
         });
 
-        var inheritedScope, popoverEl, positioner;
+        let inheritedScope, popoverEl, positioner;
         function createPopover () {
           $transclude(function createNewPopover (clone, transcludedScope) {
             inheritedScope = transcludedScope;

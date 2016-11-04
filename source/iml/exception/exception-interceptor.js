@@ -24,14 +24,14 @@ export default function exceptionInterceptor ($exceptionHandler, $q) {
 
   return {
     requestError: function requestError (rejection) {
-      var args = [];
+      const args = [];
 
       if (rejection instanceof Error) {
         args.unshift(rejection);
       } else if (typeof rejection === 'string') {
         args.unshift(null, rejection);
       } else {
-        var error = new Error('Request Error');
+        const error = new Error('Request Error');
 
         error.rejection = rejection;
 
@@ -41,12 +41,12 @@ export default function exceptionInterceptor ($exceptionHandler, $q) {
       $exceptionHandler.apply($exceptionHandler, args);
     },
     responseError: function responseError (response) {
-      var rejected = $q.reject(response);
+      const rejected = $q.reject(response);
 
       //400s and 403s do not trigger the modal. It is the responsibility of the base model to handle them.
       if (response.status === 400 || response.status === 403) return rejected;
 
-      var error = new Error('Response Error!');
+      const error = new Error('Response Error!');
 
       // Add the response to the error instance.
       error.response = {

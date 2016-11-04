@@ -38,8 +38,8 @@ import type {
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-var headName = fp.flow(fp.head, viewLens('name'));
-var compareLocale = fp.flow(
+const headName = fp.flow(fp.head, viewLens('name'));
+const compareLocale = fp.flow(
     fp.invokeMethod('reverse', []),
     fp.over(fp.lensProp(0), fp.arrayWrap),
     fp.invoke(fp.invokeMethod('localeCompare'))
@@ -50,11 +50,11 @@ const cmp = (...args) =>
     fp.chainL((...args) => compareLocale(args))
   )(args);
 
-var sortOsts = fp.invokeMethod('sort', [cmp]);
+const sortOsts = fp.invokeMethod('sort', [cmp]);
 
 export default fp.curry3((type:string, requestRange:Function, buff:Function):HighlandStreamT<any> => {
   return highland(function generator (push, next) {
-    var params = requestRange({
+    const params = requestRange({
       qs: {
         kind: 'OST',
         metrics: type

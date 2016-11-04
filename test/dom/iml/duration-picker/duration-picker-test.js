@@ -3,7 +3,7 @@ import _ from 'intel-lodash-mixins';
 import {DURATIONS} from '../../../../source/iml/duration-picker/duration-picker.js';
 
 describe('the duration picker', () => {
-  var $scope, el, $timeout, dropdownButton,
+  let $scope, el, $timeout, dropdownButton,
     dropdownMenu, input,
     getErrorText, durationControls;
 
@@ -48,14 +48,14 @@ end-date="endDate"></duration-picker>';
 
     it('should set the unit to the value provided', function () {
       dropdownButton.click();
-      var hours = _.capitalize(DURATIONS.HOURS);
+      const hours = _.capitalize(DURATIONS.HOURS);
 
       expect(dropdownButton.filter(`:contains("${hours}")`).length).toEqual(1);
     });
 
     it('should change the duration unit when the user clicks a dropdown item', function () {
       dropdownButton.click();
-      var minutes = _.capitalize(DURATIONS.MINUTES);
+      const minutes = _.capitalize(DURATIONS.MINUTES);
 
       dropdownMenu.find(`a:contains("${minutes}")`).click();
 
@@ -82,7 +82,7 @@ end-date="endDate"></duration-picker>';
   });
 
   describe('when choosing a range', function () {
-    var start, end, rangeButton;
+    let start, end, rangeButton;
 
     beforeEach(function () {
       rangeButton = el.find('button[uib-btn-radio="\'range\'"]');

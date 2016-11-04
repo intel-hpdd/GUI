@@ -3,7 +3,7 @@ import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
 describe('charts container', () => {
   beforeEach(module(dashboardModule));
 
-  var $scope, el, spy;
+  let $scope, el, spy;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = '<charts-container charts="charts"></charts-container>';

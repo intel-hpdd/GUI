@@ -5,7 +5,7 @@ describe('get add server manager', function () {
   beforeEach(module(serverModule));
 
   describe('Add server steps constants', function () {
-    var ADD_SERVER_STEPS;
+    let ADD_SERVER_STEPS;
 
     beforeEach(inject(function (_ADD_SERVER_STEPS_) {
       ADD_SERVER_STEPS = _ADD_SERVER_STEPS_;
@@ -21,7 +21,7 @@ describe('get add server manager', function () {
   });
 
   describe('add server steps service', function () {
-    var addServerSteps, addServersStep, serverStatusStep, selectServerProfileStep;
+    let addServerSteps, addServersStep, serverStatusStep, selectServerProfileStep;
 
     beforeEach(module(function ($provide) {
       addServersStep = {};
@@ -46,7 +46,7 @@ describe('get add server manager', function () {
   });
 
   describe('get add server manager service', function () {
-    var stepsManager, waitUntilLoadedStep;
+    let stepsManager, waitUntilLoadedStep;
 
     beforeEach(module(function ($provide) {
       stepsManager = jasmine.createSpy('stepsManager').and.returnValue({
@@ -59,7 +59,7 @@ describe('get add server manager', function () {
       $provide.value('waitUntilLoadedStep', waitUntilLoadedStep);
     }));
 
-    var getAddServerManager, addServerManager;
+    let getAddServerManager, addServerManager;
 
     beforeEach(inject(function (_getAddServerManager_) {
       getAddServerManager = _getAddServerManager_;

@@ -59,7 +59,7 @@ export function data$Fn (createStream:createStreamT) {
   return fp.curry3((overrides:filesystemQueryT | targetQueryT, chartStreamFn:configToStreamT,
     x:durationPayloadT):HighlandStreamT<mixed> => {
 
-    var { durationStream, rangeStream } = createStream;
+    let { durationStream, rangeStream } = createStream;
     durationStream = durationStream(overrides);
     rangeStream = rangeStream(overrides);
 
@@ -107,8 +107,8 @@ export function flushOnChange (source$:HighlandStreamT<mixed>) {
 }
 
 export function waitForChartData (source$:HighlandStreamT<mixed>) {
-  var passedDocumentHidden = false;
-  var passedDocumentVisible = false;
+  let passedDocumentHidden = false;
+  let passedDocumentVisible = false;
 
   const s2 = source$
     .consume((err, x, push, next) => {

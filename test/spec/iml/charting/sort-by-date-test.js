@@ -2,7 +2,7 @@ import highland from 'highland';
 import sortByDate from '../../../../source/iml/charting/sort-by-date.js';
 
 describe('the sort by date plugin', function () {
-  var spy;
+  let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

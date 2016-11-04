@@ -7,7 +7,7 @@ describe('Steps module', () => {
     $provide.value('foo', 'bar');
   }));
 
-  var $rootScope, $scope, $q, $compile, stepsManager;
+  let $rootScope, $scope, $q, $compile, stepsManager;
 
   beforeEach(inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
 
@@ -19,7 +19,7 @@ describe('Steps module', () => {
   }));
 
   describe('step container', () => {
-    var template, node;
+    let template, node;
 
     beforeEach(() => {
       template = '<step-container manager="manager"></step-container>';
@@ -74,8 +74,8 @@ describe('Steps module', () => {
       });
 
       it('should load the waiting template', () => {
-        var deferred = $q.defer();
-        var resolves = {
+        const deferred = $q.defer();
+        const resolves = {
           resolve1: deferred.promise
         };
 
@@ -89,7 +89,7 @@ describe('Steps module', () => {
   });
 
   describe('steps manager', () => {
-    var stepsManagerInstance, waitingStep;
+    let stepsManagerInstance, waitingStep;
 
     beforeEach(() => {
       stepsManagerInstance = stepsManager();
@@ -115,7 +115,7 @@ describe('Steps module', () => {
     });
 
     describe('calling addWaitingStep multiple times', () => {
-      var error;
+      let error;
       beforeEach(() => {
         try {
           stepsManagerInstance.addWaitingStep(waitingStep)
@@ -131,7 +131,7 @@ describe('Steps module', () => {
     });
 
     describe('interacting', () => {
-      var listener, step1, step2;
+      let listener, step1, step2;
 
       beforeEach(() => {
         listener = jasmine.createSpy('listener');

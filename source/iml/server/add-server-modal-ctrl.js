@@ -27,8 +27,8 @@ export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManag
                                     servers, step) {
   'ngInject';
 
-  var manager = this.manager = getAddServerManager();
-  var spring = getSpring();
+  const manager = this.manager = getAddServerManager();
+  const spring = getSpring();
 
   step = step || manager.SERVER_STEPS.ADD;
   manager.start(step, {

@@ -21,13 +21,13 @@
 
 import {CACHE_INITIAL_DATA} from '../environment.js';
 
-var session = CACHE_INITIAL_DATA.session;
+const session = CACHE_INITIAL_DATA.session;
 
 export const authorization = {
   readEnabled: session.read_enabled,
   groupAllowed: function groupAllowed (groupName) {
 
-    var hasGroups = session.user && Array.isArray(session.user.groups);
+    const hasGroups = session.user && Array.isArray(session.user.groups);
 
     return hasGroups && session.user.groups.some(function some (group) {
       //Superusers can do everything.

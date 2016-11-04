@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get cpu usage stream', () => {
-  var socketStream, serverStream, getServerMoment, bufferDataNewerThan,
+  let socketStream, serverStream, getServerMoment, bufferDataNewerThan,
     mod, getCpuUsageStream, getRequestDuration;
 
   beforeEachAsync(async function () {
@@ -51,7 +51,7 @@ describe('get cpu usage stream', () => {
     jasmine.clock().install();
   }, 10000);
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -69,11 +69,11 @@ describe('get cpu usage stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var cpuUsageStream;
+    let cpuUsageStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       cpuUsageStream = getCpuUsageStream(requestDuration, buff);
 

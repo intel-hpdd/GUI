@@ -24,18 +24,18 @@ import * as fp from 'intel-fp';
 export function getLineFactory ($location, d3) {
   'ngInject';
 
-  var counter = 0;
+  let counter = 0;
 
   return function getLine () {
-    var xScale = fp.noop;
-    var yScale = fp.noop;
-    var xValue = fp.noop;
-    var yValue = fp.noop;
-    var xComparator = fp.noop;
-    var color = '#000000';
-    var opacity = 1;
+    let xScale = fp.noop;
+    let yScale = fp.noop;
+    let xValue = fp.noop;
+    let yValue = fp.noop;
+    let xComparator = fp.noop;
+    let color = '#000000';
+    let opacity = 1;
 
-    var count = counter += 1;
+    const count = counter += 1;
 
     const strPlusCount = (str) => str + count;
 
@@ -72,7 +72,7 @@ export function getLineFactory ($location, d3) {
         const lineCount = strPlusCount('line');
         const lineClassCount = `.${lineCount}`;
 
-        var lineEl = clipGroup.selectAll(lineClassCount);
+        let lineEl = clipGroup.selectAll(lineClassCount);
 
         const shouldShift = lineEl.size() && data.length &&
           !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
@@ -102,7 +102,7 @@ export function getLineFactory ($location, d3) {
           .attr('d', line)
           .style('stroke-opacity', opacity)
           .each(function animateEntering () {
-            var totalLength = this.getTotalLength();
+            const totalLength = this.getTotalLength();
 
             d3.select(this)
               .attr('stroke-dasharray',`${totalLength} ${totalLength}`)

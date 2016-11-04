@@ -49,7 +49,7 @@ export function ExceptionModalCtrl ($scope, $document, exception,
    * @param {*} value
    * @returns {String}
    */
-  var stringify = lookupAnd(function stringify (value) {
+  const stringify = lookupAnd(function stringify (value) {
     return JSON.stringify(value, null, 2);
   });
 
@@ -58,14 +58,14 @@ export function ExceptionModalCtrl ($scope, $document, exception,
    * @param {String} value
    * @returns {String}
    */
-  var multiLineTrim = lookupAnd(function multiLineTrim (value) {
+  const multiLineTrim = lookupAnd(function multiLineTrim (value) {
     return value.split('\n')
       .map(function (line) {
         return line.trim();
       }).join('\n');
   });
 
-  var addSection = _.partial(buildMessage, $scope.exceptionModal.messages, exception);
+  const addSection = _.partial(buildMessage, $scope.exceptionModal.messages, exception);
 
   addSection('name');
   addSection('message');
@@ -88,7 +88,7 @@ export function ExceptionModalCtrl ($scope, $document, exception,
       name: path.split('.').pop()
     });
 
-    var item = _.pluckPath(path, err);
+    const item = _.pluckPath(path, err);
 
     if (!item)
       return;
@@ -112,12 +112,12 @@ export function ExceptionModalCtrl ($scope, $document, exception,
   }
 }
 
-var regex = /^.+\:\d+\:\d+.*$/;
+const regex = /^.+\:\d+\:\d+.*$/;
 
 export function stackTraceContainsLineNumbers (stackTrace) {
   return stackTrace.stack.split('\n')
     .some(function verifyStackTraceContainsLineNumbers (val) {
-      var match = val.trim().match(regex);
+      const match = val.trim().match(regex);
       return (match == null) ? false : match.length > 0;
     });
 }

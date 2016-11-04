@@ -44,13 +44,12 @@ const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, 
   };
   const ctrl:T = this;
 
-  let removeResetListener;
   const resetDefault = () => {
     ctrl.state = 'default';
     localApply($scope);
     removeResetListener();
   };
-  removeResetListener = () => global
+  const removeResetListener = () => global
     .removeEventListener('click', resetDefault, false);
 
   Object.assign(ctrl, {

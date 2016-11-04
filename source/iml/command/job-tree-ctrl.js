@@ -26,7 +26,7 @@ import * as fp from 'intel-fp';
 export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal) {
   'ngInject';
 
-  var pendingTransitions = [];
+  const pendingTransitions = [];
 
   Object.assign(this, {
     GROUPS,
@@ -50,9 +50,9 @@ export function JobTreeCtrl ($scope, getJobStream, GROUPS, openStepModal) {
     }
   });
 
-  var stream = getJobStream($scope.command.jobs);
+  const stream = getJobStream($scope.command.jobs);
 
-  var p = $scope.propagateChange($scope, this, 'jobs');
+  const p = $scope.propagateChange($scope, this, 'jobs');
 
   stream
     .through(p);
@@ -65,14 +65,14 @@ export function getJobStreamFactory (jobTree) {
   'ngInject';
 
   return function getJobStream (jobs) {
-    var stream = socketStream('/job', {
+    const stream = socketStream('/job', {
       qs: {
         id__in: fp.map(extractApi, jobs),
         limit: 0
       }
     });
 
-    var s2 = stream
+    const s2 = stream
       .pluck('objects')
       .map(jobTree);
 

@@ -3,7 +3,7 @@ import interceptorsModule
 
 
 describe('clean request url interceptor', () => {
-  var cleanRequestUrlInterceptor;
+  let cleanRequestUrlInterceptor;
 
   beforeEach(module(interceptorsModule));
 
@@ -12,23 +12,23 @@ describe('clean request url interceptor', () => {
   }));
 
   it('should append a / if one is not present at the end of the url', () => {
-    var result = cleanRequestUrlInterceptor.request({url: '/a/b/c'});
+    const result = cleanRequestUrlInterceptor.request({url: '/a/b/c'});
 
     expect(result).toEqual({url: '/a/b/c/'});
   });
 
   it('should not change a url that already ends with /', () => {
-    var config = {url: '/a/b/c/'};
+    const config = {url: '/a/b/c/'};
 
-    var result = cleanRequestUrlInterceptor.request(config);
+    const result = cleanRequestUrlInterceptor.request(config);
 
     expect(result).toEqual(config);
   });
 
   it('should ignore html files', () => {
-    var config = {url: 'adir/afile.html'};
+    const config = {url: 'adir/afile.html'};
 
-    var result = cleanRequestUrlInterceptor.request(config);
+    const result = cleanRequestUrlInterceptor.request(config);
 
     expect(result).toEqual(config);
   });

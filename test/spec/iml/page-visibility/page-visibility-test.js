@@ -39,7 +39,7 @@ describe('page visibility', () => {
   });
 
   describe('when invoking', () => {
-    var onHide, onShow, removeListener, handler;
+    let onHide, onShow, removeListener, handler;
 
     beforeEach(() => {
       onHide = jasmine.createSpy('onHide');

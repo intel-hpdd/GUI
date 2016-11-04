@@ -28,7 +28,7 @@ export default function roundFilter () {
     // If places is not provided, just round the value to nearest whole number.
     if (places == null) return Math.round(value);
 
-    var shiftTo = Math.pow(10, places);
+    const shiftTo = Math.pow(10, places);
 
     // Shift
     value = Math.round(value * shiftTo);

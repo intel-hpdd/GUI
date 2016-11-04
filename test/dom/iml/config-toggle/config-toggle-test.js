@@ -3,7 +3,7 @@ import configToggleModule from '../../../../source/iml/config-toggle/config-togg
 describe('config toggle', () => {
   beforeEach(module(configToggleModule));
 
-  var template, el, $scope, whenInactive, whenActive, setActive, setInactive;
+  let template, el, $scope, whenInactive, whenActive, setActive, setInactive;
 
   beforeEach(inject(($compile, $rootScope) => {
     template = `<div class="wrap" config-toggle>

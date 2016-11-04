@@ -5,7 +5,7 @@ describe('Override Directive', function () {
 
   beforeEach(module(serverModule));
 
-  var $scope, element;
+  let $scope, element;
 
   beforeEach(inject(function ($rootScope, $compile) {
     const markup = `<override-button overridden="overridden" is-valid="isValid" on-change="onChange(message)"

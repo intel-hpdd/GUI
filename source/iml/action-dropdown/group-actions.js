@@ -34,13 +34,13 @@ export default function groupActionsFilter () {
     if (numDisplayGroups(input) !== input.length)
       return input;
 
-    var sorted = input.sort(function (a, b) {
-      var x = a.display_group - b.display_group;
+    const sorted = input.sort(function (a, b) {
+      const x = a.display_group - b.display_group;
       return (x === 0 ? a.display_order - b.display_order : x);
     });
 
     sorted.forEach(function (item, index) {
-      var next = sorted[index + 1];
+      const next = sorted[index + 1];
 
       if (next && item.display_group !== next.display_group)
         item.last = true;

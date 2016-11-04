@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('buffer data newer than', () => {
-  var getServerMoment, bufferDataNewerThan, spy;
+  let getServerMoment, bufferDataNewerThan, spy;
 
   beforeEachAsync(async function () {
     jasmine.clock().install();
@@ -84,10 +84,10 @@ describe('buffer data newer than', () => {
   it('should buffer points', () => {
     getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
 
-    var s1 = highland();
-    var s2 = highland();
+    const s1 = highland();
+    const s2 = highland();
 
-    var buff = bufferDataNewerThan(10, 'minutes');
+    const buff = bufferDataNewerThan(10, 'minutes');
 
     s1
       .through(buff)

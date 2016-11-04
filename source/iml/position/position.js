@@ -117,9 +117,9 @@ Position.prototype.overflows = function (direction, windowPositioner, tooltipPos
 };
 
 function positionerFactory (positionFinder, DIRECTIONS) {
-  var props = _.values(DIRECTIONS).concat('height', 'width');
+  const props = _.values(DIRECTIONS).concat('height', 'width');
 
-  var propertiesObject = props.reduce(function (obj, prop) {
+  const propertiesObject = props.reduce(function (obj, prop) {
     obj[prop] = {
       enumerable: true,
       get: function () {

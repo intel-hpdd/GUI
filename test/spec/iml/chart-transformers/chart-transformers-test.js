@@ -14,7 +14,7 @@ import {
 } from '../../../../source/iml/stream-when-visible/stream-when-visible.js';
 
 describe('chart transformer', () => {
-  var s, config1, config2, spy;
+  let s, config1, config2, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -36,7 +36,7 @@ describe('chart transformer', () => {
   });
 
   describe('getConf', () => {
-    var conf$;
+    let conf$;
     beforeEach(() => {
       conf$ = getConf('target8');
     });
@@ -58,7 +58,7 @@ describe('chart transformer', () => {
   });
 
   describe('data$Fn', () => {
-    var fn, createStream, durationStreamOverrides, durationStream,
+    let fn, createStream, durationStreamOverrides, durationStream,
       rangeStreamOverrides, rangeStream, overrides, chartStreamFn,
       chart$, duration$, range$;
 
@@ -140,7 +140,7 @@ describe('chart transformer', () => {
 });
 
 describe('flush on change', () => {
-  var source$, s, spy;
+  let source$, s, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -163,7 +163,7 @@ describe('flush on change', () => {
   });
 
   it('should catch errors', () => {
-    var error = new Error('it goes boom!');
+    const error = new Error('it goes boom!');
     source$.write({
       __HighlandStreamError__: true,
       error
@@ -185,7 +185,7 @@ describe('flush on change', () => {
 });
 
 describe('waitForChartData', () => {
-  var source$, s, spy;
+  let source$, s, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -214,7 +214,7 @@ describe('waitForChartData', () => {
   });
 
   it('should catch errors', () => {
-    var error = new Error('it goes boom!');
+    const error = new Error('it goes boom!');
     source$.write({
       __HighlandStreamError__: true,
       error

@@ -31,8 +31,8 @@ export default function paginate () {
    * @returns {Array}
    */
   return function paginateFilter (input, currentPage, itemsPerPage) {
-    var startingItem = itemsPerPage * currentPage;
-    var endingItem = startingItem + itemsPerPage - 1;
+    const startingItem = itemsPerPage * currentPage;
+    const endingItem = startingItem + itemsPerPage - 1;
 
     return input.filter(showValidItems(startingItem, endingItem));
   };

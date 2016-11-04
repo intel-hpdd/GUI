@@ -9,7 +9,7 @@ describe('mgt component', () => {
     $provide.value('socketStream', jasmine.createSpy('socketStream'));
   }));
 
-  var el, $scope;
+  let el, $scope;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `

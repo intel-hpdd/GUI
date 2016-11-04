@@ -22,8 +22,8 @@
 export default function naturalSort () {
   'ngInject';
 
-  var re = /([a-zA-Z]+)|([0-9]+)/g;
-  var getStringToSort;
+  const re = /([a-zA-Z]+)|([0-9]+)/g;
+  let getStringToSort;
 
   /**
    * Sorts in natural order as opposed to lexical order
@@ -33,7 +33,7 @@ export default function naturalSort () {
    */
   return function orderArrayUsingNaturalSort (input, predicate, reverse) {
     getStringToSort = predicate;
-    var sortedArray = input.sort(naturalSortAlgorithm);
+    const sortedArray = input.sort(naturalSortAlgorithm);
 
     if (reverse === true)
       sortedArray.reverse();
@@ -48,11 +48,11 @@ export default function naturalSort () {
    * @returns {String|Number}
    */
   function naturalSortAlgorithm (a, b) {
-    var componentsInA = splitStringIntoComponents(getStringToSort(a));
-    var componentsInB = splitStringIntoComponents(getStringToSort(b));
+    const componentsInA = splitStringIntoComponents(getStringToSort(a));
+    const componentsInB = splitStringIntoComponents(getStringToSort(b));
 
-    var result = 0;
-    var pos = 0;
+    let result = 0;
+    let pos = 0;
 
     do {
       result = calculateResult(pos, componentsInA, componentsInB);
@@ -70,7 +70,7 @@ export default function naturalSort () {
    * @returns {Number}
    */
   function calculateResult (pos, componentsInA, componentsInB) {
-    var result = 0;
+    let result = 0;
 
     if (pos >= componentsInA.length) {
       result = -1;
@@ -121,8 +121,8 @@ export default function naturalSort () {
     if (typeof val === 'number')
       return [val];
 
-    var m;
-    var components = [];
+    let m;
+    const components = [];
     while ((m = re.exec(val)) != null) {
       if (m.index === re.lastIndex)
         re.lastIndex += 1;

@@ -41,8 +41,8 @@ function combineReducers (reducers:reducersT) {
   const keys = Object.keys(reducers);
 
   return function combination (state:combineT = {}, action:ActionT):combineT {
-    var nextState = {};
-    var changed = false;
+    const nextState = {};
+    let changed = false;
 
     keys.forEach(k => {
       const reducer = reducers[k];
@@ -71,7 +71,7 @@ export default function createStore (reducers:Object):StoreT {
   return {
     dispatch: stream.write.bind(stream),
     select (key:string):HighlandStreamT<mixed> {
-      var lastItem;
+      let lastItem;
 
       return view()
         .map(state => state[key])

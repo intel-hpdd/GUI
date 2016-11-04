@@ -42,14 +42,14 @@ export default (openCommandModal:Function) => {
         fp.map(setState)
       );
 
-    if (showModal)
-      var modal$ = openCommandModal(
+    if (showModal) {
+      const modal$ = openCommandModal(
         command$
           .fork()
-      )
-        .resultStream
+      );
+      modal$.resultStream
         .each(() => modal$.destroy());
-
+    }
 
     return command$
       .fork()

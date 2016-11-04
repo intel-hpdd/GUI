@@ -9,7 +9,7 @@ import broadcaster from '../../../../source/iml/broadcaster.js';
 describe('target dashboard', () => {
   beforeEach(module(targetDashboardModule));
 
-  var $scope, ctrl, charts, targetStream, usageStream;
+  let $scope, ctrl, charts, targetStream, usageStream;
 
   beforeEach(inject(($controller, $rootScope) => {
     $scope = $rootScope.$new();

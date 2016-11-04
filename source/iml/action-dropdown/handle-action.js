@@ -33,7 +33,7 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @returns {Highland.Stream}
    */
   return function handleAction (record, action) {
-    var method;
+    let method;
 
     if (action.class_name)
       method = executeJob;
@@ -53,9 +53,9 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @returns {Object}
    */
   function executeJob (socketStream, record, action) {
-    var message = `${action.verb}(${record.label})`;
+    const message = `${action.verb}(${record.label})`;
 
-    var jobSender = _.partial(socketStream, '/command', {
+    const jobSender = _.partial(socketStream, '/command', {
       method: 'post',
       json: {
         jobs: [_.pick(action, 'class_name', 'args')],
@@ -79,8 +79,8 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @returns {Object}
    */
   function changeState (socketStream, record, action) {
-    var sendStateChange = _.partial(function sendStateChange (isDryRun) {
-      var data = {
+    const sendStateChange = _.partial(function sendStateChange (isDryRun) {
+      const data = {
         method: 'put',
         json: { state: action.state }
       };
@@ -96,7 +96,7 @@ export default function handleActionFactory (openConfirmActionModal) {
         return x.transition_job != null;
       })
       .map(function buildConfirmInfo (x) {
-        var confirm = {
+        const confirm = {
           action: sendStateChange,
           message: x.transition_job.description,
           prompts: [],
@@ -134,7 +134,7 @@ export default function handleActionFactory (openConfirmActionModal) {
 
     record.conf_params[action.param_key] = action.param_value;
 
-    var path = `/${record.resource}/${record.id}`;
+    const path = `/${record.resource}/${record.id}`;
 
     return socketStream(path, {
       method: 'put',
@@ -161,7 +161,7 @@ export default function handleActionFactory (openConfirmActionModal) {
       })
       .filter(_.isBoolean)
       .flatMap(function runAction (skip) {
-        var sendDataIfNotSkipping = _.if(_.fidentity(!skip), _.identity);
+        const sendDataIfNotSkipping = _.if(_.fidentity(!skip), _.identity);
 
         return confirm.action()
           .map(sendDataIfNotSkipping);

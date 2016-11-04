@@ -31,13 +31,13 @@ export default function lineChart (dateTicks, baseChart) {
     onUpdate: function onUpdate (chart, data) {
       if (!Array.isArray(data) || !data[0]) return;
 
-      var values = data[0].values;
+      const values = data[0].values;
 
       if (!Array.isArray(values) || !values[0]) return;
 
-      var start = values[0].x;
-      var end = values[values.length - 1].x;
-      var range = moment(start).twix(end);
+      const start = values[0].x;
+      const end = values[values.length - 1].x;
+      const range = moment(start).twix(end);
 
       chart.xAxis
         .axisLabel(range.format({

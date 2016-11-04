@@ -25,8 +25,8 @@ import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
 export default (requestRange, buff) => {
-  var s = highland((push, next) => {
-    var params = requestRange({
+  const s = highland((push, next) => {
+    const params = requestRange({
       qs: {
         reduce_fn: 'average',
         metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait,mem_MemFree,mem_MemTotal'
@@ -36,10 +36,10 @@ export default (requestRange, buff) => {
     socketStream('/host/metric', params, true)
       .flatten()
       .map(function calculateCpuAndRam (x) {
-        var cpuSum = x.data.cpu_user + x.data.cpu_system + x.data.cpu_iowait;
+        const cpuSum = x.data.cpu_user + x.data.cpu_system + x.data.cpu_iowait;
         x.data.cpu = (x.data.cpu_total ? (cpuSum / x.data.cpu_total) : 0.0);
 
-        var usedMemory = x.data.mem_MemTotal - x.data.mem_MemFree;
+        const usedMemory = x.data.mem_MemTotal - x.data.mem_MemFree;
         x.data.ram = usedMemory / x.data.mem_MemTotal;
 
         return x;

@@ -114,7 +114,7 @@ describe('api transforms', () => {
 
 describe('match by id', () => {
   it('should match by the id', () => {
-    let matcher = matchById(7);
+    const matcher = matchById(7);
     expect(matcher([{id:1, name:'a'}, {id:7, name:'b'}, {id:10, name:'c'}]))
       .toEqual({id:7, name:'b'});
   });

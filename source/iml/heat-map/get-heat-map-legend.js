@@ -24,15 +24,15 @@ import _ from 'intel-lodash-mixins';
 export default function getHeatMapLegendFactory (d3) {
   'ngInject';
 
-  var TEXT_PADDING = 5;
-  var STEP_WIDTH = 1;
-  var colorScale = _.noop;
-  var legendScale = _.noop;
-  var zScale = _.noop;
-  var formatter = _.identity;
-  var width = 0;
-  var height = 0;
-  var margin = {
+  const TEXT_PADDING = 5;
+  const STEP_WIDTH = 1;
+  let colorScale = _.noop;
+  let legendScale = _.noop;
+  let zScale = _.noop;
+  let formatter = _.identity;
+  let width = 0;
+  let height = 0;
+  let margin = {
     top: 0,
     right: 0,
     bottom: 0,
@@ -42,18 +42,18 @@ export default function getHeatMapLegendFactory (d3) {
   return function getHeatMapLegend () {
     function chart (selection) {
       selection.each(function iterateSelections () {
-        var container = d3.select(this);
+        let container = d3.select(this);
 
-        var availableWidth = width - margin.left - margin.right;
-        var availableHeight = height - margin.top - margin.bottom;
+        const availableWidth = width - margin.left - margin.right;
+        const availableHeight = height - margin.top - margin.bottom;
 
         //data join.
-        var wrap = container
+        const wrap = container
           .selectAll('.heat-map-legend')
           .data([legendScale.ticks(100)]);
 
         // setup structure on enter.
-        var gEnter = wrap
+        const gEnter = wrap
           .enter()
           .append('g')
           .attr('class', 'heat-map-legend');
@@ -71,17 +71,17 @@ export default function getHeatMapLegendFactory (d3) {
           .attr('class', 'max');
 
         // These operate on enter + update.
-        var minText = wrap.select('.min');
-        var stepsGroup = wrap.select('.steps');
-        var maxText = wrap.select('.max');
+        const minText = wrap.select('.min');
+        const stepsGroup = wrap.select('.steps');
+        const maxText = wrap.select('.max');
 
-        var Y_TEXT_OFFSET = '1.2em';
+        const Y_TEXT_OFFSET = '1.2em';
 
-        var step = stepsGroup
+        const step = stepsGroup
           .selectAll('.step')
           .data(_.identity);
 
-        var fill = _.compose(colorScale, legendScale);
+        const fill = _.compose(colorScale, legendScale);
 
         step.enter()
           .append('rect')
@@ -93,18 +93,18 @@ export default function getHeatMapLegendFactory (d3) {
           })
           .attr('fill', fill);
 
-        var domain = zScale.domain();
+        const domain = zScale.domain();
 
         minText.text(formatter(domain[0]));
         maxText.text(formatter(domain[1]));
 
-        var stepsBBox = getBBox(stepsGroup);
-        var minBBox = getBBox(minText);
-        var maxBBox = getBBox(maxText);
+        const stepsBBox = getBBox(stepsGroup);
+        const minBBox = getBBox(minText);
+        const maxBBox = getBBox(maxText);
 
-        var minAndStepsWidth = minBBox.width + stepsBBox.width + (TEXT_PADDING * 2);
+        const minAndStepsWidth = minBBox.width + stepsBBox.width + (TEXT_PADDING * 2);
 
-        var legendWidth = minAndStepsWidth + maxBBox.width;
+        const legendWidth = minAndStepsWidth + maxBBox.width;
 
         stepsGroup
           .attr('transform',

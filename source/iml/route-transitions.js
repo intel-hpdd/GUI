@@ -56,7 +56,7 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
   };
 
   const processAllowAnonymousRead = () => {
-    var session = CACHE_INITIAL_DATA.session;
+    const session = CACHE_INITIAL_DATA.session;
 
     if (!session.read_enabled)
       return new Promise(() => navigate('login'));
@@ -69,7 +69,7 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
   };
 
   const processEulaState = () => {
-    var session = CACHE_INITIAL_DATA.session;
+    const session = CACHE_INITIAL_DATA.session;
 
     if (session.user && session.user.eula_state !== 'pass')
       return new Promise(() => navigate('login'));
@@ -86,7 +86,7 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
       .groupAllowed(transition.to().data.access);
 
     if (!authenticated) {
-      let $state = transition.router.stateService;
+      const $state = transition.router.stateService;
       return $state.target('app', undefined, {location: true});
     }
   };

@@ -58,10 +58,10 @@ export const MessageSubstitutionCtrl = class {
     this.substituteMessage = substitutions.reduce((str, sub) => {
       const start = str.substring(0, sub.start -1);
       const end = str.substring(sub.end - 1);
-      var label = sub.label;
+      let label = sub.label;
 
       if (authorization.groupAllowed(GROUPS.FS_ADMINS)) {
-        var path = apiPathToUiPath(sub.resource_uri);
+        const path = apiPathToUiPath(sub.resource_uri);
         label = `<a route-to="${path}">${sub.label}</a>`;
       }
 

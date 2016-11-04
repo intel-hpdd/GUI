@@ -25,7 +25,7 @@ import _ from 'intel-lodash-mixins';
 export default fp.curry2(function nameSeries (seriesMap, s) {
   return s.map(function transformSeries (x) {
     return _.transform(x, function (result, value, key) {
-      var newKey = seriesMap[key] || key;
+      const newKey = seriesMap[key] || key;
       result[newKey] = value;
     });
   });

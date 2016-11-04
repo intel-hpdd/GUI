@@ -68,11 +68,19 @@
         "properties": "never"
       }
     ],
-    brace-style: [
+    "brace-style": [
       "error",
       "1tbs",
       {
         "allowSingleLine": true
+      }
+    ],
+    "no-var": "error",
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all",
+        "ignoreReadBeforeAssign": false
       }
     ]
   },

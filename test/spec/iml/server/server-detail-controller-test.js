@@ -9,7 +9,7 @@ describe('server detail controller', function () {
     $exceptionHandlerProvider.mode('log');
   }));
 
-  var $scope, serverDetailController, serverStream, alertMonitorStream,
+  let $scope, serverDetailController, serverStream, alertMonitorStream,
     jobMonitorStream, overrideActionClick, $exceptionHandler,
     networkInterfaceStream, lnetConfigurationStream,
     pacemakerConfigurationStream, corosyncConfigurationStream;
@@ -90,7 +90,7 @@ describe('server detail controller', function () {
   });
 
   describe('writing an error', function () {
-    var err;
+    let err;
 
     beforeEach(function () {
       err = new Error('boom!');

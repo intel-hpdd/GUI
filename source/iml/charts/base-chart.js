@@ -35,7 +35,7 @@ import {
 } from '../stream-when-visible/stream-when-visible.js';
 
 export default function baseChart (overrides) {
-  var defaultDirective = {
+  const defaultDirective = {
     restrict: 'E',
     require: ['^?fullScreen', '^rootPanel'],
     replace: true,
@@ -47,11 +47,11 @@ export default function baseChart (overrides) {
     link (scope, element, attrs, ctrls) {
       const [fullScreenCtrl, rootPanelCtrl] = ctrls;
 
-      var svg = d3.select(element[0].querySelector('svg'));
-      var chart = config.generateChart(nv);
+      let svg = d3.select(element[0].querySelector('svg'));
+      let chart = config.generateChart(nv);
       const render = createRenderer(svg, chart);
       const renderNoTransition = () => {
-        let oldD = chart.duration();
+        const oldD = chart.duration();
         chart.duration(0);
 
         render();
@@ -98,15 +98,15 @@ export default function baseChart (overrides) {
       render();
 
       function renderData (v) {
-        var oldData = svg.datum() || [];
+        const oldData = svg.datum() || [];
 
         // Pull the state nvd3 stores and push back to our raw val.
         oldData.forEach(function copyStateRefs (item) {
           if (Array.isArray(item))
             return;
 
-          var propsToCopy = _.omit(item, ['values', 'key']);
-          var series = _.find(v, { key: item.key });
+          const propsToCopy = _.omit(item, ['values', 'key']);
+          const series = _.find(v, { key: item.key });
 
           if (series)
             angular.extend(series, propsToCopy);
@@ -144,7 +144,7 @@ export default function baseChart (overrides) {
     }
   };
 
-  var config = {
+  const config = {
     directive: defaultDirective,
     generateChart () {
       throw new Error('config::generateChart must be overriden.');

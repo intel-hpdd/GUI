@@ -23,15 +23,15 @@ export default () => {
   'ngInject';
 
   return function (jqElement, scope, events) {
-    var deregisterEvents;
+    let deregisterEvents;
 
     function applyAnd (func) {
       return function () { scope.$apply(func); };
     }
 
     if (jqElement.is('a')) {
-      var applyAndShow = applyAnd(events.show),
-        applyAndHide = applyAnd(events.hide);
+      const applyAndShow = applyAnd(events.show);
+      const applyAndHide = applyAnd(events.hide);
 
       jqElement.on('mouseenter', applyAndShow);
       jqElement.on('mouseleave', applyAndHide);

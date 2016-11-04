@@ -25,14 +25,14 @@ import {
 } from './add-server-step.js';
 
 export default function serversToApiObjects (servers) {
-  var toPick = ['auth_type'];
+  const toPick = ['auth_type'];
 
   if (servers.auth_type === ADD_SERVER_AUTH_CHOICES.ROOT_PASSWORD)
     toPick.push('root_password');
   else if (servers.auth_type === ADD_SERVER_AUTH_CHOICES.ANOTHER_KEY)
     toPick.push('private_key', 'private_key_passphrase');
 
-  var picked = _.pick(servers, toPick);
+  const picked = _.pick(servers, toPick);
   return servers.addresses.map(function (address) {
     return _.extend({ address: address }, picked);
   });

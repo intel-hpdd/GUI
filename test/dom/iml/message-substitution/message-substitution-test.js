@@ -5,7 +5,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('message substitution component', () => {
-  var el, $scope, $compile, messageEl, template, authorization,
+  let el, $scope, $compile, messageEl, template, authorization,
     mod, groupAllowed;
 
   beforeEachAsync(async function () {
@@ -71,7 +71,7 @@ describe('message substitution component', () => {
     });
 
     describe('message', () => {
-      var links;
+      let links;
       beforeEach(() => {
         links = messageEl().querySelectorAll('a');
       });

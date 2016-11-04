@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Remote validate directive', () => {
-  var controller, formControllerSpy, $q, $scope, $element;
+  let controller, formControllerSpy, $q, $scope, $element;
 
   function createComponent (name) {
     return jasmine.createSpyObj(name, ['$setValidity']);
@@ -51,14 +51,14 @@ describe('Remote validate directive', () => {
 
   describe('controller', () => {
     it('should register components', () => {
-      var obj = {};
+      const obj = {};
       controller.registerComponent('foo', obj);
 
       expect(controller.components.foo).toBe(obj);
     });
 
     it('should get components', () => {
-      var obj = {};
+      const obj = {};
       controller.registerComponent('foo', obj);
 
       expect(controller.getComponent('foo')).toBe(obj);
@@ -70,7 +70,7 @@ describe('Remote validate directive', () => {
         foo: ['bar']
       };
 
-      var obj = createComponent('obj');
+      const obj = createComponent('obj');
       controller.registerComponent('foo', obj);
 
       controller.resetComponentsValidity();
@@ -87,7 +87,7 @@ describe('Remote validate directive', () => {
   });
 
   describe('linking function', () => {
-    var deferred;
+    let deferred;
 
     beforeEach(() => {
       deferred = $q.defer();

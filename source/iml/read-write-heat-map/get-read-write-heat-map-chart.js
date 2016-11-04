@@ -116,7 +116,7 @@ export default ($state:StateServiceT, localApply:localApplyT,
           size: 1,
           unit: '',
           toReadableType (type) {
-            var readable = type
+            const readable = type
               .split('_')
               .splice(1)
               .join(' ')
@@ -135,7 +135,7 @@ export default ($state:StateServiceT, localApply:localApplyT,
               });
 
               d3Chart.dispatch.on('click', function onClick (points) {
-                var sDate = new Date(points.current.ts);
+                let sDate = new Date(points.current.ts);
                 const eDate = ( points.next ? new Date(points.next.ts) : new Date() );
                 const dateDiff = eDate.getTime() - sDate.getTime();
 
@@ -193,7 +193,7 @@ export default ($state:StateServiceT, localApply:localApplyT,
   };
 
   function getFormatter (type) {
-    var dataType = type.split('_').pop();
+    const dataType = type.split('_').pop();
 
     if (dataType === 'bytes')
       return function (z) {

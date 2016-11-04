@@ -43,7 +43,7 @@ export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateP
                                    qsStream:qsStreamT, fsStream:fsCollStream, propagateChange:Function) {
   'ngInject';
 
-  var fsStream2;
+  let fsStream2;
 
   const hsmFs = Object.assign(this, {
     onUpdate () {
@@ -55,7 +55,7 @@ export default function HsmFsCtrl ($scope:$scopeT, $state:StateServiceT, $stateP
     }
   });
 
-  var p = propagateChange($scope, hsmFs);
+  const p = propagateChange($scope, hsmFs);
 
   p('fileSystems', fsStream());
 

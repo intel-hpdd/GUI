@@ -3,7 +3,7 @@ import _ from 'intel-lodash-mixins';
 import removeDupsBy from '../../../../source/iml/charting/remove-dups-by.js';
 
 describe('the remove dups plugin', function () {
-  var spy;
+  let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

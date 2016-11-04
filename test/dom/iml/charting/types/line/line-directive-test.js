@@ -7,7 +7,7 @@ import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('line directive', () => {
-  var chartCtrl;
+  let chartCtrl;
 
   beforeEach(module(lineModule, chartModule, ($compileProvider) => {
     $compileProvider.directive('tester', () => {
@@ -20,7 +20,7 @@ describe('line directive', () => {
     });
   }));
 
-  var $scope, el, qs;
+  let $scope, el, qs;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `
