@@ -14,15 +14,15 @@ export function getLegendFactory (d3) {
   'ngInject';
 
   return function getLegend () {
-    var colors;
-    var width = 0;
-    var height = 0;
-    var radius = 5;
-    var padding = 10;
-    var dispatch = d3.dispatch('selection');
-    var showLabels = true;
-    var mapX = fp.map(viewLens('x'));
-    var mapY = fp.map(viewLens('y'));
+    let colors;
+    let width = 0;
+    let height = 0;
+    let radius = 5;
+    let padding = 10;
+    const dispatch = d3.dispatch('selection');
+    let showLabels = true;
+    const mapX = fp.map(viewLens('x'));
+    const mapY = fp.map(viewLens('y'));
     const xScale = d3.scale.ordinal();
     const yScale = d3.scale.ordinal();
 
@@ -105,7 +105,7 @@ export function getLegendFactory (d3) {
           .on('click', function onClick () {
             const group = d3.select(this);
 
-            var selected = group.attr('data-selected') === 'true';
+            let selected = group.attr('data-selected') === 'true';
             selected = !selected;
             group.attr('data-selected', selected);
 
@@ -123,8 +123,8 @@ export function getLegendFactory (d3) {
     }
 
     function mapToCoords (groups) {
-      var pos = 0;
-      var row = 1;
+      let pos = 0;
+      let row = 1;
       const groupHeight = fp.head(groups).height;
 
       return fp.map(function mapCoordinates (curObj) {

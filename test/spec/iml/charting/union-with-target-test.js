@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('union with target', () => {
-  var socketStream, targetStream, spy, unionWithTarget;
+  let socketStream, targetStream, spy, unionWithTarget;
 
   beforeEachAsync(async function () {
     targetStream = highland();

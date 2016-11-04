@@ -1,7 +1,7 @@
 import filterModule from '../../../../source/iml/filters/filters-module';
 
 describe('pathMaxLength Filter', () => {
-  var pathMaxLengthFilter, cache;
+  let pathMaxLengthFilter, cache;
 
   beforeEach(module(filterModule));
 
@@ -13,7 +13,7 @@ describe('pathMaxLength Filter', () => {
     cache = $cacheFactory.get('pathMaxLength');
   }));
 
-  var testCases = {
+  const testCases = {
     '/yay/fun.txt': [
       { maxLength: 60, result: '/yay/fun.txt', msg: 'should leave this path alone', cached: false },
       { maxLength: 10, result: '...', msg: 'should reduce this to just ...', cached: true }
@@ -45,12 +45,12 @@ describe('pathMaxLength Filter', () => {
   Object.keys(testCases).forEach(function (path) {
 
     testCases[path].forEach(function (test) {
-      var msg = test.msg ? test.msg : `should change ${path} to ${test.result}`;
-      var cacheKey = test.maxLength + path;
+      const msg = test.msg ? test.msg : `should change ${path} to ${test.result}`;
+      const cacheKey = test.maxLength + path;
 
 
       describe('for path ' + path + ' at length ' + test.maxLength, function () {
-        var result, cachedResult;
+        let result, cachedResult;
 
         beforeEach(function () {
           result = pathMaxLengthFilter(path, test.maxLength);

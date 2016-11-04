@@ -16,7 +16,7 @@ export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
 export function AddServerStepCtrl ($scope, $stepInstance, data) {
   'ngInject';
 
-  var servers = data.servers;
+  const servers = data.servers;
 
   angular.extend(this, {
     fields: {

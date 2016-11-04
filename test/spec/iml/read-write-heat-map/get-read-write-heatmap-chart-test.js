@@ -16,9 +16,9 @@ describe('Read Write Heat Map chart', () => {
     getReadWriteHeatMapChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
     durationSubmitHandler, localApply, mod,
-    getConf, readWriteHeatMapTypes, $state;
+    getConf, $state;
 
-  readWriteHeatMapTypes = {
+  const readWriteHeatMapTypes = {
     READ_BYTES: 'stats_read_bytes',
     WRITE_BYTES: 'stats_write_bytes',
     READ_IOPS: 'stats_read_iops',
@@ -126,7 +126,7 @@ describe('Read Write Heat Map chart', () => {
         }
       }, 'readWriteHeatMapChart');
 
-      var s = chartCompiler.calls.argsFor(0)[1];
+      const s = chartCompiler.calls.argsFor(0)[1];
       s.each(() => {});
     });
 
@@ -179,7 +179,7 @@ describe('Read Write Heat Map chart', () => {
   });
 
   describe('setup', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getReadWriteHeatMapChart({
@@ -244,7 +244,7 @@ describe('Read Write Heat Map chart', () => {
     });
 
     describe('options', () => {
-      var d3Chart, axisInstance;
+      let d3Chart, axisInstance;
 
       beforeEach(() => {
         axisInstance = {
@@ -345,7 +345,7 @@ describe('Read Write Heat Map chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getReadWriteHeatMapChart({

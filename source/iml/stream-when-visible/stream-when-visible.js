@@ -29,7 +29,7 @@ export function streamWhenVisible ($document:Array<Document>,
   const doc = $document[0];
 
   return function streamWhenVisible (streamFn:() => HighlandStreamT<mixed>) {
-    var stream;
+    let stream;
 
     const visibleStream:HighlandStreamT<mixed> = highland();
 

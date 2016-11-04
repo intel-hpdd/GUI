@@ -9,7 +9,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('configure corosync', () => {
-  var s, bindings, ctrl, $scope, socketStream, mod,
+  let s, bindings, ctrl, $scope, socketStream, mod,
     alertStream, jobStream,
     socketResponse, waitForCommandCompletion, insertHelpFilter;
 

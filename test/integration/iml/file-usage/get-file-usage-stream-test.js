@@ -12,7 +12,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('file usage stream', () => {
-  var socketStream, serverStream, getServerMoment,
+  let socketStream, serverStream, getServerMoment,
     bufferDataNewerThan, getFileUsageStream, getRequestDuration;
 
   beforeEachAsync(async function () {
@@ -63,7 +63,7 @@ describe('file usage stream', () => {
 
   afterEach(resetAll);
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   beforeEach(inject(() => {
     spy = jasmine.createSpy('spy');
@@ -76,11 +76,11 @@ describe('file usage stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var fileUsageStream;
+    let fileUsageStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       fileUsageStream = getFileUsageStream('Files Used', requestDuration, buff);
 

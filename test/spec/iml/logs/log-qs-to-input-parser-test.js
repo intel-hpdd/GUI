@@ -38,13 +38,13 @@ describe('log qs to input parser test', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, function () {
-      var result = logQsToInputParser(input);
+      let result = logQsToInputParser(input);
 
       if (result instanceof Error)
         result = result.message;

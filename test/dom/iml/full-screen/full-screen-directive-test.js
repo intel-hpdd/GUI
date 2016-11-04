@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 describe('Full Screen Module', () => {
-  var $scope, $fullScreenController, fullScreenContainer,
+  let $scope, $fullScreenController, fullScreenContainer,
     button, icon, body, spy;
 
   beforeEach(module('fullScreen'));

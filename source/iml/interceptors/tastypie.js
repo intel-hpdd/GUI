@@ -6,10 +6,10 @@
 export function tastypieInterceptorFactory () {
   return {
     response (resp) {
-      var fromTastyPie = resp.data && resp.data.meta && Array.isArray(resp.data.objects);
+      const fromTastyPie = resp.data && resp.data.meta && Array.isArray(resp.data.objects);
 
       if (fromTastyPie) {
-        var temp = resp.data.objects;
+        const temp = resp.data.objects;
 
         resp.props = resp.data;
         delete resp.data.objects;

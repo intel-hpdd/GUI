@@ -5,7 +5,7 @@ import {
 
 describe('duration payload', () => {
 
-  var getServerMoment, durationPayload, payload;
+  let getServerMoment, durationPayload, payload;
 
   beforeEachAsync(async function () {
     getServerMoment = jasmine.createSpy('getServerMoment');
@@ -21,9 +21,9 @@ describe('duration payload', () => {
   beforeEach(() => {
     getServerMoment
       .and.callFake(() => {
-        var date = new Date(1460560065352);
+        let date = new Date(1460560065352);
 
-        var momentObj = {
+        const momentObj = {
           subtract: jasmine.createSpy('subtract').and.callFake(val => {
             date = new Date(date.valueOf() - val * 60 * 1000);
             return momentObj;

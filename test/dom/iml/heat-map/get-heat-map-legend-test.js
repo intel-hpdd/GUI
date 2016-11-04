@@ -5,7 +5,7 @@ describe('the heat map legend', function () {
 
   beforeEach(module('heatMap'));
 
-  var getHeatMapLegend, heatMapLegend;
+  let getHeatMapLegend, heatMapLegend;
 
   beforeEach(inject(function (_getHeatMapLegend_) {
     getHeatMapLegend = _getHeatMapLegend_;
@@ -21,7 +21,7 @@ describe('the heat map legend', function () {
     expect(heatMapLegend.destroy).toBe(_.noop);
   });
 
-  var accessors = [
+  const accessors = [
     'colorScale', 'legendScale', 'zScale',
     'formatter', 'width', 'height',
     'margin'
@@ -34,7 +34,7 @@ describe('the heat map legend', function () {
     });
 
     it('should set ' + accessor, function () {
-      var val = { foo: 'bar' };
+      const val = { foo: 'bar' };
 
       heatMapLegend[accessor](val);
 
@@ -43,7 +43,7 @@ describe('the heat map legend', function () {
   });
 
   describe('when populated', function () {
-    var d3, svg, heatMapLegendGroup, selection, setup, query, queryAll;
+    let d3, svg, heatMapLegendGroup, selection, setup, query, queryAll;
 
     beforeEach(inject(function (_d3_) {
       d3 = _d3_;
@@ -63,12 +63,12 @@ describe('the heat map legend', function () {
       query = heatMapLegendGroup.querySelector.bind(heatMapLegendGroup);
       queryAll = heatMapLegendGroup.querySelectorAll.bind(heatMapLegendGroup);
 
-      var colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
-      var color = d3.scale.linear()
+      const colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
+      const color = d3.scale.linear()
         .range(colors)
         .domain(d3.range(0, 1, 1.0 / (colors.length - 1)).concat(1));
 
-      var legend = d3.scale
+      const legend = d3.scale
         .linear()
         .domain([0, 99])
         .range([0,1]);
@@ -87,10 +87,10 @@ describe('the heat map legend', function () {
         .zScale(d3.scale.linear().range([0,1]))
         .formatter(_.identity);
 
-      var zValue = _.pluckPath('data.stats_read_bytes');
+      const zValue = _.pluckPath('data.stats_read_bytes');
 
       setup = function setup (d) {
-        var merged = _.flatten(d);
+        const merged = _.flatten(d);
 
         heatMapLegend.zScale()
           .domain(d3.extent(merged, zValue));

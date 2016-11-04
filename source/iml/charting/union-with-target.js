@@ -17,7 +17,7 @@ const adder = fp.curry2(function adder (s, x) {
 });
 
 export default function unionWithTarget (s) {
-  var targetStream = socketStream('/target', {
+  const targetStream = socketStream('/target', {
     qs: { limit: 0 },
     jsonMask: 'objects(id,name)'
   }, true)

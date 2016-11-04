@@ -3,7 +3,7 @@ import highland from 'highland';
 import HsmCtrl from '../../../../source/iml/hsm/hsm-controller';
 
 describe('HSM controller', () => {
-  var hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal,
+  let hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal,
     copytoolOperationStream, copytoolStream;
 
   beforeEach(module('hsm'));

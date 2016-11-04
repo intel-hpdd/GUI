@@ -1,7 +1,7 @@
 import disconnectModalModule from '../../../../source/iml/disconnect-modal/disconnect-modal-module.js';
 
 describe('disconnect modal', () => {
-  var $uibModal, $timeout, modal;
+  let $uibModal, $timeout, modal;
 
   beforeEach(module(disconnectModalModule, {
     windowUnload: { unloading: false }
@@ -13,7 +13,7 @@ describe('disconnect modal', () => {
     $provide.value('$uibModal', $uibModal);
   }));
 
-  var disconnectModal, windowUnload;
+  let disconnectModal, windowUnload;
 
   beforeEach(inject((_disconnectModal_, _windowUnload_, _$timeout_) => {
     disconnectModal = _disconnectModal_;

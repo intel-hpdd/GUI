@@ -9,16 +9,16 @@ export default function getTestHostStreamFactory () {
   'ngInject';
 
   return function getTestHostStream (spring, objects) {
-    var stream = spring('testHost', '/test_host', {
+    const stream = spring('testHost', '/test_host', {
       method: 'post',
       json: objects
     });
 
-    var setUiName = _.pathForEach('status', function (status) {
+    const setUiName = _.pathForEach('status', function (status) {
       status.uiName = _.apiToHuman(status.name);
     });
 
-    var s2 = stream
+    const s2 = stream
       .tap(_.fmap(setUiName))
       .map(function checkTotalValidity (resp) {
         return {

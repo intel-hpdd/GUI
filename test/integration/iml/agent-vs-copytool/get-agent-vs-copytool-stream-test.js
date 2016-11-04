@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('agent vs copytool stream', () => {
-  var getAgentVsCopytoolStream, fixtures, getRequestDuration,
+  let getAgentVsCopytoolStream, fixtures, getRequestDuration,
     socketStream, metricStream, bufferDataNewerThan;
 
   beforeEachAsync(async function () {
@@ -20,7 +20,7 @@ describe('agent vs copytool stream', () => {
       .and
       .callFake(() => (metricStream = highland()));
 
-    var getServerMoment = jasmine.createSpy('getServerMoment')
+    const getServerMoment = jasmine.createSpy('getServerMoment')
       .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
 
     const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
@@ -69,11 +69,11 @@ describe('agent vs copytool stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var agentVsCopytoolStream, spy;
+    let agentVsCopytoolStream, spy;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       agentVsCopytoolStream = getAgentVsCopytoolStream(requestDuration, buff);
 

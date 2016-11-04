@@ -9,11 +9,11 @@ import moment from 'moment';
 export default (d3) => {
   'ngInject';
 
-  var month = d3.time.format('%b %d %H:%M');
-  var day = d3.time.format('%d %H:%M:%S');
-  var hour = d3.time.format('%H:%M:%S');
+  const month = d3.time.format('%b %d %H:%M');
+  const day = d3.time.format('%d %H:%M:%S');
+  const hour = d3.time.format('%H:%M:%S');
 
-  var formatter = _.partialRight(_.compose, toMoment);
+  const formatter = _.partialRight(_.compose, toMoment);
 
   return {
     /**

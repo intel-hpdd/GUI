@@ -22,7 +22,7 @@ export function sorter () {
     controller: function ($element, $scope) {
       'ngInject';
 
-      var self = this;
+      const self = this;
 
       this._sortItems = [];
 
@@ -74,13 +74,13 @@ export function sorter () {
 
       function drop (event) {
         $scope.$apply(function () {
-          var dropNode = event.target.parentNode;
-          var container = dropNode.parentNode;
+          const dropNode = event.target.parentNode;
+          const container = dropNode.parentNode;
 
-          var dropIndex = [].indexOf.call(container.children, dropNode);
-          var dragIndex = parseInt(event.dataTransfer.getData('text'), 10);
+          const dropIndex = [].indexOf.call(container.children, dropNode);
+          const dragIndex = parseInt(event.dataTransfer.getData('text'), 10);
 
-          var dragNode = [].slice.call(container.children, dragIndex, dragIndex + 1).pop();
+          const dragNode = [].slice.call(container.children, dragIndex, dragIndex + 1).pop();
 
           if (dragIndex > dropIndex)
             container.insertBefore(dragNode, dropNode);
@@ -116,7 +116,7 @@ export function sortItem () {
     restrict: 'A',
     require: '^sorter',
     link: function link (scope, wrappedEl, attrs, sortContainerCtrl) {
-      var el = wrappedEl[0];
+      let el = wrappedEl[0];
 
       sortContainerCtrl.addSortItem(wrappedEl);
 
@@ -136,7 +136,7 @@ export function sortItem () {
       function dragStart (event) {
         sortContainerCtrl.dragStart();
 
-        var index = [].indexOf.call(event.target.parentNode.children, event.target);
+        const index = [].indexOf.call(event.target.parentNode.children, event.target);
 
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text', index.toString());

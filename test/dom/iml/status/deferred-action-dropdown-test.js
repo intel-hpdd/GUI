@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('deferred action dropdown', () => {
-  var socketStream, s, mod;
+  let socketStream, s, mod;
 
   beforeEachAsync(async function () {
     s = highland();
@@ -29,7 +29,7 @@ describe('deferred action dropdown', () => {
 
   afterEach(resetAll);
 
-  var el, $scope, qs, actionDropdown,
+  let el, $scope, qs, actionDropdown,
     dropdownButton, loadingButton,
     cleanText;
 

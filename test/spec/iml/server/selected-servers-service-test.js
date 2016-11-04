@@ -6,7 +6,7 @@ describe('selected servers service', function () {
 
   beforeEach(module(serverModule));
 
-  var selectedServers;
+  let selectedServers;
 
   beforeEach(inject(function (_selectedServers_) {
     selectedServers = _selectedServers_;
@@ -22,7 +22,7 @@ describe('selected servers service', function () {
     expect(selectedServers.servers).toEqual(jasmine.any(Object));
   });
 
-  var dataProvider = [
+  const dataProvider = [
     {
       name: 'all',
       expected: true

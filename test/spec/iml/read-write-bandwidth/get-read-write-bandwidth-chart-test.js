@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Read Write Bandwidth chart', () => {
-  var chartCompiler, getReadWriteBandwidthStream, selectStoreCount,
+  let chartCompiler, getReadWriteBandwidthStream, selectStoreCount,
     submitHandler, config1$, config2$,
     getReadWriteBandwidthChart, getStore, standardConfig,
     durationPayload, data$Fn, initStream,
@@ -107,7 +107,7 @@ describe('Read Write Bandwidth chart', () => {
         }
       }, 'readWriteBandwidthChart');
 
-      var s = chartCompiler.calls.argsFor(0)[1];
+      const s = chartCompiler.calls.argsFor(0)[1];
       s.each(() => {});
     });
 
@@ -155,7 +155,7 @@ describe('Read Write Bandwidth chart', () => {
   });
 
   describe('setup', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getReadWriteBandwidthChart({
@@ -207,7 +207,7 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     describe('chart', () => {
-      var chart;
+      let chart;
 
       beforeEach(() => {
         chart = {
@@ -253,7 +253,7 @@ describe('Read Write Bandwidth chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       getReadWriteBandwidthChart({

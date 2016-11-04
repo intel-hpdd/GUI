@@ -1,7 +1,7 @@
 import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
 
 describe('completionist', () => {
-  var completionist, completer, spy;
+  let completionist, completer, spy;
 
   beforeEach(module(completionistModule));
 

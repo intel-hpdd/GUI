@@ -4,7 +4,7 @@ import {
 } from '../../system-mock.js';
 
 describe('Get server moment', function () {
-  var getServerMoment, environment, momentInstance, moment;
+  let getServerMoment, environment, momentInstance, moment;
 
   beforeEachAsync(async function () {
     environment = {
@@ -35,7 +35,7 @@ describe('Get server moment', function () {
   });
 
   describe('invoking', () => {
-    var serverMoment;
+    let serverMoment;
     beforeEach(() => {
       serverMoment = getServerMoment();
     });
@@ -57,7 +57,7 @@ describe('Get server moment', function () {
   });
 
   it('should forward arguments to moment', function () {
-    var epochTime = new Date().valueOf();
+    const epochTime = new Date().valueOf();
 
     getServerMoment(epochTime);
 

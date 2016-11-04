@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('The memory usage stream', () => {
-  var socketStream, serverStream, getServerMoment,
+  let socketStream, serverStream, getServerMoment,
     getMemoryUsageStream, bufferDataNewerThan,
     getRequestDuration;
 
@@ -62,7 +62,7 @@ describe('The memory usage stream', () => {
 
   afterEach(resetAll);
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
@@ -75,11 +75,11 @@ describe('The memory usage stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var memoryUsageStream;
+    let memoryUsageStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       memoryUsageStream = getMemoryUsageStream(requestDuration, buff);
 

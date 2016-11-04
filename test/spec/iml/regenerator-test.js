@@ -1,7 +1,7 @@
 import regenerator from '../../../source/iml/regenerator.js';
 
 describe('Regenerator module', () => {
-  var setup, teardown, getter;
+  let setup, teardown, getter;
 
   beforeEach(() => {
     setup = jasmine.createSpy('setup').and.returnValue('setup');

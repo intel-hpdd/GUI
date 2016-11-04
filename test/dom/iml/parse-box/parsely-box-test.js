@@ -3,11 +3,11 @@ import parselyBoxModule from '../../../../source/iml/parsely-box/parsely-box-mod
 describe('parsely box', () => {
   beforeEach(module(parselyBoxModule));
 
-  var el, $scope, qs, searchButton,
+  let el, $scope, qs, searchButton,
     indicator, tooltip, form, input, completionistDropdown;
 
   beforeEach(inject(($rootScope, $compile) => {
-    var template = `
+    const template = `
 <parsely-box
   on-submit="::onSubmit(qs)"
   query="::initialQuery"
@@ -91,7 +91,7 @@ describe('parsely box', () => {
     });
 
     it('should call onSubmit when searching', () => {
-      var event = new MouseEvent('click', {
+      const event = new MouseEvent('click', {
         bubbles: true
       });
       searchButton().dispatchEvent(event);
@@ -100,7 +100,7 @@ describe('parsely box', () => {
     });
 
     it('should call onSubmit form submission', () => {
-      var event = new Event('submit', {
+      const event = new Event('submit', {
         bubbles: true
       });
 
@@ -129,7 +129,7 @@ describe('parsely box', () => {
     });
 
     it('should show the parse error', () => {
-      var value = tooltip()
+      const value = tooltip()
         .querySelector('.tooltip-inner span').innerHTML.trim();
 
       expect(value).toEqual('str was not string 1');

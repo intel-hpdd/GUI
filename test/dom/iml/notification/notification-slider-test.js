@@ -5,7 +5,7 @@ import notificationModule from '../../../../source/iml/notification/notification
 describe('The notification slider directive', function () {
   beforeEach(module(notificationModule));
 
-  var el, $scope, $timeout, findSlider;
+  let el, $scope, $timeout, findSlider;
 
   beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     const template = '<notification-slider stream="stream"></notification-slider>';
@@ -41,7 +41,7 @@ describe('The notification slider directive', function () {
     });
 
     it('should display a message', function () {
-      var text = el
+      const text = el
         .find('.notification-message h4')
         .text()
         .trim();
@@ -74,7 +74,7 @@ describe('The notification slider directive', function () {
       });
 
       it('should stay open while moused over', function () {
-        var event = new MouseEvent('mouseover', {
+        const event = new MouseEvent('mouseover', {
           clientX: 50,
           clientY: 50,
           bubbles: true
@@ -90,7 +90,7 @@ describe('The notification slider directive', function () {
       });
 
       it('should close when moused out', function () {
-        var event = new MouseEvent('mouseover', {
+        let event = new MouseEvent('mouseover', {
           clientX: 50,
           clientY: 50,
           bubbles: true
@@ -124,7 +124,7 @@ describe('The notification slider directive', function () {
     });
 
     it('should display a message', function () {
-      var text = el
+      const text = el
         .find('.notification-message h4')
         .text()
         .trim();

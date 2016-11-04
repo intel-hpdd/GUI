@@ -12,7 +12,7 @@ import chartModule from
 describe('label directive', () => {
   beforeEach(module(labelModule, chartModule));
 
-  var $scope, el, qs, label, spy;
+  let $scope, el, qs, label, spy;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `

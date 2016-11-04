@@ -8,7 +8,7 @@ import _ from 'intel-lodash-mixins';
 export function addServerStepsFactory (ADD_SERVER_STEPS, addServersStep, serverStatusStep, selectServerProfileStep) {
   'ngInject';
 
-  var steps = {};
+  const steps = {};
   steps[ADD_SERVER_STEPS.ADD] = addServersStep;
   steps[ADD_SERVER_STEPS.STATUS] = serverStatusStep;
   steps[ADD_SERVER_STEPS.SELECT_PROFILE] = selectServerProfileStep;
@@ -20,7 +20,7 @@ export function getAddServerManagerFactory (addServerSteps, stepsManager, waitUn
   'ngInject';
 
   return function getAddServerManager () {
-    var manager = stepsManager();
+    const manager = stepsManager();
 
     _.pairs(addServerSteps)
       .forEach(function addStep (pair) {

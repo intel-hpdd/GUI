@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('create or update hosts stream', function () {
-  var socketStream, CACHE_INITIAL_DATA, hostStreams,
+  let socketStream, CACHE_INITIAL_DATA, hostStreams,
     server, spy, resultStream;
 
   beforeEachAsync(async function () {
@@ -16,7 +16,7 @@ describe('create or update hosts stream', function () {
       .createSpy('socketStream')
       .and
       .callFake(() => {
-        var stream = highland();
+        const stream = highland();
 
         hostStreams.push(stream);
 
@@ -101,7 +101,7 @@ describe('create or update hosts stream', function () {
     });
 
     describe('response', () => {
-      var response;
+      let response;
 
       beforeEach(() => {
         response = {

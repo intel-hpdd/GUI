@@ -1,5 +1,5 @@
 describe('Help', function () {
-  var help;
+  let help;
 
   beforeEach(module('help', function ($provide) {
     $provide.constant('HELP_TEXT', {

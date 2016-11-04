@@ -5,7 +5,7 @@ import highland from 'highland';
 describe('App controller', () => {
   beforeEach(module(appModule));
 
-  var $scope, appController,
+  let $scope, appController,
     sessionFixture, deferred, navigate, help, ENV, GROUPS,
     alertStream, notificationStream;
 

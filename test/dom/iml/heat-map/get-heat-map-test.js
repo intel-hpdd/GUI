@@ -3,7 +3,7 @@ import _ from 'intel-lodash-mixins';
 describe('the heat map', function () {
   beforeEach(module('heatMap'));
 
-  var getHeatMap, heatMap;
+  let getHeatMap, heatMap;
 
   beforeEach(inject(function (_getHeatMap_) {
     getHeatMap = _getHeatMap_;
@@ -19,7 +19,7 @@ describe('the heat map', function () {
     expect(heatMap.destroy).toBe(_.noop);
   });
 
-  var accessors = [
+  const accessors = [
     'xValue', 'yValue', 'zValue',
     'xScale', 'yScale', 'colorScale',
     'width', 'height', 'duration'
@@ -32,7 +32,7 @@ describe('the heat map', function () {
     });
 
     it('should set ' + accessor, function () {
-      var val = { foo: 'bar' };
+      const val = { foo: 'bar' };
 
       heatMap[accessor](val);
 
@@ -41,7 +41,7 @@ describe('the heat map', function () {
   });
 
   describe('when populated', function () {
-    var d3, heatMapGroup, selection, setup, query, queryAll;
+    let d3, heatMapGroup, selection, setup, query, queryAll;
 
     beforeEach(inject(function (_d3_) {
       d3 = _d3_;
@@ -49,18 +49,18 @@ describe('the heat map', function () {
       heatMapGroup = document.createElement('g');
       selection = d3.select(heatMapGroup);
 
-      var svg = document.createElement('svg');
+      const svg = document.createElement('svg');
       svg.appendChild(heatMapGroup);
 
       query = heatMapGroup.querySelector.bind(heatMapGroup);
       queryAll = heatMapGroup.querySelectorAll.bind(heatMapGroup);
 
-      var colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
-      var color = d3.scale.linear()
+      const colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
+      const color = d3.scale.linear()
         .range(colors)
         .domain(d3.range(0, 1, 1.0 / (colors.length - 1)).concat(1));
 
-      var zValue = _.pluckPath('data.stats_read_bytes');
+      const zValue = _.pluckPath('data.stats_read_bytes');
 
       heatMap
         .width(500)
@@ -78,8 +78,8 @@ describe('the heat map', function () {
       }
 
       setup = function setup (d) {
-        var merged = _.flatten(d);
-        var keys = _(merged)
+        const merged = _.flatten(d);
+        const keys = _(merged)
           .pluck('id')
           .uniq()
           .value();

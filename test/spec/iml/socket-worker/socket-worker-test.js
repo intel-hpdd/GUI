@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('socket worker', () => {
-  var worker, getWebWorker, arg0Eq, getArg1,
+  let worker, getWebWorker, arg0Eq, getArg1,
     STATIC_URL, socketWorker, disconnectListener;
 
   beforeEachAsync(async function () {
@@ -76,7 +76,7 @@ describe('socket worker', () => {
   });
 
   describe('message handling', () => {
-    var handler;
+    let handler;
 
     beforeEach(() => {
       const getMessage = fp.flow(
@@ -88,7 +88,7 @@ describe('socket worker', () => {
     });
 
     describe('reconnecting', () => {
-      var ev;
+      let ev;
 
       beforeEach(() => {
         ev = {
@@ -105,7 +105,7 @@ describe('socket worker', () => {
     });
 
     describe('reconnect', () => {
-      var ev;
+      let ev;
 
       beforeEach(() => {
         ev = {

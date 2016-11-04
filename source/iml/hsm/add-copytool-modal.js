@@ -16,7 +16,7 @@ import addCopytoolModalTemplate from './assets/html/add-copytool-modal.html!text
 export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, fsStream) {
   'ngInject';
 
-  var addCopytoolModalCtrl = this;
+  const addCopytoolModalCtrl = this;
 
   angular.extend(addCopytoolModalCtrl, {
     inProgress: false,
@@ -34,7 +34,7 @@ export function AddCopytoolModalCtrl ($scope, $uibModalInstance, workerStream, f
     }
   });
 
-  var s = fsStream
+  let s = fsStream
     .pluck('objects');
   $scope.propagateChange($scope, addCopytoolModalCtrl, 'filesystems', s);
 

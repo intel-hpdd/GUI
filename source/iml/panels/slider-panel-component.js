@@ -10,7 +10,7 @@ import global from '../global.js';
 export function Controller () {
   'ngInject';
 
-  var onMove = (ev:MouseEvent) => {
+  const onMove = (ev:MouseEvent) => {
     this.rootPanel.onChange(ev.clientX);
   };
 
@@ -20,7 +20,7 @@ export function Controller () {
     global.document.addEventListener('mouseup', onUp);
   };
 
-  var onUp = () => {
+  const onUp = () => {
     this.rootPanel.setInactive();
     global.document.removeEventListener('mousemove', onMove);
     global.document.removeEventListener('mouseup', onUp);

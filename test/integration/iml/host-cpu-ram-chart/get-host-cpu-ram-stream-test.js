@@ -11,7 +11,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('The host cpu ram stream', () => {
-  var socketStream, serverStream, bufferDataNewerThan,
+  let socketStream, serverStream, bufferDataNewerThan,
     getServerMoment, getHostCpuRamStream,
     getRequestDuration;
 
@@ -61,7 +61,7 @@ describe('The host cpu ram stream', () => {
     jasmine.clock().uninstall();
   });
 
-  var fixtures, spy;
+  let fixtures, spy;
 
   afterEach(resetAll);
 
@@ -76,11 +76,11 @@ describe('The host cpu ram stream', () => {
   });
 
   describe('fetching 10 minutes ago', () => {
-    var hostCpuRamStream;
+    let hostCpuRamStream;
 
     beforeEach(() => {
-      var buff = bufferDataNewerThan(10, 'minutes');
-      var requestDuration = getRequestDuration({}, 10, 'minutes');
+      const buff = bufferDataNewerThan(10, 'minutes');
+      const requestDuration = getRequestDuration({}, 10, 'minutes');
 
       hostCpuRamStream = getHostCpuRamStream(requestDuration, buff);
 

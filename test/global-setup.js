@@ -189,7 +189,7 @@ window.convertNvDates = function convertNvDates (s) {
 };
 
 window.flushD3Transitions = function flushD3Transitions () {
-  var now = Date.now;
+  const now = Date.now;
   Date.now = function () {
     return Infinity;
   };

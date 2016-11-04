@@ -2,7 +2,7 @@ import navigateModule from '../../../../source/iml/navigate/navigate-module';
 
 
 describe('navigate', () => {
-  var $window;
+  let $window;
 
   beforeEach(module(navigateModule, {UI_ROOT: '/root/of/app/'}, ($provide) => {
     $window = {
@@ -14,7 +14,7 @@ describe('navigate', () => {
     $provide.value('$window', $window);
   }));
 
-  var navigate, UI_ROOT;
+  let navigate, UI_ROOT;
 
   beforeEach(inject((_navigate_, _UI_ROOT_) => {
     navigate = _navigate_;
@@ -28,7 +28,7 @@ describe('navigate', () => {
   });
 
   it('should concatenate the part with the ui root', () => {
-    var part = 'foo';
+    const part = 'foo';
 
     navigate(part);
 

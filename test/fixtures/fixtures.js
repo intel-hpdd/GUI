@@ -68,7 +68,7 @@ export default angular.module('fixtures', [])
 .service('fixtures', function () {
   'use strict';
 
-  var fixtures = {};
+  const fixtures = {};
 
   this.registerFixture = function registerFixture (name, status, data, headers) {
     if (_.isPlainObject(status)) {
@@ -76,11 +76,11 @@ export default angular.module('fixtures', [])
       status = 200;
     }
 
-    var fixture = {
+    const fixture = {
       status: status,
       data: data,
       toArray: function () {
-        var out = [this.status, this.data];
+        const out = [this.status, this.data];
 
         if (this.headers)
           out.push(this.headers);
@@ -92,7 +92,7 @@ export default angular.module('fixtures', [])
     if (headers)
       fixture.headers = headers;
 
-    var group = fixtures[name] = fixtures[name] || [];
+    const group = fixtures[name] = fixtures[name] || [];
 
     group.push(fixture);
 
@@ -107,15 +107,15 @@ export default angular.module('fixtures', [])
   };
 
   this.getFixtures = function (name, filter) {
-    var group = fixtures[name] || [];
+    const group = fixtures[name] || [];
 
     return group.filter(filter);
   };
 
   this.getFixture = function (name, filter) {
-    var group = fixtures[name] || [];
+    const group = fixtures[name] || [];
 
-    var fixture = group.filter(filter)[0];
+    const fixture = group.filter(filter)[0];
 
     if (!fixture)
       throw new Error(`No matching fixtures found under ${name}!`);

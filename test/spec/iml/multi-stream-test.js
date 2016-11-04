@@ -3,7 +3,7 @@ import highland from 'highland';
 import multiStream from '../../../source/iml/multi-stream.js';
 
 describe('multi stream', () => {
-  var spy, errSpy, s1, s2, ms;
+  let spy, errSpy, s1, s2, ms;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

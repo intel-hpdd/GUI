@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get copytool operation stream', () => {
-  var socketStream, stream, getCopytoolOperationStream;
+  let socketStream, stream, getCopytoolOperationStream;
 
   beforeEachAsync(async function () {
     stream = highland();
@@ -47,11 +47,11 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   describe('computed values', () => {
-    var result;
+    let result;
 
     beforeEach(() => {
-      var date = new Date();
-      var data = {
+      const date = new Date();
+      const data = {
         objects: [{
           processed_bytes: 12345,
           total_bytes: 67890,
@@ -75,7 +75,7 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   describe('handling bad inputs', () => {
-    var result;
+    let result;
 
     beforeEach(() => {
       result = getCopytoolOperationStream();
@@ -103,7 +103,7 @@ updated_at,started_at,throughput,type,state,path,description)',
     });
 
     it('should return 0 for throughput when elapsed time is < 1 second', () => {
-      var date = new Date().toISOString();
+      const date = new Date().toISOString();
       stream.write({
         objects: [
           {
@@ -116,7 +116,7 @@ updated_at,started_at,throughput,type,state,path,description)',
     });
 
     it('should return 0 when computed throughput is NaN', () => {
-      var date = new Date();
+      const date = new Date();
       stream.write({
         objects: [
           {

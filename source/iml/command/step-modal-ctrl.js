@@ -36,7 +36,7 @@ export function StepModalCtrl ($scope, stepsStream, jobStream) {
   $scope.$on('$destroy', jobStream.destroy.bind(jobStream));
   $scope.$on('$destroy', stepsStream.destroy.bind(stepsStream));
 
-  var p = $scope.propagateChange($scope, this);
+  const p = $scope.propagateChange($scope, this);
 
   p('job', jobStream);
   p('steps', stepsStream);
@@ -45,15 +45,15 @@ export function StepModalCtrl ($scope, stepsStream, jobStream) {
 export function openStepModalFactory ($uibModal) {
   'ngInject';
 
-  var extractApiId = fp.map(
+  const extractApiId = fp.map(
     fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1'])
   );
 
   return function openStepModal (job) {
-    var jobStream = socketStream('/job/' + job.id);
+    const jobStream = socketStream('/job/' + job.id);
     jobStream.write(job);
 
-    var s2 = jobStream.fork();
+    const s2 = jobStream.fork();
     s2.destroy = jobStream.destroy.bind(jobStream);
 
     return $uibModal.open({

@@ -1,7 +1,7 @@
 import resettableGroupModule from '../../../../source/iml/resettable-group/resettable-group-module.js';
 
 describe('resettable group', () => {
-  var $scope, qs, el, entry1, entry2, month, yourName, yourEmail, resetButton;
+  let $scope, qs, el, entry1, entry2, month, yourName, yourEmail, resetButton;
 
   beforeEach(module(resettableGroupModule));
 

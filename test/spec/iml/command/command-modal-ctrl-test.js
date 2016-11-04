@@ -68,7 +68,7 @@ describe('command modal', () => {
   });
 
   describe('ctrl', () => {
-    var commandsStream, commandModal;
+    let commandsStream, commandModal;
 
     beforeEach(inject(($rootScope, propagateChange) => {
       commandsStream = highland();
@@ -99,7 +99,7 @@ describe('command modal', () => {
       it(`should be in state ${state}`, () => {
         commandsStream.write(wrap(states[state]));
 
-        var expected = Object.assign({
+        const expected = Object.assign({
           state: state,
           jobs: []
         }, states[state]);
@@ -122,7 +122,7 @@ describe('command modal', () => {
     });
 
     function wrap () {
-      var commands = [].slice.call(arguments, 0);
+      const commands = [].slice.call(arguments, 0);
 
       return commands.map((command, index) => {
         return Object.assign({

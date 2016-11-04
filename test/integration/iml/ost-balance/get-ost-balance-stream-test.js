@@ -61,7 +61,7 @@ describe('get OST balance stream', () => {
   });
 
   describe('fetching metrics', () => {
-    var spy, ostBalanceStream;
+    let spy, ostBalanceStream;
 
     beforeEach(() => {
       spy = jasmine.createSpy('spy');
@@ -124,7 +124,7 @@ describe('get OST balance stream', () => {
       });
 
       it('should return computed data', () => {
-        var out = clone(fixtures[0].out);
+        const out = clone(fixtures[0].out);
 
         fp.map(fp.flow(
           fp.view(fp.lensProp('values')),
@@ -137,7 +137,7 @@ describe('get OST balance stream', () => {
     });
 
     describe('fetching with matching targets', () => {
-      var ostBalanceStream;
+      let ostBalanceStream;
 
       beforeEach(() => {
         ostBalanceStream = getOstBalanceStream(0, {});
@@ -178,7 +178,7 @@ describe('get OST balance stream', () => {
         const xProp = fp.view(fp.lensProp('x'));
         const eqXProp = fp.eqFn(fp.identity, xProp);
 
-        var setTargetName = fp.cond(
+        const setTargetName = fp.cond(
           [eqXProp('18'), xs => xs.x = 'OST001'],
           [eqXProp('19'), xs => xs.x = 'OST002']
         );

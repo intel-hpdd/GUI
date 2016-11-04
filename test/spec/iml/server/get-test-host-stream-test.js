@@ -4,7 +4,7 @@ import highland from 'highland';
 describe('get test host stream', () => {
   beforeEach(module(serverModule));
 
-  var getTestHostStream, testHostStream, spring, stream, data;
+  let getTestHostStream, testHostStream, spring, stream, data;
 
   beforeEach(inject(function (λ, _getTestHostStream_) {
     stream = λ();
@@ -37,7 +37,7 @@ describe('get test host stream', () => {
   });
 
   it('should return a stream', function () {
-    var proto = Object.getPrototypeOf(highland());
+    const proto = Object.getPrototypeOf(highland());
 
     expect(Object.getPrototypeOf(testHostStream)).toBe(proto);
   });

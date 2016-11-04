@@ -12,11 +12,11 @@ import type {
 type streamToVoid = (x:HighlandStreamT<mixed>) => void;
 
 export default (setup:Function, teardown:streamToVoid) => {
-  var cache:Object = {};
+  const cache:Object = {};
 
-  var getter = function get () {
-    var args = [].slice.call(arguments, 0);
-    var key = args.shift();
+  const getter = function get () {
+    const args = [].slice.call(arguments, 0);
+    const key = args.shift();
 
     if (cache[key]) {
       teardown(cache[key]);

@@ -2,7 +2,7 @@ import highland from 'highland';
 import removeDups from '../../../../source/iml/charting/remove-dups.js';
 
 describe('the remove dups plugin', function () {
-  var spy;
+  let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');

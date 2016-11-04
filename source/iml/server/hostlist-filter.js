@@ -8,17 +8,17 @@ import _ from 'intel-lodash-mixins';
 export default function hostlistFilterFactory (pdshFilter, naturalSortFilter) {
   'ngInject';
 
-  var getter = _.property('address');
-  var state = {
+  const getter = _.property('address');
+  const state = {
     hosts: null,
     hash: null,
     fuzzy: null,
     reverse: null
   };
 
-  var hostlistFilter = {
+  const hostlistFilter = {
     compute: function compute () {
-      var pdshFilterResults = pdshFilter(state.hosts, state.hash, getter, state.fuzzy);
+      const pdshFilterResults = pdshFilter(state.hosts, state.hash, getter, state.fuzzy);
       return naturalSortFilter(pdshFilterResults, getter, state.reverse);
     }
   };

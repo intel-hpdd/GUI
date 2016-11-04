@@ -70,7 +70,7 @@ const Controller = class {
     };
 
     const createBreadcrumb = (node:routeStateT, resolvedData:breadcrumbDataT):breadcrumbT => {
-      let data = Object.assign({}, resolvedData, node.data);
+      const data = Object.assign({}, resolvedData, node.data);
 
       return {
         icon: data.icon,
@@ -84,8 +84,8 @@ const Controller = class {
     };
 
     const updateStack = (route:routeStateT, resolvedData:breadcrumbDataT) => {
-      let breadcrumb = createBreadcrumb(route, resolvedData);
-      let stackIdx = nodeStackLocation(breadcrumb.kind);
+      const breadcrumb = createBreadcrumb(route, resolvedData);
+      const stackIdx = nodeStackLocation(breadcrumb.kind);
 
       if ($stateParams.resetState || this.poppedStateEvent === true && stackIdx === -1)
         this.stack.length = 0;

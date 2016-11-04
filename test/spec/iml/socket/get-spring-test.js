@@ -5,7 +5,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('spring module', () => {
-  var regenerator, socketStream, getSpring, s;
+  let regenerator, socketStream, getSpring, s;
 
   beforeEachAsync(async function () {
     s = highland();

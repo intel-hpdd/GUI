@@ -5,7 +5,7 @@ import {
 
 describe('duration submit handler', () => {
 
-  var getStore, durationSubmitter, mod;
+  let getStore, durationSubmitter, mod;
   beforeEachAsync(async function () {
     getStore = {
       dispatch: jasmine.createSpy('dispatch')

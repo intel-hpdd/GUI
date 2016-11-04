@@ -123,7 +123,7 @@ describe('base dashboard resolves', () => {
     });
 
     describe('with fs id', () => {
-      var promise;
+      let promise;
 
       beforeEach(() => {
         $stateParams.id = '1';

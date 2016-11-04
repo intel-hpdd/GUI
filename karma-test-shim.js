@@ -8,7 +8,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 5001;
 // // we will call `__karma__.start()` later, once all the specs are loaded.
 window.__karma__.loaded = function () {};
 
-var testFiles = Object.keys(window.__karma__.files)
+const testFiles = Object.keys(window.__karma__.files)
   .filter(f => /\/.+-test\.(js|json)$/.test(f))
   .map(f => f.replace(/^\//, ''))
   .map(f => f.replace(/^base\/dest\//, ''));

@@ -83,7 +83,7 @@ describe('status states', () => {
     });
 
     describe('resolve', () => {
-      var qsFromLocation, $stateParams, log$;
+      let qsFromLocation, $stateParams, log$;
 
       beforeEach(() => {
         resolveStream

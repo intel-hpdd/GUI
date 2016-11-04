@@ -6,8 +6,9 @@ import {
 } from '../../../system-mock.js';
 
 describe('authorization', () => {
-  var data, mod;
-  data = [
+  let mod;
+
+  const data = [
     {
       sessionGroups: [{name: 'superusers'}],
       group: 'superusers',
@@ -85,7 +86,7 @@ describe('authorization', () => {
   data.forEach(function (test) {
     describe('module', function () {
       beforeEachAsync(async function () {
-        var CACHE_INITIAL_DATA = {
+        const CACHE_INITIAL_DATA = {
           session: {
             read_enabled: true,
             user: {
@@ -107,12 +108,12 @@ describe('authorization', () => {
         $compileProvider.directive('restrictTo', mod.restrictTo);
       }));
 
-      var $scope, genRestrictTo, genRestrict;
+      let $scope, genRestrictTo, genRestrict;
 
       beforeEach(inject(function ($compile, $rootScope) {
         $scope = $rootScope.$new();
 
-        var template = fp.curry2(function template (attr, val) {
+        const template = fp.curry2(function template (attr, val) {
           const str = `<div ${attr}="${val}"></div>`;
           return $compile(str)($scope);
         });
@@ -122,7 +123,7 @@ describe('authorization', () => {
       }));
 
       describe('directive', function () {
-        var el;
+        let el;
 
         describe('of type restrictTo', function () {
           beforeEach(function () {

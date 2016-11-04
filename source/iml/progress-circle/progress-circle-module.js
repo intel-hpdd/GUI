@@ -20,40 +20,39 @@ export default angular.module('progressCircleModule', [
     restrict: 'E',
     template: '<div class="progress-circle"><svg></svg></div>',
     link: function (scope, element) {
-      var diameter = scope.radius * 2,
-        innerCircleRadius = scope.radius - (scope.radius / 8);
+      const diameter = scope.radius * 2;
+      const innerCircleRadius = scope.radius - (scope.radius / 8);
 
       element.css({width: diameter, height: diameter});
 
-      var svg = d3.select(element.find('svg')[0])
+      const svg = d3.select(element.find('svg')[0])
         .attr('width', diameter)
         .attr('height', diameter)
         .append('g')
         .attr('transform', 'translate(' + scope.radius + ',' + scope.radius + ')');
 
-      var circle = svg.append('circle')
+      const circle = svg.append('circle')
         .attr('r', 0);
 
       circle
         .transition(500)
         .attr('r', innerCircleRadius);
 
-      var pie = d3.layout.pie()
+      const pie = d3.layout.pie()
         .value(function (d) { return d.value; })
         .sort(d3.ascending);
 
-      var arc = d3.svg.arc()
+      const arc = d3.svg.arc()
         .outerRadius(scope.radius)
         .innerRadius(innerCircleRadius);
 
-      var values = ['elapsed', 'remaining'],
-        color = d3.scale.ordinal()
-          .domain(values)
-          .range(values);
+      const values = ['elapsed', 'remaining'];
+      const color = d3.scale.ordinal()
+        .domain(values)
+        .range(values);
 
       function arcTween (a) {
-        /*jshint validthis:true */
-        var i = d3.interpolate(this.current, a);
+        const i = d3.interpolate(this.current, a);
         this.current = i(0);
         return function getArc (t) { return arc(i(t)); };
       }
@@ -74,13 +73,13 @@ export default angular.module('progressCircleModule', [
         if (complete < 0 || complete > 100)
           throw new Error(`Complete not between 0 and 100 inclusive! Got ${complete}`);
 
-        var slices = d3.entries({
+        const slices = d3.entries({
           elapsed: complete,
           remaining: 100 - complete
         });
 
         // Text: data join
-        var text = svg.selectAll('text').data([complete]);
+        const text = svg.selectAll('text').data([complete]);
 
         // Text: enter
         text.enter()
@@ -91,19 +90,19 @@ export default angular.module('progressCircleModule', [
         text
           .text(function (d) { return d + '%'; })
           .attr('x', function () {
-            var rect = this.getBoundingClientRect();
+            const rect = this.getBoundingClientRect();
 
             return -1 * (rect.width / 2);
           })
           .attr('y', function () {
-            var rect = this.getBoundingClientRect();
+            const rect = this.getBoundingClientRect();
 
             return (scope.radius - rect.height) / 2;
           });
 
 
         // Path: data join
-        var path = svg.selectAll('path').data(pie(slices));
+        const path = svg.selectAll('path').data(pie(slices));
 
         // Path: update
         path.transition()

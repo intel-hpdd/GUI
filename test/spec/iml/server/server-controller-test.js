@@ -9,7 +9,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('server', () => {
-  var $scope, pdshFilter, naturalSortFilter,
+  let $scope, pdshFilter, naturalSortFilter,
     server, $uibModal, serversStream, openCommandModal,
     selectedServers, serverActions, jobMonitorStream,
     alertMonitorStream, lnetConfigurationStream, openAddServerModal,
@@ -124,7 +124,7 @@ describe('server', () => {
     server = $scope.server;
   }));
 
-  var expectedProperties = {
+  const expectedProperties = {
     maxSize: 10,
     itemsPerPage: 10,
     currentPage: 1,
@@ -154,9 +154,9 @@ describe('server', () => {
   });
 
   it('should transform a stream', () => {
-    var spy = jasmine.createSpy('spy');
+    const spy = jasmine.createSpy('spy');
 
-    var s = highland([[
+    const s = highland([[
       {
         host: '/api/host/2/'
       },
@@ -196,7 +196,7 @@ describe('server', () => {
     });
 
     it('should return the host name from getHostPath', () => {
-      var hostname = server.getHostPath({ address: 'hostname1.localdomain' });
+      const hostname = server.getHostPath({ address: 'hostname1.localdomain' });
       expect(hostname).toEqual('hostname1.localdomain');
     });
 
@@ -221,7 +221,7 @@ describe('server', () => {
     });
 
     describe('calling getTotalItems', () => {
-      var result;
+      let result;
       beforeEach(() => {
         server.hostnamesHash = {
           hostname1: 1
@@ -269,7 +269,7 @@ describe('server', () => {
     });
 
     describe('running an action', () => {
-      var handler;
+      let handler;
 
       beforeEach(() => {
         selectedServers.servers = {
@@ -336,7 +336,7 @@ describe('server', () => {
 
   describe('destroy', () => {
     beforeEach(() => {
-      var handler = $scope.$on.calls.mostRecent().args[1];
+      const handler = $scope.$on.calls.mostRecent().args[1];
       handler();
     });
 

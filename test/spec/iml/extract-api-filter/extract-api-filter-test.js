@@ -1,7 +1,7 @@
 import extractApiFilterModule from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
 
 describe('extract api filter', () => {
-  var extractApiFilter;
+  let extractApiFilter;
 
   beforeEach(module(extractApiFilterModule));
 

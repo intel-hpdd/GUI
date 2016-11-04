@@ -13,7 +13,7 @@ import chartModule from
 describe('axis directive', () => {
   beforeEach(module(axisModule, chartModule));
 
-  var $scope, el, qs, axis;
+  let $scope, el, qs, axis;
 
   beforeEach(inject(($rootScope, $compile) => {
     const template = `

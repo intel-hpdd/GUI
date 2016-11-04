@@ -69,13 +69,13 @@ describe('completer', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it(`should parse ${input || 'empty input'}`, () => {
-      var result = statusCompleter(input);
+      let result = statusCompleter(input);
 
       if (result instanceof Error)
         result = result.message;

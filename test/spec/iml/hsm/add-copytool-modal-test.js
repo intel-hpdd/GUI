@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('Add copytool modal', () => {
-  var $scope, addCopytoolModalCtrl, s, AddCopytoolModalCtrl, mod,
+  let $scope, addCopytoolModalCtrl, s, AddCopytoolModalCtrl, mod,
     $uibModalInstance, socketStream, workerStream, fsStream, resolveStream;
 
   beforeEachAsync(async function () {
@@ -86,7 +86,7 @@ describe('Add copytool modal', () => {
     });
 
     describe('submit copytool', () => {
-      var copytool;
+      let copytool;
 
       beforeEach(() => {
         copytool = {};
@@ -111,7 +111,7 @@ describe('Add copytool modal', () => {
   });
 
   describe('open', () => {
-    var $uibModal, openResult, result;
+    let $uibModal, openResult, result;
 
     beforeEach(() => {
 
@@ -144,7 +144,7 @@ describe('Add copytool modal', () => {
     });
 
     describe('resolving deps', () => {
-      var getResolve, s, rs;
+      let getResolve, s, rs;
 
       beforeEach(() => {
         s = {};
@@ -159,7 +159,7 @@ describe('Add copytool modal', () => {
       });
 
       describe('fs stream', () => {
-        var result;
+        let result;
 
         beforeEach(() => {
           result = getResolve('fsStream')(resolveStream, socketStream);
@@ -181,7 +181,7 @@ describe('Add copytool modal', () => {
       });
 
       describe('worker stream', () => {
-        var result;
+        let result;
 
         beforeEach(() => {
           result = getResolve('workerStream')(resolveStream, socketStream);

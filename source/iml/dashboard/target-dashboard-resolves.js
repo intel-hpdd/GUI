@@ -28,17 +28,17 @@ export function targetDashboardResolves (
 ) {
   'ngInject';
 
-  var id = $stateParams.id;
+  const id = $stateParams.id;
   const page = `target${id}`;
-  var kind = $stateParams.kind;
+  const kind = $stateParams.kind;
 
-  var qs = {
+  const qs = {
     qs: {
       id: id
     }
   };
 
-  var title, key, chart;
+  let title, key, chart;
 
   switch (kind) {
   case 'MDT':

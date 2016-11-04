@@ -56,9 +56,9 @@ describe('Login Controller', () => {
         };
 
         $uibModal.open = jasmine.createSpy('open').and.callFake((options) => {
-          var modalResult = $q.defer();
+          const modalResult = $q.defer();
 
-          var modalInstance = {
+          const modalInstance = {
             close: jasmine.createSpy('close').and.callFake((result) => {
               modalResult.resolve(result);
             }),
@@ -79,7 +79,7 @@ describe('Login Controller', () => {
     });
   }));
 
-  var loginController, $httpBackend, sessionFixture, sessionFixtures, $rootScope;
+  let loginController, $httpBackend, sessionFixture, sessionFixtures, $rootScope;
 
   beforeEach(inject(($controller, _$httpBackend_, _$rootScope_, fixtures) => {
     $httpBackend = _$httpBackend_;
@@ -115,7 +115,7 @@ describe('Login Controller', () => {
   });
 
   describe('authenticated user', () => {
-    var credentials = {
+    const credentials = {
       username: 'foo',
       password: 'bar'
     };
@@ -180,7 +180,7 @@ describe('Login Controller', () => {
 
   describe('unauthenticated user', () => {
     beforeEach(() => {
-      var failedAuth = sessionFixtures.getFixture((fixture) => {
+      const failedAuth = sessionFixtures.getFixture((fixture) => {
         return fixture.status === 400;
       });
 
@@ -191,7 +191,7 @@ describe('Login Controller', () => {
     });
 
     it('should have a rejected promise', () => {
-      var err = jasmine.createSpy('err');
+      const err = jasmine.createSpy('err');
 
       loginController.validate.catch(err);
 
@@ -212,7 +212,7 @@ describe('Login Controller', () => {
 
   describe('non-superuser', () => {
     beforeEach(() => {
-      var adminSession = sessionFixtures.getFixture((fixture) => {
+      const adminSession = sessionFixtures.getFixture((fixture) => {
         return fixture.data.user && fixture.data.user.username === 'admin';
       });
 

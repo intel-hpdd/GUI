@@ -4,7 +4,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get store', () => {
-  var targetReducer, createStore, store,
+  let targetReducer, createStore, store,
     alertIndicatorReducer, readWriteBandwidthChartReducer,
     jobIndicatorReducer, serverReducer,
     lnetConfigurationReducer, treeReducer,
@@ -44,7 +44,7 @@ describe('get store', () => {
     userReducer = {};
     jobStatsReducer = {};
 
-    let storeModule = await mock('source/iml/store/get-store.js', {
+    const storeModule = await mock('source/iml/store/get-store.js', {
       'source/iml/target/target-reducer.js': { default: targetReducer },
       'source/iml/alert-indicator/alert-indicator-reducer.js': { default: alertIndicatorReducer },
       'source/iml/job-indicator/job-indicator-reducer.js': { default: jobIndicatorReducer },

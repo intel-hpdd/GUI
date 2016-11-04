@@ -5,12 +5,12 @@ import asValueModule from '../../../../source/iml/as-value/as-value-module';
 describe('As value', () => {
   beforeEach(module(asValueModule));
 
-  var $compile, $scope, el, s, getText;
+  let $compile, $scope, el, s, getText;
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     $compile = _$compile_;
 
-    var template = '<div as-value stream="stream">\
+    const template = '<div as-value stream="stream">\
       <span class="num" >{{ curr.val }}</span>\
     </div>';
 
@@ -27,7 +27,7 @@ describe('As value', () => {
     el = $compile(template)($scope);
     $scope.$digest();
 
-    var find = el[0].querySelector.bind(el[0]);
+    const find = el[0].querySelector.bind(el[0]);
     getText = fp.flow(
       find,
       fp.view(fp.lensProp('textContent')));

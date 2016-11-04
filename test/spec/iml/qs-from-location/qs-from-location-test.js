@@ -14,7 +14,7 @@ describe('qs from location', () => {
 
   beforeEach(() => {
     format = jasmine.createSpy('format');
-    let state = {
+    const state = {
       router: {
         urlMatcherFactory: {
           paramTypes: 'paramTypes',
@@ -40,7 +40,7 @@ describe('qs from location', () => {
   });
 
   describe('with valid params', () => {
-    var result;
+    let result;
     beforeEach(() => {
       format.and.returnValue('/status?severity=info&record_type=active');
 

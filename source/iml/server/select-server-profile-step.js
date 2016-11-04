@@ -62,7 +62,7 @@ export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHa
     }
   });
 
-  var selectServerProfileStep = this;
+  const selectServerProfileStep = this;
 
   hostProfileStream.tap(function (profiles) {
     profiles.sort(function sortProfiles (a, b) {
@@ -78,7 +78,7 @@ export function SelectServerProfileStepCtrl ($scope, $stepInstance, $exceptionHa
 
     // Avoid a stale reference here by
     // pulling off the new value if we already have a profile.
-    var profile = selectServerProfileStep.profile;
+    const profile = selectServerProfileStep.profile;
     selectServerProfileStep.profile = (
       profile ?
         _.find(profiles, { name: profile.name }) :
@@ -104,7 +104,7 @@ export function selectServerProfileStep () {
     ) {
       'ngInject';
 
-      var getProfiles = _.partial(getHostProfiles, data.spring);
+      const getProfiles = _.partial(getHostProfiles, data.spring);
 
       const waitForCommand = fp.flow(
         fp.map(

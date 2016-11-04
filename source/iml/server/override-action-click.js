@@ -7,12 +7,12 @@ export default function overrideActionClickFactory (ADD_SERVER_STEPS, openAddSer
   'ngInject';
 
   return function overrideActionClick (record, action) {
-    var notRemoving = (action.state && action.state !== 'removed') && action.verb !== 'Force Remove';
-    var openForDeploy = record.state === 'undeployed';
-    var openForConfigure = (record.server_profile && record.server_profile.initial_state === 'unconfigured');
+    const notRemoving = (action.state && action.state !== 'removed') && action.verb !== 'Force Remove';
+    const openForDeploy = record.state === 'undeployed';
+    const openForConfigure = (record.server_profile && record.server_profile.initial_state === 'unconfigured');
 
     if ((openForDeploy || openForConfigure) && notRemoving) {
-      var step;
+      let step;
       if (record.install_method !== 'existing_keys_choice')
         step = ADD_SERVER_STEPS.ADD;
       else if (openForDeploy)

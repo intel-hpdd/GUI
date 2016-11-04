@@ -9,13 +9,13 @@ import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-var objectsLens = viewLens('objects');
+const objectsLens = viewLens('objects');
 
 export function getHostProfilesFactory (CACHE_INITIAL_DATA) {
   'ngInject';
 
   return function getHostProfiles (spring, hosts) {
-    var stream = spring('hostProfile', '/host_profile', {
+    const stream = spring('hostProfile', '/host_profile', {
       qs: {
         id__in: _.pluck(hosts, 'id'),
         server_profile__user_selectable: true,
@@ -33,15 +33,15 @@ export function getHostProfilesFactory (CACHE_INITIAL_DATA) {
       .filter(fp.every(viewLens('profiles_valid')))
       .map(function (hosts) {
         // Pull out the profiles and flatten them.
-        var profiles = [{}]
+        const profiles = [{}]
           .concat(_.pluck(hosts, 'profiles'))
           .concat(function concatArrays (a, b) {
             return _.isArray(a) ? a.concat(b) : undefined;
           });
-        var merged = _.merge.apply(_, profiles);
+        const merged = _.merge.apply(_, profiles);
 
         return Object.keys(merged).reduce(function buildStructure (arr, profileName) {
-          var item = {
+          const item = {
             name: profileName,
             uiName: _.find(CACHE_INITIAL_DATA.server_profile, { name: profileName }).ui_name,
             invalid: merged[profileName].some(didProfileFail)
@@ -74,7 +74,7 @@ export function createHostProfilesFactory (waitForCommandCompletion) {
   'ngInject';
 
   return function createHostProfiles (profile, showCommands) {
-    var findInProfiles = _.findInCollection(['address'], profile.hosts);
+    const findInProfiles = _.findInCollection(['address'], profile.hosts);
 
     return socketStream('/host', {
       jsonMask: 'objects(id,address,server_profile)',

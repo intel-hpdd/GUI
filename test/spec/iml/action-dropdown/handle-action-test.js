@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('handle action', () => {
-  var socketStream, actionStream, handleAction,
+  let socketStream, actionStream, handleAction,
     openConfirmActionModal, openResult;
 
   beforeEachAsync(async function () {
@@ -35,7 +35,7 @@ describe('handle action', () => {
   afterEach(resetAll);
 
   describe('job', function () {
-    var record, action;
+    let record, action;
 
     beforeEach(function () {
       record = { label: 'foo bar' };
@@ -105,7 +105,7 @@ describe('handle action', () => {
   });
 
   it('should put the new param for conf param', function () {
-    var action = {
+    const action = {
       param_key: 'some',
       param_value: 'value',
       mdt: {
@@ -130,7 +130,7 @@ describe('handle action', () => {
   });
 
   describe('state change', function () {
-    var record, action, stream;
+    let record, action, stream;
 
     beforeEach(function () {
       record = { resource_uri: '/api/target/2' };
@@ -151,7 +151,7 @@ describe('handle action', () => {
     });
 
     describe('dry run', function () {
-      var response;
+      let response;
 
       beforeEach(function () {
         response = {

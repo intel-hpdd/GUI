@@ -7,14 +7,14 @@
 export default (modelFactory, UserModel) => {
   'ngInject';
 
-  var Session = modelFactory({ url: 'session' });
+  const Session = modelFactory({ url: 'session' });
 
   Session.subTypes = {
     user: UserModel
   };
 
   Session.login = function (username, password) {
-    var session = Session.save({username: username, password: password});
+    const session = Session.save({username: username, password: password});
 
     session.$promise = session.$promise.then(function (resp) {
       return resp.$get();

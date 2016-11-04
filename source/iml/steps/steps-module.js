@@ -14,7 +14,7 @@ export default angular.module('steps-module', [])
           manager: '='
         },
         link: function link (scope, el) {
-          var innerScope, resolvesFinished;
+          let innerScope, resolvesFinished;
 
           /**
            * Listens for changes and updates the view.
@@ -42,7 +42,7 @@ export default angular.module('steps-module', [])
 
             $q.all(resolves)
               .then(function (results) {
-                var template = results.template;
+                const template = results.template;
                 delete results.template;
 
                 // Indicate that resolves are complete so the untilTemplate isn't loaded
@@ -90,9 +90,9 @@ export default angular.module('steps-module', [])
   .factory('stepsManager', ['$q', '$injector',
     function stepManagerFactory ($q, $injector) {
       return function stepManager () {
-        var currentStep, listener, pending;
-        var steps = {};
-        var endDeferred = $q.defer();
+        let currentStep, listener, pending;
+        let steps = {};
+        const endDeferred = $q.defer();
 
         return {
           /**
@@ -165,7 +165,7 @@ export default angular.module('steps-module', [])
             if (!currentStep)
               return;
 
-            var nextStep = currentStep.transition(steps, action);
+            const nextStep = currentStep.transition(steps, action);
 
             if (nextStep) {
               currentStep = nextStep;

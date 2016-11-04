@@ -25,14 +25,14 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
 
   const setConfirmOpen = isOpen => this.confirmOpen = isOpen;
 
-  var ctrl = angular.merge(this, {
+  const ctrl = angular.merge(this, {
     actionDescriptionCache,
     handleAction (record, action) {
       setConfirmOpen(true);
 
-      var run = runHandleAction.bind(null, record, action);
+      const run = runHandleAction.bind(null, record, action);
 
-      var stream;
+      let stream;
       if (ctrl.overrideClick)
         stream = ctrl.overrideClick({
           record,
@@ -67,9 +67,9 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
     )
   );
 
-  var p = propagateChange($scope, ctrl, 'records');
+  const p = propagateChange($scope, ctrl, 'records');
 
-  var asArray = fp.cond(
+  const asArray = fp.cond(
     [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
     [fp.True, fp.identity]
   );
@@ -91,7 +91,7 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
     return handleAction(record, action)
       .filter(fp.identity)
       .flatMap(function openModal (x) {
-        var stream = getCommandStream([x.command || x]);
+        const stream = getCommandStream([x.command || x]);
 
         return openCommandModal(stream)
           .resultStream

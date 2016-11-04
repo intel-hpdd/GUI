@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('file usage chart', () => {
-  var chartCompiler, getFileUsageStream, fileUsageStream,
+  let chartCompiler, getFileUsageStream, fileUsageStream,
     standardConfig, getFileUsageChart, getFileUsageChartFactory,
     config1$, config2$, selectStoreCount, getStore, durationPayload,
     submitHandler, durationSubmitHandler, getConf, initStream,
@@ -104,7 +104,7 @@ describe('file usage chart', () => {
       }
     }, 'target1');
 
-    var s = chartCompiler.calls.argsFor(0)[1];
+    const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   });
 
@@ -160,7 +160,7 @@ describe('file usage chart', () => {
   });
 
   describe('config', () => {
-    var handler, $scope, stream,
+    let handler, $scope, stream,
       config;
 
     beforeEach(inject(($rootScope) => {
@@ -211,12 +211,12 @@ describe('file usage chart', () => {
     });
 
     describe('setup', () => {
-      var chart, formatter;
+      let chart, formatter;
 
       beforeEach(() => {
         formatter = {};
 
-        var d3 = {
+        const d3 = {
           format: jasmine.createSpy('format')
             .and.returnValue(formatter)
         };
@@ -266,7 +266,7 @@ describe('file usage chart', () => {
   });
 
   describe('on submit', () => {
-    var handler, $scope, config;
+    let handler, $scope, config;
 
     beforeEach(inject(($rootScope) => {
       handler = chartCompiler.calls.mostRecent().args[2];

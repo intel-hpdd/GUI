@@ -4,7 +4,7 @@ import interceptorsModule
   from '../../../../source/iml/interceptors/interceptor-module';
 
 describe('Eula Modal Controller', () => {
-  var $scope, $httpBackend, $uibModalInstance;
+  let $scope, $httpBackend, $uibModalInstance;
 
   beforeEach(module(loginModule, interceptorsModule, $provide => {
     $provide.value('help', {

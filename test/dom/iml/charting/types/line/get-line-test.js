@@ -35,7 +35,7 @@ describe('get line', () => {
       }, []);
   }
 
-  var getLine, div, svg, query, d3;
+  let getLine, div, svg, query, d3;
 
   beforeEach(module(chartingModule));
 
@@ -65,16 +65,16 @@ describe('get line', () => {
   });
 
   describe('instance', () => {
-    var inst, spy, setup;
+    let inst, spy, setup;
 
     beforeEach(() => {
       inst = getLine();
       spy = jasmine.createSpy('spy');
 
-      var x = d3.scale.linear();
+      const x = d3.scale.linear();
       x.range([0, 100]);
 
-      var y = d3.scale.linear();
+      const y = d3.scale.linear();
       y.range([100, 0]);
 
       svg = d3.select(svg)
@@ -172,7 +172,7 @@ describe('get line', () => {
     });
 
     describe('with data', () => {
-      var line;
+      let line;
 
       beforeEach(() => {
         setup([
@@ -263,7 +263,7 @@ describe('get line', () => {
         });
 
         describe('previous layout', () => {
-          var coords;
+          let coords;
 
           beforeEach(() => {
             coords = getCoords(line);
@@ -316,7 +316,7 @@ describe('get line', () => {
         });
 
         describe('ending layout', () => {
-          var coords;
+          let coords;
 
           beforeEach(() => {
             window.flushD3Transitions();

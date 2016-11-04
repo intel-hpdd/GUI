@@ -28,7 +28,7 @@ const template = '<div class="modal-header"> \
 export default ($uibModal) => {
   'ngInject';
 
-  var defaultOptions = {
+  const defaultOptions = {
     backdrop: 'static',
     controller: 'ExceptionModalCtrl',
     keyboard: false,
@@ -37,7 +37,7 @@ export default ($uibModal) => {
   };
 
   return function open (opts) {
-    var options = _.merge(defaultOptions, opts);
+    const options = _.merge(defaultOptions, opts);
 
     return $uibModal.open(options);
   };

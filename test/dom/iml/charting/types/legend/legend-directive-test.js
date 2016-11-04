@@ -5,7 +5,7 @@ import chartModule from
   '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('legend directive', () => {
-  var chartCtrl;
+  let chartCtrl;
 
   beforeEach(module(chartModule, legendModule, ($compileProvider) => {
     $compileProvider.directive('tester', () => {
@@ -18,7 +18,7 @@ describe('legend directive', () => {
     });
   }));
 
-  var $scope, el, qs;
+  let $scope, el, qs;
 
   beforeEach(inject(($rootScope, $compile, d3) => {
     const template = `
@@ -56,7 +56,7 @@ describe('legend directive', () => {
   });
 
   it('should dispatch a legend selection', () => {
-    var spy = jasmine.createSpy('spy');
+    const spy = jasmine.createSpy('spy');
 
     chartCtrl.dispatch.on('event', spy);
 

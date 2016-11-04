@@ -2,7 +2,7 @@ import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
 describe('override action click', function () {
-  var record, openAddServerModal, overrideActionClick;
+  let record, openAddServerModal, overrideActionClick;
 
   beforeEach(module(serverModule, function ($provide) {
     $provide.constant('ADD_SERVER_STEPS', {

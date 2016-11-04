@@ -7,7 +7,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('get the command stream', function () {
-  var socketStream, stream, getCommandStream, getCommandStreamModule,
+  let socketStream, stream, getCommandStream, getCommandStreamModule,
     commandList, result;
 
   beforeEachAsync(async function () {
@@ -55,7 +55,7 @@ describe('get the command stream', function () {
   });
 
   function wrap () {
-    var commands = [].slice.call(arguments);
+    const commands = [].slice.call(arguments);
 
     return {
       objects: commands.map(function (command, index) {
