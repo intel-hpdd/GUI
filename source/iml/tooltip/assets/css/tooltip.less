@@ -6,6 +6,46 @@
   }
 }
 
+.tooltip-container {
+  position: relative;
+
+  &:hover .tooltip.inferno-tt {
+    display: block;
+    opacity: .9;
+  }
+}
+
+.has-error {
+  > .tooltip.inferno-tt {
+    display: block;
+    opacity: .9;
+  }
+}
+
+.tooltip.inferno-tt {
+  &.right {
+    left: 100%;
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+
+  &.left {
+    bottom: 50%;
+    transform: translate(-100%, 50%);
+  }
+
+  &.bottom {
+    transform: translateX(50%);
+    right: 50%;
+  }
+
+  &.top {
+    transform: translate(50%, -100%);
+    top: 0;
+    right: 50%;
+  }
+}
+
 .help-tooltip {
   display: inline-block;
 }
