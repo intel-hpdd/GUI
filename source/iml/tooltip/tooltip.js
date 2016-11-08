@@ -21,9 +21,11 @@
 
 import angular from 'angular';
 import _ from 'intel-lodash-mixins';
+import Inferno from 'inferno';
+import InfernoDOM from 'inferno-dom';
+import HelpTooltip from '../help-tooltip.js';
 
 import tooltipTemplate from './assets/html/tooltip.html!text';
-import helpTooltipTemplate from './assets/html/help-tooltip.html!text';
 
 export function imlTooltip (position, $timeout, $$rAF, strategies) {
   'ngInject';
@@ -161,23 +163,20 @@ export function imlTooltip (position, $timeout, $$rAF, strategies) {
   };
 }
 
-export function helpTooltip (help) {
+export function helpTooltip () {
   'ngInject';
 
   return {
     scope: {
-      toggle: '=?',
       topic: '@',
       direction: '@'
     },
     restrict: 'E',
-    replace: true,
-    template: helpTooltipTemplate,
-    link: function link (scope) {
-      scope.message = help.get(scope.topic);
-
-      if (scope.hasOwnProperty('toggle'))
-        scope.hasToggle = true;
+    link: function link (scope, el) {
+      InfernoDOM.render(
+        <HelpTooltip helpKey={scope.topic} direction={scope.direction} />,
+        el[0]
+      );
     }
   };
 }

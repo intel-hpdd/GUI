@@ -7,7 +7,7 @@
         <form name="form">
           <div class="form-group">
             <label>Choose Type
-              <span class="help">
+              <span class="tooltip-container tooltip-hover">
                 <a><i class="fa fa-question-circle"></i></a>
                 <help-tooltip topic="dashboard_filter_type" direction="right"></help-tooltip>
               </span>
@@ -25,7 +25,7 @@
           <div ng-if="dashboard.type === dashboard.fs">
             <div class="form-group">
               <label>File System
-                <span class="help">
+                <span class="tooltip-container tooltip-hover">
                   <a><i class="fa fa-question-circle"></i></a>
                   <help-tooltip topic="dashboard_filter_fs" direction="right"></help-tooltip>
                 </span>
@@ -42,7 +42,7 @@
           <div ng-if="dashboard.type === dashboard.host">
             <div class="form-group">
               <label>Server
-                <span class="help">
+                <span class="tooltip-container tooltip-hover">
                   <a><i class="fa fa-question-circle"></i></a>
                   <help-tooltip topic="dashboard_filter_server" direction="right"></help-tooltip>
                 </span>
@@ -58,7 +58,7 @@
 
           <div class="form-group" ng-if="dashboard.targets.length">
             <label>Target
-              <span class="help">
+              <span class="tooltip-container tooltip-hover">
                 <a><i class="fa fa-question-circle"></i></a>
                 <help-tooltip topic="dashboard_filter_target" direction="right"></help-tooltip>
               </span>
