@@ -36,7 +36,7 @@ type tooltipT = {
   moreClasses?:string[]
 };
 
-const TooltipComponent = ({message, direction, moreClasses}:tooltipT) => {
+export default ({message, direction, moreClasses}:tooltipT) => {
   if (!message)
     return;
 
@@ -47,5 +47,3 @@ const TooltipComponent = ({message, direction, moreClasses}:tooltipT) => {
     </div>
   </div>);
 };
-
-export default TooltipComponent;
