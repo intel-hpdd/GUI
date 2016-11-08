@@ -23,27 +23,24 @@
 
 
 import Inferno from 'inferno';
+import Tooltip from './tooltip.js';
+import {
+  HELP_TEXT
+} from './environment.js';
 
-export type directionsT =
-  | 'left'
-  | 'right'
-  | 'top'
-  | 'bottom';
+import type {
+  directionsT
+} from './tooltip.js';
 
-type tooltipT = {
-  message?:string,
+type helpTooltipT = {
+  helpKey?:string,
   direction:directionsT,
   moreClasses?:string[]
 };
 
-export default ({message, direction, moreClasses}:tooltipT) => {
-  if (!message)
+export default ({helpKey, direction, moreClasses}:helpTooltipT) => {
+  if (!helpKey)
     return;
 
-  return (<div className={`tooltip inferno-tt ${direction} ${moreClasses ? moreClasses.join(' ') : ''}`}>
-    <div class="tooltip-arrow"></div>
-    <div class="tooltip-inner">
-      <span>{message}</span>
-    </div>
-  </div>);
+  return (<Tooltip message={HELP_TEXT[helpKey]} direction={direction} moreClasses={moreClasses} />);
 };

@@ -43,7 +43,9 @@ declare var window: {
   crypto:Crypto,
   STATIC_URL:string,
   CACHE_INITIAL_DATA:cacheInitialDataT,
-  HELP_TEXT:Object,
+  HELP_TEXT:{
+    [key:string]:string
+  },
   IS_RELEASE:boolean,
   addEventListener:(evName:string, cb:(ev:Object) => any, useCapture:boolean) => void,
   removeEventListener:(evName:string, cb:(ev:Object) => any, useCapture:boolean) => void,

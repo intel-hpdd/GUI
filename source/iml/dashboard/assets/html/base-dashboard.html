@@ -19,7 +19,7 @@
           <td restrict="{{ app.GROUPS.FS_ADMINS }}">{{ fs.name }}</td>
           <td>
             {{ fs.state }}
-            <span class="help">
+            <span class="tooltip-container tooltip-hover">
               <a><i class="fa fa-question-circle"></i></a>
                 <help-tooltip ng-if="fs.state === fs.STATES.MANAGED" topic="managed_filesystem" direction="right"></help-tooltip>
                 <help-tooltip ng-if="fs.state === fs.STATES.MONITORED" topic="monitored_filesystem" direction="right"></help-tooltip>
