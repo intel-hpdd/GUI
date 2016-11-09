@@ -3,17 +3,15 @@ import _ from 'intel-lodash-mixins';
 import {DURATIONS} from '../../../../source/iml/duration-picker/duration-picker.js';
 
 describe('the duration picker', () => {
-  let $scope, el, $timeout, dropdownButton,
+  let $scope, el, dropdownButton,
     dropdownMenu, input,
     getErrorText, durationControls;
 
   beforeEach(module('durationPicker'));
 
-  beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
+  beforeEach(inject(function ($rootScope, $compile) {
     const template = '<duration-picker type="type" size="size" unit="unit" start-date="startDate" \
 end-date="endDate"></duration-picker>';
-
-    $timeout = _$timeout_;
 
     $scope = $rootScope.$new();
     $scope.type = 'duration';
@@ -25,7 +23,6 @@ end-date="endDate"></duration-picker>';
     el = $compile(template)($scope);
 
     $scope.$digest();
-    $timeout.flush();
 
     dropdownButton = el.find('.dropdown-toggle');
     input = el.find('.duration-size');
@@ -37,9 +34,6 @@ end-date="endDate"></duration-picker>';
     };
   }));
 
-  afterEach(function () {
-    $timeout.verifyNoPendingTasks();
-  });
 
   describe('when choosing a duration', function () {
     it('should select the type provided', () => {
@@ -88,8 +82,6 @@ end-date="endDate"></duration-picker>';
       rangeButton = el.find('button[uib-btn-radio="\'range\'"]');
       rangeButton.click();
 
-      $timeout.flush();
-
       start = el.find('input[name="start"]');
       end = el.find('input[name="end"]');
     });
@@ -110,16 +102,12 @@ end-date="endDate"></duration-picker>';
     it('should be invalid if start is blank', function () {
       start.val('').trigger('input');
 
-      $timeout.flush();
-
       expect(getErrorText())
         .toBe('Start is required.');
     });
 
     it('should be invalid if end is blank', function () {
       end.val('').trigger('input');
-
-      $timeout.flush();
 
       expect(getErrorText())
         .toBe('End is required.');

@@ -15,6 +15,7 @@ declare module angular {
         defaultPrevented:boolean
       }
     ) => void):void;
+    $watch(exp:string, listener:(new:Object) => mixed, objectEquality?:boolean):() => mixed;
   }
   declare type $scopeT = $scope;
   declare class $location {
@@ -57,8 +58,6 @@ declare module angular {
     module(name:string, dependencies: string[]):Module;
     bootstrap(element:(HTMLElement | Document), modules:string[], config:Object):void;
     merge(...rest:Object[]):Object;
-    element(el:(string | Element)): {
-      clone: () => HTMLElement
-    };
+    element(el:(string | Element)): HTMLElement[];
   }
 }
