@@ -124,8 +124,8 @@ describe('parsely box', () => {
       expect(indicator().classList.contains('fa-times-circle')).toBe(true);
     });
 
-    it('should not show the error tooltip', () => {
-      expect(tooltip().classList.contains('in')).toBe(false);
+    it('should show the error tooltip', () => {
+      expect(tooltip().classList.contains('in')).toBe(true);
     });
 
     it('should show the parse error', () => {
