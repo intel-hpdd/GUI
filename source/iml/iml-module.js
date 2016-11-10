@@ -114,12 +114,6 @@ import './file-system/file-system-dispatch-source.js';
 import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 
-import stateLabelTooltipTemplate from './alert-indicator/assets/html/state-label.html!text';
-import agentBinaryTooltipTemplate from './hsm/assets/html/modal-tooltips/agent-binary-tooltip.html!text';
-import mountpointTooltipTemplate from './hsm/assets/html/modal-tooltips/mountpoint-tooltip.html!text';
-import archiveTooltipTemplate from './hsm/assets/html/modal-tooltips/archive-tooltip.html!text';
-import loginUserErrorTemplate from './login/assets/html/login-user-error.html!text';
-import loginPasswordErrorTemplate from './login/assets/html/login-password-error.html!text';
 import jobTemplate from './command/assets/html/job.html!text';
 
 export default angular.module('iml', [
@@ -210,12 +204,6 @@ export default angular.module('iml', [
   .run(($templateCache) => {
     'ngInject';
 
-    $templateCache.put('/static/chroma_ui/state-label.html', stateLabelTooltipTemplate);
-    $templateCache.put('/static/chroma_ui/agent-binary-tooltip.html', agentBinaryTooltipTemplate);
-    $templateCache.put('/static/chroma_ui/mountpoint-tooltip.html', mountpointTooltipTemplate);
-    $templateCache.put('/static/chroma_ui/archive-tooltip.html', archiveTooltipTemplate);
-    $templateCache.put('/static/chroma_ui/login-password-error.html', loginPasswordErrorTemplate);
-    $templateCache.put('/static/chroma_ui/login-user-error.html', loginUserErrorTemplate);
     $templateCache.put('/static/chroma_ui/job.html', jobTemplate);
   })
   .name;

@@ -26,8 +26,12 @@
         <tr ng-repeat="copytoolOperation in hsm.copytoolOperations track by copytoolOperation.id">
           <td>{{ ::copytoolOperation.copytool.host.label }}</td>
           <td class="current-file">
-            <a>
-              <i class="fa fa-question-circle" uib-tooltip="{{ ::copytoolOperation.description }}"></i>
+            <a class="tooltip-container tooltip-hover">
+              <i class="fa fa-question-circle">
+                <iml-tooltip direction="top" size="'large'">
+                  {{::copytoolOperation.description}}
+                </iml-tooltip>
+              </i>
             </a>
             {{ ::copytoolOperation.path | pathMaxLength:60 }}
           </td>

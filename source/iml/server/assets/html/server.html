@@ -15,9 +15,13 @@
           <div class="form-group pdsh-input" ng-class="{'has-error': pdshForm.pdsh.$invalid, 'has-success': pdshForm.pdsh.$valid}">
             <div>
               <label>Filter by Hostname / Hostlist Expression</label>
-              <i class="fa fa-question-circle"
-                 uib-tooltip="Enter a hostname / hostlist expression to filter the servers below."
-                tooltip-placement="right"></i>
+              <span class="tooltip-container tooltip-hover">
+                <i class="fa fa-question-circle">
+                  <iml-tooltip size="'large'" direction="right">
+                    <span>Enter a hostname / hostlist expression to filter the servers below.</span>
+                  </iml-tooltip>
+                </i>
+              </span>
             </div>
             <pdsh pdsh-change="server.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
           </div>
@@ -99,10 +103,13 @@
               </span>
             </button>
             <span ng-if="server.getActionByValue(server.editName).toggleDisabled(item)"
-                  uib-tooltip="{{ server.getActionByValue(server.editName).toggleDisabledReason(item) }}"
-                  tooltip-placement="left"
-                  class="disabled">
-              <a type="button" class="disabled btn btn-default btn-sm">Disabled</a>
+              class="disabled tooltip-container tooltip-hover">
+              <a type="button" class="disabled btn btn-default btn-sm">
+                Disabled
+                <iml-tooltip size="'large'" direction="left">
+                  <span>{{ server.getActionByValue(server.editName).toggleDisabledReason(item) }}</span>
+                </iml-tooltip>
+              </a>
             </span>
           </td>
         </tr>
@@ -133,12 +140,16 @@
         <a type="button" ng-click="server.toggleType('none')" ng-model="server.selectType" uib-btn-radio="'none'" class="btn btn-info btn-lg">Select None</a>
         <a type="button" ng-click="server.toggleType('invert')" ng-model="server.selectType"  uib-btn-radio="'invert'" class="btn btn-info btn-lg">Invert Selection</a>
       </div>
-      <button uib-tooltip-html="server.getActionByValue(server.editName).helpTopic | insertHelp"
-              ng-disabled="server.getSelectedHosts(server.editName).length === 0"
-              ng-click="server.runAction(server.editName)"
-              class="btn btn-success btn-lg btn-block">
-        {{ server.editName }} <i class="fa fa-check-circle-o"></i>
-      </button>
+      <div class="tooltip-container tooltip-hover">
+        <button ng-disabled="server.getSelectedHosts(server.editName).length === 0"
+                ng-click="server.runAction(server.editName)"
+                class="btn btn-success btn-lg btn-block">
+          {{ server.editName }} <i class="fa fa-check-circle-o"></i>
+        </button>
+
+        <help-tooltip size="'large'" topic="{{server.getActionByValue(server.editName).helpTopic}}" direction="top"></help-tooltip>
+
+      </div>
       <button class="btn btn-danger btn-lg btn-block" ng-click="server.setEditable(false)">
         Cancel <i class="fa fa-times-circle-o"></i>
       </button>
@@ -147,12 +158,16 @@
     <h4 class="section-header">Server Actions</h4>
 
     <div class="action-buttons">
-      <span ng-repeat="action in server.actions track by action.value"
-            uib-tooltip="{{ action.buttonTooltip(server.servers)}}">
-        <a type="button" class="btn btn-primary btn-sm"
+      <span ng-repeat="action in server.actions track by action.value">
+        <a type="button" class="btn btn-primary btn-sm tooltip-container tooltip-hover"
            ng-class="{disabled: action.buttonDisabled(server.servers)}"
            ng-click="server.setEditName(action.value)">
-          {{action.value}} <i class="fa fa-question-circle"></i>
+          {{action.value}}
+          <i class="fa fa-question-circle">
+            <iml-tooltip size="'medium'" direction="top">
+              <span>{{ action.buttonTooltip(server.servers) }}</span>
+            </iml-tooltip>
+          </i>
         </a>
       </span>
     </div>

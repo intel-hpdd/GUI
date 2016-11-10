@@ -2,9 +2,14 @@ import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
 import alertIndicatorModule from
   '../../../../source/iml/alert-indicator/alert-indicator-module';
+import {
+  imlTooltip
+} from '../../../../source/iml/tooltip/tooltip.js';
 
 describe('alert indicator', () => {
-  beforeEach(module(alertIndicatorModule));
+  beforeEach(module(alertIndicatorModule, ($provide, $compileProvider) => {
+    $compileProvider.directive('imlTooltip', imlTooltip);
+  }));
 
   describe('directive', () => {
     let $scope, element, node, popover, i,
