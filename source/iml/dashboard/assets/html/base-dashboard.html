@@ -21,8 +21,8 @@
             {{ fs.state }}
             <span class="tooltip-container tooltip-hover">
               <a><i class="fa fa-question-circle"></i></a>
-                <help-tooltip ng-if="fs.state === fs.STATES.MANAGED" topic="managed_filesystem" direction="right"></help-tooltip>
-                <help-tooltip ng-if="fs.state === fs.STATES.MONITORED" topic="monitored_filesystem" direction="right"></help-tooltip>
+                <help-tooltip ng-if="fs.state === fs.STATES.MANAGED" topic="managed_filesystem" direction="right" size="'large'"></help-tooltip>
+                <help-tooltip ng-if="fs.state === fs.STATES.MONITORED" topic="monitored_filesystem" direction="right" size="'large'"></help-tooltip>
             </span>
           </td>
           <td as-viewer stream="baseDashboard.fsB">

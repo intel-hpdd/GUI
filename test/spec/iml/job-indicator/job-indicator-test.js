@@ -5,7 +5,7 @@ import broadcast from '../../../../source/iml/broadcaster.js';
 describe('job indicator', () => {
   beforeEach(module('jobIndicator'));
 
-  let $scope, $timeout, element, node, getPopover, i, stream;
+  let $scope, $timeout, element, node, getPopover, stream, i;
 
   beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     $timeout = _$timeout_;
@@ -49,7 +49,7 @@ describe('job indicator', () => {
       $scope.$digest();
 
       i = node[0]
-        .querySelector('i');
+        .querySelector('i.activate-popover');
       i.click();
       $timeout.flush();
     });
@@ -201,7 +201,7 @@ describe('job indicator', () => {
       $scope.$digest();
 
       i = node[0]
-        .querySelector('i');
+        .querySelector('i.activate-popover');
     });
 
     it('should display the info icon', function () {

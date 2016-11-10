@@ -4,7 +4,11 @@
   &.tooltip-hover:hover .tooltip.inferno-tt {
     display: block;
     opacity: .9;
-    width: 150px;
+    max-width: 200px;
+
+    .tooltip-inner {
+      word-wrap: break-word;
+    }
   }
 }
 
@@ -16,6 +20,22 @@
 }
 
 .tooltip.inferno-tt {
+  &.xsmall {
+    width: 50px;
+  }
+
+  &.small {
+    width: 100px;
+  }
+
+  &.medium {
+    width: 150px;
+  }
+
+  &.large {
+    width: 200px;
+  }
+
   &.right {
     left: 100%;
     bottom: 50%;
