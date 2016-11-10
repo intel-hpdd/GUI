@@ -9,11 +9,13 @@
       <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
         {{ ::record.label }}
       </li>
-      <li ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] | groupActions track by action.verb">
-        <a uib-tooltip-html="ctrl.actionDescriptionCache(action.long_description)"
-           tooltip-placement="{{ ::ctrl.tooltipPlacement }}"
-           tooltip-append-to-body="true"
-           ng-click="::ctrl.handleAction(record, action)">{{ ::action.verb }}</a>
+      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] | groupActions track by action.verb">
+        <a ng-click="::ctrl.handleAction(record, action)">
+           {{ ::action.verb }}
+        </a>
+        <iml-tooltip size="'large'" direction="{{::ctrl.tooltipPlacement}}">
+          <p ng-bind-html="ctrl.actionDescriptionCache(action.long_description)"></p>
+        </iml-tooltip>
       </li>
       <li ng-repeat-end class="divider"></li>
     </ul>

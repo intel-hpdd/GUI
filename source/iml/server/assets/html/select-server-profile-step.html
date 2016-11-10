@@ -3,9 +3,13 @@
     <i class="fa fa-times"></i>
   </button>
   <h4 class="modal-title">Add Server - Add Server Profiles</h4>
-  <i class="fa fa-question-circle"
-     uib-tooltip="Select the server profile to be applied to all servers. Green squares represent servers that are compatible with the selected profile. Red squares represent servers that are incompatible with the selected server profile."
-     tooltip-placement="bottom"></i>
+  <span class="tooltip-container tooltip-hover">
+    <i class="fa fa-question-circle">
+      <iml-tooltip size="'large'" direction="bottom">
+        <span>Select the server profile to be applied to all servers. Green squares represent servers that are compatible with the selected profile. Red squares represent servers that are incompatible with the selected server profile.</span>
+      </iml-tooltip>
+    </i>
+  </span>
 </div>
 <div class="modal-body select-server-profile-step clearfix">
   <div ng-if="selectServerProfile.overridden" class="alert alert-danger" role="alert">
@@ -15,9 +19,13 @@
   </div>
   <div>
     <label>Select Server Profile</label>
-    <i class="fa fa-question-circle"
-       uib-tooltip="Select a server profile to set on unconfigured servers."
-       tooltip-placement="right"></i>
+    <span class="tooltip-container tooltip-hover">
+      <i class="fa fa-question-circle">
+        <iml-tooltip size="'large'" direction="right">
+          <span>Select a server profile to set on unconfigured servers.</span>
+        </iml-tooltip>
+      </i>
+    </span>
   </div>
   <div class="btn-group fancy-select-box" uib-dropdown on-toggle="open = !open">
     <button type="button" class="form-control dropdown-toggle" ng-disabled="disabled" uib-dropdown-toggle>
@@ -39,15 +47,24 @@
     <div class="form-group pdsh-input" ng-class="{'has-error': filterServerForm.pdsh.$invalid, 'has-success': filterServerForm.pdsh.$valid}">
       <div>
         <label>Filter by Hostname / Hostlist Expression</label>
-        <i class="fa fa-question-circle"
-           uib-tooltip="Enter a hostname / hostlist expression to filter servers."
-           tooltip-placement="right"></i>
+        <span class="tooltip-container tooltip-hover">
+          <i class="fa fa-question-circle">
+            <iml-tooltip size="'large'" direction="right">
+              <span>Enter a hostname / hostlist expression to filter servers.</span>
+            </iml-tooltip>
+          </i>
+        </span>
       </div>
       <pdsh pdsh-initial="selectServerProfile.pdsh" pdsh-change="selectServerProfile.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
     </div>
   </form>
   <div class="status-cell-container" ng-repeat="host in selectServerProfile.profile.hosts | pdsh:selectServerProfile.hostnamesHash:selectServerProfile.getHostPath track by host.address">
-    <div ng-class="{invalid: host.invalid, valid: !host.invalid }" uib-tooltip="Address: {{host.address}}" class="status-cell activate-popover"></div>
+    <div ng-class="{invalid: host.invalid, valid: !host.invalid }"
+    class="status-cell activate-popover tooltip-container tooltip-hover">
+      <iml-tooltip size="'large'" direction="right">
+        <span>Address: {{host.address}}</span>
+      </iml-tooltip>
+    </div>
     <iml-popover title="Status for {{ host.address }}" placement="bottom">
       <div ng-if="!host.invalid">
         <i class="fa fa-check-circle"></i> {{ host.uiName }} profile is compatible.

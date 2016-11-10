@@ -16,11 +16,12 @@
             ng-model="login.username"
             remote-validate-component
             placeholder="Username"
-            uib-tooltip-template="'login-user-error.html'"
-            tooltip-trigger="none"
-            tooltip-class="error-tooltip"
-            tooltip-is-open="serverValidationError.username.length"
             />
+          <iml-tooltip class="error-tooltip" direction="top">
+            <ul>
+              <li ng-repeat="error in serverValidationError.username">{{ error }}</li>
+            </ul>
+          </iml-tooltip>
         </div>
         <div class="form-group password-group" ng-class="{'has-error': loginForm.password.$invalid}">
           <input
@@ -31,12 +32,12 @@
             ng-model="login.password"
             remote-validate-component
             placeholder="Password"
-            uib-tooltip-template="'login-password-error.html'"
-            tooltip-trigger="none"
-            tooltip-class="error-tooltip"
-            tooltip-is-open="serverValidationError.password.length"
-            tooltip-placement="bottom"
           />
+        <iml-tooltip class="error-tooltip" direction="bottom">
+          <ul>
+            <li ng-repeat="error in serverValidationError.password">{{ error }}</li>
+          </ul>
+        </iml-tooltip>
         </div>
         <button type="submit" class="btn btn-success" ng-disabled="loginForm.$pristine || login.inProgress" ng-click="login.submitLogin()">
           <i class="fa fa-unlock"></i> Login
@@ -47,7 +48,7 @@
               <a ng-click="login.goToIndex()">Or Continue As Anonymous</a>
             <span class="tooltip-container tooltip-hover">
               <a><i class="fa fa-question-circle"></i></a>
-              <help-tooltip topic="continue_as_anonymous" direction="right"></help-tooltip>
+              <help-tooltip topic="continue_as_anonymous" direction="right" size="'large'"></help-tooltip>
             </span>
             </small>
           </div>

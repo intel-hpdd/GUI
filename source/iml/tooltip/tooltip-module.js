@@ -23,9 +23,11 @@ import angular from 'angular';
 import positionModule from '../position/position-module';
 import helpModule from '../help-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import strategiesFactory from './strategies';
 
-import {imlTooltip, helpTooltip} from './tooltip';
+import {
+  imlTooltip,
+  helpTooltip
+} from './tooltip';
 
 export default angular.module('iml-tooltip', [
   positionModule, helpModule,
@@ -33,5 +35,4 @@ export default angular.module('iml-tooltip', [
 ])
 .directive('imlTooltip', imlTooltip)
 .directive('helpTooltip', helpTooltip)
-.factory('strategies', strategiesFactory)
 .name;

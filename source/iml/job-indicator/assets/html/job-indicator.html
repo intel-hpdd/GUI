@@ -1,8 +1,10 @@
 <span class="job-status">
-  <i class="fa fa-lock activate-popover"
-     ng-show="shouldShowLockIcon()"
-     uib-tooltip="{{getLockTooltipMessage()}}"
-     tooltip-placement="right"></i>
+    <i class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+     ng-show="shouldShowLockIcon()">
+       <iml-tooltip size="'large'" direction="right">
+         <span>{{getLockTooltipMessage()}}</span>
+       </iml-tooltip>
+    </i>
   <iml-popover placement="bottom" title="Job Operations" on-toggle="onToggle(state)">
     <accordion close-others="closeOthers">
       <accordion-group heading="Write Operations" ng-if="writeMessages.length > 0 ||

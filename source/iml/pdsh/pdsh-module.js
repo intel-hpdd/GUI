@@ -52,10 +52,13 @@ function pdsh (help) {
     restrict: 'E',
     template: `
       <div class="input-group">
-        <div class="input-group-addon activate-popover"
-             uib-tooltip="Click for expanded hostlist expression."
-             tooltip-placement="top-left">
-          <i class="fa fa-list-ul"></i>
+        <div class="input-group-addon activate-popover tooltip-container tooltip-hover">
+          <i class="fa fa-list-ul">
+            <iml-tooltip class="medium" direction="right">
+              Click for expanded hostlist expression.
+            </iml-tooltip>
+          </i>
+
         </div>
         <iml-popover placement="bottom" title="Hosts" ng-if="pdsh.hostnameSections.length > 0">
           <ul class="well">

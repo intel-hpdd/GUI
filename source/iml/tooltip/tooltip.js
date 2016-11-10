@@ -21,7 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import Inferno from 'inferno';
 import HelpTooltip from '../help-tooltip.js';
 
@@ -35,52 +34,23 @@ import type {
   directionsT
 } from '../tooltip.js';
 
-type strategiesT = (jqElement:HTMLElement[], scope:$scopeT, events:Object) => () => mixed;
-
-export function imlTooltip (strategies:strategiesT) {
+export function imlTooltip () {
   'ngInject';
 
   return {
     scope: {
       toggle: '=?',
-      direction: '@'
+      direction: '@',
+      size: '<'
     },
     restrict: 'E',
     transclude: true,
     replace: true,
     template: tooltipTemplate,
-    link (scope:$scopeT & {in:string}, jqElement:HTMLElement[]) {
-      let deregister;
+    link (scope:$scopeT & {in:string}) {
+      let deregister = () => {};
 
-      const el = jqElement[0];
-      let previousEl = el.previousElementSibling;
-
-      // look at the parent's previous sibling
-      if (!previousEl) {
-        const parentEl = el.parentNode;
-
-        if (parentEl)
-          previousEl = parent.previousElementSibling;
-      }
-
-      if (!previousEl)
-        throw new Error('Previous element not found for tooltip!');
-
-      scope.$on('$destroy', () => {
-        previousEl = null;
-        deregister();
-      });
-
-      if (!scope.hasOwnProperty('toggle'))
-        deregister = strategies(
-          angular.element(previousEl),
-          scope,
-          {
-            show,
-            hide
-          }
-        );
-      else
+      if (scope.hasOwnProperty('toggle'))
         deregister = scope.$watch('toggle', newValue => {
           if (newValue)
             show();
@@ -95,6 +65,11 @@ export function imlTooltip (strategies:strategiesT) {
       function hide () {
         delete scope.in;
       }
+
+      scope.$on('$destroy', () => {
+        deregister();
+        hide();
+      });
     }
   };
 }
@@ -105,12 +80,13 @@ export function helpTooltip () {
   return {
     scope: {
       topic: '@',
-      direction: '@'
+      direction: '@',
+      size: '<'
     },
     restrict: 'E',
-    link: function link (scope:{|topic:string, direction:directionsT|}, el:HTMLElement[]) {
+    link: function link (scope:{|topic:string, direction:directionsT, size?:string|}, el:HTMLElement[]) {
       Inferno.render(
-        <HelpTooltip helpKey={scope.topic} direction={scope.direction} />,
+        <HelpTooltip helpKey={scope.topic} direction={scope.direction} moreClasses={scope.size ? [scope.size] : undefined} />,
         el[0]
       );
     }

@@ -3,9 +3,12 @@
     <i class="fa fa-times"></i>
   </button>
   <h4 class="modal-title">Add Server - Check Server Status</h4>
-  <i class="fa fa-question-circle"
-     uib-tooltip="Verify the status of the servers below. Green squares represent servers that have passed all checks. Red squares represent servers with one or more failed checks."
-     tooltip-placement="bottom"></i>
+  <span class="tooltip-container tooltip-hover">
+    <i class="fa fa-question-circle"></i>
+    <iml-tooltip size="'large'" direction="bottom">
+      <span>Verify the status of the servers below. Green squares represent servers that have passed all checks. Red squares represent servers with one or more failed checks.</span>
+    </iml-tooltip>
+  </span>
 </div>
 <div class="modal-body server-status-step clearfix">
   <div ng-if="serverStatus.overridden" class="alert alert-danger" role="alert">
@@ -17,20 +20,32 @@
     <div class="form-group pdsh-input" ng-class="{'has-error': filterServerForm.pdsh.$invalid, 'has-success': filterServerForm.pdsh.$valid}">
       <div>
         <label>Filter by Hostname / Hostlist Expression</label>
-        <i class="fa fa-question-circle"
-           uib-tooltip="Enter a hostname / hostlist expression to filter servers."
-           tooltip-placement="right"></i>
+        <span class="tooltip-container tooltip-hover">
+          <i class="fa fa-question-circle"></i>
+          <iml-tooltip size="'large'" direction="right">
+            <span>Enter a hostname / hostlist expression to filter servers.</span>
+          </iml-tooltip>
+        </span>
       </div>
       <pdsh pdsh-initial="serverStatus.pdsh" pdsh-change="serverStatus.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
     </div>
   </form>
   <div class="status-cell-container" ng-repeat="server in serverStatus.serversStatus track by server.address">
-    <div ng-class="{invalid: !server.valid, valid: server.valid}" uib-tooltip="Address: {{ server.address }}" class="status-cell activate-popover"></div>
+    <div ng-class="{invalid: !server.valid, valid: server.valid}"
+      class="status-cell activate-popover tooltip-container tooltip-hover">
+      <span></span>
+      <iml-tooltip size="'large'" direction="right">
+        <span>Address: {{ server.address }}</span>
+      </iml-tooltip>
+    </div>
     <iml-popover title="Status for {{ server.address }}" placement="bottom">
       <ul class="well">
         <li ng-repeat="check in server.status track by check.name">
-          <a uib-tooltip="{{ check.name | insertHelp }}">
+          <a class="tooltip-container tooltip-hover">
             <i ng-class="{ 'fa-times-circle': check.value == false, 'fa-check-circle': check.value }" class="fa"></i> {{ check.uiName }}
+            <iml-tooltip size="'large'" direction="left">
+              <span>{{ check.name | insertHelp }}</span>
+            </iml-tooltip>
           </a>
         </li>
       </ul>

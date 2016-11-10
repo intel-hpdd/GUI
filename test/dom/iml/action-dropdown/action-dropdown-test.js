@@ -1,12 +1,15 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
-import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import {
+  imlTooltip
+} from '../../../../source/iml/tooltip/tooltip.js';
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module.js';
 
 
 describe('action dropdown directive', function () {
   let handleAction, openCommandModal, getCommandStream, cleanText;
 
-  beforeEach(module(actionDropdownModule, function ($provide) {
+  beforeEach(module(actionDropdownModule, function ($compileProvider, $provide) {
     handleAction = jasmine.createSpy('handleAction')
       .and.returnValue(highland());
     $provide.value('handleAction', handleAction);
@@ -17,6 +20,8 @@ describe('action dropdown directive', function () {
 
     openCommandModal = jasmine.createSpy('openCommandModal');
     $provide.value('openCommandModal', openCommandModal);
+
+    $compileProvider.directive('imlTooltip', imlTooltip);
 
     cleanText = fp.flow(
       fp.view(fp.lensProp('textContent')),
@@ -221,22 +226,19 @@ describe('action dropdown directive', function () {
     describe('mouseover a verb', function () {
       beforeEach(function () {
         button().click();
-        const mouseOver = new MouseEvent('mouseover');
+        const mouseOver = new MouseEvent('mouseenter');
         fp.head(verbs()).dispatchEvent(mouseOver);
         $timeout.flush();
         $timeout.verifyNoPendingTasks();
       });
 
       afterEach(function () {
-        document.body.removeChild(tooltip());
+        const tt = tooltip();
+        tt.parentNode.removeChild(tt);
       });
 
       it('should append the tooltip', function () {
         expect(tooltip()).not.toBeNull();
-      });
-
-      it('should have the tooltip be visible', function () {
-        expect(tooltip().classList.contains('in')).toBe(true);
       });
 
       it('should should show the long description', function () {
