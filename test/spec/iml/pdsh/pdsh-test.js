@@ -110,12 +110,12 @@ describe('PDSH directive', () => {
 
       describe('group add on', function () {
         it('should not display the popover', function () {
-          expect(query('.popover')).not.toBeShown();
+          expect(query('.popover')).toBeNull();
         });
 
         it('should show the error tooltip', function () {
           const tooltip = query('.error-tooltip li');
-          expect(tooltip.length).not.toBeNull();
+          expect(tooltip).not.toBeNull();
         });
       });
     });
@@ -129,7 +129,8 @@ describe('PDSH directive', () => {
       });
 
       it('should not display the popover', function () {
-        expect(query('.popover')).not.toBeShown();
+        expect(query('.popover'))
+          .toBeNull();
       });
 
       it('should show the error tooltip', function () {
@@ -144,11 +145,13 @@ describe('PDSH directive', () => {
 
     describe('initial entry', function () {
       it('should have an initial value of \'invalid[\'', function () {
-        expect(node.find('input').val()).toEqual('invalid[');
+        expect(element.querySelector('input').value)
+          .toBe('invalid[');
       });
 
       it('should display the error tooltip', function () {
-        expect(node.find('.error-tooltip')).toBeShown();
+        expect(element.querySelector('.error-tooltip'))
+          .toBeShown();
       });
     });
   });

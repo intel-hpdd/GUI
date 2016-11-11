@@ -34,7 +34,8 @@ export function sorter () {
         $element.addClass(CLASS_NAMES.SORTING);
 
         self._sortItems.forEach(function (item) {
-          const overlay = angular.element(sortOverlay.cloneNode()).appendTo(item)[0];
+          const overlay = sortOverlay.cloneNode();
+          item.append(overlay);
 
           overlay.addEventListener('dragenter', dragEnter, false);
 
@@ -87,15 +88,19 @@ export function sorter () {
           else
             container.insertBefore(dragNode, dropNode.nextSibling);
 
-          $element.find('.' + CLASS_NAMES.OVERLAY).each(function () {
-            this.removeEventListener('dragenter', dragEnter, false);
+          $element[0]
+            .querySelectorAll(`.${CLASS_NAMES.OVERLAY}`)
+            .forEach(x => {
+              x.removeEventListener('dragenter', dragEnter, false);
 
-            this.removeEventListener('dragover', dragOver, false);
+              x.removeEventListener('dragover', dragOver, false);
 
-            this.removeEventListener('dragleave', dragLeave, false);
+              x.removeEventListener('dragleave', dragLeave, false);
 
-            this.removeEventListener('drop', drop, false);
-          }).remove();
+              x.removeEventListener('drop', drop, false);
+
+              x.parentNode.removeChild(x);
+            });
         });
 
         if (event.stopPropagation) event.stopPropagation();

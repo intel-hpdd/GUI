@@ -4,7 +4,13 @@ import {
 } from '../../system-mock.js';
 
 describe('confirm button', () => {
-  let mod, spy, defaultButton, verifyButton, waitingButton, global;
+  let mod,
+    spy,
+    defaultButton,
+    verifyButton,
+    waitingButton,
+    global;
+
   beforeEachAsync(async function () {
     spy = jasmine.createSpy('spy');
     global = document;
@@ -44,9 +50,13 @@ describe('confirm button', () => {
 
     el = $compile(template)($scope)[0];
     spyOn(el, 'addEventListener')
-      .and.callThrough();
+      .and
+      .callThrough();
+
     spyOn(el, 'removeEventListener')
-      .and.callThrough();
+      .and
+      .callThrough();
+
     $scope.$digest();
 
     defaultButton = el.querySelector.bind(el, 'default-button');

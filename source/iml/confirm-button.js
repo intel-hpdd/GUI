@@ -82,8 +82,8 @@ export default {
   },
   template: `
   <span ng-switch="$ctrl.state">
-    <span ng-transclude="default" ng-switch-when="default" ng-click="$ctrl.onDefault($event.originalEvent)"></span>
-    <span ng-transclude="verify" ng-switch-when="confirm" ng-click="$ctrl.onConfirm($event.originalEvent)"></span>
+    <span ng-transclude="default" ng-switch-when="default" ng-click="$ctrl.onDefault($event)"></span>
+    <span ng-transclude="verify" ng-switch-when="confirm" ng-click="$ctrl.onConfirm($event)"></span>
     <span ng-transclude="waiting" ng-switch-when="confirmed"></span>
   </span>
   `

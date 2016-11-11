@@ -6,7 +6,11 @@ import {
 } from '../../../system-mock.js';
 
 describe('Remote validate directive', () => {
-  let controller, formControllerSpy, $q, $scope, $element;
+  let controller,
+    formControllerSpy,
+    $q,
+    $scope,
+    $element;
 
   function createComponent (name) {
     return jasmine.createSpyObj(name, ['$setValidity']);
@@ -167,7 +171,8 @@ describe('Remote validate directive', () => {
   });
 
   describe('testing the directive set', () => {
-    let form, getDeferred;
+    let form,
+      getDeferred;
 
     beforeEach(inject(($rootScope, $compile) => {
       const template = `
@@ -179,7 +184,7 @@ describe('Remote validate directive', () => {
           <select remote-validate-component name="bar" ng-model="bar"></select>
         </form>`;
 
-      form = $compile(template)($scope);
+      form = $compile(template)($scope)[0];
       $scope.$digest();
 
       getDeferred = () => {
@@ -207,29 +212,48 @@ describe('Remote validate directive', () => {
       expect(form).toBeInvalid();
       expect(form).toHaveClass('ng-invalid-server');
 
-      expect(form.find('ul')).not.toBe('');
+      const ul = form.querySelector('ul');
 
-      expect(form.find('ul').find('li').length).toBe(1);
-      expect(form.find('ul').find('li').html()).toEqual('uh-oh');
+      expect(ul)
+        .not
+        .toBeNull();
 
-      expect(form.find('input')).toBeInvalid();
-      expect(form.find('input')).toHaveClass('ng-invalid-server');
+      expect(ul.querySelectorAll('li').length).toBe(1);
 
-      expect(form.find('select')).toBeInvalid();
-      expect(form.find('select')).toHaveClass('ng-invalid-server');
+      expect(ul.querySelector('li').textContent.trim())
+        .toBe('uh-oh');
+
+      expect(form.querySelector('input'))
+        .toBeInvalid();
+
+      expect(form.querySelector('input'))
+        .toHaveClass('ng-invalid-server');
+
+      expect(form.querySelector('select')).toBeInvalid();
+      expect(form.querySelector('select')).toHaveClass('ng-invalid-server');
 
       getDeferred().resolve();
       $scope.$digest();
 
       expect(form).toBeValid();
 
-      expect(form.find('ul').length).toBe(0);
+      expect(form.querySelector('ul')).toBeNull();
 
-      expect(form.find('input')).toBeValid();
-      expect(form.find('input')).not.toHaveClass('ng-invalid-server');
+      const input = form.querySelector('input');
 
-      expect(form.find('select')).toBeValid();
-      expect(form.find('select')).not.toHaveClass('ng-invalid-server');
+      expect(input)
+        .toBeValid();
+
+      expect(input)
+        .not
+        .toHaveClass('ng-invalid-server');
+
+      const select = form.querySelector('select');
+
+      expect(select).toBeValid();
+      expect(select)
+        .not
+        .toHaveClass('ng-invalid-server');
     });
   });
 });

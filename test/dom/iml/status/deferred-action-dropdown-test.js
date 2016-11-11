@@ -126,7 +126,7 @@ describe('deferred action dropdown', () => {
       });
 
       it('should hide the loading button', () => {
-        expect(loadingButton()).not.toBeShown();
+        expect(loadingButton()).toBeNull();
       });
 
       it('should show the action dropdown', () => {
