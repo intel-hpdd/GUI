@@ -1,5 +1,3 @@
-import angular from 'angular';
-
 describe('Full Screen Module', () => {
   let $scope, $fullScreenController, fullScreenContainer,
     button, icon, body, spy;
@@ -23,9 +21,10 @@ describe('Full Screen Module', () => {
 
     spy = jasmine.createSpy('listener');
 
-    button = fullScreenContainer.find('button');
-    icon = button.find.bind(button, 'i');
-    body = angular.element('body');
+    button = fullScreenContainer[0].querySelector('button');
+    icon = button.querySelector.bind(button, 'i');
+    body = document.body;
+
 
     $fullScreenController.addListener(spy);
   }));
@@ -35,7 +34,7 @@ describe('Full Screen Module', () => {
   });
 
   it('should show the open text', () => {
-    expect(button.text().trim()).toEqual('Full Screen');
+    expect(button.textContent.trim()).toEqual('Full Screen');
   });
 
   it('should expose a controller method to remove the listener', () => {
@@ -58,7 +57,7 @@ describe('Full Screen Module', () => {
     });
 
     it('should show the close text', () => {
-      expect(button.text().trim()).toEqual('Exit Full Screen');
+      expect(button.textContent.trim()).toEqual('Exit Full Screen');
     });
 
     it('should add the active class to the container', () => {
@@ -84,7 +83,7 @@ describe('Full Screen Module', () => {
       });
 
       it('should show the open text', () => {
-        expect(button.text().trim()).toEqual('Full Screen');
+        expect(button.textContent.trim()).toEqual('Full Screen');
       });
 
       it('should not have the active class on the container', () => {

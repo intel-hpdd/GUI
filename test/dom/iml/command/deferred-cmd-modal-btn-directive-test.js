@@ -66,7 +66,8 @@ describe('deferred command modal button directive exports', () => {
 
 
   it('should not show the waiting button', () => {
-    expect(waitingButton()).not.toBeShown();
+    expect(waitingButton())
+      .toBeNull();
   });
 
   it('should show the detail button', () => {
@@ -114,7 +115,8 @@ describe('deferred command modal button directive exports', () => {
       });
 
       it('should hide the waiting button', () => {
-        expect(waitingButton()).not.toBeShown();
+        expect(waitingButton())
+          .toBeNull();
       });
     });
   });

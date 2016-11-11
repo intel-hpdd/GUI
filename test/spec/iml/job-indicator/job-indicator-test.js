@@ -1,3 +1,4 @@
+import angular from 'angular';
 import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
 
@@ -22,11 +23,12 @@ describe('job indicator', () => {
 
     $scope.$digest();
 
-    $scope = node.find('.job-status').scope();
+    $scope = angular.element(
+      node[0].querySelector('.job-status')
+    ).scope();
 
-    getPopover = function getPopover () {
-      return node.find('i ~ .popover');
-    };
+    getPopover = () =>
+      angular.element(node[0].querySelector('.popover'));
   }));
 
   describe('toggling', function () {
@@ -46,8 +48,9 @@ describe('job indicator', () => {
       stream.write(response);
       $scope.$digest();
 
-      i = node.find('i');
-      i.trigger('click');
+      i = node[0]
+        .querySelector('i');
+      i.click();
       $timeout.flush();
     });
 
@@ -60,7 +63,7 @@ describe('job indicator', () => {
     });
 
     it('should have a toggle status of closed', function () {
-      i.trigger('click');
+      i.click();
       $timeout.flush();
       expect(getPopover().length).toBe(0);
     });
@@ -197,7 +200,8 @@ describe('job indicator', () => {
       // Update the html
       $scope.$digest();
 
-      i = node.find('i');
+      i = node[0]
+        .querySelector('i');
     });
 
     it('should display the info icon', function () {
@@ -205,17 +209,17 @@ describe('job indicator', () => {
     });
 
     it('should display the popover after clicking info icon', function () {
-      i.trigger('click');
+      i.click();
       $timeout.flush();
 
       expect(getPopover()).toBeShown();
     });
 
     it('should display the tooltip after mousing over the info icon', function () {
-      i[0].dispatchEvent(new MouseEvent('mouseover'));
+      i.dispatchEvent(new MouseEvent('mouseover'));
       $timeout.flush();
 
-      const tooltip = node.find('.tooltip');
+      const tooltip = node[0].querySelector('.tooltip');
       expect(tooltip).toBeShown();
     });
   });
