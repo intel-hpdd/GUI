@@ -1,11 +1,12 @@
-import angular from 'angular';
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('Override Directive', function () {
 
   beforeEach(module(serverModule));
 
-  let $scope, element;
+  let $scope,
+    element,
+    button;
 
   beforeEach(inject(function ($rootScope, $compile) {
     const markup = `<override-button overridden="overridden" is-valid="isValid" on-change="onChange(message)"
@@ -15,55 +16,58 @@ describe('Override Directive', function () {
 
     $scope.onChange = jasmine.createSpy('onChange');
 
-    element = angular.element(markup);
-    $compile(element)($scope);
-
+    element = $compile(markup)($scope)[0];
     $scope.$digest();
+
+    button = () => element.querySelector('button');
   }));
 
   it('should start with the override button', function () {
-    expect(element.find('button').text().trim()).toEqual('Override');
+    expect(button().textContent.trim())
+      .toBe('Override');
   });
 
   it('should transition to proceed after clicking override', function () {
-    element.find('button')[0].click();
+    button().click();
 
-    expect(element.find('button').eq(0).text().trim()).toEqual('Proceed');
+    expect(button().textContent.trim())
+      .toBe('Proceed');
   });
 
   it('should have a link to skip the command view', function () {
-    element.find('button')[0].click();
-    element.find('button').eq(1)[0].click();
+    button().click();
+    element.querySelectorAll('button')[1].click();
 
-    element.find('.dropdown-menu a')[0].click();
+    element.querySelector('.dropdown-menu a').click();
 
-    expect($scope.onChange).toHaveBeenCalledOnceWith('proceed and skip');
+    expect($scope.onChange)
+      .toHaveBeenCalledOnceWith('proceed and skip');
   });
 
   it('should not override if valid', function () {
     $scope.isValid = true;
     $scope.$digest();
 
-    expect(element.find('button').eq(0)).toHaveClass('btn-success');
+    expect(button()).toHaveClass('btn-success');
   });
 
   it('should tell that override was clicked', function () {
-    element.find('button')[0].click();
+    button().click();
 
     expect($scope.onChange).toHaveBeenCalledOnceWith('override');
   });
 
   it('should tell that proceed was clicked', function () {
-    element.find('button')[0].click();
-    element.find('button').eq(0)[0].click();
+    button().click();
+    button().click();
 
     expect($scope.onChange).toHaveBeenCalledOnceWith('proceed');
   });
 
   it('should be disabled after proceeding', function () {
-    element.find('button')[0].click();
-    element.find('button').eq(0)[0].click();
+    button().click();
+    button().click();
 
-    expect(element.find('button').text().trim()).toEqual('Working');
+    expect(button().textContent.trim()).toEqual('Working');
   });
 });

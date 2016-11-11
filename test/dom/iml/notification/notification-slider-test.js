@@ -5,7 +5,10 @@ import notificationModule from '../../../../source/iml/notification/notification
 describe('The notification slider directive', function () {
   beforeEach(module(notificationModule));
 
-  let el, $scope, $timeout, findSlider;
+  let el,
+    $scope,
+    $timeout,
+    findSlider;
 
   beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
     const template = '<notification-slider stream="stream"></notification-slider>';
@@ -16,11 +19,10 @@ describe('The notification slider directive', function () {
     $scope.stream = highland();
     $scope.hostId = '1';
 
-    el = $compile(template)($scope);
+    el = $compile(template)($scope)[0];
 
-    findSlider = el[0]
-      .querySelector
-      .bind(el[0], '.notification-slider');
+    findSlider = () =>
+      el.querySelector('.notification-slider');
 
     $scope.$digest();
   }));
@@ -42,8 +44,8 @@ describe('The notification slider directive', function () {
 
     it('should display a message', function () {
       const text = el
-        .find('.notification-message h4')
-        .text()
+        .querySelector('.notification-message h4')
+        .textContent
         .trim();
 
       expect(text)
@@ -53,24 +55,28 @@ describe('The notification slider directive', function () {
 
     it('should retract after 5 seconds', function () {
       $timeout.flush(5000);
-      expect(findSlider()).not.toBeShown();
+      expect(findSlider())
+        .toBeNull();
     });
 
     it('should be closable', function () {
-      el.find('.btn-danger')[0].click();
+      el
+        .querySelector('.btn-danger')
+        .click();
 
-      expect(findSlider()).not.toBeShown();
+      expect(findSlider())
+        .toBeNull();
     });
 
     describe('mousing', function () {
       beforeEach(function () {
         document.body
-          .appendChild(el[0]);
+          .appendChild(el);
       });
 
       afterEach(function () {
         document.body
-          .removeChild(el[0]);
+          .removeChild(el);
       });
 
       it('should stay open while moused over', function () {
@@ -85,7 +91,8 @@ describe('The notification slider directive', function () {
 
         $timeout.flush(5000);
 
-        expect(findSlider()).toBeShown();
+        expect(findSlider())
+          .toBeShown();
         $timeout.verifyNoPendingTasks();
       });
 
@@ -108,7 +115,8 @@ describe('The notification slider directive', function () {
 
         $timeout.flush(5000);
 
-        expect(findSlider()).not.toBeShown();
+        expect(findSlider())
+          .toBeNull();
       });
     });
   });
@@ -125,8 +133,8 @@ describe('The notification slider directive', function () {
 
     it('should display a message', function () {
       const text = el
-        .find('.notification-message h4')
-        .text()
+        .querySelector('.notification-message h4')
+        .textContent
         .trim();
 
       expect(text)
@@ -143,7 +151,7 @@ describe('The notification slider directive', function () {
     });
 
     it('should not display the slider', function () {
-      expect(findSlider()).not.toBeShown();
+      expect(findSlider()).toBeNull();
     });
   });
 });

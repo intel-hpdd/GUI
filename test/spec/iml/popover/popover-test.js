@@ -1,13 +1,15 @@
-import angular from 'angular';
 import popoverModule from '../../../../source/iml/popover/popover-module';
 
-
 describe('popover', () => {
-  let $window, $timeout, $scope, el, popover, button;
+  let $timeout,
+    $scope,
+    el,
+    popover,
+    button;
 
   beforeEach(module(popoverModule));
 
-  beforeEach(inject(($rootScope, $compile, _$window_, _$timeout_) => {
+  beforeEach(inject(($rootScope, $compile, _$timeout_) => {
     $timeout = _$timeout_;
 
     const template = `
@@ -24,17 +26,15 @@ describe('popover', () => {
     $scope.workFn = jasmine.createSpy('workFn');
     $scope.onToggle = jasmine.createSpy('onToggle');
 
-    el = $compile(template)($scope);
+    el = $compile(template)($scope)[0];
 
     $scope.$digest();
 
-    $window = _$window_;
-
-    button = el.find('a');
+    button = el.querySelector('a');
   }));
 
   it('should be not render before opening', function () {
-    expect(el.find('.popover').length).toBe(0);
+    expect(el.querySelector('.popover')).toBeNull();
   });
 
   describe('open', function () {
@@ -42,11 +42,21 @@ describe('popover', () => {
       button.click();
       $timeout.flush();
 
-      popover = el.find('.popover');
+      popover = el
+        .querySelector('.popover');
     });
 
-    afterEach(function () {
-      popover.remove();
+    beforeEach(() => {
+      document
+        .body
+        .appendChild(popover);
+    });
+
+    afterEach(() => {
+      if (popover.parentElement)
+        document
+          .body
+          .removeChild(popover);
     });
 
     it('should display when the button is clicked', function () {
@@ -71,25 +81,23 @@ describe('popover', () => {
       expect($scope.onToggle).toHaveBeenCalledOnceWith('closed');
     });
 
-    it('should hide when window is clicked', function () {
-      angular.element($window).click();
+    it('should hide when body is clicked', function () {
+      document.body.click();
       $timeout.flush();
 
       expect(popover).not.toHaveClass('in');
     });
 
     it('should not hide when the popover is clicked', function () {
-      popover.appendTo(document.body);
-
       popover.click();
 
       expect(popover).toHaveClass('in');
     });
 
     it('should not hide when a child of the popover is clicked', function () {
-      popover.appendTo(document.body);
-
-      popover.find('button').click();
+      popover
+        .querySelector('button')
+        .click();
 
       expect(popover).toHaveClass('in');
     });

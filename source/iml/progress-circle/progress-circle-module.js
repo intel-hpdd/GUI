@@ -25,7 +25,7 @@ export default angular.module('progressCircleModule', [
 
       element.css({width: diameter, height: diameter});
 
-      const svg = d3.select(element.find('svg')[0])
+      const svg = d3.select(element[0].querySelector('svg'))
         .attr('width', diameter)
         .attr('height', diameter)
         .append('g')

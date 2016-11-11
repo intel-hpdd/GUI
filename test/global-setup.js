@@ -9,8 +9,8 @@ function cssMatcher (presentClasses, absentClasses) {
   return () => {
     return {
       compare: (el) => {
-        if (el.get)
-          el = el.get(0);
+        if (!(el instanceof Element))
+          el = el[0];
 
         if (el.classList.contains(presentClasses) && !el.classList.contains(absentClasses))
           return {
@@ -112,8 +112,8 @@ beforeEach(() => {
     toBeShown () {
       return {
         compare (el) {
-          if (el && el.get)
-            el = el.get(0);
+          if (!(el instanceof Element))
+            el = el[0];
 
           if (el && !el.classList.contains('ng-hide'))
             return {

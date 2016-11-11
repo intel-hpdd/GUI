@@ -28,8 +28,13 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
       link: function link (scope, el, attrs, ctrl, $transclude) {
         let popoverLinker = $compile(template);
 
-        let popoverButton = el.siblings('.activate-popover').eq(0),
-          wrappedWindow = angular.element($window);
+        let popoverButton = angular.element(Array
+          .from(el[0].parentNode.children)
+          .filter(
+            x => x.classList.contains('activate-popover')
+          )[0]);
+
+        let wrappedWindow = angular.element($window);
 
         if (!popoverButton) throw new Error('No popover button found.');
 
@@ -45,7 +50,7 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
         popoverButton.on('click', function handleClick ($event) {
           // Close any other popovers that are currently open
           if (!scope.open)
-            wrappedWindow.trigger('click');
+            document.body.click();
 
           toggle($event);
           scope.$digest();
@@ -68,12 +73,19 @@ export default angular.module('iml-popover', ['position']).directive('imlPopover
 
             positioner = position.positioner(popoverEl[0]);
 
-            popoverEl.find('.popover-content').append(clone);
+            angular.element(
+              popoverEl[0]
+              .querySelector('.popover-content')
+            )
+            .append(clone);
+
             popoverEl.on('click', function handleClick ($event) {
               $event.stopPropagation();
             });
 
-            el.before(popoverEl);
+            el[0]
+              .parentElement
+              .insertBefore(popoverEl[0], el[0]);
 
             scope.onToggle({
               state: 'opened'
