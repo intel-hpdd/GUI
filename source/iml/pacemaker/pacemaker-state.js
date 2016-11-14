@@ -6,7 +6,6 @@
 // license that can be found in the LICENSE file.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 function PacemakerStateComponent ({state}:stateT) {
   switch (state) {
@@ -40,7 +39,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <PacemakerStateComponent state={state} />,
           $element[0]
         )

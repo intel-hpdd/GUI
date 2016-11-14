@@ -6,7 +6,6 @@
 // license that can be found in the LICENSE file.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 type stateT = {
   state:'started'
@@ -44,7 +43,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <CorosyncStateComponent state={state} />,
           $element[0]
         )

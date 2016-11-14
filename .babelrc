@@ -5,6 +5,7 @@
       "plugins": [
         "transform-flow-strip-types",
         "transform-class-properties",
+        "syntax-jsx",
         "transform-object-rest-spread",
         "inferno",
         [
@@ -28,6 +29,7 @@
         "check-es2015-constants",
         "transform-flow-strip-types",
         "transform-class-properties",
+        "syntax-jsx",
         "transform-object-rest-spread",
         "inferno",
         "transform-async-to-generator",
@@ -41,6 +43,7 @@
         "check-es2015-constants",
         "transform-flow-strip-types",
         "transform-class-properties",
+        "syntax-jsx",
         "transform-object-rest-spread",
         "inferno",
         "transform-async-to-generator",
