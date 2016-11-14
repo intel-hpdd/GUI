@@ -2,7 +2,6 @@
 
 import Tooltip from '../../../source/iml/tooltip.js';
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 describe('tooltip', () => {
   let root, tooltip;
@@ -11,7 +10,7 @@ describe('tooltip', () => {
     beforeEach(() => {
       root = document.createElement('div');
 
-      InfernoDOM.render(
+      Inferno.render(
         <Tooltip message="Test message" direction="bottom"
           moreClasses={['extra-class']} />,
         root
@@ -55,7 +54,7 @@ describe('tooltip', () => {
     beforeEach(() => {
       root = document.createElement('div');
 
-      InfernoDOM.render(
+      Inferno.render(
         <Tooltip message="" direction="bottom"
           moreClasses={['extra-class']} />,
         root

@@ -6,7 +6,6 @@
 // license that can be found in the LICENSE file.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 type statesT =
   | 'lnet_up'
@@ -66,7 +65,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <LnetStatusComponent state={state} />,
           $element[0]
         )
