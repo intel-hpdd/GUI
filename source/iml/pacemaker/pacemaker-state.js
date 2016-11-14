@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 function PacemakerStateComponent ({state}:stateT) {
   switch (state) {
@@ -56,7 +55,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <PacemakerStateComponent state={state} />,
           $element[0]
         )

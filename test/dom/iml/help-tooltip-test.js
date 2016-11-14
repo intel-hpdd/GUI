@@ -1,7 +1,6 @@
 // @flow
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 import {
   mock,
@@ -23,7 +22,7 @@ describe('help tooltip', () => {
       });
 
       HelpTooltip = mod.default;
-      InfernoDOM.render(
+      Inferno.render(
         <HelpTooltip helpKey="my_key" direction="bottom"
           moreClasses={['extra-class']} />,
         root
@@ -69,7 +68,7 @@ describe('help tooltip', () => {
     beforeEach(() => {
       root = document.createElement('div');
 
-      InfernoDOM.render(
+      Inferno.render(
         <HelpTooltip helpKey="" direction="bottom"
           moreClasses={['extra-class']} />,
         root

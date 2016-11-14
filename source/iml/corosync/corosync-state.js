@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 type stateT = {
   state:'started'
@@ -60,7 +59,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <CorosyncStateComponent state={state} />,
           $element[0]
         )

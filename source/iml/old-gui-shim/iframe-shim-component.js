@@ -57,7 +57,6 @@ export default {
       if (!frame.contentDocument)
         return;
 
-      // $FlowFixMe: Track https://github.com/facebook/flow/pull/1783
       const body = frame
         .contentDocument
         .body;

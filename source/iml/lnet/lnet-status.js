@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import Inferno from 'inferno';
-import InfernoDOM from 'inferno-dom';
 
 type statesT =
   | 'lnet_up'
@@ -82,7 +81,7 @@ export default {
       .stream
       .filter(Boolean)
       .each(({state}:stateT) =>
-        InfernoDOM.render(
+        Inferno.render(
           <LnetStatusComponent state={state} />,
           $element[0]
         )
