@@ -25,9 +25,10 @@ describe('base dashboard resolves', () => {
   describe('charts', () => {
     let getHostCpuRamChart, getOstBalanceChart,
       getMdoChart, getReadWriteBandwidthChart,
-      getReadWriteHeatMapChart, getInst, $stateParams,
-      mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart,
-      readWriteHeatMapChart;
+      getReadWriteHeatMapChart, getFileUsageChart,
+      getSpaceUsageChart, getInst, $stateParams,
+      mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart, fileUsageChart,
+      readWriteHeatMapChart, spaceUsageChart;
 
     beforeEach(() => {
       mdsChart = { name: 'mdsChart' };
@@ -56,6 +57,16 @@ describe('base dashboard resolves', () => {
       getReadWriteHeatMapChart = jasmine.createSpy('getReadWriteHeatMapChart')
         .and.returnValue(readWriteHeatMapChart);
 
+      fileUsageChart = { name: 'fileUsageChart' };
+      getFileUsageChart =
+      jasmine.createSpy('getFileUsageChart')
+        .and.returnValue(fileUsageChart);
+
+      spaceUsageChart = { name: 'spaceUsageChart' };
+      getSpaceUsageChart =
+      jasmine.createSpy('getSpaceUsageChart')
+        .and.returnValue(spaceUsageChart);
+
       $stateParams = {};
 
       getInst = baseDashboardChartResolves.bind(
@@ -65,7 +76,9 @@ describe('base dashboard resolves', () => {
         getOstBalanceChart,
         getMdoChart,
         getReadWriteBandwidthChart,
-        getReadWriteHeatMapChart
+        getReadWriteHeatMapChart,
+        getFileUsageChart,
+        getSpaceUsageChart
       );
     });
 
@@ -119,6 +132,24 @@ describe('base dashboard resolves', () => {
           },
           'ossbase'
         );
+      });
+
+      it('should get the file usage chart', () => {
+        expect(getFileUsageChart)
+          .toHaveBeenCalledOnceWith(
+            'File Usage',
+            'Files Used',
+            {},
+            'fileusagebase'
+          );
+      });
+
+      it('should get the space usage chart', () => {
+        expect(getSpaceUsageChart)
+          .toHaveBeenCalledOnceWith(
+            {},
+            'spaceusagebase'
+          );
       });
     });
 
@@ -194,6 +225,23 @@ describe('base dashboard resolves', () => {
         );
       });
 
+      it('should get the file usage chart', () => {
+        expect(getFileUsageChart)
+          .toHaveBeenCalledOnceWith(
+            'File Usage',
+            'Files Used',
+            {},
+            'fileusagebase'
+          );
+      });
+
+      it('should get the space usage chart', () => {
+        expect(getSpaceUsageChart)
+          .toHaveBeenCalledOnceWith(
+            {},
+            'spaceusagebase'
+          );
+      });
 
       itAsync('should return an array of charts', async function () {
         const streams = await promise;
@@ -204,6 +252,8 @@ describe('base dashboard resolves', () => {
             ostBalanceChart,
             mdoChart,
             readWriteBandwidthChart,
+            fileUsageChart,
+            spaceUsageChart,
             mdsChart,
             ossChart
           ]);
