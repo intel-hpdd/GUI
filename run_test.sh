@@ -4,7 +4,7 @@ set -e
 . ~/.nvm/nvm.sh
 nvm use 6
 rm -rf node_modules
-npm i -d
+yarn install
 
 ./test-gui.sh
 ./test-gulp.sh
