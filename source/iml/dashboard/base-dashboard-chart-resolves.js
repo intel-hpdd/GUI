@@ -15,7 +15,8 @@ import type {
 
 import type {
   chartT,
-  chartTitleT
+  chartTitleT,
+  chartTitleKeyT
 } from './dashboard-types.js';
 
 export function baseDashboardChartResolves (
@@ -24,7 +25,9 @@ export function baseDashboardChartResolves (
   getOstBalanceChart:chartT,
   getMdoChart:chartT,
   getReadWriteBandwidthChart:chartT,
-  getReadWriteHeatMapChart:chartT
+  getReadWriteHeatMapChart:chartT,
+  getFileUsageChart:chartTitleKeyT,
+  getSpaceUsageChart:chartT,
 ) {
   'ngInject';
 
@@ -43,6 +46,8 @@ export function baseDashboardChartResolves (
     getOstBalanceChart(fsQs, id || 'base'),
     getMdoChart(fsQs, id || 'base'),
     getReadWriteBandwidthChart(fsQs, id || 'base'),
+    getFileUsageChart('File Usage', 'Files Used', {}, 'fileusagebase'),
+    getSpaceUsageChart({}, 'spaceusagebase'),
     getHostCpuRamChart('Metadata Servers', angular.merge({
       qs: {
         role: 'MDS'
