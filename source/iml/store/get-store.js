@@ -42,6 +42,8 @@ import spaceUsageChartReducer from '../space-usage/space-usage-chart-reducer.js'
 import targetReducer from '../target/target-reducer.js';
 import treeReducer from '../tree/tree-reducer.js';
 import userReducer from '../user/user-reducer.js';
+import loginFormReducer from '../login/login-form-reducer.js';
+import sessionReducer from '../auth/session-reducer.js';
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -62,5 +64,7 @@ export default createStore({
   spaceUsageCharts: spaceUsageChartReducer,
   targets: targetReducer,
   tree: treeReducer,
-  users: userReducer
+  users: userReducer,
+  loginForm: loginFormReducer,
+  session: sessionReducer
 });

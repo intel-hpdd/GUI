@@ -21,42 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
-import environmentModule from '../environment-module';
-import SessionModel from './session-model';
-import UserModel from './user-model';
-import {authorization, GROUPS, restrictTo, restrict} from './authorization';
+import {
+  ADD_USERNAME,
+  ADD_PASSWORD
+} from './login-form-reducer.js';
 
 import type {
-  sessionT
-} from '../api-types.js';
+  usernameT,
+  passwordT
+} from './login-module.js';
 
-import type {
-  Exact
-} from '../../flow-workarounds.js';
+export function addUsername (payload:usernameT) {
+  return {
+    type: ADD_USERNAME,
+    payload
+  };
+}
 
-export type credentialsT = Exact<{
-  username:string,
-  password:string
-}>;
-
-export type sessionActionT = Exact<{type:'SET_SESSION', payload:sessionT}>;
-
-export type sessionActionsT =
-  | sessionActionT
-  | Exact<{type:string, payload:any}>;
-
-export default angular.module('auth', [modelFactoryModule, environmentModule])
-  .value('EULA_STATES', {
-    EULA: 'eula',
-    PASS: 'pass',
-    DENIED: 'denied'
-  })
-  .factory('SessionModel', SessionModel)
-  .factory('UserModel', UserModel)
-  .value('authorization', authorization)
-  .constant('GROUPS', GROUPS)
-  .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict)
-  .name;
+export function addPassword (payload:passwordT) {
+  return {
+    type: ADD_PASSWORD,
+    payload
+  };
+}

@@ -21,42 +21,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
-import environmentModule from '../environment-module';
-import SessionModel from './session-model';
-import UserModel from './user-model';
-import {authorization, GROUPS, restrictTo, restrict} from './authorization';
+export const SET_SESSION = 'SET_SESSION';
 
 import type {
   sessionT
 } from '../api-types.js';
 
 import type {
-  Exact
-} from '../../flow-workarounds.js';
+  sessionActionsT
+} from './auth-module.js';
 
-export type credentialsT = Exact<{
-  username:string,
-  password:string
-}>;
-
-export type sessionActionT = Exact<{type:'SET_SESSION', payload:sessionT}>;
-
-export type sessionActionsT =
-  | sessionActionT
-  | Exact<{type:string, payload:any}>;
-
-export default angular.module('auth', [modelFactoryModule, environmentModule])
-  .value('EULA_STATES', {
-    EULA: 'eula',
-    PASS: 'pass',
-    DENIED: 'denied'
-  })
-  .factory('SessionModel', SessionModel)
-  .factory('UserModel', UserModel)
-  .value('authorization', authorization)
-  .constant('GROUPS', GROUPS)
-  .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict)
-  .name;
+export default function (state:sessionT, actions:sessionActionsT):sessionT {
+  switch (actions.type) {
+  case SET_SESSION:
+    return actions.payload;
+  default:
+    return state;
+  }
+}

@@ -21,42 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
-import environmentModule from '../environment-module';
-import SessionModel from './session-model';
-import UserModel from './user-model';
-import {authorization, GROUPS, restrictTo, restrict} from './authorization';
+export const ADD_USERNAME = 'ADD_USERNAME';
+export const ADD_PASSWORD = 'ADD_PASSWORD';
 
 import type {
-  sessionT
-} from '../api-types.js';
+  loginFormT,
+  loginFormActionsT
+} from './login-module.js';
 
-import type {
-  Exact
-} from '../../flow-workarounds.js';
+export default function (state:loginFormT = {username: '', password: ''},
+  actions:loginFormActionsT):loginFormT {
 
-export type credentialsT = Exact<{
-  username:string,
-  password:string
-}>;
+  switch (actions.type) {
+  case ADD_USERNAME:
+  case ADD_PASSWORD:
+    return {
+      ...state,
+      ...actions.payload
+    };
 
-export type sessionActionT = Exact<{type:'SET_SESSION', payload:sessionT}>;
-
-export type sessionActionsT =
-  | sessionActionT
-  | Exact<{type:string, payload:any}>;
-
-export default angular.module('auth', [modelFactoryModule, environmentModule])
-  .value('EULA_STATES', {
-    EULA: 'eula',
-    PASS: 'pass',
-    DENIED: 'denied'
-  })
-  .factory('SessionModel', SessionModel)
-  .factory('UserModel', UserModel)
-  .value('authorization', authorization)
-  .constant('GROUPS', GROUPS)
-  .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict)
-  .name;
+  default:
+    return state;
+  }
+}
