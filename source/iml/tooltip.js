@@ -30,10 +30,17 @@ export type directionsT =
   | 'top'
   | 'bottom';
 
+export type sizesT =
+  | ''
+  | 'xsmall'
+  | 'small'
+  | 'medium'
+  | 'large';
+
 type tooltipT = {
   message?:string,
   direction:directionsT,
-  size?:"'' | 'xsmall' | 'small' | 'medium' | 'large'",
+  size?:sizesT,
   moreClasses?:string[]
 };
 
