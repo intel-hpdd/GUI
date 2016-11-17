@@ -85,8 +85,9 @@ export function helpTooltip () {
     },
     restrict: 'E',
     link: function link (scope:{|topic:string, direction:directionsT, size?:string|}, el:HTMLElement[]) {
+      scope.size = scope.size || '';
       Inferno.render(
-        <HelpTooltip helpKey={scope.topic} direction={scope.direction} size={scope.size ? scope.size : undefined} />,
+        <HelpTooltip helpKey={scope.topic} direction={scope.direction} size={scope.size} />,
         el[0]
       );
     }
