@@ -33,14 +33,15 @@ export type directionsT =
 type tooltipT = {
   message?:string,
   direction:directionsT,
+  size?:string,
   moreClasses?:string[]
 };
 
-export default ({message, direction, moreClasses}:tooltipT) => {
+export default ({message, direction, size, moreClasses}:tooltipT) => {
   if (!message)
     return;
 
-  return (<div className={`tooltip inferno-tt ${direction} ${moreClasses ? moreClasses.join(' ') : ''}`}>
+  return (<div className={`tooltip inferno-tt ${direction} ${size ? size : ''} ${moreClasses ? moreClasses.join(' ') : ''}`}>
     <div class="tooltip-arrow"></div>
     <div class="tooltip-inner">
       <span>{message}</span>

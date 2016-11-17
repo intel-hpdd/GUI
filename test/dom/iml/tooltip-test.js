@@ -12,7 +12,7 @@ describe('tooltip', () => {
 
       Inferno.render(
         <Tooltip message="Test message" direction="bottom"
-          moreClasses={['extra-class']} />,
+          size='large' moreClasses={['extra-class']} />,
         root
       );
 
@@ -37,6 +37,10 @@ describe('tooltip', () => {
 
     it('should have the extra class', () => {
       expect(tooltip.classList).toContain('extra-class');
+    });
+
+    it('should have the size class', () => {
+      expect(tooltip.classList).toContain('large');
     });
 
     it('should have the tooltip-arrow', () => {
