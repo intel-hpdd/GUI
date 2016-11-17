@@ -21,41 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export type hostT = {
-  resource_uri:string,
-  id:string,
-  label:string
-};
-
-type groupT = {
-  id:string,
-  name:string,
-  resource_uri:string
-};
-
-export type userT = {
-  accepted_eula:boolean,
-  alert_subscriptions:{}[],
-  email:string,
-  eula_state:'eula' | 'pass' | 'denied',
-  first_name:string,
-  full_name:string,
-  groups:groupT[],
-  gui_config:Object,
-  id:string,
-  is_superuser:boolean,
-  last_name:string,
-  new_password1:?string,
-  new_password2:?string,
-  password1:?string,
-  password2:?string,
-  resource_uri:string,
-  roles:string,
-  username:string
-};
-
-export type sessionT = {
-  read_enabled:boolean,
-  resource_uri:string,
-  user:userT
-};
+// Used for working with exact types in which an object is being spread. Currently, flow is not
+// able to read the types correctly for a spread object over an exact type.
+// https://github.com/facebook/flow/issues/2405
+export type Exact<T> = T & $Shape<T>;

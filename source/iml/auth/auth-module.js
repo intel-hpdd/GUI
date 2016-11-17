@@ -12,6 +12,25 @@ import SessionModel from './session-model';
 import UserModel from './user-model';
 import {authorization, GROUPS, restrictTo, restrict} from './authorization';
 
+import type {
+  sessionT
+} from '../api-types.js';
+
+import type {
+  Exact
+} from '../../flow-workarounds.js';
+
+export type credentialsT = Exact<{
+  username:string,
+  password:string
+}>;
+
+export type sessionActionT = Exact<{type:'SET_SESSION', payload:sessionT}>;
+
+export type sessionActionsT =
+  | sessionActionT
+  | Exact<{type:string, payload:any}>;
+
 export default angular.module('auth', [modelFactoryModule, environmentModule])
   .value('EULA_STATES', {
     EULA: 'eula',

@@ -43,7 +43,7 @@ System.config({
     'intel-parsely': 'node_modules/intel-parsely/dist/source/index.js',
     'intel-pdsh-parser': 'node_modules/intel-pdsh-parser/dist/source/index.js',
     sprintf: 'node_modules/sprintf-js/src/sprintf.js',
-    'intel-deep-freeze': 'node_modules/intel-deep-freeze/dist/source/index.js'
+    'intel-deep-freeze': 'node_modules/intel-deep-freeze/dist/index.js'
   },
   meta: {
     'node_modules/intel-big-differ/source/big-differ-module.js': {

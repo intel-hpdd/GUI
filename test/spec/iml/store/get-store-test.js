@@ -13,7 +13,8 @@ describe('get store', () => {
     hostCpuRamChartReducer, agentVsCopytoolChartReducer,
     fileUsageChartReducer, spaceUsageChartReducer,
     cpuUsageChartReducer, memoryUsageChartReducer,
-    userReducer, storeInstance, jobStatsReducer;
+    userReducer, storeInstance, jobStatsReducer,
+    loginFormReducer, sessionReducer;
 
   beforeEachAsync(async function () {
     store = {
@@ -43,6 +44,8 @@ describe('get store', () => {
     memoryUsageChartReducer = {};
     userReducer = {};
     jobStatsReducer = {};
+    loginFormReducer = {};
+    sessionReducer = {};
 
     const storeModule = await mock('source/iml/store/get-store.js', {
       'source/iml/target/target-reducer.js': { default: targetReducer },
@@ -66,7 +69,9 @@ describe('get store', () => {
       'source/iml/memory-usage/memory-usage-chart-reducer.js': { default: memoryUsageChartReducer },
       'source/iml/user/user-reducer.js': { default: userReducer },
       'source/iml/store/create-store.js': { default: createStore },
-      'source/iml/job-stats/job-stats-reducer': { default: jobStatsReducer }
+      'source/iml/job-stats/job-stats-reducer': { default: jobStatsReducer },
+      'source/iml/login/login-form-reducer': { default: loginFormReducer },
+      'source/iml/auth/session-reducer': { default: sessionReducer }
     });
     storeInstance = storeModule.default;
   });
@@ -97,7 +102,9 @@ describe('get store', () => {
       cpuUsageCharts: cpuUsageChartReducer,
       memoryUsageCharts: memoryUsageChartReducer,
       users: userReducer,
-      jobStatsConfig: jobStatsReducer
+      jobStatsConfig: jobStatsReducer,
+      loginForm: loginFormReducer,
+      session: sessionReducer
     });
   });
 });
