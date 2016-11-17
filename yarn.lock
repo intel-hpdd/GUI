@@ -2457,9 +2457,9 @@ intel-debounce@1.0.0:
   version "1.0.0"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-debounce/-/intel-debounce-1.0.0.tgz#504fafde6f26383c482735ca7a3eaa92f7626993"
 
-intel-deep-freeze@1.0.1:
-  version "1.0.1"
-  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-deep-freeze/-/intel-deep-freeze-1.0.1.tgz#e518f9cfd196361d48d0407b0b601151db2b73e4"
+intel-deep-freeze@2.0.0:
+  version "2.0.0"
+  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/intel-deep-freeze/-/intel-deep-freeze-2.0.0.tgz#2611fc0179421098df5e6960a31d3caff467c23a"
 
 intel-dirp@1.0.5:
   version "1.0.5"

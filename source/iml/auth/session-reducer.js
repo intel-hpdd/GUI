@@ -21,41 +21,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export type hostT = {
-  resource_uri:string,
-  id:string,
-  label:string
-};
+export const SET_SESSION = 'SET_SESSION';
 
-type groupT = {
-  id:string,
-  name:string,
-  resource_uri:string
-};
+import type {
+  sessionT
+} from '../api-types.js';
 
-export type userT = {
-  accepted_eula:boolean,
-  alert_subscriptions:{}[],
-  email:string,
-  eula_state:'eula' | 'pass' | 'denied',
-  first_name:string,
-  full_name:string,
-  groups:groupT[],
-  gui_config:Object,
-  id:string,
-  is_superuser:boolean,
-  last_name:string,
-  new_password1:?string,
-  new_password2:?string,
-  password1:?string,
-  password2:?string,
-  resource_uri:string,
-  roles:string,
-  username:string
-};
+import type {
+  sessionActionsT
+} from './auth-module.js';
 
-export type sessionT = {
-  read_enabled:boolean,
-  resource_uri:string,
-  user:userT
-};
+export default function (state:sessionT, actions:sessionActionsT):sessionT {
+  switch (actions.type) {
+  case SET_SESSION:
+    return actions.payload;
+  default:
+    return state;
+  }
+}

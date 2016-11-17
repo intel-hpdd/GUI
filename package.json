@@ -73,7 +73,7 @@
     "inferno-component": "1.0.0-beta7",
     "intel-big-differ": "1.0.0",
     "intel-debounce": "1.0.0",
-    "intel-deep-freeze": "1.0.1",
+    "intel-deep-freeze": "2.0.0",
     "intel-extract-api": "1.0.2",
     "intel-flat-map-changes": "1.0.3",
     "intel-flow-highland": "3.9.0",
