@@ -5,17 +5,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import store from './store/get-store.js';
 import {
-  CACHE_INITIAL_DATA
-} from './environment.js';
+  streamToPromise
+} from './promise-transforms.js';
 
 import {
-  authorization
+  groupAllowed
 } from './auth/authorization.js';
 
 import type {
   TransitionServiceT,
-  StateDeclarationT
+  StateDeclarationT,
+  StateServiceT
 } from 'angular-ui-router';
 
 export type routeStateT = StateDeclarationT & {
@@ -30,7 +32,7 @@ export type routeStateT = StateDeclarationT & {
   }
 };
 
-export default function routeTransitions ($transitions:TransitionServiceT, navigate:Function) {
+export default function routeTransitions ($transitions:TransitionServiceT, $state:StateServiceT) {
   'ngInject';
 
   const allowAnonymousReadPredicate = {
@@ -39,12 +41,15 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
     }
   };
 
-  const processAllowAnonymousRead = () => {
-    const session = CACHE_INITIAL_DATA.session;
-
-    if (!session.read_enabled)
-      return new Promise(() => navigate('login'));
-  };
+  const processAllowAnonymousRead = () =>
+    streamToPromise(
+      store
+        .select('session')
+    )
+    .then(({session}) => {
+      if (!session.read_enabled)
+        return $state.target('login');
+    });
 
   const eulaStatePredicate = {
     to: state => {
@@ -52,12 +57,15 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
     }
   };
 
-  const processEulaState = () => {
-    const session = CACHE_INITIAL_DATA.session;
-
-    if (session.user && session.user.eula_state !== 'pass')
-      return new Promise(() => navigate('login'));
-  };
+  const processEulaState = () =>
+    streamToPromise(
+      store
+        .select('session')
+    )
+    .then(({session}) => {
+      if (session.user && session.user.eula_state !== 'pass')
+        return $state.target('login');
+    });
 
   const authenticationPredicate = {
     to: state => {
@@ -66,13 +74,16 @@ export default function routeTransitions ($transitions:TransitionServiceT, navig
   };
 
   const processAuthentication = transition => {
-    const authenticated = authorization
-      .groupAllowed(transition.to().data.access);
+    const authenticated = groupAllowed(transition.to().data.access);
 
-    if (!authenticated) {
-      const $state = transition.router.stateService;
-      return $state.target('app', undefined, {location: true});
-    }
+    if (!authenticated)
+      return $state.target(
+        'app',
+        undefined,
+        {
+          location: true
+        }
+      );
   };
 
   $transitions.onStart(allowAnonymousReadPredicate, processAllowAnonymousRead);

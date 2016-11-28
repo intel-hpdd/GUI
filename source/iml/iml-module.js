@@ -5,6 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import './target/target-dispatch-source.js';
+import './alert-indicator/alert-indicator-dispatch-source.js';
+import './lnet/lnet-dispatch-source.js';
+import './server/server-dispatch-source.js';
+import './file-system/file-system-dispatch-source.js';
+import './user/user-dispatch-source.js';
+import './job-indicator/job-indicator-dispatch-source.js';
+import './session/session-dispatch-source.js';
+
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import ngResource from 'angular-resource';
@@ -105,14 +114,6 @@ import {
 } from './dashboard/dashboard-states.js';
 
 import oldGUIStates from './old-gui-shim/old-gui-states.js';
-
-import './target/target-dispatch-source.js';
-import './alert-indicator/alert-indicator-dispatch-source.js';
-import './lnet/lnet-dispatch-source.js';
-import './server/server-dispatch-source.js';
-import './file-system/file-system-dispatch-source.js';
-import './user/user-dispatch-source.js';
-import './job-indicator/job-indicator-dispatch-source.js';
 
 import jobTemplate from './command/assets/html/job.html!text';
 
