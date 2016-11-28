@@ -3,28 +3,28 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {CACHE_INITIAL_DATA} from '../environment.js';
+import store from '../store/get-store.js';
 
-const session = CACHE_INITIAL_DATA.session;
+let user;
 
-export const authorization = {
-  readEnabled: session.read_enabled,
-  groupAllowed: function groupAllowed (groupName) {
+store
+  .select('session')
+  .each(({session}) => user = session.user);
 
-    const hasGroups = session.user && Array.isArray(session.user.groups);
+export function groupAllowed (groupName) {
+  const hasGroups = user && Array.isArray(user.groups);
 
-    return hasGroups && session.user.groups.some(function some (group) {
+  return hasGroups && user.groups.some(group => {
       //Superusers can do everything.
-      if (group.name === GROUPS.SUPERUSERS) return true;
+    if (group.name === GROUPS.SUPERUSERS) return true;
 
       //Filesystem administrators can do everything a filesystem user can do.
-      if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
+    if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
 
       // Fallback to matching on names.
-      return group.name === groupName;
-    });
-  }
-};
+    return group.name === groupName;
+  });
+}
 
 export const GROUPS = Object.freeze({
   SUPERUSERS: 'superusers',
@@ -32,23 +32,19 @@ export const GROUPS = Object.freeze({
   FS_USERS: 'filesystem_users'
 });
 
-export function restrictTo (authorization) {
-  'ngInject';
-
+export function restrictTo () {
   return {
-    link: function link ($scope, el, attrs) {
-      if (!authorization.groupAllowed(attrs.restrictTo))
+    link ($scope, el, attrs) {
+      if (!groupAllowed(attrs.restrictTo))
         el.addClass('invisible');
     }
   };
 }
 
-export function restrict (authorization) {
-  'ngInject';
-
+export function restrict () {
   return {
-    link: function link ($scope, el, attrs) {
-      if (authorization.groupAllowed(attrs.restrict))
+    link ($scope, el, attrs) {
+      if (groupAllowed(attrs.restrict))
         el.addClass('invisible');
     }
   };

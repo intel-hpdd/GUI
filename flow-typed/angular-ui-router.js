@@ -177,7 +177,7 @@ declare module 'angular-ui-router' {
   }
   declare type TransitionServiceT = TransitionService;
 
-  declare type TransitionOptionsT = {
+  declare type TransitionOptionsT = $Shape<{
     current:() => TransitionT;
     custom:any;
     inherit:boolean;
@@ -186,8 +186,8 @@ declare module 'angular-ui-router' {
     previous:TransitionT;
     relative:string | StateDeclarationT | StateT;
     reload:boolean | string | StateDeclarationT | StateT;
-    reloatState:StateT;
-  }
+    reloadState:StateT;
+  }>
 
   declare type ParamsOrArrayT = RawParamsT | Array<RawParamsT>;
 
@@ -267,7 +267,7 @@ declare module 'angular-ui-router' {
     includes(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;
     is(stateOrName:StateOrNameT, params?:RawParamsT, options?:TransitionOptionsT):boolean;
     reload(reloadState?:StateOrNameT):Promise<StateT>;
-    target(identifier:StateOrNameT, params:ParamsOrArrayT, options?:TransitionOptionsT):TargetStateT;
+    target(identifier:StateOrNameT, params?:ParamsOrArrayT, options?:TransitionOptionsT):TargetStateT;
     transitionT(to:StateOrNameT, toParams?:RawParamsT, options?:TransitionOptionsT):Promise<StateT>;
   }
   declare type StateServiceT = StateService;

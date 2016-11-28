@@ -2,7 +2,7 @@
 
 import {
   default as sessionReducer
-} from '../../../../source/iml/auth/session-reducer.js';
+} from '../../../../source/iml/session/session-reducer.js';
 
 import type {
   sessionT
@@ -46,9 +46,11 @@ describe('session reducer', () => {
 
   describe('matching type', () => {
     it('should return the payload', () => {
-      expect(sessionReducer(deepFreeze(session), {
+      expect(sessionReducer(deepFreeze({session}), {
         type: 'SET_SESSION',
-        payload: session
+        payload: {
+          session
+        }
       })).toEqual(session);
     });
   });
@@ -57,7 +59,7 @@ describe('session reducer', () => {
     it('should return the state', () => {
       expect(
         sessionReducer(
-        deepFreeze(session), {
+        deepFreeze({session}), {
           type: 'ADD_ALERT_INDICATOR_ITEMS',
           payload: {}
         })
