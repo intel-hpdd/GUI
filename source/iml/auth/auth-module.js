@@ -24,13 +24,13 @@
 import angular from 'angular';
 import modelFactoryModule from '../model-factory/model-factory-module';
 import environmentModule from '../environment-module';
-import SessionModel from './session-model';
+import SessionModel from '../session/session-model.js';
 import UserModel from './user-model';
-import {authorization, GROUPS, restrictTo, restrict} from './authorization';
-
-import type {
-  sessionT
-} from '../api-types.js';
+import {
+  GROUPS,
+  restrictTo,
+  restrict
+} from './authorization.js';
 
 import type {
   Exact
@@ -41,12 +41,6 @@ export type credentialsT = Exact<{
   password:string
 }>;
 
-export type sessionActionT = Exact<{type:'SET_SESSION', payload:sessionT}>;
-
-export type sessionActionsT =
-  | sessionActionT
-  | Exact<{type:string, payload:any}>;
-
 export default angular.module('auth', [modelFactoryModule, environmentModule])
   .value('EULA_STATES', {
     EULA: 'eula',
@@ -55,7 +49,6 @@ export default angular.module('auth', [modelFactoryModule, environmentModule])
   })
   .factory('SessionModel', SessionModel)
   .factory('UserModel', UserModel)
-  .value('authorization', authorization)
   .constant('GROUPS', GROUPS)
   .directive('restrictTo', restrictTo)
   .directive('restrict', restrict)

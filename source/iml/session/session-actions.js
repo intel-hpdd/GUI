@@ -22,14 +22,24 @@
 // express and approved by Intel in writing.
 
 import {
-  SET_SESSION
+  SET_SESSION,
+  SET_COOKIE
 } from './session-reducer.js';
 
 import type {
   sessionT
 } from '../api-types.js';
 
+export const setCookie = (cookie:string) => ({
+  type: SET_COOKIE,
+  payload: {
+    cookie
+  }
+});
+
 export const setSession = (session:sessionT) => ({
   type: SET_SESSION,
-  payload: session
+  payload: {
+    session
+  }
 });

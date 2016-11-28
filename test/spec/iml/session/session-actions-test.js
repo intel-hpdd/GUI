@@ -2,15 +2,15 @@
 
 import {
   setSession
-} from '../../../../source/iml/auth/session-actions.js';
+} from '../../../../source/iml/session/session-actions.js';
 
 import {
   SET_SESSION
-} from '../../../../source/iml/auth/session-reducer.js';
+} from '../../../../source/iml/session/session-reducer.js';
 
 import type {
   sessionActionT
-} from '../../../../source/iml/auth/auth-module.js';
+} from '../../../../source/iml/session/session-reducer.js';
 
 import type {
   sessionT

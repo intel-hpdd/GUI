@@ -43,7 +43,7 @@ import targetReducer from '../target/target-reducer.js';
 import treeReducer from '../tree/tree-reducer.js';
 import userReducer from '../user/user-reducer.js';
 import loginFormReducer from '../login/login-form-reducer.js';
-import sessionReducer from '../auth/session-reducer.js';
+import sessionReducer from '../session/session-reducer.js';
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
