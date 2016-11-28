@@ -22,25 +22,23 @@
 // express and approved by Intel in writing.
 
 import {
-  ADD_USERNAME,
-  ADD_PASSWORD
+  ADD_ERRORS,
+  ADD_IN_PROGRESS
 } from './login-form-reducer.js';
 
 import type {
-  usernameT,
-  passwordT
-} from './login-module.js';
+  loginFormErrorsT
+} from './login-form-reducer.js';
 
-export function addUsername (payload:usernameT) {
-  return {
-    type: ADD_USERNAME,
-    payload
-  };
-}
 
-export function addPassword (payload:passwordT) {
-  return {
-    type: ADD_PASSWORD,
-    payload
-  };
-}
+export const addErrors = (payload:loginFormErrorsT) => ({
+  type: ADD_ERRORS,
+  payload
+});
+
+export const addInProgress = (inProgress:boolean) => ({
+  type: ADD_IN_PROGRESS,
+  payload: {
+    inProgress
+  }
+});

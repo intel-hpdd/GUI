@@ -16,32 +16,6 @@ import navigateModule from '../navigate/navigate-module';
 import LoginController from './login-controller';
 import EulaCtrl from './eula-modal-controller';
 
-import type {
-  Exact
-} from '../../flow-workarounds.js';
-
-export type usernameT = Exact<{
-  username:string
-}>;
-
-export type passwordT = Exact<{
-  password:string
-}>;
-
-export type loginFormT = Exact<{
-  username:string,
-  password:string
-}>;
-
-export type usernameActionT = Exact<{ type:'ADD_USERNAME', payload:{ username:string } }>;
-export type passwordActionT = Exact<{ type:'ADD_PASSWORD', payload:{ password:string } }>;
-
-
-export type loginFormActionsT =
-  | usernameActionT
-  | passwordActionT
-  | Exact<{ type:string, payload:any }>;
-
 export default angular.module('login',
   [
     authModule, remoteValidateModule, helpModule, atScrollBoundaryModule,
