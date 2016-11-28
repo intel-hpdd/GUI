@@ -1,54 +1,36 @@
 // @flow
 
 import {
-  addUsername,
-  addPassword
+  addErrors,
+  addInProgress
 } from '../../../../source/iml/login/login-form-actions.js';
 
-import {
-  ADD_USERNAME,
-  ADD_PASSWORD
-} from '../../../../source/iml/login/login-form-reducer.js';
-
-import type {
-  usernameT,
-  usernameActionT,
-  passwordT,
-  passwordActionT
-} from '../../../../source/iml/login/login-module.js';
-
 describe('login form actions', () => {
-  let username:usernameT,
-    usernameAction:usernameActionT,
-    password:passwordT,
-    passwordAction:passwordActionT;
-  beforeEach(() => {
-    username = {
-      username: 'wcjohnso'
-    };
-    usernameAction = addUsername(username);
+  it('should return an errors action', () => {
+    const result = addErrors({
+      password: ['bad password'],
+      username: ['bad username']
+    });
 
-    password = {
-      password: 'mybigsecret'
-    };
-    passwordAction = addPassword(password);
+    expect(result)
+      .toEqual({
+        type: 'ADD_ERRORS',
+        payload: {
+          password: ['bad password'],
+          username: ['bad username']
+        }
+      });
   });
 
-  it('should return a username action', () => {
-    expect(usernameAction).toEqual({
-      type: ADD_USERNAME,
-      payload: {
-        username: 'wcjohnso'
-      }
-    });
-  });
+  it('should return an inProgress action', () => {
+    const result = addInProgress(true);
 
-  it('should return a password action', () => {
-    expect(passwordAction).toEqual({
-      type: ADD_PASSWORD,
-      payload: {
-        password: 'mybigsecret'
-      }
-    });
+    expect(result)
+      .toEqual({
+        type: 'ADD_IN_PROGRESS',
+        payload: {
+          inProgress: true
+        }
+      });
   });
 });
