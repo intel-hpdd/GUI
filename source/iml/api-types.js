@@ -45,10 +45,10 @@ export type userT = {
   id:string,
   is_superuser:boolean,
   last_name:string,
-  new_password1:?string,
-  new_password2:?string,
-  password1:?string,
-  password2:?string,
+  new_password1?:string,
+  new_password2?:string,
+  password1?:string,
+  password2?:string,
   resource_uri:string,
   roles:string,
   username:string
@@ -58,4 +58,11 @@ export type sessionT = {
   read_enabled:boolean,
   resource_uri:string,
   user:userT
+};
+
+export type cookieT = {
+  sessionid:string,
+  expires:string,
+  'Max-Age':number,
+  Path:string
 };
