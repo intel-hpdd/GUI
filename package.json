@@ -63,7 +63,7 @@
     "gulp": "https://github.com/gulpJS/gulp.git#d8f5c90",
     "gulp-babel": "6.1.2",
     "gulp-inject": "4.1.0",
-    "gulp-less": "3.1.0",
+    "gulp-less": "3.3.0",
     "gulp-minify-html": "1.0.6",
     "gulp-relative-sourcemaps-source": "0.1.4",
     "gulp-rev": "7.1.2",
