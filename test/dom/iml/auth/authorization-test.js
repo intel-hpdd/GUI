@@ -144,7 +144,11 @@ describe('authorization', () => {
             last_name: 'Doe',
             resource_uri: '/user',
             roles: '',
-            username: 'johndoe'
+            username: 'johndoe',
+            password1: null,
+            new_password1: null,
+            password2: null,
+            new_password2: null
           }
         }));
       });
