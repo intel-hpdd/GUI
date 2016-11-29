@@ -59,10 +59,3 @@ export type sessionT = {
   resource_uri:string,
   user:userT
 };
-
-export type cookieT = {
-  sessionid:string,
-  expires:string,
-  'Max-Age':number,
-  Path:string
-};
