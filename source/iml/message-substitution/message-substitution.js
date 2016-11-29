@@ -23,7 +23,7 @@
 
 import {
   GROUPS,
-  authorization
+  groupAllowed
 } from '../auth/authorization.js';
 
 import {
@@ -60,7 +60,7 @@ export const MessageSubstitutionCtrl = class {
       const end = str.substring(sub.end - 1);
       let label = sub.label;
 
-      if (authorization.groupAllowed(GROUPS.FS_ADMINS)) {
+      if (groupAllowed(GROUPS.FS_ADMINS)) {
         const path = apiPathToUiPath(sub.resource_uri);
         label = `<a route-to="${path}">${sub.label}</a>`;
       }

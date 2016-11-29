@@ -1,15 +1,18 @@
 // @flow
 
 import {
-  setSession
+  setSession,
+  setCookie
 } from '../../../../source/iml/session/session-actions.js';
 
 import {
-  SET_SESSION
+  SET_SESSION,
+  SET_COOKIE
 } from '../../../../source/iml/session/session-reducer.js';
 
 import type {
-  sessionActionT
+  sessionActionT,
+  cookieActionT
 } from '../../../../source/iml/session/session-reducer.js';
 
 import type {
@@ -17,7 +20,8 @@ import type {
 } from '../../../../source/iml/api-types.js';
 
 describe('session actions', () => {
-  let session:sessionT, result:sessionActionT;
+  let session:sessionT, sessionResult:sessionActionT,
+    cookie:string, cookieResult:cookieActionT;
   beforeEach(() => {
     session = {
       read_enabled: true,
@@ -45,13 +49,27 @@ describe('session actions', () => {
       }
     };
 
-    result = setSession(session);
+    cookie = 'sessionid=9b834e1b19ea103bcf7717cafc699e48; expires=Tue, 13-Dec-2016 17:00:49 GMT; Max-Age=1209600; Path=/';
+
+    sessionResult = setSession(session);
+    cookieResult = setCookie(cookie);
   });
 
   it('should return the session action', () => {
-    expect(result).toEqual({
+    expect(sessionResult).toEqual({
       type: SET_SESSION,
-      payload: session
+      payload: {
+        session
+      }
+    });
+  });
+
+  it('should return the cookie action', () => {
+    expect(cookieResult).toEqual({
+      type: SET_COOKIE,
+      payload: {
+        cookie
+      }
     });
   });
 });

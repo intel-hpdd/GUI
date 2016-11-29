@@ -1,7 +1,10 @@
 import logModule from '../../../../source/iml/logs/log-module.js';
-import global from '../../../../source/iml/global.js';
-
 import highland from 'highland';
+import store from '../../../../source/iml/store/get-store.js';
+
+import {
+  setSession
+} from '../../../../source/iml/session/session-actions.js';
 
 describe('log table component', () => {
   let $scope, template, el, log$, table, dateField, fqdnLink,
@@ -37,12 +40,30 @@ describe('log table component', () => {
 
   describe('with authorization', () => {
     beforeEach(inject(($rootScope, $compile) => {
-      global.CACHE_INITIAL_DATA.session.user.groups =
-      [
-        {id: '1', name: 'superusers', resource_uri: '/api/group/1/'},
-        {id: '2', name: 'filesystem_administrators', resource_uri: '/api/group/1/'},
-        {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
-      ];
+      store.dispatch(setSession({
+        read_enabled: true,
+        resource_uri: '/session',
+        user: {
+          accepted_eula: true,
+          alert_subscriptions: [{}],
+          email: 'john.doe@intel.com',
+          eula_state: 'pass',
+          first_name: 'John',
+          full_name: 'John Doe',
+          groups: [
+            {id: '1', name: 'superusers', resource_uri: '/api/group/1/'},
+            {id: '2', name: 'filesystem_administrators', resource_uri: '/api/group/1/'},
+            {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
+          ],
+          gui_config: {},
+          id: '1',
+          is_superuser: true,
+          last_name: 'Doe',
+          resource_uri: '/session',
+          roles: '',
+          username: 'johndoe'
+        }
+      }));
 
       $scope = $rootScope.$new();
       $scope.log$ = log$;
@@ -100,10 +121,28 @@ describe('log table component', () => {
 
   describe('without authorization', () => {
     beforeEach(inject(($rootScope, $compile) => {
-      global.CACHE_INITIAL_DATA.session.user.groups =
-      [
-        {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
-      ];
+      store.dispatch(setSession({
+        read_enabled: true,
+        resource_uri: '/session',
+        user: {
+          accepted_eula: true,
+          alert_subscriptions: [{}],
+          email: 'john.doe@intel.com',
+          eula_state: 'pass',
+          first_name: 'John',
+          full_name: 'John Doe',
+          groups: [
+              {id: '3', name: 'filesystem_users', resource_uri: '/api/group/1/'}
+          ],
+          gui_config: {},
+          id: '1',
+          is_superuser: true,
+          last_name: 'Doe',
+          resource_uri: '/session',
+          roles: '',
+          username: 'johndoe'
+        }
+      }));
 
       $scope = $rootScope.$new();
       $scope.log$ = log$;

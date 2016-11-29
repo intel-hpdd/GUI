@@ -5,18 +5,15 @@ import {
 } from '../../../system-mock.js';
 
 describe('message substitution component', () => {
-  let el, $scope, $compile, messageEl, template, authorization,
+  let el, $scope, $compile, messageEl, template,
     mod, groupAllowed;
 
   beforeEachAsync(async function () {
     groupAllowed = jasmine.createSpy('groupAllowed');
-    authorization = {
-      groupAllowed
-    };
 
     mod = await mock('source/iml/message-substitution/message-substitution.js', {
       'source/iml/auth/authorization.js': {
-        authorization,
+        groupAllowed,
         GROUPS
       }
     });
