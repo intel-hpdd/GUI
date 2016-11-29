@@ -71,7 +71,7 @@ describe('get store', () => {
       'source/iml/store/create-store.js': { default: createStore },
       'source/iml/job-stats/job-stats-reducer': { default: jobStatsReducer },
       'source/iml/login/login-form-reducer': { default: loginFormReducer },
-      'source/iml/auth/session-reducer': { default: sessionReducer }
+      'source/iml/session/session-reducer': { default: sessionReducer }
     });
     storeInstance = storeModule.default;
   });

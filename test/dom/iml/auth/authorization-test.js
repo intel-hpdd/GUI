@@ -1,16 +1,25 @@
+// @flow
+
 import * as fp from 'intel-fp';
 
 import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+  restrict,
+  restrictTo
+} from '../../../../source/iml/auth/authorization.js';
+import store from '../../../../source/iml/store/get-store.js';
+
+import {
+  setSession
+} from '../../../../source/iml/session/session-actions.js';
 
 describe('authorization', () => {
-  let mod;
-
   const data = [
     {
-      sessionGroups: [{name: 'superusers'}],
+      sessionGroups: [{
+        name: 'superusers',
+        id: '1',
+        resource_uri: '/user'
+      }],
       group: 'superusers',
       visibility: {
         restrictTo: true,
@@ -18,7 +27,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_users'}],
+      sessionGroups: [{
+        name: 'filesystem_users',
+        id: '2',
+        resource_uri: '/user'
+      }],
       group: 'superusers',
       visibility: {
         restrictTo: false,
@@ -26,7 +39,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_administrators'}],
+      sessionGroups: [{
+        name: 'filesystem_administrators',
+        id: '3',
+        resource_uri: '/user'
+      }],
       group: 'superusers',
       visibility: {
         restrictTo: false,
@@ -34,7 +51,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'superusers'}],
+      sessionGroups: [{
+        name: 'superusers',
+        id: '1',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -42,7 +63,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_users'}],
+      sessionGroups: [{
+        name: 'filesystem_users',
+        id: '2',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -50,7 +75,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_administrators'}],
+      sessionGroups: [{
+        name: 'filesystem_administrators',
+        id: '3',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -58,7 +87,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'superusers'}],
+      sessionGroups: [{
+        name: 'superusers',
+        id: '1',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: true,
@@ -66,7 +99,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_administrators'}],
+      sessionGroups: [{
+        name: 'filesystem_administrators',
+        id: '3',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: true,
@@ -74,7 +111,11 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{name: 'filesystem_users'}],
+      sessionGroups: [{
+        name: 'filesystem_users',
+        id: '2',
+        resource_uri: '/user'
+      }],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: false,
@@ -83,37 +124,41 @@ describe('authorization', () => {
     }
   ];
 
-  data.forEach(function (test) {
-    describe('module', function () {
-      beforeEachAsync(async function () {
-        const CACHE_INITIAL_DATA = {
-          session: {
-            read_enabled: true,
-            user: {
-              groups: test.sessionGroups
-            }
+  data.forEach((test) => {
+    describe('module', () => {
+      beforeEachAsync(async () => {
+        store.dispatch(setSession({
+          read_enabled: false,
+          resource_uri: '',
+          user: {
+            accepted_eula: true,
+            alert_subscriptions: [{}],
+            email: 'john.doe@intel.com',
+            eula_state: 'pass',
+            first_name: 'John',
+            full_name: 'John Doe',
+            groups: test.sessionGroups,
+            gui_config: {},
+            id: '1',
+            is_superuser: true,
+            last_name: 'Doe',
+            resource_uri: '/user',
+            roles: '',
+            username: 'johndoe'
           }
-        };
-
-        mod = await mock('source/iml/auth/authorization.js', {
-          'source/iml/environment.js': {CACHE_INITIAL_DATA}
-        });
+        }));
       });
 
-      afterEach(resetAll);
-
       beforeEach(module(($provide, $compileProvider) => {
-        $provide.value('authorization', mod.authorization);
-        $compileProvider.directive('restrict', mod.restrict);
-        $compileProvider.directive('restrictTo', mod.restrictTo);
+        $compileProvider.directive('restrict', restrict);
+        $compileProvider.directive('restrictTo', restrictTo);
       }));
 
       let $scope, genRestrictTo, genRestrict;
-
-      beforeEach(inject(function ($compile, $rootScope) {
+      beforeEach(inject(($compile, $rootScope) => {
         $scope = $rootScope.$new();
 
-        const template = fp.curry2(function template (attr, val) {
+        const template = fp.curry2((attr, val) => {
           const str = `<div ${attr}="${val}"></div>`;
           return $compile(str)($scope);
         });
@@ -122,29 +167,29 @@ describe('authorization', () => {
         genRestrict = template('restrict');
       }));
 
-      describe('directive', function () {
+      describe('directive', () => {
         let el;
 
-        describe('of type restrictTo', function () {
-          beforeEach(function () {
+        describe('of type restrictTo', () => {
+          beforeEach(() => {
             el = genRestrictTo(test.group);
             $scope.$digest();
           });
 
-          it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, function () {
+          it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
             expect(el.hasClass('invisible'))
               .toEqual(!test.visibility.restrictTo);
           });
         });
 
-        describe('of type restrict', function () {
-          beforeEach(function () {
+        describe('of type restrict', () => {
+          beforeEach(() => {
             el = genRestrict(test.group);
             $scope.$digest();
           });
 
           it(`should be ${test.isVisible ? 'visible' : 'invisible'}
- to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, function () {
+ to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
             expect(el.hasClass('invisible')).toEqual(!test.visibility.restricted);
           });
         });

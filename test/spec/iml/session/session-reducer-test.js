@@ -51,7 +51,7 @@ describe('session reducer', () => {
         payload: {
           session
         }
-      })).toEqual(session);
+      })).toEqual({session});
     });
   });
 
@@ -64,7 +64,7 @@ describe('session reducer', () => {
           payload: {}
         })
       )
-      .toEqual(session);
+      .toEqual({session});
     });
   });
 });

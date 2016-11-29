@@ -1,38 +1,37 @@
+// @flow
+
 import {
   mock,
   resetAll
 } from '../../system-mock.js';
 
+import highland from 'highland';
+
 describe('route transitions', () => {
-  let CACHE_INITIAL_DATA, authorization, mod, $transitions,
-    routeTransitions, navigate;
+  let groupAllowed, mod, $transitions,
+    routeTransitions, store, $state;
   beforeEachAsync(async function () {
-    CACHE_INITIAL_DATA = {
-      session: {
-        read_enabled: true,
-        user: {
-          eula_state: 'pass'
-        }
-      }
+    store = {
+      select: jasmine.createSpy('select')
     };
 
-    authorization = {
-      groupAllowed: jasmine.createSpy('groupAllowed')
-    };
+    groupAllowed = jasmine.createSpy('groupAllowed');
 
     $transitions = {
       onStart: jasmine.createSpy('onStart')
     };
 
-    navigate = jasmine.createSpy('navigate');
+    $state = {
+      target: jasmine.createSpy('target')
+    };
 
     mod = await mock('source/iml/route-transitions.js', {
-      'source/iml/environment.js': {CACHE_INITIAL_DATA},
-      'source/iml/auth/authorization': {authorization}
+      'source/iml/store/get-store': { default: store },
+      'source/iml/auth/authorization': { groupAllowed }
     });
 
     routeTransitions = mod.default;
-    routeTransitions($transitions, navigate);
+    routeTransitions($transitions, $state);
   });
 
   afterEach(resetAll);
@@ -68,19 +67,48 @@ describe('route transitions', () => {
     });
 
     describe('processor', () => {
-      it('should return undefined if session is read enabled', () => {
-        expect(processAllowAnonymousRead()).toBe(undefined);
+      describe('with read enabled', () => {
+        beforeEach(() => {
+          store
+            .select
+            .and
+            .returnValue(highland([{
+              session: {
+                read_enabled: true
+              }
+            }]));
+        });
+
+        itAsync('should select the session store', async () => {
+          await processAllowAnonymousRead();
+          expect(store.select).toHaveBeenCalledOnceWith('session');
+        });
+
+        itAsync('should return undefined if session is read enabled', async () => {
+          expect(await processAllowAnonymousRead()).toBe(undefined);
+        });
       });
 
-      it('should return a promise if session is not read enabled', () => {
-        CACHE_INITIAL_DATA.session.read_enabled = false;
-        expect(processAllowAnonymousRead()).toBeAPromise();
-      });
+      describe('with read not enabled', () => {
+        beforeEach(() => {
+          store
+            .select
+            .and
+            .returnValue(highland([{
+              session: {
+                read_enabled: false
+              }
+            }]));
+        });
 
-      it('should navigate to /login if the session is not read enabled', () => {
-        CACHE_INITIAL_DATA.session.read_enabled = false;
-        processAllowAnonymousRead();
-        expect(navigate).toHaveBeenCalledOnceWith('login');
+        it('should return a promise if session is not read enabled', () => {
+          expect(processAllowAnonymousRead()).toBeAPromise();
+        });
+
+        itAsync('should navigate to /login if the session is not read enabled', async () => {
+          await processAllowAnonymousRead();
+          expect($state.target).toHaveBeenCalledOnceWith('login');
+        });
       });
     });
   });
@@ -110,19 +138,52 @@ describe('route transitions', () => {
     });
 
     describe('processor', () => {
-      it('should return undefined if eula state is set to pass', () => {
-        expect(processEula()).toBe(undefined);
+      describe('set to pass', () => {
+        beforeEach(() => {
+          store
+            .select
+            .and
+            .returnValue(highland([{
+              session: {
+                user: {
+                  eula_state: 'pass'
+                }
+              }
+            }]));
+        });
+
+        itAsync('should select the session store', async () => {
+          await processEula();
+          expect(store.select).toHaveBeenCalledOnceWith('session');
+        });
+
+        itAsync('should return undefined if eula state is set to pass', async () => {
+          expect(await processEula()).toBe(undefined);
+        });
       });
 
-      it('should return a promise if eula state is not set to pass', () => {
-        CACHE_INITIAL_DATA.session.user.eula_state = 'other';
-        expect(processEula()).toBeAPromise();
-      });
+      describe('not set to pass', () => {
+        beforeEach(() => {
+          store
+            .select
+            .and
+            .returnValue(highland([{
+              session: {
+                user: {
+                  eula_state: 'other'
+                }
+              }
+            }]));
+        });
 
-      it('should navigate to /login if eula state is not set to pass', () => {
-        CACHE_INITIAL_DATA.session.user.eula_state = 'other';
-        processEula();
-        expect(navigate).toHaveBeenCalledOnceWith('login');
+        it('should return a promise if eula state is not set to pass', () => {
+          expect(processEula()).toBeAPromise();
+        });
+
+        itAsync('should navigate to /login if eula state is not set to pass', async () => {
+          await processEula();
+          expect($state.target).toHaveBeenCalledOnceWith('login');
+        });
       });
     });
   });
@@ -152,16 +213,16 @@ describe('route transitions', () => {
     });
 
     describe('processor', () => {
-      let transition, stateService;
+      let transition;
       beforeEach(() => {
-        stateService = {
-          target: jasmine.createSpy('target')
-            .and.returnValue({})
-        };
+        $state
+          .target
+          .and
+          .returnValue({});
 
         transition = {
           router: {
-            stateService
+            $state
           },
           to: jasmine.createSpy('to')
             .and.returnValue({
@@ -174,7 +235,7 @@ describe('route transitions', () => {
 
       describe('when authenticated', () => {
         it('should return undefined', () => {
-          authorization.groupAllowed.and.returnValue(true);
+          groupAllowed.and.returnValue(true);
           expect(processAuthentication(transition)).toBe(undefined);
         });
       });
@@ -182,12 +243,12 @@ describe('route transitions', () => {
       describe('when not authenticated', () => {
         let result;
         beforeEach(() => {
-          authorization.groupAllowed.and.returnValue(false);
+          groupAllowed.and.returnValue(false);
           result = processAuthentication(transition);
         });
 
         it('should call authorization.groupAllowed', () => {
-          expect(authorization.groupAllowed)
+          expect(groupAllowed)
             .toHaveBeenCalledOnceWith('fs-admin');
         });
 
@@ -200,9 +261,9 @@ describe('route transitions', () => {
         });
 
         it('should target the app state if not authenticated', () => {
-          authorization.groupAllowed.and.returnValue(false);
+          groupAllowed.and.returnValue(false);
 
-          expect(stateService.target).toHaveBeenCalledOnceWith(
+          expect($state.target).toHaveBeenCalledOnceWith(
             'app',
             undefined,
             {location: true}
