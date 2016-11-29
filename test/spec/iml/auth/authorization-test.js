@@ -9,25 +9,22 @@ import {
   resetAll
 } from '../../../system-mock.js';
 
+import highland from 'highland';
+
 describe('The authorization service', () => {
-  let authorization, store, setSession;
+  let authorization, store, session$;
 
   beforeEachAsync(async () => {
+    session$ = highland();
     store = {
-      select: jasmine.createSpy('select'),
-      each: jasmine.createSpy('each')
+      select: jasmine.createSpy('select')
+        .and
+        .returnValue(session$)
     };
-
-    store
-      .select
-      .and
-      .returnValue(store);
 
     authorization = await mock('source/iml/auth/authorization.js', {
       'source/iml/store/get-store.js': { default: store }
     });
-
-    setSession = store.each.calls.argsFor(0)[0];
   });
 
   afterEach(resetAll);
@@ -36,12 +33,8 @@ describe('The authorization service', () => {
     expect(store.select).toHaveBeenCalledOnceWith('session');
   });
 
-  it('should call each', () => {
-    expect(store.each).toHaveBeenCalledOnceWith(jasmine.any(Function));
-  });
-
   it('should tell if superusers are allowed', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
@@ -57,7 +50,7 @@ describe('The authorization service', () => {
   });
 
   it('should tell if superusers are not allowed', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
@@ -73,7 +66,7 @@ describe('The authorization service', () => {
   });
 
   it('should allow a superuser when fs admin is checked', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
@@ -89,7 +82,7 @@ describe('The authorization service', () => {
   });
 
   it('should allow a fs admin when fs user is checked', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
@@ -105,7 +98,7 @@ describe('The authorization service', () => {
   });
 
   it('should disallow a fs admin when superuser is checked', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
@@ -121,7 +114,7 @@ describe('The authorization service', () => {
   });
 
   it('should allow a fs user when fs user is checked', () => {
-    setSession({
+    session$.write({
       session: {
         user: {
           groups: [
