@@ -25,7 +25,7 @@ describe('wait-for-command-completion-service', () => {
       .createSpy('openCommandModal')
       .and
       .returnValue({
-        resultStream: resultStream
+        resultStream
       });
 
     const mod = await mock(
