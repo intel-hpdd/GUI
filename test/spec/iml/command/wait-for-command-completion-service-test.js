@@ -6,7 +6,7 @@ import {
 } from '../../../system-mock.js';
 
 describe('wait-for-command-completion-service', () => {
-  let getCommandStream, commandStream, spy,
+  let getCommandStream, commandStream, spy, resultStream,
     openCommandModal, waitForCommandCompletion;
 
   beforeEachAsync(async function () {
@@ -20,11 +20,12 @@ describe('wait-for-command-completion-service', () => {
       .returnValue(commandStream);
 
     spy = jasmine.createSpy('spy');
+    resultStream = highland();
     openCommandModal = jasmine
       .createSpy('openCommandModal')
       .and
       .returnValue({
-        resultStream: highland()
+        resultStream: resultStream
       });
 
     const mod = await mock(
@@ -103,6 +104,37 @@ describe('wait-for-command-completion-service', () => {
               state: 'succeeded'
             }
           ]);
+      });
+    });
+  });
+
+  describe('opening the command modal', () => {
+    let responseWithCommands;
+
+    beforeEach(() => {
+      responseWithCommands = [
+        {}
+      ];
+
+      waitForCommandCompletion(true, responseWithCommands);
+    });
+
+    it('should call openCommandModal', () => {
+      expect(openCommandModal).toHaveBeenCalledOnceWith(jasmine.any(Object));
+    });
+
+    describe('closing the command modal', () => {
+      beforeEach(() => {
+        resultStream.write('close modal');
+      });
+
+      it('should destroy the commandModal$', () => {
+        const commandModal$ = openCommandModal.calls.argsFor(0)[0];
+        expect(commandModal$.ended).toBe(true);
+      });
+
+      it('should not destroy the command stream', () => {
+        expect(commandStream.ended).toBe(false);
       });
     });
   });

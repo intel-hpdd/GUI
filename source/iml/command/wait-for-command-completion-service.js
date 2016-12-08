@@ -27,12 +27,12 @@ export default (openCommandModal:Function) => {
       );
 
     if (showModal) {
-      const modal$ = openCommandModal(
-        command$
-          .fork()
-      );
+      const commandModal$ = command$.fork();
+      const modal$ = openCommandModal(commandModal$);
       modal$.resultStream
-        .each(() => modal$.destroy());
+        .each(() =>
+          commandModal$.destroy()
+        );
     }
 
     return command$
