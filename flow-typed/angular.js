@@ -43,6 +43,7 @@ declare module angular {
     has(name:string):boolean;
     get<B>(name:string):B;
   }
+  declare type injectorT = injector;
   declare class Module {
     provider(name:string, providerType:Function):Module;
     factory(name:string, providerFunction:Function):Module;
@@ -58,11 +59,18 @@ declare module angular {
     name:string;
   }
   declare type $compileT = (el:(string | HTMLElement)) => (scope:$scope) => HTMLElement[];
+  declare type elementExtrasT = {
+    controller(name:string):Function,
+    injector():injectorT,
+    scope():$scopeT,
+    isolateScope():$scopeT,
+    inheritedData():Object
+  };
   declare module.exports: {
     module(name:string, dependencies: string[]):Module;
     bootstrap(element:(HTMLElement | Document), modules:string[], config:Object):void;
     merge(...rest:Object[]):Object;
-    element(el:(string | Element)): HTMLElement[];
+    element(el:(string | Element)):HTMLElement[] & elementExtrasT;
     injector():injector;
   }
 }
