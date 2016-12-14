@@ -6,17 +6,23 @@ import {
 } from '../../system-mock.js';
 
 describe('angular exec', () => {
-  let result$, mod, angularExec, injector, angular;
+  let result$, mod, angularExec, element, injector, angular;
   beforeEachAsync(async () => {
     injector = {
       has: jasmine.createSpy('has'),
       get: jasmine.createSpy('get')
     };
 
-    angular = {
+    element = {
       injector: jasmine.createSpy('injector')
         .and
         .returnValue(injector)
+    };
+
+    angular = {
+      element: jasmine.createSpy('element')
+        .and
+        .returnValue(element)
     };
 
     mod = await mock('source/iml/angular-exec.js', {
@@ -37,20 +43,15 @@ describe('angular exec', () => {
         .returnValues(false, true);
 
       injector
-        .has
+        .get
         .and
-        .returnValue(true);
+        .returnValue(service);
 
       service = {
         go: jasmine.createSpy('go')
           .and
           .returnValue('x')
       };
-
-      injector
-        .get
-        .and
-        .returnValue(service);
     });
 
     describe('without error', () => {
@@ -62,11 +63,20 @@ describe('angular exec', () => {
         expect(result$.__HighlandStream__).toBe(true);
       });
 
-      it('should call the injector', (done) => {
+      it('should call the element', (done) => {
         result$
           .each(() => {
-            expect(angular.injector)
-              .toHaveBeenCalledOnce();
+            expect(angular.element)
+              .toHaveBeenCalledTwiceWith(document.body);
+            done();
+          });
+      });
+
+      it('should invoke the injector', (done) => {
+        result$
+          .each(() => {
+            expect(element.injector)
+              .toHaveBeenCalledTwice();
             done();
           });
       });
@@ -75,7 +85,7 @@ describe('angular exec', () => {
         result$
           .each(() => {
             expect(injector.has)
-              .toHaveBeenCalledOnceWith('$state');
+              .toHaveBeenCalledTwiceWith('$state');
             done();
           });
       });

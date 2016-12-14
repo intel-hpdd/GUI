@@ -33,7 +33,7 @@ export default <R>(service:string, method:string, ...args:any[]):HighlandStreamT
   return highland((push:(e:?Error, val:any) => void) => {
     (function loop () {
       setTimeout(() => {
-        const inj = angular.injector();
+        const inj = angular.element(document.body).injector();
         if (inj.has(service)) {
           const fn:Function = inj.get(service)[method];
           if (!fn)
