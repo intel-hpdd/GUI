@@ -40,21 +40,21 @@ describe('angular exec', () => {
       injector
         .has
         .and
-        .returnValues(false, true);
-
-      injector
-        .get
-        .and
-        .returnValue(service);
+        .returnValues(false, true, true);
 
       service = {
         go: jasmine.createSpy('go')
           .and
           .returnValue('x')
       };
+
+      injector
+        .get
+        .and
+        .returnValue(service);
     });
 
-    describe('without error', () => {
+    describe('on first request', () => {
       beforeEach(() => {
         result$ = angularExec('$state', 'go', 'app.dashboard.overview');
       });
@@ -67,7 +67,7 @@ describe('angular exec', () => {
         result$
           .each(() => {
             expect(angular.element)
-              .toHaveBeenCalledTwiceWith(document.body);
+              .toHaveBeenCalledOnceWith(document.body);
             done();
           });
       });
@@ -76,7 +76,7 @@ describe('angular exec', () => {
         result$
           .each(() => {
             expect(element.injector)
-              .toHaveBeenCalledTwice();
+              .toHaveBeenCalledOnce();
             done();
           });
       });
@@ -97,24 +97,23 @@ describe('angular exec', () => {
             done();
           });
       });
-    });
 
-    describe('with error', () => {
-      beforeEach(() => {
-        service = {};
-        injector
-          .get
-          .and
-          .returnValue(service);
+      it('should end the stream', (done) => {
+        result$.done(done);
       });
 
-      it('should throw an error', (done) => {
-        angularExec('$state', 'go', 'app.dashboard.overview')
-          .errors((e) => {
-            expect(e).toEqual(new Error('Could not execute go on $state service.'));
-            done();
-          })
-          .each(() => {});
+      describe('on subsequent requests', () => {
+        beforeEach(() => {
+          result$ = angularExec('$state', 'go', 'app.servers');
+        });
+
+        it('should retrieve the service from cache', (done) => {
+          result$
+            .each(() => {
+              expect(injector.get).toHaveBeenCalledOnceWith('$state');
+              done();
+            });
+        });
       });
     });
   });

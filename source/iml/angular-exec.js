@@ -23,27 +23,36 @@
 
 import highland from 'highland';
 import angular from 'angular';
+import * as Maybe from 'intel-maybe';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
-export default <R>(service:string, method:string, ...args:any[]):HighlandStreamT<R> => {
+const cache = {};
 
-  return highland((push:(e:?Error, val:any) => void) => {
-    (function loop () {
-      setTimeout(() => {
-        const inj = angular.element(document.body).injector();
-        if (inj.has(service)) {
-          const fn:Function = inj.get(service)[method];
-          if (!fn)
-            push(new Error(`Could not execute ${method} on ${service} service.`));
-          else
-            push(null, fn(...args));
-        } else {
-          loop();
-        }
-      }, 0);
-    })();
-  });
+export default <R>(service:string, method:string, ...args:any[]):HighlandStreamT<R> => {
+  const s:HighlandStreamT<R> = highland();
+  const inj = angular.element(document.body).injector();
+
+  function loop () {
+    setTimeout(() => {
+      if (cache[service] || inj.has(service)) {
+        const svc:Object = Maybe.withDefault(
+          () => inj.get(service),
+          Maybe.of(cache[service])
+        );
+        const fn:Function = svc[method];
+
+        s.write(fn(...args));
+        s.end();
+      } else {
+        loop();
+      }
+    }, 0);
+  }
+
+  loop();
+
+  return s;
 };
