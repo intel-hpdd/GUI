@@ -39,9 +39,13 @@ declare module angular {
     off(event:string, container?:HTMLElement, callback?:animationCallbackT):void;
   }
   declare type $animationT = $animation;
+
   declare class injector {
     has(name:string):boolean;
-    get<B>(name:string):B;
+    get(name:'$state'):{
+      go:(name:string) => void
+    };
+    get(name:'$location'):$locationT;
   }
   declare type injectorT = injector;
   declare class Module {
