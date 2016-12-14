@@ -23,26 +23,41 @@
 
 import highland from 'highland';
 import angular from 'angular';
-import * as Maybe from 'intel-maybe';
 
 import type {
   HighlandStreamT
 } from 'highland';
 
+import type {
+  Exact
+} from '../flow-workarounds.js';
+
 const cache = {};
 
-export default <R>(service:string, method:string, ...args:any[]):HighlandStreamT<R> => {
+export type stateServiceCallT = Exact<{
+  service:'$state',
+  method:'go'
+}>;
+
+export type serviceCallsT =
+  stateServiceCallT;
+
+export default <R>({service, method}:serviceCallsT, ...args:any[]):HighlandStreamT<R> => {
   const s:HighlandStreamT<R> = highland();
   const inj = angular.element(document.body).injector();
 
+  if (cache[service]) {
+    const fn = cache[service][method];
+    s.write(fn(...args));
+  } else {
+    loop();
+  }
+
   function loop () {
     setTimeout(() => {
-      if (cache[service] || inj.has(service)) {
-        const svc:Object = Maybe.withDefault(
-          () => inj.get(service),
-          Maybe.of(cache[service])
-        );
-        const fn:Function = svc[method];
+      if (inj.has(service)) {
+        const svc = inj.get(service);
+        const fn = svc[method];
 
         s.write(fn(...args));
         s.end();
@@ -51,8 +66,6 @@ export default <R>(service:string, method:string, ...args:any[]):HighlandStreamT
       }
     }, 0);
   }
-
-  loop();
 
   return s;
 };

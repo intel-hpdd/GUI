@@ -6,7 +6,8 @@ import {
 } from '../../system-mock.js';
 
 describe('angular exec', () => {
-  let result$, mod, angularExec, element, injector, angular;
+  let result$, mod, element, injector, angular, angularExec;
+
   beforeEachAsync(async () => {
     injector = {
       has: jasmine.createSpy('has'),
@@ -56,7 +57,10 @@ describe('angular exec', () => {
 
     describe('on first request', () => {
       beforeEach(() => {
-        result$ = angularExec('$state', 'go', 'app.dashboard.overview');
+        result$ = angularExec({
+          service: '$state',
+          method: 'go'
+        }, 'app.dashboard.overview');
       });
 
       it('should return a stream', () => {
@@ -104,7 +108,10 @@ describe('angular exec', () => {
 
       describe('on subsequent requests', () => {
         beforeEach(() => {
-          result$ = angularExec('$state', 'go', 'app.servers');
+          result$ = angularExec({
+            service: '$state',
+            method: 'go'
+          }, 'app.servers');
         });
 
         it('should retrieve the service from cache', (done) => {
