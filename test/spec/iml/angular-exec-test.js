@@ -57,10 +57,7 @@ describe('angular exec', () => {
 
     describe('on first request', () => {
       beforeEach(() => {
-        result$ = angularExec({
-          service: '$state',
-          method: 'go'
-        }, 'app.dashboard.overview');
+        result$ = angularExec('$state', 'go', 'app.dashboard.overview');
       });
 
       it('should return a stream', () => {
@@ -108,10 +105,7 @@ describe('angular exec', () => {
 
       describe('on subsequent requests', () => {
         beforeEach(() => {
-          result$ = angularExec({
-            service: '$state',
-            method: 'go'
-          }, 'app.servers');
+          result$ = angularExec('$state', 'go', 'app.servers');
         });
 
         it('should retrieve the service from cache', (done) => {

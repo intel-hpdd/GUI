@@ -28,44 +28,40 @@ import type {
   HighlandStreamT
 } from 'highland';
 
-import type {
-  Exact
-} from '../flow-workarounds.js';
+type stateServiceT = {
+  go:(name:string) => void
+};
 
-const cache = {};
+type cacheT = {
+  '$state'?:stateServiceT
+};
 
-export type stateServiceCallT = Exact<{
-  service:'$state',
-  method:'go'
-}>;
+const cache:cacheT = {};
 
-export type serviceCallsT =
-  stateServiceCallT;
+type servicesT = '$state';
+type methodsT = 'go';
 
-export default <R>({service, method}:serviceCallsT, ...args:any[]):HighlandStreamT<R> => {
+export default <R>(service:servicesT, method:methodsT, ...args:any[]):HighlandStreamT<R> => {
   const s:HighlandStreamT<R> = highland();
   const inj = angular.element(document.body).injector();
 
-  if (cache[service]) {
-    const fn = cache[service][method];
-    s.write(fn(...args));
-  } else {
-    loop();
-  }
-
   function loop () {
-    setTimeout(() => {
-      if (inj.has(service)) {
-        const svc = inj.get(service);
-        const fn = svc[method];
-
-        s.write(fn(...args));
-        s.end();
-      } else {
-        loop();
-      }
-    }, 0);
+    if (cache[service]) {
+      const fn = cache[service][method];
+      s.write(fn(...args));
+      s.end();
+    } else if (inj.has(service)) {
+      const svc = inj.get(service);
+      const fn = svc[method];
+      cache[service] = svc;
+      s.write(fn(...args));
+      s.end();
+    } else {
+      setTimeout(loop, 0);
+    }
   }
+
+  loop();
 
   return s;
 };

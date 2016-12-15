@@ -41,11 +41,10 @@ declare module angular {
   declare type $animationT = $animation;
 
   declare class injector {
-    has(name:string):boolean;
+    has(name:'$state'):boolean;
     get(name:'$state'):{
       go:(name:string) => void
     };
-    get(name:'$location'):$locationT;
   }
   declare type injectorT = injector;
   declare class Module {
