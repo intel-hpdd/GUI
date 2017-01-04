@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 System.config({
-  baseURL: '/static/chroma_ui/',
+  baseURL: '/gui/',
   defaultJSExtensions: true,
   map: {
     iml: 'source/iml',

@@ -7,14 +7,19 @@
 
 var del = require('del');
 var path = require('path');
-var destDir = require('../dest-dir');
 
 const cleanOutside = x => del(x, {
   force: true
 });
 
-exports.cleanStatic = cleanOutside.bind(null, path.join(destDir, '/static/chroma_ui'));
-exports.cleanTemplates = cleanOutside.bind(null, path.join(destDir, 'templates/new'));
-exports.cleanDest = del.bind(null, './dest');
 exports.cleanDist = del.bind(null, './dist');
-exports.cleanBuilt = del.bind(null, ['./dist/built.js', './dist/built.js.map']);
+exports.cleanBuilt = del.bind(null, [
+  './dist/built.js',
+  './dist/built.js.map',
+  './dist/bower_components',
+  './dist/node_modules/!(font-awesome|intel-socket-worker)**',
+  './dist/source/**/*',
+  '!./dist/source/styles',
+  '!./dist/source/styles/imports-*.css',
+  '!./dist/source/*.ico'
+]);

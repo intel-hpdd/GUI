@@ -8,19 +8,19 @@ module.exports = function (config) {
     files: [
       // paths loaded by Karma
       {pattern: 'node_modules/systemjs/dist/system.src.js', included: true, watched: true},
-      {pattern: 'dest/source/system.config.js', included: true, watched: true},
+      {pattern: 'dist/source/system.config.js', included: true, watched: true},
       {pattern: 'karma-test-shim.js', included: true, watched: true},
 
       // paths loaded via module imports
-      {pattern: 'dest/node_modules/**/*.js', included: false, watched: true},
-      {pattern: 'dest/bower_components/**/*.js', included: false, watched: true},
-      {pattern: 'dest/source/iml/**/*.js', included: false, watched: true},
-      {pattern: 'dest/source/iml/**/*.html', included: false, watched: true},
-      {pattern: 'dest/test/**/*.js', included: false, watched: true},
-      {pattern: 'dest/test/data-fixtures/*.json', included: false, watched: true}
+      {pattern: 'dist/node_modules/**/*.js', included: false, watched: true},
+      {pattern: 'dist/bower_components/**/*.js', included: false, watched: true},
+      {pattern: 'dist/source/iml/**/*.js', included: false, watched: true},
+      {pattern: 'dist/source/iml/**/*.html', included: false, watched: true},
+      {pattern: 'dist/test/**/*.js', included: false, watched: true},
+      {pattern: 'dist/test/data-fixtures/*.json', included: false, watched: true}
     ],
     proxies: {
-      '/static/chroma_ui/': '/base/dest/'
+      '/gui/': '/base/dist/'
     },
     reporters: ['jasmine-diff', 'progress'],
     junitReporter: {

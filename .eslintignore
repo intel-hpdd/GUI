@@ -5,5 +5,4 @@ flow-typed/inferno-component.js
 test/data-fixtures/
 coverage/**
 gulp/**
-dest/**
 dist/**
