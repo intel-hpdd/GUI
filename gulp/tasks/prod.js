@@ -30,20 +30,19 @@ var assets = require('./assets');
 var Builder = require('systemjs-builder');
 var rev = require('gulp-rev');
 var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
 
 var builder = new Builder('./');
 var baseURL = builder.loader.baseURL;
 
 function systemBuild () {
-  return builder.loadConfig('dest/source/system.config.js')
+  return builder.loadConfig('dist/source/system.config.js')
     .then(function buildBundle () {
-      builder.loader.baseURL = baseURL + 'dest/';
+      builder.loader.baseURL = baseURL + 'dist/';
 
       builder.loader.meta = Object
         .keys(builder.loader.meta)
         .reduce(function cleanMeta (obj, key) {
-          var testKey = key.replace(/^.+static\/chroma_ui\//, builder.loader.baseURL);
+          var testKey = key.replace(/^.+gui\//, builder.loader.baseURL);
 
           obj[testKey] = builder.loader.meta[key];
 
@@ -53,7 +52,7 @@ function systemBuild () {
       builder.loader.packages = Object
         .keys(builder.loader.packages)
         .reduce(function cleanPackages (obj, key) {
-          var testKey = key.replace(/^.+static\/chroma_ui\//, builder.loader.baseURL);
+          var testKey = key.replace(/^.+gui\//, builder.loader.baseURL);
 
           obj[testKey] = builder.loader.packages[key];
 
@@ -76,16 +75,11 @@ function revJs () {
   .pipe(rev())
   .pipe(sourcemaps.write('.', {
     mapSources: function(sourcePath) {
-      return sourcePath.replace(/^\.\.\/source\//, '../dest/source/');
+      return sourcePath.replace(/^\.\.\/source\//, '../dist/source/');
     }
   }))
   .pipe(gulp.dest('dist'));
 }
-
-var cleaner = gulp.parallel(
-  clean.cleanDest,
-  clean.cleanDist
-);
 
 var build = gulp.parallel(
   js.jsDepsProd,
@@ -97,32 +91,10 @@ var build = gulp.parallel(
 );
 
 module.exports.prod = gulp.series(
-  cleaner,
+  clean.cleanDist,
   build,
   systemBuild,
   revJs,
   templates.injectProd,
   clean.cleanBuilt
 );
-
-module.exports.prodLocal = gulp.series(
-  gulp.parallel(
-    clean.cleanTemplates,
-    clean.cleanStatic
-  ),
-  module.exports.prod,
-  function moveJs () {
-    return gulp
-      .src('dist/**/*', {
-        base: './dist'
-      })
-      .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
-  },
-  function moveTemplate () {
-    return gulp
-      .src('dist/index.html', {
-        base: './dist'
-      })
-      .pipe(gulp.dest('templates/new', { cwd: destDir }));
-  }
-)

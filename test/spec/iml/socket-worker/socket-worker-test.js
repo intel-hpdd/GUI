@@ -30,7 +30,7 @@ describe('socket worker', () => {
       .and
       .returnValue(worker);
 
-    STATIC_URL = '/static/chroma_ui/';
+    STATIC_URL = '/gui/';
 
     const socketWorkerModule = await mock('source/iml/socket-worker/socket-worker.js', {
       'source/iml/socket-worker/get-web-worker.js': { default: getWebWorker },

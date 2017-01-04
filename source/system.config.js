@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 System.config({
-  baseURL: '/static/chroma_ui/',
+  baseURL: '/gui/',
   defaultJSExtensions: true,
   map: {
     iml: 'source/iml',

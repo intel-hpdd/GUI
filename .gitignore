@@ -3,5 +3,4 @@ npm-debug.log
 /node_modules
 /.idea
 /test/OUTPUT_DIR
-/dest
 /dist

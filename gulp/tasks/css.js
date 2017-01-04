@@ -27,7 +27,6 @@ var less = require('gulp-less');
 var LessPluginCleanCSS = require('less-plugin-clean-css');
 var cleancss = new LessPluginCleanCSS({ advanced: true });
 var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
 var rev = require('gulp-rev');
 
 function buildCss (fn) {
@@ -47,8 +46,7 @@ function buildCss (fn) {
 module.exports.buildCssDev = function buildCssDev () {
   return buildCss(buildCssDev, '')
   .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 
@@ -56,6 +54,5 @@ module.exports.buildCssProd = function buildCssProd () {
   return buildCss(buildCssProd)
   .pipe(rev())
   .pipe(sourcemaps.write({ sourceRoot: '.' }))
-  .pipe(gulp.dest('./dest'))
   .pipe(gulp.dest('./dist'));
 };

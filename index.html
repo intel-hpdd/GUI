@@ -9,15 +9,15 @@
 
     <title>Intel&reg; Manager for Lustre* software <$= title $></title>
 
-    <link rel="icon" href="<$= conf.STATIC_URL $>chroma_ui/source/iml/app/assets/images/intel.ico" />
+    <link rel="icon" href="/gui/source/intel.ico" />
 
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="/static/chroma_ui/source/styles/imports.css" />
+    <link rel="stylesheet" href="/gui/source/styles/imports.css" />
     <!-- endinject -->
 
     <script type="text/javascript">
-      window.STATIC_URL = '<$= conf.STATIC_URL $>chroma_ui/';
+      window.STATIC_URL = '/gui/';
       window.CACHE_INITIAL_DATA = <$= JSON.stringify(cache) $>;
       window.HELP_TEXT = <$= JSON.stringify(conf.HELP_TEXT) $>;
       window.IS_RELEASE = <$= conf.IS_RELEASE $>;
@@ -36,8 +36,8 @@
   <body>
     <ui-loader-view load-once="true" class="root-spinner"></ui-loader-view>
     <!-- inject:js -->
-    <script src="/static/chroma_ui/node_modules/systemjs/dist/system.js"></script>
-    <script src="/static/chroma_ui/source/system.config.js"></script>
+    <script src="/gui/node_modules/systemjs/dist/system.js"></script>
+    <script src="/gui/source/system.config.js"></script>
     <script>
       System.import('iml/iml-module.js');
     </script>

@@ -221,7 +221,7 @@ export default angular.module('iml', [
   .run(($templateCache) => {
     'ngInject';
 
-    $templateCache.put('/static/chroma_ui/job.html', jobTemplate);
+    $templateCache.put('/gui/job.html', jobTemplate);
   })
   .name;
 

@@ -23,7 +23,6 @@
 
 var paths = require('../paths.json');
 var gulp = require('gulp');
-var destDir = require('../dest-dir');
 var sourcemaps = require('gulp-sourcemaps');
 var minifyHtml = require('gulp-minify-html');
 
@@ -38,8 +37,7 @@ function templates (fn) {
 
 exports.templatesDev = function templatesDev () {
   return templates(templatesDev)
-    .pipe(gulp.dest('./dest'))
-    .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+    .pipe(gulp.dest('./dist'));
 }
 
 exports.templatesProd = function templatesProd () {
@@ -50,7 +48,6 @@ exports.templatesProd = function templatesProd () {
       empty: true
     }))
     .pipe(sourcemaps.write({ sourceRoot: '' }))
-    .pipe(gulp.dest('./dest'))
     .pipe(gulp.dest('./dist'));
 }
 
@@ -63,12 +60,10 @@ function assets (fn) {
 
 exports.assetsDev = function assetsDev () {
   return assets(assetsDev)
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.assetsProd = function assetsProd () {
   return assets(assetsProd)
-  .pipe(gulp.dest('./dest'))
   .pipe(gulp.dest('./dist'));
 };

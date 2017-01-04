@@ -30,13 +30,6 @@ var gulp = require('gulp');
 var assets = require('./assets');
 var test = require('./test');
 
-var cleaner = gulp.parallel(
-  clean.cleanDest,
-  clean.cleanDist,
-  clean.cleanTemplates,
-  clean.cleanStatic
-);
-
 var builder = gulp.parallel(
   js.jsDepsDev,
   js.jsSourceDev,
@@ -51,7 +44,7 @@ var builder = gulp.parallel(
 );
 
 module.exports.devBuild = gulp.series(
-  cleaner,
+  clean.cleanDist,
   builder
 );
 
