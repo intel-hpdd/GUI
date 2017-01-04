@@ -9,7 +9,6 @@ var paths = require('../paths.json');
 var gulp = require('gulp');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
-var destDir = require('../dest-dir');
 var relativeSourcemapsSource = require('gulp-relative-sourcemaps-source');
 
 function jsDeps (fn) {
@@ -21,13 +20,12 @@ function jsDeps (fn) {
 
 exports.jsDepsDev = function jsDepsDev () {
   return jsDeps(jsDepsDev)
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.jsDepsProd = function jsDepsProd () {
   return jsDeps(jsDepsProd)
-  .pipe(gulp.dest('./dest'));
+  .pipe(gulp.dest('./dist'));
 };
 
 function socketWorker (fn) {
@@ -40,13 +38,12 @@ function socketWorker (fn) {
 
 exports.socketWorkerDev = function socketWorkerDev () {
   return socketWorker(socketWorkerDev)
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.socketWorkerProd = function socketWorkerProd () {
   return socketWorker(socketWorkerProd)
-  .pipe(gulp.dest('./dest'))
+  .pipe(gulp.dest('./dist'))
   .pipe(gulp.dest('./dist'));
 };
 
@@ -59,8 +56,7 @@ function systemConfig (fn) {
 
 exports.systemConfigDev = function systemConfigDev () {
   return systemConfig(systemConfigDev)
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 function jsSource (fn) {
@@ -74,17 +70,16 @@ function jsSource (fn) {
 exports.jsSourceDev = function jsSourceDev () {
   return jsSource(jsSourceDev)
   .pipe(babel())
-  .pipe(sourcemaps.write({ sourceRoot: '/static/chroma_ui' }))
-  .pipe(gulp.dest('./dest'))
-  .pipe(gulp.dest('static/chroma_ui', { cwd: destDir }));
+  .pipe(sourcemaps.write({ sourceRoot: '/gui' }))
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.jsSourceProd = function jsSourceProd () {
   return jsSource(jsSourceProd)
   .pipe(babel())
-  .pipe(relativeSourcemapsSource({dest: 'dest'}))
+  .pipe(relativeSourcemapsSource({dest: 'dist'}))
   .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.jsTest = function jsTest () {
@@ -95,7 +90,7 @@ exports.jsTest = function jsTest () {
   .pipe(sourcemaps.init())
   .pipe(babel())
   .pipe(sourcemaps.write({ sourceRoot: '' }))
-  .pipe(gulp.dest('./dest'));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.jsTestFixtures = function jsTestFixtures () {
@@ -103,7 +98,7 @@ exports.jsTestFixtures = function jsTestFixtures () {
     since: gulp.lastRun(jsTestFixtures),
     base: '.'
   })
-  .pipe(gulp.dest('./dest'));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.jsTestDeps = function jsTestDeps () {
@@ -111,5 +106,5 @@ exports.jsTestDeps = function jsTestDeps () {
     since: gulp.lastRun(jsTestDeps),
     base: '.'
   })
-  .pipe(gulp.dest('./dest'));
+  .pipe(gulp.dest('./dist'));
 };

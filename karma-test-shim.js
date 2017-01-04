@@ -11,11 +11,11 @@ window.__karma__.loaded = function () {};
 const testFiles = Object.keys(window.__karma__.files)
   .filter(f => /\/.+-test\.(js|json)$/.test(f))
   .map(f => f.replace(/^\//, ''))
-  .map(f => f.replace(/^base\/dest\//, ''));
+  .map(f => f.replace(/^base\/dist\//, ''));
 
 System
-  .import('/base/dest/test/global-setup.js')
-  .then(() => System.import('/base/dest/node_modules/intel-jasmine-n-matchers/jasmine-n-matchers'))
+  .import('/base/dist/test/global-setup.js')
+  .then(() => System.import('/base/dist/node_modules/intel-jasmine-n-matchers/jasmine-n-matchers'))
   .then(
     () => Promise
       .all(

@@ -7,7 +7,6 @@
 
 var paths = require('../paths.json');
 var gulp = require('gulp');
-var destDir = require('../dest-dir');
 var inject = require('gulp-inject');
 
 function index (fn) {
@@ -19,7 +18,7 @@ function index (fn) {
 
 exports.indexDev = function indexDev () {
   return index(indexDev)
-  .pipe(gulp.dest('templates/new', { cwd: destDir }));
+  .pipe(gulp.dest('./dist'));
 };
 
 exports.indexProd = function indexProd () {
@@ -43,7 +42,7 @@ exports.injectProd = function injectProd () {
 
   return target.pipe(inject(sources, {
     transform: function transform (filepath, file) {
-      return inject.transform('/static/chroma_ui/' + file.relative);
+      return inject.transform('/gui/' + file.relative);
     }
   }))
   .pipe(gulp.dest('dist'));

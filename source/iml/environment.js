@@ -7,7 +7,7 @@
 
 import global from './global.js';
 
-export const STATIC_URL = global.STATIC_URL;
+export const STATIC_URL = '/gui/';
 export const CACHE_INITIAL_DATA = global.CACHE_INITIAL_DATA;
 export const UI_ROOT = document.baseURI || '';
 export const HELP_TEXT = global.HELP_TEXT;

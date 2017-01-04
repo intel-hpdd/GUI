@@ -228,7 +228,7 @@ const CACHE_INITIAL_DATA = {
   }
 };
 const ALLOW_ANONYMOUS_READ = true;
-const STATIC_URL = 'static/chroma_ui/';
+const STATIC_URL = 'gui/';
 const location = {
   protocol: 'https',
   hostname: 'localhost'
