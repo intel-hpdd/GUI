@@ -13,6 +13,8 @@ describe('Modal test', () => {
 
   beforeEach(() => {
     root = document.createElement('div');
+    document.body.appendChild(root);
+
     onAgree = jasmine.createSpy('onAgree');
     onDisagree = jasmine.createSpy('onDisagree');
 
@@ -34,6 +36,10 @@ describe('Modal test', () => {
         </div>
       );
     };
+  });
+
+  afterEach(() => {
+    document.body.removeChild(root);
   });
 
   describe('with modal not visible', () => {
@@ -130,9 +136,8 @@ describe('Modal test', () => {
     });
 
     describe('modal footer', () => {
-      let modalFooter, successButton, dangerButton, clickEvent;
+      let modalFooter, successButton, dangerButton;
       beforeEach(() => {
-        clickEvent = new MouseEvent('click');
         modalFooter = el.querySelector('.modal-footer');
         successButton = modalFooter.querySelector('button.btn-success');
         dangerButton = modalFooter.querySelector('button.btn-danger');
@@ -150,7 +155,7 @@ describe('Modal test', () => {
       });
 
       it('should call onAgree when the success button is clicked', () => {
-        successButton.dispatchEvent(clickEvent);
+        successButton.click();
         expect(onAgree)
           .toHaveBeenCalledOnce();
       });
@@ -161,7 +166,7 @@ describe('Modal test', () => {
       });
 
       it('should call onDisagree when the danger button is clicked', () => {
-        dangerButton.dispatchEvent(clickEvent);
+        dangerButton.click();
         expect(onDisagree)
           .toHaveBeenCalledOnce();
       });
