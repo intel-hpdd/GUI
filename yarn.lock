@@ -420,11 +420,12 @@ babel-plugin-check-es2015-constants@6.8.0, babel-plugin-check-es2015-constants@^
   dependencies:
     babel-runtime "^6.0.0"
 
-babel-plugin-inferno@1.4.0:
-  version "1.4.0"
-  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-plugin-inferno/-/babel-plugin-inferno-1.4.0.tgz#944c95b16520fb44914c846601484716852a8421"
+babel-plugin-inferno@^1.5.0:
+  version "1.5.0"
+  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-plugin-inferno/-/babel-plugin-inferno-1.5.0.tgz#9beb329562ca5312a6b444b998d17e4bac842f79"
   dependencies:
     babel-plugin-syntax-jsx "^6.18.0"
+    inferno-vnode-flags "^1.0.7"
 
 babel-plugin-syntax-async-functions@^6.8.0:
   version "6.13.0"
@@ -2396,15 +2397,21 @@ indx@^0.2.3:
   version "0.2.3"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/indx/-/indx-0.2.3.tgz#15dcf56ee9cf65c0234c513c27fbd580e70fbc50"
 
-inferno-component@1.0.7:
-  version "1.0.7"
-  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno-component/-/inferno-component-1.0.7.tgz#a3b350ea023e7056fd5b10392053bb0a207ed99d"
+inferno-component@^1.1.1:
+  version "1.1.1"
+  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno-component/-/inferno-component-1.1.1.tgz#33ea8c12f388f227795a10d6f1a517a353ecee7e"
   dependencies:
-    inferno "1.0.7"
+    inferno "1.1.1"
 
-inferno@1.0.7:
-  version "1.0.7"
-  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno/-/inferno-1.0.7.tgz#6e4cd800cc752ff76876f5d310dbec508ce0dcbc"
+inferno-vnode-flags@^1.0.7:
+  version "1.1.1"
+  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno-vnode-flags/-/inferno-vnode-flags-1.1.1.tgz#3e914a54372b08da1b6daa58757bbbb0d3f6e6f0"
+  dependencies:
+    inferno "1.1.1"
+
+inferno@1.1.1, inferno@^1.1.1:
+  version "1.1.1"
+  resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno/-/inferno-1.1.1.tgz#4432a162435fb5fa855cea5b905206fb8b011ee2"
 
 inflight@^1.0.4:
   version "1.0.6"
