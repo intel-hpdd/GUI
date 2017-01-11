@@ -420,7 +420,7 @@ babel-plugin-check-es2015-constants@6.8.0, babel-plugin-check-es2015-constants@^
   dependencies:
     babel-runtime "^6.0.0"
 
-babel-plugin-inferno@^1.5.0:
+babel-plugin-inferno@1.5.0:
   version "1.5.0"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/babel-plugin-inferno/-/babel-plugin-inferno-1.5.0.tgz#9beb329562ca5312a6b444b998d17e4bac842f79"
   dependencies:
@@ -2397,7 +2397,7 @@ indx@^0.2.3:
   version "0.2.3"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/indx/-/indx-0.2.3.tgz#15dcf56ee9cf65c0234c513c27fbd580e70fbc50"
 
-inferno-component@^1.1.1:
+inferno-component@1.1.1:
   version "1.1.1"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno-component/-/inferno-component-1.1.1.tgz#33ea8c12f388f227795a10d6f1a517a353ecee7e"
   dependencies:
@@ -2409,7 +2409,7 @@ inferno-vnode-flags@^1.0.7:
   dependencies:
     inferno "1.1.1"
 
-inferno@1.1.1, inferno@^1.1.1:
+inferno@1.1.1:
   version "1.1.1"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/inferno/-/inferno-1.1.1.tgz#4432a162435fb5fa855cea5b905206fb8b011ee2"
 
