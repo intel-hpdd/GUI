@@ -22,7 +22,7 @@ module.exports = function (config) {
     proxies: {
       '/gui/': '/base/dist/'
     },
-    reporters: ['jasmine-diff', 'progress'],
+    reporters: ['jasmine-diff', 'dots'],
     junitReporter: {
       outputDir: 'test-results',
       suite: 'karma-tests (new ui)'
