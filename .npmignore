@@ -8,7 +8,6 @@
 .gitignore
 bower.json
 html.js
-index.html
 json.js
 karma-test-shim.js
 karma.conf.js
