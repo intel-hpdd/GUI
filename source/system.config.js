@@ -22,7 +22,7 @@ System.config({
     lodash: 'bower_components/lodash/dist/lodash.js',
     'inferno': 'node_modules/inferno/dist/inferno.js',
     'inferno/dist': 'node_modules/inferno/dist',
-    'inferno-component': 'node_modules/inferno/dist/inferno-component.js',
+    'inferno-component': 'node_modules/inferno-component/dist/inferno-component.js',
     'intel-maybe': 'node_modules/intel-maybe/dist/source/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
     'intel-flat-map-changes': 'node_modules/intel-flat-map-changes/dist/source/index.js',
