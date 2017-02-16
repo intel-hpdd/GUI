@@ -6,7 +6,7 @@
       "source/system.config.js",
       "bower_components*/lodash/dist/lodash.js",
       "node_modules*/inferno/dist/inferno.js",
-      "node_modules*/inferno/dist/inferno-component.js",
+      "node_modules*/inferno-component/dist/inferno-component.js",
       "node_modules*/intel-lodash-mixins/index.js",
       "node_modules*/intel-fp/dist/source/fp.js",
       "node_modules*/intel-obj/node_modules/intel-fp/dist/source/fp.js",
