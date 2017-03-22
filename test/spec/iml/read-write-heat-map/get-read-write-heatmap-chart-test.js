@@ -1,4 +1,3 @@
-import * as fp from 'intel-fp';
 import highland from 'highland';
 
 import { values } from 'intel-obj';
@@ -16,12 +15,12 @@ describe('Read Write Heat Map chart', () => {
     getStore,
     standardConfig,
     durationPayload,
-    data$Fn,
     initStream,
     durationSubmitHandler,
     localApply,
     mod,
     getConf,
+    streamWhenVisible,
     $state;
 
   const readWriteHeatMapTypes = {
@@ -87,6 +86,10 @@ describe('Read Write Heat Map chart', () => {
       };
     });
 
+    streamWhenVisible = jasmine
+      .createSpy('streamWhenVisible')
+      .and.callFake(fn => fn().consume().each(() => {}));
+
     chartCompiler = jasmine.createSpy('chartCompiler');
 
     mod = await mock(
@@ -110,6 +113,9 @@ describe('Read Write Heat Map chart', () => {
         },
         'source/iml/read-write-heat-map/assets/html/read-write-heat-map.html!text': {
           default: 'heatMapTemplate'
+        },
+        'source/iml/environment.js': {
+          SERVER_TIME_DIFF: 270
         }
       }
     );
@@ -119,12 +125,10 @@ describe('Read Write Heat Map chart', () => {
 
   beforeEach(() => {
     initStream = highland();
-    spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake((overrides, fn, x) => {
-      fn(x);
-      return initStream;
-    });
+    getReadWriteHeatMapStream.and.returnValue(initStream);
+
+    spyOn(initStream, 'destroy');
 
     localApply = jasmine.createSpy('localApply');
 
@@ -135,8 +139,8 @@ describe('Read Write Heat Map chart', () => {
     getReadWriteHeatMapChart = mod.default(
       $state,
       localApply,
-      fp.curry3(data$Fn),
-      readWriteHeatMapTypes
+      readWriteHeatMapTypes,
+      streamWhenVisible
     );
   });
 
@@ -184,21 +188,20 @@ describe('Read Write Heat Map chart', () => {
       expect(getConf).toHaveBeenCalledOnceWith('readWriteHeatMapChart');
     });
 
-    it('should call data$Fn', () => {
-      expect(data$Fn).toHaveBeenCalledOnceWith(
-        {
-          qs: {
-            host_id: '1'
-          }
-        },
-        jasmine.any(Function),
-        standardConfig
-      );
-    });
-
     it('should call getReadWriteHeatMapStream with the dataType', () => {
       expect(getReadWriteHeatMapStream).toHaveBeenCalledOnceWith(
-        'stats_read_bytes'
+        'stats_read_bytes',
+        { qs: { host_id: '1' } },
+        {
+          configType: 'duration',
+          dataType: 'stats_read_bytes',
+          startDate: 1464812942650,
+          endDate: 1464812997102,
+          size: 10,
+          unit: 'minutes'
+        },
+        undefined,
+        270
       );
     });
 

@@ -28,6 +28,8 @@ import {
 import readWriteHeatMapTemplate
   from './assets/html/read-write-heat-map.html!text';
 
+import { SERVER_TIME_DIFF } from '../environment.js';
+
 import type { $scopeT } from 'angular';
 
 import type { localApplyT } from '../extend-scope-module.js';
@@ -42,19 +44,19 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
-
 import type { HighlandStreamT } from 'highland';
 
 import type { StateServiceT } from 'angular-ui-router';
 
+import type {
+  streamWhenChartVisibleT
+} from '../stream-when-visible/stream-when-visible-module.js';
+
 export default (
   $state: StateServiceT,
   localApply: localApplyT,
-  data$Fn: data$FnT,
-  readWriteHeatMapTypes: readWriteHeatMapTypesT
+  readWriteHeatMapTypes: readWriteHeatMapTypesT,
+  streamWhenVisible: streamWhenChartVisibleT
 ) => {
   'ngInject';
   const dataLens = fp.view(fp.lensProp('data'));
@@ -77,10 +79,15 @@ export default (
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(
-          data$Fn(overrides, (x: heatMapDurationPayloadT) =>
-            getReadWriteHeatMapStream(x.dataType))
-        )
+        flatMapChanges((x: heatMapDurationPayloadT) =>
+          streamWhenVisible(() =>
+            getReadWriteHeatMapStream(
+              x.dataType,
+              overrides,
+              x.configType === 'duration' ? x : undefined,
+              x.configType === 'range' ? x : undefined,
+              SERVER_TIME_DIFF
+            )))
       );
 
     return chartCompiler(
