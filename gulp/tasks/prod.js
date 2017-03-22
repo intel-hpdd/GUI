@@ -34,30 +34,37 @@ var sourcemaps = require('gulp-sourcemaps');
 var builder = new Builder('./');
 var baseURL = builder.loader.baseURL;
 
-function systemBuild () {
-  return builder.loadConfig('dist/source/system.config.js')
-    .then(function buildBundle () {
+function systemBuild() {
+  return builder
+    .loadConfig('dist/source/system.config.js')
+    .then(function buildBundle() {
       builder.loader.baseURL = baseURL + 'dist/';
 
-      builder.loader.meta = Object
-        .keys(builder.loader.meta)
-        .reduce(function cleanMeta (obj, key) {
+      builder.loader.meta = Object.keys(
+        builder.loader.meta
+      ).reduce(
+        function cleanMeta(obj, key) {
           var testKey = key.replace(/^.+gui\//, builder.loader.baseURL);
 
           obj[testKey] = builder.loader.meta[key];
 
           return obj;
-        }, {});
+        },
+        {}
+      );
 
-      builder.loader.packages = Object
-        .keys(builder.loader.packages)
-        .reduce(function cleanPackages (obj, key) {
+      builder.loader.packages = Object.keys(
+        builder.loader.packages
+      ).reduce(
+        function cleanPackages(obj, key) {
           var testKey = key.replace(/^.+gui\//, builder.loader.baseURL);
 
           obj[testKey] = builder.loader.packages[key];
 
           return obj;
-        }, {});
+        },
+        {}
+      );
 
       return builder.buildStatic('source/iml/iml-module.js', 'dist/built.js', {
         runtime: false,
@@ -67,24 +74,28 @@ function systemBuild () {
     });
 }
 
-function revJs () {
-  return gulp.src('dist/built.js')
-  .pipe(sourcemaps.init({
-    loadMaps: true
-  }))
-  .pipe(rev())
-  .pipe(sourcemaps.write('.', {
-    mapSources: function(sourcePath) {
-      return sourcePath.replace(/^\.\.\/source\//, '../dist/source/');
-    }
-  }))
-  .pipe(gulp.dest('dist'));
+function revJs() {
+  return gulp
+    .src('dist/built.js')
+    .pipe(
+      sourcemaps.init({
+        loadMaps: true
+      })
+    )
+    .pipe(rev())
+    .pipe(
+      sourcemaps.write('.', {
+        mapSources: function(sourcePath) {
+          return sourcePath.replace(/^\.\.\/source\//, '../dist/source/');
+        }
+      })
+    )
+    .pipe(gulp.dest('dist'));
 }
 
 var build = gulp.parallel(
   js.jsDepsProd,
   js.jsSourceProd,
-  js.socketWorkerProd,
   assets.templatesProd,
   assets.assetsProd,
   css.buildCssProd

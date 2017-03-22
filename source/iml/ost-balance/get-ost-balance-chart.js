@@ -34,87 +34,87 @@ import {
 import getOstBalanceStream from './get-ost-balance-stream.js';
 import getStore from '../store/get-store.js';
 
-import {
-  getConf
-} from '../chart-transformers/chart-transformers.js';
+import { getConf } from '../chart-transformers/chart-transformers.js';
 
 import type {
   streamWhenChartVisibleT
 } from '../stream-when-visible/stream-when-visible-module.js';
 
-import type {
-  ostBalancePayloadT
-} from '../ost-balance/ost-balance-module.js';
+import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
 
 import type {
   filesystemQueryT,
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-import type {
-  localApplyT
-} from '../extend-scope-module.js';
+import type { localApplyT } from '../extend-scope-module.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export default (streamWhenVisible:streamWhenChartVisibleT,
-                localApply:localApplyT) => {
+export default (
+  streamWhenVisible: streamWhenChartVisibleT,
+  localApply: localApplyT
+) => {
   'ngInject';
-
-  return function getOstBalanceChart (overrides:filesystemQueryT | targetQueryT,
-    page:string) {
-
-    getStore.dispatch({ type: DEFAULT_OST_BALANCE_CHART_ITEMS, payload: {
-      percentage: 0,
-      page
-    }});
-
-    const config1$:HighlandStreamT<{[page:string]:ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
-
-    const initStream = config1$
-      .through(getConf(page))
-      .through(flatMapChanges(
-        (x:ostBalancePayloadT) => {
-          return streamWhenVisible(() => getOstBalanceStream(x.percentage, overrides));
-        }
-      ));
-
-    return chartCompiler(ostBalanceTemplate, initStream, ($scope:Object,
-      stream:HighlandStreamT<{[page:string]:ostBalancePayloadT}>) => {
-
-      const conf = {
-        stream,
+  return function getOstBalanceChart(
+    overrides: filesystemQueryT | targetQueryT,
+    page: string
+  ) {
+    getStore.dispatch({
+      type: DEFAULT_OST_BALANCE_CHART_ITEMS,
+      payload: {
         percentage: 0,
-        page: '',
-        onSubmit (ostBalanceForm:{ percentage:{$modelValue:number} }) {
-          getStore.dispatch({
-            type: UPDATE_OST_BALANCE_CHART_ITEMS,
-            payload: {
-              percentage: ostBalanceForm.percentage.$modelValue,
-              page
-            }
-          });
-        },
-        options: {
-          setup (d3Chart, d3) {
-            d3Chart.forceY([0, 1]);
+        page
+      }
+    });
 
-            d3Chart.stacked(true);
+    const config1$: HighlandStreamT<{
+      [page: string]: ostBalancePayloadT
+    }> = getStore.select('ostBalanceCharts');
 
-            d3Chart.yAxis.tickFormat(d3.format('.1%'));
+    const initStream = config1$.through(getConf(page)).through(
+      flatMapChanges((x: ostBalancePayloadT) => {
+        return streamWhenVisible(() =>
+          getOstBalanceStream(x.percentage, overrides));
+      })
+    );
 
-            d3Chart.showXAxis(false);
+    return chartCompiler(
+      ostBalanceTemplate,
+      initStream,
+      ($scope: Object, stream: HighlandStreamT<{
+        [page: string]: ostBalancePayloadT
+      }>) => {
+        const conf = {
+          stream,
+          percentage: 0,
+          page: '',
+          onSubmit(ostBalanceForm: { percentage: { $modelValue: number } }) {
+            getStore.dispatch({
+              type: UPDATE_OST_BALANCE_CHART_ITEMS,
+              payload: {
+                percentage: ostBalanceForm.percentage.$modelValue,
+                page
+              }
+            });
+          },
+          options: {
+            setup(d3Chart, d3) {
+              d3Chart.forceY([0, 1]);
 
-            d3Chart.tooltip.contentGenerator((d) => {
-              if (d == null)
-                return '';
+              d3Chart.stacked(true);
 
-              const detail = d.data.detail;
-              detail.id = d.data.x;
+              d3Chart.yAxis.tickFormat(d3.format('.1%'));
 
-              return `<table>
+              d3Chart.showXAxis(false);
+
+              d3Chart.tooltip.contentGenerator(d => {
+                if (d == null) return '';
+
+                const detail = d.data.detail;
+                detail.id = d.data.x;
+
+                return `<table>
                 <thead>
                   <tr>
                     <td>
@@ -137,26 +137,27 @@ export default (streamWhenVisible:streamWhenChartVisibleT,
                   </tr>
                 </tbody>
               </table>`;
-            });
+              });
+            }
           }
-        }
-      };
+        };
 
-      const config2$:HighlandStreamT<{[page:string]:ostBalancePayloadT}> = getStore.select('ostBalanceCharts');
-      config2$
-       .through(getConf(page))
-       .each((x:ostBalancePayloadT) => {
-         Object.assign(conf, x);
-         localApply($scope);
-       });
+        const config2$: HighlandStreamT<{
+          [page: string]: ostBalancePayloadT
+        }> = getStore.select('ostBalanceCharts');
+        config2$.through(getConf(page)).each((x: ostBalancePayloadT) => {
+          Object.assign(conf, x);
+          localApply($scope);
+        });
 
-      $scope.$on('$destroy', function onDestroy () {
-        stream.destroy();
-        config1$.destroy();
-        config2$.destroy();
-      });
+        $scope.$on('$destroy', function onDestroy() {
+          stream.destroy();
+          config1$.destroy();
+          config2$.destroy();
+        });
 
-      return conf;
-    });
+        return conf;
+      }
+    );
   };
 };
