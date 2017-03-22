@@ -17,7 +17,6 @@ var test = require('./test');
 var builder = gulp.parallel(
   js.jsDepsDev,
   js.jsSourceDev,
-  js.socketWorkerDev,
   js.jsTest,
   js.jsTestDeps,
   js.jsTestFixtures,
@@ -27,10 +26,7 @@ var builder = gulp.parallel(
   css.buildCssDev
 );
 
-module.exports.devBuild = gulp.series(
-  clean.cleanDist,
-  builder
-);
+module.exports.devBuild = gulp.series(clean.cleanDist, builder);
 
 module.exports.dev = gulp.series(
   module.exports.devBuild,

@@ -1,4 +1,3 @@
-
 {
   "js": {
     "deps": [
@@ -41,7 +40,6 @@
     ],
     "source": "source/iml*/**/*.js",
     "config": "source/system.config.js",
-    "socketWorker": "node_modules*/intel-socket-worker/dist/bundle.js",
     "tests": "test/**/*.js",
     "testFixtures": "test/data-fixtures/*.json",
     "testDeps": [
