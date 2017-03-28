@@ -11,11 +11,10 @@ import * as fp from 'intel-fp';
 import type { HighlandStreamT } from 'highland';
 import { flushOnChange } from '../chart-transformers/chart-transformers.js';
 
-export default fp.curry5(
-  (type: string, overrides, durationParams, rangeParams, timeOffset): HighlandStreamT<any> =>
+export default fp.curry4(
+  (overrides, durationParams, rangeParams, timeOffset): HighlandStreamT<any> =>
     socketStream('/read-write-heat-map', {
       ...overrides,
-      type,
       durationParams,
       rangeParams,
       timeOffset

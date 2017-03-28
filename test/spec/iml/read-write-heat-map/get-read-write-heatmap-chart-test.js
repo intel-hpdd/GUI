@@ -190,8 +190,7 @@ describe('Read Write Heat Map chart', () => {
 
     it('should call getReadWriteHeatMapStream with the dataType', () => {
       expect(getReadWriteHeatMapStream).toHaveBeenCalledOnceWith(
-        'stats_read_bytes',
-        { qs: { host_id: '1' } },
+        { qs: { host_id: '1', metrics: 'stats_read_bytes' } },
         {
           configType: 'duration',
           dataType: 'stats_read_bytes',

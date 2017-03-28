@@ -31,8 +31,7 @@ describe('the read write heat map stream', () => {
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
     result$ = getReadWriteHeatMapStream(
-      'stats_read_bytes',
-      { foo: 'bar' },
+      { qs: { foo: 'bar', metrics: 'stats_read_bytes' } },
       { size: 10, unit: 'minutes' },
       undefined,
       -275
@@ -55,11 +54,13 @@ describe('the read write heat map stream', () => {
 
   it('should call socket stream', () => {
     expect(socketStream).toHaveBeenCalledOnceWith('/read-write-heat-map', {
-      type: 'stats_read_bytes',
       durationParams: { size: 10, unit: 'minutes' },
       rangeParams: undefined,
       timeOffset: -275,
-      foo: 'bar'
+      qs: {
+        foo: 'bar',
+        metrics: 'stats_read_bytes'
+      }
     });
   });
 
