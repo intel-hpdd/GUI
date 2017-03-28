@@ -19,12 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function windowUnloadFactory ($window) {
+export function windowUnloadFactory($window) {
   'ngInject';
-
   const state = { unloading: false };
 
-  $window.addEventListener('beforeunload', function beforeUnload () {
+  $window.addEventListener('beforeunload', function beforeUnload() {
     state.unloading = true;
   });
 

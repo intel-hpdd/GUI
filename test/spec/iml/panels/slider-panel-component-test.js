@@ -1,12 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('slider panel', () => {
   let inst, rootPanel, doc;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     doc = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')
@@ -38,18 +35,21 @@ describe('slider panel', () => {
     });
 
     it('should set panel to active', () => {
-      expect(rootPanel.setActive)
-        .toHaveBeenCalledOnce();
+      expect(rootPanel.setActive).toHaveBeenCalledOnce();
     });
 
     it('should add mousemove listener', () => {
-      expect(doc.addEventListener)
-        .toHaveBeenCalledOnceWith('mousemove', jasmine.any(Function));
+      expect(doc.addEventListener).toHaveBeenCalledOnceWith(
+        'mousemove',
+        jasmine.any(Function)
+      );
     });
 
     it('should add mouseup listener', () => {
-      expect(doc.addEventListener)
-        .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
+      expect(doc.addEventListener).toHaveBeenCalledOnceWith(
+        'mouseup',
+        jasmine.any(Function)
+      );
     });
 
     describe('on mousemove', () => {
@@ -60,8 +60,7 @@ describe('slider panel', () => {
       });
 
       it('should trigger rootPanel onChange', () => {
-        expect(rootPanel.onChange)
-          .toHaveBeenCalledOnceWith(10);
+        expect(rootPanel.onChange).toHaveBeenCalledOnceWith(10);
       });
     });
 
@@ -71,18 +70,21 @@ describe('slider panel', () => {
       });
 
       it('should set panel to inactive', () => {
-        expect(rootPanel.setInactive)
-          .toHaveBeenCalledOnce();
+        expect(rootPanel.setInactive).toHaveBeenCalledOnce();
       });
 
       it('should remove mousemove listener', () => {
-        expect(doc.removeEventListener)
-          .toHaveBeenCalledOnceWith('mousemove', jasmine.any(Function));
+        expect(doc.removeEventListener).toHaveBeenCalledOnceWith(
+          'mousemove',
+          jasmine.any(Function)
+        );
       });
 
       it('should remove mouseup listener', () => {
-        expect(doc.removeEventListener)
-          .toHaveBeenCalledOnceWith('mouseup', jasmine.any(Function));
+        expect(doc.removeEventListener).toHaveBeenCalledOnceWith(
+          'mouseup',
+          jasmine.any(Function)
+        );
       });
     });
   });

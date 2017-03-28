@@ -21,10 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-function controller ($location:Object) {
+function controller($location: Object) {
   'ngInject';
-
   this.$onDestroy = () => this.log$.destroy();
 
   this.pageChanged = meta => {

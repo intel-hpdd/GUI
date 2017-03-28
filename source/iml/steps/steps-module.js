@@ -21,15 +21,19 @@
 
 import angular from 'angular';
 
-export default angular.module('steps-module', [])
-  .directive('stepContainer', ['$q', '$controller', '$compile',
-    function stepContainerDirective ($q, $controller, $compile) {
+export default angular
+  .module('steps-module', [])
+  .directive('stepContainer', [
+    '$q',
+    '$controller',
+    '$compile',
+    function stepContainerDirective($q, $controller, $compile) {
       return {
         restrict: 'E',
         scope: {
           manager: '='
         },
-        link: function link (scope, el) {
+        link: function link(scope, el) {
           let innerScope, resolvesFinished;
 
           /**
@@ -38,36 +42,35 @@ export default angular.module('steps-module', [])
            * @param {Object} [resolves]
            * @param {Object} [waitingStep]
            */
-          scope.manager.registerChangeListener(function onChanges (step, resolves, waitingStep) {
-            if (!resolvesFinished && waitingStep && waitingStep.template) {
-              // Create new scope
-              innerScope = scope.$new();
+          scope.manager.registerChangeListener(
+            function onChanges(step, resolves, waitingStep) {
+              if (!resolvesFinished && waitingStep && waitingStep.template) {
+                // Create new scope
+                innerScope = scope.$new();
 
-              loadUpSteps(
-                {
-                  $scope: innerScope
-                },
-                el,
-                waitingStep.template,
-                waitingStep.controller
-              );
-            }
+                loadUpSteps(
+                  {
+                    $scope: innerScope
+                  },
+                  el,
+                  waitingStep.template,
+                  waitingStep.controller
+                );
+              }
 
-            resolves = scope.manager.onEnter(resolves);
-            resolves.template = step.template;
+              resolves = scope.manager.onEnter(resolves);
+              resolves.template = step.template;
 
-            $q.all(resolves)
-              .then(function (results) {
+              $q.all(resolves).then(function(results) {
                 const template = results.template;
                 delete results.template;
 
                 // Indicate that resolves are complete so the untilTemplate isn't loaded
                 resolvesFinished = true;
 
-                if (innerScope)
-                  innerScope.$destroy();
+                if (innerScope) innerScope.$destroy();
 
-                results.$scope = innerScope = scope.$new();
+                results.$scope = (innerScope = scope.$new());
                 results.$stepInstance = {
                   transition: scope.manager.transition,
                   end: scope.manager.end
@@ -76,36 +79,37 @@ export default angular.module('steps-module', [])
                 loadUpSteps(results, el, template, step.controller);
               });
 
-            /**
+              /**
              * Loads the steps
              * @param {Object} resolves
              * @param {Object} el
              * @param {String} template
              * @param {Object} controller
              */
-            function loadUpSteps (resolves, el, template, controller) {
-              if (controller)
-                $controller(controller, resolves);
+              function loadUpSteps(resolves, el, template, controller) {
+                if (controller) $controller(controller, resolves);
 
-              el.html(template);
+                el.html(template);
 
-              $compile(el.children())(resolves.$scope);
+                $compile(el.children())(resolves.$scope);
+              }
             }
-          });
+          );
 
-          scope.$on('$destroy', function onDestroy () {
+          scope.$on('$destroy', function onDestroy() {
             scope.manager.destroy();
 
-            if (innerScope)
-              innerScope.$destroy();
+            if (innerScope) innerScope.$destroy();
           });
         }
       };
     }
   ])
-  .factory('stepsManager', ['$q', '$injector',
-    function stepManagerFactory ($q, $injector) {
-      return function stepManager () {
+  .factory('stepsManager', [
+    '$q',
+    '$injector',
+    function stepManagerFactory($q, $injector) {
+      return function stepManager() {
         let currentStep, listener, pending;
         let steps = {};
         const endDeferred = $q.defer();
@@ -117,9 +121,11 @@ export default angular.module('steps-module', [])
            * @throws
            * @returns {*}
            */
-          addWaitingStep: function addWaitingStep (step) {
+          addWaitingStep: function addWaitingStep(step) {
             if (steps.waitingStep)
-              throw new Error('Cannot assign the waiting step as it is already defined.');
+              throw new Error(
+                'Cannot assign the waiting step as it is already defined.'
+              );
 
             steps.waitingStep = step;
 
@@ -131,7 +137,7 @@ export default angular.module('steps-module', [])
            * @param {Object} step
            * @returns {Object}
            */
-          addStep: function addStep (stepName, step) {
+          addStep: function addStep(stepName, step) {
             steps[stepName] = step;
 
             return this;
@@ -142,7 +148,7 @@ export default angular.module('steps-module', [])
            * @param {Object} [extraResolves] Any extra resolves to pass in.
            * @returns {Object}
            */
-          start: function start (stepName, extraResolves) {
+          start: function start(stepName, extraResolves) {
             currentStep = steps[stepName];
 
             if (listener)
@@ -155,7 +161,7 @@ export default angular.module('steps-module', [])
 
             return this;
           },
-          end: function end (data) {
+          end: function end(data) {
             endDeferred.resolve(data);
           },
           /**
@@ -164,7 +170,7 @@ export default angular.module('steps-module', [])
            * @param {Object} [resolves]
            * @returns {Object} A promise.
            */
-          onEnter: function onEnter (resolves) {
+          onEnter: function onEnter(resolves) {
             resolves = resolves || {};
 
             if (currentStep.onEnter)
@@ -177,9 +183,8 @@ export default angular.module('steps-module', [])
            * @param {String} action
            * @param {Object} resolves
            */
-          transition: function transition (action, resolves) {
-            if (!currentStep)
-              return;
+          transition: function transition(action, resolves) {
+            if (!currentStep) return;
 
             const nextStep = currentStep.transition(steps, action);
 
@@ -193,7 +198,9 @@ export default angular.module('steps-module', [])
            * @param {Function} changeListener
            * @returns {Object}
            */
-          registerChangeListener: function registerChangeListener (changeListener) {
+          registerChangeListener: function registerChangeListener(
+            changeListener
+          ) {
             listener = changeListener;
 
             if (pending) {
@@ -206,8 +213,8 @@ export default angular.module('steps-module', [])
           /**
            * Cleans all references.
            */
-          destroy: function destroy () {
-            listener = steps = currentStep = pending = null;
+          destroy: function destroy() {
+            listener = (steps = (currentStep = (pending = null)));
           },
           result: {
             end: endDeferred.promise
@@ -215,5 +222,4 @@ export default angular.module('steps-module', [])
         };
       };
     }
-  ])
-  .name;
+  ]).name;

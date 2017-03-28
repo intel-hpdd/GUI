@@ -1,14 +1,11 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('base dashboard resolves', () => {
   let baseDashboardChartResolves, baseDashboardFsStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock(
       'source/iml/dashboard/base-dashboard-chart-resolves.js',
       {}
@@ -23,48 +20,60 @@ describe('base dashboard resolves', () => {
   afterEach(resetAll);
 
   describe('charts', () => {
-    let getHostCpuRamChart, getOstBalanceChart,
-      getMdoChart, getReadWriteBandwidthChart,
-      getReadWriteHeatMapChart, getFileUsageChart,
-      getSpaceUsageChart, getInst, $stateParams,
-      mdsChart, ossChart, ostBalanceChart, mdoChart, readWriteBandwidthChart, fileUsageChart,
-      readWriteHeatMapChart, spaceUsageChart;
+    let getHostCpuRamChart,
+      getOstBalanceChart,
+      getMdoChart,
+      getReadWriteBandwidthChart,
+      getReadWriteHeatMapChart,
+      getFileUsageChart,
+      getSpaceUsageChart,
+      getInst,
+      $stateParams,
+      mdsChart,
+      ossChart,
+      ostBalanceChart,
+      mdoChart,
+      readWriteBandwidthChart,
+      fileUsageChart,
+      readWriteHeatMapChart,
+      spaceUsageChart;
 
     beforeEach(() => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
-      getHostCpuRamChart = jasmine.createSpy('getHostCpuRamChart')
-        .and.callFake((title) => {
-          if (title === 'Metadata Servers')
-            return mdsChart;
-          else if (title === 'Object Storage Servers')
-            return ossChart;
+      getHostCpuRamChart = jasmine
+        .createSpy('getHostCpuRamChart')
+        .and.callFake(title => {
+          if (title === 'Metadata Servers') return mdsChart;
+          else if (title === 'Object Storage Servers') return ossChart;
         });
 
       ostBalanceChart = { name: 'ostBalanceChart' };
-      getOstBalanceChart = jasmine.createSpy('getOstBalanceChart')
+      getOstBalanceChart = jasmine
+        .createSpy('getOstBalanceChart')
         .and.returnValue(ostBalanceChart);
 
       mdoChart = { name: 'mdoChart' };
-      getMdoChart = jasmine.createSpy('getMdoChart')
-        .and.returnValue(mdoChart);
+      getMdoChart = jasmine.createSpy('getMdoChart').and.returnValue(mdoChart);
 
       readWriteBandwidthChart = { name: 'readWriteBandwidthChart' };
-      getReadWriteBandwidthChart = jasmine.createSpy('getReadWriteBandwidthChart')
+      getReadWriteBandwidthChart = jasmine
+        .createSpy('getReadWriteBandwidthChart')
         .and.returnValue(readWriteBandwidthChart);
 
       readWriteHeatMapChart = { name: 'readWriteHeatMapChart' };
-      getReadWriteHeatMapChart = jasmine.createSpy('getReadWriteHeatMapChart')
+      getReadWriteHeatMapChart = jasmine
+        .createSpy('getReadWriteHeatMapChart')
         .and.returnValue(readWriteHeatMapChart);
 
       fileUsageChart = { name: 'fileUsageChart' };
-      getFileUsageChart =
-      jasmine.createSpy('getFileUsageChart')
+      getFileUsageChart = jasmine
+        .createSpy('getFileUsageChart')
         .and.returnValue(fileUsageChart);
 
       spaceUsageChart = { name: 'spaceUsageChart' };
-      getSpaceUsageChart =
-      jasmine.createSpy('getSpaceUsageChart')
+      getSpaceUsageChart = jasmine
+        .createSpy('getSpaceUsageChart')
         .and.returnValue(spaceUsageChart);
 
       $stateParams = {};
@@ -83,8 +92,7 @@ describe('base dashboard resolves', () => {
     });
 
     it('should be a function', () => {
-      expect(baseDashboardChartResolves)
-        .toEqual(jasmine.any(Function));
+      expect(baseDashboardChartResolves).toEqual(jasmine.any(Function));
     });
 
     describe('without fs id', () => {
@@ -93,28 +101,23 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the read write heat map chart', () => {
-        expect(getReadWriteHeatMapChart)
-          .toHaveBeenCalledOnceWith({}, 'base');
+        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the ost balance chart', () => {
-        expect(getOstBalanceChart)
-          .toHaveBeenCalledOnceWith({}, 'base');
+        expect(getOstBalanceChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mdo chart', () => {
-        expect(getMdoChart)
-          .toHaveBeenCalledOnceWith({}, 'base');
+        expect(getMdoChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the read write bandwidth chart', () => {
-        expect(getReadWriteBandwidthChart)
-          .toHaveBeenCalledOnceWith({}, 'base');
+        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith({}, 'base');
       });
 
       it('should get the mds chart', () => {
-        expect(getHostCpuRamChart)
-          .toHaveBeenCalledOnceWith(
+        expect(getHostCpuRamChart).toHaveBeenCalledOnceWith(
           'Metadata Servers',
           {
             qs: { role: 'MDS' }
@@ -124,8 +127,7 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the oss chart', () => {
-        expect(getHostCpuRamChart)
-          .toHaveBeenCalledOnceWith(
+        expect(getHostCpuRamChart).toHaveBeenCalledOnceWith(
           'Object Storage Servers',
           {
             qs: { role: 'OSS' }
@@ -135,21 +137,19 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the file usage chart', () => {
-        expect(getFileUsageChart)
-          .toHaveBeenCalledOnceWith(
-            'File Usage',
-            'Files Used',
-            {},
-            'fileusagebase'
-          );
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
+          'File Usage',
+          'Files Used',
+          {},
+          'fileusagebase'
+        );
       });
 
       it('should get the space usage chart', () => {
-        expect(getSpaceUsageChart)
-          .toHaveBeenCalledOnceWith(
-            {},
-            'spaceusagebase'
-          );
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
+          {},
+          'spaceusagebase'
+        );
       });
     });
 
@@ -162,44 +162,51 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the read write heat map chart', () => {
-        expect(getReadWriteHeatMapChart)
-          .toHaveBeenCalledOnceWith({
+        expect(getReadWriteHeatMapChart).toHaveBeenCalledOnceWith(
+          {
             qs: {
               filesystem_id: '1'
             }
-          }, '1');
+          },
+          '1'
+        );
       });
 
       it('should get the ost balance chart', () => {
-        expect(getOstBalanceChart)
-          .toHaveBeenCalledOnceWith({
+        expect(getOstBalanceChart).toHaveBeenCalledOnceWith(
+          {
             qs: {
               filesystem_id: '1'
             }
-          }, '1');
+          },
+          '1'
+        );
       });
 
       it('should get the mdo chart', () => {
-        expect(getMdoChart)
-          .toHaveBeenCalledOnceWith({
+        expect(getMdoChart).toHaveBeenCalledOnceWith(
+          {
             qs: {
               filesystem_id: '1'
             }
-          }, '1');
+          },
+          '1'
+        );
       });
 
       it('should get the read write bandwidth chart', () => {
-        expect(getReadWriteBandwidthChart)
-          .toHaveBeenCalledOnceWith({
+        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith(
+          {
             qs: {
               filesystem_id: '1'
             }
-          }, '1');
+          },
+          '1'
+        );
       });
 
       it('should get the mds chart', () => {
-        expect(getHostCpuRamChart)
-          .toHaveBeenCalledOnceWith(
+        expect(getHostCpuRamChart).toHaveBeenCalledOnceWith(
           'Metadata Servers',
           {
             qs: {
@@ -212,8 +219,7 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the oss chart', () => {
-        expect(getHostCpuRamChart)
-          .toHaveBeenCalledOnceWith(
+        expect(getHostCpuRamChart).toHaveBeenCalledOnceWith(
           'Object Storage Servers',
           {
             qs: {
@@ -226,37 +232,34 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the file usage chart', () => {
-        expect(getFileUsageChart)
-          .toHaveBeenCalledOnceWith(
-            'File Usage',
-            'Files Used',
-            {},
-            'fileusagebase'
-          );
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
+          'File Usage',
+          'Files Used',
+          {},
+          'fileusagebase'
+        );
       });
 
       it('should get the space usage chart', () => {
-        expect(getSpaceUsageChart)
-          .toHaveBeenCalledOnceWith(
-            {},
-            'spaceusagebase'
-          );
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
+          {},
+          'spaceusagebase'
+        );
       });
 
-      itAsync('should return an array of charts', async function () {
+      itAsync('should return an array of charts', async function() {
         const streams = await promise;
 
-        expect(streams)
-          .toEqual([
-            readWriteHeatMapChart,
-            ostBalanceChart,
-            mdoChart,
-            readWriteBandwidthChart,
-            fileUsageChart,
-            spaceUsageChart,
-            mdsChart,
-            ossChart
-          ]);
+        expect(streams).toEqual([
+          readWriteHeatMapChart,
+          ostBalanceChart,
+          mdoChart,
+          readWriteBandwidthChart,
+          fileUsageChart,
+          spaceUsageChart,
+          mdsChart,
+          ossChart
+        ]);
       });
     });
   });
@@ -276,24 +279,21 @@ describe('base dashboard resolves', () => {
     it('should stream data', () => {
       let result;
 
-      fsStream
-        .write([
-          {
-            id: 1,
-            foo: 'bar'
-          }
-        ]);
+      fsStream.write([
+        {
+          id: 1,
+          foo: 'bar'
+        }
+      ]);
 
-      b()
-      .each(x => result = x);
+      b().each(x => result = x);
 
-      expect(result)
-        .toEqual([
-          {
-            id: 1,
-            foo: 'bar'
-          }
-        ]);
+      expect(result).toEqual([
+        {
+          id: 1,
+          foo: 'bar'
+        }
+      ]);
     });
   });
 });

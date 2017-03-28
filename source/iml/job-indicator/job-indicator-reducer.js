@@ -21,19 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  ADD_JOB_INDICATOR_ITEMS
-} from './job-indicator-module.js';
+import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator-module.js';
 
-import type {
-  ActionT
-} from '../store/store-module.js';
+import type { ActionT } from '../store/store-module.js';
 
-export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+export default function(
+  state: Array<Object> = [],
+  { type, payload }: ActionT
+): Array<Object> {
   switch (type) {
-  case ADD_JOB_INDICATOR_ITEMS:
-    return payload;
-  default:
-    return state;
+    case ADD_JOB_INDICATOR_ITEMS:
+      return payload;
+    default:
+      return state;
   }
 }

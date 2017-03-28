@@ -21,14 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  toggleItem
-} from './tree-utils.js';
+import { toggleItem } from './tree-utils.js';
 
-
-function treeServerItem () {
+function treeServerItem() {
   'ngInject';
-
   this.onOpen = toggleItem;
 }
 

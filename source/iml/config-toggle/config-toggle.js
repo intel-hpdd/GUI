@@ -23,24 +23,24 @@ export default () => {
   return {
     restrict: 'A',
     transclude: true,
-    link (scope, el, attrs, ctrl, $transclude) {
-      $transclude(function transcludeContent (clone, transcludedScope) {
+    link(scope, el, attrs, ctrl, $transclude) {
+      $transclude(function transcludeContent(clone, transcludedScope) {
         if (transcludedScope.configToggle)
           throw new Error('configToggle already set on transcluded scope.');
 
         let state;
 
         scope.configToggle = {
-          inactive () {
+          inactive() {
             return !state;
           },
-          active () {
+          active() {
             return state;
           },
-          setActive () {
+          setActive() {
             state = true;
           },
-          setInactive () {
+          setInactive() {
             state = false;
           }
         };

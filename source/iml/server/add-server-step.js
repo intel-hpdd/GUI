@@ -29,14 +29,14 @@ export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
   ANOTHER_KEY: 'private_key_choice'
 });
 
-export function AddServerStepCtrl ($scope, $stepInstance, data) {
+export function AddServerStepCtrl($scope, $stepInstance, data) {
   'ngInject';
-
   const servers = data.servers;
 
   angular.extend(this, {
     fields: {
-      auth_type: (servers && servers.auth_type) || ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS,
+      auth_type: (servers && servers.auth_type) ||
+        ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS,
       pdsh: data.pdsh
     },
     CHOICES: ADD_SERVER_AUTH_CHOICES,
@@ -45,16 +45,15 @@ export function AddServerStepCtrl ($scope, $stepInstance, data) {
      * @param {String} pdsh
      * @param {Array} hostnames
      */
-    pdshUpdate: function pdshUpdate (pdsh, hostnames) {
+    pdshUpdate: function pdshUpdate(pdsh, hostnames) {
       this.fields.pdsh = pdsh;
 
-      if (hostnames != null)
-        this.fields.addresses = hostnames;
+      if (hostnames != null) this.fields.addresses = hostnames;
     },
     /**
      * Call the transition.
      */
-    transition: function transition () {
+    transition: function transition() {
       this.disabled = true;
 
       data.pdsh = this.fields.pdsh;
@@ -67,19 +66,18 @@ export function AddServerStepCtrl ($scope, $stepInstance, data) {
     /**
      * Close the modal
      */
-    close: function close () {
+    close: function close() {
       $scope.$emit('addServerModal::closeModal');
     }
   });
 }
 
-export function addServersStepFactory () {
+export function addServersStepFactory() {
   'ngInject';
-
   return {
     template: addServerStepTemplate,
     controller: 'AddServerStepCtrl as addServer',
-    transition: function transition (steps) {
+    transition: function transition(steps) {
       return steps.serverStatusStep;
     }
   };

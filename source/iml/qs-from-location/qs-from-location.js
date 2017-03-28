@@ -21,21 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {
-  StateServiceT
-} from 'angular-ui-router';
+import type { StateServiceT } from 'angular-ui-router';
 
-export default function qsFromLocationFactory ($state:StateServiceT) {
+export default function qsFromLocationFactory($state: StateServiceT) {
   'ngInject';
-
   const UrlMatcher = $state.router.urlMatcherFactory.UrlMatcher;
 
-  return function qsFromLocation (params:Object):string {
+  return function qsFromLocation(params: Object): string {
     let parts = new UrlMatcher(
       $state.transition.to().url,
       $state.router.urlMatcherFactory.paramTypes
-    )
-      .format(params) || '';
+    ).format(params) || '';
 
     parts = parts.split('?');
     return parts.length > 1 ? parts.pop() : '';

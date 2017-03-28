@@ -25,20 +25,22 @@ import * as fp from 'intel-fp';
 import highland from 'highland';
 
 export default fp.curry2((keys, s) => {
-  const struct = keys.map(function pushItem (key) {
+  const struct = keys.map(function pushItem(key) {
     return { key: key, values: [] };
   });
 
   return s
     .collect()
-    .tap(fp.map(point => {
-      keys.forEach(function createValue (key, index) {
-        struct[index].values.push({
-          x: new Date(point.ts),
-          y: point.data[key]
+    .tap(
+      fp.map(point => {
+        keys.forEach(function createValue(key, index) {
+          struct[index].values.push({
+            x: new Date(point.ts),
+            y: point.data[key]
+          });
         });
-      });
-    }))
+      })
+    )
     .map(fp.always(struct))
     .otherwise(highland([struct]));
 });

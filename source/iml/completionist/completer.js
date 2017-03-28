@@ -25,14 +25,9 @@ import * as parsely from 'intel-parsely';
 
 import * as fp from 'intel-fp';
 
-import {
-  and
-} from 'intel-qs-parsers/input-to-qs-parser.js';
+import { and } from 'intel-qs-parsers/input-to-qs-parser.js';
 
-import type {
-  tokensToResult,
-  result
-} from 'intel-parsely';
+import type { tokensToResult, result } from 'intel-parsely';
 
 const blacklist = [
   'value',
@@ -51,33 +46,33 @@ const lookup = {
   ']': [',', ']']
 };
 
-export default (tokenizer:Function, parser:tokensToResult) => {
+export default (tokenizer: Function, parser: tokensToResult) => {
   return fp.memoize(
-    fp.flow(
-      tokenizer,
-      parsely.sepByInfinity(parser, and),
-      ({result}:result) => {
-        if (typeof result === 'string') {
-          return [];
-        } else {
-          const {
-            start,
-            end
-          } = result;
+    fp.flow(tokenizer, parsely.sepByInfinity(parser, and), ({
+      result
+    }: result) => {
+      if (typeof result === 'string') {
+        return [];
+      } else {
+        const {
+          start,
+          end
+        } = result;
 
-          return result
-          .expected
-          .reduce((arr, x) => {
-            return arr.concat(lookup[x] || x);
-          }, [])
+        return result.expected
+          .reduce(
+            (arr, x) => {
+              return arr.concat(lookup[x] || x);
+            },
+            []
+          )
           .filter(x => blacklist.indexOf(x) === -1)
           .map(x => ({
             start,
             end,
             suggestion: x
           }));
-        }
       }
-    )
+    })
   );
 };

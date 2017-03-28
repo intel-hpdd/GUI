@@ -24,11 +24,8 @@
 import * as maybe from 'intel-maybe';
 import global from './global.js';
 
-export default (arg:?(string | number)):Date =>
+export default (arg: ?(string | number)): Date =>
   maybe.withDefault(
     () => new global.Date(),
-    maybe.map(
-      x => new global.Date(x),
-      maybe.of(arg)
-    )
+    maybe.map(x => new global.Date(x), maybe.of(arg))
   );

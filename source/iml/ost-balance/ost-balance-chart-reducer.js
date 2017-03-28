@@ -30,29 +30,28 @@ import type {
   addOstBalanceActionT
 } from './ost-balance-module.js';
 
-function mergeState (state:ostBalancePayloadHashT, payload:ostBalancePayloadT) {
-  return Object.assign(
-    {},
-    state,
-    {
-      [payload.page]: {...state[payload.page], ...payload}
-    }
-  );
+function mergeState(
+  state: ostBalancePayloadHashT,
+  payload: ostBalancePayloadT
+) {
+  return Object.assign({}, state, {
+    [payload.page]: { ...state[payload.page], ...payload }
+  });
 }
 
-export default function (state:ostBalancePayloadHashT = {},
-  {type, payload}:addOstBalanceActionT):ostBalancePayloadHashT {
-
+export default function(
+  state: ostBalancePayloadHashT = {},
+  { type, payload }: addOstBalanceActionT
+): ostBalancePayloadHashT {
   switch (type) {
-  case DEFAULT_OST_BALANCE_CHART_ITEMS:
-    if (!state[payload.page])
-      state = mergeState(state, payload);
+    case DEFAULT_OST_BALANCE_CHART_ITEMS:
+      if (!state[payload.page]) state = mergeState(state, payload);
 
-    return state;
-  case UPDATE_OST_BALANCE_CHART_ITEMS:
-    return mergeState(state, payload);
+      return state;
+    case UPDATE_OST_BALANCE_CHART_ITEMS:
+      return mergeState(state, payload);
 
-  default:
-    return state;
+    default:
+      return state;
   }
 }

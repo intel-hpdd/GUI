@@ -37,12 +37,14 @@ export default (requestRange, buff) => {
 
     socketStream('/host/metric', params, true)
       .flatten()
-      .tap(function mapper (x) {
-        types.forEach(function (type) {
-          x.data[type] = ((100 * x.data['cpu_' + type] + (x.data.cpu_total / 2)) / x.data.cpu_total) / 100;
+      .tap(function mapper(x) {
+        types.forEach(function(type) {
+          x.data[type] = (100 * x.data['cpu_' + type] + x.data.cpu_total / 2) /
+            x.data.cpu_total /
+            100;
         });
       })
-      .map(function calculateCpuAndRam (x) {
+      .map(function calculateCpuAndRam(x) {
         x.data.read = x.data.stats_read_bytes;
         x.data.write = -x.data.stats_write_bytes;
 
@@ -52,7 +54,7 @@ export default (requestRange, buff) => {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(types))
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });

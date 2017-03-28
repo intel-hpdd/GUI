@@ -31,10 +31,12 @@ import jobStatusDirective from './job-indicator.js';
 
 export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
-export default angular.module('jobIndicator', [
-  popoverModule, uiBootstrapModule,
-  tooltipModule, extendScopeModule,
-  highlandModule
-])
-.directive('jobStatus', jobStatusDirective)
-.name;
+export default angular
+  .module('jobIndicator', [
+    popoverModule,
+    uiBootstrapModule,
+    tooltipModule,
+    extendScopeModule,
+    highlandModule
+  ])
+  .directive('jobStatus', jobStatusDirective).name;

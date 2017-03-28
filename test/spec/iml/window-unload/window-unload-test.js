@@ -1,28 +1,35 @@
-import windowUnloadModule from '../../../../source/iml/window-unload/window-unload-module';
-
+import windowUnloadModule
+  from '../../../../source/iml/window-unload/window-unload-module';
 
 describe('window unload', () => {
   let $window;
 
-  beforeEach(module(windowUnloadModule, $provide => {
-    $window = {
-      addEventListener: jasmine.createSpy('addEventListener')
-    };
-    $provide.value('$window', $window);
-  }));
+  beforeEach(
+    module(windowUnloadModule, $provide => {
+      $window = {
+        addEventListener: jasmine.createSpy('addEventListener')
+      };
+      $provide.value('$window', $window);
+    })
+  );
 
   let windowUnload;
 
-  beforeEach(inject((_windowUnload_) => {
-    windowUnload = _windowUnload_;
-  }));
+  beforeEach(
+    inject(_windowUnload_ => {
+      windowUnload = _windowUnload_;
+    })
+  );
 
   it('should register a beforeunload listener to $window', () => {
-    expect($window.addEventListener).toHaveBeenCalledOnceWith('beforeunload', jasmine.any(Function));
+    expect($window.addEventListener).toHaveBeenCalledOnceWith(
+      'beforeunload',
+      jasmine.any(Function)
+    );
   });
 
   it('should return an object representing unload state', () => {
-    expect(windowUnload).toEqual({unloading: false});
+    expect(windowUnload).toEqual({ unloading: false });
   });
 
   it('should change the unloading state once beforeunload has fired', () => {
@@ -30,6 +37,6 @@ describe('window unload', () => {
 
     beforeUnload();
 
-    expect(windowUnload).toEqual({unloading: true});
+    expect(windowUnload).toEqual({ unloading: true });
   });
 });

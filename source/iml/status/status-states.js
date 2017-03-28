@@ -27,9 +27,7 @@ import parserPermutations from '../parser-permutations.js';
 
 import * as fp from 'intel-fp';
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
+import { resolveStream } from '../promise-transforms.js';
 
 import type {
   qsFromLocationT
@@ -48,7 +46,6 @@ export const statusState = {
   </div>
   `
 };
-
 
 export const queryState = {
   name: 'app.status.query',
@@ -79,9 +76,8 @@ export const tableState = {
     icon: 'fa-tachometer'
   },
   resolve: {
-    notification$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
+    notification$(qsFromLocation: qsFromLocationT, $stateParams: Object) {
       'ngInject';
-
       const qsFromLocationToOld = fp.flow(
         qsFromLocation,
         statusQsToOldQsParser
@@ -89,8 +85,7 @@ export const tableState = {
 
       let qs = qsFromLocationToOld($stateParams);
 
-      if (qs.length)
-        qs = '?' + qs;
+      if (qs.length) qs = '?' + qs;
 
       return resolveStream(socketStream('/alert/' + qs));
     }

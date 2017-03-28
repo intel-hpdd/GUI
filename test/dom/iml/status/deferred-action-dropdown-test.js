@@ -1,60 +1,58 @@
 import highland from 'highland';
 
-import statusModule from  '../../../../source/iml/status/status-module.js';
-
+import statusModule from '../../../../source/iml/status/status-module.js';
 
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('deferred action dropdown', () => {
   let socketStream, s, mod;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     s = highland();
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(s);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
     mod = await mock('source/iml/status/deferred-action-dropdown.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream }
     });
   });
 
-  beforeEach(module(statusModule, ($controllerProvider) => {
-    $controllerProvider.register('DeferredActionDropdownCtrl', mod.DeferredActionDropdownCtrl);
-  }));
+  beforeEach(
+    module(statusModule, $controllerProvider => {
+      $controllerProvider.register(
+        'DeferredActionDropdownCtrl',
+        mod.DeferredActionDropdownCtrl
+      );
+    })
+  );
 
   afterEach(resetAll);
 
-  let el, $scope, qs, actionDropdown,
-    dropdownButton, loadingButton,
-    cleanText;
+  let el, $scope, qs, actionDropdown, dropdownButton, loadingButton, cleanText;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
 
-    $scope = $rootScope.$new();
-    $scope.row = {
-      affected: [
-        'thing1'
-      ]
-    };
+      $scope = $rootScope.$new();
+      $scope.row = {
+        affected: ['thing1']
+      };
 
-    cleanText = fp.flow(
-      fp.view(fp.lensProp('textContent')),
-      fp.invokeMethod('trim', [])
-    );
+      cleanText = fp.flow(
+        fp.view(fp.lensProp('textContent')),
+        fp.invokeMethod('trim', [])
+      );
 
-    el = $compile(template)($scope)[0];
-    qs = el.querySelector.bind(el);
-    actionDropdown = qs.bind(el, 'action-dropdown');
-    dropdownButton = qs.bind(el, '.dropdown-toggle');
-    loadingButton = qs.bind(el, '.loading-btn');
-    $scope.$digest();
-  }));
+      el = $compile(template)($scope)[0];
+      qs = el.querySelector.bind(el);
+      actionDropdown = qs.bind(el, 'action-dropdown');
+      dropdownButton = qs.bind(el, '.dropdown-toggle');
+      loadingButton = qs.bind(el, '.loading-btn');
+      $scope.$digest();
+    })
+  );
 
   it('should show the action dropdown', () => {
     expect(dropdownButton()).toBeShown();
@@ -62,8 +60,7 @@ describe('deferred action dropdown', () => {
 
   describe('when moused over', () => {
     beforeEach(() => {
-      document.body
-        .appendChild(el);
+      document.body.appendChild(el);
 
       const event = new MouseEvent('mouseover', {
         clientX: 50,
@@ -75,8 +72,7 @@ describe('deferred action dropdown', () => {
     });
 
     afterEach(() => {
-      document.body
-        .removeChild(el);
+      document.body.removeChild(el);
     });
 
     it('should show loading', () => {

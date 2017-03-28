@@ -1,10 +1,7 @@
 import highland from 'highland';
 import commandModule from '../../../../source/iml/command/command-module';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('step modal', () => {
   beforeEach(module(commandModule));
@@ -12,22 +9,24 @@ describe('step modal', () => {
   describe('step modal controller', () => {
     let $scope, stepModal, stepsStream, jobStream;
 
-    beforeEach(inject(($rootScope, $controller) => {
-      spyOn($rootScope, '$on').and.callThrough();
+    beforeEach(
+      inject(($rootScope, $controller) => {
+        spyOn($rootScope, '$on').and.callThrough();
 
-      jobStream = highland();
-      spyOn(jobStream, 'destroy').and.callThrough();
-      stepsStream = highland();
-      spyOn(stepsStream, 'destroy').and.callThrough();
+        jobStream = highland();
+        spyOn(jobStream, 'destroy').and.callThrough();
+        stepsStream = highland();
+        spyOn(stepsStream, 'destroy').and.callThrough();
 
-      $scope = $rootScope.$new();
+        $scope = $rootScope.$new();
 
-      stepModal = $controller('StepModalCtrl', {
-        $scope: $scope,
-        stepsStream: stepsStream,
-        jobStream: jobStream
-      });
-    }));
+        stepModal = $controller('StepModalCtrl', {
+          $scope: $scope,
+          stepsStream: stepsStream,
+          jobStream: jobStream
+        });
+      })
+    );
 
     it('should have a getDescription method', () => {
       expect(stepModal.getDescription).toEqual(jasmine.any(Function));
@@ -52,7 +51,10 @@ describe('step modal', () => {
     });
 
     it('should listen for destroy', () => {
-      expect($scope.$on).toHaveBeenCalledTwiceWith('$destroy', jasmine.any(Function));
+      expect($scope.$on).toHaveBeenCalledTwiceWith(
+        '$destroy',
+        jasmine.any(Function)
+      );
     });
 
     describe('destroy', () => {
@@ -106,27 +108,25 @@ describe('step modal', () => {
     });
 
     it('should set job data', () => {
-      jobStream.write({foo: 'bar'});
+      jobStream.write({ foo: 'bar' });
 
-      expect(stepModal.job).toEqual({foo: 'bar'});
+      expect(stepModal.job).toEqual({ foo: 'bar' });
     });
 
     it('should set step data', () => {
-      stepsStream.write({foo: 'bar'});
+      stepsStream.write({ foo: 'bar' });
 
-      expect(stepModal.steps).toEqual({foo: 'bar'});
+      expect(stepModal.steps).toEqual({ foo: 'bar' });
     });
   });
 
   describe('open step modal', () => {
     let $uibModal, socketStream, stream, job;
 
-    beforeEachAsync(async function () {
-      socketStream = jasmine.createSpy('socketStream')
-        .and
-        .callFake(() => {
-          return (stream = highland());
-        });
+    beforeEachAsync(async function() {
+      socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+        return (stream = highland());
+      });
 
       const mod = await mock('source/iml/command/step-modal-ctrl.js', {
         'source/iml/socket/socket-stream.js': {
@@ -141,15 +141,11 @@ describe('step modal', () => {
         open: jasmine.createSpy('open')
       };
 
-      const openStepModal = mod
-        .openStepModalFactory($uibModal);
+      const openStepModal = mod.openStepModalFactory($uibModal);
 
       job = {
         id: '1',
-        steps: [
-          '/api/step/1/',
-          '/api/step/2/'
-        ]
+        steps: ['/api/step/1/', '/api/step/2/']
       };
 
       openStepModal(job);
@@ -188,7 +184,7 @@ describe('step modal', () => {
       it('should set last data', () => {
         stepsStream.resume();
 
-        jobStream.each((x) => {
+        jobStream.each(x => {
           expect(x).toEqual(job);
         });
       });
@@ -197,25 +193,27 @@ describe('step modal', () => {
         jobStream.resume();
         stepsStream.resume();
 
-        expect(socketStream).toHaveBeenCalledOnceWith('/step', {
-          qs: {
-            id__in: ['1', '2'],
-            limit: 0
-          }
-        }, true);
+        expect(socketStream).toHaveBeenCalledOnceWith(
+          '/step',
+          {
+            qs: {
+              id__in: ['1', '2'],
+              limit: 0
+            }
+          },
+          true
+        );
       });
 
       it('should return steps', () => {
         jobStream.resume();
 
-        stepsStream.each((x) => {
+        stepsStream.each(x => {
           expect(x).toEqual([{ id: 1, name: 'step' }]);
         });
 
         stream.write({
-          objects: [
-            { id: 1, name: 'step' }
-          ]
+          objects: [{ id: 1, name: 'step' }]
         });
       });
     });

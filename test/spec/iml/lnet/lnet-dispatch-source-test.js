@@ -41,9 +41,7 @@ describe('lnet dispatch source', () => {
   afterEach(resetAll);
 
   it('should invoke the socket stream', () => {
-    expect(
-      socketStream
-    ).toHaveBeenCalledOnceWith('/lnet_configuration', {
+    expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
       qs: {
         dehydrate__host: false,
         limit: 0
@@ -65,18 +63,15 @@ describe('lnet dispatch source', () => {
     });
   });
 
-  it(
-    'should update lnetConfiguration when new items arrive from a persistent socket',
-    () => {
-      s.write({
-        meta: 'meta',
-        objects: ['more lnet configurations']
-      });
+  it('should update lnetConfiguration when new items arrive from a persistent socket', () => {
+    s.write({
+      meta: 'meta',
+      objects: ['more lnet configurations']
+    });
 
-      expect(store.dispatch).toHaveBeenCalledOnceWith({
-        type: 'ADD_LNET_CONFIGURATION_ITEMS',
-        payload: ['more lnet configurations']
-      });
-    }
-  );
+    expect(store.dispatch).toHaveBeenCalledOnceWith({
+      type: 'ADD_LNET_CONFIGURATION_ITEMS',
+      payload: ['more lnet configurations']
+    });
+  });
 });

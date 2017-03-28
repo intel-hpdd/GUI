@@ -1,15 +1,10 @@
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
 describe('get random value', () => {
-  let getRandomValues,
-    getRandomValue;
+  let getRandomValues, getRandomValue;
 
-  beforeEachAsync(async function () {
-    getRandomValues = jasmine.createSpy('getRandomValues')
-      .and.returnValue([2]);
+  beforeEachAsync(async function() {
+    getRandomValues = jasmine.createSpy('getRandomValues').and.returnValue([2]);
 
     const getRandomValuesModule = await mock('source/iml/get-random-value.js', {
       'source/iml/global.js': {
@@ -29,8 +24,7 @@ describe('get random value', () => {
   it('should be called with a Uint32Array', () => {
     getRandomValue();
 
-    expect(getRandomValues)
-      .toHaveBeenCalledOnceWith(new Uint32Array(1));
+    expect(getRandomValues).toHaveBeenCalledOnceWith(new Uint32Array(1));
   });
 
   it('should return the result of crypto.getRandomValues', () => {

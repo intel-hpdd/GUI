@@ -19,10 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function roundFilter () {
+export default function roundFilter() {
   'ngInject';
-
-  return function rounder (value, places) {
+  return function rounder(value, places) {
     // Return value if number is not as expected.
     if (isNaN(parseFloat(value)) || !isFinite(value)) return value;
     // If places is not provided, just round the value to nearest whole number.

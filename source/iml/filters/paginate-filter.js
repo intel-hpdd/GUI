@@ -19,9 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function paginate () {
+export default function paginate() {
   'ngInject';
-
   /**
    * The pagination filter, which returns the entries according to the page the guest is viewing and the number of
    * items that can be displayed on that page.
@@ -30,7 +29,7 @@ export default function paginate () {
    * @param {Number} itemsPerPage
    * @returns {Array}
    */
-  return function paginateFilter (input, currentPage, itemsPerPage) {
+  return function paginateFilter(input, currentPage, itemsPerPage) {
     const startingItem = itemsPerPage * currentPage;
     const endingItem = startingItem + itemsPerPage - 1;
 
@@ -43,13 +42,13 @@ export default function paginate () {
    * @param {Number} endingItem
    * @returns {Function}
    */
-  function showValidItems (startingItem, endingItem) {
+  function showValidItems(startingItem, endingItem) {
     /**
      * Computes whether or not the current item should be displayed.
      * @param {*} val
      * @param {Number} index
      */
-    return function innerShowValidItems (val, index) {
+    return function innerShowValidItems(val, index) {
       return index >= startingItem && index <= endingItem;
     };
   }

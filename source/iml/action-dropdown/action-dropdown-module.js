@@ -23,21 +23,25 @@
 
 import angular from 'angular';
 import commandModule from '../command/command-module';
-import {ActionDropdownCtrl, actionDropdown, actionDescriptionCache} from './action-dropdown';
-import {ConfirmActionModalCtrl, openConfirmActionModalFactory} from './confirm-action-modal';
+import {
+  ActionDropdownCtrl,
+  actionDropdown,
+  actionDescriptionCache
+} from './action-dropdown';
+import {
+  ConfirmActionModalCtrl,
+  openConfirmActionModalFactory
+} from './confirm-action-modal';
 import groupActionsFilter from './group-actions';
 import handleActionFactory from './handle-action';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 
-export default angular.module('action-dropdown-module', [
-  commandModule,
-  uiBootstrapModule
-])
+export default angular
+  .module('action-dropdown-module', [commandModule, uiBootstrapModule])
   .factory('actionDescriptionCache', actionDescriptionCache)
   .controller('ActionDropdownCtrl', ActionDropdownCtrl)
   .directive('actionDropdown', actionDropdown)
   .controller('ConfirmActionModalCtrl', ConfirmActionModalCtrl)
   .factory('openConfirmActionModal', openConfirmActionModalFactory)
   .filter('groupActions', groupActionsFilter)
-  .factory('handleAction', handleActionFactory)
-  .name;
+  .factory('handleAction', handleActionFactory).name;

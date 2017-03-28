@@ -24,7 +24,4 @@
 import angular from 'angular';
 import d3 from 'd3';
 
-
-export default angular.module('d3', [])
-  .value('d3', d3)
-  .name;
+export default angular.module('d3', []).value('d3', d3).name;

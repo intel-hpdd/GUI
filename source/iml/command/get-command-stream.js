@@ -24,34 +24,25 @@
 import socketStream from '../socket/socket-stream.js';
 import * as fp from 'intel-fp';
 
-import type {
-  commandT
-} from './command-types.js';
+import type { commandT } from './command-types.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export default (commandList:commandT[]):HighlandStreamT<commandT[]> => {
+export default (commandList: commandT[]): HighlandStreamT<commandT[]> => {
   const options = {
     qs: {
-      id__in: fp.view(
-        fp.compose(
-          fp.mapped,
-          fp.lensProp('id')
-        ),
-        commandList
-      )
+      id__in: fp.view(fp.compose(fp.mapped, fp.lensProp('id')), commandList)
     }
   };
 
-  const stream:HighlandStreamT<{objects:commandT[]}> = socketStream('/command', options);
+  const stream: HighlandStreamT<{ objects: commandT[] }> = socketStream(
+    '/command',
+    options
+  );
 
-  stream
-    .write({
-      objects: commandList
-    });
+  stream.write({
+    objects: commandList
+  });
 
-  return stream
-    .pluck('objects');
+  return stream.pluck('objects');
 };

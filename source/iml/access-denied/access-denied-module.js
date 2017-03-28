@@ -22,6 +22,6 @@
 import angular from 'angular';
 import AccessDeniedCtrl from './access-denied-modal-controller';
 
-export default angular.module('accessDenied', [])
-.controller('AccessDeniedCtrl', AccessDeniedCtrl)
-.name;
+export default angular
+  .module('accessDenied', [])
+  .controller('AccessDeniedCtrl', AccessDeniedCtrl).name;

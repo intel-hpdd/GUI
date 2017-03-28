@@ -22,26 +22,31 @@
 import _ from 'intel-lodash-mixins';
 import socketStream from '../socket/socket-stream.js';
 
-export function ExceptionModalCtrl ($scope, $document, exception,
-                                    stackTraceContainsLineNumber, sendStackTraceToRealTime) {
+export function ExceptionModalCtrl(
+  $scope,
+  $document,
+  exception,
+  stackTraceContainsLineNumber,
+  sendStackTraceToRealTime
+) {
   'ngInject';
-
   $scope.exceptionModal = {
     messages: [],
-    reload: function reload () {
+    reload: function reload() {
       $document[0].location.reload(true);
     }
   };
 
   if (!exception.statusCode && stackTraceContainsLineNumber(exception)) {
     $scope.exceptionModal.loadingStack = true;
-    sendStackTraceToRealTime(exception)
-      .each(function updateData (newException) {
-        $scope.exceptionModal.loadingStack = false;
-        _.find($scope.exceptionModal.messages, { name: 'Client Stack Trace' }).value = newException.stack;
+    sendStackTraceToRealTime(exception).each(function updateData(newException) {
+      $scope.exceptionModal.loadingStack = false;
+      _.find($scope.exceptionModal.messages, {
+        name: 'Client Stack Trace'
+      }).value = newException.stack;
 
-        $scope.$digest();
-      });
+      $scope.$digest();
+    });
   }
 
   /**
@@ -49,7 +54,7 @@ export function ExceptionModalCtrl ($scope, $document, exception,
    * @param {*} value
    * @returns {String}
    */
-  const stringify = lookupAnd(function stringify (value) {
+  const stringify = lookupAnd(function stringify(value) {
     return JSON.stringify(value, null, 2);
   });
 
@@ -58,14 +63,20 @@ export function ExceptionModalCtrl ($scope, $document, exception,
    * @param {String} value
    * @returns {String}
    */
-  const multiLineTrim = lookupAnd(function multiLineTrim (value) {
-    return value.split('\n')
-      .map(function (line) {
+  const multiLineTrim = lookupAnd(function multiLineTrim(value) {
+    return value
+      .split('\n')
+      .map(function(line) {
         return line.trim();
-      }).join('\n');
+      })
+      .join('\n');
   });
 
-  const addSection = _.partial(buildMessage, $scope.exceptionModal.messages, exception);
+  const addSection = _.partial(
+    buildMessage,
+    $scope.exceptionModal.messages,
+    exception
+  );
 
   addSection('name');
   addSection('message');
@@ -74,14 +85,23 @@ export function ExceptionModalCtrl ($scope, $document, exception,
   addSection('cause');
   addSection('response.status', { name: 'Response Status' });
   addSection('response.data.error_message', { name: 'Error Message' });
-  addSection('response.data.traceback', { name: 'Server Stack Trace', transform: multiLineTrim });
-  addSection('response.headers', { name: 'Response Headers', transform: stringify });
+  addSection('response.data.traceback', {
+    name: 'Server Stack Trace',
+    transform: multiLineTrim
+  });
+  addSection('response.headers', {
+    name: 'Response Headers',
+    transform: stringify
+  });
   addSection('response.config.method');
   addSection('response.config.url');
-  addSection('response.config.headers', { name: 'Request Headers', transform: stringify });
+  addSection('response.config.headers', {
+    name: 'Request Headers',
+    transform: stringify
+  });
   addSection('response.config.data', { transform: stringify });
 
-  function buildMessage (arr, err, path, opts) {
+  function buildMessage(arr, err, path, opts) {
     opts = _.clone(opts || {});
     _.defaults(opts, {
       transform: _.identity,
@@ -90,8 +110,7 @@ export function ExceptionModalCtrl ($scope, $document, exception,
 
     const item = _.pluckPath(path, err);
 
-    if (!item)
-      return;
+    if (!item) return;
 
     arr.push({
       name: opts.name,
@@ -99,8 +118,8 @@ export function ExceptionModalCtrl ($scope, $document, exception,
     });
   }
 
-  function lookupAnd (func) {
-    return function (value) {
+  function lookupAnd(func) {
+    return function(value) {
       if (!value) return false;
 
       try {
@@ -114,26 +133,29 @@ export function ExceptionModalCtrl ($scope, $document, exception,
 
 const regex = /^.+\:\d+\:\d+.*$/;
 
-export function stackTraceContainsLineNumbers (stackTrace) {
-  return stackTrace.stack.split('\n')
-    .some(function verifyStackTraceContainsLineNumbers (val) {
+export function stackTraceContainsLineNumbers(stackTrace) {
+  return stackTrace.stack
+    .split('\n')
+    .some(function verifyStackTraceContainsLineNumbers(val) {
       const match = val.trim().match(regex);
-      return (match == null) ? false : match.length > 0;
+      return match == null ? false : match.length > 0;
     });
 }
 
-export function sendStackTraceToRealTime (exception) {
-  return socketStream('/srcmap-reverse', {
-    method: 'post',
-    cause: exception.cause,
-    message: exception.message,
-    stack: exception.stack,
-    url: exception.url
-  }, true)
-    .map(function processResponse (x) {
-      if (x && x.data)
-        exception.stack = x.data;
+export function sendStackTraceToRealTime(exception) {
+  return socketStream(
+    '/srcmap-reverse',
+    {
+      method: 'post',
+      cause: exception.cause,
+      message: exception.message,
+      stack: exception.stack,
+      url: exception.url
+    },
+    true
+  ).map(function processResponse(x) {
+    if (x && x.data) exception.stack = x.data;
 
-      return exception;
-    });
+    return exception;
+  });
 }

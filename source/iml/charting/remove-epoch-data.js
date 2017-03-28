@@ -19,8 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function throughRemoveEpochData (s) {
-  return s.filter(function removeEpochData (x) {
+export default function throughRemoveEpochData(s) {
+  return s.filter(function removeEpochData(x) {
     return new Date(x.ts).getTime();
   });
 }

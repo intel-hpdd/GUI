@@ -12,24 +12,24 @@ describe('create store', () => {
     spy = jasmine.createSpy('spy');
 
     store = createStore({
-      stuff: (state = [], {type, payload}) => {
+      stuff: (state = [], { type, payload }) => {
         switch (type) {
-        case SET_STATE:
-          return payload;
-        case UPDATE_STATE:
-          return state.map(item => {
-            return item.id === payload.id ? {...item, ...payload} : item;
-          });
-        default:
-          return state;
+          case SET_STATE:
+            return payload;
+          case UPDATE_STATE:
+            return state.map(item => {
+              return item.id === payload.id ? { ...item, ...payload } : item;
+            });
+          default:
+            return state;
         }
       },
-      moreStuff: (state = [], {type, payload}) => {
+      moreStuff: (state = [], { type, payload }) => {
         switch (type) {
-        case SET_OTHER_STATE:
-          return payload;
-        default:
-          return state;
+          case SET_OTHER_STATE:
+            return payload;
+          default:
+            return state;
         }
       }
     });
@@ -44,27 +44,24 @@ describe('create store', () => {
     s.each(spy);
     s.destroy();
 
-
     expect(spy).not.toHaveBeenCalled();
   });
 
   describe('using the store', () => {
     beforeEach(() => {
-      store.dispatch(deepFreeze({
-        type: SET_STATE,
-        payload: [
-          {id: 1, name: 'foo'},
-          {id: 2, name: 'bar'}
-        ]
-      }));
+      store.dispatch(
+        deepFreeze({
+          type: SET_STATE,
+          payload: [{ id: 1, name: 'foo' }, { id: 2, name: 'bar' }]
+        })
+      );
 
-      store.dispatch(deepFreeze({
-        type: SET_OTHER_STATE,
-        payload: [
-          {id: 3, name: 'some'},
-          {id: 4, name: 'stuff'}
-        ]
-      }));
+      store.dispatch(
+        deepFreeze({
+          type: SET_OTHER_STATE,
+          payload: [{ id: 3, name: 'some' }, { id: 4, name: 'stuff' }]
+        })
+      );
     });
 
     it('should emit state', () => {
@@ -74,8 +71,8 @@ describe('create store', () => {
       s.destroy();
 
       expect(spy).toHaveBeenCalledOnceWith([
-        {id: 1, name: 'foo'},
-        {id: 2, name: 'bar'}
+        { id: 1, name: 'foo' },
+        { id: 2, name: 'bar' }
       ]);
     });
 
@@ -86,8 +83,8 @@ describe('create store', () => {
       s.destroy();
 
       expect(spy).toHaveBeenCalledOnceWith([
-        {id: 3, name: 'some'},
-        {id: 4, name: 'stuff'}
+        { id: 3, name: 'some' },
+        { id: 4, name: 'stuff' }
       ]);
     });
 
@@ -98,43 +95,40 @@ describe('create store', () => {
 
       store.dispatch({
         type: UPDATE_STATE,
-        payload: {id: 1, name: 'boop'}
+        payload: { id: 1, name: 'boop' }
       });
 
       s.destroy();
 
       expect(spy).toHaveBeenCalledOnceWith([
-        {id: 1, name: 'boop'},
-        {id: 2, name: 'bar'}
+        { id: 1, name: 'boop' },
+        { id: 2, name: 'bar' }
       ]);
     });
 
     it('should emit once per change', () => {
       const s = store.select('stuff');
 
-      store.dispatch(deepFreeze({
-        type: SET_OTHER_STATE,
-        payload: [
-          {id: 3, name: 'some'},
-          {id: 4, name: 'stuff'}
-        ]
-      }));
+      store.dispatch(
+        deepFreeze({
+          type: SET_OTHER_STATE,
+          payload: [{ id: 3, name: 'some' }, { id: 4, name: 'stuff' }]
+        })
+      );
 
-      store.dispatch(deepFreeze({
-        type: SET_OTHER_STATE,
-        payload: [
-          {id: 5, name: 'even'},
-          {id: 6, name: 'more'}
-        ]
-      }));
+      store.dispatch(
+        deepFreeze({
+          type: SET_OTHER_STATE,
+          payload: [{ id: 5, name: 'even' }, { id: 6, name: 'more' }]
+        })
+      );
 
       s.each(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith([
-          {id: 1, name: 'foo'},
-          {id: 2, name: 'bar'}
-        ]);
+      expect(spy).toHaveBeenCalledOnceWith([
+        { id: 1, name: 'foo' },
+        { id: 2, name: 'bar' }
+      ]);
     });
 
     it('should not emit after destroy', () => {
@@ -145,12 +139,12 @@ describe('create store', () => {
 
       store.dispatch({
         type: UPDATE_STATE,
-        payload: {id: 1, name: 'boop'}
+        payload: { id: 1, name: 'boop' }
       });
 
       expect(spy).not.toHaveBeenCalledWith([
-        {id: 1, name: 'boop'},
-        {id: 2, name: 'bar'}
+        { id: 1, name: 'boop' },
+        { id: 2, name: 'bar' }
       ]);
     });
 
@@ -166,12 +160,12 @@ describe('create store', () => {
 
       store.dispatch({
         type: UPDATE_STATE,
-        payload: {id: 1, name: 'boop'}
+        payload: { id: 1, name: 'boop' }
       });
 
       expect(spy).toHaveBeenCalledOnceWith([
-        {id: 1, name: 'boop'},
-        {id: 2, name: 'bar'}
+        { id: 1, name: 'boop' },
+        { id: 2, name: 'bar' }
       ]);
     });
   });

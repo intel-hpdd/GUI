@@ -21,14 +21,13 @@
 
 import moment from 'moment';
 
-export default function lineChart (dateTicks, baseChart) {
+export default function lineChart(dateTicks, baseChart) {
   'ngInject';
-
   return baseChart({
-    generateChart: function generateChart (nv) {
+    generateChart: function generateChart(nv) {
       return nv.models.lineChart();
     },
-    onUpdate: function onUpdate (chart, data) {
+    onUpdate: function onUpdate(chart, data) {
       if (!Array.isArray(data) || !data[0]) return;
 
       const values = data[0].values;
@@ -40,10 +39,12 @@ export default function lineChart (dateTicks, baseChart) {
       const range = moment(start).twix(end);
 
       chart.xAxis
-        .axisLabel(range.format({
-          implicitYear: false,
-          twentyFourHour: true
-        }))
+        .axisLabel(
+          range.format({
+            implicitYear: false,
+            twentyFourHour: true
+          })
+        )
         .ticks(5)
         .showMaxMin(false)
         .tickFormat(dateTicks.getTickFormatFunc(range));

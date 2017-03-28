@@ -1,52 +1,50 @@
 import highland from 'highland';
 import moment from 'moment';
-import mdoDataFixtures
-  from '../../../data-fixtures/mdo-data-fixture.json!json';
+import mdoDataFixtures from '../../../data-fixtures/mdo-data-fixture.json!json';
 
 import * as maybe from 'intel-maybe';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
-
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('mdo stream', () => {
-  let socketStream, serverStream, bufferDataNewerThan,
-    getServerMoment, getMdoStream, getRequestDuration;
+  let socketStream,
+    serverStream,
+    bufferDataNewerThan,
+    getServerMoment,
+    getMdoStream,
+    getRequestDuration;
 
-  beforeEachAsync(async function () {
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => {
-        return (serverStream = highland());
-      });
+  beforeEachAsync(async function() {
+    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+      return (serverStream = highland());
+    });
 
     getServerMoment = jasmine
       .createSpy('getServerMoment')
-      .and
-      .returnValue(moment('2013-11-15T19:25:20+00:00'));
+      .and.returnValue(moment('2013-11-15T19:25:20+00:00'));
 
-    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
-      'source/iml/get-server-moment.js': { default: getServerMoment }
-    });
+    const bufferDataNewerThanModule = await mock(
+      'source/iml/charting/buffer-data-newer-than.js',
+      {
+        'source/iml/get-server-moment.js': { default: getServerMoment }
+      }
+    );
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
     const createDate = jasmine
       .createSpy('createDate')
-      .and
-      .callFake(
-        arg => maybe.withDefault(
+      .and.callFake(arg =>
+        maybe.withDefault(
           () => new Date(),
-          maybe.map(
-            x => new Date(x),
-            maybe.of(arg)
-          )
-        )
-      );
+          maybe.map(x => new Date(x), maybe.of(arg))
+        ));
 
-    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
-      'source/iml/create-date.js': { default: createDate }
-    });
+    const getTimeParamsModule = await mock(
+      'source/iml/charting/get-time-params.js',
+      {
+        'source/iml/create-date.js': { default: createDate }
+      }
+    );
     getRequestDuration = getTimeParamsModule.getRequestDuration;
 
     const mod = await mock('source/iml/mdo/get-mdo-stream.js', {
@@ -85,9 +83,7 @@ describe('mdo stream', () => {
 
       mdoStream = getMdoStream(requestDuration, buff);
 
-      mdoStream
-        .through(convertNvDates)
-        .each(spy);
+      mdoStream.through(convertNvDates).each(spy);
     });
 
     describe('when there is data', () => {
@@ -182,98 +178,110 @@ describe('mdo stream', () => {
         expect(spy).toHaveBeenCalledOnceWith([
           {
             key: 'close',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 280.2
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 280.2
+              }
             ]
           },
           {
             key: 'getattr',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'getxattr',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 961.1
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 961.1
+              }
             ]
           },
           {
             key: 'link',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'mkdir',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 413.2
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 413.2
+              }
             ]
           },
           {
             key: 'mknod',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'open',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 91.9
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 91.9
+              }
             ]
           },
           {
             key: 'rename',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'rmdir',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 863.3
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 863.3
+              }
             ]
           },
           {
             key: 'setattr',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'statfs',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 0
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 0
+              }
             ]
           },
           {
             key: 'unlink',
-            values: [{
-              x: '2013-11-15T19:25:20.000Z',
-              y: 848.8
-            }
+            values: [
+              {
+                x: '2013-11-15T19:25:20.000Z',
+                y: 848.8
+              }
             ]
           }
         ]);

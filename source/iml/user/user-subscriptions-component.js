@@ -23,21 +23,22 @@
 
 import socketStream from '../socket/socket-stream.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
 export default {
   bindings: {
     subscriptions: '<',
     resourceUri: '<'
   },
-  controller ($scope:$scopeT, insertHelpFilter:Function, propagateChange:Function) {
+  controller(
+    $scope: $scopeT,
+    insertHelpFilter: Function,
+    propagateChange: Function
+  ) {
     'ngInject';
+    const toVal = x => x === true ? 'On' : 'Off';
 
-    const toVal = (x) => x === true ? 'On': 'Off';
-
-    this.getMessage = (state) => {
+    this.getMessage = state => {
       return insertHelpFilter(`${state.status}_diff`, {
         local: toVal(state.local),
         remote: toVal(state.remote),
@@ -48,22 +49,26 @@ export default {
     this.saveAlerts = (resourceUri, alertTypes) => {
       this.saving = true;
 
-      socketStream('/api/alert_subscription/', {
-        method: 'patch',
-        json: {
-          objects: alertTypes
-            .filter(x => !x.sub_uri)
-            .filter(x => x.selected === true)
-            .map(x => ({
-              user: resourceUri,
-              alert_type: x.resource_uri
-            })),
-          deleted_objects: alertTypes
-            .filter(x => x.sub_uri)
-            .filter(x => x.selected === false)
-            .map(x => x.sub_uri)
-        }
-      }, true)
+      socketStream(
+        '/api/alert_subscription/',
+        {
+          method: 'patch',
+          json: {
+            objects: alertTypes
+              .filter(x => !x.sub_uri)
+              .filter(x => x.selected === true)
+              .map(x => ({
+                user: resourceUri,
+                alert_type: x.resource_uri
+              })),
+            deleted_objects: alertTypes
+              .filter(x => x.sub_uri)
+              .filter(x => x.selected === false)
+              .map(x => x.sub_uri)
+          }
+        },
+        true
+      )
         .map(() => false)
         .through(propagateChange($scope, this, 'saving'));
     };

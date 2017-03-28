@@ -1,18 +1,13 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 import highland from 'highland';
 
 describe('command modal', () => {
-  let CommandModalCtrl,
-    $uibModal,
-    stream;
+  let CommandModalCtrl, $uibModal, stream;
 
   beforeEach(module('extendScope'));
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     $uibModal = {
       open: jasmine.createSpy('open')
     };
@@ -33,31 +28,26 @@ describe('command modal', () => {
 
   describe('open command modal', () => {
     it('should open the modal', () => {
-      expect($uibModal.open)
-        .toHaveBeenCalledOnceWith({
-          template: 'commandModalTemplate',
-          controller: 'CommandModalCtrl',
-          controllerAs: 'commandModal',
-          windowClass: 'command-modal',
-          backdrop: 'static',
-          backdropClass: 'command-modal-backdrop',
-          resolve: {
-            commandsStream: jasmine.any(Function)
-          }
-        });
+      expect($uibModal.open).toHaveBeenCalledOnceWith({
+        template: 'commandModalTemplate',
+        controller: 'CommandModalCtrl',
+        controllerAs: 'commandModal',
+        windowClass: 'command-modal',
+        backdrop: 'static',
+        backdropClass: 'command-modal-backdrop',
+        resolve: {
+          commandsStream: jasmine.any(Function)
+        }
+      });
     });
 
     describe('commands', () => {
       let handle, commandStream;
 
       beforeEach(() => {
-        handle = $uibModal
-          .open
-          .calls
-          .mostRecent()
-          .args[0]
-          .resolve
-          .commandsStream;
+        handle = $uibModal.open.calls.mostRecent().args[
+          0
+        ].resolve.commandsStream;
         commandStream = handle();
       });
 
@@ -70,15 +60,17 @@ describe('command modal', () => {
   describe('ctrl', () => {
     let commandsStream, commandModal;
 
-    beforeEach(inject(($rootScope, propagateChange) => {
-      commandsStream = highland();
+    beforeEach(
+      inject(($rootScope, propagateChange) => {
+        commandsStream = highland();
 
-      commandModal = new CommandModalCtrl(
-        commandsStream,
-        $rootScope.$new(),
-        propagateChange
-      );
-    }));
+        commandModal = new CommandModalCtrl(
+          commandsStream,
+          $rootScope.$new(),
+          propagateChange
+        );
+      })
+    );
 
     it('should open the first accordion', () => {
       expect(commandModal.accordion0).toBe(true);
@@ -95,41 +87,51 @@ describe('command modal', () => {
       }
     };
 
-    Object.keys(states).forEach((state) => {
+    Object.keys(states).forEach(state => {
       it(`should be in state ${state}`, () => {
         commandsStream.write(wrap(states[state]));
 
-        const expected = Object.assign({
-          state: state,
-          jobs: []
-        }, states[state]);
+        const expected = Object.assign(
+          {
+            state: state,
+            jobs: []
+          },
+          states[state]
+        );
 
         expect(commandModal.commands).toEqual(wrap(expected));
       });
     });
 
     it('should trim logs', () => {
-      commandsStream.write(wrap({
-        logs: '    '
-      }));
+      commandsStream.write(
+        wrap({
+          logs: '    '
+        })
+      );
 
-      expect(commandModal.commands).toEqual([{
-        id: 1,
-        logs: '',
-        jobs: [],
-        state: 'pending'
-      }]);
+      expect(commandModal.commands).toEqual([
+        {
+          id: 1,
+          logs: '',
+          jobs: [],
+          state: 'pending'
+        }
+      ]);
     });
 
-    function wrap () {
+    function wrap() {
       const commands = [].slice.call(arguments, 0);
 
       return commands.map((command, index) => {
-        return Object.assign({
-          id: index + 1,
-          logs: '',
-          jobs: []
-        }, command);
+        return Object.assign(
+          {
+            id: index + 1,
+            logs: '',
+            jobs: []
+          },
+          command
+        );
       });
     }
   });

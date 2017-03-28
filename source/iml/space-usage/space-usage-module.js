@@ -33,13 +33,15 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addSpaceUsageActionT = {
-    type:'UPDATE_SPACE_USAGE_CHART_ITEMS' | 'DEFAULT_SPACE_USAGE_CHART_ITEMS',
-    payload:durationPayloadT
+  type: 'UPDATE_SPACE_USAGE_CHART_ITEMS' | 'DEFAULT_SPACE_USAGE_CHART_ITEMS',
+  payload: durationPayloadT
 };
 
-export default angular.module('spaceUsageModule', [
-  chartsModule, chartingModule, highlandModule,
-  durationPickerModule
-])
-  .factory('getSpaceUsageChart', getSpaceUsageChartFactory)
-  .name;
+export default angular
+  .module('spaceUsageModule', [
+    chartsModule,
+    chartingModule,
+    highlandModule,
+    durationPickerModule
+  ])
+  .factory('getSpaceUsageChart', getSpaceUsageChartFactory).name;

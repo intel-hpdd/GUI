@@ -29,47 +29,35 @@ import * as fp from 'intel-fp';
 import broadcaster from '../broadcaster.js';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-import {
-  matchById
-} from '../api-transforms.js';
+import { matchById } from '../api-transforms.js';
 
-import {
-  streamToPromise
-} from '../promise-transforms.js';
+import { streamToPromise } from '../promise-transforms.js';
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
+import { resolveStream } from '../promise-transforms.js';
 
-export const getData = ($stateParams:{id:string}) => {
+export const getData = ($stateParams: { id: string }) => {
   'ngInject';
-
-  return streamToPromise(store
-    .select('server')
-    .map(matchById($stateParams.id))
+  return streamToPromise(
+    store.select('server').map(matchById($stateParams.id))
   );
 };
 
-export default function serverDetailResolves ($stateParams:{id:string}) {
+export default function serverDetailResolves($stateParams: { id: string }) {
   'ngInject';
-
   const arrOrNull = fp.cond(
     [viewLens('length'), fp.identity],
     [fp.always(true), fp.always(null)]
   );
 
   const getObjectsOrNull = fp.flow(viewLens('objects'), arrOrNull);
-  const getFlatObjOrNull = fp.flow(fp.map(getObjectsOrNull), fp.invokeMethod('flatten', []));
-
-  const jobMonitorStream = broadcaster(
-    store
-      .select('jobIndicators')
+  const getFlatObjOrNull = fp.flow(
+    fp.map(getObjectsOrNull),
+    fp.invokeMethod('flatten', [])
   );
 
-  const alertMonitorStream = broadcaster(
-    store
-      .select('alertIndicators')
-  );
+  const jobMonitorStream = broadcaster(store.select('jobIndicators'));
+
+  const alertMonitorStream = broadcaster(store.select('alertIndicators'));
 
   const serverStream = store
     .select('server')
@@ -90,29 +78,44 @@ export default function serverDetailResolves ($stateParams:{id:string}) {
 
   const merge = fp.curry2((a, b) => angular.merge(a, b, allHostMatches));
 
-  const networkInterfaceStream = resolveStream(getNetworkInterfaceStream(merge({}, {
-    jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
-  })));
+  const networkInterfaceStream = resolveStream(
+    getNetworkInterfaceStream(
+      merge(
+        {},
+        {
+          jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
+        }
+      )
+    )
+  );
 
-  const cs = socketStream('/corosync_configuration', merge({}, {
-    jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
-  }));
+  const cs = socketStream(
+    '/corosync_configuration',
+    merge(
+      {},
+      {
+        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
+      }
+    )
+  );
 
-  const cs2 = cs
-    .through(getFlatObjOrNull);
+  const cs2 = cs.through(getFlatObjOrNull);
 
-  const corosyncConfigurationStream = resolveStream(cs2)
-    .then(broadcaster);
+  const corosyncConfigurationStream = resolveStream(cs2).then(broadcaster);
 
-  const ps = socketStream('/pacemaker_configuration', merge({}, {
-    jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
-  }));
+  const ps = socketStream(
+    '/pacemaker_configuration',
+    merge(
+      {},
+      {
+        jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
+      }
+    )
+  );
 
-  const ps2 = ps
-    .through(getFlatObjOrNull);
+  const ps2 = ps.through(getFlatObjOrNull);
 
-  const pacemakerConfigurationStream = resolveStream(ps2)
-    .then(broadcaster);
+  const pacemakerConfigurationStream = resolveStream(ps2).then(broadcaster);
 
   return Promise.all([
     jobMonitorStream,
@@ -122,8 +125,7 @@ export default function serverDetailResolves ($stateParams:{id:string}) {
     networkInterfaceStream,
     corosyncConfigurationStream,
     pacemakerConfigurationStream
-  ])
-  .then(([
+  ]).then(([
     jobMonitorStream,
     alertMonitorStream,
     serverStream,

@@ -1,23 +1,22 @@
-import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
+import completionistModule
+  from '../../../../source/iml/completionist/completionist-module.js';
 
 describe('completionist', () => {
   let completionist, completer, spy;
 
   beforeEach(module(completionistModule));
 
-  beforeEach(inject($componentController => {
-    spy = jasmine.createSpy('spy');
+  beforeEach(
+    inject($componentController => {
+      spy = jasmine.createSpy('spy');
 
-    completer = jasmine.createSpy('completer');
+      completer = jasmine.createSpy('completer');
 
-    completionist = $componentController(
-      'completionist',
-      null,
-      {
+      completionist = $componentController('completionist', null, {
         completer
-      }
-    );
-  }));
+      });
+    })
+  );
 
   describe('parsing', () => {
     beforeEach(() => {
@@ -34,13 +33,9 @@ describe('completionist', () => {
     });
 
     it('should emit new values', () => {
-      expect(spy).toHaveBeenCalledOnceWith([
-        'food',
-        'bard'
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith(['food', 'bard']);
     });
   });
-
 
   it('should emit an event', () => {
     completionist.register('MY_EVENT', spy);

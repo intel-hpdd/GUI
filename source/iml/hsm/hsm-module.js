@@ -24,7 +24,8 @@
 import angular from 'angular';
 import progressCircleModule from '../progress-circle/progress-circle-module';
 import commandModule from '../command/command-module';
-import agentVsCopytoolModule from '../agent-vs-copytool/agent-vs-copytool-module';
+import agentVsCopytoolModule
+  from '../agent-vs-copytool/agent-vs-copytool-module';
 import helpModule from '../help-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import HsmCtrl from './hsm-controller';
@@ -35,13 +36,15 @@ import {
   openAddCopytoolModalFactory
 } from './add-copytool-modal';
 
-export default angular.module('hsm', [
-  progressCircleModule, commandModule,
-  helpModule, agentVsCopytoolModule,
-  configToggleModule
-])
+export default angular
+  .module('hsm', [
+    progressCircleModule,
+    commandModule,
+    helpModule,
+    agentVsCopytoolModule,
+    configToggleModule
+  ])
   .factory('openAddCopytoolModal', openAddCopytoolModalFactory)
   .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
   .controller('HsmCtrl', HsmCtrl)
-  .directive('hsmCdtStatus', hsmCdtStatusDirective)
-  .name;
+  .directive('hsmCdtStatus', hsmCdtStatusDirective).name;

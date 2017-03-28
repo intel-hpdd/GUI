@@ -16,14 +16,13 @@ describe('api transforms', () => {
         }
       });
 
-      expect(result)
-        .toEqual({
-          meta: {
-            limit: 0,
-            offset: 10,
-            current_page: 1
-          }
-        });
+      expect(result).toEqual({
+        meta: {
+          limit: 0,
+          offset: 10,
+          current_page: 1
+        }
+      });
     });
 
     it('should calculate offset over limit plus 1', () => {
@@ -34,31 +33,26 @@ describe('api transforms', () => {
         }
       });
 
-      expect(result)
-        .toEqual({
-          meta: {
-            limit: 20,
-            offset: 20,
-            current_page: 2
-          }
-        });
+      expect(result).toEqual({
+        meta: {
+          limit: 20,
+          offset: 20,
+          current_page: 2
+        }
+      });
     });
   });
 
   describe('remember value', () => {
-    let spy,
-      in$,
-      transformFn;
+    let spy, in$, transformFn;
 
     beforeEach(() => {
-      transformFn = jasmine
-        .createSpy('transformFn');
+      transformFn = jasmine.createSpy('transformFn');
 
       spy = jasmine.createSpy('spy');
       in$ = highland();
 
-      rememberValue(transformFn, in$)
-        .each(spy);
+      rememberValue(transformFn, in$).each(spy);
 
       jasmine.clock().install();
     });
@@ -67,47 +61,34 @@ describe('api transforms', () => {
       jasmine.clock().uninstall();
     });
 
-
     it('should remember on a value', () => {
-      transformFn
-        .and
-        .callFake(s => highland([s]));
+      transformFn.and.callFake(s => highland([s]));
 
-      in$
-        .write('foo');
+      in$.write('foo');
 
       jasmine.clock().tick();
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith('foo');
+      expect(spy).toHaveBeenCalledOnceWith('foo');
     });
 
     it('should remember when no value', () => {
-      transformFn
-        .and
-        .callFake(() => highland([]));
+      transformFn.and.callFake(() => highland([]));
 
-      in$
-        .write('foo');
+      in$.write('foo');
 
       in$.end();
 
       jasmine.clock().tick();
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith('foo');
+      expect(spy).toHaveBeenCalledOnceWith('foo');
     });
 
     it('should call the transform fn', () => {
-      transformFn
-        .and
-        .callFake(() => highland([]));
+      transformFn.and.callFake(() => highland([]));
 
-      in$
-        .write('foo');
+      in$.write('foo');
 
-      expect(transformFn)
-        .toHaveBeenCalledOnceWith('foo');
+      expect(transformFn).toHaveBeenCalledOnceWith('foo');
     });
   });
 });
@@ -115,7 +96,12 @@ describe('api transforms', () => {
 describe('match by id', () => {
   it('should match by the id', () => {
     const matcher = matchById(7);
-    expect(matcher([{id:1, name:'a'}, {id:7, name:'b'}, {id:10, name:'c'}]))
-      .toEqual({id:7, name:'b'});
+    expect(
+      matcher([
+        { id: 1, name: 'a' },
+        { id: 7, name: 'b' },
+        { id: 10, name: 'c' }
+      ])
+    ).toEqual({ id: 7, name: 'b' });
   });
 });

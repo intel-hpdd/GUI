@@ -1,12 +1,7 @@
 // @flow
 
 import Inferno from 'inferno';
-import {
-  Modal,
-  Header,
-  Body,
-  Footer
-} from '../../../source/iml/modal.js';
+import { Modal, Header, Body, Footer } from '../../../source/iml/modal.js';
 
 describe('Modal test', () => {
   let root, onAgree, onDisagree, TestModal, el;
@@ -18,7 +13,7 @@ describe('Modal test', () => {
     onAgree = jasmine.createSpy('onAgree');
     onDisagree = jasmine.createSpy('onDisagree');
 
-    TestModal = ({onAgree, onDisagree, visible}) => {
+    TestModal = ({ onAgree, onDisagree, visible }) => {
       return (
         <div class="modal-open">
           <Modal moreClasses={['test-modal']} visible={visible}>
@@ -30,7 +25,9 @@ describe('Modal test', () => {
             </Body>
             <Footer class="modal-footer">
               <button class="btn btn-success" onClick={onAgree}>Agree</button>
-              <button class="btn btn-danger" onClick={onDisagree}>Do Not Agree</button>
+              <button class="btn btn-danger" onClick={onDisagree}>
+                Do Not Agree
+              </button>
             </Footer>
           </Modal>
         </div>
@@ -45,7 +42,7 @@ describe('Modal test', () => {
   describe('with modal not visible', () => {
     beforeEach(() => {
       Inferno.render(
-          <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />,
+        <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />,
         root
       );
 
@@ -60,7 +57,7 @@ describe('Modal test', () => {
   describe('with modal visible', () => {
     beforeEach(() => {
       Inferno.render(
-          <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />,
+        <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />,
         root
       );
 
@@ -68,35 +65,29 @@ describe('Modal test', () => {
     });
 
     it('should have the extra classes', () => {
-      expect(el.classList)
-        .toContain('test-modal');
+      expect(el.classList).toContain('test-modal');
     });
 
     it('should have the modal class', () => {
-      expect(el.classList)
-        .toContain('modal');
+      expect(el.classList).toContain('modal');
     });
 
     it('should have the fade class', () => {
-      expect(el.classList)
-        .toContain('fade');
+      expect(el.classList).toContain('fade');
     });
 
     it('should have the in class', () => {
-      expect(el.classList)
-        .toContain('in');
+      expect(el.classList).toContain('in');
     });
 
     it('should set the document role on the modal-dialog', () => {
-      expect(el.querySelector('.modal-dialog')
-        .getAttribute('role'))
-        .toEqual('document');
+      expect(el.querySelector('.modal-dialog').getAttribute('role')).toEqual(
+        'document'
+      );
     });
 
     it('should have a modal-content container', () => {
-      expect(el.querySelector('.modal-content'))
-        .not
-        .toBeNull();
+      expect(el.querySelector('.modal-content')).not.toBeNull();
     });
 
     describe('modal header', () => {
@@ -106,14 +97,13 @@ describe('Modal test', () => {
       });
 
       it('should exist', () => {
-        expect(modalHeader)
-          .not
-          .toBeNull();
+        expect(modalHeader).not.toBeNull();
       });
 
       it('should have the title', () => {
-        expect(modalHeader.querySelector('h3').textContent)
-          .toEqual('This is the header');
+        expect(modalHeader.querySelector('h3').textContent).toEqual(
+          'This is the header'
+        );
       });
     });
 
@@ -124,14 +114,13 @@ describe('Modal test', () => {
       });
 
       it('should exist', () => {
-        expect(modalBody)
-          .not
-          .toBeNull();
+        expect(modalBody).not.toBeNull();
       });
 
       it('should render the content component', () => {
-        expect(modalBody.querySelector('p').textContent)
-          .toEqual('Test content');
+        expect(modalBody.querySelector('p').textContent).toEqual(
+          'Test content'
+        );
       });
     });
 
@@ -144,31 +133,25 @@ describe('Modal test', () => {
       });
 
       it('should exist', () => {
-        expect(modalFooter)
-          .not
-          .toBeNull();
+        expect(modalFooter).not.toBeNull();
       });
 
       it('should have a success button', () => {
-        expect(successButton.textContent)
-          .toEqual('Agree');
+        expect(successButton.textContent).toEqual('Agree');
       });
 
       it('should call onAgree when the success button is clicked', () => {
         successButton.click();
-        expect(onAgree)
-          .toHaveBeenCalledOnce();
+        expect(onAgree).toHaveBeenCalledOnce();
       });
 
       it('should have a danger button', () => {
-        expect(dangerButton.textContent)
-          .toEqual('Do Not Agree');
+        expect(dangerButton.textContent).toEqual('Do Not Agree');
       });
 
       it('should call onDisagree when the danger button is clicked', () => {
         dangerButton.click();
-        expect(onDisagree)
-          .toHaveBeenCalledOnce();
+        expect(onDisagree).toHaveBeenCalledOnce();
       });
     });
   });

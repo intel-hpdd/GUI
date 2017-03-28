@@ -24,46 +24,33 @@
 import * as obj from 'intel-obj';
 import * as fp from 'intel-fp';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 type statT = {
-  data:{
-    [key:string]:number
+  data: {
+    [key: string]: number
   },
-  ts:string
+  ts: string
 };
 
-type sumT = (xs:Array<statT[]>) => Array<statT>
-const sum:sumT = fp
-  .map(
-    fp
-      .chainL((a:statT, b:statT) =>
-        obj.reduce(
-          () => ({
-            ...a
-          }),
-          (v:number, k:string, o:statT):statT => ({
-            ...o,
-            data: {
-              ...o.data,
-              [k]: (o.data[k] || 0) + v
-            }
-          }),
-          b.data
-        )
-      )
-    );
+type sumT = (xs: Array<statT[]>) => Array<statT>;
+const sum: sumT = fp.map(
+  fp.chainL((a: statT, b: statT) =>
+    obj.reduce(
+      () => ({
+        ...a
+      }),
+      (v: number, k: string, o: statT): statT => ({
+        ...o,
+        data: {
+          ...o.data,
+          [k]: (o.data[k] || 0) + v
+        }
+      }),
+      b.data
+    ))
+);
 
 type statStreamT = HighlandStreamT<statT>;
-export default (s:statStreamT):statStreamT =>
-  s
-    .group('ts')
-    .map(
-      fp.flow(
-        obj.values,
-        sum
-      )
-    )
-    .flatten();
+export default (s: statStreamT): statStreamT =>
+  s.group('ts').map(fp.flow(obj.values, sum)).flatten();

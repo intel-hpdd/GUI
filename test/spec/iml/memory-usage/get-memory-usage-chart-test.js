@@ -1,19 +1,27 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('memory usage chart', () => {
-  let chartCompiler, getMemoryUsageStream, standardConfig,
-    getMemoryUsageChartFactory, config1$, config2$,
-    getMemoryUsageChart, selectStoreCount, getStore,
-    durationPayload, submitHandler, getConf, initStream,
-    durationSubmitHandler, data$Fn, localApply;
+  let chartCompiler,
+    getMemoryUsageStream,
+    standardConfig,
+    getMemoryUsageChartFactory,
+    config1$,
+    config2$,
+    getMemoryUsageChart,
+    selectStoreCount,
+    getStore,
+    durationPayload,
+    submitHandler,
+    getConf,
+    initStream,
+    durationSubmitHandler,
+    data$Fn,
+    localApply;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getMemoryUsageStream = {};
 
     getMemoryUsageStream = jasmine.createSpy('getFileUsageStream');
@@ -26,13 +34,17 @@ describe('memory usage chart', () => {
       endDate: 1464812997102
     };
 
-    config1$ = highland([{
-      'server1': {...standardConfig}
-    }]);
+    config1$ = highland([
+      {
+        server1: { ...standardConfig }
+      }
+    ]);
     spyOn(config1$, 'destroy');
-    config2$ = highland([{
-      'server1': standardConfig
-    }]);
+    config2$ = highland([
+      {
+        server1: standardConfig
+      }
+    ]);
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
@@ -40,55 +52,68 @@ describe('memory usage chart', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.callFake(() => {
         switch (selectStoreCount) {
-        case 0:
-          selectStoreCount++;
-          return config1$;
-        default:
-          return config2$;
+          case 0:
+            selectStoreCount++;
+            return config1$;
+          default:
+            return config2$;
         }
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload')
-      .and.callFake(x => {
-        return {...standardConfig, ...x};
-      });
+    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+      return { ...standardConfig, ...x };
+    });
 
     submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+    durationSubmitHandler = jasmine
+      .createSpy('durationSubmitHandler')
       .and.returnValue(submitHandler);
 
-    getConf = jasmine.createSpy('getConf')
-      .and.callFake(page => {
-        return s => {
-          return s.map(x => {
-            return x[page];
-          });
-        };
-      });
+    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+      return s => {
+        return s.map(x => {
+          return x[page];
+        });
+      };
+    });
 
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn')
-      .and.callFake((overrides, fn) => {
-        fn()();
-        return initStream;
-      });
+    data$Fn = jasmine.createSpy('data$Fn').and.callFake((overrides, fn) => {
+      fn()();
+      return initStream;
+    });
 
     localApply = jasmine.createSpy('localApply');
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    const mod = await mock('source/iml/memory-usage/get-memory-usage-chart.js', {
-      'source/iml/memory-usage/get-memory-usage-stream.js': { default: getMemoryUsageStream },
-      'source/iml/memory-usage/assets/html/memory-usage-chart.html!text': { default: 'memoryUsageTemplate' },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
-      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
-    });
+    const mod = await mock(
+      'source/iml/memory-usage/get-memory-usage-chart.js',
+      {
+        'source/iml/memory-usage/get-memory-usage-stream.js': {
+          default: getMemoryUsageStream
+        },
+        'source/iml/memory-usage/assets/html/memory-usage-chart.html!text': {
+          default: 'memoryUsageTemplate'
+        },
+        'source/iml/chart-compiler/chart-compiler.js': {
+          default: chartCompiler
+        },
+        'source/iml/store/get-store.js': { default: getStore },
+        'source/iml/duration-picker/duration-payload.js': {
+          default: durationPayload
+        },
+        'source/iml/duration-picker/duration-submit-handler.js': {
+          default: durationSubmitHandler
+        },
+        'source/iml/chart-transformers/chart-transformers.js': {
+          getConf: getConf
+        }
+      }
+    );
     getMemoryUsageChartFactory = mod.default;
   });
 
@@ -96,14 +121,18 @@ describe('memory usage chart', () => {
 
   beforeEach(() => {
     getMemoryUsageChart = getMemoryUsageChartFactory(
-      localApply, fp.curry3(data$Fn)
+      localApply,
+      fp.curry3(data$Fn)
     );
 
-    getMemoryUsageChart({
-      qs: {
-        host_id: '1'
-      }
-    }, 'server1');
+    getMemoryUsageChart(
+      {
+        qs: {
+          host_id: '1'
+        }
+      },
+      'server1'
+    );
 
     const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
@@ -155,23 +184,24 @@ describe('memory usage chart', () => {
     );
   });
 
-  it('should call getMemoryUsageStream with the key', function () {
+  it('should call getMemoryUsageStream with the key', function() {
     expect(getMemoryUsageStream).toHaveBeenCalledOnce();
   });
 
   describe('config', () => {
-    let handler, $scope, stream,
-      config;
+    let handler, $scope, stream, config;
 
-    beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.calls.mostRecent().args[2];
+    beforeEach(
+      inject($rootScope => {
+        handler = chartCompiler.calls.mostRecent().args[2];
 
-      stream = highland();
-      spyOn(stream, 'destroy');
-      $scope = $rootScope.$new();
+        stream = highland();
+        spyOn(stream, 'destroy');
+        $scope = $rootScope.$new();
 
-      config = handler($scope, stream);
-    }));
+        config = handler($scope, stream);
+      })
+    );
 
     it('should return a config', () => {
       expect(config).toEqual({
@@ -227,13 +257,13 @@ describe('memory usage chart', () => {
       });
 
       it('should use interactive guideline', () => {
-        expect(d3Chart.useInteractiveGuideline)
-          .toHaveBeenCalledOnceWith(true);
+        expect(d3Chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
       it('should set y tick format', () => {
-        expect(d3Chart.yAxis.tickFormat)
-          .toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(d3Chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(
+          jasmine.any(Function)
+        );
       });
 
       it('should not show max and min on the x axis', () => {
@@ -245,17 +275,23 @@ describe('memory usage chart', () => {
   describe('on submit', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+    beforeEach(
+      inject($rootScope => {
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
+        config = handler($scope, initStream);
 
-      config.onSubmit();
-    }));
+        config.onSubmit();
+      })
+    );
 
     it('should call durationSubmitHandler', () => {
-      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_MEMORY_USAGE_CHART_ITEMS', {page: 'server1'});
+      expect(
+        durationSubmitHandler
+      ).toHaveBeenCalledOnceWith('UPDATE_MEMORY_USAGE_CHART_ITEMS', {
+        page: 'server1'
+      });
     });
 
     it('should invoke the submit handler', () => {

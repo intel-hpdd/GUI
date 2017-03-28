@@ -21,9 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-export default Array.from(Array(11), (x:void, idx:number) => idx - 1)
-  .map(value => value === -1 ?
-    {name: 'Not Lustre Network', value} :
-    {name: `Lustre Network ${value}`, value}
-  );
+export default Array.from(Array(11), (x: void, idx: number) => idx - 1).map(
+  value =>
+    value === -1
+      ? { name: 'Not Lustre Network', value }
+      : { name: `Lustre Network ${value}`, value }
+);

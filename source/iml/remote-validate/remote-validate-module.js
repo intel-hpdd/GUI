@@ -28,7 +28,7 @@ import {
   remoteValidateComponent
 } from './remote-validate.js';
 
-export default angular.module('remote-validate', [])
+export default angular
+  .module('remote-validate', [])
   .directive('remoteValidateForm', () => remoteValidateForm)
-  .directive('remoteValidateComponent', () => remoteValidateComponent)
-  .name;
+  .directive('remoteValidateComponent', () => remoteValidateComponent).name;

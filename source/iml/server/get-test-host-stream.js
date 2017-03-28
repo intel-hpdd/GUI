@@ -21,22 +21,21 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function getTestHostStreamFactory () {
+export default function getTestHostStreamFactory() {
   'ngInject';
-
-  return function getTestHostStream (spring, objects) {
+  return function getTestHostStream(spring, objects) {
     const stream = spring('testHost', '/test_host', {
       method: 'post',
       json: objects
     });
 
-    const setUiName = _.pathForEach('status', function (status) {
+    const setUiName = _.pathForEach('status', function(status) {
       status.uiName = _.apiToHuman(status.name);
     });
 
     const s2 = stream
       .tap(_.fmap(setUiName))
-      .map(function checkTotalValidity (resp) {
+      .map(function checkTotalValidity(resp) {
         return {
           objects: resp,
           valid: _.every(resp, 'valid')

@@ -25,7 +25,7 @@ import * as fp from 'intel-fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function filterTargetByFs (id:number) {
+export default function filterTargetByFs(id: number) {
   const idLens = fp.lensProp('id');
   const fsLens = viewLens('filesystems');
   const fsIdLens = viewLens('filesystem_id');
@@ -33,7 +33,16 @@ export default function filterTargetByFs (id:number) {
 
   const getData = fp.cond(
     [fp.flow(fsLens, Array.isArray), fsLens],
-    [fp.always(true), fp.flow(fsIdLens, (x) => { return { id: x }; }, fp.arrayWrap)]
+    [
+      fp.always(true),
+      fp.flow(
+        fsIdLens,
+        x => {
+          return { id: x };
+        },
+        fp.arrayWrap
+      )
+    ]
   );
 
   const filter = fp.filter(fp.flow(getData, findById));

@@ -19,7 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import commonStatusSearchesTemplate from './assets/html/common-status-searches.html!text';
+import commonStatusSearchesTemplate
+  from './assets/html/common-status-searches.html!text';
 
 export default {
   controllerAs: 'vm',

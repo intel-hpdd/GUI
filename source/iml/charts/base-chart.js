@@ -34,7 +34,7 @@ import {
   documentVisible
 } from '../stream-when-visible/stream-when-visible.js';
 
-export default function baseChart (overrides) {
+export default function baseChart(overrides) {
   const defaultDirective = {
     restrict: 'E',
     require: ['^?fullScreen', '^rootPanel'],
@@ -44,7 +44,7 @@ export default function baseChart (overrides) {
       options: '='
     },
     template: chartTemplate,
-    link (scope, element, attrs, ctrls) {
+    link(scope, element, attrs, ctrls) {
       const [fullScreenCtrl, rootPanelCtrl] = ctrls;
 
       let svg = d3.select(element[0].querySelector('svg'));
@@ -59,15 +59,11 @@ export default function baseChart (overrides) {
         chart.duration(oldD);
       };
 
-      if (fullScreenCtrl)
-        fullScreenCtrl.addListener(renderNoTransition);
+      if (fullScreenCtrl) fullScreenCtrl.addListener(renderNoTransition);
 
-      svg
-        .attr('width', '100%')
-        .attr('height', '100%');
+      svg.attr('width', '100%').attr('height', '100%');
 
       const throttled = _.throttle(renderNoTransition, 500);
-
 
       rootPanelCtrl.register(throttled);
       global.addEventListener('resize', throttled);
@@ -75,45 +71,38 @@ export default function baseChart (overrides) {
       if (scope.options && scope.options.setup)
         scope.options.setup(chart, d3, nv);
 
-      const toggleNoData = (xs) => {
+      const toggleNoData = xs => {
         if (xs === documentHidden) {
-          if (chart.noData)
-            chart.noData('Fetching new data...');
+          if (chart.noData) chart.noData('Fetching new data...');
 
           return [];
         } else if (xs === documentVisible) {
           return [];
         }
 
-        if (chart.noData)
-          chart.noData('No Data Available.');
+        if (chart.noData) chart.noData('No Data Available.');
 
         return xs;
       };
 
-      scope.stream
-        .map(toggleNoData)
-        .each(renderData);
+      scope.stream.map(toggleNoData).each(renderData);
 
       render();
 
-      function renderData (v) {
+      function renderData(v) {
         const oldData = svg.datum() || [];
 
         // Pull the state nvd3 stores and push back to our raw val.
-        oldData.forEach(function copyStateRefs (item) {
-          if (Array.isArray(item))
-            return;
+        oldData.forEach(function copyStateRefs(item) {
+          if (Array.isArray(item)) return;
 
           const propsToCopy = _.omit(item, ['values', 'key']);
           const series = _.find(v, { key: item.key });
 
-          if (series)
-            angular.extend(series, propsToCopy);
+          if (series) angular.extend(series, propsToCopy);
         });
 
-        svg
-          .datum(v);
+        svg.datum(v);
 
         config.onUpdate(chart, v);
 
@@ -125,16 +114,13 @@ export default function baseChart (overrides) {
         config.afterUpdate(chart);
       }
 
-      scope.$on('$destroy', function onDestroy () {
+      scope.$on('$destroy', function onDestroy() {
         rootPanelCtrl.deregister(throttled);
         global.removeEventListener('resize', throttled, false);
 
-        if (fullScreenCtrl)
-          fullScreenCtrl
-            .removeListener(renderNoTransition);
+        if (fullScreenCtrl) fullScreenCtrl.removeListener(renderNoTransition);
 
-        if (chart.destroy)
-          chart.destroy();
+        if (chart.destroy) chart.destroy();
 
         chart = null;
 
@@ -146,7 +132,7 @@ export default function baseChart (overrides) {
 
   const config = {
     directive: defaultDirective,
-    generateChart () {
+    generateChart() {
       throw new Error('config::generateChart must be overriden.');
     },
     afterUpdate: fp.noop,
@@ -158,14 +144,11 @@ export default function baseChart (overrides) {
   return config.directive;
 }
 
-function createRenderer (svg, chart) {
-  return function render () {
-    if (!document.body.contains(svg[0][0]))
-      return;
+function createRenderer(svg, chart) {
+  return function render() {
+    if (!document.body.contains(svg[0][0])) return;
 
-    if (chart.update)
-      chart.update();
-    else
-      svg.call(chart);
+    if (chart.update) chart.update();
+    else svg.call(chart);
   };
 }

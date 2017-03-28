@@ -26,29 +26,29 @@ export const VALUE = 'VALUE';
 export const VALUES = 'VALUES';
 
 export const CompletionistCtrl = class {
-  evMap:Object = {};
-  completer:(params:{ value:string; cursorPosition:number; }) => Array<string>;
-  register (evName:string, listener:Function):void {
+  evMap: Object = {};
+  completer: (
+    params: { value: string, cursorPosition: number }
+  ) => Array<string>;
+  register(evName: string, listener: Function): void {
     this.evMap[evName] = this.evMap[evName] || [];
     this.evMap[evName].push(listener);
   }
-  deregister (evName:string, listener:Function):void {
+  deregister(evName: string, listener: Function): void {
     const listeners = this.evMap[evName];
 
-    if (!listeners)
-      return;
+    if (!listeners) return;
 
     this.evMap[evName] = listeners.filter(x => x !== listener);
   }
-  emit (evName:string, data:any):void {
+  emit(evName: string, data: any): void {
     const listeners = this.evMap[evName];
 
-    if (!listeners)
-      return;
+    if (!listeners) return;
 
     listeners.forEach(x => x(data));
   }
-  parse (value:string, cursorPosition:number):void {
+  parse(value: string, cursorPosition: number): void {
     const result = this.completer({
       value,
       cursorPosition

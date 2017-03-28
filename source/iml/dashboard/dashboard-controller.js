@@ -26,17 +26,11 @@ import * as fp from 'intel-fp';
 import filterTargetByFs from '../target/filter-target-by-fs.js';
 import filterTargetByHost from '../target/filter-target-by-host.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-import type {
-  StateServiceT
-} from 'angular-ui-router';
+import type { StateServiceT } from 'angular-ui-router';
 
-import type {
-  qsStreamT
-} from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
 import type {
   dashboardFsB,
@@ -44,12 +38,17 @@ import type {
   dashboardTargetB
 } from './dashboard-resolves.js';
 
-export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $state:StateServiceT,
-  $stateParams:{kind:string}, fsB:dashboardFsB, hostsB:dashboardHostB, targetsB:dashboardTargetB,
-  propagateChange:Function) {
-
+export default function DashboardCtrl(
+  qsStream: qsStreamT,
+  $scope: $scopeT,
+  $state: StateServiceT,
+  $stateParams: { kind: string },
+  fsB: dashboardFsB,
+  hostsB: dashboardHostB,
+  targetsB: dashboardTargetB,
+  propagateChange: Function
+) {
   'ngInject';
-
   let targetSelectStream;
 
   const p = propagateChange($scope, this);
@@ -65,23 +64,24 @@ export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $stat
       selected: null,
       selectedTarget: null
     },
-    itemChanged (item) {
-      if (targetSelectStream)
-        targetSelectStream.destroy();
+    itemChanged(item) {
+      if (targetSelectStream) targetSelectStream.destroy();
 
       if (!item.selected) {
-        item.selectedTarget = dashboard.targets = null;
+        item.selectedTarget = (dashboard.targets = null);
       } else {
-        const filterBy = (dashboard.fs === item ? filterTargetByFs : filterTargetByHost);
+        const filterBy = dashboard.fs === item
+          ? filterTargetByFs
+          : filterTargetByHost;
 
         targetSelectStream = targetsB();
         targetSelectStream
           .through(filterBy(item.selected.id))
-          .map(fp.filter((x) => x.kind !== 'MGT'))
+          .map(fp.filter(x => x.kind !== 'MGT'))
           .through(p('targets'));
       }
     },
-    onFilterView (item) {
+    onFilterView(item) {
       dashboard.onCancel();
 
       if (item.selectedTarget)
@@ -99,19 +99,17 @@ export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $stat
           resetState: true
         });
     },
-    onConfigure () {
+    onConfigure() {
       dashboard.configure = true;
     },
-    onCancel () {
+    onCancel() {
       dashboard.configure = false;
     }
   });
 
-  fsB()
-    .through(p('fileSystems'));
+  fsB().through(p('fileSystems'));
 
-  hostsB()
-    .through(p('hosts'));
+  hostsB().through(p('hosts'));
 
   $scope.$on('$destroy', () => {
     fsB.endBroadcast();
@@ -122,11 +120,8 @@ export default function DashboardCtrl (qsStream:qsStreamT, $scope:$scopeT, $stat
 
   const qs$ = qsStream($stateParams, {
     to: state => state.includes['app.dashboard']
-  })
-  .each(() => {
-    if ($stateParams.kind === 'server')
-      dashboard.type = dashboard.host;
-    else
-      dashboard.type = dashboard.fs;
+  }).each(() => {
+    if ($stateParams.kind === 'server') dashboard.type = dashboard.host;
+    else dashboard.type = dashboard.fs;
   });
 }

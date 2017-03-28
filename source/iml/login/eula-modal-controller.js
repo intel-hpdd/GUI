@@ -19,15 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function EulaCtrl ($scope, $uibModalInstance, help, user) {
+export default function EulaCtrl($scope, $uibModalInstance, help, user) {
   'ngInject';
-
-  function createAction (state) {
+  function createAction(state) {
     const action = state ? 'close' : 'dismiss';
 
-    return function () {
+    return function() {
       user.accepted_eula = state;
-      user.$update().then($uibModalInstance[action].bind($uibModalInstance, action));
+      user
+        .$update()
+        .then($uibModalInstance[action].bind($uibModalInstance, action));
     };
   }
 

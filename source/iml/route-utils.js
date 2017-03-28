@@ -25,29 +25,28 @@ import extractApi from 'intel-extract-api';
 
 import * as maybe from 'intel-maybe';
 
-import type {
-  Maybe
-} from 'intel-maybe';
+import type { Maybe } from 'intel-maybe';
 
-import type {
-  TransitionT
-} from 'angular-ui-router';
+import type { TransitionT } from 'angular-ui-router';
 
-export function apiPathToUiPath (resourceUri:string) {
+export function apiPathToUiPath(resourceUri: string) {
   const resource = resourceUri.split('/')[2];
   const id = extractApi(resourceUri);
 
-  switch(resource) {
-  case 'filesystem':
-    return `configure/filesystem/${id}/`;
-  case 'host':
-    return `configure/server/${id}/`;
-  default:
-    return `${resource}/${id}/`;
+  switch (resource) {
+    case 'filesystem':
+      return `configure/filesystem/${id}/`;
+    case 'host':
+      return `configure/server/${id}/`;
+    default:
+      return `${resource}/${id}/`;
   }
 }
 
-export const getResolvedData = (transition:TransitionT, resolveName:string):Maybe<any> => {
+export const getResolvedData = (
+  transition: TransitionT,
+  resolveName: string
+): Maybe<any> => {
   return maybe.map(
     n => {
       if (transition.getResolveTokens().indexOf(n) > -1)

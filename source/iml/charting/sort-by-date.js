@@ -21,9 +21,10 @@
 
 import sortBy from './sort-by.js';
 
-export default function sortByDate (s) {
-  return s
-    .through(sortBy(function byDate (a, b) {
+export default function sortByDate(s) {
+  return s.through(
+    sortBy(function byDate(a, b) {
       return new Date(a.ts) - new Date(b.ts);
-    }));
+    })
+  );
 }

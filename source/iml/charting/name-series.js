@@ -22,9 +22,9 @@
 import * as fp from 'intel-fp';
 import _ from 'intel-lodash-mixins';
 
-export default fp.curry2(function nameSeries (seriesMap, s) {
-  return s.map(function transformSeries (x) {
-    return _.transform(x, function (result, value, key) {
+export default fp.curry2(function nameSeries(seriesMap, s) {
+  return s.map(function transformSeries(x) {
+    return _.transform(x, function(result, value, key) {
       const newKey = seriesMap[key] || key;
       result[newKey] = value;
     });

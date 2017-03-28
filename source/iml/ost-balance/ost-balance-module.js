@@ -27,28 +27,27 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import getOstBalanceChartFactory from './get-ost-balance-chart';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export type getOstBalanceStreamT = (percentage:number, overrides:Object) => HighlandStreamT<mixed>;
+export type getOstBalanceStreamT = (
+  percentage: number,
+  overrides: Object
+) => HighlandStreamT<mixed>;
 
 export type ostBalancePayloadT = {
-  percentage:number,
-  page:string
+  percentage: number,
+  page: string
 };
 
 export type ostBalancePayloadHashT = {
-  [page:string]:ostBalancePayloadT
+  [page: string]: ostBalancePayloadT
 };
 
 export type addOstBalanceActionT = {
-    type:'DEFAULT_OST_BALANCE_CHART_ITEMS' | 'UPDATE_OST_BALANCE_CHART_ITEMS',
-    payload:ostBalancePayloadT
+  type: 'DEFAULT_OST_BALANCE_CHART_ITEMS' | 'UPDATE_OST_BALANCE_CHART_ITEMS',
+  payload: ostBalancePayloadT
 };
 
-export default angular.module('ostBalance',[
-  chartsModule, chartingModule, highlandModule
-])
-  .factory('getOstBalanceChart', getOstBalanceChartFactory)
-  .name;
+export default angular
+  .module('ostBalance', [chartsModule, chartingModule, highlandModule])
+  .factory('getOstBalanceChart', getOstBalanceChartFactory).name;

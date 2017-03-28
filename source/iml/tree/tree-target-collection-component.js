@@ -24,29 +24,19 @@
 import socketStream from '../socket/socket-stream.js';
 import store from '../store/get-store.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
 import * as fp from 'intel-fp';
 
-import {
-  toggleCollection
-} from './tree-utils.js';
+import { toggleCollection } from './tree-utils.js';
 
-import {
-  emitOnItem,
-  transformItems
-} from './tree-transforms.js';
+import { emitOnItem, transformItems } from './tree-transforms.js';
 
-import type {
-  treeItemT
-} from './tree-types.js';
+import type { treeItemT } from './tree-types.js';
 
-export default (kind:string) => {
-  function treeTargetCollection ($scope:$scopeT, propagateChange:Function) {
+export default (kind: string) => {
+  function treeTargetCollection($scope: $scopeT, propagateChange: Function) {
     'ngInject';
-
     Object.assign(this, {
       onOpen: toggleCollection,
       $onDestroy() {
@@ -55,23 +45,20 @@ export default (kind:string) => {
       }
     });
 
-    const fn = (x:treeItemT) => {
+    const fn = (x: treeItemT) => {
       return x.parentTreeId === this.parentId &&
         x.fsId === this.fsId &&
         x.type === kind;
     };
 
-    function computePage (meta) {
-      const currentPage = (meta.offset / meta.limit) + 1;
+    function computePage(meta) {
+      const currentPage = meta.offset / meta.limit + 1;
       return (currentPage - 1) * meta.limit;
     }
 
-    const t1 = store
-      .select('tree');
+    const t1 = store.select('tree');
 
-    t1
-      .through(emitOnItem(fn))
-      .through(propagateChange($scope, this, 'x'));
+    t1.through(emitOnItem(fn)).through(propagateChange($scope, this, 'x'));
 
     const structFn = fp.always({
       type: kind,
@@ -79,18 +66,18 @@ export default (kind:string) => {
       fsId: this.fsId
     });
 
-    const fnTo$ = (item) => socketStream('/target/', {
-      jsonMask: 'meta,objects(label,id,resource_uri)',
-      qs: {
-        offset: computePage(item.meta),
-        limit: item.meta.limit,
-        kind,
-        filesystem_id: this.fsId
-      }
-    });
+    const fnTo$ = item =>
+      socketStream('/target/', {
+        jsonMask: 'meta,objects(label,id,resource_uri)',
+        qs: {
+          offset: computePage(item.meta),
+          limit: item.meta.limit,
+          kind,
+          filesystem_id: this.fsId
+        }
+      });
 
-    const targetCollection$ = store
-      .select('tree');
+    const targetCollection$ = store.select('tree');
 
     targetCollection$
       .through(transformItems(fn, structFn, fnTo$))

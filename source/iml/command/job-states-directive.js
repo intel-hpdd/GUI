@@ -21,9 +21,8 @@
 
 import jobStatesTemplate from './assets/html/job-states.html!text';
 
-export default function jobStatesDirective () {
+export default function jobStatesDirective() {
   'ngInject';
-
   return {
     scope: {
       job: '='

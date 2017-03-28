@@ -35,7 +35,8 @@ import roundFilter from './round-filter';
 import throughputFilter from './throughput-filter';
 import toDateFilter from './to-date-filter.js';
 
-export default angular.module('filters', [helpModule])
+export default angular
+  .module('filters', [helpModule])
   .filter('fmtBytes', () => formatBytes)
   .filter('fmtNumber', () => formatNumber)
   .filter('capitalize', capitalizeFilter)
@@ -46,5 +47,4 @@ export default angular.module('filters', [helpModule])
   .filter('pathMaxLength', pathMaxLengthFilter)
   .filter('round', roundFilter)
   .filter('throughput', throughputFilter)
-  .filter('toDate', () => toDateFilter)
-  .name;
+  .filter('toDate', () => toDateFilter).name;

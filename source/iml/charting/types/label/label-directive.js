@@ -21,9 +21,8 @@
 
 import * as fp from 'intel-fp';
 
-export function labelDirective (d3, getLabel) {
+export function labelDirective(d3, getLabel) {
   'ngInject';
-
   return {
     restrict: 'A',
     scope: {
@@ -32,26 +31,20 @@ export function labelDirective (d3, getLabel) {
     },
     require: '^^charter',
     templateNamespace: 'svg',
-    link (scope, el, attrs, chartCtrl) {
+    link(scope, el, attrs, chartCtrl) {
       const node = el[0];
 
-      const updateLabel = (conf) => {
-        const label = getLabel()
-          .data(scope.onData);
+      const updateLabel = conf => {
+        const label = getLabel().data(scope.onData);
 
-        scope
-          .onUpdate
-          .forEach(x => x(
-            {
-              label,
-              node: d3.select(node),
-              ...conf
-            }
-          ));
+        scope.onUpdate.forEach(x =>
+          x({
+            label,
+            node: d3.select(node),
+            ...conf
+          }));
 
-        conf.svg
-          .select(fp.always(node))
-          .call(label);
+        conf.svg.select(fp.always(node)).call(label);
       };
 
       chartCtrl.onUpdate.push(updateLabel);

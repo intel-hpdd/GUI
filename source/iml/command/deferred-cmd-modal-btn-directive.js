@@ -20,7 +20,8 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
-import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn.html!text';
+import deferredCmdModalBtnTemplate
+  from './assets/html/deferred-cmd-modal-btn.html!text';
 
 export const deferredCmdModalBtnDirective = fp.always({
   scope: {},

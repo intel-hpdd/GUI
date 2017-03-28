@@ -29,17 +29,11 @@ import store from '../store/get-store.js';
 import multiStream from '../multi-stream.js';
 import * as fp from 'intel-fp';
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
+import { resolveStream } from '../promise-transforms.js';
 
-import {
-  addHostIds
-} from './log-transforms.js';
+import { addHostIds } from './log-transforms.js';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
+import { addCurrentPage } from '../api-transforms.js';
 
 import type {
   qsFromLocationT
@@ -82,9 +76,8 @@ export const logTableState = {
     icon: 'fa-book'
   },
   resolve: {
-    log$ (qsFromLocation:qsFromLocationT, $stateParams:Object) {
+    log$(qsFromLocation: qsFromLocationT, $stateParams: Object) {
       'ngInject';
-
       const qsFromLocationToOld = fp.flow(
         qsFromLocation,
         statusQsToOldQsParser
@@ -92,24 +85,14 @@ export const logTableState = {
 
       let qs = qsFromLocationToOld($stateParams);
 
-      if (qs.length)
-        qs = `?${qs}`;
+      if (qs.length) qs = `?${qs}`;
 
       const m$ = multiStream([
-        store
-          .select('server'),
+        store.select('server'),
         socketStream('/log/' + qs)
       ]);
 
-      return resolveStream(
-        m$
-          .map(
-            fp.flow(
-              addHostIds,
-              addCurrentPage
-            )
-          )
-      );
+      return resolveStream(m$.map(fp.flow(addHostIds, addCurrentPage)));
     }
   },
   component: 'logTable'

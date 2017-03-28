@@ -19,15 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function pieGraph (baseChart) {
+export default function pieGraph(baseChart) {
   'ngInject';
-
   return baseChart({
-    generateChart: function generateChart (nv) {
-      return nv.models.pie()
-        .width(20)
-        .height(20)
-        .growOnHover(false);
+    generateChart: function generateChart(nv) {
+      return nv.models.pie().width(20).height(20).growOnHover(false);
     }
   });
 }

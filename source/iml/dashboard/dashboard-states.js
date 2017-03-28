@@ -45,24 +45,21 @@ import {
   targetDashboardTargetStream
 } from './target-dashboard-resolves.js';
 
-import {
-  streamToPromise
-} from '../promise-transforms.js';
+import { streamToPromise } from '../promise-transforms.js';
 
-import {
-  matchById
-} from '../api-transforms.js';
+import { matchById } from '../api-transforms.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 import dashboardTemplate from './assets/html/dashboard.html!text';
 import baseDashboardTemplate from './assets/html/base-dashboard.html!text';
 import targetDashboardTemplate from './assets/html/target-dashboard.html!text';
 import serverDashboardTemplate from './assets/html/server-dashboard.html!text';
 
-const getDataFn = (b:() => HighlandStreamT<Object[]>, $stateParams:{ id:string }) => {
+const getDataFn = (
+  b: () => HighlandStreamT<Object[]>,
+  $stateParams: { id: string }
+) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
     .then(obj.pick('label'));

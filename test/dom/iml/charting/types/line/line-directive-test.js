@@ -1,29 +1,32 @@
 import d3 from 'd3';
 import highland from 'highland';
 import * as fp from 'intel-fp';
-import lineModule from
-  '../../../../../../source/iml/charting/types/line/line-module';
-import chartModule from
-  '../../../../../../source/iml/charting/types/chart/chart-module';
+import lineModule
+  from '../../../../../../source/iml/charting/types/line/line-module';
+import chartModule
+  from '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('line directive', () => {
   let chartCtrl;
 
-  beforeEach(module(lineModule, chartModule, ($compileProvider) => {
-    $compileProvider.directive('tester', () => {
-      return {
-        require: '^^charter',
-        link ($scope, el, attr, ctrl) {
-          chartCtrl = ctrl;
-        }
-      };
-    });
-  }));
+  beforeEach(
+    module(lineModule, chartModule, $compileProvider => {
+      $compileProvider.directive('tester', () => {
+        return {
+          require: '^^charter',
+          link($scope, el, attr, ctrl) {
+            chartCtrl = ctrl;
+          }
+        };
+      });
+    })
+  );
 
   let $scope, el, qs;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = `
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `
       <div charter stream="stream">
         <g tester class="tester"></g>
         <g line scale-y="yScale" scale-x="xScale" value-x="xValue"
@@ -31,24 +34,25 @@ describe('line directive', () => {
       </div>
     `;
 
-    $scope = $rootScope.$new();
-    $scope.yScale = d3.scale.linear();
-    $scope.xScale = d3.scale.linear();
-    $scope.xValue = fp.identity;
-    $scope.yValue = fp.identity;
-    $scope.xComparator = fp.eq;
-    $scope.color = '#333333';
+      $scope = $rootScope.$new();
+      $scope.yScale = d3.scale.linear();
+      $scope.xScale = d3.scale.linear();
+      $scope.xValue = fp.identity;
+      $scope.yValue = fp.identity;
+      $scope.xComparator = fp.eq;
+      $scope.color = '#333333';
 
-    $scope.stream = highland();
-    $scope.onData = () => ['data'];
+      $scope.stream = highland();
+      $scope.onData = () => ['data'];
 
-    el = $compile(template)($scope)[0];
-    document.body.appendChild(el);
+      el = $compile(template)($scope)[0];
+      document.body.appendChild(el);
 
-    qs = expr => el.querySelector(expr);
-    $scope.$digest();
-    $scope.stream.write([1, 2, 3, 4]);
-  }));
+      qs = expr => el.querySelector(expr);
+      $scope.$digest();
+      $scope.stream.write([1, 2, 3, 4]);
+    })
+  );
 
   afterEach(() => document.body.removeChild(el));
 
@@ -61,9 +65,10 @@ describe('line directive', () => {
   });
 
   it('should change opacity on legend event dispatch', () => {
-    chartCtrl.dispatch.event('legend', [{
-      foo: true
-    }
+    chartCtrl.dispatch.event('legend', [
+      {
+        foo: true
+      }
     ]);
 
     window.flushD3Transitions();
@@ -72,9 +77,10 @@ describe('line directive', () => {
   });
 
   it('should not change opactivy on non-legend event', () => {
-    chartCtrl.dispatch.event('zelda', [{
-      foo: true
-    }
+    chartCtrl.dispatch.event('zelda', [
+      {
+        foo: true
+      }
     ]);
 
     window.flushD3Transitions();

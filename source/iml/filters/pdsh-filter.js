@@ -19,9 +19,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function pdsh () {
+export default function pdsh() {
   'ngInject';
-
   /**
    * Given an array of objects, return a list of objects that match the list of host names.
    * @param {Array} [input]
@@ -30,14 +29,16 @@ export default function pdsh () {
    * @param {Boolean} [fuzzy] Indicates if the filtering should be done on a fuzzy match.
    * @returns {Array}
    */
-  return function pdshExpander (input, hostnamesHash, hostPath, fuzzy) {
+  return function pdshExpander(input, hostnamesHash, hostPath, fuzzy) {
     input = input || [];
     hostnamesHash = hostnamesHash || {};
     const hostnames = Object.keys(hostnamesHash);
 
-    const filteredItems = input.filter(filterInputByHostName(hostnamesHash, hostnames, hostPath, fuzzy));
+    const filteredItems = input.filter(
+      filterInputByHostName(hostnamesHash, hostnames, hostPath, fuzzy)
+    );
 
-    return (hostnames.length > 0) ? filteredItems : input;
+    return hostnames.length > 0 ? filteredItems : input;
   };
 
   /**
@@ -48,16 +49,17 @@ export default function pdsh () {
    * @param {Boolean} fuzzy
    * @returns {Function}
    */
-  function filterInputByHostName (hostnamesHash, hostnames, hostPath, fuzzy) {
-
+  function filterInputByHostName(hostnamesHash, hostnames, hostPath, fuzzy) {
     /**
      * Filters the input by the host name
      * @param {String} item
      * @returns {Boolean}
      */
-    return function innerFilterInputByHostName (item) {
+    return function innerFilterInputByHostName(item) {
       if (fuzzy) {
-        const matches = hostnames.filter(filterCurrentItemByHostNameList(hostPath(item), fuzzy));
+        const matches = hostnames.filter(
+          filterCurrentItemByHostNameList(hostPath(item), fuzzy)
+        );
         return matches.length > 0;
       } else {
         return hostnamesHash[hostPath(item)] != null;
@@ -71,15 +73,14 @@ export default function pdsh () {
    * @param {Boolean} fuzzy
    * @returns {Function}
    */
-  function filterCurrentItemByHostNameList (item, fuzzy) {
-
+  function filterCurrentItemByHostNameList(item, fuzzy) {
     /**
      * Filters on the current item by the host name list
      * @param {String} hostname
      * @returns {Boolean}
      */
-    return function innerFilterCurrentItemByHostNameList (hostname) {
-      return (fuzzy === true) ? item.indexOf(hostname) > -1 : item === hostname;
+    return function innerFilterCurrentItemByHostNameList(hostname) {
+      return fuzzy === true ? item.indexOf(hostname) > -1 : item === hostname;
     };
   }
 }

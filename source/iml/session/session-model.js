@@ -19,20 +19,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 export default (modelFactory, UserModel) => {
   'ngInject';
-
   const Session = modelFactory({ url: 'session' });
 
   Session.subTypes = {
     user: UserModel
   };
 
-  Session.login = function (username, password) {
-    const session = Session.save({username: username, password: password});
+  Session.login = function(username, password) {
+    const session = Session.save({ username: username, password: password });
 
-    session.$promise = session.$promise.then(function (resp) {
+    session.$promise = session.$promise.then(function(resp) {
       return resp.$get();
     });
 

@@ -2,29 +2,29 @@
 
 import Inferno from 'inferno';
 
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
 describe('help tooltip', () => {
   let root, helpTooltip, HelpTooltip, HELP_TEXT;
 
   describe('with a message', () => {
-    beforeEachAsync(async function () {
+    beforeEachAsync(async function() {
       root = document.createElement('div');
       HELP_TEXT = {
         my_key: 'your value'
       };
 
       const mod = await mock('source/iml/help-tooltip.js', {
-        'source/iml/environment.js': {HELP_TEXT}
+        'source/iml/environment.js': { HELP_TEXT }
       });
 
       HelpTooltip = mod.default;
       Inferno.render(
-        <HelpTooltip helpKey="my_key" direction="bottom"
-          moreClasses={['extra-class']} />,
+        <HelpTooltip
+          helpKey="my_key"
+          direction="bottom"
+          moreClasses={['extra-class']}
+        />,
         root
       );
 
@@ -69,8 +69,11 @@ describe('help tooltip', () => {
       root = document.createElement('div');
 
       Inferno.render(
-        <HelpTooltip helpKey="" direction="bottom"
-          moreClasses={['extra-class']} />,
+        <HelpTooltip
+          helpKey=""
+          direction="bottom"
+          moreClasses={['extra-class']}
+        />,
         root
       );
 

@@ -1,15 +1,12 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('socket stream', () => {
   let getEventSocket, socket, spy, socketStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     socket = {
       connect: jasmine.createSpy('connect'),
       end: jasmine.createSpy('end'),
@@ -21,12 +18,16 @@ describe('socket stream', () => {
 
     getEventSocket = jasmine
       .createSpy('getEventSocket')
-      .and
-      .returnValue(socket);
+      .and.returnValue(socket);
 
-    const socketStreamModule = await mock('source/iml/socket/socket-stream.js', {
-      'source/iml/socket-worker/get-event-socket.js': { default: getEventSocket }
-    });
+    const socketStreamModule = await mock(
+      'source/iml/socket/socket-stream.js',
+      {
+        'source/iml/socket-worker/get-event-socket.js': {
+          default: getEventSocket
+        }
+      }
+    );
 
     socketStream = socketStreamModule.default;
   });
@@ -68,10 +69,13 @@ describe('socket stream', () => {
 
     it('should send data to the socket', () => {
       s.each(fp.noop);
-      expect(socket.send).toHaveBeenCalledOnceWith({
-        path: 'host/',
-        options: {}
-      }, jasmine.any(Function));
+      expect(socket.send).toHaveBeenCalledOnceWith(
+        {
+          path: 'host/',
+          options: {}
+        },
+        jasmine.any(Function)
+      );
     });
 
     it('should end after a response', () => {
@@ -107,8 +111,7 @@ describe('socket stream', () => {
     });
 
     it('should handle errors', () => {
-      s.errors(fp.unary(spy))
-        .each(fp.noop);
+      s.errors(fp.unary(spy)).each(fp.noop);
 
       const ack = socket.send.calls.mostRecent().args[1];
 
@@ -163,9 +166,7 @@ describe('socket stream', () => {
         error: new Error('boom!')
       });
 
-      s
-        .errors(fp.unary(spy))
-        .each(fp.noop);
+      s.errors(fp.unary(spy)).each(fp.noop);
 
       expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
     });

@@ -24,23 +24,18 @@
 import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
+import { resolveStream } from '../promise-transforms.js';
 
-import type {
-  commandT
-} from './command-types.js';
+import type { commandT } from './command-types.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-type openCommandModalT = (x:Promise<HighlandStreamT<commandT[]>>) => Object;
+type openCommandModalT = (x: Promise<HighlandStreamT<commandT[]>>) => Object;
 
-export default function DeferredCommandModalBtnCtrl (openCommandModal:openCommandModalT) {
+export default function DeferredCommandModalBtnCtrl(
+  openCommandModal: openCommandModalT
+) {
   'ngInject';
-
   const setLoading = x => this.loading = x;
 
   this.openCommandModal = () => {
@@ -48,13 +43,9 @@ export default function DeferredCommandModalBtnCtrl (openCommandModal:openComman
 
     const stream = socketStream(this.resourceUri);
 
-    const wrapped = resolveStream(
-      stream
-        .map(fp.arrayWrap)
-    );
+    const wrapped = resolveStream(stream.map(fp.arrayWrap));
 
-    openCommandModal(wrapped)
-      .resultStream
+    openCommandModal(wrapped).resultStream
       .tap(setLoading.bind(null, false))
       .tap(stream.destroy.bind(stream))
       .pull(fp.noop);

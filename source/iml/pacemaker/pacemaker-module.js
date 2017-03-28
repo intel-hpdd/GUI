@@ -28,9 +28,7 @@ import asValueModule from '../as-value/as-value-module';
 import configurePacemakerDirective from './configure-pacemaker';
 import PacemakerStateComponent from './pacemaker-state';
 
-export default angular.module('pacemaker', [
-  extendScopeModule, asValueModule
-])
-.directive('configurePacemaker', configurePacemakerDirective)
-.component('pacemakerState', PacemakerStateComponent)
-.name;
+export default angular
+  .module('pacemaker', [extendScopeModule, asValueModule])
+  .directive('configurePacemaker', configurePacemakerDirective)
+  .component('pacemakerState', PacemakerStateComponent).name;

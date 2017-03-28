@@ -23,22 +23,17 @@
 
 import * as fp from 'intel-fp';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-import type {
-  chartT
-} from './dashboard-types.js';
+import type { chartT } from './dashboard-types.js';
 
-export function serverDashboardChartResolves (
-  $stateParams:{ id:string },
-  getReadWriteBandwidthChart:chartT,
-  getMemoryUsageChart:chartT,
-  getCpuUsageChart:chartT
+export function serverDashboardChartResolves(
+  $stateParams: { id: string },
+  getReadWriteBandwidthChart: chartT,
+  getMemoryUsageChart: chartT,
+  getCpuUsageChart: chartT
 ) {
   'ngInject';
-
   const id = $stateParams.id;
   const page = `server${id}`;
   const serverQs = {
@@ -48,27 +43,23 @@ export function serverDashboardChartResolves (
   };
 
   return Promise.all([
-    getReadWriteBandwidthChart({
-      qs: {
-        host_id: id
-      }
-    }, page),
+    getReadWriteBandwidthChart(
+      {
+        qs: {
+          host_id: id
+        }
+      },
+      page
+    ),
     getCpuUsageChart(serverQs, page),
     getMemoryUsageChart(serverQs, page)
   ]);
 }
 
-export function serverDashboardHostStreamResolves (
-  $stateParams:{ id:string },
-  hostsB:() => HighlandStreamT<Object[]>
+export function serverDashboardHostStreamResolves(
+  $stateParams: { id: string },
+  hostsB: () => HighlandStreamT<Object[]>
 ) {
   'ngInject';
-
-  return hostsB()
-    .map(
-      fp.filter(
-        x => x.id === $stateParams.id
-      )
-    )
-    .map(x => x[0]);
+  return hostsB().map(fp.filter(x => x.id === $stateParams.id)).map(x => x[0]);
 }

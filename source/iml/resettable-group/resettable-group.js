@@ -24,34 +24,33 @@
 import * as fp from 'intel-fp';
 
 type ctrl = {
-  $name:string,
-  $addControl:Function,
-  $formatters:Array<(val:any) => any>,
-  $setViewValue:(val:any, evt?:string) => void,
-  $setPristine:() => void,
-  $setUntouched:() => void,
-  $render:() => void
+  $name: string,
+  $addControl: Function,
+  $formatters: Array<(val: any) => any>,
+  $setViewValue: (val: any, evt?: string) => void,
+  $setPristine: () => void,
+  $setUntouched: () => void,
+  $render: () => void
 };
 
 type itm = {
-  initialValue:any,
-  item:ctrl
+  initialValue: any,
+  item: ctrl
 };
 
 export const ResettableGroupController = class {
-  controls:Array<itm> = [];
-  formCtrl:ctrl;
-  localApply:Function;
+  controls: Array<itm> = [];
+  formCtrl: ctrl;
+  localApply: Function;
 
-  constructor ($scope:Object, localApply:Function) {
+  constructor($scope: Object, localApply: Function) {
     'ngInject';
     this.localApply = localApply.bind(null, $scope);
   }
 
-  $onInit () {
-    const addControl = (control:ctrl):ctrl => {
-      if (control.$name === '')
-        return control;
+  $onInit() {
+    const addControl = (control: ctrl): ctrl => {
+      if (control.$name === '') return control;
 
       if (control.$addControl) {
         control.$addControl = fp.flow(
@@ -62,16 +61,14 @@ export const ResettableGroupController = class {
         return control;
       }
 
-      const item = {initialValue: undefined, item: control};
+      const item = { initialValue: undefined, item: control };
       this.controls.push(item);
       const setOnce = fp.once(val => item.initialValue = val);
 
-      control.$formatters.push(
-        x => {
-          setOnce(x);
-          return x;
-        }
-      );
+      control.$formatters.push(x => {
+        setOnce(x);
+        return x;
+      });
 
       return control;
     };
@@ -79,7 +76,7 @@ export const ResettableGroupController = class {
     addControl(this.formCtrl);
   }
 
-  reset () {
+  reset() {
     this.controls.forEach(entry => {
       entry.item.$setViewValue(entry.initialValue);
       entry.item.$setPristine();

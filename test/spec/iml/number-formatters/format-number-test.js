@@ -1,12 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Format number', () => {
   let formatNumber;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/number-formatters/format-number.js', {
       'source/iml/global.js': {
         default: {
@@ -108,7 +105,6 @@ describe('Format number', () => {
     }
   ];
 
-
   describe('with Intl.NumberFormat polyfill', () => {
     describe('standard mode', () => {
       tests.forEach(test => {
@@ -121,7 +117,9 @@ describe('Format number', () => {
     describe('strict mode', () => {
       tests.forEach(test => {
         it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
-          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
+          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(
+            test.outStrict
+          );
         });
       });
     });
@@ -139,7 +137,9 @@ describe('Format number', () => {
     describe('strict mode', () => {
       tests.forEach(test => {
         it(`should format ${test.in[0]} with ${test.in[1]} significant digits to ${test.out}`, () => {
-          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(test.outStrict);
+          expect(formatNumber.apply(null, test.in.concat(true))).toEqual(
+            test.outStrict
+          );
         });
       });
     });

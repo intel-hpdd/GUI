@@ -26,84 +26,77 @@ import * as obj from 'intel-obj';
 import * as math from 'intel-math';
 import * as maybe from 'intel-maybe';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 type mapT = {
-  [key:string]:number
+  [key: string]: number
 };
 
 type dataT = {
-  data:mapT,
-  ts:string
+  data: mapT,
+  ts: string
 };
 
 type flatDataT = {
-  data:number,
-  id:string
+  data: number,
+  id: string
 };
 
 type metricDataT = {
-  id:string,
-  data:{
-    average:number,
-    max:number,
-    min:number
+  id: string,
+  data: {
+    average: number,
+    max: number,
+    min: number
   }
 };
 
 export const reduceToStruct = obj.reduceArr(
   () => [],
-  (data:mapT, id:string, out:flatDataT[]) =>
+  (data: mapT, id: string, out: flatDataT[]) =>
     out.concat({
       data,
       id
     })
 );
 
-export const normalize = (s:HighlandStreamT<dataT>):HighlandStreamT<flatDataT> =>
-  s
-  .map(
-    fp.flow(
-      (x:dataT) => x.data,
-      reduceToStruct
-    )
-  )
-  .flatten();
+export const normalize = (
+  s: HighlandStreamT<dataT>
+): HighlandStreamT<flatDataT> =>
+  s.map(fp.flow((x: dataT) => x.data, reduceToStruct)).flatten();
 
-export const calculateData = (s:HighlandStreamT<flatDataT>):HighlandStreamT<metricDataT[]> =>
+export const calculateData = (
+  s: HighlandStreamT<flatDataT>
+): HighlandStreamT<metricDataT[]> =>
   s
-  .group('id')
-  .map(
-    obj.map(
-      (xs:flatDataT[]):{average:number, min:number, max:number} => ({
-        average: math.averageBy((x:flatDataT) => x.data, xs),
-        min: math.minBy((x:flatDataT) => x.data, xs),
-        max: math.maxBy((x:flatDataT) => x.data, xs)
-      })
+    .group('id')
+    .map(
+      obj.map((xs: flatDataT[]): {
+        average: number,
+        min: number,
+        max: number
+      } => ({
+        average: math.averageBy((x: flatDataT) => x.data, xs),
+        min: math.minBy((x: flatDataT) => x.data, xs),
+        max: math.maxBy((x: flatDataT) => x.data, xs)
+      }))
     )
-  )
-  .map(reduceToStruct);
-
+    .map(reduceToStruct);
 
 export const collectById = (
-    streams:HighlandStreamT<HighlandStreamT<{id:string, [key:string]:number }[]>>
-  ):HighlandStreamT<{id:string, [key:string]:number }[]> =>
-    streams
-    .merge()
-    .flatten()
-    .collect()
-    .map(fp.reduce([], (arr, curr:{ id:string, [key:string]:number }) => {
+  streams: HighlandStreamT<HighlandStreamT<{
+    [key: string]: number,
+    id: string
+  }[]>>
+): HighlandStreamT<{ [key: string]: number, id: string }[]> =>
+  streams.merge().flatten().collect().map(
+    fp.reduce([], (arr, curr: { [key: string]: number, id: string }) => {
       const r = maybe.map(
         x => {
           Object.assign(x, curr);
           return arr;
         },
-        fp.find(
-          x => x.id === curr.id,
-          arr
-        )
+        fp.find(x => x.id === curr.id, arr)
       );
 
       return maybe.withDefault(
@@ -116,4 +109,5 @@ export const collectById = (
         },
         r
       );
-    }));
+    })
+  );

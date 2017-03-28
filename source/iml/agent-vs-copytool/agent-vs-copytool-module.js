@@ -26,7 +26,8 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
+import streamWhenVisibleModule
+  from '../stream-when-visible/stream-when-visible-module';
 import debounceModule from '../debounce/debounce-module';
 import chartModule from '../charting/types/chart/chart-module';
 import axisModule from '../charting/types/axis/axis-module';
@@ -40,15 +41,24 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addAgentVsCopytoolActionT = {
-    type:'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS' | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
-    payload:durationPayloadT
-}
+  type:
+    | 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS'
+    | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+  payload: durationPayloadT
+};
 
-export default angular.module('agentVsCopytool', [
-  chartingModule, highlandModule, configToggleModule,
-  durationPickerModule, streamWhenVisibleModule,
-  debounceModule, chartModule, axisModule,
-  labelModule, lineModule, legendModule
-])
-  .factory('getAgentVsCopytoolChart', getAgentVsCopytoolChartFactory)
-  .name;
+export default angular
+  .module('agentVsCopytool', [
+    chartingModule,
+    highlandModule,
+    configToggleModule,
+    durationPickerModule,
+    streamWhenVisibleModule,
+    debounceModule,
+    chartModule,
+    axisModule,
+    labelModule,
+    lineModule,
+    legendModule
+  ])
+  .factory('getAgentVsCopytoolChart', getAgentVsCopytoolChartFactory).name;

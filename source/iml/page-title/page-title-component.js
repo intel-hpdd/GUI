@@ -21,25 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  getResolvedData
-} from '../route-utils.js';
+import { getResolvedData } from '../route-utils.js';
 
 import * as maybe from 'intel-maybe';
 
-import type {
-  TransitionT,
-  StateServiceT
-} from 'angular-ui-router';
+import type { TransitionT, StateServiceT } from 'angular-ui-router';
 
-const defaultToObj = maybe.withDefault(
-  () => ({})
-);
+const defaultToObj = maybe.withDefault(() => ({}));
 
 export default {
-  controller: function ($state:StateServiceT, $transitions:TransitionT) {
+  controller: function($state: StateServiceT, $transitions: TransitionT) {
     'ngInject';
-
     const ctrl = this;
     const route = $state.router.globals.$current;
     const resolvedData = defaultToObj(
@@ -51,14 +43,11 @@ export default {
       ...route.data
     };
 
-    const destroyOnBefore = $transitions.onStart(
-      {},
-      () => ctrl.loading = true
-    );
+    const destroyOnBefore = $transitions.onStart({}, () => ctrl.loading = true);
 
     const destroyOnSuccess = $transitions.onSuccess(
       {},
-      (transition:TransitionT) => {
+      (transition: TransitionT) => {
         ctrl.loading = false;
 
         const resolvedData = defaultToObj(

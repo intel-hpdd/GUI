@@ -2,72 +2,76 @@ import highland from 'highland';
 import * as fp from 'intel-fp';
 import commandModule from '../../../../source/iml/command/command-module';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('deferred command modal button directive exports', () => {
-  let socketStream, openCommandModal,
-    modalStream, resolveStream, DeferredCommandModalBtnCtrl;
+  let socketStream,
+    openCommandModal,
+    modalStream,
+    resolveStream,
+    DeferredCommandModalBtnCtrl;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and
-      .returnValue(highland());
+      .and.returnValue(highland());
 
     resolveStream = jasmine
       .createSpy('resolveStream')
-      .and
-      .returnValue(Promise.resolve());
+      .and.returnValue(Promise.resolve());
 
-    const mod = await mock('source/iml/command/deferred-cmd-modal-btn-controller.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/promise-transforms.js': { resolveStream }
-    });
+    const mod = await mock(
+      'source/iml/command/deferred-cmd-modal-btn-controller.js',
+      {
+        'source/iml/socket/socket-stream.js': { default: socketStream },
+        'source/iml/promise-transforms.js': { resolveStream }
+      }
+    );
 
     DeferredCommandModalBtnCtrl = mod.default;
   });
 
   afterEach(resetAll);
 
-  beforeEach(module(commandModule, ($provide, $controllerProvider) => {
-    modalStream = highland();
-    openCommandModal = jasmine.createSpy('openCommandModal')
-      .and.returnValue({
+  beforeEach(
+    module(commandModule, ($provide, $controllerProvider) => {
+      modalStream = highland();
+      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
         resultStream: modalStream
       });
-    $provide.value('openCommandModal', openCommandModal);
+      $provide.value('openCommandModal', openCommandModal);
 
-    $controllerProvider.register('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl);
-  }));
+      $controllerProvider.register(
+        'DeferredCommandModalBtnCtrl',
+        DeferredCommandModalBtnCtrl
+      );
+    })
+  );
 
-  let $scope, cleanText, el, qs,
-    waitingButton, commandDetailButton;
+  let $scope, cleanText, el, qs, waitingButton, commandDetailButton;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
-    $scope = $rootScope.$new();
-    $scope.resourceUri = '/api/command/1/';
+      $scope = $rootScope.$new();
+      $scope.resourceUri = '/api/command/1/';
 
-    cleanText = fp.flow(
-      fp.view(fp.lensProp('textContent')),
-      fp.invokeMethod('trim', [])
-    );
+      cleanText = fp.flow(
+        fp.view(fp.lensProp('textContent')),
+        fp.invokeMethod('trim', [])
+      );
 
-    el = $compile(template)($scope)[0];
-    qs = el.querySelector.bind(el);
-    waitingButton = qs.bind(el, 'button[disabled]');
-    commandDetailButton = qs.bind(el, '.cmd-detail-btn');
-    $scope.$digest();
-  }));
-
+      el = $compile(template)($scope)[0];
+      qs = el.querySelector.bind(el);
+      waitingButton = qs.bind(el, 'button[disabled]');
+      commandDetailButton = qs.bind(el, '.cmd-detail-btn');
+      $scope.$digest();
+    })
+  );
 
   it('should not show the waiting button', () => {
-    expect(waitingButton())
-      .toBeNull();
+    expect(waitingButton()).toBeNull();
   });
 
   it('should show the detail button', () => {
@@ -88,8 +92,7 @@ describe('deferred command modal button directive exports', () => {
     });
 
     it('should pass a stream resolveStream', () => {
-      expect(highland.isStream(resolveStream.calls.argsFor(0)[0]))
-        .toBe(true);
+      expect(highland.isStream(resolveStream.calls.argsFor(0)[0])).toBe(true);
     });
 
     it('should pass a stream to openCommandModal', () => {
@@ -115,8 +118,7 @@ describe('deferred command modal button directive exports', () => {
       });
 
       it('should hide the waiting button', () => {
-        expect(waitingButton())
-          .toBeNull();
+        expect(waitingButton()).toBeNull();
       });
     });
   });

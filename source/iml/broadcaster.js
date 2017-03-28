@@ -23,46 +23,38 @@
 
 import highland from 'highland';
 
-import type {
-  HighlandStreamT,
-  errorWrapT
-} from 'highland';
-
+import type { HighlandStreamT, errorWrapT } from 'highland';
 
 type streamFnT = () => HighlandStreamT<any>;
 
-export default function broadcaster (source$:HighlandStreamT<any>):streamFnT {
-  let latest:mixed;
+export default function broadcaster(source$: HighlandStreamT<any>): streamFnT {
+  let latest: mixed;
 
   const viewers = [];
 
   source$
     .errors(error => {
-      const err:errorWrapT = {
+      const err: errorWrapT = {
         __HighlandStreamError__: true,
         error
       };
 
       viewers.forEach(v => v.write(err));
     })
-    .each((xs:mixed) => {
+    .each((xs: mixed) => {
       latest = xs;
 
       viewers.forEach(v => v.write(xs));
     });
 
   const fn = () => {
-    const viewer$:HighlandStreamT<any> = highland()
-      .onDestroy(() => {
-        const idx = viewers
-          .indexOf(viewer$);
+    const viewer$: HighlandStreamT<any> = highland().onDestroy(() => {
+      const idx = viewers.indexOf(viewer$);
 
-        if (idx !== -1)
-          viewers.splice(idx, 1);
-      });
+      if (idx !== -1) viewers.splice(idx, 1);
+    });
 
-    if (latest)
-      viewer$.write(latest);
+    if (latest) viewer$.write(latest);
 
     viewers.push(viewer$);
 

@@ -21,17 +21,16 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function modelFactory () {
+export default function modelFactory() {
   let urlPrefix = '';
 
   return {
-    setUrlPrefix: function (url) {
+    setUrlPrefix: function(url) {
       urlPrefix = url;
     },
-    $get: function ($resource) {
+    $get: function($resource) {
       'ngInject';
-
-      return function getModel (config) {
+      return function getModel(config) {
         const defaults = {
           actions: {
             get: { method: 'GET' },
@@ -50,31 +49,37 @@ export default function modelFactory () {
 
         const merged = _.merge(defaults, config);
 
-        if (merged.url === undefined) throw new Error('A url property must be provided to modelFactory!');
+        if (merged.url === undefined)
+          throw new Error('A url property must be provided to modelFactory!');
 
-        _(merged.actions).forEach(function (action) {
+        _(merged.actions).forEach(function(action) {
           action.interceptor = {
-            response: function (resp) {
+            response: function(resp) {
               if (!Resource.subTypes) return resp.resource;
 
-              const boundAddSubTypes = addSubTypes.bind(null, Resource.subTypes);
+              const boundAddSubTypes = addSubTypes.bind(
+                null,
+                Resource.subTypes
+              );
 
-              if (action.isArray)
-                resp.resource.forEach(boundAddSubTypes);
-              else
-                boundAddSubTypes(resp.resource);
+              if (action.isArray) resp.resource.forEach(boundAddSubTypes);
+              else boundAddSubTypes(resp.resource);
 
               return resp.resource;
             }
           };
         });
 
-        const Resource = $resource(urlPrefix + merged.url, merged.params, merged.actions);
+        const Resource = $resource(
+          urlPrefix + merged.url,
+          merged.params,
+          merged.actions
+        );
 
         return Resource;
 
-        function addSubTypes (subTypes, resource) {
-          _(subTypes || {}).forEach(function (SubType, name) {
+        function addSubTypes(subTypes, resource) {
+          _(subTypes || {}).forEach(function(SubType, name) {
             if (!resource.hasOwnProperty(name)) return;
 
             resource[name] = new SubType(resource[name]);

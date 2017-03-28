@@ -21,18 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 export const ADD_ALERT_INDICATOR_ITEMS = 'ADD_ALERT_INDICATOR_ITEMS';
 
-import type {
-  ActionT
-} from '../store/store-module.js';
+import type { ActionT } from '../store/store-module.js';
 
-export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+export default function(
+  state: Array<Object> = [],
+  { type, payload }: ActionT
+): Array<Object> {
   switch (type) {
-  case ADD_ALERT_INDICATOR_ITEMS:
-    return payload;
-  default:
-    return state;
+    case ADD_ALERT_INDICATOR_ITEMS:
+      return payload;
+    default:
+      return state;
   }
 }

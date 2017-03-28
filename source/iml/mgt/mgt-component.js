@@ -82,7 +82,7 @@ export default {
       </div>
     </div>
 `,
-  controller () {
+  controller() {
     this.$onDestroy = () => {
       this.mgt$.destroy();
       this.alertIndicatorB.endBroadcast();

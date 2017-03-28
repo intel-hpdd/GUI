@@ -1,39 +1,43 @@
-import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
+import completionistModule
+  from '../../../../source/iml/completionist/completionist-module.js';
 
 describe('completionist dropdown', () => {
   let completionistDropdown, completionist, localApply, $scope;
 
-  beforeEach(module(completionistModule, $provide => {
-    localApply = jasmine.createSpy('localApply');
+  beforeEach(
+    module(completionistModule, $provide => {
+      localApply = jasmine.createSpy('localApply');
 
-    $provide.value('localApply', localApply);
-  }));
+      $provide.value('localApply', localApply);
+    })
+  );
 
-  beforeEach(inject(($componentController, $rootScope) => {
-    $scope = $rootScope.$new();
-    completionist = {
-      register: jasmine.createSpy('register'),
-      deregister: jasmine.createSpy('deregister'),
-      emit: jasmine.createSpy('emit')
-    };
+  beforeEach(
+    inject(($componentController, $rootScope) => {
+      $scope = $rootScope.$new();
+      completionist = {
+        register: jasmine.createSpy('register'),
+        deregister: jasmine.createSpy('deregister'),
+        emit: jasmine.createSpy('emit')
+      };
 
-    completionistDropdown = $componentController(
-      'completionistDropdown',
-      {
-        $scope
-      },
-      {
-        completionist
-      }
-    );
-    completionistDropdown.$onInit();
-  }));
+      completionistDropdown = $componentController(
+        'completionistDropdown',
+        {
+          $scope
+        },
+        {
+          completionist
+        }
+      );
+      completionistDropdown.$onInit();
+    })
+  );
 
   it('should emit a value on select', () => {
     completionistDropdown.onSelect('foo');
 
-    expect(completionist.emit)
-      .toHaveBeenCalledOnceWith('VALUE', 'foo');
+    expect(completionist.emit).toHaveBeenCalledOnceWith('VALUE', 'foo');
   });
 
   it('should set an active index', () => {
@@ -48,13 +52,17 @@ describe('completionist dropdown', () => {
     });
 
     it('should deregister key presses', () => {
-      expect(completionist.deregister)
-        .toHaveBeenCalledOnceWith('KEY_PRESS', jasmine.any(Function));
+      expect(completionist.deregister).toHaveBeenCalledOnceWith(
+        'KEY_PRESS',
+        jasmine.any(Function)
+      );
     });
 
     it('should deregister values', () => {
-      expect(completionist.deregister)
-        .toHaveBeenCalledOnceWith('VALUES', jasmine.any(Function));
+      expect(completionist.deregister).toHaveBeenCalledOnceWith(
+        'VALUES',
+        jasmine.any(Function)
+      );
     });
   });
 
@@ -70,11 +78,7 @@ describe('completionist dropdown', () => {
 
       completionistDropdown.values = [1];
 
-      onKeyPress = completionist
-        .register
-        .calls
-        .first()
-        .args[1];
+      onKeyPress = completionist.register.calls.first().args[1];
     });
 
     describe('escape', () => {
@@ -85,13 +89,11 @@ describe('completionist dropdown', () => {
       });
 
       it('should empty values', () => {
-        expect(completionist.emit)
-          .toHaveBeenCalledOnceWith('VALUES', []);
+        expect(completionist.emit).toHaveBeenCalledOnceWith('VALUES', []);
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault)
-          .toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledOnce();
       });
     });
 
@@ -102,8 +104,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should reset the index', () => {
-        expect(completionistDropdown.index)
-          .toBe(0);
+        expect(completionistDropdown.index).toBe(0);
       });
 
       it('should call localApply', () => {
@@ -111,8 +112,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault)
-          .toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledOnce();
       });
     });
 
@@ -123,8 +123,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should reset the index', () => {
-        expect(completionistDropdown.index)
-          .toBe(0);
+        expect(completionistDropdown.index).toBe(0);
       });
 
       it('should call localApply', () => {
@@ -132,8 +131,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault)
-          .toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledOnce();
       });
     });
 
@@ -149,8 +147,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault)
-          .toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledOnce();
       });
     });
   });
@@ -158,11 +155,7 @@ describe('completionist dropdown', () => {
   describe('on values', () => {
     beforeEach(() => {
       completionistDropdown.index = 3;
-      completionist
-        .register
-        .calls
-        .mostRecent()
-        .args[1]([1, 2, 3]);
+      completionist.register.calls.mostRecent().args[1]([1, 2, 3]);
     });
 
     it('should set index to -1', () => {
@@ -170,8 +163,7 @@ describe('completionist dropdown', () => {
     });
 
     it('should set new values', () => {
-      expect(completionistDropdown.values)
-        .toEqual([1, 2, 3]);
+      expect(completionistDropdown.values).toEqual([1, 2, 3]);
     });
 
     it('should call localApply', () => {

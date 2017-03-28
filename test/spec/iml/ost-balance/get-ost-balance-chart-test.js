@@ -1,31 +1,41 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('get ost balance chart', () => {
-  let getOstBalanceStream, getOstBalanceChartFactory,
-    chartCompiler, streamWhenVisible, config1$, config2$,
-    getOstBalanceChart, localApply, getStore, standardConfig,
-    selectStoreCount, getConf;
+  let getOstBalanceStream,
+    getOstBalanceChartFactory,
+    chartCompiler,
+    streamWhenVisible,
+    config1$,
+    config2$,
+    getOstBalanceChart,
+    localApply,
+    getStore,
+    standardConfig,
+    selectStoreCount,
+    getConf;
 
-  beforeEachAsync(async function () {
-    getOstBalanceStream = jasmine.createSpy('getOstBalanceStream')
+  beforeEachAsync(async function() {
+    getOstBalanceStream = jasmine
+      .createSpy('getOstBalanceStream')
       .and.callFake(() => highland());
 
     standardConfig = {
       percentage: 0
     };
 
-    config1$ = highland([{
-      'ostBalanceChart': {...standardConfig}
-    }]);
+    config1$ = highland([
+      {
+        ostBalanceChart: { ...standardConfig }
+      }
+    ]);
     spyOn(config1$, 'destroy');
-    config2$ = highland([{
-      'ostBalanceChart': standardConfig
-    }]);
+    config2$ = highland([
+      {
+        ostBalanceChart: standardConfig
+      }
+    ]);
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
@@ -33,29 +43,32 @@ describe('get ost balance chart', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.callFake(() => {
         switch (selectStoreCount) {
-        case 0:
-          selectStoreCount++;
-          return config1$;
-        default:
-          return config2$;
+          case 0:
+            selectStoreCount++;
+            return config1$;
+          default:
+            return config2$;
         }
       })
     };
 
-    getConf = jasmine.createSpy('getConf')
-      .and.callFake(page => {
-        return s => {
-          return s.map(x => {
-            return x[page];
-          });
-        };
-      });
+    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+      return s => {
+        return s.map(x => {
+          return x[page];
+        });
+      };
+    });
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
     const mod = await mock('source/iml/ost-balance/get-ost-balance-chart.js', {
-      'source/iml/ost-balance/get-ost-balance-stream.js': { default: getOstBalanceStream },
-      'source/iml/ost-balance/assets/html/ost-balance.html!text': { default: 'ostBalanceTemplate' },
+      'source/iml/ost-balance/get-ost-balance-stream.js': {
+        default: getOstBalanceStream
+      },
+      'source/iml/ost-balance/assets/html/ost-balance.html!text': {
+        default: 'ostBalanceTemplate'
+      },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/chart-transformers/chart-transformers.js': { getConf }
@@ -66,28 +79,32 @@ describe('get ost balance chart', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    streamWhenVisible = jasmine.createSpy('streamWhenVisible')
-      .and
-      .callFake(x => x());
+    streamWhenVisible = jasmine
+      .createSpy('streamWhenVisible')
+      .and.callFake(x => x());
 
     localApply = jasmine.createSpy('localApply');
 
     getOstBalanceChart = getOstBalanceChartFactory(
-      streamWhenVisible, localApply);
+      streamWhenVisible,
+      localApply
+    );
 
-    getOstBalanceChart({
-      qs: {
-        filesystem_id: '1'
-      }
-    }, 'ostBalanceChart');
+    getOstBalanceChart(
+      {
+        qs: {
+          filesystem_id: '1'
+        }
+      },
+      'ostBalanceChart'
+    );
 
     const s = chartCompiler.calls.argsFor(0)[1];
     s.each(() => {});
   });
 
   it('should return a factory function', () => {
-    expect(getOstBalanceChart)
-      .toEqual(jasmine.any(Function));
+    expect(getOstBalanceChart).toEqual(jasmine.any(Function));
   });
 
   it('should dispatch to the store', () => {
@@ -104,44 +121,43 @@ describe('get ost balance chart', () => {
     expect(getConf).toHaveBeenCalledOnceWith('ostBalanceChart');
   });
 
-  it('should call streamWhenVisible', function () {
-    expect(streamWhenVisible)
-      .toHaveBeenCalledOnceWith(jasmine.any(Function));
+  it('should call streamWhenVisible', function() {
+    expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
   });
 
   it('should setup the OstBalanceChart', () => {
-    expect(chartCompiler)
-      .toHaveBeenCalledOnceWith(
-        'ostBalanceTemplate',
-        jasmine.any(Object),
-        jasmine.any(Function)
-      );
+    expect(chartCompiler).toHaveBeenCalledOnceWith(
+      'ostBalanceTemplate',
+      jasmine.any(Object),
+      jasmine.any(Function)
+    );
   });
 
-  it('should create a new stream', function () {
-    expect(getOstBalanceStream)
-      .toHaveBeenCalledOnceWith(0, {
-        qs: {
-          filesystem_id: '1'
-        }
-      });
+  it('should create a new stream', function() {
+    expect(getOstBalanceStream).toHaveBeenCalledOnceWith(0, {
+      qs: {
+        filesystem_id: '1'
+      }
+    });
   });
 
   describe('conf setup', () => {
     let fn, s, $scope, conf;
 
-    beforeEach(inject(($rootScope) => {
-      fn = chartCompiler.calls.argsFor(0)[2];
+    beforeEach(
+      inject($rootScope => {
+        fn = chartCompiler.calls.argsFor(0)[2];
 
-      s = highland();
-      spyOn(s, 'destroy');
+        s = highland();
+        spyOn(s, 'destroy');
 
-      $scope = $rootScope.$new();
+        $scope = $rootScope.$new();
 
-      conf = fn($scope, s);
-    }));
+        conf = fn($scope, s);
+      })
+    );
 
-    it('should setup the conf', function () {
+    it('should setup the conf', function() {
       expect(conf).toEqual({
         percentage: 0,
         page: '',
@@ -153,7 +169,7 @@ describe('get ost balance chart', () => {
       });
     });
 
-    it('should destroy the existing stream', function () {
+    it('should destroy the existing stream', function() {
       $scope.$destroy();
 
       expect(s.destroy).toHaveBeenCalled();
@@ -219,8 +235,9 @@ describe('get ost balance chart', () => {
       });
 
       it('should generate tooltip content', () => {
-        expect(d3Chart.tooltip.contentGenerator)
-          .toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(d3Chart.tooltip.contentGenerator).toHaveBeenCalledOnceWith(
+          jasmine.any(Function)
+        );
       });
     });
   });

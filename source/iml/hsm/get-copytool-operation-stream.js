@@ -23,17 +23,21 @@ import * as fp from 'intel-fp';
 import angular from 'angular';
 import socketStream from '../socket/socket-stream.js';
 
-export default function getCopytoolOperationStream (params) {
-  params = angular.merge({}, {
-    jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
+export default function getCopytoolOperationStream(params) {
+  params = angular.merge(
+    {},
+    {
+      jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
-    qs: {
-      active: true,
-      limit: 0
-    }
-  }, params || {});
+      qs: {
+        active: true,
+        limit: 0
+      }
+    },
+    params || {}
+  );
 
-  const buildProgress = fp.map(function buildProgress (item) {
+  const buildProgress = fp.map(function buildProgress(item) {
     const progress = item.processed_bytes / item.total_bytes * 100;
 
     item.progress = isFinite(progress) ? progress : 0;
@@ -41,8 +45,10 @@ updated_at,started_at,throughput,type,state,path,description)',
     return item;
   });
 
-  const buildThroughput = fp.map(function buildThroughput (item) {
-    const elapsed = (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
+  const buildThroughput = fp.map(function buildThroughput(item) {
+    const elapsed = (Date.parse(item.updated_at) -
+      Date.parse(item.started_at)) /
+      1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
       item.throughput = 0;
@@ -56,15 +62,8 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const addMetrics = fp.map(
-    fp.flow(
-      fp.view(
-        fp.lensProp('objects')
-      ),
-      buildProgress,
-      buildThroughput
-    )
+    fp.flow(fp.view(fp.lensProp('objects')), buildProgress, buildThroughput)
   );
 
-  return socketStream('/copytool_operation', params)
-    .through(addMetrics);
+  return socketStream('/copytool_operation', params).through(addMetrics);
 }

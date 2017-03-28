@@ -1,16 +1,12 @@
 // @flow
 
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
 import highland from 'highland';
 
 describe('route transitions', () => {
-  let groupAllowed, mod, $transitions,
-    routeTransitions, store, $state;
-  beforeEachAsync(async function () {
+  let groupAllowed, mod, $transitions, routeTransitions, store, $state;
+  beforeEachAsync(async function() {
     store = {
       select: jasmine.createSpy('select')
     };
@@ -37,9 +33,12 @@ describe('route transitions', () => {
   afterEach(resetAll);
 
   it('should set an onStart hook for three route processors', () => {
-    expect($transitions.onStart).toHaveBeenCalledThriceWith({
-      to: jasmine.any(Function)
-    }, jasmine.any(Function));
+    expect($transitions.onStart).toHaveBeenCalledThriceWith(
+      {
+        to: jasmine.any(Function)
+      },
+      jasmine.any(Function)
+    );
   });
 
   describe('allow anonymous read', () => {
@@ -52,31 +51,36 @@ describe('route transitions', () => {
 
     describe('predicate', () => {
       it('should return false if flag is not true', () => {
-        expect(allowAnonymousReadPredicate.to({
-          data: {}
-        })).toBe(false);
+        expect(
+          allowAnonymousReadPredicate.to({
+            data: {}
+          })
+        ).toBe(false);
       });
 
       it('should return true if flag is true', () => {
-        expect(allowAnonymousReadPredicate.to({
-          data: {
-            anonymousReadProtected: true
-          }
-        })).toBe(true);
+        expect(
+          allowAnonymousReadPredicate.to({
+            data: {
+              anonymousReadProtected: true
+            }
+          })
+        ).toBe(true);
       });
     });
 
     describe('processor', () => {
       describe('with read enabled', () => {
         beforeEach(() => {
-          store
-            .select
-            .and
-            .returnValue(highland([{
-              session: {
-                read_enabled: true
+          store.select.and.returnValue(
+            highland([
+              {
+                session: {
+                  read_enabled: true
+                }
               }
-            }]));
+            ])
+          );
         });
 
         itAsync('should select the session store', async () => {
@@ -84,31 +88,38 @@ describe('route transitions', () => {
           expect(store.select).toHaveBeenCalledOnceWith('session');
         });
 
-        itAsync('should return undefined if session is read enabled', async () => {
-          expect(await processAllowAnonymousRead()).toBe(undefined);
-        });
+        itAsync(
+          'should return undefined if session is read enabled',
+          async () => {
+            expect(await processAllowAnonymousRead()).toBe(undefined);
+          }
+        );
       });
 
       describe('with read not enabled', () => {
         beforeEach(() => {
-          store
-            .select
-            .and
-            .returnValue(highland([{
-              session: {
-                read_enabled: false
+          store.select.and.returnValue(
+            highland([
+              {
+                session: {
+                  read_enabled: false
+                }
               }
-            }]));
+            ])
+          );
         });
 
         it('should return a promise if session is not read enabled', () => {
           expect(processAllowAnonymousRead()).toBeAPromise();
         });
 
-        itAsync('should navigate to /login if the session is not read enabled', async () => {
-          await processAllowAnonymousRead();
-          expect($state.target).toHaveBeenCalledOnceWith('login');
-        });
+        itAsync(
+          'should navigate to /login if the session is not read enabled',
+          async () => {
+            await processAllowAnonymousRead();
+            expect($state.target).toHaveBeenCalledOnceWith('login');
+          }
+        );
       });
     });
   });
@@ -123,33 +134,38 @@ describe('route transitions', () => {
 
     describe('predicate', () => {
       it('should return false if flag is not true', () => {
-        expect(eulaPredicate.to({
-          data: {}
-        })).toBe(false);
+        expect(
+          eulaPredicate.to({
+            data: {}
+          })
+        ).toBe(false);
       });
 
       it('should return true if flag is true', () => {
-        expect(eulaPredicate.to({
-          data: {
-            eulaState: true
-          }
-        })).toBe(true);
+        expect(
+          eulaPredicate.to({
+            data: {
+              eulaState: true
+            }
+          })
+        ).toBe(true);
       });
     });
 
     describe('processor', () => {
       describe('set to pass', () => {
         beforeEach(() => {
-          store
-            .select
-            .and
-            .returnValue(highland([{
-              session: {
-                user: {
-                  eula_state: 'pass'
+          store.select.and.returnValue(
+            highland([
+              {
+                session: {
+                  user: {
+                    eula_state: 'pass'
+                  }
                 }
               }
-            }]));
+            ])
+          );
         });
 
         itAsync('should select the session store', async () => {
@@ -157,33 +173,40 @@ describe('route transitions', () => {
           expect(store.select).toHaveBeenCalledOnceWith('session');
         });
 
-        itAsync('should return undefined if eula state is set to pass', async () => {
-          expect(await processEula()).toBe(undefined);
-        });
+        itAsync(
+          'should return undefined if eula state is set to pass',
+          async () => {
+            expect(await processEula()).toBe(undefined);
+          }
+        );
       });
 
       describe('not set to pass', () => {
         beforeEach(() => {
-          store
-            .select
-            .and
-            .returnValue(highland([{
-              session: {
-                user: {
-                  eula_state: 'other'
+          store.select.and.returnValue(
+            highland([
+              {
+                session: {
+                  user: {
+                    eula_state: 'other'
+                  }
                 }
               }
-            }]));
+            ])
+          );
         });
 
         it('should return a promise if eula state is not set to pass', () => {
           expect(processEula()).toBeAPromise();
         });
 
-        itAsync('should navigate to /login if eula state is not set to pass', async () => {
-          await processEula();
-          expect($state.target).toHaveBeenCalledOnceWith('login');
-        });
+        itAsync(
+          'should navigate to /login if eula state is not set to pass',
+          async () => {
+            await processEula();
+            expect($state.target).toHaveBeenCalledOnceWith('login');
+          }
+        );
       });
     });
   });
@@ -198,38 +221,38 @@ describe('route transitions', () => {
 
     describe('predicate', () => {
       it('should return false if flag is not true', () => {
-        expect(authenticationPredicate.to({
-          data: {}
-        })).toBe(false);
+        expect(
+          authenticationPredicate.to({
+            data: {}
+          })
+        ).toBe(false);
       });
 
       it('should return true if flag is true', () => {
-        expect(authenticationPredicate.to({
-          data: {
-            access: 'FS_ADMINS'
-          }
-        })).toBe(true);
+        expect(
+          authenticationPredicate.to({
+            data: {
+              access: 'FS_ADMINS'
+            }
+          })
+        ).toBe(true);
       });
     });
 
     describe('processor', () => {
       let transition;
       beforeEach(() => {
-        $state
-          .target
-          .and
-          .returnValue({});
+        $state.target.and.returnValue({});
 
         transition = {
           router: {
             $state
           },
-          to: jasmine.createSpy('to')
-            .and.returnValue({
-              data: {
-                access: 'fs-admin'
-              }
-            })
+          to: jasmine.createSpy('to').and.returnValue({
+            data: {
+              access: 'fs-admin'
+            }
+          })
         };
       });
 
@@ -248,8 +271,7 @@ describe('route transitions', () => {
         });
 
         it('should call authorization.groupAllowed', () => {
-          expect(groupAllowed)
-            .toHaveBeenCalledOnceWith('fs-admin');
+          expect(groupAllowed).toHaveBeenCalledOnceWith('fs-admin');
         });
 
         it('should call transition.to', () => {
@@ -263,11 +285,9 @@ describe('route transitions', () => {
         it('should target the app state if not authenticated', () => {
           groupAllowed.and.returnValue(false);
 
-          expect($state.target).toHaveBeenCalledOnceWith(
-            'app',
-            undefined,
-            {location: true}
-          );
+          expect($state.target).toHaveBeenCalledOnceWith('app', undefined, {
+            location: true
+          });
         });
       });
     });

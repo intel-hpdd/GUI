@@ -24,28 +24,18 @@
 import socketStream from '../socket/socket-stream.js';
 import store from '../store/get-store.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
 import * as fp from 'intel-fp';
 
-import {
-  toggleCollection
-} from './tree-utils.js';
+import { toggleCollection } from './tree-utils.js';
 
-import {
-  emitOnItem,
-  transformItems
-} from './tree-transforms.js';
+import { emitOnItem, transformItems } from './tree-transforms.js';
 
-import type {
-  treeItemT
-} from './tree-types.js';
+import type { treeItemT } from './tree-types.js';
 
-function treeServerCollection ($scope:$scopeT, propagateChange:Function) {
+function treeServerCollection($scope: $scopeT, propagateChange: Function) {
   'ngInject';
-
   Object.assign(this, {
     onOpen: toggleCollection,
     $onDestroy() {
@@ -54,35 +44,33 @@ function treeServerCollection ($scope:$scopeT, propagateChange:Function) {
     }
   });
 
-  const fn = (x:treeItemT) => x.parentTreeId === this.parentId && x.type === 'host';
+  const fn = (x: treeItemT) =>
+    x.parentTreeId === this.parentId && x.type === 'host';
 
-  function computePage (meta) {
-    const currentPage = (meta.offset / meta.limit) + 1;
+  function computePage(meta) {
+    const currentPage = meta.offset / meta.limit + 1;
     return (currentPage - 1) * meta.limit;
   }
 
-  const t1 = store
-    .select('tree');
+  const t1 = store.select('tree');
 
-  t1
-    .through(emitOnItem(fn))
-    .through(propagateChange($scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange($scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'host',
     parentTreeId: this.parentId
   });
 
-  const fnTo$ = (item) => socketStream('/host/', {
-    jsonMask: 'meta,objects(fqdn,id,resource_uri)',
-    qs: {
-      offset: computePage(item.meta),
-      limit: item.meta.limit
-    }
-  });
+  const fnTo$ = item =>
+    socketStream('/host/', {
+      jsonMask: 'meta,objects(fqdn,id,resource_uri)',
+      qs: {
+        offset: computePage(item.meta),
+        limit: item.meta.limit
+      }
+    });
 
-  const hostCollection$ = store
-    .select('tree');
+  const hostCollection$ = store.select('tree');
 
   hostCollection$
     .through(transformItems(fn, structFn, fnTo$))

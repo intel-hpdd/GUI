@@ -33,23 +33,22 @@ export default () => ({
   $scope: {},
   controllerAs: 'vm',
   bindToController: 'true',
-  controller ($state:Object, $transitions:Object) {
+  controller($state: Object, $transitions: Object) {
     'ngInject';
-
-    const getPage = ($current) => maybe.withDefault(
-      () => '',
-      maybe.map(
-        (x:string) => `?${x}`,
-        maybe.of($current.data && $current.data.helpPage)
-      )
-    );
+    const getPage = $current =>
+      maybe.withDefault(
+        () => '',
+        maybe.map(
+          (x: string) => `?${x}`,
+          maybe.of($current.data && $current.data.helpPage)
+        )
+      );
 
     this.page = getPage($state.$current);
 
     $transitions.onSuccess(
       {},
-      transition =>
-        this.page = getPage(transition.router.globals.$current)
+      transition => this.page = getPage(transition.router.globals.$current)
     );
   }
 });

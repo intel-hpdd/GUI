@@ -25,8 +25,6 @@ import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import commonStatusSearches from './common-status-searches-component';
 
-export default angular.module('commonStatusSearches', [
-  uiBootstrapModule
-])
-  .component('commonStatusSearches', commonStatusSearches)
-  .name;
+export default angular
+  .module('commonStatusSearches', [uiBootstrapModule])
+  .component('commonStatusSearches', commonStatusSearches).name;

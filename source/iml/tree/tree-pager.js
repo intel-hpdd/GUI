@@ -21,18 +21,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  updateCollOffset
-} from './tree-utils.js';
+import { updateCollOffset } from './tree-utils.js';
 
 export default {
   bindings: {
     meta: '<',
     treeId: '<'
   },
-  controller: function () {
+  controller: function() {
     'ngInject';
-
     this.pageChange = (id, meta) => {
       updateCollOffset(id, (meta.current_page - 1) * meta.limit);
     };

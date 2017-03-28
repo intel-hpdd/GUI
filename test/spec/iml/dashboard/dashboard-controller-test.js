@@ -5,77 +5,79 @@ import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
 describe('dashboard controller', () => {
   beforeEach(module(dashboardModule));
 
-  let $scope, $state, $stateParams,
-    qsStream, qs$,
-    fsStream, hostStream, targetStream,
+  let $scope,
+    $state,
+    $stateParams,
+    qsStream,
+    qs$,
+    fsStream,
+    hostStream,
+    targetStream,
     dashboard;
 
-  beforeEach(inject(($controller, $rootScope) => {
-    fsStream = highland();
-    spyOn(fsStream, 'destroy');
-    hostStream = highland();
-    spyOn(hostStream, 'destroy');
-    targetStream = highland();
-    spyOn(targetStream, 'destroy');
+  beforeEach(
+    inject(($controller, $rootScope) => {
+      fsStream = highland();
+      spyOn(fsStream, 'destroy');
+      hostStream = highland();
+      spyOn(hostStream, 'destroy');
+      targetStream = highland();
+      spyOn(targetStream, 'destroy');
 
-    $scope = $rootScope.$new();
-    spyOn($rootScope, '$on').and.callThrough();
+      $scope = $rootScope.$new();
+      spyOn($rootScope, '$on').and.callThrough();
 
-    $stateParams = {};
+      $stateParams = {};
 
-    qs$ = highland();
-    spyOn(qs$, 'destroy');
-    qsStream = jasmine
-      .createSpy('qsStream')
-      .and
-      .returnValue(qs$);
+      qs$ = highland();
+      spyOn(qs$, 'destroy');
+      qsStream = jasmine.createSpy('qsStream').and.returnValue(qs$);
 
-    qs$.write({
-      qs: ''
-    });2;
+      qs$.write({
+        qs: ''
+      });
+      2;
 
-    $state = {
-      go: jasmine.createSpy('go')
-    };
+      $state = {
+        go: jasmine.createSpy('go')
+      };
 
-    dashboard = $controller('DashboardCtrl', {
-      $scope,
-      $stateParams,
-      $state,
-      qsStream,
-      fsB: broadcaster(fsStream),
-      hostsB: broadcaster(hostStream),
-      targetsB: broadcaster(targetStream)
-    });
+      dashboard = $controller('DashboardCtrl', {
+        $scope,
+        $stateParams,
+        $state,
+        qsStream,
+        fsB: broadcaster(fsStream),
+        hostsB: broadcaster(hostStream),
+        targetsB: broadcaster(targetStream)
+      });
 
-    jasmine.clock().install();
-  }));
+      jasmine.clock().install();
+    })
+  );
 
   afterEach(() => {
     jasmine.clock().uninstall();
   });
 
   it('should have a fs property', () => {
-    expect(dashboard.fs)
-      .toEqual({
-        name: 'fs',
-        selected: null,
-        selectedTarget: null
-      });
+    expect(dashboard.fs).toEqual({
+      name: 'fs',
+      selected: null,
+      selectedTarget: null
+    });
   });
 
   it('should have a host property', () => {
-    expect(dashboard.host)
-      .toEqual({
-        name: 'server',
-        selected: null,
-        selectedTarget: null
-      });
+    expect(dashboard.host).toEqual({
+      name: 'server',
+      selected: null,
+      selectedTarget: null
+    });
   });
 
   it('should start on the fs type', () => {
-    expect(dashboard.type)
-      .toEqual(dashboard.fs);
+    expect(dashboard.type).toEqual(dashboard.fs);
   });
 
   it('should call qsStream', () => {
@@ -86,13 +88,11 @@ describe('dashboard controller', () => {
 
   describe('item changed', () => {
     it('should set targets to null if no item is selected', () => {
-      dashboard
-        .itemChanged({
-          selected: null
-        });
+      dashboard.itemChanged({
+        selected: null
+      });
 
-      expect(dashboard.targets)
-        .toBeNull();
+      expect(dashboard.targets).toBeNull();
     });
 
     it('should set targets to ones matching the current fs', () => {
@@ -102,16 +102,10 @@ describe('dashboard controller', () => {
 
       targetStream.write([
         {
-          filesystems: [
-            { id: 5 },
-            { id: 6 }
-          ]
+          filesystems: [{ id: 5 }, { id: 6 }]
         },
         {
-          filesystems: [
-            { id: 6 },
-            { id: 7 }
-          ]
+          filesystems: [{ id: 6 }, { id: 7 }]
         },
         {
           filesystem_id: 5
@@ -121,21 +115,16 @@ describe('dashboard controller', () => {
         }
       ]);
 
-      dashboard
-        .itemChanged(dashboard.fs);
+      dashboard.itemChanged(dashboard.fs);
 
-      expect(dashboard.targets)
-        .toEqual([
-          {
-            filesystems: [
-              { id: 5 },
-              { id: 6 }
-            ]
-          },
-          {
-            filesystem_id: 5
-          }
-        ]);
+      expect(dashboard.targets).toEqual([
+        {
+          filesystems: [{ id: 5 }, { id: 6 }]
+        },
+        {
+          filesystem_id: 5
+        }
+      ]);
     });
 
     it('should set targets to ones matching the current host', () => {
@@ -148,37 +137,29 @@ describe('dashboard controller', () => {
       targetStream.write([
         {
           primary_server: '/api/host/3/',
-          failover_servers: [
-            '/api/host/1/',
-            '/api/host/4/'
-          ]
+          failover_servers: ['/api/host/1/', '/api/host/4/']
         },
         {
           primary_server: '/api/host/4/',
-          failover_servers: [
-            '/api/host/3/',
-            '/api/host/2/'
-          ]
+          failover_servers: ['/api/host/3/', '/api/host/2/']
         },
         {
           primary_server: '/api/host/7/'
         }
       ]);
 
-      dashboard
-        .itemChanged(dashboard.host);
+      dashboard.itemChanged(dashboard.host);
 
-      expect(dashboard.targets)
-        .toEqual([
-          {
-            primary_server: '/api/host/3/',
-            failover_servers: [ '/api/host/1/', '/api/host/4/' ]
-          },
-          {
-            primary_server: '/api/host/4/',
-            failover_servers: [ '/api/host/3/', '/api/host/2/' ]
-          }
-        ]);
+      expect(dashboard.targets).toEqual([
+        {
+          primary_server: '/api/host/3/',
+          failover_servers: ['/api/host/1/', '/api/host/4/']
+        },
+        {
+          primary_server: '/api/host/4/',
+          failover_servers: ['/api/host/3/', '/api/host/2/']
+        }
+      ]);
     });
   });
 
@@ -190,14 +171,10 @@ describe('dashboard controller', () => {
       }
     });
 
-    expect($state.go)
-      .toHaveBeenCalledOnceWith(
-        'app.dashboard.foo',
-      {
-        id: '5',
-        resetState: true
-      }
-      );
+    expect($state.go).toHaveBeenCalledOnceWith('app.dashboard.foo', {
+      id: '5',
+      resetState: true
+    });
   });
 
   it('should build a target path', () => {
@@ -212,38 +189,30 @@ describe('dashboard controller', () => {
       }
     });
 
-    expect($state.go)
-      .toHaveBeenCalledOnceWith(
-        'app.dashboard.foo',
-      {
-        id: 7,
-        resetState: true
-      }
-      );
+    expect($state.go).toHaveBeenCalledOnceWith('app.dashboard.foo', {
+      id: 7,
+      resetState: true
+    });
   });
 
   it('should set fileSystems on the dashboard', () => {
-    fsStream
-      .write([
-        {
-          id: 3
-        }
-      ]);
+    fsStream.write([
+      {
+        id: 3
+      }
+    ]);
 
-    expect(dashboard.fileSystems)
-      .toEqual([{ id: 3 }]);
+    expect(dashboard.fileSystems).toEqual([{ id: 3 }]);
   });
 
   it('should set hosts on the dashboard', () => {
-    hostStream
-      .write([
-        {
-          id: 4
-        }
-      ]);
+    hostStream.write([
+      {
+        id: 4
+      }
+    ]);
 
-    expect(dashboard.hosts)
-      .toEqual([{ id: 4 }]);
+    expect(dashboard.hosts).toEqual([{ id: 4 }]);
   });
 
   describe('on destroy', () => {
@@ -265,8 +234,7 @@ describe('dashboard controller', () => {
     });
 
     it('should destroy the qs$', () => {
-      expect(qs$.destroy)
-        .toHaveBeenCalledOnce();
+      expect(qs$.destroy).toHaveBeenCalledOnce();
     });
   });
 });

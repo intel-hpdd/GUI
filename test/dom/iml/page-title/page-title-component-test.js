@@ -1,16 +1,22 @@
 import * as maybe from 'intel-maybe';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('page title component', () => {
-  let $state, $transitions, pageTitleComponent, getResolvedData,
-    $scope, $compile, template, el, link, linkIcon, destroyOnStart,
+  let $state,
+    $transitions,
+    pageTitleComponent,
+    getResolvedData,
+    $scope,
+    $compile,
+    template,
+    el,
+    link,
+    linkIcon,
+    destroyOnStart,
     destroyOnSuccess;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getResolvedData = jasmine.createSpy('getResolvedData');
     const mod = await mock('source/iml/page-title/page-title-component.js', {
       'source/iml/route-utils': { getResolvedData }
@@ -21,49 +27,54 @@ describe('page title component', () => {
 
   afterEach(resetAll);
 
-  beforeEach(module(($compileProvider, $provide) => {
-    $state = {
-      router: {
-        globals: {
-          $current: {
-            name: 'app.dashboard.overview',
-            data: {
-              kind: 'Dashboard',
-              icon: 'icon1'
+  beforeEach(
+    module(($compileProvider, $provide) => {
+      $state = {
+        router: {
+          globals: {
+            $current: {
+              name: 'app.dashboard.overview',
+              data: {
+                kind: 'Dashboard',
+                icon: 'icon1'
+              }
             }
           }
         }
-      }
-    };
+      };
 
-    destroyOnStart = jasmine.createSpy('destroyOnStart');
-    destroyOnSuccess = jasmine.createSpy('destroyOnSuccess');
+      destroyOnStart = jasmine.createSpy('destroyOnStart');
+      destroyOnSuccess = jasmine.createSpy('destroyOnSuccess');
 
-    $transitions = {
-      onStart: jasmine.createSpy('onStart')
-        .and.returnValue(destroyOnStart),
-      onSuccess: jasmine.createSpy('onSuccess')
-        .and.returnValue(destroyOnSuccess)
-    };
+      $transitions = {
+        onStart: jasmine.createSpy('onStart').and.returnValue(destroyOnStart),
+        onSuccess: jasmine
+          .createSpy('onSuccess')
+          .and.returnValue(destroyOnSuccess)
+      };
 
-    $provide.value('$state', $state);
-    $provide.value('$transitions', $transitions);
-    $compileProvider.component('pageTitle', pageTitleComponent);
-  }));
+      $provide.value('$state', $state);
+      $provide.value('$transitions', $transitions);
+      $compileProvider.component('pageTitle', pageTitleComponent);
+    })
+  );
 
-  beforeEach(inject((_$compile_, $rootScope) => {
-    $scope = $rootScope.$new();
-    $compile = _$compile_;
-    template = '<page-title></page-title>';
-  }));
+  beforeEach(
+    inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+      template = '<page-title></page-title>';
+    })
+  );
 
   describe('when the transition starts', () => {
     beforeEach(() => {
-      getResolvedData
-        .and.returnValue(maybe.of({
+      getResolvedData.and.returnValue(
+        maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
-        }));
+        })
+      );
 
       el = $compile(template)($scope)[0];
       $transitions.onStart.calls.argsFor(0)[1]();
@@ -79,28 +90,29 @@ describe('page title component', () => {
 
   describe('after a successful transition', () => {
     beforeEach(() => {
-      getResolvedData
-        .and.returnValue(maybe.of({
+      getResolvedData.and.returnValue(
+        maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
-        }));
+        })
+      );
 
       el = $compile(template)($scope)[0];
 
-      getResolvedData
-        .and.returnValue(maybe.of({
+      getResolvedData.and.returnValue(
+        maybe.of({
           label: 'fs1-MDT0000',
           kind: 'Dashboard'
-        }));
+        })
+      );
 
       const transition = {
-        to: jasmine.createSpy('to')
-          .and.returnValue({
-            data: {
-              kind: 'Dashboard',
-              icon: 'icon2'
-            }
-          })
+        to: jasmine.createSpy('to').and.returnValue({
+          data: {
+            kind: 'Dashboard',
+            icon: 'icon2'
+          }
+        })
       };
 
       $transitions.onSuccess.calls.argsFor(0)[1](transition);
@@ -126,11 +138,12 @@ describe('page title component', () => {
 
   describe('on destroy', () => {
     beforeEach(() => {
-      getResolvedData
-        .and.returnValue(maybe.of({
+      getResolvedData.and.returnValue(
+        maybe.of({
           label: 'fs1',
           kind: 'Dashboard'
-        }));
+        })
+      );
 
       el = $compile(template)($scope)[0];
       $scope.$digest();

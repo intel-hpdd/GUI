@@ -24,9 +24,7 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  ADD_LNET_CONFIGURATION_ITEMS
-} from './lnet-module.js';
+import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-module.js';
 
 import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 
@@ -38,7 +36,8 @@ if (ALLOW_ANONYMOUS_READ)
     }
   })
     .map(x => x.objects)
-    .each(payload => store.dispatch({
-      type: ADD_LNET_CONFIGURATION_ITEMS,
-      payload
-    }));
+    .each(payload =>
+      store.dispatch({
+        type: ADD_LNET_CONFIGURATION_ITEMS,
+        payload
+      }));

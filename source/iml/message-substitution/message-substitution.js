@@ -21,57 +21,54 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  GROUPS,
-  groupAllowed
-} from '../auth/authorization.js';
+import { GROUPS, groupAllowed } from '../auth/authorization.js';
 
-import {
-  apiPathToUiPath
-} from '../route-utils.js';
+import { apiPathToUiPath } from '../route-utils.js';
 
 type substitutionT = {
-  end:number,
-  label:string,
-  resource_uri:string,
-  start:number
+  end: number,
+  label: string,
+  resource_uri: string,
+  start: number
 };
 
 export const MessageSubstitutionCtrl = class {
-  substituteMessage:string = '';
-  substitutions:Array<substitutionT>;
-  message:string;
-  $compile:Function;
-  $element:HTMLElement;
-  $scope:Object;
+  substituteMessage: string = '';
+  substitutions: Array<substitutionT>;
+  message: string;
+  $compile: Function;
+  $element: HTMLElement;
+  $scope: Object;
 
-  constructor ($scope:Object, $element:HTMLElement[], $compile:Function) {
+  constructor($scope: Object, $element: HTMLElement[], $compile: Function) {
     'ngInject';
-
     this.$scope = $scope;
     this.$element = $element[0];
     this.$compile = $compile;
 
-    const substitutions = this.substitutions
-      .sort((a, b) => b.start - a.start);
+    const substitutions = this.substitutions.sort((a, b) => b.start - a.start);
 
-    this.substituteMessage = substitutions.reduce((str, sub) => {
-      const start = str.substring(0, sub.start -1);
-      const end = str.substring(sub.end - 1);
-      let label = sub.label;
+    this.substituteMessage = substitutions.reduce(
+      (str, sub) => {
+        const start = str.substring(0, sub.start - 1);
+        const end = str.substring(sub.end - 1);
+        let label = sub.label;
 
-      if (groupAllowed(GROUPS.FS_ADMINS)) {
-        const path = apiPathToUiPath(sub.resource_uri);
-        label = `<a route-to="${path}">${sub.label}</a>`;
-      }
+        if (groupAllowed(GROUPS.FS_ADMINS)) {
+          const path = apiPathToUiPath(sub.resource_uri);
+          label = `<a route-to="${path}">${sub.label}</a>`;
+        }
 
-      return start + label + end;
-
-    }, this.message);
+        return start + label + end;
+      },
+      this.message
+    );
   }
 
-  $postLink () {
-    const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(this.$scope);
+  $postLink() {
+    const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(
+      this.$scope
+    );
     this.$element.appendChild(compiledEl[0]);
   }
 };

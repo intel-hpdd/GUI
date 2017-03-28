@@ -1,9 +1,6 @@
 // @flow
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 import highland from 'highland';
 import store from '../../../../source/iml/store/get-store.js';
@@ -22,9 +19,7 @@ describe('session dispatch source', () => {
     spy = jasmine.createSpy('spy');
     session$ = highland();
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and
-      .returnValue(session$);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(session$);
 
     await mock('source/iml/session/session-dispatch-source.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream },
@@ -35,9 +30,7 @@ describe('session dispatch source', () => {
   afterEach(resetAll);
 
   it('should push the initial session through the session store', () => {
-    store
-      .select('session')
-      .each(spy);
+    store.select('session').each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith({
       session: CACHE_INITIAL_DATA.session
@@ -52,7 +45,7 @@ describe('session dispatch source', () => {
     const session = {
       read_enabled: true,
       resource_uri: '/',
-      user:   {
+      user: {
         accepted_eula: true,
         alert_subscriptions: [{}],
         email: 'john.doe@intel.com',
@@ -70,12 +63,10 @@ describe('session dispatch source', () => {
       }
     };
 
-    store
-      .select('session')
-      .each(spy);
+    store.select('session').each(spy);
 
     session$.write(session);
 
-    expect(spy).toHaveBeenCalledOnceWith({session});
+    expect(spy).toHaveBeenCalledOnceWith({ session });
   });
 });

@@ -25,36 +25,26 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 import store from './store/get-store.js';
 
-import type {
-  Element
-} from 'react';
+import type { Element } from 'react';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export default <B:{}> (key:string, WrappedComponent:(b:B) => Element<*>) =>
+export default <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class ConnectToStore extends Component {
-    state:B
-    stream:HighlandStreamT<B>
+    state: B;
+    stream: HighlandStreamT<B>;
     componentWillMount() {
-      this.stream = store
-        .select(key);
+      this.stream = store.select(key);
 
-      this
-        .stream
-        .each((x:B) => this.setState({
+      this.stream.each((x: B) =>
+        this.setState({
           [key]: x
         }));
     }
     componentWillUnmount() {
-      this
-        .stream
-        .destroy();
+      this.stream.destroy();
     }
     render() {
-      return (
-        <WrappedComponent {...this.props} {...this.state} />
-      );
+      return <WrappedComponent {...this.props} {...this.state} />;
     }
   };

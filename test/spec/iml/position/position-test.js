@@ -7,20 +7,24 @@ describe('Positioning service', () => {
 
   beforeEach(module(positionModule));
 
-  beforeEach(module(function ($provide) {
-    $window = {
-      innerWidth: 500,
-      innerHeight: 300
-    };
+  beforeEach(
+    module(function($provide) {
+      $window = {
+        innerWidth: 500,
+        innerHeight: 300
+      };
 
-    $provide.value('$window', $window);
-  }));
+      $provide.value('$window', $window);
+    })
+  );
 
-  beforeEach(inject(function (_position_) {
-    position = _position_;
-  }));
+  beforeEach(
+    inject(function(_position_) {
+      position = _position_;
+    })
+  );
 
-  it('should expose directions', function () {
+  it('should expose directions', function() {
     expect(position.DIRECTIONS).toEqual({
       TOP: 'top',
       BOTTOM: 'bottom',
@@ -29,10 +33,10 @@ describe('Positioning service', () => {
     });
   });
 
-  it('should provide default properties', function () {
+  it('should provide default properties', function() {
     expect(position.defaults).toEqual(jasmine.any(Object));
 
-    _.forEach(position.DIRECTIONS, function (direction) {
+    _.forEach(position.DIRECTIONS, function(direction) {
       const obj = position.defaults[direction];
 
       expect(obj).toEqual(jasmine.any(Object));
@@ -41,9 +45,8 @@ describe('Positioning service', () => {
     });
   });
 
-
-  describe('Positioner', function () {
-    it('should provide a positioner', function () {
+  describe('Positioner', function() {
+    it('should provide a positioner', function() {
       expect(position.positioner).toEqual(jasmine.any(Function));
 
       const fakePosition = {
@@ -56,9 +59,11 @@ describe('Positioning service', () => {
       };
 
       const tooltip = {
-        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').and.callFake(function () {
-          return fakePosition;
-        })
+        getBoundingClientRect: jasmine
+          .createSpy('getBoundingClientRect')
+          .and.callFake(function() {
+            return fakePosition;
+          })
       };
 
       expect(position.positioner(tooltip)).toEqual(fakePosition);
@@ -73,7 +78,7 @@ describe('Positioning service', () => {
       });
     });
 
-    it('should know the current position', function () {
+    it('should know the current position', function() {
       const positioner = position.positioner($window);
 
       $window.innerHeight = 5;

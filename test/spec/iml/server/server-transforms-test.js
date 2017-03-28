@@ -1,19 +1,12 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('server transforms', () => {
-  let getCommandAndHost,
-    throwIfServerErrors;
+  let getCommandAndHost, throwIfServerErrors;
 
-  beforeEachAsync(async function () {
-    const mod = await mock(
-      'source/iml/server/server-transforms.js',
-      {}
-    );
+  beforeEachAsync(async function() {
+    const mod = await mock('source/iml/server/server-transforms.js', {});
 
     ({
       getCommandAndHost,
@@ -38,27 +31,24 @@ describe('server transforms', () => {
     });
 
     it('should throw on error', () => {
-      expect(
-        () => inst(
-          [
-            {
-              error: 'fooz'
-            }
-          ]
-        )
-      )
-        .toThrow(new Error('["fooz"]'));
+      expect(() =>
+        inst([
+          {
+            error: 'fooz'
+          }
+        ])).toThrow(new Error('["fooz"]'));
     });
 
     it('should call fn on success', () => {
-      const response = [{
-        error: null
-      }];
+      const response = [
+        {
+          error: null
+        }
+      ];
 
       inst(response);
 
-      expect(handler)
-        .toHaveBeenCalledOnceWith(response);
+      expect(handler).toHaveBeenCalledOnceWith(response);
     });
   });
 
@@ -68,56 +58,49 @@ describe('server transforms', () => {
     beforeEach(() => {
       spy = jasmine.createSpy('spy');
       source$ = highland();
-      getCommandAndHost(source$)
-        .each(spy);
+      getCommandAndHost(source$).each(spy);
     });
 
     it('should get the command and host', () => {
-      source$.write(
+      source$.write({
+        objects: [
+          {
+            command_and_host: {
+              host: 'host'
+            },
+            error: null
+          }
+        ]
+      });
+      source$.end();
+
+      jasmine.clock().tick();
+
+      expect(spy).toHaveBeenCalledOnceWith([
         {
+          host: 'host'
+        }
+      ]);
+    });
+
+    it('should throw on error', () => {
+      const shouldThrow = () => {
+        source$.write({
           objects: [
             {
               command_and_host: {
                 host: 'host'
               },
-              error: null
+              error: 'booom!'
             }
           ]
-        }
-      );
-      source$.end();
-
-      jasmine.clock().tick();
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith([
-          {
-            host: 'host'
-          }
-        ]);
-    });
-
-    it('should throw on error', () => {
-      const shouldThrow = () => {
-        source$.write(
-          {
-            objects: [
-              {
-                command_and_host: {
-                  host: 'host'
-                },
-                error: 'booom!'
-              }
-            ]
-          }
-        );
+        });
         source$.end();
 
         jasmine.clock().tick();
       };
 
-      expect(shouldThrow)
-        .toThrow(new Error('["booom!"]'));
+      expect(shouldThrow).toThrow(new Error('["booom!"]'));
     });
   });
 });

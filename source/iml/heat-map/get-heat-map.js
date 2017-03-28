@@ -21,10 +21,9 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function getHeatMapFactory (d3) {
+export default function getHeatMapFactory(d3) {
   'ngInject';
-
-  return function getHeatMap () {
+  return function getHeatMap() {
     let xScale = _.noop;
     let yScale = _.noop;
     let xValue = _.noop;
@@ -36,13 +35,13 @@ export default function getHeatMapFactory (d3) {
     let height = 0;
     let duration = 1000;
 
-    function chart (selection) {
-      selection.each(function render (data) {
+    function chart(selection) {
+      selection.each(function render(data) {
         let container = d3.select(this);
 
-        chart.destroy = function destroy () {
+        chart.destroy = function destroy() {
           container.remove();
-          container = selection = null;
+          container = (selection = null);
         };
 
         const getX = _.compose(xScale, xValue);
@@ -50,34 +49,28 @@ export default function getHeatMapFactory (d3) {
         const getColor = _.compose(colorScale, zScale, zValue);
 
         // data join
-        const heatMapModel = container.selectAll('.heat-map-model')
+        const heatMapModel = container
+          .selectAll('.heat-map-model')
           .data([data]);
 
         // Create the structure on enter.
-        heatMapModel.enter()
-          .append('g')
-          .attr('class', 'heat-map-model');
+        heatMapModel.enter().append('g').attr('class', 'heat-map-model');
 
-        const row = heatMapModel
-          .selectAll('.row')
-          .data(_.identity);
+        const row = heatMapModel.selectAll('.row').data(_.identity);
 
-        row.enter()
-          .append('g')
-          .attr('class', 'row');
+        row.enter().append('g').attr('class', 'row');
 
         const gridHeight = height / yScale.domain().length;
 
-        row
-          .attr('transform', function (r) {
-            return 'translate(0,' + Math.max(getY(r[0]) - (gridHeight / 2), 0) + ')';
-          });
+        row.attr('transform', function(r) {
+          return 'translate(0,' +
+            Math.max(getY(r[0]) - gridHeight / 2, 0) +
+            ')';
+        });
 
-        row.exit()
-          .remove();
+        row.exit().remove();
 
-        const cell = row.selectAll('.cell')
-          .data(_.identity, xValue);
+        const cell = row.selectAll('.cell').data(_.identity, xValue);
 
         cell
           .attr('height', gridHeight)
@@ -88,7 +81,8 @@ export default function getHeatMapFactory (d3) {
           .attr('x', getX)
           .attr('fill', getColor);
 
-        cell.enter()
+        cell
+          .enter()
           .append('rect')
           .attr('class', 'cell')
           .attr('fill', getColor)
@@ -99,78 +93,79 @@ export default function getHeatMapFactory (d3) {
           .ease('linear')
           .attr('x', getX);
 
-        cell.exit()
+        cell
+          .exit()
           .transition()
           .duration(duration)
           .ease('linear')
           .attr('width', 0)
           .remove();
 
-        function calcWidth (d, i, a) {
+        function calcWidth(d, i, a) {
           const next = data[a][i + 1];
 
-          const end = (next ? getX(next) : width);
+          const end = next ? getX(next) : width;
 
           return end - getX(d);
         }
       });
     }
 
-    chart.xValue = function xValueAccessor (_) {
+    chart.xValue = function xValueAccessor(_) {
       if (!arguments.length) return xValue;
       xValue = _;
       return chart;
     };
 
-    chart.yValue = function yValueAccessor (_) {
+    chart.yValue = function yValueAccessor(_) {
       if (!arguments.length) return yValue;
       yValue = _;
       return chart;
     };
 
-    chart.zValue = function zValueAccessor (_) {
+    chart.zValue = function zValueAccessor(_) {
       if (!arguments.length) return zValue;
       zValue = _;
       return chart;
     };
 
-    chart.xScale = function xScaleAccessor (_) {
+    chart.xScale = function xScaleAccessor(_) {
       if (!arguments.length) return xScale;
       xScale = _;
       return chart;
     };
 
-    chart.yScale = function yScaleAccessor (_) {
+    chart.yScale = function yScaleAccessor(_) {
       if (!arguments.length) return yScale;
       yScale = _;
       return chart;
     };
 
-    chart.zScale = function zScaleAccessor (_) {
+    chart.zScale = function zScaleAccessor(_) {
       if (!arguments.length) return zScale;
       zScale = _;
       return chart;
     };
 
-    chart.colorScale = function colorScaleAccessor (_) {
+    chart.colorScale = function colorScaleAccessor(_) {
       if (!arguments.length) return colorScale;
       colorScale = _;
       return chart;
     };
 
-    chart.width = function widthAccessor (_) {
+    chart.width = function widthAccessor(_) {
       if (!arguments.length) return width;
       width = _;
       return chart;
     };
 
-    chart.height = function heightAccessor (_) {
+    chart.height = function heightAccessor(_) {
       if (!arguments.length) return height;
       height = _;
       return chart;
     };
 
-    chart.duration = function durationAccessor (_) {
+    chart.duration = function durationAccessor(_) {
       if (!arguments.length) return duration;
       duration = _;
       return chart;

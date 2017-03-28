@@ -1,13 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('duration payload', () => {
-
   let getServerMoment, durationPayload, payload;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getServerMoment = jasmine.createSpy('getServerMoment');
     const mod = await mock('source/iml/duration-picker/duration-payload.js', {
       'source/iml/get-server-moment.js': { default: getServerMoment }
@@ -19,30 +15,29 @@ describe('duration payload', () => {
   afterEach(resetAll);
 
   beforeEach(() => {
-    getServerMoment
-      .and.callFake(() => {
-        let date = new Date(1460560065352);
+    getServerMoment.and.callFake(() => {
+      let date = new Date(1460560065352);
 
-        const momentObj = {
-          subtract: jasmine.createSpy('subtract').and.callFake(val => {
-            date = new Date(date.valueOf() - val * 60 * 1000);
-            return momentObj;
-          }),
-          seconds: jasmine.createSpy('seconds').and.callFake(val => {
-            date.setSeconds(val);
-            return momentObj;
-          }),
-          milliseconds: jasmine.createSpy('milliseconds').and.callFake(val => {
-            date.setMilliseconds(val);
-            return momentObj;
-          }),
-          toDate: jasmine.createSpy('toDate').and.callFake(() => {
-            return date;
-          })
-        };
+      const momentObj = {
+        subtract: jasmine.createSpy('subtract').and.callFake(val => {
+          date = new Date(date.valueOf() - val * 60 * 1000);
+          return momentObj;
+        }),
+        seconds: jasmine.createSpy('seconds').and.callFake(val => {
+          date.setSeconds(val);
+          return momentObj;
+        }),
+        milliseconds: jasmine.createSpy('milliseconds').and.callFake(val => {
+          date.setMilliseconds(val);
+          return momentObj;
+        }),
+        toDate: jasmine.createSpy('toDate').and.callFake(() => {
+          return date;
+        })
+      };
 
-        return momentObj;
-      });
+      return momentObj;
+    });
   });
 
   describe('without overrides', () => {

@@ -25,7 +25,8 @@ import angular from 'angular';
 import d3Module from '../d3/d3-module';
 import nvModule from '../nv/nv-module';
 import heatMapModule from '../heat-map/heat-map-module';
-import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
+import streamWhenVisibleModule
+  from '../stream-when-visible/stream-when-visible-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import baseChart from './base-chart';
 import dateTicksFactory from './date-ticks';
@@ -35,10 +36,12 @@ import multiBarChart from './multi-bar-chart';
 import pieGraph from './pie-graph';
 import stackedAreaChart from './stacked-area-chart';
 
-export default angular.module('charts',
-  [
-    d3Module, nvModule,
-    uiBootstrapModule, heatMapModule,
+export default angular
+  .module('charts', [
+    d3Module,
+    nvModule,
+    uiBootstrapModule,
+    heatMapModule,
     streamWhenVisibleModule
   ])
   .value('baseChart', baseChart)
@@ -47,5 +50,4 @@ export default angular.module('charts',
   .directive('lineChart', lineChart)
   .directive('multiBarChart', multiBarChart)
   .directive('pieGraph', pieGraph)
-  .directive('stackedAreaChart', stackedAreaChart)
-  .name;
+  .directive('stackedAreaChart', stackedAreaChart).name;

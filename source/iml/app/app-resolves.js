@@ -19,31 +19,28 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
+import { resolveStream } from '../promise-transforms.js';
 import socketStream from '../socket/socket-stream.js';
-import {
-  CACHE_INITIAL_DATA
-} from '../environment.js';
+import { CACHE_INITIAL_DATA } from '../environment.js';
 
-export function alertStream () {
-  return resolveStream(socketStream('/alert/', {
-    jsonMask: 'objects(message)',
-    qs: {
-      severity__in: ['WARNING', 'ERROR'],
-      limit: 0,
-      active: true
-    }
-  }));
+export function alertStream() {
+  return resolveStream(
+    socketStream('/alert/', {
+      jsonMask: 'objects(message)',
+      qs: {
+        severity__in: ['WARNING', 'ERROR'],
+        limit: 0,
+        active: true
+      }
+    })
+  );
 }
 
-export function appNotificationStream () {
+export function appNotificationStream() {
   return resolveStream(socketStream('/health'));
 }
 
-export function appSessionFactory (SessionModel) {
+export function appSessionFactory(SessionModel) {
   'ngInject';
-
   return new SessionModel(CACHE_INITIAL_DATA.session);
 }

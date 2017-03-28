@@ -21,16 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-type streamToVoid = (x:HighlandStreamT<mixed>) => void;
+type streamToVoid = (x: HighlandStreamT<mixed>) => void;
 
-export default (setup:Function, teardown:streamToVoid) => {
-  const cache:Object = {};
+export default (setup: Function, teardown: streamToVoid) => {
+  const cache: Object = {};
 
-  const getter = function get () {
+  const getter = function get() {
     const args = [].slice.call(arguments, 0);
     const key = args.shift();
 
@@ -42,8 +40,8 @@ export default (setup:Function, teardown:streamToVoid) => {
     return (cache[key] = setup.apply(setup, args));
   };
 
-  getter.destroy = function destroy () {
-    Object.keys(cache).forEach(function teardownItem (key) {
+  getter.destroy = function destroy() {
+    Object.keys(cache).forEach(function teardownItem(key) {
       teardown(cache[key]);
     });
   };

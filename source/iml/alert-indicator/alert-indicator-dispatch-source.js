@@ -24,23 +24,17 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  ADD_ALERT_INDICATOR_ITEMS
-} from './alert-indicator-reducer.js';
+import { ADD_ALERT_INDICATOR_ITEMS } from './alert-indicator-reducer.js';
 
-import {
-  ALLOW_ANONYMOUS_READ
-} from '../environment.js';
+import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-type bodyT = Array<{ affected:string[], message:string }>;
-type resp$T = HighlandStreamT<{ objects:bodyT }>;
+type bodyT = Array<{ affected: string[], message: string }>;
+type resp$T = HighlandStreamT<{ objects: bodyT }>;
 
 if (ALLOW_ANONYMOUS_READ) {
-  const alert$:resp$T = socketStream('/alert/', {
+  const alert$: resp$T = socketStream('/alert/', {
     jsonMask: 'objects(affected,message)',
     qs: {
       limit: 0,
@@ -48,9 +42,8 @@ if (ALLOW_ANONYMOUS_READ) {
     }
   });
 
-  alert$
-    .map(x => x.objects)
-    .each(payload => store.dispatch({
+  alert$.map(x => x.objects).each(payload =>
+    store.dispatch({
       type: ADD_ALERT_INDICATOR_ITEMS,
       payload
     }));

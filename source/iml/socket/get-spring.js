@@ -24,14 +24,15 @@
 import regenerator from '../regenerator.js';
 import socketStream from '../socket/socket-stream.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 export default () => {
-  return regenerator((path, params) => {
-    return socketStream(path, params);
-  }, function teardown (stream:HighlandStreamT<mixed>) {
-    stream.destroy();
-  });
+  return regenerator(
+    (path, params) => {
+      return socketStream(path, params);
+    },
+    function teardown(stream: HighlandStreamT<mixed>) {
+      stream.destroy();
+    }
+  );
 };

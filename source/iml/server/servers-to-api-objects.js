@@ -20,11 +20,9 @@
 // express and approved by Intel in writing.
 
 import _ from 'intel-lodash-mixins';
-import {
-  ADD_SERVER_AUTH_CHOICES
-} from './add-server-step.js';
+import { ADD_SERVER_AUTH_CHOICES } from './add-server-step.js';
 
-export default function serversToApiObjects (servers) {
+export default function serversToApiObjects(servers) {
   const toPick = ['auth_type'];
 
   if (servers.auth_type === ADD_SERVER_AUTH_CHOICES.ROOT_PASSWORD)
@@ -33,7 +31,7 @@ export default function serversToApiObjects (servers) {
     toPick.push('private_key', 'private_key_passphrase');
 
   const picked = _.pick(servers, toPick);
-  return servers.addresses.map(function (address) {
+  return servers.addresses.map(function(address) {
     return _.extend({ address: address }, picked);
   });
 }

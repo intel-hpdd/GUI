@@ -1,11 +1,6 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-import {
-  GROUPS
-} from '../../../../source/iml/auth/authorization.js';
+import { GROUPS } from '../../../../source/iml/auth/authorization.js';
 
 describe('hsm states', () => {
   let mod,
@@ -15,7 +10,7 @@ describe('hsm states', () => {
     fsCollStream,
     getData;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     copytoolStream = 'copytoolStream';
     copytoolOperationStream = 'copytoolOperationStream';
     agentVsCopytoolChart = 'agentVsCopytoolChart';
@@ -43,58 +38,55 @@ describe('hsm states', () => {
 
   afterEach(resetAll);
 
-
   describe('hsm fs state', () => {
     it('should create the state', () => {
-      expect(mod.hsmFsState)
-        .toEqual({
-          name: 'app.hsmFs',
-          controller: 'HsmFsCtrl',
-          controllerAs: 'hsmFs',
-          template: 'hsmFsTemplate',
-          resolve: {
-            fsStream: 'fsCollStream'
-          },
-          data: {
-            helpPage: 'hsm_page.htm',
-            access: GROUPS.FS_ADMINS,
-            anonymousReadProtected: true,
-            eulaState: true
-          }
-        });
+      expect(mod.hsmFsState).toEqual({
+        name: 'app.hsmFs',
+        controller: 'HsmFsCtrl',
+        controllerAs: 'hsmFs',
+        template: 'hsmFsTemplate',
+        resolve: {
+          fsStream: 'fsCollStream'
+        },
+        data: {
+          helpPage: 'hsm_page.htm',
+          access: GROUPS.FS_ADMINS,
+          anonymousReadProtected: true,
+          eulaState: true
+        }
+      });
     });
   });
 
   describe('hsm state', () => {
     it('should create the state', () => {
-      expect(mod.hsmState)
-        .toEqual({
-          url: '/configure/hsm/:fsId',
-          name: 'app.hsmFs.hsm',
-          params: {
-            fsId: {
-              value: null,
-              dynamic: false,
-              squash: true
-            },
-            resetState: {
-              dynamic: true
-            }
+      expect(mod.hsmState).toEqual({
+        url: '/configure/hsm/:fsId',
+        name: 'app.hsmFs.hsm',
+        params: {
+          fsId: {
+            value: null,
+            dynamic: false,
+            squash: true
           },
-          data: {
-            kind: 'HSM',
-            icon: 'fa-files-o'
-          },
-          controller: 'HsmCtrl',
-          controllerAs: 'hsm',
-          template: 'hsmTemplate',
-          resolve: {
-            getData: 'getData',
-            copytoolOperationStream: 'copytoolOperationStream',
-            copytoolStream: 'copytoolStream',
-            agentVsCopytoolChart: 'agentVsCopytoolChart'
+          resetState: {
+            dynamic: true
           }
-        });
+        },
+        data: {
+          kind: 'HSM',
+          icon: 'fa-files-o'
+        },
+        controller: 'HsmCtrl',
+        controllerAs: 'hsm',
+        template: 'hsmTemplate',
+        resolve: {
+          getData: 'getData',
+          copytoolOperationStream: 'copytoolOperationStream',
+          copytoolStream: 'copytoolStream',
+          agentVsCopytoolChart: 'agentVsCopytoolChart'
+        }
+      });
     });
   });
 });

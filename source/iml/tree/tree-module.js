@@ -21,19 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import angular from 'angular';
-import treeServerCollectionComponent from './tree-server-collection-component.js';
-import treeVolumeCollectionComponent from './tree-volume-collection-component.js';
+import treeServerCollectionComponent
+  from './tree-server-collection-component.js';
+import treeVolumeCollectionComponent
+  from './tree-volume-collection-component.js';
 import treeServerItemComponent from './tree-server-item-component.js';
 import treeVolumeItemComponent from './tree-volume-item-component.js';
 import treeFsCollectionComponent from './tree-fs-collection-component.js';
 import treeFsItemComponent from './tree-fs-item-component.js';
-import treeTargetCollectionComponentFactory from './tree-target-collection-component.js';
+import treeTargetCollectionComponentFactory
+  from './tree-target-collection-component.js';
 import treeTargetItemComponent from './tree-target-item-component.js';
 import treePagerComponent from './tree-pager.js';
 
-export default angular.module('tree', [])
+export default angular
+  .module('tree', [])
   .component('treeServerCollection', treeServerCollectionComponent)
   .component('treeVolumeCollection', treeVolumeCollectionComponent)
   .component('treeServerItem', treeServerItemComponent)
@@ -44,5 +47,4 @@ export default angular.module('tree', [])
   .component('treeMgtCollection', treeTargetCollectionComponentFactory('mgt'))
   .component('treeMdtCollection', treeTargetCollectionComponentFactory('mdt'))
   .component('treeTargetItem', treeTargetItemComponent)
-  .component('treePager', treePagerComponent)
-  .name;
+  .component('treePager', treePagerComponent).name;

@@ -36,10 +36,17 @@ const endDotZero = /\.0/;
 const containsDot = /\./;
 const beginZeroDot = /^0./;
 const notBeginZeroPlus = /[^0+$]/;
-const notBeginZeroAndContainsDot = fp.and([test(notBeginZeroPlus), test(containsDot)]);
+const notBeginZeroAndContainsDot = fp.and([
+  test(notBeginZeroPlus),
+  test(containsDot)
+]);
 const isNumeric = n => !isNaN(parseFloat(n)) && isFinite(n);
 
-export default function formatNumber (num:number, precision:number, strict:boolean) {
+export default function formatNumber(
+  num: number,
+  precision: number,
+  strict: boolean
+) {
   num = isNumeric(num) ? num : 0;
   precision = isNumeric(precision) ? precision : 3;
 
@@ -52,16 +59,19 @@ export default function formatNumber (num:number, precision:number, strict:boole
   pwr = Math.max(pwr, 0);
   num /= Math.pow(1000, pwr);
 
-  if (global.Intl)
-    return formatIntl();
-  else
-    return formatCustom();
+  if (global.Intl) return formatIntl();
+  else return formatCustom();
 
-  function formatCustom () {
+  function formatCustom() {
     const numStringArr = [toString(num)];
     const alwaysNormal = fp.always(toPrecision([precision], num));
-    const alwaysParseRoundOne = fp.always(parseFloat(round(num).toPrecision(1)));
-    const alwaysParseRoundOneFor = [notBeginZeroAndContainsDot, alwaysParseRoundOne];
+    const alwaysParseRoundOne = fp.always(
+      parseFloat(round(num).toPrecision(1))
+    );
+    const alwaysParseRoundOneFor = [
+      notBeginZeroAndContainsDot,
+      alwaysParseRoundOne
+    ];
     const strictCond = fp.cond(
       [test(endDotZero), alwaysNormal],
       alwaysParseRoundOneFor
@@ -73,7 +83,7 @@ export default function formatNumber (num:number, precision:number, strict:boole
     );
     const standardPrecisionCond = fp.cond(
       [fp.eq(1), fp.always(standardCond(numStringArr))],
-      [is2or3, fp.always(+(num).toPrecision(precision).toString())],
+      [is2or3, fp.always(+num.toPrecision(precision).toString())],
       [is5or10, fp.always(toPrecision([])(num))]
     );
     const standardOrStrict = fp.cond(
@@ -83,27 +93,25 @@ export default function formatNumber (num:number, precision:number, strict:boole
 
     return sign + standardOrStrict(strict) + units[pwr];
 
-    function strictPrecision () {
-      if (fp.eq(1, precision))
-        return strictCond(numStringArr);
+    function strictPrecision() {
+      if (fp.eq(1, precision)) return strictCond(numStringArr);
 
       return toPrecision([precision], num);
     }
   }
 
-  function formatIntl () {
+  function formatIntl() {
     type formatOptionsT = {
-      maximumSignificantDigits?:number,
-      maximumFractionDigits?:number,
-      minimumSignificantDigits?:number
+      maximumSignificantDigits?: number,
+      maximumFractionDigits?: number,
+      minimumSignificantDigits?: number
     };
-    const formatOptions:formatOptionsT = {
+    const formatOptions: formatOptionsT = {
       maximumSignificantDigits: precision,
       maximumFractionDigits: precision
     };
 
-    if (strict)
-      formatOptions.minimumSignificantDigits = precision;
+    if (strict) formatOptions.minimumSignificantDigits = precision;
 
     const formatter = new global.Intl.NumberFormat('en-us', formatOptions);
 

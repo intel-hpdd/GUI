@@ -21,10 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  getData,
-  fsCollStream
-} from './hsm-fs-resolves.js';
+import { getData, fsCollStream } from './hsm-fs-resolves.js';
 
 import hsmFsTemplate from './assets/html/hsm-fs.html!text';
 import hsmTemplate from './assets/html/hsm.html!text';
@@ -35,9 +32,7 @@ import {
   agentVsCopytoolChart
 } from './hsm-resolves.js';
 
-import {
-  GROUPS
-} from '../auth/authorization.js';
+import { GROUPS } from '../auth/authorization.js';
 
 export const hsmFsState = {
   name: 'app.hsmFs',

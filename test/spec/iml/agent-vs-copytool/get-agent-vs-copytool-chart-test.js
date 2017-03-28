@@ -1,22 +1,35 @@
 import * as fp from 'intel-fp';
-import agentVsCopytoolModule from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
+import agentVsCopytoolModule
+  from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('get agent vs copytool chart exports', () => {
-  let getAgentVsCopytoolStream, createDate,
-    chartCompiler, getAgentVsCopytoolChart,
-    agentVsCopytoolChart, d3, timeScale, linearScale, ordinalScale,
-    getAgentVsCopytoolChartFactory, standardConfig, config1$,
-    config2$, selectStoreCount, getStore, durationPayload,
-    submitHandler, durationSubmitHandler, getConf, localApply,
-    data$Fn, initStream;
+  let getAgentVsCopytoolStream,
+    createDate,
+    chartCompiler,
+    getAgentVsCopytoolChart,
+    agentVsCopytoolChart,
+    d3,
+    timeScale,
+    linearScale,
+    ordinalScale,
+    getAgentVsCopytoolChartFactory,
+    standardConfig,
+    config1$,
+    config2$,
+    selectStoreCount,
+    getStore,
+    durationPayload,
+    submitHandler,
+    durationSubmitHandler,
+    getConf,
+    localApply,
+    data$Fn,
+    initStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream');
     createDate = jasmine.createSpy('createDate');
 
@@ -28,13 +41,17 @@ describe('get agent vs copytool chart exports', () => {
       endDate: 1464812997102
     };
 
-    config1$ = highland([{
-      'base': {...standardConfig}
-    }]);
+    config1$ = highland([
+      {
+        base: { ...standardConfig }
+      }
+    ]);
     spyOn(config1$, 'destroy');
-    config2$ = highland([{
-      'base': standardConfig
-    }]);
+    config2$ = highland([
+      {
+        base: standardConfig
+      }
+    ]);
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
@@ -42,57 +59,69 @@ describe('get agent vs copytool chart exports', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.callFake(() => {
         switch (selectStoreCount) {
-        case 0:
-          selectStoreCount++;
-          return config1$;
-        default:
-          return config2$;
+          case 0:
+            selectStoreCount++;
+            return config1$;
+          default:
+            return config2$;
         }
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload')
-      .and.callFake(x => {
-        return {...standardConfig, ...x};
-      });
+    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+      return { ...standardConfig, ...x };
+    });
 
     submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+    durationSubmitHandler = jasmine
+      .createSpy('durationSubmitHandler')
       .and.returnValue(submitHandler);
 
-    getConf = jasmine.createSpy('getConf')
-      .and.callFake(page => {
-        return s => {
-          return s.map(x => {
-            return x[page];
-          });
-        };
-      });
+    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+      return s => {
+        return s.map(x => {
+          return x[page];
+        });
+      };
+    });
 
     localApply = jasmine.createSpy('localApply');
 
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn')
-      .and.callFake((overrides, fn) => {
-        fn()();
-        return initStream;
-      });
+    data$Fn = jasmine.createSpy('data$Fn').and.callFake((overrides, fn) => {
+      fn()();
+      return initStream;
+    });
 
-    chartCompiler = jasmine.createSpy('chartCompiler')
+    chartCompiler = jasmine
+      .createSpy('chartCompiler')
       .and.returnValue('chartCompiler');
 
-    const mod = await mock('source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js', {
-      'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': { default: getAgentVsCopytoolStream },
-      'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html!text': { default: 'agentTemplate' },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/create-date.js': { default: createDate },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
-      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf }
-    });
+    const mod = await mock(
+      'source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js',
+      {
+        'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': {
+          default: getAgentVsCopytoolStream
+        },
+        'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html!text': {
+          default: 'agentTemplate'
+        },
+        'source/iml/chart-compiler/chart-compiler.js': {
+          default: chartCompiler
+        },
+        'source/iml/create-date.js': { default: createDate },
+        'source/iml/store/get-store.js': { default: getStore },
+        'source/iml/duration-picker/duration-payload.js': {
+          default: durationPayload
+        },
+        'source/iml/duration-picker/duration-submit-handler.js': {
+          default: durationSubmitHandler
+        },
+        'source/iml/chart-transformers/chart-transformers.js': { getConf }
+      }
+    );
 
     getAgentVsCopytoolChartFactory = mod.default;
   });
@@ -101,42 +130,41 @@ describe('get agent vs copytool chart exports', () => {
 
   beforeEach(module(agentVsCopytoolModule));
 
-  beforeEach(inject((_d3_) => {
-    d3 = _d3_;
-    spyOn(d3.time, 'scale').and.callFake(() => {
-      timeScale = {};
+  beforeEach(
+    inject(_d3_ => {
+      d3 = _d3_;
+      spyOn(d3.time, 'scale').and.callFake(() => {
+        timeScale = {};
 
-      timeScale.domain = jasmine.createSpy('domain')
-        .and.returnValue(timeScale);
-      timeScale.range = jasmine.createSpy('range')
-        .and.returnValue(timeScale);
+        timeScale.domain = jasmine
+          .createSpy('domain')
+          .and.returnValue(timeScale);
+        timeScale.range = jasmine.createSpy('range').and.returnValue(timeScale);
 
-      return timeScale;
-    });
-    spyOn(d3.scale, 'linear').and.callFake(() => {
-      linearScale = {};
+        return timeScale;
+      });
+      spyOn(d3.scale, 'linear').and.callFake(() => {
+        linearScale = {};
 
-      linearScale.domain = jasmine.createSpy('domain')
-        .and.returnValue(linearScale);
-      linearScale.range = jasmine.createSpy('range')
-        .and.returnValue(linearScale);
+        linearScale.domain = jasmine
+          .createSpy('domain')
+          .and.returnValue(linearScale);
+        linearScale.range = jasmine
+          .createSpy('range')
+          .and.returnValue(linearScale);
 
-      return linearScale;
-    });
-    spyOn(d3.scale, 'ordinal').and.callFake(() => {
-      ordinalScale = {};
+        return linearScale;
+      });
+      spyOn(d3.scale, 'ordinal').and.callFake(() => {
+        ordinalScale = {};
 
-      ordinalScale.domain = jasmine.createSpy('domain')
-        .and.callFake((xs) => {
-          if (xs)
-            return ordinalScale;
-          else
-            return currentRange;
+        ordinalScale.domain = jasmine.createSpy('domain').and.callFake(xs => {
+          if (xs) return ordinalScale;
+          else return currentRange;
         });
 
-      let currentRange;
-      ordinalScale.range = jasmine.createSpy('range')
-        .and.callFake((xs) => {
+        let currentRange;
+        ordinalScale.range = jasmine.createSpy('range').and.callFake(xs => {
           if (xs) {
             currentRange = xs;
             return ordinalScale;
@@ -145,23 +173,26 @@ describe('get agent vs copytool chart exports', () => {
           }
         });
 
-      return ordinalScale;
-    });
+        return ordinalScale;
+      });
 
-    getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-      localApply, fp.curry3(data$Fn), d3);
+      getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
+        localApply,
+        fp.curry3(data$Fn),
+        d3
+      );
 
-    agentVsCopytoolChart = getAgentVsCopytoolChart({
-      foo: 'bar'
-    });
+      agentVsCopytoolChart = getAgentVsCopytoolChart({
+        foo: 'bar'
+      });
 
-    const s = chartCompiler.calls.argsFor(0)[1];
-    s.each(() => {});
-  }));
+      const s = chartCompiler.calls.argsFor(0)[1];
+      s.each(() => {});
+    })
+  );
 
   it('should return a function', () => {
-    expect(getAgentVsCopytoolChart)
-      .toEqual(jasmine.any(Function));
+    expect(getAgentVsCopytoolChart).toEqual(jasmine.any(Function));
   });
 
   it('should dispatch to the store', () => {
@@ -213,41 +244,46 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should create a xScale', () => {
-    expect(d3.time.scale)
-      .toHaveBeenCalledOnce();
+    expect(d3.time.scale).toHaveBeenCalledOnce();
   });
 
   it('should create a yScale', () => {
-    expect(d3.scale.linear)
-      .toHaveBeenCalled();
+    expect(d3.scale.linear).toHaveBeenCalled();
   });
 
   describe('name color scale', () => {
     it('should be an ordinal scale', () => {
-      expect(d3.scale.ordinal)
-        .toHaveBeenCalledOnce();
+      expect(d3.scale.ordinal).toHaveBeenCalledOnce();
     });
 
     it('should set the domain', () => {
-      expect(ordinalScale.domain)
-        .toHaveBeenCalledOnceWith(['running actions', 'waiting requests', 'idle workers']);
+      expect(ordinalScale.domain).toHaveBeenCalledOnceWith([
+        'running actions',
+        'waiting requests',
+        'idle workers'
+      ]);
     });
 
     it('should set the range', () => {
-      expect(ordinalScale.range)
-        .toHaveBeenCalledOnceWith(['#F3B600', '#A3B600', '#0067B4']);
+      expect(ordinalScale.range).toHaveBeenCalledOnceWith([
+        '#F3B600',
+        '#A3B600',
+        '#0067B4'
+      ]);
     });
   });
 
   describe('compiler', () => {
     let $scope, s, config;
 
-    beforeEach(inject(($rootScope) => {
-      $scope = $rootScope.$new();
-      s = highland();
-      spyOn(s, 'destroy');
-      config = chartCompiler.calls.mostRecent().args[2]($scope, s);
-    }));
+    beforeEach(
+      inject($rootScope => {
+        $scope = $rootScope.$new();
+        s = highland();
+        spyOn(s, 'destroy');
+        config = chartCompiler.calls.mostRecent().args[2]($scope, s);
+      })
+    );
 
     it('should return a conf', () => {
       expect(config).toEqual({
@@ -308,40 +344,38 @@ describe('get agent vs copytool chart exports', () => {
           ]
         });
 
-        expect(timeScale.domain)
-          .toHaveBeenCalledOnceWith(['1', '2']);
+        expect(timeScale.domain).toHaveBeenCalledOnceWith(['1', '2']);
       });
 
       it('should update yScale domain', () => {
-        config.onUpdate[1]({xs: [
-          {
-            a: 100,
-            ts: 10000
-          },
-          {
-            b: 9000
-          },
-          {
-            c: 200
-          }
-        ]});
+        config.onUpdate[1]({
+          xs: [
+            {
+              a: 100,
+              ts: 10000
+            },
+            {
+              b: 9000
+            },
+            {
+              c: 200
+            }
+          ]
+        });
 
-        expect(linearScale.domain)
-          .toHaveBeenCalledOnceWith([0, 9001]);
+        expect(linearScale.domain).toHaveBeenCalledOnceWith([0, 9001]);
       });
 
       it('should update xScale range', () => {
-        config.onUpdate[2]({width: 500});
+        config.onUpdate[2]({ width: 500 });
 
-        expect(timeScale.range)
-          .toHaveBeenCalledOnceWith([0, 500]);
+        expect(timeScale.range).toHaveBeenCalledOnceWith([0, 500]);
       });
 
       it('should update yScale Range', () => {
-        config.onUpdate[3]({height: 300});
+        config.onUpdate[3]({ height: 300 });
 
-        expect(linearScale.range)
-          .toHaveBeenCalledOnceWith([280, 30]);
+        expect(linearScale.range).toHaveBeenCalledOnceWith([280, 30]);
       });
 
       describe('range label on update', () => {
@@ -355,8 +389,7 @@ describe('get agent vs copytool chart exports', () => {
             width: 50
           });
 
-          expect(label.width)
-            .toHaveBeenCalledOnceWith(50);
+          expect(label.width).toHaveBeenCalledOnceWith(50);
         });
 
         it('should update label height', () => {
@@ -368,8 +401,7 @@ describe('get agent vs copytool chart exports', () => {
             label
           });
 
-          expect(label.height)
-            .toHaveBeenCalledOnceWith(20);
+          expect(label.height).toHaveBeenCalledOnceWith(20);
         });
 
         it('should translate node', () => {
@@ -382,8 +414,10 @@ describe('get agent vs copytool chart exports', () => {
             height: 60
           });
 
-          expect(node.attr)
-            .toHaveBeenCalledOnceWith('transform', 'translate(0,60)');
+          expect(node.attr).toHaveBeenCalledOnceWith(
+            'transform',
+            'translate(0,60)'
+          );
         });
       });
     });
@@ -392,17 +426,23 @@ describe('get agent vs copytool chart exports', () => {
   describe('on submit', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+    beforeEach(
+      inject($rootScope => {
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
+        config = handler($scope, initStream);
 
-      config.onSubmit();
-    }));
+        config.onSubmit();
+      })
+    );
 
     it('should call durationSubmitHandler', () => {
-      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {page: 'base'});
+      expect(
+        durationSubmitHandler
+      ).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {
+        page: 'base'
+      });
     });
 
     it('should invoke the submit handler', () => {

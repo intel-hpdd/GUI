@@ -22,41 +22,32 @@
 import store from '../store/get-store.js';
 import broadcaster from '../broadcaster.js';
 
-export default function serverResolves () {
+export default function serverResolves() {
   'ngInject';
+  const jobMonitorStream = broadcaster(store.select('jobIndicators'));
 
-  const jobMonitorStream = broadcaster(
-    store
-      .select('jobIndicators')
-  );
-
-  const alertMonitorStream = broadcaster(
-    store
-      .select('alertIndicators')
-  );
+  const alertMonitorStream = broadcaster(store.select('alertIndicators'));
 
   const lnetConfigurationStream = broadcaster(
-    store
-      .select('lnetConfiguration')
+    store.select('lnetConfiguration')
   );
 
-  const serversStream = store
-    .select('server');
+  const serversStream = store.select('server');
 
-  return Promise
-    .all([
-      jobMonitorStream,
-      alertMonitorStream,
-      lnetConfigurationStream,
-      serversStream
-    ])
-    .then(([jobMonitorStream,
+  return Promise.all([
+    jobMonitorStream,
     alertMonitorStream,
     lnetConfigurationStream,
-    serversStream]) => ({
-      jobMonitorStream,
-      alertMonitorStream,
-      lnetConfigurationStream,
-      serversStream
-    }));
+    serversStream
+  ]).then(([
+    jobMonitorStream,
+    alertMonitorStream,
+    lnetConfigurationStream,
+    serversStream
+  ]) => ({
+    jobMonitorStream,
+    alertMonitorStream,
+    lnetConfigurationStream,
+    serversStream
+  }));
 }

@@ -6,7 +6,6 @@ import {
 import deepFreeze from 'intel-deep-freeze';
 
 describe('read write heat map reducer', () => {
-
   it('should be a function', () => {
     expect(readWriteHeatMapChartReducer).toEqual(jasmine.any(Function));
   });
@@ -18,7 +17,7 @@ describe('read write heat map reducer', () => {
           expect(
             readWriteHeatMapChartReducer(
               {
-                'base': {
+                base: {
                   dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
@@ -41,29 +40,26 @@ describe('read write heat map reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                dataType: 'dataType',
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 3,
-                unit: 'hours',
-                page: 'base'
-              },
-              'fs1': {
-                dataType: 'dataType',
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 15,
-                unit: 'minutes',
-                page: 'fs1'
-              }
+          ).toEqual({
+            base: {
+              dataType: 'dataType',
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 3,
+              unit: 'hours',
+              page: 'base'
+            },
+            fs1: {
+              dataType: 'dataType',
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 15,
+              unit: 'minutes',
+              page: 'fs1'
             }
-          );
+          });
         });
       });
 
@@ -72,7 +68,7 @@ describe('read write heat map reducer', () => {
           expect(
             readWriteHeatMapChartReducer(
               {
-                'base': {
+                base: {
                   dataType: 'dataType',
                   configType: 'duration',
                   startDate: 'startDate',
@@ -95,20 +91,17 @@ describe('read write heat map reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                dataType: 'dataType',
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 3,
-                unit: 'hours',
-                page: 'base'
-              }
+          ).toEqual({
+            base: {
+              dataType: 'dataType',
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 3,
+              unit: 'hours',
+              page: 'base'
             }
-          );
+          });
         });
       });
     });
@@ -127,7 +120,7 @@ describe('read write heat map reducer', () => {
                 unit: 'minutes',
                 page: ''
               },
-              'target8': {
+              target8: {
                 dataType: 'dataType',
                 configType: 'duration',
                 startDate: 'startDate',
@@ -148,39 +141,38 @@ describe('read write heat map reducer', () => {
               }
             }
           )
-        )
-        .toEqual(
-          {
-            '': {
-              dataType: 'dataType',
-              configType: 'range',
-              startDate: 'startDate',
-              endDate: 'endDate',
-              size: 10,
-              unit: 'minutes',
-              page: ''
-            },
-            'target8': {
-              dataType: 'dataType',
-              configType: 'duration',
-              startDate: 'startDate',
-              endDate: 'endDate',
-              size: 15,
-              unit: 'minutes',
-              page: 'target8'
-            }
+        ).toEqual({
+          '': {
+            dataType: 'dataType',
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          },
+          target8: {
+            dataType: 'dataType',
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 15,
+            unit: 'minutes',
+            page: 'target8'
           }
-        );
+        });
       });
     });
   });
 
   describe('non-matching type', () => {
     it('should return the state', () => {
-      expect(readWriteHeatMapChartReducer(deepFreeze([]), {
-        type: 'ADD_ALERT_INDICATOR_ITEMS',
-        payload: {key: 'val'}
-      })).toEqual([]);
+      expect(
+        readWriteHeatMapChartReducer(deepFreeze([]), {
+          type: 'ADD_ALERT_INDICATOR_ITEMS',
+          payload: { key: 'val' }
+        })
+      ).toEqual([]);
     });
   });
 });

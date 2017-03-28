@@ -21,27 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-type argsToVoid = (...rest:any[]) => void;
+type argsToVoid = (...rest: any[]) => void;
 
 declare class EventEmitter {
-  constructor():void;
-  emit(event:string, ...args:Array<any>): boolean;
-  on(event:string, listener:argsToVoid): EventEmitter;
-  once(event:string, listener:argsToVoid): EventEmitter;
-  removeAllListeners(event?:string): EventEmitter;
+  constructor(): void,
+  emit(event: string, ...args: Array<any>): boolean,
+  on(event: string, listener: argsToVoid): EventEmitter,
+  once(event: string, listener: argsToVoid): EventEmitter,
+  removeAllListeners(event?: string): EventEmitter
 }
 
 export type EventEmitterT = EventEmitter;
 
 import highland from 'highland';
 
-const EE:typeof EventEmitter = Object
-  .getPrototypeOf(
-    Object
-      .getPrototypeOf(
-        (highland():any)
-      )
-    )
-    .constructor;
+const EE: typeof EventEmitter = Object.getPrototypeOf(
+  Object.getPrototypeOf((highland(): any))
+).constructor;
 
 export default EE;

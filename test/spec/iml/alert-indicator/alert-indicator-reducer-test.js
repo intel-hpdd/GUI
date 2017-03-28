@@ -1,4 +1,5 @@
-import alertIndicatorReducer from '../../../../source/iml/alert-indicator/alert-indicator-reducer.js';
+import alertIndicatorReducer
+  from '../../../../source/iml/alert-indicator/alert-indicator-reducer.js';
 import deepFreeze from 'intel-deep-freeze';
 
 describe('alert indicator reducer', () => {
@@ -7,16 +8,20 @@ describe('alert indicator reducer', () => {
   });
 
   it('should return the payload on ADD_ALERT_INDICATOR_ITEMS', () => {
-    expect(alertIndicatorReducer(deepFreeze([]), {
-      type: 'ADD_ALERT_INDICATOR_ITEMS',
-      payload: [{}]
-    })).toEqual([{}]);
+    expect(
+      alertIndicatorReducer(deepFreeze([]), {
+        type: 'ADD_ALERT_INDICATOR_ITEMS',
+        payload: [{}]
+      })
+    ).toEqual([{}]);
   });
 
   it('should return state on non-matching type', () => {
-    expect(alertIndicatorReducer(deepFreeze([]), {
-      type: 'FOO',
-      payload: [{bar: 'baz'}]
-    })).toEqual([]);
+    expect(
+      alertIndicatorReducer(deepFreeze([]), {
+        type: 'FOO',
+        payload: [{ bar: 'baz' }]
+      })
+    ).toEqual([]);
   });
 });

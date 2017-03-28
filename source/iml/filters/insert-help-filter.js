@@ -19,14 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {sprintf} from 'sprintf';
+import { sprintf } from 'sprintf';
 
 const regexp = /%\(.+\)s/;
 
-export default function insertHelpFilterFilter ($sce, help) {
+export default function insertHelpFilterFilter($sce, help) {
   'ngInject';
-
-  return function insertHelpFilter (key, params) {
+  return function insertHelpFilter(key, params) {
     let wrapper = help.get(key);
     const value = wrapper.valueOf();
 

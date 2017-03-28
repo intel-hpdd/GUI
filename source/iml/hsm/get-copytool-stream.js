@@ -19,19 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import angular from 'angular';
 
-export default function getCopytoolStream (params) {
-  params = angular.merge({}, {
-    qs: {
-      limit: 0
-    },
-    jsonMask: 'objects(id,label,host/label,archive,state,\
+export default function getCopytoolStream(params) {
+  params = angular.merge(
+    {},
+    {
+      qs: {
+        limit: 0
+      },
+      jsonMask: 'objects(id,label,host/label,archive,state,\
 active_operations_count,available_actions,resource_uri,locks)'
-  }, params || {});
+    },
+    params || {}
+  );
 
   const viewLensProp = fp.flow(fp.lensProp, fp.view);
   const statusLens = fp.lensProp('status');
@@ -46,19 +49,12 @@ active_operations_count,available_actions,resource_uri,locks)'
       fp.eqFn(fp.identity, viewLensProp('active_operations_count'), 0),
       fp.set(statusLens, 'idle')
     ],
-    [
-      fp.always(true),
-      fp.set(statusLens, 'working')
-    ]
+    [fp.always(true), fp.set(statusLens, 'working')]
   );
 
   const setStatuses = fp.map(
-    fp.flow(
-      viewLensProp('objects'),
-      fp.over(fp.mapped, setStatus)
-    )
+    fp.flow(viewLensProp('objects'), fp.over(fp.mapped, setStatus))
   );
 
-  return socketStream('/copytool', params)
-    .through(setStatuses);
+  return socketStream('/copytool', params).through(setStatuses);
 }

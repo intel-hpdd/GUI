@@ -21,9 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import type { HighlandStreamT } from 'highland';
 
-import type {
-  HighlandStreamT
-} from 'highland';
-
-export type SocketStreamT<T> = (path:string, options:Object, isAck?:boolean) => HighlandStreamT<T>;
+export type SocketStreamT<T> = (
+  path: string,
+  options: Object,
+  isAck?: boolean
+) => HighlandStreamT<T>;

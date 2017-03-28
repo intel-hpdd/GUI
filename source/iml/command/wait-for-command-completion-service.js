@@ -24,38 +24,24 @@
 import * as fp from 'intel-fp';
 import getCommandStream from '../command/get-command-stream.js';
 
-import {
-  setState,
-  isFinished
-} from './command-transforms.js';
+import { setState, isFinished } from './command-transforms.js';
 
-import type {
-  commandT
-} from './command-types.js';
+import type { commandT } from './command-types.js';
 
-export default (openCommandModal:Function) => {
+export default (openCommandModal: Function) => {
   'ngInject';
-
-  return fp.curry2((showModal:boolean, response:commandT[]) => {
-    const command$ = getCommandStream(response)
-      .map(
-        fp.map(setState)
-      );
+  return fp.curry2((showModal: boolean, response: commandT[]) => {
+    const command$ = getCommandStream(response).map(fp.map(setState));
 
     if (showModal) {
       const commandModal$ = command$.fork();
-      openCommandModal(commandModal$)
-        .resultStream
-        .each(() =>
-          commandModal$.destroy()
-        );
+      openCommandModal(commandModal$).resultStream.each(() =>
+        commandModal$.destroy());
     }
 
     return command$
       .fork()
-      .filter(
-        fp.every(isFinished)
-      )
+      .filter(fp.every(isFinished))
       .tap(() => setTimeout(() => command$.destroy()));
   });
 };

@@ -21,5 +21,4 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-export default (url:string) => new Worker(url);
+export default (url: string) => new Worker(url);

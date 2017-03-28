@@ -1,12 +1,14 @@
-import resettableGroupModule from '../../../../source/iml/resettable-group/resettable-group-module.js';
+import resettableGroupModule
+  from '../../../../source/iml/resettable-group/resettable-group-module.js';
 
 describe('resettable group', () => {
   let $scope, qs, el, entry1, entry2, month, yourName, yourEmail, resetButton;
 
   beforeEach(module(resettableGroupModule));
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = `<form name="testForm">
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `<form name="testForm">
   <resettable-group>
     <ng-form name="subForm1">
       <label for="entry1">Entry 1</label>
@@ -39,25 +41,26 @@ describe('resettable group', () => {
   </resettable-group>
 </form>`;
 
-    $scope = $rootScope.$new();
-    $scope.entry1 = 'entry 1';
-    $scope.entry2 = 'entry 2';
-    $scope.month = 'may';
-    $scope.yourName = 'John Doe';
-    $scope.yourEmail = 'someone@someplace.com';
+      $scope = $rootScope.$new();
+      $scope.entry1 = 'entry 1';
+      $scope.entry2 = 'entry 2';
+      $scope.month = 'may';
+      $scope.yourName = 'John Doe';
+      $scope.yourEmail = 'someone@someplace.com';
 
-    el = $compile(template)($scope)[0];
+      el = $compile(template)($scope)[0];
 
-    $scope.$digest();
+      $scope.$digest();
 
-    qs = el.querySelector.bind(el);
-    entry1 = qs('[name="entry1"]');
-    entry2 = qs('[name="entry2"]');
-    month = qs('[name="month"]');
-    yourName = qs('[name="yourName"]');
-    yourEmail = qs('[name="yourEmail"]');
-    resetButton = qs('button[resetter]');
-  }));
+      qs = el.querySelector.bind(el);
+      entry1 = qs('[name="entry1"]');
+      entry2 = qs('[name="entry2"]');
+      month = qs('[name="month"]');
+      yourName = qs('[name="yourName"]');
+      yourEmail = qs('[name="yourEmail"]');
+      resetButton = qs('button[resetter]');
+    })
+  );
 
   describe('initial form values', () => {
     it('should have default entry 1', () => {

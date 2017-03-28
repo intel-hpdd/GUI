@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import socketStream from '../socket/socket-stream.js';
 import highland from 'highland';
 import removeDups from '../charting/remove-dups.js';
@@ -38,14 +37,15 @@ export default (requestRange, buff) => {
 
     socketStream('/target/metric', params, true)
       .flatten()
-      .tap(function calculateCpuAndRam (x) {
-        x.data[key] = (x.data.kbytestotal - x.data.kbytesfree) / x.data.kbytestotal;
+      .tap(function calculateCpuAndRam(x) {
+        x.data[key] = (x.data.kbytestotal - x.data.kbytesfree) /
+          x.data.kbytestotal;
       })
       .through(buff)
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3([key]))
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });

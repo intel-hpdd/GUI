@@ -19,10 +19,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function tastypieInterceptorFactory () {
+export function tastypieInterceptorFactory() {
   return {
-    response (resp) {
-      const fromTastyPie = resp.data && resp.data.meta && Array.isArray(resp.data.objects);
+    response(resp) {
+      const fromTastyPie = resp.data &&
+        resp.data.meta &&
+        Array.isArray(resp.data.objects);
 
       if (fromTastyPie) {
         const temp = resp.data.objects;

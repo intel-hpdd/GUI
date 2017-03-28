@@ -21,20 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function noSpace (parts:string[], ...args:any[]):string {
-  const built = parts.reduce(
-    (acc, p, i) => acc + args[i - 1] + p
-  );
+export function noSpace(parts: string[], ...args: any[]): string {
+  const built = parts.reduce((acc, p, i) => acc + args[i - 1] + p);
 
   return built.replace(/\s/g, '');
 }
 
-export function cleanTemplate (parts:string[], ...args:any[]):string {
-  const built = parts.reduce(
-    (acc, p, i) => acc + args[i - 1] + p
-  );
+export function cleanTemplate(parts: string[], ...args: any[]): string {
+  const built = parts.reduce((acc, p, i) => acc + args[i - 1] + p);
 
-  return built
-    .replace(/^\s+/gm, '')
-    .replace(/\n/g, '');
+  return built.replace(/^\s+/gm, '').replace(/\n/g, '');
 }

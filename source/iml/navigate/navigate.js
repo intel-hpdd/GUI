@@ -19,10 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function navigateFactory ($window, UI_ROOT) {
+export function navigateFactory($window, UI_ROOT) {
   'ngInject';
-
-  return function navigate (part) {
+  return function navigate(part) {
     if (part == null) part = '';
 
     $window.location.href = UI_ROOT + part;

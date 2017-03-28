@@ -22,15 +22,13 @@
 import angular from 'angular';
 import * as fp from 'intel-fp';
 
-export default function ServerDashboardCtrl ($scope, hostStream, charts) {
+export default function ServerDashboardCtrl($scope, hostStream, charts) {
   'ngInject';
-
   const serverDashboard = angular.extend(this, {
     charts
   });
 
-  hostStream
-    .through($scope.propagateChange($scope, serverDashboard, 'server'));
+  hostStream.through($scope.propagateChange($scope, serverDashboard, 'server'));
 
   $scope.$on('$destroy', () => {
     hostStream.destroy();

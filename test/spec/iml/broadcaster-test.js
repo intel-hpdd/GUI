@@ -10,8 +10,7 @@ describe('broadcaster', () => {
     source$.write(2);
     source$.write(3);
 
-    spyOn(source$, 'destroy')
-      .and.callThrough();
+    spyOn(source$, 'destroy').and.callThrough();
 
     broadcast = broadcaster(source$);
   });
@@ -83,24 +82,21 @@ describe('broadcaster', () => {
       viewer1$.pull(() => {});
       viewer1$.pull(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
+      expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
     });
 
     it('should receive the error on viewer 2', () => {
       viewer2$.pull(() => {});
       viewer2$.pull(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
+      expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
     });
 
     it('should receive the error on viewer 3', () => {
       viewer3$.pull(() => {});
       viewer3$.pull(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
+      expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'), undefined);
     });
   });
 

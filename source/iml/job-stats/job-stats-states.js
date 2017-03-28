@@ -21,10 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  jobstats$,
-  getData
-} from './job-stats-resolves.js';
+import { jobstats$, getData } from './job-stats-resolves.js';
 
 export const jobStatsState = {
   name: 'app.jobstats',

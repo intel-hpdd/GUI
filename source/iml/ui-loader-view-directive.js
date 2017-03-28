@@ -21,32 +21,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {
-  $scopeT,
-  $animationT
-} from 'angular';
+import type { $scopeT, $animationT } from 'angular';
 
-import type {
-  TransitionT,
-  StateDeclarationT
-} from 'angular-ui-router';
+import type { TransitionT, StateDeclarationT } from 'angular-ui-router';
 
 import * as fp from 'intel-fp';
 
 type ctrlT = {
-  loaded:boolean,
-  child:?ctrlT,
-  parent:?ctrlT,
-  loadOnce:boolean
+  loaded: boolean,
+  child: ?ctrlT,
+  parent: ?ctrlT,
+  loadOnce: boolean
 };
 
 type dataT = {
-  noSpinner:boolean
+  noSpinner: boolean
 };
 
-export default ($transitions:TransitionT, $animate:$animationT) => {
+export default ($transitions: TransitionT, $animate: $animationT) => {
   'ngInject';
-
   return {
     scope: true,
     controller: () => {},
@@ -55,9 +48,14 @@ export default ($transitions:TransitionT, $animate:$animationT) => {
     },
     require: ['uiLoaderView', '^^?uiLoaderView'],
     controllerAs: '$ctrl',
-    link($scope:$scopeT, el:HTMLElement[], attrs:Object, ctrls:[ctrlT, ctrlT]) {
-      const [ctrl:ctrlT, parent:?ctrlT] = ctrls;
-      const uiLoaderView:HTMLElement = el[0];
+    link(
+      $scope: $scopeT,
+      el: HTMLElement[],
+      attrs: Object,
+      ctrls: [ctrlT, ctrlT]
+    ) {
+      const [ctrl: ctrlT, parent: ?ctrlT] = ctrls;
+      const uiLoaderView: HTMLElement = el[0];
 
       ctrl.loaded = false;
 
@@ -66,30 +64,30 @@ export default ($transitions:TransitionT, $animate:$animationT) => {
         parent.child = ctrl;
       }
 
-      const removeOnStart:() => void = $transitions.onStart(
+      const removeOnStart: () => void = $transitions.onStart(
         {},
-        (t:TransitionT) => {
-          if (ctrl.loadOnce && ctrl.loaded)
-            return;
+        (t: TransitionT) => {
+          if (ctrl.loadOnce && ctrl.loaded) return;
 
           const from = t.from();
           const to = t.to();
-          const data:dataT = to.data || {noSpinner: false};
+          const data: dataT = to.data || { noSpinner: false };
 
-          if (!isLoaderMatch(ctrl, from, to))
-            return;
+          if (!isLoaderMatch(ctrl, from, to)) return;
 
           ctrl.loaded = true;
 
-          if (!data.noSpinner)
-            uiLoaderView.classList.add('waiting');
+          if (!data.noSpinner) uiLoaderView.classList.add('waiting');
 
           return $animate.leave(uiLoaderView.querySelector('[ui-view]'));
         }
       );
 
       $animate.on('enter', uiLoaderView, (element, phase) => {
-        if (uiLoaderView.querySelector('[ui-view]') === element[0] && phase === 'start')
+        if (
+          uiLoaderView.querySelector('[ui-view]') === element[0] &&
+          phase === 'start'
+        )
           uiLoaderView.classList.remove('waiting');
       });
 
@@ -97,15 +95,18 @@ export default ($transitions:TransitionT, $animate:$animationT) => {
         removeOnStart();
         $animate.off('enter', uiLoaderView);
 
-        if (parent)
-          parent.child = null;
+        if (parent) parent.child = null;
       });
     },
     template: '<div ui-view></div>'
   };
 };
 
-function isLoaderMatch (ctrl:ctrlT, from:StateDeclarationT, to:StateDeclarationT) {
+function isLoaderMatch(
+  ctrl: ctrlT,
+  from: StateDeclarationT,
+  to: StateDeclarationT
+) {
   const fromSplit = from.name.split('.');
   const toSplit = to.name.split('.');
   const diff = fp.difference(fromSplit, toSplit);
@@ -118,5 +119,6 @@ function isLoaderMatch (ctrl:ctrlT, from:StateDeclarationT, to:StateDeclarationT
     count++;
   }
 
-  return count === samePartsList.length || (diff.length === 0 && toSplit.length - 1 === count);
+  return count === samePartsList.length ||
+    (diff.length === 0 && toSplit.length - 1 === count);
 }

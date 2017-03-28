@@ -20,21 +20,20 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
-import confirmActionModalTemplate from './assets/html/confirm-action-modal.html!text';
+import confirmActionModalTemplate
+  from './assets/html/confirm-action-modal.html!text';
 
-export function ConfirmActionModalCtrl  ($scope, title, confirmPrompts) {
+export function ConfirmActionModalCtrl($scope, title, confirmPrompts) {
   'ngInject';
-
   $scope.confirmAction = {
     title,
     confirmPrompts
   };
 }
 
-export function openConfirmActionModalFactory ($uibModal) {
+export function openConfirmActionModalFactory($uibModal) {
   'ngInject';
-
-  return function openConfirmActionModal (title, confirmPrompts) {
+  return function openConfirmActionModal(title, confirmPrompts) {
     return $uibModal.open({
       template: confirmActionModalTemplate,
       controller: 'ConfirmActionModalCtrl',

@@ -1,43 +1,38 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('wait-for-command-completion-service', () => {
-  let getCommandStream, commandStream, spy, resultStream,
-    openCommandModal, waitForCommandCompletion;
+  let getCommandStream,
+    commandStream,
+    spy,
+    resultStream,
+    openCommandModal,
+    waitForCommandCompletion;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     commandStream = highland();
-    spyOn(commandStream, 'destroy')
-      .and
-      .callThrough();
+    spyOn(commandStream, 'destroy').and.callThrough();
     getCommandStream = jasmine
       .createSpy('getCommandStream')
-      .and
-      .returnValue(commandStream);
+      .and.returnValue(commandStream);
 
     spy = jasmine.createSpy('spy');
     resultStream = highland();
-    openCommandModal = jasmine
-      .createSpy('openCommandModal')
-      .and
-      .returnValue({
-        resultStream
-      });
+    openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
+      resultStream
+    });
 
     const mod = await mock(
-      'source/iml/command/wait-for-command-completion-service.js', {
+      'source/iml/command/wait-for-command-completion-service.js',
+      {
         'source/iml/command/get-command-stream.js': {
           default: getCommandStream
         }
-      });
-
-    waitForCommandCompletion = mod.default(
-      openCommandModal
+      }
     );
+
+    waitForCommandCompletion = mod.default(openCommandModal);
 
     jasmine.clock().install();
   });
@@ -52,25 +47,17 @@ describe('wait-for-command-completion-service', () => {
     let responseWithCommands;
 
     beforeEach(() => {
-      responseWithCommands = [
-        {}
-      ];
+      responseWithCommands = [{}];
 
-      waitForCommandCompletion(false, responseWithCommands)
-        .each(spy);
+      waitForCommandCompletion(false, responseWithCommands).each(spy);
     });
 
     it('should call get command stream', () => {
-      expect(getCommandStream)
-        .toHaveBeenCalledWith([
-          {}
-        ]);
+      expect(getCommandStream).toHaveBeenCalledWith([{}]);
     });
 
     it('should not call openCommandModal', () => {
-      expect(openCommandModal)
-        .not
-        .toHaveBeenCalled();
+      expect(openCommandModal).not.toHaveBeenCalled();
     });
 
     describe('on finish', () => {
@@ -83,27 +70,22 @@ describe('wait-for-command-completion-service', () => {
           }
         ];
 
-        commandStream
-          .write(
-            data
-          );
+        commandStream.write(data);
       });
 
       it('should destroy the command stream', () => {
         jasmine.clock().tick();
 
-        expect(commandStream.destroy)
-          .toHaveBeenCalledOnce();
+        expect(commandStream.destroy).toHaveBeenCalledOnce();
       });
 
       it('should resolve the result', () => {
-        expect(spy)
-          .toHaveBeenCalledOnceWith([
-            {
-              complete: true,
-              state: 'succeeded'
-            }
-          ]);
+        expect(spy).toHaveBeenCalledOnceWith([
+          {
+            complete: true,
+            state: 'succeeded'
+          }
+        ]);
       });
     });
   });
@@ -112,9 +94,7 @@ describe('wait-for-command-completion-service', () => {
     let responseWithCommands;
 
     beforeEach(() => {
-      responseWithCommands = [
-        {}
-      ];
+      responseWithCommands = [{}];
 
       waitForCommandCompletion(true, responseWithCommands);
     });

@@ -19,21 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import waitUntilLoadedTemplate from './assets/html/wait-until-loaded-step.html!text';
+import waitUntilLoadedTemplate
+  from './assets/html/wait-until-loaded-step.html!text';
 
-export function waitUntilLoadedCtrl ($scope) {
+export function waitUntilLoadedCtrl($scope) {
   'ngInject';
-
   $scope.wait = {
-    close: function close () {
+    close: function close() {
       $scope.$emit('addServerModal::closeModal');
     }
   };
 }
 
-export function waitUntilLoadedStep () {
+export function waitUntilLoadedStep() {
   'ngInject';
-
   return {
     controller: 'WaitUntilLoadedCtrl',
     template: waitUntilLoadedTemplate

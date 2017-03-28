@@ -21,19 +21,23 @@
 
 import * as fp from 'intel-fp';
 
-export default function TargetDashboardController ($scope, $stateParams, charts, targetStream,
-  usageStream) {
-
+export default function TargetDashboardController(
+  $scope,
+  $stateParams,
+  charts,
+  targetStream,
+  usageStream
+) {
   'ngInject';
-
   const targetDashboard = Object.assign(this, {
     charts,
     usageStream,
     kind: $stateParams.kind
   });
 
-  targetStream
-    .through($scope.propagateChange($scope, targetDashboard, 'target'));
+  targetStream.through(
+    $scope.propagateChange($scope, targetDashboard, 'target')
+  );
 
   $scope.$on('$destroy', () => {
     targetStream.destroy();

@@ -21,16 +21,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 export type ActionT = {
-  type:string;
-  payload:any;
+  type: string,
+  payload: any
 };
 
 export type StoreT = {
-  dispatch:(x:any) => boolean;
-  select:(key:string) => HighlandStreamT<any>;
+  dispatch: (x: any) => boolean,
+  select: (key: string) => HighlandStreamT<any>
 };

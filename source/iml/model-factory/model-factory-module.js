@@ -25,6 +25,6 @@ import angular from 'angular';
 import ngResource from 'angular-resource';
 import modelFactory from './model-factory';
 
-export default angular.module('modelFactory', [ngResource])
-  .provider('modelFactory', modelFactory)
-  .name;
+export default angular
+  .module('modelFactory', [ngResource])
+  .provider('modelFactory', modelFactory).name;

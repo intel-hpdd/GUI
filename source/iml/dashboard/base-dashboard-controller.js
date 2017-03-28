@@ -23,27 +23,22 @@
 
 import * as fp from 'intel-fp';
 
-import type {
-  Curry4
-} from 'intel-fp';
+import type { Curry4 } from 'intel-fp';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
 const STATES = Object.freeze({
   MONITORED: 'monitored',
   MANAGED: 'managed'
 });
 
-export default function BaseDashboardCtrl (
-  $scope:$scopeT,
-  fsB:Function,
-  charts:Object[],
-  propagateChange:Curry4<$scopeT,Object,string,Object,Object>
+export default function BaseDashboardCtrl(
+  $scope: $scopeT,
+  fsB: Function,
+  charts: Object[],
+  propagateChange: Curry4<$scopeT, Object, string, Object, Object>
 ) {
   'ngInject';
-
   Object.assign(this, {
     fs: [],
     fsB,
@@ -51,11 +46,13 @@ export default function BaseDashboardCtrl (
   });
 
   fsB()
-    .map(fp.map(x => ({
-      ...x,
-      STATES,
-      state :x.immutable_state ? STATES.MONITORED : STATES.MANAGED
-    })))
+    .map(
+      fp.map(x => ({
+        ...x,
+        STATES,
+        state: x.immutable_state ? STATES.MONITORED : STATES.MANAGED
+      }))
+    )
     .through(propagateChange($scope, this, 'fs'));
 
   $scope.$on('$destroy', () => {

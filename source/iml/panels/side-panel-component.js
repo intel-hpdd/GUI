@@ -21,13 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function Controller ($element:HTMLElement[]) {
+export function Controller($element: HTMLElement[]) {
   'ngInject';
-
   this.$onInit = () => {
     const s = $element[0].style;
 
-    const setWidth = (x) => {
+    const setWidth = x => {
       s.flexBasis = `${x.sideWidthPercentage}%`;
     };
 

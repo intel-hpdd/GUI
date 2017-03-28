@@ -1,25 +1,34 @@
-import disconnectModalModule from '../../../../source/iml/disconnect-modal/disconnect-modal-module.js';
+import disconnectModalModule
+  from '../../../../source/iml/disconnect-modal/disconnect-modal-module.js';
 
 describe('disconnect modal', () => {
   let $uibModal, $timeout, modal;
 
-  beforeEach(module(disconnectModalModule, {
-    windowUnload: { unloading: false }
-  }, ($provide) => {
-    modal = {};
-    $uibModal = {
-      open: jasmine.createSpy('open').and.returnValue(modal)
-    };
-    $provide.value('$uibModal', $uibModal);
-  }));
+  beforeEach(
+    module(
+      disconnectModalModule,
+      {
+        windowUnload: { unloading: false }
+      },
+      $provide => {
+        modal = {};
+        $uibModal = {
+          open: jasmine.createSpy('open').and.returnValue(modal)
+        };
+        $provide.value('$uibModal', $uibModal);
+      }
+    )
+  );
 
   let disconnectModal, windowUnload;
 
-  beforeEach(inject((_disconnectModal_, _windowUnload_, _$timeout_) => {
-    disconnectModal = _disconnectModal_;
-    windowUnload = _windowUnload_;
-    $timeout = _$timeout_;
-  }));
+  beforeEach(
+    inject((_disconnectModal_, _windowUnload_, _$timeout_) => {
+      disconnectModal = _disconnectModal_;
+      windowUnload = _windowUnload_;
+      $timeout = _$timeout_;
+    })
+  );
 
   afterEach(() => {
     windowUnload.unloading = false;

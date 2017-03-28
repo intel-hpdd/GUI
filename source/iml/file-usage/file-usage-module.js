@@ -33,13 +33,15 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addFileUsageActionT = {
-    type:'UPDATE_FILE_USAGE_CHART_ITEMS' | 'DEFAULT_FILE_USAGE_CHART_ITEMS',
-    payload:durationPayloadT
+  type: 'UPDATE_FILE_USAGE_CHART_ITEMS' | 'DEFAULT_FILE_USAGE_CHART_ITEMS',
+  payload: durationPayloadT
 };
 
-export default angular.module('fileUsageModule', [
-  chartsModule, chartingModule, highlandModule,
-  durationPickerModule
-])
-  .factory('getFileUsageChart', getFileUsageChartFactory)
-  .name;
+export default angular
+  .module('fileUsageModule', [
+    chartsModule,
+    chartingModule,
+    highlandModule,
+    durationPickerModule
+  ])
+  .factory('getFileUsageChart', getFileUsageChartFactory).name;

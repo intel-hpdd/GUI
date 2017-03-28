@@ -21,14 +21,13 @@
 
 import angular from 'angular';
 
-export const chartCompilerDirective = ($compile) => {
+export const chartCompilerDirective = $compile => {
   'ngInject';
-
   return {
     scope: {
       chart: '='
     },
-    link (scope, el) {
+    link(scope, el) {
       const template = angular.element(scope.chart.template)[0];
       el[0].appendChild(template);
 

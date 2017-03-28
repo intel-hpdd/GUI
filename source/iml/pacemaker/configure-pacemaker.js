@@ -20,9 +20,10 @@
 // express and approved by Intel in writing.
 
 import * as fp from 'intel-fp';
-import configurePacemakerTemplate from './assets/html/configure-pacemaker.html!text';
+import configurePacemakerTemplate
+  from './assets/html/configure-pacemaker.html!text';
 
-export default function configurePacemaker () {
+export default function configurePacemaker() {
   return {
     restrict: 'E',
     scope: {},

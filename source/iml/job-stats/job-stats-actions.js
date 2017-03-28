@@ -21,20 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import { SET_DURATION, SET_SORT } from './job-stats-reducer.js';
 
-import {
-  SET_DURATION,
-  SET_SORT
-} from './job-stats-reducer.js';
-
-export const setDuration = (duration:number) => ({
+export const setDuration = (duration: number) => ({
   type: SET_DURATION,
   payload: {
     duration
   }
 });
 
-export const setSort = (orderBy:string, desc:boolean) => ({
+export const setSort = (orderBy: string, desc: boolean) => ({
   type: SET_SORT,
   payload: {
     orderBy,

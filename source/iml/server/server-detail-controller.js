@@ -21,12 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function ServerDetailController (
-  $scope:Object, streams:Object,
-  overrideActionClick:Function, propagateChange:Function
-):void {
+export default function ServerDetailController(
+  $scope: Object,
+  streams: Object,
+  overrideActionClick: Function,
+  propagateChange: Function
+): void {
   'ngInject';
-
   const serverDetailController = this;
 
   Object.assign(this, {
@@ -41,12 +42,10 @@ export default function ServerDetailController (
 
   const p = propagateChange($scope, serverDetailController);
 
-  streams.lnetConfigurationStream()
-    .through(p('lnetConfiguration'));
+  streams.lnetConfigurationStream().through(p('lnetConfiguration'));
 
-  streams
-    .serverStream
-    .errors(function handle404 (err, push) {
+  streams.serverStream
+    .errors(function handle404(err, push) {
       if (err.statusCode === 404) {
         push(null, null);
         return;
@@ -56,10 +55,11 @@ export default function ServerDetailController (
     })
     .through(p('server'));
 
-  $scope.$on('$destroy', function onDestroy () {
-    Object.keys(streams)
-      .forEach(function destroy (key) {
-        streams[key].destroy ? streams[key].destroy() : streams[key].endBroadcast();
-      });
+  $scope.$on('$destroy', function onDestroy() {
+    Object.keys(streams).forEach(function destroy(key) {
+      streams[key].destroy
+        ? streams[key].destroy()
+        : streams[key].endBroadcast();
+    });
   });
 }

@@ -25,25 +25,22 @@ import logInputToQsParser from './log-input-to-qs-parser.js';
 import logQsToInputParser from './log-qs-to-input-parser.js';
 import logCompleter from './log-completer.js';
 
-import type {
-  $scopeT,
-  $locationT
-} from 'angular';
+import type { $scopeT, $locationT } from 'angular';
 
-import type {
-  qsStreamT
-} from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
-export function controller ($scope:$scopeT, $location:$locationT, $stateParams:Object,
-                            qsStream:qsStreamT, propagateChange:Function) {
+export function controller(
+  $scope: $scopeT,
+  $location: $locationT,
+  $stateParams: Object,
+  qsStream: qsStreamT,
+  propagateChange: Function
+) {
   'ngInject';
-
   const p = propagateChange($scope, this, 'qs');
   const qs$ = qsStream($stateParams);
 
-  qs$
-    .map(x => x.qs)
-    .through(p);
+  qs$.map(x => x.qs).through(p);
 
   $scope.$on('$destroy', () => qs$.destroy());
 

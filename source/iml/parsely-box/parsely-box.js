@@ -23,9 +23,8 @@ import * as fp from 'intel-fp';
 
 import parselyBoxTemplate from './assets/html/parsely-box.html!text';
 
-export function parselyBox () {
+export function parselyBox() {
   'ngInject';
-
   return {
     restrict: 'E',
     scope: {},
@@ -41,29 +40,26 @@ export function parselyBox () {
   };
 }
 
-export function parseQuery () {
+export function parseQuery() {
   'ngInject';
-
   return {
     require: 'ngModel',
     scope: {
       parserFormatter: '='
     },
-    link (scope, element, attrs, ctrl) {
-      ctrl.$formatters.push(function parseToInput (x) {
+    link(scope, element, attrs, ctrl) {
+      ctrl.$formatters.push(function parseToInput(x) {
         const result = scope.parserFormatter.formatter(x);
 
-        if (result instanceof Error)
-          throw result;
+        if (result instanceof Error) throw result;
 
         return result;
       });
 
-      ctrl.$parsers.push(function parseToQs (x) {
+      ctrl.$parsers.push(function parseToQs(x) {
         const result = scope.parserFormatter.parser(x);
 
-        if (result instanceof Error)
-          return undefined;
+        if (result instanceof Error) return undefined;
 
         return result;
       });

@@ -21,48 +21,47 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {CompletionistCtrl} from './completionist.js';
-import {VALUES, VALUE, KEY_PRESS} from './completionist.js';
+import type { CompletionistCtrl } from './completionist.js';
+import { VALUES, VALUE, KEY_PRESS } from './completionist.js';
 
 const CompletionistDropdownCtrl = class {
-  values:Array<?string> = [];
-  index:number = -1;
-  completionist:CompletionistCtrl;
-  localApply:Function;
-  $onDestroy:Function;
-  constructor ($scope:Object, localApply:Function) {
+  values: Array<?string> = [];
+  index: number = -1;
+  completionist: CompletionistCtrl;
+  localApply: Function;
+  $onDestroy: Function;
+  constructor($scope: Object, localApply: Function) {
     'ngInject';
     this.localApply = localApply.bind(null, $scope);
   }
-  $onInit () {
+  $onInit() {
     const onKeyPress = x => {
-      if (this.values.length === 0)
-        return;
+      if (this.values.length === 0) return;
 
       const maxVal = this.values.length + 1;
 
       switch (x.name) {
-      case 'escape':
-        x.event.preventDefault();
-        this.completionist.emit(VALUES, []);
-        break;
-      case 'up':
-        x.event.preventDefault();
-        this.index = (maxVal + (this.index - 1)) % maxVal;
-        this.localApply();
-        break;
-      case 'down':
-        x.event.preventDefault();
-        this.index = (this.index + 1) % maxVal;
-        this.localApply();
-        break;
-      case 'enter':
-      case 'tab':
-        if (this.values[this.index] != null) {
+        case 'escape':
           x.event.preventDefault();
-          this.completionist.emit(VALUE, this.values[this.index]);
-        }
-        break;
+          this.completionist.emit(VALUES, []);
+          break;
+        case 'up':
+          x.event.preventDefault();
+          this.index = (maxVal + (this.index - 1)) % maxVal;
+          this.localApply();
+          break;
+        case 'down':
+          x.event.preventDefault();
+          this.index = (this.index + 1) % maxVal;
+          this.localApply();
+          break;
+        case 'enter':
+        case 'tab':
+          if (this.values[this.index] != null) {
+            x.event.preventDefault();
+            this.completionist.emit(VALUE, this.values[this.index]);
+          }
+          break;
       }
     };
     this.completionist.register(KEY_PRESS, onKeyPress);
@@ -79,10 +78,10 @@ const CompletionistDropdownCtrl = class {
       this.completionist.deregister(VALUES, onValues);
     };
   }
-  setActive (index:number):void {
+  setActive(index: number): void {
     this.index = index;
   }
-  onSelect (value:string):void {
+  onSelect(value: string): void {
     this.completionist.emit(VALUE, value);
   }
 };

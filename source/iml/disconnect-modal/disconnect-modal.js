@@ -19,11 +19,14 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type {windowUnloadT} from '../window-unload/window-unload-module.js';
+import type { windowUnloadT } from '../window-unload/window-unload-module.js';
 
-export default function disconnectModalFactory ($uibModal:Object, windowUnload:windowUnloadT, $timeout:Function) {
+export default function disconnectModalFactory(
+  $uibModal: Object,
+  windowUnload: windowUnloadT,
+  $timeout: Function
+) {
   'ngInject';
-
   const options = {
     backdrop: 'static',
     keyboard: false,
@@ -37,19 +40,17 @@ export default function disconnectModalFactory ($uibModal:Object, windowUnload:w
   };
 
   let modal;
-  function close () {
+  function close() {
     $timeout(() => {
-      if (modal)
-        modal.close();
+      if (modal) modal.close();
 
       modal = null;
     });
   }
 
-  function open () {
+  function open() {
     $timeout(() => {
-      if (!windowUnload.unloading && !modal)
-        modal = $uibModal.open(options);
+      if (!windowUnload.unloading && !modal) modal = $uibModal.open(options);
     });
   }
 

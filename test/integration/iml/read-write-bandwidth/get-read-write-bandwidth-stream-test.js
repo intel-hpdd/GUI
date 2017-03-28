@@ -1,55 +1,56 @@
 import highland from 'highland';
 import moment from 'moment';
-import readWriteBandwidthDataFixtures from
-  '../../../data-fixtures/read-write-bandwidth-fixtures.json!json';
+import readWriteBandwidthDataFixtures
+  from '../../../data-fixtures/read-write-bandwidth-fixtures.json!json';
 
 import * as maybe from 'intel-maybe';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('The read write bandwidth stream', () => {
-  let socketStream, serverStream, getServerMoment,
-    getReadWriteBandwidthStream, bufferDataNewerThan,
+  let socketStream,
+    serverStream,
+    getServerMoment,
+    getReadWriteBandwidthStream,
+    bufferDataNewerThan,
     getRequestDuration;
 
-  beforeEachAsync(async function () {
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => {
-        return (serverStream = highland());
-      });
+  beforeEachAsync(async function() {
+    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+      return (serverStream = highland());
+    });
 
-    getServerMoment = jasmine.createSpy('getServerMoment')
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
       .and.returnValue(moment('2013-12-11T13:15:00+00:00'));
 
-    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
-      'source/iml/get-server-moment.js': { default: getServerMoment }
-    });
+    const bufferDataNewerThanModule = await mock(
+      'source/iml/charting/buffer-data-newer-than.js',
+      {
+        'source/iml/get-server-moment.js': { default: getServerMoment }
+      }
+    );
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
     const createDate = jasmine
       .createSpy('createDate')
-      .and
-      .callFake(
-        arg => maybe.withDefault(
+      .and.callFake(arg =>
+        maybe.withDefault(
           () => new Date(),
-          maybe.map(
-            x => new Date(x),
-            maybe.of(arg)
-          )
-        )
-      );
+          maybe.map(x => new Date(x), maybe.of(arg))
+        ));
 
     const getTimeParams = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/create-date.js': { default: createDate }
     });
     getRequestDuration = getTimeParams.getRequestDuration;
 
-    const mod = await mock('source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    const mod = await mock(
+      'source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js',
+      {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      }
+    );
 
     getReadWriteBandwidthStream = mod.default;
 
@@ -81,11 +82,12 @@ describe('The read write bandwidth stream', () => {
       const buff = bufferDataNewerThan(10, 'minutes');
       const requestDuration = getRequestDuration({}, 10, 'minutes');
 
-      readWriteBandwidthStream = getReadWriteBandwidthStream(requestDuration, buff);
+      readWriteBandwidthStream = getReadWriteBandwidthStream(
+        requestDuration,
+        buff
+      );
 
-      readWriteBandwidthStream
-        .through(convertNvDates)
-        .each(spy);
+      readWriteBandwidthStream.through(convertNvDates).each(spy);
     });
 
     describe('when there is data', () => {
@@ -141,14 +143,11 @@ describe('The read write bandwidth stream', () => {
         expect(spy).toHaveBeenCalledOnceWith([
           {
             key: 'read',
-            values: [
-              { x: '2013-12-11T13:15:00.000Z', y: 106772238984.1 }
-            ]
+            values: [{ x: '2013-12-11T13:15:00.000Z', y: 106772238984.1 }]
           },
-          { key: 'write',
-            values: [
-              { x: '2013-12-11T13:15:00.000Z', y: -104418696882.20003 }
-            ]
+          {
+            key: 'write',
+            values: [{ x: '2013-12-11T13:15:00.000Z', y: -104418696882.20003 }]
           }
         ]);
       });

@@ -24,14 +24,9 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  ALLOW_ANONYMOUS_READ
-} from '../environment.js';
+import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 
-import {
-  ADD_USER_ITEMS
-} from './user-reducer.js';
-
+import { ADD_USER_ITEMS } from './user-reducer.js';
 
 if (ALLOW_ANONYMOUS_READ)
   socketStream('/user', {
@@ -39,8 +34,9 @@ if (ALLOW_ANONYMOUS_READ)
       limit: 0
     }
   })
-  .map(x => x.objects)
-  .each(payload => store.dispatch({
-    type: ADD_USER_ITEMS,
-    payload
-  }));
+    .map(x => x.objects)
+    .each(payload =>
+      store.dispatch({
+        type: ADD_USER_ITEMS,
+        payload
+      }));

@@ -22,33 +22,32 @@
 // express and approved by Intel in writing.
 
 export default {
-  controller: function () {
+  controller: function() {
     const toggles = [];
 
-    this.register = (toggle) => {
+    this.register = toggle => {
       toggles.push(toggle);
     };
 
-    this.deregister = (toggle) => {
+    this.deregister = toggle => {
       const idx = toggles.indexOf(toggle);
 
-      if (idx === -1)
-        return;
+      if (idx === -1) return;
 
       toggles.splice(idx, 1);
     };
 
-    this.toggleChange = (state) => {
+    this.toggleChange = state => {
       switch (state) {
-      case 'all':
-        toggles.map(x => x.$setViewValue(true));
-        break;
-      case 'none':
-        toggles.map(x => x.$setViewValue(false));
-        break;
-      case 'invert':
-        toggles.map(x => x.$setViewValue(!x.$viewValue));
-        break;
+        case 'all':
+          toggles.map(x => x.$setViewValue(true));
+          break;
+        case 'none':
+          toggles.map(x => x.$setViewValue(false));
+          break;
+        case 'invert':
+          toggles.map(x => x.$setViewValue(!x.$viewValue));
+          break;
       }
 
       toggles.forEach(x => x.$render());

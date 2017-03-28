@@ -26,21 +26,21 @@ import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
 const types = {
-  'Total memory': function calc (x) {
+  'Total memory': function calc(x) {
     return x.mem_MemTotal * 1024;
   },
-  'Used memory': function calc (x) {
+  'Used memory': function calc(x) {
     return x.mem_MemTotal * 1024 - x.mem_MemFree * 1024;
   },
-  'Total swap': function calc (x) {
+  'Total swap': function calc(x) {
     return x.mem_SwapTotal * 1024;
   },
-  'Used swap': function calc (x) {
+  'Used swap': function calc(x) {
     return x.mem_SwapTotal * 1024 - x.mem_SwapFree * 1024;
   }
 };
 
-export default fp.curry2(function getMemoryUsageStream (requestRange, buff) {
+export default fp.curry2(function getMemoryUsageStream(requestRange, buff) {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
@@ -51,8 +51,8 @@ export default fp.curry2(function getMemoryUsageStream (requestRange, buff) {
 
     socketStream('/host/metric', params, true)
       .flatten()
-      .tap(function calculateCpuAndRam (x) {
-        Object.keys(types).forEach(function calculate (type) {
+      .tap(function calculateCpuAndRam(x) {
+        Object.keys(types).forEach(function calculate(type) {
           x.data[type] = types[type](x.data);
         });
       })
@@ -60,7 +60,7 @@ export default fp.curry2(function getMemoryUsageStream (requestRange, buff) {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(Object.keys(types)))
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });

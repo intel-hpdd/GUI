@@ -23,7 +23,7 @@
 
 const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-export default function formatBytes (bytes:number, precision:number) {
+export default function formatBytes(bytes: number, precision: number) {
   if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '';
   precision = precision || 4;
 

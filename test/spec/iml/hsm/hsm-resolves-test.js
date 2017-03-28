@@ -1,24 +1,29 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('hsm resolve', () => {
-  let s, resolveStream, getCopytoolOperationStream,
-    getCopytoolStream, copytoolOperationStream, copytoolStream,
+  let s,
+    resolveStream,
+    getCopytoolOperationStream,
+    getCopytoolStream,
+    copytoolOperationStream,
+    copytoolStream,
     $stateParams;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     resolveStream = jasmine.createSpy('resolveStream');
 
-    getCopytoolOperationStream = jasmine.createSpy('getCopytoolOperationStream');
+    getCopytoolOperationStream = jasmine.createSpy(
+      'getCopytoolOperationStream'
+    );
     getCopytoolStream = jasmine.createSpy('getCopytoolStream');
 
     const mod = await mock('source/iml/hsm/hsm-resolves.js', {
       'source/iml/promise-transforms.js': { resolveStream },
-      'source/iml/hsm/get-copytool-operation-stream.js': { default: getCopytoolOperationStream },
+      'source/iml/hsm/get-copytool-operation-stream.js': {
+        default: getCopytoolOperationStream
+      },
       'source/iml/hsm/get-copytool-stream.js': { default: getCopytoolStream }
     });
 
@@ -28,7 +33,10 @@ describe('hsm resolve', () => {
       fsId: 1
     };
 
-    copytoolOperationStream = mod.copytoolOperationStream.bind(null, $stateParams);
+    copytoolOperationStream = mod.copytoolOperationStream.bind(
+      null,
+      $stateParams
+    );
     copytoolStream = mod.copytoolStream.bind(null, $stateParams);
   });
 

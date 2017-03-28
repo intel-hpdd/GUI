@@ -3,27 +3,30 @@ import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import mgtModule from '../../../../source/iml/mgt/mgt-module.js';
 
-
 describe('mgt component', () => {
-  beforeEach(module(mgtModule, $provide => {
-    $provide.value('socketStream', jasmine.createSpy('socketStream'));
-  }));
+  beforeEach(
+    module(mgtModule, $provide => {
+      $provide.value('socketStream', jasmine.createSpy('socketStream'));
+    })
+  );
 
   let el, $scope;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = `
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `
       <mgt mgt-$="mgtStream" alert-indicator-b="mgtAlertIndicatorStream"
          job-indicator-b="mgtJobIndicatorStream"></mgt>
     `;
 
-    $scope = $rootScope.$new();
-    $scope.mgtStream = highland();
-    $scope.mgtAlertIndicatorStream = broadcaster(highland());
-    $scope.mgtJobIndicatorStream = broadcaster(highland());
-    el = $compile(template)($scope)[0];
-    $scope.$digest();
-  }));
+      $scope = $rootScope.$new();
+      $scope.mgtStream = highland();
+      $scope.mgtAlertIndicatorStream = broadcaster(highland());
+      $scope.mgtJobIndicatorStream = broadcaster(highland());
+      el = $compile(template)($scope)[0];
+      $scope.$digest();
+    })
+  );
 
   describe('with data', () => {
     beforeEach(() => {
@@ -61,8 +64,9 @@ describe('mgt component', () => {
     });
 
     it('should link to the mgt detail page', () => {
-      expect(el.querySelector('td a').getAttribute('route-to'))
-        .toBe('target/1');
+      expect(el.querySelector('td a').getAttribute('route-to')).toBe(
+        'target/1'
+      );
     });
 
     it('should render the first filesystem', () => {
@@ -74,23 +78,23 @@ describe('mgt component', () => {
     });
 
     it('should render the first filesystem link', () => {
-      expect(el.querySelector('td.comma-list a').getAttribute('route-to'))
-        .toBe('configure/filesystem/1');
+      expect(el.querySelector('td.comma-list a').getAttribute('route-to')).toBe(
+        'configure/filesystem/1'
+      );
     });
 
     it('should render the second filesystem link', () => {
-      expect(el.querySelectorAll('td.comma-list a')[1].getAttribute('route-to'))
-        .toBe('configure/filesystem/2');
+      expect(
+        el.querySelectorAll('td.comma-list a')[1].getAttribute('route-to')
+      ).toBe('configure/filesystem/2');
     });
 
     it('should render the volume name', () => {
-      expect(el.querySelectorAll('td')[3])
-        .toHaveText('FAKEDEVICE000');
+      expect(el.querySelectorAll('td')[3]).toHaveText('FAKEDEVICE000');
     });
 
     it('should render the primary server name', () => {
-      expect(el.querySelectorAll('td')[4])
-        .toHaveText('test000');
+      expect(el.querySelectorAll('td')[4]).toHaveText('test000');
     });
 
     it('should render the primary server link', () => {
@@ -99,18 +103,15 @@ describe('mgt component', () => {
         .querySelector('a')
         .getAttribute('route-to');
 
-      expect(route)
-        .toBe('configure/server/3');
+      expect(route).toBe('configure/server/3');
     });
 
     it('should render the failover server name', () => {
-      expect(el.querySelectorAll('td')[5])
-        .toHaveText('test001');
+      expect(el.querySelectorAll('td')[5]).toHaveText('test001');
     });
 
     it('should render the active server name', () => {
-      expect(el.querySelectorAll('td')[6])
-        .toHaveText('test000');
+      expect(el.querySelectorAll('td')[6]).toHaveText('test000');
     });
   });
 

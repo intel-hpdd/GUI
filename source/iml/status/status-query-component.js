@@ -25,26 +25,22 @@ import statusQsToInputParser from './status-qs-to-input-parser.js';
 import statusInputToQsParser from './status-input-to-qs-parser.js';
 import statusCompleter from './status-completer.js';
 
-import type {
-  $scopeT,
-  $locationT
-} from 'angular';
+import type { $scopeT, $locationT } from 'angular';
 
-import type {
-  qsStreamT
-} from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
-export function StatusQueryController ($scope:$scopeT, $location:$locationT, qsStream:qsStreamT,
-  propagateChange:Function, $stateParams:Object) {
-
+export function StatusQueryController(
+  $scope: $scopeT,
+  $location: $locationT,
+  qsStream: qsStreamT,
+  propagateChange: Function,
+  $stateParams: Object
+) {
   'ngInject';
-
   const qs$ = qsStream($stateParams);
   const p = propagateChange($scope, this, 'qs');
 
-  qs$
-  .map(x => x.qs)
-  .through(p);
+  qs$.map(x => x.qs).through(p);
 
   this.$onDestroy = () => qs$.destroy();
 
@@ -56,7 +52,6 @@ export function StatusQueryController ($scope:$scopeT, $location:$locationT, qsS
     completer: statusCompleter,
     onSubmit: x => $location.search(x)
   });
-
 }
 
 export default {

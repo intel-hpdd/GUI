@@ -1,16 +1,26 @@
 import * as maybe from 'intel-maybe';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('breadcrumb', () => {
-  let getResolvedData, mod, breadcrumbComponent, $scope,
-    $compile, el, $transitions, $state, $stateParams, template,
-    linkIcon, link, ol, onSuccess, onStart, global;
+  let getResolvedData,
+    mod,
+    breadcrumbComponent,
+    $scope,
+    $compile,
+    el,
+    $transitions,
+    $state,
+    $stateParams,
+    template,
+    linkIcon,
+    link,
+    ol,
+    onSuccess,
+    onStart,
+    global;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getResolvedData = jasmine.createSpy('getResolvedData');
     onSuccess = jasmine.createSpy('onSuccess');
     onStart = jasmine.createSpy('onStart');
@@ -33,42 +43,40 @@ describe('breadcrumb', () => {
 
   afterEach(resetAll);
 
-  beforeEach(module(($compileProvider, $provide) => {
-    $transitions = {
-      onSuccess: jasmine
-        .createSpy('onSuccess')
-        .and
-        .returnValue(onSuccess),
-      onStart: jasmine
-        .createSpy('onStart')
-        .and
-        .returnValue(onStart)
-    };
+  beforeEach(
+    module(($compileProvider, $provide) => {
+      $transitions = {
+        onSuccess: jasmine.createSpy('onSuccess').and.returnValue(onSuccess),
+        onStart: jasmine.createSpy('onStart').and.returnValue(onStart)
+      };
 
-    $state = {
-      router: {
-        globals: {
-          $current: {}
-        }
-      },
-      transitions: {}
-    };
+      $state = {
+        router: {
+          globals: {
+            $current: {}
+          }
+        },
+        transitions: {}
+      };
 
-    $stateParams = {
-      resetState: false
-    };
+      $stateParams = {
+        resetState: false
+      };
 
-    $provide.value('$transitions', $transitions);
-    $provide.value('$state', $state);
-    $provide.value('$stateParams', $stateParams);
-    $compileProvider.component('breadcrumb', breadcrumbComponent);
-  }));
+      $provide.value('$transitions', $transitions);
+      $provide.value('$state', $state);
+      $provide.value('$stateParams', $stateParams);
+      $compileProvider.component('breadcrumb', breadcrumbComponent);
+    })
+  );
 
-  beforeEach(inject(function (_$compile_, $rootScope) {
-    $scope = $rootScope.$new();
-    $compile = _$compile_;
-    template = '<breadcrumb></breadcrumb>';
-  }));
+  beforeEach(
+    inject(function(_$compile_, $rootScope) {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+      template = '<breadcrumb></breadcrumb>';
+    })
+  );
 
   describe('starting at dashboard route', () => {
     beforeEach(() => {
@@ -80,9 +88,7 @@ describe('breadcrumb', () => {
         }
       };
 
-      getResolvedData
-        .and
-        .returnValue(maybe.of(undefined));
+      getResolvedData.and.returnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
       $transitions.onStart.calls.argsFor(0)[1]();
@@ -105,8 +111,7 @@ describe('breadcrumb', () => {
     });
 
     describe('navigating to dashboard filesystem', () => {
-      let transitionSuccess, transition,
-        curRoute, link2, linkIcon2;
+      let transitionSuccess, transition, curRoute, link2, linkIcon2;
 
       beforeEach(() => {
         curRoute = {
@@ -120,10 +125,12 @@ describe('breadcrumb', () => {
           to: jasmine.createSpy('to').and.returnValue(curRoute)
         };
 
-        getResolvedData.and.returnValue(maybe.of({
-          label: 'fs1',
-          kind: 'dashboard-fs'
-        }));
+        getResolvedData.and.returnValue(
+          maybe.of({
+            label: 'fs1',
+            kind: 'dashboard-fs'
+          })
+        );
 
         $transitions.onStart.calls.argsFor(0)[1]();
         transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
@@ -137,13 +144,13 @@ describe('breadcrumb', () => {
       });
 
       it('should set the ui-state attribute for dashboard', () => {
-        expect(link().getAttribute('ui-state'))
-          .toEqual('breadcrumb.name');
+        expect(link().getAttribute('ui-state')).toEqual('breadcrumb.name');
       });
 
       it('should set the ui-state-params attribute for dashboard', () => {
-        expect(link().getAttribute('ui-state-params'))
-          .toEqual('breadcrumb.params');
+        expect(link().getAttribute('ui-state-params')).toEqual(
+          'breadcrumb.params'
+        );
       });
 
       it('should display the kind and label for dashboard', () => {
@@ -181,10 +188,12 @@ describe('breadcrumb', () => {
             to: jasmine.createSpy('to').and.returnValue(curRoute)
           };
 
-          getResolvedData.and.returnValue(maybe.of({
-            label: 'fs1-MDT0000',
-            kind: 'dashboard-mdt'
-          }));
+          getResolvedData.and.returnValue(
+            maybe.of({
+              label: 'fs1-MDT0000',
+              kind: 'dashboard-mdt'
+            })
+          );
 
           $transitions.onStart.calls.argsFor(0)[1]();
           transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
@@ -198,13 +207,13 @@ describe('breadcrumb', () => {
         });
 
         it('should set the ui-state attribute for dashboard', () => {
-          expect(link().getAttribute('ui-state'))
-            .toEqual('breadcrumb.name');
+          expect(link().getAttribute('ui-state')).toEqual('breadcrumb.name');
         });
 
         it('should set the ui-state-params attribute for dashboard', () => {
-          expect(link().getAttribute('ui-state-params'))
-            .toEqual('breadcrumb.params');
+          expect(link().getAttribute('ui-state-params')).toEqual(
+            'breadcrumb.params'
+          );
         });
 
         it('should display the kind and label for dashboard', () => {
@@ -220,7 +229,9 @@ describe('breadcrumb', () => {
         });
 
         it('should set the ui-state-params attribute for filesystem', () => {
-          expect(link2().getAttribute('ui-state-params')).toEqual('breadcrumb.params');
+          expect(link2().getAttribute('ui-state-params')).toEqual(
+            'breadcrumb.params'
+          );
         });
 
         it('should display the icon for the filesystem', () => {
@@ -228,7 +239,9 @@ describe('breadcrumb', () => {
         });
 
         it('should display the target kind and label', () => {
-          expect(link3().textContent.trim()).toEqual('dashboard-mdt : fs1-MDT0000');
+          expect(link3().textContent.trim()).toEqual(
+            'dashboard-mdt : fs1-MDT0000'
+          );
         });
 
         it('should display the icon for the target', () => {
@@ -249,10 +262,12 @@ describe('breadcrumb', () => {
               to: jasmine.createSpy('to').and.returnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(maybe.of({
-              label: 'fs1',
-              kind: 'dashboard-fs'
-            }));
+            getResolvedData.and.returnValue(
+              maybe.of({
+                label: 'fs1',
+                kind: 'dashboard-fs'
+              })
+            );
 
             $transitions.onStart.calls.argsFor(0)[1]();
             transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
@@ -265,13 +280,13 @@ describe('breadcrumb', () => {
           });
 
           it('should set the ui-state attribute for dashboard', () => {
-            expect(link().getAttribute('ui-state'))
-              .toEqual('breadcrumb.name');
+            expect(link().getAttribute('ui-state')).toEqual('breadcrumb.name');
           });
 
           it('should set the ui-state-params attribute for dashboard', () => {
-            expect(link().getAttribute('ui-state-params'))
-              .toEqual('breadcrumb.params');
+            expect(link().getAttribute('ui-state-params')).toEqual(
+              'breadcrumb.params'
+            );
           });
 
           it('should display the kind and label for dashboard', () => {
@@ -308,9 +323,11 @@ describe('breadcrumb', () => {
                 to: jasmine.createSpy('to').and.returnValue(curRoute)
               };
 
-              getResolvedData.and.returnValue(maybe.of({
-                kind: 'servers'
-              }));
+              getResolvedData.and.returnValue(
+                maybe.of({
+                  kind: 'servers'
+                })
+              );
 
               $stateParams.resetState = true;
 
@@ -346,10 +363,12 @@ describe('breadcrumb', () => {
               to: jasmine.createSpy('to').and.returnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(maybe.of({
-              label: 'fs1',
-              kind: 'filesystem'
-            }));
+            getResolvedData.and.returnValue(
+              maybe.of({
+                label: 'fs1',
+                kind: 'filesystem'
+              })
+            );
 
             $transitions.onStart.calls.argsFor(0)[1]();
           });
@@ -429,20 +448,17 @@ describe('breadcrumb', () => {
       });
 
       it('should destroy the onStart callback', () => {
-        expect(onStart)
-          .toHaveBeenCalledOnce();
+        expect(onStart).toHaveBeenCalledOnce();
       });
 
       it('should destroy the onSuccess callback', () => {
-        expect(onSuccess)
-          .toHaveBeenCalledOnce();
+        expect(onSuccess).toHaveBeenCalledOnce();
       });
     });
   });
 
   describe('starting 3 levels deep and hitting the back button', () => {
-    let transitionSuccess, backButtonRoute, transition, link, linkIcon,
-      link2;
+    let transitionSuccess, backButtonRoute, transition, link, linkIcon, link2;
 
     beforeEach(() => {
       $state.router.globals.$current = {
@@ -465,9 +481,7 @@ describe('breadcrumb', () => {
         to: jasmine.createSpy('to').and.returnValue(backButtonRoute)
       };
 
-      getResolvedData
-        .and
-        .returnValue(maybe.of(undefined));
+      getResolvedData.and.returnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
 

@@ -28,90 +28,84 @@ import cpuUsageTemplate from './assets/html/cpu-usage.html!text';
 import getCpuUsageStream from './get-cpu-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler
+  from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import {
-  getConf
-} from '../chart-transformers/chart-transformers.js';
+import { getConf } from '../chart-transformers/chart-transformers.js';
 import {
   UPDATE_CPU_USAGE_CHART_ITEMS,
   DEFAULT_CPU_USAGE_CHART_ITEMS
 } from './cpu-usage-chart-reducer.js';
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
-import type {
-  localApplyT
-} from '../extend-scope-module.js';
-import type {
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { localApplyT } from '../extend-scope-module.js';
+import type { targetQueryT } from '../dashboard/dashboard-module.js';
 import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply:localApplyT, data$Fn:data$FnT) => {
+export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';
-
-  return function getCpuUsageChart (overrides:targetQueryT, page:string) {
+  return function getCpuUsageChart(overrides: targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_CPU_USAGE_CHART_ITEMS,
-      payload: durationPayload({page})
+      payload: durationPayload({ page })
     });
 
     const config1$ = getStore.select('cpuUsageCharts');
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(
-          data$Fn(overrides, fp.always(getCpuUsageStream))
-        )
+        flatMapChanges(data$Fn(overrides, fp.always(getCpuUsageStream)))
       );
 
-    return chartCompiler(cpuUsageTemplate, initStream, ($scope:$scopeT, stream) => {
-      const conf = {
-        stream,
-        configType: '',
-        page: '',
-        startDate: '',
-        endDate: '',
-        size: 1,
-        unit:'',
-        onSubmit: durationSubmitHandler(UPDATE_CPU_USAGE_CHART_ITEMS, {page}),
-        options: {
-          setup (d3Chart, d3) {
-            d3Chart.useInteractiveGuideline(true);
+    return chartCompiler(
+      cpuUsageTemplate,
+      initStream,
+      ($scope: $scopeT, stream) => {
+        const conf = {
+          stream,
+          configType: '',
+          page: '',
+          startDate: '',
+          endDate: '',
+          size: 1,
+          unit: '',
+          onSubmit: durationSubmitHandler(UPDATE_CPU_USAGE_CHART_ITEMS, {
+            page
+          }),
+          options: {
+            setup(d3Chart, d3) {
+              d3Chart.useInteractiveGuideline(true);
 
-            d3Chart.forceY([0, 1]);
+              d3Chart.forceY([0, 1]);
 
-            d3Chart.yAxis.tickFormat(d3.format('.1%'));
+              d3Chart.yAxis.tickFormat(d3.format('.1%'));
 
-            d3Chart.xAxis.showMaxMin(false);
+              d3Chart.xAxis.showMaxMin(false);
 
-            d3Chart.color(['#2f7087', '#f09659', '#f0d359']);
+              d3Chart.color(['#2f7087', '#f09659', '#f0d359']);
+            }
           }
-        }
-      };
+        };
 
-      const config2$ = getStore.select('cpuUsageCharts');
-      config2$
-        .through(getConf(page))
-        .each((x:durationPayloadT) => {
+        const config2$ = getStore.select('cpuUsageCharts');
+        config2$.through(getConf(page)).each((x: durationPayloadT) => {
           Object.assign(conf, x);
           localApply($scope);
         });
 
-      $scope.$on('$destroy', () => {
-        stream.destroy();
-        config1$.destroy();
-        config2$.destroy();
-      });
+        $scope.$on('$destroy', () => {
+          stream.destroy();
+          config1$.destroy();
+          config2$.destroy();
+        });
 
-      return conf;
-    });
+        return conf;
+      }
+    );
   };
 };

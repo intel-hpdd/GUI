@@ -4,18 +4,14 @@ import transformedHostProfileFixture
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('select server profile', () => {
-  let SelectServerProfileStepCtrl,
-    selectServerProfileStep;
+  let SelectServerProfileStepCtrl, selectServerProfileStep;
 
   beforeEach(module(serverModule));
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/select-server-profile-step.js', {
       'source/iml/server/assets/html/select-server-profile-step.html!text': {
         default: 'serverProfileStepTemplate'
@@ -28,43 +24,52 @@ describe('select server profile', () => {
 
   afterEach(resetAll);
 
-
   describe('select server profile step ctrl', () => {
-    let $scope, $stepInstance, data,
-      createHostProfiles, hostProfileStream, selectServerProfileStep;
+    let $scope,
+      $stepInstance,
+      data,
+      createHostProfiles,
+      hostProfileStream,
+      selectServerProfileStep;
 
-    beforeEach(inject(($rootScope, $controller) => {
-      $scope = $rootScope.$new();
-      $stepInstance = {
-        transition: jasmine.createSpy('transition')
-      };
+    beforeEach(
+      inject(($rootScope, $controller) => {
+        $scope = $rootScope.$new();
+        $stepInstance = {
+          transition: jasmine.createSpy('transition')
+        };
 
-      hostProfileStream = highland();
-      spyOn(hostProfileStream, 'destroy');
+        hostProfileStream = highland();
+        spyOn(hostProfileStream, 'destroy');
 
-      createHostProfiles = jasmine.createSpy('createHostProfiles')
-        .and.returnValue(highland());
+        createHostProfiles = jasmine
+          .createSpy('createHostProfiles')
+          .and.returnValue(highland());
 
-      data = { pdsh: 'storage0.localdomain' };
+        data = { pdsh: 'storage0.localdomain' };
 
-      selectServerProfileStep = $controller(SelectServerProfileStepCtrl, {
-        $scope,
-        $stepInstance,
-        data,
-        hostProfileStream,
-        createHostProfiles
-      });
-    }));
+        selectServerProfileStep = $controller(SelectServerProfileStepCtrl, {
+          $scope,
+          $stepInstance,
+          data,
+          hostProfileStream,
+          createHostProfiles
+        });
+      })
+    );
 
     it('should setup the controller', () => {
-      const instance = window.extendWithConstructor(SelectServerProfileStepCtrl, {
-        pdsh: data.pdsh,
-        transition: jasmine.any(Function),
-        onSelected: jasmine.any(Function),
-        getHostPath: jasmine.any(Function),
-        pdshUpdate: jasmine.any(Function),
-        close: jasmine.any(Function)
-      });
+      const instance = window.extendWithConstructor(
+        SelectServerProfileStepCtrl,
+        {
+          pdsh: data.pdsh,
+          transition: jasmine.any(Function),
+          onSelected: jasmine.any(Function),
+          getHostPath: jasmine.any(Function),
+          pdshUpdate: jasmine.any(Function),
+          close: jasmine.any(Function)
+        }
+      );
 
       expect(selectServerProfileStep).toEqual(instance);
     });
@@ -88,12 +93,16 @@ describe('select server profile', () => {
     });
 
     describe('receiving data change on hostProfileSpark', () => {
-      beforeEach(inject(() => {
-        hostProfileStream.write(transformedHostProfileFixture);
-      }));
+      beforeEach(
+        inject(() => {
+          hostProfileStream.write(transformedHostProfileFixture);
+        })
+      );
 
       it('should set the profiles', () => {
-        expect(selectServerProfileStep.profiles).toEqual(transformedHostProfileFixture);
+        expect(selectServerProfileStep.profiles).toEqual(
+          transformedHostProfileFixture
+        );
       });
 
       describe('receiving more data', () => {
@@ -102,7 +111,9 @@ describe('select server profile', () => {
         });
 
         it('should keep the same profile', () => {
-          expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
+          expect(selectServerProfileStep.profile).toEqual(
+            transformedHostProfileFixture[0]
+          );
         });
       });
 
@@ -116,7 +127,9 @@ describe('select server profile', () => {
         });
 
         it('should set the profile on the scope', () => {
-          expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
+          expect(selectServerProfileStep.profile).toEqual(
+            transformedHostProfileFixture[0]
+          );
         });
       });
     });
@@ -170,7 +183,9 @@ describe('select server profile', () => {
         serverStatusStep: {}
       };
 
-      expect(selectServerProfileStep.transition(steps)).toEqual(steps.serverStatusStep);
+      expect(selectServerProfileStep.transition(steps)).toEqual(
+        steps.serverStatusStep
+      );
     });
 
     describe('on enter', () => {
@@ -183,7 +198,7 @@ describe('select server profile', () => {
         response,
         spy;
 
-      beforeEachAsync(async function () {
+      beforeEachAsync(async function() {
         data = {
           spring: jasmine.createSpy('spring'),
           servers: [],
@@ -201,9 +216,7 @@ describe('select server profile', () => {
                   dismissed: false,
                   errored: false,
                   id: '390',
-                  jobs: [
-                    '/api/job/390/'
-                  ],
+                  jobs: ['/api/job/390/'],
                   logs: '',
                   message: 'Setting up host lotus-34vm5.iml.intel.com',
                   resource_uri: '/api/command/390/'
@@ -224,9 +237,7 @@ describe('select server profile', () => {
                   label: 'lotus-34vm5.iml.intel.com',
                   locks: {
                     read: [],
-                    write: [
-                      390
-                    ]
+                    write: [390]
                   },
                   member_of_active_filesystem: false,
                   needs_fence_reconfiguration: false,
@@ -266,9 +277,7 @@ describe('select server profile', () => {
                   dismissed: false,
                   errored: false,
                   id: '391',
-                  jobs: [
-                    '/api/job/391/'
-                  ],
+                  jobs: ['/api/job/391/'],
                   logs: '',
                   message: 'Setting up host lotus-34vm6.iml.intel.com',
                   resource_uri: '/api/command/391/'
@@ -289,9 +298,7 @@ describe('select server profile', () => {
                   label: 'lotus-34vm6.iml.intel.com',
                   locks: {
                     read: [],
-                    write: [
-                      391
-                    ]
+                    write: [391]
                   },
                   member_of_active_filesystem: false,
                   needs_fence_reconfiguration: false,
@@ -341,9 +348,7 @@ describe('select server profile', () => {
                   label: 'lotus-34vm7.iml.intel.com',
                   locks: {
                     read: [],
-                    write: [
-                      391
-                    ]
+                    write: [391]
                   },
                   member_of_active_filesystem: false,
                   needs_fence_reconfiguration: false,
@@ -377,23 +382,31 @@ describe('select server profile', () => {
           ]
         };
 
-        createOrUpdateHostsStream = jasmine.createSpy('createOrUpdateHostsStream')
+        createOrUpdateHostsStream = jasmine
+          .createSpy('createOrUpdateHostsStream')
           .and.returnValue(highland([response]));
 
-        waitForCommandCompletion = jasmine.createSpy('waitForCommandCompletion')
-          .and
-          .callFake(val => highland([val]));
+        waitForCommandCompletion = jasmine
+          .createSpy('waitForCommandCompletion')
+          .and.callFake(val => highland([val]));
 
-
-        getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(highland([{
-          some: 'profiles'
-        }
-        ]));
+        getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(
+          highland([
+            {
+              some: 'profiles'
+            }
+          ])
+        );
 
         onEnter = selectServerProfileStep.onEnter;
 
-        result = onEnter(data, createOrUpdateHostsStream, getHostProfiles,
-          waitForCommandCompletion, true);
+        result = onEnter(
+          data,
+          createOrUpdateHostsStream,
+          getHostProfiles,
+          waitForCommandCompletion,
+          true
+        );
 
         spy = jasmine.createSpy('spy');
 
@@ -402,8 +415,9 @@ describe('select server profile', () => {
       });
 
       it('should create or update the hosts', () => {
-        expect(createOrUpdateHostsStream)
-          .toHaveBeenCalledOnceWith(data.servers);
+        expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(
+          data.servers
+        );
       });
 
       it('should pass commands to wait for command completion', () => {
@@ -414,8 +428,10 @@ describe('select server profile', () => {
           fp.filter(x => x)
         )(response);
 
-        expect(waitForCommandCompletion)
-          .toHaveBeenCalledOnceWith(true, commands);
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(
+          true,
+          commands
+        );
       });
 
       it('should call getHostProfiles', () => {

@@ -25,9 +25,7 @@ import {
   getData
 } from './server-detail-resolves.js';
 
-import {
-  GROUPS
-} from '../auth/authorization.js';
+import { GROUPS } from '../auth/authorization.js';
 
 import serverTemplate from './assets/html/server.html!text';
 import serverDetailTemplate from './assets/html/server-detail.html!text';

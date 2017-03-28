@@ -27,58 +27,38 @@ import * as fp from 'intel-fp';
 import * as maybe from 'intel-maybe';
 import flatMapChanges from 'intel-flat-map-changes';
 
-import {
-  addCurrentPage
-} from '../api-transforms.js';
+import { addCurrentPage } from '../api-transforms.js';
 
-import {
-  addTreeItems,
-  createItem
-} from '../tree/tree-actions.js';
+import { addTreeItems, createItem } from '../tree/tree-actions.js';
 
-import type {
-  Maybe
-} from 'intel-maybe';
+import type { Maybe } from 'intel-maybe';
 
-import type {
-  treeItemT,
-  treeHashT
-} from './tree-types.js';
+import type { treeItemT, treeHashT } from './tree-types.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-type treeItemToBooleanT = (x:treeItemT) => boolean;
+type treeItemToBooleanT = (x: treeItemT) => boolean;
 
-type getChildByT = (fn:treeItemToBooleanT) => (x:HighlandStreamT<treeHashT>) => HighlandStreamT<Maybe<treeItemT>>;
-export const getChildBy:getChildByT = fn => highland.map(
-  fp.flow(
-    obj.values,
-    fp.filter(fn),
-    x => maybe.of(x[0])
-  )
-);
+type getChildByT = (fn: treeItemToBooleanT) => (
+  x: HighlandStreamT<treeHashT>
+) => HighlandStreamT<Maybe<treeItemT>>;
+export const getChildBy: getChildByT = fn =>
+  highland.map(fp.flow(obj.values, fp.filter(fn), x => maybe.of(x[0])));
 
-export const emitOnItem = (fn:treeItemToBooleanT) =>
+export const emitOnItem = (fn: treeItemToBooleanT) =>
   fp.flow(
     getChildBy(fn),
-    highland.map(
-      maybe.withDefault(
-        fp.always(false)
-      )
-    ),
+    highland.map(maybe.withDefault(fp.always(false))),
     highland.filter(x => x)
   );
 
-export const hasChanges = (fn:treeItemToObjectT) => {
+export const hasChanges = (fn: treeItemToObjectT) => {
   let last;
 
-  return (x:treeItemT) => {
+  return (x: treeItemT) => {
     const item = fn(x);
 
-    if (last === item)
-      return false;
+    if (last === item) return false;
 
     last = item;
 
@@ -86,32 +66,24 @@ export const hasChanges = (fn:treeItemToObjectT) => {
   };
 };
 
-type treeItemToObjectT = (x:treeItemT) => Object;
-type treeItemToStreamT = (x:treeItemT) => HighlandStreamT<Object>;
+type treeItemToObjectT = (x: treeItemT) => Object;
+type treeItemToStreamT = (x: treeItemT) => HighlandStreamT<Object>;
 
-export const transformItems = (fn:treeItemToBooleanT, structFn:() => {type:string, parentTreeId:number}, fnTo$:treeItemToStreamT) => {
+export const transformItems = (
+  fn: treeItemToBooleanT,
+  structFn: () => { type: string, parentTreeId: number },
+  fnTo$: treeItemToStreamT
+) => {
   let latest = {};
 
   return fp.flow(
     getChildBy(fn),
-    highland.map(
-      maybe.withDefault(
-        () => createItem(structFn())
-      )
-    ),
+    highland.map(maybe.withDefault(() => createItem(structFn()))),
     highland.tap(x => latest = x),
-    highland.filter(
-      hasChanges(x => x.meta.offset)
-    ),
+    highland.filter(hasChanges(x => x.meta.offset)),
     flatMapChanges(fnTo$),
-    highland.map(
-      addCurrentPage
-    ),
-    highland.map(
-      x => Object.assign(latest, x)
-    ),
-    highland.map(
-      x => addTreeItems([x])
-    )
+    highland.map(addCurrentPage),
+    highland.map(x => Object.assign(latest, x)),
+    highland.map(x => addTreeItems([x]))
   );
 };

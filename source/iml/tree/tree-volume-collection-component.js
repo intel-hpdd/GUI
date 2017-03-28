@@ -25,41 +25,29 @@ import socketStream from '../socket/socket-stream.js';
 import store from '../store/get-store.js';
 import * as fp from 'intel-fp';
 
-import {
-  toggleCollection
-} from './tree-utils.js';
+import { toggleCollection } from './tree-utils.js';
 
-import {
-  emitOnItem,
-  transformItems
-} from './tree-transforms.js';
+import { emitOnItem, transformItems } from './tree-transforms.js';
 
-import type {
-  treeItemT
-} from './tree-types.js';
+import type { treeItemT } from './tree-types.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
+function treeVolumeCollection($scope: $scopeT, propagateChange: Function) {
   'ngInject';
-
-  function computePage (meta) {
-    const currentPage = (meta.offset / meta.limit) + 1;
+  function computePage(meta) {
+    const currentPage = meta.offset / meta.limit + 1;
     return (currentPage - 1) * meta.limit;
   }
 
-  const fn = (x:treeItemT) => x.parentTreeId === this.parentId &&
+  const fn = (x: treeItemT) =>
+    x.parentTreeId === this.parentId &&
     x.hostId === this.hostId &&
     x.type === 'volume';
 
-  const t1 = store
-    .select('tree');
+  const t1 = store.select('tree');
 
-  t1
-    .through(emitOnItem(fn))
-    .through(propagateChange($scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange($scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'volume',
@@ -67,15 +55,16 @@ function treeVolumeCollection ($scope:$scopeT, propagateChange:Function) {
     hostId: this.hostId
   });
 
-  const fnTo$ = (item) => socketStream('/volume/', {
-    jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
-    qs: {
-      host_id: this.hostId,
-      offset: computePage(item.meta),
-      limit: item.meta.limit,
-      order_by: 'label'
-    }
-  });
+  const fnTo$ = item =>
+    socketStream('/volume/', {
+      jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
+      qs: {
+        host_id: this.hostId,
+        offset: computePage(item.meta),
+        limit: item.meta.limit,
+        order_by: 'label'
+      }
+    });
 
   const volumeCollection$ = store.select('tree');
 

@@ -23,20 +23,18 @@
 
 import * as fp from 'intel-fp';
 
-import type {
-  HighlandStreamT,
-  errorWrapT
-} from 'highland';
+import type { HighlandStreamT, errorWrapT } from 'highland';
 
-
-export const resolveStream = <T> (stream:HighlandStreamT<T>):Promise<HighlandStreamT<T>> => {
-  return new Promise((resolve) => {
+export const resolveStream = <T>(
+  stream: HighlandStreamT<T>
+): Promise<HighlandStreamT<T>> => {
+  return new Promise(resolve => {
     stream.pull((error, x) => {
       if (error)
         x = ({
           __HighlandStreamError__: true,
           error
-        }:errorWrapT);
+        }: errorWrapT);
 
       const s2 = stream.tap(fp.noop);
       s2.write(x);
@@ -49,19 +47,12 @@ export const resolveStream = <T> (stream:HighlandStreamT<T>):Promise<HighlandStr
   });
 };
 
-
-export function streamToPromise <A>(s:HighlandStreamT<A>):Promise<A> {
-  return new Promise (
-    (resolve, reject) =>
-      s
-        .pull((err:Error, x:A) => {
-          if (err)
-            reject(err);
-          else
-            resolve(x);
-        })
-  )
-  .then(x => {
+export function streamToPromise<A>(s: HighlandStreamT<A>): Promise<A> {
+  return new Promise((resolve, reject) =>
+    s.pull((err: Error, x: A) => {
+      if (err) reject(err);
+      else resolve(x);
+    })).then(x => {
     s.destroy();
     return x;
   });

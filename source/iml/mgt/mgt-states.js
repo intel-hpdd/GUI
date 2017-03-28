@@ -21,15 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  mgt$,
-  mgtJobIndicatorB,
-  mgtAlertIndicatorB
-} from './mgt-resolves.js';
+import { mgt$, mgtJobIndicatorB, mgtAlertIndicatorB } from './mgt-resolves.js';
 
-import {
-  GROUPS
-} from '../auth/authorization.js';
+import { GROUPS } from '../auth/authorization.js';
 
 export const mgtState = {
   name: 'app.mgt',

@@ -1,20 +1,21 @@
-import multiTogglerModule from '../../../../source/iml/multi-toggler/multi-toggler-module.js';
-
+import multiTogglerModule
+  from '../../../../source/iml/multi-toggler/multi-toggler-module.js';
 
 describe('multi toggler', () => {
   beforeEach(module(multiTogglerModule, 'ui.bootstrap'));
 
   let $scope, el;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      $scope = $rootScope.$new();
 
-    Object.assign($scope, {
-      selected1: true,
-      selected2: false
-    });
+      Object.assign($scope, {
+        selected1: true,
+        selected2: false
+      });
 
-    const template = `
+      const template = `
       <multi-toggler-container>
         <button
           class="btn"
@@ -35,17 +36,16 @@ describe('multi toggler', () => {
       </multi-toggler-container>
     `;
 
-    el = $compile(template)($scope)[0];
-    $scope.$digest();
-  }));
+      el = $compile(template)($scope)[0];
+      $scope.$digest();
+    })
+  );
 
   it('should select the state on all', () => {
     el.querySelector('multi-toggler .btn-group a').click();
 
     expect(
-      el
-        .querySelectorAll('multi-toggler-container > button.active')
-        .length
+      el.querySelectorAll('multi-toggler-container > button.active').length
     ).toBe(2);
   });
 
@@ -53,9 +53,7 @@ describe('multi toggler', () => {
     el.querySelectorAll('multi-toggler .btn-group a')[2].click();
 
     expect(
-      el
-        .querySelectorAll('multi-toggler-container > button.active')
-        .length
+      el.querySelectorAll('multi-toggler-container > button.active').length
     ).toBe(1);
   });
 
@@ -63,9 +61,7 @@ describe('multi toggler', () => {
     el.querySelectorAll('multi-toggler .btn-group a')[1].click();
 
     expect(
-      el
-        .querySelectorAll('multi-toggler-container > button.active')
-        .length
+      el.querySelectorAll('multi-toggler-container > button.active').length
     ).toBe(0);
   });
 });

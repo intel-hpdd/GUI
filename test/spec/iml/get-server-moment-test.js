@@ -1,12 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
-describe('Get server moment', function () {
+describe('Get server moment', function() {
   let getServerMoment, environment, momentInstance, moment;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     environment = {
       SERVER_TIME_DIFF: 2000
     };
@@ -14,15 +11,13 @@ describe('Get server moment', function () {
     momentInstance = {
       add: jasmine.createSpy('add')
     };
-    momentInstance.add
-      .and.returnValue(momentInstance);
+    momentInstance.add.and.returnValue(momentInstance);
 
-    moment = jasmine.createSpy('moment')
-      .and.returnValue(momentInstance);
+    moment = jasmine.createSpy('moment').and.returnValue(momentInstance);
 
     const mod = await mock('source/iml/get-server-moment.js', {
       'source/iml/environment.js': environment,
-      'moment': { default: moment }
+      moment: { default: moment }
     });
 
     getServerMoment = mod.default;
@@ -30,7 +25,7 @@ describe('Get server moment', function () {
 
   afterEach(resetAll);
 
-  it('should be a function', function () {
+  it('should be a function', function() {
     expect(getServerMoment).toEqual(jasmine.any(Function));
   });
 
@@ -52,11 +47,10 @@ describe('Get server moment', function () {
   it('should add the server time diff', () => {
     getServerMoment();
 
-    expect(momentInstance.add)
-      .toHaveBeenCalledOnceWith(2000);
+    expect(momentInstance.add).toHaveBeenCalledOnceWith(2000);
   });
 
-  it('should forward arguments to moment', function () {
+  it('should forward arguments to moment', function() {
     const epochTime = new Date().valueOf();
 
     getServerMoment(epochTime);

@@ -21,9 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function Controller () {
+export function Controller() {
   'ngInject';
-
   let open = true;
 
   this.onClick = () => {

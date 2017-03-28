@@ -19,17 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function addStaticDirInterceptorFactory (STATIC_URL) {
+export function addStaticDirInterceptorFactory(STATIC_URL) {
   'ngInject';
-
   const html = /\.html$/;
   const uiBootstrap = /template\/.+\.html$/;
   const slash = /^\//;
 
   return {
-    request (config) {
-      if (!html.test(config.url) || uiBootstrap.test(config.url))
-        return config;
+    request(config) {
+      if (!html.test(config.url) || uiBootstrap.test(config.url)) return config;
 
       if (slash.test(config.url)) config.url = config.url.slice(1);
 

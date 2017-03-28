@@ -21,12 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import completer from '../completionist/completer.js';
 
-import {
-  tokenizer,
-  choices
-} from './status-input-to-qs-parser.js';
+import { tokenizer, choices } from './status-input-to-qs-parser.js';
 
 export default completer(tokenizer, choices);

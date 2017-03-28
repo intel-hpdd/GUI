@@ -21,18 +21,12 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  ADD_TARGET_ITEMS
-} from './target-reducer.js';
+import { ADD_TARGET_ITEMS } from './target-reducer.js';
 
-import {
-  CACHE_INITIAL_DATA,
-  ALLOW_ANONYMOUS_READ
-} from '../environment.js';
+import { CACHE_INITIAL_DATA, ALLOW_ANONYMOUS_READ } from '../environment.js';
 
 store.dispatch({
   type: ADD_TARGET_ITEMS,
@@ -45,8 +39,9 @@ if (ALLOW_ANONYMOUS_READ)
       limit: 0
     }
   })
-  .map(x => x.objects)
-  .each(payload => store.dispatch({
-    type: ADD_TARGET_ITEMS,
-    payload
-  }));
+    .map(x => x.objects)
+    .each(payload =>
+      store.dispatch({
+        type: ADD_TARGET_ITEMS,
+        payload
+      }));

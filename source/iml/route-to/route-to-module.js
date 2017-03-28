@@ -26,6 +26,6 @@ import angular from 'angular';
 import routeToDirective from './route-to';
 import environmentModule from '../environment-module';
 
-export default angular.module('route-to', [environmentModule])
-  .directive('routeTo', routeToDirective)
-  .name;
+export default angular
+  .module('route-to', [environmentModule])
+  .directive('routeTo', routeToDirective).name;

@@ -21,18 +21,22 @@
 
 import angular from 'angular';
 import * as fp from 'intel-fp';
-import serverStatusStepTemplate from './assets/html/server-status-step.html!text';
+import serverStatusStepTemplate
+  from './assets/html/server-status-step.html!text';
 
+import { resolveStream } from '../promise-transforms.js';
 
-import {
-  resolveStream
-} from '../promise-transforms.js';
-
-export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
-                                      OVERRIDE_BUTTON_TYPES, data, testHostStream,
-                                      hostlistFilter, localApply) {
+export function ServerStatusStepCtrl(
+  $scope,
+  $stepInstance,
+  $exceptionHandler,
+  OVERRIDE_BUTTON_TYPES,
+  data,
+  testHostStream,
+  hostlistFilter,
+  localApply
+) {
   'ngInject';
-
   angular.extend(this, {
     pdsh: data.pdsh,
     /**
@@ -41,18 +45,15 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
      * @param {Array} hostnames
      * @param {Object} hostnamesHash
      */
-    pdshUpdate: function pdshUpdate (pdsh, hostnames, hostnamesHash) {
-      this.serversStatus = hostlistFilter
-        .setHash(hostnamesHash)
-        .compute();
+    pdshUpdate: function pdshUpdate(pdsh, hostnames, hostnamesHash) {
+      this.serversStatus = hostlistFilter.setHash(hostnamesHash).compute();
     },
     /**
      * tells manager to perform a transition.
      * @param {String} action
      */
-    transition: function transition (action) {
-      if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE)
-        return;
+    transition: function transition(action) {
+      if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE) return;
 
       testHostStream.destroy();
 
@@ -64,7 +65,7 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
     /**
      * Close the modal
      */
-    close: function close () {
+    close: function close() {
       $scope.$emit('addServerModal::closeModal');
     }
   });
@@ -72,7 +73,7 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
   const serverStatusStep = this;
 
   testHostStream
-    .tap(function (resp) {
+    .tap(function(resp) {
       serverStatusStep.isValid = resp.valid;
       serverStatusStep.serversStatus = hostlistFilter
         .setHosts(resp.objects)
@@ -85,12 +86,17 @@ export function ServerStatusStepCtrl ($scope, $stepInstance, $exceptionHandler,
 export const serverStatusStep = {
   template: serverStatusStepTemplate,
   controller: 'ServerStatusStepCtrl as serverStatus',
-  onEnter: ['data', 'getTestHostStream', 'serversToApiObjects',
-    function onEnter (data, getTestHostStream, serversToApiObjects) {
+  onEnter: [
+    'data',
+    'getTestHostStream',
+    'serversToApiObjects',
+    function onEnter(data, getTestHostStream, serversToApiObjects) {
       const objects = serversToApiObjects(data.servers);
 
       return {
-        testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
+        testHostStream: resolveStream(
+          getTestHostStream(data.spring, { objects: objects })
+        ),
         data: data
       };
     }
@@ -101,7 +107,9 @@ export const serverStatusStep = {
    * @param {String} action
    * @returns {Object} The step to move to.
    */
-  transition: function transition (steps, action) {
-    return (action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep);
+  transition: function transition(steps, action) {
+    return action === 'previous'
+      ? steps.addServersStep
+      : steps.selectServerProfileStep;
   }
 };

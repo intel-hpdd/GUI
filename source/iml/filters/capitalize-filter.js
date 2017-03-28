@@ -21,16 +21,13 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function capitalizeFilter () {
+export default function capitalizeFilter() {
   'ngInject';
-
-  return function (words, all) {
+  return function(words, all) {
     if (!_.isString(words)) return words;
 
-    if (all)
-      words = words.trim().split(/\s+/).map(_.capitalize).join(' ');
-    else
-      words = _.capitalize(words);
+    if (all) words = words.trim().split(/\s+/).map(_.capitalize).join(' ');
+    else words = _.capitalize(words);
 
     return words;
   };

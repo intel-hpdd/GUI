@@ -19,11 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function multiBarChart (baseChart) {
+export default function multiBarChart(baseChart) {
   'ngInject';
-  
   return baseChart({
-    generateChart: function generateChart (nv) {
+    generateChart: function generateChart(nv) {
       return nv.models.multiBarChart();
     }
   });

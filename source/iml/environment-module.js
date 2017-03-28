@@ -29,9 +29,6 @@ const environmentModule = angular.module('environment', []);
 
 environmentModule.value('ENV', ENV);
 
-Object.keys(ENV)
-  .forEach(key => environmentModule
-    .value(key, ENV[key])
-  );
+Object.keys(ENV).forEach(key => environmentModule.value(key, ENV[key]));
 
 export default environmentModule.name;
