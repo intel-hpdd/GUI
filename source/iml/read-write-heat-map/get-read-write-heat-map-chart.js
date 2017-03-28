@@ -92,19 +92,19 @@ export default (
 
     const config1$ = getStore.select('readWriteHeatMapCharts');
 
-    const initStream = config1$
-      .through(getConf(page))
-      .through(
-        flatMapChanges((x: heatMapDurationPayloadT) =>
-          streamWhenVisible(() =>
-            getReadWriteHeatMapStream(
-              x.dataType,
-              overrides,
-              x.configType === 'duration' ? x : undefined,
-              x.configType === 'range' ? x : undefined,
-              SERVER_TIME_DIFF
-            )))
-      );
+    const initStream = config1$.through(getConf(page)).through(
+      flatMapChanges((x: heatMapDurationPayloadT) =>
+        streamWhenVisible(() =>
+          getReadWriteHeatMapStream(
+            {
+              ...overrides,
+              ...{ qs: { ...overrides.qs, ...{ metrics: x.dataType } } }
+            },
+            x.configType === 'duration' ? x : undefined,
+            x.configType === 'range' ? x : undefined,
+            SERVER_TIME_DIFF
+          )))
+    );
 
     return chartCompiler(
       readWriteHeatMapTemplate,
