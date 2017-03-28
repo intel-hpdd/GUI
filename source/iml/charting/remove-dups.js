@@ -5,6 +5,6 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function removeDupsFactory (s) {
+export default function removeDupsFactory(s) {
   return s.uniqBy(_.eqProp('ts'));
 }

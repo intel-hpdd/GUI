@@ -12,18 +12,16 @@ import {
   UPDATE_COLLECTION_OFFSET
 } from './tree-types.js';
 
-import type {
-  treeItemT
-} from './tree-types.js';
+import type { treeItemT } from './tree-types.js';
 
-export function addTreeItems (payload:treeItemT[]) {
+export function addTreeItems(payload: treeItemT[]) {
   return {
     type: ADD_TREE_ITEMS,
     payload
   };
 }
 
-export const toggleCollectionOpen = (id:number, open:boolean) => {
+export const toggleCollectionOpen = (id: number, open: boolean) => {
   return {
     type: TOGGLE_COLLECTION_OPEN,
     payload: {
@@ -33,7 +31,7 @@ export const toggleCollectionOpen = (id:number, open:boolean) => {
   };
 };
 
-export const toggleItemOpen = (id:number, itemId:number, open:boolean) => {
+export const toggleItemOpen = (id: number, itemId: number, open: boolean) => {
   return {
     type: TOGGLE_ITEM_OPEN,
     payload: {
@@ -44,7 +42,7 @@ export const toggleItemOpen = (id:number, itemId:number, open:boolean) => {
   };
 };
 
-export const updateCollectionOffset = (id:number, offset:number) => {
+export const updateCollectionOffset = (id: number, offset: number) => {
   return {
     type: UPDATE_COLLECTION_OFFSET,
     payload: {
@@ -56,7 +54,7 @@ export const updateCollectionOffset = (id:number, offset:number) => {
 
 let id = 1;
 
-export const createItem = (x:{type:string, parentTreeId:number}) => ({
+export const createItem = (x: { type: string, parentTreeId: number }) => ({
   ...x,
   treeId: id++,
   open: false,

@@ -13,9 +13,8 @@ overlay.className = 'overlay';
 const SLIDER_WIDTH_PX = 3;
 const MAX_SIDE_PERCENTAGE = 35;
 
-export function Controller ($element:HTMLElement[]) {
+export function Controller($element: HTMLElement[]) {
   'ngInject';
-
   const listeners = [];
 
   this.register = listener => listeners.push(listener);
@@ -23,8 +22,7 @@ export function Controller ($element:HTMLElement[]) {
   this.deregister = listener => {
     const idx = listeners.indexOf(listener);
 
-    if (idx === -1)
-      return;
+    if (idx === -1) return;
 
     listeners.splice(idx, 1);
   };
@@ -33,30 +31,29 @@ export function Controller ($element:HTMLElement[]) {
 
   let running = false;
 
-  this.onChange = (x:number) => {
-    if (running)
-      return;
+  this.onChange = (x: number) => {
+    if (running) return;
 
     running = true;
 
-    const overlayWidthPx = overlay
-      .getBoundingClientRect()
-      .width - SLIDER_WIDTH_PX;
+    const overlayWidthPx = overlay.getBoundingClientRect().width -
+      SLIDER_WIDTH_PX;
 
     x = Math.max(x, 0);
-    let sideWidthPercentage = (x / overlayWidthPx) * 100;
+    let sideWidthPercentage = x / overlayWidthPx * 100;
     sideWidthPercentage = Math.min(MAX_SIDE_PERCENTAGE, sideWidthPercentage);
 
     if (sideWidthPercentage === MAX_SIDE_PERCENTAGE)
       x = overlayWidthPx * (sideWidthPercentage / 100);
 
     global.requestAnimationFrame(() => {
-      listeners.forEach(l => l({
-        sideWidthPx: x,
-        sideWidthPercentage,
-        mainWidthPercentage: 100 - sideWidthPercentage,
-        mainWidthPx: overlayWidthPx - x
-      }));
+      listeners.forEach(l =>
+        l({
+          sideWidthPx: x,
+          sideWidthPercentage,
+          mainWidthPercentage: 100 - sideWidthPercentage,
+          mainWidthPx: overlayWidthPx - x
+        }));
 
       running = false;
     });

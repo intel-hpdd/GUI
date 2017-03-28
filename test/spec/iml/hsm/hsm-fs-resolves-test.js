@@ -1,11 +1,7 @@
-
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('hsm fs resolve', () => {
   let socketStream,
@@ -18,32 +14,20 @@ describe('hsm fs resolve', () => {
     broadcaster,
     promise;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     s = highland();
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and
-      .returnValue(s);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
     stream = highland();
     store = {
-      select: jasmine
-        .createSpy('select')
-        .and
-        .returnValue(stream)
+      select: jasmine.createSpy('select').and.returnValue(stream)
     };
 
     promise = Promise.resolve(s);
 
-    resolveStream = jasmine
-      .createSpy('resolveStream')
-      .and
-      .returnValue(promise);
+    resolveStream = jasmine.createSpy('resolveStream').and.returnValue(promise);
 
-    broadcaster = jasmine
-      .createSpy('broadcaster')
-      .and
-      .callFake(fp.identity);
+    broadcaster = jasmine.createSpy('broadcaster').and.callFake(fp.identity);
 
     const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
       'source/iml/socket/socket-stream.js': {
@@ -83,7 +67,7 @@ describe('hsm fs resolve', () => {
       expect(resolveStream).toHaveBeenCalledOnceWith(s);
     });
 
-    itAsync('should send the stream through broadcaster', async function () {
+    itAsync('should send the stream through broadcaster', async function() {
       await promise;
 
       expect(broadcaster).toHaveBeenCalledOnce();
@@ -92,33 +76,30 @@ describe('hsm fs resolve', () => {
 
   describe('getData', () => {
     beforeEach(() => {
-      stream
-        .write({
-          id: 1,
-          label: 1
-        });
+      stream.write({
+        id: 1,
+        label: 1
+      });
     });
 
-    itAsync('should return the matching fs', async function () {
+    itAsync('should return the matching fs', async function() {
       const fs = await getData({
         id: 1
       });
 
-      expect(fs)
-        .toEqual({
-          label: null
-        });
+      expect(fs).toEqual({
+        label: null
+      });
     });
 
-    itAsync('should return a null label ', async function () {
+    itAsync('should return a null label ', async function() {
       const fs = await getData({
         id: 2
       });
 
-      expect(fs)
-        .toEqual({
-          label: null
-        });
+      expect(fs).toEqual({
+        label: null
+      });
     });
   });
 });

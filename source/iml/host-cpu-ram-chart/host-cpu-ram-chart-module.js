@@ -18,13 +18,15 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addHostCpuRamActionT = {
-    type:'DEFAULT_HOST_CPU_RAM_CHART_ITEMS' | 'UPDATE_HOST_CPU_RAM_CHART_ITEMS',
-    payload:durationPayloadT
+  type: 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS' | 'UPDATE_HOST_CPU_RAM_CHART_ITEMS',
+  payload: durationPayloadT
 };
 
-export default angular.module('hostCpuRamChart', [
-  chartsModule, chartingModule, highlandModule,
-  durationPickerModule
-])
-  .factory('getHostCpuRamChart', getHostCpuRamChartFactory)
-  .name;
+export default angular
+  .module('hostCpuRamChart', [
+    chartsModule,
+    chartingModule,
+    highlandModule,
+    durationPickerModule
+  ])
+  .factory('getHostCpuRamChart', getHostCpuRamChartFactory).name;

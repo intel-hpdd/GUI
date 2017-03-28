@@ -1,20 +1,27 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Host Cpu Ram chart', () => {
-  let chartCompiler, getHostCpuRamStream, selectStoreCount,
-    submitHandler, config1$, config2$,
-    getHostCpuRamChart, getStore, standardConfig,
-    durationPayload, data$Fn, initStream,
-    durationSubmitHandler, localApply, mod,
+  let chartCompiler,
+    getHostCpuRamStream,
+    selectStoreCount,
+    submitHandler,
+    config1$,
+    config2$,
+    getHostCpuRamChart,
+    getStore,
+    standardConfig,
+    durationPayload,
+    data$Fn,
+    initStream,
+    durationSubmitHandler,
+    localApply,
+    mod,
     getConf;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getHostCpuRamStream = {};
 
     standardConfig = {
@@ -25,13 +32,17 @@ describe('Host Cpu Ram chart', () => {
       endDate: 1464812997102
     };
 
-    config1$ = highland([{
-      'hostCpuRamChart': {...standardConfig}
-    }]);
+    config1$ = highland([
+      {
+        hostCpuRamChart: { ...standardConfig }
+      }
+    ]);
     spyOn(config1$, 'destroy');
-    config2$ = highland([{
-      'hostCpuRamChart': {...standardConfig}
-    }]);
+    config2$ = highland([
+      {
+        hostCpuRamChart: { ...standardConfig }
+      }
+    ]);
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
@@ -39,44 +50,58 @@ describe('Host Cpu Ram chart', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.callFake(() => {
         switch (selectStoreCount) {
-        case 0:
-          selectStoreCount++;
-          return config1$;
-        default:
-          return config2$;
+          case 0:
+            selectStoreCount++;
+            return config1$;
+          default:
+            return config2$;
         }
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload')
-      .and.callFake(x => {
-        return {...standardConfig, ...x};
-      });
+    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+      return { ...standardConfig, ...x };
+    });
 
     submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+    durationSubmitHandler = jasmine
+      .createSpy('durationSubmitHandler')
       .and.returnValue(submitHandler);
 
-    getConf = jasmine.createSpy('getConf')
-      .and.callFake(page => {
-        return s => {
-          return s.map(x => {
-            return x[page];
-          });
-        };
-      });
+    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+      return s => {
+        return s.map(x => {
+          return x[page];
+        });
+      };
+    });
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
-    mod = await mock('source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js', {
-      'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': { default: getHostCpuRamStream },
-      'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html!text': { default: 'hostCpuTemplate' },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
-      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
-    });
+    mod = await mock(
+      'source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js',
+      {
+        'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': {
+          default: getHostCpuRamStream
+        },
+        'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html!text': {
+          default: 'hostCpuTemplate'
+        },
+        'source/iml/chart-compiler/chart-compiler.js': {
+          default: chartCompiler
+        },
+        'source/iml/store/get-store.js': { default: getStore },
+        'source/iml/duration-picker/duration-payload.js': {
+          default: durationPayload
+        },
+        'source/iml/duration-picker/duration-submit-handler.js': {
+          default: durationSubmitHandler
+        },
+        'source/iml/chart-transformers/chart-transformers.js': {
+          getConf: getConf
+        }
+      }
+    );
   });
 
   afterEach(resetAll);
@@ -85,8 +110,7 @@ describe('Host Cpu Ram chart', () => {
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn')
-      .and.callFake(() => initStream);
+    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
 
     localApply = jasmine.createSpy('localApply');
 
@@ -159,22 +183,24 @@ describe('Host Cpu Ram chart', () => {
   describe('setup', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      getHostCpuRamChart(
-        'Object Storage Server',
-        {
-          qs: {
-            host_id: '1'
-          }
-        },
-        'hostCpuRamChart'
-      );
+    beforeEach(
+      inject($rootScope => {
+        getHostCpuRamChart(
+          'Object Storage Server',
+          {
+            qs: {
+              host_id: '1'
+            }
+          },
+          'hostCpuRamChart'
+        );
 
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
-    }));
+        config = handler($scope, initStream);
+      })
+    );
 
     it('should return a config', () => {
       expect(config).toEqual({
@@ -220,8 +246,7 @@ describe('Host Cpu Ram chart', () => {
         formatter = {};
 
         d3 = {
-          format: jasmine.createSpy('format')
-            .and.returnValue(formatter)
+          format: jasmine.createSpy('format').and.returnValue(formatter)
         };
 
         chart = {
@@ -237,8 +262,7 @@ describe('Host Cpu Ram chart', () => {
       });
 
       it('should use interactive guideline', () => {
-        expect(chart.useInteractiveGuideline)
-          .toHaveBeenCalledOnceWith(true);
+        expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
       it('should should force y', () => {
@@ -246,8 +270,7 @@ describe('Host Cpu Ram chart', () => {
       });
 
       it('should set y tick format', () => {
-        expect(chart.yAxis.tickFormat)
-          .toHaveBeenCalledOnceWith(formatter);
+        expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(formatter);
       });
 
       it('should should create a tick formatter', () => {
@@ -255,8 +278,7 @@ describe('Host Cpu Ram chart', () => {
       });
 
       it('should set colors', () => {
-        expect(chart.color)
-          .toHaveBeenCalledOnceWith(['#F3B600', '#0067B4']);
+        expect(chart.color).toHaveBeenCalledOnceWith(['#F3B600', '#0067B4']);
       });
     });
   });
@@ -264,30 +286,33 @@ describe('Host Cpu Ram chart', () => {
   describe('on submit', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      getHostCpuRamChart(
-        'Object Storage Server',
-        {
-          qs: {
-            host_id: '1'
-          }
-        },
-        'hostCpuRamChart'
-      );
+    beforeEach(
+      inject($rootScope => {
+        getHostCpuRamChart(
+          'Object Storage Server',
+          {
+            qs: {
+              host_id: '1'
+            }
+          },
+          'hostCpuRamChart'
+        );
 
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
+        config = handler($scope, initStream);
 
-      config.onSubmit();
-    }));
+        config.onSubmit();
+      })
+    );
 
     it('should call durationSubmitHandler', () => {
-      expect(durationSubmitHandler).toHaveBeenCalledOnceWith(
-        'UPDATE_HOST_CPU_RAM_CHART_ITEMS',
-        {page: 'hostCpuRamChart'}
-      );
+      expect(
+        durationSubmitHandler
+      ).toHaveBeenCalledOnceWith('UPDATE_HOST_CPU_RAM_CHART_ITEMS', {
+        page: 'hostCpuRamChart'
+      });
     });
 
     it('should invoke the submit handler', () => {

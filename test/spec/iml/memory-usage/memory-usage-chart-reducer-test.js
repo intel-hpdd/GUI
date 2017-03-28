@@ -6,7 +6,6 @@ import {
 import deepFreeze from 'intel-deep-freeze';
 
 describe('memory usage chart reducer', () => {
-
   it('should be a function', () => {
     expect(memoryUsageChartReducer).toEqual(jasmine.any(Function));
   });
@@ -18,7 +17,7 @@ describe('memory usage chart reducer', () => {
           expect(
             memoryUsageChartReducer(
               {
-                'base': {
+                base: {
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -39,27 +38,24 @@ describe('memory usage chart reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 3,
-                unit: 'hours',
-                page: 'base'
-              },
-              'fs1': {
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 15,
-                unit: 'minutes',
-                page: 'fs1'
-              }
+          ).toEqual({
+            base: {
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 3,
+              unit: 'hours',
+              page: 'base'
+            },
+            fs1: {
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 15,
+              unit: 'minutes',
+              page: 'fs1'
             }
-          );
+          });
         });
       });
 
@@ -68,7 +64,7 @@ describe('memory usage chart reducer', () => {
           expect(
             memoryUsageChartReducer(
               {
-                'base': {
+                base: {
                   configType: 'duration',
                   startDate: 'startDate',
                   endDate: 'endDate',
@@ -89,19 +85,16 @@ describe('memory usage chart reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
-                size: 3,
-                unit: 'hours',
-                page: 'base'
-              }
+          ).toEqual({
+            base: {
+              configType: 'duration',
+              startDate: 'startDate',
+              endDate: 'endDate',
+              size: 3,
+              unit: 'hours',
+              page: 'base'
             }
-          );
+          });
         });
       });
     });
@@ -119,7 +112,7 @@ describe('memory usage chart reducer', () => {
                 unit: 'minutes',
                 page: ''
               },
-              'target8': {
+              target8: {
                 configType: 'duration',
                 startDate: 'startDate',
                 endDate: 'endDate',
@@ -138,37 +131,36 @@ describe('memory usage chart reducer', () => {
               }
             }
           )
-        )
-        .toEqual(
-          {
-            '': {
-              configType: 'range',
-              startDate: 'startDate',
-              endDate: 'endDate',
-              size: 10,
-              unit: 'minutes',
-              page: ''
-            },
-            'target8': {
-              configType: 'duration',
-              startDate: 'startDate',
-              endDate: 'endDate',
-              size: 15,
-              unit: 'minutes',
-              page: 'target8'
-            }
+        ).toEqual({
+          '': {
+            configType: 'range',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 10,
+            unit: 'minutes',
+            page: ''
+          },
+          target8: {
+            configType: 'duration',
+            startDate: 'startDate',
+            endDate: 'endDate',
+            size: 15,
+            unit: 'minutes',
+            page: 'target8'
           }
-        );
+        });
       });
     });
   });
 
   describe('non-matching type', () => {
     it('should return the state', () => {
-      expect(memoryUsageChartReducer(deepFreeze([]), {
-        type: 'ADD_ALERT_INDICATOR_ITEMS',
-        payload: {key: 'val'}
-      })).toEqual([]);
+      expect(
+        memoryUsageChartReducer(deepFreeze([]), {
+          type: 'ADD_ALERT_INDICATOR_ITEMS',
+          payload: { key: 'val' }
+        })
+      ).toEqual([]);
     });
   });
 });

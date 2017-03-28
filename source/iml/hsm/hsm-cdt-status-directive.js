@@ -5,7 +5,7 @@
 
 import cdtStatusTemplate from './assets/html/cdt-status.html!text';
 
-export default function hsmCdtStatusDirective () {
+export default function hsmCdtStatusDirective() {
   return {
     scope: {
       fileSystem: '='

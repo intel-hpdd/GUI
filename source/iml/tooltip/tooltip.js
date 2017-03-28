@@ -10,18 +10,12 @@ import HelpTooltip from '../help-tooltip.js';
 
 import tooltipTemplate from './assets/html/tooltip.html!text';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-import type {
-  directionsT,
-  sizesT
-} from '../tooltip.js';
+import type { directionsT, sizesT } from '../tooltip.js';
 
-export function imlTooltip () {
+export function imlTooltip() {
   'ngInject';
-
   return {
     scope: {
       toggle: '=?',
@@ -32,22 +26,24 @@ export function imlTooltip () {
     transclude: true,
     replace: true,
     template: tooltipTemplate,
-    link (scope:$scopeT & {in:string}) {
+    link(scope: $scopeT & { in: string }) {
       let deregister = () => {};
 
       if (scope.hasOwnProperty('toggle'))
-        deregister = scope.$watch('toggle', newValue => {
-          if (newValue)
-            show();
-          else
-            hide();
-        }, true);
+        deregister = scope.$watch(
+          'toggle',
+          newValue => {
+            if (newValue) show();
+            else hide();
+          },
+          true
+        );
 
-      function show () {
+      function show() {
         scope.in = 'in';
       }
 
-      function hide () {
+      function hide() {
         delete scope.in;
       }
 
@@ -59,9 +55,8 @@ export function imlTooltip () {
   };
 }
 
-export function helpTooltip () {
+export function helpTooltip() {
   'ngInject';
-
   return {
     scope: {
       topic: '@',
@@ -69,10 +64,17 @@ export function helpTooltip () {
       size: '<'
     },
     restrict: 'E',
-    link: function link (scope:{|topic:string, direction:directionsT, size?:sizesT|}, el:HTMLElement[]) {
+    link: function link(
+      scope: {| topic: string, direction: directionsT, size?: sizesT |},
+      el: HTMLElement[]
+    ) {
       scope.size = scope.size || '';
       Inferno.render(
-        <HelpTooltip helpKey={scope.topic} direction={scope.direction} size={scope.size} />,
+        <HelpTooltip
+          helpKey={scope.topic}
+          direction={scope.direction}
+          size={scope.size}
+        />,
         el[0]
       );
     }

@@ -8,6 +8,6 @@
 import angular from 'angular';
 import jobStatsTableComponent from './job-stats-table-component.js';
 
-export default angular.module('jobStats', [])
-.component('jobStatsTable', jobStatsTableComponent)
-.name;
+export default angular
+  .module('jobStats', [])
+  .component('jobStatsTable', jobStatsTableComponent).name;

@@ -8,28 +8,24 @@ import socketStream from '../socket/socket-stream.js';
 import COMMAND_STATES from './command-states.js';
 import stepModalTemplate from './assets/html/step-modal.html!text';
 
-export function StepModalCtrl ($scope, stepsStream, jobStream) {
+export function StepModalCtrl($scope, stepsStream, jobStream) {
   'ngInject';
-
   Object.assign(this, {
     steps: [],
     accordion0: true,
-    getJobAdjective: function getJobAdjective (job) {
-      if (job.state === 'pending')
-        return COMMAND_STATES.WAITING;
+    getJobAdjective: function getJobAdjective(job) {
+      if (job.state === 'pending') return COMMAND_STATES.WAITING;
 
-      if (job.state !== 'complete')
-        return COMMAND_STATES.RUNNING;
+      if (job.state !== 'complete') return COMMAND_STATES.RUNNING;
 
-      if (job.cancelled)
-        return COMMAND_STATES.CANCELLED;
-      else if (job.errored)
-        return COMMAND_STATES.FAILED;
-      else
-        return COMMAND_STATES.SUCCEEDED;
+      if (job.cancelled) return COMMAND_STATES.CANCELLED;
+      else if (job.errored) return COMMAND_STATES.FAILED;
+      else return COMMAND_STATES.SUCCEEDED;
     },
-    getDescription: function getDescription (step) {
-      return step.description.indexOf(step.class_name) === 0 ? step.class_name : step.description;
+    getDescription: function getDescription(step) {
+      return step.description.indexOf(step.class_name) === 0
+        ? step.class_name
+        : step.description;
     }
   });
 
@@ -42,14 +38,13 @@ export function StepModalCtrl ($scope, stepsStream, jobStream) {
   p('steps', stepsStream);
 }
 
-export function openStepModalFactory ($uibModal) {
+export function openStepModalFactory($uibModal) {
   'ngInject';
-
   const extractApiId = fp.map(
     fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1'])
   );
 
-  return function openStepModal (job) {
+  return function openStepModal(job) {
     const jobStream = socketStream('/job/' + job.id);
     jobStream.write(job);
 
@@ -64,18 +59,25 @@ export function openStepModalFactory ($uibModal) {
       backdrop: 'static',
       resolve: {
         jobStream: fp.always(s2),
-        stepsStream: fp.always(jobStream.fork()
-          .pluck('steps')
-          .map(extractApiId)
-          .flatMap(function getSteps (stepIds) {
-            return socketStream('/step', {
-              qs: {
-                id__in: stepIds,
-                limit: 0
-              }
-            }, true);
-          })
-          .pluck('objects'))
+        stepsStream: fp.always(
+          jobStream
+            .fork()
+            .pluck('steps')
+            .map(extractApiId)
+            .flatMap(function getSteps(stepIds) {
+              return socketStream(
+                '/step',
+                {
+                  qs: {
+                    id__in: stepIds,
+                    limit: 0
+                  }
+                },
+                true
+              );
+            })
+            .pluck('objects')
+        )
       }
     });
   };

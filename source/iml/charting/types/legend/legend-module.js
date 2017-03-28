@@ -7,10 +7,10 @@
 
 import angular from 'angular';
 import d3Module from '../../../d3/d3-module';
-import {getLegendFactory} from './get-legend';
-import {legendDirective} from './legend-directive';
+import { getLegendFactory } from './get-legend';
+import { legendDirective } from './legend-directive';
 
-export default angular.module('legend', [d3Module])
+export default angular
+  .module('legend', [d3Module])
   .directive('legend', legendDirective)
-  .factory('getLegend', getLegendFactory)
-  .name;
+  .factory('getLegend', getLegendFactory).name;

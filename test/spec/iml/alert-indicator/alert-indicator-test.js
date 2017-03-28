@@ -1,52 +1,51 @@
 import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
-import alertIndicatorModule from
-  '../../../../source/iml/alert-indicator/alert-indicator-module';
-import {
-  imlTooltip
-} from '../../../../source/iml/tooltip/tooltip.js';
+import alertIndicatorModule
+  from '../../../../source/iml/alert-indicator/alert-indicator-module';
+import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 
 describe('alert indicator', () => {
-  beforeEach(module(alertIndicatorModule, ($provide, $compileProvider) => {
-    $compileProvider.directive('imlTooltip', imlTooltip);
-  }));
+  beforeEach(
+    module(alertIndicatorModule, ($provide, $compileProvider) => {
+      $compileProvider.directive('imlTooltip', imlTooltip);
+    })
+  );
 
   describe('directive', () => {
-    let $scope, element, node, popover, i,
-      stream, stateLabel, alerts,
-      tooltip;
+    let $scope, element, node, popover, i, stream, stateLabel, alerts, tooltip;
 
-    beforeEach(inject(($rootScope, $compile) => {
+    beforeEach(
+      inject(($rootScope, $compile) => {
+        element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
+          '</record-state>';
 
-      element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
-      '</record-state>';
+        stream = highland();
 
-      stream = highland();
+        $scope = $rootScope.$new();
 
-      $scope = $rootScope.$new();
+        $scope.alertStream = broadcast(stream);
 
-      $scope.alertStream = broadcast(stream);
+        $scope.recordId = 'host/6';
 
-      $scope.recordId = 'host/6';
+        $scope.displayType = 'medium';
 
-      $scope.displayType = 'medium';
+        node = $compile(element)($scope)[0];
 
-      node = $compile(element)($scope)[0];
+        $scope.$digest();
 
-      $scope.$digest();
+        popover = node.querySelector.bind(node, 'i ~ .popover');
+        i = node.querySelector.bind(node, 'i');
+        alerts = node.querySelectorAll.bind(node, 'li');
 
-      popover = node.querySelector.bind(node, 'i ~ .popover');
-      i = node.querySelector.bind(node, 'i');
-      alerts = node.querySelectorAll.bind(node, 'li');
+        stateLabel = node.querySelector.bind(node, '.state-label');
 
-      stateLabel = node.querySelector.bind(node, '.state-label');
+        tooltip = node.querySelector.bind(node, '.tooltip');
 
-      tooltip = node.querySelector.bind(node, '.tooltip');
+        document.body.appendChild(node);
+      })
+    );
 
-      document.body.appendChild(node);
-    }));
-
-    afterEach(function () {
+    afterEach(function() {
       document.body.removeChild(node);
     });
 
@@ -74,35 +73,31 @@ describe('alert indicator', () => {
         expect(alerts()[0].textContent).toEqual('response message');
       });
 
-      it('should add more alerts when added', function () {
+      it('should add more alerts when added', function() {
         response.push({
           affected: ['host/6'],
           message: 'response message 3'
         });
         stream.write(response);
 
-        expect(alerts()[2].textContent)
-          .toEqual('response message 3');
+        expect(alerts()[2].textContent).toEqual('response message 3');
       });
 
-      it('should remove old alerts', function () {
+      it('should remove old alerts', function() {
         response.pop();
         stream.write(response);
 
-        expect(alerts().length)
-          .toBe(1);
+        expect(alerts().length).toBe(1);
       });
 
-      it('should hide the popover if there are no alerts', function () {
+      it('should hide the popover if there are no alerts', function() {
         stream.write([]);
 
-        expect(popover())
-          .toBeNull();
+        expect(popover()).toBeNull();
       });
 
       it('should show the label', () => {
-        expect(stateLabel().textContent)
-          .toEqual('2 Issues');
+        expect(stateLabel().textContent).toEqual('2 Issues');
       });
     });
 
@@ -140,8 +135,7 @@ describe('alert indicator', () => {
       });
 
       it('should not show the label', () => {
-        expect(stateLabel())
-          .toBeNull();
+        expect(stateLabel()).toBeNull();
       });
     });
   });

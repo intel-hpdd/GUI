@@ -23,7 +23,7 @@ describe('completer', () => {
       { start: Infinity, end: Infinity, suggestion: 'begin' },
       { start: Infinity, end: Infinity, suggestion: 'end' }
     ],
-    'a': [
+    a: [
       { start: 0, end: 1, suggestion: 'severity' },
       { start: 0, end: 1, suggestion: 'type' },
       { start: 0, end: 1, suggestion: 'active' },
@@ -48,12 +48,8 @@ describe('completer', () => {
       { start: 11, end: 12, suggestion: 'warning' },
       { start: 11, end: 12, suggestion: 'error' }
     ],
-    'type in 3': [
-      { start: 8, end: 9, suggestion: '[' }
-    ],
-    'type=AlertEvent': [
-      { start: Infinity, end: Infinity, suggestion: 'and' }
-    ],
+    'type in 3': [{ start: 8, end: 9, suggestion: '[' }],
+    'type=AlertEvent': [{ start: Infinity, end: Infinity, suggestion: 'and' }],
     'severity in [warning,error,critical]': [
       { start: Infinity, end: Infinity, suggestion: 'and' }
     ],
@@ -71,14 +67,12 @@ describe('completer', () => {
   Object.keys(inputOutput).forEach(input => {
     let output = inputOutput[input];
 
-    if (output instanceof Error)
-      output = output.message;
+    if (output instanceof Error) output = output.message;
 
     it(`should parse ${input || 'empty input'}`, () => {
       let result = statusCompleter(input);
 
-      if (result instanceof Error)
-        result = result.message;
+      if (result instanceof Error) result = result.message;
 
       expect(result).toEqual(output);
     });

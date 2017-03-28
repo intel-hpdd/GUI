@@ -11,63 +11,62 @@ export const TOGGLE_ITEM_OPEN = 'TOGGLE_ITEM_OPEN';
 export const RESET_STATE = 'RESET_STATE';
 export const UPDATE_COLLECTION_OFFSET = 'UPDATE_COLLECTION_OFFSET';
 
-export type treeActionsT = (
-  addItemsActionT |
-  toggleItemOpenT |
-  toggleCollectionOpenT |
-  updateCollectionOffsetT |
-  resetStateT
-);
+export type treeActionsT =
+  | addItemsActionT
+  | toggleItemOpenT
+  | toggleCollectionOpenT
+  | updateCollectionOffsetT
+  | resetStateT;
 export type treeItemListT = treeItemT[];
 
 export type addItemsActionT = {
-  type:'ADD_TREE_ITEMS',
-  payload:treeItemListT
+  type: 'ADD_TREE_ITEMS',
+  payload: treeItemListT
 };
 
 export type toggleCollectionOpenT = {
-  type:'TOGGLE_COLLECTION_OPEN',
-  payload:{
-    id:number,
-    open:boolean
+  type: 'TOGGLE_COLLECTION_OPEN',
+  payload: {
+    id: number,
+    open: boolean
   }
 };
 
 export type updateCollectionOffsetT = {
-  type:'UPDATE_COLLECTION_OFFSET',
-  payload:{
-    id:number,
-    offset:number
+  type: 'UPDATE_COLLECTION_OFFSET',
+  payload: {
+    id: number,
+    offset: number
   }
 };
 
 export type toggleItemOpenT = {
-  type:'TOGGLE_ITEM_OPEN',
-  payload:{
-    id:number,
-    itemId:number,
-    open:boolean
+  type: 'TOGGLE_ITEM_OPEN',
+  payload: {
+    id: number,
+    itemId: number,
+    open: boolean
   }
 };
 
 export type resetStateT = {
-  type:'RESET_STATE'
-}
+  type: 'RESET_STATE'
+};
 
 export type treeItemT = {
-  treeId:number,
-  open:boolean,
-  opens:{
-    [key:number]:boolean
+  treeId: number,
+  open: boolean,
+  opens: {
+    [key: number]: boolean
   },
-  parentTreeId:number,
-  type:string,
-  meta:Object,
-  objects?:Object[],
-  fsId?:string,
-  hostId?:string
+  parentTreeId: number,
+  type: string,
+  meta: Object,
+  objects?: Object[],
+  fsId?: string,
+  hostId?: string
 };
 
 export type treeHashT = {
-  [key:number]:treeItemT
+  [key: number]: treeItemT
 };

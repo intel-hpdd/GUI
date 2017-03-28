@@ -10,7 +10,7 @@ import extractApiId from 'intel-extract-api';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export default function filterTargetByHost (id:number) {
+export default function filterTargetByHost(id: number) {
   const failoverServersLens = viewLens('failover_servers');
   const primaryServer = viewLens('primary_server');
 
@@ -19,12 +19,14 @@ export default function filterTargetByHost (id:number) {
     [fp.always(true), fp.always([])]
   );
 
-  const concat = fp.curry3(function concat (fnA, fnB, x) {
+  const concat = fp.curry3(function concat(fnA, fnB, x) {
     return fnA(x).concat(fnB(x));
   });
 
   const eqId = fp.filter(fp.eqFn(fp.identity, extractApiId, id));
   const lengthProp = viewLens('length');
 
-  return fp.map(fp.filter(fp.flow(concat(getFailover, primaryServer), eqId, lengthProp)));
+  return fp.map(
+    fp.filter(fp.flow(concat(getFailover, primaryServer), eqId, lengthProp))
+  );
 }

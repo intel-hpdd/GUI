@@ -21,37 +21,34 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import Inferno from 'inferno';
 
-export type directionsT =
-  | 'left'
-  | 'right'
-  | 'top'
-  | 'bottom';
+export type directionsT = 'left' | 'right' | 'top' | 'bottom';
 
-export type sizesT =
-  | ''
-  | 'xsmall'
-  | 'small'
-  | 'medium'
-  | 'large';
+export type sizesT = '' | 'xsmall' | 'small' | 'medium' | 'large';
 
 type tooltipT = {
-  message?:string,
-  direction:directionsT,
-  size?:sizesT,
-  moreClasses?:string[]
+  message?: string,
+  direction: directionsT,
+  size?: sizesT,
+  moreClasses?: string[]
 };
 
-export default ({message, direction, size = '', moreClasses = []}:tooltipT) => {
-  if (!message)
-    return;
+export default (
+  { message, direction, size = '', moreClasses = [] }: tooltipT
+) => {
+  if (!message) return;
 
-  return (<div className={`tooltip inferno-tt ${direction} ${size} ${moreClasses.join(' ')}`}>
-    <div class="tooltip-arrow"></div>
-    <div class="tooltip-inner">
-      <span>{message}</span>
+  return (
+    <div
+      className={
+        `tooltip inferno-tt ${direction} ${size} ${moreClasses.join(' ')}`
+      }
+    >
+      <div class="tooltip-arrow" />
+      <div class="tooltip-inner">
+        <span>{message}</span>
+      </div>
     </div>
-  </div>);
+  );
 };

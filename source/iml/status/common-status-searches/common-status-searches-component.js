@@ -3,7 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import commonStatusSearchesTemplate from './assets/html/common-status-searches.html!text';
+import commonStatusSearchesTemplate
+  from './assets/html/common-status-searches.html!text';
 
 export default {
   controllerAs: 'vm',

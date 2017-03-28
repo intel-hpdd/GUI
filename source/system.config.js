@@ -20,13 +20,13 @@ System.config({
     twix: 'bower_components/twix/bin/twix.js',
     highland: 'node_modules/highland/dist/highland.js',
     lodash: 'bower_components/lodash/dist/lodash.js',
-    'inferno': 'node_modules/inferno/dist/inferno.js',
+    inferno: 'node_modules/inferno/dist/inferno.js',
     'inferno/dist': 'node_modules/inferno/dist',
     'inferno-component': 'node_modules/inferno-component/dist/inferno-component.js',
     'intel-maybe': 'node_modules/intel-maybe/dist/source/maybe.js',
     'intel-lodash-mixins': 'node_modules/intel-lodash-mixins/index.js',
     'intel-flat-map-changes': 'node_modules/intel-flat-map-changes/dist/source/index.js',
-    'intel-debounce':'node_modules/intel-debounce/dist/debounce.js',
+    'intel-debounce': 'node_modules/intel-debounce/dist/debounce.js',
     'intel-big-differ': 'node_modules/intel-big-differ/dest/source/big-differ-module.js',
     'intel-qs-parsers': 'node_modules/intel-qs-parsers/dist/source',
     'angular-ui-bootstrap': 'node_modules/angular-ui-bootstrap/index.js',
@@ -47,9 +47,7 @@ System.config({
   },
   meta: {
     'node_modules/intel-big-differ/source/big-differ-module.js': {
-      deps: [
-        'angular'
-      ]
+      deps: ['angular']
     },
     'node_modules/angular-ui-bootstrap/index.js': {
       deps: ['angular']
@@ -67,14 +65,10 @@ System.config({
       deps: ['angular']
     },
     'bower_components/twix/bin/twix.js': {
-      deps: [
-        'moment'
-      ]
+      deps: ['moment']
     },
     'node_modules/nvd3/build/nv.d3.js': {
-      deps: [
-        'd3'
-      ]
+      deps: ['d3']
     }
   }
 });

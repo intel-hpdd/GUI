@@ -7,11 +7,10 @@
 
 import angular from 'angular';
 
+import { labelDirective } from './label-directive';
+import { getLabelFactory } from './get-label';
 
-import {labelDirective} from './label-directive';
-import {getLabelFactory} from './get-label';
-
-export default angular.module('label', [])
+export default angular
+  .module('label', [])
   .directive('label', labelDirective)
-  .factory('getLabel', getLabelFactory)
-  .name;
+  .factory('getLabel', getLabelFactory).name;

@@ -10,8 +10,6 @@ import angular from 'angular';
 import extendScopeModule from '../extend-scope-module.js';
 import helpMapperComponent from './help-mapper-directive.js';
 
-export default angular.module('helpMapper', [
-  extendScopeModule
-])
-  .directive('helpMapper', helpMapperComponent)
-  .name;
+export default angular
+  .module('helpMapper', [extendScopeModule])
+  .directive('helpMapper', helpMapperComponent).name;

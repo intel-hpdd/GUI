@@ -5,29 +5,26 @@
 
 import * as fp from 'intel-fp';
 
-export default function asValue (localApply, $exceptionHandler) {
+export default function asValue(localApply, $exceptionHandler) {
   'ngInject';
-
   return {
     restrict: 'A',
     transclude: true,
     scope: {
       stream: '='
     },
-    link: function link (scope, el, attrs, ctrl, $transclude) {
-      $transclude(function createValue (clone, transcludedScope) {
+    link: function link(scope, el, attrs, ctrl, $transclude) {
+      $transclude(function createValue(clone, transcludedScope) {
         if (transcludedScope.curr)
           throw new Error('curr already set on transcluded scope.');
 
         transcludedScope.curr = {};
 
-        scope
-          .stream
+        scope.stream
           .fork()
           .tap(v => transcludedScope.curr.val = v)
           .stopOnError(fp.unary($exceptionHandler))
           .each(localApply.bind(null, transcludedScope));
-
 
         el.append(clone);
       });

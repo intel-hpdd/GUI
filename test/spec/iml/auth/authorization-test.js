@@ -1,13 +1,8 @@
 // @flow
 
-import {
-  GROUPS
-} from '../../../../source/iml/auth/authorization.js';
+import { GROUPS } from '../../../../source/iml/auth/authorization.js';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 import highland from 'highland';
 
@@ -17,9 +12,7 @@ describe('The authorization service', () => {
   beforeEachAsync(async () => {
     session$ = highland();
     store = {
-      select: jasmine.createSpy('select')
-        .and
-        .returnValue(session$)
+      select: jasmine.createSpy('select').and.returnValue(session$)
     };
 
     authorization = await mock('source/iml/auth/authorization.js', {

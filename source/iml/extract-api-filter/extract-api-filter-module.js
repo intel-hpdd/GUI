@@ -8,6 +8,6 @@
 import angular from 'angular';
 import extractApiFilter from './extract-api-filter.js';
 
-export default angular.module('extractApiFilter', [])
-  .filter('extractApi', extractApiFilter)
-  .name;
+export default angular
+  .module('extractApiFilter', [])
+  .filter('extractApi', extractApiFilter).name;

@@ -1,18 +1,10 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('side panel component', () => {
-  let el,
-    inst,
-    rootPanel;
+  let el, inst, rootPanel;
 
-  beforeEachAsync(async function () {
-    const mod = await mock(
-      'source/iml/panels/side-panel-component.js',
-      {}
-    );
+  beforeEachAsync(async function() {
+    const mod = await mock('source/iml/panels/side-panel-component.js', {});
 
     el = {
       style: []
@@ -31,24 +23,17 @@ describe('side panel component', () => {
   afterEach(resetAll);
 
   it('should register', () => {
-    expect(rootPanel.register)
-      .toHaveBeenCalledOnceWith(jasmine.any(Function));
+    expect(rootPanel.register).toHaveBeenCalledOnceWith(jasmine.any(Function));
   });
 
   it('should set flex-basis on change', () => {
-    const setWidth = rootPanel
-      .register
-      .calls
-      .mostRecent()
-      .args[0];
+    const setWidth = rootPanel.register.calls.mostRecent().args[0];
 
     setWidth({
       sideWidthPercentage: 25
     });
 
-
-    expect(el.style.flexBasis)
-      .toBe('25%');
+    expect(el.style.flexBasis).toBe('25%');
   });
 
   describe('on destroy', () => {
@@ -57,8 +42,9 @@ describe('side panel component', () => {
     });
 
     it('should deregister', () => {
-      expect(rootPanel.deregister)
-        .toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
+        jasmine.any(Function)
+      );
     });
   });
 });

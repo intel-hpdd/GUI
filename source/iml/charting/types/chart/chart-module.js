@@ -9,10 +9,8 @@ import angular from 'angular';
 import d3Module from '../../../d3/d3-module';
 import debounceModule from '../../../debounce/debounce-module';
 
-import {charterDirective} from './chart-directive';
+import { charterDirective } from './chart-directive';
 
-export default angular.module('chart', [
-  d3Module, debounceModule
-])
-  .directive('charter', charterDirective)
-  .name;
+export default angular
+  .module('chart', [d3Module, debounceModule])
+  .directive('charter', charterDirective).name;

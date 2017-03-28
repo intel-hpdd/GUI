@@ -1,21 +1,25 @@
 import angular from 'angular';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-describe('get the command stream', function () {
-  let socketStream, stream, getCommandStream, getCommandStreamModule,
-    commandList, result;
+describe('get the command stream', function() {
+  let socketStream,
+    stream,
+    getCommandStream,
+    getCommandStreamModule,
+    commandList,
+    result;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     stream = highland();
     socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
-    getCommandStreamModule = await mock('source/iml/command/get-command-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    getCommandStreamModule = await mock(
+      'source/iml/command/get-command-stream.js',
+      {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      }
+    );
 
     getCommandStream = getCommandStreamModule.default;
 
@@ -25,7 +29,7 @@ describe('get the command stream', function () {
 
   afterEach(resetAll);
 
-  it('should invoke socketStream', function () {
+  it('should invoke socketStream', function() {
     expect(socketStream).toHaveBeenCalledOnceWith('/command', {
       qs: {
         id__in: [1, 2]
@@ -33,12 +37,12 @@ describe('get the command stream', function () {
     });
   });
 
-  it('should return a stream', function () {
+  it('should return a stream', function() {
     expect(highland.isStream(result)).toBe(true);
   });
 
-  it('should write passed data to the stream', function () {
-    result.each(function (x) {
+  it('should write passed data to the stream', function() {
+    result.each(function(x) {
       expect(x).toEqual([
         {
           id: 1,
@@ -54,16 +58,19 @@ describe('get the command stream', function () {
     });
   });
 
-  function wrap () {
+  function wrap() {
     const commands = [].slice.call(arguments);
 
     return {
-      objects: commands.map(function (command, index) {
-        return angular.extend({
-          id: index + 1,
-          logs: '',
-          jobs: []
-        }, command);
+      objects: commands.map(function(command, index) {
+        return angular.extend(
+          {
+            id: index + 1,
+            logs: '',
+            jobs: []
+          },
+          command
+        );
       })
     };
   }

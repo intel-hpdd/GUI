@@ -2,46 +2,46 @@ import highland from 'highland';
 import d3 from 'd3';
 import angular from 'angular';
 
-import labelModule from
-  '../../../../../../source/iml/charting/types/label/label-module';
+import labelModule
+  from '../../../../../../source/iml/charting/types/label/label-module';
 
-import chartModule from
-  '../../../../../../source/iml/charting/types/chart/chart-module';
-
+import chartModule
+  from '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('label directive', () => {
   beforeEach(module(labelModule, chartModule));
 
   let $scope, el, qs, label, spy;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = `
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `
       <div charter stream="stream">
         <g label on-data="onData" on-update="onUpdate"></g>
       </div>
     `;
 
-    spy = jasmine.createSpy('spy');
-    $scope = $rootScope.$new();
-    $scope.stream = highland([[1, 2, 3, 4]]);
-    $scope.onData = () => ['data'];
-    $scope.onUpdate = [spy];
+      spy = jasmine.createSpy('spy');
+      $scope = $rootScope.$new();
+      $scope.stream = highland([[1, 2, 3, 4]]);
+      $scope.onData = () => ['data'];
+      $scope.onUpdate = [spy];
 
-    el = angular.element(template)[0];
-    document.body.appendChild(el);
-    d3.select(el)
-      .style({
+      el = angular.element(template)[0];
+      document.body.appendChild(el);
+      d3.select(el).style({
         display: 'inline-block',
         width: '200px',
         height: '200px'
       });
 
-    $compile(el)($scope)[0];
+      $compile(el)($scope)[0];
 
-    qs = (expr) => el.querySelector(expr);
-    label = qs.bind(null, '.label-group');
-    $scope.$digest();
-  }));
+      qs = expr => el.querySelector(expr);
+      label = qs.bind(null, '.label-group');
+      $scope.$digest();
+    })
+  );
 
   afterEach(() => {
     document.body.removeChild(el);
@@ -56,14 +56,13 @@ describe('label directive', () => {
   });
 
   it('should call onUpdate', () => {
-    expect(spy)
-      .toHaveBeenCalledOnceWith({
-        label: jasmine.any(Function),
-        node: jasmine.any(Object),
-        svg: jasmine.any(Object),
-        width: 120,
-        height: 140,
-        xs: [1, 2, 3, 4]
-      });
+    expect(spy).toHaveBeenCalledOnceWith({
+      label: jasmine.any(Function),
+      node: jasmine.any(Object),
+      svg: jasmine.any(Object),
+      width: 120,
+      height: 140,
+      xs: [1, 2, 3, 4]
+    });
   });
 });

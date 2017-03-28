@@ -1,13 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
-
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('root panel component', () => {
   let inst, el, doc, overlay, raf;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     raf = jasmine.createSpy('requestAnimationFrame');
 
     overlay = {
@@ -21,11 +17,7 @@ describe('root panel component', () => {
         appendChild: jasmine.createSpy('appendChild'),
         removeChild: jasmine.createSpy('removeChild')
       },
-      createElement: jasmine
-        .createSpy('createElement')
-        .and
-        .returnValue(overlay)
-
+      createElement: jasmine.createSpy('createElement').and.returnValue(overlay)
     };
 
     const mod = await mock('source/iml/panels/root-panel-component.js', {
@@ -57,14 +49,12 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
-          sideWidthPx: 50,
-          sideWidthPercentage: 4.897159647404505,
-          mainWidthPercentage: 95.10284035259549,
-          mainWidthPx: 971
-        });
+      expect(spy).toHaveBeenCalledOnceWith({
+        sideWidthPx: 50,
+        sideWidthPercentage: 4.897159647404505,
+        mainWidthPercentage: 95.10284035259549,
+        mainWidthPx: 971
+      });
     });
 
     it('should calculate the panel object when x < 0', () => {
@@ -72,14 +62,12 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
-          sideWidthPx: 0,
-          sideWidthPercentage: 0,
-          mainWidthPercentage: 100,
-          mainWidthPx: 1021
-        });
+      expect(spy).toHaveBeenCalledOnceWith({
+        sideWidthPx: 0,
+        sideWidthPercentage: 0,
+        mainWidthPercentage: 100,
+        mainWidthPx: 1021
+      });
     });
 
     it('should calculate the panel object when x > 35%', () => {
@@ -87,14 +75,12 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
-          sideWidthPx: 357.34999999999997,
-          sideWidthPercentage: 35,
-          mainWidthPercentage: 65,
-          mainWidthPx: 663.6500000000001
-        });
+      expect(spy).toHaveBeenCalledOnceWith({
+        sideWidthPx: 357.34999999999997,
+        sideWidthPercentage: 35,
+        mainWidthPercentage: 65,
+        mainWidthPx: 663.6500000000001
+      });
     });
 
     it('should not emit if running', () => {
@@ -103,8 +89,7 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-      expect(spy)
-        .toHaveBeenCalledOnce();
+      expect(spy).toHaveBeenCalledOnce();
     });
 
     it('should deregister listeners', () => {
@@ -114,9 +99,7 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-      expect(spy)
-        .not
-        .toHaveBeenCalled();
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -126,30 +109,24 @@ describe('root panel component', () => {
     });
 
     it('should add the active class to the element', () => {
-      expect(el)
-        .toHaveClass('active');
+      expect(el).toHaveClass('active');
     });
 
     it('should append the overlay to the body', () => {
-      expect(doc.body.appendChild)
-        .toHaveBeenCalledOnceWith(overlay);
+      expect(doc.body.appendChild).toHaveBeenCalledOnceWith(overlay);
     });
 
     describe('set inactive', () => {
       beforeEach(() => {
-        inst
-          .setInactive();
+        inst.setInactive();
       });
 
       it('should remove the active class from the element', () => {
-        expect(el)
-          .not
-          .toHaveClass('active');
+        expect(el).not.toHaveClass('active');
       });
 
       it('should remove the overlay from the body', () => {
-        expect(doc.body.removeChild)
-          .toHaveBeenCalledOnceWith(overlay);
+        expect(doc.body.removeChild).toHaveBeenCalledOnceWith(overlay);
       });
     });
   });
@@ -164,17 +141,13 @@ describe('root panel component', () => {
       raf.calls.mostRecent().args[0]();
     });
 
-
     it('should set side width to 0 pixels', () => {
-      expect(spy)
-        .toHaveBeenCalledOnceWith(
-        {
-          sideWidthPx: 0,
-          sideWidthPercentage: 0,
-          mainWidthPercentage: 100,
-          mainWidthPx: 1021
-        }
-        );
+      expect(spy).toHaveBeenCalledOnceWith({
+        sideWidthPx: 0,
+        sideWidthPercentage: 0,
+        mainWidthPercentage: 100,
+        mainWidthPx: 1021
+      });
     });
   });
 
@@ -188,17 +161,13 @@ describe('root panel component', () => {
       raf.calls.mostRecent().args[0]();
     });
 
-
     it('should set side width to 200 pixels', () => {
-      expect(spy)
-        .toHaveBeenCalledOnceWith(
-        {
-          sideWidthPx: 200,
-          sideWidthPercentage: 19.58863858961802,
-          mainWidthPercentage: 80.41136141038197,
-          mainWidthPx: 821
-        }
-        );
+      expect(spy).toHaveBeenCalledOnceWith({
+        sideWidthPx: 200,
+        sideWidthPercentage: 19.58863858961802,
+        mainWidthPercentage: 80.41136141038197,
+        mainWidthPx: 821
+      });
     });
   });
 });

@@ -8,55 +8,32 @@
 import * as fp from 'intel-fp';
 import highland from 'highland';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-import type {
-  commandT
-} from './command-types.js';
+import type { commandT } from './command-types.js';
 
-import {
-  setState,
-  trimLogs
-} from './command-transforms.js';
+import { setState, trimLogs } from './command-transforms.js';
 
 import commandModalTemplate from './assets/html/command-modal.html!text';
 
-export function CommandModalCtrl (
-  commandsStream:HighlandStreamT<commandT[]>,
-  $scope:$scopeT,
-  propagateChange:Function
+export function CommandModalCtrl(
+  commandsStream: HighlandStreamT<commandT[]>,
+  $scope: $scopeT,
+  propagateChange: Function
 ) {
   'ngInject';
-
   this.accordion0 = true;
 
-  const xForm = highland.map(
-    fp.map(
-      fp.flow(
-        trimLogs,
-        setState
-      )
-    )
-  );
+  const xForm = highland.map(fp.map(fp.flow(trimLogs, setState)));
 
-  propagateChange(
-    $scope,
-    this,
-    'commands',
-    xForm(commandsStream)
-  );
+  propagateChange($scope, this, 'commands', xForm(commandsStream));
 }
 
-export function openCommandModalFactory ($uibModal:Object) {
+export function openCommandModalFactory($uibModal: Object) {
   'ngInject';
-
-  return function openCommandModal (stream:HighlandStreamT<commandT[]>) {
+  return function openCommandModal(stream: HighlandStreamT<commandT[]>) {
     return $uibModal.open({
       template: commandModalTemplate,
       controller: 'CommandModalCtrl',

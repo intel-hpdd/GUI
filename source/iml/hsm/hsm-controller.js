@@ -5,17 +5,20 @@
 
 import angular from 'angular';
 
-export default function HsmCtrl ($scope, openAddCopytoolModal, copytoolStream,
-                                 copytoolOperationStream, agentVsCopytoolChart) {
+export default function HsmCtrl(
+  $scope,
+  openAddCopytoolModal,
+  copytoolStream,
+  copytoolOperationStream,
+  agentVsCopytoolChart
+) {
   'ngInject';
-
   const hsm = angular.extend(this, {
     chart: agentVsCopytoolChart,
-    openAddModal () {
+    openAddModal() {
       hsm.modalOpen = true;
 
-      return openAddCopytoolModal($scope)
-        .finally(() => hsm.modalOpen = false);
+      return openAddCopytoolModal($scope).finally(() => hsm.modalOpen = false);
     }
   });
 

@@ -7,47 +7,44 @@ import angular from 'angular';
 
 import socketStream from '../socket/socket-stream.js';
 
-import {
-  pick
-} from 'intel-obj';
+import { pick } from 'intel-obj';
 
-import configureCorosyncTemplate from './assets/html/configure-corosync.html!text';
+import configureCorosyncTemplate
+  from './assets/html/configure-corosync.html!text';
 
-export function ConfigureCorosyncController ($scope, waitForCommandCompletion,
-                                             propagateChange, insertHelpFilter) {
+export function ConfigureCorosyncController(
+  $scope,
+  waitForCommandCompletion,
+  propagateChange,
+  insertHelpFilter
+) {
   'ngInject';
-
   const ctrl = this;
 
   angular.extend(ctrl, {
     observer: ctrl.stream(),
-    getDiffMessage (state) {
+    getDiffMessage(state) {
       return insertHelpFilter(`${state.status}_diff`, state);
     },
-    save (showModal) {
+    save(showModal) {
       ctrl.saving = true;
 
-      socketStream(`/corosync_configuration/${ctrl.config.id}`, {
-        method: 'put',
-        json: pick(
-          [
-            'id',
-            'mcast_port',
-            'network_interfaces'
-          ],
-          ctrl.config
-        )
-      }, true)
-        .map(command => ([command]))
+      socketStream(
+        `/corosync_configuration/${ctrl.config.id}`,
+        {
+          method: 'put',
+          json: pick(['id', 'mcast_port', 'network_interfaces'], ctrl.config)
+        },
+        true
+      )
+        .map(command => [command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
         .through(propagateChange($scope, ctrl, 'saving'));
     }
   });
 
-  ctrl
-    .stream()
-    .through(propagateChange($scope, ctrl, 'config'));
+  ctrl.stream().through(propagateChange($scope, ctrl, 'config'));
 
   $scope.$on('$destroy', () => {
     ctrl.stream.endBroadcast();

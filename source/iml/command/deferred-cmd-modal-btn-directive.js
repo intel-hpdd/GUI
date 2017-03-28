@@ -4,7 +4,8 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from 'intel-fp';
-import deferredCmdModalBtnTemplate from './assets/html/deferred-cmd-modal-btn.html!text';
+import deferredCmdModalBtnTemplate
+  from './assets/html/deferred-cmd-modal-btn.html!text';
 
 export const deferredCmdModalBtnDirective = fp.always({
   scope: {},

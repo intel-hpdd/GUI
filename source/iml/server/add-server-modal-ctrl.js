@@ -7,11 +7,15 @@ import getSpring from '../socket/get-spring.js';
 
 import addServerModalTemplate from './assets/html/add-server-modal.html!text';
 
-export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManager,
-                                    servers, step) {
+export function AddServerModalCtrl(
+  $scope,
+  $uibModalInstance,
+  getAddServerManager,
+  servers,
+  step
+) {
   'ngInject';
-
-  const manager = this.manager = getAddServerManager();
+  const manager = (this.manager = getAddServerManager());
   const spring = getSpring();
 
   step = step || manager.SERVER_STEPS.ADD;
@@ -29,16 +33,15 @@ export function AddServerModalCtrl ($scope, $uibModalInstance, getAddServerManag
   // Listen on the closeModal event from the step controllers
   $scope.$on('addServerModal::closeModal', $uibModalInstance.close);
 
-  $scope.$on('$destroy', function cleanup () {
+  $scope.$on('$destroy', function cleanup() {
     manager.destroy();
     spring.destroy();
   });
 }
 
-export function openAddServerModalFactory ($uibModal) {
+export function openAddServerModalFactory($uibModal) {
   'ngInject';
-
-  return function openAddServerModal (server, step) {
+  return function openAddServerModal(server, step) {
     return $uibModal.open({
       template: addServerModalTemplate,
       controller: 'AddServerModalCtrl as addServer',
@@ -47,7 +50,7 @@ export function openAddServerModalFactory ($uibModal) {
       keyboard: 'false',
       windowClass: 'add-server-modal',
       resolve: {
-        servers: function getServers () {
+        servers: function getServers() {
           if (server)
             return {
               auth_type: server.install_method,

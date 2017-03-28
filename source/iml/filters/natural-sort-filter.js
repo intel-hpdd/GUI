@@ -3,9 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export default function naturalSort () {
+export default function naturalSort() {
   'ngInject';
-
   const re = /([a-zA-Z]+)|([0-9]+)/g;
   let getStringToSort;
 
@@ -15,12 +14,11 @@ export default function naturalSort () {
    * @param {Function} predicate Used to retrieve the value in context
    * @param {Boolean} reverse Indicates if the sorted array should be reversed
    */
-  return function orderArrayUsingNaturalSort (input, predicate, reverse) {
+  return function orderArrayUsingNaturalSort(input, predicate, reverse) {
     getStringToSort = predicate;
     const sortedArray = input.sort(naturalSortAlgorithm);
 
-    if (reverse === true)
-      sortedArray.reverse();
+    if (reverse === true) sortedArray.reverse();
 
     return sortedArray;
   };
@@ -31,7 +29,7 @@ export default function naturalSort () {
    * @param {String|Number} b
    * @returns {String|Number}
    */
-  function naturalSortAlgorithm (a, b) {
+  function naturalSortAlgorithm(a, b) {
     const componentsInA = splitStringIntoComponents(getStringToSort(a));
     const componentsInB = splitStringIntoComponents(getStringToSort(b));
 
@@ -53,20 +51,33 @@ export default function naturalSort () {
    * @param {Array} componentsInB
    * @returns {Number}
    */
-  function calculateResult (pos, componentsInA, componentsInB) {
+  function calculateResult(pos, componentsInA, componentsInB) {
     let result = 0;
 
     if (pos >= componentsInA.length) {
       result = -1;
     } else if (pos >= componentsInB.length) {
       result = 1;
-    } else if (typeof componentsInA[pos] === 'number' && typeof componentsInB[pos] === 'string') {
+    } else if (
+      typeof componentsInA[pos] === 'number' &&
+      typeof componentsInB[pos] === 'string'
+    ) {
       result = -1;
-    } else if (typeof componentsInA[pos] === 'string' && typeof componentsInB[pos] === 'number') {
+    } else if (
+      typeof componentsInA[pos] === 'string' &&
+      typeof componentsInB[pos] === 'number'
+    ) {
       result = 1;
     } else {
-      result = calculateValueForALessThanB(componentsInA[pos], componentsInB[pos]);
-      result = calculateValueForAEqualB(componentsInA[pos], componentsInB[pos], result);
+      result = calculateValueForALessThanB(
+        componentsInA[pos],
+        componentsInB[pos]
+      );
+      result = calculateValueForAEqualB(
+        componentsInA[pos],
+        componentsInB[pos],
+        result
+      );
     }
 
     return result;
@@ -78,8 +89,8 @@ export default function naturalSort () {
    * @param {Number|String} b
    * @returns {Number}
    */
-  function calculateValueForALessThanB (a, b) {
-    return (a < b) ? -1 : 1;
+  function calculateValueForALessThanB(a, b) {
+    return a < b ? -1 : 1;
   }
 
   /**
@@ -89,8 +100,8 @@ export default function naturalSort () {
    * @param {Number} result
    * @returns {Number}
    */
-  function calculateValueForAEqualB (a, b, result) {
-    return (a === b) ? 0 : result;
+  function calculateValueForAEqualB(a, b, result) {
+    return a === b ? 0 : result;
   }
 
   /**
@@ -101,15 +112,13 @@ export default function naturalSort () {
    * @param {String|Number}val
    * @returns {Array}
    */
-  function splitStringIntoComponents (val) {
-    if (typeof val === 'number')
-      return [val];
+  function splitStringIntoComponents(val) {
+    if (typeof val === 'number') return [val];
 
     let m;
     const components = [];
     while ((m = re.exec(val)) != null) {
-      if (m.index === re.lastIndex)
-        re.lastIndex += 1;
+      if (m.index === re.lastIndex) re.lastIndex += 1;
 
       components.push(isNaN(m[0]) ? m[0] : +m[0]);
     }

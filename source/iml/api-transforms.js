@@ -7,12 +7,12 @@
 
 import * as fp from 'intel-fp';
 
-export function addCurrentPage <T: {meta:Object}> (o:T):T {
+export function addCurrentPage<T: { meta: Object }>(o: T): T {
   return {
     ...o,
     meta: {
       ...o.meta,
-      current_page: o.meta.limit === 0 ? 1 : (o.meta.offset / o.meta.limit) + 1
+      current_page: o.meta.limit === 0 ? 1 : o.meta.offset / o.meta.limit + 1
     }
   };
 }
@@ -27,4 +27,4 @@ export const rememberValue = fp.curry2((transformFn, in$) => {
     .otherwise(() => [v]);
 });
 
-export const matchById = (id:string) => fp.find(x => x.id === id);
+export const matchById = (id: string) => fp.find(x => x.id === id);

@@ -5,12 +5,16 @@
 
 import * as fp from 'intel-fp';
 
-import notificationSliderTemplate from './assets/html/notification-slider.html!text';
+import notificationSliderTemplate
+  from './assets/html/notification-slider.html!text';
 
-
-export function NotificationSliderController ($scope, $timeout, localApply, $exceptionHandler) {
+export function NotificationSliderController(
+  $scope,
+  $timeout,
+  localApply,
+  $exceptionHandler
+) {
   'ngInject';
-
   let promise;
 
   const closeAfter5Seconds = $timeout.bind(
@@ -21,25 +25,14 @@ export function NotificationSliderController ($scope, $timeout, localApply, $exc
 
   const objectLens = fp.lensProp('objects');
 
-  this
-    .stream
-    .map(
-      fp.view(
-        fp.compose(
-          objectLens,
-          fp.mapped,
-          fp.lensProp('message')
-        )
-      )
-    )
+  this.stream
+    .map(fp.view(fp.compose(objectLens, fp.mapped, fp.lensProp('message'))))
     .map(fp.view(objectLens))
     .filter(fp.view(fp.lensProp('length')))
     .stopOnError(fp.unary($exceptionHandler))
-    .each(function (x) {
-      if (x.length > 1)
-        $scope.message = x.length + ' active alerts';
-      else
-        $scope.message = x[0];
+    .each(function(x) {
+      if (x.length > 1) $scope.message = x.length + ' active alerts';
+      else $scope.message = x[0];
 
       $scope.open = true;
 
@@ -49,23 +42,22 @@ export function NotificationSliderController ($scope, $timeout, localApply, $exc
       localApply($scope);
     });
 
-  $scope.enter = function enter () {
+  $scope.enter = function enter() {
     $timeout.cancel(promise);
   };
 
-  $scope.leave = function leave () {
+  $scope.leave = function leave() {
     promise = closeAfter5Seconds();
   };
 
-  $scope.close = function close () {
+  $scope.close = function close() {
     $timeout.cancel(promise);
     $scope.open = false;
   };
 }
 
-export function notificationSlider () {
+export function notificationSlider() {
   'ngInject';
-
   return {
     restrict: 'E',
     scope: {

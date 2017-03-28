@@ -1,17 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
 describe('confirm button', () => {
-  let mod,
-    spy,
-    defaultButton,
-    verifyButton,
-    waitingButton,
-    global;
+  let mod, spy, defaultButton, verifyButton, waitingButton, global;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     spy = jasmine.createSpy('spy');
     global = document;
     spyOn(global, 'addEventListener').and.callThrough();
@@ -24,17 +16,20 @@ describe('confirm button', () => {
 
   afterEach(resetAll);
 
-  beforeEach(module('extendScope', $compileProvider => {
-    $compileProvider.component('confirmButton', mod.default);
-  }));
+  beforeEach(
+    module('extendScope', $compileProvider => {
+      $compileProvider.component('confirmButton', mod.default);
+    })
+  );
 
   let $scope, el;
 
-  beforeEach(inject(($compile, $rootScope) => {
-    $scope = $rootScope.$new();
-    $scope.spy = spy;
+  beforeEach(
+    inject(($compile, $rootScope) => {
+      $scope = $rootScope.$new();
+      $scope.spy = spy;
 
-    const template = `
+      const template = `
     <confirm-button confirm-click="spy()">
       <default-button>
         <button>Delete</button>
@@ -48,21 +43,18 @@ describe('confirm button', () => {
     </confirm-button>
     `;
 
-    el = $compile(template)($scope)[0];
-    spyOn(el, 'addEventListener')
-      .and
-      .callThrough();
+      el = $compile(template)($scope)[0];
+      spyOn(el, 'addEventListener').and.callThrough();
 
-    spyOn(el, 'removeEventListener')
-      .and
-      .callThrough();
+      spyOn(el, 'removeEventListener').and.callThrough();
 
-    $scope.$digest();
+      $scope.$digest();
 
-    defaultButton = el.querySelector.bind(el, 'default-button');
-    verifyButton = el.querySelector.bind(el, 'verify-button');
-    waitingButton = el.querySelector.bind(el, 'waiting-button');
-  }));
+      defaultButton = el.querySelector.bind(el, 'default-button');
+      verifyButton = el.querySelector.bind(el, 'verify-button');
+      waitingButton = el.querySelector.bind(el, 'waiting-button');
+    })
+  );
 
   describe('default state', () => {
     it('should display the default button', () => {
@@ -109,8 +101,11 @@ describe('confirm button', () => {
     });
 
     it('should call addEventListener', () => {
-      expect(global.addEventListener)
-        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
+      expect(global.addEventListener).toHaveBeenCalledOnceWith(
+        'click',
+        jasmine.any(Function),
+        false
+      );
     });
 
     describe('cancel confirm', () => {
@@ -120,8 +115,11 @@ describe('confirm button', () => {
       });
 
       it('should call removeEventListener', () => {
-        expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
+        expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+          'click',
+          jasmine.any(Function),
+          false
+        );
       });
 
       it('should display the default button', () => {
@@ -164,8 +162,11 @@ describe('confirm button', () => {
       });
 
       it('should remove the event listener', () => {
-        expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
+        expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+          'click',
+          jasmine.any(Function),
+          false
+        );
       });
     });
   });
@@ -173,8 +174,11 @@ describe('confirm button', () => {
   describe('destroy', () => {
     it('should remove the event listener from global', () => {
       $scope.$destroy();
-      expect(global.removeEventListener)
-        .toHaveBeenCalledOnceWith('click', jasmine.any(Function), false);
+      expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+        'click',
+        jasmine.any(Function),
+        false
+      );
     });
   });
 });

@@ -2,21 +2,14 @@ import highland from 'highland';
 
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('base chart', () => {
-  let global,
-    nv,
-    d3,
-    baseChart;
+  let global, nv, d3, baseChart;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     d3 = {
-      select: jasmine.createSpy('select')
-        .and.callFake(fp.identity)
+      select: jasmine.createSpy('select').and.callFake(fp.identity)
     };
 
     global = {
@@ -36,9 +29,10 @@ describe('base chart', () => {
       nvd3: {
         default: nv
       },
-      'source/iml/charts/assets/html/chart.html!text': { default: 'chartTemplate' }
+      'source/iml/charts/assets/html/chart.html!text': {
+        default: 'chartTemplate'
+      }
     });
-
 
     baseChart = mod.default;
   });
@@ -46,8 +40,7 @@ describe('base chart', () => {
   afterEach(resetAll);
 
   it('should return a factory function', () => {
-    expect(baseChart)
-      .toEqual(jasmine.any(Function));
+    expect(baseChart).toEqual(jasmine.any(Function));
   });
 
   it('should generate a directive definition object', () => {
@@ -65,8 +58,14 @@ describe('base chart', () => {
   });
 
   describe('linking function', () => {
-    let linker, s, generateChart, scope,
-      element, fullScreenCtrl, svg, rootPanel;
+    let linker,
+      s,
+      generateChart,
+      scope,
+      element,
+      fullScreenCtrl,
+      svg,
+      rootPanel;
 
     beforeEach(() => {
       s = highland();
@@ -93,19 +92,21 @@ describe('base chart', () => {
       svg[0] = {};
 
       element = {
-        querySelector: jasmine.createSpy('querySelector')
-          .and.returnValue(svg),
-        getBoundingClientRect: jasmine.createSpy('getBoundingClientRect').and.returnValue({
-          bottom: 703,
-          height: 450,
-          left: 15,
-          right: 1263,
-          top: 253,
-          width: 1248
-        })
+        querySelector: jasmine.createSpy('querySelector').and.returnValue(svg),
+        getBoundingClientRect: jasmine
+          .createSpy('getBoundingClientRect')
+          .and.returnValue({
+            bottom: 703,
+            height: 450,
+            left: 15,
+            right: 1263,
+            top: 253,
+            width: 1248
+          })
       };
 
-      generateChart = jasmine.createSpy('generateChart')
+      generateChart = jasmine
+        .createSpy('generateChart')
         .and.callFake(fp.identity);
 
       const ddo = baseChart({
@@ -128,7 +129,9 @@ describe('base chart', () => {
     });
 
     it('should add a listener for the fullscreen controller', () => {
-      expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(
+        jasmine.any(Function)
+      );
     });
 
     it('should generate the chart', () => {
@@ -144,22 +147,28 @@ describe('base chart', () => {
     });
 
     it('should add a resize listener', () => {
-      expect(global.addEventListener)
-        .toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
+      expect(global.addEventListener).toHaveBeenCalledOnceWith(
+        'resize',
+        jasmine.any(Function)
+      );
     });
 
     it('should register a panel listener', () => {
-      expect(rootPanel.register)
-        .toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(rootPanel.register).toHaveBeenCalledOnceWith(
+        jasmine.any(Function)
+      );
     });
 
     it('should register a destroy handler', () => {
-      expect(scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
+      expect(scope.$on).toHaveBeenCalledOnceWith(
+        '$destroy',
+        jasmine.any(Function)
+      );
     });
 
     describe('rendering data', () => {
       beforeEach(() => {
-        s.write([ {id: '3', ts: '2014-01-07T14:42:50.000Z'} ]);
+        s.write([{ id: '3', ts: '2014-01-07T14:42:50.000Z' }]);
       });
 
       it('should pull the last data', () => {
@@ -167,8 +176,9 @@ describe('base chart', () => {
       });
 
       it('should set the new data', () => {
-        expect(svg.datum)
-          .toHaveBeenCalledOnceWith([ { id: '3', ts: '2014-01-07T14:42:50.000Z' } ]);
+        expect(svg.datum).toHaveBeenCalledOnceWith([
+          { id: '3', ts: '2014-01-07T14:42:50.000Z' }
+        ]);
       });
     });
 
@@ -178,18 +188,23 @@ describe('base chart', () => {
       });
 
       it('should remove the resize listener', () => {
-        expect(global.removeEventListener)
-          .toHaveBeenCalledOnceWith('resize', jasmine.any(Function), false);
+        expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+          'resize',
+          jasmine.any(Function),
+          false
+        );
       });
 
       it('should deregister the panel listener', () => {
-        expect(rootPanel.deregister)
-          .toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
+          jasmine.any(Function)
+        );
       });
 
       it('should remove the full screen controller listener', () => {
-        expect(fullScreenCtrl.removeListener)
-          .toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(fullScreenCtrl.removeListener).toHaveBeenCalledOnceWith(
+          jasmine.any(Function)
+        );
       });
 
       it('should remove the svg element', () => {

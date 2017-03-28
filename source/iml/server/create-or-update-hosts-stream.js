@@ -7,24 +7,25 @@ import _ from 'intel-lodash-mixins';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 import serversToApiObjects from './servers-to-api-objects.js';
-import {
-  CACHE_INITIAL_DATA
-} from '../environment.js';
-
+import { CACHE_INITIAL_DATA } from '../environment.js';
 
 /**
  * Creates or updates hosts as needed.
  * @param {Object} servers
  * @returns {Highland.Stream}
  */
-export default function createOrUpdateHostsStream (servers) {
+export default function createOrUpdateHostsStream(servers) {
   const objects = serversToApiObjects(servers);
 
-  return socketStream('/host', {
-    qs: { limit: 0 }
-  }, true)
+  return socketStream(
+    '/host',
+    {
+      qs: { limit: 0 }
+    },
+    true
+  )
     .pluck('objects')
-    .flatMap(function handleResponse (servers) {
+    .flatMap(function handleResponse(servers) {
       const findByAddress = _.findInCollection(['address']);
 
       const toPost = objects
@@ -44,7 +45,7 @@ export default function createOrUpdateHostsStream (servers) {
       const unchangedServers = {
         objects: servers
           .filter(findByAddress(leftovers))
-          .map(function buildResponse (server) {
+          .map(function buildResponse(server) {
             return {
               command_and_host: {
                 command: false,
@@ -59,10 +60,10 @@ export default function createOrUpdateHostsStream (servers) {
       return highland([postHostStream, putHostStream])
         .merge()
         .collect()
-        .map(function combine (responses) {
+        .map(function combine(responses) {
           responses = responses
             .concat(unchangedServers)
-            .concat(function concatArrays (a, b) {
+            .concat(function concatArrays(a, b) {
               return Array.isArray(a) ? a.concat(b) : undefined;
             });
 
@@ -77,8 +78,10 @@ export default function createOrUpdateHostsStream (servers) {
  * @param {Object} server
  * @returns {Object}
  */
-function addDefaultProfile (server) {
-  const defaultProfileResourceUri = _.find(CACHE_INITIAL_DATA.server_profile, { name: 'default' }).resource_uri;
+function addDefaultProfile(server) {
+  const defaultProfileResourceUri = _.find(CACHE_INITIAL_DATA.server_profile, {
+    name: 'default'
+  }).resource_uri;
   server.server_profile = defaultProfileResourceUri;
   return server;
 }
@@ -89,12 +92,15 @@ function addDefaultProfile (server) {
  * @param {Object} data
  * @returns {Highland.Stream}
  */
-function updateHostStream (method, data) {
-  if (data.length === 0)
-    return highland([{}]);
+function updateHostStream(method, data) {
+  if (data.length === 0) return highland([{}]);
 
-  return socketStream('/host', {
-    method: method,
-    json: { objects: data }
-  }, true);
+  return socketStream(
+    '/host',
+    {
+      method: method,
+      json: { objects: data }
+    },
+    true
+  );
 }

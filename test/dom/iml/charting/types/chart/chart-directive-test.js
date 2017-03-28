@@ -2,62 +2,66 @@ import highland from 'highland';
 import d3 from 'd3';
 import angular from 'angular';
 import * as fp from 'intel-fp';
-import chartModule from
-  '../../../../../../source/iml/charting/types/chart/chart-module';
+import chartModule
+  from '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('chart directive', () => {
   let chartCtrl, $window;
 
-  beforeEach(module(chartModule, ($provide, $compileProvider) => {
-    $compileProvider.directive('tester', () => {
-      return {
-        require: '^^charter',
-        link ($scope, el, attr, ctrl) {
-          chartCtrl = ctrl;
-        }
+  beforeEach(
+    module(chartModule, ($provide, $compileProvider) => {
+      $compileProvider.directive('tester', () => {
+        return {
+          require: '^^charter',
+          link($scope, el, attr, ctrl) {
+            chartCtrl = ctrl;
+          }
+        };
+      });
+
+      $window = {
+        addEventListener: jasmine.createSpy('addEventListener'),
+        removeEventListener: jasmine.createSpy('removeEventListener')
       };
-    });
+      $provide.value('$window', $window);
 
-    $window = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
-    };
-    $provide.value('$window', $window);
-
-    $provide.value('debounce', jasmine.createSpy('debounce')
-      .and
-      .callFake(fp.identity));
-  }));
+      $provide.value(
+        'debounce',
+        jasmine.createSpy('debounce').and.callFake(fp.identity)
+      );
+    })
+  );
 
   let el = 'bar', qs, $scope;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template  = `
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `
     <div charter stream="stream" on-update="onUpdate">
       <g tester class="tester"></g>
     </div>
     `;
 
-    $scope = $rootScope.$new();
-    $scope.stream = highland();
-    $scope.onUpdate = [];
+      $scope = $rootScope.$new();
+      $scope.stream = highland();
+      $scope.onUpdate = [];
 
-    el = angular.element(template)[0];
-    document.body.appendChild(el);
+      el = angular.element(template)[0];
+      document.body.appendChild(el);
 
-    d3.select(el)
-      .style({
+      d3.select(el).style({
         display: 'inline-block',
         width: '200px',
         height: '200px'
       });
 
-    $compile(el)($scope);
+      $compile(el)($scope);
 
-    qs = (expr) => el.querySelector(expr);
+      qs = expr => el.querySelector(expr);
 
-    $scope.$digest();
-  }));
+      $scope.$digest();
+    })
+  );
 
   afterEach(() => {
     document.body.removeChild(el);
@@ -75,17 +79,16 @@ describe('chart directive', () => {
     expect(qs('.tester')).not.toBeNull();
   });
 
-  it('should set svg width', function () {
+  it('should set svg width', function() {
     expect(qs('svg').getAttribute('width')).toBe('200');
   });
 
-  it('should set svg height', function () {
+  it('should set svg height', function() {
     expect(qs('svg').getAttribute('height')).toBe('200');
   });
 
-  it('should translate g to margin', function () {
-    expect(qs('g').getAttribute('transform'))
-    .toBe('translate(50,30)');
+  it('should translate g to margin', function() {
+    expect(qs('g').getAttribute('transform')).toBe('translate(50,30)');
   });
 
   describe('controller', () => {
@@ -122,12 +125,12 @@ describe('chart directive', () => {
       expect(chartCtrl.onUpdate).toEqual([]);
     });
 
-    it('should have a dispatcher', function () {
+    it('should have a dispatcher', function() {
       expect(chartCtrl.dispatch.event).toEqual(jasmine.any(Function));
     });
   });
 
-  describe('on updates', function () {
+  describe('on updates', function() {
     let spy;
 
     beforeEach(() => {
@@ -136,18 +139,17 @@ describe('chart directive', () => {
       $scope.stream.write(['foo', 'bar']);
     });
 
-    describe('from a stream', function () {
-      it('should call listeners', function () {
-        expect(spy)
-          .toHaveBeenCalledOnceWith({
-            svg: jasmine.any(Object),
-            width: 120,
-            height: 140,
-            xs: ['foo', 'bar']
-          });
+    describe('from a stream', function() {
+      it('should call listeners', function() {
+        expect(spy).toHaveBeenCalledOnceWith({
+          svg: jasmine.any(Object),
+          width: 120,
+          height: 140,
+          xs: ['foo', 'bar']
+        });
       });
 
-      it('should set data on svg', function () {
+      it('should set data on svg', function() {
         expect(chartCtrl.svg.datum()).toEqual(['foo', 'bar']);
       });
     });
@@ -156,13 +158,12 @@ describe('chart directive', () => {
       it('should call listeners', () => {
         $window.addEventListener.calls.argsFor(0)[1]();
 
-        expect(spy)
-          .toHaveBeenCalledTwiceWith({
-            svg: jasmine.any(Object),
-            width: 120,
-            height: 140,
-            xs: ['foo', 'bar']
-          });
+        expect(spy).toHaveBeenCalledTwiceWith({
+          svg: jasmine.any(Object),
+          width: 120,
+          height: 140,
+          xs: ['foo', 'bar']
+        });
       });
     });
   });
@@ -170,7 +171,9 @@ describe('chart directive', () => {
   it('should remove the listener on destroy', () => {
     $scope.$destroy();
 
-    expect($window.removeEventListener)
-      .toHaveBeenCalledOnceWith('resize', jasmine.any(Function));
+    expect($window.removeEventListener).toHaveBeenCalledOnceWith(
+      'resize',
+      jasmine.any(Function)
+    );
   });
 });

@@ -5,7 +5,7 @@
 
 import * as fp from 'intel-fp';
 
-export default function groupActionsFilter () {
+export default function groupActionsFilter() {
   const numDisplayGroups = fp.flow(
     fp.map(fp.view(fp.lensProp('display_group'))),
     fp.filter(fp.flow(fp.eq(undefined), fp.not)),
@@ -14,20 +14,18 @@ export default function groupActionsFilter () {
 
   // Sort items by display_group, then by display_order.
   // Mark the last item in each group
-  return function groupActions (input) {
-    if (numDisplayGroups(input) !== input.length)
-      return input;
+  return function groupActions(input) {
+    if (numDisplayGroups(input) !== input.length) return input;
 
-    const sorted = input.sort(function (a, b) {
+    const sorted = input.sort(function(a, b) {
       const x = a.display_group - b.display_group;
-      return (x === 0 ? a.display_order - b.display_order : x);
+      return x === 0 ? a.display_order - b.display_order : x;
     });
 
-    sorted.forEach(function (item, index) {
+    sorted.forEach(function(item, index) {
       const next = sorted[index + 1];
 
-      if (next && item.display_group !== next.display_group)
-        item.last = true;
+      if (next && item.display_group !== next.display_group) item.last = true;
     });
 
     return sorted;

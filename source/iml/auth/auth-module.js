@@ -10,22 +10,17 @@ import modelFactoryModule from '../model-factory/model-factory-module';
 import environmentModule from '../environment-module';
 import SessionModel from '../session/session-model.js';
 import UserModel from './user-model';
-import {
-  GROUPS,
-  restrictTo,
-  restrict
-} from './authorization.js';
+import { GROUPS, restrictTo, restrict } from './authorization.js';
 
-import type {
-  Exact
-} from '../../flow-workarounds.js';
+import type { Exact } from '../../flow-workarounds.js';
 
 export type credentialsT = Exact<{
-  username:string,
-  password:string
+  username: string,
+  password: string
 }>;
 
-export default angular.module('auth', [modelFactoryModule, environmentModule])
+export default angular
+  .module('auth', [modelFactoryModule, environmentModule])
   .value('EULA_STATES', {
     EULA: 'eula',
     PASS: 'pass',
@@ -35,5 +30,4 @@ export default angular.module('auth', [modelFactoryModule, environmentModule])
   .factory('UserModel', UserModel)
   .constant('GROUPS', GROUPS)
   .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict)
-  .name;
+  .directive('restrict', restrict).name;

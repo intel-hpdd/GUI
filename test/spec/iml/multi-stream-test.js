@@ -14,33 +14,31 @@ describe('multi stream', () => {
     s2 = highland();
     spyOn(s2, 'destroy');
     ms = multiStream([s1, s2]);
-    ms
-      .stopOnError(fp.unary(errSpy))
-      .each(spy);
+    ms.stopOnError(fp.unary(errSpy)).each(spy);
   });
 
-  it('should be a function', function () {
+  it('should be a function', function() {
     expect(multiStream).toEqual(jasmine.any(Function));
   });
 
-  it('should not emit if all streams not written', function () {
+  it('should not emit if all streams not written', function() {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should not emit if all streams not written', function () {
+  it('should not emit if all streams not written', function() {
     s1.write('foo');
 
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should emit if all streams written', function () {
+  it('should emit if all streams written', function() {
     s1.write('foo');
     s2.write('bar');
 
     expect(spy).toHaveBeenCalledOnceWith(['foo', 'bar']);
   });
 
-  it('should emit errors', function () {
+  it('should emit errors', function() {
     s1.write({
       __HighlandStreamError__: true,
       error: new Error('boom!')
@@ -49,7 +47,7 @@ describe('multi stream', () => {
     expect(errSpy).toHaveBeenCalledOnceWith(new Error('boom!'));
   });
 
-  it('should update if stream 1 writes', function () {
+  it('should update if stream 1 writes', function() {
     s1.write('foo');
     s2.write('bar');
     s1.write('baz');
@@ -57,7 +55,7 @@ describe('multi stream', () => {
     expect(spy).toHaveBeenCalledOnceWith(['baz', 'bar']);
   });
 
-  it('should update if stream 2 writes', function () {
+  it('should update if stream 2 writes', function() {
     s2.write('bar');
     s1.write('foo');
     s2.write('bap');
@@ -65,16 +63,16 @@ describe('multi stream', () => {
     expect(spy).toHaveBeenCalledOnceWith(['foo', 'bap']);
   });
 
-  describe('on Destroy', function () {
-    beforeEach(function () {
+  describe('on Destroy', function() {
+    beforeEach(function() {
       ms.destroy();
     });
 
-    it('should destroy stream 1', function () {
+    it('should destroy stream 1', function() {
       expect(s1.destroy).toHaveBeenCalledOnce();
     });
 
-    it('should destroy stream 2', function () {
+    it('should destroy stream 2', function() {
       expect(s2.destroy).toHaveBeenCalledOnce();
     });
   });

@@ -11,15 +11,11 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 import disconnectListener from './disconnect-listener.js';
 import windowUnloadModule from '../window-unload/window-unload-module.js';
 
-export default angular.module('disconnectModalModule', [
-  uiBootstrapModule,
-  windowUnloadModule
-])
+export default angular
+  .module('disconnectModalModule', [uiBootstrapModule, windowUnloadModule])
   .factory('disconnectModal', disconnectModal)
-  .run((disconnectModal) => {
+  .run(disconnectModal => {
     'ngInject';
-
     disconnectListener.on('open', disconnectModal.open);
     disconnectListener.on('close', disconnectModal.close);
-  })
-  .name;
+  }).name;

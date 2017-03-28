@@ -1,15 +1,11 @@
 import angular from 'angular';
 
-import loginModule
-  from '../../../../source/iml/login/login-module';
+import loginModule from '../../../../source/iml/login/login-module';
 
 import interceptorsModule
   from '../../../../source/iml/interceptors/interceptor-module';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Login Controller', () => {
   const userEulaStates = {
@@ -18,11 +14,9 @@ describe('Login Controller', () => {
     DENIED: 'denied'
   };
 
-  let $uibModal,
-    navigate,
-    LoginCtrl;
+  let $uibModal, navigate, LoginCtrl;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/login/login-controller.js', {
       'source/iml/login/assets/html/eula.html!text': {
         default: 'eulaTemplate'
@@ -37,67 +31,76 @@ describe('Login Controller', () => {
 
   afterEach(resetAll);
 
+  beforeEach(
+    module(loginModule, interceptorsModule, $provide => {
+      navigate = jasmine.createSpy('navigate');
+      $provide.value('navigate', navigate);
 
-  beforeEach(module(loginModule, interceptorsModule, $provide => {
-    navigate = jasmine.createSpy('navigate');
-    $provide.value('navigate', navigate);
+      $provide.value('help', {
+        get: jasmine.createSpy('help').and.returnValue('foo')
+      });
 
-
-    $provide.value('help', {
-      get: jasmine.createSpy('help').and.returnValue('foo')
-    });
-
-    $provide.provider('$uibModal', function $uibModalProvider () {
-      'ngInject';
-
-      this.$get = ($q) => {
-        $uibModal = {
-          instances: {}
-        };
-
-        $uibModal.open = jasmine.createSpy('open').and.callFake((options) => {
-          const modalResult = $q.defer();
-
-          const modalInstance = {
-            close: jasmine.createSpy('close').and.callFake((result) => {
-              modalResult.resolve(result);
-            }),
-            dismiss: jasmine.createSpy('dismiss').and.callFake((reason) => {
-              modalResult.reject(reason);
-            }),
-            result: modalResult.promise,
-            opened: $q.defer().resolve(true)
+      $provide.provider('$uibModal', function $uibModalProvider() {
+        'ngInject';
+        this.$get = $q => {
+          $uibModal = {
+            instances: {}
           };
 
-          $uibModal.instances[options.template || options.windowClass] = modalInstance;
+          $uibModal.open = jasmine.createSpy('open').and.callFake(options => {
+            const modalResult = $q.defer();
 
-          return modalInstance;
-        });
+            const modalInstance = {
+              close: jasmine.createSpy('close').and.callFake(result => {
+                modalResult.resolve(result);
+              }),
+              dismiss: jasmine.createSpy('dismiss').and.callFake(reason => {
+                modalResult.reject(reason);
+              }),
+              result: modalResult.promise,
+              opened: $q.defer().resolve(true)
+            };
 
-        return $uibModal;
-      };
-    });
-  }));
+            $uibModal.instances[
+              options.template || options.windowClass
+            ] = modalInstance;
 
-  let loginController, $httpBackend, sessionFixture, sessionFixtures, $rootScope;
+            return modalInstance;
+          });
 
-  beforeEach(inject(($controller, _$httpBackend_, _$rootScope_, fixtures) => {
-    $httpBackend = _$httpBackend_;
-    $rootScope = _$rootScope_;
-    sessionFixtures = fixtures.asName('session');
+          return $uibModal;
+        };
+      });
+    })
+  );
 
-    loginController = $controller(LoginCtrl, {
-      user_EULA_STATES: userEulaStates,
-      ALLOW_ANONYMOUS_READ: true
-    });
+  let loginController,
+    $httpBackend,
+    sessionFixture,
+    sessionFixtures,
+    $rootScope;
 
-    sessionFixture = sessionFixtures.getFixture((fixture) => {
-      return fixture.status === 200;
-    });
+  beforeEach(
+    inject(($controller, _$httpBackend_, _$rootScope_, fixtures) => {
+      $httpBackend = _$httpBackend_;
+      $rootScope = _$rootScope_;
+      sessionFixtures = fixtures.asName('session');
 
-    $httpBackend.whenPOST('session/').respond(201);
-    $httpBackend.whenGET('session/').respond.apply(null, sessionFixture.toArray());
-  }));
+      loginController = $controller(LoginCtrl, {
+        user_EULA_STATES: userEulaStates,
+        ALLOW_ANONYMOUS_READ: true
+      });
+
+      sessionFixture = sessionFixtures.getFixture(fixture => {
+        return fixture.status === 200;
+      });
+
+      $httpBackend.whenPOST('session/').respond(201);
+      $httpBackend
+        .whenGET('session/')
+        .respond.apply(null, sessionFixture.toArray());
+    })
+  );
 
   afterEach(() => {
     $httpBackend.verifyNoOutstandingExpectation();
@@ -149,7 +152,9 @@ describe('Login Controller', () => {
 
     it('should redirect to base uri if api says so', () => {
       sessionFixture.data.user.eula_state = userEulaStates.PASS;
-      $httpBackend.expectGET('session/').respond.apply(null, sessionFixture.toArray());
+      $httpBackend
+        .expectGET('session/')
+        .respond.apply(null, sessionFixture.toArray());
 
       $httpBackend.flush();
 
@@ -180,13 +185,18 @@ describe('Login Controller', () => {
 
   describe('unauthenticated user', () => {
     beforeEach(() => {
-      const failedAuth = sessionFixtures.getFixture((fixture) => {
+      const failedAuth = sessionFixtures.getFixture(fixture => {
         return fixture.status === 400;
       });
 
-      $httpBackend.expectPOST('session/').respond.apply(null, failedAuth.toArray());
+      $httpBackend
+        .expectPOST('session/')
+        .respond.apply(null, failedAuth.toArray());
 
-      angular.extend(loginController, {username: 'badHacker', password: 'bruteForce'});
+      angular.extend(loginController, {
+        username: 'badHacker',
+        password: 'bruteForce'
+      });
       loginController.submitLogin();
     });
 
@@ -212,13 +222,15 @@ describe('Login Controller', () => {
 
   describe('non-superuser', () => {
     beforeEach(() => {
-      const adminSession = sessionFixtures.getFixture((fixture) => {
+      const adminSession = sessionFixtures.getFixture(fixture => {
         return fixture.data.user && fixture.data.user.username === 'admin';
       });
 
-      $httpBackend.expectGET('session/').respond.apply(null, adminSession.toArray());
+      $httpBackend
+        .expectGET('session/')
+        .respond.apply(null, adminSession.toArray());
 
-      angular.extend(loginController, {username: 'admin', password: 'foo'});
+      angular.extend(loginController, { username: 'admin', password: 'foo' });
       loginController.submitLogin();
 
       $httpBackend.flush();

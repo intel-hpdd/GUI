@@ -1,17 +1,19 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('status query controller', () => {
-  let ctrl, $location,
-    qsStream, s, statusCompleter, $stateParams,
-    statusInputToQsParser, statusQsToInputParser,
+  let ctrl,
+    $location,
+    qsStream,
+    s,
+    statusCompleter,
+    $stateParams,
+    statusInputToQsParser,
+    statusQsToInputParser,
     mod;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     $location = {
       search: jasmine.createSpy('search')
     };
@@ -19,10 +21,7 @@ describe('status query controller', () => {
     s = highland();
     spyOn(s, 'destroy');
 
-    qsStream = jasmine
-      .createSpy('qsStream')
-      .and
-      .returnValue(s);
+    qsStream = jasmine.createSpy('qsStream').and.returnValue(s);
 
     $stateParams = {
       param: 'val'
@@ -47,10 +46,18 @@ describe('status query controller', () => {
 
   beforeEach(module('extendScope'));
 
-  beforeEach(inject(($rootScope, propagateChange) => {
-    const $scope = $rootScope.$new();
-    ctrl = new mod.StatusQueryController($scope, $location, qsStream, propagateChange, $stateParams);
-  }));
+  beforeEach(
+    inject(($rootScope, propagateChange) => {
+      const $scope = $rootScope.$new();
+      ctrl = new mod.StatusQueryController(
+        $scope,
+        $location,
+        qsStream,
+        propagateChange,
+        $stateParams
+      );
+    })
+  );
 
   afterEach(resetAll);
 
@@ -64,8 +71,7 @@ describe('status query controller', () => {
       onSubmit: jasmine.any(Function)
     });
 
-    expect(ctrl)
-      .toEqual(instance);
+    expect(ctrl).toEqual(instance);
   });
 
   it('should call qsStream', () => {
@@ -77,22 +83,18 @@ describe('status query controller', () => {
       qs: 'bar=baz'
     });
 
-    expect(ctrl.qs)
-      .toBe('bar=baz');
+    expect(ctrl.qs).toBe('bar=baz');
   });
 
   it('should set the location query string on submit', () => {
-    ctrl
-      .onSubmit('foo=bar');
+    ctrl.onSubmit('foo=bar');
 
-    expect($location.search)
-      .toHaveBeenCalledWith('foo=bar');
+    expect($location.search).toHaveBeenCalledWith('foo=bar');
   });
 
   it('should destroy the route stream when the scope is destroyed', () => {
     ctrl.$onDestroy();
 
-    expect(s.destroy)
-      .toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledOnce();
   });
 });

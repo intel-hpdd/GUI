@@ -8,27 +8,18 @@
 import store from '../store/get-store.js';
 import broadcaster from '../broadcaster.js';
 
-import {
-  GROUPS
-} from '../auth/authorization.js';
+import { GROUPS } from '../auth/authorization.js';
 
 export const fileSystemListState = {
   url: '/configure/filesystem',
   name: 'app.fileSystem',
-  controller: function controller () {
+  controller: function controller() {
     'ngInject';
-
     this.fileSystem$ = store.select('fileSystems');
 
-    this.jobIndicator$ = broadcaster(
-      store
-        .select('jobIndicators')
-    );
+    this.jobIndicator$ = broadcaster(store.select('jobIndicators'));
 
-    this.alertIndicator$ = broadcaster(
-      store
-      .select('alertIndicators')
-    );
+    this.alertIndicator$ = broadcaster(store.select('alertIndicators'));
   },
   params: {
     resetState: {

@@ -1,20 +1,15 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-
-describe('Format bytes', function () {
+describe('Format bytes', function() {
   let tests, formatBytes;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/number-formatters/format-bytes.js', {});
 
     formatBytes = mod.default;
   });
 
   afterEach(resetAll);
-
 
   beforeEach(() => {
     tests = [
@@ -82,7 +77,7 @@ describe('Format bytes', function () {
   });
 
   it('should determine the best size and suffix to display', () => {
-    tests.forEach(function (test) {
+    tests.forEach(function(test) {
       expect(formatBytes.apply(null, test.in)).toEqual(test.out);
     });
   });

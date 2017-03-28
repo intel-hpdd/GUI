@@ -2,54 +2,58 @@ import highland from 'highland';
 import moment from 'moment';
 import * as maybe from 'intel-maybe';
 
-import memoryUsageDataFixtures from
-  '../../../data-fixtures/memory-usage-fixtures.json!json';
+import memoryUsageDataFixtures
+  from '../../../data-fixtures/memory-usage-fixtures.json!json';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('The memory usage stream', () => {
-  let socketStream, serverStream, getServerMoment,
-    getMemoryUsageStream, bufferDataNewerThan,
+  let socketStream,
+    serverStream,
+    getServerMoment,
+    getMemoryUsageStream,
+    bufferDataNewerThan,
     getRequestDuration;
 
-  beforeEachAsync(async function () {
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => {
-        return (serverStream = highland());
-      });
+  beforeEachAsync(async function() {
+    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+      return (serverStream = highland());
+    });
 
-    getServerMoment = jasmine.createSpy('getServerMoment')
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
       .and.returnValue(moment('2014-04-14T13:23:00.000Z'));
 
-    const bufferDataNewerThanModule = await mock('source/iml/charting/buffer-data-newer-than.js', {
-      'source/iml/get-server-moment.js': { default: getServerMoment }
-    });
+    const bufferDataNewerThanModule = await mock(
+      'source/iml/charting/buffer-data-newer-than.js',
+      {
+        'source/iml/get-server-moment.js': { default: getServerMoment }
+      }
+    );
     bufferDataNewerThan = bufferDataNewerThanModule.default;
 
     const createDate = jasmine
       .createSpy('createDate')
-      .and
-      .callFake(
-        arg => maybe.withDefault(
+      .and.callFake(arg =>
+        maybe.withDefault(
           () => new Date(),
-          maybe.map(
-            x => new Date(x),
-            maybe.of(arg)
-          )
-        )
-      );
+          maybe.map(x => new Date(x), maybe.of(arg))
+        ));
 
-    const getTimeParamsModule = await mock('source/iml/charting/get-time-params.js', {
-      'source/iml/create-date.js': { default: createDate }
-    });
+    const getTimeParamsModule = await mock(
+      'source/iml/charting/get-time-params.js',
+      {
+        'source/iml/create-date.js': { default: createDate }
+      }
+    );
     getRequestDuration = getTimeParamsModule.getRequestDuration;
 
-    const mod = await mock('source/iml/memory-usage/get-memory-usage-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    const mod = await mock(
+      'source/iml/memory-usage/get-memory-usage-stream.js',
+      {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      }
+    );
 
     getMemoryUsageStream = mod.default;
 
@@ -83,9 +87,7 @@ describe('The memory usage stream', () => {
 
       memoryUsageStream = getMemoryUsageStream(requestDuration, buff);
 
-      memoryUsageStream
-        .through(convertNvDates)
-        .each(spy);
+      memoryUsageStream.through(convertNvDates).each(spy);
     });
 
     describe('when there is data', () => {

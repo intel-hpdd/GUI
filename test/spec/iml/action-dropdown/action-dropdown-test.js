@@ -1,20 +1,26 @@
-import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import actionDropdownModule
+  from '../../../../source/iml/action-dropdown/action-dropdown-module';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('action dropdown', () => {
-  let $scope, ctrl, handleAction, actionStream,
-    getCommandStream, openCommandModal, commandStream,
-    commandModalStream, s, ActionDropdownCtrl;
+  let $scope,
+    ctrl,
+    handleAction,
+    actionStream,
+    getCommandStream,
+    openCommandModal,
+    commandStream,
+    commandModalStream,
+    s,
+    ActionDropdownCtrl;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     commandStream = highland();
     spyOn(commandStream, 'destroy');
-    getCommandStream = jasmine.createSpy('getCommandStream')
+    getCommandStream = jasmine
+      .createSpy('getCommandStream')
       .and.returnValue(commandStream);
 
     const mod = await mock('source/iml/action-dropdown/action-dropdown.js', {
@@ -36,31 +42,37 @@ describe('action dropdown', () => {
 
   beforeEach(module(actionDropdownModule));
 
-  beforeEach(inject(function ($rootScope, $controller) {
-    $scope = $rootScope.$new();
-    actionStream = highland();
-    handleAction = jasmine.createSpy('handleAction')
-      .and.returnValue(actionStream);
+  beforeEach(
+    inject(function($rootScope, $controller) {
+      $scope = $rootScope.$new();
+      actionStream = highland();
+      handleAction = jasmine
+        .createSpy('handleAction')
+        .and.returnValue(actionStream);
 
-    commandModalStream = highland();
-    openCommandModal = jasmine.createSpy('openCommandModal')
-      .and.returnValue({
+      commandModalStream = highland();
+      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
         resultStream: commandModalStream
       });
 
-    s = highland();
+      s = highland();
 
-    ctrl = $controller(ActionDropdownCtrl, {
-      $scope: $scope,
-      actionDescriptionCache: {},
-      handleAction: handleAction,
-      openCommandModal: openCommandModal
-    }, {
-      stream: s
-    });
-  }));
+      ctrl = $controller(
+        ActionDropdownCtrl,
+        {
+          $scope: $scope,
+          actionDescriptionCache: {},
+          handleAction: handleAction,
+          openCommandModal: openCommandModal
+        },
+        {
+          stream: s
+        }
+      );
+    })
+  );
 
-  it('should setup the controller', function () {
+  it('should setup the controller', function() {
     const scope = window.extendWithConstructor(ActionDropdownCtrl, {
       actionDescriptionCache: {},
       handleAction: jasmine.any(Function),
@@ -73,8 +85,8 @@ describe('action dropdown', () => {
     expect(ctrl).toEqual(scope);
   });
 
-  describe('handleAction', function () {
-    beforeEach(function () {
+  describe('handleAction', function() {
+    beforeEach(function() {
       ctrl.handleAction(
         {
           record: 'record'
@@ -85,7 +97,7 @@ describe('action dropdown', () => {
       );
     });
 
-    it('should call handle action with record and action', function () {
+    it('should call handle action with record and action', function() {
       expect(handleAction).toHaveBeenCalledOnceWith(
         {
           record: 'record'
@@ -96,7 +108,7 @@ describe('action dropdown', () => {
       );
     });
 
-    it('should get a command stream from the command', function () {
+    it('should get a command stream from the command', function() {
       actionStream.write({
         command: 'command'
       });
@@ -104,13 +116,13 @@ describe('action dropdown', () => {
       expect(getCommandStream).toHaveBeenCalledOnceWith(['command']);
     });
 
-    it('should open the command modal', function () {
+    it('should open the command modal', function() {
       actionStream.write('command');
 
       expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
     });
 
-    it('should destroy the command stream when the modal gets a result', function () {
+    it('should destroy the command stream when the modal gets a result', function() {
       actionStream.write('command');
       commandModalStream.write('done');
 

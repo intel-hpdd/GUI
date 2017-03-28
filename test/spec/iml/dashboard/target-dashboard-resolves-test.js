@@ -1,9 +1,6 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('target dashboard', () => {
   let socketStream,
@@ -15,28 +12,25 @@ describe('target dashboard', () => {
     spy,
     $stateParams;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     s = highland();
     store = {
-      select: jasmine
-        .createSpy('select')
-        .and
-        .returnValue(s)
+      select: jasmine.createSpy('select').and.returnValue(s)
     };
 
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and
-      .returnValue(s);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
-    const mod = await mock('source/iml/dashboard/target-dashboard-resolves.js', {
-      'source/iml/store/get-store': {
-        default: store
-      },
-      'source/iml/socket/socket-stream': {
-        default: socketStream
+    const mod = await mock(
+      'source/iml/dashboard/target-dashboard-resolves.js',
+      {
+        'source/iml/store/get-store': {
+          default: store
+        },
+        'source/iml/socket/socket-stream': {
+          default: socketStream
+        }
       }
-    });
+    );
 
     ({
       targetDashboardResolves,
@@ -46,9 +40,7 @@ describe('target dashboard', () => {
 
     spy = jasmine.createSpy('spy');
 
-    $stateParams = {
-
-    };
+    $stateParams = {};
   });
 
   afterEach(resetAll);
@@ -63,23 +55,19 @@ describe('target dashboard', () => {
     beforeEach(() => {
       getFileUsageChart = jasmine
         .createSpy('getFileUsageChart')
-        .and
-        .returnValue('fileUsageChart');
+        .and.returnValue('fileUsageChart');
 
       getSpaceUsageChart = jasmine
         .createSpy('getSpaceUsageChart')
-        .and
-        .returnValue('spaceUsageChart');
+        .and.returnValue('spaceUsageChart');
 
       getMdoChart = jasmine
         .createSpy('getMdoChart')
-        .and
-        .returnValue('mdoChart');
+        .and.returnValue('mdoChart');
 
       getReadWriteBandwidthChart = jasmine
         .createSpy('getReadWriteBandwidthChart')
-        .and
-        .returnValue('readWriteBandwidthChart');
+        .and.returnValue('readWriteBandwidthChart');
 
       getInst = targetDashboardResolves.bind(
         null,
@@ -92,14 +80,13 @@ describe('target dashboard', () => {
     });
 
     it('should return a function', () => {
-      expect(targetDashboardResolves)
-        .toEqual(jasmine.any(Function));
+      expect(targetDashboardResolves).toEqual(jasmine.any(Function));
     });
 
     describe('MDT', () => {
       let promise;
 
-      beforeEach(function () {
+      beforeEach(function() {
         Object.assign($stateParams, {
           id: '1',
           kind: 'MDT'
@@ -109,38 +96,41 @@ describe('target dashboard', () => {
       });
 
       it('should call mdoChart', () => {
-        expect(getMdoChart)
-          .toHaveBeenCalledOnceWith({
-            qs: {
-              id: '1'
-            }
-          }, 'target1');
-      });
-
-      it('should call fileUsageChart', () => {
-        expect(getFileUsageChart)
-          .toHaveBeenCalledOnceWith(
-            'File Usage',
-            'Files Used',
+        expect(getMdoChart).toHaveBeenCalledOnceWith(
           {
             qs: {
               id: '1'
             }
           },
           'target1'
-          );
+        );
       });
 
-      it('should call spaceUsageChart', () => {
-        expect(getSpaceUsageChart)
-          .toHaveBeenCalledOnceWith({
+      it('should call fileUsageChart', () => {
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
+          'File Usage',
+          'Files Used',
+          {
             qs: {
               id: '1'
             }
-          }, 'target1');
+          },
+          'target1'
+        );
       });
 
-      itAsync('should return MDT charts', async function () {
+      it('should call spaceUsageChart', () => {
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
+          {
+            qs: {
+              id: '1'
+            }
+          },
+          'target1'
+        );
+      });
+
+      itAsync('should return MDT charts', async function() {
         const result = await promise;
 
         expect(result).toEqual([
@@ -162,35 +152,38 @@ describe('target dashboard', () => {
       });
 
       it('should call readWriteBandwidthChart', () => {
-        expect(getReadWriteBandwidthChart)
-          .toHaveBeenCalledOnceWith({
-            qs: {
-              id: '1'
-            }
-          }, 'target1');
-      });
-
-      it('should call fileUsageChart', () => {
-        expect(getFileUsageChart)
-          .toHaveBeenCalledOnceWith(
-            'Object Usage',
-            'Objects Used',
+        expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith(
           {
             qs: {
               id: '1'
             }
           },
-            'target1'
-          );
+          'target1'
+        );
       });
 
-      it('should call spaceUsageChart', () => {
-        expect(getSpaceUsageChart)
-          .toHaveBeenCalledOnceWith({
+      it('should call fileUsageChart', () => {
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
+          'Object Usage',
+          'Objects Used',
+          {
             qs: {
               id: '1'
             }
-          }, 'target1');
+          },
+          'target1'
+        );
+      });
+
+      it('should call spaceUsageChart', () => {
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
+          {
+            qs: {
+              id: '1'
+            }
+          },
+          'target1'
+        );
       });
     });
   });
@@ -207,35 +200,30 @@ describe('target dashboard', () => {
     });
 
     it('should be a function', () => {
-      expect(targetDashboardTargetStream)
-        .toEqual(jasmine.any(Function));
+      expect(targetDashboardTargetStream).toEqual(jasmine.any(Function));
     });
 
     it('should call socketStream', () => {
-      expect(store.select)
-        .toHaveBeenCalledOnceWith('targets');
+      expect(store.select).toHaveBeenCalledOnceWith('targets');
     });
 
     it('should stream data', () => {
-      targetStream
-        .each(spy);
-      s
-        .write([
-          {
-            id: '5',
-            name: 'target5'
-          },
-          {
-            id: '1',
-            name: 'target1'
-          }
-        ]);
-
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
+      targetStream.each(spy);
+      s.write([
+        {
+          id: '5',
+          name: 'target5'
+        },
+        {
           id: '1',
           name: 'target1'
-        });
+        }
+      ]);
+
+      expect(spy).toHaveBeenCalledOnceWith({
+        id: '1',
+        name: 'target1'
+      });
     });
   });
 
@@ -251,39 +239,35 @@ describe('target dashboard', () => {
     });
 
     it('should call socketStream', () => {
-      expect(socketStream)
-        .toHaveBeenCalledOnceWith(
-          '/target/1/metric/',
-        {
-          qs: {
-            metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
-            latest: true
-          }
+      expect(socketStream).toHaveBeenCalledOnceWith('/target/1/metric/', {
+        qs: {
+          metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
+          latest: true
         }
-        );
+      });
     });
 
-    itAsync('should stream data', async function () {
+    itAsync('should stream data', async function() {
       let result;
 
-      s.write([{
-        data: {
-          kbytesfree: 1000,
-          kbytestotal: 2000
+      s.write([
+        {
+          data: {
+            kbytesfree: 1000,
+            kbytestotal: 2000
+          }
         }
-      }]);
+      ]);
 
       const s2 = await promise;
-      s2()
-        .each(x => result = x);
+      s2().each(x => result = x);
 
-      expect(result)
-        .toEqual({
-          kbytesfree: 1000,
-          kbytestotal: 2000,
-          bytes_free: 1024000,
-          bytes_total: 2048000
-        });
+      expect(result).toEqual({
+        kbytesfree: 1000,
+        kbytestotal: 2000,
+        bytes_free: 1024000,
+        bytes_total: 2048000
+      });
     });
   });
 });

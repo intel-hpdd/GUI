@@ -11,31 +11,35 @@ describe('target dashboard', () => {
 
   let $scope, ctrl, charts, targetStream, usageStream;
 
-  beforeEach(inject(($controller, $rootScope) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($controller, $rootScope) => {
+      $scope = $rootScope.$new();
 
-    charts = [{
-      stream: {
-        destroy: jasmine.createSpy('destroy')
-      }
-    }];
+      charts = [
+        {
+          stream: {
+            destroy: jasmine.createSpy('destroy')
+          }
+        }
+      ];
 
-    targetStream = highland();
-    spyOn(targetStream, 'destroy');
+      targetStream = highland();
+      spyOn(targetStream, 'destroy');
 
-    usageStream = highland();
-    spyOn(usageStream, 'destroy');
+      usageStream = highland();
+      spyOn(usageStream, 'destroy');
 
-    ctrl = $controller('TargetDashboardController', {
-      $scope,
-      charts,
-      $stateParams: {
-        kind: 'MDT'
-      },
-      targetStream,
-      usageStream: broadcaster(usageStream)
-    });
-  }));
+      ctrl = $controller('TargetDashboardController', {
+        $scope,
+        charts,
+        $stateParams: {
+          kind: 'MDT'
+        },
+        targetStream,
+        usageStream: broadcaster(usageStream)
+      });
+    })
+  );
 
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(TargetDashboardController, {
@@ -67,8 +71,7 @@ describe('target dashboard', () => {
     });
 
     it('should destroy the charts', () => {
-      expect(charts[0].stream.destroy)
-        .toHaveBeenCalledOnce();
+      expect(charts[0].stream.destroy).toHaveBeenCalledOnce();
     });
   });
 });

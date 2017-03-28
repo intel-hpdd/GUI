@@ -8,6 +8,6 @@
 import angular from 'angular';
 import atScrollBoundary from './at-scroll-boundary';
 
-export default angular.module('atScrollBoundary', [])
-.directive('atScrollBoundary', atScrollBoundary)
-.name;
+export default angular
+  .module('atScrollBoundary', [])
+  .directive('atScrollBoundary', atScrollBoundary).name;

@@ -1,10 +1,6 @@
 // @flow
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
-
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('tree utils', () => {
   let toggleCollectionOpen,
@@ -15,11 +11,10 @@ describe('tree utils', () => {
     toggleItem,
     store;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     toggleCollectionOpen = jasmine
       .createSpy('toggleCollectionOpen')
-      .and
-      .callFake((id, open) => ({
+      .and.callFake((id, open) => ({
         type: 'TOGGLE_COLLECTION_OPEN',
         payload: {
           id,
@@ -29,8 +24,7 @@ describe('tree utils', () => {
 
     toggleItemOpen = jasmine
       .createSpy('toggleItemOpen')
-      .and
-      .callFake((id, itemId, open) => ({
+      .and.callFake((id, itemId, open) => ({
         type: 'TOGGLE_ITEM_OPEN',
         payload: {
           id,
@@ -41,8 +35,7 @@ describe('tree utils', () => {
 
     updateCollectionOffset = jasmine
       .createSpy('updateCollectionOffset')
-      .and
-      .callFake((id, offset) => ({
+      .and.callFake((id, offset) => ({
         type: 'UPDATE_COLLECTION_OFFSET',
         payload: {
           id,
@@ -80,19 +73,17 @@ describe('tree utils', () => {
     });
 
     it('should call toggle collection open', () => {
-      expect(toggleCollectionOpen)
-        .toHaveBeenCalledOnceWith(1, true);
+      expect(toggleCollectionOpen).toHaveBeenCalledOnceWith(1, true);
     });
 
     it('should dispatch to the store', () => {
-      expect(store.dispatch)
-        .toHaveBeenCalledOnceWith({
-          type: 'TOGGLE_COLLECTION_OPEN',
-          payload: {
-            id: 1,
-            open: true
-          }
-        });
+      expect(store.dispatch).toHaveBeenCalledOnceWith({
+        type: 'TOGGLE_COLLECTION_OPEN',
+        payload: {
+          id: 1,
+          open: true
+        }
+      });
     });
   });
 
@@ -102,19 +93,17 @@ describe('tree utils', () => {
     });
 
     it('should call toggle collection open', () => {
-      expect(updateCollectionOffset)
-        .toHaveBeenCalledOnceWith(1, 20);
+      expect(updateCollectionOffset).toHaveBeenCalledOnceWith(1, 20);
     });
 
     it('should dispatch to the store', () => {
-      expect(store.dispatch)
-        .toHaveBeenCalledOnceWith({
-          type: 'UPDATE_COLLECTION_OFFSET',
-          payload: {
-            id: 1,
-            offset: 20
-          }
-        });
+      expect(store.dispatch).toHaveBeenCalledOnceWith({
+        type: 'UPDATE_COLLECTION_OFFSET',
+        payload: {
+          id: 1,
+          offset: 20
+        }
+      });
     });
   });
 
@@ -124,20 +113,18 @@ describe('tree utils', () => {
     });
 
     it('should call toggle item open', () => {
-      expect(toggleItemOpen)
-        .toHaveBeenCalledOnceWith(1, 2, true);
+      expect(toggleItemOpen).toHaveBeenCalledOnceWith(1, 2, true);
     });
 
     it('should dispatch to the store', () => {
-      expect(store.dispatch)
-        .toHaveBeenCalledOnceWith({
-          type: 'TOGGLE_ITEM_OPEN',
-          payload: {
-            id: 1,
-            itemId: 2,
-            open: true
-          }
-        });
+      expect(store.dispatch).toHaveBeenCalledOnceWith({
+        type: 'TOGGLE_ITEM_OPEN',
+        payload: {
+          id: 1,
+          itemId: 2,
+          open: true
+        }
+      });
     });
   });
 });

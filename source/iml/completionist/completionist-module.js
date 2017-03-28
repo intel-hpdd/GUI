@@ -15,5 +15,4 @@ export default angular
   .module('completionist', [extendScopeModule])
   .component('completionist', completionist)
   .component('completionistDropdown', completionistDropdown)
-  .directive('completionistModelHook', completionistModelHook)
-  .name;
+  .directive('completionistModelHook', completionistModelHook).name;

@@ -1,33 +1,40 @@
 describe('Full Screen Module', () => {
-  let $scope, $fullScreenController, fullScreenContainer,
-    button, icon, body, spy;
+  let $scope,
+    $fullScreenController,
+    fullScreenContainer,
+    button,
+    icon,
+    body,
+    spy;
 
   beforeEach(module('fullScreen'));
 
-  beforeEach(inject(($rootScope, $compile) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      $scope = $rootScope.$new();
 
-
-    const template = `
+      const template = `
     <div class="full-screen">
       <button type="button" full-screen-btn></button>
       <p>This will go fullscreen</p>
     </div>`;
 
-    fullScreenContainer = $compile(template)($scope);
-    $scope.$digest();
+      fullScreenContainer = $compile(template)($scope);
+      $scope.$digest();
 
-    $fullScreenController = fullScreenContainer.inheritedData('$fullScreenController');
+      $fullScreenController = fullScreenContainer.inheritedData(
+        '$fullScreenController'
+      );
 
-    spy = jasmine.createSpy('listener');
+      spy = jasmine.createSpy('listener');
 
-    button = fullScreenContainer[0].querySelector('button');
-    icon = button.querySelector.bind(button, 'i');
-    body = document.body;
+      button = fullScreenContainer[0].querySelector('button');
+      icon = button.querySelector.bind(button, 'i');
+      body = document.body;
 
-
-    $fullScreenController.addListener(spy);
-  }));
+      $fullScreenController.addListener(spy);
+    })
+  );
 
   it('should show the open icon', () => {
     expect(icon()).toHaveClass('fa-expand');

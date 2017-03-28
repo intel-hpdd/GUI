@@ -9,32 +9,22 @@ import store from '../store/get-store.js';
 import moment from 'moment';
 import * as maybe from 'intel-maybe';
 
-import {
-  matchById
-} from '../api-transforms.js';
+import { matchById } from '../api-transforms.js';
 
-import {
-  streamToPromise,
-  resolveStream
-} from '../promise-transforms.js';
+import { streamToPromise, resolveStream } from '../promise-transforms.js';
 
-import {
-  topDuration,
-  topRange
-} from './job-stats-top-stream.js';
+import { topDuration, topRange } from './job-stats-top-stream.js';
 
 type jobStatsParamsT = {
-  id:string,
-  startDate:string,
-  endDate:string
+  id: string,
+  startDate: string,
+  endDate: string
 };
 
-const fmt = str => moment(str)
-    .format('M/d/YY HH:mm:ss');
+const fmt = str => moment(str).format('M/d/YY HH:mm:ss');
 
-export function getData ($stateParams:jobStatsParamsT) {
+export function getData($stateParams: jobStatsParamsT) {
   'ngInject';
-
   if (!$stateParams.id)
     return {};
   else
@@ -55,29 +45,17 @@ export function getData ($stateParams:jobStatsParamsT) {
     );
 }
 
-export const jobstats$ = ($stateParams:jobStatsParamsT) => {
+export const jobstats$ = ($stateParams: jobStatsParamsT) => {
   'ngInject';
-
   if ($stateParams.id)
     return resolveStream(
-      topRange(
-        $stateParams.startDate,
-        $stateParams.endDate,
-        {
-          qs: {
-            id: $stateParams.id
-          }
+      topRange($stateParams.startDate, $stateParams.endDate, {
+        qs: {
+          id: $stateParams.id
         }
-      )
+      })
     );
   else
-    return streamToPromise(
-      store
-        .select('jobStatsConfig')
-    )
-      .then(c => resolveStream(
-        topDuration(
-          c.duration
-        )
-      ));
+    return streamToPromise(store.select('jobStatsConfig')).then(c =>
+      resolveStream(topDuration(c.duration)));
 };

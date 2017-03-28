@@ -13,9 +13,8 @@ export default () => {
       togglerContainer: '^multiTogglerContainer',
       ngModel: 'ngModel'
     },
-    controller: function () {
+    controller: function() {
       'ngInject';
-
       this.$onInit = () => {
         this.togglerContainer.register(this.ngModel);
 

@@ -1,64 +1,65 @@
 import * as fp from 'intel-fp';
-import {gt} from 'intel-math';
+import { gt } from 'intel-math';
 
-import {getLineFactory} from
-  '../../../../../../source/iml/charting/types/line/get-line';
+import {
+  getLineFactory
+} from '../../../../../../source/iml/charting/types/line/get-line';
 const viewLens = fp.flow(fp.lensProp, fp.view);
-import chartingModule from '../../../../../../source/iml/charting/charting-module';
+import chartingModule
+  from '../../../../../../source/iml/charting/charting-module';
 
 describe('get line', () => {
   const getCoord = (curr, idx) => Math.round(curr.split(',')[idx]);
 
-  function getCoords (line) {
+  function getCoords(line) {
     return line
       .getAttribute('d')
       .split(/([L|M])/)
-      .filter(
-        fp.flow(
-          viewLens('length'),
-          gt(0)
-        )
-      )
-      .reduce((arr, curr) => {
-        if (/[M|L]/.test(curr)) {
-          arr.push({
-            type: curr
-          });
-        } else {
-          const last = arr[arr.length -1];
+      .filter(fp.flow(viewLens('length'), gt(0)))
+      .reduce(
+        (arr, curr) => {
+          if (/[M|L]/.test(curr)) {
+            arr.push({
+              type: curr
+            });
+          } else {
+            const last = arr[arr.length - 1];
 
-          last.x = getCoord(curr, 0);
-          last.y = getCoord(curr, 1);
-        }
+            last.x = getCoord(curr, 0);
+            last.y = getCoord(curr, 1);
+          }
 
-        return arr;
-      }, []);
+          return arr;
+        },
+        []
+      );
   }
 
   let getLine, div, svg, query, d3;
 
   beforeEach(module(chartingModule));
 
-  beforeEach(inject((_d3_) => {
-    d3 = _d3_;
+  beforeEach(
+    inject(_d3_ => {
+      d3 = _d3_;
 
-    const $location = {
-      absUrl: fp.always('https://foo/')
-    };
+      const $location = {
+        absUrl: fp.always('https://foo/')
+      };
 
-    getLine = getLineFactory($location, d3);
+      getLine = getLineFactory($location, d3);
 
-    div = document.createElement('div');
+      div = document.createElement('div');
 
-    svg = document
-      .createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', 500);
-    svg.setAttribute('height', 500);
+      svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', 500);
+      svg.setAttribute('height', 500);
 
-    div.appendChild(svg);
+      div.appendChild(svg);
 
-    query = svg.querySelector.bind(svg);
-  }));
+      query = svg.querySelector.bind(svg);
+    })
+  );
 
   it('should be a function', () => {
     expect(getLine).toEqual(jasmine.any(Function));
@@ -77,10 +78,9 @@ describe('get line', () => {
       const y = d3.scale.linear();
       y.range([100, 0]);
 
-      svg = d3.select(svg)
-        .append('g');
+      svg = d3.select(svg).append('g');
 
-      setup = (d) => {
+      setup = d => {
         x.domain([0, d3.max(d, viewLens('x'))]);
         y.domain([0, d3.max(d, viewLens('y'))]);
 
@@ -91,9 +91,7 @@ describe('get line', () => {
           .xComparator(fp.eq)
           .yValue(viewLens('y'));
 
-        svg
-          .datum(d)
-          .call(inst);
+        svg.datum(d).call(inst);
       };
     });
 
@@ -206,8 +204,9 @@ describe('get line', () => {
       });
 
       it('should set the corresponding clip path', () => {
-        expect(query('.clipPath1').getAttribute('clip-path'))
-          .toEqual('url(https://foo/#clip1)');
+        expect(query('.clipPath1').getAttribute('clip-path')).toEqual(
+          'url(https://foo/#clip1)'
+        );
       });
 
       it('should calculate the line from data', () => {
@@ -219,15 +218,17 @@ describe('get line', () => {
       });
 
       it('should set stroke-dasharray to the total length of the line', () => {
-        line.getAttribute('stroke-dasharray')
+        line
+          .getAttribute('stroke-dasharray')
           .split(' ')
           .map(fp.unary(parseInt))
-          .forEach((x) => expect(x).toBeGreaterThan(0));
+          .forEach(x => expect(x).toBeGreaterThan(0));
       });
 
       it('should set stroke-dashoffset to the total length of the line', () => {
-        expect(parseInt(line.getAttribute('stroke-dashoffset')))
-          .toBeGreaterThan(0);
+        expect(
+          parseInt(line.getAttribute('stroke-dashoffset'))
+        ).toBeGreaterThan(0);
       });
 
       it('should animate stroke-dashoffset to 0', () => {

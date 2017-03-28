@@ -7,10 +7,9 @@
 
 import angular from 'angular';
 
+import { sorter, sortItem } from './sort-directive';
 
-import {sorter, sortItem} from './sort-directive';
-
-export default angular.module('sortable', [])
+export default angular
+  .module('sortable', [])
   .directive('sorter', sorter)
-  .directive('sortItem', sortItem)
-  .name;
+  .directive('sortItem', sortItem).name;

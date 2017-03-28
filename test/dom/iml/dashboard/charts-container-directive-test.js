@@ -5,21 +5,25 @@ describe('charts container', () => {
 
   let $scope, el, spy;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = '<charts-container charts="charts"></charts-container>';
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = '<charts-container charts="charts"></charts-container>';
 
-    spy = jasmine.createSpy('spy');
+      spy = jasmine.createSpy('spy');
 
-    $scope = $rootScope.$new();
-    $scope.charts = [{
-      template: '<foo></foo>',
-      stream: 'stream',
-      chartFn: spy
-    }];
+      $scope = $rootScope.$new();
+      $scope.charts = [
+        {
+          template: '<foo></foo>',
+          stream: 'stream',
+          chartFn: spy
+        }
+      ];
 
-    el = $compile(template)($scope)[0];
-    $scope.$apply();
-  }));
+      el = $compile(template)($scope)[0];
+      $scope.$apply();
+    })
+  );
 
   it('should add a dashboard row wrapper', () => {
     expect(el.querySelector('.row.dashboard')).toBeTruthy();
@@ -32,7 +36,9 @@ describe('charts container', () => {
   it('should call the chart with a new scope', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
-    expect(spy)
-      .toHaveBeenCalledOnceWith(jasmine.any($scopeConstructor), 'stream');
+    expect(spy).toHaveBeenCalledOnceWith(
+      jasmine.any($scopeConstructor),
+      'stream'
+    );
   });
 });

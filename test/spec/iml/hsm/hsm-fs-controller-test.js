@@ -4,8 +4,7 @@ import hsmFsModule from '../../../../source/iml/hsm/hsm-fs-module';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('HSM fs controller', () => {
-  let ctrl, $scope, $state, $stateParams,
-    fsStream, qsStream, qs$, fsStreamB;
+  let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB;
 
   beforeEach(module(hsmFsModule));
 
@@ -17,56 +16,54 @@ describe('HSM fs controller', () => {
     jasmine.clock().uninstall();
   });
 
-  beforeEach(inject(($controller, $rootScope) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($controller, $rootScope) => {
+      $scope = $rootScope.$new();
 
-    $state = {
-      go: jasmine.createSpy('go'),
-      router: {
-        globals: {
-          params: {
-            fsId: '1'
+      $state = {
+        go: jasmine.createSpy('go'),
+        router: {
+          globals: {
+            params: {
+              fsId: '1'
+            }
           }
         }
-      }
-    };
+      };
 
-    $stateParams = {
-      param: 'val'
-    };
+      $stateParams = {
+        param: 'val'
+      };
 
-    fsStream = highland();
-    spyOn(fsStream, 'destroy');
+      fsStream = highland();
+      spyOn(fsStream, 'destroy');
 
-    qs$ = highland();
-    spyOn(qs$, 'destroy');
-    qsStream = jasmine
-      .createSpy('qsStream')
-      .and
-      .returnValue(qs$);
-    qs$.write({
-      qs: ''
-    });
-    jasmine.clock().tick();
+      qs$ = highland();
+      spyOn(qs$, 'destroy');
+      qsStream = jasmine.createSpy('qsStream').and.returnValue(qs$);
+      qs$.write({
+        qs: ''
+      });
+      jasmine.clock().tick();
 
-    fsStreamB = broadcaster(fsStream);
+      fsStreamB = broadcaster(fsStream);
 
-    ctrl = $controller('HsmFsCtrl', {
-      $scope,
-      $state,
-      $stateParams,
-      fsStream: fsStreamB,
-      qsStream
-    });
-  }));
+      ctrl = $controller('HsmFsCtrl', {
+        $scope,
+        $state,
+        $stateParams,
+        fsStream: fsStreamB,
+        qsStream
+      });
+    })
+  );
 
   it('should setup ctrl as expected', () => {
     const instance = window.extendWithConstructor(HsmFsCtrl, {
       onUpdate: jasmine.any(Function)
     });
 
-    expect(ctrl)
-      .toEqual(instance);
+    expect(ctrl).toEqual(instance);
   });
 
   describe('onUpdate', () => {
@@ -75,14 +72,10 @@ describe('HSM fs controller', () => {
 
       ctrl.onUpdate();
 
-      expect($state.go)
-        .toHaveBeenCalledOnceWith(
-          'app.hsmFs.hsm',
-        {
-          fsId: '',
-          resetState: false
-        }
-        );
+      expect($state.go).toHaveBeenCalledOnceWith('app.hsmFs.hsm', {
+        fsId: '',
+        resetState: false
+      });
     });
 
     it('should go to the new path with id', () => {
@@ -92,22 +85,15 @@ describe('HSM fs controller', () => {
 
       ctrl.onUpdate();
 
-      expect($state.go)
-        .toHaveBeenCalledOnceWith(
-          'app.hsmFs.hsm',
-        {
-          fsId: '1',
-          resetState: false
-        }
-        );
+      expect($state.go).toHaveBeenCalledOnceWith('app.hsmFs.hsm', {
+        fsId: '1',
+        resetState: false
+      });
     });
   });
 
   it('should set fileSystems data', () => {
-    fsStream.write([
-      { id: '1' },
-      { id: '2' }
-    ]);
+    fsStream.write([{ id: '1' }, { id: '2' }]);
     jasmine.clock().tick();
 
     expect(ctrl.fileSystems).toEqual([{ id: '1' }, { id: '2' }]);
@@ -135,9 +121,7 @@ describe('HSM fs controller', () => {
   it('should filter out if fsId does not exist', () => {
     $state.router.globals.params.fsId = '';
 
-    fsStream.write([
-      { id: '1' }
-    ]);
+    fsStream.write([{ id: '1' }]);
 
     qs$.write({
       qs: ''
@@ -150,10 +134,7 @@ describe('HSM fs controller', () => {
   it('should alter fs id on change', () => {
     $state.router.globals.params.fsId = '3';
 
-    fsStream.write([
-      { id: '1' },
-      { id: '3' }
-    ]);
+    fsStream.write([{ id: '1' }, { id: '3' }]);
 
     qs$.write({
       qs: ''
@@ -175,13 +156,11 @@ describe('HSM fs controller', () => {
     });
 
     it('should destroy the fsStream', () => {
-      expect(fsStream.destroy)
-        .toHaveBeenCalled();
+      expect(fsStream.destroy).toHaveBeenCalled();
     });
 
     it('should destroy the qsStream', () => {
-      expect(qs$.destroy)
-        .toHaveBeenCalled();
+      expect(qs$.destroy).toHaveBeenCalled();
     });
   });
 });

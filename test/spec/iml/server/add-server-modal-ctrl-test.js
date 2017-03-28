@@ -1,23 +1,14 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('add server modal', () => {
-  let spring,
-    $uibModal,
-    AddServerModalCtrl,
-    openAddServerModal;
+  let spring, $uibModal, AddServerModalCtrl, openAddServerModal;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     spring = {
       destroy: jasmine.createSpy('destroy')
     };
 
-    const getSpring = jasmine
-      .createSpy('getSpring')
-      .and
-      .returnValue(spring);
+    const getSpring = jasmine.createSpy('getSpring').and.returnValue(spring);
 
     $uibModal = {
       open: jasmine.createSpy('$uibModal')
@@ -39,45 +30,54 @@ describe('add server modal', () => {
   afterEach(resetAll);
 
   describe('controller', () => {
-    let addServerModalCtrl, $scope, stepsManager,
-      resultEndPromise, invokeController;
+    let addServerModalCtrl,
+      $scope,
+      stepsManager,
+      resultEndPromise,
+      invokeController;
     const deps = {};
 
-    beforeEach(inject(($rootScope, $controller, $q) => {
-      resultEndPromise = $q.defer();
+    beforeEach(
+      inject(($rootScope, $controller, $q) => {
+        resultEndPromise = $q.defer();
 
-      stepsManager = {
-        start: jasmine.createSpy('start'),
-        result: {
-          end: resultEndPromise.promise
-        },
-        SERVER_STEPS: {
-          ADD: 'addServersStep'
-        },
-        destroy: jasmine.createSpy('destroy')
-      };
+        stepsManager = {
+          start: jasmine.createSpy('start'),
+          result: {
+            end: resultEndPromise.promise
+          },
+          SERVER_STEPS: {
+            ADD: 'addServersStep'
+          },
+          destroy: jasmine.createSpy('destroy')
+        };
 
-      $scope = $rootScope.$new();
-      $scope.$on = jasmine.createSpy('$on');
+        $scope = $rootScope.$new();
+        $scope.$on = jasmine.createSpy('$on');
 
-      Object.assign(deps, {
-        $scope: $scope,
-        $uibModalInstance: {
-          close: jasmine.createSpy('$uibModalInstance')
-        },
-        getAddServerManager: jasmine.createSpy('getAddServerManager')
-          .and.returnValue(stepsManager),
-        servers: {
-          addresses: ['host001.localdomain'],
-          auth_type: 'existing key'
-        },
-        step: undefined
-      });
+        Object.assign(deps, {
+          $scope: $scope,
+          $uibModalInstance: {
+            close: jasmine.createSpy('$uibModalInstance')
+          },
+          getAddServerManager: jasmine
+            .createSpy('getAddServerManager')
+            .and.returnValue(stepsManager),
+          servers: {
+            addresses: ['host001.localdomain'],
+            auth_type: 'existing key'
+          },
+          step: undefined
+        });
 
-      invokeController = function invokeController (moreDeps) {
-        addServerModalCtrl = $controller(AddServerModalCtrl, Object.assign(deps, moreDeps));
-      };
-    }));
+        invokeController = function invokeController(moreDeps) {
+          addServerModalCtrl = $controller(
+            AddServerModalCtrl,
+            Object.assign(deps, moreDeps)
+          );
+        };
+      })
+    );
 
     describe('when no step is provided', () => {
       beforeEach(() => invokeController());
@@ -109,13 +109,16 @@ describe('add server modal', () => {
       });
 
       it('should set a destroy event listener', () => {
-        expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
+        expect($scope.$on).toHaveBeenCalledOnceWith(
+          '$destroy',
+          jasmine.any(Function)
+        );
       });
 
       describe('on close and destroy', () => {
         beforeEach(() => {
           // Invoke the $destroy and closeModal functions
-          $scope.$on.calls.allArgs().forEach((call) => {
+          $scope.$on.calls.allArgs().forEach(call => {
             call[1]();
           });
         });
@@ -136,8 +139,7 @@ describe('add server modal', () => {
   });
 
   describe('opening', () => {
-    let server,
-      step;
+    let server, step;
 
     beforeEach(() => {
       server = {

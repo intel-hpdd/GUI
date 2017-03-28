@@ -26,31 +26,26 @@ export default {
     startDate: '<',
     endDate: '<'
   },
-  controller () {
+  controller() {
     'ngInject';
+    Object.assign(this, {
+      units: [
+        { unit: DURATIONS.MINUTES, count: 60 },
+        { unit: DURATIONS.HOURS, count: 24 },
+        { unit: DURATIONS.DAYS, count: 31 },
+        { unit: DURATIONS.WEEKS, count: 4 },
+        { unit: DURATIONS.MONTHS, count: 12 },
+        { unit: DURATIONS.YEARS, count: 5 }
+      ],
+      getCount(unit) {
+        const item = this.units.filter(item => item.unit === unit).pop();
 
-    Object.assign(
-        this,
-      {
-        units: [
-          { unit: DURATIONS.MINUTES, count: 60 },
-          { unit: DURATIONS.HOURS, count: 24 },
-          { unit: DURATIONS.DAYS, count: 31 },
-          { unit: DURATIONS.WEEKS, count: 4 },
-          { unit: DURATIONS.MONTHS, count: 12 },
-          { unit: DURATIONS.YEARS, count: 5 }
-        ],
-        getCount (unit) {
-          const item = this.units
-            .filter(item => item.unit === unit)
-            .pop();
-
-          if (item) return item.count;
-        },
-        setUnit (unit) {
-          this.unit = unit;
-          this.size = 1;
-        }
-      });
+        if (item) return item.count;
+      },
+      setUnit(unit) {
+        this.unit = unit;
+        this.size = 1;
+      }
+    });
   }
 };

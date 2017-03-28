@@ -1,66 +1,74 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Confirm server action modal', () => {
   beforeEach(module(serverModule));
 
-  let $scope, $uibModalInstance, hosts, convertedJob,
-    action, socketStream, stream, confirmServer,
+  let $scope,
+    $uibModalInstance,
+    hosts,
+    convertedJob,
+    action,
+    socketStream,
+    stream,
+    confirmServer,
     ConfirmServerActionModalCtrl;
 
-  beforeEachAsync(async function () {
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(() => {
-        return (stream = highland());
-      });
-
-    const mod = await mock('source/iml/server/confirm-server-action-modal-ctrl.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
+  beforeEachAsync(async function() {
+    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+      return (stream = highland());
     });
+
+    const mod = await mock(
+      'source/iml/server/confirm-server-action-modal-ctrl.js',
+      {
+        'source/iml/socket/socket-stream.js': { default: socketStream }
+      }
+    );
 
     ConfirmServerActionModalCtrl = mod.default;
   });
 
   afterEach(resetAll);
 
-  beforeEach(inject(($rootScope, $controller) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, $controller) => {
+      $scope = $rootScope.$new();
 
-    $uibModalInstance = {
-      close: jasmine.createSpy('close'),
-      dismiss: jasmine.createSpy('dismiss')
-    };
+      $uibModalInstance = {
+        close: jasmine.createSpy('close'),
+        dismiss: jasmine.createSpy('dismiss')
+      };
 
-    hosts = [{}];
+      hosts = [{}];
 
-    convertedJob = {
-      class_name: 'foo',
-      args: {
-        host_id: '1'
-      }
-    };
+      convertedJob = {
+        class_name: 'foo',
+        args: {
+          host_id: '1'
+        }
+      };
 
-    action = {
-      value: 'Install Updates',
-      message: 'Installing updates',
-      convertToJob: jasmine.createSpy('convertToJob')
-        .and.returnValue(convertedJob)
-    };
+      action = {
+        value: 'Install Updates',
+        message: 'Installing updates',
+        convertToJob: jasmine
+          .createSpy('convertToJob')
+          .and.returnValue(convertedJob)
+      };
 
-    $controller(ConfirmServerActionModalCtrl, {
-      $scope,
-      $uibModalInstance,
-      hosts,
-      action
-    });
+      $controller(ConfirmServerActionModalCtrl, {
+        $scope,
+        $uibModalInstance,
+        hosts,
+        action
+      });
 
-    confirmServer = $scope.confirmServerActionModal;
-  }));
+      confirmServer = $scope.confirmServerActionModal;
+    })
+  );
 
   it('should set hosts on the scope', () => {
     expect(confirmServer.hosts).toBe(hosts);
@@ -84,13 +92,17 @@ describe('Confirm server action modal', () => {
     });
 
     it('should post a command', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/command', {
-        method: 'post',
-        json: {
-          message: action.message,
-          jobs: convertedJob
-        }
-      }, true);
+      expect(socketStream).toHaveBeenCalledOnceWith(
+        '/command',
+        {
+          method: 'post',
+          json: {
+            message: action.message,
+            jobs: convertedJob
+          }
+        },
+        true
+      );
     });
 
     describe('acking the post', () => {

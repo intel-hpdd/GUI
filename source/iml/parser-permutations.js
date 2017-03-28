@@ -18,8 +18,5 @@ const modifiers = [
   '__lt'
 ];
 
-export default (items:Array<string>) =>
-    fp.xProd(items, modifiers)
-    .map(x => x.join(''))
-    .concat(items)
-    .join('&');
+export default (items: Array<string>) =>
+  fp.xProd(items, modifiers).map(x => x.join('')).concat(items).join('&');

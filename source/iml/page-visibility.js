@@ -9,21 +9,27 @@ import * as fp from 'intel-fp';
 
 import global from './global.js';
 
-export default function pageVisibility (onHide:Function, onShow:Function, timeout:number = 0):Function {
+export default function pageVisibility(
+  onHide: Function,
+  onShow: Function,
+  timeout: number = 0
+): Function {
   let id;
 
   const setCancelled = () => {
-    id = setTimeout(() => {
-      id = null;
-      onHide();
-    }, timeout);
+    id = setTimeout(
+      () => {
+        id = null;
+        onHide();
+      },
+      timeout
+    );
   };
 
   const cancelTimeout = () => {
     const shouldClear = id != null;
 
-    if (shouldClear)
-      global.clearTimeout(id);
+    if (shouldClear) global.clearTimeout(id);
 
     id = null;
 

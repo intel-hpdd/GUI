@@ -1,15 +1,12 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('status records component', () => {
   let mod;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     mod = await mock('source/iml/status/status-records-component.js', {});
   });
 
@@ -19,22 +16,24 @@ describe('status records component', () => {
 
   let $scope, $location, ctrl, notificationStream;
 
-  beforeEach(inject(($rootScope, propagateChange) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, propagateChange) => {
+      $scope = $rootScope.$new();
 
-    $location = {
-      search: jasmine.createSpy('search')
-    };
+      $location = {
+        search: jasmine.createSpy('search')
+      };
 
-    notificationStream = highland();
-    spyOn(notificationStream, 'destroy');
+      notificationStream = highland();
+      spyOn(notificationStream, 'destroy');
 
-    ctrl = {
-      notification$: notificationStream
-    };
+      ctrl = {
+        notification$: notificationStream
+      };
 
-    mod.StatusController.call(ctrl, $scope, $location, propagateChange);
-  }));
+      mod.StatusController.call(ctrl, $scope, $location, propagateChange);
+    })
+  );
 
   it('should return the expected controller properties', () => {
     const instance = jasmine.objectContaining({
@@ -94,9 +93,15 @@ describe('status records component', () => {
 
   Object.keys(types).forEach(type => {
     it('should tell if ' + type + ' is a command', () => {
-      fp.invokeMethod(types[type], [], expect(ctrl.isCommand({
-        record_type: type
-      })));
+      fp.invokeMethod(
+        types[type],
+        [],
+        expect(
+          ctrl.isCommand({
+            record_type: type
+          })
+        )
+      );
     });
   });
 

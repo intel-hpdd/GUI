@@ -5,17 +5,18 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type {ActionT} from '../store/store-module.js';
+import type { ActionT } from '../store/store-module.js';
 
-import {
-  ADD_LNET_CONFIGURATION_ITEMS
-} from './lnet-module.js';
+import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-module.js';
 
-export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+export default function(
+  state: Array<Object> = [],
+  { type, payload }: ActionT
+): Array<Object> {
   switch (type) {
-  case ADD_LNET_CONFIGURATION_ITEMS:
-    return payload;
-  default:
-    return state;
+    case ADD_LNET_CONFIGURATION_ITEMS:
+      return payload;
+    default:
+      return state;
   }
 }

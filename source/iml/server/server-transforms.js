@@ -7,28 +7,21 @@
 
 import * as fp from 'intel-fp';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export function throwIfServerErrors (fn:Function) {
-  return (objects:Object[]) => {
-    const errors = objects
-      .map(x => x.error)
-      .filter(Boolean);
+export function throwIfServerErrors(fn: Function) {
+  return (objects: Object[]) => {
+    const errors = objects.map(x => x.error).filter(Boolean);
 
-    if (errors.length)
-      throw new Error(
-        JSON.stringify(
-          errors
-        )
-      );
+    if (errors.length) throw new Error(JSON.stringify(errors));
 
     return fn(objects);
   };
 }
 
-export const getCommandAndHost = (s:HighlandStreamT<{ objects:Object[] }>) => {
+export const getCommandAndHost = (
+  s: HighlandStreamT<{ objects: Object[] }>
+) => {
   return s
     .map(x => x.objects)
     .map(throwIfServerErrors(fp.identity))

@@ -1,17 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('iframe shim component', () => {
-  let context,
-    el,
-    $scope,
-    $location,
-    global,
-    frame;
+  let context, el, $scope, $location, global, frame;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     global = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')
@@ -42,10 +34,7 @@ describe('iframe shim component', () => {
         add: jasmine.createSpy('add'),
         remove: jasmine.createSpy('remove')
       },
-      querySelector: jasmine
-        .createSpy('querySelector')
-        .and
-        .returnValue(frame)
+      querySelector: jasmine.createSpy('querySelector').and.returnValue(frame)
     };
 
     $scope = {
@@ -75,32 +64,24 @@ describe('iframe shim component', () => {
   });
 
   it('should set loading to true', () => {
-    expect(el.classList.add)
-      .toHaveBeenCalledOnceWith('loading');
+    expect(el.classList.add).toHaveBeenCalledOnceWith('loading');
   });
 
   it('should set the src', () => {
-    expect(context.src)
-      .toBe('/foo/bar/3');
+    expect(context.src).toBe('/foo/bar/3');
   });
 
   describe('on load', () => {
     beforeEach(() => {
-      el
-        .addEventListener
-        .calls
-        .mostRecent()
-        .args[1]();
+      el.addEventListener.calls.mostRecent().args[1]();
     });
 
     it('should set loading to false', () => {
-      expect(el.classList.remove)
-        .toHaveBeenCalledOnceWith('loading');
+      expect(el.classList.remove).toHaveBeenCalledOnceWith('loading');
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply)
-        .toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledOnce();
     });
 
     it('should set the frame height', () => {
@@ -108,30 +89,23 @@ describe('iframe shim component', () => {
 
       jasmine.clock().tick(500);
 
-      expect(frame.style.height)
-        .toBe('1000px');
+      expect(frame.style.height).toBe('1000px');
     });
   });
 
   describe('on message', () => {
     beforeEach(() => {
-      global
-        .addEventListener
-        .calls
-        .mostRecent()
-        .args[1]({
-          data: '/bar/baz/4'
-        });
+      global.addEventListener.calls.mostRecent().args[1]({
+        data: '/bar/baz/4'
+      });
     });
 
     it('should set the path', () => {
-      expect($location.path)
-        .toHaveBeenCalledOnceWith('/bar/baz/4');
+      expect($location.path).toHaveBeenCalledOnceWith('/bar/baz/4');
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply)
-        .toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledOnce();
     });
   });
 
@@ -141,13 +115,19 @@ describe('iframe shim component', () => {
     });
 
     it('should remove the load event listener', () => {
-      expect(el.removeEventListener)
-        .toHaveBeenCalledOnceWith('load', jasmine.any(Function), true);
+      expect(el.removeEventListener).toHaveBeenCalledOnceWith(
+        'load',
+        jasmine.any(Function),
+        true
+      );
     });
 
     it('should remove the message event listener', () => {
-      expect(global.removeEventListener)
-        .toHaveBeenCalledOnceWith('message', jasmine.any(Function), false);
+      expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+        'message',
+        jasmine.any(Function),
+        false
+      );
     });
   });
 });

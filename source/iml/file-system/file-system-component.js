@@ -11,7 +11,7 @@ export default {
     alertIndicator$: '<',
     jobIndicator$: '<'
   },
-  controller () {
+  controller() {
     this.$onDestroy = () => {
       this.fileSystem$.destroy();
       this.alertIndicator$.endBroadcast();

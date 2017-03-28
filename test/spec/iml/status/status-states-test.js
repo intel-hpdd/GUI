@@ -1,16 +1,11 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-import {
-  noSpace
-} from '../../../../source/iml/string.js';
+import { noSpace } from '../../../../source/iml/string.js';
 
 describe('status states', () => {
   let mod, resolveStream, socketStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     resolveStream = jasmine.createSpy('resolveStream');
     socketStream = jasmine.createSpy('socketStream');
 
@@ -24,35 +19,32 @@ describe('status states', () => {
 
   describe('status state', () => {
     it('should create the state', () => {
-      expect(mod.statusState)
-        .toEqual({
-          name: 'app.status',
-          data: {
-            helpPage: 'status_page.htm',
-            anonymousReadProtected: true,
-            eulaState: true
-          },
-          template: jasmine.any(String)
-        });
+      expect(mod.statusState).toEqual({
+        name: 'app.status',
+        data: {
+          helpPage: 'status_page.htm',
+          anonymousReadProtected: true,
+          eulaState: true
+        },
+        template: jasmine.any(String)
+      });
     });
   });
 
   describe('query state', () => {
     it('should create the state', () => {
-      expect(mod.queryState)
-        .toEqual({
-          name: 'app.status.query',
-          component: 'statusQuery'
-        });
+      expect(mod.queryState).toEqual({
+        name: 'app.status.query',
+        component: 'statusQuery'
+      });
     });
   });
 
   describe('table state', () => {
     it('should create the state', () => {
-      expect(mod.tableState)
-        .toEqual({
-          name: 'app.status.query.table',
-          url: noSpace`/status?
+      expect(mod.tableState).toEqual({
+        name: 'app.status.query.table',
+        url: noSpace`/status?
             severity__in&severity__contains&severity__startswith&severity__endswith&
             severity__gte&severity__gt&severity__lte&severity__lt&
             record_type__in&record_type__contains&record_type__startswith&
@@ -68,35 +60,31 @@ describe('status states', () => {
             begin__lt&end__in&end__contains&end__startswith&end__endswith&
             end__gte&end__gt&end__lte&end__lt&severity&
             record_type&active&offset&limit&order_by&begin&end`,
-          params: {
-            resetState: {
-              dynamic: true,
-              value: true,
-              squash: true
-            }
-          },
-          data: {
-            kind: 'Status',
-            icon: 'fa-tachometer'
-          },
-          resolve: {
-            notification$: jasmine.any(Function)
-          },
-          component: 'statusRecords'
-        });
+        params: {
+          resetState: {
+            dynamic: true,
+            value: true,
+            squash: true
+          }
+        },
+        data: {
+          kind: 'Status',
+          icon: 'fa-tachometer'
+        },
+        resolve: {
+          notification$: jasmine.any(Function)
+        },
+        component: 'statusRecords'
+      });
     });
 
-    describe('resolve', function () {
+    describe('resolve', function() {
       let qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
-        resolveStream
-          .and
-          .returnValue('promise');
+        resolveStream.and.returnValue('promise');
 
-        socketStream
-          .and
-          .returnValue('socket');
+        socketStream.and.returnValue('socket');
 
         $stateParams = {
           foo: 'bar',
@@ -111,20 +99,19 @@ describe('status states', () => {
       });
 
       it('should call /alert with a qs', () => {
-        qsFromLocation
-          .and
-          .returnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
+        qsFromLocation.and.returnValue(
+          'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
+        );
 
         notification$(qsFromLocation, $stateParams);
 
-        expect(socketStream)
-          .toHaveBeenCalledOnceWith('/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6');
+        expect(socketStream).toHaveBeenCalledOnceWith(
+          '/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6'
+        );
       });
 
       it('should call /alert without a qs', () => {
-        qsFromLocation
-          .and
-          .returnValue('');
+        qsFromLocation.and.returnValue('');
 
         notification$(qsFromLocation);
 
@@ -132,9 +119,7 @@ describe('status states', () => {
       });
 
       it('should call resolveStream with socket', () => {
-        qsFromLocation
-          .and
-          .returnValue('');
+        qsFromLocation.and.returnValue('');
 
         notification$(qsFromLocation);
 
@@ -142,15 +127,12 @@ describe('status states', () => {
       });
 
       it('should resolve the stream', () => {
-        qsFromLocation
-          .and
-          .returnValue('');
+        qsFromLocation.and.returnValue('');
 
         const res = notification$(qsFromLocation);
 
         expect(res).toBe('promise');
       });
     });
-
   });
 });

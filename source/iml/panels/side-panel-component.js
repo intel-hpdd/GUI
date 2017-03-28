@@ -5,13 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export function Controller ($element:HTMLElement[]) {
+export function Controller($element: HTMLElement[]) {
   'ngInject';
-
   this.$onInit = () => {
     const s = $element[0].style;
 
-    const setWidth = (x) => {
+    const setWidth = x => {
       s.flexBasis = `${x.sideWidthPercentage}%`;
     };
 

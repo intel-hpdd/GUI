@@ -8,18 +8,18 @@ import {
 } from '../../../../source/iml/auth/authorization.js';
 import store from '../../../../source/iml/store/get-store.js';
 
-import {
-  setSession
-} from '../../../../source/iml/session/session-actions.js';
+import { setSession } from '../../../../source/iml/session/session-actions.js';
 
 describe('authorization', () => {
   const data = [
     {
-      sessionGroups: [{
-        name: 'superusers',
-        id: '1',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'superusers',
+          id: '1',
+          resource_uri: '/user'
+        }
+      ],
       group: 'superusers',
       visibility: {
         restrictTo: true,
@@ -27,23 +27,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'filesystem_users',
-        id: '2',
-        resource_uri: '/user'
-      }],
-      group: 'superusers',
-      visibility: {
-        restrictTo: false,
-        restricted: true
-      }
-    },
-    {
-      sessionGroups: [{
-        name: 'filesystem_administrators',
-        id: '3',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_users',
+          id: '2',
+          resource_uri: '/user'
+        }
+      ],
       group: 'superusers',
       visibility: {
         restrictTo: false,
@@ -51,11 +41,27 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'superusers',
-        id: '1',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_administrators',
+          id: '3',
+          resource_uri: '/user'
+        }
+      ],
+      group: 'superusers',
+      visibility: {
+        restrictTo: false,
+        restricted: true
+      }
+    },
+    {
+      sessionGroups: [
+        {
+          name: 'superusers',
+          id: '1',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -63,11 +69,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'filesystem_users',
-        id: '2',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_users',
+          id: '2',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -75,11 +83,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'filesystem_administrators',
-        id: '3',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_administrators',
+          id: '3',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_users',
       visibility: {
         restrictTo: true,
@@ -87,11 +97,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'superusers',
-        id: '1',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'superusers',
+          id: '1',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: true,
@@ -99,11 +111,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'filesystem_administrators',
-        id: '3',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_administrators',
+          id: '3',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: true,
@@ -111,11 +125,13 @@ describe('authorization', () => {
       }
     },
     {
-      sessionGroups: [{
-        name: 'filesystem_users',
-        id: '2',
-        resource_uri: '/user'
-      }],
+      sessionGroups: [
+        {
+          name: 'filesystem_users',
+          id: '2',
+          resource_uri: '/user'
+        }
+      ],
       group: 'filesystem_administrators',
       visibility: {
         restrictTo: false,
@@ -124,52 +140,58 @@ describe('authorization', () => {
     }
   ];
 
-  data.forEach((test) => {
+  data.forEach(test => {
     describe('module', () => {
       beforeEachAsync(async () => {
-        store.dispatch(setSession({
-          read_enabled: false,
-          resource_uri: '',
-          user: {
-            accepted_eula: true,
-            alert_subscriptions: [{}],
-            email: 'john.doe@intel.com',
-            eula_state: 'pass',
-            first_name: 'John',
-            full_name: 'John Doe',
-            groups: test.sessionGroups,
-            gui_config: {},
-            id: '1',
-            is_superuser: true,
-            last_name: 'Doe',
-            resource_uri: '/user',
-            roles: '',
-            username: 'johndoe',
-            password1: null,
-            new_password1: null,
-            password2: null,
-            new_password2: null
-          }
-        }));
+        store.dispatch(
+          setSession({
+            read_enabled: false,
+            resource_uri: '',
+            user: {
+              accepted_eula: true,
+              alert_subscriptions: [{}],
+              email: 'john.doe@intel.com',
+              eula_state: 'pass',
+              first_name: 'John',
+              full_name: 'John Doe',
+              groups: test.sessionGroups,
+              gui_config: {},
+              id: '1',
+              is_superuser: true,
+              last_name: 'Doe',
+              resource_uri: '/user',
+              roles: '',
+              username: 'johndoe',
+              password1: null,
+              new_password1: null,
+              password2: null,
+              new_password2: null
+            }
+          })
+        );
       });
 
-      beforeEach(module(($provide, $compileProvider) => {
-        $compileProvider.directive('restrict', restrict);
-        $compileProvider.directive('restrictTo', restrictTo);
-      }));
+      beforeEach(
+        module(($provide, $compileProvider) => {
+          $compileProvider.directive('restrict', restrict);
+          $compileProvider.directive('restrictTo', restrictTo);
+        })
+      );
 
       let $scope, genRestrictTo, genRestrict;
-      beforeEach(inject(($compile, $rootScope) => {
-        $scope = $rootScope.$new();
+      beforeEach(
+        inject(($compile, $rootScope) => {
+          $scope = $rootScope.$new();
 
-        const template = fp.curry2((attr, val) => {
-          const str = `<div ${attr}="${val}"></div>`;
-          return $compile(str)($scope);
-        });
+          const template = fp.curry2((attr, val) => {
+            const str = `<div ${attr}="${val}"></div>`;
+            return $compile(str)($scope);
+          });
 
-        genRestrictTo = template('restrict-to');
-        genRestrict = template('restrict');
-      }));
+          genRestrictTo = template('restrict-to');
+          genRestrict = template('restrict');
+        })
+      );
 
       describe('directive', () => {
         let el;
@@ -181,8 +203,9 @@ describe('authorization', () => {
           });
 
           it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
-            expect(el.hasClass('invisible'))
-              .toEqual(!test.visibility.restrictTo);
+            expect(el.hasClass('invisible')).toEqual(
+              !test.visibility.restrictTo
+            );
           });
         });
 
@@ -194,7 +217,9 @@ describe('authorization', () => {
 
           it(`should be ${test.isVisible ? 'visible' : 'invisible'}
  to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
-            expect(el.hasClass('invisible')).toEqual(!test.visibility.restricted);
+            expect(el.hasClass('invisible')).toEqual(
+              !test.visibility.restricted
+            );
           });
         });
       });

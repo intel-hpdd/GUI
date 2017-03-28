@@ -4,14 +4,12 @@ import {
   default as sessionReducer
 } from '../../../../source/iml/session/session-reducer.js';
 
-import type {
-  sessionT
-} from '../../../../source/iml/api-types.js';
+import type { sessionT } from '../../../../source/iml/api-types.js';
 
 import deepFreeze from 'intel-deep-freeze';
 
 describe('session reducer', () => {
-  let session:sessionT;
+  let session: sessionT;
   beforeEach(() => {
     session = {
       read_enabled: true,
@@ -40,31 +38,30 @@ describe('session reducer', () => {
   });
 
   it('should be a function', () => {
-    expect(sessionReducer)
-      .toEqual(jasmine.any(Function));
+    expect(sessionReducer).toEqual(jasmine.any(Function));
   });
 
   describe('matching type', () => {
     it('should return the payload', () => {
-      expect(sessionReducer(deepFreeze({session}), {
-        type: 'SET_SESSION',
-        payload: {
-          session
-        }
-      })).toEqual({session});
+      expect(
+        sessionReducer(deepFreeze({ session }), {
+          type: 'SET_SESSION',
+          payload: {
+            session
+          }
+        })
+      ).toEqual({ session });
     });
   });
 
   describe('non-matching type', () => {
     it('should return the state', () => {
       expect(
-        sessionReducer(
-        deepFreeze({session}), {
+        sessionReducer(deepFreeze({ session }), {
           type: 'ADD_ALERT_INDICATOR_ITEMS',
           payload: {}
         })
-      )
-      .toEqual({session});
+      ).toEqual({ session });
     });
   });
 });

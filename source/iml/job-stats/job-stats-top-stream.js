@@ -23,9 +23,8 @@ import {
   getRequestRange
 } from '../charting/get-time-params.js';
 
-
 const getData$ = (builder, buffer) =>
-  (metric, arg1, arg2, overrides={}) => {
+  (metric, arg1, arg2, overrides = {}) => {
     const d = builder(overrides, arg1, arg2);
     const b = buffer(arg1, arg2);
 
@@ -45,26 +44,26 @@ const getData$ = (builder, buffer) =>
         .through(sumByDate)
         .through(normalize)
         .through(calculateData)
-        .map(fp.map(x => ({
-          id: x.id,
-          [`${metric}_average`]: x.data.average,
-          [`${metric}_min`]: x.data.min,
-          [`${metric}_max`]: x.data.max
-        })));
+        .map(
+          fp.map(x => ({
+            id: x.id,
+            [`${metric}_average`]: x.data.average,
+            [`${metric}_min`]: x.data.min,
+            [`${metric}_max`]: x.data.max
+          }))
+        );
     };
   };
 
-const getDuration$ = getData$(
-  getRequestDuration,
-  bufferDataNewerThan
-);
+const getDuration$ = getData$(getRequestDuration, bufferDataNewerThan);
 
-const getRange$ = getData$(
-  getRequestRange,
-  () => x => x
-);
+const getRange$ = getData$(getRequestRange, () => x => x);
 
-export const topDuration = (duration:number=10, unit:string='minute', overrides:Object={}) => {
+export const topDuration = (
+  duration: number = 10,
+  unit: string = 'minute',
+  overrides: Object = {}
+) => {
   const streams = [
     getDuration$('read_bytes', duration, unit, overrides),
     getDuration$('write_bytes', duration, unit, overrides),
@@ -73,22 +72,18 @@ export const topDuration = (duration:number=10, unit:string='minute', overrides:
   ];
 
   return highland((push, next) => {
-    highland(
-      streams.map(
-        s => s()
-      )
-    )
-    .through(collectById)
-    .each(x => {
+    highland(streams.map(s => s())).through(collectById).each(x => {
       push(null, x);
       next();
     });
-  })
-    .ratelimit(1, 10000);
+  }).ratelimit(1, 10000);
 };
 
-
-export const topRange = (start:string, end:string, overrides:Object={}) => {
+export const topRange = (
+  start: string,
+  end: string,
+  overrides: Object = {}
+) => {
   const streams = [
     getRange$('read_bytes', start, end, overrides),
     getRange$('write_bytes', start, end, overrides),
@@ -96,10 +91,5 @@ export const topRange = (start:string, end:string, overrides:Object={}) => {
     getRange$('write_iops', start, end, overrides)
   ];
 
-  return highland(
-    streams.map(
-      s => s()
-    )
-  )
-  .through(collectById);
+  return highland(streams.map(s => s())).through(collectById);
 };

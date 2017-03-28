@@ -12,10 +12,14 @@ import ServerCtrl from './server-controller';
 import serverActionsFactory from './server-actions';
 import ConfirmServerActionModalCtrl from './confirm-server-action-modal-ctrl';
 import {
-  ADD_SERVER_AUTH_CHOICES, AddServerStepCtrl, addServersStepFactory
-}
-  from './add-server-step';
-import {SelectServerProfileStepCtrl, selectServerProfileStep} from './select-server-profile-step';
+  ADD_SERVER_AUTH_CHOICES,
+  AddServerStepCtrl,
+  addServersStepFactory
+} from './add-server-step';
+import {
+  SelectServerProfileStepCtrl,
+  selectServerProfileStep
+} from './select-server-profile-step';
 import ServerDetailController from './server-detail-controller';
 import filtersModule from '../filters/filters-module';
 import lnetModule from '../lnet/lnet-module';
@@ -35,26 +39,46 @@ import SelectedServersService from './selected-servers-service';
 import {
   AddServerModalCtrl,
   openAddServerModalFactory
-}
-  from './add-server-modal-ctrl';
+} from './add-server-modal-ctrl';
 import overrideActionClickFactory from './override-action-click';
 import overrideButtonDirective from './override-button-directive';
 
-import {getHostProfilesFactory, createHostProfilesFactory} from './create-host-profiles-stream';
-import {addServerStepsFactory, getAddServerManagerFactory} from './get-add-server-manager';
+import {
+  getHostProfilesFactory,
+  createHostProfilesFactory
+} from './create-host-profiles-stream';
+import {
+  addServerStepsFactory,
+  getAddServerManagerFactory
+} from './get-add-server-manager';
 import getTestHostStreamFactory from './get-test-host-stream';
 import hostlistFilterFactory from './hostlist-filter';
-import {ServerStatusStepCtrl, serverStatusStep} from './server-status-step';
-import {waitUntilLoadedCtrl, waitUntilLoadedStep} from './wait-until-loaded-step';
+import { ServerStatusStepCtrl, serverStatusStep } from './server-status-step';
+import {
+  waitUntilLoadedCtrl,
+  waitUntilLoadedStep
+} from './wait-until-loaded-step';
 import serversToApiObjects from './servers-to-api-objects';
 import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
-export default angular.module('server', [pdshModule, filtersModule, lnetModule,
-  corosyncModule, pacemakerModule, commandModule, actionDropdownModule,
-  jobIndicatorModule, alertIndicatorModule, stepsModule,
-  extendScopeModule, highlandModule, asValueModule, asStreamModule,
-  uiBootstrapModule
-])
+export default angular
+  .module('server', [
+    pdshModule,
+    filtersModule,
+    lnetModule,
+    corosyncModule,
+    pacemakerModule,
+    commandModule,
+    actionDropdownModule,
+    jobIndicatorModule,
+    alertIndicatorModule,
+    stepsModule,
+    extendScopeModule,
+    highlandModule,
+    asValueModule,
+    asStreamModule,
+    uiBootstrapModule
+  ])
   .constant('OVERRIDE_BUTTON_TYPES', {
     OVERRIDE: 'override',
     PROCEED: 'proceed',
@@ -90,5 +114,4 @@ export default angular.module('server', [pdshModule, filtersModule, lnetModule,
   .value('serverStatusStep', serverStatusStep)
   .controller('WaitUntilLoadedCtrl', waitUntilLoadedCtrl)
   .factory('waitUntilLoadedStep', waitUntilLoadedStep)
-  .value('serversToApiObjects', serversToApiObjects)
-  .name;
+  .value('serversToApiObjects', serversToApiObjects).name;

@@ -1,13 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
-
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('page visibility', () => {
   let doc, pageVisibility, clear;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     doc = {
       addEventListener: jasmine.createSpy('addEventListener'),
       removeEventListener: jasmine.createSpy('removeEventListener')
@@ -34,8 +30,7 @@ describe('page visibility', () => {
   afterEach(resetAll);
 
   it('should be a function', () => {
-    expect(pageVisibility)
-      .toEqual(jasmine.any(Function));
+    expect(pageVisibility).toEqual(jasmine.any(Function));
   });
 
   describe('when invoking', () => {
@@ -49,13 +44,14 @@ describe('page visibility', () => {
     });
 
     it('should return a remove listener fn', () => {
-      expect(removeListener)
-        .toEqual(jasmine.any(Function));
+      expect(removeListener).toEqual(jasmine.any(Function));
     });
 
     it('should add an event listener', () => {
-      expect(doc.addEventListener)
-        .toHaveBeenCalledOnceWith('visibilitychange', jasmine.any(Function));
+      expect(doc.addEventListener).toHaveBeenCalledOnceWith(
+        'visibilitychange',
+        jasmine.any(Function)
+      );
     });
 
     describe('when removing', () => {
@@ -65,14 +61,15 @@ describe('page visibility', () => {
         removeListener();
       });
 
-      it('should clear the timeout', function () {
-        expect(clear)
-          .toHaveBeenCalledOnce();
+      it('should clear the timeout', function() {
+        expect(clear).toHaveBeenCalledOnce();
       });
 
       it('should remove the listener', () => {
-        expect(doc.removeEventListener)
-          .toHaveBeenCalledOnceWith('visibilitychange', jasmine.any(Function));
+        expect(doc.removeEventListener).toHaveBeenCalledOnceWith(
+          'visibilitychange',
+          jasmine.any(Function)
+        );
       });
     });
 
@@ -90,8 +87,7 @@ describe('page visibility', () => {
         handler();
         jasmine.clock().tick(0);
 
-        expect(onShow)
-          .toHaveBeenCalledOnceWith(undefined);
+        expect(onShow).toHaveBeenCalledOnceWith(undefined);
       });
 
       it('should not call show if timeout is cancelled', () => {
@@ -100,9 +96,7 @@ describe('page visibility', () => {
         doc.hidden = false;
         handler();
 
-        expect(onShow)
-          .not
-          .toHaveBeenCalled();
+        expect(onShow).not.toHaveBeenCalled();
       });
     });
   });

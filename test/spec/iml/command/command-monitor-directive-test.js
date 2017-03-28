@@ -1,31 +1,28 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Command monitor controller', () => {
-  let $scope, ctrl,
-    getCommandStream, commandStream,
-    openCommandModal, openCommandModalPromise,
-    mod, socketStream,
+  let $scope,
+    ctrl,
+    getCommandStream,
+    commandStream,
+    openCommandModal,
+    openCommandModalPromise,
+    mod,
+    socketStream,
     stream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     stream = highland();
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and
-      .returnValue(stream);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
     spyOn(stream, 'destroy');
 
     commandStream = highland();
     spyOn(commandStream, 'destroy');
     getCommandStream = jasmine
       .createSpy('getCommandStream')
-      .and
-      .returnValue(commandStream);
+      .and.returnValue(commandStream);
 
     mod = await mock('source/iml/command/command-monitor-directive.js', {
       'source/iml/socket/socket-stream': {
@@ -41,24 +38,22 @@ describe('Command monitor controller', () => {
 
   beforeEach(module('extendScope'));
 
-  beforeEach(inject(($rootScope, $controller, $q) => {
-    $scope = $rootScope.$new();
-    spyOn($scope, '$on')
-      .and
-      .callThrough();
+  beforeEach(
+    inject(($rootScope, $controller, $q) => {
+      $scope = $rootScope.$new();
+      spyOn($scope, '$on').and.callThrough();
 
-    openCommandModalPromise = $q.when();
-    openCommandModal = jasmine
-      .createSpy('openCommandModal')
-      .and.returnValue({
+      openCommandModalPromise = $q.when();
+      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
         result: openCommandModalPromise
       });
 
-    ctrl = $controller(mod.CommandMonitorCtrl, {
-      $scope,
-      openCommandModal
-    });
-  }));
+      ctrl = $controller(mod.CommandMonitorCtrl, {
+        $scope,
+        openCommandModal
+      });
+    })
+  );
 
   it('should request data', () => {
     expect(socketStream).toHaveBeenCalledOnceWith('/command', {
@@ -72,7 +67,10 @@ describe('Command monitor controller', () => {
 
   describe('destroy', () => {
     it('should listen', () => {
-      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', jasmine.any(Function));
+      expect($scope.$on).toHaveBeenCalledOnceWith(
+        '$destroy',
+        jasmine.any(Function)
+      );
     });
 
     it('should end the monitor on destroy', () => {
@@ -89,10 +87,7 @@ describe('Command monitor controller', () => {
 
     beforeEach(() => {
       lastObjects = {
-        objects: [
-          { cancelled: true },
-          { cancelled: false }
-        ]
+        objects: [{ cancelled: true }, { cancelled: false }]
       };
 
       stream.write(lastObjects);
@@ -103,9 +98,7 @@ describe('Command monitor controller', () => {
     });
 
     it('should save the last response', () => {
-      expect(ctrl.lastObjects).toEqual([
-        { cancelled: false }
-      ]);
+      expect(ctrl.lastObjects).toEqual([{ cancelled: false }]);
     });
 
     describe('show pending', () => {

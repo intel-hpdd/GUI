@@ -1,12 +1,14 @@
-import configToggleModule from '../../../../source/iml/config-toggle/config-toggle-module';
+import configToggleModule
+  from '../../../../source/iml/config-toggle/config-toggle-module';
 
 describe('config toggle', () => {
   beforeEach(module(configToggleModule));
 
   let template, el, $scope, whenInactive, whenActive, setActive, setInactive;
 
-  beforeEach(inject(($compile, $rootScope) => {
-    template = `<div class="wrap" config-toggle>
+  beforeEach(
+    inject(($compile, $rootScope) => {
+      template = `<div class="wrap" config-toggle>
   <div class="when-inactive" ng-if="configToggle.inactive()">
     <button class="set-active" ng-click="configToggle.setActive()">Set Active</button>
   </div>
@@ -15,15 +17,16 @@ describe('config toggle', () => {
   </div>
 </div>`;
 
-    $scope = $rootScope.$new();
-    el = $compile(template)($scope)[0];
-    $scope.$digest();
+      $scope = $rootScope.$new();
+      el = $compile(template)($scope)[0];
+      $scope.$digest();
 
-    whenInactive = el.querySelector.bind(el, '.when-inactive');
-    whenActive = el.querySelector.bind(el, '.when-active');
-    setActive = el.querySelector.bind(el, '.set-active');
-    setInactive = el.querySelector.bind(el, '.set-inactive');
-  }));
+      whenInactive = el.querySelector.bind(el, '.when-inactive');
+      whenActive = el.querySelector.bind(el, '.when-active');
+      setActive = el.querySelector.bind(el, '.set-active');
+      setInactive = el.querySelector.bind(el, '.set-inactive');
+    })
+  );
 
   it('should show inactive', () => {
     expect(whenInactive()).not.toBeNull();

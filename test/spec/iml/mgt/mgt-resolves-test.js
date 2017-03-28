@@ -1,20 +1,13 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('mgt resolves', () => {
-  let store, mgtStream,
-    mgtJobIndicatorStream, mgtAlertIndicatorStream;
+  let store, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     store = {
-      select: jasmine
-        .createSpy('select')
-        .and
-        .returnValue(highland())
+      select: jasmine.createSpy('select').and.returnValue(highland())
     };
 
     const mod = await mock('source/iml/mgt/mgt-resolves.js', {
@@ -31,15 +24,13 @@ describe('mgt resolves', () => {
   it('should select alertIndicators', () => {
     mgtAlertIndicatorStream();
 
-    expect(store.select)
-      .toHaveBeenCalledOnceWith('alertIndicators');
+    expect(store.select).toHaveBeenCalledOnceWith('alertIndicators');
   });
 
   it('should select jobIndicators', () => {
     mgtJobIndicatorStream();
 
-    expect(store.select)
-      .toHaveBeenCalledOnceWith('jobIndicators');
+    expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
   });
 
   it('should select targets', () => {
@@ -47,8 +38,7 @@ describe('mgt resolves', () => {
 
     mgtStream();
 
-    expect(store.select)
-      .toHaveBeenCalledOnceWith('targets');
+    expect(store.select).toHaveBeenCalledOnceWith('targets');
   });
 
   it('should filter targets for MGTs', () => {
@@ -57,16 +47,10 @@ describe('mgt resolves', () => {
 
     store.select.and.returnValue(s);
 
-    mgtStream()
-      .each(spy);
+    mgtStream().each(spy);
 
-    s.write([
-      {kind: 'OST'},
-      {kind: 'MGT'}
-    ]);
+    s.write([{ kind: 'OST' }, { kind: 'MGT' }]);
 
-    expect(spy).toHaveBeenCalledOnceWith([
-      {kind: 'MGT'}
-    ]);
+    expect(spy).toHaveBeenCalledOnceWith([{ kind: 'MGT' }]);
   });
 });

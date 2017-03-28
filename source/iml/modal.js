@@ -24,10 +24,10 @@
 import Inferno from 'inferno';
 
 type headerT = {
-  children?:React$Element<*>
+  children?: React$Element<*>
 };
 
-export const Header = ({children}:headerT) => {
+export const Header = ({ children }: headerT) => {
   return (
     <div class="modal-header">
       {children}
@@ -36,20 +36,21 @@ export const Header = ({children}:headerT) => {
 };
 
 type bodyT = {
-  moreClasses?:string[],
-  children?:React$Element<*>
-}
+  moreClasses?: string[],
+  children?: React$Element<*>
+};
 
-export const Body = ({children, moreClasses=[]}:bodyT) =>
+export const Body = ({ children, moreClasses = [] }: bodyT) => (
   <div className={`modal-body ${moreClasses.join(' ')}`}>
     {children}
-  </div>;
+  </div>
+);
 
 type footerT = {
-  children?:React$Element<*>
-}
+  children?: React$Element<*>
+};
 
-export const Footer = ({children}:footerT) => {
+export const Footer = ({ children }: footerT) => {
   return (
     <div class="modal-footer">
       {children}
@@ -58,20 +59,26 @@ export const Footer = ({children}:footerT) => {
 };
 
 type modalT = {
-  children?:React$Element<*>,
-  moreClasses?:string[],
-  visible:boolean
+  children?: React$Element<*>,
+  moreClasses?: string[],
+  visible: boolean
 };
 
-export const Modal = ({moreClasses = [], children, visible}:modalT) => {
-  if (!visible)
-    return;
+export const Modal = ({ moreClasses = [], children, visible }: modalT) => {
+  if (!visible) return;
 
-  return <div style={{display:'block'}} tabindex="-1" role="dialog" className={`modal fade in ${moreClasses.join(' ')}`}>
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        {children}
+  return (
+    <div
+      style={{ display: 'block' }}
+      tabindex="-1"
+      role="dialog"
+      className={`modal fade in ${moreClasses.join(' ')}`}
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          {children}
+        </div>
       </div>
     </div>
-  </div>;
+  );
 };

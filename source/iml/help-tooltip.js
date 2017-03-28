@@ -21,26 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
 import Inferno from 'inferno';
 import Tooltip from './tooltip.js';
-import {
-  HELP_TEXT
-} from './environment.js';
+import { HELP_TEXT } from './environment.js';
 
-import type {
-  directionsT
-} from './tooltip.js';
+import type { directionsT } from './tooltip.js';
 
 type helpTooltipT = {
-  helpKey?:string,
-  direction:directionsT,
-  moreClasses?:string[]
+  helpKey?: string,
+  direction: directionsT,
+  moreClasses?: string[]
 };
 
-export default ({helpKey, direction, moreClasses}:helpTooltipT) => {
-  if (!helpKey)
-    return;
+export default ({ helpKey, direction, moreClasses }: helpTooltipT) => {
+  if (!helpKey) return;
 
-  return (<Tooltip message={HELP_TEXT[helpKey]} direction={direction} moreClasses={moreClasses} />);
+  return (
+    <Tooltip
+      message={HELP_TEXT[helpKey]}
+      direction={direction}
+      moreClasses={moreClasses}
+    />
+  );
 };

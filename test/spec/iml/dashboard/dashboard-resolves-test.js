@@ -1,26 +1,18 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('dashboard resolves', () => {
   let s, spy, store, broadcaster, mod;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     spy = jasmine.createSpy('spy');
     s = highland();
 
-    broadcaster = jasmine.createSpy('broadcaster')
-      .and
-      .callFake(x => () => x);
+    broadcaster = jasmine.createSpy('broadcaster').and.callFake(x => () => x);
 
     store = {
-      select: jasmine
-        .createSpy('select')
-        .and
-        .returnValue(s)
+      select: jasmine.createSpy('select').and.returnValue(s)
     };
 
     mod = await mock('source/iml/dashboard/dashboard-resolves.js', {
@@ -43,13 +35,11 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster)
-        .toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledOnce();
     });
 
     it('should select from the store', () => {
-      expect(store.select)
-        .toHaveBeenCalledOnceWith('fileSystems');
+      expect(store.select).toHaveBeenCalledOnceWith('fileSystems');
     });
 
     it('should stream data', () => {
@@ -57,8 +47,7 @@ describe('dashboard resolves', () => {
 
       fsStream.each(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(['foo']);
     });
   });
 
@@ -70,23 +59,19 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster)
-        .toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledOnce();
     });
 
     it('should select from the store', () => {
-      expect(store.select)
-        .toHaveBeenCalledOnceWith('server');
+      expect(store.select).toHaveBeenCalledOnceWith('server');
     });
-
 
     it('should stream data', () => {
       s.write(['foo']);
 
       hostStream.each(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(['foo']);
     });
   });
 
@@ -98,23 +83,19 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster)
-        .toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledOnce();
     });
 
     it('should select from the store', () => {
-      expect(store.select)
-        .toHaveBeenCalledOnceWith('targets');
+      expect(store.select).toHaveBeenCalledOnceWith('targets');
     });
-
 
     it('should stream data', () => {
       s.write(['foo']);
 
       targetStream.each(spy);
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(['foo']);
     });
   });
 });

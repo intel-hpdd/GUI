@@ -1,12 +1,8 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('duration submit handler', () => {
-
   let getStore, durationSubmitter, mod;
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getStore = {
       dispatch: jasmine.createSpy('dispatch')
     };
@@ -15,7 +11,7 @@ describe('duration submit handler', () => {
       'source/iml/store/get-store.js': { default: getStore }
     });
 
-    durationSubmitter = mod.default('chart_type', {page: 'base'});
+    durationSubmitter = mod.default('chart_type', { page: 'base' });
   });
 
   afterEach(resetAll);
@@ -33,7 +29,7 @@ describe('duration submit handler', () => {
         }
       };
 
-      durationSubmitter({dataType: 'my-data-type'}, forms);
+      durationSubmitter({ dataType: 'my-data-type' }, forms);
 
       expect(getStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',
@@ -61,7 +57,7 @@ describe('duration submit handler', () => {
         }
       };
 
-      durationSubmitter({dataType: 'my-data-type'}, forms);
+      durationSubmitter({ dataType: 'my-data-type' }, forms);
 
       expect(getStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',

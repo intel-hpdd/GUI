@@ -12,9 +12,7 @@ import removeDups from '../charting/remove-dups.js';
 import sortBy from '../charting/sort-by.js';
 import highland from 'highland';
 
-import {
-  values
-} from 'intel-obj';
+import { values } from 'intel-obj';
 
 export default (requestRange, buff) => {
   return highland((push, next) => {
@@ -31,28 +29,29 @@ export default (requestRange, buff) => {
       .through(removeEpochData)
       .through(roundData)
       .through(sumByDate)
-      .map(
-        x => ({
-          ...x.data,
-          ts: x.ts
-        }
-      ))
-      .through(nameSeries({
-        hsm_actions_waiting: 'waiting requests',
-        hsm_actions_running: 'running actions',
-        hsm_agents_idle: 'idle workers'
+      .map(x => ({
+        ...x.data,
+        ts: x.ts
       }))
-      .through(sortBy(function byDate (a, b) {
-        return new Date(a.ts) - new Date(b.ts);
-      }))
+      .through(
+        nameSeries({
+          hsm_actions_waiting: 'waiting requests',
+          hsm_actions_running: 'running actions',
+          hsm_agents_idle: 'idle workers'
+        })
+      )
+      .through(
+        sortBy(function byDate(a, b) {
+          return new Date(a.ts) - new Date(b.ts);
+        })
+      )
       .through(buff)
       .through(requestRange.setLatest)
       .through(removeDups)
       .collect()
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });
-  })
-    .ratelimit(1, 10000);
+  }).ratelimit(1, 10000);
 };

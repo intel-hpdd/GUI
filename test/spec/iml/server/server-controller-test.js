@@ -3,23 +3,34 @@ import serverModule from '../../../../source/iml/server/server-module';
 import * as fp from 'intel-fp';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('server', () => {
-  let $scope, pdshFilter, naturalSortFilter,
-    server, $uibModal, serversStream, openCommandModal,
-    selectedServers, serverActions, jobMonitorStream,
-    alertMonitorStream, lnetConfigurationStream, openAddServerModal,
-    commandStream, openResult, commandModalResult,
-    getCommandStream, overrideActionClick, serverController;
+  let $scope,
+    pdshFilter,
+    naturalSortFilter,
+    server,
+    $uibModal,
+    serversStream,
+    openCommandModal,
+    selectedServers,
+    serverActions,
+    jobMonitorStream,
+    alertMonitorStream,
+    lnetConfigurationStream,
+    openAddServerModal,
+    commandStream,
+    openResult,
+    commandModalResult,
+    getCommandStream,
+    overrideActionClick,
+    serverController;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     commandStream = highland();
 
-    getCommandStream = jasmine.createSpy('getCommandStream')
+    getCommandStream = jasmine
+      .createSpy('getCommandStream')
       .and.returnValue(commandStream);
 
     const serverControllerModule = await mock(
@@ -41,88 +52,95 @@ describe('server', () => {
 
   beforeEach(module(serverModule));
 
-  beforeEach(inject(($rootScope, $controller, $q) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, $controller, $q) => {
+      $scope = $rootScope.$new();
 
-    openResult = {
-      result: {
-        then: jasmine.createSpy('then')
-      }
-    };
-    $uibModal = {
-      open: jasmine.createSpy('open').and.returnValue(openResult)
-    };
+      openResult = {
+        result: {
+          then: jasmine.createSpy('then')
+        }
+      };
+      $uibModal = {
+        open: jasmine.createSpy('open').and.returnValue(openResult)
+      };
 
-    spyOn(commandStream, 'destroy');
+      spyOn(commandStream, 'destroy');
 
-    serversStream = highland();
-    spyOn(serversStream, 'destroy');
+      serversStream = highland();
+      spyOn(serversStream, 'destroy');
 
-    selectedServers = {
-      servers: {},
-      toggleType: jasmine.createSpy('toggleType'),
-      addNewServers: jasmine.createSpy('addNewServers')
-    };
+      selectedServers = {
+        servers: {},
+        toggleType: jasmine.createSpy('toggleType'),
+        addNewServers: jasmine.createSpy('addNewServers')
+      };
 
-    serverActions = [{
-      value: 'Install Updates'
-    }
-    ];
+      serverActions = [
+        {
+          value: 'Install Updates'
+        }
+      ];
 
-    commandModalResult = {
-      result: $q.when()
-    };
+      commandModalResult = {
+        result: $q.when()
+      };
 
-    openCommandModal = jasmine.createSpy('openCommandModal')
-      .and.returnValue(commandModalResult);
+      openCommandModal = jasmine
+        .createSpy('openCommandModal')
+        .and.returnValue(commandModalResult);
 
-    lnetConfigurationStream = highland();
-    spyOn(lnetConfigurationStream, 'destroy');
+      lnetConfigurationStream = highland();
+      spyOn(lnetConfigurationStream, 'destroy');
 
-    openAddServerModal = jasmine.createSpy('openAddServerModal').and.returnValue({
-      opened: {
-        then: jasmine.createSpy('then')
-      },
-      result: {
-        then: jasmine.createSpy('then')
-      }
-    });
+      openAddServerModal = jasmine
+        .createSpy('openAddServerModal')
+        .and.returnValue({
+          opened: {
+            then: jasmine.createSpy('then')
+          },
+          result: {
+            then: jasmine.createSpy('then')
+          }
+        });
 
-    pdshFilter = jasmine.createSpy('pdshFilter');
-    naturalSortFilter = jasmine.createSpy('naturalSortFilter')
-      .and.callFake(fp.identity);
+      pdshFilter = jasmine.createSpy('pdshFilter');
+      naturalSortFilter = jasmine
+        .createSpy('naturalSortFilter')
+        .and.callFake(fp.identity);
 
-    jobMonitorStream = highland();
-    spyOn(jobMonitorStream, 'destroy');
-    alertMonitorStream = highland();
-    spyOn(alertMonitorStream, 'destroy');
+      jobMonitorStream = highland();
+      spyOn(jobMonitorStream, 'destroy');
+      alertMonitorStream = highland();
+      spyOn(alertMonitorStream, 'destroy');
 
-    overrideActionClick = jasmine.createSpy('overrideActionClick');
+      overrideActionClick = jasmine.createSpy('overrideActionClick');
 
-    $scope.$on = jasmine.createSpy('$on');
+      $scope.$on = jasmine.createSpy('$on');
 
-    $controller(serverController, {
-      $scope,
-      $q,
-      $uibModal,
-      pdshFilter,
-      naturalSortFilter,
-      serverActions,
-      selectedServers,
-      openCommandModal,
-      streams: {
-        serversStream,
-        jobMonitorStream,
-        alertMonitorStream,
-        lnetConfigurationStream
-      },
-      openAddServerModal,
-      getCommandStream,
-      overrideActionClick
-    });
+      $controller(serverController, {
+        $scope,
+        $q,
+        $uibModal,
+        pdshFilter,
+        naturalSortFilter,
+        serverActions,
+        selectedServers,
+        openCommandModal,
+        streams: {
+          serversStream,
+          jobMonitorStream,
+          alertMonitorStream,
+          lnetConfigurationStream
+        },
+        openAddServerModal,
+        getCommandStream,
+        overrideActionClick
+      });
 
-    server = $scope.server;
-  }));
+      server = $scope.server;
+    })
+  );
 
   const expectedProperties = {
     maxSize: 10,
@@ -131,11 +149,14 @@ describe('server', () => {
     pdshFuzzy: false
   };
 
-  Object.keys(expectedProperties).forEach(function verifyScopeValue (key) {
+  Object.keys(expectedProperties).forEach(function verifyScopeValue(key) {
     describe('test initial values', () => {
-      it('should have a ' + key + ' value of ' + expectedProperties[key], () => {
-        expect(server[key]).toEqual(expectedProperties[key]);
-      });
+      it(
+        'should have a ' + key + ' value of ' + expectedProperties[key],
+        () => {
+          expect(server[key]).toEqual(expectedProperties[key]);
+        }
+      );
     });
   });
 
@@ -156,19 +177,18 @@ describe('server', () => {
   it('should transform a stream', () => {
     const spy = jasmine.createSpy('spy');
 
-    const s = highland([[
-      {
-        host: '/api/host/2/'
-      },
-      {
-        host: '/api/host/4/'
-      }
-    ]
+    const s = highland([
+      [
+        {
+          host: '/api/host/2/'
+        },
+        {
+          host: '/api/host/4/'
+        }
+      ]
     ]);
 
-    server.transform(s, ['/api/host/4/'])
-      .collect()
-      .each(spy);
+    server.transform(s, ['/api/host/4/']).collect().each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
@@ -237,8 +257,12 @@ describe('server', () => {
       });
 
       it('should call the pdsh filter with appropriate args', () => {
-        expect(pdshFilter).toHaveBeenCalledWith(server.servers, server.hostnamesHash, server.getHostPath,
-          false);
+        expect(pdshFilter).toHaveBeenCalledWith(
+          server.servers,
+          server.hostnamesHash,
+          server.getHostPath,
+          false
+        );
       });
     });
 
@@ -276,9 +300,10 @@ describe('server', () => {
           'https://hostname1.localdomain.com': true
         };
 
-        pdshFilter.and.returnValue([{
-          fqdn: 'https://hostname1.localdomain.com'
-        }
+        pdshFilter.and.returnValue([
+          {
+            fqdn: 'https://hostname1.localdomain.com'
+          }
         ]);
 
         server.runAction('Install Updates');
@@ -301,7 +326,9 @@ describe('server', () => {
       });
 
       it('should register a then listener', () => {
-        expect(openResult.result.then).toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(openResult.result.then).toHaveBeenCalledOnceWith(
+          jasmine.any(Function)
+        );
       });
 
       it('should stop editing when confirmed', () => {
@@ -324,7 +351,7 @@ describe('server', () => {
         });
 
         it('should end the spark after the modal closes', () => {
-          commandModalResult.result.then(function whenModalClosed () {
+          commandModalResult.result.then(function whenModalClosed() {
             expect(commandStream.destroy).toHaveBeenCalled();
           });
 
@@ -341,7 +368,10 @@ describe('server', () => {
     });
 
     it('should listen', () => {
-      expect($scope.$on).toHaveBeenCalledWith('$destroy', jasmine.any(Function));
+      expect($scope.$on).toHaveBeenCalledWith(
+        '$destroy',
+        jasmine.any(Function)
+      );
     });
 
     it('should destroy the job monitor', () => {

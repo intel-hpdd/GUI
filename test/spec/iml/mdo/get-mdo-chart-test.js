@@ -1,20 +1,27 @@
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('MDO chart', () => {
-  let chartCompiler, getMdoStream, selectStoreCount,
-    submitHandler, config1$, config2$,
-    getMdoChart, getStore, standardConfig,
-    durationPayload, data$Fn, initStream,
-    durationSubmitHandler, localApply, mod,
+  let chartCompiler,
+    getMdoStream,
+    selectStoreCount,
+    submitHandler,
+    config1$,
+    config2$,
+    getMdoChart,
+    getStore,
+    standardConfig,
+    durationPayload,
+    data$Fn,
+    initStream,
+    durationSubmitHandler,
+    localApply,
+    mod,
     getConf;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getMdoStream = {};
 
     standardConfig = {
@@ -25,13 +32,17 @@ describe('MDO chart', () => {
       endDate: 1464812997102
     };
 
-    config1$ = highland([{
-      'mdoChart': {...standardConfig}
-    }]);
+    config1$ = highland([
+      {
+        mdoChart: { ...standardConfig }
+      }
+    ]);
     spyOn(config1$, 'destroy');
-    config2$ = highland([{
-      'mdoChart': standardConfig
-    }]);
+    config2$ = highland([
+      {
+        mdoChart: standardConfig
+      }
+    ]);
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
@@ -39,32 +50,31 @@ describe('MDO chart', () => {
       dispatch: jasmine.createSpy('dispatch'),
       select: jasmine.createSpy('select').and.callFake(() => {
         switch (selectStoreCount) {
-        case 0:
-          selectStoreCount++;
-          return config1$;
-        default:
-          return config2$;
+          case 0:
+            selectStoreCount++;
+            return config1$;
+          default:
+            return config2$;
         }
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload')
-      .and.callFake(x => {
-        return {...standardConfig, ...x};
-      });
+    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+      return { ...standardConfig, ...x };
+    });
 
     submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine.createSpy('durationSubmitHandler')
+    durationSubmitHandler = jasmine
+      .createSpy('durationSubmitHandler')
       .and.returnValue(submitHandler);
 
-    getConf = jasmine.createSpy('getConf')
-      .and.callFake(page => {
-        return s => {
-          return s.map(x => {
-            return x[page];
-          });
-        };
-      });
+    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+      return s => {
+        return s.map(x => {
+          return x[page];
+        });
+      };
+    });
 
     chartCompiler = jasmine.createSpy('chartCompiler');
 
@@ -73,9 +83,15 @@ describe('MDO chart', () => {
       'source/iml/mdo/assets/html/mdo.html!text': { default: 'mdoTemplate' },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': { default: durationPayload },
-      'source/iml/duration-picker/duration-submit-handler.js': { default: durationSubmitHandler },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf: getConf }
+      'source/iml/duration-picker/duration-payload.js': {
+        default: durationPayload
+      },
+      'source/iml/duration-picker/duration-submit-handler.js': {
+        default: durationSubmitHandler
+      },
+      'source/iml/chart-transformers/chart-transformers.js': {
+        getConf: getConf
+      }
     });
   });
 
@@ -85,8 +101,7 @@ describe('MDO chart', () => {
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn')
-      .and.callFake(() => initStream);
+    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
 
     localApply = jasmine.createSpy('localApply');
 
@@ -99,11 +114,14 @@ describe('MDO chart', () => {
 
   describe('for page mdoChart', () => {
     beforeEach(() => {
-      getMdoChart({
-        qs: {
-          host_id: '1'
-        }
-      }, 'mdoChart');
+      getMdoChart(
+        {
+          qs: {
+            host_id: '1'
+          }
+        },
+        'mdoChart'
+      );
 
       const s = chartCompiler.calls.argsFor(0)[1];
       s.each(() => {});
@@ -155,18 +173,23 @@ describe('MDO chart', () => {
   describe('setup', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      getMdoChart({
-        qs: {
-          host_id: '1'
-        }
-      }, 'mdoChart');
+    beforeEach(
+      inject($rootScope => {
+        getMdoChart(
+          {
+            qs: {
+              host_id: '1'
+            }
+          },
+          'mdoChart'
+        );
 
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
-    }));
+        config = handler($scope, initStream);
+      })
+    );
 
     it('should return a config', () => {
       expect(config).toEqual({
@@ -230,8 +253,7 @@ describe('MDO chart', () => {
       });
 
       it('should use interactive guideline', () => {
-        expect(chart.useInteractiveGuideline)
-          .toHaveBeenCalledOnceWith(true);
+        expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
       it('should should force y', () => {
@@ -239,8 +261,7 @@ describe('MDO chart', () => {
       });
 
       it('should set y tick format', () => {
-        expect(tickFormat)
-          .toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(tickFormat).toHaveBeenCalledOnceWith(jasmine.any(Function));
       });
 
       it('should not show max or min over the x axis', () => {
@@ -252,23 +273,32 @@ describe('MDO chart', () => {
   describe('on submit', () => {
     let handler, $scope, config;
 
-    beforeEach(inject(($rootScope) => {
-      getMdoChart({
-        qs: {
-          host_id: '1'
-        }
-      }, 'mdoChart');
+    beforeEach(
+      inject($rootScope => {
+        getMdoChart(
+          {
+            qs: {
+              host_id: '1'
+            }
+          },
+          'mdoChart'
+        );
 
-      handler = chartCompiler.calls.mostRecent().args[2];
-      $scope = $rootScope.$new();
+        handler = chartCompiler.calls.mostRecent().args[2];
+        $scope = $rootScope.$new();
 
-      config = handler($scope, initStream);
+        config = handler($scope, initStream);
 
-      config.onSubmit();
-    }));
+        config.onSubmit();
+      })
+    );
 
     it('should call durationSubmitHandler', () => {
-      expect(durationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_MDO_CHART_ITEMS', {page: 'mdoChart'});
+      expect(
+        durationSubmitHandler
+      ).toHaveBeenCalledOnceWith('UPDATE_MDO_CHART_ITEMS', {
+        page: 'mdoChart'
+      });
     });
 
     it('should invoke the submit handler', () => {

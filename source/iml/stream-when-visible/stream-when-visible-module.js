@@ -15,14 +15,14 @@ import {
   documentVisible
 } from './stream-when-visible';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export type streamWhenChartVisibleT = (streamFn:() => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+export type streamWhenChartVisibleT = (
+  streamFn: () => HighlandStreamT<mixed>
+) => HighlandStreamT<mixed>;
 
-export default angular.module('streamWhenVisible', [highlandModule])
+export default angular
+  .module('streamWhenVisible', [highlandModule])
   .factory('streamWhenVisible', streamWhenVisible)
   .value('documentHidden', documentHidden)
-  .value('documentVisible', documentVisible)
-  .name;
+  .value('documentVisible', documentVisible).name;

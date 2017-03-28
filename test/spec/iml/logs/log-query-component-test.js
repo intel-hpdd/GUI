@@ -1,16 +1,11 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
-
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('log query component controller', () => {
-  let ctrl, $scope, $location, $stateParams, controller,
-    qsStream, s;
+  let ctrl, $scope, $location, $stateParams, controller, qsStream, s;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/logs/log-query-component.js', {
       'source/iml/logs/log-input-to-qs-parser.js': { default: 'inputParser' },
       'source/iml/logs/log-qs-to-input-parser.js': { default: 'qsParser' },
@@ -24,43 +19,43 @@ describe('log query component controller', () => {
 
   beforeEach(module('extendScope'));
 
-  beforeEach(inject(($rootScope, $controller, propagateChange) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($rootScope, $controller, propagateChange) => {
+      $scope = $rootScope.$new();
 
-    $location = {
-      search: jasmine.createSpy('search')
-    };
+      $location = {
+        search: jasmine.createSpy('search')
+      };
 
-    $stateParams = {
-      param: 'val'
-    };
+      $stateParams = {
+        param: 'val'
+      };
 
-    s = highland();
-    spyOn(s, 'destroy');
-    qsStream = jasmine
-      .createSpy('qsStream')
-      .and
-      .returnValue(s);
+      s = highland();
+      spyOn(s, 'destroy');
+      qsStream = jasmine.createSpy('qsStream').and.returnValue(s);
 
-    ctrl = $controller(controller, {
-      $scope,
-      $location,
-      $stateParams,
-      qsStream,
-      propagateChange
-    });
-  }));
+      ctrl = $controller(controller, {
+        $scope,
+        $location,
+        $stateParams,
+        qsStream,
+        propagateChange
+      });
+    })
+  );
 
   it('should set the controller properties', () => {
-    expect(ctrl)
-      .toEqual(jasmine.objectContaining({
+    expect(ctrl).toEqual(
+      jasmine.objectContaining({
         parserFormatter: {
           parser: 'inputParser',
           formatter: 'qsParser'
         },
         completer: 'completer',
         onSubmit: jasmine.any(Function)
-      }));
+      })
+    );
   });
 
   it('should call qsStream', () => {
@@ -78,8 +73,7 @@ describe('log query component controller', () => {
   it('should set the location query string on submit', () => {
     ctrl.onSubmit('foo=bar');
 
-    expect($location.search)
-      .toHaveBeenCalledOnceWith('foo=bar');
+    expect($location.search).toHaveBeenCalledOnceWith('foo=bar');
   });
 
   it('should destroy the route stream when the scope is destroyed', () => {
