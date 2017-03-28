@@ -12,25 +12,23 @@ describe('login form actions', () => {
       username: ['bad username']
     });
 
-    expect(result)
-      .toEqual({
-        type: 'ADD_ERRORS',
-        payload: {
-          password: ['bad password'],
-          username: ['bad username']
-        }
-      });
+    expect(result).toEqual({
+      type: 'ADD_ERRORS',
+      payload: {
+        password: ['bad password'],
+        username: ['bad username']
+      }
+    });
   });
 
   it('should return an inProgress action', () => {
     const result = addInProgress(true);
 
-    expect(result)
-      .toEqual({
-        type: 'ADD_IN_PROGRESS',
-        payload: {
-          inProgress: true
-        }
-      });
+    expect(result).toEqual({
+      type: 'ADD_IN_PROGRESS',
+      payload: {
+        inProgress: true
+      }
+    });
   });
 });

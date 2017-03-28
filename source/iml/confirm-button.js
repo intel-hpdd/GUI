@@ -23,43 +23,41 @@
 
 import global from './global';
 
-import type {
-  jqliteElement,
-  $scopeT
-} from 'angular';
+import type { jqliteElement, $scopeT } from 'angular';
 
-import type {
-  localApplyT
-} from './extend-scope-module.js';
+import type { localApplyT } from './extend-scope-module.js';
 
-const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, localApply:localApplyT) {
+const Controller = function Controller(
+  $element: jqliteElement,
+  $scope: $scopeT,
+  localApply: localApplyT
+) {
   'ngInject';
-
   type T = {
-    onDefault:(e:MouseEvent) => void,
-    onConfirm:(e:MouseEvent) => void,
-    $onDestroy:() => void,
-    confirmClick:() => void,
-    state:'default' | 'confirm' | 'confirmed'
+    onDefault: (e: MouseEvent) => void,
+    onConfirm: (e: MouseEvent) => void,
+    $onDestroy: () => void,
+    confirmClick: () => void,
+    state: 'default' | 'confirm' | 'confirmed'
   };
-  const ctrl:T = this;
+  const ctrl: T = this;
 
   const resetDefault = () => {
     ctrl.state = 'default';
     localApply($scope);
     removeResetListener();
   };
-  const removeResetListener = () => global
-    .removeEventListener('click', resetDefault, false);
+  const removeResetListener = () =>
+    global.removeEventListener('click', resetDefault, false);
 
   Object.assign(ctrl, {
     state: 'default',
-    onDefault (e:MouseEvent) {
+    onDefault(e: MouseEvent) {
       ctrl.state = 'confirm';
       e.stopPropagation();
       global.addEventListener('click', resetDefault, false);
     },
-    onConfirm (e:MouseEvent) {
+    onConfirm(e: MouseEvent) {
       ctrl.state = 'confirmed';
       e.stopPropagation();
       ctrl.confirmClick();
@@ -68,7 +66,6 @@ const Controller = function Controller ($element:jqliteElement, $scope:$scopeT, 
     $onDestroy: removeResetListener
   });
 };
-
 
 export default {
   controller: Controller,

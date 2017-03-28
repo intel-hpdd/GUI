@@ -3,11 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export default function exceptionInterceptor ($exceptionHandler, $q) {
+export default function exceptionInterceptor($exceptionHandler, $q) {
   'ngInject';
-
   return {
-    requestError: function requestError (rejection) {
+    requestError: function requestError(rejection) {
       const args = [];
 
       if (rejection instanceof Error) {
@@ -24,7 +23,7 @@ export default function exceptionInterceptor ($exceptionHandler, $q) {
 
       $exceptionHandler.apply($exceptionHandler, args);
     },
-    responseError: function responseError (response) {
+    responseError: function responseError(response) {
       const rejected = $q.reject(response);
 
       //400s and 403s do not trigger the modal. It is the responsibility of the base model to handle them.

@@ -7,49 +7,43 @@
 
 import global from '../global.js';
 
-import type {
-  $scopeT,
-  $locationT
-} from 'angular';
+import type { $scopeT, $locationT } from 'angular';
 
-import {
-  UI_ROOT
-} from '../environment.js';
+import { UI_ROOT } from '../environment.js';
 
 export default {
   bindings: {
     path: '@',
     params: '<'
   },
-  controller: function ($element:HTMLElement[], $scope:$scopeT, $location:$locationT) {
+  controller: function(
+    $element: HTMLElement[],
+    $scope: $scopeT,
+    $location: $locationT
+  ) {
     'ngInject';
-
     const frameShim = $element[0];
-    const frame:HTMLIFrameElement = (frameShim.querySelector('iframe'):any);
+    const frame: HTMLIFrameElement = (frameShim.querySelector('iframe'): any);
     this.src = `${UI_ROOT}${this.path}`;
     frameShim.classList.add('loading');
 
-    if (this.params.id)
-      this.src += `/${this.params.id}`;
+    if (this.params.id) this.src += `/${this.params.id}`;
 
     const onLoad = () => {
       frameShim.classList.remove('loading');
       $scope.$apply();
     };
 
-    const token = setInterval(() => {
-      if (!frame.contentDocument)
-        return;
+    const token = setInterval(
+      () => {
+        if (!frame.contentDocument) return;
 
-      const body = frame
-        .contentDocument
-        .body;
+        const body = frame.contentDocument.body;
 
-      if (body)
-        frame
-          .style
-          .height = body.scrollHeight + 'px';
-    }, 200);
+        if (body) frame.style.height = body.scrollHeight + 'px';
+      },
+      200
+    );
 
     const onMessage = ev => {
       $location.path(ev.data);

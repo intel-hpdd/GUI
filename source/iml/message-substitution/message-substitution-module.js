@@ -6,10 +6,8 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import {
-  messageSubstitution
-} from './message-substitution.js';
+import { messageSubstitution } from './message-substitution.js';
 
-export default angular.module('messageSubstitution', [])
-  .component('messageSubstitution', messageSubstitution)
-  .name;
+export default angular
+  .module('messageSubstitution', [])
+  .component('messageSubstitution', messageSubstitution).name;

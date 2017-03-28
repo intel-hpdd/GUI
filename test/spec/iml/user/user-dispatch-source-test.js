@@ -1,20 +1,16 @@
 import highland from 'highland';
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('user dispatch source', () => {
   let store, socketStream, s;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     store = {
       dispatch: jasmine.createSpy('dispatch')
     };
 
     s = highland();
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(s);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
     await mock('source/iml/user/user-dispatch-source.js', {
       'source/iml/store/get-store.js': { default: store },
@@ -30,13 +26,13 @@ describe('user dispatch source', () => {
       objects: [
         {
           id: 1
-        }, {
+        },
+        {
           id: 2
         }
       ]
     });
   });
-
 
   it('should invoke the socket stream', () => {
     expect(socketStream).toHaveBeenCalledOnceWith('/user', {
@@ -47,16 +43,16 @@ describe('user dispatch source', () => {
   });
 
   it('should update users when new items arrive from a persistent socket', () => {
-    expect(store.dispatch)
-      .toHaveBeenCalledOnceWith({
-        type: 'ADD_USER_ITEMS',
-        payload: [
-          {
-            id: 1
-          }, {
-            id: 2
-          }
-        ]
-      });
+    expect(store.dispatch).toHaveBeenCalledOnceWith({
+      type: 'ADD_USER_ITEMS',
+      payload: [
+        {
+          id: 1
+        },
+        {
+          id: 2
+        }
+      ]
+    });
   });
 });

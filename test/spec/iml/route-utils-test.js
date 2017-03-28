@@ -7,18 +7,17 @@ import {
 
 describe('route utils', () => {
   it('should convert a filesystem api resource to a routeable link', () => {
-    expect(apiPathToUiPath('/api/filesystem/1/'))
-      .toEqual('configure/filesystem/1/');
+    expect(apiPathToUiPath('/api/filesystem/1/')).toEqual(
+      'configure/filesystem/1/'
+    );
   });
 
   it('should convert a host api resource to a routeable link', () => {
-    expect(apiPathToUiPath('/api/host/1/'))
-      .toEqual('configure/server/1/');
+    expect(apiPathToUiPath('/api/host/1/')).toEqual('configure/server/1/');
   });
 
   it('should convert any other api resource to a routeable link', () => {
-    expect(apiPathToUiPath('/api/volume/1/'))
-      .toEqual('volume/1/');
+    expect(apiPathToUiPath('/api/volume/1/')).toEqual('volume/1/');
   });
 });
 
@@ -34,24 +33,17 @@ describe('getResolvedData', () => {
 
   describe('with the resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens
-        .and
-        .returnValue([
-          'fsStream',
-          'targetStream',
-          'getData',
-          'otherStream'
-        ]);
+      transition.getResolveTokens.and.returnValue([
+        'fsStream',
+        'targetStream',
+        'getData',
+        'otherStream'
+      ]);
 
-      transition
-        .getResolveValue
-        .and
-        .returnValue(
-        {
-          label: 'fs1',
-          kind: 'filesystem'
-        }
-        );
+      transition.getResolveValue.and.returnValue({
+        label: 'fs1',
+        kind: 'filesystem'
+      });
 
       result = maybe.withDefault(
         () => {},
@@ -68,24 +60,20 @@ describe('getResolvedData', () => {
     });
 
     it('should return the data', () => {
-      expect(result)
-        .toEqual(
-        {
-          label: 'fs1',
-          kind: 'filesystem'
-        }
-        );
+      expect(result).toEqual({
+        label: 'fs1',
+        kind: 'filesystem'
+      });
     });
   });
 
   describe('without resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.and
-        .returnValue([
-          'fsStream',
-          'targetStream',
-          'otherStream'
-        ]);
+      transition.getResolveTokens.and.returnValue([
+        'fsStream',
+        'targetStream',
+        'otherStream'
+      ]);
 
       result = maybe.withDefault(
         () => 'no match found',

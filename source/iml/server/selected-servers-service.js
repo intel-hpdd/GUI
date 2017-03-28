@@ -3,9 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export default function SelectedServersService () {
+export default function SelectedServersService() {
   'ngInject';
-
   const selectedServers = this;
 
   this.servers = {};
@@ -14,19 +13,19 @@ export default function SelectedServersService () {
    * Toggles the server according to the specified type.
    * @param {String} name
    */
-  this.toggleType = function toggleType (name) {
+  this.toggleType = function toggleType(name) {
     let checked;
 
     if (name === 'all')
-      checked = function handleCheckedAll (key) {
+      checked = function handleCheckedAll(key) {
         selectedServers.servers[key] = true;
       };
     else if (name === 'none')
-      checked = function handleCheckedNone (key) {
+      checked = function handleCheckedNone(key) {
         selectedServers.servers[key] = false;
       };
     else if (name === 'invert')
-      checked = function handleCheckedInvert (key) {
+      checked = function handleCheckedInvert(key) {
         selectedServers.servers[key] = !selectedServers.servers[key];
       };
 
@@ -38,8 +37,8 @@ export default function SelectedServersService () {
    * if they don't already exist.
    * @param {Array} servers
    */
-  this.addNewServers = function addNewServers (servers) {
-    servers.forEach(function addThem (server) {
+  this.addNewServers = function addNewServers(servers) {
+    servers.forEach(function addThem(server) {
       if (selectedServers.servers[server.fqdn] == null)
         selectedServers.servers[server.fqdn] = false;
     });

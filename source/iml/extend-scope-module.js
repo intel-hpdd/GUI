@@ -6,65 +6,84 @@
 import angular from 'angular';
 import * as fp from 'intel-fp';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-export type localApplyT<R> = (scope:$scopeT, fn:(...rest:any[]) => R) => ?R;
+export type localApplyT<R> = (scope: $scopeT, fn: (...rest: any[]) => R) => ?R;
 
-export default angular.module('extendScope', [])
-  .config(['$provide', function addHandleExceptionMethod ($provide) {
-    return $provide.decorator('$rootScope', ['$delegate', '$exceptionHandler',
-      function addExceptionHandler ($delegate, $exceptionHandler) {
-        $delegate.handleException = fp.unary($exceptionHandler);
+export default angular
+  .module('extendScope', [])
+  .config([
+    '$provide',
+    function addHandleExceptionMethod($provide) {
+      return $provide.decorator('$rootScope', [
+        '$delegate',
+        '$exceptionHandler',
+        function addExceptionHandler($delegate, $exceptionHandler) {
+          $delegate.handleException = fp.unary($exceptionHandler);
 
-        return $delegate;
-      }]);
-  }])
-  .config(['$provide', function addLocalApplyMethod ($provide) {
-    return $provide.decorator('$rootScope', ['$delegate', 'localApply',
-      function addLocalApply ($delegate, localApply) {
-        $delegate.localApply = localApply;
+          return $delegate;
+        }
+      ]);
+    }
+  ])
+  .config([
+    '$provide',
+    function addLocalApplyMethod($provide) {
+      return $provide.decorator('$rootScope', [
+        '$delegate',
+        'localApply',
+        function addLocalApply($delegate, localApply) {
+          $delegate.localApply = localApply;
 
-        return $delegate;
-      }]);
-  }])
-  .config(['$provide', function addPropagateChangeMethod ($provide) {
-    return $provide.decorator('$rootScope', ['$delegate', 'propagateChange',
-      function addPropagateChange ($delegate, propagateChange) {
-        $delegate.propagateChange = propagateChange;
+          return $delegate;
+        }
+      ]);
+    }
+  ])
+  .config([
+    '$provide',
+    function addPropagateChangeMethod($provide) {
+      return $provide.decorator('$rootScope', [
+        '$delegate',
+        'propagateChange',
+        function addPropagateChange($delegate, propagateChange) {
+          $delegate.propagateChange = propagateChange;
 
-        return $delegate;
-      }]);
-  }])
-  .factory('localApply', ['$exceptionHandler', function localApplyFactory ($exceptionHandler) {
-    return function localApply (scope, fn) {
-      try {
-        if (typeof fn === 'function')
-          return fn();
-      } catch (e) {
-        $exceptionHandler(e);
-      } finally {
+          return $delegate;
+        }
+      ]);
+    }
+  ])
+  .factory('localApply', [
+    '$exceptionHandler',
+    function localApplyFactory($exceptionHandler) {
+      return function localApply(scope, fn) {
         try {
-          if (!scope.$$destroyed && !scope.$root.$$phase)
-            scope.$digest();
+          if (typeof fn === 'function') return fn();
         } catch (e) {
           $exceptionHandler(e);
-          throw e;
+        } finally {
+          try {
+            if (!scope.$$destroyed && !scope.$root.$$phase) scope.$digest();
+          } catch (e) {
+            $exceptionHandler(e);
+            throw e;
+          }
         }
-      }
-    };
-  }])
-  .factory('propagateChange', function propagateChangeFactory ($exceptionHandler, localApply) {
-    'ngInject';
-
-    return fp.curry4(function propagateChange ($scope, obj, prop, s) {
-      return s
-        .tap((x) => {
-          obj[prop] = x;
-        })
-        .stopOnError(fp.unary($exceptionHandler))
-        .each(localApply.bind(null, $scope));
-    });
-  })
-  .name;
+      };
+    }
+  ])
+  .factory(
+    'propagateChange',
+    function propagateChangeFactory($exceptionHandler, localApply) {
+      'ngInject';
+      return fp.curry4(function propagateChange($scope, obj, prop, s) {
+        return s
+          .tap(x => {
+            obj[prop] = x;
+          })
+          .stopOnError(fp.unary($exceptionHandler))
+          .each(localApply.bind(null, $scope));
+      });
+    }
+  ).name;

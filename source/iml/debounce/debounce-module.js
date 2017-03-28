@@ -8,6 +8,4 @@
 import angular from 'angular';
 import debounce from 'intel-debounce';
 
-export default angular.module('debounce', [])
-  .value('debounce', debounce)
-  .name;
+export default angular.module('debounce', []).value('debounce', debounce).name;

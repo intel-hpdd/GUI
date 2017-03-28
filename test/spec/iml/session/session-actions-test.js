@@ -15,13 +15,13 @@ import type {
   cookieActionT
 } from '../../../../source/iml/session/session-reducer.js';
 
-import type {
-  sessionT
-} from '../../../../source/iml/api-types.js';
+import type { sessionT } from '../../../../source/iml/api-types.js';
 
 describe('session actions', () => {
-  let session:sessionT, sessionResult:sessionActionT,
-    cookie:string, cookieResult:cookieActionT;
+  let session: sessionT,
+    sessionResult: sessionActionT,
+    cookie: string,
+    cookieResult: cookieActionT;
   beforeEach(() => {
     session = {
       read_enabled: true,

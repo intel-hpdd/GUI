@@ -5,9 +5,8 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function getHeatMapLegendFactory (d3) {
+export default function getHeatMapLegendFactory(d3) {
   'ngInject';
-
   const TEXT_PADDING = 5;
   const STEP_WIDTH = 1;
   let colorScale = _.noop;
@@ -23,9 +22,9 @@ export default function getHeatMapLegendFactory (d3) {
     left: 0
   };
 
-  return function getHeatMapLegend () {
-    function chart (selection) {
-      selection.each(function iterateSelections () {
+  return function getHeatMapLegend() {
+    function chart(selection) {
+      selection.each(function iterateSelections() {
         let container = d3.select(this);
 
         const availableWidth = width - margin.left - margin.right;
@@ -42,17 +41,11 @@ export default function getHeatMapLegendFactory (d3) {
           .append('g')
           .attr('class', 'heat-map-legend');
 
-        gEnter
-          .append('text')
-          .attr('class', 'min');
+        gEnter.append('text').attr('class', 'min');
 
-        gEnter
-          .append('g')
-          .attr('class', 'steps');
+        gEnter.append('g').attr('class', 'steps');
 
-        gEnter
-          .append('text')
-          .attr('class', 'max');
+        gEnter.append('text').attr('class', 'max');
 
         // These operate on enter + update.
         const minText = wrap.select('.min');
@@ -61,18 +54,17 @@ export default function getHeatMapLegendFactory (d3) {
 
         const Y_TEXT_OFFSET = '1.2em';
 
-        const step = stepsGroup
-          .selectAll('.step')
-          .data(_.identity);
+        const step = stepsGroup.selectAll('.step').data(_.identity);
 
         const fill = _.compose(colorScale, legendScale);
 
-        step.enter()
+        step
+          .enter()
           .append('rect')
           .attr('class', 'step')
           .attr('width', STEP_WIDTH)
           .attr('height', 11)
-          .attr('x', function calcWidth (d, i) {
+          .attr('x', function calcWidth(d, i) {
             return i * STEP_WIDTH;
           })
           .attr('fill', fill);
@@ -86,68 +78,74 @@ export default function getHeatMapLegendFactory (d3) {
         const minBBox = getBBox(minText);
         const maxBBox = getBBox(maxText);
 
-        const minAndStepsWidth = minBBox.width + stepsBBox.width + (TEXT_PADDING * 2);
+        const minAndStepsWidth = minBBox.width +
+          stepsBBox.width +
+          TEXT_PADDING * 2;
 
         const legendWidth = minAndStepsWidth + maxBBox.width;
 
-        stepsGroup
-          .attr('transform',
-            'translate(' + (minBBox.width + TEXT_PADDING) + ',' + ((availableHeight - 10) / 2 ) + ')');
+        stepsGroup.attr(
+          'transform',
+          'translate(' +
+            (minBBox.width + TEXT_PADDING) +
+            ',' +
+            (availableHeight - 10) / 2 +
+            ')'
+        );
 
-        minText
-          .attr('dy', Y_TEXT_OFFSET);
+        minText.attr('dy', Y_TEXT_OFFSET);
 
-        maxText
-          .attr('x', minAndStepsWidth)
-          .attr('dy', Y_TEXT_OFFSET);
+        maxText.attr('x', minAndStepsWidth).attr('dy', Y_TEXT_OFFSET);
 
-        wrap
-          .attr('transform', 'translate(' + (availableWidth - legendWidth) + ',' + margin.top + ')');
+        wrap.attr(
+          'transform',
+          'translate(' + (availableWidth - legendWidth) + ',' + margin.top + ')'
+        );
 
-        chart.destroy = function destroy () {
+        chart.destroy = function destroy() {
           container.remove();
           container = null;
         };
       });
     }
 
-    chart.colorScale = function colorScaleAccessor (_) {
+    chart.colorScale = function colorScaleAccessor(_) {
       if (!arguments.length) return colorScale;
       colorScale = _;
       return chart;
     };
 
-    chart.legendScale = function legendScaleAccessor (_) {
+    chart.legendScale = function legendScaleAccessor(_) {
       if (!arguments.length) return legendScale;
       legendScale = _;
       return chart;
     };
 
-    chart.zScale = function zScaleAccessor (_) {
+    chart.zScale = function zScaleAccessor(_) {
       if (!arguments.length) return zScale;
       zScale = _;
       return chart;
     };
 
-    chart.formatter = function formatterAccessor (_) {
+    chart.formatter = function formatterAccessor(_) {
       if (!arguments.length) return formatter;
       formatter = _;
       return chart;
     };
 
-    chart.width = function widthAccessor (_) {
+    chart.width = function widthAccessor(_) {
       if (!arguments.length) return width;
       width = _;
       return chart;
     };
 
-    chart.height = function heightAccessor (_) {
+    chart.height = function heightAccessor(_) {
       if (!arguments.length) return height;
       height = _;
       return chart;
     };
 
-    chart.margin = function heightAccessor (_) {
+    chart.margin = function heightAccessor(_) {
       if (!arguments.length) return margin;
       margin = _;
       return chart;
@@ -158,7 +156,7 @@ export default function getHeatMapLegendFactory (d3) {
     return chart;
   };
 
-  function getBBox (selection) {
+  function getBBox(selection) {
     return selection.node().getBBox();
   }
 }

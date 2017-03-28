@@ -3,20 +3,23 @@ import stepsModule from '../../../../source/iml/steps/steps-module';
 describe('Steps module', () => {
   beforeEach(module(stepsModule));
 
-  beforeEach(module(($provide) => {
-    $provide.value('foo', 'bar');
-  }));
+  beforeEach(
+    module($provide => {
+      $provide.value('foo', 'bar');
+    })
+  );
 
   let $rootScope, $scope, $q, $compile, stepsManager;
 
-  beforeEach(inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
-
-    $rootScope = _$rootScope_;
-    $compile = _$compile_;
-    $q = _$q_;
-    $scope = $rootScope.$new();
-    stepsManager = _stepsManager_;
-  }));
+  beforeEach(
+    inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
+      $rootScope = _$rootScope_;
+      $compile = _$compile_;
+      $q = _$q_;
+      $scope = $rootScope.$new();
+      stepsManager = _stepsManager_;
+    })
+  );
 
   describe('step container', () => {
     let template, node;
@@ -28,12 +31,11 @@ describe('Steps module', () => {
 
       $scope.manager.addStep('step', {
         template: '<div>{{foo}}</div>',
-        controller: function controller ($scope) {
+        controller: function controller($scope) {
           'ngInject';
-
           $scope.foo = 'bar';
         },
-        transition: function transition () {}
+        transition: function transition() {}
       });
     });
 
@@ -53,21 +55,21 @@ describe('Steps module', () => {
 
         $scope.$digest();
 
-        expect(node.html()).toEqual('<div class="ng-binding ng-scope">bar</div>');
+        expect(node.html()).toEqual(
+          '<div class="ng-binding ng-scope">bar</div>'
+        );
       });
     });
-
 
     describe('directive before all promises have resolved', () => {
       beforeEach(() => {
         $scope.manager.addWaitingStep({
           template: '<div>waiting</div>',
-          controller: function controller ($scope) {
+          controller: function controller($scope) {
             'ngInject';
-
             $scope.foo = 'bar';
           },
-          transition: function transition () {}
+          transition: function transition() {}
         });
 
         node = $compile(template)($scope);
@@ -118,7 +120,8 @@ describe('Steps module', () => {
       let error;
       beforeEach(() => {
         try {
-          stepsManagerInstance.addWaitingStep(waitingStep)
+          stepsManagerInstance
+            .addWaitingStep(waitingStep)
             .addWaitingStep(waitingStep);
         } catch (e) {
           error = e;
@@ -126,7 +129,9 @@ describe('Steps module', () => {
       });
 
       it('should throw an error when addWaitingStep is called twice', () => {
-        expect(error.message).toEqual('Cannot assign the waiting step as it is already defined.');
+        expect(error.message).toEqual(
+          'Cannot assign the waiting step as it is already defined.'
+        );
       });
     });
 
@@ -139,7 +144,7 @@ describe('Steps module', () => {
         step1 = {
           templateUrl: 'assets/html/step1',
           controller: 'Step1Ctrl',
-          transition: function transition (steps) {
+          transition: function transition(steps) {
             return steps.step2;
           }
         };
@@ -147,7 +152,7 @@ describe('Steps module', () => {
         step2 = {
           templateUrl: 'assets/html/step2',
           controller: 'Step2Ctrl',
-          transition: function transition (steps) {
+          transition: function transition(steps) {
             return steps.step1;
           }
         };
@@ -161,7 +166,11 @@ describe('Steps module', () => {
       });
 
       it('should start on step1', () => {
-        expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
+        expect(listener).toHaveBeenCalledOnceWith(
+          step1,
+          undefined,
+          waitingStep
+        );
       });
 
       it('should transition to step2', () => {
@@ -181,7 +190,11 @@ describe('Steps module', () => {
 
         $rootScope.$digest();
 
-        expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
+        expect(listener).toHaveBeenCalledOnceWith(
+          step1,
+          undefined,
+          waitingStep
+        );
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined);
       });
 
@@ -192,7 +205,11 @@ describe('Steps module', () => {
 
         $rootScope.$digest();
 
-        expect(listener).not.toHaveBeenCalledOnceWith(step2, undefined, waitingStep);
+        expect(listener).not.toHaveBeenCalledOnceWith(
+          step2,
+          undefined,
+          waitingStep
+        );
       });
     });
   });

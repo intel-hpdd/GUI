@@ -2,16 +2,16 @@ import moment from 'moment';
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('get time params', () => {
-  let getServerMoment, createDate, getRequestRange,
-    getRequestDuration, getTimeParams;
+  let getServerMoment,
+    createDate,
+    getRequestRange,
+    getRequestDuration,
+    getTimeParams;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     getServerMoment = jasmine.createSpy('getServerMoment');
     createDate = jasmine.createSpy('createDate');
 
@@ -29,15 +29,14 @@ describe('get time params', () => {
 
   describe('getRequestRange', () => {
     beforeEach(() => {
-      getServerMoment
-        .and.callFake((d, f) => {
-          // We always convert local time to utc time
-          // implicitly before send.
-          // For the purposes of these tests,
-          // force to UTC right away
-          // so they will run in different time zones.
-          return moment.utc(d, f);
-        });
+      getServerMoment.and.callFake((d, f) => {
+        // We always convert local time to utc time
+        // implicitly before send.
+        // For the purposes of these tests,
+        // force to UTC right away
+        // so they will run in different time zones.
+        return moment.utc(d, f);
+      });
     });
 
     it('should return a function', () => {
@@ -48,21 +47,23 @@ describe('get time params', () => {
       let requestRange;
 
       beforeEach(() => {
-        requestRange = getRequestRange({
-          qs: {
-            id: '4'
-          }
-        }, '2015-04-30T00:00', '2015-05-01T00:00');
+        requestRange = getRequestRange(
+          {
+            qs: {
+              id: '4'
+            }
+          },
+          '2015-04-30T00:00',
+          '2015-05-01T00:00'
+        );
       });
 
       it('should return a function', () => {
-        expect(requestRange)
-          .toEqual(jasmine.any(Function));
+        expect(requestRange).toEqual(jasmine.any(Function));
       });
 
       it('should return a setLatest method', () => {
-        expect(requestRange.setLatest)
-          .toEqual(jasmine.any(Function));
+        expect(requestRange.setLatest).toEqual(jasmine.any(Function));
       });
 
       it('should set the range on params', () => {
@@ -87,23 +88,20 @@ describe('get time params', () => {
 
   describe('getRequestDuration', () => {
     beforeEach(() => {
-      getServerMoment
-        .and.callFake(() => {
-          // We always convert local time to utc time
-          // implicitly before send.
-          // For the purposes of these tests,
-          // force to UTC right away
-          // so they will run in different time zones.
-          return moment.utc('2015-04-30T00:00:00.000Z');
-        });
+      getServerMoment.and.callFake(() => {
+        // We always convert local time to utc time
+        // implicitly before send.
+        // For the purposes of these tests,
+        // force to UTC right away
+        // so they will run in different time zones.
+        return moment.utc('2015-04-30T00:00:00.000Z');
+      });
 
-      createDate
-        .and.callFake(d => {
-          if (!d)
-            d = '2015-04-30T00:00:10.000Z';
+      createDate.and.callFake(d => {
+        if (!d) d = '2015-04-30T00:00:10.000Z';
 
-          return new Date(d);
-        });
+        return new Date(d);
+      });
     });
 
     it('should return a function', () => {
@@ -114,11 +112,15 @@ describe('get time params', () => {
       let requestDuration;
 
       beforeEach(() => {
-        requestDuration = getRequestDuration({
-          qs: {
-            id: '3'
-          }
-        }, 10, 'minutes');
+        requestDuration = getRequestDuration(
+          {
+            qs: {
+              id: '3'
+            }
+          },
+          10,
+          'minutes'
+        );
       });
 
       it('should return a function', () => {

@@ -11,8 +11,12 @@ describe('tooltip', () => {
       root = document.createElement('div');
 
       Inferno.render(
-        <Tooltip message="Test message" direction="bottom"
-          size='large' moreClasses={['extra-class']} />,
+        <Tooltip
+          message="Test message"
+          direction="bottom"
+          size="large"
+          moreClasses={['extra-class']}
+        />,
         root
       );
 
@@ -59,8 +63,7 @@ describe('tooltip', () => {
       root = document.createElement('div');
 
       Inferno.render(
-        <Tooltip message="" direction="bottom"
-          moreClasses={['extra-class']} />,
+        <Tooltip message="" direction="bottom" moreClasses={['extra-class']} />,
         root
       );
 

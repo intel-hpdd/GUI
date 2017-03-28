@@ -1,13 +1,22 @@
-import parselyBoxModule from '../../../../source/iml/parsely-box/parsely-box-module';
+import parselyBoxModule
+  from '../../../../source/iml/parsely-box/parsely-box-module';
 
 describe('parsely box', () => {
   beforeEach(module(parselyBoxModule));
 
-  let el, $scope, qs, searchButton,
-    indicator, tooltip, form, input, completionistDropdown;
+  let el,
+    $scope,
+    qs,
+    searchButton,
+    indicator,
+    tooltip,
+    form,
+    input,
+    completionistDropdown;
 
-  beforeEach(inject(($rootScope, $compile) => {
-    const template = `
+  beforeEach(
+    inject(($rootScope, $compile) => {
+      const template = `
 <parsely-box
   on-submit="::onSubmit(qs)"
   query="::initialQuery"
@@ -16,56 +25,51 @@ describe('parsely box', () => {
 >
 </parsely-box>`;
 
+      $scope = $rootScope.$new();
+      Object.assign($scope, {
+        parserFormatter: {
+          parser(str) {
+            if (str === '') return '';
 
-    $scope = $rootScope.$new();
-    Object.assign($scope, {
-      parserFormatter: {
-        parser (str) {
-          if (str === '')
-            return '';
+            if (str === '1') return 1;
+
+            return new Error('str was not string 1');
+          },
+          formatter(num) {
+            if (num == null || num === '') return '';
+
+            if (num === 1) return '1';
+
+            throw new Error('num was not number 1');
+          }
+        },
+        completer(str) {
+          if (str === '') return '';
 
           if (str === '1')
-            return 1;
-
-          return new Error('str was not string 1');
+            return [
+              {
+                start: 0,
+                end: 0,
+                suggestion: '+'
+              }
+            ];
         },
-        formatter (num) {
-          if (num == null || num === '')
-            return '';
+        onSubmit: jasmine.createSpy('onSubmit'),
+        initialQuery: ''
+      });
 
-          if (num === 1)
-            return '1';
-
-          throw new Error('num was not number 1');
-        }
-      },
-      completer (str) {
-        if (str === '')
-          return '';
-
-        if (str === '1')
-          return [
-            {
-              start: 0,
-              end: 0,
-              suggestion: '+'
-            }
-          ];
-      },
-      onSubmit: jasmine.createSpy('onSubmit'),
-      initialQuery: ''
-    });
-
-    el = $compile(template)($scope)[0];
-    qs = el.querySelector.bind(el);
-    searchButton = qs.bind(el, '.btn-primary');
-    indicator = qs.bind(el, '.status-indicator i');
-    tooltip = qs.bind(el, '.tooltip');
-    form = qs.bind(el, 'form');
-    input = qs.bind(el, 'input');
-    completionistDropdown = qs.bind(el, 'completionist-dropdown');
-    $scope.$digest();
-  }));
+      el = $compile(template)($scope)[0];
+      qs = el.querySelector.bind(el);
+      searchButton = qs.bind(el, '.btn-primary');
+      indicator = qs.bind(el, '.status-indicator i');
+      tooltip = qs.bind(el, '.tooltip');
+      form = qs.bind(el, 'form');
+      input = qs.bind(el, 'input');
+      completionistDropdown = qs.bind(el, 'completionist-dropdown');
+      $scope.$digest();
+    })
+  );
 
   describe('when valid', () => {
     beforeEach(() => {
@@ -86,8 +90,7 @@ describe('parsely box', () => {
     });
 
     it('should show the autocomplete suggestion', () => {
-      expect(completionistDropdown().querySelector('li'))
-        .toHaveText('+');
+      expect(completionistDropdown().querySelector('li')).toHaveText('+');
     });
 
     it('should call onSubmit when searching', () => {
@@ -130,7 +133,8 @@ describe('parsely box', () => {
 
     it('should show the parse error', () => {
       const value = tooltip()
-        .querySelector('.tooltip-inner span').innerHTML.trim();
+        .querySelector('.tooltip-inner span')
+        .innerHTML.trim();
 
       expect(value).toEqual('str was not string 1');
     });

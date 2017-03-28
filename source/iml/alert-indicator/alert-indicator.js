@@ -9,16 +9,14 @@ import * as fp from 'intel-fp';
 const viewLens = fp.flow(fp.lensProp, fp.view);
 import alertIndicatorTemplate from './assets/html/alert-indicator.html!text';
 
-
-export function RecordStateCtrl ($scope, $compile, STATE_SIZE, propagateChange) {
+export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   'ngInject';
-
   const ctrl = angular.extend(this, {
     alerts: [],
-    hasAlerts () {
+    hasAlerts() {
       return ctrl.alerts.length > 0;
     },
-    showLabel: function showLabel () {
+    showLabel: function showLabel() {
       return ctrl.displayType === STATE_SIZE.MEDIUM;
     }
   });
@@ -39,7 +37,6 @@ export function RecordStateCtrl ($scope, $compile, STATE_SIZE, propagateChange) 
 
 export const recordStateDirective = () => {
   'ngInject';
-
   return {
     scope: {},
     bindToController: {

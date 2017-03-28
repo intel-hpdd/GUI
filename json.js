@@ -1,3 +1,3 @@
 // @flow
 
-export default ({}:Object);
+export default ({}: Object);

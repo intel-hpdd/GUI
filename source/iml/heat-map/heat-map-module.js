@@ -16,5 +16,4 @@ export default angular
   .module('heatMap', [d3Module, nvModule])
   .factory('getHeatMapChart', getHeatMapChartFactory)
   .factory('getHeatMapLegend', getHeatMapLegendFactory)
-  .factory('getHeatMap', getHeatMapFactory)
-  .name;
+  .factory('getHeatMap', getHeatMapFactory).name;

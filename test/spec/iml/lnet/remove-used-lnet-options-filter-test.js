@@ -6,14 +6,20 @@ describe('Remove used LNet options', () => {
 
   let removeUsedLnetOptions, LNET_OPTIONS;
 
-  beforeEach(inject((_removeUsedLnetOptionsFilter_, _LNET_OPTIONS_) => {
-    removeUsedLnetOptions = _removeUsedLnetOptionsFilter_;
-    LNET_OPTIONS = _LNET_OPTIONS_;
-  }));
+  beforeEach(
+    inject((_removeUsedLnetOptionsFilter_, _LNET_OPTIONS_) => {
+      removeUsedLnetOptions = _removeUsedLnetOptionsFilter_;
+      LNET_OPTIONS = _LNET_OPTIONS_;
+    })
+  );
 
   it('should filter out used values', () => {
     const networkInterfaces = createNetworkInterfaces([5, 6, 7]);
-    const filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterfaces[0]);
+    const filtered = removeUsedLnetOptions(
+      LNET_OPTIONS,
+      networkInterfaces,
+      networkInterfaces[0]
+    );
 
     expect(filtered).toEqual([
       { name: 'Not Lustre Network', value: -1 },
@@ -31,9 +37,17 @@ describe('Remove used LNet options', () => {
   it('should always have Not Lustre Network', () => {
     const networkInterface = createNetworkInterface(-1);
     const networkInterface0 = createNetworkInterface(0);
-    const networkInterfaces = [networkInterface, networkInterface, networkInterface0];
+    const networkInterfaces = [
+      networkInterface,
+      networkInterface,
+      networkInterface0
+    ];
 
-    const filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterface0);
+    const filtered = removeUsedLnetOptions(
+      LNET_OPTIONS,
+      networkInterfaces,
+      networkInterface0
+    );
 
     expect(filtered).toEqual(LNET_OPTIONS);
   });
@@ -41,11 +55,16 @@ describe('Remove used LNet options', () => {
   it('should work when all options are used', () => {
     const values = fp.map(x => x.value, LNET_OPTIONS);
     const networkInterfaces = createNetworkInterfaces(values);
-    const filtered = removeUsedLnetOptions(LNET_OPTIONS, networkInterfaces, networkInterfaces[1]);
+    const filtered = removeUsedLnetOptions(
+      LNET_OPTIONS,
+      networkInterfaces,
+      networkInterfaces[1]
+    );
 
     expect(filtered).toEqual([
       { name: 'Not Lustre Network', value: -1 },
-      { name: 'Lustre Network 0', value: 0 } ]);
+      { name: 'Lustre Network 0', value: 0 }
+    ]);
   });
 
   /**
@@ -53,8 +72,8 @@ describe('Remove used LNet options', () => {
    * @param {Number} id
    * @returns {{nid: {lnd_network: Number}}}
    */
-  function createNetworkInterface (id) {
-    return { nid: {lnd_network: id} };
+  function createNetworkInterface(id) {
+    return { nid: { lnd_network: id } };
   }
 
   /**
@@ -62,8 +81,8 @@ describe('Remove used LNet options', () => {
    * @param {Array} ids
    * @returns {Array<Object>}
    */
-  function createNetworkInterfaces (ids) {
-    return ids.map(function create (id) {
+  function createNetworkInterfaces(ids) {
+    return ids.map(function create(id) {
       return createNetworkInterface(id);
     });
   }

@@ -9,18 +9,21 @@ import highland from 'highland';
 import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
-
-import {
-  reduce
-} from 'intel-obj';
+import { reduce } from 'intel-obj';
 
 const statsPrefixRegex = /^stats_/;
 const dataLens = fp.lensProp('data');
-const stripStatsPrefix = fp.over(dataLens, reduce(() => ({}), (value, key, result) => {
-  const newKey = key.trim().replace(statsPrefixRegex, '');
-  result[newKey] = value;
-  return result;
-}));
+const stripStatsPrefix = fp.over(
+  dataLens,
+  reduce(
+    () => ({}),
+    (value, key, result) => {
+      const newKey = key.trim().replace(statsPrefixRegex, '');
+      result[newKey] = value;
+      return result;
+    }
+  )
+);
 
 const stats = [
   'close',
@@ -38,8 +41,7 @@ const stats = [
 ];
 
 const prependStats = ''.concat.bind('stats_');
-const metrics = fp.map(prependStats, stats)
-  .join(',');
+const metrics = fp.map(prependStats, stats).join(',');
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
@@ -58,7 +60,7 @@ export default (requestRange, buff) => {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(stats))
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });

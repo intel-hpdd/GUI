@@ -1,24 +1,24 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('handle action', () => {
-  let socketStream, actionStream, handleAction,
-    openConfirmActionModal, openResult;
+  let socketStream,
+    actionStream,
+    handleAction,
+    openConfirmActionModal,
+    openResult;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     jasmine.clock().install();
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(function () {
-        return (actionStream = highland());
-      });
+    socketStream = jasmine.createSpy('socketStream').and.callFake(function() {
+      return (actionStream = highland());
+    });
 
     openResult = { resultStream: highland() };
-    openConfirmActionModal = jasmine.createSpy('openConfirmActionModal')
+    openConfirmActionModal = jasmine
+      .createSpy('openConfirmActionModal')
       .and.returnValue(openResult);
 
     const mod = await mock('source/iml/action-dropdown/handle-action.js', {
@@ -34,10 +34,10 @@ describe('handle action', () => {
 
   afterEach(resetAll);
 
-  describe('job', function () {
+  describe('job', function() {
     let record, action;
 
-    beforeEach(function () {
+    beforeEach(function() {
       record = { label: 'foo bar' };
 
       action = {
@@ -48,14 +48,15 @@ describe('handle action', () => {
       };
     });
 
-    it('should open the confirm modal if there is confirmation', function () {
+    it('should open the confirm modal if there is confirmation', function() {
       handleAction(record, action);
 
-      expect(openConfirmActionModal)
-        .toHaveBeenCalledOnceWith('foo(foo bar)', [ 'Are you sure you want to foo bar?' ]);
+      expect(openConfirmActionModal).toHaveBeenCalledOnceWith('foo(foo bar)', [
+        'Are you sure you want to foo bar?'
+      ]);
     });
 
-    it('should not open the confirm modal without confirmation', function () {
+    it('should not open the confirm modal without confirmation', function() {
       delete action.confirmation;
 
       handleAction(record, action);
@@ -63,48 +64,57 @@ describe('handle action', () => {
       expect(openConfirmActionModal).not.toHaveBeenCalled();
     });
 
-    it('should send the job after confirmation', function () {
-      handleAction(record, action).each(function () {
-        expect(socketStream).toHaveBeenCalledOnceWith('/command', {
-          method: 'post',
-          json: {
-            jobs: [{
-              class_name: 'bar',
-              args: { some: 'stuff' }
-            }],
-            message: 'foo(foo bar)'
-          }
-        }, true);
+    it('should send the job after confirmation', function() {
+      handleAction(record, action).each(function() {
+        expect(socketStream).toHaveBeenCalledOnceWith(
+          '/command',
+          {
+            method: 'post',
+            json: {
+              jobs: [
+                {
+                  class_name: 'bar',
+                  args: { some: 'stuff' }
+                }
+              ],
+              message: 'foo(foo bar)'
+            }
+          },
+          true
+        );
       });
 
-      openResult
-        .resultStream
-        .write(true);
+      openResult.resultStream.write(true);
 
       actionStream.write({});
     });
 
-    it('should skip the action result', function () {
-      handleAction(record, action)
-        .each(function (x) {
+    it('should skip the action result', function() {
+      handleAction(record, action).each(
+        function(x) {
           expect(x).toBeUndefined();
-        }, true);
+        },
+        true
+      );
 
       openResult.resultStream.write(true);
       actionStream.write({ foo: 'bar' });
     });
 
-    it('should not skip the action result', function () {
-      handleAction(record, action).each(function (x) {
-        expect(x).toEqual({ foo: 'bar' });
-      }, true);
+    it('should not skip the action result', function() {
+      handleAction(record, action).each(
+        function(x) {
+          expect(x).toEqual({ foo: 'bar' });
+        },
+        true
+      );
 
       openResult.resultStream.write(false);
       actionStream.write({ foo: 'bar' });
     });
   });
 
-  it('should put the new param for conf param', function () {
+  it('should put the new param for conf param', function() {
     const action = {
       param_key: 'some',
       param_value: 'value',
@@ -117,22 +127,26 @@ describe('handle action', () => {
 
     handleAction({}, action);
 
-    expect(socketStream).toHaveBeenCalledOnceWith('/target/1', {
-      method: 'put',
-      json: {
-        resource: 'target',
-        id: '1',
-        conf_params: {
-          some: 'value'
+    expect(socketStream).toHaveBeenCalledOnceWith(
+      '/target/1',
+      {
+        method: 'put',
+        json: {
+          resource: 'target',
+          id: '1',
+          conf_params: {
+            some: 'value'
+          }
         }
-      }
-    }, true);
+      },
+      true
+    );
   });
 
-  describe('state change', function () {
+  describe('state change', function() {
     let record, action, stream;
 
-    beforeEach(function () {
+    beforeEach(function() {
       record = { resource_uri: '/api/target/2' };
 
       action = { state: 'stopped' };
@@ -140,23 +154,27 @@ describe('handle action', () => {
       stream = handleAction(record, action);
     });
 
-    it('should perform a dry run', function () {
-      expect(socketStream).toHaveBeenCalledOnceWith(record.resource_uri, {
-        method: 'put',
-        json: {
-          dry_run: true,
-          state: 'stopped'
-        }
-      }, true);
+    it('should perform a dry run', function() {
+      expect(socketStream).toHaveBeenCalledOnceWith(
+        record.resource_uri,
+        {
+          method: 'put',
+          json: {
+            dry_run: true,
+            state: 'stopped'
+          }
+        },
+        true
+      );
     });
 
-    describe('dry run', function () {
+    describe('dry run', function() {
       let response;
 
-      beforeEach(function () {
+      beforeEach(function() {
         response = {
           transition_job: {
-            description: 'It\'s gonna do stuff!'
+            description: "It's gonna do stuff!"
           },
           dependency_jobs: [
             {
@@ -169,10 +187,13 @@ describe('handle action', () => {
         actionStream.write(response);
       });
 
-      it('should open the confirm action modal', function () {
-        stream.each(function () {
-          expect(openConfirmActionModal)
-            .toHaveBeenCalledOnceWith('It\'s gonna do stuff!', ['This will do stuff']);
+      it('should open the confirm action modal', function() {
+        stream.each(function() {
+          expect(
+            openConfirmActionModal
+          ).toHaveBeenCalledOnceWith("It's gonna do stuff!", [
+            'This will do stuff'
+          ]);
         });
 
         openResult.resultStream.write(true);
@@ -181,12 +202,18 @@ describe('handle action', () => {
         jasmine.clock().tick();
       });
 
-      it('should send the new state after confirm', function () {
-        stream.each(function () {
-          expect(expect(socketStream).toHaveBeenCalledOnceWith('/api/target/2', {
-            method: 'put',
-            json: { state: 'stopped' }
-          }, true));
+      it('should send the new state after confirm', function() {
+        stream.each(function() {
+          expect(
+            expect(socketStream).toHaveBeenCalledOnceWith(
+              '/api/target/2',
+              {
+                method: 'put',
+                json: { state: 'stopped' }
+              },
+              true
+            )
+          );
         });
 
         openResult.resultStream.write(true);

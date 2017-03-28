@@ -10,7 +10,7 @@ import extendScopeModule from '../extend-scope-module.js';
 import resettableGroupComponent from './resettable-group.js';
 import resetter from './resetter.js';
 
-export default angular.module('resettableGroup', [extendScopeModule])
+export default angular
+  .module('resettableGroup', [extendScopeModule])
   .component('resettableGroup', resettableGroupComponent)
-  .directive('resetter', resetter)
-  .name;
+  .directive('resetter', resetter).name;

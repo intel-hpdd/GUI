@@ -1,19 +1,21 @@
 import highland from 'highland';
 import objToPoints from '../../../../source/iml/charting/obj-to-points.js';
 
-describe('the obj to points plugin', function () {
+describe('the obj to points plugin', function() {
   let spy;
 
   beforeEach(() => {
     spy = jasmine.createSpy('spy');
   });
 
-  it('should convert obj to a points stream', function () {
+  it('should convert obj to a points stream', function() {
     highland([
       {
-        1: [{
-          data: { foo: 'bar' }
-        }]
+        1: [
+          {
+            data: { foo: 'bar' }
+          }
+        ]
       }
     ])
       .through(objToPoints)
@@ -26,16 +28,11 @@ describe('the obj to points plugin', function () {
     });
   });
 
-  it('should convert objs to a points stream', function () {
+  it('should convert objs to a points stream', function() {
     highland([
       {
-        1: [
-          { data: { foo: 'bar' } },
-          { data: { bar: 'baz' } }
-        ],
-        2: [
-          { data: { foo: 'bap' } }
-        ],
+        1: [{ data: { foo: 'bar' } }, { data: { bar: 'baz' } }],
+        2: [{ data: { foo: 'bap' } }],
         3: []
       }
     ])

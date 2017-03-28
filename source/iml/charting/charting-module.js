@@ -11,21 +11,18 @@ import d3Module from '../d3/d3-module';
 import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import createStream from './create-stream';
 
-import type {
-  HighlandStreamT
-} from 'highland';
-export type bufferDataNewerThanT = (size:number, unit:string) =>
-  (s:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
-export type sortByDateT = (stream:HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
+import type { HighlandStreamT } from 'highland';
+export type bufferDataNewerThanT = (size: number, unit: string) => (
+  s: HighlandStreamT<mixed>
+) => HighlandStreamT<mixed>;
+export type sortByDateT = (
+  stream: HighlandStreamT<mixed>
+) => HighlandStreamT<mixed>;
 export type createStreamT = {
-  durationStream:Function,
-  rangeStream:Function
+  durationStream: Function,
+  rangeStream: Function
 };
 
-
-export default angular.module('charting', [
-  highlandModule, d3Module,
-  chartCompilerModule
-])
-  .factory('createStream', createStream)
-  .name;
+export default angular
+  .module('charting', [highlandModule, d3Module, chartCompilerModule])
+  .factory('createStream', createStream).name;

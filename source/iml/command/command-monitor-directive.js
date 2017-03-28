@@ -9,36 +9,28 @@ import * as fp from 'intel-fp';
 import socketStream from '../socket/socket-stream.js';
 import getCommandStream from '../command/get-command-stream.js';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-import type {
-  localApplyT
-} from '../extend-scope-module.js';
+import type { localApplyT } from '../extend-scope-module.js';
 
 const set = fp.curry3((ctx, name, x) => ctx[name] = x);
 
 const notCancelled = fp.filter(
-  fp.flow(
-    fp.view(
-      fp.lensProp('cancelled')
-    ),
-    fp.not
-  )
+  fp.flow(fp.view(fp.lensProp('cancelled')), fp.not)
 );
 
-export function CommandMonitorCtrl ($scope:$scopeT, openCommandModal:Function,
-                                    localApply:localApplyT, $exceptionHandler:Function) {
+export function CommandMonitorCtrl(
+  $scope: $scopeT,
+  openCommandModal: Function,
+  localApply: localApplyT,
+  $exceptionHandler: Function
+) {
   'ngInject';
-
   const commandMonitorCtrl = this;
 
-  commandMonitorCtrl.showPending = function showPending () {
+  commandMonitorCtrl.showPending = function showPending() {
     const stream = getCommandStream(commandMonitorCtrl.lastObjects);
-    openCommandModal(stream)
-      .result
-      .finally(stream.destroy.bind(stream));
+    openCommandModal(stream).result.finally(stream.destroy.bind(stream));
   };
 
   const commandMonitor$ = socketStream('/command', {
@@ -50,18 +42,10 @@ export function CommandMonitorCtrl ($scope:$scopeT, openCommandModal:Function,
   });
 
   commandMonitor$
-    .map(
-      fp.flow(
-        fp.view(fp.lensProp('objects')),
-        notCancelled
-      )
-    )
+    .map(fp.flow(fp.view(fp.lensProp('objects')), notCancelled))
     .tap(set(this, 'lastObjects'))
-    .tap(fp.flow(
-      fp.view(fp.lensProp('length')),
-      set(this, 'length')
-    ))
-    .stopOnError((e) => $exceptionHandler(e))
+    .tap(fp.flow(fp.view(fp.lensProp('length')), set(this, 'length')))
+    .stopOnError(e => $exceptionHandler(e))
     .each(localApply.bind(null, $scope));
 
   this.length = 1;

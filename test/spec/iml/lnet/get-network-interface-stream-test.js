@@ -1,19 +1,14 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-describe('get network interface stream', function () {
+describe('get network interface stream', function() {
   let socketStream, ss, getNetworkInterfaceStream, stream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     ss = highland();
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(ss);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(ss);
     spyOn(ss, 'write');
-
 
     const mod = await mock('source/iml/lnet/get-network-interface-stream.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream }
@@ -30,15 +25,15 @@ describe('get network interface stream', function () {
 
   afterEach(resetAll);
 
-  it('should be a function', function () {
+  it('should be a function', function() {
     expect(getNetworkInterfaceStream).toEqual(jasmine.any(Function));
   });
 
-  it('should return a stream', function () {
+  it('should return a stream', function() {
     expect(highland.isStream(stream)).toBe(true);
   });
 
-  it('should send a get', function () {
+  it('should send a get', function() {
     expect(socketStream).toHaveBeenCalledOnceWith('/network_interface', {
       qs: {
         host__id: '1'
@@ -46,7 +41,7 @@ describe('get network interface stream', function () {
     });
   });
 
-  it('should add a nid if missing', function () {
+  it('should add a nid if missing', function() {
     const response = {
       objects: [
         {
@@ -64,7 +59,7 @@ describe('get network interface stream', function () {
 
     ss.write(response);
 
-    stream.each(function (x) {
+    stream.each(function(x) {
       expect(x).toEqual([
         {
           resource_uri: '/api/network_interface/1',

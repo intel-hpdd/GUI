@@ -46,35 +46,52 @@ describe('chart transformer', () => {
     });
 
     it('should take the matching case', () => {
-      s = highland([{
-        'base': config1,
-        'target8': config2
-      }]);
-      conf$(s)
-        .each(spy);
+      s = highland([
+        {
+          base: config1,
+          target8: config2
+        }
+      ]);
+      conf$(s).each(spy);
 
       expect(spy).toHaveBeenCalledOnceWith(config2);
     });
   });
 
   describe('data$Fn', () => {
-    let fn, createStream, durationStreamOverrides, durationStream,
-      rangeStreamOverrides, rangeStream, overrides, chartStreamFn,
-      chart$, duration$, range$;
+    let fn,
+      createStream,
+      durationStreamOverrides,
+      durationStream,
+      rangeStreamOverrides,
+      rangeStream,
+      overrides,
+      chartStreamFn,
+      chart$,
+      duration$,
+      range$;
 
     beforeEach(() => {
       duration$ = highland([]);
-      durationStream = jasmine.createSpy('durationStream').and.returnValue(duration$);
-      durationStreamOverrides = jasmine.createSpy('durationStream').and.returnValue(durationStream);
+      durationStream = jasmine
+        .createSpy('durationStream')
+        .and.returnValue(duration$);
+      durationStreamOverrides = jasmine
+        .createSpy('durationStream')
+        .and.returnValue(durationStream);
       range$ = highland([]);
       rangeStream = jasmine.createSpy('rangeStream').and.returnValue(range$);
-      rangeStreamOverrides = jasmine.createSpy('rangeStream').and.returnValue(rangeStream);
+      rangeStreamOverrides = jasmine
+        .createSpy('rangeStream')
+        .and.returnValue(rangeStream);
       createStream = {
         durationStream: durationStreamOverrides,
         rangeStream: rangeStreamOverrides
       };
       chart$ = highland([]);
-      chartStreamFn = jasmine.createSpy('chartStreamFn').and.returnValue(chart$);
+      chartStreamFn = jasmine
+        .createSpy('chartStreamFn')
+        .and.returnValue(chart$);
 
       overrides = {
         qs: {
@@ -129,7 +146,11 @@ describe('chart transformer', () => {
       });
 
       it('should invoke rangeStream', () => {
-        expect(rangeStream).toHaveBeenCalledOnceWith(chart$, 1465829589123, 1465829761462);
+        expect(rangeStream).toHaveBeenCalledOnceWith(
+          chart$,
+          1465829589123,
+          1465829761462
+        );
       });
 
       it('should return a duration stream', () => {
@@ -169,9 +190,7 @@ describe('flush on change', () => {
       error
     });
 
-    s
-      .errors(fp.unary(spy))
-      .each(fp.noop);
+    s.errors(fp.unary(spy)).each(fp.noop);
 
     expect(spy).toHaveBeenCalledOnceWith(error);
   });
@@ -195,7 +214,7 @@ describe('waitForChartData', () => {
 
     source$.write(documentHidden);
     source$.write(documentVisible);
-    source$.write({x: 1});
+    source$.write({ x: 1 });
   });
 
   it('should not pass documentHidden to the stream', () => {
@@ -210,7 +229,7 @@ describe('waitForChartData', () => {
 
   it('should pass the data', () => {
     s.each(spy);
-    expect(spy).toHaveBeenCalledOnceWith({x: 1});
+    expect(spy).toHaveBeenCalledOnceWith({ x: 1 });
   });
 
   it('should catch errors', () => {
@@ -220,9 +239,7 @@ describe('waitForChartData', () => {
       error
     });
 
-    s
-      .errors(fp.unary(spy))
-      .each(fp.noop);
+    s.errors(fp.unary(spy)).each(fp.noop);
 
     expect(spy).toHaveBeenCalledOnceWith(error);
   });

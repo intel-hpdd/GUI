@@ -1,16 +1,21 @@
 import highland from 'highland';
 import hsmModule from '../../../../source/iml/hsm/hsm-module';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Add copytool modal', () => {
-  let $scope, addCopytoolModalCtrl, s, AddCopytoolModalCtrl, mod,
-    $uibModalInstance, socketStream, workerStream, fsStream, resolveStream;
+  let $scope,
+    addCopytoolModalCtrl,
+    s,
+    AddCopytoolModalCtrl,
+    mod,
+    $uibModalInstance,
+    socketStream,
+    workerStream,
+    fsStream,
+    resolveStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     socketStream = jasmine.createSpy('socketStream');
     resolveStream = jasmine.createSpy('resolveStream');
 
@@ -30,28 +35,29 @@ describe('Add copytool modal', () => {
   beforeEach(module(hsmModule));
 
   describe('add copytool modal controller', () => {
-    beforeEach(inject(($controller, $rootScope) => {
-      $scope = $rootScope.$new();
+    beforeEach(
+      inject(($controller, $rootScope) => {
+        $scope = $rootScope.$new();
 
-      $uibModalInstance = {
-        close: jasmine.createSpy('close')
-      };
+        $uibModalInstance = {
+          close: jasmine.createSpy('close')
+        };
 
-      s = highland();
-      socketStream
-        .and.returnValue(s);
+        s = highland();
+        socketStream.and.returnValue(s);
 
-      workerStream = highland();
+        workerStream = highland();
 
-      fsStream = highland();
+        fsStream = highland();
 
-      addCopytoolModalCtrl = $controller(AddCopytoolModalCtrl, {
-        $scope,
-        $uibModalInstance,
-        workerStream,
-        fsStream
-      });
-    }));
+        addCopytoolModalCtrl = $controller(AddCopytoolModalCtrl, {
+          $scope,
+          $uibModalInstance,
+          workerStream,
+          fsStream
+        });
+      })
+    );
 
     it('should expose the expected interface', () => {
       const scope = window.extendWithConstructor(AddCopytoolModalCtrl, {
@@ -67,9 +73,7 @@ describe('Add copytool modal', () => {
 
     it('should set fs on the controller', () => {
       fsStream.write({
-        objects: [
-          { foo: 'bar' }
-        ]
+        objects: [{ foo: 'bar' }]
       });
 
       expect(addCopytoolModalCtrl.filesystems).toEqual([{ foo: 'bar' }]);
@@ -77,9 +81,7 @@ describe('Add copytool modal', () => {
 
     it('should set workers on the controller', () => {
       workerStream.write({
-        objects: [
-          { bar: 'baz' }
-        ]
+        objects: [{ bar: 'baz' }]
       });
 
       expect(addCopytoolModalCtrl.workers).toEqual([{ bar: 'baz' }]);
@@ -98,10 +100,14 @@ describe('Add copytool modal', () => {
       });
 
       it('should create a new copytool', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith('/copytool', {
-          method: 'post',
-          json: copytool
-        }, true);
+        expect(socketStream).toHaveBeenCalledOnceWith(
+          '/copytool',
+          {
+            method: 'post',
+            json: copytool
+          },
+          true
+        );
       });
 
       it('should close the modal', () => {
@@ -114,13 +120,11 @@ describe('Add copytool modal', () => {
     let $uibModal, openResult, result;
 
     beforeEach(() => {
-
       openResult = {
         result: jasmine.createSpy('result')
       };
       $uibModal = {
-        open: jasmine.createSpy('open')
-          .and.returnValue(openResult)
+        open: jasmine.createSpy('open').and.returnValue(openResult)
       };
 
       result = mod.openAddCopytoolModalFactory($uibModal)();
@@ -148,14 +152,13 @@ describe('Add copytool modal', () => {
 
       beforeEach(() => {
         s = {};
-        socketStream
-          .and.returnValue(s);
+        socketStream.and.returnValue(s);
 
         rs = {};
-        resolveStream
-          .and.returnValue(rs);
+        resolveStream.and.returnValue(rs);
 
-        getResolve = (name) => $uibModal.open.calls.mostRecent().args[0].resolve[name];
+        getResolve = name =>
+          $uibModal.open.calls.mostRecent().args[0].resolve[name];
       });
 
       describe('fs stream', () => {

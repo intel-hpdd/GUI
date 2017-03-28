@@ -21,22 +21,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {
-  ADD_ERRORS,
-  ADD_IN_PROGRESS
-} from './login-form-reducer.js';
+import { ADD_ERRORS, ADD_IN_PROGRESS } from './login-form-reducer.js';
 
-import type {
-  loginFormErrorsT
-} from './login-form-reducer.js';
+import type { loginFormErrorsT } from './login-form-reducer.js';
 
-
-export const addErrors = (payload:loginFormErrorsT) => ({
+export const addErrors = (payload: loginFormErrorsT) => ({
   type: ADD_ERRORS,
   payload
 });
 
-export const addInProgress = (inProgress:boolean) => ({
+export const addInProgress = (inProgress: boolean) => ({
   type: ADD_IN_PROGRESS,
   payload: {
     inProgress

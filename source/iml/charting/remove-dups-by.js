@@ -6,8 +6,8 @@
 import * as fp from 'intel-fp';
 import _ from 'intel-lodash-mixins';
 
-export default fp.curry2(function removeDupsFactory (cmp, s) {
-  return s.uniqBy(function removeDups (a, b) {
+export default fp.curry2(function removeDupsFactory(cmp, s) {
+  return s.uniqBy(function removeDups(a, b) {
     return _.eqProp('ts', a, b) && cmp(a, b);
   });
 });

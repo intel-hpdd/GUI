@@ -5,7 +5,6 @@
 
 import _ from 'intel-lodash-mixins';
 
-
 const template = '<div class="modal-header"> \
       <h3>An Error Has Occurred!</h3> \
   </div> \
@@ -25,9 +24,8 @@ const template = '<div class="modal-header"> \
     </button> \
   </div>';
 
-export default ($uibModal) => {
+export default $uibModal => {
   'ngInject';
-
   const defaultOptions = {
     backdrop: 'static',
     controller: 'ExceptionModalCtrl',
@@ -36,7 +34,7 @@ export default ($uibModal) => {
     windowClass: 'exception-modal'
   };
 
-  return function open (opts) {
+  return function open(opts) {
     const options = _.merge(defaultOptions, opts);
 
     return $uibModal.open(options);

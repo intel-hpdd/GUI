@@ -6,9 +6,9 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import {fullScreen, fullScreenBtn} from './full-screen-directive';
+import { fullScreen, fullScreenBtn } from './full-screen-directive';
 
-export default angular.module('fullScreen', [])
+export default angular
+  .module('fullScreen', [])
   .directive('fullScreen', fullScreen)
-  .directive('fullScreenBtn', fullScreenBtn)
-  .name;
+  .directive('fullScreenBtn', fullScreenBtn).name;

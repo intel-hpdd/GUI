@@ -1,13 +1,14 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('app resolves', () => {
-  let socketStream, resolveStream,
-    promise, stream, appModule, CACHE_INITIAL_DATA;
+  let socketStream,
+    resolveStream,
+    promise,
+    stream,
+    appModule,
+    CACHE_INITIAL_DATA;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     promise = {};
     resolveStream = jasmine.createSpy('resolveStream');
     resolveStream.and.returnValue(promise);
@@ -73,15 +74,11 @@ describe('app resolves', () => {
   });
 
   describe('app session', () => {
-    let appSession, SessionModel,
-      session;
+    let appSession, SessionModel, session;
 
     beforeEach(() => {
       session = {};
-      SessionModel = jasmine
-        .createSpy('SessionModel')
-        .and
-        .returnValue(session);
+      SessionModel = jasmine.createSpy('SessionModel').and.returnValue(session);
 
       appSession = appModule.appSessionFactory(SessionModel);
     });

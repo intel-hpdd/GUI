@@ -17,8 +17,8 @@ export const appState = {
   controllerAs: 'app',
   template: appHtml,
   resolve: {
-    alertStream: ['appAlertStream', (x:Function) => x()],
-    notificationStream: ['appNotificationStream', (x:Function) => x()],
+    alertStream: ['appAlertStream', (x: Function) => x()],
+    notificationStream: ['appNotificationStream', (x: Function) => x()],
     session: ['appSession', fp.identity]
   }
 };

@@ -1,15 +1,12 @@
 import moment from 'moment';
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('buffer data newer than', () => {
   let getServerMoment, bufferDataNewerThan, spy;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     jasmine.clock().install();
 
     spy = jasmine.createSpy('spy');
@@ -89,23 +86,17 @@ describe('buffer data newer than', () => {
 
     const buff = bufferDataNewerThan(10, 'minutes');
 
-    s1
-      .through(buff)
-      .each(() => {});
+    s1.through(buff).each(() => {});
 
     s1.write({ ts: '2015-05-10T23:50:50.000Z' });
     s1.end();
     jasmine.clock().tick(1);
 
-    s2
-      .through(buff)
-      .collect()
-      .each(spy);
+    s2.through(buff).collect().each(spy);
     s2.write({ ts: '2015-05-10T23:51:50.000Z' });
     s2.write({ ts: '2015-05-10T23:52:50.000Z' });
     s2.end();
     jasmine.clock().tick(1);
-
 
     expect(spy).toHaveBeenCalledOnceWith([
       { ts: '2015-05-10T23:50:50.000Z' },

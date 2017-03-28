@@ -6,13 +6,9 @@
 // license that can be found in the LICENSE file.
 
 import store from './store/get-store.js';
-import {
-  streamToPromise
-} from './promise-transforms.js';
+import { streamToPromise } from './promise-transforms.js';
 
-import {
-  groupAllowed
-} from './auth/authorization.js';
+import { groupAllowed } from './auth/authorization.js';
 
 import type {
   TransitionServiceT,
@@ -21,20 +17,22 @@ import type {
 } from 'angular-ui-router';
 
 export type routeStateT = StateDeclarationT & {
-  data?:{
-    parent?:string,
-    anonymousReadProtected?:boolean,
-    eulaState?:boolean,
-    helpPage?:string,
-    label?:string,
-    parentName?:string,
-    access?:string
+  data?: {
+    parent?: string,
+    anonymousReadProtected?: boolean,
+    eulaState?: boolean,
+    helpPage?: string,
+    label?: string,
+    parentName?: string,
+    access?: string
   }
 };
 
-export default function routeTransitions ($transitions:TransitionServiceT, $state:StateServiceT) {
+export default function routeTransitions(
+  $transitions: TransitionServiceT,
+  $state: StateServiceT
+) {
   'ngInject';
-
   const allowAnonymousReadPredicate = {
     to: state => {
       return state.data && state.data.anonymousReadProtected === true;
@@ -42,13 +40,8 @@ export default function routeTransitions ($transitions:TransitionServiceT, $stat
   };
 
   const processAllowAnonymousRead = () =>
-    streamToPromise(
-      store
-        .select('session')
-    )
-    .then(({session}) => {
-      if (!session.read_enabled)
-        return $state.target('login');
+    streamToPromise(store.select('session')).then(({ session }) => {
+      if (!session.read_enabled) return $state.target('login');
     });
 
   const eulaStatePredicate = {
@@ -58,11 +51,7 @@ export default function routeTransitions ($transitions:TransitionServiceT, $stat
   };
 
   const processEulaState = () =>
-    streamToPromise(
-      store
-        .select('session')
-    )
-    .then(({session}) => {
+    streamToPromise(store.select('session')).then(({ session }) => {
       if (session.user && session.user.eula_state !== 'pass')
         return $state.target('login');
     });
@@ -77,13 +66,9 @@ export default function routeTransitions ($transitions:TransitionServiceT, $stat
     const authenticated = groupAllowed(transition.to().data.access);
 
     if (!authenticated)
-      return $state.target(
-        'app',
-        undefined,
-        {
-          location: true
-        }
-      );
+      return $state.target('app', undefined, {
+        location: true
+      });
   };
 
   $transitions.onStart(allowAnonymousReadPredicate, processAllowAnonymousRead);

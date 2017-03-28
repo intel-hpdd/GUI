@@ -1,38 +1,43 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 
-describe('override action click', function () {
+describe('override action click', function() {
   let record, openAddServerModal, overrideActionClick;
 
-  beforeEach(module(serverModule, function ($provide) {
-    $provide.constant('ADD_SERVER_STEPS', {
-      ADD: 'add',
-      STATUS: 'status',
-      SELECT_PROFILE: 'select profile'
-    });
-
-    openAddServerModal = jasmine.createSpy('openAddServerModal')
-      .and.returnValue({
-        resultStream: highland()
+  beforeEach(
+    module(serverModule, function($provide) {
+      $provide.constant('ADD_SERVER_STEPS', {
+        ADD: 'add',
+        STATUS: 'status',
+        SELECT_PROFILE: 'select profile'
       });
-    $provide.value('openAddServerModal', openAddServerModal);
-  }));
 
-  beforeEach(inject(function (_overrideActionClick_) {
-    overrideActionClick = _overrideActionClick_;
+      openAddServerModal = jasmine
+        .createSpy('openAddServerModal')
+        .and.returnValue({
+          resultStream: highland()
+        });
+      $provide.value('openAddServerModal', openAddServerModal);
+    })
+  );
 
-    record = {
-      state: 'undeployed',
-      install_method: 'root_password'
-    };
-  }));
+  beforeEach(
+    inject(function(_overrideActionClick_) {
+      overrideActionClick = _overrideActionClick_;
 
-  it('should be a function', function () {
+      record = {
+        state: 'undeployed',
+        install_method: 'root_password'
+      };
+    })
+  );
+
+  it('should be a function', function() {
     expect(overrideActionClick).toEqual(jasmine.any(Function));
   });
 
-  it('should fallback without an action state', function () {
-    overrideActionClick(record, {}).each(function (resp) {
+  it('should fallback without an action state', function() {
+    overrideActionClick(record, {}).each(function(resp) {
       expect(resp).toEqual('fallback');
     });
   });
@@ -74,10 +79,16 @@ describe('override action click', function () {
       },
       step: 'select profile'
     }
-  ].forEach(function testStep (data) {
-    it('should open the add server modal when needed for step ' + data.step, function () {
-      overrideActionClick(data.record, data.action);
-      expect(openAddServerModal).toHaveBeenCalledOnceWith(data.record, data.step);
-    });
+  ].forEach(function testStep(data) {
+    it(
+      'should open the add server modal when needed for step ' + data.step,
+      function() {
+        overrideActionClick(data.record, data.action);
+        expect(openAddServerModal).toHaveBeenCalledOnceWith(
+          data.record,
+          data.step
+        );
+      }
+    );
   });
 });

@@ -8,15 +8,9 @@ import positionModule from '../position/position-module';
 import helpModule from '../help-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 
-import {
-  imlTooltip,
-  helpTooltip
-} from './tooltip';
+import { imlTooltip, helpTooltip } from './tooltip';
 
-export default angular.module('iml-tooltip', [
-  positionModule, helpModule,
-  uiBootstrapModule
-])
-.directive('imlTooltip', imlTooltip)
-.directive('helpTooltip', helpTooltip)
-.name;
+export default angular
+  .module('iml-tooltip', [positionModule, helpModule, uiBootstrapModule])
+  .directive('imlTooltip', imlTooltip)
+  .directive('helpTooltip', helpTooltip).name;

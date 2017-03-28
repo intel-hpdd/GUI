@@ -1,19 +1,15 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('get copytool operation stream', () => {
   let socketStream, stream, getCopytoolOperationStream;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     stream = highland();
     spyOn(stream, 'destroy');
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and.returnValue(stream);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
 
     const mod = await mock('source/iml/hsm/get-copytool-operation-stream.js', {
       'source/iml/socket/socket-stream.js': { default: socketStream }
@@ -27,23 +23,21 @@ describe('get copytool operation stream', () => {
   it('should get a stream', () => {
     getCopytoolOperationStream();
 
-    expect(socketStream)
-      .toHaveBeenCalledOnceWith('/copytool_operation', {
-        jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
+    expect(socketStream).toHaveBeenCalledOnceWith('/copytool_operation', {
+      jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
-        qs: {
-          active: true,
-          limit: 0
-        }
-      });
+      qs: {
+        active: true,
+        limit: 0
+      }
+    });
   });
 
   it('should destroy the source stream', () => {
     const s = getCopytoolOperationStream();
     s.destroy();
 
-    expect(stream.destroy)
-      .toHaveBeenCalledOnce();
+    expect(stream.destroy).toHaveBeenCalledOnce();
   });
 
   describe('computed values', () => {
@@ -52,12 +46,13 @@ updated_at,started_at,throughput,type,state,path,description)',
     beforeEach(() => {
       const date = new Date();
       const data = {
-        objects: [{
-          processed_bytes: 12345,
-          total_bytes: 67890,
-          started_at: date.toISOString(),
-          updated_at: new Date(date.getTime() + 10000).toISOString()
-        }
+        objects: [
+          {
+            processed_bytes: 12345,
+            total_bytes: 67890,
+            started_at: date.toISOString(),
+            updated_at: new Date(date.getTime() + 10000).toISOString()
+          }
         ]
       };
 
@@ -66,7 +61,9 @@ updated_at,started_at,throughput,type,state,path,description)',
     });
 
     it('should add a progress property', () => {
-      result.through(expectStreamToContainItem({ progress: 18.18382677861246 }));
+      result.through(
+        expectStreamToContainItem({ progress: 18.18382677861246 })
+      );
     });
 
     it('should add a throughput property ', () => {

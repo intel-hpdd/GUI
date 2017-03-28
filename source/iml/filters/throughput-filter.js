@@ -5,10 +5,9 @@
 
 import formatBytes from '../number-formatters/format-bytes.js';
 
-export default function throughput () {
+export default function throughput() {
   'ngInject';
-
-  return function (bytes, bps, precision) {
+  return function(bytes, bps, precision) {
     if (bps) bytes *= 8;
 
     let result = formatBytes(bytes, precision);

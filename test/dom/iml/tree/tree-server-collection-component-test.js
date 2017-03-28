@@ -4,24 +4,17 @@ import highland from 'highland';
 
 import store from '../../../../source/iml/store/get-store.js';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
-import type {
-  $scopeT,
-  $compileT
-} from 'angular';
+import type { $scopeT, $compileT } from 'angular';
 
 describe('tree server collection component', () => {
   let mod, socketStream, socket$;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and
-      .callFake(() => socket$ = highland());
+      .and.callFake(() => socket$ = highland());
 
     jasmine.clock().install();
 
@@ -32,63 +25,63 @@ describe('tree server collection component', () => {
     });
   });
 
-  beforeEach(module('extendScope', $compileProvider => {
-    $compileProvider.component('treeServerCollection', mod.default);
-  }));
+  beforeEach(
+    module('extendScope', $compileProvider => {
+      $compileProvider.component('treeServerCollection', mod.default);
+    })
+  );
 
   let el;
 
-  beforeEach(inject(($compile:$compileT, $rootScope:$scopeT) => {
-    const $scope = $rootScope.$new();
-    const template = '<tree-server-collection parent-id="0"></tree-server-collection>';
+  beforeEach(
+    inject(($compile: $compileT, $rootScope: $scopeT) => {
+      const $scope = $rootScope.$new();
+      const template = '<tree-server-collection parent-id="0"></tree-server-collection>';
 
-    el = $compile(template)($scope)[0];
-    $scope.$digest();
-  }));
+      el = $compile(template)($scope)[0];
+      $scope.$digest();
+    })
+  );
 
   afterEach(resetAll);
 
   afterEach(() => jasmine.clock().uninstall());
 
-  afterEach(() => store.dispatch({
-    type: 'RESET_STATE'
-  }));
+  afterEach(() =>
+    store.dispatch({
+      type: 'RESET_STATE'
+    }));
 
   afterEach(() => jasmine.clock().tick(1));
 
   it('should render the collection', () => {
-    expect(el)
-      .not
-      .toBe(null);
+    expect(el).not.toBe(null);
   });
 
   it('should link to the server page', () => {
-    const route = el
-      .querySelector('a')
-      .getAttribute('ui-sref');
+    const route = el.querySelector('a').getAttribute('ui-sref');
 
-    expect(route)
-      .toBe('app.server({ resetState: true })');
+    expect(route).toBe('app.server({ resetState: true })');
   });
 
   it('should show the spinner while data is fetching', () => {
-    expect(el.querySelector('i.fa-spin'))
-      .not
-      .toBeNull();
+    expect(el.querySelector('i.fa-spin')).not.toBeNull();
   });
 
   describe('on data', () => {
     beforeEach(() => {
       store.dispatch({
         type: 'ADD_TREE_ITEMS',
-        payload: [{
-          parentTreeId: 0,
-          treeId: 1,
-          type: 'host',
-          meta: {
-            offset: 10
+        payload: [
+          {
+            parentTreeId: 0,
+            treeId: 1,
+            type: 'host',
+            meta: {
+              offset: 10
+            }
           }
-        }]
+        ]
       });
 
       socket$.write({
@@ -106,13 +99,11 @@ describe('tree server collection component', () => {
     });
 
     it('should hide the spinner when data comes in', () => {
-      expect(el.querySelector('i.fa-spin'))
-        .toBeNull();
+      expect(el.querySelector('i.fa-spin')).toBeNull();
     });
 
     it('should not show the children', () => {
-      expect(el.querySelector('.children'))
-        .toBeNull();
+      expect(el.querySelector('.children')).toBeNull();
     });
 
     describe('on click', () => {
@@ -122,15 +113,11 @@ describe('tree server collection component', () => {
       });
 
       it('should show the children', () => {
-        expect(el.querySelector('.children'))
-          .not
-          .toBeNull();
+        expect(el.querySelector('.children')).not.toBeNull();
       });
 
       it('should display the children', () => {
-        expect(el.querySelector('tree-server-item'))
-          .not
-          .toBeNull();
+        expect(el.querySelector('tree-server-item')).not.toBeNull();
       });
 
       it('should update the children list when one is removed', () => {
@@ -142,8 +129,7 @@ describe('tree server collection component', () => {
         });
         jasmine.clock().tick(1);
 
-        expect(el.querySelector('tree-server-item'))
-          .toBeNull();
+        expect(el.querySelector('tree-server-item')).toBeNull();
       });
 
       it('should update the children list when one is added', () => {
@@ -164,8 +150,7 @@ describe('tree server collection component', () => {
         });
         jasmine.clock().tick(1);
 
-        expect(el.querySelectorAll('tree-server-item').length)
-          .toBe(2);
+        expect(el.querySelectorAll('tree-server-item').length).toBe(2);
       });
     });
   });

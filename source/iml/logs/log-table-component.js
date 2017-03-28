@@ -5,10 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-
-function controller ($location:Object) {
+function controller($location: Object) {
   'ngInject';
-
   this.$onDestroy = () => this.log$.destroy();
 
   this.pageChanged = meta => {

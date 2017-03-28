@@ -1,13 +1,9 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Add server step', () => {
-  let AddServerStepCtrl,
-    addServersStep;
+  let AddServerStepCtrl, addServersStep;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/add-server-step.js', {
       'source/iml/server/assets/html/add-server-step.html!text': {
         default: 'addServerTemplate'
@@ -20,8 +16,7 @@ describe('Add server step', () => {
 
   afterEach(resetAll);
 
-  let $stepInstance,
-    addServerStepCtrl;
+  let $stepInstance, addServerStepCtrl;
 
   [
     {},
@@ -41,22 +36,20 @@ describe('Add server step', () => {
     describe('controller', () => {
       let $scope;
 
-      beforeEach(inject($rootScope => {
-        $scope = $rootScope.$new();
+      beforeEach(
+        inject($rootScope => {
+          $scope = $rootScope.$new();
 
-        $stepInstance = {
-          getState: jasmine.createSpy('getState'),
-          transition: jasmine.createSpy('transition')
-        };
+          $stepInstance = {
+            getState: jasmine.createSpy('getState'),
+            transition: jasmine.createSpy('transition')
+          };
 
-        addServerStepCtrl = new AddServerStepCtrl(
-          $scope,
-          $stepInstance,
-          {
+          addServerStepCtrl = new AddServerStepCtrl($scope, $stepInstance, {
             ...data
-          }
-        );
-      }));
+          });
+        })
+      );
 
       it('should setup the controller', () => {
         const expected = window.extendWithConstructor(AddServerStepCtrl, {
@@ -78,13 +71,16 @@ describe('Add server step', () => {
       });
 
       it('should update the fields on pdsh change', () => {
-        addServerStepCtrl.pdshUpdate('foo[01-02].com', ['foo01.com', 'foo02.com'],
-          {'foo01.com': 1, 'foo02.com': 1});
+        addServerStepCtrl.pdshUpdate(
+          'foo[01-02].com',
+          ['foo01.com', 'foo02.com'],
+          { 'foo01.com': 1, 'foo02.com': 1 }
+        );
 
         expect(addServerStepCtrl.fields).toEqual({
           auth_type: 'existing_keys_choice',
           pdsh: 'foo[01-02].com',
-          addresses: [ 'foo01.com', 'foo02.com' ]
+          addresses: ['foo01.com', 'foo02.com']
         });
       });
 
@@ -107,17 +103,19 @@ describe('Add server step', () => {
             }
           };
 
-          expect($stepInstance.transition)
-            .toHaveBeenCalledOnceWith('next', expected);
+          expect($stepInstance.transition).toHaveBeenCalledOnceWith(
+            'next',
+            expected
+          );
         });
       });
     });
 
-    function getDataInstallMethod (data) {
-      return (data.servers) ? data.servers.auth_type : 'existing_keys_choice';
+    function getDataInstallMethod(data) {
+      return data.servers ? data.servers.auth_type : 'existing_keys_choice';
     }
 
-    function getPdshExpression (data) {
+    function getPdshExpression(data) {
       return data.pdsh;
     }
   });

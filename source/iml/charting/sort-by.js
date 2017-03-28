@@ -5,8 +5,6 @@
 
 import * as fp from 'intel-fp';
 
-export default fp.curry2(function sortBy (cmp, s) {
-  return s.collect()
-    .invoke('sort', [cmp])
-    .sequence();
+export default fp.curry2(function sortBy(cmp, s) {
+  return s.collect().invoke('sort', [cmp]).sequence();
 });

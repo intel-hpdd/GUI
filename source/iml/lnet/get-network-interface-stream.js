@@ -10,10 +10,9 @@ import LNET_OPTIONS from './lnet-options.js';
 
 import * as fp from 'intel-fp';
 
-export default function getNetworkInterfaceStream (params:{}) {
-  return socketStream('/network_interface', params || {})
-    .pluck('objects')
-    .map(fp.map(function setNidIfEmpty (x) {
+export default function getNetworkInterfaceStream(params: {}) {
+  return socketStream('/network_interface', params || {}).pluck('objects').map(
+    fp.map(function setNidIfEmpty(x) {
       if (!x.nid)
         x.nid = {
           lnd_type: x.lnd_types[0],
@@ -22,5 +21,6 @@ export default function getNetworkInterfaceStream (params:{}) {
         };
 
       return x;
-    }));
+    })
+  );
 }

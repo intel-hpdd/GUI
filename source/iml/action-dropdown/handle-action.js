@@ -7,24 +7,20 @@ import _ from 'intel-lodash-mixins';
 
 import socketStream from '../socket/socket-stream.js';
 
-export default function handleActionFactory (openConfirmActionModal) {
+export default function handleActionFactory(openConfirmActionModal) {
   'ngInject';
-
   /**
    * Performs the given action
    * @param {Object} record
    * @param {Object} action
    * @returns {Highland.Stream}
    */
-  return function handleAction (record, action) {
+  return function handleAction(record, action) {
     let method;
 
-    if (action.class_name)
-      method = executeJob;
-    else if (action.param_key)
-      method = setConfParam;
-    else
-      method = changeState;
+    if (action.class_name) method = executeJob;
+    else if (action.param_key) method = setConfParam;
+    else method = changeState;
 
     return method(socketStream, record, action);
   };
@@ -36,16 +32,21 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @param  {Object} action
    * @returns {Object}
    */
-  function executeJob (socketStream, record, action) {
+  function executeJob(socketStream, record, action) {
     const message = `${action.verb}(${record.label})`;
 
-    const jobSender = _.partial(socketStream, '/command', {
-      method: 'post',
-      json: {
-        jobs: [_.pick(action, 'class_name', 'args')],
-        message: message
-      }
-    }, true);
+    const jobSender = _.partial(
+      socketStream,
+      '/command',
+      {
+        method: 'post',
+        json: {
+          jobs: [_.pick(action, 'class_name', 'args')],
+          message: message
+        }
+      },
+      true
+    );
 
     return confirmAction({
       action: jobSender,
@@ -62,24 +63,23 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @param {Object} action
    * @returns {Object}
    */
-  function changeState (socketStream, record, action) {
-    const sendStateChange = _.partial(function sendStateChange (isDryRun) {
+  function changeState(socketStream, record, action) {
+    const sendStateChange = _.partial(function sendStateChange(isDryRun) {
       const data = {
         method: 'put',
         json: { state: action.state }
       };
 
-      if (isDryRun)
-        data.json.dry_run = true;
+      if (isDryRun) data.json.dry_run = true;
 
       return socketStream(record.resource_uri, data, true);
     });
 
     return sendStateChange(true)
-      .filter(function filterEmpty (x) {
+      .filter(function filterEmpty(x) {
         return x.transition_job != null;
       })
-      .map(function buildConfirmInfo (x) {
+      .map(function buildConfirmInfo(x) {
         const confirm = {
           action: sendStateChange,
           message: x.transition_job.description,
@@ -88,9 +88,8 @@ export default function handleActionFactory (openConfirmActionModal) {
         };
 
         if (x.dependency_jobs.length > 0) {
-          confirm.prompts = x.dependency_jobs.map(function buildPrompts (job) {
-            if (job.requires_confirmation)
-              confirm.required = true;
+          confirm.prompts = x.dependency_jobs.map(function buildPrompts(job) {
+            if (job.requires_confirmation) confirm.required = true;
 
             return job.description;
           });
@@ -113,17 +112,21 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @param {Object} action
    * @returns {Highland.Stream}
    */
-  function setConfParam (socketStream, record, action) {
+  function setConfParam(socketStream, record, action) {
     record = action.mdt;
 
     record.conf_params[action.param_key] = action.param_value;
 
     const path = `/${record.resource}/${record.id}`;
 
-    return socketStream(path, {
-      method: 'put',
-      json: record
-    }, true);
+    return socketStream(
+      path,
+      {
+        method: 'put',
+        json: record
+      },
+      true
+    );
   }
 
   /**
@@ -132,23 +135,20 @@ export default function handleActionFactory (openConfirmActionModal) {
    * @param {{ action: String, message: String, prompts: [], required: Boolean }} confirm
    * @returns {Highland.Stream}
    */
-  function confirmAction (confirm) {
-    if (!confirm.required)
-      return confirm.action();
+  function confirmAction(confirm) {
+    if (!confirm.required) return confirm.action();
 
     return openConfirmActionModal(confirm.message, confirm.prompts).resultStream
-      .errors(function handleCancel (err, push) {
-        if (err === 'cancel')
-          return;
+      .errors(function handleCancel(err, push) {
+        if (err === 'cancel') return;
 
         push(err);
       })
       .filter(_.isBoolean)
-      .flatMap(function runAction (skip) {
+      .flatMap(function runAction(skip) {
         const sendDataIfNotSkipping = _.if(_.fidentity(!skip), _.identity);
 
-        return confirm.action()
-          .map(sendDataIfNotSkipping);
+        return confirm.action().map(sendDataIfNotSkipping);
       });
   }
 }

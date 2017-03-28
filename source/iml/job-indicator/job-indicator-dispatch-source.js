@@ -7,13 +7,9 @@
 
 import store from '../store/get-store.js';
 
-import {
-  ADD_JOB_INDICATOR_ITEMS
-} from './job-indicator-module.js';
+import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator-module.js';
 
-import {
-  ALLOW_ANONYMOUS_READ
-} from '../environment.js';
+import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 
 import socketStream from '../socket/socket-stream.js';
 
@@ -25,8 +21,9 @@ if (ALLOW_ANONYMOUS_READ)
       state__in: ['pending', 'tasked']
     }
   })
-  .map(x => x.objects)
-  .each(payload => store.dispatch({
-    type: ADD_JOB_INDICATOR_ITEMS,
-    payload
-  }));
+    .map(x => x.objects)
+    .each(payload =>
+      store.dispatch({
+        type: ADD_JOB_INDICATOR_ITEMS,
+        payload
+      }));

@@ -19,9 +19,9 @@ export default (requestRange, buff) => {
 
     socketStream('/host/metric', params, true)
       .flatten()
-      .map(function calculateCpuAndRam (x) {
+      .map(function calculateCpuAndRam(x) {
         const cpuSum = x.data.cpu_user + x.data.cpu_system + x.data.cpu_iowait;
-        x.data.cpu = (x.data.cpu_total ? (cpuSum / x.data.cpu_total) : 0.0);
+        x.data.cpu = x.data.cpu_total ? cpuSum / x.data.cpu_total : 0.0;
 
         const usedMemory = x.data.mem_MemTotal - x.data.mem_MemFree;
         x.data.ram = usedMemory / x.data.mem_MemTotal;
@@ -32,7 +32,7 @@ export default (requestRange, buff) => {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(['cpu', 'ram']))
-      .each(function pushData (x) {
+      .each(function pushData(x) {
         push(null, x);
         next();
       });

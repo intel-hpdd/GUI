@@ -5,8 +5,8 @@
 
 import _ from 'intel-lodash-mixins';
 
-export default function roundData (s) {
-  return s.map(function roundData (x) {
+export default function roundData(s) {
+  return s.map(function roundData(x) {
     x.data = _.mapValues(x.data, Math.round);
 
     return x;

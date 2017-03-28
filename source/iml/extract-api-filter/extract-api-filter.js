@@ -8,5 +8,5 @@
 import extractApi from 'intel-extract-api';
 import * as fp from 'intel-fp';
 
-type stringFn = (resourceUri:string) => string;
-export default ():stringFn => fp.memoize(extractApi);
+type stringFn = (resourceUri: string) => string;
+export default (): stringFn => fp.memoize(extractApi);

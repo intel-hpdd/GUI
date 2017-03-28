@@ -7,10 +7,9 @@
 
 import global from '../global.js';
 
-export function Controller () {
+export function Controller() {
   'ngInject';
-
-  const onMove = (ev:MouseEvent) => {
+  const onMove = (ev: MouseEvent) => {
     this.rootPanel.onChange(ev.clientX);
   };
 

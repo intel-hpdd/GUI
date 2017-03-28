@@ -1,80 +1,79 @@
-import {
-  mock,
-  resetAll
-} from '../../system-mock.js';
+import { mock, resetAll } from '../../system-mock.js';
 
 describe('ui loader view directive', () => {
-  let mod,
-    t,
-    $transitions,
-    $animate,
-    onStartDestructor;
+  let mod, t, $transitions, $animate, onStartDestructor;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     mod = await mock('source/iml/ui-loader-view-directive.js', {});
   });
 
   afterEach(resetAll);
 
-  beforeEach(module(($compileProvider, $provide) => {
-    onStartDestructor = jasmine.createSpy('onStartDestructor');
+  beforeEach(
+    module(($compileProvider, $provide) => {
+      onStartDestructor = jasmine.createSpy('onStartDestructor');
 
-    t = {
-      from: jasmine
-        .createSpy('from'),
-      to: jasmine
-        .createSpy('to')
-    };
+      t = {
+        from: jasmine.createSpy('from'),
+        to: jasmine.createSpy('to')
+      };
 
-    $transitions = {
-      onStart: jasmine
-        .createSpy('onStart')
-        .and
-        .returnValue(onStartDestructor)
-    };
+      $transitions = {
+        onStart: jasmine.createSpy('onStart').and.returnValue(onStartDestructor)
+      };
 
-    $provide.value('$transitions', $transitions);
+      $provide.value('$transitions', $transitions);
 
-    $animate = {
-      leave: jasmine.createSpy('leave'),
-      on: jasmine.createSpy('on'),
-      off: jasmine.createSpy('off'),
-      addClass: jasmine.createSpy('addClass')
-        .and.callFake((x, y) => {
+      $animate = {
+        leave: jasmine.createSpy('leave'),
+        on: jasmine.createSpy('on'),
+        off: jasmine.createSpy('off'),
+        addClass: jasmine.createSpy('addClass').and.callFake((x, y) => {
           x[0].classList.add(y);
         }),
-      removeClass: jasmine.createSpy('removeClass')
-        .and.callFake((x, y) => {
+        removeClass: jasmine.createSpy('removeClass').and.callFake((x, y) => {
           x[0].classList.remove(y);
         })
-    };
+      };
 
-    $provide.value('$animate', $animate);
+      $provide.value('$animate', $animate);
 
-    $compileProvider.directive('uiLoaderView', mod.default);
-  }));
+      $compileProvider.directive('uiLoaderView', mod.default);
+    })
+  );
 
-  let el, $scope, $scope2, $scope3, $compile, uiView, appView, subView,
-    uiLoaderRootView, uiLoaderAppView, uiLoaderSubView,
+  let el,
+    $scope,
+    $scope2,
+    $scope3,
+    $compile,
+    uiView,
+    appView,
+    subView,
+    uiLoaderRootView,
+    uiLoaderAppView,
+    uiLoaderSubView,
     uiLoaderAppViewContainer;
 
-  beforeEach(inject((_$compile_, $rootScope) => {
-    $compile = _$compile_;
-    $scope = $rootScope.$new();
-    $scope2 = $rootScope.$new();
-    $scope3 = $rootScope.$new();
-    const template = `
+  beforeEach(
+    inject((_$compile_, $rootScope) => {
+      $compile = _$compile_;
+      $scope = $rootScope.$new();
+      $scope2 = $rootScope.$new();
+      $scope3 = $rootScope.$new();
+      const template = `
       <div>
         <ui-loader-view load-once="true"></ui-loader-view>
       </div>
     `;
 
-    el = $compile(template)($scope)[0];
-    $scope.$digest();
+      el = $compile(template)($scope)[0];
+      $scope.$digest();
 
-    uiLoaderRootView = el.querySelector('ui-loader-view');
-    uiView = el.querySelector('[ui-view]');
-  }));
+      uiLoaderRootView = el.querySelector('ui-loader-view');
+      uiView = el.querySelector('[ui-view]');
+    })
+  );
 
   describe('loading the page', () => {
     beforeEach(() => {
@@ -86,10 +85,7 @@ describe('ui loader view directive', () => {
         name: 'app.dashboard'
       });
 
-      $transitions
-        .onStart
-        .calls
-        .argsFor(0)[1](t);
+      $transitions.onStart.calls.argsFor(0)[1](t);
 
       $scope.$digest();
     });
@@ -104,10 +100,7 @@ describe('ui loader view directive', () => {
 
     describe('transitioning to a new page', () => {
       beforeEach(() => {
-        $animate
-          .on
-          .calls
-          .argsFor(0)[2](createElementSpy(uiView), 'start');
+        $animate.on.calls.argsFor(0)[2](createElementSpy(uiView), 'start');
 
         uiLoaderAppViewContainer = document.createElement('div');
 
@@ -130,15 +123,9 @@ describe('ui loader view directive', () => {
           name: 'app.server'
         });
 
-        $transitions
-          .onStart
-          .calls
-          .argsFor(1)[1](t);
+        $transitions.onStart.calls.argsFor(1)[1](t);
 
-        $transitions
-          .onStart
-          .calls
-          .argsFor(2)[1](t);
+        $transitions.onStart.calls.argsFor(2)[1](t);
 
         $scope.$digest();
         $scope2.$digest();
@@ -171,15 +158,9 @@ describe('ui loader view directive', () => {
 
       describe('after completing the transition', () => {
         beforeEach(() => {
-          $animate
-            .on
-            .calls
-            .argsFor(1)[2](createElementSpy(appView), 'start');
+          $animate.on.calls.argsFor(1)[2](createElementSpy(appView), 'start');
 
-          $animate
-            .on
-            .calls
-            .argsFor(2)[2](createElementSpy(subView), 'start');
+          $animate.on.calls.argsFor(2)[2](createElementSpy(subView), 'start');
 
           $scope.$digest();
           $scope2.$digest();
@@ -191,7 +172,9 @@ describe('ui loader view directive', () => {
         });
 
         it('should not have a "waiting" class on appView parent', () => {
-          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(false);
+          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(
+            false
+          );
         });
 
         it('should not have a "waiting" class on the app view', () => {
@@ -206,10 +189,7 @@ describe('ui loader view directive', () => {
 
     describe('transitioning to a new state within the same page', () => {
       beforeEach(() => {
-        $animate
-          .on
-          .calls
-          .argsFor(0)[2](createElementSpy(uiView), 'start');
+        $animate.on.calls.argsFor(0)[2](createElementSpy(uiView), 'start');
 
         uiLoaderAppViewContainer = document.createElement('div');
 
@@ -232,15 +212,9 @@ describe('ui loader view directive', () => {
           name: 'app.dashboard.server'
         });
 
-        $transitions
-          .onStart
-          .calls
-          .argsFor(1)[1](t);
+        $transitions.onStart.calls.argsFor(1)[1](t);
 
-        $transitions
-          .onStart
-          .calls
-          .argsFor(2)[1](t);
+        $transitions.onStart.calls.argsFor(2)[1](t);
 
         $scope.$digest();
         $scope2.$digest();
@@ -273,15 +247,9 @@ describe('ui loader view directive', () => {
 
       describe('after completing the transition', () => {
         beforeEach(() => {
-          $animate
-            .on
-            .calls
-            .argsFor(1)[2](createElementSpy(appView), 'start');
+          $animate.on.calls.argsFor(1)[2](createElementSpy(appView), 'start');
 
-          $animate
-            .on
-            .calls
-            .argsFor(2)[2](createElementSpy(subView), 'start');
+          $animate.on.calls.argsFor(2)[2](createElementSpy(subView), 'start');
 
           $scope.$digest();
           $scope2.$digest();
@@ -293,7 +261,9 @@ describe('ui loader view directive', () => {
         });
 
         it('should not have a "waiting" class on appView parent', () => {
-          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(false);
+          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(
+            false
+          );
         });
 
         it('should not have a "waiting" class on the app view', () => {
@@ -316,7 +286,10 @@ describe('ui loader view directive', () => {
       });
 
       it('should call $animate.off', () => {
-        expect($animate.off).toHaveBeenCalledOnceWith('enter', uiLoaderRootView);
+        expect($animate.off).toHaveBeenCalledOnceWith(
+          'enter',
+          uiLoaderRootView
+        );
       });
     });
   });
@@ -324,8 +297,7 @@ describe('ui loader view directive', () => {
 
 function createElementSpy(itemToReturn) {
   return {
-    get: jasmine.createSpy('get')
-      .and.callFake(() => itemToReturn),
+    get: jasmine.createSpy('get').and.callFake(() => itemToReturn),
     0: itemToReturn
   };
 }

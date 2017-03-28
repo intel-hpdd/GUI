@@ -5,10 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  jobstats$,
-  getData
-} from './job-stats-resolves.js';
+import { jobstats$, getData } from './job-stats-resolves.js';
 
 export const jobStatsState = {
   name: 'app.jobstats',

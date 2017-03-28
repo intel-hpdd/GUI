@@ -7,15 +7,16 @@
 
 export const ADD_TARGET_ITEMS = 'ADD_TARGET_ITEMS';
 
-import type {
-  ActionT
-} from '../store/store-module.js';
+import type { ActionT } from '../store/store-module.js';
 
-export default function targetReducer (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+export default function targetReducer(
+  state: Array<Object> = [],
+  { type, payload }: ActionT
+): Array<Object> {
   switch (type) {
-  case ADD_TARGET_ITEMS:
-    return payload;
-  default:
-    return state;
+    case ADD_TARGET_ITEMS:
+      return payload;
+    default:
+      return state;
   }
 }

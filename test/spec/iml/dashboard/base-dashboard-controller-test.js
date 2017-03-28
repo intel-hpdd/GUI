@@ -1,43 +1,40 @@
 import highland from 'highland';
 
-import baseDashboardModule from '../../../../source/iml/dashboard/base-dashboard-module';
-import BaseDashboardCtrl from '../../../../source/iml/dashboard/base-dashboard-controller';
+import baseDashboardModule
+  from '../../../../source/iml/dashboard/base-dashboard-module';
+import BaseDashboardCtrl
+  from '../../../../source/iml/dashboard/base-dashboard-controller';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('base dashboard controller', () => {
   beforeEach(module(baseDashboardModule));
 
-  let $scope,
-    fsStream,
-    charts,
-    baseDashboardCtrl,
-    chart;
+  let $scope, fsStream, charts, baseDashboardCtrl, chart;
 
-  beforeEach(inject(($controller, $rootScope) => {
-    fsStream = highland();
-    spyOn(fsStream, 'destroy');
+  beforeEach(
+    inject(($controller, $rootScope) => {
+      fsStream = highland();
+      spyOn(fsStream, 'destroy');
 
-    $scope = $rootScope.$new();
-    spyOn($scope, 'localApply');
-    spyOn($scope, 'handleException');
+      $scope = $rootScope.$new();
+      spyOn($scope, 'localApply');
+      spyOn($scope, 'handleException');
 
-    chart = {
-      stream: {
-        destroy: jasmine.createSpy('destroy')
-      }
-    };
+      chart = {
+        stream: {
+          destroy: jasmine.createSpy('destroy')
+        }
+      };
 
-    charts = [
-      Object.create(chart),
-      Object.create(chart)
-    ];
+      charts = [Object.create(chart), Object.create(chart)];
 
-    baseDashboardCtrl = $controller('BaseDashboardCtrl', {
-      $scope,
-      fsB: broadcaster(fsStream),
-      charts
-    });
-  }));
+      baseDashboardCtrl = $controller('BaseDashboardCtrl', {
+        $scope,
+        fsB: broadcaster(fsStream),
+        charts
+      });
+    })
+  );
 
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(BaseDashboardCtrl, {
@@ -46,8 +43,7 @@ describe('base dashboard controller', () => {
       charts: charts
     });
 
-    expect(baseDashboardCtrl)
-      .toEqual(scope);
+    expect(baseDashboardCtrl).toEqual(scope);
   });
 
   describe('streaming data', () => {
@@ -56,14 +52,16 @@ describe('base dashboard controller', () => {
     });
 
     it('should wire up the fs stream', () => {
-      expect(baseDashboardCtrl.fs).toEqual([{
-        id: 1,
-        STATES: Object.freeze({
-          MONITORED: 'monitored',
-          MANAGED: 'managed'
-        }),
-        state: 'managed'
-      }]);
+      expect(baseDashboardCtrl.fs).toEqual([
+        {
+          id: 1,
+          STATES: Object.freeze({
+            MONITORED: 'monitored',
+            MANAGED: 'managed'
+          }),
+          state: 'managed'
+        }
+      ]);
     });
   });
 
@@ -77,8 +75,7 @@ describe('base dashboard controller', () => {
     });
 
     it('should destroy the charts', () => {
-      expect(chart.stream.destroy)
-        .toHaveBeenCalledTwice();
+      expect(chart.stream.destroy).toHaveBeenCalledTwice();
     });
   });
 });

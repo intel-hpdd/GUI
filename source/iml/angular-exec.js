@@ -24,28 +24,30 @@
 import highland from 'highland';
 import angular from 'angular';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 type stateServiceT = {
-  go:(name:string) => void
+  go: (name: string) => void
 };
 
 type cacheT = {
-  '$state'?:stateServiceT
+  '$state'?: stateServiceT
 };
 
-const cache:cacheT = {};
+const cache: cacheT = {};
 
 type servicesT = '$state';
 type methodsT = 'go';
 
-export default <R>(service:servicesT, method:methodsT, ...args:any[]):HighlandStreamT<R> => {
-  const s:HighlandStreamT<R> = highland();
+export default <R>(
+  service: servicesT,
+  method: methodsT,
+  ...args: any[]
+): HighlandStreamT<R> => {
+  const s: HighlandStreamT<R> = highland();
   const inj = angular.element(document.body).injector();
 
-  function loop () {
+  function loop() {
     if (cache[service]) {
       const fn = cache[service][method];
       s.write(fn(...args));

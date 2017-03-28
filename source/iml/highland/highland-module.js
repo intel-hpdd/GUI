@@ -11,5 +11,4 @@ import highland from 'highland';
 export default angular
   .module('highland', [])
   .value('λ', highland)
-  .value('highland', highland)
-  .name;
+  .value('highland', highland).name;

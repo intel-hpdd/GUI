@@ -1,51 +1,50 @@
-import helpMapperModule from '../../../../source/iml/help-mapper/help-mapper-module.js';
+import helpMapperModule
+  from '../../../../source/iml/help-mapper/help-mapper-module.js';
 
 describe('help mapper', () => {
   let $state, $transitions;
 
-  beforeEach(module(helpMapperModule, $provide => {
-    $state = {
-      $current: {
-        data: {
-
+  beforeEach(
+    module(helpMapperModule, $provide => {
+      $state = {
+        $current: {
+          data: {}
         }
-      }
-    };
+      };
 
-    $transitions = {
-      onSuccess: jasmine.createSpy('onSuccess')
-    };
+      $transitions = {
+        onSuccess: jasmine.createSpy('onSuccess')
+      };
 
-    $provide.value('$transitions', $transitions);
-    $provide.value('$state', $state);
-  }));
+      $provide.value('$transitions', $transitions);
+      $provide.value('$state', $state);
+    })
+  );
 
   let el, $scope;
 
-  beforeEach(inject(($compile, $rootScope) => {
-    $scope = $rootScope.$new();
+  beforeEach(
+    inject(($compile, $rootScope) => {
+      $scope = $rootScope.$new();
 
-    const template = '<li help-mapper></li>';
-    el = $compile(template)($scope)[0];
-    $rootScope.$digest();
-  }));
+      const template = '<li help-mapper></li>';
+      el = $compile(template)($scope)[0];
+      $rootScope.$digest();
+    })
+  );
 
   it('should append an anchor', () => {
-    expect(el.querySelector('a'))
-      .not.toBeNull();
+    expect(el.querySelector('a')).not.toBeNull();
   });
 
   it('should not end with a qs', () => {
-    expect(el.querySelector('a').getAttribute('ng-href'))
-      .toBe('/static/webhelp/');
+    expect(el.querySelector('a').getAttribute('ng-href')).toBe(
+      '/static/webhelp/'
+    );
   });
 
   it('should end with a qs on matching route change', () => {
-    const fn = $transitions
-      .onSuccess
-      .calls
-      .mostRecent()
-      .args[1];
+    const fn = $transitions.onSuccess.calls.mostRecent().args[1];
 
     fn({
       router: {
@@ -61,7 +60,8 @@ describe('help mapper', () => {
 
     $scope.$digest();
 
-    expect(el.querySelector('a').getAttribute('ng-href'))
-    .toBe('/static/webhelp/?server_tab.htm');
+    expect(el.querySelector('a').getAttribute('ng-href')).toBe(
+      '/static/webhelp/?server_tab.htm'
+    );
   });
 });

@@ -5,41 +5,44 @@
 
 import angular from 'angular';
 
-import fullScreenButtonTextTemplate from './assets/html/full-screen-button-text.html!text';
+import fullScreenButtonTextTemplate
+  from './assets/html/full-screen-button-text.html!text';
 
-export function fullScreenBtn () {
+export function fullScreenBtn() {
   return {
     restrict: 'A',
     template: fullScreenButtonTextTemplate,
     require: '^fullScreen',
     scope: {},
-    link: function link (scope, wrappedEl, attrs, fullScreenCtrl) {
+    link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {
       scope.fullScreenCtrl = fullScreenCtrl;
 
-      const applyAndToggleFullScreen = scope.$apply.bind(scope, toggleFullScreen);
+      const applyAndToggleFullScreen = scope.$apply.bind(
+        scope,
+        toggleFullScreen
+      );
 
       clickHandler('on');
       scope.$on('$destroy', clickHandler.bind(null, 'off'));
 
-      function toggleFullScreen () {
+      function toggleFullScreen() {
         scope.fullScreenCtrl.isFullScreen = !scope.fullScreenCtrl.isFullScreen;
 
         fullScreenCtrl.fullScreen(scope.fullScreenCtrl.isFullScreen);
       }
 
-      function clickHandler (type) {
+      function clickHandler(type) {
         wrappedEl[type]('click', applyAndToggleFullScreen);
       }
     }
   };
 }
 
-export function fullScreen () {
+export function fullScreen() {
   return {
     restrict: 'C',
-    controller: function FullScreenCtrl ($element, $scope, $document) {
+    controller: function FullScreenCtrl($element, $scope, $document) {
       'ngInject';
-
       let body = $document.find('body');
       const fullScreenContainerClass = 'full-screen-container';
       const listeners = [];
@@ -53,21 +56,20 @@ export function fullScreen () {
 
       angular.extend(this, {
         isFullScreen: false,
-        fullScreen (fullScreenMode) {
+        fullScreen(fullScreenMode) {
           this.isFullScreen = fullScreenMode;
           body.toggleClass(fullScreenContainerClass, fullScreenMode);
           $element.toggleClass('active', fullScreenMode);
 
-          listeners.forEach((func) => func(fullScreenMode));
+          listeners.forEach(func => func(fullScreenMode));
         },
-        addListener (func) {
+        addListener(func) {
           listeners.push(func);
         },
-        removeListener (func) {
+        removeListener(func) {
           const index = listeners.indexOf(func);
 
-          if (index !== -1)
-            listeners.splice(index, 1);
+          if (index !== -1) listeners.splice(index, 1);
         }
       });
     }

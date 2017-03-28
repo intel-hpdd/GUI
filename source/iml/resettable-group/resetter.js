@@ -5,23 +5,25 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type {ResettableGroupController} from './resettable-group';
+import type { ResettableGroupController } from './resettable-group';
 
 type scp = {
-  $on:(evt:string, callback:() => void) => void
+  $on: (evt: string, callback: () => void) => void
 };
 
 export default () => {
   'ngInject';
-
   return {
     restrict: 'A',
     scope: {},
     require: '^resettableGroup',
-    link: (scope:scp, element:Array<HTMLElement>, attrs:Object,
-      resettableGroupCtrl:ResettableGroupController) => {
-
-      function onClick () {
+    link: (
+      scope: scp,
+      element: Array<HTMLElement>,
+      attrs: Object,
+      resettableGroupCtrl: ResettableGroupController
+    ) => {
+      function onClick() {
         resettableGroupCtrl.reset();
       }
 

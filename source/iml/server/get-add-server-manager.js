@@ -5,9 +5,13 @@
 
 import _ from 'intel-lodash-mixins';
 
-export function addServerStepsFactory (ADD_SERVER_STEPS, addServersStep, serverStatusStep, selectServerProfileStep) {
+export function addServerStepsFactory(
+  ADD_SERVER_STEPS,
+  addServersStep,
+  serverStatusStep,
+  selectServerProfileStep
+) {
   'ngInject';
-
   const steps = {};
   steps[ADD_SERVER_STEPS.ADD] = addServersStep;
   steps[ADD_SERVER_STEPS.STATUS] = serverStatusStep;
@@ -16,16 +20,19 @@ export function addServerStepsFactory (ADD_SERVER_STEPS, addServersStep, serverS
   return steps;
 }
 
-export function getAddServerManagerFactory (addServerSteps, stepsManager, waitUntilLoadedStep, ADD_SERVER_STEPS) {
+export function getAddServerManagerFactory(
+  addServerSteps,
+  stepsManager,
+  waitUntilLoadedStep,
+  ADD_SERVER_STEPS
+) {
   'ngInject';
-
-  return function getAddServerManager () {
+  return function getAddServerManager() {
     const manager = stepsManager();
 
-    _.pairs(addServerSteps)
-      .forEach(function addStep (pair) {
-        manager.addStep(pair[0], pair[1]);
-      });
+    _.pairs(addServerSteps).forEach(function addStep(pair) {
+      manager.addStep(pair[0], pair[1]);
+    });
 
     manager.addWaitingStep(waitUntilLoadedStep);
     manager.SERVER_STEPS = ADD_SERVER_STEPS;

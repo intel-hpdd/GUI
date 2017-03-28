@@ -9,8 +9,6 @@ import angular from 'angular';
 import helpModule from '../help-module';
 import AboutCtrl from './about-controller';
 
-export default angular.module('about', [
-  helpModule
-])
-.controller('AboutCtrl', AboutCtrl)
-.name;
+export default angular
+  .module('about', [helpModule])
+  .controller('AboutCtrl', AboutCtrl).name;

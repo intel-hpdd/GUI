@@ -2,14 +2,11 @@ import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
 import * as fp from 'intel-fp';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('Server Status Step', () => {
   let mod, resolveStream;
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     resolveStream = jasmine.createSpy('resolveStream');
 
     mod = await mock('source/iml/server/server-status-step.js', {
@@ -29,54 +26,56 @@ describe('Server Status Step', () => {
   describe('controller', () => {
     let $stepInstance, data, serverStatus, testHostStream, hostlistFilter;
 
-    beforeEach(inject(($rootScope, $controller) => {
-      const $scope = $rootScope.$new();
+    beforeEach(
+      inject(($rootScope, $controller) => {
+        const $scope = $rootScope.$new();
 
-      $stepInstance = {
-        transition: jasmine.createSpy('transition')
-      };
+        $stepInstance = {
+          transition: jasmine.createSpy('transition')
+        };
 
-      testHostStream = highland();
-      spyOn(testHostStream, 'destroy');
+        testHostStream = highland();
+        spyOn(testHostStream, 'destroy');
 
-      data = {
-        pdsh: 'storage0.localdomain'
-      };
+        data = {
+          pdsh: 'storage0.localdomain'
+        };
 
-      hostlistFilter = {
-        setHash: jasmine
-          .createSpy('setHash')
-          .and
-          .callFake(returnHostlistFilter),
-        setHosts: jasmine
-          .createSpy('setHosts')
-          .and
-          .callFake(returnHostlistFilter),
-        compute: jasmine
-          .createSpy('compute')
-      };
+        hostlistFilter = {
+          setHash: jasmine
+            .createSpy('setHash')
+            .and.callFake(returnHostlistFilter),
+          setHosts: jasmine
+            .createSpy('setHosts')
+            .and.callFake(returnHostlistFilter),
+          compute: jasmine.createSpy('compute')
+        };
 
-      function returnHostlistFilter () {
-        return hostlistFilter;
-      }
+        function returnHostlistFilter() {
+          return hostlistFilter;
+        }
 
-      serverStatus = $controller(mod.ServerStatusStepCtrl, {
-        $scope,
-        $stepInstance,
-        data,
-        testHostStream,
-        hostlistFilter
-      });
-    }));
+        serverStatus = $controller(mod.ServerStatusStepCtrl, {
+          $scope,
+          $stepInstance,
+          data,
+          testHostStream,
+          hostlistFilter
+        });
+      })
+    );
 
     it('should set the pdsh expression on the scope', () => {
       expect(serverStatus.pdsh).toEqual(data.pdsh);
     });
 
     it('should set hostnamesHash', () => {
-      serverStatus.pdshUpdate('foo,bar', ['foo', 'bar'], {'foo': 1, 'bar': 1});
+      serverStatus.pdshUpdate('foo,bar', ['foo', 'bar'], { foo: 1, bar: 1 });
 
-      expect(hostlistFilter.setHash).toHaveBeenCalledOnceWith({foo: 1, bar: 1});
+      expect(hostlistFilter.setHash).toHaveBeenCalledOnceWith({
+        foo: 1,
+        bar: 1
+      });
     });
 
     describe('transitioning', () => {
@@ -103,8 +102,8 @@ describe('Server Status Step', () => {
         response = {
           valid: false,
           objects: [
-            { address: 'test001.localdomain'},
-            { address: 'test0011.localdomain'},
+            { address: 'test001.localdomain' },
+            { address: 'test0011.localdomain' },
             { address: 'test003.localdomain' },
             { address: 'test0015.localdomain' },
             { address: 'test005.localdomain' }
@@ -115,7 +114,9 @@ describe('Server Status Step', () => {
       });
 
       it('should set the hosts on the filter', () => {
-        expect(hostlistFilter.setHosts).toHaveBeenCalledOnceWith(response.objects);
+        expect(hostlistFilter.setHosts).toHaveBeenCalledOnceWith(
+          response.objects
+        );
       });
 
       it('should set status validity', () => {
@@ -134,7 +135,12 @@ describe('Server Status Step', () => {
       expect(serverStatusStep).toEqual({
         template: 'serverStatusStepTemplate',
         controller: 'ServerStatusStepCtrl as serverStatus',
-        onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', jasmine.any(Function)],
+        onEnter: [
+          'data',
+          'getTestHostStream',
+          'serversToApiObjects',
+          jasmine.any(Function)
+        ],
         transition: jasmine.any(Function)
       });
     });
@@ -143,20 +149,23 @@ describe('Server Status Step', () => {
       let data, getTestHostStream, onEnter, serversToApiObjects;
 
       beforeEach(() => {
-        getTestHostStream = jasmine.createSpy('getTestHostStream')
+        getTestHostStream = jasmine
+          .createSpy('getTestHostStream')
           .and.returnValue(highland());
 
-        serversToApiObjects = jasmine.createSpy('serversToApiObjects')
-          .and.returnValue([{
-            address: 'lotus-34vm5.iml.intel.com',
-            auth_type: 'existing_keys_choice'
-          },
-          {
-            address: 'lotus-34vm6.iml.intel.com',
-            auth_type: 'existing_keys_choice'
-          }]);
-        resolveStream
-          .and.returnValue(fp.identity);
+        serversToApiObjects = jasmine
+          .createSpy('serversToApiObjects')
+          .and.returnValue([
+            {
+              address: 'lotus-34vm5.iml.intel.com',
+              auth_type: 'existing_keys_choice'
+            },
+            {
+              address: 'lotus-34vm6.iml.intel.com',
+              auth_type: 'existing_keys_choice'
+            }
+          ]);
+        resolveStream.and.returnValue(fp.identity);
 
         data = {
           spring: jasmine.createSpy('spring'),

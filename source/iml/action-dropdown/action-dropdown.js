@@ -8,50 +8,53 @@ import * as fp from 'intel-fp';
 import getCommandStream from '../command/get-command-stream.js';
 import actionDropdownTemplate from './assets/html/action-dropdown.html!text';
 
-export function actionDescriptionCache ($sce) {
+export function actionDescriptionCache($sce) {
   'ngInject';
-
   const cache = {};
 
-  return function sceDescriptionCache (str) {
+  return function sceDescriptionCache(str) {
     return cache[str] || (cache[str] = $sce.trustAsHtml(str));
   };
 }
 
-export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
-                                    actionDescriptionCache, openCommandModal,
-                                    localApply, propagateChange) {
+export function ActionDropdownCtrl(
+  $scope,
+  $exceptionHandler,
+  handleAction,
+  actionDescriptionCache,
+  openCommandModal,
+  localApply,
+  propagateChange
+) {
   'ngInject';
-
   const setConfirmOpen = isOpen => this.confirmOpen = isOpen;
 
   const ctrl = angular.merge(this, {
     actionDescriptionCache,
-    handleAction (record, action) {
+    handleAction(record, action) {
       setConfirmOpen(true);
 
       const run = runHandleAction.bind(null, record, action);
 
       let stream;
       if (ctrl.overrideClick)
-        stream = ctrl.overrideClick({
-          record,
-          action
-        })
+        stream = ctrl
+          .overrideClick({
+            record,
+            action
+          })
           .reject(fp.eq('fallback'))
           .otherwise(run);
       else
         stream = run();
 
-      stream
-        .pull(err => {
-          if (err)
-            $exceptionHandler(err);
+      stream.pull(err => {
+        if (err) $exceptionHandler(err);
 
-          setConfirmOpen(false);
+        setConfirmOpen(false);
 
-          localApply($scope);
-        });
+        localApply($scope);
+      });
     },
     tooltipPlacement: this.tooltipPlacement || 'left',
     actionsProperty: this.actionsProperty || 'available_actions',
@@ -80,29 +83,30 @@ export function ActionDropdownCtrl ($scope, $exceptionHandler, handleAction,
     .map(asArray)
     .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
     .tap(() => ctrl.receivedData = true)
-    .tap(fp.flow(
-      extractPathLengths,
-      fp.reduce(0, add),
-      locks => ctrl.locks = locks
-    ))
+    .tap(
+      fp.flow(
+        extractPathLengths,
+        fp.reduce(0, add),
+        locks => ctrl.locks = locks
+      )
+    )
     .through(p);
 
-  function runHandleAction (record, action) {
+  function runHandleAction(record, action) {
     return handleAction(record, action)
       .filter(fp.identity)
-      .flatMap(function openModal (x) {
+      .flatMap(function openModal(x) {
         const stream = getCommandStream([x.command || x]);
 
-        return openCommandModal(stream)
-          .resultStream
-          .tap(stream.destroy.bind(stream));
+        return openCommandModal(stream).resultStream.tap(
+          stream.destroy.bind(stream)
+        );
       });
   }
 }
 
-export function actionDropdown () {
+export function actionDropdown() {
   'ngInject';
-
   return {
     restrict: 'E',
     scope: {},

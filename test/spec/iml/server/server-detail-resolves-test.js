@@ -1,47 +1,49 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('server detail resolves', () => {
-  let store, socketStream, getNetworkInterfaceStream,
-    networkInterfaceStream, corosyncStream,
-    pacemakerStream, lnetStream, serverStream,
-    $stateParams, serverDetailResolves, spy;
+  let store,
+    socketStream,
+    getNetworkInterfaceStream,
+    networkInterfaceStream,
+    corosyncStream,
+    pacemakerStream,
+    lnetStream,
+    serverStream,
+    $stateParams,
+    serverDetailResolves,
+    spy;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     store = {
-      select: jasmine.createSpy('select')
-          .and.callFake(key => {
-            if (key === 'server')
-              return (serverStream = highland());
-            else if (key === 'lnetConfiguration')
-              return (lnetStream = highland());
-            else
-              return highland();
-          })
+      select: jasmine.createSpy('select').and.callFake(key => {
+        if (key === 'server') return (serverStream = highland());
+        else if (key === 'lnetConfiguration') return (lnetStream = highland());
+        else return highland();
+      })
     };
 
-    socketStream = jasmine.createSpy('socketStream')
-      .and.callFake(path => {
-        if (path === '/corosync_configuration')
-          return (corosyncStream = highland());
+    socketStream = jasmine.createSpy('socketStream').and.callFake(path => {
+      if (path === '/corosync_configuration')
+        return (corosyncStream = highland());
 
-        if (path === '/pacemaker_configuration')
-          return (pacemakerStream = highland());
-      });
+      if (path === '/pacemaker_configuration')
+        return (pacemakerStream = highland());
+    });
 
     networkInterfaceStream = highland();
 
-    getNetworkInterfaceStream = jasmine.createSpy('getNetworkInterfaceStream')
+    getNetworkInterfaceStream = jasmine
+      .createSpy('getNetworkInterfaceStream')
       .and.returnValue(networkInterfaceStream);
 
     const mod = await mock('source/iml/server/server-detail-resolves.js', {
       'source/iml/store/get-store.js': { default: store },
       'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/lnet/get-network-interface-stream.js': { default: getNetworkInterfaceStream }
+      'source/iml/lnet/get-network-interface-stream.js': {
+        default: getNetworkInterfaceStream
+      }
     });
 
     spy = jasmine.createSpy('spy');
@@ -87,12 +89,13 @@ describe('server detail resolves', () => {
     });
 
     describe('filtering server data', () => {
-      beforeEachAsync(async function () {
+      beforeEachAsync(async function() {
         serverStream.write([
           {
             id: '1',
             address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
-          }, {
+          },
+          {
             id: '2',
             address: 'lotus-35vm16.lotus.hpdd.lab.intel.com'
           }
@@ -122,7 +125,7 @@ describe('server detail resolves', () => {
     });
 
     describe('filtering lnet configuration data', () => {
-      beforeEachAsync(async function () {
+      beforeEachAsync(async function() {
         lnetStream.write([
           {
             id: '1',
@@ -130,7 +133,8 @@ describe('server detail resolves', () => {
             state: 'lnet_up',
             resource_uri: '/api/lnet_configuration/1/',
             label: 'lnet configuration'
-          }, {
+          },
+          {
             id: '2',
             host: '/api/host/2/',
             state: 'lnet_up',
@@ -185,7 +189,9 @@ describe('server detail resolves', () => {
     });
 
     it('should create a pacemaker configuration stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
+      expect(
+        socketStream
+      ).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
         jsonMask: 'objects(resource_uri,available_actions,locks,state,id)',
         qs: {
           host__id: '1',
@@ -194,50 +200,44 @@ describe('server detail resolves', () => {
       });
     });
 
-    itAsync('should return an object of streams', async function () {
+    itAsync('should return an object of streams', async function() {
       const result = await promise;
 
-      expect(result)
-        .toEqual({
-          jobMonitorStream: jasmine.any(Function),
-          alertMonitorStream: jasmine.any(Function),
-          serverStream: jasmine.any(Object),
-          lnetConfigurationStream: jasmine.any(Function),
-          networkInterfaceStream: jasmine.any(Object),
-          corosyncConfigurationStream: jasmine.any(Function),
-          pacemakerConfigurationStream: jasmine.any(Function)
-        });
+      expect(result).toEqual({
+        jobMonitorStream: jasmine.any(Function),
+        alertMonitorStream: jasmine.any(Function),
+        serverStream: jasmine.any(Object),
+        lnetConfigurationStream: jasmine.any(Function),
+        networkInterfaceStream: jasmine.any(Object),
+        corosyncConfigurationStream: jasmine.any(Function),
+        pacemakerConfigurationStream: jasmine.any(Function)
+      });
     });
   });
 });
 
 describe('getting data', () => {
   let result, store;
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     store = {
-      select: jasmine.createSpy('select')
-        .and.callFake(key => {
-          if (key === 'server')
-            return highland([
-              [
-                {id:5, name:'b'},
-                {id:7, name:'a'},
-                {id:10, name:'c'}
-              ]
-            ]);
-        })
+      select: jasmine.createSpy('select').and.callFake(key => {
+        if (key === 'server')
+          return highland([
+            [{ id: 5, name: 'b' }, { id: 7, name: 'a' }, { id: 10, name: 'c' }]
+          ]);
+      })
     };
 
     const mod = await mock('source/iml/server/server-detail-resolves.js', {
       'source/iml/store/get-store.js': { default: store }
     });
 
-    result = await mod.getData({id:7});
+    result = await mod.getData({ id: 7 });
   });
 
   afterEach(resetAll);
 
   it('should returned the object matching the id', () => {
-    expect(result).toEqual({id:7, name:'a'});
+    expect(result).toEqual({ id: 7, name: 'a' });
   });
 });

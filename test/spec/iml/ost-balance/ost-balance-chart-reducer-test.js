@@ -6,7 +6,6 @@ import {
 import deepFreeze from 'intel-deep-freeze';
 
 describe('ost balance reducer', () => {
-
   it('should be a function', () => {
     expect(ostBalanceChartReducer).toEqual(jasmine.any(Function));
   });
@@ -18,7 +17,7 @@ describe('ost balance reducer', () => {
           expect(
             ostBalanceChartReducer(
               {
-                'base': {
+                base: {
                   percentage: 0,
                   page: 'base'
                 }
@@ -31,19 +30,16 @@ describe('ost balance reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                percentage: 0,
-                page: 'base'
-              },
-              'fs1': {
-                percentage: 15,
-                page: 'fs1'
-              }
+          ).toEqual({
+            base: {
+              percentage: 0,
+              page: 'base'
+            },
+            fs1: {
+              percentage: 15,
+              page: 'fs1'
             }
-          );
+          });
         });
       });
 
@@ -52,7 +48,7 @@ describe('ost balance reducer', () => {
           expect(
             ostBalanceChartReducer(
               {
-                'base': {
+                base: {
                   percentage: 5,
                   page: 'base'
                 }
@@ -65,15 +61,12 @@ describe('ost balance reducer', () => {
                 }
               }
             )
-          )
-          .toEqual(
-            {
-              'base': {
-                percentage: 5,
-                page: 'base'
-              }
+          ).toEqual({
+            base: {
+              percentage: 5,
+              page: 'base'
             }
-          );
+          });
         });
       });
     });
@@ -87,7 +80,7 @@ describe('ost balance reducer', () => {
                 percentage: 0,
                 page: ''
               },
-              'target8': {
+              target8: {
                 percentage: 5,
                 page: 'target8'
               }
@@ -100,29 +93,28 @@ describe('ost balance reducer', () => {
               }
             }
           )
-        )
-        .toEqual(
-          {
-            '': {
-              percentage: 0,
-              page: ''
-            },
-            'target8': {
-              percentage: 15,
-              page: 'target8'
-            }
+        ).toEqual({
+          '': {
+            percentage: 0,
+            page: ''
+          },
+          target8: {
+            percentage: 15,
+            page: 'target8'
           }
-        );
+        });
       });
     });
   });
 
   describe('non-matching type', () => {
     it('should return the state', () => {
-      expect(ostBalanceChartReducer(deepFreeze([]), {
-        type: 'ADD_ALERT_INDICATOR_ITEMS',
-        payload: {key: 'val'}
-      })).toEqual([]);
+      expect(
+        ostBalanceChartReducer(deepFreeze([]), {
+          type: 'ADD_ALERT_INDICATOR_ITEMS',
+          payload: { key: 'val' }
+        })
+      ).toEqual([]);
     });
   });
 });

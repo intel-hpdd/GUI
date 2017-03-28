@@ -7,12 +7,10 @@
 
 import angular from 'angular';
 
-import {
-  chartCompilerDirective
-} from './chart-compiler-directive';
+import { chartCompilerDirective } from './chart-compiler-directive';
 
 import highlandModule from '../highland/highland-module';
 
-export default angular.module('chartCompiler', [highlandModule])
-  .directive('chartCompiler', chartCompilerDirective)
-  .name;
+export default angular
+  .module('chartCompiler', [highlandModule])
+  .directive('chartCompiler', chartCompilerDirective).name;

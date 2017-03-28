@@ -7,32 +7,31 @@ describe('job indicator', () => {
 
   let $scope, $timeout, element, node, getPopover, stream, i;
 
-  beforeEach(inject(function ($rootScope, $compile, _$timeout_) {
-    $timeout = _$timeout_;
+  beforeEach(
+    inject(function($rootScope, $compile, _$timeout_) {
+      $timeout = _$timeout_;
 
-    element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
+      element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
 
-    $scope = $rootScope.$new();
+      $scope = $rootScope.$new();
 
-    stream = highland();
+      stream = highland();
 
-    $scope.stream = broadcast(stream);
-    $scope.recordId = 'host/6';
+      $scope.stream = broadcast(stream);
+      $scope.recordId = 'host/6';
 
-    node = $compile(element)($scope);
+      node = $compile(element)($scope);
 
-    $scope.$digest();
+      $scope.$digest();
 
-    $scope = angular.element(
-      node[0].querySelector('.job-status')
-    ).scope();
+      $scope = angular.element(node[0].querySelector('.job-status')).scope();
 
-    getPopover = () =>
-      angular.element(node[0].querySelector('.popover'));
-  }));
+      getPopover = () => angular.element(node[0].querySelector('.popover'));
+    })
+  );
 
-  describe('toggling', function () {
-    beforeEach(function () {
+  describe('toggling', function() {
+    beforeEach(function() {
       const response = [
         {
           read_locks: [],
@@ -48,32 +47,30 @@ describe('job indicator', () => {
       stream.write(response);
       $scope.$digest();
 
-      i = node[0]
-        .querySelector('i.activate-popover');
+      i = node[0].querySelector('i.activate-popover');
       i.click();
       $timeout.flush();
     });
 
-    it('should display the popover', function () {
+    it('should display the popover', function() {
       expect(getPopover()).toHaveClass('in');
     });
 
-    it('should show the lock icon', function () {
+    it('should show the lock icon', function() {
       expect($scope.shouldShowLockIcon()).toEqual(true);
     });
 
-    it('should have a toggle status of closed', function () {
+    it('should have a toggle status of closed', function() {
       i.click();
       $timeout.flush();
       expect(getPopover().length).toBe(0);
     });
-
   });
 
-  describe('populate jobs on data change', function () {
-    describe('write locks', function () {
+  describe('populate jobs on data change', function() {
+    describe('write locks', function() {
       let response;
-      beforeEach(function () {
+      beforeEach(function() {
         response = [
           {
             read_locks: [],
@@ -89,19 +86,20 @@ describe('job indicator', () => {
         stream.write(response);
       });
 
-      it('should contain a write lock job message', function () {
+      it('should contain a write lock job message', function() {
         expect($scope.writeMessages).toEqual(['write lock description']);
       });
 
-      it('should get write lock tooltip message ', function () {
-        expect($scope.getLockTooltipMessage()).toEqual('1 ongoing write lock operation.' +
-          ' Click to review details.');
+      it('should get write lock tooltip message ', function() {
+        expect($scope.getLockTooltipMessage()).toEqual(
+          '1 ongoing write lock operation.' + ' Click to review details.'
+        );
       });
     });
 
-    describe('read locks', function () {
+    describe('read locks', function() {
       let response;
-      beforeEach(function () {
+      beforeEach(function() {
         response = [
           {
             read_locks: [
@@ -117,20 +115,21 @@ describe('job indicator', () => {
         stream.write(response);
       });
 
-      it('should contain a read lock job message', function () {
+      it('should contain a read lock job message', function() {
         expect($scope.readMessages).toEqual(['read lock description']);
       });
 
-      it('should get read lock tooltip message ', function () {
-        expect($scope.getLockTooltipMessage()).toEqual('Locked by 1 pending operation. ' +
-          'Click to review details.');
+      it('should get read lock tooltip message ', function() {
+        expect($scope.getLockTooltipMessage()).toEqual(
+          'Locked by 1 pending operation. ' + 'Click to review details.'
+        );
       });
     });
 
-    describe('read and write locks', function () {
+    describe('read and write locks', function() {
       let response;
 
-      beforeEach(function () {
+      beforeEach(function() {
         response = [
           {
             read_locks: [
@@ -155,25 +154,28 @@ describe('job indicator', () => {
         stream.write(response);
       });
 
-      it('should contain a read and write lock job message', function () {
-        const messages = $scope.readMessages
-          .concat($scope.writeMessages);
+      it('should contain a read and write lock job message', function() {
+        const messages = $scope.readMessages.concat($scope.writeMessages);
 
-        expect(messages)
-          .toEqual(['read lock description', 'write lock description']);
+        expect(messages).toEqual([
+          'read lock description',
+          'write lock description'
+        ]);
       });
 
-      it('should get lock tooltip message for both read and write lock messages', function () {
-        expect($scope.getLockTooltipMessage()).toEqual('There is 1 ongoing write lock' +
-          ' operation and 1 pending read lock operation. Click to review details.');
+      it('should get lock tooltip message for both read and write lock messages', function() {
+        expect($scope.getLockTooltipMessage()).toEqual(
+          'There is 1 ongoing write lock' +
+            ' operation and 1 pending read lock operation. Click to review details.'
+        );
       });
     });
   });
 
-  describe('lock icon interaction', function () {
+  describe('lock icon interaction', function() {
     let response;
 
-    beforeEach(function () {
+    beforeEach(function() {
       response = [
         {
           read_locks: [
@@ -200,22 +202,21 @@ describe('job indicator', () => {
       // Update the html
       $scope.$digest();
 
-      i = node[0]
-        .querySelector('i.activate-popover');
+      i = node[0].querySelector('i.activate-popover');
     });
 
-    it('should display the info icon', function () {
+    it('should display the info icon', function() {
       expect(i).toBeShown();
     });
 
-    it('should display the popover after clicking info icon', function () {
+    it('should display the popover after clicking info icon', function() {
       i.click();
       $timeout.flush();
 
       expect(getPopover()).toBeShown();
     });
 
-    it('should display the tooltip after mousing over the info icon', function () {
+    it('should display the tooltip after mousing over the info icon', function() {
       i.dispatchEvent(new MouseEvent('mouseover'));
       $timeout.flush();
 
@@ -224,9 +225,9 @@ describe('job indicator', () => {
     });
   });
 
-  describe('read message updates', function () {
+  describe('read message updates', function() {
     let response;
-    beforeEach(function () {
+    beforeEach(function() {
       response = [
         {
           read_locks: [
@@ -281,18 +282,18 @@ describe('job indicator', () => {
       stream.write(response);
     });
 
-    it('should contain the second message in the status array.', function () {
+    it('should contain the second message in the status array.', function() {
       expect($scope.readMessages).toEqual(['read lock description2']);
     });
 
-    it('should contain only message1 in the difference array.', function () {
+    it('should contain only message1 in the difference array.', function() {
       expect($scope.readMessageDifference).toEqual(['read lock description1']);
     });
   });
 
-  describe('write message updates', function () {
+  describe('write message updates', function() {
     let response;
-    beforeEach(function () {
+    beforeEach(function() {
       response = [
         {
           read_locks: [],
@@ -347,12 +348,14 @@ describe('job indicator', () => {
       stream.write(response);
     });
 
-    it('should contain the second message in the status array.', function () {
+    it('should contain the second message in the status array.', function() {
       expect($scope.writeMessages).toEqual(['write lock description2']);
     });
 
-    it('should contain only message1 in the difference array.', function () {
-      expect($scope.writeMessageDifference).toEqual(['write lock description1']);
+    it('should contain only message1 in the difference array.', function() {
+      expect($scope.writeMessageDifference).toEqual([
+        'write lock description1'
+      ]);
     });
   });
 });

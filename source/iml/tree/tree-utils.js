@@ -13,23 +13,14 @@ import {
   updateCollectionOffset
 } from './tree-actions.js';
 
-export const toggleCollection = (id:number, open:boolean):void => {
-  store
-    .dispatch(
-      toggleCollectionOpen(id, open)
-    );
+export const toggleCollection = (id: number, open: boolean): void => {
+  store.dispatch(toggleCollectionOpen(id, open));
 };
 
-export const toggleItem = (id:number, itemId:number, open:boolean):void => {
-  store
-    .dispatch(
-      toggleItemOpen(id, itemId, open)
-    );
+export const toggleItem = (id: number, itemId: number, open: boolean): void => {
+  store.dispatch(toggleItemOpen(id, itemId, open));
 };
 
-export const updateCollOffset = (id:number, offset:number):void => {
-  store
-    .dispatch(
-      updateCollectionOffset(id, offset)
-    );
+export const updateCollOffset = (id: number, offset: number): void => {
+  store.dispatch(updateCollectionOffset(id, offset));
 };

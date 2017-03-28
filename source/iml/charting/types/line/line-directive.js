@@ -5,9 +5,8 @@
 
 import * as fp from 'intel-fp';
 
-export function lineDirective (getLine) {
+export function lineDirective(getLine) {
   'ngInject';
-
   return {
     restrict: 'A',
     scope: {
@@ -20,7 +19,7 @@ export function lineDirective (getLine) {
     },
     require: '^^charter',
     templateNamespace: 'svg',
-    link (scope, el, attrs, chartCtrl) {
+    link(scope, el, attrs, chartCtrl) {
       const node = el[0];
       const line = getLine();
 
@@ -30,21 +29,18 @@ export function lineDirective (getLine) {
       );
 
       chartCtrl.dispatch.on(`event.line${line.getCount()}`, (type, args) => {
-        if (type !== 'legend')
-          return;
+        if (type !== 'legend') return;
 
         const shouldHide = scope.valueY(args[0]);
 
-        if (shouldHide == null)
-          return;
+        if (shouldHide == null) return;
 
-        line
-          .opacity(shouldHide ? 0 : 1);
+        line.opacity(shouldHide ? 0 : 1);
 
         callLine(chartCtrl.svg);
       });
 
-      const updateLine = ({svg}) => {
+      const updateLine = ({ svg }) => {
         line
           .color(scope.color)
           .xScale(scope.scaleX)

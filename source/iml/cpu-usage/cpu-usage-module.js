@@ -17,13 +17,15 @@ import type {
 } from '../duration-picker/duration-picker-module.js';
 
 export type addCpuUsageActionT = {
-  type:'UPDATE_CPU_USAGE_CHART_ITEMS' | 'DEFAULT_CPU_USAGE_CHART_ITEMS',
-  payload:durationPayloadT
+  type: 'UPDATE_CPU_USAGE_CHART_ITEMS' | 'DEFAULT_CPU_USAGE_CHART_ITEMS',
+  payload: durationPayloadT
 };
 
-export default angular.module('cpuUsageModule', [
-  chartsModule, chartingModule, highlandModule,
-  durationPickerModule
-])
-  .factory('getCpuUsageChart', getCpuUsageChartFactory)
-  .name;
+export default angular
+  .module('cpuUsageModule', [
+    chartsModule,
+    chartingModule,
+    highlandModule,
+    durationPickerModule
+  ])
+  .factory('getCpuUsageChart', getCpuUsageChartFactory).name;

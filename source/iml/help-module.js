@@ -8,26 +8,23 @@
 import angular from 'angular';
 import environment from './environment-module';
 
-export default angular.module('help', [
-  environment
-])
-.factory('help', ($sce, HELP_TEXT) => {
-  'ngInject';
+export default angular
+  .module('help', [environment])
+  .factory('help', ($sce, HELP_TEXT) => {
+    'ngInject';
+    const trusted = {};
 
-  const trusted = {};
+    function addToTrusted(key) {
+      trusted[key] = $sce.trustAsHtml(HELP_TEXT[key]);
 
-  function addToTrusted (key) {
-    trusted[key] = $sce.trustAsHtml(HELP_TEXT[key]);
-
-    return trusted[key];
-  }
-
-  return {
-    get: function get (key) {
-      if (!HELP_TEXT[key]) throw new Error(`Key ${key} is not in help text!`);
-
-      return trusted[key] || addToTrusted(key);
+      return trusted[key];
     }
-  };
-})
-.name;
+
+    return {
+      get: function get(key) {
+        if (!HELP_TEXT[key]) throw new Error(`Key ${key} is not in help text!`);
+
+        return trusted[key] || addToTrusted(key);
+      }
+    };
+  }).name;

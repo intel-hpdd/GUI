@@ -13,8 +13,8 @@ export default () => {
       transform: '&?',
       name: '<'
     },
-    link: function link (scope, el, attrs, ctrl, $transclude) {
-      const name =  scope.name || 'viewer';
+    link: function link(scope, el, attrs, ctrl, $transclude) {
+      const name = scope.name || 'viewer';
 
       $transclude((clone, transcludedScope) => {
         if (transcludedScope.viewer)

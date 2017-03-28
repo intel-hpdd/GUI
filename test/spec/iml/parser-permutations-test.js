@@ -1,24 +1,20 @@
-import parserPermutations from
-  '../../../source/iml/parser-permutations.js';
-import {
-  noSpace
-} from '../../../source/iml/string.js';
+import parserPermutations from '../../../source/iml/parser-permutations.js';
+import { noSpace } from '../../../source/iml/string.js';
 
 describe('cross product', () => {
   it('should product the cross product of two arrays', () => {
-    const permutations = parserPermutations(
-      [
-        'severity',
-        'record_type',
-        'offset',
-        'limit',
-        'order_by',
-        'begin',
-        'end'
-      ]
-    );
+    const permutations = parserPermutations([
+      'severity',
+      'record_type',
+      'offset',
+      'limit',
+      'order_by',
+      'begin',
+      'end'
+    ]);
 
-    expect(permutations).toEqual(noSpace`severity__in&severity__contains&severity__startswith&
+    expect(permutations).toEqual(
+      noSpace`severity__in&severity__contains&severity__startswith&
       severity__endswith&severity__gte&severity__gt&severity__lte&severity__lt&record_type__in
       &record_type__contains&record_type__startswith&record_type__endswith&record_type__gte
       &record_type__gt&record_type__lte&record_type__lt&offset__in&offset__contains

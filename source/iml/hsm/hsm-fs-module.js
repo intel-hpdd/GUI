@@ -11,9 +11,6 @@ import helpModule from '../help-module';
 import highlandModule from '../highland/highland-module';
 import HsmFsCtrl from './hsm-fs-controller';
 
-export default angular.module('hsmFs', [
-  commandModule, helpModule,
-  highlandModule
-])
-.controller('HsmFsCtrl', HsmFsCtrl)
-.name;
+export default angular
+  .module('hsmFs', [commandModule, helpModule, highlandModule])
+  .controller('HsmFsCtrl', HsmFsCtrl).name;

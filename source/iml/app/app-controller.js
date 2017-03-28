@@ -5,10 +5,17 @@
 
 import angular from 'angular';
 
-export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
-                                 help, notificationStream, alertStream) {
+export default function AppCtrl(
+  $scope,
+  session,
+  navigate,
+  ENV,
+  GROUPS,
+  help,
+  notificationStream,
+  alertStream
+) {
   'ngInject';
-
   const login = navigate.bind(null, 'login/');
 
   angular.extend(this, {
@@ -19,20 +26,19 @@ export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
     status: {},
     user: session.user,
     loggedIn: loggedIn(),
-    onClick: (loggedIn() ? logout : login),
+    onClick: loggedIn() ? logout : login,
     isCollapsed: true,
     login,
     logout,
     alertStream
   });
 
-  function loggedIn () {
+  function loggedIn() {
     return session.user && session.user.id != null;
   }
 
-  function logout () {
-    return session.$delete()
-      .then(login);
+  function logout() {
+    return session.$delete().then(login);
   }
 
   const LIMIT = 99;
@@ -42,10 +48,10 @@ export default function AppCtrl ($scope, session, navigate, ENV, GROUPS,
   const p = $scope.propagateChange($scope, this, 'status');
 
   notificationStream
-    .tap(function computeProperties (status) {
+    .tap(function computeProperties(status) {
       status.aboveLimit = status.count > LIMIT;
 
-      status.count = ( status.aboveLimit ? LIMIT : status.count );
+      status.count = status.aboveLimit ? LIMIT : status.count;
 
       ctrl.link = '/ui/status/';
 

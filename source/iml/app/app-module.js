@@ -18,16 +18,19 @@ import {
   appSessionFactory,
   appNotificationStream,
   alertStream
-}
-  from './app-resolves';
+} from './app-resolves';
 
-export default angular.module('app', [
-  authModule, navigateModule,
-  notificationModule, environmentModule,
-  commandModule, extendScopeModule, helpMapperModule
-])
+export default angular
+  .module('app', [
+    authModule,
+    navigateModule,
+    notificationModule,
+    environmentModule,
+    commandModule,
+    extendScopeModule,
+    helpMapperModule
+  ])
   .factory('appSession', appSessionFactory)
   .value('appNotificationStream', appNotificationStream)
   .value('appAlertStream', alertStream)
-  .controller('AppCtrl', AppCtrl)
-  .name;
+  .controller('AppCtrl', AppCtrl).name;

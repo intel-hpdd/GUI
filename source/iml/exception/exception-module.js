@@ -20,20 +20,21 @@ import {
   stackTraceContainsLineNumbers
 } from './exception-modal-controller';
 
-export default angular.module('exceptionModule', [
-  uiBootstrapModule, modelFactoryModule,
-  filtersModule, windowUnloadModule,
-  environment
-])
-.config(exceptionHandlerConfig)
-.config($httpProvider => {
-  'ngInject';
-
-  $httpProvider.interceptors.push('exceptionInterceptor');
-})
-.factory('exceptionInterceptor', exceptionInterceptorFactory)
-.factory('exceptionModal', exceptionModalFactory)
-.controller('ExceptionModalCtrl', ExceptionModalCtrl)
-.value('stackTraceContainsLineNumber', stackTraceContainsLineNumbers)
-.value('sendStackTraceToRealTime', sendStackTraceToRealTime)
-.name;
+export default angular
+  .module('exceptionModule', [
+    uiBootstrapModule,
+    modelFactoryModule,
+    filtersModule,
+    windowUnloadModule,
+    environment
+  ])
+  .config(exceptionHandlerConfig)
+  .config($httpProvider => {
+    'ngInject';
+    $httpProvider.interceptors.push('exceptionInterceptor');
+  })
+  .factory('exceptionInterceptor', exceptionInterceptorFactory)
+  .factory('exceptionModal', exceptionModalFactory)
+  .controller('ExceptionModalCtrl', ExceptionModalCtrl)
+  .value('stackTraceContainsLineNumber', stackTraceContainsLineNumbers)
+  .value('sendStackTraceToRealTime', sendStackTraceToRealTime).name;

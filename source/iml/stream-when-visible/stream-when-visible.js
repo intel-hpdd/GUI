@@ -9,10 +9,7 @@ import highland from 'highland';
 import * as fp from 'intel-fp';
 import pageVisibility from '../page-visibility.js';
 
-import type {
-  HighlandStreamT,
-  errorWrapT
-} from 'highland';
+import type { HighlandStreamT, errorWrapT } from 'highland';
 
 export const documentHidden = {
   name: 'documentHidden'
@@ -21,57 +18,58 @@ export const documentVisible = {
   name: 'documentVisible'
 };
 
-export function streamWhenVisible ($document:Array<Document>,
-                                   documentHidden:typeof documentHidden,
-                                   documentVisible:typeof documentVisible):Function {
+export function streamWhenVisible(
+  $document: Array<Document>,
+  documentHidden: typeof documentHidden,
+  documentVisible: typeof documentVisible
+): Function {
   'ngInject';
-
   const doc = $document[0];
 
-  return function streamWhenVisible (streamFn:() => HighlandStreamT<mixed>) {
+  return function streamWhenVisible(streamFn: () => HighlandStreamT<mixed>) {
     let stream;
 
-    const visibleStream:HighlandStreamT<mixed> = highland();
+    const visibleStream: HighlandStreamT<mixed> = highland();
 
-    if (!doc.hidden)
-      onShow();
+    if (!doc.hidden) onShow();
 
-    const removeListener = pageVisibility(function onHide () {
-      stream.destroy();
-      visibleStream.write(documentHidden);
-    }, () => {
-      visibleStream.write(documentVisible);
-      onShow();
-    }, 30000);
+    const removeListener = pageVisibility(
+      function onHide() {
+        stream.destroy();
+        visibleStream.write(documentHidden);
+      },
+      () => {
+        visibleStream.write(documentVisible);
+        onShow();
+      },
+      30000
+    );
 
-    function onShow () {
+    function onShow() {
       stream = streamFn();
 
-      stream
-        .consume(consume)
-        .each(fp.noop);
+      stream.consume(consume).each(fp.noop);
     }
 
-    function consume (error:Error, x, push, next) {
-      if (visibleStream._nil_pushed)
-        return;
+    function consume(error: Error, x, push, next) {
+      if (visibleStream._nil_pushed) return;
 
       if (error) {
         if (!doc.hidden)
-          visibleStream.write(({
-            __HighlandStreamError__: true,
-            error
-          }:errorWrapT));
+          visibleStream.write(
+            ({
+              __HighlandStreamError__: true,
+              error
+            }: errorWrapT)
+          );
 
         next();
       } else if (x === highland.nil) {
         push(null, x);
 
-        if (!doc.hidden)
-          visibleStream.write(x);
+        if (!doc.hidden) visibleStream.write(x);
       } else {
-        if (!doc.hidden)
-          visibleStream.write(x);
+        if (!doc.hidden) visibleStream.write(x);
 
         next();
       }
@@ -79,7 +77,7 @@ export function streamWhenVisible ($document:Array<Document>,
 
     const oldDestroy = visibleStream.destroy.bind(visibleStream);
     // $FlowFixMe: flow does not recogize this monkey-patch
-    visibleStream.destroy = function destroy () {
+    visibleStream.destroy = function destroy() {
       removeListener();
       oldDestroy();
       stream.destroy();

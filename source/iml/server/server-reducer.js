@@ -7,15 +7,16 @@
 
 export const ADD_SERVER_ITEMS = 'ADD_SERVER_ITEMS';
 
-import type {
-  ActionT
-} from '../store/store-module.js';
+import type { ActionT } from '../store/store-module.js';
 
-export default function (state:Array<Object> = [], {type, payload}:ActionT):Array<Object> {
+export default function(
+  state: Array<Object> = [],
+  { type, payload }: ActionT
+): Array<Object> {
   switch (type) {
-  case ADD_SERVER_ITEMS:
-    return payload;
-  default:
-    return state;
+    case ADD_SERVER_ITEMS:
+      return payload;
+    default:
+      return state;
   }
 }

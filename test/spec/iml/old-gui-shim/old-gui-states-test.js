@@ -1,7 +1,4 @@
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 import * as fp from 'intel-fp';
 
@@ -13,7 +10,7 @@ describe('old gui states', () => {
     oldTargetResolve,
     oldStoragePluginResolve;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     resolve = {
       resolve: {
         getData: jasmine.any(Function)
@@ -49,8 +46,8 @@ describe('old gui states', () => {
 
   it('should contain the app.oldVolume state', () => {
     const state = fp.find(x => x.name === 'app.oldVolume', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/configure/volume',
         'app.oldVolume',
         'configureold/volume',
@@ -58,13 +55,14 @@ describe('old gui states', () => {
         'Volumes',
         'fa-th',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldPower state', () => {
     const state = fp.find(x => x.name === 'app.oldPower', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/configure/power',
         'app.oldPower',
         'configureold/power',
@@ -72,13 +70,17 @@ describe('old gui states', () => {
         'Power Control',
         'fa-bolt',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldFilesystemCreate state', () => {
-    const state = fp.find(x => x.name === 'app.oldFilesystemCreate', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    const state = fp.find(
+      x => x.name === 'app.oldFilesystemCreate',
+      oldGuiStates
+    );
+    expect(state).toEqual(
+      generateState(
         '/configure/filesystem/create',
         'app.oldFilesystemCreate',
         'configureold/filesystem/create',
@@ -86,13 +88,17 @@ describe('old gui states', () => {
         'Create File System',
         'fa-files-o',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldFilesystemDetail state', () => {
-    const state = fp.find(x => x.name === 'app.oldFilesystemDetail', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    const state = fp.find(
+      x => x.name === 'app.oldFilesystemDetail',
+      oldGuiStates
+    );
+    expect(state).toEqual(
+      generateState(
         '/configure/filesystem/:id',
         'app.oldFilesystemDetail',
         'configureold/filesystem/detail',
@@ -100,13 +106,14 @@ describe('old gui states', () => {
         'File System Detail',
         'fa-files-o',
         resolve
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldUser state', () => {
     const state = fp.find(x => x.name === 'app.oldUser', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/configure/user',
         'app.oldUser',
         '/configureold/user',
@@ -114,13 +121,14 @@ describe('old gui states', () => {
         'Users',
         'fa-users',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldUserDetail state', () => {
     const state = fp.find(x => x.name === 'app.oldUserDetail', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/configure/user/:id',
         'app.oldUserDetail',
         '/userold',
@@ -128,13 +136,14 @@ describe('old gui states', () => {
         'User detail',
         'fa-user',
         resolve
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldTarget state', () => {
     const state = fp.find(x => x.name === 'app.oldTarget', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/target/:id',
         'app.oldTarget',
         '/targetold',
@@ -142,13 +151,14 @@ describe('old gui states', () => {
         'Target Detail',
         'fa-bullseye',
         resolve
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldSystemStatus state', () => {
     const state = fp.find(x => x.name === 'app.oldSystemStatus', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    expect(state).toEqual(
+      generateState(
         '/system_status',
         'app.oldSystemStatus',
         '/system_statusold',
@@ -156,13 +166,17 @@ describe('old gui states', () => {
         'System status',
         'fa-database',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldStorageResource state', () => {
-    const state = fp.find(x => x.name === 'app.oldStorageResource', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    const state = fp.find(
+      x => x.name === 'app.oldStorageResource',
+      oldGuiStates
+    );
+    expect(state).toEqual(
+      generateState(
         '/configure/storage',
         'app.oldStorageResource',
         '/configureold/storage/',
@@ -170,13 +184,17 @@ describe('old gui states', () => {
         'Storage',
         'fa-hdd-o',
         {}
-      ));
+      )
+    );
   });
 
   it('should contain the app.oldStorageResourceDetail state', () => {
-    const state = fp.find(x => x.name === 'app.oldStorageResourceDetail', oldGuiStates);
-    expect(state)
-      .toEqual(generateState(
+    const state = fp.find(
+      x => x.name === 'app.oldStorageResourceDetail',
+      oldGuiStates
+    );
+    expect(state).toEqual(
+      generateState(
         '/configure/storage/:id',
         'app.oldStorageResourceDetail',
         '/storage_resourceold',
@@ -184,11 +202,12 @@ describe('old gui states', () => {
         'Storage Detail',
         'fa-hdd-o',
         resolve
-      ));
+      )
+    );
   });
 });
 
-function generateState (url, name, path, helpPage, kind, icon, resolve) {
+function generateState(url, name, path, helpPage, kind, icon, resolve) {
   return {
     url,
     name,

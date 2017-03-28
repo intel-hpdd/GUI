@@ -1,21 +1,12 @@
 import highland from 'highland';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('chart compiler', () => {
-  let chartCompiler,
-    compilerPromise,
-    s,
-    chartFn;
+  let chartCompiler, compilerPromise, s, chartFn;
 
-  beforeEachAsync(async function () {
-    const mod = await mock(
-      'source/iml/chart-compiler/chart-compiler.js',
-      {}
-    );
+  beforeEachAsync(async function() {
+    const mod = await mock('source/iml/chart-compiler/chart-compiler.js', {});
 
     chartCompiler = mod.default;
   });
@@ -25,34 +16,28 @@ describe('chart compiler', () => {
   beforeEach(() => {
     s = highland();
 
-    chartFn = jasmine
-      .createSpy('chartFn')
-      .and
-      .returnValue('chartObj');
+    chartFn = jasmine.createSpy('chartFn').and.returnValue('chartObj');
 
     compilerPromise = chartCompiler('template/path', s, chartFn);
   });
 
   it('should be a function', () => {
-    expect(chartCompiler)
-      .toEqual(jasmine.any(Function));
+    expect(chartCompiler).toEqual(jasmine.any(Function));
   });
 
   it('should return back a promise', () => {
-    expect(compilerPromise)
-      .toBeAPromise();
+    expect(compilerPromise).toBeAPromise();
   });
 
-  itAsync('should resolve to the expected values', async function () {
+  itAsync('should resolve to the expected values', async function() {
     s.write('foo');
 
     const obj = await compilerPromise;
 
-    expect(obj)
-      .toEqual({
-        template: 'template/path',
-        stream: jasmine.any(Object),
-        chartFn
-      });
+    expect(obj).toEqual({
+      template: 'template/path',
+      stream: jasmine.any(Object),
+      chartFn
+    });
   });
 });

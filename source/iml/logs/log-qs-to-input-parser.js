@@ -9,9 +9,7 @@ import * as fp from 'intel-fp';
 import * as qsToInputParser from 'intel-qs-parsers/qs-to-input-parser.js';
 import * as parsely from 'intel-parsely';
 
-import {
-  qsToInputTokens
-} from 'intel-qs-parsers/tokens.js';
+import { qsToInputTokens } from 'intel-qs-parsers/tokens.js';
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
 
@@ -30,30 +28,20 @@ const valueOrNumberOrDotOrDash = parsely.choice([
   qsToInputParser.number
 ]);
 
-
 const rightHands = parsely.choice(
-  [
-    'NORMAL',
-    'LUSTRE',
-    'LUSTRE_ERROR',
-    'COPYTOOL',
-    'COPYTOOL_ERROR'
-  ]
-  .map(
-    severity => fp.flow(
-      parsely.matchValue(severity),
-      parsely.onSuccess(x => x.toLowerCase())
-    )
-  )
-  .concat(
-    parsely.many1(valueOrNumberOrDotOrDash)
-  )
+  ['NORMAL', 'LUSTRE', 'LUSTRE_ERROR', 'COPYTOOL', 'COPYTOOL_ERROR']
+    .map(severity =>
+      fp.flow(
+        parsely.matchValue(severity),
+        parsely.onSuccess(x => x.toLowerCase())
+      ))
+    .concat(parsely.many1(valueOrNumberOrDotOrDash))
 );
 
 const assign = qsToInputParser.assign(leftHands, rightHands);
 const like = qsToInputParser.like(leftHands, rightHands);
-const starts = qsToInputParser.starts(leftHands,rightHands);
-const ends = qsToInputParser.ends(leftHands,rightHands);
+const starts = qsToInputParser.starts(leftHands, rightHands);
+const ends = qsToInputParser.ends(leftHands, rightHands);
 const inList = qsToInputParser.inList(leftHands, rightHands);
 const date = qsToInputParser.dateParser(leftHands);
 const orderBy = qsToInputParser.orderByParser(leftHands);
@@ -66,20 +54,8 @@ const choices = parsely.choice([
   assign,
   orderBy
 ]);
-const expr = parsely.sepBy1(
-  choices,
-  qsToInputParser.and
-);
+const expr = parsely.sepBy1(choices, qsToInputParser.and);
 const emptyOrExpr = parsely.optional(expr);
-const logParser = parsely.parseStr([
-  emptyOrExpr,
-  parsely.endOfString
-]);
+const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(
-  fp.flow(
-    tokenizer,
-    logParser,
-    x => x.result
-  )
-);
+export default fp.memoize(fp.flow(tokenizer, logParser, x => x.result));

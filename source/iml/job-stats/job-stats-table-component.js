@@ -7,99 +7,78 @@
 
 import store from '../store/get-store.js';
 
-import {
-  setDuration,
-  setSort
-} from './job-stats-actions.js';
+import { setDuration, setSort } from './job-stats-actions.js';
 
-import type {
-  HighlandStreamT
-} from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-import type {
-  $scopeT
-} from 'angular';
+import type { $scopeT } from 'angular';
 
-import type {
-  StateServiceT
-} from 'angular-ui-router';
+import type { StateServiceT } from 'angular-ui-router';
 
-import type {
-  localApplyT
-} from '../extend-scope-module.js';
+import type { localApplyT } from '../extend-scope-module.js';
 
 type jobStatsConfigT = {
-  duration:number,
-  orderBy:string,
-  desc:boolean
+  duration: number,
+  orderBy: string,
+  desc: boolean
 };
 
 export default {
   bindings: {
     stats$: '<'
   },
-  controller: function ($state:StateServiceT, $stateParams:{id?:number}, $scope:$scopeT, localApply:localApplyT) {
+  controller: function(
+    $state: StateServiceT,
+    $stateParams: { id?: number },
+    $scope: $scopeT,
+    localApply: localApplyT
+  ) {
     'ngInject';
+    type T = jobStatsConfigT & {
+      noId: boolean,
+      setDuration: (d: number) => void,
+      shouldShow: (n: string, isDesc: boolean) => boolean,
+      getClass: (n: string) => string,
+      sortProp: (n: string) => void,
+      $onDestroy: () => void,
+      stats$: HighlandStreamT<any>
+    };
 
-    type T = (jobStatsConfigT & {
-      noId:boolean,
-      setDuration:(d:number) => void,
-      shouldShow:(n:string, isDesc:boolean) => boolean,
-      getClass:(n:string) => string,
-      sortProp:(n:string) => void,
-      $onDestroy:() => void,
-      stats$:HighlandStreamT<any>
-    });
-
-    const that:T = this;
+    const that: T = this;
 
     Object.assign(that, {
       noId: $stateParams.id == null,
-      setDuration (duration:number) {
-        store
-          .dispatch(
-            setDuration(duration)
-          );
+      setDuration(duration: number) {
+        store.dispatch(setDuration(duration));
 
         $state.reload('app.jobstats');
       },
-      shouldShow (name:string, isDesc:boolean) {
+      shouldShow(name: string, isDesc: boolean) {
         return that.orderBy === name && that.desc === isDesc;
       },
-      getClass (name:string):string {
-        if (name !== that.orderBy)
-          return '';
-        else if (that.desc)
-          return 'fa-sort-desc';
-        else
-          return 'fa-sort-asc';
+      getClass(name: string): string {
+        if (name !== that.orderBy) return '';
+        else if (that.desc) return 'fa-sort-desc';
+        else return 'fa-sort-asc';
       },
-      sortProp (name:string) {
-        if (name === that.orderBy)
-          store
-            .dispatch(
-              setSort(name, !that.desc)
-            );
-        else
-          store
-            .dispatch(
-              setSort(name, true)
-            );
+      sortProp(name: string) {
+        if (name === that.orderBy) store.dispatch(setSort(name, !that.desc));
+        else store.dispatch(setSort(name, true));
       },
-      $onDestroy () {
+      $onDestroy() {
         that.stats$.destroy();
         config$.destroy();
       }
     });
 
-    const config$:HighlandStreamT<jobStatsConfigT> = store
-      .select('jobStatsConfig');
+    const config$: HighlandStreamT<jobStatsConfigT> = store.select(
+      'jobStatsConfig'
+    );
 
-    config$
-      .each(c => {
-        Object.assign(that, c);
-        localApply($scope);
-      });
+    config$.each(c => {
+      Object.assign(that, c);
+      localApply($scope);
+    });
   },
   template: `
     <div as-value stream="::$ctrl.stats$">

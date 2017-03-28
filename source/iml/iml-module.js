@@ -38,14 +38,17 @@ import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
 import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
-import disconnectModalModule from './disconnect-modal/disconnect-modal-module.js';
+import disconnectModalModule
+  from './disconnect-modal/disconnect-modal-module.js';
 import logModule from './logs/log-module.js';
 import treeModule from './tree/tree-module.js';
 import fileSystemModule from './file-system/file-system-module.js';
 import qsStreamModule from './qs-stream/qs-stream-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
-import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
-import resettableGroupModule from './resettable-group/resettable-group-module.js';
+import chartTransformersModule
+  from './chart-transformers/chart-transformers-module.js';
+import resettableGroupModule
+  from './resettable-group/resettable-group-module.js';
 import oldRouteModule from './old-gui-shim/old-route-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
 import sliderPanelComponent from './panels/slider-panel-component.js';
@@ -58,51 +61,25 @@ import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
 import confirmButtonComponent from './confirm-button.js';
 
-import {
-  loginState
-} from './login/login-states.js';
+import { loginState } from './login/login-states.js';
 
+import { appState } from './app/app-states.js';
 
-import {
-  appState
-} from './app/app-states.js';
+import { mgtState } from './mgt/mgt-states.js';
 
-import {
-  mgtState
-} from './mgt/mgt-states.js';
+import { statusState, queryState, tableState } from './status/status-states.js';
 
-import {
-  statusState,
-  queryState,
-  tableState
-} from './status/status-states.js';
+import { aboutState } from './about/about-states.js';
 
-import {
-  aboutState
-} from './about/about-states.js';
+import { serverState, serverDetailState } from './server/server-states.js';
 
-import {
-  serverState,
-  serverDetailState
-} from './server/server-states.js';
+import { fileSystemListState } from './file-system/file-system-states.js';
 
-import {
-  fileSystemListState
-} from './file-system/file-system-states.js';
+import { logState, logTableState } from './logs/log-states.js';
 
-import {
-  logState,
-  logTableState
-} from './logs/log-states.js';
+import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
-import {
-  hsmFsState,
-  hsmState
-} from './hsm/hsm-states.js';
-
-import {
-  jobStatsState
-} from './job-stats/job-stats-states.js';
+import { jobStatsState } from './job-stats/job-stats-states.js';
 
 import {
   dashboardState,
@@ -117,56 +94,68 @@ import oldGUIStates from './old-gui-shim/old-gui-states.js';
 
 import jobTemplate from './command/assets/html/job.html!text';
 
-export default angular.module('iml', [
-  uiBootstrapModule, ngResource, ngAnimate,
-  routeToModule, environmentModule, exceptionModule, uiRouter,
-  loginModule, qsStreamModule,
-  appModule, dashboardModule,
-  baseDashboardModule, serverDashboardModule,
-  targetDashboardModule, serverModule,
-  jobStatsModule, hsmFsModule,
-  hsmModule, multiTogglerModule,
-  modalDecoratorModule, interceptorModule, statusModule,
-  modelFactoryModule, mgtModule, logModule,
-  disconnectModalModule, treeModule, aboutModule,
-  fileSystemModule, chartTransformersModule, resettableGroupModule,
-  oldRouteModule
-])
+export default angular
+  .module('iml', [
+    uiBootstrapModule,
+    ngResource,
+    ngAnimate,
+    routeToModule,
+    environmentModule,
+    exceptionModule,
+    uiRouter,
+    loginModule,
+    qsStreamModule,
+    appModule,
+    dashboardModule,
+    baseDashboardModule,
+    serverDashboardModule,
+    targetDashboardModule,
+    serverModule,
+    jobStatsModule,
+    hsmFsModule,
+    hsmModule,
+    multiTogglerModule,
+    modalDecoratorModule,
+    interceptorModule,
+    statusModule,
+    modelFactoryModule,
+    mgtModule,
+    logModule,
+    disconnectModalModule,
+    treeModule,
+    aboutModule,
+    fileSystemModule,
+    chartTransformersModule,
+    resettableGroupModule,
+    oldRouteModule
+  ])
   .config($compileProvider => {
     'ngInject';
-
     $compileProvider.debugInfoEnabled(false);
   })
   .config($locationProvider => {
     'ngInject';
-
     $locationProvider.html5Mode(true).hashPrefix('!');
   })
   .config($httpProvider => {
     'ngInject';
-
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   })
   .config(modelFactoryProvider => {
     'ngInject';
-
     modelFactoryProvider.setUrlPrefix('/api/');
   })
   .config($animateProvider => {
     'ngInject';
-
     $animateProvider.classNameFilter(/^((?!(fa-spin)).)*$/);
   })
   .config($urlMatcherFactoryProvider => {
     'ngInject';
-
-    $urlMatcherFactoryProvider
-      .strictMode(false);
+    $urlMatcherFactoryProvider.strictMode(false);
   })
-  .config(($stateProvider) => {
+  .config($stateProvider => {
     'ngInject';
-
     $stateProvider
       .state(loginState)
       .state(appState)
@@ -202,15 +191,9 @@ export default angular.module('iml', [
   .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .run(routeTransitions)
-  .run(($templateCache) => {
+  .run($templateCache => {
     'ngInject';
-
     $templateCache.put('/gui/job.html', jobTemplate);
-  })
-  .name;
+  }).name;
 
-angular.bootstrap(
-  document,
-  ['iml'],
-  {}
-);
+angular.bootstrap(document, ['iml'], {});

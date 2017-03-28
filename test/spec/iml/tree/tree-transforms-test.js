@@ -4,18 +4,12 @@ import highland from 'highland';
 
 import * as maybe from 'intel-maybe';
 
-import {
-  mock,
-  resetAll
-} from '../../../system-mock.js';
+import { mock, resetAll } from '../../../system-mock.js';
 
 describe('tree transforms', () => {
-  let getChildBy,
-    emitOnItem,
-    hasChanges,
-    transformItems;
+  let getChildBy, emitOnItem, hasChanges, transformItems;
 
-  beforeEachAsync(async function () {
+  beforeEachAsync(async function() {
     const mod = await mock('source/iml/tree/tree-transforms.js', {});
 
     ({
@@ -36,9 +30,7 @@ describe('tree transforms', () => {
       spy = jasmine.createSpy('spy');
 
       getChildBy(x => x.id === 1)(s)
-        .map(
-          maybe.withDefault(() => false)
-        )
+        .map(maybe.withDefault(() => false))
         .each(spy);
     });
 
@@ -49,10 +41,9 @@ describe('tree transforms', () => {
         }
       });
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
-          id: 1
-        });
+      expect(spy).toHaveBeenCalledOnceWith({
+        id: 1
+      });
     });
 
     it('should return false', () => {
@@ -62,21 +53,18 @@ describe('tree transforms', () => {
         }
       });
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith(false);
+      expect(spy).toHaveBeenCalledOnceWith(false);
     });
   });
 
   describe('emitOnItem', () => {
-    let s,
-      spy;
+    let s, spy;
 
     beforeEach(() => {
       s = highland();
       spy = jasmine.createSpy('spy');
 
-      emitOnItem(x => x.id === 1)(s)
-        .each(spy);
+      emitOnItem(x => x.id === 1)(s).each(spy);
     });
 
     it('should emit the value', () => {
@@ -86,10 +74,9 @@ describe('tree transforms', () => {
         }
       });
 
-      expect(spy)
-        .toHaveBeenCalledOnceWith({
-          id: 1
-        });
+      expect(spy).toHaveBeenCalledOnceWith({
+        id: 1
+      });
     });
 
     it('should emit nothing', () => {
@@ -99,9 +86,7 @@ describe('tree transforms', () => {
         }
       });
 
-      expect(spy)
-        .not
-        .toHaveBeenCalled();
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 
@@ -113,27 +98,33 @@ describe('tree transforms', () => {
     });
 
     it('should return true on first call', () => {
-      expect(changed({
-        id: 1
-      })).toBe(true);
+      expect(
+        changed({
+          id: 1
+        })
+      ).toBe(true);
     });
 
     it('should return true when data changes', () => {
       changed({
         id: 1
       });
-      expect(changed({
-        id: 2
-      })).toBe(true);
+      expect(
+        changed({
+          id: 2
+        })
+      ).toBe(true);
     });
 
     it('should return false when data does not change', () => {
       changed({
         id: 1
       });
-      expect(changed({
-        id: 1
-      })).toBe(false);
+      expect(
+        changed({
+          id: 1
+        })
+      ).toBe(false);
     });
   });
 
@@ -148,18 +139,19 @@ describe('tree transforms', () => {
         () => ({
           type: 'host'
         }),
-        () => highland([
-          {
-            meta: {
-              offset: 0,
-              limit: 20
+        () =>
+          highland([
+            {
+              meta: {
+                offset: 0,
+                limit: 20
+              }
             }
-          }
-        ])
+          ])
       )(s);
     });
 
-    it('should return a new addTreeItem', (done) => {
+    it('should return a new addTreeItem', done => {
       s.write({
         '1': {
           parentId: 0,
@@ -170,56 +162,52 @@ describe('tree transforms', () => {
         }
       });
 
-      transformer
-        .each(x => {
-          expect(x)
-            .toEqual({
-              type: 'ADD_TREE_ITEMS',
-              payload: [
-                {
-                  parentId: 0,
-                  meta: {
-                    offset: 0,
-                    limit: 20,
-                    current_page: 1
-                  }
-                }
-              ]
-            });
-
-          done();
+      transformer.each(x => {
+        expect(x).toEqual({
+          type: 'ADD_TREE_ITEMS',
+          payload: [
+            {
+              parentId: 0,
+              meta: {
+                offset: 0,
+                limit: 20,
+                current_page: 1
+              }
+            }
+          ]
         });
+
+        done();
+      });
     });
 
-    it('should add a new id on no match', (done) => {
+    it('should add a new id on no match', done => {
       s.write({
         '2': {
           parentId: 1
         }
       });
 
-      transformer
-        .each(x => {
-          expect(x)
-            .toEqual({
-              type: 'ADD_TREE_ITEMS',
-              payload: [
-                {
-                  type: 'host',
-                  open: false,
-                  opens: {},
-                  treeId: 1,
-                  meta: {
-                    offset: 0,
-                    limit: 20,
-                    current_page: 1
-                  }
-                }
-              ]
-            });
-
-          done();
+      transformer.each(x => {
+        expect(x).toEqual({
+          type: 'ADD_TREE_ITEMS',
+          payload: [
+            {
+              type: 'host',
+              open: false,
+              opens: {},
+              treeId: 1,
+              meta: {
+                offset: 0,
+                limit: 20,
+                current_page: 1
+              }
+            }
+          ]
         });
+
+        done();
+      });
     });
   });
 });

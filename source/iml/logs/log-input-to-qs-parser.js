@@ -9,32 +9,17 @@ import * as fp from 'intel-fp';
 import * as inputToQsParser from 'intel-qs-parsers/input-to-qs-parser.js';
 import * as parsely from 'intel-parsely';
 
-import {
-  inputToQsTokens
-} from 'intel-qs-parsers/tokens.js';
+import { inputToQsTokens } from 'intel-qs-parsers/tokens.js';
 
-import type {
-  tokensToResult
-} from 'intel-parsely';
+import type { tokensToResult } from 'intel-parsely';
 
 export const tokenizer = parsely.getLexer(inputToQsTokens);
 
 // type parser
 const type = parsely.matchValueTo('type', 'message_class');
 const types = parsely.choice(
-[
-  'normal',
-  'lustre',
-  'lustre_error',
-  'copytool',
-  'copytool_error'
-]
-  .map(
-    type => fp.flow(
-      parsely.matchValue(type),
-      parsely.onSuccess(x => x.toUpperCase())
-    )
-  )
+  ['normal', 'lustre', 'lustre_error', 'copytool', 'copytool_error'].map(type =>
+    fp.flow(parsely.matchValue(type), parsely.onSuccess(x => x.toUpperCase())))
 );
 const typeParser = parsely.choice([
   inputToQsParser.assign(type, types),
@@ -43,12 +28,15 @@ const typeParser = parsely.choice([
 
 //service parser
 const service = parsely.matchValueTo('service', 'tag');
-const assign:tokensToResult = inputToQsParser.assign(service, inputToQsParser.value);
-const inList:tokensToResult = inputToQsParser.inList(service, inputToQsParser.value);
-const serviceParser = parsely.choice([
-  inList,
-  assign
-]);
+const assign: tokensToResult = inputToQsParser.assign(
+  service,
+  inputToQsParser.value
+);
+const inList: tokensToResult = inputToQsParser.inList(
+  service,
+  inputToQsParser.value
+);
+const serviceParser = parsely.choice([inList, assign]);
 
 //message parser
 const message = parsely.matchValue('message');
@@ -58,10 +46,7 @@ const messageLike = inputToQsParser.like(message, inputToQsParser.value);
 const date = parsely.matchValueTo('date', 'datetime');
 
 const rightHand = fp.flow(
-  parsely.parseStr([
-    date,
-    inputToQsParser.ascOrDesc
-  ]),
+  parsely.parseStr([date, inputToQsParser.ascOrDesc]),
   parsely.onSuccess(x => x.split('-').reverse().join('-'))
 );
 
@@ -75,23 +60,11 @@ const hostName = parsely.many1(
     inputToQsParser.dash
   ])
 );
-const hostAssign = inputToQsParser.assign(
-  host,
-  hostName
-);
-const hostStarts = inputToQsParser.starts(
-  host,
-  hostName
-);
-const hostParser = parsely.choice([
-  hostAssign,
-  hostStarts
-]);
+const hostAssign = inputToQsParser.assign(host, hostName);
+const hostStarts = inputToQsParser.starts(host, hostName);
+const hostParser = parsely.choice([hostAssign, hostStarts]);
 
-const orderByParser = parsely.parseStr([
-  inputToQsParser.orderBy,
-  rightHand
-]);
+const orderByParser = parsely.parseStr([inputToQsParser.orderBy, rightHand]);
 
 export const choices = parsely.choice([
   typeParser,
@@ -106,15 +79,6 @@ export const choices = parsely.choice([
 
 const expr = parsely.sepBy1(choices, inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
-const logParser = parsely.parseStr([
-  emptyOrExpr,
-  parsely.endOfString
-]);
+const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(
-  fp.flow(
-    tokenizer,
-    logParser,
-    x => x.result
-  )
-);
+export default fp.memoize(fp.flow(tokenizer, logParser, x => x.result));
