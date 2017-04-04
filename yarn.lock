@@ -1682,7 +1682,7 @@ eslint-plugin-flowtype@2.30.0:
   dependencies:
     lodash "^4.15.0"
 
-eslint-plugin-prettier@^2.0.1:
+eslint-plugin-prettier@2.0.1:
   version "2.0.1"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/eslint-plugin-prettier/-/eslint-plugin-prettier-2.0.1.tgz#2ae1216cf053dd728360ca8560bf1aabc8af3fa9"
   dependencies:
@@ -3897,7 +3897,7 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@^0.22.0:
+prettier@0.22.0:
   version "0.22.0"
   resolved "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-repos/prettier/-/prettier-0.22.0.tgz#7b37c4480d0858180407e5a8e13f0f47da7385d2"
   dependencies:
