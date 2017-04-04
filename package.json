@@ -111,5 +111,6 @@
     "systemjs-builder": "0.15.34",
     "systemjs-plugin-json": "0.2.3",
     "systemjs-plugin-text": "0.0.9"
-  }
+  },
+  "dependencies": {}
 }
