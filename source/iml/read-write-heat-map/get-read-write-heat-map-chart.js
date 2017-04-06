@@ -82,7 +82,7 @@ export default (
           getReadWriteHeatMapStream(
             {
               ...overrides,
-              ...{ qs: { ...overrides.qs, ...{ metrics: x.dataType } } }
+              qs: { ...overrides.qs, metrics: x.dataType }
             },
             x.configType === 'duration' ? x : undefined,
             x.configType === 'range' ? x : undefined,
