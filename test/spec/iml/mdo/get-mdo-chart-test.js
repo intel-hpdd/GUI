@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -80,7 +80,7 @@ describe('MDO chart', () => {
 
     mod = await mock('source/iml/mdo/get-mdo-chart.js', {
       'source/iml/mdo/get-mdo-stream.js': { default: getMdoStream },
-      'source/iml/mdo/assets/html/mdo.html!text': { default: 'mdoTemplate' },
+      'source/iml/mdo/assets/html/mdo.html': { default: 'mdoTemplate' },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
       'source/iml/store/get-store.js': { default: getStore },
       'source/iml/duration-picker/duration-payload.js': {

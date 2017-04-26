@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export default function ServerDashboardCtrl($scope, hostStream, charts) {
   'ngInject';
@@ -28,7 +28,9 @@ export default function ServerDashboardCtrl($scope, hostStream, charts) {
     charts
   });
 
-  hostStream.through($scope.propagateChange($scope, serverDashboard, 'server'));
+  hostStream.through(
+    $scope.propagateChange.bind(null, $scope, serverDashboard, 'server')
+  );
 
   $scope.$on('$destroy', () => {
     hostStream.destroy();

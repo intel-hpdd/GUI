@@ -22,17 +22,19 @@
 // express and approved by Intel in writing.
 
 import socketStream from '../socket/socket-stream.js';
-import * as fp from 'intel-fp';
 
 import type { HighlandStreamT } from 'highland';
 import { flushOnChange } from '../chart-transformers/chart-transformers.js';
 
-export default fp.curry4(
-  (overrides, durationParams, rangeParams, timeOffset): HighlandStreamT<*> =>
-    socketStream('/read-write-heat-map', {
-      ...overrides,
-      durationParams,
-      rangeParams,
-      timeOffset
-    }).through(flushOnChange)
-);
+export default (
+  overrides: Object,
+  durationParams: ?Object,
+  rangeParams: ?Object,
+  timeOffset: number
+): HighlandStreamT<*> =>
+  socketStream('/read-write-heat-map', {
+    ...overrides,
+    durationParams,
+    rangeParams,
+    timeOffset
+  }).through(flushOnChange);

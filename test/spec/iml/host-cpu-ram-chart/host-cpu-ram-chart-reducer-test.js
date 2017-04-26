@@ -3,7 +3,7 @@ import {
   DEFAULT_HOST_CPU_RAM_CHART_ITEMS,
   default as hostCpuRamChartReducer
 } from '../../../../source/iml/host-cpu-ram-chart/host-cpu-ram-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('Host CPU Ram Chart reducer', () => {
   it('should be a function', () => {

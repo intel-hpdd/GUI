@@ -19,32 +19,31 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import formatNumber from '../../number-formatters/format-number.js';
-import formatBytes from '../../number-formatters/format-bytes.js';
+import { formatNumber, formatBytes } from '@mfl/number-formatters';
 import broadcaster from '../../broadcaster.js';
-import usageInfoTemplate from './assets/html/usage-info.html!text';
+import usageInfoTemplate from './assets/html/usage-info.html';
 
 export function UsageInfoController($scope, propagateChange) {
   'ngInject';
   this.format = this.prefix === 'bytes' ? formatBytes : formatNumber;
 
-  const normalize = fp.curry2(function normalize(prefix, x) {
-    [prefix + '_free', prefix + '_total'].forEach(function normalizeProps(key) {
+  const normalize = prefix => x => {
+    [`${prefix}_free`, `${prefix}_total`].forEach(key => {
       const single = key.split('_').join('');
 
       if (single in x) x[key] = x[single];
     });
 
     return x;
-  });
+  };
 
-  const addMetrics = fp.curry2(function addMetrics(prefix, x) {
-    x[prefix + '_used'] = x[prefix + '_total'] - x[prefix + '_free'];
+  const addMetrics = prefix => x => {
+    x[`${prefix}_used`] = x[`${prefix}_total`] - x[`${prefix}_free`];
 
     return x;
-  });
+  };
 
   const prefix = this.prefix;
   this.generateStats = fp.map(function(x) {
@@ -77,7 +76,7 @@ export function UsageInfoController($scope, propagateChange) {
 
   this.s2 = broadcaster(buildMetrics(s));
 
-  this.s2().through(propagateChange($scope, this, 'data'));
+  this.s2().through(propagateChange.bind(null, $scope, this, 'data'));
 }
 
 export function usageInfoDirective() {

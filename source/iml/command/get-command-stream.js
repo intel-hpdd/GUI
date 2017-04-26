@@ -22,20 +22,19 @@
 // express and approved by Intel in writing.
 
 import socketStream from '../socket/socket-stream.js';
-import * as fp from 'intel-fp';
 
-import type { commandT } from './command-types.js';
+import type { Command } from './command-types.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export default (commandList: commandT[]): HighlandStreamT<commandT[]> => {
+export default (commandList: Command[]): HighlandStreamT<Command[]> => {
   const options = {
     qs: {
-      id__in: fp.view(fp.compose(fp.mapped, fp.lensProp('id')), commandList)
+      id__in: commandList.map(x => x.id)
     }
   };
 
-  const stream: HighlandStreamT<{ objects: commandT[] }> = socketStream(
+  const stream: HighlandStreamT<{ objects: Command[] }> = socketStream(
     '/command',
     options
   );

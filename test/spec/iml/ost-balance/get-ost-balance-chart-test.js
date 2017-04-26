@@ -66,7 +66,7 @@ describe('get ost balance chart', () => {
       'source/iml/ost-balance/get-ost-balance-stream.js': {
         default: getOstBalanceStream
       },
-      'source/iml/ost-balance/assets/html/ost-balance.html!text': {
+      'source/iml/ost-balance/assets/html/ost-balance.html': {
         default: 'ostBalanceTemplate'
       },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },

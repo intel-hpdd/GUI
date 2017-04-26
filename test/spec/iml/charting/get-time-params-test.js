@@ -1,6 +1,6 @@
 import moment from 'moment';
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

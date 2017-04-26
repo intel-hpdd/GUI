@@ -19,8 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import moment from 'moment';
+import 'twix';
 
 export default function heatMap(dateTicks, getHeatMapChart, baseChart) {
   'ngInject';

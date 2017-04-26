@@ -23,8 +23,8 @@
 
 import { getData, fsCollStream } from './hsm-fs-resolves.js';
 
-import hsmFsTemplate from './assets/html/hsm-fs.html!text';
-import hsmTemplate from './assets/html/hsm.html!text';
+import hsmFsTemplate from './assets/html/hsm-fs.html';
+import hsmTemplate from './assets/html/hsm.html';
 
 import {
   copytoolStream,

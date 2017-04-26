@@ -21,8 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import extractApi from 'intel-extract-api';
-import * as fp from 'intel-fp';
+import extractApi from '@mfl/extract-api';
+import * as fp from '@mfl/fp';
 
 type stringFn = (resourceUri: string) => string;
 export default (): stringFn => fp.memoize(extractApi);

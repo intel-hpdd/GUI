@@ -2,7 +2,7 @@
 
 import highland from 'highland';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -12,12 +12,7 @@ describe('tree transforms', () => {
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/tree/tree-transforms.js', {});
 
-    ({
-      getChildBy,
-      emitOnItem,
-      hasChanges,
-      transformItems
-    } = mod);
+    ({ getChildBy, emitOnItem, hasChanges, transformItems } = mod);
   });
 
   afterEach(resetAll);
@@ -30,7 +25,7 @@ describe('tree transforms', () => {
       spy = jasmine.createSpy('spy');
 
       getChildBy(x => x.id === 1)(s)
-        .map(maybe.withDefault(() => false))
+        .map(maybe.withDefault.bind(null, () => false))
         .each(spy);
     });
 

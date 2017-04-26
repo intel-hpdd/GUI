@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import pageVisibility from '../page-visibility.js';
 
 import type { HighlandStreamT, errorWrapT } from 'highland';

@@ -11,7 +11,8 @@ describe('job indicator', () => {
     inject(function($rootScope, $compile, _$timeout_) {
       $timeout = _$timeout_;
 
-      element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
+      element =
+        '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
 
       $scope = $rootScope.$new();
 

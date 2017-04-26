@@ -1,55 +1,17 @@
 {
-  "env": {
-    "prod": {
-      "presets": ["es2015"],
-      "plugins": [
-        "transform-flow-strip-types",
-        "transform-class-properties",
-        "syntax-jsx",
-        "transform-object-rest-spread",
-        "inferno",
-        [
-          "angularjs-annotate",
-          {
-            "explicitOnly": true
-          }
-        ],
-        "transform-es2015-modules-systemjs"
-      ]
-    },
-    "coverage": {
-      "presets": [],
-      "plugins": [
-        [
-          "__coverage__",
-          {
-            "only": "source/iml/"
-          }
-        ],
-        "check-es2015-constants",
-        "transform-flow-strip-types",
-        "transform-class-properties",
-        "syntax-jsx",
-        "transform-object-rest-spread",
-        "inferno",
-        "transform-async-to-generator",
-        "transform-es2015-classes",
-        "transform-es2015-modules-systemjs"
-      ]
-    },
-    "dev": {
-      "presets": [],
-      "plugins": [
-        "check-es2015-constants",
-        "transform-flow-strip-types",
-        "transform-class-properties",
-        "syntax-jsx",
-        "transform-object-rest-spread",
-        "inferno",
-        "transform-async-to-generator",
-        "transform-es2015-classes",
-        "transform-es2015-modules-systemjs",
-      ]
-    }
-  }
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "transform-flow-strip-types",
+    "transform-object-rest-spread"
+  ],
+  "sourceMaps": "inline"
 }

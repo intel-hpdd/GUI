@@ -22,7 +22,7 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 import multiStream from '../multi-stream.js';
 
@@ -37,7 +37,8 @@ export function DeferredActionDropdownCtrl(
   const getActions = fp.map((x: string) =>
     socketStream(x, {
       jsonMask: 'resource_uri,available_actions,locks,id,label'
-    }));
+    })
+  );
 
   const getMs = fp.flow(getActions, multiStream);
 
@@ -49,7 +50,7 @@ export function DeferredActionDropdownCtrl(
     const ms: HighlandStreamT<any[]> = getMs(ctrl.row.affected);
 
     ms
-      .tap(() => ctrl.loading = false)
+      .tap(() => (ctrl.loading = false))
       .tap(localApply.bind(null, $scope))
       .pipe(ctrl.ms);
 

@@ -19,8 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import type { HighlandStreamT } from 'highland';
 
-export default fp.curry2(function sortBy(cmp, s) {
-  return s.collect().invoke('sort', [cmp]).sequence();
-});
+export default (cmp: Function) => (s: HighlandStreamT<Object[]>) =>
+  s.collect().invoke('sort', [cmp]).sequence();

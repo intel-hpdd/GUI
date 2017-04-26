@@ -21,10 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import flatMapChanges from 'intel-flat-map-changes';
-import * as fp from 'intel-fp';
+import flatMapChanges from '@mfl/flat-map-changes';
+import * as fp from '@mfl/fp';
 
-import { pickBy, values } from 'intel-obj';
+import { entries } from '@mfl/obj';
 import {
   DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
   UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS
@@ -50,7 +50,7 @@ import type {
 } from '../chart-transformers/chart-transformers-module.js';
 
 import agentVsCopytoolTemplate
-  from './assets/html/agent-vs-copytool-chart.html!text';
+  from './assets/html/agent-vs-copytool-chart.html';
 
 export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';
@@ -66,7 +66,10 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(data$Fn(overrides, fp.always(getAgentVsCopytoolStream)))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getAgentVsCopytoolStream)
+        )
       );
 
     const xScale = d3.time.scale();
@@ -76,12 +79,13 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
       .domain(['running actions', 'waiting requests', 'idle workers'])
       .range(['#F3B600', '#A3B600', '#0067B4']);
 
-    const without = fp.flow(fp.eq, fn => (x, y) => !fn(y));
-    const getNumbers = fp.flow(pickBy(without('ts')), values);
-    const getMax = fp.flow(fp.map(getNumbers), fp.unwrap, d3.max);
+    const getNumbers = x =>
+      entries(x).filter(([k]) => k !== 'ts').map(([, v]) => v);
 
-    const getTime = fp.invokeMethod('getTime', []);
-    const xComparator = fp.eqFn(getTime, getTime);
+    const getMax = fp.flow(fp.map(getNumbers), xs => [].concat(...xs), d3.max);
+
+    const getTime = fp.invokeMethod('getTime')([]);
+    const xComparator = fp.eqFn(getTime)(getTime);
 
     const getDate = d => createDate(d.ts);
 

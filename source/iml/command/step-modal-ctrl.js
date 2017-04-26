@@ -19,10 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 import COMMAND_STATES from './command-states.js';
-import stepModalTemplate from './assets/html/step-modal.html!text';
+import stepModalTemplate from './assets/html/step-modal.html';
 
 export function StepModalCtrl($scope, stepsStream, jobStream) {
   'ngInject';
@@ -48,7 +48,7 @@ export function StepModalCtrl($scope, stepsStream, jobStream) {
   $scope.$on('$destroy', jobStream.destroy.bind(jobStream));
   $scope.$on('$destroy', stepsStream.destroy.bind(stepsStream));
 
-  const p = $scope.propagateChange($scope, this);
+  const p = $scope.propagateChange.bind(null, $scope, this);
 
   p('job', jobStream);
   p('steps', stepsStream);

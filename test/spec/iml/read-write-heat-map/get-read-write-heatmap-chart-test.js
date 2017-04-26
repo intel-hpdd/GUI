@@ -1,6 +1,6 @@
 import highland from 'highland';
 
-import { values } from 'intel-obj';
+import { values } from '@mfl/obj';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -111,7 +111,7 @@ describe('Read Write Heat Map chart', () => {
         'source/iml/chart-compiler/chart-compiler.js': {
           default: chartCompiler
         },
-        'source/iml/read-write-heat-map/assets/html/read-write-heat-map.html!text': {
+        'source/iml/read-write-heat-map/assets/html/read-write-heat-map.html': {
           default: 'heatMapTemplate'
         },
         'source/iml/environment.js': {

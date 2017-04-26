@@ -1,13 +1,13 @@
 import { mock, resetAll } from '../../../system-mock.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 describe('app states', () => {
   let appState;
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/app/app-states.js', {
-      'source/iml/app/assets/html/app.html!text': { default: 'appTemplate' }
+      'source/iml/app/assets/html/app.html': { default: 'appTemplate' }
     });
 
     appState = mod.appState;

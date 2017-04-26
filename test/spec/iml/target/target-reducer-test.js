@@ -1,5 +1,5 @@
 import targetReducer from '../../../../source/iml/target/target-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('target reducer', () => {
   it('should be a function', () => {

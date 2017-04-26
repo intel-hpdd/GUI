@@ -1,5 +1,5 @@
 import serverModule from '../../../../source/iml/server/server-module';
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 describe('get add server manager', function() {
   beforeEach(module(serverModule));

@@ -11,10 +11,7 @@ describe('server dashboard resolves', () => {
       {}
     );
 
-    ({
-      serverDashboardChartResolves,
-      serverDashboardHostStreamResolves
-    } = mod);
+    ({ serverDashboardChartResolves, serverDashboardHostStreamResolves } = mod);
   });
 
   afterEach(resetAll);
@@ -126,7 +123,7 @@ describe('server dashboard resolves', () => {
 
       let result;
 
-      s.each(x => result = x);
+      s.each(x => (result = x));
 
       expect(result).toEqual({
         id: 1,

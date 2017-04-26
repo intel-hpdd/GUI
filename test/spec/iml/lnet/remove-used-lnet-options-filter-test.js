@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 describe('Remove used LNet options', () => {

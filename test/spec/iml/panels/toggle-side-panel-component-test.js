@@ -4,8 +4,10 @@ describe('slider panel', () => {
   let inst, rootPanel;
 
   beforeEachAsync(async function() {
-    const mod = await mock('source/iml/panels/toggle-side-panel-component.js', {
-    });
+    const mod = await mock(
+      'source/iml/panels/toggle-side-panel-component.js',
+      {}
+    );
 
     rootPanel = {
       open: jasmine.createSpy('open'),

@@ -48,7 +48,5 @@ export default angular
     highlandModule,
     durationPickerModule
   ])
-  .factory(
-    'getReadWriteBandwidthChart',
-    getReadWriteBandwidthChartFactory
-  ).name;
+  .factory('getReadWriteBandwidthChart', getReadWriteBandwidthChartFactory)
+  .name;

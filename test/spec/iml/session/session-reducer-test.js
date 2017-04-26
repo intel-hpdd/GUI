@@ -6,7 +6,7 @@ import {
 
 import type { sessionT } from '../../../../source/iml/api-types.js';
 
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('session reducer', () => {
   let session: sessionT;

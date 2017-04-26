@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import aboutTemplate from './assets/html/about.html!text';
+import aboutTemplate from './assets/html/about.html';
 
 export const aboutState = {
   name: 'app.about',

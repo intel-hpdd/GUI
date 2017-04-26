@@ -1,9 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import memoryUsageDataFixtures
-  from '../../../data-fixtures/memory-usage-fixtures.json!json';
+  from '../../../data-fixtures/memory-usage-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -38,7 +38,8 @@ describe('The memory usage stream', () => {
         maybe.withDefault(
           () => new Date(),
           maybe.map(x => new Date(x), maybe.of(arg))
-        ));
+        )
+      );
 
     const getTimeParamsModule = await mock(
       'source/iml/charting/get-time-params.js',

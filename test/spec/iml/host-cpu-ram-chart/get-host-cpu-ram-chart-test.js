@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -84,7 +84,7 @@ describe('Host Cpu Ram chart', () => {
         'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': {
           default: getHostCpuRamStream
         },
-        'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html!text': {
+        'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html': {
           default: 'hostCpuTemplate'
         },
         'source/iml/chart-compiler/chart-compiler.js': {

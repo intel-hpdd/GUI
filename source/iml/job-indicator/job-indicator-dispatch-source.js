@@ -42,4 +42,5 @@ if (ALLOW_ANONYMOUS_READ)
       store.dispatch({
         type: ADD_JOB_INDICATOR_ITEMS,
         payload
-      }));
+      })
+    );

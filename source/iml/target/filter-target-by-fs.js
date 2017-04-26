@@ -21,29 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-
-const viewLens = fp.flow(fp.lensProp, fp.view);
+import * as fp from '@mfl/fp';
 
 export default function filterTargetByFs(id: number) {
-  const idLens = fp.lensProp('id');
-  const fsLens = viewLens('filesystems');
-  const fsIdLens = viewLens('filesystem_id');
-  const findById = fp.find(fp.eqFn(Number.parseInt, fp.view(idLens), id));
+  const findById = xs => xs.find(x => id === x.id) != null;
 
-  const getData = fp.cond(
-    [fp.flow(fsLens, Array.isArray), fsLens],
-    [
-      fp.always(true),
-      fp.flow(
-        fsIdLens,
-        x => {
-          return { id: x };
-        },
-        fp.arrayWrap
-      )
-    ]
-  );
+  const getData = x =>
+    Array.isArray(x.filesystems) ? x.filesystems : [{ id: x.filesystem_id }];
 
   const filter = fp.filter(fp.flow(getData, findById));
 

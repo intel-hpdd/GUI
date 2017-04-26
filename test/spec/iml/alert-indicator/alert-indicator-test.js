@@ -16,7 +16,8 @@ describe('alert indicator', () => {
 
     beforeEach(
       inject(($rootScope, $compile) => {
-        element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
+        element =
+          '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
           '</record-state>';
 
         stream = highland();

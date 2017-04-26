@@ -24,9 +24,9 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 import tooltipModule from '../tooltip/tooltip-module';
 import popoverModule from '../popover/popover-module';
 import helpModule from '../help-module';
-import pdshParser from 'intel-pdsh-parser';
+import pdshParser from '@mfl/pdsh-parser';
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default angular
   .module('pdsh-module', [

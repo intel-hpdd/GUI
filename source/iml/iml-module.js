@@ -21,6 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import '../styles/imports.less';
+
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -48,7 +50,7 @@ import serverModule from './server/server-module';
 import jobStatsModule from './job-stats/job-stats-module';
 import hsmFsModule from './hsm/hsm-fs-module';
 import hsmModule from './hsm/hsm-module';
-import aboutModule from './about/about-module';
+import aboutComponent from './about/about-component.js';
 import modalDecoratorModule from './modal-decorator/modal-decorator-module';
 import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
@@ -108,9 +110,9 @@ import {
 
 import oldGUIStates from './old-gui-shim/old-gui-states.js';
 
-import jobTemplate from './command/assets/html/job.html!text';
+import jobTemplate from './command/assets/html/job.html';
 
-export default angular
+angular
   .module('iml', [
     uiBootstrapModule,
     ngResource,
@@ -139,7 +141,6 @@ export default angular
     logModule,
     disconnectModalModule,
     treeModule,
-    aboutModule,
     fileSystemModule,
     chartTransformersModule,
     resettableGroupModule,
@@ -198,6 +199,7 @@ export default angular
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
   .directive('asViewer', asViewerDirective)
+  .component('aboutComponent', aboutComponent)
   .component('sliderPanel', sliderPanelComponent)
   .component('sidePanel', sidePanelComponent)
   .component('rootPanel', rootPanelComponent)

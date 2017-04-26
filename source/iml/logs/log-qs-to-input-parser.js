@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import * as qsToInputParser from 'intel-qs-parsers/qs-to-input-parser.js';
-import * as parsely from 'intel-parsely';
+import * as fp from '@mfl/fp';
+import * as qsToInputParser from '@mfl/qs-parsers/source/qs-to-input-parser.js';
+import * as parsely from '@mfl/parsely';
 
-import { qsToInputTokens } from 'intel-qs-parsers/tokens.js';
+import { qsToInputTokens } from '@mfl/qs-parsers/source/tokens.js';
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
 
@@ -50,7 +50,8 @@ const rightHands = parsely.choice(
       fp.flow(
         parsely.matchValue(severity),
         parsely.onSuccess(x => x.toLowerCase())
-      ))
+      )
+    )
     .concat(parsely.many1(valueOrNumberOrDotOrDash))
 );
 
@@ -70,7 +71,7 @@ const choices = parsely.choice([
   assign,
   orderBy
 ]);
-const expr = parsely.sepBy1(choices, qsToInputParser.and);
+const expr = parsely.sepBy1(choices)(qsToInputParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 

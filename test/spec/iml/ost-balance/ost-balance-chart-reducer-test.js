@@ -3,7 +3,7 @@ import {
   DEFAULT_OST_BALANCE_CHART_ITEMS,
   default as ostBalanceChartReducer
 } from '../../../../source/iml/ost-balance/ost-balance-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('ost balance reducer', () => {
   it('should be a function', () => {

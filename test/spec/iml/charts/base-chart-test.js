@@ -1,6 +1,6 @@
 import highland from 'highland';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -29,7 +29,7 @@ describe('base chart', () => {
       nvd3: {
         default: nv
       },
-      'source/iml/charts/assets/html/chart.html!text': {
+      'source/iml/charts/assets/html/chart.html': {
         default: 'chartTemplate'
       }
     });

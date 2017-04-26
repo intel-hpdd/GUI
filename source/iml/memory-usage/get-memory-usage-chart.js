@@ -21,13 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+import flatMapChanges from '@mfl/flat-map-changes';
 
-import memoryUsageChartTemplate
-  from './assets/html/memory-usage-chart.html!text';
+import memoryUsageChartTemplate from './assets/html/memory-usage-chart.html';
 import getMemoryUsageStream from './get-memory-usage-stream.js';
-import formatBytes from '../number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler
@@ -62,7 +60,10 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(data$Fn(overrides, fp.always(getMemoryUsageStream)))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getMemoryUsageStream)
+        )
       );
 
     return chartCompiler(

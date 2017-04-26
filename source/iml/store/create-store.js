@@ -68,7 +68,7 @@ export default function createStore(reducers: Object): StoreT {
       return view()
         .map(state => state[key])
         .filter(x => x !== lastItem)
-        .tap(x => lastItem = x);
+        .tap(x => (lastItem = x));
     }
   };
 }

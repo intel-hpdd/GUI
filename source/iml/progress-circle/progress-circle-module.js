@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import d3module from '../d3/d3-module';
 
 export default angular

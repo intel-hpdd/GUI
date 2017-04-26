@@ -22,82 +22,82 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
-import * as maybe from 'intel-maybe';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
 
 import getServerMoment from '../get-server-moment.js';
 import createDate from '../create-date.js';
 
 import type { HighlandStreamT } from 'highland';
 
-type statT = {
+type Point = {
   data: {
     [key: string]: number
   },
   ts: string
 };
 
-export const getRequestRange = fp.curry3(
-  function getRequestRangeOuter(overrides, begin, end) {
-    getRequestRange.setLatest = fp.identity;
+export const getRequestRange = (overrides: Object) => (
+  begin: number | string,
+  end: string
+) => {
+  getRequestRange.setLatest = fp.identity;
 
-    return getRequestRange;
+  return getRequestRange;
 
-    function getRequestRange(params) {
-      params = angular.merge({}, params, overrides);
-      params.qs.begin = getServerMoment(begin).toISOString();
-      params.qs.end = getServerMoment(end).toISOString();
+  function getRequestRange(params: Object) {
+    params = angular.merge({}, params, overrides);
+    params.qs.begin = getServerMoment(begin).toISOString();
+    params.qs.end = getServerMoment(end).toISOString();
 
-      return params;
-    }
+    return params;
   }
-);
+};
 
-export const getRequestDuration = fp.curry3(
-  function getRequestDurationOuter(overrides: Object, size: number, unit: string) {
-    let latest;
+export const getRequestDuration = (overrides: Object) => (
+  size: number | string,
+  unit: string
+) => {
+  let latest;
 
-    getRequestDuration.setLatest = function setLatest(
-      s: HighlandStreamT<statT>
-    ) {
-      return s
-        .collect()
-        .tap(xs => {
-          const last = maybe.map(x => x.ts, fp.last(xs));
-          latest = maybe.withDefault(() => null, last);
-        })
-        .flatten();
-    };
+  getRequestDuration.setLatest = (s: HighlandStreamT<Point>) => {
+    return s
+      .collect()
+      .tap(xs => {
+        const last = maybe.map(x => x.ts, fp.last(xs));
+        latest = maybe.withDefault(() => null, last);
+      })
+      .flatten();
+  };
 
-    return getRequestDuration;
+  return getRequestDuration;
 
-    function getRequestDuration(params: Object) {
-      params = angular.merge({}, params, overrides);
+  function getRequestDuration(params: Object) {
+    params = angular.merge({}, params, overrides);
 
-      if (latest) {
-        const latestDate = createDate(latest);
+    if (latest) {
+      const latestDate = createDate(latest);
 
-        params.qs.end = latestDate.toISOString();
-        params.qs.begin = createDate().toISOString();
-        params.qs.update = true;
-      } else {
-        const end = getServerMoment().milliseconds(0);
+      params.qs.end = latestDate.toISOString();
+      params.qs.begin = createDate().toISOString();
+      params.qs.update = true;
+    } else {
+      const end = getServerMoment().milliseconds(0);
 
-        const secs = end.seconds();
-        end.seconds(secs - secs % 10);
+      const secs = end.seconds();
+      end.seconds(secs - secs % 10);
 
-        params.qs.end = end.clone().add(10, 'seconds').toISOString();
+      params.qs.end = end.clone().add(10, 'seconds').toISOString();
 
-        params.qs.begin = end
-          .subtract(size, unit)
-          .subtract(10, 'seconds')
-          .toISOString();
-      }
-
-      return params;
+      params.qs.begin = end
+        .subtract(size, unit)
+        .subtract(10, 'seconds')
+        .toISOString();
     }
+
+    return params;
   }
-);
+};
 
 export const getTimeParams = {
   getRequestDuration,

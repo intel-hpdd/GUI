@@ -26,8 +26,7 @@ import parserPermutations from '../parser-permutations.js';
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from '../status/status-qs-to-old-qs-parser.js';
 import store from '../store/get-store.js';
-import multiStream from '../multi-stream.js';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { resolveStream } from '../promise-transforms.js';
 
@@ -87,12 +86,9 @@ export const logTableState = {
 
       if (qs.length) qs = `?${qs}`;
 
-      const m$ = multiStream([
-        store.select('server'),
-        socketStream('/log/' + qs)
-      ]);
+      const $ = store.select('server').zip(socketStream(`/log/${qs}`));
 
-      return resolveStream(m$.map(fp.flow(addHostIds, addCurrentPage)));
+      return resolveStream($.map(fp.flow(addHostIds, addCurrentPage)));
     }
   },
   component: 'logTable'

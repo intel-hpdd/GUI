@@ -6,7 +6,7 @@ import {
   waitForChartData
 } from '../../../../source/iml/chart-transformers/chart-transformers.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import {
   documentHidden,

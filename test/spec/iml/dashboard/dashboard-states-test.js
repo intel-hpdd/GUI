@@ -44,16 +44,16 @@ describe('dashboard states', () => {
         targetDashboardUsageStream,
         targetDashboardTargetStream
       },
-      'source/iml/dashboard/assets/html/dashboard.html!text': {
+      'source/iml/dashboard/assets/html/dashboard.html': {
         default: 'dashboardTemplate'
       },
-      'source/iml/dashboard/assets/html/base-dashboard.html!text': {
+      'source/iml/dashboard/assets/html/base-dashboard.html': {
         default: 'baseDashboardTemplate'
       },
-      'source/iml/dashboard/assets/html/target-dashboard.html!text': {
+      'source/iml/dashboard/assets/html/target-dashboard.html': {
         default: 'targetDashboardTemplate'
       },
-      'source/iml/dashboard/assets/html/server-dashboard.html!text': {
+      'source/iml/dashboard/assets/html/server-dashboard.html': {
         default: 'serverDashboardTemplate'
       }
     });

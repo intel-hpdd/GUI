@@ -4,6 +4,8 @@ import highland from 'highland';
 
 import store from '../../../../source/iml/store/get-store.js';
 
+import { querySelector } from '../../../../source/iml/dom-utils.js';
+
 import { mock, resetAll } from '../../../system-mock.js';
 
 import type { $scopeT, $compileT } from 'angular';
@@ -14,7 +16,7 @@ describe('tree server collection component', () => {
   beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and.callFake(() => socket$ = highland());
+      .and.callFake(() => (socket$ = highland()));
 
     jasmine.clock().install();
 
@@ -36,7 +38,8 @@ describe('tree server collection component', () => {
   beforeEach(
     inject(($compile: $compileT, $rootScope: $scopeT) => {
       const $scope = $rootScope.$new();
-      const template = '<tree-server-collection parent-id="0"></tree-server-collection>';
+      const template =
+        '<tree-server-collection parent-id="0"></tree-server-collection>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -50,7 +53,8 @@ describe('tree server collection component', () => {
   afterEach(() =>
     store.dispatch({
       type: 'RESET_STATE'
-    }));
+    })
+  );
 
   afterEach(() => jasmine.clock().tick(1));
 
@@ -59,7 +63,7 @@ describe('tree server collection component', () => {
   });
 
   it('should link to the server page', () => {
-    const route = el.querySelector('a').getAttribute('ui-sref');
+    const route = querySelector(el, 'a').getAttribute('ui-sref');
 
     expect(route).toBe('app.server({ resetState: true })');
   });
@@ -108,7 +112,7 @@ describe('tree server collection component', () => {
 
     describe('on click', () => {
       beforeEach(() => {
-        const chevron = el.querySelector('i.fa-chevron-right');
+        const chevron = querySelector(el, 'i.fa-chevron-right');
         chevron.click();
       });
 

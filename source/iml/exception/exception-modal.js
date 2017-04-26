@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
-const template = '<div class="modal-header"> \
+const template =
+  '<div class="modal-header"> \
       <h3>An Error Has Occurred!</h3> \
   </div> \
   <div class="modal-body"> \

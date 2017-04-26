@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import actionDropdownModule
   from '../../../../source/iml/action-dropdown/action-dropdown-module.js';
@@ -262,9 +262,8 @@ describe('action dropdown directive', function() {
       });
 
       it('should update the long_description if it changes', function() {
-        records[0].available_actions[
-          0
-        ].long_description = 'Description of action word';
+        records[0].available_actions[0].long_description =
+          'Description of action word';
         $scope.stream.write(records);
         jasmine.clock().tick();
 

@@ -1,9 +1,9 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture
-  from '../../../data-fixtures/transformed-host-profile-fixture.json!json';
+  from '../../../data-fixtures/transformed-host-profile-fixture.json';
 
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

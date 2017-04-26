@@ -44,4 +44,5 @@ if (ALLOW_ANONYMOUS_READ)
       store.dispatch({
         type: ADD_TARGET_ITEMS,
         payload
-      }));
+      })
+    );

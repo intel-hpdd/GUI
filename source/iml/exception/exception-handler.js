@@ -21,41 +21,43 @@
 
 export default $provide => {
   'ngInject';
-  $provide.decorator(
-    '$exceptionHandler',
-    function($injector, windowUnload, $delegate) {
-      'ngInject';
-      let triggered;
-      const cache = {};
+  $provide.decorator('$exceptionHandler', function(
+    $injector,
+    windowUnload,
+    $delegate
+  ) {
+    'ngInject';
+    let triggered;
+    const cache = {};
 
-      return function handleException(exception, cause) {
-        //Always hit the delegate.
-        $delegate(exception, cause);
+    return function handleException(exception, cause) {
+      //Always hit the delegate.
+      $delegate(exception, cause);
 
-        if (triggered || windowUnload.unloading) return;
+      if (triggered || windowUnload.unloading) return;
 
-        triggered = true;
+      triggered = true;
 
-        // Lazy Load to avoid a $rootScope circular dependency.
-        const exceptionModal = get('exceptionModal');
-        const $document = get('$document');
+      // Lazy Load to avoid a $rootScope circular dependency.
+      const exceptionModal = get('exceptionModal');
+      const $document = get('$document');
 
-        exception.cause = cause;
-        exception.url = $document[0].URL;
+      exception.cause = cause;
+      exception.url = $document[0].URL;
 
-        exceptionModal({
-          resolve: {
-            exception: function() {
-              return exception;
-            }
+      exceptionModal({
+        resolve: {
+          exception: function() {
+            return exception;
           }
-        });
-      };
+        }
+      });
+    };
 
-      function get(serviceName) {
-        return cache[serviceName] ||
-          (cache[serviceName] = $injector.get(serviceName));
-      }
+    function get(serviceName) {
+      return (
+        cache[serviceName] || (cache[serviceName] = $injector.get(serviceName))
+      );
     }
-  );
+  });
 };

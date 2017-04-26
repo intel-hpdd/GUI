@@ -3,8 +3,10 @@
 import Tooltip from '../../../source/iml/tooltip.js';
 import Inferno from 'inferno';
 
+import { querySelector } from '../../../source/iml/dom-utils.js';
+
 describe('tooltip', () => {
-  let root, tooltip;
+  let root, tooltip: HTMLElement;
 
   describe('with a message', () => {
     beforeEach(() => {
@@ -20,7 +22,7 @@ describe('tooltip', () => {
         root
       );
 
-      tooltip = root.querySelector('.inferno-tt');
+      tooltip = querySelector(root, '.inferno-tt');
     });
 
     it('should render the tooltip', () => {
@@ -48,12 +50,12 @@ describe('tooltip', () => {
     });
 
     it('should have the tooltip-arrow', () => {
-      const tooltipArrow = tooltip.querySelector('.tooltip-arrow');
+      const tooltipArrow = querySelector(tooltip, '.tooltip-arrow');
       expect(tooltipArrow).not.toBeNull();
     });
 
     it('should have an inner section with a message', () => {
-      const tooltipInner = tooltip.querySelector('.tooltip-inner');
+      const tooltipInner = querySelector(tooltip, '.tooltip-inner');
       expect(tooltipInner.textContent).toEqual('Test message');
     });
   });
@@ -67,7 +69,7 @@ describe('tooltip', () => {
         root
       );
 
-      tooltip = root.querySelector('.inferno-tt');
+      tooltip = querySelector(root, '.inferno-tt');
     });
 
     it('should not render a tooltip', () => {

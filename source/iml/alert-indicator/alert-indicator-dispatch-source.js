@@ -46,5 +46,6 @@ if (ALLOW_ANONYMOUS_READ) {
     store.dispatch({
       type: ADD_ALERT_INDICATOR_ITEMS,
       payload
-    }));
+    })
+  );
 }

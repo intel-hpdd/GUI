@@ -22,6 +22,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import debounce from 'intel-debounce';
+import debounce from '@mfl/debounce';
 
 export default angular.module('debounce', []).value('debounce', debounce).name;

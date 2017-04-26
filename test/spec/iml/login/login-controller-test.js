@@ -18,10 +18,10 @@ describe('Login Controller', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/login/login-controller.js', {
-      'source/iml/login/assets/html/eula.html!text': {
+      'source/iml/login/assets/html/eula.html': {
         default: 'eulaTemplate'
       },
-      'source/iml/access-denied/assets/html/access-denied.html!text': {
+      'source/iml/access-denied/assets/html/access-denied.html': {
         default: 'accessDeniedTemplate'
       }
     });

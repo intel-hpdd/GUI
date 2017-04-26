@@ -19,26 +19,20 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 import highland from 'highland';
 import removeDups from '../charting/remove-dups.js';
 import toNvd3 from '../charting/to-nvd3.js';
 
-import { reduce } from 'intel-obj';
-
 const statsPrefixRegex = /^stats_/;
 const dataLens = fp.lensProp('data');
-const stripStatsPrefix = fp.over(
-  dataLens,
-  reduce(
-    () => ({}),
-    (value, key, result) => {
-      const newKey = key.trim().replace(statsPrefixRegex, '');
-      result[newKey] = value;
-      return result;
-    }
-  )
+const stripStatsPrefix = fp.over(dataLens, x =>
+  Object.entries(x).reduce((result, [key, value]) => {
+    const newKey = key.trim().replace(statsPrefixRegex, '');
+    result[newKey] = value;
+    return result;
+  }, {})
 );
 
 const stats = [
@@ -57,7 +51,7 @@ const stats = [
 ];
 
 const prependStats = ''.concat.bind('stats_');
-const metrics = fp.map(prependStats, stats).join(',');
+const metrics = stats.map(x => prependStats(x)).join(',');
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
@@ -76,7 +70,7 @@ export default (requestRange, buff) => {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(stats))
-      .each(function pushData(x) {
+      .each(x => {
         push(null, x);
         next();
       });

@@ -30,7 +30,7 @@ export const DURATIONS = {
   YEARS: 'years'
 };
 
-import durationPickerTemplate from './assets/html/duration-picker.html!text';
+import durationPickerTemplate from './assets/html/duration-picker.html';
 
 export default {
   scope: {},

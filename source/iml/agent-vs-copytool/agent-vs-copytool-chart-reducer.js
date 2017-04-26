@@ -21,8 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS = 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS';
-export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS = 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS';
+export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS =
+  'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS';
+export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS =
+  'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS';
 
 import type {
   durationPayloadHashT,

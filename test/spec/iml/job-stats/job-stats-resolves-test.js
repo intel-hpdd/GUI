@@ -50,10 +50,7 @@ describe('jobstats resolves', () => {
       }
     });
 
-    ({
-      jobstats$,
-      getData
-    } = mod);
+    ({ jobstats$, getData } = mod);
   });
 
   afterEach(resetAll);

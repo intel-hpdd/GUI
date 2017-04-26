@@ -132,7 +132,7 @@ describe('step modal', () => {
         'source/iml/socket/socket-stream.js': {
           default: socketStream
         },
-        'source/iml/command/assets/html/step-modal.html!text': {
+        'source/iml/command/assets/html/step-modal.html': {
           default: 'stepModalTemplate'
         }
       });

@@ -27,10 +27,10 @@ describe('hsm states', () => {
         fsCollStream,
         getData
       },
-      'source/iml/hsm/assets/html/hsm-fs.html!text': {
+      'source/iml/hsm/assets/html/hsm-fs.html': {
         default: 'hsmFsTemplate'
       },
-      'source/iml/hsm/assets/html/hsm.html!text': {
+      'source/iml/hsm/assets/html/hsm.html': {
         default: 'hsmTemplate'
       }
     });

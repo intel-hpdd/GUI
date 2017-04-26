@@ -1,8 +1,7 @@
 import highland from 'highland';
 import dashboardModule
   from '../../../../../source/iml/dashboard/dashboard-module.js';
-import formatBytes
-  from '../../../../../source/iml/number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 
 describe('usage info', () => {
   let ctrl, $scope, $exceptionHandler, stream, fs;

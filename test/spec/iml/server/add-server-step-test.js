@@ -5,7 +5,7 @@ describe('Add server step', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/add-server-step.js', {
-      'source/iml/server/assets/html/add-server-step.html!text': {
+      'source/iml/server/assets/html/add-server-step.html': {
         default: 'addServerTemplate'
       }
     });

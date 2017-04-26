@@ -3,12 +3,14 @@
 import Inferno from 'inferno';
 import { Modal, Header, Body, Footer } from '../../../source/iml/modal.js';
 
+import { querySelector } from '../../../source/iml/dom-utils.js';
+
 describe('Modal test', () => {
-  let root, onAgree, onDisagree, TestModal, el;
+  let root: HTMLDivElement, onAgree, onDisagree, TestModal, el: HTMLElement;
 
   beforeEach(() => {
     root = document.createElement('div');
-    document.body.appendChild(root);
+    querySelector(document, 'body').appendChild(root);
 
     onAgree = jasmine.createSpy('onAgree');
     onDisagree = jasmine.createSpy('onDisagree');
@@ -36,7 +38,7 @@ describe('Modal test', () => {
   });
 
   afterEach(() => {
-    document.body.removeChild(root);
+    querySelector(document, 'body').removeChild(root);
   });
 
   describe('with modal not visible', () => {
@@ -46,7 +48,7 @@ describe('Modal test', () => {
         root
       );
 
-      el = root.querySelector('.modal');
+      el = querySelector(root, '.modal');
     });
 
     it('should not exist on the element', () => {
@@ -61,7 +63,7 @@ describe('Modal test', () => {
         root
       );
 
-      el = root.querySelector('.modal');
+      el = querySelector(root, '.modal');
     });
 
     it('should have the extra classes', () => {
@@ -81,19 +83,19 @@ describe('Modal test', () => {
     });
 
     it('should set the document role on the modal-dialog', () => {
-      expect(el.querySelector('.modal-dialog').getAttribute('role')).toEqual(
+      expect(querySelector(el, '.modal-dialog').getAttribute('role')).toEqual(
         'document'
       );
     });
 
     it('should have a modal-content container', () => {
-      expect(el.querySelector('.modal-content')).not.toBeNull();
+      expect(querySelector(el, '.modal-content')).not.toBeNull();
     });
 
     describe('modal header', () => {
-      let modalHeader;
+      let modalHeader: HTMLElement;
       beforeEach(() => {
-        modalHeader = el.querySelector('.modal-header');
+        modalHeader = querySelector(el, '.modal-header');
       });
 
       it('should exist', () => {
@@ -101,16 +103,16 @@ describe('Modal test', () => {
       });
 
       it('should have the title', () => {
-        expect(modalHeader.querySelector('h3').textContent).toEqual(
+        expect(querySelector(modalHeader, 'h3').textContent).toEqual(
           'This is the header'
         );
       });
     });
 
     describe('modal body', () => {
-      let modalBody;
+      let modalBody: HTMLElement;
       beforeEach(() => {
-        modalBody = el.querySelector('.modal-body');
+        modalBody = querySelector(el, '.modal-body');
       });
 
       it('should exist', () => {
@@ -118,7 +120,7 @@ describe('Modal test', () => {
       });
 
       it('should render the content component', () => {
-        expect(modalBody.querySelector('p').textContent).toEqual(
+        expect(querySelector(modalBody, 'p').textContent).toEqual(
           'Test content'
         );
       });
@@ -127,9 +129,9 @@ describe('Modal test', () => {
     describe('modal footer', () => {
       let modalFooter, successButton, dangerButton;
       beforeEach(() => {
-        modalFooter = el.querySelector('.modal-footer');
-        successButton = modalFooter.querySelector('button.btn-success');
-        dangerButton = modalFooter.querySelector('button.btn-danger');
+        modalFooter = querySelector(el, '.modal-footer');
+        successButton = querySelector(modalFooter, 'button.btn-success');
+        dangerButton = querySelector(modalFooter, 'button.btn-danger');
       });
 
       it('should exist', () => {

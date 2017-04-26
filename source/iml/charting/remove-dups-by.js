@@ -19,11 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import _ from 'intel-lodash-mixins';
+import type { HighlandStreamT } from 'highland';
 
-export default fp.curry2(function removeDupsFactory(cmp, s) {
-  return s.uniqBy(function removeDups(a, b) {
-    return _.eqProp('ts', a, b) && cmp(a, b);
-  });
-});
+export default (cmp: Function, s: HighlandStreamT<Object>) =>
+  s.uniqBy((a, b) => a.ts === b.ts && cmp(a, b));

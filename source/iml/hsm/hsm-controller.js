@@ -34,11 +34,13 @@ export default function HsmCtrl(
     openAddModal() {
       hsm.modalOpen = true;
 
-      return openAddCopytoolModal($scope).finally(() => hsm.modalOpen = false);
+      return openAddCopytoolModal($scope).finally(
+        () => (hsm.modalOpen = false)
+      );
     }
   });
 
-  const p = $scope.propagateChange($scope, hsm);
+  const p = $scope.propagateChange.bind(null, $scope, hsm);
 
   p('copytools', copytoolStream);
   p('copytoolOperations', copytoolOperationStream);

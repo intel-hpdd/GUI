@@ -28,9 +28,10 @@ import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import createStream from './create-stream';
 
 import type { HighlandStreamT } from 'highland';
-export type bufferDataNewerThanT = (size: number, unit: string) => (
-  s: HighlandStreamT<mixed>
-) => HighlandStreamT<mixed>;
+export type bufferDataNewerThanT = (
+  size: number,
+  unit: string
+) => (s: HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 export type sortByDateT = (
   stream: HighlandStreamT<mixed>
 ) => HighlandStreamT<mixed>;

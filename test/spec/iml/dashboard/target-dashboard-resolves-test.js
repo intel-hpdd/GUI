@@ -260,7 +260,7 @@ describe('target dashboard', () => {
       ]);
 
       const s2 = await promise;
-      s2().each(x => result = x);
+      s2().each(x => (result = x));
 
       expect(result).toEqual({
         kbytesfree: 1000,

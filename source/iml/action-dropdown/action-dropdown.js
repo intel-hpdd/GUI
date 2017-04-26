@@ -20,9 +20,9 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import getCommandStream from '../command/get-command-stream.js';
-import actionDropdownTemplate from './assets/html/action-dropdown.html!text';
+import actionDropdownTemplate from './assets/html/action-dropdown.html';
 
 export function actionDescriptionCache($sce) {
   'ngInject';
@@ -43,7 +43,7 @@ export function ActionDropdownCtrl(
   propagateChange
 ) {
   'ngInject';
-  const setConfirmOpen = isOpen => this.confirmOpen = isOpen;
+  const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
 
   const ctrl = angular.merge(this, {
     actionDescriptionCache,
@@ -61,8 +61,7 @@ export function ActionDropdownCtrl(
           })
           .reject(fp.eq('fallback'))
           .otherwise(run);
-      else
-        stream = run();
+      else stream = run();
 
       stream.pull(err => {
         if (err) $exceptionHandler(err);
@@ -86,7 +85,7 @@ export function ActionDropdownCtrl(
     )
   );
 
-  const p = propagateChange($scope, ctrl, 'records');
+  const p = propagateChange.bind(null, $scope, ctrl, 'records');
 
   const asArray = fp.cond(
     [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
@@ -98,12 +97,12 @@ export function ActionDropdownCtrl(
   ctrl.stream
     .map(asArray)
     .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
-    .tap(() => ctrl.receivedData = true)
+    .tap(() => (ctrl.receivedData = true))
     .tap(
       fp.flow(
         extractPathLengths,
         fp.reduce(0, add),
-        locks => ctrl.locks = locks
+        locks => (ctrl.locks = locks)
       )
     )
     .through(p);

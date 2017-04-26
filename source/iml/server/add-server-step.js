@@ -21,7 +21,7 @@
 
 import angular from 'angular';
 
-import addServerStepTemplate from './assets/html/add-server-step.html!text';
+import addServerStepTemplate from './assets/html/add-server-step.html';
 
 export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
   EXISTING_KEYS: 'existing_keys_choice',

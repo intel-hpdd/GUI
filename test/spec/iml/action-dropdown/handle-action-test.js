@@ -90,24 +90,18 @@ describe('handle action', () => {
     });
 
     it('should skip the action result', function() {
-      handleAction(record, action).each(
-        function(x) {
-          expect(x).toBeUndefined();
-        },
-        true
-      );
+      handleAction(record, action).each(function(x) {
+        expect(x).toBeUndefined();
+      }, true);
 
       openResult.resultStream.write(true);
       actionStream.write({ foo: 'bar' });
     });
 
     it('should not skip the action result', function() {
-      handleAction(record, action).each(
-        function(x) {
-          expect(x).toEqual({ foo: 'bar' });
-        },
-        true
-      );
+      handleAction(record, action).each(function(x) {
+        expect(x).toEqual({ foo: 'bar' });
+      }, true);
 
       openResult.resultStream.write(false);
       actionStream.write({ foo: 'bar' });

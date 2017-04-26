@@ -26,12 +26,12 @@ describe('about controller', () => {
   });
 
   it('should return an instance of the about controller', () => {
-    const scope = window.extendWithConstructor(AboutCtrl, {
+    const scope = {
       IS_RELEASE: false,
       VERSION: 123,
       BUILD: 'test build',
       COPYRIGHT_YEAR: '2015'
-    });
+    };
 
     expect(ctrl).toEqual(scope);
   });

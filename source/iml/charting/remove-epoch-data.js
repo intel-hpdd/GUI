@@ -19,8 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function throughRemoveEpochData(s) {
-  return s.filter(function removeEpochData(x) {
-    return new Date(x.ts).getTime();
-  });
-}
+import type { HighlandStreamT } from 'highland';
+
+export default (s: HighlandStreamT<Object>) =>
+  s.filter(x => new Date(x.ts).getTime() > 0);

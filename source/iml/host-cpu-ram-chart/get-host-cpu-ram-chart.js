@@ -21,11 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import flatMapChanges from 'intel-flat-map-changes';
-import * as fp from 'intel-fp';
+import flatMapChanges from '@mfl/flat-map-changes';
 
-import hostCpuRamChartTemplate
-  from './assets/html/host-cpu-ram-chart.html!text';
+import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart.html';
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler
@@ -78,7 +76,10 @@ export default (data$Fn: data$FnT, localApply: localApplyT) => {
       .through(getConf(page))
       .filter(hasChanges(x => x))
       .through(
-        flatMapChanges(data$Fn(overrides, fp.always(getHostCpuRamStream)))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getHostCpuRamStream)
+        )
       );
 
     return chartCompiler(

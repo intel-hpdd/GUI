@@ -25,8 +25,7 @@ import socketStream from '../socket/socket-stream.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
-import addCopytoolModalTemplate
-  from './assets/html/add-copytool-modal.html!text';
+import addCopytoolModalTemplate from './assets/html/add-copytool-modal.html';
 
 export function AddCopytoolModalCtrl(
   $scope,

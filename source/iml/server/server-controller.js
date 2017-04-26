@@ -19,15 +19,15 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import { values } from 'intel-obj';
+import * as fp from '@mfl/fp';
+import { values } from '@mfl/obj';
 
 import getCommandStream from '../command/get-command-stream.js';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 import confirmServerActionModalTemplate
-  from './assets/html/confirm-server-action-modal.html!text';
+  from './assets/html/confirm-server-action-modal.html';
 
 export default function ServerCtrl(
   $scope,
@@ -119,8 +119,7 @@ export default function ServerCtrl(
       $scope.server.setEditable(true);
     },
     getActionByValue(value) {
-      const eqValue = fp.eqFn(fp.identity, viewLens('value'), value);
-      return fp.find(eqValue, serverActions);
+      return serverActions.find(x => x.value === value);
     },
     getSelectedHosts(value) {
       const action = this.getActionByValue(value);
@@ -163,13 +162,13 @@ export default function ServerCtrl(
     overrideActionClick
   };
 
-  const p = $scope.propagateChange($scope, $scope.server, 'servers');
+  const p = $scope.propagateChange.bind(null, $scope, $scope.server, 'servers');
 
   streams.serversStream
     .tap(selectedServers.addNewServers.bind(selectedServers))
     .through(p);
 
   $scope.$on('$destroy', () => {
-    values(streams).forEach(v => v.destroy ? v.destroy() : v.endBroadcast());
+    values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));
   });
 }

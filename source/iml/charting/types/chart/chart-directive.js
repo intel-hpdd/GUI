@@ -20,8 +20,8 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
-import charterTemplate from './assets/html/chart.html!text';
+import * as fp from '@mfl/fp';
+import charterTemplate from './assets/html/chart.html';
 
 export function charterDirective($window, d3, debounce) {
   'ngInject';
@@ -96,11 +96,13 @@ export function charterDirective($window, d3, debounce) {
             width: ctrl.getWidth(),
             height: ctrl.getHeight(),
             xs: ctrl.svg.datum()
-          }));
+          })
+        );
       }
 
       scope.$on('$destroy', () =>
-        $window.removeEventListener('resize', debounced));
+        $window.removeEventListener('resize', debounced)
+      );
     }
   };
 }

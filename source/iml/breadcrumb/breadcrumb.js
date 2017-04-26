@@ -21,8 +21,8 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import * as maybe from 'intel-maybe';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
 import global from '../global.js';
 
 import { getResolvedData } from '../route-utils.js';
@@ -35,7 +35,7 @@ import type {
   StateParamsT
 } from 'angular-ui-router';
 
-import type { Maybe } from 'intel-maybe';
+import type { Maybe } from '@mfl/maybe';
 
 export type breadcrumbT = {
   name: string,
@@ -50,7 +50,7 @@ export type breadcrumbDataT = {
   kind?: string
 };
 
-const defaultToObj = maybe.withDefault(() => ({}));
+const defaultToObj = maybe.withDefault.bind(null, () => ({}));
 
 const Controller = class {
   stack: breadcrumbT[] = [];
@@ -66,8 +66,7 @@ const Controller = class {
   ) {
     'ngInject';
     const nodeStackLocation = (kind: string): number => {
-      const item: Maybe<breadcrumbT> = fp.find(
-        item => item.kind === kind,
+      const item: Maybe<breadcrumbT> = fp.find(item => item.kind === kind)(
         this.stack
       );
 

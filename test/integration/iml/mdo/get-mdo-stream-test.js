@@ -1,8 +1,8 @@
 import highland from 'highland';
 import moment from 'moment';
-import mdoDataFixtures from '../../../data-fixtures/mdo-data-fixture.json!json';
+import mdoDataFixtures from '../../../data-fixtures/mdo-data-fixture.json';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -37,7 +37,8 @@ describe('mdo stream', () => {
         maybe.withDefault(
           () => new Date(),
           maybe.map(x => new Date(x), maybe.of(arg))
-        ));
+        )
+      );
 
     const getTimeParamsModule = await mock(
       'source/iml/charting/get-time-params.js',

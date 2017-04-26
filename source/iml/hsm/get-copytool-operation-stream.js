@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import angular from 'angular';
 import socketStream from '../socket/socket-stream.js';
 
@@ -46,9 +46,8 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const buildThroughput = fp.map(function buildThroughput(item) {
-    const elapsed = (Date.parse(item.updated_at) -
-      Date.parse(item.started_at)) /
-      1000;
+    const elapsed =
+      (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
       item.throughput = 0;

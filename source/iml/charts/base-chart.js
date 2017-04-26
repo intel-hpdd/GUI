@@ -24,10 +24,10 @@ import d3 from 'd3';
 import nv from 'nvd3';
 import global from '../global.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import _ from 'intel-lodash-mixins';
-import chartTemplate from './assets/html/chart.html!text';
+import _ from '@mfl/lodash-mixins';
+import chartTemplate from './assets/html/chart.html';
 
 import {
   documentHidden,

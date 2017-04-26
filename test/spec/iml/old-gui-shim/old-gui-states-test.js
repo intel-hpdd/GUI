@@ -1,6 +1,6 @@
 import { mock, resetAll } from '../../../system-mock.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 describe('old gui states', () => {
   let oldGuiStates,

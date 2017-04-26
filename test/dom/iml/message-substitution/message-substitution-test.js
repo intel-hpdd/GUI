@@ -33,9 +33,11 @@ describe('message substitution component', () => {
     inject(function(_$compile_, $rootScope) {
       $scope = $rootScope.$new();
       $compile = _$compile_;
-      template = '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
+      template =
+        '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
 
-      $scope.message = 'Lustre: 2178:0:(client.c:2048:ptlrpc_expire_one_request()) @@@ Request sent has timed out for ' +
+      $scope.message =
+        'Lustre: 2178:0:(client.c:2048:ptlrpc_expire_one_request()) @@@ Request sent has timed out for ' +
         'slow reply: [sent 1466559632/real 1466559632] req@ffff88007923acc0 x1532239365854720/t0(0) o251->MGC10.14.' +
         '82.24@tcp@0@lo:26/25 lens 224/224 e 0 to 1 dl 1466559638 ref 2 fl Rpc:XN/0/ffffffff rc 0/-1';
 

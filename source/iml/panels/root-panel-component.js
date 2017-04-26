@@ -23,6 +23,9 @@
 
 import global from '../global.js';
 
+import { querySelector } from '../dom-utils.js';
+
+const body = querySelector(global.document, 'body');
 const overlay = global.document.createElement('div');
 overlay.className = 'overlay';
 
@@ -52,8 +55,8 @@ export function Controller($element: HTMLElement[]) {
 
     running = true;
 
-    const overlayWidthPx = overlay.getBoundingClientRect().width -
-      SLIDER_WIDTH_PX;
+    const overlayWidthPx =
+      overlay.getBoundingClientRect().width - SLIDER_WIDTH_PX;
 
     x = Math.max(x, 0);
     let sideWidthPercentage = x / overlayWidthPx * 100;
@@ -69,7 +72,8 @@ export function Controller($element: HTMLElement[]) {
           sideWidthPercentage,
           mainWidthPercentage: 100 - sideWidthPercentage,
           mainWidthPx: overlayWidthPx - x
-        }));
+        })
+      );
 
       running = false;
     });
@@ -89,12 +93,12 @@ export function Controller($element: HTMLElement[]) {
 
   this.setActive = () => {
     el.classList.add('active');
-    global.document.body.appendChild(overlay);
+    body.appendChild(overlay);
   };
 
   this.setInactive = () => {
     el.classList.remove('active');
-    global.document.body.removeChild(overlay);
+    body.removeChild(overlay);
   };
 }
 

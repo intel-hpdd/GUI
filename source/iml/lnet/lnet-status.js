@@ -93,6 +93,7 @@ export default {
     this.stream
       .filter(Boolean)
       .each(({ state }: stateT) =>
-        Inferno.render(<LnetStatusComponent state={state} />, $element[0]));
+        Inferno.render(<LnetStatusComponent state={state} />, $element[0])
+      );
   }
 };

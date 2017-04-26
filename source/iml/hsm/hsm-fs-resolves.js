@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
@@ -45,6 +45,5 @@ export const getData = ($stateParams: { fsId?: string }) => {
     return streamToPromise(
       store.select('fileSystems').map(matchById($stateParams.fsId))
     );
-  else
-    return Promise.resolve({ label: null });
+  else return Promise.resolve({ label: null });
 };

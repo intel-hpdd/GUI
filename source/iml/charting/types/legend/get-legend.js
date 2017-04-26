@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
@@ -97,7 +97,8 @@ export function getLegendFactory(d3) {
           ]
         );
 
-        const updateScale = fp.curry4(fp.flow)(mapToCoords, processCoordinates);
+        const updateScale = (x, y) =>
+          fp.flow(mapToCoords, processCoordinates, x, y);
 
         const updateXScale = updateScale(mapX, xScale.range);
         updateXScale(itemWidths);
@@ -137,25 +138,22 @@ export function getLegendFactory(d3) {
       let row = 1;
       const groupHeight = fp.head(groups).height;
 
-      return fp.map(
-        function mapCoordinates(curObj) {
-          const itemWidth = curObj.width;
-          if (pos + itemWidth > width) {
-            pos = itemWidth + padding;
-            curObj.x = 0;
-            row += 1;
-          } else {
-            curObj.x = pos;
-            pos += itemWidth + padding;
-          }
+      return fp.map(function mapCoordinates(curObj) {
+        const itemWidth = curObj.width;
+        if (pos + itemWidth > width) {
+          pos = itemWidth + padding;
+          curObj.x = 0;
+          row += 1;
+        } else {
+          curObj.x = pos;
+          pos += itemWidth + padding;
+        }
 
-          curObj.y = row * groupHeight;
-          curObj.fits = curObj.y <= height;
+        curObj.y = row * groupHeight;
+        curObj.fits = curObj.y <= height;
 
-          return curObj;
-        },
-        groups
-      );
+        return curObj;
+      }, groups);
     }
 
     legend.colors = function colorAccessor(_) {

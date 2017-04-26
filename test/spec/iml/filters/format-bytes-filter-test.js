@@ -1,6 +1,5 @@
 import filterModule from '../../../../source/iml/filters/filters-module';
-import formatBytes
-  from '../../../../source/iml/number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 
 describe('format bytes filter', () => {
   let fmtBytesFilter;

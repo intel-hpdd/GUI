@@ -1,4 +1,4 @@
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 import filtersModule from '../../../../source/iml/filters/filters-module';
 

@@ -21,8 +21,8 @@
 
 import angular from 'angular';
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
-import * as fp from 'intel-fp';
+import _ from '@mfl/lodash-mixins';
+import * as fp from '@mfl/fp';
 
 import { getCommandAndHost } from './server-transforms.js';
 
@@ -31,7 +31,7 @@ import { rememberValue } from '../api-transforms.js';
 import { resolveStream } from '../promise-transforms.js';
 
 import selectServerProfileStepTemplate
-  from './assets/html/select-server-profile-step.html!text';
+  from './assets/html/select-server-profile-step.html';
 
 export function SelectServerProfileStepCtrl(
   $scope,
@@ -121,7 +121,8 @@ export function selectServerProfileStep() {
       const waitForCommand = fp.flow(
         fp.map(x => x.command),
         fp.filter(Boolean),
-        x => x.length ? waitForCommandCompletion(showCommand, x) : highland([])
+        x =>
+          x.length ? waitForCommandCompletion(showCommand, x) : highland([])
       );
 
       const hostProfileStream = createOrUpdateHostsStream(data.servers)

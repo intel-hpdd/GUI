@@ -23,7 +23,7 @@
 
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
-import bigDifferModule from 'intel-big-differ';
+import bigDifferModule from '../big-differ/big-differ-module';
 import commandModule from '../command/command-module';
 import filterModule from '../filters/filters-module';
 import {

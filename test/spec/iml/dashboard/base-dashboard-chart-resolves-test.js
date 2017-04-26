@@ -11,10 +11,7 @@ describe('base dashboard resolves', () => {
       {}
     );
 
-    ({
-      baseDashboardChartResolves,
-      baseDashboardFsStream
-    } = mod);
+    ({ baseDashboardChartResolves, baseDashboardFsStream } = mod);
   });
 
   afterEach(resetAll);
@@ -286,7 +283,7 @@ describe('base dashboard resolves', () => {
         }
       ]);
 
-      b().each(x => result = x);
+      b().each(x => (result = x));
 
       expect(result).toEqual([
         {

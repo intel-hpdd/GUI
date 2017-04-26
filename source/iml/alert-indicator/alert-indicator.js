@@ -20,10 +20,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-import alertIndicatorTemplate from './assets/html/alert-indicator.html!text';
+import alertIndicatorTemplate from './assets/html/alert-indicator.html';
 
 export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   'ngInject';
@@ -41,7 +41,7 @@ export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
   const recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
 
-  const p = propagateChange($scope, ctrl, 'alerts');
+  const p = propagateChange.bind(null, $scope, ctrl, 'alerts');
 
   viewer$
     .map(fp.filter(fp.flow(viewLens('affected'), recordFound)))

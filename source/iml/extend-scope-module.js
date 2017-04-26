@@ -20,11 +20,18 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { $scopeT } from 'angular';
 
 export type localApplyT<R> = (scope: $scopeT, fn: (...rest: any[]) => R) => ?R;
+
+export type PropagateChange = <T>(
+  $scopeT,
+  Object,
+  string,
+  HighlandStreamT<T>
+) => HighlandStreamT<T>;
 
 export default angular
   .module('extendScope', [])
@@ -89,17 +96,16 @@ export default angular
       };
     }
   ])
-  .factory(
-    'propagateChange',
-    function propagateChangeFactory($exceptionHandler, localApply) {
-      'ngInject';
-      return fp.curry4(function propagateChange($scope, obj, prop, s) {
-        return s
-          .tap(x => {
-            obj[prop] = x;
-          })
-          .stopOnError(fp.unary($exceptionHandler))
-          .each(localApply.bind(null, $scope));
-      });
-    }
-  ).name;
+  .factory('propagateChange', function propagateChangeFactory(
+    $exceptionHandler,
+    localApply
+  ) {
+    'ngInject';
+    return ($scope, obj, prop, s) =>
+      s
+        .tap(x => {
+          obj[prop] = x;
+        })
+        .stopOnError(fp.unary($exceptionHandler))
+        .each(localApply.bind(null, $scope));
+  }).name;

@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 import multiStream from '../../../source/iml/multi-stream.js';
 

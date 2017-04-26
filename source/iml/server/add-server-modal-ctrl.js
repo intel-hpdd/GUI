@@ -21,7 +21,7 @@
 
 import getSpring from '../socket/get-spring.js';
 
-import addServerModalTemplate from './assets/html/add-server-modal.html!text';
+import addServerModalTemplate from './assets/html/add-server-modal.html';
 
 export function AddServerModalCtrl(
   $scope,

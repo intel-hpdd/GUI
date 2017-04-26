@@ -58,11 +58,7 @@ describe('tree utils', () => {
       }
     });
 
-    ({
-      toggleCollection,
-      toggleItem,
-      updateCollOffset
-    } = mod);
+    ({ toggleCollection, toggleItem, updateCollOffset } = mod);
   });
 
   afterEach(resetAll);

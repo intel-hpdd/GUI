@@ -21,23 +21,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 
 import type { $scopeT } from 'angular';
 
 import type { HighlandStreamT } from 'highland';
 
-import type { commandT } from './command-types.js';
+import type { Command } from './command-types.js';
 
 import { setState, trimLogs } from './command-transforms.js';
 
-import commandModalTemplate from './assets/html/command-modal.html!text';
+import commandModalTemplate from './assets/html/command-modal.html';
+
+import type { PropagateChange } from '../extend-scope-module.js';
 
 export function CommandModalCtrl(
-  commandsStream: HighlandStreamT<commandT[]>,
+  commandsStream: HighlandStreamT<Command[]>,
   $scope: $scopeT,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   this.accordion0 = true;
@@ -49,8 +51,8 @@ export function CommandModalCtrl(
 
 export function openCommandModalFactory($uibModal: Object) {
   'ngInject';
-  return function openCommandModal(stream: HighlandStreamT<commandT[]>) {
-    return $uibModal.open({
+  return (stream: HighlandStreamT<Command[]>) =>
+    $uibModal.open({
       template: commandModalTemplate,
       controller: 'CommandModalCtrl',
       controllerAs: 'commandModal',
@@ -61,5 +63,4 @@ export function openCommandModalFactory($uibModal: Object) {
         commandsStream: fp.always(stream)
       }
     });
-  };
 }

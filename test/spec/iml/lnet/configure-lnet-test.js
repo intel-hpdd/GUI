@@ -1,10 +1,10 @@
 import angular from 'angular';
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
 import networkInterfaceDataFixtures
-  from '../../../data-fixtures/network-interface-fixtures.json!json';
+  from '../../../data-fixtures/network-interface-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

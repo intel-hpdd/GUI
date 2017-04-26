@@ -3,7 +3,7 @@ import {
   DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
   default as agentVsCopytoolChartReducer
 } from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('agent vs copytool chart reducer', () => {
   it('should be a function', () => {

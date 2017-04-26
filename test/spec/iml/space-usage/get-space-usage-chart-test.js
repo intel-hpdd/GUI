@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -97,7 +97,7 @@ describe('space usage chart', () => {
       'source/iml/space-usage/get-space-usage-stream.js': {
         default: getSpaceUsageStream
       },
-      'source/iml/space-usage/assets/html/space-usage-chart.html!text': {
+      'source/iml/space-usage/assets/html/space-usage-chart.html': {
         default: 'spaceUsageTemplate'
       },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },

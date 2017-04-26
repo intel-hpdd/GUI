@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import commonStatusSearchesModule
   from '../../../../../source/iml/status/common-status-searches/common-status-searches-module';
 

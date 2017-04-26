@@ -8,7 +8,7 @@ describe('user subscriptions component', () => {
   beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and.callFake(() => socket$ = highland());
+      .and.callFake(() => (socket$ = highland()));
 
     mod = await mock('source/iml/user/user-subscriptions-component.js', {
       'source/iml/socket/socket-stream.js': {
@@ -56,7 +56,8 @@ describe('user subscriptions component', () => {
       ];
       $scope.resourceUri = '/api/user/2';
 
-      const template = '<user-subscriptions resource-uri="resourceUri" subscriptions="subscriptions"></user-subscriptions>';
+      const template =
+        '<user-subscriptions resource-uri="resourceUri" subscriptions="subscriptions"></user-subscriptions>';
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })

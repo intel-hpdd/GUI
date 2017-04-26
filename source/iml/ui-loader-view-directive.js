@@ -25,7 +25,9 @@ import type { $scopeT, $animationT } from 'angular';
 
 import type { TransitionT, StateDeclarationT } from 'angular-ui-router';
 
-import * as fp from 'intel-fp';
+import { querySelector } from './dom-utils.js';
+
+import * as fp from '@mfl/fp';
 
 type ctrlT = {
   loaded: boolean,
@@ -79,13 +81,13 @@ export default ($transitions: TransitionT, $animate: $animationT) => {
 
           if (!data.noSpinner) uiLoaderView.classList.add('waiting');
 
-          return $animate.leave(uiLoaderView.querySelector('[ui-view]'));
+          return $animate.leave(querySelector(uiLoaderView, '[ui-view]'));
         }
       );
 
       $animate.on('enter', uiLoaderView, (element, phase) => {
         if (
-          uiLoaderView.querySelector('[ui-view]') === element[0] &&
+          querySelector(uiLoaderView, '[ui-view]') === element[0] &&
           phase === 'start'
         )
           uiLoaderView.classList.remove('waiting');
@@ -109,7 +111,7 @@ function isLoaderMatch(
 ) {
   const fromSplit = from.name.split('.');
   const toSplit = to.name.split('.');
-  const diff = fp.difference(fromSplit, toSplit);
+  const diff = fp.difference(fromSplit)(toSplit);
   const samePartsList = fromSplit.slice(0, -diff.length);
 
   let curNode = ctrl;
@@ -119,6 +121,8 @@ function isLoaderMatch(
     count++;
   }
 
-  return count === samePartsList.length ||
-    (diff.length === 0 && toSplit.length - 1 === count);
+  return (
+    count === samePartsList.length ||
+    (diff.length === 0 && toSplit.length - 1 === count)
+  );
 }

@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import jobStatesTemplate from './assets/html/job-states.html!text';
+import jobStatesTemplate from './assets/html/job-states.html';
 
 export default function jobStatesDirective() {
   'ngInject';

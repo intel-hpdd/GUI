@@ -2,6 +2,8 @@
 
 import { mock, resetAll } from '../../../system-mock.js';
 
+import { querySelector } from '../../../../source/iml/dom-utils.js';
+
 import type { $scopeT, $compileT } from 'angular';
 
 describe('tree server item component', () => {
@@ -37,7 +39,8 @@ describe('tree server item component', () => {
         opens: {}
       };
 
-      const template = '<tree-server-item parent="parent" record="record"></tree-server-item>';
+      const template =
+        '<tree-server-item parent="parent" record="record"></tree-server-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -47,7 +50,7 @@ describe('tree server item component', () => {
   afterEach(resetAll);
 
   it('should link to the server detail page', () => {
-    const route = el.querySelector('a').getAttribute('ui-sref');
+    const route = querySelector(el, 'a').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.serverDetail({ id: $ctrl.record.id, resetState: true })'
@@ -55,7 +58,7 @@ describe('tree server item component', () => {
   });
 
   it('should link to the server dashboard page', () => {
-    const route = el.querySelector('a.dashboard-link').getAttribute('ui-sref');
+    const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.dashboard.server({ id: $ctrl.record.id, resetState: true })'
@@ -63,7 +66,7 @@ describe('tree server item component', () => {
   });
 
   it('should render the fqdn', () => {
-    expect(el.querySelector('a').textContent.trim()).toBe(
+    expect(querySelector(el, 'a').textContent.trim()).toBe(
       'lotus-34vm3.lotus.hpdd.lab.intel.com'
     );
   });
@@ -80,7 +83,7 @@ describe('tree server item component', () => {
 
   describe('on click', () => {
     beforeEach(() => {
-      const chevron = el.querySelector('i.fa-chevron-right');
+      const chevron = querySelector(el, 'i.fa-chevron-right');
       chevron.click();
       $scope.parent.opens[1] = true;
       $scope.$digest();

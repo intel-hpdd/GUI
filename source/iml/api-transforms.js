@@ -21,7 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+
+import type { HighlandStreamT } from 'highland';
 
 export function addCurrentPage<T: { meta: Object }>(o: T): T {
   return {
@@ -33,14 +35,14 @@ export function addCurrentPage<T: { meta: Object }>(o: T): T {
   };
 }
 
-export const rememberValue = fp.curry2((transformFn, in$) => {
+type MapFn<A, B> = A => B;
+export const rememberValue = function<A, B, C: HighlandStreamT<B> | B[]>(
+  mapFn: MapFn<A, C>,
+  in$: HighlandStreamT<A>
+): HighlandStreamT<A> {
   let v;
 
-  return in$
-    .tap(x => v = x)
-    .flatMap(transformFn)
-    .map(() => v)
-    .otherwise(() => [v]);
-});
+  return in$.tap(x => (v = x)).flatMap(mapFn).map(() => v).otherwise(() => [v]);
+};
 
 export const matchById = (id: string) => fp.find(x => x.id === id);

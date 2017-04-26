@@ -50,16 +50,13 @@ export default {
       $scope.$apply();
     };
 
-    const token = setInterval(
-      () => {
-        if (!frame.contentDocument) return;
+    const token = setInterval(() => {
+      if (!frame.contentDocument) return;
 
-        const body = frame.contentDocument.body;
+      const body = frame.contentDocument.body;
 
-        if (body) frame.style.height = body.scrollHeight + 'px';
-      },
-      200
-    );
+      if (body) frame.style.height = body.scrollHeight + 'px';
+    }, 200);
 
     const onMessage = ev => {
       $location.path(ev.data);

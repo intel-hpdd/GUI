@@ -7,18 +7,15 @@ describe('server states', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/server-states.js', {
-      'source/iml/server/assets/html/server.html!text': {
+      'source/iml/server/assets/html/server.html': {
         default: 'serverTemplate'
       },
-      'source/iml/server/assets/html/server-detail.html!text': {
+      'source/iml/server/assets/html/server-detail.html': {
         default: 'serverDetailTemplate'
       }
     });
 
-    ({
-      serverState,
-      serverDetailState
-    } = mod);
+    ({ serverState, serverDetailState } = mod);
   });
 
   afterEach(resetAll);

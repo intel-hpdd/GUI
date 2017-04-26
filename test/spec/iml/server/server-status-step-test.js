@@ -1,6 +1,6 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -13,7 +13,7 @@ describe('Server Status Step', () => {
       'source/iml/resolve-stream.js': {
         default: resolveStream
       },
-      'source/iml/server/assets/html/server-status-step.html!text': {
+      'source/iml/server/assets/html/server-status-step.html': {
         default: 'serverStatusStepTemplate'
       }
     });

@@ -61,7 +61,7 @@ export default function AppCtrl(
 
   const ctrl = this;
 
-  const p = $scope.propagateChange($scope, this, 'status');
+  const p = $scope.propagateChange.bind(null, $scope, this, 'status');
 
   notificationStream
     .tap(function computeProperties(status) {

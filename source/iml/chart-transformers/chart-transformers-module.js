@@ -26,8 +26,6 @@ import { data$Fn, getConf } from './chart-transformers.js';
 
 import type { HighlandStreamT } from 'highland';
 
-import type { Curry3 } from 'intel-fp';
-
 import type {
   durationPayloadT
 } from '../duration-picker/duration-picker-module.js';
@@ -47,18 +45,19 @@ type confTypes =
   | durationPayloadT
   | heatMapDurationPayloadT
   | ostBalancePayloadT;
-export type configToStreamT = (x: durationPayloadT) => (
-  a: any,
-  b: any
-) => HighlandStreamT<any>;
-export type heatMapConfigToStreamT = (x: heatMapDurationPayloadT) => (
-  a: any,
-  b: any
-) => HighlandStreamT<any>;
+
+export type configToStreamT = (
+  x: durationPayloadT
+) => (a: any, b: any) => HighlandStreamT<any>;
+
 export type getConfT = (page: string) => HighlandStreamT<confTypes>;
-export type data$FnT = Curry3<filesystemQueryT | targetQueryT,
-  | configToStreamT
-  | heatMapConfigToStreamT, mixed, HighlandStreamT<mixed>>;
+
+export type data$FnT = (
+  filesystemQueryT | targetQueryT,
+  configToStreamT,
+  mixed
+) => HighlandStreamT<mixed>;
+
 export default angular
   .module('chartTransformers', [])
   .factory('data$Fn', data$Fn)

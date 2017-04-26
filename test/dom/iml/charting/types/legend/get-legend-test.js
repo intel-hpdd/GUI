@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import legendModule
   from '../../../../../../source/iml/charting/types/legend/legend-module';
 
@@ -293,10 +293,20 @@ describe('get legend', () => {
       });
     });
 
-    const noCollision = fp.curry2(detectCollision);
+    const detectCollision = a => b => {
+      const horizontalIntersection =
+        (a.right >= b.left && a.left <= b.left) ||
+        (b.right >= a.left && b.left <= a.left);
+      const verticalIntersection = a.top === b.top && a.bottom === b.bottom;
+      return (
+        !horizontalIntersection ||
+        (horizontalIntersection && !verticalIntersection)
+      );
+    };
+
     function verifyNoIntersections(itemDimensions) {
       return itemDimensions.every((dims, index, arr) => {
-        return fp.every(noCollision(dims), arr.slice(index + 1));
+        return fp.every(detectCollision(dims), arr.slice(index + 1));
       });
     }
 
@@ -307,14 +317,6 @@ describe('get legend', () => {
           fp.eq(index)
         )(componentNames);
       });
-    }
-
-    function detectCollision(a, b) {
-      const horizontalIntersection = (a.right >= b.left && a.left <= b.left) ||
-        (b.right >= a.left && b.left <= a.left);
-      const verticalIntersection = a.top === b.top && a.bottom === b.bottom;
-      return !horizontalIntersection ||
-        (horizontalIntersection && !verticalIntersection);
     }
 
     function getItemDimensions(item) {

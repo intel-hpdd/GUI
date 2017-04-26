@@ -21,8 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const UPDATE_MEMORY_USAGE_CHART_ITEMS = 'UPDATE_MEMORY_USAGE_CHART_ITEMS';
-export const DEFAULT_MEMORY_USAGE_CHART_ITEMS = 'DEFAULT_MEMORY_USAGE_CHART_ITEMS';
+export const UPDATE_MEMORY_USAGE_CHART_ITEMS =
+  'UPDATE_MEMORY_USAGE_CHART_ITEMS';
+export const DEFAULT_MEMORY_USAGE_CHART_ITEMS =
+  'DEFAULT_MEMORY_USAGE_CHART_ITEMS';
 
 import type {
   durationPayloadHashT,

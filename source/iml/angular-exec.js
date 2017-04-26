@@ -24,6 +24,8 @@
 import highland from 'highland';
 import angular from 'angular';
 
+import { querySelector } from './dom-utils.js';
+
 import type { HighlandStreamT } from 'highland';
 
 type stateServiceT = {
@@ -45,7 +47,7 @@ export default <R>(
   ...args: any[]
 ): HighlandStreamT<R> => {
   const s: HighlandStreamT<R> = highland();
-  const inj = angular.element(document.body).injector();
+  const inj = angular.element(querySelector(document, 'body')).injector();
 
   function loop() {
     if (cache[service]) {

@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default $cacheFactory => {
   'ngInject';
@@ -42,8 +42,8 @@ export default $cacheFactory => {
   function reducePath(pathComponents, maxLength) {
     let path;
     const parts = pathComponents.parts;
-    let pointer = Math.ceil(parts.length / 2) -
-      (parts.length % 2 === 1 ? 1 : 0);
+    let pointer =
+      Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
 
     parts[pointer] = '...';
 

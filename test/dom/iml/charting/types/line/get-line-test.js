@@ -1,5 +1,5 @@
-import * as fp from 'intel-fp';
-import { gt } from 'intel-math';
+import * as fp from '@mfl/fp';
+import { gt } from '@mfl/math';
 
 import {
   getLineFactory
@@ -16,23 +16,20 @@ describe('get line', () => {
       .getAttribute('d')
       .split(/([L|M])/)
       .filter(fp.flow(viewLens('length'), gt(0)))
-      .reduce(
-        (arr, curr) => {
-          if (/[M|L]/.test(curr)) {
-            arr.push({
-              type: curr
-            });
-          } else {
-            const last = arr[arr.length - 1];
+      .reduce((arr, curr) => {
+        if (/[M|L]/.test(curr)) {
+          arr.push({
+            type: curr
+          });
+        } else {
+          const last = arr[arr.length - 1];
 
-            last.x = getCoord(curr, 0);
-            last.y = getCoord(curr, 1);
-          }
+          last.x = getCoord(curr, 0);
+          last.y = getCoord(curr, 1);
+        }
 
-          return arr;
-        },
-        []
-      );
+        return arr;
+      }, []);
   }
 
   let getLine, div, svg, query, d3;

@@ -1,4 +1,4 @@
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import highland from 'highland';
 import exceptionModule from '../../../../source/iml/exception/exception-module';
 import { mock, resetAll } from '../../../system-mock.js';

@@ -21,10 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import flatMapChanges from 'intel-flat-map-changes';
-import * as fp from 'intel-fp';
+import flatMapChanges from '@mfl/flat-map-changes';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
-import formatBytes from '../number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler
   from '../duration-picker/duration-submit-handler.js';
@@ -38,7 +37,7 @@ import {
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
 import readWriteBandwidthTemplate
-  from './assets/html/read-write-bandwidth.html!text';
+  from './assets/html/read-write-bandwidth.html';
 
 import type {
   data$FnT
@@ -69,8 +68,9 @@ export default (data$Fn: data$FnT, localApply: localApplyT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(
-          data$Fn(overrides, fp.always(getReadWriteBandwidthStream))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getReadWriteBandwidthStream)
         )
       );
 

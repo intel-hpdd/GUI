@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
   'ngInject';
@@ -43,18 +43,15 @@ export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
     }
   };
 
-  Object.keys(state).reduce(
-    function(hostlistFilter, key) {
-      hostlistFilter['set' + _.capitalize(key)] = function setter(newVal) {
-        state[key] = newVal;
+  Object.keys(state).reduce(function(hostlistFilter, key) {
+    hostlistFilter['set' + _.capitalize(key)] = function setter(newVal) {
+      state[key] = newVal;
 
-        return this;
-      };
+      return this;
+    };
 
-      return hostlistFilter;
-    },
-    hostlistFilter
-  );
+    return hostlistFilter;
+  }, hostlistFilter);
 
   return hostlistFilter;
 }

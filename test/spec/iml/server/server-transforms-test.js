@@ -8,10 +8,7 @@ describe('server transforms', () => {
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/server-transforms.js', {});
 
-    ({
-      getCommandAndHost,
-      throwIfServerErrors
-    } = mod);
+    ({ getCommandAndHost, throwIfServerErrors } = mod);
 
     jasmine.clock().install();
   });
@@ -36,7 +33,8 @@ describe('server transforms', () => {
           {
             error: 'fooz'
           }
-        ])).toThrow(new Error('["fooz"]'));
+        ])
+      ).toThrow(new Error('["fooz"]'));
     });
 
     it('should call fn on success', () => {

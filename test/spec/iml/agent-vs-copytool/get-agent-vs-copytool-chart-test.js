@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import agentVsCopytoolModule
   from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
@@ -105,7 +105,7 @@ describe('get agent vs copytool chart exports', () => {
         'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': {
           default: getAgentVsCopytoolStream
         },
-        'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html!text': {
+        'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html': {
           default: 'agentTemplate'
         },
         'source/iml/chart-compiler/chart-compiler.js': {

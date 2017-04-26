@@ -21,10 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import flatMapChanges from 'intel-flat-map-changes';
+import flatMapChanges from '@mfl/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import ostBalanceTemplate from './assets/html/ost-balance.html!text';
+import ostBalanceTemplate from './assets/html/ost-balance.html';
 
 import {
   DEFAULT_OST_BALANCE_CHART_ITEMS,
@@ -72,19 +72,23 @@ export default (
       [page: string]: ostBalancePayloadT
     }> = getStore.select('ostBalanceCharts');
 
-    const initStream = config1$.through(getConf(page)).through(
-      flatMapChanges((x: ostBalancePayloadT) => {
-        return streamWhenVisible(() =>
-          getOstBalanceStream(x.percentage, overrides));
-      })
-    );
+    const initStream = config1$
+      .through(getConf(page))
+      .through(
+        flatMapChanges.bind(null, (x: ostBalancePayloadT) =>
+          streamWhenVisible(() => getOstBalanceStream(x.percentage, overrides))
+        )
+      );
 
     return chartCompiler(
       ostBalanceTemplate,
       initStream,
-      ($scope: Object, stream: HighlandStreamT<{
-        [page: string]: ostBalancePayloadT
-      }>) => {
+      (
+        $scope: Object,
+        stream: HighlandStreamT<{
+          [page: string]: ostBalancePayloadT
+        }>
+      ) => {
         const conf = {
           stream,
           percentage: 0,

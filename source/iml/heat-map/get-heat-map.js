@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default function getHeatMapFactory(d3) {
   'ngInject';
@@ -41,7 +41,7 @@ export default function getHeatMapFactory(d3) {
 
         chart.destroy = function destroy() {
           container.remove();
-          container = (selection = null);
+          container = selection = null;
         };
 
         const getX = _.compose(xScale, xValue);
@@ -63,9 +63,9 @@ export default function getHeatMapFactory(d3) {
         const gridHeight = height / yScale.domain().length;
 
         row.attr('transform', function(r) {
-          return 'translate(0,' +
-            Math.max(getY(r[0]) - gridHeight / 2, 0) +
-            ')';
+          return (
+            'translate(0,' + Math.max(getY(r[0]) - gridHeight / 2, 0) + ')'
+          );
         });
 
         row.exit().remove();

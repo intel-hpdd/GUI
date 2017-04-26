@@ -21,8 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS';
-export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS';
+export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS =
+  'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS';
+export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS =
+  'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS';
 
 import type {
   readWriteBandwidthActionT

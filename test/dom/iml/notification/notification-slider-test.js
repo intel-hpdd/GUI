@@ -10,7 +10,8 @@ describe('The notification slider directive', function() {
 
   beforeEach(
     inject(function($rootScope, $compile, _$timeout_) {
-      const template = '<notification-slider stream="stream"></notification-slider>';
+      const template =
+        '<notification-slider stream="stream"></notification-slider>';
 
       $timeout = _$timeout_;
 

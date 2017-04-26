@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -44,10 +44,7 @@ describe('hsm fs resolve', () => {
       }
     });
 
-    ({
-      fsCollStream,
-      getData
-    } = mod);
+    ({ fsCollStream, getData } = mod);
   });
 
   afterEach(resetAll);

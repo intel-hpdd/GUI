@@ -21,11 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { hostT } from '../api-types.js';
-
-const viewLens = fp.compose(fp.view, fp.lensProp);
 
 export default function serverActionsFactory() {
   'ngInject';
@@ -34,19 +32,17 @@ export default function serverActionsFactory() {
       {
         class_name: this.jobClass,
         args: {
-          hosts: hosts.map(viewLens('resource_uri'))
+          hosts: hosts.map(x => x.resource_uri)
         }
       }
     ];
   }
 
-  const noUpdates = fp.eqFn(fp.identity, viewLens('needs_update'), false);
-  const memberOfFs = fp.eqFn(
-    fp.identity,
-    viewLens('member_of_active_filesystem'),
+  const noUpdates = fp.eqFn(fp.identity)(x => x.needs_update)(false);
+  const memberOfFs = fp.eqFn(fp.identity)(x => x.member_of_active_filesystem)(
     true
   );
-  const mutableState = fp.eqFn(fp.identity, viewLens('immutable_state'), false);
+  const mutableState = fp.eqFn(fp.identity)(x => x.immutable_state)(false);
   const memberOfFsAndMutable = fp.and([memberOfFs, mutableState]);
   const memberOfFsOrNoUpdates = fp.or([noUpdates, memberOfFsAndMutable]);
 
@@ -74,11 +70,9 @@ export default function serverActionsFactory() {
     ]
   );
 
-  const isNotManagedServer = fp.eqFn(
-    fp.identity,
-    fp.view(fp.compose(fp.lensProp('server_profile'), fp.lensProp('managed'))),
-    false
-  );
+  const isNotManagedServer = fp.eqFn(fp.identity)(
+    x => x.server_profile.managed
+  )(false);
 
   const rewriteButtonMessage = fp.cond(
     [
@@ -126,17 +120,14 @@ Re-write target configuration may only be performed on managed servers.`
       toggleDisabled: memberOfFsOrNoUpdates,
       jobClass: 'UpdateJob',
       convertToJob(hosts: hostT[]) {
-        return hosts.map(
-          host => {
-            return {
-              class_name: this.jobClass,
-              args: {
-                host_id: host.id
-              }
-            };
-          },
-          this
-        );
+        return hosts.map(host => {
+          return {
+            class_name: this.jobClass,
+            args: {
+              host_id: host.id
+            }
+          };
+        }, this);
       }
     }
   ];

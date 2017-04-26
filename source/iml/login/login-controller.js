@@ -19,11 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-
-import eulaTemplate from './assets/html/eula.html!text';
+import eulaTemplate from './assets/html/eula.html';
 import accessDeniedTemplate
-  from '../access-denied/assets/html/access-denied.html!text';
+  from '../access-denied/assets/html/access-denied.html';
 
 export default function LoginCtrl(
   $uibModal,
@@ -42,7 +40,7 @@ export default function LoginCtrl(
       keyboard: false,
       windowClass: 'eula-modal',
       resolve: {
-        user: fp.always(user)
+        user: () => user
       }
     }).result;
   }
@@ -54,7 +52,7 @@ export default function LoginCtrl(
       backdrop: 'static',
       keyboard: false,
       resolve: {
-        message: fp.always(help.get('access_denied_eula'))
+        message: () => help.get('access_denied_eula')
       }
     }).result;
   }.bind(this);

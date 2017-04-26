@@ -21,27 +21,29 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import COMMAND_STATES from './command-states.js';
 
-const transformState = fp.over(fp.lensProp('state'));
-const viewLens = fp.flow(fp.lensProp, fp.view);
+import type { Command } from './command-types.js';
+
+const transformState = v => (x: Command) => ({
+  ...x,
+  state: v
+});
 
 export const setState = fp.cond(
-  [viewLens('cancelled'), transformState(fp.always(COMMAND_STATES.CANCELLED))],
-  [viewLens('errored'), transformState(fp.always(COMMAND_STATES.FAILED))],
-  [viewLens('complete'), transformState(fp.always(COMMAND_STATES.SUCCEEDED))],
-  [fp.always(true), transformState(fp.always(COMMAND_STATES.PENDING))]
+  [x => x.cancelled, transformState(COMMAND_STATES.CANCELLED)],
+  [x => x.errored, transformState(COMMAND_STATES.FAILED)],
+  [x => x.complete, transformState(COMMAND_STATES.SUCCEEDED)],
+  [fp.True, transformState(COMMAND_STATES.PENDING)]
 );
 
-export const trimLogs = fp.over(
-  fp.lensProp('logs'),
-  fp.invokeMethod('trim', [])
-);
+export const trimLogs = (x: Command) => ({
+  ...x,
+  logs: x.logs.trim()
+});
 
 export const isFinished = fp.flow(
   setState,
-  x => x.state,
-  fp.eq(COMMAND_STATES.PENDING),
-  fp.not
+  x => x.state !== COMMAND_STATES.PENDING
 );

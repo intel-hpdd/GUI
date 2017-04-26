@@ -1,5 +1,5 @@
 import commandModule from '../../../../source/iml/command/command-module';
-import jobFixtures from '../../../data-fixtures/job-fixtures.json!json';
+import jobFixtures from '../../../data-fixtures/job-fixtures.json';
 
 describe('Job tree', function() {
   beforeEach(module(commandModule));

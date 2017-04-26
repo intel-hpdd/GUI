@@ -1,9 +1,8 @@
 import highland from 'highland';
 import sumByDate from '../../../../source/iml/charting/sum-by-date.js';
-import jobStatsFixture
-  from '../../../data-fixtures/job-stats-fixture.json!json';
+import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json';
 
-import { values } from 'intel-obj';
+import { values } from '@mfl/obj';
 
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 

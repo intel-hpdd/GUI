@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
 
@@ -143,7 +143,8 @@ describe('as viewer', () => {
 
     describe('adding a child', function() {
       beforeEach(function() {
-        const template = '<div as-viewer stream="stream">\
+        const template =
+          '<div as-viewer stream="stream">\
         <span class="c" ng-init="setC(viewer)">{{ c }}</span>\
       </div>';
 

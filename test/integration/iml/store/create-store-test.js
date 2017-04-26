@@ -1,5 +1,5 @@
 import createStore from '../../../../source/iml/store/create-store.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 const SET_STATE = 'SET_STATE';
 const SET_OTHER_STATE = 'SET_OTHER_STATE';

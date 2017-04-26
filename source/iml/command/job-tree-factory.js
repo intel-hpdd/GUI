@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default function jobTreeFactory() {
   'ngInject';
@@ -68,16 +68,13 @@ export default function jobTreeFactory() {
       if (shallowest == null || shallowest > depth)
         shallowestOccurrence[job.resource_uri] = depth;
 
-      const children = job.wait_for.reduce(
-        function expandChildren(arr, uri) {
-          const child = getAJob(uri);
+      const children = job.wait_for.reduce(function expandChildren(arr, uri) {
+        const child = getAJob(uri);
 
-          if (child) arr.push(jobChildren(child, depth + 1));
+        if (child) arr.push(jobChildren(child, depth + 1));
 
-          return arr;
-        },
-        []
-      );
+        return arr;
+      }, []);
 
       return _.extend({ children: children }, job);
     }

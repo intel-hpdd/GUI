@@ -5,7 +5,7 @@ describe('about states', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/about/about-states.js', {
-      'source/iml/about/assets/html/about.html!text': {
+      'source/iml/about/assets/html/about.html': {
         default: 'aboutTemplate'
       }
     });

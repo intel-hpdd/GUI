@@ -2,7 +2,7 @@ import highland from 'highland';
 
 import statusModule from '../../../../source/iml/status/status-module.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -33,7 +33,8 @@ describe('deferred action dropdown', () => {
 
   beforeEach(
     inject(($rootScope, $compile) => {
-      const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
+      const template =
+        '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
 
       $scope = $rootScope.$new();
       $scope.row = {

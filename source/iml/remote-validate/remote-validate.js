@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export const remoteValidateForm = {
   restrict: 'A',

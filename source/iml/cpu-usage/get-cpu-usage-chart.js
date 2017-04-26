@@ -21,10 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+import flatMapChanges from '@mfl/flat-map-changes';
 
-import cpuUsageTemplate from './assets/html/cpu-usage.html!text';
+import cpuUsageTemplate from './assets/html/cpu-usage.html';
 import getCpuUsageStream from './get-cpu-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
@@ -59,7 +58,10 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(data$Fn(overrides, fp.always(getCpuUsageStream)))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getCpuUsageStream)
+        )
       );
 
     return chartCompiler(

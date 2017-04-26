@@ -19,21 +19,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
-import highland from 'highland';
+import type { HighlandStreamT } from 'highland';
 
-export default function objToPoints(s) {
-  const reduce = highland.flip(_.partialRight(_.reduce, []));
+type ReturnValues = Object => Array<[string, Object[]]>;
+const entries = ((Object.entries: any): ReturnValues);
 
-  return s.flatMap(
-    reduce(function flatten(arr, vals, key) {
-      const setId = highland.flip(_.set('id'), key);
-      const setName = highland.flip(_.set('name'), key);
-
-      vals.map(setId);
-      vals.map(setName);
-
-      return arr.concat(vals);
-    })
+export default (s: HighlandStreamT<Object>) =>
+  s.flatMap(x =>
+    entries(x).reduce(
+      (out, [k: string, xs: Object[]]) =>
+        out.concat(
+          xs.map(x => ({
+            ...x,
+            id: k,
+            name: k
+          }))
+        ),
+      []
+    )
   );
-}

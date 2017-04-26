@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 import getEventSocket from '../socket-worker/get-event-socket.js';
 import buildResponseError from './build-response-error.js';

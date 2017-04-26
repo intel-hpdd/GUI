@@ -21,22 +21,22 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
-import type { commandT } from './command-types.js';
+import type { Command } from './command-types.js';
 
 import type { HighlandStreamT } from 'highland';
 
-type openCommandModalT = (x: Promise<HighlandStreamT<commandT[]>>) => Object;
+type openCommandModalT = (x: Promise<HighlandStreamT<Command[]>>) => Object;
 
 export default function DeferredCommandModalBtnCtrl(
   openCommandModal: openCommandModalT
 ) {
   'ngInject';
-  const setLoading = x => this.loading = x;
+  const setLoading = x => (this.loading = x);
 
   this.openCommandModal = () => {
     setLoading(true);

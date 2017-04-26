@@ -1,4 +1,4 @@
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

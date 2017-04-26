@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import lineModule
   from '../../../../../../source/iml/charting/types/line/line-module';
 import chartModule

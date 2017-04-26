@@ -10,12 +10,7 @@ describe('job stats transforms', () => {
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/job-stats/job-stats-transforms.js', {});
 
-    ({
-      reduceToStruct,
-      collectById,
-      calculateData,
-      normalize
-    } = mod);
+    ({ reduceToStruct, collectById, calculateData, normalize } = mod);
   });
 
   afterEach(resetAll);

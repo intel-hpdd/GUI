@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import commonStatusSearchesTemplate
-  from './assets/html/common-status-searches.html!text';
+  from './assets/html/common-status-searches.html';
 
 export default {
   controllerAs: 'vm',

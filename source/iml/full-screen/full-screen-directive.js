@@ -22,7 +22,7 @@
 import angular from 'angular';
 
 import fullScreenButtonTextTemplate
-  from './assets/html/full-screen-button-text.html!text';
+  from './assets/html/full-screen-button-text.html';
 
 export function fullScreenBtn() {
   return {

@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import chartsContainerTemplate from './assets/html/charts-container.html!text';
+import chartsContainerTemplate from './assets/html/charts-container.html';
 
 export const chartsContainer = fp.always({
   restrict: 'E',

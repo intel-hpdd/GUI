@@ -19,9 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import extractApi from 'intel-extract-api';
+import extractApi from '@mfl/extract-api';
 import socketStream from '../socket/socket-stream.js';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
   'ngInject';
@@ -32,8 +32,10 @@ export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
     jobs: [],
     openStep: openStepModal,
     showTransition: function showTransition(job) {
-      return job.available_transitions.length > 0 &&
-        pendingTransitions.indexOf(job.id) === -1;
+      return (
+        job.available_transitions.length > 0 &&
+        pendingTransitions.indexOf(job.id) === -1
+      );
     },
     doTransition: function doTransition(job, newState) {
       job.state = newState;
@@ -55,7 +57,7 @@ export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
 
   const stream = getJobStream($scope.command.jobs);
 
-  const p = $scope.propagateChange($scope, this, 'jobs');
+  const p = $scope.propagateChange.bind(null, $scope, this, 'jobs');
 
   stream.through(p);
 

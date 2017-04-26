@@ -2,7 +2,7 @@ import {
   ADD_SERVER_ITEMS,
   default as serverReducer
 } from '../../../../source/iml/server/server-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {

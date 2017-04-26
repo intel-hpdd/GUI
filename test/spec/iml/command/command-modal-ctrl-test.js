@@ -15,7 +15,7 @@ describe('command modal', () => {
     stream = jasmine.createSpy('stream');
 
     const mod = await mock('source/iml/command/command-modal-ctrl.js', {
-      'source/iml/command/assets/html/command-modal.html!text': {
+      'source/iml/command/assets/html/command-modal.html': {
         default: 'commandModalTemplate'
       }
     });
@@ -45,9 +45,8 @@ describe('command modal', () => {
       let handle, commandStream;
 
       beforeEach(() => {
-        handle = $uibModal.open.calls.mostRecent().args[
-          0
-        ].resolve.commandsStream;
+        handle = $uibModal.open.calls.mostRecent().args[0].resolve
+          .commandsStream;
         commandStream = handle();
       });
 

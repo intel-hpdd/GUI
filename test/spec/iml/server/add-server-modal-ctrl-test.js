@@ -15,7 +15,7 @@ describe('add server modal', () => {
     };
 
     const mod = await mock('source/iml/server/add-server-modal-ctrl.js', {
-      'source/iml/server/assets/html/add-server-modal.html!text': {
+      'source/iml/server/assets/html/add-server-modal.html': {
         default: 'addServerModalTemplate'
       },
       'source/iml/socket/get-spring.js': {

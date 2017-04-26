@@ -5,7 +5,7 @@ import {
 import {
   default as lnetConfigurationReducer
 } from '../../../../source/iml/lnet/lnet-configuration-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('lnet configuration reducer', () => {
   it('should be a function', () => {

@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import * as maybe from 'intel-maybe';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
 
 const getHostByFqdn = (hosts, fqdn) =>
-  maybe.map(x => x.id, fp.find(x => x.fqdn === fqdn, hosts));
+  maybe.map(x => x.id, fp.find(x => x.fqdn === fqdn)(hosts));
 
 type objArr = [Object[], Object];
 

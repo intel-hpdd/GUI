@@ -63,4 +63,5 @@ if (ALLOW_ANONYMOUS_READ)
       store.dispatch({
         type: ADD_FS_ITEMS,
         payload
-      }));
+      })
+    );

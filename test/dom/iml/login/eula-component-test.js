@@ -3,13 +3,15 @@
 import EulaComponent from '../../../../source/iml/login/eula-component.js';
 import Inferno from 'inferno';
 
+import { querySelector } from '../../../../source/iml/dom-utils.js';
+
 describe('Eula component', () => {
-  let root, eula;
+  let root, eula: HTMLElement;
   beforeEach(() => {
     root = document.createElement('root');
     Inferno.render(<EulaComponent />, root);
 
-    eula = root.querySelector('div');
+    eula = querySelector(root, 'div');
   });
 
   it('should contain the eula terms html', () => {

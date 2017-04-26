@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -96,7 +96,7 @@ describe('file usage chart', () => {
       'source/iml/file-usage/get-file-usage-stream.js': {
         default: getFileUsageStream
       },
-      'source/iml/file-usage/assets/html/file-usage-chart.html!text': {
+      'source/iml/file-usage/assets/html/file-usage-chart.html': {
         default: 'fileUsageTemplate'
       },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },

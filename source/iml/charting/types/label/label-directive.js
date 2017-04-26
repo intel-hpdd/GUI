@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export function labelDirective(d3, getLabel) {
   'ngInject';
@@ -42,7 +42,8 @@ export function labelDirective(d3, getLabel) {
             label,
             node: d3.select(node),
             ...conf
-          }));
+          })
+        );
 
         conf.svg.select(fp.always(node)).call(label);
       };

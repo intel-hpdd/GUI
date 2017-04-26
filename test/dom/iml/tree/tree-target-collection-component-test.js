@@ -6,6 +6,8 @@ import store from '../../../../source/iml/store/get-store.js';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
+import { querySelector } from '../../../../source/iml/dom-utils.js';
+
 import type { $scopeT, $compileT } from 'angular';
 
 describe('tree target collection component', () => {
@@ -14,7 +16,7 @@ describe('tree target collection component', () => {
   beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and.callFake(() => socket$ = highland());
+      .and.callFake(() => (socket$ = highland()));
 
     jasmine.clock().install();
 
@@ -36,7 +38,8 @@ describe('tree target collection component', () => {
   beforeEach(
     inject(($compile: $compileT, $rootScope: $scopeT) => {
       const $scope = $rootScope.$new();
-      const template = '<tree-ost-collection parent-id="0"></tree-ost-collection>';
+      const template =
+        '<tree-ost-collection parent-id="0"></tree-ost-collection>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -50,7 +53,8 @@ describe('tree target collection component', () => {
   afterEach(() =>
     store.dispatch({
       type: 'RESET_STATE'
-    }));
+    })
+  );
 
   afterEach(() => jasmine.clock().tick(1));
 
@@ -102,7 +106,7 @@ describe('tree target collection component', () => {
 
     describe('on click', () => {
       beforeEach(() => {
-        const chevron = el.querySelector('i.fa-chevron-right');
+        const chevron = querySelector(el, 'i.fa-chevron-right');
         chevron.click();
       });
 

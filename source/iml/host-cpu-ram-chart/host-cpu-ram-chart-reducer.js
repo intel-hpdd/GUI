@@ -21,8 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export const UPDATE_HOST_CPU_RAM_CHART_ITEMS = 'UPDATE_HOST_CPU_RAM_CHART_ITEMS';
-export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS = 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS';
+export const UPDATE_HOST_CPU_RAM_CHART_ITEMS =
+  'UPDATE_HOST_CPU_RAM_CHART_ITEMS';
+export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS =
+  'DEFAULT_HOST_CPU_RAM_CHART_ITEMS';
 
 import type { addHostCpuRamActionT } from './host-cpu-ram-chart-module.js';
 

@@ -3,9 +3,10 @@
 import Inferno from 'inferno';
 
 import { mock, resetAll } from '../../system-mock.js';
+import { querySelector } from '../../../source/iml/dom-utils.js';
 
 describe('help tooltip', () => {
-  let root, helpTooltip, HelpTooltip, HELP_TEXT;
+  let root, helpTooltip: HTMLElement, HelpTooltip, HELP_TEXT;
 
   describe('with a message', () => {
     beforeEachAsync(async function() {
@@ -28,7 +29,7 @@ describe('help tooltip', () => {
         root
       );
 
-      helpTooltip = root.querySelector('.inferno-tt');
+      helpTooltip = querySelector(root, '.inferno-tt');
     });
 
     afterEach(resetAll);
@@ -54,12 +55,12 @@ describe('help tooltip', () => {
     });
 
     it('should have the helpTooltip-arrow', () => {
-      const helpTooltipArrow = helpTooltip.querySelector('.tooltip-arrow');
+      const helpTooltipArrow = querySelector(helpTooltip, '.tooltip-arrow');
       expect(helpTooltipArrow).not.toBeNull();
     });
 
     it('should have an inner section with a message', () => {
-      const tooltipInner = helpTooltip.querySelector('.tooltip-inner');
+      const tooltipInner = querySelector(helpTooltip, '.tooltip-inner');
       expect(tooltipInner.textContent).toEqual('your value');
     });
   });
@@ -77,7 +78,7 @@ describe('help tooltip', () => {
         root
       );
 
-      helpTooltip = root.querySelector('.inferno-tt');
+      helpTooltip = querySelector(root, '.inferno-tt');
     });
 
     it('should not render a tooltip', () => {

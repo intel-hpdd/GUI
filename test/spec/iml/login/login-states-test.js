@@ -5,7 +5,7 @@ describe('login states', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/login/login-states.js', {
-      'source/iml/login/assets/html/login.html!text': {
+      'source/iml/login/assets/html/login.html': {
         default: 'loginTemplate'
       }
     });

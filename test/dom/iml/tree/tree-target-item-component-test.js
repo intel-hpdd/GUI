@@ -2,6 +2,8 @@
 
 import { mock, resetAll } from '../../../system-mock.js';
 
+import { querySelector } from '../../../../source/iml/dom-utils.js';
+
 import type { $scopeT, $compileT } from 'angular';
 
 describe('tree target item component', () => {
@@ -32,7 +34,8 @@ describe('tree target item component', () => {
         label: 'target1'
       };
 
-      const template = '<tree-target-item fs-id="\'1\'" kind="\'ost\'" record="record"></tree-target-item>';
+      const template =
+        '<tree-target-item fs-id="\'1\'" kind="\'ost\'" record="record"></tree-target-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -42,7 +45,7 @@ describe('tree target item component', () => {
   afterEach(resetAll);
 
   it('should link to the target detail page', () => {
-    const route = el.querySelector('a').getAttribute('ui-sref');
+    const route = querySelector(el, 'a').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.oldTarget({ id: $ctrl.record.id, resetState: true })'
@@ -50,7 +53,7 @@ describe('tree target item component', () => {
   });
 
   it('should link to the target dashboard page', () => {
-    const route = el.querySelector('a.dashboard-link').getAttribute('ui-sref');
+    const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.dashboard.ost({ id: $ctrl.record.id, resetState: true })'
@@ -58,6 +61,6 @@ describe('tree target item component', () => {
   });
 
   it('should render the label', () => {
-    expect(el.querySelector('a').textContent.trim()).toBe('target1');
+    expect(querySelector(el, 'a').textContent.trim()).toBe('target1');
   });
 });

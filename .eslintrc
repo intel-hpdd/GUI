@@ -1,14 +1,13 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "flow-vars",
     "flowtype",
     "react",
     "prettier"
   ],
   "rules": {
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1,
     "flowtype/space-after-type-colon": [
       0,
       "never"
@@ -110,5 +109,8 @@
       "jsx": true
     }
   },
-  "extends": ["eslint:recommended", "prettier"]
+  "extends": [
+    "eslint:recommended",
+    "prettier"
+  ]
 }

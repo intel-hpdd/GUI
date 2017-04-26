@@ -1,7 +1,7 @@
 import actionDropdownModule
   from '../../../../source/iml/action-dropdown/action-dropdown-module';
 import groupActionsFixtures
-  from '../../../data-fixtures/group-actions-fixtures.json!json';
+  from '../../../data-fixtures/group-actions-fixtures.json';
 
 describe('ordering groups', () => {
   beforeEach(module(actionDropdownModule));

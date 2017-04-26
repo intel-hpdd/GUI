@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-
-import type { Curry4 } from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { $scopeT } from 'angular';
+
+import type { PropagateChange } from '../extend-scope-module.js';
 
 const STATES = Object.freeze({
   MONITORED: 'monitored',
@@ -36,7 +36,7 @@ export default function BaseDashboardCtrl(
   $scope: $scopeT,
   fsB: Function,
   charts: Object[],
-  propagateChange: Curry4<$scopeT, Object, string, Object, Object>
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   Object.assign(this, {
@@ -53,10 +53,10 @@ export default function BaseDashboardCtrl(
         state: x.immutable_state ? STATES.MONITORED : STATES.MANAGED
       }))
     )
-    .through(propagateChange($scope, this, 'fs'));
+    .through(propagateChange.bind(null, $scope, this, 'fs'));
 
   $scope.$on('$destroy', () => {
     fsB.endBroadcast();
-    fp.map(c => c.stream.destroy(), charts);
+    charts.map(c => c.stream.destroy());
   });
 }

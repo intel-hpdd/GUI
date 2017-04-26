@@ -5,7 +5,7 @@ describe('wait until add server resolves complete', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/wait-until-loaded-step.js', {
-      'source/iml/server/assets/html/wait-until-loaded-step.html!text': {
+      'source/iml/server/assets/html/wait-until-loaded-step.html': {
         default: 'waitUntilLoadedTemplate'
       }
     });
@@ -31,7 +31,7 @@ describe('wait until add server resolves complete', () => {
 
       $rootScope.$on(
         'addServerModal::closeModal',
-        () => closeModalCalled = true
+        () => (closeModalCalled = true)
       );
 
       scope.wait.close();

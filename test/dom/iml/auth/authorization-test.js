@@ -1,7 +1,5 @@
 // @flow
 
-import * as fp from 'intel-fp';
-
 import {
   restrict,
   restrictTo
@@ -183,10 +181,10 @@ describe('authorization', () => {
         inject(($compile, $rootScope) => {
           $scope = $rootScope.$new();
 
-          const template = fp.curry2((attr, val) => {
+          const template = attr => val => {
             const str = `<div ${attr}="${val}"></div>`;
             return $compile(str)($scope);
-          });
+          };
 
           genRestrictTo = template('restrict-to');
           genRestrict = template('restrict');

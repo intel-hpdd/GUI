@@ -20,9 +20,8 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from 'intel-fp';
-import serverStatusStepTemplate
-  from './assets/html/server-status-step.html!text';
+import * as fp from '@mfl/fp';
+import serverStatusStepTemplate from './assets/html/server-status-step.html';
 
 import { resolveStream } from '../promise-transforms.js';
 

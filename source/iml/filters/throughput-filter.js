@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatBytes from '../number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 
 export default function throughput() {
   'ngInject';

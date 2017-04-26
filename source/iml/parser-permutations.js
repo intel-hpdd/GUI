@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 const modifiers = [
   '__in',
@@ -35,4 +35,4 @@ const modifiers = [
 ];
 
 export default (items: Array<string>) =>
-  fp.xProd(items, modifiers).map(x => x.join('')).concat(items).join('&');
+  fp.xProd(items)(modifiers).map(x => x.join('')).concat(items).join('&');

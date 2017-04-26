@@ -1,4 +1,4 @@
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 describe('get heat map chart test', function() {
   'use strict';

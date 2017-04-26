@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 export default () => ({
   restrict: 'A',
@@ -48,7 +48,7 @@ export default () => ({
 
     $transitions.onSuccess(
       {},
-      transition => this.page = getPage(transition.router.globals.$current)
+      transition => (this.page = getPage(transition.router.globals.$current))
     );
   }
 });

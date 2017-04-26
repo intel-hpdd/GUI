@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
 import filtersModule from '../filters/filters-module';
 import windowUnloadModule from '../window-unload/window-unload-module';
 import environment from '../environment-module';
@@ -39,7 +38,6 @@ import {
 export default angular
   .module('exceptionModule', [
     uiBootstrapModule,
-    modelFactoryModule,
     filtersModule,
     windowUnloadModule,
     environment

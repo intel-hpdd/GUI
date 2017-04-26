@@ -39,7 +39,8 @@ export default <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
       this.stream.each((x: B) =>
         this.setState({
           [key]: x
-        }));
+        })
+      );
     }
     componentWillUnmount() {
       this.stream.destroy();

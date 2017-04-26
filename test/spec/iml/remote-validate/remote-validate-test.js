@@ -14,10 +14,7 @@ describe('Remote validate directive', () => {
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/remote-validate/remote-validate.js', {});
 
-    ({
-      remoteValidateForm,
-      remoteValidateComponent
-    } = mod);
+    ({ remoteValidateForm, remoteValidateComponent } = mod);
   });
 
   afterEach(resetAll);

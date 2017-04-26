@@ -21,9 +21,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import flatMapChanges from 'intel-flat-map-changes';
+import flatMapChanges from '@mfl/flat-map-changes';
 
-import fileUsageChartTemplate from './assets/html/file-usage-chart.html!text';
+import fileUsageChartTemplate from './assets/html/file-usage-chart.html';
 import getFileUsageStream from './get-file-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
@@ -64,8 +64,10 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(
-          data$Fn(
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(
+            null,
             overrides,
             (() => getFileUsageStream(keyName): configToStreamT)
           )

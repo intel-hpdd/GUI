@@ -24,7 +24,7 @@
 import Inferno from 'inferno';
 import HelpTooltip from '../help-tooltip.js';
 
-import tooltipTemplate from './assets/html/tooltip.html!text';
+import tooltipTemplate from './assets/html/tooltip.html';
 
 import type { $scopeT } from 'angular';
 

@@ -15,7 +15,8 @@ describe('the duration picker', () => {
 
   beforeEach(
     inject(function($rootScope, $compile) {
-      const template = '<duration-picker type="type" size="size" unit="unit" start-date="startDate" \
+      const template =
+        '<duration-picker type="type" size="size" unit="unit" start-date="startDate" \
 end-date="endDate"></duration-picker>';
 
       $scope = $rootScope.$new();

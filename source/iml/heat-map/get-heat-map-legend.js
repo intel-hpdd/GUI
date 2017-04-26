@@ -19,16 +19,16 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import * as fp from '@mfl/fp';
 
 export default function getHeatMapLegendFactory(d3) {
   'ngInject';
   const TEXT_PADDING = 5;
   const STEP_WIDTH = 1;
-  let colorScale = _.noop;
-  let legendScale = _.noop;
-  let zScale = _.noop;
-  let formatter = _.identity;
+  let colorScale = () => {};
+  let legendScale = () => {};
+  let zScale = () => {};
+  let formatter = x => x;
   let width = 0;
   let height = 0;
   let margin = {
@@ -70,9 +70,9 @@ export default function getHeatMapLegendFactory(d3) {
 
         const Y_TEXT_OFFSET = '1.2em';
 
-        const step = stepsGroup.selectAll('.step').data(_.identity);
+        const step = stepsGroup.selectAll('.step').data(x => x);
 
-        const fill = _.compose(colorScale, legendScale);
+        const fill = fp.compose(colorScale, legendScale);
 
         step
           .enter()
@@ -94,9 +94,8 @@ export default function getHeatMapLegendFactory(d3) {
         const minBBox = getBBox(minText);
         const maxBBox = getBBox(maxText);
 
-        const minAndStepsWidth = minBBox.width +
-          stepsBBox.width +
-          TEXT_PADDING * 2;
+        const minAndStepsWidth =
+          minBBox.width + stepsBBox.width + TEXT_PADDING * 2;
 
         const legendWidth = minAndStepsWidth + maxBBox.width;
 

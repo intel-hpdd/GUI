@@ -11,7 +11,7 @@ describe('get OST balance stream', () => {
   beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and.callFake(() => ostMetricsStream = highland());
+      .and.callFake(() => (ostMetricsStream = highland()));
 
     flushOnChange = jasmine.createSpy('flushOnChange').and.callFake(x => x);
 

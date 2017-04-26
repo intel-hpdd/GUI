@@ -27,9 +27,9 @@ export const VALUES = 'VALUES';
 
 export const CompletionistCtrl = class {
   evMap: Object = {};
-  completer: (
-    params: { value: string, cursorPosition: number }
-  ) => Array<string>;
+  completer: (params: { value: string, cursorPosition: number }) => Array<
+    string
+  >;
   register(evName: string, listener: Function): void {
     this.evMap[evName] = this.evMap[evName] || [];
     this.evMap[evName].push(listener);

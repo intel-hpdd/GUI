@@ -28,8 +28,6 @@ import removeDups from '../charting/remove-dups.js';
 import sortBy from '../charting/sort-by.js';
 import highland from 'highland';
 
-import { values } from 'intel-obj';
-
 export default (requestRange, buff) => {
   return highland((push, next) => {
     const params = requestRange({
@@ -40,7 +38,7 @@ export default (requestRange, buff) => {
     });
 
     socketStream('/target/metric', params, true)
-      .map(values)
+      .map(Object.values)
       .flatten()
       .through(removeEpochData)
       .through(roundData)

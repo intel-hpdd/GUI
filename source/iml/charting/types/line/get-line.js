@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export function getLineFactory($location, d3) {
   'ngInject';
@@ -82,7 +82,8 @@ export function getLineFactory($location, d3) {
 
         let lineEl = clipGroup.selectAll(lineClassCount);
 
-        const shouldShift = lineEl.size() &&
+        const shouldShift =
+          lineEl.size() &&
           data.length &&
           !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
 

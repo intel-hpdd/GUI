@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import bufferDataNewerThan from './buffer-data-newer-than.js';
 
 import { flushOnChange } from '../chart-transformers/chart-transformers.js';
@@ -36,17 +36,15 @@ export default (streamWhenVisible: streamWhenChartVisibleT) => {
   'ngInject';
   const { getRequestRange, getRequestDuration } = getTimeParams;
 
-  const createStreamFn = fp.curry6(
-    function createStreamFn(durationFn: Function, buffFn: Function, overrides: Object, streamFn: Function, begin: number, end:
-      | number
-      | string) {
-      const d = durationFn(overrides);
+  const createStreamFn = (durationFn: Function, buffFn: Function) => (
+    overrides: Object
+  ) => (streamFn: Function, begin: number, end: number | string) => {
+    const d = durationFn(overrides);
 
-      return flushOnChange(
-        streamWhenVisible(() => streamFn(d(begin, end), buffFn(begin, end)))
-      );
-    }
-  );
+    return flushOnChange(
+      streamWhenVisible(() => streamFn(d(begin, end), buffFn(begin, end)))
+    );
+  };
 
   return {
     durationStream: createStreamFn(getRequestDuration, bufferDataNewerThan),

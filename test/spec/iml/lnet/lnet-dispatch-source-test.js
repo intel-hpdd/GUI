@@ -7,9 +7,7 @@ describe('lnet dispatch source', () => {
 
   beforeEachAsync(async function() {
     s = highland();
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.returnValue(s);
+    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
 
     store = {
       dispatch: jasmine.createSpy('dispatch')

@@ -29,15 +29,17 @@ import type { $scopeT, $locationT } from 'angular';
 
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
+import type { PropagateChange } from '../extend-scope-module.js';
+
 export function controller(
   $scope: $scopeT,
   $location: $locationT,
   $stateParams: Object,
   qsStream: qsStreamT,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ) {
   'ngInject';
-  const p = propagateChange($scope, this, 'qs');
+  const p = propagateChange.bind(null, $scope, this, 'qs');
   const qs$ = qsStream($stateParams);
 
   qs$.map(x => x.qs).through(p);

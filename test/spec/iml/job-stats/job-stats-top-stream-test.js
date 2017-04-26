@@ -2,8 +2,7 @@
 
 import highland from 'highland';
 
-import jobStatsFixture
-  from '../../../data-fixtures/job-stats-fixture.json!json';
+import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -67,10 +66,7 @@ describe('job stats top stream', () => {
       }
     });
 
-    ({
-      topDuration,
-      topRange
-    } = mod);
+    ({ topDuration, topRange } = mod);
   });
 
   afterEach(resetAll);
@@ -109,7 +105,8 @@ describe('job stats top stream', () => {
             },
             true
           );
-        }));
+        })
+      );
 
       it('should aggregate metrics', () => {
         expect(result).toEqual([
@@ -227,7 +224,8 @@ describe('job stats top stream', () => {
             },
             true
           );
-        }));
+        })
+      );
 
       it('should aggregate metrics', () => {
         expect(result).toEqual([

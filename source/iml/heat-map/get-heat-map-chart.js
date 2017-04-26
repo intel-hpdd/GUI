@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default function getHeatMapChart(nv, d3, getHeatMapLegend, getHeatMap) {
   'ngInject';
@@ -162,7 +162,8 @@ export default function getHeatMapChart(nv, d3, getHeatMapLegend, getHeatMap) {
 
         if (margin.top !== heatMapLegend.height()) {
           margin.top = heatMapLegend.height();
-          availableHeight = parseInt(container.style('height'), 10) -
+          availableHeight =
+            parseInt(container.style('height'), 10) -
             margin.top -
             margin.bottom;
 
@@ -290,7 +291,7 @@ export default function getHeatMapChart(nv, d3, getHeatMapLegend, getHeatMap) {
           heatMapLegend.destroy();
           container.remove();
 
-          chart = (heatMap = (heatMapLegend = (container = (wrap = (gEnter = (chartGroupGEnter = null))))));
+          chart = heatMap = heatMapLegend = container = wrap = gEnter = chartGroupGEnter = null;
         };
       });
     }

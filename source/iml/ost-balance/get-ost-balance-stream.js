@@ -21,7 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
@@ -29,8 +28,10 @@ import { flushOnChange } from '../chart-transformers/chart-transformers.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export default fp.curry2((percentage: number, overrides: Object = {
-}): HighlandStreamT<mixed> =>
+export default (
+  percentage: number,
+  overrides: Object = {}
+): HighlandStreamT<mixed> =>
   highland((push, next) => {
     socketStream('/ost-balance', { ...overrides, percentage }, true).each(x => {
       push(null, x);
@@ -38,4 +39,4 @@ export default fp.curry2((percentage: number, overrides: Object = {
     });
   })
     .ratelimit(1, 10000)
-    .through(flushOnChange));
+    .through(flushOnChange);

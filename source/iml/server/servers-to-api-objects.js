@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import { ADD_SERVER_AUTH_CHOICES } from './add-server-step.js';
 
 export default function serversToApiObjects(servers) {

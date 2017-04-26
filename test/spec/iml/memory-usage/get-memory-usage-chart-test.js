@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -96,7 +96,7 @@ describe('memory usage chart', () => {
         'source/iml/memory-usage/get-memory-usage-stream.js': {
           default: getMemoryUsageStream
         },
-        'source/iml/memory-usage/assets/html/memory-usage-chart.html!text': {
+        'source/iml/memory-usage/assets/html/memory-usage-chart.html': {
           default: 'memoryUsageTemplate'
         },
         'source/iml/chart-compiler/chart-compiler.js': {

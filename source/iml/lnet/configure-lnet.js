@@ -21,9 +21,9 @@
 
 import angular from 'angular';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
-import configureLnetTemplate from './assets/html/configure-lnet.html!text';
+import configureLnetTemplate from './assets/html/configure-lnet.html';
 
 export function ConfigureLnetController(
   $scope,
@@ -35,9 +35,8 @@ export function ConfigureLnetController(
   'ngInject';
   const ctrl = this;
 
-  function getNetworkName(value) {
-    return fp.find(x => x.value === value, LNET_OPTIONS).name;
-  }
+  const getNetworkName = value =>
+    LNET_OPTIONS.find(x => x.value === value).name;
 
   const lndNetworkLens = fp.view(
     fp.compose(fp.lensProp('nid'), fp.lensProp('lnd_network'))
@@ -61,7 +60,7 @@ export function ConfigureLnetController(
         .map(x => [x.command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
-        .through(propagateChange($scope, ctrl, 'saving'));
+        .through(propagateChange.bind(null, $scope, ctrl, 'saving'));
     },
     getLustreNetworkDriverTypeMessage(state) {
       return insertHelpFilter(`${state.status}_diff`, state);
@@ -79,7 +78,7 @@ export function ConfigureLnetController(
   });
 
   ctrl.networkInterfaceStream.through(
-    propagateChange($scope, ctrl, 'networkInterfaces')
+    propagateChange.bind(null, $scope, ctrl, 'networkInterfaces')
   );
 
   $scope.$on(

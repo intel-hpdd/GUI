@@ -27,8 +27,8 @@ import {
 
 import { GROUPS } from '../auth/authorization.js';
 
-import serverTemplate from './assets/html/server.html!text';
-import serverDetailTemplate from './assets/html/server-detail.html!text';
+import serverTemplate from './assets/html/server.html';
+import serverDetailTemplate from './assets/html/server-detail.html';
 
 export const serverState = {
   name: 'app.server',

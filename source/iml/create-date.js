@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 import global from './global.js';
 
 export default (arg: ?(string | number)): Date =>

@@ -21,8 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import formatBytes from '../number-formatters/format-bytes.js';
-import formatNumber from '../number-formatters/format-number.js';
+import { formatNumber, formatBytes } from '@mfl/number-formatters';
 import angular from 'angular';
 import helpModule from '../help-module';
 import pdshFilter from './pdsh-filter';

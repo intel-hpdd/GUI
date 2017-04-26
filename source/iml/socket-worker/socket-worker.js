@@ -39,7 +39,8 @@ worker.addEventListener('message', (ev: { data: Object }) => {
   if (data.type === 'reconnect') disconnectListener.emit('close');
 });
 
-worker.addEventListener('error', err => {
+// $FlowFixMe No way to specify error events currently.
+worker.addEventListener('error', (err: Error) => {
   throw err;
 });
 

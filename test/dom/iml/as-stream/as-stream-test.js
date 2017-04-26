@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 import asStreamModule from '../../../../source/iml/as-stream/as-stream-module';
 import asValueModule from '../../../../source/iml/as-value/as-value-module';
@@ -24,7 +24,8 @@ describe('As stream', function() {
     inject(function(_$rootScope_, $compile) {
       $rootScope = _$rootScope_;
 
-      const template = '<div as-stream val="val">\
+      const template =
+        '<div as-stream val="val">\
       <span class="txt" as-value stream="str">\
         {{ curr.val }}\
       </span>\

@@ -25,7 +25,8 @@ export default angular
   .module('iml-popover', ['position'])
   .directive('imlPopover', function(position, $timeout, $window, $compile) {
     'ngInject';
-    const template = '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
+    const template =
+      '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
 <div class="arrow"></div>\
 <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\
 <div class="popover-content"></div>\
@@ -45,7 +46,8 @@ export default angular
 
         let popoverButton = angular.element(
           Array.from(el[0].parentNode.children).filter(x =>
-            x.classList.contains('activate-popover'))[0]
+            x.classList.contains('activate-popover')
+          )[0]
         );
 
         let wrappedWindow = angular.element($window);
@@ -72,7 +74,7 @@ export default angular
         scope.$on('$destroy', function onDestroy() {
           popoverButton.off('click');
           wrappedWindow.off('click', digestAndHide);
-          wrappedWindow = (popoverButton = (popoverLinker = null));
+          wrappedWindow = popoverButton = popoverLinker = null;
 
           destroyPopover();
         });

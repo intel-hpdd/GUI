@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import overrideButtonTemplate from './assets/html/override-button.html!text';
+import overrideButtonTemplate from './assets/html/override-button.html';
 
 export default function overrideButtonDirective(OVERRIDE_BUTTON_TYPES) {
   'ngInject';

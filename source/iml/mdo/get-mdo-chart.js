@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+import * as fp from '@mfl/fp';
+import flatMapChanges from '@mfl/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import mdoTemplate from './assets/html/mdo.html!text';
+import mdoTemplate from './assets/html/mdo.html';
 
 import {
   DEFAULT_MDO_CHART_ITEMS,
@@ -33,7 +33,7 @@ import {
 } from './mdo-chart-reducer.js';
 
 import getMdoStream from './get-mdo-stream.js';
-import formatNumber from '../number-formatters/format-number.js';
+import { formatNumber } from '@mfl/number-formatters';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler
@@ -67,7 +67,12 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const config1$ = getStore.select('mdoCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(flatMapChanges(data$Fn(overrides, fp.always(getMdoStream))));
+      .through(
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getMdoStream)
+        )
+      );
 
     return chartCompiler(mdoTemplate, initStream, ($scope, stream) => {
       const conf = {

@@ -1,5 +1,5 @@
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 const { inject } = angular.mock;
 import highland from 'highland';
 
@@ -105,7 +105,7 @@ describe('cpu usage chart', () => {
         getConf: getConf
       },
       'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/cpu-usage/assets/html/cpu-usage.html!text': {
+      'source/iml/cpu-usage/assets/html/cpu-usage.html': {
         default: 'cpuUsage'
       }
     });

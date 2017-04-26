@@ -8,10 +8,7 @@ describe('job stats actions', () => {
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/job-stats/job-stats-actions.js', {});
 
-    ({
-      setSort,
-      setDuration
-    } = mod);
+    ({ setSort, setDuration } = mod);
   });
 
   afterEach(resetAll);

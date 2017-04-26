@@ -1,9 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import agentVsCopytoolFixtures
-  from '../../../data-fixtures/agent-vs-copytool-fixtures.json!json';
+  from '../../../data-fixtures/agent-vs-copytool-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -18,7 +18,7 @@ describe('agent vs copytool stream', () => {
   beforeEachAsync(async function() {
     socketStream = jasmine
       .createSpy('socketStream')
-      .and.callFake(() => metricStream = highland());
+      .and.callFake(() => (metricStream = highland()));
 
     const getServerMoment = jasmine
       .createSpy('getServerMoment')
@@ -38,7 +38,8 @@ describe('agent vs copytool stream', () => {
         maybe.withDefault(
           () => new Date(),
           maybe.map(x => new Date(x), maybe.of(arg))
-        ));
+        )
+      );
 
     const getTimeParamsModule = await mock(
       'source/iml/charting/get-time-params.js',

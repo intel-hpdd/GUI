@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import commandModule from '../../../../source/iml/command/command-module';
 
 import { mock, resetAll } from '../../../system-mock.js';
@@ -52,7 +52,8 @@ describe('deferred command modal button directive exports', () => {
 
   beforeEach(
     inject(($rootScope, $compile) => {
-      const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
+      const template =
+        '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
       $scope = $rootScope.$new();
       $scope.resourceUri = '/api/command/1/';

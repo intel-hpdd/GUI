@@ -2,8 +2,8 @@ import angular from 'angular';
 import 'angular-mocks';
 
 import fixturesModule from './fixtures/fixtures';
-import { find } from 'intel-lodash-mixins';
-import * as fp from 'intel-fp';
+import { find } from '@mfl/lodash-mixins';
+import * as fp from '@mfl/fp';
 
 function cssMatcher(presentClasses, absentClasses) {
   return () => {
@@ -173,11 +173,8 @@ window.expectToEqual = function expectToEqualWrap(expected) {
  * @param {Function | Object | String} value
  * @param {Highland.Stream} s
  */
-window.expectStreamToContainItem = fp.curry2(
-  function expectStreamToContainItem(value, s) {
-    return s.each(x => expect(find(x, value)).toBeTruthy());
-  }
-);
+window.expectStreamToContainItem = value => s =>
+  s.each(x => expect(find(x, value)).toBeTruthy());
 
 window.convertNvDates = function convertNvDates(s) {
   return s.tap(
@@ -201,12 +198,9 @@ window.flushD3Transitions = function flushD3Transitions() {
 window.beforeEachAsync = (runAsync: Function, timeout: number) => {
   timeout = timeout || jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
-  beforeEach(
-    done => {
-      runAsync().then(done).catch(done.fail);
-    },
-    timeout
-  );
+  beforeEach(done => {
+    runAsync().then(done).catch(done.fail);
+  }, timeout);
 };
 
 window.itAsync = (desc, runAsync) => {

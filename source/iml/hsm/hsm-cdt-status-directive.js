@@ -19,7 +19,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import cdtStatusTemplate from './assets/html/cdt-status.html!text';
+import cdtStatusTemplate from './assets/html/cdt-status.html';
 
 export default function hsmCdtStatusDirective() {
   return {

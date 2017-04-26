@@ -1,9 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
 import readWriteBandwidthDataFixtures
-  from '../../../data-fixtures/read-write-bandwidth-fixtures.json!json';
+  from '../../../data-fixtures/read-write-bandwidth-fixtures.json';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -38,7 +38,8 @@ describe('The read write bandwidth stream', () => {
         maybe.withDefault(
           () => new Date(),
           maybe.map(x => new Date(x), maybe.of(arg))
-        ));
+        )
+      );
 
     const getTimeParams = await mock('source/iml/charting/get-time-params.js', {
       'source/iml/create-date.js': { default: createDate }

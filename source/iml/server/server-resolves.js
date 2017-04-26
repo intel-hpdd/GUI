@@ -39,15 +39,19 @@ export default function serverResolves() {
     alertMonitorStream,
     lnetConfigurationStream,
     serversStream
-  ]).then(([
-    jobMonitorStream,
-    alertMonitorStream,
-    lnetConfigurationStream,
-    serversStream
-  ]) => ({
-    jobMonitorStream,
-    alertMonitorStream,
-    lnetConfigurationStream,
-    serversStream
-  }));
+  ]).then(
+    (
+      [
+        jobMonitorStream,
+        alertMonitorStream,
+        lnetConfigurationStream,
+        serversStream
+      ]
+    ) => ({
+      jobMonitorStream,
+      alertMonitorStream,
+      lnetConfigurationStream,
+      serversStream
+    })
+  );
 }

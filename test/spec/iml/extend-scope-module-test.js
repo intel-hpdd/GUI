@@ -1,4 +1,4 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 
 describe('extend scope test', () => {

@@ -20,9 +20,9 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import _ from 'intel-lodash-mixins';
-import * as fp from 'intel-fp';
-import jobIndicatorTemplate from './assets/html/job-indicator.html!text';
+import _ from '@mfl/lodash-mixins';
+import * as fp from '@mfl/fp';
+import jobIndicatorTemplate from './assets/html/job-indicator.html';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
@@ -60,8 +60,10 @@ export default function jobStatusDirective(localApply) {
           scope.writeMessageDifference.length = 0;
         },
         shouldShowLockIcon: function shouldShowLockIcon() {
-          return scope.writeMessages.length + scope.readMessages.length > 0 ||
-            isOpened;
+          return (
+            scope.writeMessages.length + scope.readMessages.length > 0 ||
+            isOpened
+          );
         },
         getLockTooltipMessage: function getLockTooltipMessage() {
           const readMessages = scope.readMessages;
@@ -94,14 +96,16 @@ export default function jobStatusDirective(localApply) {
               '1': '1 ongoing write lock operation.',
               other: '{} ongoing write lock operations.'
             };
-            message = _.pluralize(writeMessages.length, writeMessageMap) +
+            message =
+              _.pluralize(writeMessages.length, writeMessageMap) +
               ' Click to review details.';
           } else if (readMessages.length > 0) {
             readMessageMap = {
               '1': 'Locked by 1 pending operation.',
               other: 'Locked by {} pending operations.'
             };
-            message = _.pluralize(readMessages.length, readMessageMap) +
+            message =
+              _.pluralize(readMessages.length, readMessageMap) +
               ' Click to review details.';
           }
 
@@ -112,7 +116,7 @@ export default function jobStatusDirective(localApply) {
       const mapLockedItemUri = fp.map(viewLens('locked_item_uri'));
       const mapDescription = fp.map(viewLens('description'));
 
-      const calculateLocks = fp.curry2(function calculateLocks(type, s) {
+      const calculateLocks = type => s => {
         const hasMatchingRecord = fp.flow(
           viewLens(type + '_locks'),
           mapLockedItemUri,
@@ -132,11 +136,11 @@ export default function jobStatusDirective(localApply) {
 
             return x;
           },
-          x => scope[type + 'Messages'] = x
+          x => (scope[type + 'Messages'] = x)
         );
 
         fp.map(xForm, s).each(localApply.bind(null, scope));
-      });
+      };
 
       let readViewer = scope.jobStream();
       let writeViewer = scope.jobStream();
@@ -147,7 +151,7 @@ export default function jobStatusDirective(localApply) {
       scope.$on('$destroy', function onDestroy() {
         readViewer.destroy();
         writeViewer.destroy();
-        readViewer = (writeViewer = null);
+        readViewer = writeViewer = null;
       });
     }
   };

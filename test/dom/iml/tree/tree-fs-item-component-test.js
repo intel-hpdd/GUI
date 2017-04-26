@@ -1,6 +1,7 @@
 // @flow
 
 import { mock, resetAll } from '../../../system-mock.js';
+import { querySelector } from '../../../../source/iml/dom-utils.js';
 
 import type { $scopeT, $compileT } from 'angular';
 
@@ -37,7 +38,8 @@ describe('tree fs item component', () => {
         opens: {}
       };
 
-      const template = '<tree-fs-item parent="parent" record="record"></tree-fs-item>';
+      const template =
+        '<tree-fs-item parent="parent" record="record"></tree-fs-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -47,7 +49,7 @@ describe('tree fs item component', () => {
   afterEach(resetAll);
 
   it('should link to the fs detail page', () => {
-    const route = el.querySelector('a').getAttribute('ui-sref');
+    const route = querySelector(el, 'a').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })'
@@ -55,7 +57,7 @@ describe('tree fs item component', () => {
   });
 
   it('should link to the fs dashboard page', () => {
-    const route = el.querySelector('a.dashboard-link').getAttribute('ui-sref');
+    const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
 
     expect(route).toBe(
       'app.dashboard.fs({ id: $ctrl.record.id, resetState: true })'
@@ -63,22 +65,22 @@ describe('tree fs item component', () => {
   });
 
   it('should render the label', () => {
-    expect(el.querySelector('a').textContent.trim()).toBe('fs1');
+    expect(querySelector(el, 'a').textContent.trim()).toBe('fs1');
   });
 
   it('should not render any children', () => {
-    expect(el.querySelector('.children')).toBeNull();
+    expect(querySelector(el, '.children')).toBeNull();
   });
 
   it('should start with arrow pointed right', () => {
-    expect(el.querySelector('i.fa-chevron-right')).not.toHaveClass(
+    expect(querySelector(el, 'i.fa-chevron-right')).not.toHaveClass(
       'fa-rotate-90'
     );
   });
 
   describe('on click', () => {
     beforeEach(() => {
-      const chevron = el.querySelector('i.fa-chevron-right');
+      const chevron = querySelector(el, 'i.fa-chevron-right');
       chevron.click();
       $scope.parent.opens[1] = true;
       $scope.$digest();

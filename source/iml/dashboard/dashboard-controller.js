@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import filterTargetByFs from '../target/filter-target-by-fs.js';
 import filterTargetByHost from '../target/filter-target-by-host.js';
@@ -31,6 +31,8 @@ import type { $scopeT } from 'angular';
 import type { StateServiceT } from 'angular-ui-router';
 
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
+
+import type { PropagateChange } from '../extend-scope-module.js';
 
 import type {
   dashboardFsB,
@@ -46,12 +48,12 @@ export default function DashboardCtrl(
   fsB: dashboardFsB,
   hostsB: dashboardHostB,
   targetsB: dashboardTargetB,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   let targetSelectStream;
 
-  const p = propagateChange($scope, this);
+  const p = propagateChange.bind(null, $scope, this);
 
   const dashboard = Object.assign(this, {
     fs: {
@@ -68,7 +70,7 @@ export default function DashboardCtrl(
       if (targetSelectStream) targetSelectStream.destroy();
 
       if (!item.selected) {
-        item.selectedTarget = (dashboard.targets = null);
+        item.selectedTarget = dashboard.targets = null;
       } else {
         const filterBy = dashboard.fs === item
           ? filterTargetByFs
@@ -107,9 +109,9 @@ export default function DashboardCtrl(
     }
   });
 
-  fsB().through(p('fileSystems'));
+  fsB().through(p.bind(null, 'fileSystems'));
 
-  hostsB().through(p('hosts'));
+  hostsB().through(p.bind(null, 'hosts'));
 
   $scope.$on('$destroy', () => {
     fsB.endBroadcast();

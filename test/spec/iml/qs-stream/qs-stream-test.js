@@ -13,14 +13,11 @@ describe('qs stream', () => {
     };
 
     qsFromLocation = jasmine.createSpy('qsFromLocation').and.callFake(obj => {
-      return Object.keys(obj).reduce(
-        (str, key) => {
-          str = str === '' ? str : str + '&';
-          str += key + '=' + obj[key];
-          return str;
-        },
-        ''
-      );
+      return Object.keys(obj).reduce((str, key) => {
+        str = str === '' ? str : str + '&';
+        str += key + '=' + obj[key];
+        return str;
+      }, '');
     });
 
     const mod = await mock('source/iml/qs-stream/qs-stream.js', {});

@@ -23,10 +23,9 @@ import angular from 'angular';
 
 import socketStream from '../socket/socket-stream.js';
 
-import { pick } from 'intel-obj';
+import { pick } from '@mfl/obj';
 
-import configureCorosyncTemplate
-  from './assets/html/configure-corosync.html!text';
+import configureCorosyncTemplate from './assets/html/configure-corosync.html';
 
 export function ConfigureCorosyncController(
   $scope,
@@ -36,6 +35,8 @@ export function ConfigureCorosyncController(
 ) {
   'ngInject';
   const ctrl = this;
+
+  const p = propagateChange.bind(null, $scope, ctrl);
 
   angular.extend(ctrl, {
     observer: ctrl.stream(),
@@ -56,11 +57,11 @@ export function ConfigureCorosyncController(
         .map(command => [command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
-        .through(propagateChange($scope, ctrl, 'saving'));
+        .through(p.bind(null, 'saving'));
     }
   });
 
-  ctrl.stream().through(propagateChange($scope, ctrl, 'config'));
+  ctrl.stream().through(p.bind(null, 'config'));
 
   $scope.$on('$destroy', () => {
     ctrl.stream.endBroadcast();

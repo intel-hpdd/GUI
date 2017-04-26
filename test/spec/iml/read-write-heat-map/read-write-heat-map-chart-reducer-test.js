@@ -3,7 +3,7 @@ import {
   DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
   default as readWriteHeatMapChartReducer
 } from '../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('read write heat map reducer', () => {
   it('should be a function', () => {

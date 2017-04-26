@@ -52,7 +52,7 @@ describe('api transforms', () => {
       spy = jasmine.createSpy('spy');
       in$ = highland();
 
-      rememberValue(transformFn, in$).each(spy);
+      rememberValue(transformFn)(in$).each(spy);
 
       jasmine.clock().install();
     });

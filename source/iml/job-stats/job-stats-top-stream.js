@@ -22,8 +22,8 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import * as obj from 'intel-obj';
-import * as fp from 'intel-fp';
+import * as obj from '@mfl/obj';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
 import sumByDate from '../charting/sum-by-date.js';
@@ -39,41 +39,41 @@ import {
   getRequestRange
 } from '../charting/get-time-params.js';
 
-const getData$ = (builder, buffer) =>
-  (metric, arg1, arg2, overrides = {}) => {
-    const d = builder(overrides, arg1, arg2);
-    const b = buffer(arg1, arg2);
+const getData$ = (builder, buffer) => (metric, arg1, arg2, overrides = {}) => {
+  const d = builder(overrides)(arg1, arg2);
+  const b = buffer(arg1, arg2);
 
-    return () => {
-      const params = d({
-        qs: {
-          job: 'id',
-          metrics: metric
-        }
-      });
+  return () => {
+    const params = d({
+      qs: {
+        job: 'id',
+        metrics: metric
+      }
+    });
 
-      return socketStream('/target/metric', params, true)
-        .map(obj.values)
-        .flatten()
-        .through(b)
-        .through(d.setLatest)
-        .through(sumByDate)
-        .through(normalize)
-        .through(calculateData)
-        .map(
-          fp.map(x => ({
-            id: x.id,
-            [`${metric}_average`]: x.data.average,
-            [`${metric}_min`]: x.data.min,
-            [`${metric}_max`]: x.data.max
-          }))
-        );
-    };
+    return socketStream('/target/metric', params, true)
+      .map(obj.values)
+      .flatten()
+      .through(b)
+      .through(d.setLatest)
+      .through(sumByDate)
+      .through(normalize)
+      .through(calculateData)
+      .map(
+        fp.map(x => ({
+          id: x.id,
+          [`${metric}_average`]: x.data.average,
+          [`${metric}_min`]: x.data.min,
+          [`${metric}_max`]: x.data.max
+        }))
+      );
   };
+};
 
 const getDuration$ = getData$(getRequestDuration, bufferDataNewerThan);
 
-const getRange$ = getData$(getRequestRange, () => x => x);
+// eslint-disable-next-line no-unused-vars
+const getRange$ = getData$(getRequestRange, (...rest) => x => x);
 
 export const topDuration = (
   duration: number = 10,

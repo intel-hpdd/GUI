@@ -22,6 +22,5 @@
 import angular from 'angular';
 import Position from './position';
 
-export default angular
-  .module('position', [])
-  .service('position', Position).name;
+export default angular.module('position', []).service('position', Position)
+  .name;

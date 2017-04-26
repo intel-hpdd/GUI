@@ -19,10 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import notificationSliderTemplate
-  from './assets/html/notification-slider.html!text';
+import notificationSliderTemplate from './assets/html/notification-slider.html';
 
 export function NotificationSliderController(
   $scope,
@@ -35,7 +34,7 @@ export function NotificationSliderController(
 
   const closeAfter5Seconds = $timeout.bind(
     null,
-    () => $scope.open = false,
+    () => ($scope.open = false),
     5000
   );
 

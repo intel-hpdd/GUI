@@ -3,7 +3,7 @@ import {
   DEFAULT_CPU_USAGE_CHART_ITEMS,
   default as cpuUsageChartReducer
 } from '../../../../source/iml/cpu-usage/cpu-usage-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {

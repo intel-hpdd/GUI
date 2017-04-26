@@ -27,8 +27,8 @@ import cpuUsageModule from '../cpu-usage/cpu-usage-module';
 import memoryUsageModule from '../memory-usage/memory-usage-module';
 import ServerDashboardCtrl from './server-dashboard-controller';
 import {
-  serverDashboardChartResolvesFactory,
-  serverDashboardHostStreamResolvesFactory
+  serverDashboardChartResolves,
+  serverDashboardHostStreamResolves
 } from './server-dashboard-resolves';
 
 export default angular
@@ -39,8 +39,8 @@ export default angular
     memoryUsageModule
   ])
   .controller('ServerDashboardCtrl', ServerDashboardCtrl)
-  .factory('serverDashboardChartResolves', serverDashboardChartResolvesFactory)
+  .factory('serverDashboardChartResolves', serverDashboardChartResolves)
   .factory(
     'serverDashboardHostStreamResolves',
-    serverDashboardHostStreamResolvesFactory
+    serverDashboardHostStreamResolves
   ).name;

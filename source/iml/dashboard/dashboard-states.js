@@ -21,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as obj from 'intel-obj';
-
 import {
   serverDashboardHostStreamResolves,
   serverDashboardChartResolves
@@ -49,12 +47,14 @@ import { streamToPromise } from '../promise-transforms.js';
 
 import { matchById } from '../api-transforms.js';
 
+import * as maybe from '@mfl/maybe';
+
 import type { HighlandStreamT } from 'highland';
 
-import dashboardTemplate from './assets/html/dashboard.html!text';
-import baseDashboardTemplate from './assets/html/base-dashboard.html!text';
-import targetDashboardTemplate from './assets/html/target-dashboard.html!text';
-import serverDashboardTemplate from './assets/html/server-dashboard.html!text';
+import dashboardTemplate from './assets/html/dashboard.html';
+import baseDashboardTemplate from './assets/html/base-dashboard.html';
+import targetDashboardTemplate from './assets/html/target-dashboard.html';
+import serverDashboardTemplate from './assets/html/server-dashboard.html';
 
 const getDataFn = (
   b: () => HighlandStreamT<Object[]>,
@@ -62,7 +62,8 @@ const getDataFn = (
 ) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
-    .then(obj.pick('label'));
+    .then(maybe.map.bind(null, (x: Object) => ({ label: x.label })))
+    .then(maybe.withDefault.bind(null, () => ({ label: '' })));
 };
 
 export const dashboardState = {

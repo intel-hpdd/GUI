@@ -20,7 +20,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default function atScrollBoundary() {
   'ngInject';
@@ -37,8 +37,10 @@ export default function atScrollBoundary() {
       //@TODO: Add other directions as needed.
       const directions = {};
       directions[BOTTOM] = function isAtBottom() {
-        return unwrappedEl.scrollTop + unwrappedEl.clientHeight >=
-          unwrappedEl.scrollHeight - 20;
+        return (
+          unwrappedEl.scrollTop + unwrappedEl.clientHeight >=
+          unwrappedEl.scrollHeight - 20
+        );
       };
 
       const scrollFunc = scope.$apply.bind(scope, function onScroll() {

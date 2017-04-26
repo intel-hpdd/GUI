@@ -42,59 +42,61 @@ export default angular
            * @param {Object} [resolves]
            * @param {Object} [waitingStep]
            */
-          scope.manager.registerChangeListener(
-            function onChanges(step, resolves, waitingStep) {
-              if (!resolvesFinished && waitingStep && waitingStep.template) {
-                // Create new scope
-                innerScope = scope.$new();
+          scope.manager.registerChangeListener(function onChanges(
+            step,
+            resolves,
+            waitingStep
+          ) {
+            if (!resolvesFinished && waitingStep && waitingStep.template) {
+              // Create new scope
+              innerScope = scope.$new();
 
-                loadUpSteps(
-                  {
-                    $scope: innerScope
-                  },
-                  el,
-                  waitingStep.template,
-                  waitingStep.controller
-                );
-              }
+              loadUpSteps(
+                {
+                  $scope: innerScope
+                },
+                el,
+                waitingStep.template,
+                waitingStep.controller
+              );
+            }
 
-              resolves = scope.manager.onEnter(resolves);
-              resolves.template = step.template;
+            resolves = scope.manager.onEnter(resolves);
+            resolves.template = step.template;
 
-              $q.all(resolves).then(function(results) {
-                const template = results.template;
-                delete results.template;
+            $q.all(resolves).then(function(results) {
+              const template = results.template;
+              delete results.template;
 
-                // Indicate that resolves are complete so the untilTemplate isn't loaded
-                resolvesFinished = true;
+              // Indicate that resolves are complete so the untilTemplate isn't loaded
+              resolvesFinished = true;
 
-                if (innerScope) innerScope.$destroy();
+              if (innerScope) innerScope.$destroy();
 
-                results.$scope = (innerScope = scope.$new());
-                results.$stepInstance = {
-                  transition: scope.manager.transition,
-                  end: scope.manager.end
-                };
+              results.$scope = innerScope = scope.$new();
+              results.$stepInstance = {
+                transition: scope.manager.transition,
+                end: scope.manager.end
+              };
 
-                loadUpSteps(results, el, template, step.controller);
-              });
+              loadUpSteps(results, el, template, step.controller);
+            });
 
-              /**
+            /**
              * Loads the steps
              * @param {Object} resolves
              * @param {Object} el
              * @param {String} template
              * @param {Object} controller
              */
-              function loadUpSteps(resolves, el, template, controller) {
-                if (controller) $controller(controller, resolves);
+            function loadUpSteps(resolves, el, template, controller) {
+              if (controller) $controller(controller, resolves);
 
-                el.html(template);
+              el.html(template);
 
-                $compile(el.children())(resolves.$scope);
-              }
+              $compile(el.children())(resolves.$scope);
             }
-          );
+          });
 
           scope.$on('$destroy', function onDestroy() {
             scope.manager.destroy();
@@ -175,8 +177,7 @@ export default angular
 
             if (currentStep.onEnter)
               return $injector.invoke(currentStep.onEnter, null, resolves);
-            else
-              return resolves;
+            else return resolves;
           },
           /**
            * Performs a transition from one step to another
@@ -214,7 +215,7 @@ export default angular
            * Cleans all references.
            */
           destroy: function destroy() {
-            listener = (steps = (currentStep = (pending = null)));
+            listener = steps = currentStep = pending = null;
           },
           result: {
             end: endDeferred.promise

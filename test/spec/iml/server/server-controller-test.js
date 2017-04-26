@@ -1,6 +1,6 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 
 import { mock, resetAll } from '../../../system-mock.js';
@@ -39,7 +39,7 @@ describe('server', () => {
         'source/iml/command/get-command-stream.js': {
           default: getCommandStream
         },
-        'source/iml/server/assets/html/confirm-server-action-modal.html!text': {
+        'source/iml/server/assets/html/confirm-server-action-modal.html': {
           default: 'confirmServerActionModalTemplate'
         }
       }

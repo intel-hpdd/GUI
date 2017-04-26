@@ -38,8 +38,7 @@ export default angular
           ).errors((err, push) => {
             if (err === 'backdrop click' || err === 'escape key press')
               push(null, 'closed');
-            else
-              push(err);
+            else push(err);
           });
 
           return modalInstance;

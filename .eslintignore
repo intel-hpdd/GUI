@@ -1,8 +1,7 @@
-karma.conf.js
+
 flow-typed/angular.js
 flow-typed/angular-ui-router.js
 flow-typed/inferno-component.js
 test/data-fixtures/
 coverage/**
-gulp/**
 dist/**

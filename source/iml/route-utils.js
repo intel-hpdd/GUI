@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import extractApi from 'intel-extract-api';
+import extractApi from '@mfl/extract-api';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
-import type { Maybe } from 'intel-maybe';
+import type { Maybe } from '@mfl/maybe';
 
 import type { TransitionT } from 'angular-ui-router';
 
@@ -47,11 +47,8 @@ export const getResolvedData = (
   transition: TransitionT,
   resolveName: string
 ): Maybe<any> => {
-  return maybe.map(
-    n => {
-      if (transition.getResolveTokens().indexOf(n) > -1)
-        return transition.getResolveValue(n);
-    },
-    maybe.of(resolveName)
-  );
+  return maybe.map(n => {
+    if (transition.getResolveTokens().indexOf(n) > -1)
+      return transition.getResolveValue(n);
+  }, maybe.of(resolveName));
 };

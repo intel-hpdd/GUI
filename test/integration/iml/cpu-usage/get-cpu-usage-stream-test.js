@@ -1,9 +1,9 @@
 import highland from 'highland';
 import moment from 'moment';
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import cpuUsageDataFixtures
-  from '../../../data-fixtures/cpu-usage-fixtures.json!json';
+  from '../../../data-fixtures/cpu-usage-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -16,49 +16,47 @@ describe('get cpu usage stream', () => {
     getCpuUsageStream,
     getRequestDuration;
 
-  beforeEachAsync(
-    async function() {
-      socketStream = jasmine
-        .createSpy('socketStream')
-        .and.callFake(() => serverStream = highland());
+  beforeEachAsync(async function() {
+    socketStream = jasmine
+      .createSpy('socketStream')
+      .and.callFake(() => (serverStream = highland()));
 
-      getServerMoment = jasmine
-        .createSpy('getServerMoment')
-        .and.returnValue(moment('2014-04-11T01:18:00+00:00'));
+    getServerMoment = jasmine
+      .createSpy('getServerMoment')
+      .and.returnValue(moment('2014-04-11T01:18:00+00:00'));
 
-      const createDate = jasmine
-        .createSpy('createDate')
-        .and.callFake(arg =>
-          maybe.withDefault(
-            () => new Date(),
-            maybe.map(x => new Date(x), maybe.of(arg))
-          ));
-
-      const getTimeParamsModule = await mock(
-        'source/iml/charting/get-time-params.js',
-        {
-          'source/iml/get-server-moment.js': { default: getServerMoment },
-          'source/iml/create-date.js': { default: createDate }
-        }
+    const createDate = jasmine
+      .createSpy('createDate')
+      .and.callFake(arg =>
+        maybe.withDefault(
+          () => new Date(),
+          maybe.map(x => new Date(x), maybe.of(arg))
+        )
       );
-      getRequestDuration = getTimeParamsModule.getRequestDuration;
 
-      const bufferDataNewerThanModule = await mock(
-        'source/iml/charting/buffer-data-newer-than.js',
-        {}
-      );
-      bufferDataNewerThan = bufferDataNewerThanModule.default;
+    const getTimeParamsModule = await mock(
+      'source/iml/charting/get-time-params.js',
+      {
+        'source/iml/get-server-moment.js': { default: getServerMoment },
+        'source/iml/create-date.js': { default: createDate }
+      }
+    );
+    getRequestDuration = getTimeParamsModule.getRequestDuration;
 
-      mod = await mock('source/iml/cpu-usage/get-cpu-usage-stream.js', {
-        'source/iml/socket/socket-stream.js': { default: socketStream }
-      });
+    const bufferDataNewerThanModule = await mock(
+      'source/iml/charting/buffer-data-newer-than.js',
+      {}
+    );
+    bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-      getCpuUsageStream = mod.default;
+    mod = await mock('source/iml/cpu-usage/get-cpu-usage-stream.js', {
+      'source/iml/socket/socket-stream.js': { default: socketStream }
+    });
 
-      jasmine.clock().install();
-    },
-    10000
-  );
+    getCpuUsageStream = mod.default;
+
+    jasmine.clock().install();
+  }, 10000);
 
   let fixtures, spy;
 

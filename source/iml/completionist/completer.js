@@ -21,13 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as parsely from 'intel-parsely';
+import * as parsely from '@mfl/parsely';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import { and } from 'intel-qs-parsers/input-to-qs-parser.js';
+import { and } from '@mfl/qs-parsers/source/input-to-qs-parser.js';
 
-import type { tokensToResult, result } from 'intel-parsely';
+import type { tokensToResult, Result } from '@mfl/parsely';
 
 const blacklist = [
   'value',
@@ -48,31 +48,27 @@ const lookup = {
 
 export default (tokenizer: Function, parser: tokensToResult) => {
   return fp.memoize(
-    fp.flow(tokenizer, parsely.sepByInfinity(parser, and), ({
-      result
-    }: result) => {
-      if (typeof result === 'string') {
-        return [];
-      } else {
-        const {
-          start,
-          end
-        } = result;
+    fp.flow(
+      tokenizer,
+      parsely.sepByInfinity(parser)(and),
+      ({ result }: Result) => {
+        if (typeof result === 'string') {
+          return [];
+        } else {
+          const { start, end } = result;
 
-        return result.expected
-          .reduce(
-            (arr, x) => {
+          return result.expected
+            .reduce((arr, x) => {
               return arr.concat(lookup[x] || x);
-            },
-            []
-          )
-          .filter(x => blacklist.indexOf(x) === -1)
-          .map(x => ({
-            start,
-            end,
-            suggestion: x
-          }));
+            }, [])
+            .filter(x => blacklist.indexOf(x) === -1)
+            .map(x => ({
+              start,
+              end,
+              suggestion: x
+            }));
+        }
       }
-    })
+    )
   );
 };

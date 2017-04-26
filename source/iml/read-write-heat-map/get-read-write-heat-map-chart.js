@@ -21,18 +21,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+import * as fp from '@mfl/fp';
+import flatMapChanges from '@mfl/flat-map-changes';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
-import formatBytes from '../number-formatters/format-bytes.js';
-import formatNumber from '../number-formatters/format-number.js';
+import { formatNumber, formatBytes } from '@mfl/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import getStore from '../store/get-store.js';
 import durationSubmitHandler
   from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import { values } from 'intel-obj';
+import { values } from '@mfl/obj';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
@@ -41,8 +40,7 @@ import {
   UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
 } from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
 
-import readWriteHeatMapTemplate
-  from './assets/html/read-write-heat-map.html!text';
+import readWriteHeatMapTemplate from './assets/html/read-write-heat-map.html';
 
 import { SERVER_TIME_DIFF } from '../environment.js';
 
@@ -93,7 +91,7 @@ export default (
     const config1$ = getStore.select('readWriteHeatMapCharts');
 
     const initStream = config1$.through(getConf(page)).through(
-      flatMapChanges((x: heatMapDurationPayloadT) =>
+      flatMapChanges.bind(null, (x: heatMapDurationPayloadT) =>
         streamWhenVisible(() =>
           getReadWriteHeatMapStream(
             {
@@ -103,7 +101,9 @@ export default (
             x.configType === 'duration' ? x : undefined,
             x.configType === 'range' ? x : undefined,
             SERVER_TIME_DIFF
-          )))
+          )
+        )
+      )
     );
 
     return chartCompiler(

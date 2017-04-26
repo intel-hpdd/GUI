@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -84,7 +84,7 @@ describe('Read Write Bandwidth chart', () => {
         'source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js': {
           default: getReadWriteBandwidthStream
         },
-        'source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.html!text': {
+        'source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.html': {
           default: 'rwBandwidthTemplate'
         },
         'source/iml/chart-compiler/chart-compiler.js': {

@@ -9,14 +9,11 @@ describe('model factory', function() {
     ItemsResource;
 
   beforeEach(
-    module(
-      'modelFactory',
-      'interceptors',
-      { STATIC_URL: '/static' },
-      function(_modelFactoryProvider_) {
-        modelFactoryProvider = _modelFactoryProvider_;
-      }
-    )
+    module('modelFactory', 'interceptors', { STATIC_URL: '/static' }, function(
+      _modelFactoryProvider_
+    ) {
+      modelFactoryProvider = _modelFactoryProvider_;
+    })
   );
 
   beforeEach(

@@ -1,8 +1,8 @@
 import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture
-  from '../../../data-fixtures/transformed-host-profile-fixture.json!json';
+  from '../../../data-fixtures/transformed-host-profile-fixture.json';
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { mock, resetAll } from '../../../system-mock.js';
 
@@ -13,7 +13,7 @@ describe('select server profile', () => {
 
   beforeEachAsync(async function() {
     const mod = await mock('source/iml/server/select-server-profile-step.js', {
-      'source/iml/server/assets/html/select-server-profile-step.html!text': {
+      'source/iml/server/assets/html/select-server-profile-step.html': {
         default: 'serverProfileStepTemplate'
       }
     });

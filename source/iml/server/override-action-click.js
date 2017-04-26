@@ -26,11 +26,13 @@ export default function overrideActionClickFactory(
 ) {
   'ngInject';
   return function overrideActionClick(record, action) {
-    const notRemoving = action.state &&
+    const notRemoving =
+      action.state &&
       action.state !== 'removed' &&
       action.verb !== 'Force Remove';
     const openForDeploy = record.state === 'undeployed';
-    const openForConfigure = record.server_profile &&
+    const openForConfigure =
+      record.server_profile &&
       record.server_profile.initial_state === 'unconfigured';
 
     if ((openForDeploy || openForConfigure) && notRemoving) {

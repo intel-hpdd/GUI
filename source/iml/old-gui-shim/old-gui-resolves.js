@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
@@ -46,8 +46,8 @@ export const oldUserDetailResolve = {
       'ngInject';
       return streamToPromise(store.select('users').filter(xs => xs.length))
         .then(matchById($stateParams.id))
-        .then(maybe.map((x: Object) => ({ label: x.username })))
-        .then(maybe.withDefault(() => ({ label: '' })));
+        .then(maybe.map.bind(null, (x: Object) => ({ label: x.username })))
+        .then(maybe.withDefault.bind(null, () => ({ label: '' })));
     }
   }
 };

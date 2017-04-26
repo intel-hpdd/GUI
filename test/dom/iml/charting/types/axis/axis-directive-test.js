@@ -1,7 +1,7 @@
 import highland from 'highland';
 import d3 from 'd3';
 import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import axisModule
   from '../../../../../../source/iml/charting/types/axis/axis-module';

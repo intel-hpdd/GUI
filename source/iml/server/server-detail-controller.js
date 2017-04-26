@@ -21,11 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import type { PropagateChange } from '../extend-scope-module.js';
+
 export default function ServerDetailController(
   $scope: Object,
   streams: Object,
   overrideActionClick: Function,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ): void {
   'ngInject';
   const serverDetailController = this;
@@ -40,9 +42,9 @@ export default function ServerDetailController(
     overrideActionClick
   });
 
-  const p = propagateChange($scope, serverDetailController);
+  const p = propagateChange.bind(null, $scope, serverDetailController);
 
-  streams.lnetConfigurationStream().through(p('lnetConfiguration'));
+  streams.lnetConfigurationStream().through(p.bind(null, 'lnetConfiguration'));
 
   streams.serverStream
     .errors(function handle404(err, push) {
@@ -53,7 +55,7 @@ export default function ServerDetailController(
 
       push(err);
     })
-    .through(p('server'));
+    .through(p.bind(null, 'server'));
 
   $scope.$on('$destroy', function onDestroy() {
     Object.keys(streams).forEach(function destroy(key) {

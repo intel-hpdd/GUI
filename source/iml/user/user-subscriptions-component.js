@@ -25,6 +25,8 @@ import socketStream from '../socket/socket-stream.js';
 
 import type { $scopeT } from 'angular';
 
+import type { PropagateChange } from '../extend-scope-module.js';
+
 export default {
   bindings: {
     subscriptions: '<',
@@ -33,10 +35,10 @@ export default {
   controller(
     $scope: $scopeT,
     insertHelpFilter: Function,
-    propagateChange: Function
+    propagateChange: PropagateChange
   ) {
     'ngInject';
-    const toVal = x => x === true ? 'On' : 'Off';
+    const toVal = x => (x === true ? 'On' : 'Off');
 
     this.getMessage = state => {
       return insertHelpFilter(`${state.status}_diff`, {
@@ -70,7 +72,7 @@ export default {
         true
       )
         .map(() => false)
-        .through(propagateChange($scope, this, 'saving'));
+        .through(propagateChange.bind(null, $scope, this, 'saving'));
     };
   },
   template: `

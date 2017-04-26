@@ -45,7 +45,9 @@ export type durationFormT = {
   size: formControlT
 };
 
-export type durationSubmitHandlerT = (chartType: string) => (
+export type durationSubmitHandlerT = (
+  chartType: string
+) => (
   overrides: Object,
   forms: { rangeForm: rangeFormT, durationForm: durationFormT }
 ) => void;

@@ -47,7 +47,8 @@ describe('jobstats table component', () => {
       $scope = $rootScope.$new();
       $scope.jobstats$ = highland();
 
-      const template = '<job-stats-table stats-$="jobstats$"></job-stats-table>';
+      const template =
+        '<job-stats-table stats-$="jobstats$"></job-stats-table>';
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })

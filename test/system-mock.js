@@ -1,6 +1,4 @@
-// @flow
-
-import * as obj from 'intel-obj';
+import * as obj from '@mfl/obj';
 
 const origDeps = new Set();
 const origModules = {};
@@ -18,30 +16,24 @@ declare class System {
 }
 
 export function mock(name: string, mocks: { [key: string]: Object }) {
-  mocks = objReducer(
-    (val, key, out) => {
-      out[normalizeName(key)] = val;
+  mocks = objReducer((val, key, out) => {
+    out[normalizeName(key)] = val;
 
-      return out;
-    },
-    mocks
-  );
+    return out;
+  }, mocks);
 
-  objReducer(
-    (val, key) => {
-      if (origDeps.has(key))
-        throw new Error(`${key} needs to be reset before mocking`);
+  objReducer((val, key) => {
+    if (origDeps.has(key))
+      throw new Error(`${key} needs to be reset before mocking`);
 
-      const oldDep = System.get(key);
+    const oldDep = System.get(key);
 
-      if (oldDep) origModules[key] = oldDep;
+    if (oldDep) origModules[key] = oldDep;
 
-      System.delete(key);
-      System.set(key, System.newModule(val));
-      origDeps.add(key);
-    },
-    mocks
-  );
+    System.delete(key);
+    System.set(key, System.newModule(val));
+    origDeps.add(key);
+  }, mocks);
 
   const normalizedName = normalizeName(name);
 
