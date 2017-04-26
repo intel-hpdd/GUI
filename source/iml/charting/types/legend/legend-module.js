@@ -6,11 +6,10 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import d3Module from '../../../d3/d3-module';
 import { getLegendFactory } from './get-legend';
 import { legendDirective } from './legend-directive';
 
 export default angular
-  .module('legend', [d3Module])
+  .module('legend', [])
   .directive('legend', legendDirective)
   .factory('getLegend', getLegendFactory).name;

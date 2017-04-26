@@ -1,46 +1,39 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('wait-for-command-completion-service', () => {
-  let getCommandStream,
+  let mockGetCommandStream,
     commandStream,
     spy,
-    resultStream,
+    mockResultStream,
     openCommandModal,
     waitForCommandCompletion;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     commandStream = highland();
-    spyOn(commandStream, 'destroy').and.callThrough();
-    getCommandStream = jasmine
-      .createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    jest.spyOn(commandStream, 'destroy');
+    mockGetCommandStream = jest.fn(() => commandStream);
 
-    spy = jasmine.createSpy('spy');
-    resultStream = highland();
-    openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
-      resultStream
-    });
+    spy = jest.fn();
+    mockResultStream = highland();
+    openCommandModal = jest.fn(() => ({
+      resultStream: mockResultStream
+    }));
 
-    const mod = await mock(
-      'source/iml/command/wait-for-command-completion-service.js',
-      {
-        'source/iml/command/get-command-stream.js': {
-          default: getCommandStream
-        }
-      }
+    jest.mock(
+      '../../../../source/iml/command/get-command-stream.js',
+      () => mockGetCommandStream
     );
+
+    const mod = require('../../../../source/iml/command/wait-for-command-completion-service.js');
 
     waitForCommandCompletion = mod.default(openCommandModal);
 
-    jasmine.clock().install();
+    jest.useFakeTimers();
   });
 
-  afterEach(resetAll);
-
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   describe('contains commands', () => {
@@ -53,7 +46,7 @@ describe('wait-for-command-completion-service', () => {
     });
 
     it('should call get command stream', () => {
-      expect(getCommandStream).toHaveBeenCalledWith([{}]);
+      expect(mockGetCommandStream).toHaveBeenCalledWith([{}]);
     });
 
     it('should not call openCommandModal', () => {
@@ -74,9 +67,9 @@ describe('wait-for-command-completion-service', () => {
       });
 
       it('should destroy the command stream', () => {
-        jasmine.clock().tick();
+        jest.runAllTimers();
 
-        expect(commandStream.destroy).toHaveBeenCalledOnce();
+        expect(commandStream.destroy).toHaveBeenCalledTimes(1);
       });
 
       it('should resolve the result', () => {
@@ -100,16 +93,16 @@ describe('wait-for-command-completion-service', () => {
     });
 
     it('should call openCommandModal', () => {
-      expect(openCommandModal).toHaveBeenCalledOnceWith(jasmine.any(Object));
+      expect(openCommandModal).toHaveBeenCalledOnceWith(expect.any(Object));
     });
 
     describe('closing the command modal', () => {
       beforeEach(() => {
-        resultStream.write('close modal');
+        mockResultStream.write('close modal');
       });
 
       it('should destroy the commandModal$', () => {
-        const commandModal$ = openCommandModal.calls.argsFor(0)[0];
+        const commandModal$ = openCommandModal.mock.calls[0][0];
         expect(commandModal$.ended).toBe(true);
       });
 

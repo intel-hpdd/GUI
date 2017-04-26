@@ -1,77 +1,56 @@
 import highland from 'highland';
 import moment from 'moment';
-import mdoDataFixtures from '../../../data-fixtures/mdo-data-fixture.json!json';
+import { getRequestDuration } from '../../../../source/iml/charting/get-time-params.js';
+import { convertNvDates } from '../../../test-utils.js';
 
-import * as maybe from 'intel-maybe';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import fixtures from '../../../data-fixtures/mdo-data-fixture.json';
 
 describe('mdo stream', () => {
-  let socketStream,
-    serverStream,
-    bufferDataNewerThan,
-    getServerMoment,
-    getMdoStream,
-    getRequestDuration;
+  let mockSocketStream, bufferDataNewerThan, getMdoStream, endAndRunTimers, spy;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
-      return (serverStream = highland());
-    });
+  beforeEach(() => {
+    const mockCreateMoment = () => moment('2013-11-15T19:25:20+00:00');
 
-    getServerMoment = jasmine
-      .createSpy('getServerMoment')
-      .and.returnValue(moment('2013-11-15T19:25:20+00:00'));
-
-    const bufferDataNewerThanModule = await mock(
-      'source/iml/charting/buffer-data-newer-than.js',
-      {
-        'source/iml/get-server-moment.js': { default: getServerMoment }
-      }
+    jest.mock(
+      '../../../../source/iml/get-server-moment.js',
+      () => mockCreateMoment
     );
-    bufferDataNewerThan = bufferDataNewerThanModule.default;
 
-    const createDate = jasmine
-      .createSpy('createDate')
-      .and.callFake(arg =>
-        maybe.withDefault(
-          () => new Date(),
-          maybe.map(x => new Date(x), maybe.of(arg))
-        ));
+    const mockCreateStream = () => {
+      mockSocketStream = highland();
 
-    const getTimeParamsModule = await mock(
-      'source/iml/charting/get-time-params.js',
-      {
-        'source/iml/create-date.js': { default: createDate }
-      }
+      endAndRunTimers = x => {
+        mockSocketStream.write(x);
+        mockSocketStream.end();
+        jest.runAllTimers();
+      };
+
+      return mockSocketStream;
+    };
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockCreateStream
     );
-    getRequestDuration = getTimeParamsModule.getRequestDuration;
 
-    const mod = await mock('source/iml/mdo/get-mdo-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
+      .default;
 
-    getMdoStream = mod.default;
+    getMdoStream = require('../../../../source/iml/mdo/get-mdo-stream.js')
+      .default;
 
-    jasmine.clock().install();
+    spy = jest.fn();
+
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
-  });
-
-  afterEach(resetAll);
-
-  let fixtures, spy;
-
-  beforeEach(() => {
-    spy = jasmine.createSpy('spy');
-
-    fixtures = mdoDataFixtures;
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('should return a factory function', () => {
-    expect(getMdoStream).toEqual(jasmine.any(Function));
+    expect(getMdoStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {
@@ -79,7 +58,7 @@ describe('mdo stream', () => {
 
     beforeEach(() => {
       const buff = bufferDataNewerThan(10, 'minutes');
-      const requestDuration = getRequestDuration({}, 10, 'minutes');
+      const requestDuration = getRequestDuration({})(10, 'minutes');
 
       mdoStream = getMdoStream(requestDuration, buff);
 
@@ -88,9 +67,7 @@ describe('mdo stream', () => {
 
     describe('when there is data', () => {
       beforeEach(() => {
-        serverStream.write(fixtures[0].in);
-        serverStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in);
       });
 
       it('should return a stream', () => {
@@ -102,9 +79,7 @@ describe('mdo stream', () => {
       });
 
       it('should drop duplicate values', () => {
-        serverStream.write(fixtures[0].in[0]);
-        serverStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in[0]);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -112,9 +87,7 @@ describe('mdo stream', () => {
 
     describe('when there is no initial data', () => {
       beforeEach(() => {
-        serverStream.write([]);
-        serverStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers([]);
       });
 
       it('should return an empty nvd3 structure', () => {
@@ -171,9 +144,7 @@ describe('mdo stream', () => {
       });
 
       it('should populate if data comes in on next tick', () => {
-        serverStream.write(fixtures[0].in[0]);
-        serverStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in[0]);
 
         expect(spy).toHaveBeenCalledOnceWith([
           {

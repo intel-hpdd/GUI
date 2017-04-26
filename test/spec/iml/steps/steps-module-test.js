@@ -1,10 +1,11 @@
 import stepsModule from '../../../../source/iml/steps/steps-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Steps module', () => {
-  beforeEach(module(stepsModule));
+  beforeEach(angular.mock.module(stepsModule));
 
   beforeEach(
-    module($provide => {
+    angular.mock.module($provide => {
       $provide.value('foo', 'bar');
     })
   );
@@ -12,7 +13,7 @@ describe('Steps module', () => {
   let $rootScope, $scope, $q, $compile, stepsManager;
 
   beforeEach(
-    inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
+    angular.mock.inject((_$rootScope_, _$compile_, _$q_, _stepsManager_) => {
       $rootScope = _$rootScope_;
       $compile = _$compile_;
       $q = _$q_;
@@ -102,16 +103,16 @@ describe('Steps module', () => {
 
     it('should return the expected interface', () => {
       expect(stepsManagerInstance).toEqual({
-        addWaitingStep: jasmine.any(Function),
-        addStep: jasmine.any(Function),
-        start: jasmine.any(Function),
-        onEnter: jasmine.any(Function),
-        end: jasmine.any(Function),
-        transition: jasmine.any(Function),
-        registerChangeListener: jasmine.any(Function),
-        destroy: jasmine.any(Function),
+        addWaitingStep: expect.any(Function),
+        addStep: expect.any(Function),
+        start: expect.any(Function),
+        onEnter: expect.any(Function),
+        end: expect.any(Function),
+        transition: expect.any(Function),
+        registerChangeListener: expect.any(Function),
+        destroy: expect.any(Function),
         result: {
-          end: jasmine.any(Object)
+          end: expect.any(Object)
         }
       });
     });
@@ -139,7 +140,7 @@ describe('Steps module', () => {
       let listener, step1, step2;
 
       beforeEach(() => {
-        listener = jasmine.createSpy('listener');
+        listener = jest.fn();
 
         step1 = {
           templateUrl: 'assets/html/step1',

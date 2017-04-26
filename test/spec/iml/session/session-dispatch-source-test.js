@@ -1,14 +1,11 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 import highland from 'highland';
-import store from '../../../../source/iml/store/get-store.js';
 
 describe('session dispatch source', () => {
-  let socketStream, session$, spy, CACHE_INITIAL_DATA;
-  beforeEachAsync(async () => {
-    CACHE_INITIAL_DATA = {
+  let mockSocketStream, session$, spy, mockCacheInitialData, store;
+  beforeEach(() => {
+    mockCacheInitialData = {
       session: {
         read_enabled: false,
         resource_uri: '',
@@ -16,29 +13,34 @@ describe('session dispatch source', () => {
       }
     };
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     session$ = highland();
 
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(session$);
+    mockSocketStream = jest.fn(() => session$);
 
-    await mock('source/iml/session/session-dispatch-source.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/environment.js': { CACHE_INITIAL_DATA }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      CACHE_INITIAL_DATA: mockCacheInitialData
+    }));
+
+    store = require('../../../../source/iml/store/get-store.js').default;
+    require('../../../../source/iml/session/session-dispatch-source.js');
   });
-
-  afterEach(resetAll);
 
   it('should push the initial session through the session store', () => {
     store.select('session').each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith({
-      session: CACHE_INITIAL_DATA.session
+      session: mockCacheInitialData.session
     });
   });
 
   it('should call socketStream', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/session', {});
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/session', {});
   });
 
   it('should dispatch session changes to the store', () => {

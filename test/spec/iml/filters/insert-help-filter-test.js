@@ -1,16 +1,17 @@
+import angular from '../../../angular-mock-setup.js';
 import filtersModule from '../../../../source/iml/filters/filters-module';
 
 describe('Insert help text filter', () => {
   let insertHelp, help, result, helpFilter;
 
   beforeEach(
-    module(filtersModule, $provide => {
+    angular.mock.module(filtersModule, $provide => {
       helpFilter = {
-        valueOf: jasmine.createSpy('valueOf')
+        valueOf: jest.fn()
       };
 
       help = {
-        get: jasmine.createSpy('helpBody').and.returnValue(helpFilter)
+        get: jest.fn(() => helpFilter)
       };
 
       $provide.value('help', help);
@@ -18,7 +19,7 @@ describe('Insert help text filter', () => {
   );
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject(function($filter) {
       insertHelp = $filter('insertHelp');
     })
   );
@@ -29,7 +30,7 @@ describe('Insert help text filter', () => {
     });
 
     it('should retrieve values from help', function() {
-      expect(help.get).toHaveBeenCalledOnce();
+      expect(help.get).toHaveBeenCalledTimes(1);
     });
 
     it('should return the wrapper', function() {
@@ -39,7 +40,7 @@ describe('Insert help text filter', () => {
 
   describe('with params', function() {
     beforeEach(function() {
-      helpFilter.valueOf.and.returnValue(
+      helpFilter.valueOf.mockReturnValueOnce(
         'This row has changed locally. Click to reset value to %(remote)s'
       );
 

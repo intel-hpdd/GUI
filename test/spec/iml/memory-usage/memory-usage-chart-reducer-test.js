@@ -3,11 +3,11 @@ import {
   DEFAULT_MEMORY_USAGE_CHART_ITEMS,
   default as memoryUsageChartReducer
 } from '../../../../source/iml/memory-usage/memory-usage-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('memory usage chart reducer', () => {
   it('should be a function', () => {
-    expect(memoryUsageChartReducer).toEqual(jasmine.any(Function));
+    expect(memoryUsageChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

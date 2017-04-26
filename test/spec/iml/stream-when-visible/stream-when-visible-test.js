@@ -1,203 +1,152 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
-import streamWhenVisibleModule
-  from '../../../../source/iml/stream-when-visible/stream-when-visible-module';
-
-describe('stream when visible', () => {
+describe('stream', () => {
   let $document,
-    pageVisibility,
+    mockPageVisibility,
     removeListener,
-    visibilityStream,
+    mockVisibilityStream,
     streamFn,
     inStream,
     stream,
     documentHidden,
     documentVisible,
-    mod;
+    mod,
+    visibilityStream,
+    streamWhenVisible,
+    spy;
 
-  beforeEachAsync(async function() {
-    removeListener = jasmine.createSpy('removeListener');
-    pageVisibility = jasmine
-      .createSpy('pageVisibility')
-      .and.returnValue(removeListener);
+  beforeEach(() => {
+    removeListener = jest.fn();
+    mockPageVisibility = jest.fn().mockReturnValue(removeListener);
+    jest.mock(
+      '../../../../source/iml/page-visibility.js',
+      () => mockPageVisibility
+    );
 
-    mod = await mock('source/iml/stream-when-visible/stream-when-visible.js', {
-      'source/iml/page-visibility.js': {
-        default: pageVisibility
-      }
-    });
-  });
+    visibilityStream = highland();
+    jest.spyOn(visibilityStream, 'destroy');
 
-  afterEach(resetAll);
+    mockVisibilityStream = jest.fn(() => visibilityStream);
 
-  beforeEach(
-    module(streamWhenVisibleModule, $provide => {
-      $document = {
-        hidden: false
-      };
-      $provide.value('$document', [$document]);
+    jest.mock('highland', () => mockVisibilityStream);
 
-      $provide.value('highland', () => {
-        visibilityStream = highland();
-        spyOn(visibilityStream, 'destroy');
+    mod = require('../../../../source/iml/stream-when-visible/stream-when-visible.js');
 
-        return visibilityStream;
-      });
-      $provide.factory('streamWhenVisible', mod.streamWhenVisible);
+    $document = [{ hidden: false }];
 
-      documentHidden = 'hidden';
-      $provide.value('documentHidden', documentHidden);
-      documentVisible = 'visible';
-      $provide.value('documentVisible', documentVisible);
-    })
-  );
-
-  let streamWhenVisible, spy;
-
-  beforeEach(
-    inject(_streamWhenVisible_ => {
-      streamWhenVisible = _streamWhenVisible_;
-
-      streamFn = jasmine.createSpy('streamFn').and.callFake(() => {
-        inStream = highland();
-        spyOn(inStream, 'destroy');
-        return inStream;
-      });
-
-      stream = streamWhenVisible(streamFn);
-      spyOn(stream, 'destroy').and.callThrough();
-
-      spy = jasmine.createSpy('spy');
-    })
-  );
-
-  it('should be a function', () => {
-    expect(streamWhenVisible).toEqual(jasmine.any(Function));
-  });
-
-  it('should return a stream', () => {
-    expect(highland.isStream(stream)).toBe(true);
-  });
-
-  it('should call the page visibility service', () => {
-    expect(pageVisibility).toHaveBeenCalledOnceWith(
-      jasmine.any(Function),
-      jasmine.any(Function),
-      30000
+    streamWhenVisible = mod.streamWhenVisible(
+      $document,
+      documentHidden,
+      documentVisible
     );
   });
 
-  it('should pass errors to stream', () => {
-    inStream.write({
-      __HighlandStreamError__: true,
-      error: new Error('boom!')
+  describe('when visible', () => {
+    beforeEach(() => {
+      inStream = highland();
+      jest.spyOn(inStream, 'destroy');
+      streamFn = jest.fn(() => inStream);
+      stream = streamWhenVisible(streamFn);
+      jest.spyOn(stream, 'destroy');
+      spy = jest.fn();
     });
-
-    stream.errors(spy).each(fp.noop);
-
-    expect(spy).toHaveBeenCalledOnce();
-  });
-
-  it('should pass values to stream', () => {
-    inStream.write('foo');
-
-    stream.each(spy);
-
-    expect(spy).toHaveBeenCalledOnceWith('foo');
-  });
-
-  it('should not write if document is hidden', () => {
-    $document.hidden = true;
-
-    inStream.write('foo');
-
-    stream.each(spy);
-
-    expect(spy).not.toHaveBeenCalledOnceWith('foo');
-  });
-
-  it('should write a document hidden token on page hidden', () => {
-    pageVisibility.calls.mostRecent().args[0]();
-
-    stream.each(spy);
-
-    expect(spy).toHaveBeenCalledOnceWith(documentHidden);
-  });
-
-  it('should destroy the stream on page hidden', () => {
-    pageVisibility.calls.mostRecent().args[0]();
-
-    expect(inStream.destroy).toHaveBeenCalledOnce();
-  });
-
-  it('should write a document visible token on page visible', () => {
-    pageVisibility.calls.mostRecent().args[0]();
-    pageVisibility.calls.mostRecent().args[1]();
-
-    stream.each(spy);
-
-    expect(spy).toHaveBeenCalledOnceWith(documentVisible);
+    it('should be a function', () => {
+      expect(streamWhenVisible).toEqual(expect.any(Function));
+    });
+    it('should return a stream', () => {
+      expect(highland.isStream(stream)).toBe(true);
+    });
+    it('should call the page visibility service', () => {
+      expect(mockPageVisibility).toHaveBeenCalledOnceWith(
+        expect.any(Function),
+        expect.any(Function),
+        30000
+      );
+    });
+    it('should pass errors to stream', () => {
+      inStream.write({
+        __HighlandStreamError__: true,
+        error: new Error('boom!')
+      });
+      stream.errors(spy).each(() => {});
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+    it('should pass values to stream', () => {
+      inStream.write('foo');
+      stream.each(spy);
+      expect(spy).toHaveBeenCalledOnceWith('foo');
+    });
+    it('should not write if document is hidden', () => {
+      $document[0].hidden = true;
+      inStream.write('foo');
+      stream.each(spy);
+      expect(spy).not.toHaveBeenCalledOnceWith('foo');
+    });
+    it('should write a document hidden token on page hidden', () => {
+      mockPageVisibility.mock.calls[0][0]();
+      stream.each(spy);
+      expect(spy).toHaveBeenCalledOnceWith(documentHidden);
+    });
+    it('should destroy the stream on page hidden', () => {
+      mockPageVisibility.mock.calls[0][0]();
+      expect(inStream.destroy).toHaveBeenCalledTimes(1);
+    });
+    it('should write a document visible token on page visible', () => {
+      mockPageVisibility.mock.calls[0][0]();
+      mockPageVisibility.mock.calls[0][1]();
+      stream.each(spy);
+      expect(spy).toHaveBeenCalledWith(documentVisible);
+      expect(spy).toHaveBeenCalledWith(documentHidden);
+      expect(spy).toHaveBeenCalledTimes(2);
+    });
   });
 
   describe('when hidden', () => {
     beforeEach(() => {
-      $document.hidden = true;
-
+      $document[0].hidden = true;
       inStream = highland();
-
-      streamFn = jasmine.createSpy('streamFn').and.returnValue(inStream);
+      jest.spyOn(inStream, 'destroy');
+      streamFn = jest.fn(() => inStream);
       stream = streamWhenVisible(streamFn);
-
+      jest.spyOn(stream, 'destroy');
       inStream.write('foo');
     });
-
     it('should return a stream', () => {
       expect(highland.isStream(stream)).toBe(true);
     });
-
     it('should not call the stream fn', () => {
       expect(streamFn).not.toHaveBeenCalled();
     });
-
     it('should not write data', () => {
       stream.each(spy);
-
       expect(spy).not.toHaveBeenCalledOnceWith('foo');
     });
 
     describe('then shown', () => {
       beforeEach(() => {
-        pageVisibility.calls.mostRecent().args[1]();
+        mockPageVisibility.mock.calls[0][1]();
       });
-
       it('should write data', () => {
         expect(spy);
       });
-
       it('should call the stream function', () => {
-        expect(streamFn).toHaveBeenCalledOnce();
+        expect(streamFn).toHaveBeenCalledTimes(1);
       });
-    });
-  });
 
-  describe('on destroy', () => {
-    beforeEach(() => {
-      stream.destroy();
-    });
-
-    it('should destroy the stream', () => {
-      expect(inStream.destroy).toHaveBeenCalledOnce();
-    });
-
-    it('should destroy the visibleStream', () => {
-      expect(stream.destroy).toHaveBeenCalledOnce();
-    });
-
-    it('should remove the listener', () => {
-      expect(removeListener).toHaveBeenCalledOnce();
+      describe('on destroy', () => {
+        beforeEach(() => {
+          stream.destroy();
+        });
+        it('should destroy the stream', () => {
+          expect(inStream.destroy).toHaveBeenCalledTimes(1);
+        });
+        it('should destroy the visibleStream', () => {
+          expect(stream.destroy).toHaveBeenCalledTimes(1);
+        });
+        it('should remove the listener', () => {
+          expect(removeListener).toHaveBeenCalledTimes(1);
+        });
+      });
     });
   });
 });

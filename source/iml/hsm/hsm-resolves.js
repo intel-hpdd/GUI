@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import getCopytoolStream from './get-copytool-stream.js';
 import getCopytoolOperationStream from './get-copytool-operation-stream.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
-import type { Maybe } from 'intel-maybe';
+import type { Maybe } from '@mfl/maybe';
 
 const fsParams = filesystemId => {
   return {
@@ -25,8 +25,8 @@ const fsParams = filesystemId => {
 
 const routePath = fp.flow(
   (x: Object): Maybe<string> => maybe.of(x.fsId || null),
-  maybe.map(fsParams),
-  maybe.withDefault(() => ({}))
+  maybe.map.bind(null, fsParams),
+  maybe.withDefault.bind(null, () => ({}))
 );
 
 export function copytoolOperationStream($stateParams: {}) {

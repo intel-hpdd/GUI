@@ -43,7 +43,8 @@ export default {
     this.stream
       .filter(Boolean)
       .each(({ state }: stateT) =>
-        Inferno.render(<PacemakerStateComponent state={state} />, $element[0]));
+        Inferno.render(<PacemakerStateComponent state={state} />, $element[0])
+      );
 
     this.$onDestroy = () => this.stream.destroy();
   }

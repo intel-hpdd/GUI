@@ -1,12 +1,13 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+import angular from '../../angular-mock-setup.js';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 
 describe('extend scope test', () => {
   let $exceptionHandler;
 
   beforeEach(
-    module(extendScopeModule, $provide => {
-      $exceptionHandler = jasmine.createSpy('$exceptionHandler');
+    angular.mock.module(extendScopeModule, $provide => {
+      $exceptionHandler = jest.fn();
       $provide.value('$exceptionHandler', $exceptionHandler);
     })
   );
@@ -14,7 +15,7 @@ describe('extend scope test', () => {
   let localApply, $scope;
 
   beforeEach(
-    inject(function(_localApply_, $rootScope) {
+    angular.mock.inject((_localApply_, $rootScope) => {
       localApply = _localApply_;
       $scope = $rootScope.$new();
     })
@@ -22,7 +23,7 @@ describe('extend scope test', () => {
 
   describe('local apply', function() {
     it('should be a function', function() {
-      expect(localApply).toEqual(jasmine.any(Function));
+      expect(localApply).toEqual(expect.any(Function));
     });
 
     it('should be on scope', function() {
@@ -30,25 +31,27 @@ describe('extend scope test', () => {
     });
 
     it('should digest a local scope', function() {
-      spyOn($scope, '$digest');
+      jest.spyOn($scope, '$digest');
 
       localApply($scope);
 
-      expect($scope.$digest).toHaveBeenCalledOnce();
+      expect($scope.$digest).toHaveBeenCalledTimes(1);
     });
 
     it('should not digest if root scope is in phase', function() {
-      spyOn($scope, '$digest');
+      jest.spyOn($scope, '$digest');
 
       $scope.$root.$$phase = '$apply';
 
       localApply($scope);
 
-      expect($scope.$digest).not.toHaveBeenCalledOnce();
+      expect($scope.$digest).not.toHaveBeenCalledTimes(1);
     });
 
     it('should call the exception handler if $digest throws an error', function() {
-      spyOn($scope, '$digest').and.throwError(new Error('boom!'));
+      jest.spyOn($scope, '$digest').mockImplementation(() => {
+        throw new Error('boom!');
+      });
 
       try {
         localApply($scope);
@@ -60,7 +63,9 @@ describe('extend scope test', () => {
     });
 
     it('should throw if digest throws an error', function() {
-      spyOn($scope, '$digest').and.throwError(new Error('boom!'));
+      jest.spyOn($scope, '$digest').mockImplementation(() => {
+        throw new Error('boom!');
+      });
 
       expect(function() {
         localApply($scope);
@@ -82,9 +87,9 @@ describe('extend scope test', () => {
     describe('with destroyed scope', () => {
       let spy;
       beforeEach(() => {
-        spy = jasmine.createSpy('spy');
+        spy = jest.fn();
         $scope.$destroy();
-        spyOn($scope, '$digest');
+        jest.spyOn($scope, '$digest');
         localApply($scope, spy);
       });
 
@@ -104,7 +109,7 @@ describe('extend scope test', () => {
 
   describe('exception handler', function() {
     it('should exist on scope', function() {
-      expect($scope.handleException).toEqual(jasmine.any(Function));
+      expect($scope.handleException).toEqual(expect.any(Function));
     });
 
     it('should call $exceptionHandler', function() {

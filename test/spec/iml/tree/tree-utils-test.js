@@ -1,129 +1,77 @@
 // @flow
-
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('tree utils', () => {
-  let toggleCollectionOpen,
-    toggleItemOpen,
+  let mockToggleCollectionOpen,
+    mockToggleItemOpen,
     toggleCollection,
-    updateCollectionOffset,
+    mockUpdateCollectionOffset,
     updateCollOffset,
     toggleItem,
-    store;
+    mockStore;
 
-  beforeEachAsync(async function() {
-    toggleCollectionOpen = jasmine
-      .createSpy('toggleCollectionOpen')
-      .and.callFake((id, open) => ({
-        type: 'TOGGLE_COLLECTION_OPEN',
-        payload: {
-          id,
-          open
-        }
-      }));
+  beforeEach(() => {
+    mockToggleCollectionOpen = jest.fn().mockImplementation((id, open) => ({
+      type: 'TOGGLE_COLLECTION_OPEN',
+      payload: { id, open }
+    }));
+    mockToggleItemOpen = jest.fn().mockImplementation((id, itemId, open) => ({
+      type: 'TOGGLE_ITEM_OPEN',
+      payload: { id, itemId, open }
+    }));
+    mockUpdateCollectionOffset = jest.fn().mockImplementation((id, offset) => ({
+      type: 'UPDATE_COLLECTION_OFFSET',
+      payload: { id, offset }
+    }));
+    mockStore = { dispatch: jest.fn() };
+    jest.mock('../../../../source/iml/tree/tree-actions.js', () => ({
+      toggleCollectionOpen: mockToggleCollectionOpen,
+      toggleItemOpen: mockToggleItemOpen,
+      updateCollectionOffset: mockUpdateCollectionOffset
+    }));
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    toggleItemOpen = jasmine
-      .createSpy('toggleItemOpen')
-      .and.callFake((id, itemId, open) => ({
-        type: 'TOGGLE_ITEM_OPEN',
-        payload: {
-          id,
-          itemId,
-          open
-        }
-      }));
-
-    updateCollectionOffset = jasmine
-      .createSpy('updateCollectionOffset')
-      .and.callFake((id, offset) => ({
-        type: 'UPDATE_COLLECTION_OFFSET',
-        payload: {
-          id,
-          offset
-        }
-      }));
-
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
-    };
-
-    const mod = await mock('source/iml/tree/tree-utils.js', {
-      'source/iml/tree/tree-actions.js': {
-        toggleCollectionOpen,
-        toggleItemOpen,
-        updateCollectionOffset
-      },
-      'source/iml/store/get-store.js': {
-        default: store
-      }
-    });
-
-    ({
-      toggleCollection,
-      toggleItem,
-      updateCollOffset
-    } = mod);
+    const mod = require('../../../../source/iml/tree/tree-utils.js');
+    ({ toggleCollection, toggleItem, updateCollOffset } = mod);
   });
-
-  afterEach(resetAll);
 
   describe('toggle collection', () => {
     beforeEach(() => {
       toggleCollection(1, true);
     });
-
     it('should call toggle collection open', () => {
-      expect(toggleCollectionOpen).toHaveBeenCalledOnceWith(1, true);
+      expect(mockToggleCollectionOpen).toHaveBeenCalledOnceWith(1, true);
     });
-
     it('should dispatch to the store', () => {
-      expect(store.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'TOGGLE_COLLECTION_OPEN',
-        payload: {
-          id: 1,
-          open: true
-        }
+        payload: { id: 1, open: true }
       });
     });
   });
-
   describe('update coll', () => {
     beforeEach(() => {
       updateCollOffset(1, 20);
     });
-
     it('should call toggle collection open', () => {
-      expect(updateCollectionOffset).toHaveBeenCalledOnceWith(1, 20);
+      expect(mockUpdateCollectionOffset).toHaveBeenCalledOnceWith(1, 20);
     });
-
     it('should dispatch to the store', () => {
-      expect(store.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'UPDATE_COLLECTION_OFFSET',
-        payload: {
-          id: 1,
-          offset: 20
-        }
+        payload: { id: 1, offset: 20 }
       });
     });
   });
-
   describe('toggle item', () => {
     beforeEach(() => {
       toggleItem(1, 2, true);
     });
-
     it('should call toggle item open', () => {
-      expect(toggleItemOpen).toHaveBeenCalledOnceWith(1, 2, true);
+      expect(mockToggleItemOpen).toHaveBeenCalledOnceWith(1, 2, true);
     });
-
     it('should dispatch to the store', () => {
-      expect(store.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'TOGGLE_ITEM_OPEN',
-        payload: {
-          id: 1,
-          itemId: 2,
-          open: true
-        }
+        payload: { id: 1, itemId: 2, open: true }
       });
     });
   });

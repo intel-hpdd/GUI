@@ -1,98 +1,76 @@
 import highland from 'highland';
 import moment from 'moment';
-import * as maybe from 'intel-maybe';
+import { getRequestDuration } from '../../../../source/iml/charting/get-time-params.js';
 
-import agentVsCopytoolFixtures
-  from '../../../data-fixtures/agent-vs-copytool-fixtures.json!json';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import fixtures from '../../../data-fixtures/agent-vs-copytool-fixtures.json';
 
 describe('agent vs copytool stream', () => {
-  let getAgentVsCopytoolStream,
-    fixtures,
-    getRequestDuration,
-    socketStream,
-    metricStream,
-    bufferDataNewerThan;
+  let mockSocketStream,
+    bufferDataNewerThan,
+    getAgentVsCopytoolStream,
+    endAndRunTimers,
+    spy;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.callFake(() => metricStream = highland());
+  beforeEach(() => {
+    const mockCreateMoment = () => moment('2015-12-04T18:40:00+00:00');
 
-    const getServerMoment = jasmine
-      .createSpy('getServerMoment')
-      .and.returnValue(moment('2015-12-04T18:40:00+00:00'));
-
-    const bufferDataNewerThanModule = await mock(
-      'source/iml/charting/buffer-data-newer-than.js',
-      {
-        'source/iml/get-server-moment.js': { default: getServerMoment }
-      }
-    );
-    bufferDataNewerThan = bufferDataNewerThanModule.default;
-
-    const createDate = jasmine
-      .createSpy('createDate')
-      .and.callFake(arg =>
-        maybe.withDefault(
-          () => new Date(),
-          maybe.map(x => new Date(x), maybe.of(arg))
-        ));
-
-    const getTimeParamsModule = await mock(
-      'source/iml/charting/get-time-params.js',
-      {
-        'source/iml/create-date.js': { default: createDate }
-      }
-    );
-    getRequestDuration = getTimeParamsModule.getRequestDuration;
-
-    const mod = await mock(
-      'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js',
-      {
-        'source/iml/socket/socket-stream.js': { default: socketStream }
-      }
+    jest.mock(
+      '../../../../source/iml/get-server-moment.js',
+      () => mockCreateMoment
     );
 
-    getAgentVsCopytoolStream = mod.default;
+    const mockCreateStream = () => {
+      mockSocketStream = highland();
 
-    jasmine.clock().install();
+      endAndRunTimers = x => {
+        mockSocketStream.write(x);
+        mockSocketStream.end();
+        jest.runAllTimers();
+      };
+
+      return mockSocketStream;
+    };
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockCreateStream
+    );
+
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
+      .default;
+
+    getAgentVsCopytoolStream = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js')
+      .default;
+
+    spy = jest.fn();
+
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
-  });
-
-  afterEach(resetAll);
-
-  beforeEach(() => {
-    fixtures = agentVsCopytoolFixtures;
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('should return a factory function', () => {
-    expect(getAgentVsCopytoolStream).toEqual(jasmine.any(Function));
+    expect(getAgentVsCopytoolStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {
-    let agentVsCopytoolStream, spy;
+    let agentVsCopytoolStream;
 
     beforeEach(() => {
       const buff = bufferDataNewerThan(10, 'minutes');
-      const requestDuration = getRequestDuration({}, 10, 'minutes');
+      const requestDuration = getRequestDuration({})(10, 'minutes');
 
       agentVsCopytoolStream = getAgentVsCopytoolStream(requestDuration, buff);
-
-      spy = jasmine.createSpy('spy');
 
       agentVsCopytoolStream.each(spy);
     });
 
     describe('when there is data', () => {
       beforeEach(() => {
-        metricStream.write(fixtures[0].in);
-        metricStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in);
       });
 
       it('should return a stream', () => {
@@ -104,9 +82,7 @@ describe('agent vs copytool stream', () => {
       });
 
       it('should be idempotent', () => {
-        metricStream.write(fixtures[0].in);
-        metricStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in);
 
         expect(spy).toHaveBeenCalledTwiceWith(fixtures[0].out);
       });
@@ -114,9 +90,7 @@ describe('agent vs copytool stream', () => {
 
     describe('when there is no initial data', () => {
       beforeEach(() => {
-        metricStream.write({});
-        metricStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers({});
       });
 
       it('should return an empty array', () => {
@@ -124,9 +98,7 @@ describe('agent vs copytool stream', () => {
       });
 
       it('should populate if data comes in on next tick', () => {
-        metricStream.write(fixtures[0].in);
-        metricStream.end();
-        jasmine.clock().tick(10000);
+        endAndRunTimers(fixtures[0].in);
 
         expect(spy).toHaveBeenCalledOnceWith(fixtures[0].out);
       });

@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export default function TargetDashboardController(
   $scope,
@@ -20,12 +20,12 @@ export default function TargetDashboardController(
   });
 
   targetStream.through(
-    $scope.propagateChange($scope, targetDashboard, 'target')
+    $scope.propagateChange.bind(null, $scope, targetDashboard, 'target')
   );
 
   $scope.$on('$destroy', () => {
     targetStream.destroy();
     usageStream.endBroadcast();
-    fp.map(c => c.stream.destroy(), charts);
+    fp.map(c => c.stream.destroy())(charts);
   });
 }

@@ -1,13 +1,13 @@
-import interceptorsModule
-  from '../../../../source/iml/interceptors/interceptor-module';
+import interceptorsModule from '../../../../source/iml/interceptors/interceptor-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('tastypie interceptor', () => {
   let tastypieInterceptor;
 
-  beforeEach(module(interceptorsModule));
+  beforeEach(angular.mock.module(interceptorsModule));
 
   beforeEach(
-    inject(_tastypieInterceptor_ => {
+    angular.mock.inject(_tastypieInterceptor_ => {
       tastypieInterceptor = _tastypieInterceptor_;
     })
   );

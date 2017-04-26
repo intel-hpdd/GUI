@@ -1,92 +1,89 @@
-import actionDropdownModule
-  from '../../../../source/iml/action-dropdown/action-dropdown-module';
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('action dropdown', () => {
   let $scope,
     ctrl,
     handleAction,
     actionStream,
-    getCommandStream,
+    mockGetCommandStream,
     openCommandModal,
     commandStream,
     commandModalStream,
     s,
     ActionDropdownCtrl;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     commandStream = highland();
-    spyOn(commandStream, 'destroy');
-    getCommandStream = jasmine
-      .createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    jest.spyOn(commandStream, 'destroy');
+    mockGetCommandStream = jest.fn(() => commandStream);
 
-    const mod = await mock('source/iml/action-dropdown/action-dropdown.js', {
-      'source/iml/command/get-command-stream.js': { default: getCommandStream }
-    });
+    jest.mock(
+      '../../../../source/iml/command/get-command-stream.js',
+      () => mockGetCommandStream
+    );
+
+    const mod = require('../../../../source/iml/action-dropdown/action-dropdown.js');
+
     ActionDropdownCtrl = mod.ActionDropdownCtrl;
 
-    jasmine.clock().install();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
-
-  afterEach(() => {
-    resetAll();
-    jasmine.clock().uninstall();
-  });
-
-  beforeEach(module(actionDropdownModule));
 
   beforeEach(
-    inject(function($rootScope, $controller) {
-      $scope = $rootScope.$new();
-      actionStream = highland();
-      handleAction = jasmine
-        .createSpy('handleAction')
-        .and.returnValue(actionStream);
+    angular.mock.inject(
+      ($rootScope, $exceptionHandler, localApply, propagateChange) => {
+        $scope = $rootScope.$new();
+        actionStream = highland();
+        handleAction = jest.fn(() => actionStream);
 
-      commandModalStream = highland();
-      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
-        resultStream: commandModalStream
-      });
+        commandModalStream = highland();
+        openCommandModal = jest.fn(() => ({
+          resultStream: commandModalStream
+        }));
 
-      s = highland();
+        s = highland();
 
-      ctrl = $controller(
-        ActionDropdownCtrl,
-        {
-          $scope: $scope,
-          actionDescriptionCache: {},
-          handleAction: handleAction,
-          openCommandModal: openCommandModal
-        },
-        {
+        ctrl = {
           stream: s
-        }
-      );
-    })
+        };
+
+        ActionDropdownCtrl.bind(ctrl)(
+          $scope,
+          $exceptionHandler,
+          handleAction,
+          {},
+          openCommandModal,
+          localApply,
+          propagateChange
+        );
+      }
+    )
   );
 
-  it('should setup the controller', function() {
-    const scope = window.extendWithConstructor(ActionDropdownCtrl, {
-      actionDescriptionCache: {},
-      handleAction: jasmine.any(Function),
-      stream: s,
-      tooltipPlacement: 'left',
-      actionsProperty: 'available_actions',
-      receivedData: false
-    });
+  it('should setup the controller', () => {
+    const scope = {
+      ...ctrl,
+      ...{
+        actionDescriptionCache: {},
+        handleAction: expect.any(Function),
+        stream: s,
+        tooltipPlacement: 'left',
+        actionsProperty: 'available_actions',
+        receivedData: false
+      }
+    };
 
     expect(ctrl).toEqual(scope);
   });
 
-  describe('handleAction', function() {
-    beforeEach(function() {
+  describe('handleAction', () => {
+    beforeEach(() => {
       ctrl.handleAction(
         {
           record: 'record'
@@ -97,7 +94,7 @@ describe('action dropdown', () => {
       );
     });
 
-    it('should call handle action with record and action', function() {
+    it('should call handle action with record and action', () => {
       expect(handleAction).toHaveBeenCalledOnceWith(
         {
           record: 'record'
@@ -108,27 +105,28 @@ describe('action dropdown', () => {
       );
     });
 
-    it('should get a command stream from the command', function() {
+    it('should get a command stream from the command', () => {
       actionStream.write({
         command: 'command'
       });
 
-      expect(getCommandStream).toHaveBeenCalledOnceWith(['command']);
+      expect(mockGetCommandStream).toHaveBeenCalledTimes(1);
+      expect(mockGetCommandStream).toHaveBeenCalledWith(['command']);
     });
 
-    it('should open the command modal', function() {
+    it('should open the command modal', () => {
       actionStream.write('command');
 
       expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
     });
 
-    it('should destroy the command stream when the modal gets a result', function() {
+    it('should destroy the command stream when the modal gets a result', () => {
       actionStream.write('command');
       commandModalStream.write('done');
 
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
-      expect(commandStream.destroy).toHaveBeenCalledOnce();
+      expect(commandStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should indicate that data has not been received', () => {
@@ -188,7 +186,7 @@ describe('action dropdown', () => {
       ];
 
       s.write(data);
-      jasmine.clock().tick();
+      jest.runAllTimers();
     });
 
     it('should indicate data has been received', () => {

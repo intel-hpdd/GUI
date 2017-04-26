@@ -5,19 +5,22 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import highland from 'highland';
+import * as fp from '@mfl/fp';
+import { default as highland, type HighlandStreamT } from 'highland';
 
-export default fp.curry2((keys, s) => {
-  const struct = keys.map(function pushItem(key) {
-    return { key: key, values: [] };
-  });
+type Point = {
+  ts: string,
+  data: {}
+};
+
+export default (keys: string[]) => (s: HighlandStreamT<Point>) => {
+  const struct = keys.map(key => ({ key: key, values: [] }));
 
   return s
     .collect()
     .tap(
       fp.map(point => {
-        keys.forEach(function createValue(key, index) {
+        keys.forEach((key, index) => {
           struct[index].values.push({
             x: new Date(point.ts),
             y: point.data[key]
@@ -25,6 +28,6 @@ export default fp.curry2((keys, s) => {
         });
       })
     )
-    .map(fp.always(struct))
+    .map(() => struct)
     .otherwise(highland([struct]));
-});
+};

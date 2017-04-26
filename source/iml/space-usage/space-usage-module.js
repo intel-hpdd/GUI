@@ -12,9 +12,7 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getSpaceUsageChartFactory from './get-space-usage-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addSpaceUsageActionT = {
   type: 'UPDATE_SPACE_USAGE_CHART_ITEMS' | 'DEFAULT_SPACE_USAGE_CHART_ITEMS',

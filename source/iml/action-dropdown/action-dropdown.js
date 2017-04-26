@@ -3,10 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import getCommandStream from '../command/get-command-stream.js';
-import actionDropdownTemplate from './assets/html/action-dropdown.html!text';
 
 export function actionDescriptionCache($sce) {
   'ngInject';
@@ -27,9 +25,9 @@ export function ActionDropdownCtrl(
   propagateChange
 ) {
   'ngInject';
-  const setConfirmOpen = isOpen => this.confirmOpen = isOpen;
+  const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
 
-  const ctrl = angular.merge(this, {
+  const ctrl = Object.assign(this, {
     actionDescriptionCache,
     handleAction(record, action) {
       setConfirmOpen(true);
@@ -45,8 +43,7 @@ export function ActionDropdownCtrl(
           })
           .reject(fp.eq('fallback'))
           .otherwise(run);
-      else
-        stream = run();
+      else stream = run();
 
       stream.pull(err => {
         if (err) $exceptionHandler(err);
@@ -70,7 +67,7 @@ export function ActionDropdownCtrl(
     )
   );
 
-  const p = propagateChange($scope, ctrl, 'records');
+  const p = propagateChange.bind(null, $scope, ctrl, 'records');
 
   const asArray = fp.cond(
     [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
@@ -82,12 +79,12 @@ export function ActionDropdownCtrl(
   ctrl.stream
     .map(asArray)
     .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
-    .tap(() => ctrl.receivedData = true)
+    .tap(() => (ctrl.receivedData = true))
     .tap(
       fp.flow(
         extractPathLengths,
-        fp.reduce(0, add),
-        locks => ctrl.locks = locks
+        fp.reduce(0)(add),
+        locks => (ctrl.locks = locks)
       )
     )
     .through(p);
@@ -118,6 +115,28 @@ export function actionDropdown() {
     },
     controller: 'ActionDropdownCtrl',
     controllerAs: 'ctrl',
-    template: actionDropdownTemplate
+    template: `<div class="action-dropdown">
+  <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
+  <button ng-if="ctrl.receivedData && ctrl.records.length === 0" disabled class="btn btn-primary btn-sm">No Actions</button>
+  <div ng-if="!ctrl.locks && !ctrl.confirmOpen" class="btn-group" uib-dropdown>
+    <button ng-if="!ctrl.receivedData || ctrl.records.length > 0" class="btn btn-primary btn-sm" uib-dropdown-toggle>
+      Actions<i class="fa fa-caret-down"></i>
+    </button>
+    <ul uib-dropdown-menu class="uib-dropdown-menu" role="menu">
+      <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
+        {{ ::record.label }}
+      </li>
+      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] | groupActions track by action.verb">
+        <a ng-click="::ctrl.handleAction(record, action)">
+           {{ ::action.verb }}
+        </a>
+        <iml-tooltip size="'large'" direction="{{::ctrl.tooltipPlacement}}">
+          <p ng-bind-html="ctrl.actionDescriptionCache(action.long_description)"></p>
+        </iml-tooltip>
+      </li>
+      <li ng-repeat-end class="divider"></li>
+    </ul>
+  </div>
+</div>`
   };
 }

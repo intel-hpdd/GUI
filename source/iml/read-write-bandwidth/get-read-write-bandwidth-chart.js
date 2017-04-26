@@ -5,13 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from 'intel-flat-map-changes';
-import * as fp from 'intel-fp';
+import flatMapChanges from '@mfl/flat-map-changes';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
-import formatBytes from '../number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import getStore from '../store/get-store.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
@@ -21,12 +19,7 @@ import {
 } from './read-write-bandwidth-chart-reducer.js';
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
-import readWriteBandwidthTemplate
-  from './assets/html/read-write-bandwidth.html!text';
-
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 import type { HighlandStreamT } from 'highland';
 import type {
   durationPickerConfigT,
@@ -53,13 +46,33 @@ export default (data$Fn: data$FnT, localApply: localApplyT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(
-          data$Fn(overrides, fp.always(getReadWriteBandwidthStream))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getReadWriteBandwidthStream)
         )
       );
 
     return chartCompiler(
-      readWriteBandwidthTemplate,
+      `<div config-toggle>
+  <h5>Read/Write Bandwidth</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="readWriteBandwidthForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, readWriteBandwidthForm))" class="btn btn-success btn-block" ng-disabled="readWriteBandwidthForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <line-chart options="::chart.options" stream="::chart.stream"></line-chart>
+</div>`,
       initStream,
       ($scope, stream: HighlandStreamT<durationPickerConfigT>) => {
         const conf = {

@@ -27,14 +27,11 @@ import corosyncModule from '../corosync/corosync-module';
 import pacemakerModule from '../pacemaker/pacemaker-module';
 import commandModule from '../command/command-module';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module';
-import jobIndicatorModule from '../job-indicator/job-indicator-module';
-import alertIndicatorModule from '../alert-indicator/alert-indicator-module';
 import stepsModule from '../steps/steps-module';
 import extendScopeModule from '../extend-scope-module';
 import highlandModule from '../highland/highland-module';
 import asValueModule from '../as-value/as-value-module';
 import asStreamModule from '../as-stream/as-stream-module';
-import pdshModule from '../pdsh/pdsh-module';
 import SelectedServersService from './selected-servers-service';
 import {
   AddServerModalCtrl,
@@ -43,10 +40,6 @@ import {
 import overrideActionClickFactory from './override-action-click';
 import overrideButtonDirective from './override-button-directive';
 
-import {
-  getHostProfilesFactory,
-  createHostProfilesFactory
-} from './create-host-profiles-stream';
 import {
   addServerStepsFactory,
   getAddServerManagerFactory
@@ -63,15 +56,12 @@ import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
 export default angular
   .module('server', [
-    pdshModule,
     filtersModule,
     lnetModule,
     corosyncModule,
     pacemakerModule,
     commandModule,
     actionDropdownModule,
-    jobIndicatorModule,
-    alertIndicatorModule,
     stepsModule,
     extendScopeModule,
     highlandModule,
@@ -103,8 +93,6 @@ export default angular
   .factory('openAddServerModal', openAddServerModalFactory)
   .factory('overrideActionClick', overrideActionClickFactory)
   .directive('overrideButton', overrideButtonDirective)
-  .factory('getHostProfiles', getHostProfilesFactory)
-  .factory('createHostProfiles', createHostProfilesFactory)
   .factory('addServerSteps', addServerStepsFactory)
   .value('createOrUpdateHostsStream', createOrUpdateHostsStream)
   .factory('getAddServerManager', getAddServerManagerFactory)

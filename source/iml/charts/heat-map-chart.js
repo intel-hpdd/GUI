@@ -3,10 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import moment from 'moment';
+import getHeatMapChart from '../heat-map/get-heat-map-chart.js';
+import 'twix';
 
-export default function heatMap(dateTicks, getHeatMapChart, baseChart) {
+export default function heatMap(dateTicks, baseChart) {
   'ngInject';
   return baseChart({
     generateChart: getHeatMapChart,

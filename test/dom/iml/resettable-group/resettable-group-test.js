@@ -1,13 +1,13 @@
-import resettableGroupModule
-  from '../../../../source/iml/resettable-group/resettable-group-module.js';
+import resettableGroupModule from '../../../../source/iml/resettable-group/resettable-group-module.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('resettable group', () => {
   let $scope, qs, el, entry1, entry2, month, yourName, yourEmail, resetButton;
 
-  beforeEach(module(resettableGroupModule));
+  beforeEach(angular.mock.module(resettableGroupModule));
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = `<form name="testForm">
   <resettable-group>
     <ng-form name="subForm1">

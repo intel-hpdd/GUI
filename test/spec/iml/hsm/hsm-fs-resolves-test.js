@@ -1,56 +1,45 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
 
 describe('hsm fs resolve', () => {
-  let socketStream,
+  let mockSocketStream,
     s,
     stream,
-    store,
-    resolveStream,
+    mockStore,
+    mockResolveStream,
     fsCollStream,
     getData,
-    broadcaster,
+    mockBroadcaster,
     promise;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     s = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    mockSocketStream = jest.fn(() => s);
 
     stream = highland();
-    store = {
-      select: jasmine.createSpy('select').and.returnValue(stream)
+    mockStore = {
+      select: jest.fn(() => stream)
     };
 
     promise = Promise.resolve(s);
 
-    resolveStream = jasmine.createSpy('resolveStream').and.returnValue(promise);
+    mockResolveStream = jest.fn(() => promise);
 
-    broadcaster = jasmine.createSpy('broadcaster').and.callFake(fp.identity);
+    mockBroadcaster = jest.fn(x => x);
 
-    const mod = await mock('source/iml/hsm/hsm-fs-resolves.js', {
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      },
-      'source/iml/promise-transforms.js': {
-        resolveStream
-      },
-      'source/iml/broadcaster.js': {
-        default: broadcaster
-      },
-      'source/iml/store/get-store.js': {
-        default: store
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+    jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    ({
-      fsCollStream,
-      getData
-    } = mod);
+    const mod = require('../../../../source/iml/hsm/hsm-fs-resolves.js');
+
+    ({ fsCollStream, getData } = mod);
   });
-
-  afterEach(resetAll);
 
   describe('fsCollStream', () => {
     beforeEach(() => {
@@ -58,19 +47,19 @@ describe('hsm fs resolve', () => {
     });
 
     it('should invoke socketStream with a call to filesystem', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/filesystem', {
         jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
       });
     });
 
     it('should resolve the stream', () => {
-      expect(resolveStream).toHaveBeenCalledOnceWith(s);
+      expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
     });
 
-    itAsync('should send the stream through broadcaster', async function() {
+    it('should send the stream through broadcaster', async () => {
       await promise;
 
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -82,7 +71,7 @@ describe('hsm fs resolve', () => {
       });
     });
 
-    itAsync('should return the matching fs', async function() {
+    it('should return the matching fs', async () => {
       const fs = await getData({
         id: 1
       });
@@ -92,7 +81,7 @@ describe('hsm fs resolve', () => {
       });
     });
 
-    itAsync('should return a null label ', async function() {
+    it('should return a null label ', async () => {
       const fs = await getData({
         id: 2
       });

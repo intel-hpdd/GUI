@@ -1,21 +1,30 @@
 import highland from 'highland';
 import d3 from 'd3';
-import angular from 'angular';
-import * as fp from 'intel-fp';
-
-import axisModule
-  from '../../../../../../source/iml/charting/types/axis/axis-module';
-
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import angular from '../../../../../angular-mock-setup.js';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
+import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import { axisDirective } from '../../../../../../source/iml/charting/types/axis/axis-directive.js';
+import { flushD3Transitions } from '../../../../../test-utils.js';
 
 describe('axis directive', () => {
-  beforeEach(module(axisModule, chartModule));
-
   let $scope, el, qs, axis;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.module($compileProvider => {
+      $compileProvider.directive('charter', charterDirective);
+      $compileProvider.directive('axis', axisDirective);
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject(($rootScope, $compile) => {
+      HTMLElement.prototype.transform = {
+        baseVal: {
+          consolidate: jest.fn()
+        }
+      };
+
       const template = `
       <div charter stream="stream" on-update="onUpdate">
         <g axis scale="scale" orient="'bottom'"></g>
@@ -62,7 +71,8 @@ describe('axis directive', () => {
 
   it('should have an upper tick', function() {
     expect(
-      fp.last([].slice.call(el.querySelectorAll('.tick text'))).textContent
+      maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text'))))
+        .textContent
     ).toEqual('4.0');
   });
 
@@ -70,10 +80,11 @@ describe('axis directive', () => {
     $scope.scale.domain([0, 3]);
     $scope.stream.write([0, 1, 2, 3]);
 
-    window.flushD3Transitions();
+    flushD3Transitions(d3);
 
     expect(
-      fp.last([].slice.call(el.querySelectorAll('.tick text'))).textContent
+      maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text'))))
+        .textContent
     ).toEqual('3.0');
   });
 });

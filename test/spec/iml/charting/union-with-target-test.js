@@ -1,38 +1,34 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('union with target', () => {
-  let socketStream, targetStream, spy, unionWithTarget;
+  let mockSocketStream, targetStream, spy, unionWithTarget;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     targetStream = highland();
 
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.returnValue(targetStream);
+    mockSocketStream = jest.fn(() => targetStream);
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
-    const mod = await mock('source/iml/charting/union-with-target.js', {
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    const mod = require('../../../../source/iml/charting/union-with-target.js');
 
     unionWithTarget = mod.default;
 
-    jasmine.clock().install();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  afterEach(resetAll);
-
   it('should be a function', () => {
-    expect(unionWithTarget).toEqual(jasmine.any(Function));
+    expect(unionWithTarget).toEqual(expect.any(Function));
   });
 
   it('should union with targets', () => {
@@ -67,7 +63,7 @@ describe('union with target', () => {
       ]
     });
     targetStream.end();
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
@@ -113,7 +109,7 @@ describe('union with target', () => {
       ]
     });
     targetStream.end();
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
@@ -154,7 +150,7 @@ describe('union with target', () => {
       objects: []
     });
     targetStream.end();
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
@@ -204,7 +200,7 @@ describe('union with target', () => {
       ]
     });
     targetStream.end();
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
@@ -238,7 +234,7 @@ describe('union with target', () => {
       ]
     });
     targetStream.end();
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([]);
   });

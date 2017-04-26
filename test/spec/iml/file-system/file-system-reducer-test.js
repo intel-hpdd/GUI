@@ -2,11 +2,11 @@ import {
   ADD_FS_ITEMS,
   default as fileSystemReducer
 } from '../../../../source/iml/file-system/file-system-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('file system reducer', () => {
   it('should be a function', () => {
-    expect(fileSystemReducer).toEqual(jasmine.any(Function));
+    expect(fileSystemReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

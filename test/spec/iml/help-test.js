@@ -1,29 +1,33 @@
-describe('Help', function() {
+import angular from '../../angular-mock-setup.js';
+import helpFactory from '../../../source/iml/help.js';
+
+describe('Help', () => {
   let help;
 
   beforeEach(
-    module('help', function($provide) {
+    angular.mock.module($provide => {
       $provide.constant('HELP_TEXT', {
         foo: 'bar'
       });
+      $provide.factory('help', helpFactory);
     })
   );
 
   beforeEach(
-    inject(function(_help_) {
+    angular.mock.inject(_help_ => {
       help = _help_;
     })
   );
 
-  it('should provide the sce value', function() {
+  it('should provide the sce value', () => {
     expect(help.get('foo').valueOf()).toBe('bar');
   });
 
-  it('should provide the same instance if called twice', function() {
+  it('should provide the same instance if called twice', () => {
     expect(help.get('foo')).toBe(help.get('foo'));
   });
 
-  it('should throw if a non-existent key is fetched', function() {
+  it('should throw if a non-existent key is fetched', () => {
     expect(help.get.bind(null, 'not a real value')).toThrow();
   });
 });

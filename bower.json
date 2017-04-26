@@ -1,9 +1,0 @@
-{
-  "name": "IML GUI",
-  "version": "3.1.0",
-  "dependencies": {
-    "lodash": "2.4.1",
-    "twix": "0.6.4",
-    "fastdom": "0.8.6"
-  }
-}

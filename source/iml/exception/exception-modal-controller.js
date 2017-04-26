@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import socketStream from '../socket/socket-stream.js';
 
 export function ExceptionModalCtrl(
@@ -27,7 +27,8 @@ export function ExceptionModalCtrl(
       $scope.exceptionModal.loadingStack = false;
       _.find($scope.exceptionModal.messages, {
         name: 'Client Stack Trace'
-      }).value = newException.stack;
+      }).value =
+        newException.stack;
 
       $scope.$digest();
     });

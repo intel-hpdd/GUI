@@ -1,10 +1,13 @@
+import angular from '../../../angular-mock-setup.js';
+import filtersModule from '../../../../source/iml/filters/filters-module';
+
 describe('Natural Sort Filter', function() {
   let naturalSort, hostnames, expected, predicate;
 
-  beforeEach(module('filters'));
+  beforeEach(angular.mock.module(filtersModule));
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject(function($filter) {
       naturalSort = $filter('naturalSort');
 
       hostnames = [

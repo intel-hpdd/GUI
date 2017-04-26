@@ -1,18 +1,23 @@
 import highland from 'highland';
-import corosyncModule from '../../../../source/iml/corosync/corosync-module';
+import angular from '../../../angular-mock-setup.js';
+import corosyncState from '../../../../source/iml/corosync/corosync-state.js';
 
 describe('corosync state directive', () => {
-  beforeEach(module(corosyncModule));
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('corosyncState', corosyncState);
+    })
+  );
 
   let el, $scope;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = '<corosync-state stream="stream"></corosync-state>';
 
       $scope = $rootScope.$new();
       $scope.stream = highland();
-      spyOn($scope.stream, 'destroy');
+      jest.spyOn($scope.stream, 'destroy');
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -50,6 +55,6 @@ describe('corosync state directive', () => {
   it('should destroy the stream when the scope is destroyed', () => {
     $scope.$destroy();
 
-    expect($scope.stream.destroy).toHaveBeenCalledOnce();
+    expect($scope.stream.destroy).toHaveBeenCalledTimes(1);
   });
 });

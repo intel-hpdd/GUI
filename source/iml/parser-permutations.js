@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 const modifiers = [
   '__in',
@@ -19,4 +19,4 @@ const modifiers = [
 ];
 
 export default (items: Array<string>) =>
-  fp.xProd(items, modifiers).map(x => x.join('')).concat(items).join('&');
+  fp.xProd(items)(modifiers).map(x => x.join('')).concat(items).join('&');

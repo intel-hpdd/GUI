@@ -5,23 +5,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
 
 import type { $scopeT } from 'angular';
 
 import type { HighlandStreamT } from 'highland';
 
-import type { commandT } from './command-types.js';
+import type { Command } from './command-types.js';
 
 import { setState, trimLogs } from './command-transforms.js';
 
-import commandModalTemplate from './assets/html/command-modal.html!text';
+import type { PropagateChange } from '../extend-scope-module.js';
 
 export function CommandModalCtrl(
-  commandsStream: HighlandStreamT<commandT[]>,
+  commandsStream: HighlandStreamT<Command[]>,
   $scope: $scopeT,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   this.accordion0 = true;
@@ -33,9 +33,55 @@ export function CommandModalCtrl(
 
 export function openCommandModalFactory($uibModal: Object) {
   'ngInject';
-  return function openCommandModal(stream: HighlandStreamT<commandT[]>) {
-    return $uibModal.open({
-      template: commandModalTemplate,
+  return (stream: HighlandStreamT<Command[]>) =>
+    $uibModal.open({
+      template: `<div class="modal-header">
+  <h3 class="modal-title">Commands</h3>
+</div>
+<div class="modal-body command-modal-body">
+  <uib-accordion close-others="false">
+    <uib-accordion-group is-open="commandModal['accordion' + $index]" ng-repeat="command in commandModal.commands track by command.id">
+      <uib-accordion-heading>
+        <i class="fa" ng-class="{'fa-chevron-down': commandModal['accordion' + $index], 'fa-chevron-right': !commandModal['accordion' + $index]}"></i>
+        <i class="fa header-status" ng-class="{'fa-times': command.state === 'cancelled', 'fa-exclamation': command.state === 'failed', 'fa-check': command.state === 'succeeded', 'fa-refresh fa-spin': command.state === 'pending'}"></i>
+        <span>
+          {{ ::command.message }} - {{ ::command.created_at | date:'MMM dd yyyy HH:mm:ss' }}
+        </span>
+      </uib-accordion-heading>
+      <h4>Details:</h4>
+      <table class="table">
+        <tr>
+          <td>Created At</td>
+          <td>{{ ::command.created_at | date:'MMM dd yyyy HH:mm:ss' }}</td>
+        </tr>
+        <tr>
+          <td>Status</td>
+          <td>{{command.state | capitalize}}</td>
+        </tr>
+      </table>
+
+      <div ng-if="command.jobs.length > 0" ng-controller="JobTreeCtrl as jobTree">
+        <h4>Jobs</h4>
+        <div class="well jobs">
+          <div ng-if="jobTree.jobs.length === 0">
+            Loading Jobs... <i class="fa fa-spinner fa-spin"></i>
+          </div>
+
+          <div ng-repeat="job in jobTree.jobs track by job.id"
+               ng-include="'job.html'"></div>
+        </div>
+      </div>
+
+      <div ng-if="command.logs">
+        <h4>Logs</h4>
+        <pre class="logs">{{ command.logs }}</pre>
+      </div>
+    </uib-accordion-group>
+  </uib-accordion>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
+</div>`,
       controller: 'CommandModalCtrl',
       controllerAs: 'commandModal',
       windowClass: 'command-modal',
@@ -45,5 +91,4 @@ export function openCommandModalFactory($uibModal: Object) {
         commandsStream: fp.always(stream)
       }
     });
-  };
 }

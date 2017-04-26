@@ -1,31 +1,23 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('dashboard resolves', () => {
-  let s, spy, store, broadcaster, mod;
+  let s, spy, mockStore, mockBroadcaster, mod;
 
-  beforeEachAsync(async function() {
-    spy = jasmine.createSpy('spy');
+  beforeEach(() => {
+    spy = jest.fn();
     s = highland();
 
-    broadcaster = jasmine.createSpy('broadcaster').and.callFake(x => () => x);
+    mockBroadcaster = jest.fn(x => () => x);
 
-    store = {
-      select: jasmine.createSpy('select').and.returnValue(s)
+    mockStore = {
+      select: jest.fn(() => s)
     };
 
-    mod = await mock('source/iml/dashboard/dashboard-resolves.js', {
-      'source/iml/store/get-store.js': {
-        default: store
-      },
-      'source/iml/broadcaster.js': {
-        default: broadcaster
-      }
-    });
-  });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
 
-  afterEach(resetAll);
+    mod = require('../../../../source/iml/dashboard/dashboard-resolves.js');
+  });
 
   describe('fs stream', () => {
     let fsStream;
@@ -35,11 +27,11 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('fileSystems');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('fileSystems');
     });
 
     it('should stream data', () => {
@@ -59,11 +51,11 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('server');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('server');
     });
 
     it('should stream data', () => {
@@ -83,11 +75,11 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('targets');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
     });
 
     it('should stream data', () => {

@@ -5,7 +5,7 @@ describe('the remove dups plugin', function() {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
   it('should remove dups', function() {

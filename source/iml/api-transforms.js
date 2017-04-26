@@ -5,7 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+
+import type { HighlandStreamT } from 'highland';
 
 export function addCurrentPage<T: { meta: Object }>(o: T): T {
   return {
@@ -17,14 +19,13 @@ export function addCurrentPage<T: { meta: Object }>(o: T): T {
   };
 }
 
-export const rememberValue = fp.curry2((transformFn, in$) => {
+export const matchById = (id: string) => fp.find(x => x.id === id);
+
+type MapFn<A, B> = A => B;
+export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
+  mapFn: MapFn<A, C>
+) => (in$: HighlandStreamT<A>): HighlandStreamT<A> => {
   let v;
 
-  return in$
-    .tap(x => v = x)
-    .flatMap(transformFn)
-    .map(() => v)
-    .otherwise(() => [v]);
-});
-
-export const matchById = (id: string) => fp.find(x => x.id === id);
+  return in$.tap(x => (v = x)).flatMap(mapFn).map(() => v).otherwise(() => [v]);
+};

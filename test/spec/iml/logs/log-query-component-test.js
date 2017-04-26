@@ -1,30 +1,34 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('log query component controller', () => {
   let ctrl, $scope, $location, $stateParams, controller, qsStream, s;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/logs/log-query-component.js', {
-      'source/iml/logs/log-input-to-qs-parser.js': { default: 'inputParser' },
-      'source/iml/logs/log-qs-to-input-parser.js': { default: 'qsParser' },
-      'source/iml/logs/log-completer.js': { default: 'completer' }
-    });
+  beforeEach(() => {
+    jest.mock(
+      '../../../../source/iml/logs/log-input-to-qs-parser.js',
+      () => 'inputParser'
+    );
+    jest.mock(
+      '../../../../source/iml/logs/log-qs-to-input-parser.js',
+      () => 'qsParser'
+    );
+    jest.mock(
+      '../../../../source/iml/logs/log-completer.js',
+      () => 'completer'
+    );
+
+    const mod = require('../../../../source/iml/logs/log-query-component.js');
 
     controller = mod.controller;
   });
 
-  afterEach(resetAll);
-
-  beforeEach(module('extendScope'));
-
   beforeEach(
-    inject(($rootScope, $controller, propagateChange) => {
+    angular.mock.inject(($rootScope, propagateChange) => {
       $scope = $rootScope.$new();
 
       $location = {
-        search: jasmine.createSpy('search')
+        search: jest.fn()
       };
 
       $stateParams = {
@@ -32,28 +36,30 @@ describe('log query component controller', () => {
       };
 
       s = highland();
-      spyOn(s, 'destroy');
-      qsStream = jasmine.createSpy('qsStream').and.returnValue(s);
+      jest.spyOn(s, 'destroy');
+      qsStream = jest.fn(() => s);
 
-      ctrl = $controller(controller, {
+      ctrl = {};
+
+      controller.bind(ctrl)(
         $scope,
         $location,
         $stateParams,
         qsStream,
         propagateChange
-      });
+      );
     })
   );
 
   it('should set the controller properties', () => {
     expect(ctrl).toEqual(
-      jasmine.objectContaining({
+      expect.objectContaining({
         parserFormatter: {
           parser: 'inputParser',
           formatter: 'qsParser'
         },
         completer: 'completer',
-        onSubmit: jasmine.any(Function)
+        onSubmit: expect.any(Function)
       })
     );
   });
@@ -79,6 +85,6 @@ describe('log query component controller', () => {
   it('should destroy the route stream when the scope is destroyed', () => {
     $scope.$destroy();
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

@@ -1,28 +1,25 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('job stats states', () => {
-  let jobStatsState, jobstats$, getData;
+  let jobStatsState, mockJobstats$, mockGetData;
 
-  beforeEachAsync(async function() {
-    jobstats$ = 'jobstats$';
-    getData = 'getData';
+  beforeEach(() => {
+    mockJobstats$ = 'jobstats$';
+    mockGetData = 'getData';
 
-    const mod = await mock('source/iml/job-stats/job-stats-states.js', {
-      'source/iml/job-stats/job-stats-resolves.js': {
-        jobstats$,
-        getData
-      },
-      'source/iml/auth/authorization.js': {
-        GROUPS: {
-          FS_ADMINS: 'FS_ADMINS'
-        }
+    jest.mock('../../../../source/iml/job-stats/job-stats-resolves.js', () => ({
+      jobstats$: mockJobstats$,
+      getData: mockGetData
+    }));
+
+    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+      GROUPS: {
+        FS_ADMINS: 'FS_ADMINS'
       }
-    });
+    }));
+
+    const mod = require('../../../../source/iml/job-stats/job-stats-states.js');
 
     jobStatsState = mod.jobStatsState;
   });
-
-  afterEach(resetAll);
 
   it('should create the state', () => {
     expect(jobStatsState).toEqualComponent({

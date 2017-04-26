@@ -9,8 +9,7 @@ import angular from 'angular';
 
 import asValueModule from '../as-value/as-value-module.js';
 import authModule from '../auth/auth-module.js';
-import messageSubstitutionModule
-  from '../message-substitution/message-substitution-module.js';
+import messageSubstitutionModule from '../message-substitution/message-substitution-module.js';
 import logQueryComponent from './log-query-component.js';
 import logTableComponent from './log-table-component.js';
 

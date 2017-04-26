@@ -1,53 +1,39 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
+import asValue from '../../../../source/iml/as-value/as-value.js';
+import throughputFilter from '../../../../source/iml/filters/throughput-filter.js';
+import roundFilter from '../../../../source/iml/filters/round-filter.js';
 
 describe('jobstats table component', () => {
-  let jobstatsTableComponent, config$, store;
+  let jobstatsTableComponent, config$, mockStore;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     config$ = highland();
+    mockStore = { select: jest.fn(() => config$), dispatch: jest.fn() };
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    store = {
-      select: jasmine.createSpy('select').and.returnValue(config$),
-      dispatch: jasmine.createSpy('dispatch')
-    };
-
-    const mod = await mock(
-      'source/iml/job-stats/job-stats-table-component.js',
-      {
-        'source/iml/store/get-store.js': {
-          default: store
-        }
-      }
-    );
-
-    jobstatsTableComponent = mod.default;
+    jobstatsTableComponent = require('../../../../source/iml/job-stats/job-stats-table-component.js')
+      .default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module(
-      'extendScope',
-      'asValue',
-      'filters',
-      ($compileProvider, $provide) => {
-        $provide.value('$state', {});
-        $provide.value('$stateParams', {});
-        $compileProvider.component('jobStatsTable', jobstatsTableComponent);
-      }
-    )
+    angular.mock.module(($compileProvider, $provide, $filterProvider) => {
+      $provide.value('$state', {});
+      $provide.value('$stateParams', {});
+      $compileProvider.component('jobStatsTable', jobstatsTableComponent);
+      $compileProvider.directive('asValue', asValue);
+      $filterProvider.register('throughput', throughputFilter);
+      $filterProvider.register('round', roundFilter);
+    })
   );
 
   let $scope, el;
-
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = $rootScope.$new();
       $scope.jobstats$ = highland();
-
-      const template = '<job-stats-table stats-$="jobstats$"></job-stats-table>';
+      const template =
+        '<job-stats-table stats-$="jobstats$"></job-stats-table>';
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
@@ -88,14 +74,12 @@ describe('jobstats table component', () => {
         .querySelector('tbody')
         .querySelector('tr')
         .querySelectorAll('td')[1];
-
       expect(elm).toHaveText('2.000 kB/s');
     });
 
     describe('clicking', () => {
       beforeEach(() => {
         document.body.appendChild(el);
-
         el.querySelectorAll('th a')[1].click();
       });
 
@@ -104,12 +88,9 @@ describe('jobstats table component', () => {
       });
 
       it('should update the store', () => {
-        expect(store.dispatch).toHaveBeenCalledOnceWith({
+        expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
           type: 'SET_SORT',
-          payload: {
-            orderBy: 'read_bytes_average',
-            desc: false
-          }
+          payload: { orderBy: 'read_bytes_average', desc: false }
         });
       });
 
@@ -134,7 +115,6 @@ describe('jobstats table component', () => {
           .querySelector('tbody')
           .querySelector('tr')
           .querySelectorAll('td')[1];
-
         expect(elm).toHaveText('1.000 kB/s');
       });
     });

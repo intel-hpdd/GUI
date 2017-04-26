@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export type commandT = {
+export type Command = {
   cancelled: boolean,
   complete: boolean,
   created_at: string,
@@ -14,10 +14,11 @@ export type commandT = {
   jobs: mixed[],
   logs: string,
   message: string,
+  state: string,
   resource_uri: string
 };
 
-export type commandResponseT = {
+export type CommandResponse = {
   meta: {
     limit: number,
     next: string,
@@ -25,5 +26,5 @@ export type commandResponseT = {
     previous: ?number,
     total_count: number
   },
-  objects: commandT[]
+  objects: Command[]
 };

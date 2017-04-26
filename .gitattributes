@@ -9,6 +9,3 @@
 *.js text eol=lf
 *.html text eol=lf
 *.css text eol=lf
-
-# Explicitly ingoring certain files.
-bower_componenents/* -text eol=auto

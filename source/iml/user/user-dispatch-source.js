@@ -23,4 +23,5 @@ if (ALLOW_ANONYMOUS_READ)
       store.dispatch({
         type: ADD_USER_ITEMS,
         payload
-      }));
+      })
+    );

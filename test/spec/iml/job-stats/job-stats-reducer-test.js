@@ -1,20 +1,21 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('job stats reducer', () => {
   let jobStatsReducer;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/job-stats/job-stats-reducer.js', {});
+  beforeEach(() => {
+    const mod = require('../../../../source/iml/job-stats/job-stats-reducer.js');
 
     jobStatsReducer = mod.default;
   });
 
-  afterEach(resetAll);
-
   it('should return the payload', () => {
-    expect(jobStatsReducer(undefined, {})).toEqual({
+    expect(
+      jobStatsReducer(undefined, {
+        type: 'foo',
+        payload: {}
+      })
+    ).toEqual({
       duration: 10,
       orderBy: 'read_bytes_average',
       desc: true

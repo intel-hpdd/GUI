@@ -1,10 +1,9 @@
-import jobIndicatorReducer
-  from '../../../../source/iml/job-indicator/job-indicator-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import jobIndicatorReducer from '../../../../source/iml/job-indicator/job-indicator-reducer.js';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('job indicator reducer', () => {
   it('should be a function', () => {
-    expect(jobIndicatorReducer).toEqual(jasmine.any(Function));
+    expect(jobIndicatorReducer).toEqual(expect.any(Function));
   });
 
   it('should return the payload on ADD_JOB_INDICATOR_ITEMS', () => {

@@ -1,17 +1,19 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
+import angular from '../../../angular-mock-setup.js';
 import asValueModule from '../../../../source/iml/as-value/as-value-module';
 
 describe('As value', () => {
-  beforeEach(module(asValueModule));
+  beforeEach(angular.mock.module(asValueModule));
 
   let $compile, $scope, el, s, getText;
 
   beforeEach(
-    inject(function($rootScope, _$compile_) {
+    angular.mock.inject(function($rootScope, _$compile_) {
       $compile = _$compile_;
 
-      const template = '<div as-value stream="stream">\
+      const template =
+        '<div as-value stream="stream">\
       <span class="num" >{{ curr.val }}</span>\
     </div>';
 

@@ -3,11 +3,11 @@ import {
   DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
   default as readWriteBandwidthChartReducer
 } from '../../../../source/iml/read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('Read Write Bandwidth reducer', () => {
   it('should be a function', () => {
-    expect(readWriteBandwidthChartReducer).toEqual(jasmine.any(Function));
+    expect(readWriteBandwidthChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

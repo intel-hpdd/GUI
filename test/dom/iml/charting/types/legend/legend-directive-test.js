@@ -1,14 +1,18 @@
 import highland from 'highland';
-import legendModule
-  from '../../../../../../source/iml/charting/types/legend/legend-module';
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import { legendDirective } from '../../../../../../source/iml/charting/types/legend/legend-directive.js';
+import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import { getLegendFactory } from '../../../../../../source/iml/charting/types/legend/get-legend.js';
+import d3 from 'd3';
+import angular from '../../../../../angular-mock-setup.js';
 
 describe('legend directive', () => {
   let chartCtrl;
 
   beforeEach(
-    module(chartModule, legendModule, $compileProvider => {
+    angular.mock.module(($compileProvider, $provide) => {
+      $compileProvider.directive('legend', legendDirective);
+      $compileProvider.directive('charter', charterDirective);
+      $provide.factory('getLegend', getLegendFactory);
       $compileProvider.directive('tester', () => {
         return {
           require: '^^charter',
@@ -23,7 +27,7 @@ describe('legend directive', () => {
   let $scope, el, qs;
 
   beforeEach(
-    inject(($rootScope, $compile, d3) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = `
       <div charter stream="stream">
         <g tester class="tester"></g>
@@ -60,7 +64,7 @@ describe('legend directive', () => {
   });
 
   it('should dispatch a legend selection', () => {
-    const spy = jasmine.createSpy('spy');
+    const spy = jest.fn();
 
     chartCtrl.dispatch.on('event', spy);
 

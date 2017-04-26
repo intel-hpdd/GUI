@@ -5,15 +5,13 @@
 
 import socketStream from '../socket/socket-stream.js';
 
-import * as fp from 'intel-fp';
+const adder = xs => y => {
+  const record = xs.find(x => x.id === y.id);
 
-const adder = fp.curry2(function adder(s, x) {
-  const record = fp.find(y => y.id === x.id, s);
+  if (record && record.name) y.name = record.name;
 
-  if (record && record.name) x.name = record.name;
-
-  return x;
-});
+  return y;
+};
 
 export default function unionWithTarget(s) {
   const targetStream = socketStream(
@@ -25,7 +23,8 @@ export default function unionWithTarget(s) {
     true
   ).pluck('objects');
 
-  return s.collect().zip(targetStream).flatMap(function addNames(streams) {
-    return streams[0].map(adder(streams[1]));
-  });
+  return s
+    .collect()
+    .zip(targetStream)
+    .flatMap(([xs1, xs2]) => xs1.map(adder(xs2)));
 }

@@ -3,18 +3,21 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import highland from 'highland';
+
 export default function overrideActionClickFactory(
   ADD_SERVER_STEPS,
-  openAddServerModal,
-  λ
+  openAddServerModal
 ) {
   'ngInject';
   return function overrideActionClick(record, action) {
-    const notRemoving = action.state &&
+    const notRemoving =
+      action.state &&
       action.state !== 'removed' &&
       action.verb !== 'Force Remove';
     const openForDeploy = record.state === 'undeployed';
-    const openForConfigure = record.server_profile &&
+    const openForConfigure =
+      record.server_profile &&
       record.server_profile.initial_state === 'unconfigured';
 
     if ((openForDeploy || openForConfigure) && notRemoving) {
@@ -26,7 +29,7 @@ export default function overrideActionClickFactory(
 
       return openAddServerModal(record, step).resultStream;
     } else {
-      return λ(['fallback']);
+      return highland(['fallback']);
     }
   };
 }

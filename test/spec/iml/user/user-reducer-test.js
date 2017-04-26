@@ -2,11 +2,11 @@ import {
   ADD_USER_ITEMS,
   default as userReducer
 } from '../../../../source/iml/user/user-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('user reducer', () => {
   it('should be a function', () => {
-    expect(userReducer).toEqual(jasmine.any(Function));
+    expect(userReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

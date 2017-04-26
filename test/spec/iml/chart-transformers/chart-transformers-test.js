@@ -6,7 +6,7 @@ import {
   waitForChartData
 } from '../../../../source/iml/chart-transformers/chart-transformers.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import {
   documentHidden,
@@ -17,7 +17,7 @@ describe('chart transformer', () => {
   let s, config1, config2, spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     config1 = {
       configType: 'duration',
       size: 10,
@@ -42,7 +42,7 @@ describe('chart transformer', () => {
     });
 
     it('should be a function', () => {
-      expect(getConf).toEqual(jasmine.any(Function));
+      expect(getConf).toEqual(expect.any(Function));
     });
 
     it('should take the matching case', () => {
@@ -73,25 +73,17 @@ describe('chart transformer', () => {
 
     beforeEach(() => {
       duration$ = highland([]);
-      durationStream = jasmine
-        .createSpy('durationStream')
-        .and.returnValue(duration$);
-      durationStreamOverrides = jasmine
-        .createSpy('durationStream')
-        .and.returnValue(durationStream);
+      durationStream = jest.fn(() => duration$);
+      durationStreamOverrides = jest.fn(() => durationStream);
       range$ = highland([]);
-      rangeStream = jasmine.createSpy('rangeStream').and.returnValue(range$);
-      rangeStreamOverrides = jasmine
-        .createSpy('rangeStream')
-        .and.returnValue(rangeStream);
+      rangeStream = jest.fn(() => range$);
+      rangeStreamOverrides = jest.fn(() => rangeStream);
       createStream = {
         durationStream: durationStreamOverrides,
         rangeStream: rangeStreamOverrides
       };
       chart$ = highland([]);
-      chartStreamFn = jasmine
-        .createSpy('chartStreamFn')
-        .and.returnValue(chart$);
+      chartStreamFn = jest.fn(() => chart$);
 
       overrides = {
         qs: {
@@ -164,10 +156,10 @@ describe('flush on change', () => {
   let source$, s, spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     source$ = highland();
     s = flushOnChange(source$);
-    spyOn(s, 'destroy');
+    jest.spyOn(s, 'destroy');
   });
 
   it('should write document hidden', () => {
@@ -207,10 +199,10 @@ describe('waitForChartData', () => {
   let source$, s, spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     source$ = highland();
     s = waitForChartData(source$);
-    spyOn(s, 'destroy');
+    jest.spyOn(s, 'destroy');
 
     source$.write(documentHidden);
     source$.write(documentVisible);

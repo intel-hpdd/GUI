@@ -1,18 +1,19 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
-
+import angular from '../../../angular-mock-setup.js';
 import type { $scopeT, $compileT } from 'angular';
+
+import filtersModule from '../../../../source/iml/filters/filters-module.js';
 
 describe('tree server item component', () => {
   let mod;
 
-  beforeEachAsync(async function() {
-    mod = await mock('source/iml/tree/tree-volume-item-component.js', {});
+  beforeEach(() => {
+    mod = require('../../../../source/iml/tree/tree-volume-item-component.js');
   });
 
   beforeEach(
-    module('filters', $compileProvider => {
+    angular.mock.module(filtersModule, $compileProvider => {
       $compileProvider.component('treeVolumeItem', mod.default);
     })
   );
@@ -20,7 +21,7 @@ describe('tree server item component', () => {
   let el, $scope;
 
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = Object.create($rootScope.$new());
 
       $scope.record = {
@@ -34,14 +35,13 @@ describe('tree server item component', () => {
         opens: {}
       };
 
-      const template = '<tree-volume-item parent="parent" record="record"></tree-volume-item>';
+      const template =
+        '<tree-volume-item parent="parent" record="record"></tree-volume-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
   );
-
-  afterEach(resetAll);
 
   it('should render the label', () => {
     expect(el.textContent.trim()).toBe('disk1 (97.66 kB)');

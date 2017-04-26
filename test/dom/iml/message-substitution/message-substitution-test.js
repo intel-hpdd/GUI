@@ -1,27 +1,25 @@
-import { GROUPS } from '../../../../source/iml/auth/authorization.js';
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('message substitution component', () => {
-  let el, $scope, $compile, messageEl, template, mod, groupAllowed;
+  let el, $scope, $compile, messageEl, template, mod, mockGroupAllowed;
 
-  beforeEachAsync(async function() {
-    groupAllowed = jasmine.createSpy('groupAllowed');
+  beforeEach(() => {
+    mockGroupAllowed = jest.fn();
 
-    mod = await mock(
-      'source/iml/message-substitution/message-substitution.js',
-      {
-        'source/iml/auth/authorization.js': {
-          groupAllowed,
-          GROUPS
-        }
+    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+      groupAllowed: mockGroupAllowed,
+      GROUPS: {
+        SUPERUSERS: 'superusers',
+        FS_ADMINS: 'filesystem_administrators',
+        FS_USERS: 'filesystem_users'
       }
-    );
+    }));
+
+    mod = require('../../../../source/iml/message-substitution/message-substitution.js');
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module($compileProvider => {
+    angular.mock.module($compileProvider => {
       $compileProvider.component(
         'messageSubstitution',
         mod.messageSubstitution
@@ -30,12 +28,14 @@ describe('message substitution component', () => {
   );
 
   beforeEach(
-    inject(function(_$compile_, $rootScope) {
+    angular.mock.inject(function(_$compile_, $rootScope) {
       $scope = $rootScope.$new();
       $compile = _$compile_;
-      template = '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
+      template =
+        '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
 
-      $scope.message = 'Lustre: 2178:0:(client.c:2048:ptlrpc_expire_one_request()) @@@ Request sent has timed out for ' +
+      $scope.message =
+        'Lustre: 2178:0:(client.c:2048:ptlrpc_expire_one_request()) @@@ Request sent has timed out for ' +
         'slow reply: [sent 1466559632/real 1466559632] req@ffff88007923acc0 x1532239365854720/t0(0) o251->MGC10.14.' +
         '82.24@tcp@0@lo:26/25 lens 224/224 e 0 to 1 dl 1466559638 ref 2 fl Rpc:XN/0/ffffffff rc 0/-1';
 
@@ -58,7 +58,7 @@ describe('message substitution component', () => {
 
   describe('with authorization', () => {
     beforeEach(() => {
-      groupAllowed.and.returnValue(true);
+      mockGroupAllowed.mockReturnValue(true);
       el = $compile(template)($scope)[0];
       messageEl = el.querySelector.bind(el, 'div');
       $scope.$digest();
@@ -109,7 +109,7 @@ describe('message substitution component', () => {
 
   describe('without authorization', () => {
     beforeEach(() => {
-      groupAllowed.and.returnValue(false);
+      mockGroupAllowed.mockReturnValueOnce(false);
       el = $compile(template)($scope)[0];
       messageEl = el.querySelector.bind(el, 'div');
       $scope.$digest();

@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import _ from 'intel-lodash-mixins';
+import * as fp from '@mfl/fp';
+import _ from '@mfl/lodash-mixins';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
@@ -38,35 +38,33 @@ export function getHostProfilesFactory(CACHE_INITIAL_DATA) {
           });
         const merged = _.merge.apply(_, profiles);
 
-        return Object.keys(merged).reduce(
-          function buildStructure(arr, profileName) {
-            const item = {
-              name: profileName,
-              uiName: _.find(CACHE_INITIAL_DATA.server_profile, {
-                name: profileName
-              }).ui_name,
-              invalid: merged[profileName].some(didProfileFail)
+        return Object.keys(merged).reduce(function buildStructure(
+          arr,
+          profileName
+        ) {
+          const item = {
+            name: profileName,
+            uiName: _.find(CACHE_INITIAL_DATA.server_profile, {
+              name: profileName
+            }).ui_name,
+            invalid: merged[profileName].some(didProfileFail)
+          };
+
+          item.hosts = hosts.map(function setHosts(host) {
+            const profiles = host.profiles[profileName].filter(didProfileFail);
+
+            return {
+              address: host.address,
+              invalid: profiles.some(didProfileFail),
+              problems: profiles,
+              uiName: item.uiName
             };
+          });
 
-            item.hosts = hosts.map(function setHosts(host) {
-              const profiles = host.profiles[profileName].filter(
-                didProfileFail
-              );
+          arr.push(item);
 
-              return {
-                address: host.address,
-                invalid: profiles.some(didProfileFail),
-                problems: profiles,
-                uiName: item.uiName
-              };
-            });
-
-            arr.push(item);
-
-            return arr;
-          },
-          []
-        );
+          return arr;
+        }, []);
       });
 
     function didProfileFail(profile) {
@@ -113,7 +111,8 @@ export function createHostProfilesFactory(waitForCommandCompletion) {
       .map(objectsLens)
       .map(fp.map(x => x.commands[0]))
       .flatMap(
-        x => x.length ? waitForCommandCompletion(showCommands, x) : highland([])
+        x =>
+          x.length ? waitForCommandCompletion(showCommands, x) : highland([])
       );
   };
 }

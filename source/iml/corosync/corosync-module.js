@@ -14,7 +14,7 @@ import {
   ConfigureCorosyncController,
   configureCorosyncComponent
 } from './configure-corosync';
-import bigDifferModule from 'intel-big-differ';
+import bigDifferModule from '../big-differ/big-differ-module.js';
 
 export default angular
   .module('corosyncModule', [

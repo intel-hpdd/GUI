@@ -6,16 +6,16 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
-import * as obj from 'intel-obj';
-import * as fp from 'intel-fp';
-import * as maybe from 'intel-maybe';
-import flatMapChanges from 'intel-flat-map-changes';
+import * as obj from '@mfl/obj';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
+import flatMapChanges from '@mfl/flat-map-changes';
 
 import { addCurrentPage } from '../api-transforms.js';
 
 import { addTreeItems, createItem } from '../tree/tree-actions.js';
 
-import type { Maybe } from 'intel-maybe';
+import type { Maybe } from '@mfl/maybe';
 
 import type { treeItemT, treeHashT } from './tree-types.js';
 
@@ -23,16 +23,16 @@ import type { HighlandStreamT } from 'highland';
 
 type treeItemToBooleanT = (x: treeItemT) => boolean;
 
-type getChildByT = (fn: treeItemToBooleanT) => (
-  x: HighlandStreamT<treeHashT>
-) => HighlandStreamT<Maybe<treeItemT>>;
+type getChildByT = (
+  fn: treeItemToBooleanT
+) => (x: HighlandStreamT<treeHashT>) => HighlandStreamT<Maybe<treeItemT>>;
 export const getChildBy: getChildByT = fn =>
   highland.map(fp.flow(obj.values, fp.filter(fn), x => maybe.of(x[0])));
 
 export const emitOnItem = (fn: treeItemToBooleanT) =>
   fp.flow(
     getChildBy(fn),
-    highland.map(maybe.withDefault(fp.always(false))),
+    highland.map(maybe.withDefault.bind(null, fp.always(false))),
     highland.filter(x => x)
   );
 
@@ -62,10 +62,10 @@ export const transformItems = (
 
   return fp.flow(
     getChildBy(fn),
-    highland.map(maybe.withDefault(() => createItem(structFn()))),
-    highland.tap(x => latest = x),
+    highland.map(maybe.withDefault.bind(null, () => createItem(structFn()))),
+    highland.tap(x => (latest = x)),
     highland.filter(hasChanges(x => x.meta.offset)),
-    flatMapChanges(fnTo$),
+    flatMapChanges.bind(null, fnTo$),
     highland.map(addCurrentPage),
     highland.map(x => Object.assign(latest, x)),
     highland.map(x => addTreeItems([x]))

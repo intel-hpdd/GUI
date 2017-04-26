@@ -5,24 +5,22 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-export default (): Function =>
-  (
-    options: Array<Object>,
-    networkInterfaces: Array<Object>,
-    networkInterface: Object
-  ) => {
-    const nids = fp.flow(
-      fp.filter(x => x !== networkInterface),
-      fp.pluck('nid')
-    )(networkInterfaces);
+export default (): Function => (
+  options: Array<Object>,
+  networkInterfaces: Array<Object>,
+  networkInterface: Object
+) => {
+  const nids = fp.flow(fp.filter(x => x !== networkInterface), fp.pluck('nid'))(
+    networkInterfaces
+  );
 
-    return options.filter(option => {
-      // Not Lustre Network is a special case.
-      // It should always be included.
-      if (option.value === -1) return true;
+  return options.filter(option => {
+    // Not Lustre Network is a special case.
+    // It should always be included.
+    if (option.value === -1) return true;
 
-      return nids.every(nid => nid.lnd_network !== option.value);
-    });
-  };
+    return nids.every(nid => nid.lnd_network !== option.value);
+  });
+};

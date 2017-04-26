@@ -1,13 +1,23 @@
 import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
-import alertIndicatorModule
-  from '../../../../source/iml/alert-indicator/alert-indicator-module';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
+import imlPopover from '../../../../source/iml/iml-popover.js';
+import Position from '../../../../source/iml/position.js';
+import { recordStateDirective } from '../../../../source/iml/alert-indicator/alert-indicator.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('alert indicator', () => {
   beforeEach(
-    module(alertIndicatorModule, ($provide, $compileProvider) => {
+    angular.mock.module(($provide, $compileProvider) => {
+      $provide.service('position', Position);
       $compileProvider.directive('imlTooltip', imlTooltip);
+      $provide.constant('STATE_SIZE', {
+        SMALL: 'small',
+        MEDIUM: 'medium',
+        LARGE: 'large'
+      });
+      $compileProvider.directive('imlPopover', imlPopover);
+      $compileProvider.directive('recordState', recordStateDirective);
     })
   );
 
@@ -15,8 +25,9 @@ describe('alert indicator', () => {
     let $scope, element, node, popover, i, stream, stateLabel, alerts, tooltip;
 
     beforeEach(
-      inject(($rootScope, $compile) => {
-        element = '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
+      angular.mock.inject(($rootScope, $compile) => {
+        element =
+          '<record-state record-id="recordId" alert-stream="alertStream" display-type="displayType">' +
           '</record-state>';
 
         stream = highland();
@@ -45,7 +56,7 @@ describe('alert indicator', () => {
       })
     );
 
-    afterEach(function() {
+    afterEach(() => {
       document.body.removeChild(node);
     });
 
@@ -73,7 +84,7 @@ describe('alert indicator', () => {
         expect(alerts()[0].textContent).toEqual('response message');
       });
 
-      it('should add more alerts when added', function() {
+      it('should add more alerts when added', () => {
         response.push({
           affected: ['host/6'],
           message: 'response message 3'
@@ -83,14 +94,14 @@ describe('alert indicator', () => {
         expect(alerts()[2].textContent).toEqual('response message 3');
       });
 
-      it('should remove old alerts', function() {
+      it('should remove old alerts', () => {
         response.pop();
         stream.write(response);
 
         expect(alerts().length).toBe(1);
       });
 
-      it('should hide the popover if there are no alerts', function() {
+      it('should hide the popover if there are no alerts', () => {
         stream.write([]);
 
         expect(popover()).toBeNull();

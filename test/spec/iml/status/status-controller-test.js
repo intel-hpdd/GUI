@@ -1,44 +1,34 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as fp from '@mfl/fp';
+import angular from '../../../angular-mock-setup.js';
+import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 
 describe('status records component', () => {
-  let mod;
-
-  beforeEachAsync(async function() {
-    mod = await mock('source/iml/status/status-records-component.js', {});
-  });
-
-  afterEach(resetAll);
-
-  beforeEach(module('extendScope'));
-
   let $scope, $location, ctrl, notificationStream;
 
   beforeEach(
-    inject(($rootScope, propagateChange) => {
+    angular.mock.inject(($rootScope, propagateChange) => {
       $scope = $rootScope.$new();
 
       $location = {
-        search: jasmine.createSpy('search')
+        search: jest.fn()
       };
 
       notificationStream = highland();
-      spyOn(notificationStream, 'destroy');
+      jest.spyOn(notificationStream, 'destroy');
 
       ctrl = {
         notification$: notificationStream
       };
 
-      mod.StatusController.call(ctrl, $scope, $location, propagateChange);
+      StatusController.call(ctrl, $scope, $location, propagateChange);
     })
   );
 
   it('should return the expected controller properties', () => {
-    const instance = jasmine.objectContaining({
-      isCommand: jasmine.any(Function),
-      pageChanged: jasmine.any(Function)
+    const instance = expect.objectContaining({
+      isCommand: expect.any(Function),
+      pageChanged: expect.any(Function)
     });
 
     expect(ctrl).toEqual(instance);
@@ -46,7 +36,7 @@ describe('status records component', () => {
 
   it('should destroy the notificationStream when the scope is destroyed', () => {
     $scope.$destroy();
-    expect(notificationStream.destroy).toHaveBeenCalledOnce();
+    expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('getting notificationStream data', () => {

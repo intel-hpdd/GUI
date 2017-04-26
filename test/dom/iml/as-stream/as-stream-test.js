@@ -1,30 +1,36 @@
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
-import asStreamModule from '../../../../source/iml/as-stream/as-stream-module';
-import asValueModule from '../../../../source/iml/as-value/as-value-module';
+import angular from '../../../angular-mock-setup.js';
+import asValue from '../../../../source/iml/as-value/as-value.js';
 
-describe('As stream', function() {
-  let s;
+describe('As stream', () => {
+  let s, mockHighland, asStream;
 
   beforeEach(
-    module(asStreamModule, asValueModule, function($provide) {
-      $provide.value('highland', function() {
-        s = highland();
+    angular.mock.module($compileProvider => {
+      s = highland();
+      jest.spyOn(s, 'destroy');
 
-        spyOn(s, 'destroy');
+      mockHighland = jest.fn(() => s);
 
-        return s;
-      });
+      jest.mock('highland', () => mockHighland);
+
+      asStream = require('../../../../source/iml/as-stream/as-stream.js')
+        .default;
+
+      $compileProvider.directive('asStream', asStream);
+      $compileProvider.directive('asValue', asValue);
     })
   );
 
   let $scope, $rootScope, el, getText, compile;
 
   beforeEach(
-    inject(function(_$rootScope_, $compile) {
+    angular.mock.inject(function(_$rootScope_, $compile) {
       $rootScope = _$rootScope_;
 
-      const template = '<div as-stream val="val">\
+      const template =
+        '<div as-stream val="val">\
       <span class="txt" as-value stream="str">\
         {{ curr.val }}\
       </span>\
@@ -43,11 +49,7 @@ describe('As stream', function() {
       el = compile($scope);
 
       const find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(
-        find,
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
+      getText = fp.flow(find, x => x.textContent.trim());
     })
   );
 
@@ -72,7 +74,6 @@ describe('As stream', function() {
 
   it('should destroy the stream on scope destruction', function() {
     $scope.$destroy();
-
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

@@ -10,7 +10,7 @@ import store from '../store/get-store.js';
 
 import type { $scopeT } from 'angular';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { toggleCollection } from './tree-utils.js';
 
@@ -18,7 +18,9 @@ import { emitOnItem, transformItems } from './tree-transforms.js';
 
 import type { treeItemT } from './tree-types.js';
 
-function treeFsCollection($scope: $scopeT, propagateChange: Function) {
+import type { PropagateChange } from '../extend-scope-module.js';
+
+function treeFsCollection($scope: $scopeT, propagateChange: PropagateChange) {
   'ngInject';
   Object.assign(this, {
     onOpen: toggleCollection,
@@ -38,7 +40,9 @@ function treeFsCollection($scope: $scopeT, propagateChange: Function) {
 
   const t1 = store.select('tree');
 
-  t1.through(emitOnItem(fn)).through(propagateChange($scope, this, 'x'));
+  t1
+    .through(emitOnItem(fn))
+    .through(propagateChange.bind(null, $scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'fs',

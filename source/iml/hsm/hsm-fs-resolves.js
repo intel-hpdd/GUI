@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
@@ -29,6 +29,5 @@ export const getData = ($stateParams: { fsId?: string }) => {
     return streamToPromise(
       store.select('fileSystems').map(matchById($stateParams.fsId))
     );
-  else
-    return Promise.resolve({ label: null });
+  else return Promise.resolve({ label: null });
 };

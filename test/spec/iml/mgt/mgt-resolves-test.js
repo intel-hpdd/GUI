@@ -1,51 +1,47 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('mgt resolves', () => {
-  let store, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
+  let mockStore, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
-  beforeEachAsync(async function() {
-    store = {
-      select: jasmine.createSpy('select').and.returnValue(highland())
+  beforeEach(() => {
+    mockStore = {
+      select: jest.fn(() => highland())
     };
 
-    const mod = await mock('source/iml/mgt/mgt-resolves.js', {
-      'source/iml/store/get-store': { default: store }
-    });
+    jest.mock('../../../../source/iml/store/get-store', () => mockStore);
+
+    const mod = require('../../../../source/iml/mgt/mgt-resolves.js');
 
     mgtStream = mod.mgt$;
     mgtJobIndicatorStream = mod.mgtJobIndicatorB;
     mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
   });
 
-  afterEach(resetAll);
-
   it('should select alertIndicators', () => {
     mgtAlertIndicatorStream();
 
-    expect(store.select).toHaveBeenCalledOnceWith('alertIndicators');
+    expect(mockStore.select).toHaveBeenCalledOnceWith('alertIndicators');
   });
 
   it('should select jobIndicators', () => {
     mgtJobIndicatorStream();
 
-    expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
+    expect(mockStore.select).toHaveBeenCalledOnceWith('jobIndicators');
   });
 
   it('should select targets', () => {
-    store.select.and.returnValue(highland());
+    mockStore.select.mockReturnValue(highland());
 
     mgtStream();
 
-    expect(store.select).toHaveBeenCalledOnceWith('targets');
+    expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
   });
 
   it('should filter targets for MGTs', () => {
-    const spy = jasmine.createSpy('spy');
+    const spy = jest.fn();
     const s = highland();
 
-    store.select.and.returnValue(s);
+    mockStore.select.mockReturnValue(s);
 
     mgtStream().each(spy);
 

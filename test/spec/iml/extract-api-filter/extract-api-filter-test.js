@@ -1,13 +1,13 @@
-import extractApiFilterModule
-  from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
+import extractApiFilterModule from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('extract api filter', () => {
   let extractApiFilter;
 
-  beforeEach(module(extractApiFilterModule));
+  beforeEach(angular.mock.module(extractApiFilterModule));
 
   beforeEach(
-    inject($filter => {
+    angular.mock.inject($filter => {
       extractApiFilter = $filter('extractApi');
     })
   );

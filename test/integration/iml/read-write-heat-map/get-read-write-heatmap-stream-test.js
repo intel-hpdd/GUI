@@ -1,35 +1,41 @@
 import highland from 'highland';
-import { mock, resetAll } from '../../../system-mock.js';
 
 describe('the read write heat map stream', () => {
-  let socketStream,
-    flushOnChange,
+  let mockSocketStream,
+    mockFlushOnChange,
     getReadWriteHeatMapStream,
     spy,
     result$,
-    heatMap$,
     change$;
 
-  beforeEachAsync(async function() {
-    heatMap$ = highland();
-    change$ = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(heatMap$);
-    flushOnChange = jasmine.createSpy('flushOnChange').and.returnValue(change$);
-    spy = jasmine.createSpy('spy');
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => {
+      const s = highland();
 
-    const mod = await mock(
-      'source/iml/read-write-heat-map/get-read-write-heat-map-stream.js',
-      {
-        'source/iml/socket/socket-stream.js': { default: socketStream },
-        'source/iml/chart-transformers/chart-transformers.js': { flushOnChange }
-      }
+      return s;
+    });
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
 
-    getReadWriteHeatMapStream = mod.default;
+    mockFlushOnChange = jest.fn(() => (change$ = highland()));
+
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({
+        flushOnChange: mockFlushOnChange
+      })
+    );
+
+    spy = jest.fn();
+
+    getReadWriteHeatMapStream = require('../../../../source/iml/read-write-heat-map/get-read-write-heat-map-stream.js')
+      .default;
   });
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
     result$ = getReadWriteHeatMapStream(
       { qs: { foo: 'bar', metrics: 'stats_read_bytes' } },
       { size: 10, unit: 'minutes' },
@@ -47,13 +53,12 @@ describe('the read write heat map stream', () => {
   });
 
   afterEach(() => {
-    resetAll();
     result$.destroy();
     change$.destroy();
   });
 
   it('should call socket stream', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/read-write-heat-map', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/read-write-heat-map', {
       durationParams: { size: 10, unit: 'minutes' },
       rangeParams: undefined,
       timeOffset: -275,
@@ -65,7 +70,7 @@ describe('the read write heat map stream', () => {
   });
 
   it('should call flushOnChange', () => {
-    expect(flushOnChange).toHaveBeenCalledWith(jasmine.any(Object));
+    expect(mockFlushOnChange).toHaveBeenCalledWith(expect.any(Object));
   });
 
   it('should pass the data through the stream', () => {

@@ -1,5 +1,6 @@
 import highland from 'highland';
-
+import angular from '../../../angular-mock-setup.js';
+import { extendWithConstructor } from '../../../test-utils.js';
 import HsmCtrl from '../../../../source/iml/hsm/hsm-controller';
 
 describe('HSM controller', () => {
@@ -10,29 +11,25 @@ describe('HSM controller', () => {
     copytoolOperationStream,
     copytoolStream;
 
-  beforeEach(module('hsm'));
-
   beforeEach(
-    inject(($controller, $rootScope, $q) => {
+    angular.mock.inject(($controller, $rootScope, $q) => {
       $scope = $rootScope.$new();
 
       agentVsCopytoolChart = {
         stream: {
-          destroy: jasmine.createSpy('destroy')
+          destroy: jest.fn()
         }
       };
 
       copytoolOperationStream = highland();
-      spyOn(copytoolOperationStream, 'destroy');
+      jest.spyOn(copytoolOperationStream, 'destroy');
       copytoolStream = highland();
-      spyOn(copytoolStream, 'destroy');
+      jest.spyOn(copytoolStream, 'destroy');
 
-      openAddCopytoolModal = jasmine
-        .createSpy('openAddCopytoolModal')
-        .and.returnValue($q.resolve());
+      openAddCopytoolModal = jest.fn(() => $q.resolve());
 
-      hsm = $controller('HsmCtrl', {
-        $scope: $scope,
+      hsm = $controller(HsmCtrl, {
+        $scope,
         agentVsCopytoolChart,
         openAddCopytoolModal,
         copytoolStream,
@@ -42,9 +39,9 @@ describe('HSM controller', () => {
   );
 
   it('should setup controller as expected', () => {
-    const scope = window.extendWithConstructor(HsmCtrl, {
+    const scope = extendWithConstructor(HsmCtrl, {
       chart: agentVsCopytoolChart,
-      openAddModal: jasmine.any(Function)
+      openAddModal: expect.any(Function)
     });
 
     expect(hsm).toEqual(scope);
@@ -87,15 +84,15 @@ describe('HSM controller', () => {
     });
 
     it('should destroy the copytoolStream', () => {
-      expect(copytoolStream.destroy).toHaveBeenCalledOnce();
+      expect(copytoolStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the copytoolOperationStream', () => {
-      expect(copytoolOperationStream.destroy).toHaveBeenCalledOnce();
+      expect(copytoolOperationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the chart', () => {
-      expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledOnce();
+      expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

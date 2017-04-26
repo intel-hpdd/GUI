@@ -6,9 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import highlandModule from '../highland/highland-module';
 import asStream from './as-stream';
 
-export default angular
-  .module('asStream', [highlandModule])
-  .directive('asStream', asStream).name;
+export default angular.module('asStream', []).directive('asStream', asStream)
+  .name;

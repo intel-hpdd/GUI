@@ -49,7 +49,8 @@ describe('session actions', () => {
       }
     };
 
-    cookie = 'sessionid=9b834e1b19ea103bcf7717cafc699e48; expires=Tue, 13-Dec-2016 17:00:49 GMT; Max-Age=1209600; Path=/';
+    cookie =
+      'sessionid=9b834e1b19ea103bcf7717cafc699e48; expires=Tue, 13-Dec-2016 17:00:49 GMT; Max-Age=1209600; Path=/';
 
     sessionResult = setSession(session);
     cookieResult = setCookie(cookie);

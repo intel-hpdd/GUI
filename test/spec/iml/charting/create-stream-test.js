@@ -1,58 +1,46 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
-describe('create stream', function() {
+describe('create stream', () => {
   let createStream,
     streamWhenVisible,
-    bufferDataNewerThan,
-    getTimeParams,
+    mockBufferDataNewerThan,
+    mockGetTimeParams,
     requestRangeInner,
     requestDurationInner,
-    flushOnChange;
+    mockFlushOnChange;
 
-  beforeEachAsync(async function() {
-    streamWhenVisible = jasmine
-      .createSpy('streamWhenVisible')
-      .and.returnValue('streamWhenVisible');
-    bufferDataNewerThan = jasmine
-      .createSpy('bufferDataNewerThan')
-      .and.returnValue('bufferDataNewerThan');
+  beforeEach(() => {
+    streamWhenVisible = jest.fn(() => 'streamWhenVisible');
+    mockBufferDataNewerThan = jest.fn(() => 'bufferDataNewerThan');
+    requestRangeInner = jest.fn(() => 'requestRangeInner');
+    requestDurationInner = jest.fn(() => 'requestDurationInner');
 
-    requestRangeInner = jasmine
-      .createSpy('requestRangeInner')
-      .and.returnValue('requestRangeInner');
-
-    requestDurationInner = jasmine
-      .createSpy('requestDurationInner')
-      .and.returnValue('requestDurationInner');
-
-    getTimeParams = {
-      getRequestRange: jasmine
-        .createSpy('getRequestRange')
-        .and.returnValue(requestRangeInner),
-      getRequestDuration: jasmine
-        .createSpy('getRequestDuration')
-        .and.returnValue(requestDurationInner)
+    mockGetTimeParams = {
+      getRequestRange: jest.fn(() => requestRangeInner),
+      getRequestDuration: jest.fn(() => requestDurationInner)
     };
 
-    flushOnChange = jasmine.createSpy('flushOnChange').and.callFake(x => x);
+    mockFlushOnChange = jest.fn(x => x);
 
-    const mod = await mock('source/iml/charting/create-stream.js', {
-      'source/iml/charting/buffer-data-newer-than.js': {
-        default: bufferDataNewerThan
-      },
-      'source/iml/charting/get-time-params.js': { getTimeParams },
-      'source/iml/chart-transformers/chart-transformers.js': { flushOnChange }
-    });
+    jest.mock(
+      '../../../../source/iml/charting/buffer-data-newer-than.js',
+      () => mockBufferDataNewerThan
+    );
+    jest.mock('../../../../source/iml/charting/get-time-params.js', () => ({
+      getTimeParams: mockGetTimeParams
+    }));
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({ flushOnChange: mockFlushOnChange })
+    );
+
+    const mod = require('../../../../source/iml/charting/create-stream.js');
 
     createStream = mod.default(streamWhenVisible);
   });
 
-  afterEach(resetAll);
-
   it('should return an object', () => {
     expect(createStream).toEqual({
-      durationStream: jasmine.any(Function),
-      rangeStream: jasmine.any(Function)
+      durationStream: expect.any(Function),
+      rangeStream: expect.any(Function)
     });
   });
 
@@ -60,7 +48,7 @@ describe('create stream', function() {
     let durationStream, streamFn, overrides, begin, end, createFn;
 
     beforeEach(() => {
-      streamFn = jasmine.createSpy('streamFn').and.returnValue('streamFn');
+      streamFn = jest.fn(() => 'streamFn');
 
       overrides = {
         over: 'rides'
@@ -69,30 +57,29 @@ describe('create stream', function() {
       begin = 5;
       end = 6;
 
-      durationStream = createStream.durationStream(
-        overrides,
+      durationStream = createStream.durationStream(overrides)(
         streamFn,
         begin,
         end
       );
-      createFn = streamWhenVisible.calls.mostRecent().args[0];
+      createFn = streamWhenVisible.mock.calls[0][0];
     });
 
-    it('should return stream when visible', function() {
+    it('should return stream when visible', () => {
       expect(durationStream).toEqual('streamWhenVisible');
     });
 
     it('should call getRequestDuration with overrides', () => {
-      expect(getTimeParams.getRequestDuration).toHaveBeenCalledOnceWith(
+      expect(mockGetTimeParams.getRequestDuration).toHaveBeenCalledOnceWith(
         overrides
       );
     });
 
     it('should call streamWhenVisible', () => {
-      expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
-    it('should call request duration', function() {
+    it('should call request duration', () => {
       createFn();
 
       expect(requestDurationInner).toHaveBeenCalledOnceWith(5, 6);
@@ -101,7 +88,7 @@ describe('create stream', function() {
     it('should call bufferDataNewerThan', () => {
       createFn();
 
-      expect(bufferDataNewerThan).toHaveBeenCalledOnceWith(5, 6);
+      expect(mockBufferDataNewerThan).toHaveBeenCalledOnceWith(5, 6);
     });
 
     it('should invoke the stream with args', () => {
@@ -118,7 +105,7 @@ describe('create stream', function() {
     let rangeStream, streamFn, overrides, begin, end, createFn;
 
     beforeEach(() => {
-      streamFn = jasmine.createSpy('streamFn').and.returnValue('streamFn');
+      streamFn = jest.fn(() => 'streamFn');
 
       overrides = {
         over: 'rides'
@@ -127,27 +114,29 @@ describe('create stream', function() {
       begin = 5;
       end = 6;
 
-      rangeStream = createStream.rangeStream(overrides, streamFn, begin, end);
-      createFn = streamWhenVisible.calls.mostRecent().args[0];
+      rangeStream = createStream.rangeStream(overrides)(streamFn, begin, end);
+      createFn = streamWhenVisible.mock.calls[0][0];
     });
 
-    it('should return stream when visible', function() {
+    it('should return stream when visible', () => {
       expect(rangeStream).toEqual('streamWhenVisible');
     });
 
     it('should call getRequestRange with overrides', () => {
-      expect(getTimeParams.getRequestRange).toHaveBeenCalledOnceWith(overrides);
+      expect(mockGetTimeParams.getRequestRange).toHaveBeenCalledOnceWith(
+        overrides
+      );
     });
 
     it('should call streamWhenVisible', () => {
-      expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
     it('should call flushOnChange', () => {
-      expect(flushOnChange).toHaveBeenCalledOnceWith('streamWhenVisible');
+      expect(mockFlushOnChange).toHaveBeenCalledOnceWith('streamWhenVisible');
     });
 
-    it('should call request range', function() {
+    it('should call request range', () => {
       createFn();
 
       expect(requestRangeInner).toHaveBeenCalledOnceWith(5, 6);
@@ -158,7 +147,7 @@ describe('create stream', function() {
 
       expect(streamFn).toHaveBeenCalledOnceWith(
         'requestRangeInner',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
   });

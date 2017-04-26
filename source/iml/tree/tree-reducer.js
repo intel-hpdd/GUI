@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import {
   ADD_TREE_ITEMS,
@@ -35,28 +35,20 @@ function updateItem(state, id, fn) {
 export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
   switch (action.type) {
     case ADD_TREE_ITEMS:
-      return action.payload.reduce(
-        (state, x) => {
-          return {
-            ...state,
-            [x.treeId]: x
-          };
-        },
-        state
-      );
+      return action.payload.reduce((state, x) => {
+        return {
+          ...state,
+          [x.treeId]: x
+        };
+      }, state);
     case TOGGLE_COLLECTION_OPEN: {
-      const {
-        id,
-        open
-      } = action.payload;
+      const { id, open } = action.payload;
 
-      return updateItem(state, id, () => ({ open }));
+      // eslint-disable-next-line no-unused-vars
+      return updateItem(state, id, (...rest) => ({ open }));
     }
     case UPDATE_COLLECTION_OFFSET: {
-      const {
-        id,
-        offset
-      } = action.payload;
+      const { id, offset } = action.payload;
 
       return updateItem(state, id, x => ({
         meta: {
@@ -66,11 +58,7 @@ export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
       }));
     }
     case TOGGLE_ITEM_OPEN: {
-      const {
-        id,
-        itemId,
-        open
-      } = action.payload;
+      const { id, itemId, open } = action.payload;
 
       return updateItem(state, id, x => ({
         opens: {

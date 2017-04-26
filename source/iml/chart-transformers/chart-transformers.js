@@ -12,12 +12,9 @@ import {
   documentVisible
 } from '../stream-when-visible/stream-when-visible.js';
 
-import * as fp from 'intel-fp';
 import type { HighlandStreamT } from 'highland';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { createStreamT } from '../charting/charting-module.js';
 
@@ -32,9 +29,11 @@ export const getConf = (page: string) => highland.map(x => x[page]);
 
 export function data$Fn(createStream: createStreamT) {
   'ngInject';
-  return fp.curry3((overrides:
-    | filesystemQueryT
-    | targetQueryT, chartStreamFn: configToStreamT, x: durationPayloadT): HighlandStreamT<mixed> => {
+  return (
+    overrides: filesystemQueryT | targetQueryT,
+    chartStreamFn: configToStreamT,
+    x: durationPayloadT
+  ): HighlandStreamT<mixed> => {
     let { durationStream, rangeStream } = createStream;
     durationStream = durationStream(overrides);
     rangeStream = rangeStream(overrides);
@@ -45,7 +44,7 @@ export function data$Fn(createStream: createStreamT) {
       default:
         return rangeStream(chartStreamFn(x), x.startDate, x.endDate);
     }
-  });
+  };
 }
 
 export function flushOnChange(source$: HighlandStreamT<mixed>) {

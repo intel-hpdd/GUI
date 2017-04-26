@@ -1,9 +1,6 @@
-import serverModule from '../../../../source/iml/server/server-module';
-
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('server', () => {
   let $scope,
@@ -22,58 +19,47 @@ describe('server', () => {
     commandStream,
     openResult,
     commandModalResult,
-    getCommandStream,
+    mockGetCommandStream,
     overrideActionClick,
     serverController;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     commandStream = highland();
 
-    getCommandStream = jasmine
-      .createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    mockGetCommandStream = jest.fn(() => commandStream);
 
-    const serverControllerModule = await mock(
-      'source/iml/server/server-controller.js',
-      {
-        'source/iml/command/get-command-stream.js': {
-          default: getCommandStream
-        },
-        'source/iml/server/assets/html/confirm-server-action-modal.html!text': {
-          default: 'confirmServerActionModalTemplate'
-        }
-      }
+    jest.mock(
+      '../../../../source/iml/command/get-command-stream.js',
+      () => mockGetCommandStream
     );
+
+    const serverControllerModule = require('../../../../source/iml/server/server-controller.js');
 
     serverController = serverControllerModule.default;
   });
 
-  afterEach(resetAll);
-
-  beforeEach(module(serverModule));
-
   beforeEach(
-    inject(($rootScope, $controller, $q) => {
+    angular.mock.inject(($rootScope, $controller, $q) => {
       $scope = $rootScope.$new();
 
       openResult = {
         result: {
-          then: jasmine.createSpy('then')
+          then: jest.fn()
         }
       };
       $uibModal = {
-        open: jasmine.createSpy('open').and.returnValue(openResult)
+        open: jest.fn(() => openResult)
       };
 
-      spyOn(commandStream, 'destroy');
+      jest.spyOn(commandStream, 'destroy');
 
       serversStream = highland();
-      spyOn(serversStream, 'destroy');
+      jest.spyOn(serversStream, 'destroy');
 
       selectedServers = {
         servers: {},
-        toggleType: jasmine.createSpy('toggleType'),
-        addNewServers: jasmine.createSpy('addNewServers')
+        toggleType: jest.fn(),
+        addNewServers: jest.fn()
       };
 
       serverActions = [
@@ -86,37 +72,31 @@ describe('server', () => {
         result: $q.when()
       };
 
-      openCommandModal = jasmine
-        .createSpy('openCommandModal')
-        .and.returnValue(commandModalResult);
+      openCommandModal = jest.fn(() => commandModalResult);
 
       lnetConfigurationStream = highland();
-      spyOn(lnetConfigurationStream, 'destroy');
+      jest.spyOn(lnetConfigurationStream, 'destroy');
 
-      openAddServerModal = jasmine
-        .createSpy('openAddServerModal')
-        .and.returnValue({
-          opened: {
-            then: jasmine.createSpy('then')
-          },
-          result: {
-            then: jasmine.createSpy('then')
-          }
-        });
+      openAddServerModal = jest.fn(() => ({
+        opened: {
+          then: jest.fn()
+        },
+        result: {
+          then: jest.fn()
+        }
+      }));
 
-      pdshFilter = jasmine.createSpy('pdshFilter');
-      naturalSortFilter = jasmine
-        .createSpy('naturalSortFilter')
-        .and.callFake(fp.identity);
+      pdshFilter = jest.fn();
+      naturalSortFilter = jest.fn(fp.identity);
 
       jobMonitorStream = highland();
-      spyOn(jobMonitorStream, 'destroy');
+      jest.spyOn(jobMonitorStream, 'destroy');
       alertMonitorStream = highland();
-      spyOn(alertMonitorStream, 'destroy');
+      jest.spyOn(alertMonitorStream, 'destroy');
 
-      overrideActionClick = jasmine.createSpy('overrideActionClick');
+      overrideActionClick = jest.fn();
 
-      $scope.$on = jasmine.createSpy('$on');
+      $scope.$on = jest.fn();
 
       $controller(serverController, {
         $scope,
@@ -134,7 +114,7 @@ describe('server', () => {
           lnetConfigurationStream
         },
         openAddServerModal,
-        getCommandStream,
+        mockGetCommandStream,
         overrideActionClick
       });
 
@@ -149,7 +129,7 @@ describe('server', () => {
     pdshFuzzy: false
   };
 
-  Object.keys(expectedProperties).forEach(function verifyScopeValue(key) {
+  Object.keys(expectedProperties).forEach(key => {
     describe('test initial values', () => {
       it(
         'should have a ' + key + ' value of ' + expectedProperties[key],
@@ -171,11 +151,11 @@ describe('server', () => {
   });
 
   it('should have a transform method', () => {
-    expect(server.transform).toEqual(jasmine.any(Function));
+    expect(server.transform).toEqual(expect.any(Function));
   });
 
   it('should transform a stream', () => {
-    const spy = jasmine.createSpy('spy');
+    const spy = jest.fn();
 
     const s = highland([
       [
@@ -190,7 +170,7 @@ describe('server', () => {
 
     server.transform(s, ['/api/host/4/']).collect().each(spy);
 
-    expect(spy).toHaveBeenCalledOnceWith([
+    expect(spy).toHaveBeenCalledWith([
       {
         host: '/api/host/4/'
       }
@@ -248,7 +228,7 @@ describe('server', () => {
         };
         server.hostnames = ['hostname1'];
 
-        pdshFilter.and.returnValue(['hostname1']);
+        pdshFilter.mockReturnValue(['hostname1']);
         result = server.getTotalItems();
       });
 
@@ -281,7 +261,7 @@ describe('server', () => {
     it('should open the addServer Dialog', () => {
       server.addServer();
 
-      expect(openAddServerModal).toHaveBeenCalledOnce();
+      expect(openAddServerModal).toHaveBeenCalledTimes(1);
     });
 
     it('should get an action by value', () => {
@@ -300,7 +280,7 @@ describe('server', () => {
           'https://hostname1.localdomain.com': true
         };
 
-        pdshFilter.and.returnValue([
+        pdshFilter.mockReturnValue([
           {
             fqdn: 'https://hostname1.localdomain.com'
           }
@@ -308,26 +288,51 @@ describe('server', () => {
 
         server.runAction('Install Updates');
 
-        handler = openResult.result.then.calls.mostRecent().args[0];
+        handler = openResult.result.then.mock.calls[0][0];
       });
 
       it('should open a confirmation modal', () => {
         expect($uibModal.open).toHaveBeenCalledOnceWith({
-          template: 'confirmServerActionModalTemplate',
+          template: `<div class="modal-header">
+  <h3 class="modal-title">Run {{confirmServerActionModal.actionName}}</h3>
+</div>
+<div class="modal-body">
+  <h5>{{confirmServerActionModal.actionName}} will be run for the following servers:</h5>
+  <ul class="well">
+    <li ng-repeat="host in confirmServerActionModal.hosts">
+      {{host.address}}
+    </li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <div class="btn-group" uib-dropdown>
+    <button type="button" ng-click="confirmServerActionModal.go()" class="btn btn-success" ng-disabled="confirmServerActionModal.inProgress">
+      Go <i class="fa" ng-class="{'fa-spinner fa-spin': confirmServerActionModal.inProgress, 'fa-check-circle-o': !confirmServerActionModal.inProgress }"></i>
+    </button>
+    <button type="button" class="btn btn-success dropdown-toggle" uib-dropdown-toggle ng-disabled="confirmServerActionModal.inProgress">
+      <span class="caret"></span>
+      <span class="sr-only">Split button</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a ng-click="confirmServerActionModal.go(true)">Go and skip command view</a></li>
+    </ul>
+  </div>
+  <button class="btn btn-danger" ng-disabled="confirmServerActionModal.inProgress" ng-click="$dismiss('cancel')">Cancel <i class="fa fa-times-circle-o"></i></button>
+</div>`,
           controller: 'ConfirmServerActionModalCtrl',
           windowClass: 'confirm-server-action-modal',
           keyboard: false,
           backdrop: 'static',
           resolve: {
-            action: jasmine.any(Function),
-            hosts: jasmine.any(Function)
+            action: expect.any(Function),
+            hosts: expect.any(Function)
           }
         });
       });
 
       it('should register a then listener', () => {
         expect(openResult.result.then).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 
@@ -347,11 +352,11 @@ describe('server', () => {
         });
 
         it('should call createCommandSpark', () => {
-          expect(getCommandStream).toHaveBeenCalledWith([{ foo: 'bar' }]);
+          expect(mockGetCommandStream).toHaveBeenCalledWith([{ foo: 'bar' }]);
         });
 
         it('should end the spark after the modal closes', () => {
-          commandModalResult.result.then(function whenModalClosed() {
+          commandModalResult.result.then(() => {
             expect(commandStream.destroy).toHaveBeenCalled();
           });
 
@@ -363,31 +368,28 @@ describe('server', () => {
 
   describe('destroy', () => {
     beforeEach(() => {
-      const handler = $scope.$on.calls.mostRecent().args[1];
+      const handler = $scope.$on.mock.calls[0][1];
       handler();
     });
 
     it('should listen', () => {
-      expect($scope.$on).toHaveBeenCalledWith(
-        '$destroy',
-        jasmine.any(Function)
-      );
+      expect($scope.$on).toHaveBeenCalledWith('$destroy', expect.any(Function));
     });
 
     it('should destroy the job monitor', () => {
-      expect(jobMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(jobMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the alert monitor', () => {
-      expect(alertMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(alertMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the server stream', () => {
-      expect(serversStream.destroy).toHaveBeenCalledOnce();
+      expect(serversStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the LNet configuration stream', () => {
-      expect(lnetConfigurationStream.destroy).toHaveBeenCalledOnce();
+      expect(lnetConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

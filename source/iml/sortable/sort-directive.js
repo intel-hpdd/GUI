@@ -131,7 +131,7 @@ export function sortItem() {
         el.removeEventListener('dragstart', dragStart, false);
         el.removeEventListener('dragend', sortContainerCtrl.dragEnd, false);
 
-        el = (wrappedEl = null);
+        el = wrappedEl = null;
       });
 
       function dragStart(event) {

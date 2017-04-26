@@ -1,28 +1,46 @@
-import serverModule from '../../../../source/iml/server/server-module';
-import transformedHostProfileFixture
-  from '../../../data-fixtures/transformed-host-profile-fixture.json!json';
+import angular from '../../../angular-mock-setup.js';
+import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
 
 import highland from 'highland';
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as fp from '@mfl/fp';
 
 describe('host profile then', () => {
-  beforeEach(module(serverModule));
+  let mockSocketStream,
+    streams,
+    getHostProfilesFactory,
+    createHostProfilesFactory;
 
   beforeEach(() => {
-    jasmine.clock().install();
+    jest.useFakeTimers();
+
+    mockSocketStream = jest.fn(() => {
+      const stream = highland();
+      streams.push(stream);
+
+      return stream;
+    });
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    ({
+      getHostProfilesFactory,
+      createHostProfilesFactory
+    } = require('../../../../source/iml/server/create-host-profiles-stream.js'));
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  describe('get host profiles', function() {
+  describe('get host profiles', () => {
     let CACHE_INITIAL_DATA;
 
     beforeEach(
-      module(function($provide) {
+      angular.mock.module($provide => {
         CACHE_INITIAL_DATA = {
           server_profile: [
             {
@@ -42,7 +60,8 @@ describe('host profile then', () => {
               managed: true,
               name: 'base_managed',
               resource_uri: '/api/server_profile/base_managed/',
-              ui_description: 'A storage server suitable for creating new HA-enabled filesystem targets',
+              ui_description:
+                'A storage server suitable for creating new HA-enabled filesystem targets',
               ui_name: 'Managed Storage Server',
               user_selectable: true,
               worker: false
@@ -53,7 +72,8 @@ describe('host profile then', () => {
               managed: true,
               name: 'base_managed_rh7',
               resource_uri: '/api/server_profile/base_managed_rh7/',
-              ui_description: 'A storage server suitable for creating new HA-enabled filesystem targets on RH 7.2',
+              ui_description:
+                'A storage server suitable for creating new HA-enabled filesystem targets on RH 7.2',
               ui_name: 'Managed Storage Server For EL7.2',
               user_selectable: true,
               worker: false
@@ -94,21 +114,24 @@ describe('host profile then', () => {
           ]
         };
         $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
+
+        $provide.factory('getHostProfiles', getHostProfilesFactory);
+        $provide.factory('createHostProfiles', createHostProfilesFactory);
       })
     );
 
     let spring, hostProfilesStream, springStream;
 
     beforeEach(
-      inject(function(getHostProfiles) {
+      angular.mock.inject(getHostProfiles => {
         springStream = highland();
-        spring = jasmine.createSpy('spring').and.returnValue(springStream);
+        spring = jest.fn(() => springStream);
 
         hostProfilesStream = getHostProfiles(spring, [{ id: 1 }, { id: 2 }]);
       })
     );
 
-    it('should retrieve profiles for given hosts', function() {
+    it('should retrieve profiles for given hosts', () => {
       expect(spring).toHaveBeenCalledOnceWith('hostProfile', '/host_profile', {
         qs: {
           id__in: [1, 2],
@@ -118,11 +141,11 @@ describe('host profile then', () => {
       });
     });
 
-    describe('response handling', function() {
+    describe('response handling', () => {
       let response, spy;
 
-      beforeEach(function() {
-        spy = jasmine.createSpy('spy');
+      beforeEach(() => {
+        spy = jest.fn();
 
         response = {
           meta: {
@@ -142,7 +165,8 @@ describe('host profile then', () => {
                 profiles: {
                   base_managed: [
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: 'Result unavailable while host agent starts',
                       pass: false,
                       test: 'zfs_installed == False'
@@ -150,13 +174,15 @@ describe('host profile then', () => {
                   ],
                   base_managed_rh7: [
                     {
-                      description: 'The profile is designed for version 7 of EL',
+                      description:
+                        'The profile is designed for version 7 of EL',
                       error: '',
                       pass: false,
                       test: 'distro_version < 8 and distro_version >= 7'
                     },
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: '',
                       pass: true,
                       test: 'zfs_installed == False'
@@ -179,7 +205,8 @@ describe('host profile then', () => {
                 profiles: {
                   base_managed: [
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: 'Result unavailable while host agent starts',
                       pass: false,
                       test: 'zfs_installed == False'
@@ -187,13 +214,15 @@ describe('host profile then', () => {
                   ],
                   base_managed_rh7: [
                     {
-                      description: 'The profile is designed for version 7 of EL',
+                      description:
+                        'The profile is designed for version 7 of EL',
                       error: '',
                       pass: false,
                       test: 'distro_version < 8 and distro_version >= 7'
                     },
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: '',
                       pass: true,
                       test: 'zfs_installed == False'
@@ -231,7 +260,7 @@ describe('host profile then', () => {
             )
           );
 
-          response = fp.set(profilesLens, false, response);
+          response = fp.set(profilesLens)(false)(response);
 
           springStream.write(response);
           hostProfilesStream.each(spy);
@@ -256,43 +285,27 @@ describe('host profile then', () => {
     });
   });
 
-  describe('create host profiles', function() {
-    let socketStream, streams, profile, spy, waitForCommandCompletion;
+  describe('create host profiles', () => {
+    let profile, spy, waitForCommandCompletion;
 
-    beforeEachAsync(async function() {
+    beforeEach(() => {
       streams = [];
 
-      socketStream = jasmine.createSpy('socketStream').and.callFake(function() {
-        const stream = highland();
-        streams.push(stream);
+      const mod = require('../../../../source/iml/server/create-host-profiles-stream.js');
 
-        return stream;
-      });
-
-      const mod = await mock(
-        'source/iml/server/create-host-profiles-stream.js',
-        {
-          'source/iml/socket/socket-stream.js': { default: socketStream }
-        }
-      );
-
-      waitForCommandCompletion = jasmine
-        .createSpy('waitForCommandCompletion')
-        .and.returnValue(highland());
+      waitForCommandCompletion = jest.fn(() => highland());
 
       const createHostProfiles = mod.createHostProfilesFactory(
         waitForCommandCompletion
       );
       profile = transformedHostProfileFixture[0];
 
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       createHostProfiles(profile, false).each(spy);
     });
 
-    afterEach(resetAll);
-
-    it('should fetch the hosts', function() {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+    it('should fetch the hosts', () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/host',
         {
           jsonMask: 'objects(id,address,server_profile)',
@@ -302,8 +315,8 @@ describe('host profile then', () => {
       );
     });
 
-    describe('posting profiles', function() {
-      beforeEach(function() {
+    describe('posting profiles', () => {
+      beforeEach(() => {
         streams[0].write({
           objects: [
             {
@@ -328,9 +341,9 @@ describe('host profile then', () => {
         });
       });
 
-      it('should post unconfigured host profiles', function() {
-        jasmine.clock().tick();
-        expect(socketStream).toHaveBeenCalledOnceWith(
+      it('should post unconfigured host profiles', () => {
+        jest.runAllTimers();
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/host_profile',
           {
             method: 'post',
@@ -347,8 +360,8 @@ describe('host profile then', () => {
         );
       });
 
-      it('should pass in the commands to wait for command completion', function() {
-        jasmine.clock().tick();
+      it('should pass in the commands to wait for command completion', () => {
+        jest.runAllTimers();
         expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(false, [
           {
             command: 1

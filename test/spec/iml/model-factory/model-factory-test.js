@@ -1,5 +1,9 @@
-describe('model factory', function() {
-  'use strict';
+import angular from '../../../angular-mock-setup.js';
+
+import modelFactoryModule from '../../../../source/iml/model-factory/model-factory-module.js';
+import interceptorsModule from '../../../../source/iml/interceptors/interceptor-module.js';
+
+describe('model factory', () => {
   let $httpBackend,
     $rootScope,
     modelFactoryProvider,
@@ -9,23 +13,23 @@ describe('model factory', function() {
     ItemsResource;
 
   beforeEach(
-    module(
-      'modelFactory',
-      'interceptors',
+    angular.mock.module(
+      modelFactoryModule,
+      interceptorsModule,
       { STATIC_URL: '/static' },
-      function(_modelFactoryProvider_) {
+      _modelFactoryProvider_ => {
         modelFactoryProvider = _modelFactoryProvider_;
       }
     )
   );
 
   beforeEach(
-    inject(function(_modelFactory_, _$httpBackend_, _$rootScope_) {
+    angular.mock.inject(function(_modelFactory_, _$httpBackend_, _$rootScope_) {
       modelFactory = _modelFactory_;
       $httpBackend = _$httpBackend_;
       $rootScope = _$rootScope_;
 
-      SubTypeSpy = jasmine.createSpy('SubTypeSpy');
+      SubTypeSpy = jest.fn();
 
       ItemResource = modelFactory({ url: 'item' });
       ItemsResource = modelFactory({ url: 'items' });

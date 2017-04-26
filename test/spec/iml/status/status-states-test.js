@@ -1,21 +1,22 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 import { noSpace } from '../../../../source/iml/string.js';
 
 describe('status states', () => {
-  let mod, resolveStream, socketStream;
+  let mod, mockResolveStream, mockSocketStream;
 
-  beforeEachAsync(async function() {
-    resolveStream = jasmine.createSpy('resolveStream');
-    socketStream = jasmine.createSpy('socketStream');
+  beforeEach(() => {
+    mockResolveStream = jest.fn();
+    mockSocketStream = jest.fn();
 
-    mod = await mock('source/iml/status/status-states.js', {
-      'source/iml/promise-transforms.js': { resolveStream },
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/status/status-states.js');
   });
-
-  afterEach(resetAll);
 
   describe('status state', () => {
     it('should create the state', () => {
@@ -26,7 +27,7 @@ describe('status states', () => {
           anonymousReadProtected: true,
           eulaState: true
         },
-        template: jasmine.any(String)
+        template: expect.any(String)
       });
     });
   });
@@ -72,19 +73,19 @@ describe('status states', () => {
           icon: 'fa-tachometer'
         },
         resolve: {
-          notification$: jasmine.any(Function)
+          notification$: expect.any(Function)
         },
         component: 'statusRecords'
       });
     });
 
-    describe('resolve', function() {
+    describe('resolve', () => {
       let qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
-        resolveStream.and.returnValue('promise');
+        mockResolveStream.mockReturnValue('promise');
 
-        socketStream.and.returnValue('socket');
+        mockSocketStream.mockReturnValue('socket');
 
         $stateParams = {
           foo: 'bar',
@@ -93,41 +94,41 @@ describe('status states', () => {
           bim__in: ['4', '5', '6']
         };
 
-        qsFromLocation = jasmine.createSpy('qsFromLocation');
+        qsFromLocation = jest.fn();
 
         notification$ = mod.tableState.resolve.notification$;
       });
 
       it('should call /alert with a qs', () => {
-        qsFromLocation.and.returnValue(
+        qsFromLocation.mockReturnValue(
           'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
         );
 
         notification$(qsFromLocation, $stateParams);
 
-        expect(socketStream).toHaveBeenCalledOnceWith(
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6'
         );
       });
 
       it('should call /alert without a qs', () => {
-        qsFromLocation.and.returnValue('');
+        qsFromLocation.mockReturnValue('');
 
         notification$(qsFromLocation);
 
-        expect(socketStream).toHaveBeenCalledOnceWith('/alert/');
+        expect(mockSocketStream).toHaveBeenCalledOnceWith('/alert/');
       });
 
       it('should call resolveStream with socket', () => {
-        qsFromLocation.and.returnValue('');
+        qsFromLocation.mockReturnValue('');
 
         notification$(qsFromLocation);
 
-        expect(resolveStream).toHaveBeenCalledOnceWith('socket');
+        expect(mockResolveStream).toHaveBeenCalledOnceWith('socket');
       });
 
       it('should resolve the stream', () => {
-        qsFromLocation.and.returnValue('');
+        qsFromLocation.mockReturnValue('');
 
         const res = notification$(qsFromLocation);
 

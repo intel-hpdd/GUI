@@ -1,14 +1,14 @@
 {
   "parser": "babel-eslint",
   "plugins": [
-    "flow-vars",
     "flowtype",
     "react",
     "prettier"
   ],
   "rules": {
-    "flow-vars/define-flow-type": 1,
-    "flow-vars/use-flow-type": 1,
+    "no-useless-escape": "off",
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1,
     "flowtype/space-after-type-colon": [
       0,
       "never"
@@ -83,25 +83,10 @@
       }
     ]
   },
-  "globals": {
-    "module": false,
-    "inject": false,
-    "jasmine": false,
-    "expectToEqual": false,
-    "expectStreamToContainItem": false,
-    "spyOn": false,
-    "it": false,
-    "itAsync": false,
-    "describe": false,
-    "expect": false,
-    "beforeEach": false,
-    "beforeEachAsync": false,
-    "afterEach": false,
-    "convertNvDates": false
-  },
   "env": {
     "es6": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "parserOptions": {
     "ecmaVersion": 6,
@@ -110,5 +95,8 @@
       "jsx": true
     }
   },
-  "extends": ["eslint:recommended", "prettier"]
+  "extends": [
+    "eslint:recommended",
+    "prettier"
+  ]
 }

@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import * as maybe from 'intel-maybe';
+import * as fp from '@mfl/fp';
+import * as maybe from '@mfl/maybe';
 
 const getHostByFqdn = (hosts, fqdn) =>
-  maybe.map(x => x.id, fp.find(x => x.fqdn === fqdn, hosts));
+  maybe.map(x => x.id, fp.find(x => x.fqdn === fqdn)(hosts));
 
 type objArr = [Object[], Object];
 

@@ -1,27 +1,11 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import { aboutState } from '../../../../source/iml/about/about-states.js';
 
 describe('about states', () => {
-  let aboutState;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/about/about-states.js', {
-      'source/iml/about/assets/html/about.html!text': {
-        default: 'aboutTemplate'
-      }
-    });
-
-    aboutState = mod.aboutState;
-  });
-
-  afterEach(resetAll);
-
   it('should create the state', () => {
     expect(aboutState).toEqual({
       name: 'app.about',
       url: '/about',
-      controller: 'AboutCtrl',
-      controllerAs: 'about',
-      template: 'aboutTemplate',
+      component: 'aboutComponent',
       params: {
         resetState: {
           dynamic: true

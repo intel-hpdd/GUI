@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS';
-export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS = 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS';
+export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS =
+  'UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS';
+export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS =
+  'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS';
 
-import type {
-  readWriteBandwidthActionT
-} from './read-write-bandwidth-module.js';
+import type { readWriteBandwidthActionT } from './read-write-bandwidth-module.js';
 
 import type {
   durationPayloadHashT,

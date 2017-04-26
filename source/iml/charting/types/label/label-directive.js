@@ -3,9 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+import d3 from 'd3';
+import getLabel from './get-label.js';
 
-export function labelDirective(d3, getLabel) {
+export function labelDirective() {
   'ngInject';
   return {
     restrict: 'A',
@@ -26,7 +28,8 @@ export function labelDirective(d3, getLabel) {
             label,
             node: d3.select(node),
             ...conf
-          }));
+          })
+        );
 
         conf.svg.select(fp.always(node)).call(label);
       };

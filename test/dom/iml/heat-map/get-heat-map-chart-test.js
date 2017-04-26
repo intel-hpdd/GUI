@@ -1,24 +1,34 @@
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
+import getHeatMapChart from '../../../../source/iml/heat-map/get-heat-map-chart.js';
+import d3 from 'd3';
 
-describe('get heat map chart test', function() {
-  'use strict';
-  beforeEach(module('heatMap'));
+describe('get heat map chart test', () => {
+  let heatMapChart;
 
-  let getHeatMapChart, heatMapChart;
-
-  beforeEach(
-    inject(function(_getHeatMapChart_) {
-      getHeatMapChart = _getHeatMapChart_;
-
-      heatMapChart = getHeatMapChart();
-    })
-  );
-
-  it('should be callable', function() {
-    expect(heatMapChart).toEqual(jasmine.any(Function));
+  beforeEach(() => {
+    window.d3 = d3;
   });
 
-  it('should set destroy to a noop', function() {
+  afterEach(() => {
+    delete window.d3;
+  });
+
+  beforeEach(() => {
+    HTMLElement.prototype.getBBox = () => ({
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0
+    });
+
+    heatMapChart = getHeatMapChart();
+  });
+
+  it('should be callable', () => {
+    expect(heatMapChart).toEqual(expect.any(Function));
+  });
+
+  it('should set destroy to a noop', () => {
     expect(heatMapChart.destroy).toBe(_.noop);
   });
 
@@ -31,63 +41,54 @@ describe('get heat map chart test', function() {
     'xAxisDetail',
     'duration'
   ];
-
-  accessors.forEach(function(accessor) {
-    it('should have a ' + accessor + 'accessor', function() {
-      expect(heatMapChart[accessor]).toEqual(jasmine.any(Function));
+  accessors.forEach(accessor => {
+    it('should have a ' + accessor + 'accessor', () => {
+      expect(heatMapChart[accessor]).toEqual(expect.any(Function));
     });
 
-    it('should set ' + accessor, function() {
+    it('should set ' + accessor, () => {
       const val = { foo: 'bar' };
-
       heatMapChart[accessor](val);
-
       expect(heatMapChart[accessor]()).toBe(val);
     });
   });
 
-  describe('when populated', function() {
-    let d3, svg, div, setup, query, queryAll;
+  describe('when populated', () => {
+    let svg, div, setup, query, queryAll;
 
-    beforeEach(
-      inject(function(_d3_) {
-        d3 = _d3_;
+    beforeEach(() => {
+      div = document.createElement('div');
+      svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', 500);
+      svg.setAttribute('height', 500);
 
-        div = document.createElement('div');
+      div.appendChild(svg);
+      document.body.appendChild(div);
 
-        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', 500);
-        svg.setAttribute('height', 500);
+      heatMapChart.zValue(_.pluckPath('data.stats_read_bytes'));
+      heatMapChart.xAxis().tickFormat(d3.time.format.utc('%H:%M:%S'));
 
-        div.appendChild(svg);
+      query = svg.querySelector.bind(svg);
+      queryAll = svg.querySelectorAll.bind(svg);
 
-        document.body.appendChild(div);
+      setup = function setup(d) {
+        d3.select(svg).style('height', '500px');
+        d3.select(svg).style('width', '500px');
+        d3.select(svg).datum(d).call(heatMapChart);
+      };
+    });
 
-        heatMapChart.zValue(_.pluckPath('data.stats_read_bytes'));
-
-        heatMapChart.xAxis().tickFormat(d3.time.format.utc('%H:%M:%S'));
-
-        query = svg.querySelector.bind(svg);
-        queryAll = svg.querySelectorAll.bind(svg);
-
-        setup = function setup(d) {
-          d3.select(svg).datum(d).call(heatMapChart);
-        };
-      })
-    );
-
-    afterEach(function() {
+    afterEach(() => {
       document.body.removeChild(div);
     });
 
-    it('should show the no data message when there is no data', function() {
+    it('should show the no data message when there is no data', () => {
       setup([]);
-
       expect(query('.nv-noData').innerHTML).toEqual('No Data Available.');
     });
 
-    describe('with one data point', function() {
-      beforeEach(function() {
+    describe('with one data point', () => {
+      beforeEach(() => {
         setup([
           [
             {
@@ -99,41 +100,39 @@ describe('get heat map chart test', function() {
         ]);
       });
 
-      it('should have one row', function() {
+      it('should have one row', () => {
         expect(queryAll('.row').length).toEqual(1);
       });
 
-      it('should have one cell', function() {
+      it('should have one cell', () => {
         expect(queryAll('.cell').length).toEqual(1);
       });
 
-      it('should position the row at 0,0', function() {
+      it('should position the row at 0,0', () => {
         expect(query('.row').getAttribute('transform')).toEqual(
           'translate(0,0)'
         );
       });
 
-      it('should set the cell to height - margin', function() {
+      it('should set the cell to height - margin', () => {
         expect(query('.cell').getAttribute('height')).toEqual('470');
       });
 
-      it('should set the cell to width - margin', function() {
+      it('should set the cell to width - margin', () => {
         expect(query('.cell').getAttribute('width')).toEqual('470');
       });
 
-      it('should fill the cell with the right color', function() {
+      it('should fill the cell with the right color', () => {
         expect(query('.cell').getAttribute('fill')).toEqual('#8ebad9');
       });
 
-      it('should remove the cell on exit', function() {
+      it('should remove the cell on exit', () => {
         setup([]);
-
         expect(queryAll('.cell').length).toBe(0);
       });
     });
-
-    describe('with multiple data points', function() {
-      beforeEach(function() {
+    describe('with multiple data points', () => {
+      beforeEach(() => {
         setup([
           [
             {
@@ -152,27 +151,26 @@ describe('get heat map chart test', function() {
         ]);
       });
 
-      it('should have one row', function() {
+      it('should have one row', () => {
         expect(queryAll('.row').length).toBe(1);
       });
 
-      it('should have two cells', function() {
+      it('should have two cells', () => {
         expect(queryAll('.cell').length).toBe(2);
       });
 
-      it('should fill the first cell with the right color', function() {
+      it('should fill the first cell with the right color', () => {
         expect(queryAll('.cell')[0].getAttribute('fill')).toEqual('#8ebad9');
       });
 
-      it('should fill the second cell with the right color', function() {
+      it('should fill the second cell with the right color', () => {
         expect(queryAll('.cell')[1].getAttribute('fill')).toEqual('#ff6262');
       });
 
-      describe('when interacting', function() {
+      describe('when interacting', () => {
         let clickSpy;
-
-        beforeEach(function() {
-          clickSpy = jasmine.createSpy('onMouseClick');
+        beforeEach(() => {
+          clickSpy = jest.fn();
           heatMapChart.dispatch.on('click', clickSpy);
 
           const event = new MouseEvent('mousemove', {
@@ -188,23 +186,23 @@ describe('get heat map chart test', function() {
           document.body.removeChild(document.querySelector('.nvtooltip'));
         });
 
-        it('should show the tooltip', function() {
+        it('should show the tooltip', () => {
           expect(document.querySelector('.nvtooltip')).not.toBe(null);
         });
 
-        it('should show the z value', function() {
+        it('should show the z value', () => {
           expect(document.querySelector('.nvtooltip .value').innerHTML).toEqual(
             '8091667852.6'
           );
         });
 
-        it('should show the x value', function() {
+        it('should show the x value', () => {
           expect(
             document.querySelector('.nvtooltip .x-value').innerHTML
           ).toEqual('11:44:10');
         });
 
-        it('should show the y value', function() {
+        it('should show the y value', () => {
           expect(
             document.querySelector('.nvtooltip tbody .key').innerHTML
           ).toEqual('OST003');

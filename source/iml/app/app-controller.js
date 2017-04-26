@@ -3,8 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-
 export default function AppCtrl(
   $scope,
   session,
@@ -18,7 +16,7 @@ export default function AppCtrl(
   'ngInject';
   const login = navigate.bind(null, 'login/');
 
-  angular.extend(this, {
+  Object.assign(this, {
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
     COPYRIGHT_YEAR: help.get('copyright_year'),
     GROUPS,
@@ -45,7 +43,7 @@ export default function AppCtrl(
 
   const ctrl = this;
 
-  const p = $scope.propagateChange($scope, this, 'status');
+  const p = $scope.propagateChange.bind(null, $scope, this, 'status');
 
   notificationStream
     .tap(function computeProperties(status) {

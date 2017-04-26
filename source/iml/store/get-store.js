@@ -7,30 +7,22 @@
 
 import createStore from './create-store.js';
 
-import agentVsCopytoolChartReducer
-  from '../agent-vs-copytool/agent-vs-copytool-chart-reducer.js';
-import alertIndicatorReducer
-  from '../alert-indicator/alert-indicator-reducer.js';
+import agentVsCopytoolChartReducer from '../agent-vs-copytool/agent-vs-copytool-chart-reducer.js';
+import alertIndicatorReducer from '../alert-indicator/alert-indicator-reducer.js';
 import cpuUsageChartReducer from '../cpu-usage/cpu-usage-chart-reducer.js';
 import fileSystemReducer from '../file-system/file-system-reducer.js';
 import fileUsageChartReducer from '../file-usage/file-usage-chart-reducer.js';
-import hostCpuRamChartReducer
-  from '../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js';
+import hostCpuRamChartReducer from '../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js';
 import jobIndicatorReducer from '../job-indicator/job-indicator-reducer.js';
 import jobStatsReducer from '../job-stats/job-stats-reducer.js';
 import lnetConfigurationReducer from '../lnet/lnet-configuration-reducer.js';
 import mdoChartReducer from '../mdo/mdo-chart-reducer.js';
-import memoryUsageChartReducer
-  from '../memory-usage/memory-usage-chart-reducer.js';
-import ostBalanceChartReducer
-  from '../ost-balance/ost-balance-chart-reducer.js';
-import readWriteBandwidthChartReducer
-  from '../read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
-import readWriteHeatMapChartReducer
-  from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
+import memoryUsageChartReducer from '../memory-usage/memory-usage-chart-reducer.js';
+import ostBalanceChartReducer from '../ost-balance/ost-balance-chart-reducer.js';
+import readWriteBandwidthChartReducer from '../read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
+import readWriteHeatMapChartReducer from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
 import serverReducer from '../server/server-reducer.js';
-import spaceUsageChartReducer
-  from '../space-usage/space-usage-chart-reducer.js';
+import spaceUsageChartReducer from '../space-usage/space-usage-chart-reducer.js';
 import targetReducer from '../target/target-reducer.js';
 import treeReducer from '../tree/tree-reducer.js';
 import userReducer from '../user/user-reducer.js';

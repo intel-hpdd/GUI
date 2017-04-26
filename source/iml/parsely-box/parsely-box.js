@@ -3,9 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-
-import parselyBoxTemplate from './assets/html/parsely-box.html!text';
+import * as fp from '@mfl/fp';
 
 export function parselyBox() {
   'ngInject';
@@ -20,7 +18,35 @@ export function parselyBox() {
     },
     controllerAs: 'ctrl',
     controller: fp.noop,
-    template: parselyBoxTemplate
+    template: `<form name="form" class="p-box" ng-submit="ctrl.onSubmit({ qs: ctrl.query })">
+  <completionist completer="ctrl.completer({ value: value, cursorPosition: cursorPosition })">
+    <div class="input-group">
+      <div class="status-indicator">
+        <i ng-if="form.$valid" class="fa fa-check-circle"></i>
+        <i ng-if="form.$invalid" class="fa fa-times-circle"></i>
+      </div>
+      <input
+        name="query"
+        autocomplete="off"
+        type="search"
+        class="form-control"
+        parse-query
+        parser-formatter="::ctrl.parserFormatter"
+        completionist-model-hook
+        ng-model="ctrl.query"
+      />
+      <iml-tooltip class="error-tooltip" toggle="form.$invalid" direction="top">
+        {{ ctrl.parserFormatter.parser(form.query.$viewValue).message }}
+      </iml-tooltip>
+      <span class="input-group-btn">
+        <button type="submit" class="btn btn-primary" ng-disabled="form.$invalid">
+          <i class="fa fa-search"></i>Search
+        </button>
+      </span>
+    </div>
+    <completionist-dropdown></completionist-dropdown>
+  </completionist>
+</form>`
   };
 }
 

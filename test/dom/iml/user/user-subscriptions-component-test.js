@@ -1,44 +1,59 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import configToggle from '../../../../source/iml/config-toggle/config-toggle.js';
+import multiTogglerContainerComponent from '../../../../source/iml/multi-toggler/multi-toggler-container-component.js';
+import diffContainer from '../../../../source/iml/big-differ/diff-container.js';
+import diffComponent from '../../../../source/iml/big-differ/diff-component.js';
+import diffModel from '../../../../source/iml/big-differ/diff-model.js';
+import multiTogglerModelDirective from '../../../../source/iml/multi-toggler/multi-toggler-model-directive.js';
+import resetDiff from '../../../../source/iml/big-differ/reset-diff.js';
+import multiTogglerComponent from '../../../../source/iml/multi-toggler/multi-toggler-component.js';
+import angular from '../../../angular-mock-setup.js';
+import angularUiBootstrap from 'angular-ui-bootstrap';
 
 describe('user subscriptions component', () => {
-  let mod, socketStream, socket$;
+  let mod, mockSocketStream, socket$;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.callFake(() => socket$ = highland());
+  beforeEach(() => {
+    if (!window.angular) require('angular');
 
-    mod = await mock('source/iml/user/user-subscriptions-component.js', {
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      }
-    });
+    mockSocketStream = jest
+      .fn()
+      .mockImplementation(() => (socket$ = highland()));
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/user/user-subscriptions-component.js');
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module(
-      'extendScope',
-      'bigDifferModule',
-      'configToggle',
-      'multiToggler',
-      ($provide, $compileProvider) => {
-        $provide.value(
-          'insertHelpFilter',
-          jasmine.createSpy('insertHelpFilter')
-        );
-        $compileProvider.component('userSubscriptions', mod.default);
-      }
-    )
+    angular.mock.module(angularUiBootstrap, ($provide, $compileProvider) => {
+      $provide.value('insertHelpFilter', jest.fn());
+
+      $compileProvider.component('userSubscriptions', mod.default);
+      $compileProvider.component(
+        'multiTogglerContainer',
+        multiTogglerContainerComponent
+      );
+      $compileProvider.component('differ', diffComponent);
+      $compileProvider.component('resetDiff', resetDiff);
+      $compileProvider.component('multiToggler', multiTogglerComponent);
+
+      $compileProvider.directive('configToggle', configToggle);
+      $compileProvider.directive('diffContainer', diffContainer);
+      $compileProvider.directive('diffModel', diffModel);
+      $compileProvider.directive(
+        'multiTogglerModel',
+        multiTogglerModelDirective
+      );
+    })
   );
 
   let el, $scope;
-
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = $rootScope.$new();
 
       $scope.subscriptions = [
@@ -54,9 +69,12 @@ describe('user subscriptions component', () => {
           selected: false
         }
       ];
+
       $scope.resourceUri = '/api/user/2';
 
-      const template = '<user-subscriptions resource-uri="resourceUri" subscriptions="subscriptions"></user-subscriptions>';
+      const template =
+        '<user-subscriptions resource-uri="resourceUri" subscriptions="subscriptions"></user-subscriptions>';
+
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
@@ -98,7 +116,6 @@ describe('user subscriptions component', () => {
     it('should update on change', () => {
       $scope.subscriptions = [];
       $scope.$digest();
-
       expect(el.querySelectorAll('.sub-label').length).toBe(0);
     });
 
@@ -113,16 +130,13 @@ describe('user subscriptions component', () => {
       });
 
       it('should patch with the right data', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith(
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/api/alert_subscription/',
           {
             method: 'patch',
             json: {
               objects: [
-                {
-                  user: '/api/user/2',
-                  alert_type: '/api/alert_type/26/'
-                }
+                { user: '/api/user/2', alert_type: '/api/alert_type/26/' }
               ],
               deleted_objects: ['/api/alert_subscription/45/']
             }
@@ -133,7 +147,6 @@ describe('user subscriptions component', () => {
 
       it('should hide the saving banner after completion', () => {
         socket$.write(null);
-
         expect(el.querySelector('.alert-info')).toBeNull();
       });
     });

@@ -1,68 +1,51 @@
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('socket worker', () => {
-  let worker,
-    getWebWorker,
-    arg0Eq,
-    getArg1,
-    STATIC_URL,
-    socketWorker,
-    disconnectListener;
+  let worker, mockGetWebWorker, socketWorker, mockDisconnectListener;
 
-  beforeEachAsync(async function() {
-    arg0Eq = fp.eqFn(
-      fp.identity,
-      fp.view(fp.flow(fp.lensProp(0), fp.lensProp('args')))
-    );
-    getArg1 = fp.view(fp.flow(fp.lensProp(1), fp.lensProp('args')));
-
+  beforeEach(() => {
     worker = {
-      addEventListener: jasmine.createSpy('addEventListener')
+      addEventListener: jest.fn()
     };
 
-    disconnectListener = {
-      emit: jasmine.createSpy('emit')
+    mockDisconnectListener = {
+      emit: jest.fn()
     };
 
-    getWebWorker = jasmine.createSpy('getWebWorker').and.returnValue(worker);
+    mockGetWebWorker = jest.fn(() => worker);
 
-    STATIC_URL = '/gui/';
-
-    const socketWorkerModule = await mock(
-      'source/iml/socket-worker/socket-worker.js',
-      {
-        'source/iml/socket-worker/get-web-worker.js': { default: getWebWorker },
-        'source/iml/disconnect-modal/disconnect-listener.js': {
-          default: disconnectListener
-        },
-        'source/iml/environment.js': { STATIC_URL }
-      }
+    jest.mock(
+      '../../../../source/iml/socket-worker/get-web-worker.js',
+      () => mockGetWebWorker
     );
+    jest.mock(
+      '../../../../source/iml/disconnect-modal/disconnect-listener.js',
+      () => mockDisconnectListener
+    );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      STATIC_URL: '/gui/'
+    }));
+
+    const socketWorkerModule = require('../../../../source/iml/socket-worker/socket-worker.js');
 
     socketWorker = socketWorkerModule.default;
   });
 
-  afterEach(resetAll);
-
   it('should create a worker with a remote script', () => {
-    expect(getWebWorker).toHaveBeenCalledOnceWith(
-      `${STATIC_URL}node_modules/socket-worker/dist/bundle.js`
+    expect(mockGetWebWorker).toHaveBeenCalledOnceWith(
+      `/gui/node_modules/socket-worker/dist/bundle.js`
     );
   });
 
   it('should register a message handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith(
       'message',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
   it('should register an error handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith(
       'error',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
@@ -71,22 +54,17 @@ describe('socket worker', () => {
   });
 
   it('should throw on error', () => {
-    const getError = fp.flow(fp.find(arg0Eq('error')), getArg1);
-
     const err = new Error('boom!');
-
-    expect(
-      getError(worker.addEventListener.calls.all()).bind(null, err)
-    ).toThrow(err);
+    expect(worker.addEventListener.mock.calls[1][1].bind(null, err)).toThrow(
+      'boom!'
+    );
   });
 
   describe('message handling', () => {
     let handler;
 
     beforeEach(() => {
-      const getMessage = fp.flow(fp.find(arg0Eq('message')), getArg1);
-
-      handler = getMessage(worker.addEventListener.calls.all());
+      handler = worker.addEventListener.mock.calls[0][1];
     });
 
     describe('reconnecting', () => {
@@ -101,7 +79,7 @@ describe('socket worker', () => {
       });
 
       it('should emit open on disconnectListener', () => {
-        expect(disconnectListener.emit).toHaveBeenCalledOnceWith('open');
+        expect(mockDisconnectListener.emit).toHaveBeenCalledOnceWith('open');
       });
     });
 
@@ -120,7 +98,7 @@ describe('socket worker', () => {
       });
 
       it('should emit close on disconnectListener', () => {
-        expect(disconnectListener.emit).toHaveBeenCalledOnceWith('close');
+        expect(mockDisconnectListener.emit).toHaveBeenCalledOnceWith('close');
       });
     });
   });

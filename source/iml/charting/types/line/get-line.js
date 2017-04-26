@@ -3,9 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export function getLineFactory($location, d3) {
+export function getLineFactory($location) {
   'ngInject';
   let counter = 0;
 
@@ -66,7 +67,8 @@ export function getLineFactory($location, d3) {
 
         let lineEl = clipGroup.selectAll(lineClassCount);
 
-        const shouldShift = lineEl.size() &&
+        const shouldShift =
+          lineEl.size() &&
           data.length &&
           !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
 

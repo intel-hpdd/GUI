@@ -7,7 +7,7 @@
 
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
-import bigDifferModule from 'intel-big-differ';
+import bigDifferModule from '../big-differ/big-differ-module';
 import commandModule from '../command/command-module';
 import filterModule from '../filters/filters-module';
 import {
@@ -17,8 +17,6 @@ import {
 import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
-
-export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 
 export default angular
   .module('lnetModule', [

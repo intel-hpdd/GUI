@@ -1,16 +1,21 @@
 import d3 from 'd3';
 import highland from 'highland';
-import * as fp from 'intel-fp';
-import lineModule
-  from '../../../../../../source/iml/charting/types/line/line-module';
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import * as fp from '@mfl/fp';
+import { lineDirective } from '../../../../../../source/iml/charting/types/line/line-directive.js';
+import { getLineFactory } from '../../../../../../source/iml/charting/types/line/get-line.js';
+import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import { flushD3Transitions } from '../../../../../test-utils.js';
+import angular from '../../../../../angular-mock-setup.js';
 
 describe('line directive', () => {
   let chartCtrl;
 
   beforeEach(
-    module(lineModule, chartModule, $compileProvider => {
+    angular.mock.module(($compileProvider, $provide) => {
+      Element.prototype.getTotalLength = () => 0;
+      $compileProvider.directive('line', lineDirective);
+      $provide.factory('getLine', getLineFactory);
+      $compileProvider.directive('charter', charterDirective);
       $compileProvider.directive('tester', () => {
         return {
           require: '^^charter',
@@ -22,10 +27,14 @@ describe('line directive', () => {
     })
   );
 
+  afterEach(() => {
+    delete Element.prototype.getTotalLength;
+  });
+
   let $scope, el, qs;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = `
       <div charter stream="stream">
         <g tester class="tester"></g>
@@ -71,7 +80,7 @@ describe('line directive', () => {
       }
     ]);
 
-    window.flushD3Transitions();
+    flushD3Transitions(d3);
 
     expect(qs('.line').style.strokeOpacity).toBe('0');
   });
@@ -83,7 +92,7 @@ describe('line directive', () => {
       }
     ]);
 
-    window.flushD3Transitions();
+    flushD3Transitions(d3);
 
     expect(qs('.line').style.strokeOpacity).toBe('1');
   });
@@ -92,11 +101,11 @@ describe('line directive', () => {
     $scope.color = '#444444';
     $scope.$digest();
 
-    fp.head(chartCtrl.onUpdate)({
+    chartCtrl.onUpdate[0]({
       svg: d3.select(qs('svg'))
     });
 
-    window.flushD3Transitions();
+    flushD3Transitions(d3);
 
     expect(qs('.line').getAttribute('stroke')).toBe('#444444');
   });

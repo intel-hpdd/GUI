@@ -30,7 +30,7 @@ export default function ConfirmServerActionModalCtrl(
         },
         true
       )
-        .map(xs => skips ? null : xs)
+        .map(xs => (skips ? null : xs))
         .stopOnError($scope.handleException)
         .each($uibModalInstance.close.bind($uibModalInstance));
     }

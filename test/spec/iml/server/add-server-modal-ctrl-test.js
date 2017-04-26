@@ -1,33 +1,29 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('add server modal', () => {
   let spring, $uibModal, AddServerModalCtrl, openAddServerModal;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     spring = {
-      destroy: jasmine.createSpy('destroy')
+      destroy: jest.fn()
     };
 
-    const getSpring = jasmine.createSpy('getSpring').and.returnValue(spring);
+    const mockGetSpring = jest.fn(() => spring);
 
     $uibModal = {
-      open: jasmine.createSpy('$uibModal')
+      open: jest.fn()
     };
 
-    const mod = await mock('source/iml/server/add-server-modal-ctrl.js', {
-      'source/iml/server/assets/html/add-server-modal.html!text': {
-        default: 'addServerModalTemplate'
-      },
-      'source/iml/socket/get-spring.js': {
-        default: getSpring
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/get-spring.js',
+      () => mockGetSpring
+    );
+
+    const mod = require('../../../../source/iml/server/add-server-modal-ctrl.js');
 
     AddServerModalCtrl = mod.AddServerModalCtrl;
     openAddServerModal = mod.openAddServerModalFactory($uibModal);
   });
-
-  afterEach(resetAll);
 
   describe('controller', () => {
     let addServerModalCtrl,
@@ -38,31 +34,29 @@ describe('add server modal', () => {
     const deps = {};
 
     beforeEach(
-      inject(($rootScope, $controller, $q) => {
+      angular.mock.inject(($rootScope, $controller, $q) => {
         resultEndPromise = $q.defer();
 
         stepsManager = {
-          start: jasmine.createSpy('start'),
+          start: jest.fn(),
           result: {
             end: resultEndPromise.promise
           },
           SERVER_STEPS: {
             ADD: 'addServersStep'
           },
-          destroy: jasmine.createSpy('destroy')
+          destroy: jest.fn()
         };
 
         $scope = $rootScope.$new();
-        $scope.$on = jasmine.createSpy('$on');
+        $scope.$on = jest.fn();
 
         Object.assign(deps, {
           $scope: $scope,
           $uibModalInstance: {
-            close: jasmine.createSpy('$uibModalInstance')
+            close: jest.fn()
           },
-          getAddServerManager: jasmine
-            .createSpy('getAddServerManager')
-            .and.returnValue(stepsManager),
+          getAddServerManager: jest.fn(() => stepsManager),
           servers: {
             addresses: ['host001.localdomain'],
             auth_type: 'existing key'
@@ -70,7 +64,7 @@ describe('add server modal', () => {
           step: undefined
         });
 
-        invokeController = function invokeController(moreDeps) {
+        invokeController = moreDeps => {
           addServerModalCtrl = $controller(
             AddServerModalCtrl,
             Object.assign(deps, moreDeps)
@@ -83,7 +77,7 @@ describe('add server modal', () => {
       beforeEach(() => invokeController());
 
       it('should invoke the steps manager', () => {
-        expect(deps.getAddServerManager).toHaveBeenCalledOnce();
+        expect(deps.getAddServerManager).toHaveBeenCalledTimes(1);
       });
 
       it('should start the steps manager', () => {
@@ -101,7 +95,7 @@ describe('add server modal', () => {
         resultEndPromise.resolve('test');
 
         $scope.$digest();
-        expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
+        expect(deps.$uibModalInstance.close).toHaveBeenCalledTimes(1);
       });
 
       it('should contain the manager', () => {
@@ -111,28 +105,28 @@ describe('add server modal', () => {
       it('should set a destroy event listener', () => {
         expect($scope.$on).toHaveBeenCalledOnceWith(
           '$destroy',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 
       describe('on close and destroy', () => {
         beforeEach(() => {
           // Invoke the $destroy and closeModal functions
-          $scope.$on.calls.allArgs().forEach(call => {
+          $scope.$on.mock.calls.forEach(call => {
             call[1]();
           });
         });
 
         it('should destroy the manager', () => {
-          expect(stepsManager.destroy).toHaveBeenCalledOnce();
+          expect(stepsManager.destroy).toHaveBeenCalledTimes(1);
         });
 
         it('should destroy the spring', () => {
-          expect(spring.destroy).toHaveBeenCalledOnce();
+          expect(spring.destroy).toHaveBeenCalledTimes(1);
         });
 
         it('should close the modal', () => {
-          expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
+          expect(deps.$uibModalInstance.close).toHaveBeenCalledTimes(1);
         });
       });
     });
@@ -152,15 +146,15 @@ describe('add server modal', () => {
 
     it('should open the modal', () => {
       expect($uibModal.open).toHaveBeenCalledWith({
-        template: 'addServerModalTemplate',
+        template: `<step-container manager="addServer.manager"></step-container>`,
         controller: 'AddServerModalCtrl as addServer',
         backdropClass: 'add-server-modal-backdrop',
         backdrop: 'static',
         keyboard: 'false',
         windowClass: 'add-server-modal',
         resolve: {
-          servers: jasmine.any(Function),
-          step: jasmine.any(Function)
+          servers: expect.any(Function),
+          step: expect.any(Function)
         }
       });
     });
@@ -169,7 +163,7 @@ describe('add server modal', () => {
       let resolve;
 
       beforeEach(() => {
-        resolve = $uibModal.open.calls.mostRecent().args[0].resolve;
+        resolve = $uibModal.open.mock.calls[0][0].resolve;
       });
 
       it('should return servers', () => {

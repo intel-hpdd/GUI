@@ -1,13 +1,18 @@
-import lnetModule from '../../../../source/iml/lnet/lnet-module';
+import lnetStatus from '../../../../source/iml/lnet/lnet-status.js';
 import highland from 'highland';
+import angular from '../../../angular-mock-setup.js';
 
 describe('LNet status directive', () => {
-  beforeEach(module(lnetModule));
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('lnetStatus', lnetStatus);
+    })
+  );
 
   let el, $scope;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = '<lnet-status stream="stream"></lnet-status>';
 
       $scope = $rootScope.$new();

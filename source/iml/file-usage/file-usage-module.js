@@ -12,9 +12,7 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getFileUsageChartFactory from './get-file-usage-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addFileUsageActionT = {
   type: 'UPDATE_FILE_USAGE_CHART_ITEMS' | 'DEFAULT_FILE_USAGE_CHART_ITEMS',

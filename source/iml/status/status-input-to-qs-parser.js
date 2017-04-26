@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import * as inputToQsParser from 'intel-qs-parsers/input-to-qs-parser.js';
-import * as parsely from 'intel-parsely';
-import { inputToQsTokens } from 'intel-qs-parsers/tokens.js';
-import type { tokensToResult } from 'intel-parsely';
+import * as fp from '@mfl/fp';
+import * as inputToQsParser from '@mfl/qs-parsers/source/input-to-qs-parser.js';
+import * as parsely from '@mfl/parsely';
+import { inputToQsTokens } from '@mfl/qs-parsers/source/tokens.js';
+import type { tokensToResult } from '@mfl/parsely';
 
 export const tokenizer = parsely.getLexer(inputToQsTokens);
 
@@ -21,7 +21,8 @@ const severities = parsely.choice(
     fp.flow(
       parsely.matchValue(severity),
       parsely.onSuccess(x => x.toUpperCase())
-    ))
+    )
+  )
 );
 
 const assignSeverity = inputToQsParser.assign(severity, severities);
@@ -68,7 +69,7 @@ export const choices = parsely.choice([
   orderByParser,
   inputToQsParser.dateParser(beginOrEnd)
 ]);
-const expr = parsely.sepBy1(choices, inputToQsParser.and);
+const expr = parsely.sepBy1(choices)(inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 

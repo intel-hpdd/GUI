@@ -6,9 +6,8 @@
 export function tastypieInterceptorFactory() {
   return {
     response(resp) {
-      const fromTastyPie = resp.data &&
-        resp.data.meta &&
-        Array.isArray(resp.data.objects);
+      const fromTastyPie =
+        resp.data && resp.data.meta && Array.isArray(resp.data.objects);
 
       if (fromTastyPie) {
         const temp = resp.data.objects;

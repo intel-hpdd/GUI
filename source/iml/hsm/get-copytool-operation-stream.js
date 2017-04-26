@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import angular from 'angular';
 import socketStream from '../socket/socket-stream.js';
 
@@ -11,7 +11,8 @@ export default function getCopytoolOperationStream(params) {
   params = angular.merge(
     {},
     {
-      jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
+      jsonMask:
+        'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
       qs: {
         active: true,
@@ -30,9 +31,8 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const buildThroughput = fp.map(function buildThroughput(item) {
-    const elapsed = (Date.parse(item.updated_at) -
-      Date.parse(item.started_at)) /
-      1000;
+    const elapsed =
+      (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
       item.throughput = 0;

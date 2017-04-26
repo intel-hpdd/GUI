@@ -3,8 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
-
 export function addServerStepsFactory(
   ADD_SERVER_STEPS,
   addServersStep,
@@ -29,8 +27,7 @@ export function getAddServerManagerFactory(
   'ngInject';
   return function getAddServerManager() {
     const manager = stepsManager();
-
-    _.pairs(addServerSteps).forEach(function addStep(pair) {
+    Object.entries(addServerSteps).forEach(pair => {
       manager.addStep(pair[0], pair[1]);
     });
 

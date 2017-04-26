@@ -1,31 +1,17 @@
 // @flow
 
 //
-// INTEL CONFIDENTIAL
-//
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
-//
-// The source code contained or described herein and all documents related
-// to the source code ("Material") are owned by Intel Corporation or its
-// suppliers or licensors. Title to the Material remains with Intel Corporation
-// or its suppliers and licensors. The Material contains trade secrets and
-// proprietary and confidential information of Intel or its suppliers and
-// licensors. The Material is protected by worldwide copyright and trade secret
-// laws and treaty provisions. No part of the Material may be used, copied,
-// reproduced, modified, published, uploaded, posted, transmitted, distributed,
-// or disclosed in any way without Intel's prior express written permission.
-//
-// No license under any patent, copyright, trade secret or other intellectual
-// property right is granted to or conferred upon you by disclosure or delivery
-// of the Materials, either expressly, by implication, inducement, estoppel or
-// otherwise. Any license under such intellectual property rights must be
-// express and approved by Intel in writing.
+// Copyright (c) 2017 Intel Corporation. All rights reserved.
+// Use of this source code is governed by a MIT-style
+// license that can be found in the LICENSE file.
 
 import type { $scopeT, $animationT } from 'angular';
 
 import type { TransitionT, StateDeclarationT } from 'angular-ui-router';
 
-import * as fp from 'intel-fp';
+import { querySelector } from './dom-utils.js';
+
+import * as fp from '@mfl/fp';
 
 type ctrlT = {
   loaded: boolean,
@@ -79,13 +65,13 @@ export default ($transitions: TransitionT, $animate: $animationT) => {
 
           if (!data.noSpinner) uiLoaderView.classList.add('waiting');
 
-          return $animate.leave(uiLoaderView.querySelector('[ui-view]'));
+          return $animate.leave(querySelector(uiLoaderView, '[ui-view]'));
         }
       );
 
       $animate.on('enter', uiLoaderView, (element, phase) => {
         if (
-          uiLoaderView.querySelector('[ui-view]') === element[0] &&
+          querySelector(uiLoaderView, '[ui-view]') === element[0] &&
           phase === 'start'
         )
           uiLoaderView.classList.remove('waiting');
@@ -109,7 +95,7 @@ function isLoaderMatch(
 ) {
   const fromSplit = from.name.split('.');
   const toSplit = to.name.split('.');
-  const diff = fp.difference(fromSplit, toSplit);
+  const diff = fp.difference(fromSplit)(toSplit);
   const samePartsList = fromSplit.slice(0, -diff.length);
 
   let curNode = ctrl;
@@ -119,6 +105,8 @@ function isLoaderMatch(
     count++;
   }
 
-  return count === samePartsList.length ||
-    (diff.length === 0 && toSplit.length - 1 === count);
+  return (
+    count === samePartsList.length ||
+    (diff.length === 0 && toSplit.length - 1 === count)
+  );
 }

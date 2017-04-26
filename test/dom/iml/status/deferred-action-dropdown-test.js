@@ -1,49 +1,76 @@
 import highland from 'highland';
 
-import statusModule from '../../../../source/iml/status/status-module.js';
+import angular from '../../../angular-mock-setup.js';
 
-import * as fp from 'intel-fp';
+import uiBootstrapModule from 'angular-ui-bootstrap';
 
-import { mock, resetAll } from '../../../system-mock.js';
+import groupActionsFilter from '../../../../source/iml/action-dropdown/group-actions.js';
 
 describe('deferred action dropdown', () => {
-  let socketStream, s, mod;
+  let mockSocketStream, s, mod;
 
-  beforeEachAsync(async function() {
-    s = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => (s = highland()));
 
-    mod = await mock('source/iml/status/deferred-action-dropdown.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/status/deferred-action-dropdown.js');
+  });
+
+  beforeEach(() => {
+    if (!window.angular) require('angular');
   });
 
   beforeEach(
-    module(statusModule, $controllerProvider => {
-      $controllerProvider.register(
-        'DeferredActionDropdownCtrl',
-        mod.DeferredActionDropdownCtrl
-      );
-    })
-  );
+    angular.mock.module(
+      uiBootstrapModule,
+      ($controllerProvider, $compileProvider, $provide, $filterProvider) => {
+        const handleAction = jest.fn(() => highland());
+        $provide.value('handleAction', handleAction);
 
-  afterEach(resetAll);
+        const openCommandModal = jest.fn();
+        $provide.value('openCommandModal', openCommandModal);
+
+        const {
+          ActionDropdownCtrl,
+          actionDropdown,
+          actionDescriptionCache
+        } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
+
+        $provide.factory('actionDescriptionCache', actionDescriptionCache);
+        $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
+        $compileProvider.directive('actionDropdown', actionDropdown);
+        $filterProvider.register('groupActions', groupActionsFilter);
+
+        $controllerProvider.register(
+          'DeferredActionDropdownCtrl',
+          mod.DeferredActionDropdownCtrl
+        );
+
+        $compileProvider.component(
+          'deferredActionDropdown',
+          mod.deferredActionDropdownComponent
+        );
+      }
+    )
+  );
 
   let el, $scope, qs, actionDropdown, dropdownButton, loadingButton, cleanText;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
-      const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
+    angular.mock.inject(($rootScope, $compile) => {
+      const template =
+        '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
 
       $scope = $rootScope.$new();
       $scope.row = {
         affected: ['thing1']
       };
 
-      cleanText = fp.flow(
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
+      cleanText = x => x.textContent.trim();
 
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
@@ -93,11 +120,13 @@ describe('deferred action dropdown', () => {
                 host_id: 2
               },
               class_name: 'ShutdownHostJob',
-              confirmation: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \
+              confirmation:
+                'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
               display_group: 2,
               display_order: 60,
-              long_description: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on \
+              long_description:
+                'Initiate an orderly shutdown on the host. Any HA-capable targets running on \
   the host will \
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
               verb: 'Shutdown'
@@ -110,7 +139,8 @@ describe('deferred action dropdown', () => {
               confirmation: null,
               display_group: 2,
               display_order: 50,
-              long_description: 'Initiate a reboot on the host. Any HA-capable targets running on the host will be \
+              long_description:
+                'Initiate a reboot on the host. Any HA-capable targets running on the host will be \
   failed over to a peer. Non-HA-capable targets will be unavailable until the host has finished rebooting.',
               verb: 'Reboot'
             }

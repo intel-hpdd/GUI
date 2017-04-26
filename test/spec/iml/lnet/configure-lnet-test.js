@@ -1,12 +1,7 @@
-import angular from 'angular';
+import angular from '../../../angular-mock-setup.js';
 import highland from 'highland';
-import * as fp from 'intel-fp';
-import lnetModule from '../../../../source/iml/lnet/lnet-module';
 
-import networkInterfaceDataFixtures
-  from '../../../data-fixtures/network-interface-fixtures.json!json';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import networkInterfaceDataFixtures from '../../../data-fixtures/network-interface-fixtures.json';
 
 describe('Configure LNet', () => {
   let $scope,
@@ -14,34 +9,36 @@ describe('Configure LNet', () => {
     networkInterfaceStream,
     ss,
     insertHelpFilter,
-    socketStream,
+    mockSocketStream,
     networkInterfaceResponse,
     waitForCommandCompletion,
+    waitForCommandCompletionResponse,
     mod,
-    ConfigureLnetController;
+    ConfigureLnetController,
+    LNET_OPTIONS;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine.createSpy('socketStream');
+  beforeEach(() => {
+    ss = highland();
+    mockSocketStream = jest.fn(() => ss);
 
-    mod = await mock('source/iml/lnet/configure-lnet.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    mod = require('../../../../source/iml/lnet/configure-lnet.js');
 
     ConfigureLnetController = mod.ConfigureLnetController;
   });
 
-  afterEach(resetAll);
-
-  beforeEach(module(lnetModule));
-
   describe('Controller', () => {
     beforeEach(
-      inject(($rootScope, $controller) => {
-        waitForCommandCompletion = jasmine
-          .createSpy('waitForCommandCompletion')
-          .and.callFake((show, response) => {
-            return highland([response]);
-          });
+      angular.mock.inject(($rootScope, propagateChange) => {
+        waitForCommandCompletionResponse = jest.fn(response =>
+          highland([response])
+        );
+        waitForCommandCompletion = jest.fn(
+          () => waitForCommandCompletionResponse
+        );
 
         networkInterfaceResponse = angular.copy(
           networkInterfaceDataFixtures.in[0]
@@ -50,61 +47,62 @@ describe('Configure LNet', () => {
         $scope = $rootScope.$new();
 
         networkInterfaceStream = highland();
-        spyOn(networkInterfaceStream, 'destroy');
+        jest.spyOn(networkInterfaceStream, 'destroy');
 
-        ss = highland();
-        socketStream.and.returnValue(ss);
+        jest.spyOn($scope, '$on');
 
-        spyOn($scope, '$on').and.callThrough();
+        insertHelpFilter = jest.fn();
 
-        insertHelpFilter = jasmine.createSpy('insertHelpFilter');
+        LNET_OPTIONS = [
+          { name: 'Not Lustre Network', value: -1 },
+          { name: 'Lustre Network 0', value: 0 },
+          { name: 'Lustre Network 1', value: 1 },
+          { name: 'Lustre Network 2', value: 2 }
+        ];
 
-        ctrl = $controller(
-          ConfigureLnetController,
-          {
-            $scope,
-            socketStream,
-            insertHelpFilter,
-            networkInterfaceStream: jasmine.any(Object),
-            waitForCommandCompletion: fp.curry2(waitForCommandCompletion)
-          },
-          {
-            networkInterfaceStream
-          }
+        ctrl = {
+          networkInterfaceStream
+        };
+
+        ConfigureLnetController.bind(ctrl)(
+          $scope,
+          LNET_OPTIONS,
+          insertHelpFilter,
+          waitForCommandCompletion,
+          propagateChange
         );
 
-        jasmine.clock().install();
+        jest.useFakeTimers();
       })
     );
 
     afterEach(() => {
-      jasmine.clock().uninstall();
+      jest.clearAllTimers();
+      jest.useRealTimers();
     });
 
     it('should listen for $destroy', () => {
       expect($scope.$on).toHaveBeenCalledOnceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should end the network interface stream on destroy', () => {
-      $scope.$on.calls.mostRecent().args[1]();
+      $scope.$on.mock.calls[0][1]();
 
-      expect(networkInterfaceStream.destroy).toHaveBeenCalledOnce();
+      expect(networkInterfaceStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should setup the controller as expected', () => {
-      expect(ctrl).toEqual(
-        window.extendWithConstructor(ConfigureLnetController, {
-          networkInterfaceStream: jasmine.any(Object),
-          options: jasmine.any(Object),
-          save: jasmine.any(Function),
-          getOptionName: jasmine.any(Function),
-          getLustreNetworkDriverTypeMessage: jasmine.any(Function),
-          getLustreNetworkDiffMessage: jasmine.any(Function)
-        })
-      );
+      expect(ctrl).toEqual({
+        networkInterfaceStream: expect.any(Object),
+        options: expect.any(Object),
+        save: expect.any(Function),
+        getOptionName: expect.any(Function),
+        getLustreNetworkDriverTypeMessage: expect.any(Function),
+        getLustreNetworkDiffMessage: expect.any(Function)
+      });
     });
 
     it('should return the ln name based on a value', () => {
@@ -165,7 +163,7 @@ describe('Configure LNet', () => {
       });
 
       it('should send the post', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith(
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/nid',
           {
             method: 'post',
@@ -178,7 +176,8 @@ describe('Configure LNet', () => {
       });
 
       it('should call waitForCommandCompletion with the last response', () => {
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, [
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+        expect(waitForCommandCompletionResponse).toHaveBeenCalledOnceWith([
           {
             id: 10
           }

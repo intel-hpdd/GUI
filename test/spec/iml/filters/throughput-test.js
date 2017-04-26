@@ -1,12 +1,13 @@
+import angular from '../../../angular-mock-setup.js';
 import filterModule from '../../../../source/iml/filters/filters-module';
 
 describe('Throughput Filter', () => {
   let throughput;
 
-  beforeEach(module(filterModule));
+  beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject(function($filter) {
       throughput = $filter('throughput');
     })
   );

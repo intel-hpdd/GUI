@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import * as inputToQsParser from 'intel-qs-parsers/input-to-qs-parser.js';
-import * as parsely from 'intel-parsely';
+import * as fp from '@mfl/fp';
+import * as inputToQsParser from '@mfl/qs-parsers/source/input-to-qs-parser.js';
+import * as parsely from '@mfl/parsely';
 
-import { inputToQsTokens } from 'intel-qs-parsers/tokens.js';
+import { inputToQsTokens } from '@mfl/qs-parsers/source/tokens.js';
 
-import type { tokensToResult } from 'intel-parsely';
+import type { tokensToResult } from '@mfl/parsely';
 
 export const tokenizer = parsely.getLexer(inputToQsTokens);
 
@@ -19,7 +19,8 @@ export const tokenizer = parsely.getLexer(inputToQsTokens);
 const type = parsely.matchValueTo('type', 'message_class');
 const types = parsely.choice(
   ['normal', 'lustre', 'lustre_error', 'copytool', 'copytool_error'].map(type =>
-    fp.flow(parsely.matchValue(type), parsely.onSuccess(x => x.toUpperCase())))
+    fp.flow(parsely.matchValue(type), parsely.onSuccess(x => x.toUpperCase()))
+  )
 );
 const typeParser = parsely.choice([
   inputToQsParser.assign(type, types),
@@ -77,7 +78,7 @@ export const choices = parsely.choice([
   orderByParser
 ]);
 
-const expr = parsely.sepBy1(choices, inputToQsParser.and);
+const expr = parsely.sepBy1(choices)(inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 

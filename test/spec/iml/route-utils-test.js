@@ -1,4 +1,4 @@
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import {
   apiPathToUiPath,
@@ -25,22 +25,22 @@ describe('getResolvedData', () => {
   let transition, resolveName, result;
   beforeEach(() => {
     transition = {
-      getResolveTokens: jasmine.createSpy('getResolveTokens'),
-      getResolveValue: jasmine.createSpy('getResolveValue')
+      getResolveTokens: jest.fn(),
+      getResolveValue: jest.fn()
     };
     resolveName = 'getData';
   });
 
   describe('with the resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.and.returnValue([
+      transition.getResolveTokens.mockReturnValue([
         'fsStream',
         'targetStream',
         'getData',
         'otherStream'
       ]);
 
-      transition.getResolveValue.and.returnValue({
+      transition.getResolveValue.mockReturnValue({
         label: 'fs1',
         kind: 'filesystem'
       });
@@ -52,7 +52,7 @@ describe('getResolvedData', () => {
     });
 
     it('should call getResolveTokens', () => {
-      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+      expect(transition.getResolveTokens).toHaveBeenCalledTimes(1);
     });
 
     it('should call getResolveValue', () => {
@@ -69,7 +69,7 @@ describe('getResolvedData', () => {
 
   describe('without resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.and.returnValue([
+      transition.getResolveTokens.mockReturnValue([
         'fsStream',
         'targetStream',
         'otherStream'
@@ -82,7 +82,7 @@ describe('getResolvedData', () => {
     });
 
     it('should call getResolveTokens', () => {
-      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+      expect(transition.getResolveTokens).toHaveBeenCalledTimes(1);
     });
 
     it('should not call getResolveValue', () => {

@@ -7,12 +7,13 @@ import store from '../store/get-store.js';
 
 let user;
 
-store.select('session').each(({ session }) => user = session.user);
+store.select('session').each(({ session }) => (user = session.user));
 
 export function groupAllowed(groupName) {
   const hasGroups = user && Array.isArray(user.groups);
 
-  return hasGroups &&
+  return (
+    hasGroups &&
     user.groups.some(group => {
       //Superusers can do everything.
       if (group.name === GROUPS.SUPERUSERS) return true;
@@ -23,7 +24,8 @@ export function groupAllowed(groupName) {
 
       // Fallback to matching on names.
       return group.name === groupName;
-    });
+    })
+  );
 }
 
 export const GROUPS = Object.freeze({

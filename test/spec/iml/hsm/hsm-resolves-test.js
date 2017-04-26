@@ -1,31 +1,32 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('hsm resolve', () => {
   let s,
-    resolveStream,
-    getCopytoolOperationStream,
-    getCopytoolStream,
+    mockResolveStream,
+    mockGetCopytoolOperationStream,
+    mockGetCopytoolStream,
     copytoolOperationStream,
     copytoolStream,
     $stateParams;
 
-  beforeEachAsync(async function() {
-    resolveStream = jasmine.createSpy('resolveStream');
+  beforeEach(() => {
+    mockResolveStream = jest.fn();
+    mockGetCopytoolOperationStream = jest.fn(() => s);
+    mockGetCopytoolStream = jest.fn(() => s);
 
-    getCopytoolOperationStream = jasmine.createSpy(
-      'getCopytoolOperationStream'
+    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+    jest.mock(
+      '../../../../source/iml/hsm/get-copytool-operation-stream.js',
+      () => mockGetCopytoolOperationStream
     );
-    getCopytoolStream = jasmine.createSpy('getCopytoolStream');
+    jest.mock(
+      '../../../../source/iml/hsm/get-copytool-stream.js',
+      () => mockGetCopytoolStream
+    );
 
-    const mod = await mock('source/iml/hsm/hsm-resolves.js', {
-      'source/iml/promise-transforms.js': { resolveStream },
-      'source/iml/hsm/get-copytool-operation-stream.js': {
-        default: getCopytoolOperationStream
-      },
-      'source/iml/hsm/get-copytool-stream.js': { default: getCopytoolStream }
-    });
+    const mod = require('../../../../source/iml/hsm/hsm-resolves.js');
 
     s = highland();
 
@@ -40,20 +41,14 @@ describe('hsm resolve', () => {
     copytoolStream = mod.copytoolStream.bind(null, $stateParams);
   });
 
-  afterEach(resetAll);
-
   describe('copytoolOperationStream', () => {
-    beforeEach(() => {
-      getCopytoolOperationStream.and.returnValue(s);
-    });
-
     describe('with fsId', () => {
       beforeEach(() => {
         copytoolOperationStream();
       });
 
       it('should invoke getCopytoolOperationStream with the fsId', () => {
-        expect(getCopytoolOperationStream).toHaveBeenCalledOnceWith({
+        expect(mockGetCopytoolOperationStream).toHaveBeenCalledOnceWith({
           qs: {
             filesystem_id: 1
           }
@@ -68,28 +63,24 @@ describe('hsm resolve', () => {
       });
 
       it('should invoke getCopytoolOperationStream with an empty object', () => {
-        expect(getCopytoolOperationStream).toHaveBeenCalledOnceWith({});
+        expect(mockGetCopytoolOperationStream).toHaveBeenCalledOnceWith({});
       });
     });
 
     it('should invoke resolveStream with the stream', () => {
       copytoolOperationStream();
-      expect(resolveStream).toHaveBeenCalledOnceWith(s);
+      expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
     });
   });
 
   describe('copytoolStream', () => {
-    beforeEach(() => {
-      getCopytoolStream.and.returnValue(s);
-    });
-
     describe('with fsId', () => {
       beforeEach(() => {
         copytoolStream();
       });
 
       it('should invoke getCopytoolOperationStream with the fsId', () => {
-        expect(getCopytoolStream).toHaveBeenCalledOnceWith({
+        expect(mockGetCopytoolStream).toHaveBeenCalledOnceWith({
           qs: {
             filesystem_id: 1
           }
@@ -104,13 +95,13 @@ describe('hsm resolve', () => {
       });
 
       it('should invoke getCopytoolOperationStream with an empty object', () => {
-        expect(getCopytoolStream).toHaveBeenCalledOnceWith({});
+        expect(mockGetCopytoolStream).toHaveBeenCalledOnceWith({});
       });
     });
 
     it('should invoke resolveStream with the stream', () => {
       copytoolStream();
-      expect(resolveStream).toHaveBeenCalledOnceWith(s);
+      expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
     });
   });
 });

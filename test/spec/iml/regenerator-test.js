@@ -4,50 +4,50 @@ describe('Regenerator module', () => {
   let setup, teardown, getter;
 
   beforeEach(() => {
-    setup = jasmine.createSpy('setup').and.returnValue('setup');
-    teardown = jasmine.createSpy('teardown');
+    setup = jest.fn(() => 'setup');
+    teardown = jest.fn();
     getter = regenerator(setup, teardown);
   });
 
-  describe('getting an object from the cache', function() {
-    describe("item hasn't been created in the cache yet", function() {
-      beforeEach(function() {
+  describe('getting an object from the cache', () => {
+    describe("item hasn't been created in the cache yet", () => {
+      beforeEach(() => {
         getter('item');
       });
 
-      it('should not call the tear down function', function() {
-        expect(teardown).not.toHaveBeenCalled();
+      it('should not call the tear down function', () => {
+        expect(teardown).not.toHaveBeenCalledOnceWith();
       });
 
-      it('should call the setup function', function() {
-        expect(setup).toHaveBeenCalledOnce();
+      it('should call the setup function', () => {
+        expect(setup).toHaveBeenCalledTimes(1);
       });
     });
 
-    describe('item already in the cache', function() {
-      beforeEach(function() {
+    describe('item already in the cache', () => {
+      beforeEach(() => {
         getter('item');
         getter('item');
       });
 
-      it('should call the teardown function once', function() {
+      it('should call the teardown function once', () => {
         expect(teardown).toHaveBeenCalledOnceWith('setup');
       });
 
-      it('should call setup twice', function() {
-        expect(setup).toHaveBeenCalledTwice();
+      it('should call setup twice', () => {
+        expect(setup).toHaveBeenCalledTwiceWith();
       });
     });
   });
 
-  describe('destroying the objects in the cache', function() {
-    beforeEach(function() {
+  describe('destroying the objects in the cache', () => {
+    beforeEach(() => {
       getter('item');
       getter.destroy();
     });
 
-    it('should call tear down', function() {
-      expect(teardown).toHaveBeenCalledOnce();
+    it('should call tear down', () => {
+      expect(teardown).toHaveBeenCalledTimes(1);
     });
   });
 });

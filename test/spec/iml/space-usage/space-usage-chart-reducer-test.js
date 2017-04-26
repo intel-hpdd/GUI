@@ -3,11 +3,11 @@ import {
   DEFAULT_SPACE_USAGE_CHART_ITEMS,
   default as spaceUsageChartReducer
 } from '../../../../source/iml/space-usage/space-usage-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {
-    expect(spaceUsageChartReducer).toEqual(jasmine.any(Function));
+    expect(spaceUsageChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

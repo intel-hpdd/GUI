@@ -8,9 +8,6 @@
 import angular from 'angular';
 
 import { labelDirective } from './label-directive';
-import { getLabelFactory } from './get-label';
 
-export default angular
-  .module('label', [])
-  .directive('label', labelDirective)
-  .factory('getLabel', getLabelFactory).name;
+export default angular.module('label', []).directive('label', labelDirective)
+  .name;

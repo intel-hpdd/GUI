@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { HighlandStreamT, errorWrapT } from 'highland';
 
-export const resolveStream = <T>(
+export function resolveStream<T>(
   stream: HighlandStreamT<T>
-): Promise<HighlandStreamT<T>> => {
+): Promise<HighlandStreamT<T>> {
   return new Promise(resolve => {
     stream.pull((error, x) => {
       if (error)
@@ -29,14 +29,15 @@ export const resolveStream = <T>(
       resolve(s2);
     });
   });
-};
+}
 
 export function streamToPromise<A>(s: HighlandStreamT<A>): Promise<A> {
   return new Promise((resolve, reject) =>
     s.pull((err: Error, x: A) => {
       if (err) reject(err);
       else resolve(x);
-    })).then(x => {
+    })
+  ).then(x => {
     s.destroy();
     return x;
   });

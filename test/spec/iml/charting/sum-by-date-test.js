@@ -1,14 +1,13 @@
 import highland from 'highland';
 import sumByDate from '../../../../source/iml/charting/sum-by-date.js';
-import jobStatsFixture
-  from '../../../data-fixtures/job-stats-fixture.json!json';
+import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json';
 
-import { values } from 'intel-obj';
+import { values } from '@mfl/obj';
 
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('sum by date', () => {
-  itAsync('should sum points as expected', async function() {
+  it('should sum points as expected', async () => {
     const out = await streamToPromise(
       highland([jobStatsFixture])
         .map(values)
@@ -159,7 +158,7 @@ describe('sum by date', () => {
     ]);
   });
 
-  itAsync('should sum empty points correctly', async function() {
+  it('should sum empty points correctly', async () => {
     const out = await streamToPromise(
       highland([
         {

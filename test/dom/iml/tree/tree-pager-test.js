@@ -1,26 +1,30 @@
 // @flow
 
-import uiBootstrapModule from 'angular-ui-bootstrap';
+import angular from '../../../angular-mock-setup.js';
 
-import { mock, resetAll } from '../../../system-mock.js';
+import uiBootstrapModule from 'angular-ui-bootstrap';
 
 import type { $scopeT, $compileT } from 'angular';
 
 describe('tree pager', () => {
-  let mod, updateCollOffset;
+  let mod, mockUpdateCollOffset;
 
-  beforeEachAsync(async function() {
-    updateCollOffset = jasmine.createSpy('updateCollOffset');
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
 
-    mod = await mock('source/iml/tree/tree-pager.js', {
-      'source/iml/tree/tree-utils.js': {
-        updateCollOffset
-      }
-    });
+  beforeEach(function() {
+    mockUpdateCollOffset = jest.fn();
+
+    jest.mock('../../../../source/iml/tree/tree-utils.js', () => ({
+      updateCollOffset: mockUpdateCollOffset
+    }));
+
+    mod = require('../../../../source/iml/tree/tree-pager.js');
   });
 
   beforeEach(
-    module(uiBootstrapModule, $compileProvider => {
+    angular.mock.module(uiBootstrapModule, $compileProvider => {
       $compileProvider.component('treePager', mod.default);
     })
   );
@@ -28,7 +32,7 @@ describe('tree pager', () => {
   let el, $scope;
 
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = Object.create($rootScope.$new());
 
       $scope.meta = {
@@ -45,8 +49,6 @@ describe('tree pager', () => {
       $scope.$digest();
     })
   );
-
-  afterEach(resetAll);
 
   it('should disable prev on first page', () => {
     expect(el.querySelector('li')).toHaveClass('disabled');
@@ -80,6 +82,6 @@ describe('tree pager', () => {
   it('should dispatch on page change', () => {
     el.querySelectorAll('li a')[1].click();
 
-    expect(updateCollOffset).toHaveBeenCalledOnceWith(1, 20);
+    expect(mockUpdateCollOffset).toHaveBeenCalledOnceWith(1, 20);
   });
 });

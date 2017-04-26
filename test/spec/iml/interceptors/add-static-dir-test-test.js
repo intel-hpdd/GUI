@@ -1,17 +1,17 @@
-import interceptorsModule
-  from '../../../../source/iml/interceptors/interceptor-module';
+import interceptorsModule from '../../../../source/iml/interceptors/interceptor-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('add static dir interceptor', () => {
   let addStaticDirInterceptor;
 
   beforeEach(
-    module(interceptorsModule, {
+    angular.mock.module(interceptorsModule, {
       STATIC_URL: '/static/'
     })
   );
 
   beforeEach(
-    inject(_addStaticDirInterceptor_ => {
+    angular.mock.inject(_addStaticDirInterceptor_ => {
       addStaticDirInterceptor = _addStaticDirInterceptor_;
     })
   );

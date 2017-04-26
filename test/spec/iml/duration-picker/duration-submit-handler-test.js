@@ -1,20 +1,16 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('duration submit handler', () => {
-  let getStore, durationSubmitter, mod;
-  beforeEachAsync(async function() {
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch')
+  let mockGetStore, durationSubmitter, mod;
+  beforeEach(() => {
+    mockGetStore = {
+      dispatch: jest.fn()
     };
 
-    mod = await mock('source/iml/duration-picker/duration-submit-handler.js', {
-      'source/iml/store/get-store.js': { default: getStore }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+
+    mod = require('../../../../source/iml/duration-picker/duration-submit-handler.js');
 
     durationSubmitter = mod.default('chart_type', { page: 'base' });
   });
-
-  afterEach(resetAll);
 
   describe('passing a range form', () => {
     it('should dispatch the range form changes to the store', () => {
@@ -31,7 +27,7 @@ describe('duration submit handler', () => {
 
       durationSubmitter({ dataType: 'my-data-type' }, forms);
 
-      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',
         payload: {
           page: 'base',
@@ -59,7 +55,7 @@ describe('duration submit handler', () => {
 
       durationSubmitter({ dataType: 'my-data-type' }, forms);
 
-      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'chart_type',
         payload: {
           page: 'base',

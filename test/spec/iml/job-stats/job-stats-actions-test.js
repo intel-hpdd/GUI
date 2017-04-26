@@ -1,21 +1,11 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  setSort,
+  setDuration
+} from '../../../../source/iml/job-stats/job-stats-actions.js';
 
 describe('job stats actions', () => {
-  let setSort, setDuration;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/job-stats/job-stats-actions.js', {});
-
-    ({
-      setSort,
-      setDuration
-    } = mod);
-  });
-
-  afterEach(resetAll);
-
   it('should set duration', () => {
     const resp = setDuration(5);
 

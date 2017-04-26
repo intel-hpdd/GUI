@@ -9,12 +9,9 @@ import commandMonitorDirective from './command-monitor-directive.js';
 import DeferredCommandModalBtnCtrl from './deferred-cmd-modal-btn-controller';
 import jobStatesDirective from './job-states-directive';
 import jobTreeFactory from './job-tree-factory';
-import waitForCommandCompletionFactory
-  from './wait-for-command-completion-service';
+import waitForCommandCompletionFactory from './wait-for-command-completion-service';
 
-import {
-  deferredCmdModalBtnDirective
-} from './deferred-cmd-modal-btn-directive';
+import { deferredCmdModalBtnDirective } from './deferred-cmd-modal-btn-directive';
 
 import { JobTreeCtrl, getJobStreamFactory } from './job-tree-ctrl';
 
