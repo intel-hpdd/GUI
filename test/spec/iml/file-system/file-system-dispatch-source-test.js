@@ -2,34 +2,33 @@
 
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('file system dispatch source', () => {
-  let store, socketStream, s;
+  let mockStore, mockSocketStream, s;
 
-  beforeEachAsync(async function() {
-    const CACHE_INITIAL_DATA = {
+  beforeEach(() => {
+    const mockCacheInitialData = {
       filesystem: ['filesystem']
     };
 
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
+    mockStore = {
+      dispatch: jest.fn()
     };
 
     s = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    mockSocketStream = jest.fn(() => s);
 
-    await mock('source/iml/file-system/file-system-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store },
-      'source/iml/environment.js': {
-        CACHE_INITIAL_DATA,
-        ALLOW_ANONYMOUS_READ: true
-      },
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      CACHE_INITIAL_DATA: mockCacheInitialData,
+      ALLOW_ANONYMOUS_READ: true
+    }));
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    require('../../../../source/iml/file-system/file-system-dispatch-source.js');
   });
-
-  afterEach(resetAll);
 
   beforeEach(() => {
     s.write({
@@ -46,23 +45,24 @@ describe('file system dispatch source', () => {
   });
 
   it('should dispatch cached file systems into the store', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_FS_ITEMS',
       payload: ['filesystem']
     });
   });
 
   it('should invoke the socket stream', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/filesystem', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/filesystem', {
       qs: {
-        jsonMask: 'objects(id,resource_uri,label,locks,name,client_count,bytes_total,bytes_free,available_actions,mgt(primary_server_name,primary_server),mdts(resource_uri))',
+        jsonMask:
+          'objects(id,resource_uri,label,locks,name,client_count,bytes_total,bytes_free,available_actions,mgt(primary_server_name,primary_server),mdts(resource_uri))',
         limit: 0
       }
     });
   });
 
   it('should update file systems when new items arrive from a persistent socket', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_FS_ITEMS',
       payload: [
         {

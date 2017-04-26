@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 export default () => ({
   restrict: 'A',
@@ -32,7 +32,7 @@ export default () => ({
 
     $transitions.onSuccess(
       {},
-      transition => this.page = getPage(transition.router.globals.$current)
+      transition => (this.page = getPage(transition.router.globals.$current))
     );
   }
 });

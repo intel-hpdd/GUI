@@ -2,31 +2,32 @@
 
 import highland from 'highland';
 
-import store from '../../../../source/iml/store/get-store.js';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import { querySelector } from '../../../../source/iml/dom-utils.js';
 
 import type { $scopeT, $compileT } from 'angular';
 
+import angular from '../../../angular-mock-setup.js';
+
 describe('tree target collection component', () => {
-  let mod, socketStream, socket$;
+  let mod, mockSocketStream, socket$, store;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.callFake(() => socket$ = highland());
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => (socket$ = highland()));
 
-    jasmine.clock().install();
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
 
-    mod = await mock('source/iml/tree/tree-target-collection-component.js', {
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      }
-    });
+    mod = require('../../../../source/iml/tree/tree-target-collection-component.js');
+
+    store = require('../../../../source/iml/store/get-store.js').default;
+
+    jest.useFakeTimers();
   });
 
   beforeEach(
-    module('extendScope', $compileProvider => {
+    angular.mock.module('extendScope', $compileProvider => {
       $compileProvider.component('treeOstCollection', mod.default('ost'));
     })
   );
@@ -34,25 +35,26 @@ describe('tree target collection component', () => {
   let el;
 
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       const $scope = $rootScope.$new();
-      const template = '<tree-ost-collection parent-id="0"></tree-ost-collection>';
+      const template =
+        '<tree-ost-collection parent-id="0"></tree-ost-collection>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
   );
 
-  afterEach(resetAll);
-
-  afterEach(() => jasmine.clock().uninstall());
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
 
   afterEach(() =>
     store.dispatch({
       type: 'RESET_STATE'
-    }));
-
-  afterEach(() => jasmine.clock().tick(1));
+    })
+  );
 
   it('should render the collection', () => {
     expect(el).not.toBe(null);
@@ -89,7 +91,7 @@ describe('tree target collection component', () => {
           offset: 10
         }
       });
-      jasmine.clock().tick(1);
+      jest.runTimersToTime(1);
     });
 
     it('should hide the spinner when data comes in', () => {
@@ -102,7 +104,7 @@ describe('tree target collection component', () => {
 
     describe('on click', () => {
       beforeEach(() => {
-        const chevron = el.querySelector('i.fa-chevron-right');
+        const chevron = querySelector(el, 'i.fa-chevron-right');
         chevron.click();
       });
 
@@ -121,7 +123,7 @@ describe('tree target collection component', () => {
             offset: 10
           }
         });
-        jasmine.clock().tick(1);
+        jest.runTimersToTime(1);
 
         expect(el.querySelector('tree-target-item')).toBeNull();
       });
@@ -142,7 +144,7 @@ describe('tree target collection component', () => {
             offset: 10
           }
         });
-        jasmine.clock().tick(1);
+        jest.runTimersToTime(1);
 
         expect(el.querySelectorAll('tree-target-item').length).toBe(2);
       });

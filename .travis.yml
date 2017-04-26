@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- 6
+cache: yarn
+script:
+- yarn run eslint
+- yarn run flow
+- yarn run test -- --runInBand
+deploy:
+  provider: npm
+  email: joe.grund@intel.com
+  api_key:
+    secure: lqAg1nu7dgzp0GiGwkYdPrzoWgnSquHE3InznytZT3QSSFTQJLcjXkXWMwtZmbDOZCMGJwK2+hmundpQdowfHYrpro+VToO7ki3RLiNe8hFrX+YPi22xZeAzdadjXvxjtHVZeAd5fljlBdKGYrPVkXacQhlhga6O+zUstTQMbUXL/8YrApEUEsfBkI0ZDpTPnddzxhZKb/D2TvzEU/1fXiVoX7EKPFTSxzcbtaEBTsdw/5dhZ2Ap83/PxbJCfyv4o5Tisy3Otdjm475NAofrdDTgo/v4Pi9l88Z42AheIbAlE0FmyDQDvmUbNgAelajYnLnPFGKqInTlwM9WpQ3+SBL1Duj8YY5/YAySXAzQvzv5WKmFrsqkYwUSAxAOwemelaPSbY4N+F+FIoqMwx63ihP48hvwOS0FTZyiE+tUU5ccMe+jYfqoqUnndszDmHw6CucZ/OgP+tva1PGcpZE1CbEEiA76iDlKYHJeg8YtJO2NkHqxPx9MxfVlTiOMmYWgDYtN9kzOj/ldohzo+ZGXrYuD9StnrgVeXK47CrYxlf6TBoMHx3WuinjjIXz+7MrdpU9WPfurm4Cnw9gcx7JqRIx7Dezpjm1BGPXSXLy/5MVILLHh4Glvg1hr2QaySbQHGNjU67BlNLTFjYsGbark/P2ooeJt3am7q7a1uZwBeqk=
+  on:
+    tags: true
+    repo: intel-hpdd/GUI

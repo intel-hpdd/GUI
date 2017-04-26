@@ -1,11 +1,9 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('file usage chart', () => {
-  let chartCompiler,
-    getFileUsageStream,
+  let mockChartCompiler,
+    mockGetFileUsageStream,
     fileUsageStream,
     standardConfig,
     getFileUsageChart,
@@ -13,20 +11,18 @@ describe('file usage chart', () => {
     config1$,
     config2$,
     selectStoreCount,
-    getStore,
-    durationPayload,
+    mockGetStore,
+    mockDurationPayload,
     submitHandler,
-    durationSubmitHandler,
-    getConf,
+    mockDurationSubmitHandler,
+    mockGetConf,
     initStream,
     data$Fn,
     localApply;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     fileUsageStream = {};
-    getFileUsageStream = jasmine
-      .createSpy('getFileUsageStream')
-      .and.returnValue(fileUsageStream);
+    mockGetFileUsageStream = jest.fn(() => fileUsageStream);
 
     standardConfig = {
       configType: 'duration',
@@ -41,18 +37,18 @@ describe('file usage chart', () => {
         target1: { ...standardConfig }
       }
     ]);
-    spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, 'destroy');
     config2$ = highland([
       {
         target1: standardConfig
       }
     ]);
-    spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -63,16 +59,14 @@ describe('file usage chart', () => {
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+    mockDurationPayload = jest.fn(x => {
       return { ...standardConfig, ...x };
     });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -81,47 +75,48 @@ describe('file usage chart', () => {
     });
 
     initStream = highland();
-    spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake((overrides, fn) => {
+    data$Fn = jest.fn((overrides, fn) => {
       fn();
       return initStream;
     });
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
-    const mod = await mock('source/iml/file-usage/get-file-usage-chart.js', {
-      'source/iml/file-usage/get-file-usage-stream.js': {
-        default: getFileUsageStream
-      },
-      'source/iml/file-usage/assets/html/file-usage-chart.html!text': {
-        default: 'fileUsageTemplate'
-      },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': {
-        default: durationPayload
-      },
-      'source/iml/duration-picker/duration-submit-handler.js': {
-        default: durationSubmitHandler
-      },
-      'source/iml/chart-transformers/chart-transformers.js': {
-        getConf: getConf
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/file-usage/get-file-usage-stream.js',
+      () => mockGetFileUsageStream
+    );
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-payload.js',
+      () => mockDurationPayload
+    );
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-submit-handler.js',
+      () => mockDurationSubmitHandler
+    );
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({
+        getConf: mockGetConf
+      })
+    );
+
+    const mod = require('../../../../source/iml/file-usage/get-file-usage-chart.js');
 
     getFileUsageChartFactory = mod.default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(() => {
-    getFileUsageChart = getFileUsageChartFactory(
-      localApply,
-      fp.curry3(data$Fn)
-    );
+    getFileUsageChart = getFileUsageChartFactory(localApply, data$Fn);
 
     getFileUsageChart(
       'foo',
@@ -134,16 +129,16 @@ describe('file usage chart', () => {
       'target1'
     );
 
-    const s = chartCompiler.calls.argsFor(0)[1];
+    const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
   it('should return a factory function', () => {
-    expect(getFileUsageChart).toEqual(jasmine.any(Function));
+    expect(getFileUsageChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch fileUsageChart to the store', () => {
-    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'DEFAULT_FILE_USAGE_CHART_ITEMS',
       payload: {
         page: 'target1',
@@ -157,11 +152,11 @@ describe('file usage chart', () => {
   });
 
   it('should select the fileUsageChart store', () => {
-    expect(getStore.select).toHaveBeenCalledOnceWith('fileUsageCharts');
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith('fileUsageCharts');
   });
 
   it('should call getConf', () => {
-    expect(getConf).toHaveBeenCalledOnceWith('target1');
+    expect(mockGetConf).toHaveBeenCalledOnceWith('target1');
   });
 
   it('should call data$Fn', () => {
@@ -171,32 +166,51 @@ describe('file usage chart', () => {
           host_id: '1'
         }
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
 
   it('should call the chart compiler', () => {
-    expect(chartCompiler).toHaveBeenCalledOnceWith(
-      'fileUsageTemplate',
-      jasmine.any(Object),
-      jasmine.any(Function)
+    expect(mockChartCompiler).toHaveBeenCalledOnceWith(
+      `<div config-toggle>
+  <h5>{{ chart.title }}</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="fileUsageForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, fileUsageForm))" class="btn btn-success btn-block" ng-disabled="fileUsageForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <line-chart options="::chart.options" stream="chart.stream"></line-chart>
+</div>`,
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
-  it('should call getFileUsageStream with the key', function() {
-    expect(getFileUsageStream).toHaveBeenCalledWith('bar');
+  it('should call getFileUsageStream with the key', () => {
+    expect(mockGetFileUsageStream).toHaveBeenCalledWith('bar');
   });
 
   describe('config', () => {
     let handler, $scope, stream, config;
 
     beforeEach(
-      inject($rootScope => {
-        handler = chartCompiler.calls.mostRecent().args[2];
+      angular.mock.inject($rootScope => {
+        handler = mockChartCompiler.mock.calls[0][2];
 
         stream = highland();
-        spyOn(stream, 'destroy');
+        jest.spyOn(stream, 'destroy');
         $scope = $rootScope.$new();
 
         config = handler($scope, stream);
@@ -206,26 +220,26 @@ describe('file usage chart', () => {
     it('should return a config', () => {
       expect(config).toEqual({
         title: 'foo',
-        stream: jasmine.any(Object),
+        stream: expect.any(Object),
         configType: 'duration',
         page: '',
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
         unit: 'minutes',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
 
     it('should select the fileUsageChart store', () => {
-      expect(getStore.select).toHaveBeenCalledTwiceWith('fileUsageCharts');
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('fileUsageCharts');
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledTwiceWith('target1');
+      expect(mockGetConf).toHaveBeenCalledTwiceWith('target1');
     });
 
     it('should call localApply', () => {
@@ -247,20 +261,20 @@ describe('file usage chart', () => {
         formatter = {};
 
         const d3 = {
-          format: jasmine.createSpy('format').and.returnValue(formatter)
+          format: jest.fn(() => formatter)
         };
 
         chart = {
-          useInteractiveGuideline: jasmine.createSpy('useInteractiveGuideline'),
-          forceY: jasmine.createSpy('forceY'),
+          useInteractiveGuideline: jest.fn(),
+          forceY: jest.fn(),
           yAxis: {
-            tickFormat: jasmine.createSpy('tickFormat')
+            tickFormat: jest.fn()
           },
           xAxis: {
-            showMaxMin: jasmine.createSpy('showMaxMin')
+            showMaxMin: jest.fn()
           },
-          color: jasmine.createSpy('color'),
-          isArea: jasmine.createSpy('isArea')
+          color: jest.fn(),
+          isArea: jest.fn()
         };
 
         config.options.setup(chart, d3);
@@ -296,8 +310,8 @@ describe('file usage chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
-        handler = chartCompiler.calls.mostRecent().args[2];
+      angular.mock.inject($rootScope => {
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -308,14 +322,14 @@ describe('file usage chart', () => {
 
     it('should call durationSubmitHandler', () => {
       expect(
-        durationSubmitHandler
+        mockDurationSubmitHandler
       ).toHaveBeenCalledOnceWith('UPDATE_FILE_USAGE_CHART_ITEMS', {
         page: 'target1'
       });
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

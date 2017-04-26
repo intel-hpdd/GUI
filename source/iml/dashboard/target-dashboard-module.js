@@ -10,8 +10,7 @@ import extendScopeModule from '../extend-scope-module';
 import fileUsageModule from '../file-usage/file-usage-module';
 import spaceUsageModule from '../space-usage/space-usage-module';
 import mdoModule from '../mdo/mdo-module';
-import readWriteBandwidthModule
-  from '../read-write-bandwidth/read-write-bandwidth-module';
+import readWriteBandwidthModule from '../read-write-bandwidth/read-write-bandwidth-module';
 import highlandModule from '../highland/highland-module';
 import TargetDashboardController from './target-dashboard-controller';
 

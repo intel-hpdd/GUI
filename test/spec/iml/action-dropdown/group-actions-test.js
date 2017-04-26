@@ -1,23 +1,15 @@
-import actionDropdownModule
-  from '../../../../source/iml/action-dropdown/action-dropdown-module';
-import groupActionsFixtures
-  from '../../../data-fixtures/group-actions-fixtures.json!json';
+import groupActions from '../../../../source/iml/action-dropdown/group-actions.js';
+import groupActionsFixtures from '../../../data-fixtures/group-actions-fixtures.json';
 
 describe('ordering groups', () => {
-  beforeEach(module(actionDropdownModule));
-
   let groupActionsFilter;
-
-  beforeEach(
-    inject($filter => {
-      groupActionsFilter = $filter('groupActions');
-    })
-  );
+  beforeEach(() => {
+    groupActionsFilter = groupActions();
+  });
 
   it('should work', () => {
-    groupActionsFixtures.forEach(function testItem(item) {
+    groupActionsFixtures.forEach(item => {
       const result = groupActionsFilter(item.in);
-
       expect(result).toEqual(item.out);
     });
   });

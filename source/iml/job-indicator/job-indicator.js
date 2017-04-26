@@ -3,12 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import _ from 'intel-lodash-mixins';
-import * as fp from 'intel-fp';
-import jobIndicatorTemplate from './assets/html/job-indicator.html!text';
+import _ from '@mfl/lodash-mixins';
+import * as fp from '@mfl/fp';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
 export default function jobStatusDirective(localApply) {
   'ngInject';
@@ -18,12 +16,10 @@ export default function jobStatusDirective(localApply) {
       jobStream: '='
     },
     restrict: 'E',
-    template: jobIndicatorTemplate,
-
     link: function link(scope) {
       let isOpened = false;
 
-      angular.extend(scope, {
+      Object.assign(scope, {
         closeOthers: false,
         openWrite: true,
         openRead: true,
@@ -44,8 +40,10 @@ export default function jobStatusDirective(localApply) {
           scope.writeMessageDifference.length = 0;
         },
         shouldShowLockIcon: function shouldShowLockIcon() {
-          return scope.writeMessages.length + scope.readMessages.length > 0 ||
-            isOpened;
+          return (
+            scope.writeMessages.length + scope.readMessages.length > 0 ||
+            isOpened
+          );
         },
         getLockTooltipMessage: function getLockTooltipMessage() {
           const readMessages = scope.readMessages;
@@ -78,14 +76,16 @@ export default function jobStatusDirective(localApply) {
               '1': '1 ongoing write lock operation.',
               other: '{} ongoing write lock operations.'
             };
-            message = _.pluralize(writeMessages.length, writeMessageMap) +
+            message =
+              _.pluralize(writeMessages.length, writeMessageMap) +
               ' Click to review details.';
           } else if (readMessages.length > 0) {
             readMessageMap = {
               '1': 'Locked by 1 pending operation.',
               other: 'Locked by {} pending operations.'
             };
-            message = _.pluralize(readMessages.length, readMessageMap) +
+            message =
+              _.pluralize(readMessages.length, readMessageMap) +
               ' Click to review details.';
           }
 
@@ -93,12 +93,12 @@ export default function jobStatusDirective(localApply) {
         }
       });
 
-      const mapLockedItemUri = fp.map(viewLens('locked_item_uri'));
-      const mapDescription = fp.map(viewLens('description'));
+      const mapLockedItemUri = fp.map(x => x.locked_item_uri);
+      const mapDescription = fp.map(x => x.description);
 
-      const calculateLocks = fp.curry2(function calculateLocks(type, s) {
+      const calculateLocks = type => s => {
         const hasMatchingRecord = fp.flow(
-          viewLens(type + '_locks'),
+          x => x[`${type}_locks`],
           mapLockedItemUri,
           fp.some(fp.eq(scope.recordId))
         );
@@ -110,17 +110,16 @@ export default function jobStatusDirective(localApply) {
           x => {
             //this is in a closure because we want to access messages at call time not define time.
             scope[type + 'MessageDifference'] = fp.difference(
-              scope[type + 'Messages'],
-              x
-            );
+              scope[type + 'Messages']
+            )(x);
 
             return x;
           },
-          x => scope[type + 'Messages'] = x
+          x => (scope[type + 'Messages'] = x)
         );
 
-        fp.map(xForm, s).each(localApply.bind(null, scope));
-      });
+        s.map(xForm).each(localApply.bind(null, scope));
+      };
 
       let readViewer = scope.jobStream();
       let writeViewer = scope.jobStream();
@@ -131,8 +130,34 @@ export default function jobStatusDirective(localApply) {
       scope.$on('$destroy', function onDestroy() {
         readViewer.destroy();
         writeViewer.destroy();
-        readViewer = (writeViewer = null);
+        readViewer = writeViewer = null;
       });
-    }
+    },
+    template: `<span class="job-status">
+    <i class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+     ng-show="shouldShowLockIcon()">
+       <iml-tooltip size="'large'" direction="right">
+         <span>{{getLockTooltipMessage()}}</span>
+       </iml-tooltip>
+    </i>
+  <iml-popover placement="bottom" title="Job Operations" on-toggle="onToggle(state)">
+    <accordion close-others="closeOthers">
+      <accordion-group heading="Write Operations" ng-if="writeMessages.length > 0 ||
+      writeMessageDifference.length > 0" is-open="openWrite">
+        <ul>
+          <li ng-repeat="message in writeMessages">{{message}}</li>
+          <li ng-repeat="message in writeMessageDifference"><s>{{message}}</s></li>
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Read Operations" ng-if="readMessages.length > 0 ||
+      readMessageDifference" is-open="openRead">
+        <ul>
+          <li ng-repeat="message in readMessages">{{message}}</li>
+          <li ng-repeat="message in readMessageDifference"><s>{{message}}</s></li>
+        </ul>
+      </accordion-group>
+    </accordion>
+  </iml-popover>
+</span>`
   };
 }

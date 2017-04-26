@@ -12,8 +12,6 @@ import removeDups from '../charting/remove-dups.js';
 import sortBy from '../charting/sort-by.js';
 import highland from 'highland';
 
-import { values } from 'intel-obj';
-
 export default (requestRange, buff) => {
   return highland((push, next) => {
     const params = requestRange({
@@ -24,7 +22,7 @@ export default (requestRange, buff) => {
     });
 
     socketStream('/target/metric', params, true)
-      .map(values)
+      .map(x => Object.values(x)) // Cannot be points-free due to polyfill, can fix once native support in node
       .flatten()
       .through(removeEpochData)
       .through(roundData)
@@ -40,11 +38,7 @@ export default (requestRange, buff) => {
           hsm_agents_idle: 'idle workers'
         })
       )
-      .through(
-        sortBy(function byDate(a, b) {
-          return new Date(a.ts) - new Date(b.ts);
-        })
-      )
+      .through(sortBy((a, b) => new Date(a.ts) - new Date(b.ts)))
       .through(buff)
       .through(requestRange.setLatest)
       .through(removeDups)

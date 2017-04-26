@@ -3,14 +3,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import _ from 'intel-lodash-mixins';
+import type { HighlandStreamT } from 'highland';
 
-export default fp.curry2(function nameSeries(seriesMap, s) {
-  return s.map(function transformSeries(x) {
-    return _.transform(x, function(result, value, key) {
-      const newKey = seriesMap[key] || key;
-      result[newKey] = value;
-    });
-  });
-});
+export default (seriesMap: Object) => (s: HighlandStreamT<Object>) =>
+  s.map(x =>
+    Object.entries(x).reduce(
+      (out, [k, v]) => ({
+        ...out,
+        [seriesMap[k] || k]: v
+      }),
+      {}
+    )
+  );

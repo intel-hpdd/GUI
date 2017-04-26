@@ -1,22 +1,18 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('iframe shim component', () => {
-  let context, el, $scope, $location, global, frame;
+  let context, el, $scope, $location, mockGlobal, frame;
 
-  beforeEachAsync(async function() {
-    global = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
+  beforeEach(() => {
+    mockGlobal = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
     };
 
-    const mod = await mock('source/iml/old-gui-shim/iframe-shim-component.js', {
-      'source/iml/environment.js': {
-        UI_ROOT: '/foo/'
-      },
-      'source/iml/global.js': {
-        default: global
-      }
-    });
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      UI_ROOT: '/foo/'
+    }));
+    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+
+    const mod = require('../../../../source/iml/old-gui-shim/iframe-shim-component.js');
 
     frame = {
       style: {},
@@ -28,21 +24,21 @@ describe('iframe shim component', () => {
     };
 
     el = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener'),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
       classList: {
-        add: jasmine.createSpy('add'),
-        remove: jasmine.createSpy('remove')
+        add: jest.fn(),
+        remove: jest.fn()
       },
-      querySelector: jasmine.createSpy('querySelector').and.returnValue(frame)
+      querySelector: jest.fn(() => frame)
     };
 
     $scope = {
-      $apply: jasmine.createSpy('$apply')
+      $apply: jest.fn()
     };
 
     $location = {
-      path: jasmine.createSpy('path')
+      path: jest.fn()
     };
 
     context = {
@@ -52,15 +48,14 @@ describe('iframe shim component', () => {
       }
     };
 
-    jasmine.clock().install();
+    jest.useFakeTimers();
 
     mod.default.controller.call(context, [el], $scope, $location);
   });
 
-  afterEach(resetAll);
-
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('should set loading to true', () => {
@@ -73,7 +68,7 @@ describe('iframe shim component', () => {
 
   describe('on load', () => {
     beforeEach(() => {
-      el.addEventListener.calls.mostRecent().args[1]();
+      el.addEventListener.mock.calls[0][1]();
     });
 
     it('should set loading to false', () => {
@@ -81,13 +76,13 @@ describe('iframe shim component', () => {
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply).toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
 
     it('should set the frame height', () => {
       frame.contentDocument.body.scrollHeight = 1000;
 
-      jasmine.clock().tick(500);
+      jest.runTimersToTime(500);
 
       expect(frame.style.height).toBe('1000px');
     });
@@ -95,7 +90,7 @@ describe('iframe shim component', () => {
 
   describe('on message', () => {
     beforeEach(() => {
-      global.addEventListener.calls.mostRecent().args[1]({
+      mockGlobal.addEventListener.mock.calls[0][1]({
         data: '/bar/baz/4'
       });
     });
@@ -105,7 +100,7 @@ describe('iframe shim component', () => {
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply).toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -117,15 +112,15 @@ describe('iframe shim component', () => {
     it('should remove the load event listener', () => {
       expect(el.removeEventListener).toHaveBeenCalledOnceWith(
         'load',
-        jasmine.any(Function),
+        expect.any(Function),
         true
       );
     });
 
     it('should remove the message event listener', () => {
-      expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
         'message',
-        jasmine.any(Function),
+        expect.any(Function),
         false
       );
     });

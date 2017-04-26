@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import { ADD_SERVER_AUTH_CHOICES } from './add-server-step.js';
 
 export default function serversToApiObjects(servers) {

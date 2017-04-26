@@ -1,6 +1,5 @@
 import highland from 'highland';
-import filterTargetByFs
-  from '../../../../source/iml/target/filter-target-by-fs.js';
+import filterTargetByFs from '../../../../source/iml/target/filter-target-by-fs.js';
 
 describe('filter target by fs', () => {
   let data;
@@ -35,7 +34,7 @@ describe('filter target by fs', () => {
   it('should return the targets with the matching fs', function() {
     let result;
 
-    highland(data).through(filterTargetByFs('1')).each(function(x) {
+    highland(data).through(filterTargetByFs(1)).each(function(x) {
       result = x;
     });
 

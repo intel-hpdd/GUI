@@ -1,125 +1,81 @@
-import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Confirm server action modal', () => {
-  beforeEach(module(serverModule));
-
   let $scope,
     $uibModalInstance,
     hosts,
     convertedJob,
     action,
-    socketStream,
+    mockSocketStream,
     stream,
     confirmServer,
     ConfirmServerActionModalCtrl;
-
-  beforeEachAsync(async function() {
-    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => {
       return (stream = highland());
     });
 
-    const mod = await mock(
-      'source/iml/server/confirm-server-action-modal-ctrl.js',
-      {
-        'source/iml/socket/socket-stream.js': { default: socketStream }
-      }
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
 
+    const mod = require('../../../../source/iml/server/confirm-server-action-modal-ctrl.js');
     ConfirmServerActionModalCtrl = mod.default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    inject(($rootScope, $controller) => {
+    angular.mock.inject($rootScope => {
       $scope = $rootScope.$new();
-
-      $uibModalInstance = {
-        close: jasmine.createSpy('close'),
-        dismiss: jasmine.createSpy('dismiss')
-      };
-
+      $uibModalInstance = { close: jest.fn(), dismiss: jest.fn() };
       hosts = [{}];
-
-      convertedJob = {
-        class_name: 'foo',
-        args: {
-          host_id: '1'
-        }
-      };
-
+      convertedJob = { class_name: 'foo', args: { host_id: '1' } };
       action = {
         value: 'Install Updates',
         message: 'Installing updates',
-        convertToJob: jasmine
-          .createSpy('convertToJob')
-          .and.returnValue(convertedJob)
+        convertToJob: jest.fn().mockReturnValue(convertedJob)
       };
-
-      $controller(ConfirmServerActionModalCtrl, {
-        $scope,
-        $uibModalInstance,
-        hosts,
-        action
-      });
-
+      ConfirmServerActionModalCtrl($scope, $uibModalInstance, hosts, action);
       confirmServer = $scope.confirmServerActionModal;
     })
   );
-
   it('should set hosts on the scope', () => {
     expect(confirmServer.hosts).toBe(hosts);
   });
-
   it('should set the actionName on the scope', () => {
     expect(confirmServer.actionName).toEqual(action.value);
   });
-
   it('should set inProgress on the scope', () => {
     expect(confirmServer.inProgress).toBe(false);
   });
-
   describe('go', () => {
     beforeEach(() => {
       confirmServer.go();
     });
-
     it('should set inProgress to true', () => {
       expect(confirmServer.inProgress).toBe(true);
     });
-
     it('should post a command', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/command',
         {
           method: 'post',
-          json: {
-            message: action.message,
-            jobs: convertedJob
-          }
+          json: { message: action.message, jobs: convertedJob }
         },
         true
       );
     });
-
     describe('acking the post', () => {
       it('should close the modal with data', () => {
-        stream.write({
-          foo: 'bar'
-        });
-
+        stream.write({ foo: 'bar' });
         expect($uibModalInstance.close).toHaveBeenCalledOnceWith({
           foo: 'bar'
         });
       });
-
       it('should close the modal without data', () => {
         confirmServer.go(true);
         stream.write({ objects: [] });
-
         expect($uibModalInstance.close).toHaveBeenCalledOnceWith(null);
       });
     });

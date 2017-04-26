@@ -3,10 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-
-import notificationSliderTemplate
-  from './assets/html/notification-slider.html!text';
+import * as fp from '@mfl/fp';
 
 export function NotificationSliderController(
   $scope,
@@ -19,7 +16,7 @@ export function NotificationSliderController(
 
   const closeAfter5Seconds = $timeout.bind(
     null,
-    () => $scope.open = false,
+    () => ($scope.open = false),
     5000
   );
 
@@ -65,7 +62,18 @@ export function notificationSlider() {
     },
     controllerAs: 'ctrl',
     bindToController: true,
-    template: notificationSliderTemplate,
+    template: `<div class='notification-slider' ng-if='open' ng-mouseenter='enter()' ng-mouseleave='leave()'>
+  <div class='notification-message'>
+    <h4>
+      <i class='fa fa-exclamation-triangle' style='margin-right: 6px;'></i>{{ message }}
+    </h4>
+  </div>
+
+  <div class='btn-group btn-group-justified btn-block'>
+    <a type='button' class='btn btn-block btn-danger' ng-click='close()'>Close<i class='fa fa-times-circle-o'></i></a>
+    <a type='button' class='btn btn-block btn-danger' href='/ui/status/?severity__in=WARNING,ERROR&active=true'>Details<i class='fa fa-arrow-circle-o-right'></i></a>
+  </div>
+</div>`,
     controller: 'NotificationSliderController'
   };
 }

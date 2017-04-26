@@ -6,7 +6,8 @@
 // license that can be found in the LICENSE file.
 
 export const UPDATE_SPACE_USAGE_CHART_ITEMS = 'UPDATE_SPACE_USAGE_CHART_ITEMS';
-export const DEFAULT_SPACE_USAGE_CHART_ITEMS = 'DEFAULT_SPACE_USAGE_CHART_ITEMS';
+export const DEFAULT_SPACE_USAGE_CHART_ITEMS =
+  'DEFAULT_SPACE_USAGE_CHART_ITEMS';
 
 import type {
   durationPayloadHashT,

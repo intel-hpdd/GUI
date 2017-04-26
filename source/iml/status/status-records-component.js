@@ -5,27 +5,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { addCurrentPage } from '../api-transforms.js';
 
 import type { $scopeT, $locationT } from 'angular';
 
-import type { HighlandStreamT } from 'highland';
-
-import type { Curry4 } from 'intel-fp';
-
-type propagateChangeT = Curry4<$scopeT, Object, string, HighlandStreamT<any>, HighlandStreamT<any>>;
+import type { PropagateChange } from '../extend-scope-module.js';
 
 export function StatusController(
   $scope: $scopeT,
   $location: $locationT,
-  propagateChange: propagateChangeT
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   const s = this.notification$
     .map(addCurrentPage)
-    .tap(x => this.meta = x.meta)
+    .tap(x => (this.meta = x.meta))
     .pluck('objects');
 
   propagateChange($scope, this, 'data', s);
@@ -43,7 +39,7 @@ export function StatusController(
     fp.lensProp,
     fp.view
   );
-  this.isCommand = fp.flow(getType, fn => fn(fp.zipObject(types, types)));
+  this.isCommand = fp.flow(getType, fn => fn(fp.zipObject(types)(types)));
 
   this.pageChanged = () => {
     $location.search('offset', (this.meta.current_page - 1) * this.meta.limit);

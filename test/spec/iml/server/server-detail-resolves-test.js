@@ -1,12 +1,11 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as maybe from '@mfl/maybe';
 
 describe('server detail resolves', () => {
-  let store,
-    socketStream,
-    getNetworkInterfaceStream,
-    networkInterfaceStream,
+  let mockStore,
+    mockSocketStream,
+    mockGetNetworkInterfaceStream,
+    mockNetworkInterfaceStream,
     corosyncStream,
     pacemakerStream,
     lnetStream,
@@ -15,16 +14,16 @@ describe('server detail resolves', () => {
     serverDetailResolves,
     spy;
 
-  beforeEachAsync(async function() {
-    store = {
-      select: jasmine.createSpy('select').and.callFake(key => {
+  beforeEach(() => {
+    mockStore = {
+      select: jest.fn(key => {
         if (key === 'server') return (serverStream = highland());
         else if (key === 'lnetConfiguration') return (lnetStream = highland());
         else return highland();
       })
     };
 
-    socketStream = jasmine.createSpy('socketStream').and.callFake(path => {
+    mockSocketStream = jest.fn(path => {
       if (path === '/corosync_configuration')
         return (corosyncStream = highland());
 
@@ -32,21 +31,23 @@ describe('server detail resolves', () => {
         return (pacemakerStream = highland());
     });
 
-    networkInterfaceStream = highland();
+    mockNetworkInterfaceStream = highland();
 
-    getNetworkInterfaceStream = jasmine
-      .createSpy('getNetworkInterfaceStream')
-      .and.returnValue(networkInterfaceStream);
+    mockGetNetworkInterfaceStream = jest.fn(() => mockNetworkInterfaceStream);
 
-    const mod = await mock('source/iml/server/server-detail-resolves.js', {
-      'source/iml/store/get-store.js': { default: store },
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/lnet/get-network-interface-stream.js': {
-        default: getNetworkInterfaceStream
-      }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock(
+      '../../../../source/iml/lnet/get-network-interface-stream.js',
+      () => mockGetNetworkInterfaceStream
+    );
 
-    spy = jasmine.createSpy('spy');
+    const mod = require('../../../../source/iml/server/server-detail-resolves.js');
+
+    spy = jest.fn();
 
     $stateParams = {
       id: '1'
@@ -55,10 +56,8 @@ describe('server detail resolves', () => {
     serverDetailResolves = mod.default;
   });
 
-  afterEach(resetAll);
-
   it('should be a function', () => {
-    expect(serverDetailResolves).toEqual(jasmine.any(Function));
+    expect(serverDetailResolves).toEqual(expect.any(Function));
   });
 
   describe('getting a promise', () => {
@@ -67,7 +66,7 @@ describe('server detail resolves', () => {
     beforeEach(() => {
       promise = serverDetailResolves($stateParams);
 
-      networkInterfaceStream.write({});
+      mockNetworkInterfaceStream.write({});
       corosyncStream.write({
         objects: [{}]
       });
@@ -77,19 +76,23 @@ describe('server detail resolves', () => {
     });
 
     it('should create a jobMonitorStream', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('jobIndicators');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('jobIndicators');
     });
 
     it('should create an alertMonitorStream', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('alertIndicators');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('alertIndicators');
     });
 
     it('should create a serverStream', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('server');
+      expect(mockStore.select).toHaveBeenCalledOnceWith('server');
+    });
+
+    it('should create a lnet configuration stream', () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith('lnetConfiguration');
     });
 
     describe('filtering server data', () => {
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         serverStream.write([
           {
             id: '1',
@@ -106,10 +109,12 @@ describe('server detail resolves', () => {
       });
 
       it('should return the server associated with the route', () => {
-        expect(spy).toHaveBeenCalledOnceWith({
-          id: '1',
-          address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
-        });
+        expect(spy).toHaveBeenCalledOnceWith(
+          maybe.ofJust({
+            id: '1',
+            address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
+          })
+        );
       });
 
       it('should not return servers which have an id that does not match the route', () => {
@@ -120,12 +125,8 @@ describe('server detail resolves', () => {
       });
     });
 
-    it('should create a lnet configuration stream', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('lnetConfiguration');
-    });
-
     describe('filtering lnet configuration data', () => {
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         lnetStream.write([
           {
             id: '1',
@@ -148,13 +149,15 @@ describe('server detail resolves', () => {
       });
 
       it('should return the item associated with the route', () => {
-        expect(spy).toHaveBeenCalledOnceWith({
-          id: '1',
-          host: '/api/host/1/',
-          state: 'lnet_up',
-          resource_uri: '/api/lnet_configuration/1/',
-          label: 'lnet configuration'
-        });
+        expect(spy).toHaveBeenCalledOnceWith(
+          maybe.ofJust({
+            id: '1',
+            host: '/api/host/1/',
+            state: 'lnet_up',
+            resource_uri: '/api/lnet_configuration/1/',
+            label: 'lnet configuration'
+          })
+        );
       });
 
       it('should not return items not associated with the route', () => {
@@ -169,7 +172,7 @@ describe('server detail resolves', () => {
     });
 
     it('should create a network interface stream', () => {
-      expect(getNetworkInterfaceStream).toHaveBeenCalledOnceWith({
+      expect(mockGetNetworkInterfaceStream).toHaveBeenCalledOnceWith({
         jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)',
         qs: {
           host__id: '1',
@@ -179,8 +182,11 @@ describe('server detail resolves', () => {
     });
 
     it('should create a corosync configuration stream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
+      expect(
+        mockSocketStream
+      ).toHaveBeenCalledOnceWith('/corosync_configuration', {
+        jsonMask:
+          'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
         qs: {
           host__id: '1',
           limit: 0
@@ -190,7 +196,7 @@ describe('server detail resolves', () => {
 
     it('should create a pacemaker configuration stream', () => {
       expect(
-        socketStream
+        mockSocketStream
       ).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
         jsonMask: 'objects(resource_uri,available_actions,locks,state,id)',
         qs: {
@@ -200,27 +206,27 @@ describe('server detail resolves', () => {
       });
     });
 
-    itAsync('should return an object of streams', async function() {
+    it('should return an object of streams', async () => {
       const result = await promise;
 
       expect(result).toEqual({
-        jobMonitorStream: jasmine.any(Function),
-        alertMonitorStream: jasmine.any(Function),
-        serverStream: jasmine.any(Object),
-        lnetConfigurationStream: jasmine.any(Function),
-        networkInterfaceStream: jasmine.any(Object),
-        corosyncConfigurationStream: jasmine.any(Function),
-        pacemakerConfigurationStream: jasmine.any(Function)
+        jobMonitorStream: expect.any(Function),
+        alertMonitorStream: expect.any(Function),
+        serverStream: expect.any(Object),
+        lnetConfigurationStream: expect.any(Function),
+        networkInterfaceStream: expect.any(Object),
+        corosyncConfigurationStream: expect.any(Function),
+        pacemakerConfigurationStream: expect.any(Function)
       });
     });
   });
 });
 
 describe('getting data', () => {
-  let result, store;
-  beforeEachAsync(async function() {
-    store = {
-      select: jasmine.createSpy('select').and.callFake(key => {
+  let result, mockStore, mockSocketStream, mockGetNetworkInterfaceStream;
+  beforeEach(async () => {
+    mockStore = {
+      select: jest.fn(key => {
         if (key === 'server')
           return highland([
             [{ id: 5, name: 'b' }, { id: 7, name: 'a' }, { id: 10, name: 'c' }]
@@ -228,16 +234,34 @@ describe('getting data', () => {
       })
     };
 
-    const mod = await mock('source/iml/server/server-detail-resolves.js', {
-      'source/iml/store/get-store.js': { default: store }
-    });
+    mockSocketStream = jest.fn();
+    mockGetNetworkInterfaceStream = jest.fn();
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock(
+      '../../../../source/iml/lnet/get-network-interface-stream.js',
+      () => mockGetNetworkInterfaceStream
+    );
+
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+
+    const mod = require('../../../../source/iml/server/server-detail-resolves.js');
 
     result = await mod.getData({ id: 7 });
   });
 
-  afterEach(resetAll);
+  it('should not call the socket stream', () => {
+    expect(mockSocketStream).not.toHaveBeenCalled();
+  });
+
+  it('should not call getNetworkInterfaceStream', () => {
+    expect(mockGetNetworkInterfaceStream).not.toHaveBeenCalled();
+  });
 
   it('should returned the object matching the id', () => {
-    expect(result).toEqual({ id: 7, name: 'a' });
+    expect(result).toEqual(maybe.ofJust({ id: 7, name: 'a' }));
   });
 });

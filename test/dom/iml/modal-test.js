@@ -2,17 +2,15 @@
 
 import Inferno from 'inferno';
 import { Modal, Header, Body, Footer } from '../../../source/iml/modal.js';
+import { querySelector } from '../../../source/iml/dom-utils.js';
 
 describe('Modal test', () => {
-  let root, onAgree, onDisagree, TestModal, el;
-
+  let root: HTMLDivElement, onAgree, onDisagree, TestModal, el: HTMLElement;
   beforeEach(() => {
     root = document.createElement('div');
-    document.body.appendChild(root);
-
-    onAgree = jasmine.createSpy('onAgree');
-    onDisagree = jasmine.createSpy('onDisagree');
-
+    querySelector(document, 'body').appendChild(root);
+    onAgree = jest.fn();
+    onDisagree = jest.fn();
     TestModal = ({ onAgree, onDisagree, visible }) => {
       return (
         <div class="modal-open">
@@ -34,124 +32,102 @@ describe('Modal test', () => {
       );
     };
   });
-
   afterEach(() => {
-    document.body.removeChild(root);
+    querySelector(document, 'body').removeChild(root);
   });
-
   describe('with modal not visible', () => {
+    let el: ?HTMLElement;
+
     beforeEach(() => {
       Inferno.render(
         <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />,
         root
       );
-
       el = root.querySelector('.modal');
     });
-
     it('should not exist on the element', () => {
       expect(el).toBeNull();
     });
   });
-
   describe('with modal visible', () => {
     beforeEach(() => {
       Inferno.render(
         <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />,
         root
       );
-
-      el = root.querySelector('.modal');
+      el = querySelector(root, '.modal');
     });
-
     it('should have the extra classes', () => {
       expect(el.classList).toContain('test-modal');
     });
-
     it('should have the modal class', () => {
       expect(el.classList).toContain('modal');
     });
-
     it('should have the fade class', () => {
       expect(el.classList).toContain('fade');
     });
-
     it('should have the in class', () => {
       expect(el.classList).toContain('in');
     });
-
     it('should set the document role on the modal-dialog', () => {
-      expect(el.querySelector('.modal-dialog').getAttribute('role')).toEqual(
+      expect(querySelector(el, '.modal-dialog').getAttribute('role')).toEqual(
         'document'
       );
     });
-
     it('should have a modal-content container', () => {
-      expect(el.querySelector('.modal-content')).not.toBeNull();
+      expect(querySelector(el, '.modal-content')).not.toBeNull();
     });
-
     describe('modal header', () => {
-      let modalHeader;
+      let modalHeader: HTMLElement;
       beforeEach(() => {
-        modalHeader = el.querySelector('.modal-header');
+        modalHeader = querySelector(el, '.modal-header');
       });
-
       it('should exist', () => {
         expect(modalHeader).not.toBeNull();
       });
-
       it('should have the title', () => {
-        expect(modalHeader.querySelector('h3').textContent).toEqual(
+        expect(querySelector(modalHeader, 'h3').textContent).toEqual(
           'This is the header'
         );
       });
     });
-
     describe('modal body', () => {
-      let modalBody;
+      let modalBody: HTMLElement;
       beforeEach(() => {
-        modalBody = el.querySelector('.modal-body');
+        modalBody = querySelector(el, '.modal-body');
       });
-
       it('should exist', () => {
         expect(modalBody).not.toBeNull();
       });
-
       it('should render the content component', () => {
-        expect(modalBody.querySelector('p').textContent).toEqual(
+        expect(querySelector(modalBody, 'p').textContent).toEqual(
           'Test content'
         );
       });
     });
-
     describe('modal footer', () => {
       let modalFooter, successButton, dangerButton;
       beforeEach(() => {
-        modalFooter = el.querySelector('.modal-footer');
-        successButton = modalFooter.querySelector('button.btn-success');
-        dangerButton = modalFooter.querySelector('button.btn-danger');
+        modalFooter = querySelector(el, '.modal-footer');
+        successButton = querySelector(modalFooter, 'button.btn-success');
+        dangerButton = querySelector(modalFooter, 'button.btn-danger');
       });
-
       it('should exist', () => {
         expect(modalFooter).not.toBeNull();
       });
-
       it('should have a success button', () => {
         expect(successButton.textContent).toEqual('Agree');
       });
-
       it('should call onAgree when the success button is clicked', () => {
         successButton.click();
-        expect(onAgree).toHaveBeenCalledOnce();
+        expect(onAgree).toHaveBeenCalledTimes(1);
       });
-
       it('should have a danger button', () => {
         expect(dangerButton.textContent).toEqual('Do Not Agree');
       });
-
       it('should call onDisagree when the danger button is clicked', () => {
         dangerButton.click();
-        expect(onDisagree).toHaveBeenCalledOnce();
+        expect(onDisagree).toHaveBeenCalledTimes(1);
       });
     });
   });

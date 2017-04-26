@@ -1,5 +1,5 @@
 import createStore from '../../../../source/iml/store/create-store.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 const SET_STATE = 'SET_STATE';
 const SET_OTHER_STATE = 'SET_OTHER_STATE';
@@ -9,7 +9,7 @@ describe('create store', () => {
   let store, spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
     store = createStore({
       stuff: (state = [], { type, payload }) => {
@@ -36,7 +36,7 @@ describe('create store', () => {
   });
 
   it('should be a function', () => {
-    expect(createStore).toEqual(jasmine.any(Function));
+    expect(createStore).toEqual(expect.any(Function));
   });
 
   it('should not emit when store is empty', () => {

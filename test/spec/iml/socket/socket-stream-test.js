@@ -1,41 +1,33 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as fp from '@mfl/fp';
 
 describe('socket stream', () => {
-  let getEventSocket, socket, spy, socketStream;
+  let mockGetEventSocket, socket, spy, socketStream;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     socket = {
-      connect: jasmine.createSpy('connect'),
-      end: jasmine.createSpy('end'),
-      send: jasmine.createSpy('send'),
-      on: jasmine.createSpy('on')
+      connect: jest.fn(),
+      end: jest.fn(),
+      send: jest.fn(),
+      on: jest.fn()
     };
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
-    getEventSocket = jasmine
-      .createSpy('getEventSocket')
-      .and.returnValue(socket);
+    mockGetEventSocket = jest.fn(() => socket);
 
-    const socketStreamModule = await mock(
-      'source/iml/socket/socket-stream.js',
-      {
-        'source/iml/socket-worker/get-event-socket.js': {
-          default: getEventSocket
-        }
-      }
+    jest.mock(
+      '../../../../source/iml/socket-worker/get-event-socket.js',
+      () => mockGetEventSocket
     );
+
+    const socketStreamModule = require('../../../../source/iml/socket/socket-stream.js');
 
     socketStream = socketStreamModule.default;
   });
 
-  afterEach(resetAll);
-
   it('should be a function', () => {
-    expect(socketStream).toEqual(jasmine.any(Function));
+    expect(socketStream).toEqual(expect.any(Function));
   });
 
   it('should return a stream', () => {
@@ -47,7 +39,9 @@ describe('socket stream', () => {
 
     expect(socket.send).toHaveBeenCalledOnceWith({
       path: '/host/',
-      options: {}
+      options: {
+        method: 'get'
+      }
     });
   });
 
@@ -56,7 +50,9 @@ describe('socket stream', () => {
 
     expect(socket.send).toHaveBeenCalledOnceWith({
       path: 'host/',
-      options: {}
+      options: {
+        method: 'get'
+      }
     });
   });
 
@@ -72,48 +68,50 @@ describe('socket stream', () => {
       expect(socket.send).toHaveBeenCalledOnceWith(
         {
           path: 'host/',
-          options: {}
+          options: {
+            method: 'get'
+          }
         },
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should end after a response', () => {
       s.each(fp.noop);
 
-      const ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.mock.calls[0][1];
 
       ack({});
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should end after an error', () => {
       s.each(fp.noop);
 
-      const ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.mock.calls[0][1];
 
       ack({ error: 'boom!' });
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should end if stream is paused', () => {
       s.pull(fp.noop);
 
-      const ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.mock.calls[0][1];
 
       ack({
         error: 'boom!'
       });
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should handle errors', () => {
-      s.errors(fp.unary(spy)).each(fp.noop);
+      s.errors(x => spy(x)).each(fp.noop);
 
-      const ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.mock.calls[0][1];
 
       ack({ error: 'boom!' });
 
@@ -123,7 +121,7 @@ describe('socket stream', () => {
     it('should handle the response', () => {
       s.each(spy);
 
-      const ack = socket.send.calls.mostRecent().args[1];
+      const ack = socket.send.mock.calls[0][1];
 
       ack({ foo: 'bar' });
 
@@ -139,17 +137,18 @@ describe('socket stream', () => {
         qs: { foo: 'bar' }
       });
 
-      handler = socket.on.calls.mostRecent().args[1];
+      handler = socket.on.mock.calls[0][1];
     });
 
     it('should connect the socket', () => {
-      expect(socket.connect).toHaveBeenCalledOnce();
+      expect(socket.connect).toHaveBeenCalledTimes(1);
     });
 
     it('should send data to the socket', () => {
       expect(socket.send).toHaveBeenCalledOnceWith({
         path: '/host',
         options: {
+          method: 'get',
           qs: { foo: 'bar' }
         }
       });
@@ -158,7 +157,7 @@ describe('socket stream', () => {
     it('should end on destroy', () => {
       s.destroy();
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should handle errors', () => {
@@ -166,7 +165,7 @@ describe('socket stream', () => {
         error: new Error('boom!')
       });
 
-      s.errors(fp.unary(spy)).each(fp.noop);
+      s.errors(x => spy(x)).each(fp.noop);
 
       expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
     });

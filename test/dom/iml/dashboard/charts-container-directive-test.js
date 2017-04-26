@@ -1,15 +1,24 @@
-import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
+import { chartsContainer } from '../../../../source/iml/dashboard/charts-container-directive.js';
+import { chartCompilerDirective } from '../../../../source/iml/chart-compiler/chart-compiler-directive.js';
+
+import angular from '../../../angular-mock-setup.js';
 
 describe('charts container', () => {
-  beforeEach(module(dashboardModule));
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider
+        .directive('chartCompiler', chartCompilerDirective)
+        .directive('chartsContainer', chartsContainer);
+    })
+  );
 
   let $scope, el, spy;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template = '<charts-container charts="charts"></charts-container>';
 
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
 
       $scope = $rootScope.$new();
       $scope.charts = [
@@ -37,7 +46,7 @@ describe('charts container', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
     expect(spy).toHaveBeenCalledOnceWith(
-      jasmine.any($scopeConstructor),
+      expect.any($scopeConstructor),
       'stream'
     );
   });

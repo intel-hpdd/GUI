@@ -1,7 +1,6 @@
 // @flow
 
-import loginFormReducer
-  from '../../../../source/iml/login/login-form-reducer.js';
+import loginFormReducer from '../../../../source/iml/login/login-form-reducer.js';
 
 describe('login form reducer', () => {
   it('should return the initial state', () => {

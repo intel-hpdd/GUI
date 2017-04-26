@@ -1,5 +1,4 @@
-import serversToApiObjects
-  from '../../../../source/iml/server/servers-to-api-objects.js';
+import serversToApiObjects from '../../../../source/iml/server/servers-to-api-objects.js';
 
 describe('servers to api objects', function() {
   let ADD_SERVER_AUTH_CHOICES, servers;

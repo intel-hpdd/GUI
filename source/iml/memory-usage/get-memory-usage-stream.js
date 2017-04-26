@@ -3,7 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 import removeDups from '../charting/remove-dups.js';
@@ -24,7 +23,7 @@ const types = {
   }
 };
 
-export default fp.curry2(function getMemoryUsageStream(requestRange, buff) {
+export default function getMemoryUsageStream(requestRange, buff) {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
@@ -35,8 +34,8 @@ export default fp.curry2(function getMemoryUsageStream(requestRange, buff) {
 
     socketStream('/host/metric', params, true)
       .flatten()
-      .tap(function calculateCpuAndRam(x) {
-        Object.keys(types).forEach(function calculate(type) {
+      .tap(x => {
+        Object.keys(types).forEach(type => {
           x.data[type] = types[type](x.data);
         });
       })
@@ -44,7 +43,7 @@ export default fp.curry2(function getMemoryUsageStream(requestRange, buff) {
       .through(requestRange.setLatest)
       .through(removeDups)
       .through(toNvd3(Object.keys(types)))
-      .each(function pushData(x) {
+      .each(x => {
         push(null, x);
         next();
       });
@@ -55,4 +54,4 @@ export default fp.curry2(function getMemoryUsageStream(requestRange, buff) {
   s2.destroy = s.destroy.bind(s);
 
   return s2;
-});
+}

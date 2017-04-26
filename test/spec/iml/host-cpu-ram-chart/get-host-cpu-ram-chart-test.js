@@ -1,28 +1,27 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
 
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Host Cpu Ram chart', () => {
-  let chartCompiler,
-    getHostCpuRamStream,
+  let mockChartCompiler,
+    mockGetHostCpuRamStream,
     selectStoreCount,
     submitHandler,
     config1$,
     config2$,
     getHostCpuRamChart,
-    getStore,
+    mockGetStore,
     standardConfig,
-    durationPayload,
+    mockDurationPayload,
     data$Fn,
     initStream,
-    durationSubmitHandler,
+    mockDurationSubmitHandler,
     localApply,
     mod,
-    getConf;
+    mockGetConf;
 
-  beforeEachAsync(async function() {
-    getHostCpuRamStream = {};
+  beforeEach(async () => {
+    mockGetHostCpuRamStream = {};
 
     standardConfig = {
       configType: 'duration',
@@ -37,18 +36,18 @@ describe('Host Cpu Ram chart', () => {
         hostCpuRamChart: { ...standardConfig }
       }
     ]);
-    spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, 'destroy');
     config2$ = highland([
       {
         hostCpuRamChart: { ...standardConfig }
       }
     ]);
-    spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -59,16 +58,14 @@ describe('Host Cpu Ram chart', () => {
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+    mockDurationPayload = jest.fn(x => {
       return { ...standardConfig, ...x };
     });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -76,49 +73,54 @@ describe('Host Cpu Ram chart', () => {
       };
     });
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
-    mod = await mock(
-      'source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js',
-      {
-        'source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js': {
-          default: getHostCpuRamStream
-        },
-        'source/iml/host-cpu-ram-chart/assets/html/host-cpu-ram-chart.html!text': {
-          default: 'hostCpuTemplate'
-        },
-        'source/iml/chart-compiler/chart-compiler.js': {
-          default: chartCompiler
-        },
-        'source/iml/store/get-store.js': { default: getStore },
-        'source/iml/duration-picker/duration-payload.js': {
-          default: durationPayload
-        },
-        'source/iml/duration-picker/duration-submit-handler.js': {
-          default: durationSubmitHandler
-        },
-        'source/iml/chart-transformers/chart-transformers.js': {
-          getConf: getConf
-        }
-      }
+    jest.mock(
+      '../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js',
+      () => mockGetHostCpuRamStream
     );
-  });
 
-  afterEach(resetAll);
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-payload.js',
+      () => mockDurationPayload
+    );
+
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-submit-handler.js',
+      () => mockDurationSubmitHandler
+    );
+
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({
+        getConf: mockGetConf
+      })
+    );
+
+    mod = require('../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js')
+      .default;
+  });
 
   beforeEach(() => {
     initStream = highland();
-    spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
+    data$Fn = jest.fn(() => initStream);
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
-    getHostCpuRamChart = mod.default(fp.curry3(data$Fn), localApply);
+    getHostCpuRamChart = mod(data$Fn, localApply);
   });
 
   it('should return a factory function', () => {
-    expect(getHostCpuRamChart).toEqual(jasmine.any(Function));
+    expect(getHostCpuRamChart).toEqual(expect.any(Function));
   });
 
   describe('for page hostCpuRamChart', () => {
@@ -133,12 +135,12 @@ describe('Host Cpu Ram chart', () => {
         'hostCpuRamChart'
       );
 
-      const s = chartCompiler.calls.argsFor(0)[1];
+      const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
     it('should dispatch hostCpuRamChart to the store', () => {
-      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS',
         payload: {
           page: 'hostCpuRamChart',
@@ -152,11 +154,11 @@ describe('Host Cpu Ram chart', () => {
     });
 
     it('should select the hostCpuRamChart store', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('hostCpuRamCharts');
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith('hostCpuRamCharts');
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledOnceWith('hostCpuRamChart');
+      expect(mockGetConf).toHaveBeenCalledOnceWith('hostCpuRamChart');
     });
 
     it('should call data$Fn', () => {
@@ -166,16 +168,35 @@ describe('Host Cpu Ram chart', () => {
             host_id: '1'
           }
         },
-        jasmine.any(Function),
+        expect.any(Function),
         standardConfig
       );
     });
 
     it('should call the chart compiler', () => {
-      expect(chartCompiler).toHaveBeenCalledOnceWith(
-        'hostCpuTemplate',
-        jasmine.any(Object),
-        jasmine.any(Function)
+      expect(mockChartCompiler).toHaveBeenCalledOnceWith(
+        `<div config-toggle>
+  <h5>{{ chart.title }}</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="hostCpuRamForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, hostCpuRamForm))" class="btn btn-success btn-block" ng-disabled="hostCpuRamForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <line-chart options="::chart.options" stream="::chart.stream"></line-chart>
+</div>`,
+        expect.any(Object),
+        expect.any(Function)
       );
     });
   });
@@ -184,7 +205,7 @@ describe('Host Cpu Ram chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         getHostCpuRamChart(
           'Object Storage Server',
           {
@@ -195,7 +216,7 @@ describe('Host Cpu Ram chart', () => {
           'hostCpuRamChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -214,17 +235,17 @@ describe('Host Cpu Ram chart', () => {
         unit: 'minutes',
         onSubmit: submitHandler,
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
 
     it('should select the hostCpuRamChart store', () => {
-      expect(getStore.select).toHaveBeenCalledTwiceWith('hostCpuRamCharts');
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('hostCpuRamCharts');
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledTwiceWith('hostCpuRamChart');
+      expect(mockGetConf).toHaveBeenCalledTwiceWith('hostCpuRamChart');
     });
 
     it('should call localApply', () => {
@@ -246,16 +267,16 @@ describe('Host Cpu Ram chart', () => {
         formatter = {};
 
         d3 = {
-          format: jasmine.createSpy('format').and.returnValue(formatter)
+          format: jest.fn(() => formatter)
         };
 
         chart = {
-          useInteractiveGuideline: jasmine.createSpy('useInteractiveGuideline'),
-          forceY: jasmine.createSpy('forceY'),
+          useInteractiveGuideline: jest.fn(),
+          forceY: jest.fn(),
           yAxis: {
-            tickFormat: jasmine.createSpy('tickFormat')
+            tickFormat: jest.fn()
           },
-          color: jasmine.createSpy('color')
+          color: jest.fn()
         };
 
         config.options.setup(chart, d3);
@@ -287,7 +308,7 @@ describe('Host Cpu Ram chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         getHostCpuRamChart(
           'Object Storage Server',
           {
@@ -298,7 +319,7 @@ describe('Host Cpu Ram chart', () => {
           'hostCpuRamChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -309,14 +330,14 @@ describe('Host Cpu Ram chart', () => {
 
     it('should call durationSubmitHandler', () => {
       expect(
-        durationSubmitHandler
+        mockDurationSubmitHandler
       ).toHaveBeenCalledOnceWith('UPDATE_HOST_CPU_RAM_CHART_ITEMS', {
         page: 'hostCpuRamChart'
       });
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

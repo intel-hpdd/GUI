@@ -1,14 +1,14 @@
+import angular from '../../../angular-mock-setup.js';
 import filterModule from '../../../../source/iml/filters/filters-module';
-import formatBytes
-  from '../../../../source/iml/number-formatters/format-bytes.js';
+import { formatBytes } from '@mfl/number-formatters';
 
 describe('format bytes filter', () => {
   let fmtBytesFilter;
 
-  beforeEach(module(filterModule));
+  beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
-    inject(_fmtBytesFilter_ => {
+    angular.mock.inject(_fmtBytesFilter_ => {
       fmtBytesFilter = _fmtBytesFilter_;
     })
   );

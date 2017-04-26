@@ -3,15 +3,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
 import d3 from 'd3';
 import nv from 'nvd3';
 import global from '../global.js';
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
-import _ from 'intel-lodash-mixins';
-import chartTemplate from './assets/html/chart.html!text';
+import _ from '@mfl/lodash-mixins';
 
 import {
   documentHidden,
@@ -27,7 +25,9 @@ export default function baseChart(overrides) {
       stream: '=',
       options: '='
     },
-    template: chartTemplate,
+    template: `<div class="chart">
+  <svg></svg>
+</div>`,
     link(scope, element, attrs, ctrls) {
       const [fullScreenCtrl, rootPanelCtrl] = ctrls;
 
@@ -83,7 +83,7 @@ export default function baseChart(overrides) {
           const propsToCopy = _.omit(item, ['values', 'key']);
           const series = _.find(v, { key: item.key });
 
-          if (series) angular.extend(series, propsToCopy);
+          if (series) Object.assign(series, propsToCopy);
         });
 
         svg.datum(v);
@@ -123,7 +123,7 @@ export default function baseChart(overrides) {
     onUpdate: fp.noop
   };
 
-  angular.merge(config, overrides);
+  Object.assign(config, overrides);
 
   return config.directive;
 }

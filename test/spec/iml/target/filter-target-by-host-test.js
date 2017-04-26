@@ -1,6 +1,5 @@
 import highland from 'highland';
-import filterTargetByHost
-  from '../../../../source/iml/target/filter-target-by-host.js';
+import filterTargetByHost from '../../../../source/iml/target/filter-target-by-host.js';
 
 describe('filter target by host', () => {
   let data;

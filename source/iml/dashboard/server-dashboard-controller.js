@@ -3,16 +3,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export default function ServerDashboardCtrl($scope, hostStream, charts) {
   'ngInject';
-  const serverDashboard = angular.extend(this, {
+  const serverDashboard = Object.assign(this, {
     charts
   });
 
-  hostStream.through($scope.propagateChange($scope, serverDashboard, 'server'));
+  hostStream.through(
+    $scope.propagateChange.bind(null, $scope, serverDashboard, 'server')
+  );
 
   $scope.$on('$destroy', () => {
     hostStream.destroy();

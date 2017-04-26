@@ -3,15 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import flatMapChanges from 'intel-flat-map-changes';
+import flatMapChanges from '@mfl/flat-map-changes';
 
-import spaceUsageTemplate from './assets/html/space-usage-chart.html!text';
 import getSpaceUsageStream from './get-space-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
@@ -20,14 +17,10 @@ import {
   UPDATE_SPACE_USAGE_CHART_ITEMS
 } from './space-usage-chart-reducer.js';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';
@@ -41,11 +34,33 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges(data$Fn(overrides, fp.always(getSpaceUsageStream)))
+        flatMapChanges.bind(
+          null,
+          data$Fn.bind(null, overrides, () => getSpaceUsageStream)
+        )
       );
 
     return chartCompiler(
-      spaceUsageTemplate,
+      `<div config-toggle>
+  <h5>Space Usage</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="spaceUsageForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, spaceUsageForm))" class="btn btn-success btn-block" ng-disabled="spaceUsageForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <line-chart options="::chart.options" stream="chart.stream"></line-chart>
+</div>`,
       initStream,
       ($scope: $scopeT, stream) => {
         const conf = {

@@ -1,23 +1,18 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  waitUntilLoadedCtrl,
+  waitUntilLoadedStep
+} from '../../../../source/iml/server/wait-until-loaded-step.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('wait until add server resolves complete', () => {
-  let waitUntilLoadedStep, waitUntilLoadedCtrl, scope, $rootScope;
+  let scope, $rootScope, step;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/wait-until-loaded-step.js', {
-      'source/iml/server/assets/html/wait-until-loaded-step.html!text': {
-        default: 'waitUntilLoadedTemplate'
-      }
-    });
-
-    waitUntilLoadedCtrl = mod.waitUntilLoadedCtrl;
-    waitUntilLoadedStep = mod.waitUntilLoadedStep();
+  beforeEach(() => {
+    step = waitUntilLoadedStep();
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    inject(_$rootScope_ => {
+    angular.mock.inject(_$rootScope_ => {
       $rootScope = _$rootScope_;
       scope = $rootScope.$new();
 
@@ -31,7 +26,7 @@ describe('wait until add server resolves complete', () => {
 
       $rootScope.$on(
         'addServerModal::closeModal',
-        () => closeModalCalled = true
+        () => (closeModalCalled = true)
       );
 
       scope.wait.close();
@@ -43,11 +38,26 @@ describe('wait until add server resolves complete', () => {
 
   describe('initialize waitUntilLoadedStep', () => {
     it('should have the template', () => {
-      expect(waitUntilLoadedStep.template).toBe('waitUntilLoadedTemplate');
+      expect(step.template).toBe(`<div class="modal-header">
+  <button type="button" class="close" ng-click="wait.close()">
+    <i class="fa fa-times"></i>
+  </button>
+  <h4 class="modal-title">{{'server_waiting_title' | insertHelp}}</h4>
+  <i class="fa fa-question-circle"
+     tooltip="{{'server_waiting' | insertHelp}}"
+     tooltip-placement="bottom"></i>
+</div>
+<div class="loading-data">
+  <div class="well text-center">
+    <h2 class="text-center">{{'server_waiting_header' | insertHelp}}</h2>
+    <p>{{'server_waiting' | insertHelp}}</p>
+    <i class="fa fa-spinner fa-spin"></i>
+  </div>
+</div>`);
     });
 
     it('should have the controller specified', () => {
-      expect(waitUntilLoadedStep.controller).toBe('WaitUntilLoadedCtrl');
+      expect(step.controller).toBe('WaitUntilLoadedCtrl');
     });
   });
 });

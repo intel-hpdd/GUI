@@ -5,8 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const UPDATE_HOST_CPU_RAM_CHART_ITEMS = 'UPDATE_HOST_CPU_RAM_CHART_ITEMS';
-export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS = 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS';
+export const UPDATE_HOST_CPU_RAM_CHART_ITEMS =
+  'UPDATE_HOST_CPU_RAM_CHART_ITEMS';
+export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS =
+  'DEFAULT_HOST_CPU_RAM_CHART_ITEMS';
 
 import type { addHostCpuRamActionT } from './host-cpu-ram-chart-module.js';
 

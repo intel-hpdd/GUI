@@ -1,54 +1,60 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('get event socket', () => {
-  let socketWorker, getRandomValue, emitter, getEventSocket, eventSocket;
+  let mockSocketWorker,
+    mockGetRandomValue,
+    emitter,
+    getEventSocket,
+    eventSocket;
 
-  beforeEachAsync(async function() {
-    socketWorker = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      postMessage: jasmine.createSpy('postMessage')
+  beforeEach(() => {
+    mockSocketWorker = {
+      addEventListener: jest.fn(),
+      postMessage: jest.fn()
     };
 
     emitter = {
-      once: jasmine.createSpy('once'),
-      removeAllListeners: jasmine.createSpy('removeAllListeners')
+      once: jest.fn(),
+      removeAllListeners: jest.fn()
     };
 
-    function EventEmitter() {
+    function mockEventEmitter() {
       return this;
     }
-    EventEmitter.prototype = emitter;
+    mockEventEmitter.prototype = emitter;
 
-    getRandomValue = jasmine.createSpy('getRandomValue').and.returnValue(5);
+    mockGetRandomValue = jest.fn(() => 5);
 
-    const getEventSocketModule = await mock(
-      'source/iml/socket-worker/get-event-socket.js',
-      {
-        'source/iml/event-emitter.js': { default: EventEmitter },
-        'source/iml/get-random-value.js': { default: getRandomValue },
-        'source/iml/socket-worker/socket-worker.js': { default: socketWorker }
-      }
+    jest.mock(
+      '../../../../source/iml/event-emitter.js',
+      () => mockEventEmitter
     );
+    jest.mock(
+      '../../../../source/iml/get-random-value.js',
+      () => mockGetRandomValue
+    );
+    jest.mock(
+      '../../../../source/iml/socket-worker/socket-worker.js',
+      () => mockSocketWorker
+    );
+    const getEventSocketModule = require('../../../../source/iml/socket-worker/get-event-socket.js');
+
     getEventSocket = getEventSocketModule.default;
     eventSocket = getEventSocket();
   });
 
-  afterEach(resetAll);
-
   it('should be a function', () => {
-    expect(getEventSocket).toEqual(jasmine.any(Function));
+    expect(getEventSocket).toEqual(expect.any(Function));
   });
 
   it('should have a connect method', () => {
-    expect(eventSocket.connect).toEqual(jasmine.any(Function));
+    expect(eventSocket.connect).toEqual(expect.any(Function));
   });
 
   it('should have a send method', () => {
-    expect(eventSocket.send).toEqual(jasmine.any(Function));
+    expect(eventSocket.send).toEqual(expect.any(Function));
   });
 
   it('should get an id', () => {
-    expect(getRandomValue).toHaveBeenCalledOnce();
+    expect(mockGetRandomValue).toHaveBeenCalledTimes(1);
   });
 
   describe('connect', () => {
@@ -57,7 +63,7 @@ describe('get event socket', () => {
     });
 
     it('should send a postMessage to the worker', () => {
-      expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
+      expect(mockSocketWorker.postMessage).toHaveBeenCalledOnceWith({
         type: 'connect',
         id: 5
       });
@@ -65,14 +71,14 @@ describe('get event socket', () => {
 
     it('should return if connect was already called without end', () => {
       eventSocket.connect();
-      expect(socketWorker.postMessage).toHaveBeenCalledOnce();
+      expect(mockSocketWorker.postMessage).toHaveBeenCalledTimes(1);
     });
   });
 
   it('should send a message', () => {
     eventSocket.send();
 
-    expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
+    expect(mockSocketWorker.postMessage).toHaveBeenCalledOnceWith({
       type: 'send',
       id: 5
     });
@@ -81,7 +87,7 @@ describe('get event socket', () => {
   it('should send a message with a payload', () => {
     eventSocket.send({ path: '/host' });
 
-    expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
+    expect(mockSocketWorker.postMessage).toHaveBeenCalledOnceWith({
       type: 'send',
       id: 5,
       payload: { path: '/host' }
@@ -97,7 +103,7 @@ describe('get event socket', () => {
   it('should removeAllListeners on end', () => {
     eventSocket.connect();
     eventSocket.end();
-    expect(emitter.removeAllListeners).toHaveBeenCalledOnce();
+    expect(emitter.removeAllListeners).toHaveBeenCalledTimes(1);
   });
 
   describe('ack', () => {
@@ -106,15 +112,15 @@ describe('get event socket', () => {
     beforeEach(() => {
       eventSocket.connect();
 
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
 
       eventSocket.send({ path: '/host' }, spy);
 
-      ack = eventSocket.once.calls.mostRecent().args[1];
+      ack = eventSocket.once.mock.calls[0][1];
     });
 
     it('should send a message with a payload and ack', () => {
-      expect(socketWorker.postMessage).toHaveBeenCalledOnceWith({
+      expect(mockSocketWorker.postMessage).toHaveBeenCalledOnceWith({
         type: 'send',
         id: 5,
         payload: { path: '/host' },
@@ -125,7 +131,7 @@ describe('get event socket', () => {
     it('should register a once listener on ack send', () => {
       expect(emitter.once).toHaveBeenCalledOnceWith(
         'message',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 

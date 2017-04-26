@@ -1,30 +1,20 @@
-import windowUnloadModule
-  from '../../../../source/iml/window-unload/window-unload-module';
-
 describe('window unload', () => {
-  let $window;
+  let $window, windowUnload;
 
-  beforeEach(
-    module(windowUnloadModule, $provide => {
-      $window = {
-        addEventListener: jasmine.createSpy('addEventListener')
-      };
-      $provide.value('$window', $window);
-    })
-  );
+  beforeEach(() => {
+    $window = {
+      addEventListener: jest.fn()
+    };
 
-  let windowUnload;
-
-  beforeEach(
-    inject(_windowUnload_ => {
-      windowUnload = _windowUnload_;
-    })
-  );
+    windowUnload = require('../../../../source/iml/window-unload.js').default(
+      $window
+    );
+  });
 
   it('should register a beforeunload listener to $window', () => {
     expect($window.addEventListener).toHaveBeenCalledOnceWith(
       'beforeunload',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
@@ -33,7 +23,7 @@ describe('window unload', () => {
   });
 
   it('should change the unloading state once beforeunload has fired', () => {
-    const beforeUnload = $window.addEventListener.calls.mostRecent().args[1];
+    const beforeUnload = $window.addEventListener.mock.calls[0][1];
 
     beforeUnload();
 

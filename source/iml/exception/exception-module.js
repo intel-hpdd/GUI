@@ -6,10 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
 import filtersModule from '../filters/filters-module';
-import windowUnloadModule from '../window-unload/window-unload-module';
-import environment from '../environment-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import exceptionHandlerConfig from './exception-handler';
 import exceptionInterceptorFactory from './exception-interceptor';
@@ -21,13 +18,7 @@ import {
 } from './exception-modal-controller';
 
 export default angular
-  .module('exceptionModule', [
-    uiBootstrapModule,
-    modelFactoryModule,
-    filtersModule,
-    windowUnloadModule,
-    environment
-  ])
+  .module('exceptionModule', [uiBootstrapModule, filtersModule])
   .config(exceptionHandlerConfig)
   .config($httpProvider => {
     'ngInject';

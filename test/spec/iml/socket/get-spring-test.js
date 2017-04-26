@@ -1,51 +1,44 @@
 import highland from 'highland';
-import { mock, resetAll } from '../../../system-mock.js';
 
 describe('spring module', () => {
-  let regenerator, socketStream, getSpring, s;
+  let mockRegenerator, mockSocketStream, getSpring, s;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     s = highland();
-    spyOn(s, 'destroy');
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    jest.spyOn(s, 'destroy');
+    mockSocketStream = jest.fn(() => s);
 
-    regenerator = jasmine.createSpy('regenerator');
+    mockRegenerator = jest.fn();
 
-    const getSpringDependencies = await mock(
-      'source/iml/socket/get-spring.js',
-      {
-        'source/iml/regenerator.js': {
-          default: regenerator
-        },
-        'source/iml/socket/socket-stream.js': {
-          default: socketStream
-        }
-      }
+    jest.mock('../../../../source/iml/regenerator.js', () => mockRegenerator);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
+
+    const getSpringDependencies = require('../../../../source/iml/socket/get-spring.js');
 
     getSpring = getSpringDependencies.default;
     getSpring();
   });
 
-  afterEach(resetAll);
-
-  it('should pass a setup and teardown function to regenerator', function() {
-    expect(regenerator).toHaveBeenCalledOnceWith(
-      jasmine.any(Function),
-      jasmine.any(Function)
+  it('should pass a setup and teardown function to regenerator', () => {
+    expect(mockRegenerator).toHaveBeenCalledOnceWith(
+      expect.any(Function),
+      expect.any(Function)
     );
   });
 
-  it('should setup a socket stream', function() {
-    regenerator.calls.mostRecent().args[0]('foo', 'bar');
+  it('should setup a socket stream', () => {
+    mockRegenerator.mock.calls[0][0]('foo', 'bar');
 
-    expect(socketStream).toHaveBeenCalledOnceWith('foo', 'bar');
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('foo', 'bar');
   });
 
-  it('should teardown a socket stream', function() {
-    regenerator.calls.mostRecent().args[0]('foo', 'bar');
-    regenerator.calls.mostRecent().args[1](s);
+  it('should teardown a socket stream', () => {
+    mockRegenerator.mock.calls[0][0]('foo', 'bar');
+    mockRegenerator.mock.calls[0][1](s);
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

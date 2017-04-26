@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { StateServiceT } from 'angular-ui-router';
 
@@ -15,13 +15,15 @@ import type { fsCollStream } from './hsm-fs-resolves.js';
 
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
+import type { PropagateChange } from '../extend-scope-module.js';
+
 export default function HsmFsCtrl(
   $scope: $scopeT,
   $state: StateServiceT,
   $stateParams: Object,
   qsStream: qsStreamT,
   fsStream: fsCollStream,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ) {
   'ngInject';
   let fsStream2;
@@ -36,7 +38,7 @@ export default function HsmFsCtrl(
     }
   });
 
-  const p = propagateChange($scope, hsmFs);
+  const p = propagateChange.bind(null, $scope, hsmFs);
 
   p('fileSystems', fsStream());
 
@@ -48,7 +50,7 @@ export default function HsmFsCtrl(
     .tap(() => {
       if (fsStream2) {
         fsStream2.destroy();
-        hsmFs.fs = (fsStream2 = null);
+        hsmFs.fs = fsStream2 = null;
       }
     })
     .each(() => {

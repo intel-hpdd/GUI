@@ -8,7 +8,7 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-module.js';
+import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-configuration-reducer.js';
 
 import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 
@@ -24,4 +24,5 @@ if (ALLOW_ANONYMOUS_READ)
       store.dispatch({
         type: ADD_LNET_CONFIGURATION_ITEMS,
         payload
-      }));
+      })
+    );

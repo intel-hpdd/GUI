@@ -3,8 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
-
 export default function modelFactory() {
   let urlPrefix = '';
 
@@ -14,8 +12,9 @@ export default function modelFactory() {
     },
     $get: function($resource) {
       'ngInject';
-      return function getModel(config) {
-        const defaults = {
+      return function getModel({ url, params = {} }) {
+        const conf = {
+          url,
           actions: {
             get: { method: 'GET' },
             save: { method: 'POST' },
@@ -27,16 +26,16 @@ export default function modelFactory() {
               isArray: true
             }
           },
-          params: {},
+          params: {
+            ...params
+          },
           subTypes: {}
         };
 
-        const merged = _.merge(defaults, config);
-
-        if (merged.url === undefined)
+        if (conf.url === undefined)
           throw new Error('A url property must be provided to modelFactory!');
 
-        _(merged.actions).forEach(function(action) {
+        Object.values(conf.actions).forEach(function(action) {
           action.interceptor = {
             response: function(resp) {
               if (!Resource.subTypes) return resp.resource;
@@ -55,15 +54,15 @@ export default function modelFactory() {
         });
 
         const Resource = $resource(
-          urlPrefix + merged.url,
-          merged.params,
-          merged.actions
+          urlPrefix + conf.url,
+          conf.params,
+          conf.actions
         );
 
         return Resource;
 
-        function addSubTypes(subTypes, resource) {
-          _(subTypes || {}).forEach(function(SubType, name) {
+        function addSubTypes(subTypes = {}, resource) {
+          Object.entries(subTypes).forEach(([name, SubType]) => {
             if (!resource.hasOwnProperty(name)) return;
 
             resource[name] = new SubType(resource[name]);

@@ -47,7 +47,8 @@ export default function completionistModelHook($document: Document[]) {
         const viewValue = ctrl.ngModel.$viewValue;
         const text = !isFinite(value.start)
           ? `${viewValue}${viewValue.length ? ' ' : ''}${value.suggestion}`
-          : `${viewValue.slice(0, value.start)}${value.suggestion || ''}${viewValue.slice(value.end)}`;
+          : `${viewValue.slice(0, value.start)}${value.suggestion ||
+              ''}${viewValue.slice(value.end)}`;
 
         ctrl.ngModel.$setViewValue(text);
         ctrl.ngModel.$render();

@@ -7,7 +7,7 @@
 
 import angular from 'angular';
 import broadcaster from '../broadcaster.js';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import type { HighlandStreamT } from 'highland';
 

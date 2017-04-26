@@ -7,11 +7,11 @@
 
 import { getResolvedData } from '../route-utils.js';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
 import type { TransitionT, StateServiceT } from 'angular-ui-router';
 
-const defaultToObj = maybe.withDefault(() => ({}));
+const defaultToObj = maybe.withDefault.bind(null, () => ({}));
 
 export default {
   controller: function($state: StateServiceT, $transitions: TransitionT) {
@@ -27,7 +27,10 @@ export default {
       ...route.data
     };
 
-    const destroyOnBefore = $transitions.onStart({}, () => ctrl.loading = true);
+    const destroyOnBefore = $transitions.onStart(
+      {},
+      () => (ctrl.loading = true)
+    );
 
     const destroyOnSuccess = $transitions.onSuccess(
       {},

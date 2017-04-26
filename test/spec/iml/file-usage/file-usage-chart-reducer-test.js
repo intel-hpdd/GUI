@@ -3,11 +3,11 @@ import {
   DEFAULT_FILE_USAGE_CHART_ITEMS,
   default as fileUsageChartReducer
 } from '../../../../source/iml/file-usage/file-usage-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {
-    expect(fileUsageChartReducer).toEqual(jasmine.any(Function));
+    expect(fileUsageChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

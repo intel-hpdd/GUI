@@ -3,11 +3,11 @@ import {
   DEFAULT_MDO_CHART_ITEMS,
   default as mdoChartReducer
 } from '../../../../source/iml/mdo/mdo-chart-reducer.js';
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('mdo reducer', () => {
   it('should be a function', () => {
-    expect(mdoChartReducer).toEqual(jasmine.any(Function));
+    expect(mdoChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

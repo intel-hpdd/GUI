@@ -1,15 +1,14 @@
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
-import filtersModule from '../../../../source/iml/filters/filters-module';
+import angular from '../../../angular-mock-setup.js';
+import paginateFilter from '../../../../source/iml/filters/paginate-filter';
 
 describe('Paginate filter', function() {
   let paginate, items;
 
-  beforeEach(module(filtersModule));
-
   beforeEach(
-    inject(function($filter) {
-      paginate = $filter('paginate');
+    angular.mock.inject(() => {
+      paginate = paginateFilter();
     })
   );
 

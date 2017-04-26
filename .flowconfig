@@ -1,21 +1,22 @@
 [ignore]
-.*node_modules/babel-.*
-.*node_modules/babylon.*
 .*node_modules/highland.*
+*/dist/bundle*
 .*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 
 [include]
 
 [libs]
-node_modules/intel-flow-highland/flow-typed
-node_modules/intel-flow-jasmine/flow-typed
+node_modules/@mfl/flow-highland/flow-typed
+node_modules/@mfl/flow-jasmine/flow-typed
 
 [options]
-module.file_ext=.html!text
-module.file_ext=.json!json
+module.file_ext=.html
+module.file_ext=.json
+module.file_ext=.less
 module.file_ext=.js
-module.name_mapper.extension='html!text' -> '<PROJECT_ROOT>/html.js'
-module.name_mapper.extension='json!json' -> '<PROJECT_ROOT>/json.js'
-module.name_mapper='^intel-qs-parsers/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-qs-parsers/dist/source/\1.js.flow'
+module.name_mapper.extension='html' -> '<PROJECT_ROOT>/html.js'
+module.name_mapper.extension='json' -> '<PROJECT_ROOT>/json.js'
+module.name_mapper.extension='less' -> '<PROJECT_ROOT>/less.js'
 esproposal.class_instance_fields=enable
 experimental.strict_type_args=true
+experimental.strict_call_arity=true

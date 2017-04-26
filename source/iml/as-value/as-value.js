@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export default function asValue(localApply, $exceptionHandler) {
   'ngInject';
@@ -22,7 +22,7 @@ export default function asValue(localApply, $exceptionHandler) {
 
         scope.stream
           .fork()
-          .tap(v => transcludedScope.curr.val = v)
+          .tap(v => (transcludedScope.curr.val = v))
           .stopOnError(fp.unary($exceptionHandler))
           .each(localApply.bind(null, transcludedScope));
 

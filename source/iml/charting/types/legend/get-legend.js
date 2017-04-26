@@ -3,11 +3,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+import d3 from 'd3';
+import * as maybe from '@mfl/maybe';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export function getLegendFactory(d3) {
+export function getLegendFactory() {
   'ngInject';
   return function getLegend() {
     let colors;
@@ -24,7 +26,8 @@ export function getLegendFactory(d3) {
 
     const mapDimensions = fp.flow(
       fp.head,
-      fp.map(fp.invokeMethod('getBoundingClientRect', []))
+      maybe.fromJust.bind(null),
+      fp.map(fp.invokeMethod('getBoundingClientRect')([]))
     );
 
     const translate = (x, y) => `translate(${x},${y})`;
@@ -81,7 +84,8 @@ export function getLegendFactory(d3) {
           ]
         );
 
-        const updateScale = fp.curry4(fp.flow)(mapToCoords, processCoordinates);
+        const updateScale = (x, y) =>
+          fp.flow(mapToCoords, processCoordinates, x, y);
 
         const updateXScale = updateScale(mapX, xScale.range);
         updateXScale(itemWidths);
@@ -111,7 +115,8 @@ export function getLegendFactory(d3) {
               .select('circle')
               .transition()
               .attr('fill-opacity', opacityVal);
-            dispatch.selection(fp.head(group.data()), selected);
+
+            dispatch.selection(maybe.fromJust(fp.head(group.data())), selected);
           });
       });
     }
@@ -119,27 +124,24 @@ export function getLegendFactory(d3) {
     function mapToCoords(groups) {
       let pos = 0;
       let row = 1;
-      const groupHeight = fp.head(groups).height;
+      const groupHeight = maybe.fromJust(fp.head(groups)).height;
 
-      return fp.map(
-        function mapCoordinates(curObj) {
-          const itemWidth = curObj.width;
-          if (pos + itemWidth > width) {
-            pos = itemWidth + padding;
-            curObj.x = 0;
-            row += 1;
-          } else {
-            curObj.x = pos;
-            pos += itemWidth + padding;
-          }
+      return fp.map(function mapCoordinates(curObj) {
+        const itemWidth = curObj.width;
+        if (pos + itemWidth > width) {
+          pos = itemWidth + padding;
+          curObj.x = 0;
+          row += 1;
+        } else {
+          curObj.x = pos;
+          pos += itemWidth + padding;
+        }
 
-          curObj.y = row * groupHeight;
-          curObj.fits = curObj.y <= height;
+        curObj.y = row * groupHeight;
+        curObj.fits = curObj.y <= height;
 
-          return curObj;
-        },
-        groups
-      );
+        return curObj;
+      })(groups);
     }
 
     legend.colors = function colorAccessor(_) {

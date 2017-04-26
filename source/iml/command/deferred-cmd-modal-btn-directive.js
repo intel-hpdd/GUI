@@ -3,9 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import deferredCmdModalBtnTemplate
-  from './assets/html/deferred-cmd-modal-btn.html!text';
+import * as fp from '@mfl/fp';
 
 export const deferredCmdModalBtnDirective = fp.always({
   scope: {},
@@ -14,5 +12,10 @@ export const deferredCmdModalBtnDirective = fp.always({
   },
   controller: 'DeferredCommandModalBtnCtrl',
   controllerAs: 'ctrl',
-  template: deferredCmdModalBtnTemplate
+  template: `<button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
+  <i class="fa fa-spinner fa-spin"></i>Waiting
+</button>
+<button ng-click="::ctrl.openCommandModal()" class="btn btn-sm btn-default cmd-detail-btn" ng-if="!ctrl.loading">
+  <i class="fa fa-list-alt"></i>Details
+</button>`
 });

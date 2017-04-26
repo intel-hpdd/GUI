@@ -5,6 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import '../styles/imports.less';
+
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
 import './lnet/lnet-dispatch-source.js';
@@ -14,12 +16,12 @@ import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
 
+import * as ENV from './environment.js';
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import ngResource from 'angular-resource';
 import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
-import environmentModule from './environment-module';
 import exceptionModule from './exception/exception-module';
 import routeToModule from './route-to/route-to-module';
 import loginModule from './login/login-module';
@@ -32,23 +34,19 @@ import serverModule from './server/server-module';
 import jobStatsModule from './job-stats/job-stats-module';
 import hsmFsModule from './hsm/hsm-fs-module';
 import hsmModule from './hsm/hsm-module';
-import aboutModule from './about/about-module';
+import aboutComponent from './about/about-component.js';
 import modalDecoratorModule from './modal-decorator/modal-decorator-module';
 import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
 import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
-import disconnectModalModule
-  from './disconnect-modal/disconnect-modal-module.js';
 import logModule from './logs/log-module.js';
 import treeModule from './tree/tree-module.js';
 import fileSystemModule from './file-system/file-system-module.js';
 import qsStreamModule from './qs-stream/qs-stream-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
-import chartTransformersModule
-  from './chart-transformers/chart-transformers-module.js';
-import resettableGroupModule
-  from './resettable-group/resettable-group-module.js';
+import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
+import resettableGroupModule from './resettable-group/resettable-group-module.js';
 import oldRouteModule from './old-gui-shim/old-route-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
 import sliderPanelComponent from './panels/slider-panel-component.js';
@@ -59,7 +57,6 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
-import confirmButtonComponent from './confirm-button.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -92,15 +89,30 @@ import {
 
 import oldGUIStates from './old-gui-shim/old-gui-states.js';
 
-import jobTemplate from './command/assets/html/job.html!text';
+import jobTemplate from './command/assets/html/job.html';
 
-export default angular
+import {
+  getHostProfilesFactory,
+  createHostProfilesFactory
+} from './server/create-host-profiles-stream';
+
+import { imlTooltip } from './tooltip/tooltip.js';
+import imlPopover from './iml-popover.js';
+import Position from './position.js';
+import { recordStateDirective } from './alert-indicator/alert-indicator.js';
+import jobStatus from './job-indicator/job-indicator.js';
+import pdsh from './pdsh/pdsh.js';
+import help from './help.js';
+import windowUnload from './window-unload.js';
+import disconnectModal from './disconnect-modal/disconnect-modal.js';
+import disconnectListener from './disconnect-modal/disconnect-listener.js';
+
+const imlModule = angular
   .module('iml', [
     uiBootstrapModule,
     ngResource,
     ngAnimate,
     routeToModule,
-    environmentModule,
     exceptionModule,
     uiRouter,
     loginModule,
@@ -121,9 +133,7 @@ export default angular
     modelFactoryModule,
     mgtModule,
     logModule,
-    disconnectModalModule,
     treeModule,
-    aboutModule,
     fileSystemModule,
     chartTransformersModule,
     resettableGroupModule,
@@ -182,18 +192,42 @@ export default angular
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
   .directive('asViewer', asViewerDirective)
+  .component('aboutComponent', aboutComponent)
   .component('sliderPanel', sliderPanelComponent)
   .component('sidePanel', sidePanelComponent)
   .component('rootPanel', rootPanelComponent)
   .component('toggleSidePanel', toggleSidePanelComponent)
   .component('breadcrumb', breadcrumbComponent)
   .component('pageTitle', pageTitleComponent)
-  .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
+  .directive('imlTooltip', imlTooltip)
+  .directive('jobStatus', jobStatus)
+  .service('position', Position)
+  .directive('imlPopover', imlPopover)
+  .factory('getHostProfiles', getHostProfilesFactory)
+  .factory('createHostProfiles', createHostProfilesFactory)
+  .factory('help', help)
+  .factory('windowUnload', windowUnload)
+  .factory('disconnectModal', disconnectModal)
+  .directive('recordState', recordStateDirective)
+  .directive('pdsh', pdsh)
+  .constant('STATE_SIZE', {
+    SMALL: 'small',
+    MEDIUM: 'medium',
+    LARGE: 'large'
+  })
+  .value('ENV', ENV)
   .run(routeTransitions)
   .run($templateCache => {
     'ngInject';
     $templateCache.put('/gui/job.html', jobTemplate);
-  }).name;
+  })
+  .run(disconnectModal => {
+    'ngInject';
+    disconnectListener.on('open', disconnectModal.open);
+    disconnectListener.on('close', disconnectModal.close);
+  });
+
+Object.keys(ENV).forEach(key => imlModule.value(key, ENV[key]));
 
 angular.bootstrap(document, ['iml'], {});

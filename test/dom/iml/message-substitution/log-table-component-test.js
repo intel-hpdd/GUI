@@ -4,6 +4,8 @@ import store from '../../../../source/iml/store/get-store.js';
 
 import { setSession } from '../../../../source/iml/session/session-actions.js';
 
+import angular from '../../../angular-mock-setup.js';
+
 describe('log table component', () => {
   let $scope,
     template,
@@ -31,7 +33,8 @@ describe('log table component', () => {
             host_id: 1,
             fqdn: 'test001.localdomain',
             tag: 'cluster_sim',
-            message: 'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
+            message:
+              'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
             substitutions: [
               {
                 start: 48,
@@ -46,11 +49,11 @@ describe('log table component', () => {
     ]);
   });
 
-  beforeEach(module(logModule));
+  beforeEach(angular.mock.module(logModule));
 
   describe('with authorization', () => {
     beforeEach(
-      inject(($rootScope, $compile) => {
+      angular.mock.inject(($rootScope, $compile) => {
         store.dispatch(
           setSession({
             read_enabled: true,
@@ -153,7 +156,7 @@ describe('log table component', () => {
 
   describe('without authorization', () => {
     beforeEach(
-      inject(($rootScope, $compile) => {
+      angular.mock.inject(($rootScope, $compile) => {
         store.dispatch(
           setSession({
             read_enabled: true,

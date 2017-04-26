@@ -1,33 +1,27 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('slider panel', () => {
-  let inst, rootPanel, doc;
+  let inst, rootPanel, mockDoc;
 
-  beforeEachAsync(async function() {
-    doc = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
+  beforeEach(() => {
+    mockDoc = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
     };
 
-    const mod = await mock('source/iml/panels/slider-panel-component.js', {
-      'source/iml/global.js': {
-        default: {
-          document: doc
-        }
-      }
-    });
+    jest.mock('../../../../source/iml/global.js', () => ({
+      document: mockDoc
+    }));
+
+    const mod = require('../../../../source/iml/panels/slider-panel-component.js');
 
     rootPanel = {
-      setActive: jasmine.createSpy('setActive'),
-      setInactive: jasmine.createSpy('register'),
-      onChange: jasmine.createSpy('onChange')
+      setActive: jest.fn(),
+      setInactive: jest.fn(),
+      onChange: jest.fn()
     };
 
     inst = new mod.Controller();
     inst.rootPanel = rootPanel;
   });
-
-  afterEach(resetAll);
 
   describe('on mousedown', () => {
     beforeEach(() => {
@@ -35,26 +29,26 @@ describe('slider panel', () => {
     });
 
     it('should set panel to active', () => {
-      expect(rootPanel.setActive).toHaveBeenCalledOnce();
+      expect(rootPanel.setActive).toHaveBeenCalledTimes(1);
     });
 
     it('should add mousemove listener', () => {
-      expect(doc.addEventListener).toHaveBeenCalledOnceWith(
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
         'mousemove',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should add mouseup listener', () => {
-      expect(doc.addEventListener).toHaveBeenCalledOnceWith(
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
         'mouseup',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     describe('on mousemove', () => {
       beforeEach(() => {
-        doc.addEventListener.calls.argsFor(0)[1]({
+        mockDoc.addEventListener.mock.calls[0][1]({
           clientX: 10
         });
       });
@@ -66,24 +60,24 @@ describe('slider panel', () => {
 
     describe('on mouseup', () => {
       beforeEach(() => {
-        doc.addEventListener.calls.argsFor(1)[1]();
+        mockDoc.addEventListener.mock.calls[1][1]();
       });
 
       it('should set panel to inactive', () => {
-        expect(rootPanel.setInactive).toHaveBeenCalledOnce();
+        expect(rootPanel.setInactive).toHaveBeenCalledTimes(1);
       });
 
       it('should remove mousemove listener', () => {
-        expect(doc.removeEventListener).toHaveBeenCalledOnceWith(
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
           'mousemove',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 
       it('should remove mouseup listener', () => {
-        expect(doc.removeEventListener).toHaveBeenCalledOnceWith(
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
           'mouseup',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
     });

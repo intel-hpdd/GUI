@@ -1,5 +1,4 @@
-import logQsToInputParser
-  from '../../../../source/iml/logs/log-qs-to-input-parser.js';
+import logQsToInputParser from '../../../../source/iml/logs/log-qs-to-input-parser.js';
 
 describe('log qs to input parser test', () => {
   const inputOutput = {
@@ -34,9 +33,11 @@ describe('log qs to input parser test', () => {
     'a__in=1%2C2%2C3': 'a in [1, 2, 3]',
     'a=b&c=d&x__in=1': 'a = b and c = d and x in [1]',
     'a__in=2&b__in=3%2C4%2C5': 'a in [2] and b in [3, 4, 5]',
-    'b__in=1&a__in=2&b__in=3%2C4%2C5': 'b in [1] and a in [2] and b in [3, 4, 5]',
+    'b__in=1&a__in=2&b__in=3%2C4%2C5':
+      'b in [1] and a in [2] and b in [3, 4, 5]',
     'b__in=1&c=1': 'b in [1] and c = 1',
-    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=9': 'b in [1] and c = 1 and a in [2] and b in [3, 4, 5] and e = 4 and x ends with 9',
+    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=9':
+      'b in [1] and c = 1 and a in [2] and b in [3, 4, 5] and e = 4 and x ends with 9',
     'datetime=3': 'date = 3',
     'tag=cluster_sim': 'service = cluster_sim',
     'message_class=NORMAL': 'type = normal'

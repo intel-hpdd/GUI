@@ -35,8 +35,7 @@ export const fileSystemListState = {
     icon: 'fa-files-o'
   },
   controllerAs: '$ctrl',
-  template: `
-<div class="container container-full">
+  template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
    job-indicator-$="$ctrl.jobIndicator$"></file-system>
 </div>

@@ -7,7 +7,7 @@
 
 import socketStream from '../socket/socket-stream.js';
 import store from '../store/get-store.js';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import { toggleCollection } from './tree-utils.js';
 
@@ -17,7 +17,12 @@ import type { treeItemT } from './tree-types.js';
 
 import type { $scopeT } from 'angular';
 
-function treeVolumeCollection($scope: $scopeT, propagateChange: Function) {
+import type { PropagateChange } from '../extend-scope-module.js';
+
+function treeVolumeCollection(
+  $scope: $scopeT,
+  propagateChange: PropagateChange
+) {
   'ngInject';
   function computePage(meta) {
     const currentPage = meta.offset / meta.limit + 1;
@@ -31,7 +36,9 @@ function treeVolumeCollection($scope: $scopeT, propagateChange: Function) {
 
   const t1 = store.select('tree');
 
-  t1.through(emitOnItem(fn)).through(propagateChange($scope, this, 'x'));
+  t1
+    .through(emitOnItem(fn))
+    .through(propagateChange.bind(null, $scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'volume',

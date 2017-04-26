@@ -1,34 +1,32 @@
 import moment from 'moment';
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('buffer data newer than', () => {
-  let getServerMoment, bufferDataNewerThan, spy;
+  let mockGetServerMoment, bufferDataNewerThan, spy;
 
-  beforeEachAsync(async function() {
-    jasmine.clock().install();
+  beforeEach(() => {
+    jest.useFakeTimers();
 
-    spy = jasmine.createSpy('spy');
-    getServerMoment = jasmine.createSpy('getServerMoment');
+    spy = jest.fn();
+    mockGetServerMoment = jest.fn();
 
-    const mod = await mock('source/iml/charting/buffer-data-newer-than.js', {
-      'source/iml/get-server-moment.js': {
-        default: getServerMoment
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/get-server-moment.js',
+      () => mockGetServerMoment
+    );
+
+    const mod = require('../../../../source/iml/charting/buffer-data-newer-than.js');
 
     bufferDataNewerThan = mod.default;
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  afterEach(resetAll);
-
   it('should flatten milliseconds single seconds', () => {
-    getServerMoment.and.returnValue(moment('2015-05-11T00:00:03.565Z'));
+    mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:03.565Z'));
 
     highland([{ ts: '2015-05-10T23:50:00.000Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -40,7 +38,7 @@ describe('buffer data newer than', () => {
   });
 
   it('should keep points within the window', () => {
-    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
+    mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:50:59.999Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -52,7 +50,7 @@ describe('buffer data newer than', () => {
   });
 
   it('should remove points outside the window', () => {
-    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
+    mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([{ ts: '2015-05-10T23:49:50.000Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
@@ -62,7 +60,7 @@ describe('buffer data newer than', () => {
   });
 
   it('should sort the dates', () => {
-    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
+    mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:00.000Z'));
 
     highland([
       { ts: '2015-05-10T23:51:50.000Z' },
@@ -79,7 +77,7 @@ describe('buffer data newer than', () => {
   });
 
   it('should buffer points', () => {
-    getServerMoment.and.returnValue(moment('2015-05-11T00:00:00.000Z'));
+    mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:00.000Z'));
 
     const s1 = highland();
     const s2 = highland();
@@ -90,13 +88,13 @@ describe('buffer data newer than', () => {
 
     s1.write({ ts: '2015-05-10T23:50:50.000Z' });
     s1.end();
-    jasmine.clock().tick(1);
+    jest.runAllTimers();
 
     s2.through(buff).collect().each(spy);
     s2.write({ ts: '2015-05-10T23:51:50.000Z' });
     s2.write({ ts: '2015-05-10T23:52:50.000Z' });
     s2.end();
-    jasmine.clock().tick(1);
+    jest.runAllTimers();
 
     expect(spy).toHaveBeenCalledOnceWith([
       { ts: '2015-05-10T23:50:50.000Z' },

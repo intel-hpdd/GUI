@@ -1,15 +1,15 @@
 import highland from 'highland';
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import removeDupsBy from '../../../../source/iml/charting/remove-dups-by.js';
 
 describe('the remove dups plugin', function() {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
-  it('should remove dups by a comparator and timestamp', function() {
+  it('should remove dups by a comparator and timestamp', () => {
     highland([
       { ts: 1, x: 1 },
       { ts: 2, x: 3 },

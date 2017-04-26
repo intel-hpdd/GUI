@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 export function lineDirective(getLine) {
   'ngInject';
@@ -24,8 +24,8 @@ export function lineDirective(getLine) {
       const line = getLine();
 
       const callLine = fp.flow(
-        fp.invokeMethod('select', [fp.always(node)]),
-        fp.invokeMethod('call', [line])
+        x => x.select(fp.always(node)),
+        x => x.call(line)
       );
 
       chartCtrl.dispatch.on(`event.line${line.getCount()}`, (type, args) => {

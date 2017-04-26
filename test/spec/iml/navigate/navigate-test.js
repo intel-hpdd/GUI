@@ -1,24 +1,29 @@
 import navigateModule from '../../../../source/iml/navigate/navigate-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('navigate', () => {
   let $window;
 
   beforeEach(
-    module(navigateModule, { UI_ROOT: '/root/of/app/' }, $provide => {
-      $window = {
-        location: {
-          href: ''
-        }
-      };
+    angular.mock.module(
+      navigateModule,
+      { UI_ROOT: '/root/of/app/' },
+      $provide => {
+        $window = {
+          location: {
+            href: ''
+          }
+        };
 
-      $provide.value('$window', $window);
-    })
+        $provide.value('$window', $window);
+      }
+    )
   );
 
   let navigate, UI_ROOT;
 
   beforeEach(
-    inject((_navigate_, _UI_ROOT_) => {
+    angular.mock.inject((_navigate_, _UI_ROOT_) => {
       navigate = _navigate_;
       UI_ROOT = _UI_ROOT_;
     })

@@ -3,8 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-
 export default function HsmCtrl(
   $scope,
   openAddCopytoolModal,
@@ -13,16 +11,18 @@ export default function HsmCtrl(
   agentVsCopytoolChart
 ) {
   'ngInject';
-  const hsm = angular.extend(this, {
+  const hsm = Object.assign(this, {
     chart: agentVsCopytoolChart,
     openAddModal() {
       hsm.modalOpen = true;
 
-      return openAddCopytoolModal($scope).finally(() => hsm.modalOpen = false);
+      return openAddCopytoolModal($scope).finally(
+        () => (hsm.modalOpen = false)
+      );
     }
   });
 
-  const p = $scope.propagateChange($scope, hsm);
+  const p = $scope.propagateChange.bind(null, $scope, hsm);
 
   p('copytools', copytoolStream);
   p('copytoolOperations', copytoolOperationStream);

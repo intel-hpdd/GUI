@@ -1,22 +1,17 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('slider panel', () => {
   let inst, rootPanel;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/panels/toggle-side-panel-component.js', {
-    });
+  beforeEach(() => {
+    const mod = require('../../../../source/iml/panels/toggle-side-panel-component.js');
 
     rootPanel = {
-      open: jasmine.createSpy('open'),
-      close: jasmine.createSpy('close')
+      open: jest.fn(),
+      close: jest.fn()
     };
 
     inst = new mod.Controller();
     inst.rootPanel = rootPanel;
   });
-
-  afterEach(resetAll);
 
   describe('one click', () => {
     beforeEach(() => {
@@ -24,11 +19,11 @@ describe('slider panel', () => {
     });
 
     it('should call close', () => {
-      expect(rootPanel.close).toHaveBeenCalledOnce();
+      expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
 
     it('should not call open', () => {
-      expect(rootPanel.open).not.toHaveBeenCalledOnce();
+      expect(rootPanel.open).not.toHaveBeenCalledTimes(1);
     });
   });
 
@@ -39,11 +34,11 @@ describe('slider panel', () => {
     });
 
     it('should call open', () => {
-      expect(rootPanel.open).toHaveBeenCalledOnce();
+      expect(rootPanel.open).toHaveBeenCalledTimes(1);
     });
 
     it('should not call close once', () => {
-      expect(rootPanel.close).toHaveBeenCalledOnce();
+      expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
   });
 });

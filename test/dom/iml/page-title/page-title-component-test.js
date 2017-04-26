@@ -1,12 +1,11 @@
-import * as maybe from 'intel-maybe';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as maybe from '@mfl/maybe';
+import angular from '../../../angular-mock-setup.js';
 
 describe('page title component', () => {
   let $state,
     $transitions,
     pageTitleComponent,
-    getResolvedData,
+    mockGetResolvedData,
     $scope,
     $compile,
     template,
@@ -16,41 +15,35 @@ describe('page title component', () => {
     destroyOnStart,
     destroyOnSuccess;
 
-  beforeEachAsync(async function() {
-    getResolvedData = jasmine.createSpy('getResolvedData');
-    const mod = await mock('source/iml/page-title/page-title-component.js', {
-      'source/iml/route-utils': { getResolvedData }
-    });
+  beforeEach(() => {
+    mockGetResolvedData = jest.fn();
 
-    pageTitleComponent = mod.default;
+    jest.mock('../../../../source/iml/route-utils', () => ({
+      getResolvedData: mockGetResolvedData
+    }));
+
+    pageTitleComponent = require('../../../../source/iml/page-title/page-title-component.js')
+      .default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module(($compileProvider, $provide) => {
+    angular.mock.module(($compileProvider, $provide) => {
       $state = {
         router: {
           globals: {
             $current: {
               name: 'app.dashboard.overview',
-              data: {
-                kind: 'Dashboard',
-                icon: 'icon1'
-              }
+              data: { kind: 'Dashboard', icon: 'icon1' }
             }
           }
         }
       };
-
-      destroyOnStart = jasmine.createSpy('destroyOnStart');
-      destroyOnSuccess = jasmine.createSpy('destroyOnSuccess');
+      destroyOnStart = jest.fn();
+      destroyOnSuccess = jest.fn();
 
       $transitions = {
-        onStart: jasmine.createSpy('onStart').and.returnValue(destroyOnStart),
-        onSuccess: jasmine
-          .createSpy('onSuccess')
-          .and.returnValue(destroyOnSuccess)
+        onStart: jest.fn(() => destroyOnStart),
+        onSuccess: jest.fn().mockReturnValue(destroyOnSuccess)
       };
 
       $provide.value('$state', $state);
@@ -60,7 +53,7 @@ describe('page title component', () => {
   );
 
   beforeEach(
-    inject((_$compile_, $rootScope) => {
+    angular.mock.inject((_$compile_, $rootScope) => {
       $scope = $rootScope.$new();
       $compile = _$compile_;
       template = '<page-title></page-title>';
@@ -69,17 +62,13 @@ describe('page title component', () => {
 
   describe('when the transition starts', () => {
     beforeEach(() => {
-      getResolvedData.and.returnValue(
-        maybe.of({
-          label: 'fs1',
-          kind: 'Dashboard'
-        })
+      mockGetResolvedData.mockReturnValue(
+        maybe.of({ label: 'fs1', kind: 'Dashboard' })
       );
 
       el = $compile(template)($scope)[0];
-      $transitions.onStart.calls.argsFor(0)[1]();
+      $transitions.onStart.mock.calls[0][1]();
       $scope.$digest();
-
       link = el.querySelector('h3');
     });
 
@@ -87,38 +76,23 @@ describe('page title component', () => {
       expect(link.classList.contains('loading')).toBe(true);
     });
   });
-
   describe('after a successful transition', () => {
     beforeEach(() => {
-      getResolvedData.and.returnValue(
-        maybe.of({
-          label: 'fs1',
-          kind: 'Dashboard'
-        })
+      mockGetResolvedData.mockReturnValue(
+        maybe.of({ label: 'fs1', kind: 'Dashboard' })
       );
 
       el = $compile(template)($scope)[0];
-
-      getResolvedData.and.returnValue(
-        maybe.of({
-          label: 'fs1-MDT0000',
-          kind: 'Dashboard'
-        })
+      mockGetResolvedData.mockReturnValue(
+        maybe.of({ label: 'fs1-MDT0000', kind: 'Dashboard' })
       );
 
       const transition = {
-        to: jasmine.createSpy('to').and.returnValue({
-          data: {
-            kind: 'Dashboard',
-            icon: 'icon2'
-          }
-        })
+        to: jest.fn(() => ({ data: { kind: 'Dashboard', icon: 'icon2' } }))
       };
 
-      $transitions.onSuccess.calls.argsFor(0)[1](transition);
-
+      $transitions.onSuccess.mock.calls[0][1](transition);
       $scope.$digest();
-
       link = el.querySelector.bind(el, 'h3');
       linkIcon = el.querySelector.bind(el, 'h3 > i');
     });
@@ -135,14 +109,10 @@ describe('page title component', () => {
       expect(linkIcon()).toHaveClass('icon2');
     });
   });
-
   describe('on destroy', () => {
     beforeEach(() => {
-      getResolvedData.and.returnValue(
-        maybe.of({
-          label: 'fs1',
-          kind: 'Dashboard'
-        })
+      mockGetResolvedData.mockReturnValue(
+        maybe.of({ label: 'fs1', kind: 'Dashboard' })
       );
 
       el = $compile(template)($scope)[0];
@@ -151,11 +121,11 @@ describe('page title component', () => {
     });
 
     it('should destroy onStart', () => {
-      expect(destroyOnStart).toHaveBeenCalledOnce();
+      expect(destroyOnStart).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy onSuccess', () => {
-      expect(destroyOnSuccess).toHaveBeenCalledOnce();
+      expect(destroyOnSuccess).toHaveBeenCalledTimes(1);
     });
   });
 });

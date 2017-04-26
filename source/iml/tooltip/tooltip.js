@@ -8,8 +8,6 @@
 import Inferno from 'inferno';
 import HelpTooltip from '../help-tooltip.js';
 
-import tooltipTemplate from './assets/html/tooltip.html!text';
-
 import type { $scopeT } from 'angular';
 
 import type { directionsT, sizesT } from '../tooltip.js';
@@ -25,7 +23,6 @@ export function imlTooltip() {
     restrict: 'E',
     transclude: true,
     replace: true,
-    template: tooltipTemplate,
     link(scope: $scopeT & { in: string }) {
       let deregister = () => {};
 
@@ -51,7 +48,11 @@ export function imlTooltip() {
         deregister();
         hide();
       });
-    }
+    },
+    template: `<div class="tooltip inferno-tt" ng-class="[direction, in, size]">
+  <div class="tooltip-arrow"></div>
+  <div class="tooltip-inner" ng-transclude></div>
+</div>`
   };
 }
 

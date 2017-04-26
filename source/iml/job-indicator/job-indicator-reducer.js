@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator-module.js';
+import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator.js';
 
 import type { ActionT } from '../store/store-module.js';
 

@@ -3,8 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import type { HighlandStreamT } from 'highland';
 
-export default function removeDupsFactory(s) {
-  return s.uniqBy(_.eqProp('ts'));
-}
+export default (s: HighlandStreamT<Object>) =>
+  s.uniqBy((a, b) => a.ts === b.ts);

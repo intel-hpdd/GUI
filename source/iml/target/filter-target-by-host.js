@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-import extractApiId from 'intel-extract-api';
+import * as fp from '@mfl/fp';
+import extractApiId from '@mfl/extract-api';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
@@ -19,11 +19,9 @@ export default function filterTargetByHost(id: number) {
     [fp.always(true), fp.always([])]
   );
 
-  const concat = fp.curry3(function concat(fnA, fnB, x) {
-    return fnA(x).concat(fnB(x));
-  });
+  const concat = (fnA, fnB) => x => fnA(x).concat(fnB(x));
 
-  const eqId = fp.filter(fp.eqFn(fp.identity, extractApiId, id));
+  const eqId = fp.filter(fp.eqFn(fp.identity)(extractApiId)(id));
   const lengthProp = viewLens('length');
 
   return fp.map(

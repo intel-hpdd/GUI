@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 type ctrl = {
   $name: string,
@@ -39,7 +39,7 @@ export const ResettableGroupController = class {
       if (control.$addControl) {
         control.$addControl = fp.flow(
           addControl,
-          fp.bindMethod('$addControl', control)
+          fp.bindMethod('$addControl')(control)
         );
 
         return control;
@@ -47,7 +47,7 @@ export const ResettableGroupController = class {
 
       const item = { initialValue: undefined, item: control };
       this.controls.push(item);
-      const setOnce = fp.once(val => item.initialValue = val);
+      const setOnce = fp.once(val => (item.initialValue = val));
 
       control.$formatters.push(x => {
         setOnce(x);

@@ -1,5 +1,4 @@
 .babelrc
-.bowerrc
 .editorconfig
 .eslintignore
 .eslintrc
@@ -9,15 +8,8 @@
 bower.json
 html.js
 json.js
-karma-test-shim.js
-karma.conf.js
-run_test.sh
-test-gui.sh
-test-gulp.sh
 yarn.lock
-/bower_components
 /flow-typed
-/gulp
 /source
 /test
 /coverage

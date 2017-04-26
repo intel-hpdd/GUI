@@ -3,12 +3,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
-
-import eulaTemplate from './assets/html/eula.html!text';
-import accessDeniedTemplate
-  from '../access-denied/assets/html/access-denied.html!text';
-
 export default function LoginCtrl(
   $uibModal,
   $q,
@@ -20,25 +14,37 @@ export default function LoginCtrl(
   'ngInject';
   function initializeEulaDialog(user) {
     return $uibModal.open({
-      template: eulaTemplate,
+      template: `<div class="modal-header">
+  <h3>End User License Agreement Terms</h3>
+</div>
+<div class="modal-body eula">
+  <div class="well" at-scroll-boundary one-hit="{{ true }}" ng-bind-html="eulaCtrl.eula"></div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" ng-disabled="!hitBoundary" ng-click="eulaCtrl.accept()">Agree</button>
+  <button class="btn btn-danger" ng-click="eulaCtrl.reject()">Do Not Agree</button>
+</div>`,
       controller: 'EulaCtrl',
       backdrop: 'static',
       keyboard: false,
       windowClass: 'eula-modal',
       resolve: {
-        user: fp.always(user)
+        user: () => user
       }
     }).result;
   }
 
   const initializeDeniedDialog = function initializeDeniedLoginFn() {
     return $uibModal.open({
-      template: accessDeniedTemplate,
+      template: `<div class="modal-header">
+    <h3><i class="fa fa-ban"></i> Access Denied</h3>
+</div>
+<div class="modal-body access-denied">{{ accessDeniedCtrl.message }}</div>`,
       controller: 'AccessDeniedCtrl',
       backdrop: 'static',
       keyboard: false,
       resolve: {
-        message: fp.always(help.get('access_denied_eula'))
+        message: () => help.get('access_denied_eula')
       }
     }).result;
   }.bind(this);
@@ -48,7 +54,6 @@ export default function LoginCtrl(
    */
   this.submitLogin = function submitLogin() {
     this.inProgress = true;
-
     this.validate = SessionModel.login(this.username, this.password)
       .$promise.then(function(session) {
         return session.user.actOnEulaState(

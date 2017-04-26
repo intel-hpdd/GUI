@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import {
   resolveStream,
@@ -13,11 +13,11 @@ describe('resolve stream', () => {
     stream = highland();
     Stream = stream.constructor;
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
   it('should be a function', () => {
-    expect(resolveStream).toEqual(jasmine.any(Function));
+    expect(resolveStream).toEqual(expect.any(Function));
   });
 
   describe('writing a value', () => {
@@ -29,13 +29,13 @@ describe('resolve stream', () => {
       promise = resolveStream(stream);
     });
 
-    itAsync('should resolve with a stream', async function() {
+    it('should resolve with a stream', async () => {
       const s = await promise;
 
-      expect(s).toEqual(jasmine.any(Stream));
+      expect(s).toEqual(expect.any(Stream));
     });
 
-    itAsync('should contain the value', async function() {
+    it('should contain the value', async () => {
       const s = await promise;
 
       s.each(spy);
@@ -58,13 +58,13 @@ describe('resolve stream', () => {
       promise = resolveStream(stream);
     });
 
-    itAsync('should resolve with a stream', async function() {
+    it('should resolve with a stream', async () => {
       const s = await promise;
 
-      expect(s).toEqual(jasmine.any(Stream));
+      expect(s).toEqual(expect.any(Stream));
     });
 
-    itAsync('should contain the error', async function() {
+    it('should contain the error', async () => {
       const s = await promise;
 
       s.stopOnError(fp.unary(spy)).each(fp.noop);
@@ -77,23 +77,23 @@ describe('resolve stream', () => {
 describe('stream to promise', () => {
   let s, spy;
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     s = highland();
-    spyOn(s, 'destroy');
+    jest.spyOn(s, 'destroy');
   });
 
   it('should be a function', () => {
-    expect(streamToPromise).toEqual(jasmine.any(Function));
+    expect(streamToPromise).toEqual(expect.any(Function));
   });
 
-  itAsync('should return the data in a promise', async function() {
+  it('should return the data in a promise', async () => {
     s.write({ foo: 'bar' });
 
     const p = await streamToPromise(s);
     expect(p).toEqual({ foo: 'bar' });
   });
 
-  itAsync('should handle errors', async function() {
+  it('should handle errors', async () => {
     const err = {
       __HighlandStreamError__: true,
       error: new Error('boom!')
@@ -105,10 +105,10 @@ describe('stream to promise', () => {
     expect(spy).toHaveBeenCalledOnceWith(err.error);
   });
 
-  itAsync('should destroy the stream when finished', async function() {
+  it('should destroy the stream when finished', async () => {
     s.write('data');
     await streamToPromise(s);
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

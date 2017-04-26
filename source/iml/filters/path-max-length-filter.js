@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
 export default $cacheFactory => {
   'ngInject';
@@ -26,13 +26,15 @@ export default $cacheFactory => {
   function reducePath(pathComponents, maxLength) {
     let path;
     const parts = pathComponents.parts;
-    let pointer = Math.ceil(parts.length / 2) -
-      (parts.length % 2 === 1 ? 1 : 0);
+    let pointer =
+      Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
 
     parts[pointer] = '...';
 
     while (1) {
-      path = `${pathComponents.leadingSlash}${parts.join('/')}/${pathComponents.filename}`;
+      path = `${pathComponents.leadingSlash}${parts.join(
+        '/'
+      )}/${pathComponents.filename}`;
 
       if (path.length <= maxLength || parts.length === 1) break;
 

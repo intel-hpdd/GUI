@@ -5,11 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import type { PropagateChange } from '../extend-scope-module.js';
+
 export default function ServerDetailController(
   $scope: Object,
   streams: Object,
   overrideActionClick: Function,
-  propagateChange: Function
+  propagateChange: PropagateChange
 ): void {
   'ngInject';
   const serverDetailController = this;
@@ -24,9 +26,9 @@ export default function ServerDetailController(
     overrideActionClick
   });
 
-  const p = propagateChange($scope, serverDetailController);
+  const p = propagateChange.bind(null, $scope, serverDetailController);
 
-  streams.lnetConfigurationStream().through(p('lnetConfiguration'));
+  streams.lnetConfigurationStream().through(p.bind(null, 'lnetConfiguration'));
 
   streams.serverStream
     .errors(function handle404(err, push) {
@@ -37,7 +39,7 @@ export default function ServerDetailController(
 
       push(err);
     })
-    .through(p('server'));
+    .through(p.bind(null, 'server'));
 
   $scope.$on('$destroy', function onDestroy() {
     Object.keys(streams).forEach(function destroy(key) {

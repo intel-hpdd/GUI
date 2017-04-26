@@ -1,18 +1,14 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  setState,
+  trimLogs,
+  isFinished
+} from '../../../../source/iml/command/command-transforms.js';
 
 describe('command transform', () => {
-  let mod;
-
-  beforeEachAsync(async function() {
-    mod = await mock('source/iml/command/command-transforms.js', {});
-  });
-
-  afterEach(resetAll);
-
   describe('set state', () => {
     it('should indicate a cancelled command', () => {
       expect(
-        mod.setState({
+        setState({
           cancelled: true
         })
       ).toEqual({
@@ -23,7 +19,7 @@ describe('command transform', () => {
 
     it('should indicate a failed command', () => {
       expect(
-        mod.setState({
+        setState({
           errored: true
         })
       ).toEqual({
@@ -34,7 +30,7 @@ describe('command transform', () => {
 
     it('should indicate a success command', () => {
       expect(
-        mod.setState({
+        setState({
           complete: true
         })
       ).toEqual({
@@ -44,7 +40,7 @@ describe('command transform', () => {
     });
 
     it('should indicate a pending command', () => {
-      expect(mod.setState({})).toEqual({
+      expect(setState({})).toEqual({
         state: 'pending'
       });
     });
@@ -53,7 +49,7 @@ describe('command transform', () => {
   describe('trim logs', () => {
     it('should trim logs', () => {
       expect(
-        mod.trimLogs({
+        trimLogs({
           logs: ' foo bar  '
         })
       ).toEqual({
@@ -65,14 +61,14 @@ describe('command transform', () => {
   describe('is finished', () => {
     it('should indicate if command has finished', () => {
       expect(
-        mod.isFinished({
+        isFinished({
           complete: true
         })
       ).toBe(true);
     });
 
     it('should indicate if command has not finished', () => {
-      expect(mod.isFinished({})).toBe(false);
+      expect(isFinished({})).toBe(false);
     });
   });
 });

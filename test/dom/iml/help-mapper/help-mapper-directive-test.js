@@ -1,11 +1,12 @@
-import helpMapperModule
-  from '../../../../source/iml/help-mapper/help-mapper-module.js';
+import angular from '../../../angular-mock-setup.js';
+
+import helpMapperModule from '../../../../source/iml/help-mapper/help-mapper-module.js';
 
 describe('help mapper', () => {
   let $state, $transitions;
 
   beforeEach(
-    module(helpMapperModule, $provide => {
+    angular.mock.module(helpMapperModule, $provide => {
       $state = {
         $current: {
           data: {}
@@ -13,7 +14,7 @@ describe('help mapper', () => {
       };
 
       $transitions = {
-        onSuccess: jasmine.createSpy('onSuccess')
+        onSuccess: jest.fn()
       };
 
       $provide.value('$transitions', $transitions);
@@ -24,7 +25,7 @@ describe('help mapper', () => {
   let el, $scope;
 
   beforeEach(
-    inject(($compile, $rootScope) => {
+    angular.mock.inject(($compile, $rootScope) => {
       $scope = $rootScope.$new();
 
       const template = '<li help-mapper></li>';
@@ -44,7 +45,7 @@ describe('help mapper', () => {
   });
 
   it('should end with a qs on matching route change', () => {
-    const fn = $transitions.onSuccess.calls.mostRecent().args[1];
+    const fn = $transitions.onSuccess.mock.calls[0][1];
 
     fn({
       router: {

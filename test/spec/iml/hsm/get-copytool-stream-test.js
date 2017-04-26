@@ -1,46 +1,38 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('get copytool stream', () => {
-  let socketStream, stream, getCopytoolStream;
+  let mockSocketStream, stream, getCopytoolStream;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     stream = highland();
 
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
+    mockSocketStream = jest.fn(() => stream);
 
-    const mod = await mock('source/iml/hsm/get-copytool-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    const mod = require('../../../../source/iml/hsm/get-copytool-stream.js');
 
     getCopytoolStream = mod.default;
   });
 
-  afterEach(resetAll);
-
   it('should get a stream', () => {
     getCopytoolStream();
 
-    expect(socketStream).toHaveBeenCalledOnceWith('/copytool', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/copytool', {
       qs: {
         limit: 0
       },
-      jsonMask: 'objects(id,label,host/label,archive,state,\
+      jsonMask:
+        'objects(id,label,host/label,archive,state,\
 active_operations_count,available_actions,resource_uri,locks)'
     });
   });
 
-  it('should set status to state if not started', () => {
-    getCopytoolStream().each(
-      expectToEqual([
-        {
-          state: 'finished',
-          status: 'finished'
-        }
-      ])
-    );
-
+  it('should set status to state if not started', async () => {
     stream.write({
       objects: [
         {
@@ -48,19 +40,16 @@ active_operations_count,available_actions,resource_uri,locks)'
         }
       ]
     });
+
+    expect(await streamToPromise(getCopytoolStream())).toEqual([
+      {
+        state: 'finished',
+        status: 'finished'
+      }
+    ]);
   });
 
-  it('should set status to idle if no active operations', () => {
-    getCopytoolStream().each(
-      expectToEqual([
-        {
-          active_operations_count: 0,
-          state: 'started',
-          status: 'idle'
-        }
-      ])
-    );
-
+  it('should set status to idle if no active operations', async () => {
     stream.write({
       objects: [
         {
@@ -69,19 +58,17 @@ active_operations_count,available_actions,resource_uri,locks)'
         }
       ]
     });
+
+    expect(await streamToPromise(getCopytoolStream())).toEqual([
+      {
+        active_operations_count: 0,
+        state: 'started',
+        status: 'idle'
+      }
+    ]);
   });
 
-  it('should set status to working', () => {
-    getCopytoolStream().each(
-      expectToEqual([
-        {
-          active_operations_count: 1,
-          state: 'started',
-          status: 'working'
-        }
-      ])
-    );
-
+  it('should set status to working', async () => {
     stream.write({
       objects: [
         {
@@ -90,5 +77,13 @@ active_operations_count,available_actions,resource_uri,locks)'
         }
       ]
     });
+
+    expect(await streamToPromise(getCopytoolStream())).toEqual([
+      {
+        active_operations_count: 1,
+        state: 'started',
+        status: 'working'
+      }
+    ]);
   });
 });

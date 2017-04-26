@@ -6,11 +6,9 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import d3Module from '../../../d3/d3-module';
-import debounceModule from '../../../debounce/debounce-module';
 
 import { charterDirective } from './chart-directive';
 
 export default angular
-  .module('chart', [d3Module, debounceModule])
+  .module('chart', [])
   .directive('charter', charterDirective).name;

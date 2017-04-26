@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 import getCommandStream from '../command/get-command-stream.js';
 
@@ -13,7 +13,7 @@ import type { $scopeT } from 'angular';
 
 import type { localApplyT } from '../extend-scope-module.js';
 
-const set = fp.curry3((ctx, name, x) => ctx[name] = x);
+const set = (ctx, name) => x => (ctx[name] = x);
 
 const notCancelled = fp.filter(
   fp.flow(fp.view(fp.lensProp('cancelled')), fp.not)

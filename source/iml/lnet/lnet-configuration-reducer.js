@@ -7,7 +7,7 @@
 
 import type { ActionT } from '../store/store-module.js';
 
-import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-module.js';
+export const ADD_LNET_CONFIGURATION_ITEMS = 'ADD_LNET_CONFIGURATION_ITEMS';
 
 export default function(
   state: Array<Object> = [],

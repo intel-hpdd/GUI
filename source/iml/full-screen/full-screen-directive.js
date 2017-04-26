@@ -3,15 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-
-import fullScreenButtonTextTemplate
-  from './assets/html/full-screen-button-text.html!text';
-
 export function fullScreenBtn() {
   return {
     restrict: 'A',
-    template: fullScreenButtonTextTemplate,
+    template: `<span ng-if="fullScreenCtrl.isFullScreen">Exit Full Screen <i class="fa fa-compress"></i></span>
+<span ng-if="!fullScreenCtrl.isFullScreen">Full Screen <i class="fa fa-expand"></i></span>`,
     require: '^fullScreen',
     scope: {},
     link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {
@@ -54,7 +50,7 @@ export function fullScreen() {
         body = null;
       });
 
-      angular.extend(this, {
+      Object.assign(this, {
         isFullScreen: false,
         fullScreen(fullScreenMode) {
           this.isFullScreen = fullScreenMode;

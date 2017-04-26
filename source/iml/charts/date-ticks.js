@@ -3,10 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 import moment from 'moment';
+import d3 from 'd3';
 
-export default d3 => {
+export default () => {
   'ngInject';
   const month = d3.time.format('%b %d %H:%M');
   const day = d3.time.format('%d %H:%M:%S');

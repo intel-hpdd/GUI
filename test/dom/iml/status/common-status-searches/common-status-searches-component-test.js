@@ -1,23 +1,36 @@
-import * as fp from 'intel-fp';
-import commonStatusSearchesModule
-  from '../../../../../source/iml/status/common-status-searches/common-status-searches-module';
+import * as fp from '@mfl/fp';
+import angular from '../../../../angular-mock-setup.js';
+import angularUiBootstrap from 'angular-ui-bootstrap';
+import commonStatusSearchesComponent from '../../../../../source/iml/status/common-status-searches/common-status-searches-component.js';
 
 describe('common status searches', () => {
-  beforeEach(module(commonStatusSearchesModule, 'ngAnimateMock'));
-
   let el, $scope, $animate, qs, cleanText, panelTitle, panelCollapse, searches;
 
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
+
   beforeEach(
-    inject(($rootScope, $compile, _$animate_) => {
+    angular.mock.module(
+      angularUiBootstrap,
+      'ngAnimateMock',
+      $compileProvider => {
+        $compileProvider.component(
+          'commonStatusSearches',
+          commonStatusSearchesComponent
+        );
+      }
+    )
+  );
+
+  beforeEach(
+    angular.mock.inject(($rootScope, $compile, _$animate_) => {
       const template = '<common-status-searches></common-status-searches>';
 
       $animate = _$animate_;
       $scope = $rootScope.$new();
 
-      cleanText = fp.flow(
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
+      cleanText = fp.flow(fp.view(fp.lensProp('textContent')), x => x.trim());
 
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);

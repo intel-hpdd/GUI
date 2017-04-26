@@ -3,9 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export function axisDirective(d3) {
+export function axisDirective() {
   'ngInject';
   return {
     restrict: 'A',

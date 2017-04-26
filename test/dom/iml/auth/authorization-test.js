@@ -1,14 +1,15 @@
 // @flow
 
-import * as fp from 'intel-fp';
-
 import {
   restrict,
   restrictTo
 } from '../../../../source/iml/auth/authorization.js';
+
 import store from '../../../../source/iml/store/get-store.js';
 
 import { setSession } from '../../../../source/iml/session/session-actions.js';
+
+import angular from '../../../angular-mock-setup.js';
 
 describe('authorization', () => {
   const data = [
@@ -142,7 +143,7 @@ describe('authorization', () => {
 
   data.forEach(test => {
     describe('module', () => {
-      beforeEachAsync(async () => {
+      beforeEach(() => {
         store.dispatch(
           setSession({
             read_enabled: false,
@@ -172,7 +173,7 @@ describe('authorization', () => {
       });
 
       beforeEach(
-        module(($provide, $compileProvider) => {
+        angular.mock.module(($provide, $compileProvider) => {
           $compileProvider.directive('restrict', restrict);
           $compileProvider.directive('restrictTo', restrictTo);
         })
@@ -180,13 +181,13 @@ describe('authorization', () => {
 
       let $scope, genRestrictTo, genRestrict;
       beforeEach(
-        inject(($compile, $rootScope) => {
+        angular.mock.inject(($compile, $rootScope) => {
           $scope = $rootScope.$new();
 
-          const template = fp.curry2((attr, val) => {
+          const template = attr => val => {
             const str = `<div ${attr}="${val}"></div>`;
             return $compile(str)($scope);
-          });
+          };
 
           genRestrictTo = template('restrict-to');
           genRestrict = template('restrict');
@@ -202,7 +203,8 @@ describe('authorization', () => {
             $scope.$digest();
           });
 
-          it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
+          it(`should be ${test.sessionGroups[0]
+            .name} to group ${test.group}`, () => {
             expect(el.hasClass('invisible')).toEqual(
               !test.visibility.restrictTo
             );
@@ -216,7 +218,8 @@ describe('authorization', () => {
           });
 
           it(`should be ${test.isVisible ? 'visible' : 'invisible'}
- to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
+ to group ${test.sessionGroups[0]
+   .name} when restricted to ${test.group}`, () => {
             expect(el.hasClass('invisible')).toEqual(
               !test.visibility.restricted
             );

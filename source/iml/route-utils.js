@@ -5,11 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import extractApi from 'intel-extract-api';
+import extractApi from '@mfl/extract-api';
 
-import * as maybe from 'intel-maybe';
+import * as maybe from '@mfl/maybe';
 
-import type { Maybe } from 'intel-maybe';
+import * as fp from '@mfl/fp';
+
+import type { Maybe } from '@mfl/maybe';
 
 import type { TransitionT } from 'angular-ui-router';
 
@@ -31,11 +33,9 @@ export const getResolvedData = (
   transition: TransitionT,
   resolveName: string
 ): Maybe<any> => {
-  return maybe.map(
-    n => {
-      if (transition.getResolveTokens().indexOf(n) > -1)
-        return transition.getResolveValue(n);
-    },
+  const resolvedToken = maybe.chain(
+    x => fp.find(val => val === x)(transition.getResolveTokens()),
     maybe.of(resolveName)
   );
+  return maybe.map(transition.getResolveValue.bind(transition), resolvedToken);
 };

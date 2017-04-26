@@ -1,16 +1,9 @@
-import serverModule from '../../../../source/iml/server/server-module';
 import highland from 'highland';
-import ServerDetailController
-  from '../../../../source/iml/server/server-detail-controller';
+import ServerDetailController from '../../../../source/iml/server/server-detail-controller.js';
+import angular from '../../../angular-mock-setup.js';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
-describe('server detail controller', function() {
-  beforeEach(
-    module(serverModule, $exceptionHandlerProvider => {
-      $exceptionHandlerProvider.mode('log');
-    })
-  );
-
+describe('server detail controller', () => {
   let $scope,
     serverDetailController,
     serverStream,
@@ -24,32 +17,40 @@ describe('server detail controller', function() {
     corosyncConfigurationStream;
 
   beforeEach(
-    inject(($controller, $rootScope, _$exceptionHandler_) => {
+    angular.mock.module($exceptionHandlerProvider => {
+      $exceptionHandlerProvider.mode('log');
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject(($rootScope, _$exceptionHandler_, propagateChange) => {
       $exceptionHandler = _$exceptionHandler_;
 
       $scope = $rootScope.$new();
-      spyOn($scope, '$on');
+      jest.spyOn($scope, '$on');
 
       serverStream = highland();
-      spyOn(serverStream, 'destroy');
+      jest.spyOn(serverStream, 'destroy');
       jobMonitorStream = highland();
-      spyOn(jobMonitorStream, 'destroy');
+      jest.spyOn(jobMonitorStream, 'destroy');
       alertMonitorStream = highland();
-      spyOn(alertMonitorStream, 'destroy');
+      jest.spyOn(alertMonitorStream, 'destroy');
       networkInterfaceStream = highland();
-      spyOn(networkInterfaceStream, 'destroy');
+      jest.spyOn(networkInterfaceStream, 'destroy');
       lnetConfigurationStream = highland();
-      spyOn(lnetConfigurationStream, 'destroy');
+      jest.spyOn(lnetConfigurationStream, 'destroy');
       corosyncConfigurationStream = highland();
-      spyOn(corosyncConfigurationStream, 'destroy');
+      jest.spyOn(corosyncConfigurationStream, 'destroy');
       pacemakerConfigurationStream = highland();
-      spyOn(pacemakerConfigurationStream, 'destroy');
+      jest.spyOn(pacemakerConfigurationStream, 'destroy');
 
-      overrideActionClick = function overrideActionClick() {};
+      overrideActionClick = () => {};
 
-      serverDetailController = $controller('ServerDetailController', {
-        $scope: $scope,
-        streams: {
+      serverDetailController = {};
+
+      ServerDetailController.bind(serverDetailController)(
+        $scope,
+        {
           lnetConfigurationStream: broadcaster(lnetConfigurationStream),
           jobMonitorStream: broadcaster(jobMonitorStream),
           alertMonitorStream: broadcaster(alertMonitorStream),
@@ -60,38 +61,42 @@ describe('server detail controller', function() {
           networkInterfaceStream,
           serverStream
         },
-        overrideActionClick
-      });
+        overrideActionClick,
+        propagateChange
+      );
     })
   );
 
-  it('should setup the controller', function() {
-    const instance = window.extendWithConstructor(ServerDetailController, {
-      lnetConfigurationStream: jasmine.any(Function),
-      jobMonitorStream: jasmine.any(Function),
-      alertMonitorStream: jasmine.any(Function),
-      corosyncConfigurationStream: jasmine.any(Function),
-      pacemakerConfigurationStream: jasmine.any(Function),
-      networkInterfaceStream: networkInterfaceStream,
-      overrideActionClick
-    });
+  it('should setup the controller', () => {
+    const instance = {
+      ...serverDetailController,
+      ...{
+        lnetConfigurationStream: expect.any(Function),
+        jobMonitorStream: expect.any(Function),
+        alertMonitorStream: expect.any(Function),
+        corosyncConfigurationStream: expect.any(Function),
+        pacemakerConfigurationStream: expect.any(Function),
+        networkInterfaceStream: networkInterfaceStream,
+        overrideActionClick
+      }
+    };
 
     expect(serverDetailController).toEqual(instance);
   });
 
-  describe('writing data', function() {
-    beforeEach(function() {
+  describe('writing data', () => {
+    beforeEach(() => {
       serverStream.write({
         address: 'lotus-34vm5'
       });
     });
 
-    it('should set it on the scope', function() {
+    it('should set it on the scope', () => {
       expect(serverDetailController.server).toEqual({ address: 'lotus-34vm5' });
     });
   });
 
-  it('should write lnet configuration data', function() {
+  it('should write lnet configuration data', () => {
     lnetConfigurationStream.write({
       foo: 'bar'
     });
@@ -101,14 +106,14 @@ describe('server detail controller', function() {
     });
   });
 
-  describe('writing an error', function() {
+  describe('writing an error', () => {
     let err;
 
-    beforeEach(function() {
+    beforeEach(() => {
       err = new Error('boom!');
     });
 
-    it('should write null on 404', function() {
+    it('should write null on 404', () => {
       err.statusCode = 404;
       serverStream.write({
         __HighlandStreamError__: true,
@@ -118,7 +123,7 @@ describe('server detail controller', function() {
       expect(serverDetailController.server).toEqual(null);
     });
 
-    it('should re-push the error if not 404', function() {
+    it('should re-push the error if not 404', () => {
       serverStream.write({
         __HighlandStreamError__: true,
         error: err
@@ -128,37 +133,37 @@ describe('server detail controller', function() {
     });
   });
 
-  describe('on destroy', function() {
-    beforeEach(function() {
-      $scope.$on.calls.mostRecent().args[1]();
+  describe('on destroy', () => {
+    beforeEach(() => {
+      $scope.$on.mock.calls[0][1]();
     });
 
-    it('should destroy the server stream', function() {
-      expect(serverStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the server stream', () => {
+      expect(serverStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the job monitor stream', function() {
-      expect(jobMonitorStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the job monitor stream', () => {
+      expect(jobMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the alert Monitor stream', function() {
-      expect(alertMonitorStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the alert Monitor stream', () => {
+      expect(alertMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the network interface stream', function() {
-      expect(networkInterfaceStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the network interface stream', () => {
+      expect(networkInterfaceStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the LNet configuration stream', function() {
-      expect(lnetConfigurationStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the LNet configuration stream', () => {
+      expect(lnetConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the corosync configuration stream', function() {
-      expect(corosyncConfigurationStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the corosync configuration stream', () => {
+      expect(corosyncConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the pacemaker configuration stream', function() {
-      expect(pacemakerConfigurationStream.destroy).toHaveBeenCalledOnce();
+    it('should destroy the pacemaker configuration stream', () => {
+      expect(pacemakerConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

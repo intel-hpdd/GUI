@@ -1,32 +1,32 @@
 import highland from 'highland';
-import { mock, resetAll } from '../../../system-mock.js';
 
 describe('server dispatch source', () => {
-  let store, socketStream, s;
+  let mockStore, mockSocketStream, s;
 
-  beforeEachAsync(async function() {
-    const CACHE_INITIAL_DATA = {
+  beforeEach(() => {
+    const mockCacheInitialData = {
       host: ['host']
     };
 
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
+    mockStore = {
+      dispatch: jest.fn()
     };
 
     s = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    mockSocketStream = jest.fn(() => s);
 
-    await mock('source/iml/server/server-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store },
-      'source/iml/environment.js': {
-        CACHE_INITIAL_DATA,
-        ALLOW_ANONYMOUS_READ: true
-      },
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      CACHE_INITIAL_DATA: mockCacheInitialData,
+      ALLOW_ANONYMOUS_READ: true
+    }));
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    require('../../../../source/iml/server/server-dispatch-source.js');
   });
-
-  afterEach(resetAll);
 
   beforeEach(() => {
     s.write({
@@ -43,20 +43,20 @@ describe('server dispatch source', () => {
   });
 
   it('should dispatch cached servers into the store', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_SERVER_ITEMS',
       payload: ['host']
     });
   });
 
   it('should invoke the socket stream', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/host', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/host', {
       qs: { limit: 0 }
     });
   });
 
   it('should update servers when new items arrive from a persistent socket', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_SERVER_ITEMS',
       payload: [
         {

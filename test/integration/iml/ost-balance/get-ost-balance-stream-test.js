@@ -1,60 +1,52 @@
 import highland from 'highland';
 
-import ostBalanceModule
-  from '../../../../source/iml/ost-balance/ost-balance-module';
-
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('get OST balance stream', () => {
-  let socketStream, getOstBalanceStream, ostMetricsStream, flushOnChange;
+  let mockSocketStream, getOstBalanceStream, spy, end;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.callFake(() => ostMetricsStream = highland());
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => {
+      const s = highland();
 
-    flushOnChange = jasmine.createSpy('flushOnChange').and.callFake(x => x);
+      end = x => {
+        s.write(x);
+        s.end();
+        jest.runAllTimers();
+      };
 
-    const mod = await mock('source/iml/ost-balance/get-ost-balance-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/chart-transformers/chart-transformers': { flushOnChange }
+      return s;
     });
 
-    getOstBalanceStream = mod.default;
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
 
-    jasmine.clock().install();
+    getOstBalanceStream = require('../../../../source/iml/ost-balance/get-ost-balance-stream.js')
+      .default;
+
+    spy = jest.fn();
+
+    jest.useFakeTimers();
   });
-
-  beforeEach(module(ostBalanceModule));
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  afterEach(resetAll);
-
   it('should return a factory function', () => {
-    expect(getOstBalanceStream).toEqual(jasmine.any(Function));
+    expect(getOstBalanceStream).toEqual(expect.any(Function));
   });
 
   describe('fetching metrics', () => {
-    let spy, ostBalanceStream;
-
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      getOstBalanceStream(0, {}).each(spy);
 
-      ostBalanceStream = getOstBalanceStream(0, {});
-
-      ostBalanceStream.each(spy);
-
-      ostMetricsStream.write('foo');
-      ostMetricsStream.end();
-
-      jasmine.clock().tick(10000);
+      end('foo');
     });
 
     it('should request data without overrides', () => {
-      expect(socketStream).toHaveBeenCalledTwiceWith(
+      expect(mockSocketStream).toHaveBeenCalledTwiceWith(
         '/ost-balance',
         { percentage: 0 },
         true

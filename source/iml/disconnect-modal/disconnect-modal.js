@@ -3,11 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { windowUnloadT } from '../window-unload/window-unload-module.js';
+import windowUnload from '../window-unload.js';
 
 export default function disconnectModalFactory(
   $uibModal: Object,
-  windowUnload: windowUnloadT,
   $timeout: Function
 ) {
   'ngInject';

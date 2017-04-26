@@ -1,27 +1,27 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 import highland from 'highland';
+import * as maybe from '@mfl/maybe';
 
 describe('old gui resolves', () => {
-  let getStore, socketStream, mod;
+  let mockGetStore, mockSocketStream, mod;
 
-  beforeEachAsync(async function() {
-    getStore = {
-      select: jasmine.createSpy('select')
+  beforeEach(() => {
+    mockGetStore = {
+      select: jest.fn()
     };
-    socketStream = jasmine.createSpy('socketStream');
+    mockSocketStream = jest.fn();
 
-    mod = await mock('source/iml/old-gui-shim/old-gui-resolves.js', {
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/old-gui-shim/old-gui-resolves.js');
   });
 
-  afterEach(resetAll);
-
   describe('old filesystem detail resolve', () => {
-    itAsync('should resolve with the specified id', async function() {
-      getStore.select.and.callFake(key => {
+    it('should resolve with the specified id', async () => {
+      mockGetStore.select.mockImplementation(key => {
         if (key === 'fileSystems')
           return highland([
             [
@@ -35,13 +35,13 @@ describe('old gui resolves', () => {
       const result = await mod.oldFilesystemDetailResolve.resolve.getData({
         id: 7
       });
-      expect(result).toEqual({ id: 7, label: 'fs7' });
+      expect(result).toEqual(maybe.ofJust({ id: 7, label: 'fs7' }));
     });
   });
 
   describe('old user detail resolve', () => {
-    itAsync('should resolve with the specified id', async function() {
-      getStore.select.and.callFake(key => {
+    it('should resolve with the specified id', async () => {
+      mockGetStore.select.mockImplementation(key => {
         if (key === 'users')
           return highland([
             [
@@ -58,8 +58,8 @@ describe('old gui resolves', () => {
   });
 
   describe('old target resolve', () => {
-    itAsync('should resolve with the specified id', async function() {
-      getStore.select.and.callFake(key => {
+    it('should resolve with the specified id', async () => {
+      mockGetStore.select.mockImplementation(key => {
         if (key === 'targets')
           return highland([
             [
@@ -71,13 +71,13 @@ describe('old gui resolves', () => {
       });
 
       const result = await mod.oldTargetResolve.resolve.getData({ id: 7 });
-      expect(result).toEqual({ id: 7, label: 'target7' });
+      expect(result).toEqual(maybe.ofJust({ id: 7, label: 'target7' }));
     });
   });
 
   describe('old storage plugin resolve', () => {
-    itAsync('should resolve with the specified id', async function() {
-      socketStream.and.callFake(url => {
+    it('should resolve with the specified id', async () => {
+      mockSocketStream.mockImplementation(url => {
         if (url === '/storage_resource/7')
           return highland([{ id: 7, plugin_name: 'plugin2' }]);
       });

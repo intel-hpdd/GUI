@@ -1,29 +1,20 @@
-import angular from 'angular';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
+import {
+  remoteValidateForm,
+  remoteValidateComponent
+} from '../../../../source/iml/remote-validate/remote-validate.js';
 
 describe('Remote validate directive', () => {
   let controller, formControllerSpy, $q, $scope, $element;
 
-  function createComponent(name) {
-    return jasmine.createSpyObj(name, ['$setValidity']);
+  function createComponent() {
+    return {
+      $setValidity: jest.fn()
+    };
   }
 
-  let remoteValidateForm, remoteValidateComponent;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/remote-validate/remote-validate.js', {});
-
-    ({
-      remoteValidateForm,
-      remoteValidateComponent
-    } = mod);
-  });
-
-  afterEach(resetAll);
-
   beforeEach(
-    module($compileProvider => {
+    angular.mock.module($compileProvider => {
       $compileProvider.directive(
         'remoteValidateForm',
         () => remoteValidateForm
@@ -36,14 +27,14 @@ describe('Remote validate directive', () => {
   );
 
   beforeEach(
-    inject(($controller, $rootScope, _$q_) => {
+    angular.mock.inject(($controller, $rootScope, _$q_) => {
       $q = _$q_;
 
       $scope = $rootScope.$new();
 
       $element = {
         controller: () => {
-          formControllerSpy = createComponent('formController');
+          formControllerSpy = createComponent();
           return formControllerSpy;
         }
       };
@@ -76,9 +67,8 @@ describe('Remote validate directive', () => {
         foo: ['bar']
       };
 
-      const obj = createComponent('obj');
+      const obj = createComponent();
       controller.registerComponent('foo', obj);
-
       controller.resetComponentsValidity();
 
       expect(formControllerSpy.$setValidity).toHaveBeenCalledWith(
@@ -101,8 +91,8 @@ describe('Remote validate directive', () => {
     beforeEach(() => {
       deferred = $q.defer();
 
-      controller.registerComponent('foo', createComponent('foo'));
-      controller.registerComponent('bar', createComponent('bar'));
+      controller.registerComponent('foo', createComponent());
+      controller.registerComponent('bar', createComponent());
 
       remoteValidateForm.link(
         $scope,
@@ -184,8 +174,8 @@ describe('Remote validate directive', () => {
   describe('form component directive', () => {
     it(
       "should register it's model onto the form controller",
-      inject($rootScope => {
-        const controllers = [controller, jasmine.createSpy('ngModel')];
+      angular.mock.inject($rootScope => {
+        const controllers = [controller, jest.fn()];
         const scope = $rootScope.$new();
         const attrs = {
           name: 'foo'
@@ -202,7 +192,7 @@ describe('Remote validate directive', () => {
     let form, getDeferred;
 
     beforeEach(
-      inject(($rootScope, $compile) => {
+      angular.mock.inject(($rootScope, $compile) => {
         const template = `
         <form name="testForm" remote-validate-form validate="validate">
           <ul ng-repeat="error in serverValidationError.__all__">
@@ -218,7 +208,7 @@ describe('Remote validate directive', () => {
         getDeferred = () => {
           const deferred = $q.defer();
 
-          angular.extend($scope, {
+          Object.assign($scope, {
             validate: deferred.promise
           });
 

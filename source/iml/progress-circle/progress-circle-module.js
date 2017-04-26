@@ -4,11 +4,10 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import _ from 'intel-lodash-mixins';
-import d3module from '../d3/d3-module';
+import _ from '@mfl/lodash-mixins';
 
 export default angular
-  .module('progressCircleModule', [d3module])
+  .module('progressCircleModule', [])
   .directive('progressCircle', [
     'd3',
     function(d3) {

@@ -1,12 +1,10 @@
 // @flow
 
-import {
-  default as sessionReducer
-} from '../../../../source/iml/session/session-reducer.js';
+import { default as sessionReducer } from '../../../../source/iml/session/session-reducer.js';
 
 import type { sessionT } from '../../../../source/iml/api-types.js';
 
-import deepFreeze from 'intel-deep-freeze';
+import deepFreeze from '@mfl/deep-freeze';
 
 describe('session reducer', () => {
   let session: sessionT;
@@ -38,7 +36,7 @@ describe('session reducer', () => {
   });
 
   it('should be a function', () => {
-    expect(sessionReducer).toEqual(jasmine.any(Function));
+    expect(sessionReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

@@ -3,11 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import * as fp from 'intel-fp';
-import charterTemplate from './assets/html/chart.html!text';
+import debounce from '@mfl/debounce';
+import d3 from 'd3';
 
-export function charterDirective($window, d3, debounce) {
+export function charterDirective($window) {
   'ngInject';
   return {
     restrict: 'A',
@@ -21,7 +20,7 @@ export function charterDirective($window, d3, debounce) {
     controller: function CharterDirectiveCtrl($element) {
       /* jshint -W034 */
       'ngInject';
-      this.margin = angular.extend(
+      this.margin = Object.assign(
         {
           top: 30,
           right: 30,
@@ -47,14 +46,18 @@ export function charterDirective($window, d3, debounce) {
     require: 'charter',
     templateNamespace: 'svg',
     transclude: true,
-    template: charterTemplate,
+    template: `<svg class="charting">
+  <g ng-attr-transform="translate({{ ctrl.margin.left }},{{ ctrl.margin.top }})" ng-transclude></g>
+</svg>`,
     link(scope, el, attrs, ctrl) {
-      const setDimenstions = fp.flow(
-        fp.invokeMethod('attr', ['width', ctrl.getOuterWidth]),
-        fp.invokeMethod('attr', ['height', ctrl.getOuterHeight])
-      );
+      const setDimensions = x => {
+        x.attr('width', ctrl.getOuterWidth());
+        x.attr('height', ctrl.getOuterHeight());
 
-      setDimenstions(ctrl.svg);
+        return x;
+      };
+
+      setDimensions(ctrl.svg);
 
       scope.stream.each(xs => {
         ctrl.onUpdate.forEach(update => {
@@ -76,15 +79,17 @@ export function charterDirective($window, d3, debounce) {
       function onResize() {
         ctrl.onUpdate.forEach(onChange =>
           onChange({
-            svg: setDimenstions(ctrl.svg).transition().duration(0),
+            svg: setDimensions(ctrl.svg).transition().duration(0),
             width: ctrl.getWidth(),
             height: ctrl.getHeight(),
             xs: ctrl.svg.datum()
-          }));
+          })
+        );
       }
 
       scope.$on('$destroy', () =>
-        $window.removeEventListener('resize', debounced));
+        $window.removeEventListener('resize', debounced)
+      );
     }
   };
 }

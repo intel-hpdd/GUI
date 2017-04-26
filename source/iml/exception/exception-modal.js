@@ -3,9 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from 'intel-lodash-mixins';
+import _ from '@mfl/lodash-mixins';
 
-const template = '<div class="modal-header"> \
+const template =
+  '<div class="modal-header"> \
       <h3>An Error Has Occurred!</h3> \
   </div> \
   <div class="modal-body"> \

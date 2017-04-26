@@ -1,8 +1,33 @@
-import { mgtState } from '../../../../source/iml/mgt/mgt-states.js';
-
-import { GROUPS } from '../../../../source/iml/auth/authorization.js';
-
 describe('mgt states', () => {
+  let mgtState,
+    mockGroups,
+    mockMgt$,
+    mockMgtJobIndicatorB,
+    mockMgtAlertIndicatorB;
+
+  beforeEach(() => {
+    mockGroups = {
+      SUPERUSERS: 'superusers',
+      FS_ADMINS: 'filesystem_administrators',
+      FS_USERS: 'filesystem_users'
+    };
+
+    mockMgt$ = jest.fn();
+    mockMgtJobIndicatorB = jest.fn();
+    mockMgtAlertIndicatorB = jest.fn();
+
+    jest.mock('../../../../source/iml/mgt/mgt-resolves.js', () => ({
+      mgt$: mockMgt$,
+      mgtJobIndicatorB: mockMgtJobIndicatorB,
+      mgtAlertIndicatorB: mockMgtAlertIndicatorB
+    }));
+    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+      GROUPS: mockGroups
+    }));
+
+    mgtState = require('../../../../source/iml/mgt/mgt-states.js').mgtState;
+  });
+
   it('should create the state', () => {
     expect(mgtState).toEqual({
       name: 'app.mgt',
@@ -15,16 +40,16 @@ describe('mgt states', () => {
       },
       data: {
         helpPage: 'mgts_tab.htm',
-        access: GROUPS.FS_ADMINS,
+        access: mockGroups.FS_ADMINS,
         anonymousReadProtected: true,
         eulaState: true,
         kind: 'MGTs',
         icon: 'fa-bullseye'
       },
       resolve: {
-        mgt$: jasmine.any(Function),
-        mgtAlertIndicatorB: jasmine.any(Function),
-        mgtJobIndicatorB: jasmine.any(Function)
+        mgt$: mockMgt$,
+        mgtAlertIndicatorB: mockMgtAlertIndicatorB,
+        mgtJobIndicatorB: mockMgtJobIndicatorB
       }
     });
   });

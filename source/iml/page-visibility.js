@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from 'intel-fp';
+import * as fp from '@mfl/fp';
 
 import global from './global.js';
 
@@ -17,13 +17,10 @@ export default function pageVisibility(
   let id;
 
   const setCancelled = () => {
-    id = setTimeout(
-      () => {
-        id = null;
-        onHide();
-      },
-      timeout
-    );
+    id = setTimeout(() => {
+      id = null;
+      onHide();
+    }, timeout);
   };
 
   const cancelTimeout = () => {
