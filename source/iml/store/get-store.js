@@ -28,6 +28,7 @@ import treeReducer from '../tree/tree-reducer.js';
 import userReducer from '../user/user-reducer.js';
 import loginFormReducer from '../login/login-form-reducer.js';
 import sessionReducer from '../session/session-reducer.js';
+import storageReducer from '../storage/storage-reducer.js';
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -50,5 +51,6 @@ export default createStore({
   tree: treeReducer,
   users: userReducer,
   loginForm: loginFormReducer,
-  session: sessionReducer
+  session: sessionReducer,
+  storage: storageReducer
 });
