@@ -57,6 +57,7 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
+import storageModule from './storage/storage-module.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -77,6 +78,8 @@ import { logState, logTableState } from './logs/log-states.js';
 import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
+
+import { storageState } from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -137,7 +140,8 @@ const imlModule = angular
     fileSystemModule,
     chartTransformersModule,
     resettableGroupModule,
-    oldRouteModule
+    oldRouteModule,
+    storageModule
   ])
   .config($compileProvider => {
     'ngInject';
@@ -187,7 +191,8 @@ const imlModule = angular
       .state(dashboardOstState)
       .state(dashboardMdtState)
       .state(dashboardFsState)
-      .state(jobStatsState);
+      .state(jobStatsState)
+      .state(storageState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
