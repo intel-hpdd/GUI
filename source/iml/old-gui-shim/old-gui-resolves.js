@@ -7,7 +7,6 @@
 
 import * as maybe from '@mfl/maybe';
 import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
 
 import { streamToPromise } from '../promise-transforms.js';
 
@@ -43,17 +42,6 @@ export const oldTargetResolve = {
       return streamToPromise(store.select('targets')).then(
         matchById($stateParams.id)
       );
-    }
-  }
-};
-
-export const oldStoragePluginResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(
-        socketStream(`/storage_resource/${$stateParams.id}`, {}, true)
-      ).then(x => ({ label: x.plugin_name }));
     }
   }
 };
