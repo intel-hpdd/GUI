@@ -177,7 +177,7 @@ describe('job stats top stream', () => {
       afterEach(() => jasmine.clock().uninstall());
 
       it('should call once before 10s', () => {
-        expect(spy).toHaveBeenCalledOnce();
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('should call every 10s', () => {

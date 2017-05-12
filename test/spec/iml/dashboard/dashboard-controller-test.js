@@ -234,7 +234,7 @@ describe('dashboard controller', () => {
     });
 
     it('should destroy the qs$', () => {
-      expect(qs$.destroy).toHaveBeenCalledOnce();
+      expect(qs$.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

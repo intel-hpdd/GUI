@@ -91,7 +91,7 @@ describe('Configure LNet', () => {
     it('should end the network interface stream on destroy', () => {
       $scope.$on.calls.mostRecent().args[1]();
 
-      expect(networkInterfaceStream.destroy).toHaveBeenCalledOnce();
+      expect(networkInterfaceStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should setup the controller as expected', () => {

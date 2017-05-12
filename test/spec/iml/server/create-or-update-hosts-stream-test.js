@@ -300,7 +300,7 @@ describe('create or update hosts stream', function() {
     });
 
     it('should only call once', function() {
-      expect(socketStream).toHaveBeenCalledOnce();
+      expect(socketStream).toHaveBeenCalledTimes(1);
     });
 
     it('should resolve with the unused hosts', function() {

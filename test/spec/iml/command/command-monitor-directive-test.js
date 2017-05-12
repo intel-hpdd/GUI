@@ -78,7 +78,7 @@ describe('Command monitor controller', () => {
 
       handler();
 
-      expect(stream.destroy).toHaveBeenCalledOnce();
+      expect(stream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -118,7 +118,7 @@ describe('Command monitor controller', () => {
 
       it('should end the stream after the modal closes', () => {
         openCommandModalPromise.finally(() => {
-          expect(commandStream.destroy).toHaveBeenCalledOnce();
+          expect(commandStream.destroy).toHaveBeenCalledTimes(1);
         });
 
         $scope.$digest();

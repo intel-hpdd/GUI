@@ -36,7 +36,7 @@ describe('Get server moment', function() {
     });
 
     it('should invoke moment', () => {
-      expect(moment).toHaveBeenCalledOnce();
+      expect(moment).toHaveBeenCalledTimes(1);
     });
 
     it('should return a moment instance', () => {

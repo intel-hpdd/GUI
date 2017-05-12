@@ -145,7 +145,7 @@ describe('broadcaster', () => {
     });
 
     it('should call destroy on the source$ once', () => {
-      expect(source$.destroy).toHaveBeenCalledOnce();
+      expect(source$.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should write 3 to the first viewer', () => {

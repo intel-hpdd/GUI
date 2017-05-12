@@ -72,7 +72,7 @@ describe('exception handler', () => {
     it('should only open the modal once', function() {
       $exceptionHandler(error, cause);
 
-      expect(exceptionModal).toHaveBeenCalledOnce();
+      expect(exceptionModal).toHaveBeenCalledTimes(1);
     });
 
     it('should delegate to the older $exceptionHandler', function() {

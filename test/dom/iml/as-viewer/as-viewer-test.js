@@ -1,5 +1,6 @@
 import highland from 'highland';
 import * as fp from '@mfl/fp';
+import angular from '../../../angular-mock-setup.js';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
 
@@ -7,14 +8,14 @@ describe('as viewer', () => {
   let $compile, $scope, el, s, getText, v;
 
   beforeEach(
-    module($compileProvider => {
+    angular.mock.module($compileProvider => {
       $compileProvider.directive('asViewer', asViewerDirective);
     })
   );
 
   describe('with transform', () => {
     beforeEach(
-      inject(($rootScope, _$compile_) => {
+      angular.mock.inject(($rootScope, _$compile_) => {
         $compile = _$compile_;
 
         const template = `

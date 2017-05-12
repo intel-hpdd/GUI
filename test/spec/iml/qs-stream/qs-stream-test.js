@@ -34,7 +34,7 @@ describe('qs stream', () => {
   it('should deregister the listener on stream destruction', () => {
     qsStream({}).destroy();
 
-    expect(destructor).toHaveBeenCalledOnce();
+    expect(destructor).toHaveBeenCalledTimes(1);
   });
 
   describe('invoking', () => {

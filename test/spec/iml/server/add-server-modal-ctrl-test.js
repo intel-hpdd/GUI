@@ -83,7 +83,7 @@ describe('add server modal', () => {
       beforeEach(() => invokeController());
 
       it('should invoke the steps manager', () => {
-        expect(deps.getAddServerManager).toHaveBeenCalledOnce();
+        expect(deps.getAddServerManager).toHaveBeenCalledTimes(1);
       });
 
       it('should start the steps manager', () => {
@@ -101,7 +101,7 @@ describe('add server modal', () => {
         resultEndPromise.resolve('test');
 
         $scope.$digest();
-        expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
+        expect(deps.$uibModalInstance.close).toHaveBeenCalledTimes(1);
       });
 
       it('should contain the manager', () => {
@@ -124,15 +124,15 @@ describe('add server modal', () => {
         });
 
         it('should destroy the manager', () => {
-          expect(stepsManager.destroy).toHaveBeenCalledOnce();
+          expect(stepsManager.destroy).toHaveBeenCalledTimes(1);
         });
 
         it('should destroy the spring', () => {
-          expect(spring.destroy).toHaveBeenCalledOnce();
+          expect(spring.destroy).toHaveBeenCalledTimes(1);
         });
 
         it('should close the modal', () => {
-          expect(deps.$uibModalInstance.close).toHaveBeenCalledOnce();
+          expect(deps.$uibModalInstance.close).toHaveBeenCalledTimes(1);
         });
       });
     });

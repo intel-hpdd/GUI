@@ -144,7 +144,7 @@ describe('Modal test', () => {
 
       it('should call onAgree when the success button is clicked', () => {
         successButton.click();
-        expect(onAgree).toHaveBeenCalledOnce();
+        expect(onAgree).toHaveBeenCalledTimes(1);
       });
 
       it('should have a danger button', () => {
@@ -153,7 +153,7 @@ describe('Modal test', () => {
 
       it('should call onDisagree when the danger button is clicked', () => {
         dangerButton.click();
-        expect(onDisagree).toHaveBeenCalledOnce();
+        expect(onDisagree).toHaveBeenCalledTimes(1);
       });
     });
   });

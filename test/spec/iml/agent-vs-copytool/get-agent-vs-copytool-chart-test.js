@@ -228,7 +228,7 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should invoke the getAgentVsCopytoolStream', () => {
-    expect(getAgentVsCopytoolStream).toHaveBeenCalledOnce();
+    expect(getAgentVsCopytoolStream).toHaveBeenCalledTimes(1);
   });
 
   it('should invoke the chart compiler', () => {
@@ -244,7 +244,7 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should create a xScale', () => {
-    expect(d3.time.scale).toHaveBeenCalledOnce();
+    expect(d3.time.scale).toHaveBeenCalledTimes(1);
   });
 
   it('should create a yScale', () => {
@@ -253,7 +253,7 @@ describe('get agent vs copytool chart exports', () => {
 
   describe('name color scale', () => {
     it('should be an ordinal scale', () => {
-      expect(d3.scale.ordinal).toHaveBeenCalledOnce();
+      expect(d3.scale.ordinal).toHaveBeenCalledTimes(1);
     });
 
     it('should set the domain', () => {
@@ -446,7 +446,7 @@ describe('get agent vs copytool chart exports', () => {
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,13 +1,14 @@
 import * as fp from '@mfl/fp';
 import highland from 'highland';
+import angular from '../../../angular-mock-setup.js';
 import asStreamModule from '../../../../source/iml/as-stream/as-stream-module';
 import asValueModule from '../../../../source/iml/as-value/as-value-module';
 
-describe('As stream', function() {
+describe('As stream', () => {
   let s;
 
   beforeEach(
-    module(asStreamModule, asValueModule, function($provide) {
+    angular.mock.module(asStreamModule, asValueModule, function($provide) {
       $provide.value('highland', function() {
         s = highland();
 
@@ -44,11 +45,7 @@ describe('As stream', function() {
       el = compile($scope);
 
       const find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(
-        find,
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
+      getText = fp.flow(find, x => x.textContent.trim());
     })
   );
 
@@ -74,6 +71,6 @@ describe('As stream', function() {
   it('should destroy the stream on scope destruction', function() {
     $scope.$destroy();
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

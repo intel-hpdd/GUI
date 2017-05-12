@@ -448,11 +448,11 @@ describe('breadcrumb', () => {
       });
 
       it('should destroy the onStart callback', () => {
-        expect(onStart).toHaveBeenCalledOnce();
+        expect(onStart).toHaveBeenCalledTimes(1);
       });
 
       it('should destroy the onSuccess callback', () => {
-        expect(onSuccess).toHaveBeenCalledOnce();
+        expect(onSuccess).toHaveBeenCalledTimes(1);
       });
     });
   });

@@ -35,7 +35,7 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {
@@ -59,7 +59,7 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {
@@ -83,7 +83,7 @@ describe('dashboard resolves', () => {
     });
 
     it('should be a broadcaster', () => {
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledTimes(1);
     });
 
     it('should select from the store', () => {

@@ -76,7 +76,7 @@ describe('wait-for-command-completion-service', () => {
       it('should destroy the command stream', () => {
         jasmine.clock().tick();
 
-        expect(commandStream.destroy).toHaveBeenCalledOnce();
+        expect(commandStream.destroy).toHaveBeenCalledTimes(1);
       });
 
       it('should resolve the result', () => {

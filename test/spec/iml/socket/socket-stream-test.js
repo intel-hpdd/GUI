@@ -85,7 +85,7 @@ describe('socket stream', () => {
 
       ack({});
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should end after an error', () => {
@@ -95,7 +95,7 @@ describe('socket stream', () => {
 
       ack({ error: 'boom!' });
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should end if stream is paused', () => {
@@ -107,7 +107,7 @@ describe('socket stream', () => {
         error: 'boom!'
       });
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should handle errors', () => {
@@ -143,7 +143,7 @@ describe('socket stream', () => {
     });
 
     it('should connect the socket', () => {
-      expect(socket.connect).toHaveBeenCalledOnce();
+      expect(socket.connect).toHaveBeenCalledTimes(1);
     });
 
     it('should send data to the socket', () => {
@@ -158,7 +158,7 @@ describe('socket stream', () => {
     it('should end on destroy', () => {
       s.destroy();
 
-      expect(socket.end).toHaveBeenCalledOnce();
+      expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
     it('should handle errors', () => {

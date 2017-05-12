@@ -128,7 +128,7 @@ describe('action dropdown', () => {
 
       jasmine.clock().tick();
 
-      expect(commandStream.destroy).toHaveBeenCalledOnce();
+      expect(commandStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should indicate that data has not been received', () => {

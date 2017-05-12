@@ -46,7 +46,7 @@ describe('status records component', () => {
 
   it('should destroy the notificationStream when the scope is destroyed', () => {
     $scope.$destroy();
-    expect(notificationStream.destroy).toHaveBeenCalledOnce();
+    expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('getting notificationStream data', () => {

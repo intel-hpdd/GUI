@@ -58,7 +58,7 @@ describe('angular exec', () => {
 
       it('should invoke the injector', done => {
         result$.each(() => {
-          expect(element.injector).toHaveBeenCalledOnce();
+          expect(element.injector).toHaveBeenCalledTimes(1);
           done();
         });
       });

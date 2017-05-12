@@ -35,7 +35,7 @@ describe('slider panel', () => {
     });
 
     it('should set panel to active', () => {
-      expect(rootPanel.setActive).toHaveBeenCalledOnce();
+      expect(rootPanel.setActive).toHaveBeenCalledTimes(1);
     });
 
     it('should add mousemove listener', () => {
@@ -70,7 +70,7 @@ describe('slider panel', () => {
       });
 
       it('should set panel to inactive', () => {
-        expect(rootPanel.setInactive).toHaveBeenCalledOnce();
+        expect(rootPanel.setInactive).toHaveBeenCalledTimes(1);
       });
 
       it('should remove mousemove listener', () => {

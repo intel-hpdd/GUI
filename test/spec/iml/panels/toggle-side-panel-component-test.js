@@ -26,11 +26,11 @@ describe('slider panel', () => {
     });
 
     it('should call close', () => {
-      expect(rootPanel.close).toHaveBeenCalledOnce();
+      expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
 
     it('should not call open', () => {
-      expect(rootPanel.open).not.toHaveBeenCalledOnce();
+      expect(rootPanel.open).not.toHaveBeenCalledTimes(1);
     });
   });
 
@@ -41,11 +41,11 @@ describe('slider panel', () => {
     });
 
     it('should call open', () => {
-      expect(rootPanel.open).toHaveBeenCalledOnce();
+      expect(rootPanel.open).toHaveBeenCalledTimes(1);
     });
 
     it('should not call close once', () => {
-      expect(rootPanel.close).toHaveBeenCalledOnce();
+      expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
   });
 });

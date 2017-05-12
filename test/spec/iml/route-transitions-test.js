@@ -275,7 +275,7 @@ describe('route transitions', () => {
         });
 
         it('should call transition.to', () => {
-          expect(transition.to).toHaveBeenCalledOnce();
+          expect(transition.to).toHaveBeenCalledTimes(1);
         });
 
         it('should return an object if not authenticated', () => {

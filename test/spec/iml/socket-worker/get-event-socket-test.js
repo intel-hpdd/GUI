@@ -48,7 +48,7 @@ describe('get event socket', () => {
   });
 
   it('should get an id', () => {
-    expect(getRandomValue).toHaveBeenCalledOnce();
+    expect(getRandomValue).toHaveBeenCalledTimes(1);
   });
 
   describe('connect', () => {
@@ -65,7 +65,7 @@ describe('get event socket', () => {
 
     it('should return if connect was already called without end', () => {
       eventSocket.connect();
-      expect(socketWorker.postMessage).toHaveBeenCalledOnce();
+      expect(socketWorker.postMessage).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -97,7 +97,7 @@ describe('get event socket', () => {
   it('should removeAllListeners on end', () => {
     eventSocket.connect();
     eventSocket.end();
-    expect(emitter.removeAllListeners).toHaveBeenCalledOnce();
+    expect(emitter.removeAllListeners).toHaveBeenCalledTimes(1);
   });
 
   describe('ack', () => {

@@ -302,7 +302,7 @@ describe('MDO chart', () => {
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

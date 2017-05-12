@@ -159,7 +159,7 @@ describe('Login Controller', () => {
       $httpBackend.flush();
 
       expect($uibModal.open.calls.count()).toEqual(0);
-      expect(navigate).toHaveBeenCalledOnce();
+      expect(navigate).toHaveBeenCalledTimes(1);
     });
 
     it('should logout when eula is rejected', () => {
@@ -179,7 +179,7 @@ describe('Login Controller', () => {
 
       $rootScope.$digest();
 
-      expect(navigate).toHaveBeenCalledOnce();
+      expect(navigate).toHaveBeenCalledTimes(1);
     });
   });
 

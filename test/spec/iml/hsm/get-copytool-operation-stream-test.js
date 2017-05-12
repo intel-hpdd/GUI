@@ -37,7 +37,7 @@ updated_at,started_at,throughput,type,state,path,description)',
     const s = getCopytoolOperationStream();
     s.destroy();
 
-    expect(stream.destroy).toHaveBeenCalledOnce();
+    expect(stream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('computed values', () => {

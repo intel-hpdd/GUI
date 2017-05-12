@@ -151,11 +151,11 @@ describe('page title component', () => {
     });
 
     it('should destroy onStart', () => {
-      expect(destroyOnStart).toHaveBeenCalledOnce();
+      expect(destroyOnStart).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy onSuccess', () => {
-      expect(destroyOnSuccess).toHaveBeenCalledOnce();
+      expect(destroyOnSuccess).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -52,7 +52,7 @@ describe('getResolvedData', () => {
     });
 
     it('should call getResolveTokens', () => {
-      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+      expect(transition.getResolveTokens).toHaveBeenCalledTimes(1);
     });
 
     it('should call getResolveValue', () => {
@@ -82,7 +82,7 @@ describe('getResolvedData', () => {
     });
 
     it('should call getResolveTokens', () => {
-      expect(transition.getResolveTokens).toHaveBeenCalledOnce();
+      expect(transition.getResolveTokens).toHaveBeenCalledTimes(1);
     });
 
     it('should not call getResolveValue', () => {

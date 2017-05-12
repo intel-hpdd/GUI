@@ -27,6 +27,7 @@
     "object-values-to-object-keys",
     "transform-flow-strip-types",
     "transform-class-properties",
+    "transform-remove-strict-mode",
     "syntax-jsx",
     "inferno"
   ]

@@ -89,7 +89,7 @@ describe('root panel component', () => {
 
       raf.calls.mostRecent().args[0]();
 
-      expect(spy).toHaveBeenCalledOnce();
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should deregister listeners', () => {

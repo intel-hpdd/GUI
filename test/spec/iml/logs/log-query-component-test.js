@@ -79,6 +79,6 @@ describe('log query component controller', () => {
   it('should destroy the route stream when the scope is destroyed', () => {
     $scope.$destroy();
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

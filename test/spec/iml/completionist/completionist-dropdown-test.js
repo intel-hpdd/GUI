@@ -93,7 +93,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault).toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -112,7 +112,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault).toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -131,7 +131,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault).toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -147,7 +147,7 @@ describe('completionist dropdown', () => {
       });
 
       it('should prevent default', () => {
-        expect(data.event.preventDefault).toHaveBeenCalledOnce();
+        expect(data.event.preventDefault).toHaveBeenCalledTimes(1);
       });
     });
   });

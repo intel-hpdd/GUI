@@ -1,10 +1,11 @@
+import angular from '../../../angular-mock-setup.js';
 import filtersModule from '../../../../source/iml/filters/filters-module';
 
 describe('Insert help text filter', () => {
   let insertHelp, help, result, helpFilter;
 
   beforeEach(
-    module(filtersModule, $provide => {
+    angular.mock.module(filtersModule, $provide => {
       helpFilter = {
         valueOf: jasmine.createSpy('valueOf')
       };
@@ -18,7 +19,7 @@ describe('Insert help text filter', () => {
   );
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject(function($filter) {
       insertHelp = $filter('insertHelp');
     })
   );
@@ -29,7 +30,7 @@ describe('Insert help text filter', () => {
     });
 
     it('should retrieve values from help', function() {
-      expect(help.get).toHaveBeenCalledOnce();
+      expect(help.get).toHaveBeenCalledTimes(1);
     });
 
     it('should return the wrapper', function() {

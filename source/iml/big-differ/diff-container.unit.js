@@ -18,7 +18,7 @@ describe('diff container', () => {
 
     diffContainerController.reset();
 
-    expect(spy).toHaveBeenCalledOnce();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should tell if a differ is clean', () => {

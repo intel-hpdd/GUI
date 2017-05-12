@@ -1,11 +1,14 @@
+import angular from '../../../angular-mock-setup.js';
+import filtersModule from '../../../../source/iml/filters/filters-module';
+
 describe('PDSH filter', function() {
   'use strict';
   let pdsh, items;
 
-  beforeEach(module('filters'));
+  beforeEach(angular.mock.module(filtersModule));
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject(function($filter) {
       pdsh = $filter('pdsh');
     })
   );

@@ -281,7 +281,7 @@ describe('server', () => {
     it('should open the addServer Dialog', () => {
       server.addServer();
 
-      expect(openAddServerModal).toHaveBeenCalledOnce();
+      expect(openAddServerModal).toHaveBeenCalledTimes(1);
     });
 
     it('should get an action by value', () => {
@@ -375,19 +375,19 @@ describe('server', () => {
     });
 
     it('should destroy the job monitor', () => {
-      expect(jobMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(jobMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the alert monitor', () => {
-      expect(alertMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(alertMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the server stream', () => {
-      expect(serversStream.destroy).toHaveBeenCalledOnce();
+      expect(serversStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the LNet configuration stream', () => {
-      expect(lnetConfigurationStream.destroy).toHaveBeenCalledOnce();
+      expect(lnetConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -184,7 +184,7 @@ describe('space usage chart', () => {
   });
 
   it('should call getSpaceUsageStream', function() {
-    expect(getSpaceUsageStream).toHaveBeenCalledOnce();
+    expect(getSpaceUsageStream).toHaveBeenCalledTimes(1);
   });
 
   describe('config', () => {
@@ -221,7 +221,7 @@ describe('space usage chart', () => {
     it('should destroy the stream when the chart is destroyed', () => {
       $scope.$destroy();
 
-      expect(stream.destroy).toHaveBeenCalledOnce();
+      expect(stream.destroy).toHaveBeenCalledTimes(1);
       expect(config1$.destroy).toHaveBeenCalled();
       expect(config2$.destroy).toHaveBeenCalled();
     });
@@ -301,7 +301,7 @@ describe('space usage chart', () => {
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

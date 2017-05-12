@@ -1,5 +1,6 @@
 import highland from 'highland';
-
+import '../../../angular-mock-setup.js';
+import { extendWithConstructor } from '../../../test-utils.js';
 import HsmCtrl from '../../../../source/iml/hsm/hsm-controller';
 
 describe('HSM controller', () => {
@@ -9,8 +10,6 @@ describe('HSM controller', () => {
     openAddCopytoolModal,
     copytoolOperationStream,
     copytoolStream;
-
-  beforeEach(module('hsm'));
 
   beforeEach(
     inject(($controller, $rootScope, $q) => {
@@ -31,8 +30,8 @@ describe('HSM controller', () => {
         .createSpy('openAddCopytoolModal')
         .and.returnValue($q.resolve());
 
-      hsm = $controller('HsmCtrl', {
-        $scope: $scope,
+      hsm = $controller(HsmCtrl, {
+        $scope,
         agentVsCopytoolChart,
         openAddCopytoolModal,
         copytoolStream,
@@ -42,7 +41,7 @@ describe('HSM controller', () => {
   );
 
   it('should setup controller as expected', () => {
-    const scope = window.extendWithConstructor(HsmCtrl, {
+    const scope = extendWithConstructor(HsmCtrl, {
       chart: agentVsCopytoolChart,
       openAddModal: jasmine.any(Function)
     });
@@ -87,15 +86,15 @@ describe('HSM controller', () => {
     });
 
     it('should destroy the copytoolStream', () => {
-      expect(copytoolStream.destroy).toHaveBeenCalledOnce();
+      expect(copytoolStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the copytoolOperationStream', () => {
-      expect(copytoolOperationStream.destroy).toHaveBeenCalledOnce();
+      expect(copytoolOperationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the chart', () => {
-      expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledOnce();
+      expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -98,7 +98,7 @@ describe('stream when visible', () => {
 
     stream.errors(spy).each(fp.noop);
 
-    expect(spy).toHaveBeenCalledOnce();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it('should pass values to stream', () => {
@@ -130,7 +130,7 @@ describe('stream when visible', () => {
   it('should destroy the stream on page hidden', () => {
     pageVisibility.calls.mostRecent().args[0]();
 
-    expect(inStream.destroy).toHaveBeenCalledOnce();
+    expect(inStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   it('should write a document visible token on page visible', () => {
@@ -178,7 +178,7 @@ describe('stream when visible', () => {
       });
 
       it('should call the stream function', () => {
-        expect(streamFn).toHaveBeenCalledOnce();
+        expect(streamFn).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -189,15 +189,15 @@ describe('stream when visible', () => {
     });
 
     it('should destroy the stream', () => {
-      expect(inStream.destroy).toHaveBeenCalledOnce();
+      expect(inStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the visibleStream', () => {
-      expect(stream.destroy).toHaveBeenCalledOnce();
+      expect(stream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should remove the listener', () => {
-      expect(removeListener).toHaveBeenCalledOnce();
+      expect(removeListener).toHaveBeenCalledTimes(1);
     });
   });
 });

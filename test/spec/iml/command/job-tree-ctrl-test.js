@@ -107,7 +107,7 @@ describe('job tree', function() {
     it('should end the stream on destroy', function() {
       $scope.$on.calls.mostRecent().args[1]();
 
-      expect(jobStream.destroy).toHaveBeenCalledOnce();
+      expect(jobStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     describe('do transition', function() {

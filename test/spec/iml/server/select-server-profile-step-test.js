@@ -82,7 +82,7 @@ describe('select server profile', () => {
       });
 
       it('should end the hostProfileSpark', () => {
-        expect(hostProfileStream.destroy).toHaveBeenCalledOnce();
+        expect(hostProfileStream.destroy).toHaveBeenCalledTimes(1);
       });
 
       it('should call transition on the step instance', () => {

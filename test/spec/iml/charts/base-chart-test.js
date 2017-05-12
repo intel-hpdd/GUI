@@ -208,7 +208,7 @@ describe('base chart', () => {
       });
 
       it('should remove the svg element', () => {
-        expect(svg.remove).toHaveBeenCalledOnce();
+        expect(svg.remove).toHaveBeenCalledTimes(1);
       });
     });
   });

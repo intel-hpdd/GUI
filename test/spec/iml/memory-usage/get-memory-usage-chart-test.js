@@ -185,7 +185,7 @@ describe('memory usage chart', () => {
   });
 
   it('should call getMemoryUsageStream with the key', function() {
-    expect(getMemoryUsageStream).toHaveBeenCalledOnce();
+    expect(getMemoryUsageStream).toHaveBeenCalledTimes(1);
   });
 
   describe('config', () => {
@@ -295,7 +295,7 @@ describe('memory usage chart', () => {
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

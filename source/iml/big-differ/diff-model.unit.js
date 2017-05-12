@@ -69,7 +69,7 @@ describe('diff model', () => {
         local: 'foo'
       });
 
-      expect(diffModelCtrl.modelCtrl.$render).toHaveBeenCalledOnce();
+      expect(diffModelCtrl.modelCtrl.$render).toHaveBeenCalledTimes(1);
     });
 
     it('should return early if local is null', () => {

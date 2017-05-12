@@ -91,7 +91,7 @@ describe('Server Status Step', () => {
       });
 
       it('should destroy the test host stream', () => {
-        expect(testHostStream.destroy).toHaveBeenCalledOnce();
+        expect(testHostStream.destroy).toHaveBeenCalledTimes(1);
       });
     });
 

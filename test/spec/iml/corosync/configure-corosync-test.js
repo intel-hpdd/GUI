@@ -79,15 +79,15 @@ describe('configure corosync', () => {
       });
 
       it('should destroy the stream', () => {
-        expect(s.destroy).toHaveBeenCalledOnce();
+        expect(s.destroy).toHaveBeenCalledTimes(1);
       });
 
       it('should destroy the alert stream', () => {
-        expect(alertStream.destroy).toHaveBeenCalledOnce();
+        expect(alertStream.destroy).toHaveBeenCalledTimes(1);
       });
 
       it('should destroy the job stream', () => {
-        expect(jobStream.destroy).toHaveBeenCalledOnce();
+        expect(jobStream.destroy).toHaveBeenCalledTimes(1);
       });
     });
 

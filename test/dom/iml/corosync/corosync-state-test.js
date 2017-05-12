@@ -50,6 +50,6 @@ describe('corosync state directive', () => {
   it('should destroy the stream when the scope is destroyed', () => {
     $scope.$destroy();
 
-    expect($scope.stream.destroy).toHaveBeenCalledOnce();
+    expect($scope.stream.destroy).toHaveBeenCalledTimes(1);
   });
 });

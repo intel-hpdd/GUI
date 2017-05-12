@@ -128,7 +128,7 @@ describe('App controller', () => {
     });
 
     it('should delete the session', function() {
-      expect(appController.session.$delete).toHaveBeenCalledOnce();
+      expect(appController.session.$delete).toHaveBeenCalledTimes(1);
     });
 
     it('should navigate to login', function() {
@@ -142,11 +142,11 @@ describe('App controller', () => {
     });
 
     it('should destroy the notification stream', function() {
-      expect(notificationStream.destroy).toHaveBeenCalledOnce();
+      expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the alert stream', function() {
-      expect(alertStream.destroy).toHaveBeenCalledOnce();
+      expect(alertStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -67,7 +67,7 @@ describe('hsm fs resolve', () => {
     itAsync('should send the stream through broadcaster', async function() {
       await promise;
 
-      expect(broadcaster).toHaveBeenCalledOnce();
+      expect(broadcaster).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -20,7 +20,7 @@ describe('Regenerator module', () => {
       });
 
       it('should call the setup function', function() {
-        expect(setup).toHaveBeenCalledOnce();
+        expect(setup).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -47,7 +47,7 @@ describe('Regenerator module', () => {
     });
 
     it('should call tear down', function() {
-      expect(teardown).toHaveBeenCalledOnce();
+      expect(teardown).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -111,7 +111,7 @@ describe('Add copytool modal', () => {
       });
 
       it('should close the modal', () => {
-        expect($uibModalInstance.close).toHaveBeenCalledOnce();
+        expect($uibModalInstance.close).toHaveBeenCalledTimes(1);
       });
     });
   });

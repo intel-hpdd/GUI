@@ -1,11 +1,12 @@
 import * as fp from '@mfl/fp';
+import angular from '../../angular-mock-setup.js';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 
 describe('extend scope test', () => {
   let $exceptionHandler;
 
   beforeEach(
-    module(extendScopeModule, $provide => {
+    angular.mock.module(extendScopeModule, $provide => {
       $exceptionHandler = jasmine.createSpy('$exceptionHandler');
       $provide.value('$exceptionHandler', $exceptionHandler);
     })
@@ -14,7 +15,7 @@ describe('extend scope test', () => {
   let localApply, $scope;
 
   beforeEach(
-    inject(function(_localApply_, $rootScope) {
+    angular.mock.inject((_localApply_, $rootScope) => {
       localApply = _localApply_;
       $scope = $rootScope.$new();
     })
@@ -34,7 +35,7 @@ describe('extend scope test', () => {
 
       localApply($scope);
 
-      expect($scope.$digest).toHaveBeenCalledOnce();
+      expect($scope.$digest).toHaveBeenCalledTimes(1);
     });
 
     it('should not digest if root scope is in phase', function() {
@@ -44,7 +45,7 @@ describe('extend scope test', () => {
 
       localApply($scope);
 
-      expect($scope.$digest).not.toHaveBeenCalledOnce();
+      expect($scope.$digest).not.toHaveBeenCalledTimes(1);
     });
 
     it('should call the exception handler if $digest throws an error', function() {

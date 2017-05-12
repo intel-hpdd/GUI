@@ -158,7 +158,7 @@ describe('confirm button', () => {
       });
 
       it('should call confirmClick', () => {
-        expect(spy).toHaveBeenCalledOnce();
+        expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('should remove the event listener', () => {

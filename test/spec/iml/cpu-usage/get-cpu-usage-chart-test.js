@@ -178,7 +178,7 @@ describe('cpu usage chart', () => {
   });
 
   it('should call getCpuUsageStream', () => {
-    expect(getCpuUsageStream).toHaveBeenCalledOnce();
+    expect(getCpuUsageStream).toHaveBeenCalledTimes(1);
   });
 
   describe('config', () => {
@@ -310,7 +310,7 @@ describe('cpu usage chart', () => {
     });
 
     it('should invoke the submit handler', () => {
-      expect(submitHandler).toHaveBeenCalledOnce();
+      expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });
 });

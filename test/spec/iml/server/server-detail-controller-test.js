@@ -134,31 +134,31 @@ describe('server detail controller', function() {
     });
 
     it('should destroy the server stream', function() {
-      expect(serverStream.destroy).toHaveBeenCalledOnce();
+      expect(serverStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the job monitor stream', function() {
-      expect(jobMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(jobMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the alert Monitor stream', function() {
-      expect(alertMonitorStream.destroy).toHaveBeenCalledOnce();
+      expect(alertMonitorStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the network interface stream', function() {
-      expect(networkInterfaceStream.destroy).toHaveBeenCalledOnce();
+      expect(networkInterfaceStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the LNet configuration stream', function() {
-      expect(lnetConfigurationStream.destroy).toHaveBeenCalledOnce();
+      expect(lnetConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the corosync configuration stream', function() {
-      expect(corosyncConfigurationStream.destroy).toHaveBeenCalledOnce();
+      expect(corosyncConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the pacemaker configuration stream', function() {
-      expect(pacemakerConfigurationStream.destroy).toHaveBeenCalledOnce();
+      expect(pacemakerConfigurationStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

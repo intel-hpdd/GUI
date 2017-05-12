@@ -1,7 +1,9 @@
 import 'angular';
 import 'angular-mocks';
+import extendScopeModule from '../source/iml/extend-scope-module.js';
 
 const angular = window.angular;
-angular.module('iml', []);
+
+beforeEach(angular.mock.module(extendScopeModule));
 
 export default angular;

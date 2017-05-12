@@ -1,12 +1,13 @@
+import angular from '../../../angular-mock-setup.js';
 import filterModule from '../../../../source/iml/filters/filters-module';
 
 describe('pathMaxLength Filter', () => {
   let pathMaxLengthFilter, cache;
 
-  beforeEach(module(filterModule));
+  beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
-    inject(function($filter) {
+    angular.mock.inject($filter => {
       pathMaxLengthFilter = $filter('pathMaxLength');
     })
   );

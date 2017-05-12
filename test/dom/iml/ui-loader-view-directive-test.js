@@ -282,7 +282,7 @@ describe('ui loader view directive', () => {
       });
 
       it('should clear the onStart transition listener', () => {
-        expect(onStartDestructor).toHaveBeenCalledOnce();
+        expect(onStartDestructor).toHaveBeenCalledTimes(1);
       });
 
       it('should call $animate.off', () => {

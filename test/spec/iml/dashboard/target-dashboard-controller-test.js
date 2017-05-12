@@ -63,15 +63,15 @@ describe('target dashboard', () => {
     });
 
     it('should destroy the target stream', () => {
-      expect(targetStream.destroy).toHaveBeenCalledOnce();
+      expect(targetStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the usage stream', () => {
-      expect(usageStream.destroy).toHaveBeenCalledOnce();
+      expect(usageStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the charts', () => {
-      expect(charts[0].stream.destroy).toHaveBeenCalledOnce();
+      expect(charts[0].stream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

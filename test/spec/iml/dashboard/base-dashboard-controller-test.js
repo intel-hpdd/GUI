@@ -71,7 +71,7 @@ describe('base dashboard controller', () => {
     });
 
     it('should destroy the stream', () => {
-      expect(fsStream.destroy).toHaveBeenCalledOnce();
+      expect(fsStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy the charts', () => {

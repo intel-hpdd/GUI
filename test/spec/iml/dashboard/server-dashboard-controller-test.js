@@ -42,6 +42,6 @@ describe('Server dashboard controller', () => {
   it('should destroy the host stream', function() {
     $scope.$destroy();
 
-    expect(hostStream.destroy).toHaveBeenCalledOnce();
+    expect(hostStream.destroy).toHaveBeenCalledTimes(1);
   });
 });

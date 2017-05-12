@@ -95,6 +95,6 @@ describe('status query controller', () => {
   it('should destroy the route stream when the scope is destroyed', () => {
     ctrl.$onDestroy();
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

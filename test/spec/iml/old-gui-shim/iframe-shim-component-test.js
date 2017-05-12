@@ -81,7 +81,7 @@ describe('iframe shim component', () => {
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply).toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
 
     it('should set the frame height', () => {
@@ -105,7 +105,7 @@ describe('iframe shim component', () => {
     });
 
     it('should apply the scope', () => {
-      expect($scope.$apply).toHaveBeenCalledOnce();
+      expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
   });
 

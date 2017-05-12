@@ -46,6 +46,6 @@ describe('spring module', () => {
     regenerator.calls.mostRecent().args[0]('foo', 'bar');
     regenerator.calls.mostRecent().args[1](s);
 
-    expect(s.destroy).toHaveBeenCalledOnce();
+    expect(s.destroy).toHaveBeenCalledTimes(1);
   });
 });

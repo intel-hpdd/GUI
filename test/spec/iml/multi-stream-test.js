@@ -1,4 +1,3 @@
-import * as fp from '@mfl/fp';
 import highland from 'highland';
 import multiStream from '../../../source/iml/multi-stream.js';
 
@@ -10,11 +9,11 @@ describe('multi stream', () => {
     errSpy = jasmine.createSpy('errSpy');
 
     s1 = highland();
-    spyOn(s1, 'destroy');
+    jest.spyOn(s1, 'destroy');
     s2 = highland();
-    spyOn(s2, 'destroy');
+    jest.spyOn(s2, 'destroy');
     ms = multiStream([s1, s2]);
-    ms.stopOnError(fp.unary(errSpy)).each(spy);
+    ms.stopOnError(x => errSpy(x)).each(spy);
   });
 
   it('should be a function', function() {
@@ -69,11 +68,11 @@ describe('multi stream', () => {
     });
 
     it('should destroy stream 1', function() {
-      expect(s1.destroy).toHaveBeenCalledOnce();
+      expect(s1.destroy).toHaveBeenCalledTimes(1);
     });
 
     it('should destroy stream 2', function() {
-      expect(s2.destroy).toHaveBeenCalledOnce();
+      expect(s2.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });
