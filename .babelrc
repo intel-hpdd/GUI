@@ -1,17 +1,33 @@
 {
+  "ignore": [
+    "node_modules/angular/angular.js"
+  ],
   "presets": [
     [
       "env",
       {
         "targets": {
-          "node": "current"
+          "browsers": [
+            "last 1 chrome version",
+            "last 1 firefox version"
+          ]
         }
       }
     ]
   ],
   "plugins": [
+    [
+      "transform-object-rest-spread",
+      {
+        "useBuiltIns": true
+      }
+    ],
+    "transform-async-to-generator",
+    "transform-object-entries",
+    "object-values-to-object-keys",
     "transform-flow-strip-types",
-    "transform-object-rest-spread"
-  ],
-  "sourceMaps": "inline"
+    "transform-class-properties",
+    "syntax-jsx",
+    "inferno"
+  ]
 }

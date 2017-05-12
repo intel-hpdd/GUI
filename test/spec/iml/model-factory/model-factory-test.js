@@ -1,5 +1,11 @@
-describe('model factory', function() {
-  'use strict';
+import angular from '../../../angular-mock-setup.js';
+
+import modelFactoryModule
+  from '../../../../source/iml/model-factory/model-factory-module.js';
+import interceptorsModule
+  from '../../../../source/iml/interceptors/interceptor-module.js';
+
+describe('model factory', () => {
   let $httpBackend,
     $rootScope,
     modelFactoryProvider,
@@ -9,11 +15,14 @@ describe('model factory', function() {
     ItemsResource;
 
   beforeEach(
-    module('modelFactory', 'interceptors', { STATIC_URL: '/static' }, function(
-      _modelFactoryProvider_
-    ) {
-      modelFactoryProvider = _modelFactoryProvider_;
-    })
+    angular.mock.module(
+      modelFactoryModule,
+      interceptorsModule,
+      { STATIC_URL: '/static' },
+      _modelFactoryProvider_ => {
+        modelFactoryProvider = _modelFactoryProvider_;
+      }
+    )
   );
 
   beforeEach(
