@@ -1,7 +1,6 @@
 import serverModule from '../../../../source/iml/server/server-module';
 
 describe('selected servers service', function() {
-  'use strict';
   beforeEach(module(serverModule));
 
   let selectedServers;

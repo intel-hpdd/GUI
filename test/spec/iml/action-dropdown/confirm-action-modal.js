@@ -2,7 +2,6 @@ import actionDropdownModule
   from '../../../../source/iml/action-dropdown/action-dropdown-module';
 
 describe('confirm action modal', function() {
-  'use strict';
   beforeEach(module(actionDropdownModule));
 
   describe('confirm action modal', function() {

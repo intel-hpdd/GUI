@@ -1,7 +1,6 @@
 import _ from '@mfl/lodash-mixins';
 
 describe('the heat map legend', function() {
-  'use strict';
   beforeEach(module('heatMap'));
 
   let getHeatMapLegend, heatMapLegend;

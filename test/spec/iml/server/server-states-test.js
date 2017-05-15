@@ -1,24 +1,22 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 import { GROUPS } from '../../../../source/iml/auth/authorization.js';
 
 describe('server states', () => {
   let serverState, serverDetailState;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/server-states.js', {
-      'source/iml/server/assets/html/server.html': {
-        default: 'serverTemplate'
-      },
-      'source/iml/server/assets/html/server-detail.html': {
-        default: 'serverDetailTemplate'
-      }
+  beforeEach(() => {
+    jest.mock('../../../../source/iml/server/assets/html/server.html', () => {
+      return 'serverTemplate';
     });
+    jest.mock(
+      '../../../../source/iml/server/assets/html/server-detail.html',
+      () => 'serverDetailTemplate'
+    );
 
-    ({ serverState, serverDetailState } = mod);
+    const mod = require('../../../../source/iml/server/server-states.js');
+
+    serverState = mod.serverState;
+    serverDetailState = mod.serverDetailState;
   });
-
-  afterEach(resetAll);
 
   describe('server state', () => {
     it('should create the state', () => {

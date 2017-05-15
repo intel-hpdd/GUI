@@ -1,4 +1,5 @@
 import highland from 'highland';
+import { of } from '@mfl/maybe';
 
 import {
   addCurrentPage,
@@ -47,44 +48,44 @@ describe('api transforms', () => {
     let spy, in$, transformFn;
 
     beforeEach(() => {
-      transformFn = jasmine.createSpy('transformFn');
+      transformFn = jest.fn();
 
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       in$ = highland();
 
       rememberValue(transformFn)(in$).each(spy);
 
-      jasmine.clock().install();
+      jest.useFakeTimers();
     });
 
     afterEach(() => {
-      jasmine.clock().uninstall();
+      jest.useRealTimers();
     });
 
     it('should remember on a value', () => {
-      transformFn.and.callFake(s => highland([s]));
+      transformFn.mockImplementation(s => highland([s]));
 
       in$.write('foo');
 
-      jasmine.clock().tick();
+      jest.runOnlyPendingTimers();
 
       expect(spy).toHaveBeenCalledOnceWith('foo');
     });
 
     it('should remember when no value', () => {
-      transformFn.and.callFake(() => highland([]));
+      transformFn.mockImplementation(() => highland([]));
 
       in$.write('foo');
 
       in$.end();
 
-      jasmine.clock().tick();
+      jest.runOnlyPendingTimers();
 
       expect(spy).toHaveBeenCalledOnceWith('foo');
     });
 
     it('should call the transform fn', () => {
-      transformFn.and.callFake(() => highland([]));
+      transformFn.mockImplementation(() => highland([]));
 
       in$.write('foo');
 
@@ -102,6 +103,6 @@ describe('match by id', () => {
         { id: 7, name: 'b' },
         { id: 10, name: 'c' }
       ])
-    ).toEqual({ id: 7, name: 'b' });
+    ).toEqual(of({ id: 7, name: 'b' }));
   });
 });

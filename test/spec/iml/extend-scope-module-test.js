@@ -7,7 +7,7 @@ describe('extend scope test', () => {
 
   beforeEach(
     angular.mock.module(extendScopeModule, $provide => {
-      $exceptionHandler = jasmine.createSpy('$exceptionHandler');
+      $exceptionHandler = jest.fn();
       $provide.value('$exceptionHandler', $exceptionHandler);
     })
   );
@@ -83,7 +83,7 @@ describe('extend scope test', () => {
     describe('with destroyed scope', () => {
       let spy;
       beforeEach(() => {
-        spy = jasmine.createSpy('spy');
+        spy = jest.fn();
         $scope.$destroy();
         spyOn($scope, '$digest');
         localApply($scope, spy);

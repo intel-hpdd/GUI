@@ -1,7 +1,6 @@
 import _ from '@mfl/lodash-mixins';
 
 describe('get heat map chart test', function() {
-  'use strict';
   beforeEach(module('heatMap'));
 
   let getHeatMapChart, heatMapChart;

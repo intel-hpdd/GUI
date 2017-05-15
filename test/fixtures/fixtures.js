@@ -69,7 +69,6 @@ export default angular
       });
   })
   .service('fixtures', function() {
-    'use strict';
     const fixtures = {};
 
     this.registerFixture = function registerFixture(

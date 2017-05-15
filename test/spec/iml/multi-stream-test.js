@@ -5,8 +5,8 @@ describe('multi stream', () => {
   let spy, errSpy, s1, s2, ms;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
-    errSpy = jasmine.createSpy('errSpy');
+    spy = jest.fn();
+    errSpy = jest.fn();
 
     s1 = highland();
     jest.spyOn(s1, 'destroy');
@@ -30,14 +30,14 @@ describe('multi stream', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('should emit if all streams written', function() {
+  it('should emit if all streams written', () => {
     s1.write('foo');
     s2.write('bar');
 
     expect(spy).toHaveBeenCalledOnceWith(['foo', 'bar']);
   });
 
-  it('should emit errors', function() {
+  it('should emit errors', () => {
     s1.write({
       __HighlandStreamError__: true,
       error: new Error('boom!')
@@ -46,7 +46,7 @@ describe('multi stream', () => {
     expect(errSpy).toHaveBeenCalledOnceWith(new Error('boom!'));
   });
 
-  it('should update if stream 1 writes', function() {
+  it('should update if stream 1 writes', () => {
     s1.write('foo');
     s2.write('bar');
     s1.write('baz');
@@ -54,7 +54,7 @@ describe('multi stream', () => {
     expect(spy).toHaveBeenCalledOnceWith(['baz', 'bar']);
   });
 
-  it('should update if stream 2 writes', function() {
+  it('should update if stream 2 writes', () => {
     s2.write('bar');
     s1.write('foo');
     s2.write('bap');
@@ -62,16 +62,16 @@ describe('multi stream', () => {
     expect(spy).toHaveBeenCalledOnceWith(['foo', 'bap']);
   });
 
-  describe('on Destroy', function() {
-    beforeEach(function() {
+  describe('on Destroy', () => {
+    beforeEach(() => {
       ms.destroy();
     });
 
-    it('should destroy stream 1', function() {
+    it('should destroy stream 1', () => {
       expect(s1.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy stream 2', function() {
+    it('should destroy stream 2', () => {
       expect(s2.destroy).toHaveBeenCalledTimes(1);
     });
   });

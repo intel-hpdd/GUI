@@ -1,3 +1,5 @@
+import angular from '../../../angular-mock-setup.js';
+
 import completionistModule
   from '../../../../source/iml/completionist/completionist-module.js';
 
@@ -5,20 +7,20 @@ describe('completionist dropdown', () => {
   let completionistDropdown, completionist, localApply, $scope;
 
   beforeEach(
-    module(completionistModule, $provide => {
-      localApply = jasmine.createSpy('localApply');
+    angular.mock.module(completionistModule, $provide => {
+      localApply = jest.fn();
 
       $provide.value('localApply', localApply);
     })
   );
 
   beforeEach(
-    inject(($componentController, $rootScope) => {
+    angular.mock.inject(($componentController, $rootScope) => {
       $scope = $rootScope.$new();
       completionist = {
-        register: jasmine.createSpy('register'),
-        deregister: jasmine.createSpy('deregister'),
-        emit: jasmine.createSpy('emit')
+        register: jest.fn(),
+        deregister: jest.fn(),
+        emit: jest.fn()
       };
 
       completionistDropdown = $componentController(
@@ -78,7 +80,7 @@ describe('completionist dropdown', () => {
 
       completionistDropdown.values = [1];
 
-      onKeyPress = completionist.register.calls.first().args[1];
+      onKeyPress = completionist.register.mock.calls[0][1];
     });
 
     describe('escape', () => {
@@ -155,7 +157,7 @@ describe('completionist dropdown', () => {
   describe('on values', () => {
     beforeEach(() => {
       completionistDropdown.index = 3;
-      completionist.register.calls.mostRecent().args[1]([1, 2, 3]);
+      completionist.register.mock.calls[1][1]([1, 2, 3]);
     });
 
     it('should set index to -1', () => {
