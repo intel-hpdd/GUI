@@ -51,24 +51,6 @@ beforeEach(() => {
         }
       };
     },
-    toHaveClass() {
-      return {
-        compare: (el, clazz) => {
-          if (!(el instanceof Element)) el = el[0];
-
-          if (el.classList.contains(clazz))
-            return {
-              pass: true,
-              message: `Expected '${angular.mock.dump(el)}' not to have class '${clazz}'.`
-            };
-          else
-            return {
-              pass: false,
-              message: `Expected '${angular.mock.dump(el)}' to have class '${clazz}'.`
-            };
-        }
-      };
-    },
     toEqualComponent(util, customEqualityTesters) {
       return {
         compare(component, expected) {
@@ -107,24 +89,6 @@ beforeEach(() => {
     },
     toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
     toBeValid: cssMatcher('ng-valid', 'ng-invalid'),
-    toBeShown() {
-      return {
-        compare(el) {
-          if (!(el instanceof Element)) el = el[0];
-
-          if (el && !el.classList.contains('ng-hide'))
-            return {
-              pass: true,
-              message: "Expected element to have 'ng-hide' class."
-            };
-          else
-            return {
-              pass: false,
-              message: "Expected element not to have 'ng-hide' class."
-            };
-        }
-      };
-    },
     toBeAPromise() {
       return {
         compare(actual) {

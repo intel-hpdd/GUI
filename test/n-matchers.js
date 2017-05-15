@@ -1,3 +1,5 @@
+import angular from './angular-mock-setup.js';
+
 const toHaveBeenCalledNTimesWith = n =>
   function matcherFactory(received, ...rest) {
     if (!jest.isMockFunction(received))
@@ -31,5 +33,33 @@ expect.extend({
   toHaveBeenCalledOnceWith: toHaveBeenCalledNTimesWith(1),
   toHaveBeenCalledTwiceWith: toHaveBeenCalledNTimesWith(2),
   toHaveBeenCalledThriceWith: toHaveBeenCalledNTimesWith(3),
-  toHaveBeenCalledNTimesWith: toHaveBeenCalledNTimesWith(null)
+  toHaveBeenCalledNTimesWith: toHaveBeenCalledNTimesWith(null),
+  toHaveClass(el, clazz) {
+    if (!(el instanceof Element)) el = el[0];
+
+    if (el.classList.contains(clazz))
+      return {
+        pass: true,
+        message: `Expected '${angular.mock.dump(el)}' not to have class '${clazz}'.`
+      };
+    else
+      return {
+        pass: false,
+        message: `Expected '${angular.mock.dump(el)}' to have class '${clazz}'.`
+      };
+  },
+  toBeShown(el) {
+    if (!(el instanceof Element)) el = el[0];
+
+    if (el && !el.classList.contains('ng-hide'))
+      return {
+        pass: true,
+        message: "Expected element to have 'ng-hide' class."
+      };
+    else
+      return {
+        pass: false,
+        message: "Expected element not to have 'ng-hide' class."
+      };
+  }
 });
