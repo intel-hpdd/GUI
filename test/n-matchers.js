@@ -1,19 +1,26 @@
 import angular from './angular-mock-setup.js';
 
-const toHaveBeenCalledNTimesWith = n =>
+const isSpy = obj => obj.calls != null && obj.and != null;
+
+const toHaveBeenCalledNTimesWith = (n: number) =>
   function matcherFactory(received, ...rest) {
-    if (!jest.isMockFunction(received))
+    if (!jest.isMockFunction(received) && !isSpy(received))
       return {
         pass: false,
         message: () =>
           `Expected a mock, but got ${this.utils.printReceived(received)}.`
       };
 
-    const foundCount = received.mock.calls.reduce((count, args) => {
+    const calls = isSpy(received) ? received.calls.all() : received.mock.calls;
+    const incrementCount = (count, args) => {
       if (this.equals(args, rest)) count += 1;
-
       return count;
-    }, 0);
+    };
+    const reducer = isSpy(received)
+      ? (count, { args }) => incrementCount(count, args)
+      : (count, args) => incrementCount(count, args);
+
+    const foundCount = calls.reduce(reducer, 0);
 
     const result = {
       pass: this.equals(foundCount, n)
@@ -24,7 +31,7 @@ const toHaveBeenCalledNTimesWith = n =>
         `Expected mock ${this.utils.printReceived(received)} not to have been called with ${rest} ${n} time(s) but it was.`;
     else
       result.message = () =>
-        `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize('time', n)} but it was called ${this.utils.pluralize('time', foundCount)}.\n\nMock this.utils.printReceived(received) call listing:\n${received.mock.calls}.`;
+        `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize('time', n)} but it was called ${this.utils.pluralize('time', foundCount)}.\n\nMock this.utils.printReceived(received) call listing:\n${calls}.`;
 
     return result;
   };

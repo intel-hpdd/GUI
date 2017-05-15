@@ -1,10 +1,11 @@
 import stepsModule from '../../../../source/iml/steps/steps-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Steps module', () => {
-  beforeEach(module(stepsModule));
+  beforeEach(angular.mock.module(stepsModule));
 
   beforeEach(
-    module($provide => {
+    angular.mock.module($provide => {
       $provide.value('foo', 'bar');
     })
   );
