@@ -40,7 +40,10 @@ function AboutComponent() {
       <div>
         <div>
           <p>
-            Copyright © {HELP_TEXT.copyright_year}
+            Copyright ©
+            {' '}
+            {HELP_TEXT.copyright_year}
+            {' '}
             <a href="http://www.intel.com/">Intel Corporation</a>
             . All rights reserved.
           </p>
