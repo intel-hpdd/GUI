@@ -140,7 +140,7 @@ describe('Steps module', () => {
       let listener, step1, step2;
 
       beforeEach(() => {
-        listener = jasmine.createSpy('listener');
+        listener = jest.fn();
 
         step1 = {
           templateUrl: 'assets/html/step1',
