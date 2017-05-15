@@ -1,5 +1,3 @@
-import angular from './angular-mock-setup.js';
-
 const isSpy = obj => obj.calls != null && obj.and != null;
 
 const toHaveBeenCalledNTimesWith = (n: number) =>
@@ -47,12 +45,12 @@ expect.extend({
     if (el.classList.contains(clazz))
       return {
         pass: true,
-        message: `Expected '${angular.mock.dump(el)}' not to have class '${clazz}'.`
+        message: `Expected '${this.utils.stringify(el)}' not to have class '${clazz}'.`
       };
     else
       return {
         pass: false,
-        message: `Expected '${angular.mock.dump(el)}' to have class '${clazz}'.`
+        message: `Expected '${this.utils.stringify(el)}' to have class '${clazz}'.`
       };
   },
   toBeShown(el) {
