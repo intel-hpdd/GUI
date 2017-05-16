@@ -1,9 +1,12 @@
-import popoverModule from '../../../../source/iml/popover/popover-module';
+import positionModule from '../../../../source/iml/position/position-module.js';
+import popoverModule from '../../../../source/iml/popover/popover-module.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('popover', () => {
   let $timeout, $scope, el, popover, button;
 
-  beforeEach(module(popoverModule));
+  beforeEach(angular.mock.module(positionModule));
+  beforeEach(angular.mock.module(popoverModule));
 
   beforeEach(
     inject(($rootScope, $compile, _$timeout_) => {
@@ -19,8 +22,8 @@ describe('popover', () => {
 
       $scope = $rootScope.$new();
 
-      $scope.workFn = jasmine.createSpy('workFn');
-      $scope.onToggle = jasmine.createSpy('onToggle');
+      $scope.workFn = jest.fn();
+      $scope.onToggle = jest.fn();
 
       el = $compile(template)($scope)[0];
 
