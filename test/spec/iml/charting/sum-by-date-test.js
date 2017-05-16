@@ -7,7 +7,7 @@ import { values } from '@mfl/obj';
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('sum by date', () => {
-  itAsync('should sum points as expected', async function() {
+  it('should sum points as expected', async () => {
     const out = await streamToPromise(
       highland([jobStatsFixture])
         .map(values)
@@ -158,7 +158,7 @@ describe('sum by date', () => {
     ]);
   });
 
-  itAsync('should sum empty points correctly', async function() {
+  it('should sum empty points correctly', async () => {
     const out = await streamToPromise(
       highland([
         {
