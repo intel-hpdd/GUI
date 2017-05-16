@@ -1,10 +1,11 @@
 import interceptorsModule
   from '../../../../source/iml/interceptors/interceptor-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('clean request url interceptor', () => {
   let cleanRequestUrlInterceptor;
 
-  beforeEach(module(interceptorsModule));
+  beforeEach(angular.mock.module(interceptorsModule));
 
   beforeEach(
     inject(_cleanRequestUrlInterceptor_ => {
