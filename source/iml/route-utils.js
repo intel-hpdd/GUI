@@ -47,8 +47,10 @@ export const getResolvedData = (
   transition: TransitionT,
   resolveName: string
 ): Maybe<any> => {
-  return maybe.map(n => {
+  const result = maybe.map(n => {
     if (transition.getResolveTokens().indexOf(n) > -1)
       return transition.getResolveValue(n);
   }, maybe.of(resolveName));
+
+  return maybe.fromJust(result) == null ? maybe.ofNothing() : result;
 };

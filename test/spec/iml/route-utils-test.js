@@ -25,22 +25,22 @@ describe('getResolvedData', () => {
   let transition, resolveName, result;
   beforeEach(() => {
     transition = {
-      getResolveTokens: jasmine.createSpy('getResolveTokens'),
-      getResolveValue: jasmine.createSpy('getResolveValue')
+      getResolveTokens: jest.fn(),
+      getResolveValue: jest.fn()
     };
     resolveName = 'getData';
   });
 
   describe('with the resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.and.returnValue([
+      transition.getResolveTokens.mockReturnValue([
         'fsStream',
         'targetStream',
         'getData',
         'otherStream'
       ]);
 
-      transition.getResolveValue.and.returnValue({
+      transition.getResolveValue.mockReturnValue({
         label: 'fs1',
         kind: 'filesystem'
       });
@@ -69,7 +69,7 @@ describe('getResolvedData', () => {
 
   describe('without resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.and.returnValue([
+      transition.getResolveTokens.mockReturnValue([
         'fsStream',
         'targetStream',
         'otherStream'
