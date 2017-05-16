@@ -1,14 +1,15 @@
 import _ from '@mfl/lodash-mixins';
+import angular from '../../../angular-mock-setup.js';
 
 import positionModule from '../../../../source/iml/position/position-module';
 
 describe('Positioning service', () => {
   let position, $window;
 
-  beforeEach(module(positionModule));
+  beforeEach(angular.mock.module(positionModule));
 
   beforeEach(
-    module(function($provide) {
+    angular.mock.module($provide => {
       $window = {
         innerWidth: 500,
         innerHeight: 300
@@ -19,12 +20,12 @@ describe('Positioning service', () => {
   );
 
   beforeEach(
-    inject(function(_position_) {
+    inject(_position_ => {
       position = _position_;
     })
   );
 
-  it('should expose directions', function() {
+  it('should expose directions', () => {
     expect(position.DIRECTIONS).toEqual({
       TOP: 'top',
       BOTTOM: 'bottom',
@@ -33,10 +34,10 @@ describe('Positioning service', () => {
     });
   });
 
-  it('should provide default properties', function() {
+  it('should provide default properties', () => {
     expect(position.defaults).toEqual(jasmine.any(Object));
 
-    _.forEach(position.DIRECTIONS, function(direction) {
+    _.forEach(position.DIRECTIONS, direction => {
       const obj = position.defaults[direction];
 
       expect(obj).toEqual(jasmine.any(Object));
@@ -45,8 +46,8 @@ describe('Positioning service', () => {
     });
   });
 
-  describe('Positioner', function() {
-    it('should provide a positioner', function() {
+  describe('Positioner', () => {
+    it('should provide a positioner', () => {
       expect(position.positioner).toEqual(jasmine.any(Function));
 
       const fakePosition = {
@@ -61,7 +62,7 @@ describe('Positioning service', () => {
       const tooltip = {
         getBoundingClientRect: jasmine
           .createSpy('getBoundingClientRect')
-          .and.callFake(function() {
+          .and.callFake(() => {
             return fakePosition;
           })
       };
@@ -78,7 +79,7 @@ describe('Positioning service', () => {
       });
     });
 
-    it('should know the current position', function() {
+    it('should know the current position', () => {
       const positioner = position.positioner($window);
 
       $window.innerHeight = 5;
