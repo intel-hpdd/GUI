@@ -1,16 +1,17 @@
 import completionistModule
   from '../../../../source/iml/completionist/completionist-module.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('completionist', () => {
   let completionist, completer, spy;
 
-  beforeEach(module(completionistModule));
+  beforeEach(angular.mock.module(completionistModule));
 
   beforeEach(
     inject($componentController => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
 
-      completer = jasmine.createSpy('completer');
+      completer = jest.fn();
 
       completionist = $componentController('completionist', null, {
         completer
@@ -20,7 +21,7 @@ describe('completionist', () => {
 
   describe('parsing', () => {
     beforeEach(() => {
-      completer.and.returnValue(['food', 'bard']);
+      completer.mockReturnValue(['food', 'bard']);
       completionist.register('VALUES', spy);
       completionist.parse('foo', 0);
     });
