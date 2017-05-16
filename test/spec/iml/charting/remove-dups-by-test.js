@@ -6,10 +6,10 @@ describe('the remove dups plugin', function() {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
-  it('should remove dups by a comparator and timestamp', function() {
+  it('should remove dups by a comparator and timestamp', () => {
     highland([
       { ts: 1, x: 1 },
       { ts: 2, x: 3 },

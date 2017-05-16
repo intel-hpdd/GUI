@@ -21,5 +21,5 @@
 
 import type { HighlandStreamT } from 'highland';
 
-export default (cmp: Function, s: HighlandStreamT<Object>) =>
+export default (cmp: Function) => (s: HighlandStreamT<Object>) =>
   s.uniqBy((a, b) => a.ts === b.ts && cmp(a, b));
