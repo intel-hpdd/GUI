@@ -33,12 +33,12 @@ describe('popover', () => {
     })
   );
 
-  it('should be not render before opening', function() {
+  it('should be not render before opening', () => {
     expect(el.querySelector('.popover')).toBeNull();
   });
 
-  describe('open', function() {
-    beforeEach(function() {
+  describe('open', () => {
+    beforeEach(() => {
       button.click();
       $timeout.flush();
 
@@ -53,48 +53,48 @@ describe('popover', () => {
       if (popover.parentElement) document.body.removeChild(popover);
     });
 
-    it('should display when the button is clicked', function() {
+    it('should display when the button is clicked', () => {
       expect(popover).toHaveClass('in');
     });
 
-    it('should call scope.onToggle and set state to open', function() {
+    it('should call scope.onToggle and set state to open', () => {
       expect($scope.onToggle).toHaveBeenCalledOnceWith('opened');
     });
 
-    it('should hide when button is clicked twice', function() {
+    it('should hide when button is clicked twice', () => {
       button.click();
       $timeout.flush();
 
       expect(popover).not.toHaveClass('in');
     });
 
-    it('should call scope.onToggle and set the state to closed', function() {
+    it('should call scope.onToggle and set the state to closed', () => {
       button.click();
       $timeout.flush();
 
       expect($scope.onToggle).toHaveBeenCalledOnceWith('closed');
     });
 
-    it('should hide when body is clicked', function() {
+    it('should hide when body is clicked', () => {
       document.body.click();
       $timeout.flush();
 
       expect(popover).not.toHaveClass('in');
     });
 
-    it('should not hide when the popover is clicked', function() {
+    it('should not hide when the popover is clicked', () => {
       popover.click();
 
       expect(popover).toHaveClass('in');
     });
 
-    it('should not hide when a child of the popover is clicked', function() {
+    it('should not hide when a child of the popover is clicked', () => {
       popover.querySelector('button').click();
 
       expect(popover).toHaveClass('in');
     });
 
-    it('should provide a work function', function() {
+    it('should provide a work function', () => {
       expect($scope.workFn).toHaveBeenCalledWith(jasmine.any(Object));
     });
   });
