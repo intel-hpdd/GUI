@@ -3,7 +3,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -24,6 +24,8 @@
 import extractApi from '@mfl/extract-api';
 
 import * as maybe from '@mfl/maybe';
+
+import * as fp from '@mfl/fp';
 
 import type { Maybe } from '@mfl/maybe';
 
@@ -47,10 +49,9 @@ export const getResolvedData = (
   transition: TransitionT,
   resolveName: string
 ): Maybe<any> => {
-  const result = maybe.map(n => {
-    if (transition.getResolveTokens().indexOf(n) > -1)
-      return transition.getResolveValue(n);
-  }, maybe.of(resolveName));
-
-  return maybe.fromJust(result) == null ? maybe.ofNothing() : result;
+  const resolvedToken = maybe.chain(
+    x => fp.find(val => val === x)(transition.getResolveTokens()),
+    maybe.of(resolveName)
+  );
+  return maybe.map(transition.getResolveValue, resolvedToken);
 };
