@@ -1,4 +1,5 @@
 import pdshModule from '../../../../source/iml/pdsh/pdsh-module.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('PDSH directive', () => {
   let $scope,
@@ -14,11 +15,9 @@ describe('PDSH directive', () => {
     clickEvent;
 
   beforeEach(
-    module(pdshModule, $provide => {
+    angular.mock.module(pdshModule, $provide => {
       help = {
-        get: jasmine
-          .createSpy('get')
-          .and.returnValue('Enter hostname / hostlist expression.')
+        get: jest.fn(() => 'Enter hostname / hostlist expression.')
       };
 
       inputEvent = new Event('input');
@@ -28,9 +27,9 @@ describe('PDSH directive', () => {
     })
   );
 
-  describe('General operation', function() {
+  describe('General operation', () => {
     beforeEach(
-      inject(function($rootScope, $compile, _$timeout_) {
+      inject(($rootScope, $compile, _$timeout_) => {
         $timeout = _$timeout_;
 
         const template = `<form name="pdshForm">
@@ -54,26 +53,26 @@ describe('PDSH directive', () => {
       })
     );
 
-    describe('successful entry', function() {
+    describe('successful entry', () => {
       let hostnames;
 
-      beforeEach(function() {
+      beforeEach(() => {
         inputField.value = 'hostname[1-3]';
         inputField.dispatchEvent(inputEvent);
         $timeout.flush();
       });
 
-      it('should not show the error tooltip', function() {
+      it('should not show the error tooltip', () => {
         expect(query('.error-tooltip li')).toBeNull();
       });
 
-      it('should call pdshChange', function() {
+      it('should call pdshChange', () => {
         expect($scope.pdshChange).toHaveBeenCalled();
       });
 
-      describe('expression popover', function() {
+      describe('expression popover', () => {
         let popover;
-        beforeEach(function() {
+        beforeEach(() => {
           groupAddOn.dispatchEvent(clickEvent);
           $scope.$digest();
 
@@ -81,20 +80,20 @@ describe('PDSH directive', () => {
           hostnames = queryAll('.popover li span');
         });
 
-        it('should display the popover', function() {
+        it('should display the popover', () => {
           expect(popover).toBeShown();
         });
 
-        it('should contain one item', function() {
+        it('should contain one item', () => {
           expect(hostnames.length).toEqual(1);
         });
 
-        it('should contain the hostnames in the popover', function() {
+        it('should contain the hostnames in the popover', () => {
           expect(hostnames.item(0).innerHTML).toEqual('hostname1..3');
         });
 
-        describe('with additional modification', function() {
-          beforeEach(function() {
+        describe('with additional modification', () => {
+          beforeEach(() => {
             inputField.value = 'hostname[5-7]';
             inputField.dispatchEvent(inputEvent);
             $timeout.flush();
@@ -102,79 +101,79 @@ describe('PDSH directive', () => {
             hostnames = queryAll('.popover li span');
           });
 
-          it('should contain one item', function() {
+          it('should contain one item', () => {
             expect(hostnames.length).toEqual(1);
           });
 
-          it('should contain the updated hostnames in the popover', function() {
+          it('should contain the updated hostnames in the popover', () => {
             expect(hostnames.item(0).innerHTML).toEqual('hostname5..7');
           });
         });
       });
     });
 
-    describe('unsuccessful entry', function() {
-      beforeEach(function() {
+    describe('unsuccessful entry', () => {
+      beforeEach(() => {
         inputField.value = 'hostname[1-]';
         inputField.dispatchEvent(inputEvent);
         groupAddOn.click();
         $timeout.flush();
       });
 
-      describe('group add on', function() {
-        it('should not display the popover', function() {
+      describe('group add on', () => {
+        it('should not display the popover', () => {
           expect(query('.popover')).toBeNull();
         });
 
-        it('should show the error tooltip', function() {
+        it('should show the error tooltip', () => {
           const tooltip = query('.error-tooltip li');
           expect(tooltip).not.toBeNull();
         });
       });
     });
 
-    describe('empty entry', function() {
-      beforeEach(function() {
+    describe('empty entry', () => {
+      beforeEach(() => {
         inputField.value = '';
         inputField.dispatchEvent(inputEvent);
         groupAddOn.click();
         $timeout.flush();
       });
 
-      it('should not display the popover', function() {
+      it('should not display the popover', () => {
         expect(query('.popover')).toBeNull();
       });
 
-      it('should show the error tooltip', function() {
+      it('should show the error tooltip', () => {
         const tooltip = query('.error-tooltip li');
         expect(tooltip).toBeNull();
       });
 
-      it('should have a placeholder', function() {
+      it('should have a placeholder', () => {
         expect(inputField.getAttribute('placeholder')).toEqual(
           'placeholder text'
         );
       });
     });
 
-    describe('initial entry', function() {
-      it("should have an initial value of 'invalid['", function() {
+    describe('initial entry', () => {
+      it("should have an initial value of 'invalid['", () => {
         expect(element.querySelector('input').value).toBe('invalid[');
       });
 
-      it('should display the error tooltip', function() {
+      it('should display the error tooltip', () => {
         expect(element.querySelector('.error-tooltip')).toBeShown();
       });
     });
   });
 
-  describe('pdsh initial change', function() {
+  describe('pdsh initial change', () => {
     let initialValue;
 
-    beforeEach(module(pdshModule));
+    beforeEach(angular.mock.module(pdshModule));
 
     beforeEach(
-      inject(function($rootScope, $compile, _$timeout_) {
+      inject(($rootScope, $compile, _$timeout_) => {
         $timeout = _$timeout_;
         initialValue = 'storage0.localdomain';
 
@@ -183,7 +182,7 @@ describe('PDSH directive', () => {
       </form>`;
 
         $scope = $rootScope.$new();
-        $scope.pdshChange = jasmine.createSpy('pdshChange');
+        $scope.pdshChange = jest.fn();
 
         node = $compile(template)($scope);
         element = node[0];
@@ -196,31 +195,31 @@ describe('PDSH directive', () => {
       })
     );
 
-    it('should call help.get', function() {
+    it('should call help.get', () => {
       expect(help.get).toHaveBeenCalledOnceWith('pdsh_placeholder');
     });
 
-    it('should have a placeholder', function() {
+    it('should have a placeholder', () => {
       expect(inputField.getAttribute('placeholder')).toEqual(
         'Enter hostname / hostlist expression.'
       );
     });
 
-    it('should trigger a change for the initial value', function() {
+    it('should trigger a change for the initial value', () => {
       expect($scope.pdshChange).toHaveBeenCalledWith(initialValue, [
         initialValue
       ]);
     });
 
-    describe('modify existing value', function() {
-      beforeEach(function() {
+    describe('modify existing value', () => {
+      beforeEach(() => {
         inputField.value = 'storage[1-10].localdomain';
         inputField.dispatchEvent(inputEvent);
         $timeout.flush();
       });
 
-      it('should call pdshChange with storage[1-10].localdomain', function() {
-        expect($scope.pdshChange.calls.mostRecent().args[0]).toEqual(
+      it('should call pdshChange with storage[1-10].localdomain', () => {
+        expect($scope.pdshChange.mock.calls[2][0]).toEqual(
           'storage[1-10].localdomain'
         );
       });
