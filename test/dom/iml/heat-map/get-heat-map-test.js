@@ -1,23 +1,25 @@
 import _ from '@mfl/lodash-mixins';
+import heatMapModule from '../../../../source/iml/heat-map/heat-map-module.js';
+import angular from '../../../angular-mock-setup.js';
 
-describe('the heat map', function() {
-  beforeEach(module('heatMap'));
+describe('the heat map', () => {
+  beforeEach(angular.mock.module(heatMapModule));
 
   let getHeatMap, heatMap;
 
   beforeEach(
-    inject(function(_getHeatMap_) {
+    inject(_getHeatMap_ => {
       getHeatMap = _getHeatMap_;
 
       heatMap = getHeatMap();
     })
   );
 
-  it('should be callable', function() {
+  it('should be callable', () => {
     expect(heatMap).toEqual(jasmine.any(Function));
   });
 
-  it('should set destroy to a noop', function() {
+  it('should set destroy to a noop', () => {
     expect(heatMap.destroy).toBe(_.noop);
   });
 
@@ -33,12 +35,12 @@ describe('the heat map', function() {
     'duration'
   ];
 
-  accessors.forEach(function(accessor) {
-    it('should have a ' + accessor + 'accessor', function() {
+  accessors.forEach(accessor => {
+    it('should have a ' + accessor + 'accessor', () => {
       expect(heatMap[accessor]).toEqual(jasmine.any(Function));
     });
 
-    it('should set ' + accessor, function() {
+    it('should set ' + accessor, () => {
       const val = { foo: 'bar' };
 
       heatMap[accessor](val);
@@ -47,11 +49,11 @@ describe('the heat map', function() {
     });
   });
 
-  describe('when populated', function() {
+  describe('when populated', () => {
     let d3, heatMapGroup, selection, setup, query, queryAll;
 
     beforeEach(
-      inject(function(_d3_) {
+      inject(_d3_ => {
         d3 = _d3_;
 
         heatMapGroup = document.createElement('g');
@@ -86,7 +88,7 @@ describe('the heat map', function() {
           return new Date(d.ts);
         }
 
-        setup = function setup(d) {
+        setup = d => {
           const merged = _.flatten(d);
           const keys = _(merged).pluck('id').uniq().value();
 
@@ -101,14 +103,14 @@ describe('the heat map', function() {
       })
     );
 
-    it('should have 0 rows when there is no data', function() {
+    it('should have 0 rows when there is no data', () => {
       selection.datum([]).call(heatMap);
 
       expect(heatMapGroup.querySelector('.row')).toEqual(null);
     });
 
-    describe('with one data point', function() {
-      beforeEach(function() {
+    describe('with one data point', () => {
+      beforeEach(() => {
         setup([
           [
             {
@@ -120,41 +122,41 @@ describe('the heat map', function() {
         ]);
       });
 
-      it('should have one row', function() {
+      it('should have one row', () => {
         expect(queryAll('.row').length).toEqual(1);
       });
 
-      it('should have one cell', function() {
+      it('should have one cell', () => {
         expect(queryAll('.cell').length).toEqual(1);
       });
 
-      it('should position the row at 0,0', function() {
+      it('should position the row at 0,0', () => {
         expect(query('.row').getAttribute('transform')).toEqual(
           'translate(0,0)'
         );
       });
 
-      it('should set the cell to full height', function() {
+      it('should set the cell to full height', () => {
         expect(query('.cell').getAttribute('height')).toEqual('500');
       });
 
-      it('should set the cell to full width', function() {
+      it('should set the cell to full width', () => {
         expect(query('.cell').getAttribute('width')).toEqual('500');
       });
 
-      it('should fill the cell with the right color', function() {
+      it('should fill the cell with the right color', () => {
         expect(query('.cell').getAttribute('fill')).toEqual('#8ebad9');
       });
 
-      it('should remove the cell on exit', function() {
+      it('should remove the cell on exit', () => {
         setup([]);
 
         expect(queryAll('.cell').length).toBe(0);
       });
     });
 
-    describe('with multiple data points', function() {
-      beforeEach(function() {
+    describe('with multiple data points', () => {
+      beforeEach(() => {
         setup([
           [
             {
@@ -171,19 +173,19 @@ describe('the heat map', function() {
         ]);
       });
 
-      it('should have one row', function() {
+      it('should have one row', () => {
         expect(queryAll('.row').length).toBe(1);
       });
 
-      it('should have two cells', function() {
+      it('should have two cells', () => {
         expect(queryAll('.cell').length).toBe(2);
       });
 
-      it('should fill the first cell with the right color', function() {
+      it('should fill the first cell with the right color', () => {
         expect(queryAll('.cell')[0].getAttribute('fill')).toEqual('#8ebad9');
       });
 
-      it('should fill the second cell with the right color', function() {
+      it('should fill the second cell with the right color', () => {
         expect(queryAll('.cell')[1].getAttribute('fill')).toEqual('#ff6262');
       });
     });
