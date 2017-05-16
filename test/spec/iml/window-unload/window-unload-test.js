@@ -1,13 +1,14 @@
 import windowUnloadModule
   from '../../../../source/iml/window-unload/window-unload-module';
+import angular from '../../../angular-mock-setup.js';
 
 describe('window unload', () => {
   let $window;
 
   beforeEach(
-    module(windowUnloadModule, $provide => {
+    angular.mock.module(windowUnloadModule, $provide => {
       $window = {
-        addEventListener: jasmine.createSpy('addEventListener')
+        addEventListener: jest.fn()
       };
       $provide.value('$window', $window);
     })
@@ -33,7 +34,7 @@ describe('window unload', () => {
   });
 
   it('should change the unloading state once beforeunload has fired', () => {
-    const beforeUnload = $window.addEventListener.calls.mostRecent().args[1];
+    const beforeUnload = $window.addEventListener.mock.calls[0][1];
 
     beforeUnload();
 
