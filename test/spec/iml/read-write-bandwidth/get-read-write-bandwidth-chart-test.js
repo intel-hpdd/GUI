@@ -1,28 +1,26 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Read Write Bandwidth chart', () => {
-  let chartCompiler,
-    getReadWriteBandwidthStream,
+  let mockChartCompiler,
+    mockGetReadWriteBandwidthStream,
     selectStoreCount,
     submitHandler,
     config1$,
     config2$,
     getReadWriteBandwidthChart,
-    getStore,
+    mockGetStore,
     standardConfig,
-    durationPayload,
+    mockDurationPayload,
     data$Fn,
     initStream,
-    durationSubmitHandler,
+    mockDurationSubmitHandler,
     localApply,
     mod,
-    getConf;
+    mockGetConf;
 
-  beforeEachAsync(async function() {
-    getReadWriteBandwidthStream = {};
+  beforeEach(() => {
+    mockGetReadWriteBandwidthStream = {};
 
     standardConfig = {
       configType: 'duration',
@@ -46,9 +44,9 @@ describe('Read Write Bandwidth chart', () => {
     spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -59,16 +57,14 @@ describe('Read Write Bandwidth chart', () => {
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+    mockDurationPayload = jest.fn(x => {
       return { ...standardConfig, ...x };
     });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -76,45 +72,48 @@ describe('Read Write Bandwidth chart', () => {
       };
     });
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
-    mod = await mock(
-      'source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js',
-      {
-        'source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js': {
-          default: getReadWriteBandwidthStream
-        },
-        'source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.html': {
-          default: 'rwBandwidthTemplate'
-        },
-        'source/iml/chart-compiler/chart-compiler.js': {
-          default: chartCompiler
-        },
-        'source/iml/store/get-store.js': { default: getStore },
-        'source/iml/duration-picker/duration-payload.js': {
-          default: durationPayload
-        },
-        'source/iml/duration-picker/duration-submit-handler.js': {
-          default: durationSubmitHandler
-        },
-        'source/iml/chart-transformers/chart-transformers.js': {
-          getConf: getConf
-        }
-      }
+    jest.mock(
+      '../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js',
+      () => mockGetReadWriteBandwidthStream
     );
-  });
+    jest.mock(
+      '../../../../source/iml/read-write-bandwidth/assets/html/read-write-bandwidth.html',
+      () => 'rwBandwidthTemplate'
+    );
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-payload.js',
+      () => mockDurationPayload
+    );
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-submit-handler.js',
+      () => mockDurationSubmitHandler
+    );
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({
+        getConf: mockGetConf
+      })
+    );
 
-  afterEach(resetAll);
+    mod = require('../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js');
+  });
 
   beforeEach(() => {
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
+    data$Fn = jest.fn(() => initStream);
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
-    getReadWriteBandwidthChart = mod.default(fp.curry3(data$Fn), localApply);
+    getReadWriteBandwidthChart = mod.default(data$Fn, localApply);
   });
 
   it('should return a factory function', () => {
@@ -132,12 +131,12 @@ describe('Read Write Bandwidth chart', () => {
         'readWriteBandwidthChart'
       );
 
-      const s = chartCompiler.calls.argsFor(0)[1];
+      const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
     it('should dispatch readWriteBandwidthChart to the store', () => {
-      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS',
         payload: {
           page: 'readWriteBandwidthChart',
@@ -151,13 +150,13 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     it('should select the readWriteBandwidthChart store', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith(
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith(
         'readWriteBandwidthCharts'
       );
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledOnceWith('readWriteBandwidthChart');
+      expect(mockGetConf).toHaveBeenCalledOnceWith('readWriteBandwidthChart');
     });
 
     it('should call data$Fn', () => {
@@ -173,7 +172,7 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     it('should call the chart compiler', () => {
-      expect(chartCompiler).toHaveBeenCalledOnceWith(
+      expect(mockChartCompiler).toHaveBeenCalledOnceWith(
         'rwBandwidthTemplate',
         jasmine.any(Object),
         jasmine.any(Function)
@@ -185,7 +184,7 @@ describe('Read Write Bandwidth chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         getReadWriteBandwidthChart(
           {
             qs: {
@@ -195,7 +194,7 @@ describe('Read Write Bandwidth chart', () => {
           'readWriteBandwidthChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -219,13 +218,13 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     it('should select the readWriteBandwidthChart store', () => {
-      expect(getStore.select).toHaveBeenCalledTwiceWith(
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith(
         'readWriteBandwidthCharts'
       );
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledTwiceWith('readWriteBandwidthChart');
+      expect(mockGetConf).toHaveBeenCalledTwiceWith('readWriteBandwidthChart');
     });
 
     it('should call localApply', () => {
@@ -245,15 +244,15 @@ describe('Read Write Bandwidth chart', () => {
 
       beforeEach(() => {
         chart = {
-          useInteractiveGuideline: jasmine.createSpy('useInteractiveGuideline'),
+          useInteractiveGuideline: jest.fn(),
           xAxis: {
-            showMaxMin: jasmine.createSpy('showMaxMin')
+            showMaxMin: jest.fn()
           },
           yAxis: {
-            tickFormat: jasmine.createSpy('tickFormat')
+            tickFormat: jest.fn()
           },
-          color: jasmine.createSpy('color'),
-          isArea: jasmine.createSpy('isArea')
+          color: jest.fn(),
+          isArea: jest.fn()
         };
 
         config.options.setup(chart);
@@ -297,7 +296,7 @@ describe('Read Write Bandwidth chart', () => {
           'readWriteBandwidthChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -308,7 +307,7 @@ describe('Read Write Bandwidth chart', () => {
 
     it('should call durationSubmitHandler', () => {
       expect(
-        durationSubmitHandler
+        mockDurationSubmitHandler
       ).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS', {
         page: 'readWriteBandwidthChart'
       });
