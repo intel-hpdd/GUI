@@ -1,14 +1,14 @@
 import highland from 'highland';
 import toNvd3 from '../../../../source/iml/charting/to-nvd3.js';
 
-describe('the to nvd3 plugin', function() {
+describe('the to nvd3 plugin', () => {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
-  it('should convert items to nvd3 format', function() {
+  it('should convert items to nvd3 format', () => {
     highland([
       { ts: '2015-05-10T23:50:50.000Z', data: { read: 3, write: 4 } },
       { ts: '2015-05-10T23:51:50.000Z', data: { read: 5, write: 6 } }
@@ -46,7 +46,7 @@ describe('the to nvd3 plugin', function() {
     ]);
   });
 
-  it('should return an empty struct when there is no data', function() {
+  it('should return an empty struct when there is no data', () => {
     highland([]).through(toNvd3(['read', 'write'])).each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith([
