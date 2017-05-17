@@ -13,11 +13,11 @@ describe('resolve stream', () => {
     stream = highland();
     Stream = stream.constructor;
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
   it('should be a function', () => {
-    expect(resolveStream).toEqual(jasmine.any(Function));
+    expect(resolveStream).toEqual(expect.any(Function));
   });
 
   describe('writing a value', () => {
@@ -32,7 +32,7 @@ describe('resolve stream', () => {
     it('should resolve with a stream', async () => {
       const s = await promise;
 
-      expect(s).toEqual(jasmine.any(Stream));
+      expect(s).toEqual(expect.any(Stream));
     });
 
     it('should contain the value', async () => {
@@ -61,7 +61,7 @@ describe('resolve stream', () => {
     it('should resolve with a stream', async () => {
       const s = await promise;
 
-      expect(s).toEqual(jasmine.any(Stream));
+      expect(s).toEqual(expect.any(Stream));
     });
 
     it('should contain the error', async () => {
@@ -77,13 +77,13 @@ describe('resolve stream', () => {
 describe('stream to promise', () => {
   let s, spy;
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
     s = highland();
     spyOn(s, 'destroy');
   });
 
   it('should be a function', () => {
-    expect(streamToPromise).toEqual(jasmine.any(Function));
+    expect(streamToPromise).toEqual(expect.any(Function));
   });
 
   it('should return the data in a promise', async () => {
