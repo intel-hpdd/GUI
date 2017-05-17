@@ -5,7 +5,7 @@ describe('the obj to points plugin', function() {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
   it('should convert obj to a points stream', function() {
