@@ -5,8 +5,6 @@ import transformedHostProfileFixture
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 
-jest.useFakeTimers();
-
 describe('host profile then', () => {
   let mockSocketStream,
     streams,
@@ -14,6 +12,8 @@ describe('host profile then', () => {
     createHostProfilesFactory;
 
   beforeEach(() => {
+    jest.useFakeTimers();
+
     mockSocketStream = jest.fn(() => {
       const stream = highland();
       streams.push(stream);
@@ -30,6 +30,11 @@ describe('host profile then', () => {
       getHostProfilesFactory,
       createHostProfilesFactory
     } = require('../../../../source/iml/server/create-host-profiles-stream.js'));
+  });
+
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   describe('get host profiles', () => {

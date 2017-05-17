@@ -1,14 +1,20 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
+describe('create or update hosts stream', () => {
+  let mockSocketStream,
+    mockCacheInitialData,
+    mockServersToApiObjects,
+    hostStreams,
+    server,
+    spy,
+    resultStream;
 
-describe('create or update hosts stream', function() {
-  let socketStream, CACHE_INITIAL_DATA, hostStreams, server, spy, resultStream;
+  beforeEach(() => {
+    jest.useFakeTimers();
 
-  beforeEachAsync(async function() {
     hostStreams = [];
 
-    socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
+    mockSocketStream = jest.fn(() => {
       const stream = highland();
 
       hostStreams.push(stream);
@@ -16,7 +22,7 @@ describe('create or update hosts stream', function() {
       return stream;
     });
 
-    CACHE_INITIAL_DATA = {
+    mockCacheInitialData = {
       server_profile: [
         {
           name: 'default',
@@ -25,46 +31,60 @@ describe('create or update hosts stream', function() {
       ]
     };
 
-    const mod = await mock(
-      'source/iml/server/create-or-update-hosts-stream.js',
+    mockServersToApiObjects = jest.fn(() => [
       {
-        'source/iml/socket/socket-stream.js': {
-          default: socketStream
-        },
-        'source/iml/environment.js': {
-          CACHE_INITIAL_DATA
-        }
+        address: 'storage0.localdomain',
+        auth_type: 'existing_keys_choice'
+      },
+      {
+        address: 'storage1.localdomain',
+        auth_type: 'existing_keys_choice'
       }
+    ]);
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      CACHE_INITIAL_DATA: mockCacheInitialData
+    }));
+    jest.mock(
+      '../../../../source/iml/server/servers-to-api-objects.js',
+      () => mockServersToApiObjects
+    );
+
+    const mod = require('../../../../source/iml/server/create-or-update-hosts-stream.js');
 
     const createOrUpdateHostsStream = mod.default;
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
     server = {
       auth_type: 'existing_keys_choice',
       addresses: ['storage0.localdomain', 'storage1.localdomain']
     };
 
-    jasmine.clock().install();
-
     resultStream = createOrUpdateHostsStream(server);
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
-  afterEach(resetAll);
+  it('should call serversToApiObjects', () => {
+    expect(mockServersToApiObjects).toHaveBeenCalledOnceWith(server);
+  });
 
-  it('should return a stream', function() {
+  it('should return a stream', () => {
     expect(Object.getPrototypeOf(resultStream)).toBe(
       Object.getPrototypeOf(highland())
     );
   });
 
-  describe('just posts', function() {
-    beforeEach(function() {
+  describe('just posts', () => {
+    beforeEach(() => {
       hostStreams[0].write({
         objects: []
       });
@@ -73,8 +93,8 @@ describe('create or update hosts stream', function() {
       resultStream.each(spy);
     });
 
-    it('should send a post through the spark', function() {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+    it('should send a post through the spark', () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/host',
         {
           method: 'post',
@@ -97,8 +117,8 @@ describe('create or update hosts stream', function() {
       );
     });
 
-    it('should only send two calls', function() {
-      expect(socketStream).toHaveBeenCalledTwice();
+    it('should only send two calls', () => {
+      expect(mockSocketStream).toHaveBeenCalledTimes(2);
     });
 
     describe('response', () => {
@@ -130,17 +150,17 @@ describe('create or update hosts stream', function() {
 
         hostStreams[1].write(response);
         hostStreams[1].write(highland.nil);
-        jasmine.clock().tick();
+        jest.runAllTimers();
       });
 
-      it('should resolve with the expected response', function() {
+      it('should resolve with the expected response', () => {
         expect(spy).toHaveBeenCalledOnceWith(response);
       });
     });
   });
 
-  describe('just puts', function() {
-    beforeEach(function() {
+  describe('just puts', () => {
+    beforeEach(() => {
       hostStreams[0].write({
         objects: [
           { address: 'storage0.localdomain', state: 'undeployed' },
@@ -152,8 +172,8 @@ describe('create or update hosts stream', function() {
       resultStream.each(spy);
     });
 
-    it('should send through the stream', function() {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+    it('should send through the stream', () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/host',
         {
           method: 'put',
@@ -176,23 +196,23 @@ describe('create or update hosts stream', function() {
       );
     });
 
-    it('should only send two calls', function() {
-      expect(socketStream).toHaveBeenCalledTwice();
+    it('should only send two calls', () => {
+      expect(mockSocketStream).toHaveBeenCalledTimes(2);
     });
 
-    it('should throw an error', function() {
-      expect(function() {
+    it('should throw an error', () => {
+      expect(() => {
         hostStreams[1].write({
           __HighlandStreamError__: true,
           error: new Error('boom!')
         });
         hostStreams[1].write(highland.nil);
-      }).toThrow(new Error('boom!'));
+      }).toThrow('boom!');
     });
   });
 
-  describe('posts and puts', function() {
-    beforeEach(function() {
+  describe('posts and puts', () => {
+    beforeEach(() => {
       hostStreams[0].write({
         objects: [{ address: 'storage0.localdomain', state: 'undeployed' }]
       });
@@ -201,8 +221,8 @@ describe('create or update hosts stream', function() {
       resultStream.each(spy);
     });
 
-    it('should send a post through the spark', function() {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+    it('should send a post through the spark', () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/host',
         {
           method: 'post',
@@ -220,8 +240,8 @@ describe('create or update hosts stream', function() {
       );
     });
 
-    it('should send a put through the spark', function() {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+    it('should send a put through the spark', () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/host',
         {
           method: 'put',
@@ -239,11 +259,11 @@ describe('create or update hosts stream', function() {
       );
     });
 
-    it('should create three calls', function() {
-      expect(socketStream).toHaveBeenCalledNTimes(3);
+    it('should create three calls', () => {
+      expect(mockSocketStream).toHaveBeenCalledTimes(3);
     });
 
-    it('should send the expected response', function() {
+    it('should send the expected response', () => {
       hostStreams[1].write({
         objects: [
           {
@@ -263,7 +283,7 @@ describe('create or update hosts stream', function() {
         ]
       });
       hostStreams[2].write(highland.nil);
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
       expect(spy).toHaveBeenCalledOnceWith({
         objects: [
@@ -286,8 +306,8 @@ describe('create or update hosts stream', function() {
     });
   });
 
-  describe('nothing', function() {
-    beforeEach(function() {
+  describe('nothing', () => {
+    beforeEach(() => {
       hostStreams[0].write({
         objects: [
           { address: 'storage0.localdomain' },
@@ -299,11 +319,11 @@ describe('create or update hosts stream', function() {
       resultStream.each(spy);
     });
 
-    it('should only call once', function() {
-      expect(socketStream).toHaveBeenCalledTimes(1);
+    it('should only call once', () => {
+      expect(mockSocketStream).toHaveBeenCalledTimes(1);
     });
 
-    it('should resolve with the unused hosts', function() {
+    it('should resolve with the unused hosts', () => {
       expect(spy).toHaveBeenCalledOnceWith({
         objects: [
           {
