@@ -1,5 +1,4 @@
 import angular from '../../../angular-mock-setup.js';
-import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture
   from '../../../data-fixtures/transformed-host-profile-fixture.json';
 
@@ -9,7 +8,29 @@ import * as fp from '@mfl/fp';
 jest.useFakeTimers();
 
 describe('host profile then', () => {
-  beforeEach(angular.mock.module(serverModule));
+  let mockSocketStream,
+    streams,
+    getHostProfilesFactory,
+    createHostProfilesFactory;
+
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => {
+      const stream = highland();
+      streams.push(stream);
+
+      return stream;
+    });
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    ({
+      getHostProfilesFactory,
+      createHostProfilesFactory
+    } = require('../../../../source/iml/server/create-host-profiles-stream.js'));
+  });
 
   describe('get host profiles', () => {
     let CACHE_INITIAL_DATA;
@@ -87,6 +108,9 @@ describe('host profile then', () => {
           ]
         };
         $provide.constant('CACHE_INITIAL_DATA', CACHE_INITIAL_DATA);
+
+        $provide.factory('getHostProfiles', getHostProfilesFactory);
+        $provide.factory('createHostProfiles', createHostProfilesFactory);
       })
     );
 
@@ -250,22 +274,10 @@ describe('host profile then', () => {
   });
 
   describe('create host profiles', () => {
-    let mockSocketStream, streams, profile, spy, waitForCommandCompletion;
+    let profile, spy, waitForCommandCompletion;
 
     beforeEach(() => {
       streams = [];
-
-      mockSocketStream = jest.fn(() => {
-        const stream = highland();
-        streams.push(stream);
-
-        return stream;
-      });
-
-      jest.mock(
-        '../../../../source/iml/socket/socket-stream.js',
-        () => mockSocketStream
-      );
 
       const mod = require('../../../../source/iml/server/create-host-profiles-stream.js');
 

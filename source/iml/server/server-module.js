@@ -60,10 +60,6 @@ import overrideActionClickFactory from './override-action-click';
 import overrideButtonDirective from './override-button-directive';
 
 import {
-  getHostProfilesFactory,
-  createHostProfilesFactory
-} from './create-host-profiles-stream';
-import {
   addServerStepsFactory,
   getAddServerManagerFactory
 } from './get-add-server-manager';
@@ -119,8 +115,6 @@ export default angular
   .factory('openAddServerModal', openAddServerModalFactory)
   .factory('overrideActionClick', overrideActionClickFactory)
   .directive('overrideButton', overrideButtonDirective)
-  .factory('getHostProfiles', getHostProfilesFactory)
-  .factory('createHostProfiles', createHostProfilesFactory)
   .factory('addServerSteps', addServerStepsFactory)
   .value('createOrUpdateHostsStream', createOrUpdateHostsStream)
   .factory('getAddServerManager', getAddServerManagerFactory)

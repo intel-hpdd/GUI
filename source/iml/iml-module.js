@@ -112,6 +112,11 @@ import oldGUIStates from './old-gui-shim/old-gui-states.js';
 
 import jobTemplate from './command/assets/html/job.html';
 
+import {
+  getHostProfilesFactory,
+  createHostProfilesFactory
+} from './server/create-host-profiles-stream';
+
 angular
   .module('iml', [
     uiBootstrapModule,
@@ -208,6 +213,8 @@ angular
   .component('pageTitle', pageTitleComponent)
   .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
+  .factory('getHostProfiles', getHostProfilesFactory)
+  .factory('createHostProfiles', createHostProfilesFactory)
   .run(routeTransitions)
   .run($templateCache => {
     'ngInject';
