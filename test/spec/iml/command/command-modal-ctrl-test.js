@@ -14,11 +14,7 @@ describe('command modal', () => {
 
     stream = jasmine.createSpy('stream');
 
-    const mod = await mock('source/iml/command/command-modal-ctrl.js', {
-      'source/iml/command/assets/html/command-modal.html': {
-        default: 'commandModalTemplate'
-      }
-    });
+    const mod = await mock('source/iml/command/command-modal-ctrl.js');
 
     mod.openCommandModalFactory($uibModal)(stream);
     CommandModalCtrl = mod.CommandModalCtrl;

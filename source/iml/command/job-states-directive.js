@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import jobStatesTemplate from './assets/html/job-states.html';
-
 export default function jobStatesDirective() {
   'ngInject';
   return {
@@ -29,6 +27,10 @@ export default function jobStatesDirective() {
     },
     restrict: 'E',
     replace: true,
-    template: jobStatesTemplate
+    template: `<span class="job-state">
+  <i ng-if="job.state === 'pending'" class="fa fa-ellipsis-h"></i>
+  <i ng-if="job.state === 'complete'" class="fa" ng-class="{'fa-times': job.cancelled, 'fa-exclamation': job.errored, 'fa-check': !job.errored && !job.cancelled}"></i>
+  <i ng-if="job.state !== 'pending' && job.state !== 'complete'" class="fa fa-refresh fa-spin"></i>
+</span>`
   };
 }

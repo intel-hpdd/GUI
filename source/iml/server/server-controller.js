@@ -26,9 +26,6 @@ import getCommandStream from '../command/get-command-stream.js';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-import confirmServerActionModalTemplate
-  from './assets/html/confirm-server-action-modal.html';
-
 export default function ServerCtrl(
   $scope,
   $uibModal,
@@ -137,7 +134,32 @@ export default function ServerCtrl(
       const hosts = this.getSelectedHosts(value);
 
       const modalInstance = $uibModal.open({
-        template: confirmServerActionModalTemplate,
+        template: `<div class="modal-header">
+  <h3 class="modal-title">Run {{confirmServerActionModal.actionName}}</h3>
+</div>
+<div class="modal-body">
+  <h5>{{confirmServerActionModal.actionName}} will be run for the following servers:</h5>
+  <ul class="well">
+    <li ng-repeat="host in confirmServerActionModal.hosts">
+      {{host.address}}
+    </li>
+  </ul>
+</div>
+<div class="modal-footer">
+  <div class="btn-group" uib-dropdown>
+    <button type="button" ng-click="confirmServerActionModal.go()" class="btn btn-success" ng-disabled="confirmServerActionModal.inProgress">
+      Go <i class="fa" ng-class="{'fa-spinner fa-spin': confirmServerActionModal.inProgress, 'fa-check-circle-o': !confirmServerActionModal.inProgress }"></i>
+    </button>
+    <button type="button" class="btn btn-success dropdown-toggle" uib-dropdown-toggle ng-disabled="confirmServerActionModal.inProgress">
+      <span class="caret"></span>
+      <span class="sr-only">Split button</span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a ng-click="confirmServerActionModal.go(true)">Go and skip command view</a></li>
+    </ul>
+  </div>
+  <button class="btn btn-danger" ng-disabled="confirmServerActionModal.inProgress" ng-click="$dismiss('cancel')">Cancel <i class="fa fa-times-circle-o"></i></button>
+</div>`,
         controller: 'ConfirmServerActionModalCtrl',
         windowClass: 'confirm-server-action-modal',
         keyboard: false,

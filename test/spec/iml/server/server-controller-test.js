@@ -38,9 +38,6 @@ describe('server', () => {
       {
         'source/iml/command/get-command-stream.js': {
           default: getCommandStream
-        },
-        'source/iml/server/assets/html/confirm-server-action-modal.html': {
-          default: 'confirmServerActionModalTemplate'
         }
       }
     );

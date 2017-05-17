@@ -12,9 +12,6 @@ describe('Server Status Step', () => {
     mod = await mock('source/iml/server/server-status-step.js', {
       'source/iml/resolve-stream.js': {
         default: resolveStream
-      },
-      'source/iml/server/assets/html/server-status-step.html': {
-        default: 'serverStatusStepTemplate'
       }
     });
   });

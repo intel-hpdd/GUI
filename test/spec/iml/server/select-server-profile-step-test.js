@@ -12,11 +12,7 @@ describe('select server profile', () => {
   beforeEach(module(serverModule));
 
   beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/select-server-profile-step.js', {
-      'source/iml/server/assets/html/select-server-profile-step.html': {
-        default: 'serverProfileStepTemplate'
-      }
-    });
+    const mod = await mock('source/iml/server/select-server-profile-step.js');
 
     SelectServerProfileStepCtrl = mod.SelectServerProfileStepCtrl;
     selectServerProfileStep = mod.selectServerProfileStep();

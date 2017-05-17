@@ -20,8 +20,6 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
-import deferredCmdModalBtnTemplate
-  from './assets/html/deferred-cmd-modal-btn.html';
 
 export const deferredCmdModalBtnDirective = fp.always({
   scope: {},
@@ -30,5 +28,10 @@ export const deferredCmdModalBtnDirective = fp.always({
   },
   controller: 'DeferredCommandModalBtnCtrl',
   controllerAs: 'ctrl',
-  template: deferredCmdModalBtnTemplate
+  template: `<button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
+  <i class="fa fa-spinner fa-spin"></i>Waiting
+</button>
+<button ng-click="::ctrl.openCommandModal()" class="btn btn-sm btn-default cmd-detail-btn" ng-if="!ctrl.loading">
+  <i class="fa fa-list-alt"></i>Details
+</button>`
 });

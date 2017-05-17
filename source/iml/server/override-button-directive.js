@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import overrideButtonTemplate from './assets/html/override-button.html';
-
 export default function overrideButtonDirective(OVERRIDE_BUTTON_TYPES) {
   'ngInject';
   return {
@@ -31,7 +29,40 @@ export default function overrideButtonDirective(OVERRIDE_BUTTON_TYPES) {
       isValid: '=',
       onChange: '&'
     },
-    template: overrideButtonTemplate,
+    template: `<span ng-if="isDisabled">
+  <button disabled class="btn btn-success">Working <i class="fa fa-spinner fa-spin"></i></button>
+</span>
+<span ng-if="!isDisabled">
+  <span ng-if="!isValid">
+    <button class="btn btn-warning override" ng-if="!overridden" ng-click="buttonClicked(types.OVERRIDE)">Override <i class="fa fa-exclamation-triangle"></i></button>
+    <div class="btn-group proceed" ng-if="overridden" uib-dropdown>
+      <button type="button" ng-click="buttonClicked(types.PROCEED)" class="btn btn-danger">Proceed <i class="fa fa-check-circle-o"></i></button>
+      <button type="button" class="btn btn-danger" uib-dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button</span>
+      </button>
+      <ul role="menu" uib-dropdown-menu>
+        <li>
+          <a ng-click="buttonClicked(types.PROCEED_SKIP)">Proceed and skip command view</a>
+        </li>
+      </ul>
+    </div>
+  </span>
+  <span ng-if="isValid">
+    <div class="btn-group proceed" uib-dropdown>
+      <button type="button" ng-click="buttonClicked(types.PROCEED)" class="btn btn-success">Proceed <i class="fa fa-check-circle-o"></i></button>
+      <button type="button" class="btn btn-success" uib-dropdown-toggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button</span>
+      </button>
+      <ul role="menu" uib-dropdown-menu>
+        <li>
+          <a ng-click="buttonClicked(types.PROCEED_SKIP)">Proceed and skip command view</a>
+        </li>
+      </ul>
+    </div>
+  </span>
+</span>`,
     link: function link(scope) {
       scope.types = OVERRIDE_BUTTON_TYPES;
 

@@ -4,11 +4,7 @@ describe('wait until add server resolves complete', () => {
   let waitUntilLoadedStep, waitUntilLoadedCtrl, scope, $rootScope;
 
   beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/wait-until-loaded-step.js', {
-      'source/iml/server/assets/html/wait-until-loaded-step.html': {
-        default: 'waitUntilLoadedTemplate'
-      }
-    });
+    const mod = await mock('source/iml/server/wait-until-loaded-step.js');
 
     waitUntilLoadedCtrl = mod.waitUntilLoadedCtrl;
     waitUntilLoadedStep = mod.waitUntilLoadedStep();

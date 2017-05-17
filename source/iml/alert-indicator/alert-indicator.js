@@ -23,7 +23,6 @@ import angular from 'angular';
 import * as fp from '@mfl/fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
-import alertIndicatorTemplate from './assets/html/alert-indicator.html';
 
 export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   'ngInject';
@@ -63,6 +62,33 @@ export const recordStateDirective = () => {
     controller: 'RecordStateCtrl',
     controllerAs: 'ctrl',
     restrict: 'E',
-    template: alertIndicatorTemplate
+    template: `<span class="record-state">
+  <span class="icon-wrap tooltip-container tooltip-hover">
+    <i class="fa activate-popover"
+       ng-class="{'fa-exclamation-circle': ctrl.hasAlerts(), 'fa-check-circle': !ctrl.hasAlerts() }"
+    >
+      <iml-tooltip size="ctrl.alerts.length === 0 ? 'small' : 'medium'" direction="right">
+        <ng-pluralize count="ctrl.alerts.length"
+                      when="{
+          0: 'No Issues',
+          1: '{{ ctrl.alerts[0] }}',
+          'other': '{} Issues'}">
+        </ng-pluralize>
+      </iml-tooltip>
+    </i>
+    <iml-popover placement="bottom" title="Alerts"
+                 on-toggle="ctrl.onToggle(state)" ng-if="ctrl.hasAlerts()">
+      <ul>
+        <li ng-repeat="alert in ctrl.alerts">{{alert}}</li>
+      </ul>
+    </iml-popover>
+  </span>
+  <ng-pluralize class="state-label" ng-if="ctrl.showLabel()" count="ctrl.alerts.length"
+                when="{
+    0: 'No Issues',
+    1: '{{ ctrl.alerts[0] }}',
+    'other': '{} Issues'}">
+  </ng-pluralize>
+</span>`
   };
 };

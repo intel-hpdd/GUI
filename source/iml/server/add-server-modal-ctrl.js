@@ -21,8 +21,6 @@
 
 import getSpring from '../socket/get-spring.js';
 
-import addServerModalTemplate from './assets/html/add-server-modal.html';
-
 export function AddServerModalCtrl(
   $scope,
   $uibModalInstance,
@@ -59,7 +57,7 @@ export function openAddServerModalFactory($uibModal) {
   'ngInject';
   return function openAddServerModal(server, step) {
     return $uibModal.open({
-      template: addServerModalTemplate,
+      template: `<step-container manager="addServer.manager"></step-container>`,
       controller: 'AddServerModalCtrl as addServer',
       backdropClass: 'add-server-modal-backdrop',
       backdrop: 'static',

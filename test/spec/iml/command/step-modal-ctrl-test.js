@@ -131,9 +131,6 @@ describe('step modal', () => {
       const mod = await mock('source/iml/command/step-modal-ctrl.js', {
         'source/iml/socket/socket-stream.js': {
           default: socketStream
-        },
-        'source/iml/command/assets/html/step-modal.html': {
-          default: 'stepModalTemplate'
         }
       });
 
