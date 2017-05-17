@@ -5,7 +5,7 @@ describe('the sort by date plugin', function() {
   let spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
   });
 
   it('should sort items by date', function() {
