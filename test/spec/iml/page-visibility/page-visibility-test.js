@@ -3,11 +3,11 @@ describe('page visibility', () => {
 
   beforeEach(() => {
     mockDoc = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
     };
 
-    mockClear = jasmine.createSpy('clear');
+    mockClear = jest.fn();
 
     jest.mock('../../../../source/iml/global.js', () => ({
       document: mockDoc,
@@ -25,27 +25,27 @@ describe('page visibility', () => {
   });
 
   it('should be a function', () => {
-    expect(pageVisibility).toEqual(jasmine.any(Function));
+    expect(pageVisibility).toEqual(expect.any(Function));
   });
 
   describe('when invoking', () => {
     let onHide, onShow, removeListener, handler;
 
     beforeEach(() => {
-      onHide = jasmine.createSpy('onHide');
-      onShow = jasmine.createSpy('onShow');
+      onHide = jest.fn();
+      onShow = jest.fn();
       removeListener = pageVisibility(onHide, onShow);
-      handler = mockDoc.addEventListener.calls.mostRecent().args[1];
+      handler = mockDoc.addEventListener.mock.calls[0][1];
     });
 
     it('should return a remove listener fn', () => {
-      expect(removeListener).toEqual(jasmine.any(Function));
+      expect(removeListener).toEqual(expect.any(Function));
     });
 
     it('should add an event listener', () => {
       expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
         'visibilitychange',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
@@ -63,7 +63,7 @@ describe('page visibility', () => {
       it('should remove the listener', () => {
         expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
           'visibilitychange',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
     });
