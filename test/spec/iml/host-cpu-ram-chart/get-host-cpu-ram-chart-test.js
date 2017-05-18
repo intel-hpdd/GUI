@@ -46,8 +46,8 @@ describe('Host Cpu Ram chart', () => {
     selectStoreCount = 0;
 
     mockGetStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -58,18 +58,14 @@ describe('Host Cpu Ram chart', () => {
       })
     };
 
-    mockDurationPayload = jasmine
-      .createSpy('durationPayload')
-      .and.callFake(x => {
-        return { ...standardConfig, ...x };
-      });
+    mockDurationPayload = jest.fn(x => {
+      return { ...standardConfig, ...x };
+    });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    mockDurationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    mockGetConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -77,7 +73,7 @@ describe('Host Cpu Ram chart', () => {
       };
     });
 
-    mockChartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
     jest.mock(
       '../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js',
@@ -121,9 +117,9 @@ describe('Host Cpu Ram chart', () => {
     initStream = highland();
     spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
+    data$Fn = jest.fn(() => initStream);
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
     getHostCpuRamChart = mod(data$Fn, localApply);
   });
@@ -144,7 +140,7 @@ describe('Host Cpu Ram chart', () => {
         'hostCpuRamChart'
       );
 
-      const s = mockChartCompiler.calls.argsFor(0)[1];
+      const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
@@ -206,7 +202,7 @@ describe('Host Cpu Ram chart', () => {
           'hostCpuRamChart'
         );
 
-        handler = mockChartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -257,16 +253,16 @@ describe('Host Cpu Ram chart', () => {
         formatter = {};
 
         d3 = {
-          format: jasmine.createSpy('format').and.returnValue(formatter)
+          format: jest.fn(() => formatter)
         };
 
         chart = {
-          useInteractiveGuideline: jasmine.createSpy('useInteractiveGuideline'),
-          forceY: jasmine.createSpy('forceY'),
+          useInteractiveGuideline: jest.fn(),
+          forceY: jest.fn(),
           yAxis: {
-            tickFormat: jasmine.createSpy('tickFormat')
+            tickFormat: jest.fn()
           },
-          color: jasmine.createSpy('color')
+          color: jest.fn()
         };
 
         config.options.setup(chart, d3);
@@ -309,7 +305,7 @@ describe('Host Cpu Ram chart', () => {
           'hostCpuRamChart'
         );
 
-        handler = mockChartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
