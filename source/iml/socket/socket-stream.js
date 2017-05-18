@@ -43,7 +43,10 @@ export default function sendRequest<B>(
 
   const data = {
     path: path.replace(/^\/?api/, ''),
-    options
+    options: {
+      method: 'get',
+      ...options
+    }
   };
 
   const end = socket.end.bind(socket);

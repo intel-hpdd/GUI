@@ -22,7 +22,7 @@ const toHaveBeenCalledNTimesWith = (n: number) =>
         `Expected mock ${this.utils.printReceived(received)} not to have been called with ${rest} ${n} time(s) but it was.`;
     else
       result.message = () =>
-        `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize('time', n)} but it was called ${this.utils.pluralize('time', foundCount)}.\n\nMock this.utils.printReceived(received) call listing:\n${received.mock.calls}.`;
+        `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize('time', n)} but it was called ${this.utils.pluralize('time', foundCount)}.\n\nMock this.utils.printReceived(received) call listing:\n${this.utils.stringify(received.mock.calls)}.`;
 
     return result;
   };
