@@ -3,7 +3,6 @@ import transformedHostProfileFixture
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 import angular from '../../../angular-mock-setup.js';
-import { extendWithConstructor } from '../../../jest-matchers.js';
 
 describe('select server profile', () => {
   let SelectServerProfileStepCtrl, selectServerProfileStep;
@@ -57,14 +56,14 @@ describe('select server profile', () => {
     );
 
     it('should setup the controller', () => {
-      const instance = extendWithConstructor(SelectServerProfileStepCtrl, {
+      const instance = {
         pdsh: data.pdsh,
         transition: jasmine.any(Function),
         onSelected: jasmine.any(Function),
         getHostPath: jasmine.any(Function),
         pdshUpdate: jasmine.any(Function),
         close: jasmine.any(Function)
-      });
+      };
 
       expect(selectServerProfileStep).toEqual(instance);
     });
