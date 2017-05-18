@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import highland from 'highland';
 import _ from '@mfl/lodash-mixins';
 import * as fp from '@mfl/fp';
@@ -41,7 +40,7 @@ export function SelectServerProfileStepCtrl(
   localApply
 ) {
   'ngInject';
-  angular.merge(this, {
+  Object.assign(this, {
     pdsh: data.pdsh,
     transition: function transition(action) {
       if (action === OVERRIDE_BUTTON_TYPES.OVERRIDE) return;
