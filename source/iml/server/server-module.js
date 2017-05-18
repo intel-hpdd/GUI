@@ -48,7 +48,6 @@ import extendScopeModule from '../extend-scope-module';
 import highlandModule from '../highland/highland-module';
 import asValueModule from '../as-value/as-value-module';
 import asStreamModule from '../as-stream/as-stream-module';
-import pdshModule from '../pdsh/pdsh-module';
 import SelectedServersService from './selected-servers-service';
 import {
   AddServerModalCtrl,

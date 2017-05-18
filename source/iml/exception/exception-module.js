@@ -24,7 +24,6 @@
 import angular from 'angular';
 import filtersModule from '../filters/filters-module';
 import windowUnloadModule from '../window-unload/window-unload-module';
-import environment from '../environment-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import exceptionHandlerConfig from './exception-handler';
 import exceptionInterceptorFactory from './exception-interceptor';
@@ -39,8 +38,7 @@ export default angular
   .module('exceptionModule', [
     uiBootstrapModule,
     filtersModule,
-    windowUnloadModule,
-    environment
+    windowUnloadModule
   ])
   .config(exceptionHandlerConfig)
   .config($httpProvider => {

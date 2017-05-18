@@ -21,26 +21,21 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-import environment from './environment-module';
+export default function help($sce, HELP_TEXT) {
+  'ngInject';
+  const trusted = {};
 
-export default angular
-  .module('help', [environment])
-  .factory('help', ($sce, HELP_TEXT) => {
-    'ngInject';
-    const trusted = {};
+  function addToTrusted(key) {
+    trusted[key] = $sce.trustAsHtml(HELP_TEXT[key]);
 
-    function addToTrusted(key) {
-      trusted[key] = $sce.trustAsHtml(HELP_TEXT[key]);
+    return trusted[key];
+  }
 
-      return trusted[key];
+  return {
+    get: function get(key: string) {
+      if (!HELP_TEXT[key]) throw new Error(`Key ${key} is not in help text!`);
+
+      return trusted[key] || addToTrusted(key);
     }
-
-    return {
-      get: function get(key) {
-        if (!HELP_TEXT[key]) throw new Error(`Key ${key} is not in help text!`);
-
-        return trusted[key] || addToTrusted(key);
-      }
-    };
-  }).name;
+  };
+}

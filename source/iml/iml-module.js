@@ -32,12 +32,12 @@ import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
 
+import * as ENV from './environment.js';
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import ngResource from 'angular-resource';
 import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
-import environmentModule from './environment-module';
 import exceptionModule from './exception/exception-module';
 import routeToModule from './route-to/route-to-module';
 import loginModule from './login/login-module';
@@ -122,14 +122,15 @@ import imlPopover from './iml-popover.js';
 import Position from './position.js';
 import { recordStateDirective } from './alert-indicator/alert-indicator.js';
 import jobStatus from './job-indicator/job-indicator.js';
+import pdsh from './pdsh/pdsh.js';
+import help from './help.js';
 
-angular
+const imlModule = angular
   .module('iml', [
     uiBootstrapModule,
     ngResource,
     ngAnimate,
     routeToModule,
-    environmentModule,
     exceptionModule,
     uiRouter,
     loginModule,
@@ -225,16 +226,21 @@ angular
   .directive('imlPopover', imlPopover)
   .factory('getHostProfiles', getHostProfilesFactory)
   .factory('createHostProfiles', createHostProfilesFactory)
+  .factory('help', help)
   .directive('recordState', recordStateDirective)
+  .directive('pdsh', pdsh)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',
     LARGE: 'large'
   })
+  .value('ENV', ENV)
   .run(routeTransitions)
   .run($templateCache => {
     'ngInject';
     $templateCache.put('/gui/job.html', jobTemplate);
-  }).name;
+  });
+
+Object.keys(ENV).forEach(key => imlModule.value(key, ENV[key]));
 
 angular.bootstrap(document, ['iml'], {});

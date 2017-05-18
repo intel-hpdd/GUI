@@ -1,5 +1,8 @@
-import pdshModule from '../../../../source/iml/pdsh/pdsh-module.js';
 import angular from '../../../angular-mock-setup.js';
+import pdsh from '../../../../source/iml/pdsh/pdsh.js';
+import Position from '../../../../source/iml/position.js';
+import imlPopover from '../../../../source/iml/iml-popover.js';
+import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 
 describe('PDSH directive', () => {
   let $scope,
@@ -15,7 +18,7 @@ describe('PDSH directive', () => {
     clickEvent;
 
   beforeEach(
-    angular.mock.module(pdshModule, $provide => {
+    angular.mock.module(($provide, $compileProvider) => {
       help = {
         get: jest.fn(() => 'Enter hostname / hostlist expression.')
       };
@@ -24,6 +27,11 @@ describe('PDSH directive', () => {
       clickEvent = new MouseEvent('click');
 
       $provide.value('help', help);
+      $compileProvider.directive('imlPopover', imlPopover);
+      $compileProvider.directive('imlTooltip', imlTooltip);
+      $provide.service('position', Position);
+
+      $compileProvider.directive('pdsh', pdsh);
     })
   );
 
@@ -169,8 +177,6 @@ describe('PDSH directive', () => {
 
   describe('pdsh initial change', () => {
     let initialValue;
-
-    beforeEach(angular.mock.module(pdshModule));
 
     beforeEach(
       inject(($rootScope, $compile, _$timeout_) => {

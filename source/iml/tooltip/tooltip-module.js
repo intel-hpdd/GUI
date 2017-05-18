@@ -20,11 +20,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import helpModule from '../help-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 
 import { helpTooltip } from './tooltip';
 
 export default angular
-  .module('iml-tooltip', [helpModule, uiBootstrapModule])
+  .module('iml-tooltip', [uiBootstrapModule])
   .directive('helpTooltip', helpTooltip).name;

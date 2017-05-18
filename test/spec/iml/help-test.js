@@ -1,19 +1,20 @@
 import angular from '../../angular-mock-setup.js';
-import helpModule from '../../../source/iml/help-module.js';
+import helpFactory from '../../../source/iml/help.js';
 
 describe('Help', () => {
   let help;
 
   beforeEach(
-    angular.mock.module(helpModule, $provide => {
+    angular.mock.module($provide => {
       $provide.constant('HELP_TEXT', {
         foo: 'bar'
       });
+      $provide.factory('help', helpFactory);
     })
   );
 
   beforeEach(
-    inject(_help_ => {
+    angular.mock.inject(_help_ => {
       help = _help_;
     })
   );

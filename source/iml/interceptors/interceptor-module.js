@@ -22,13 +22,12 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import environmentModule from '../environment-module';
 import { addStaticDirInterceptorFactory } from './add-static-dir';
 import { cleanRequestUrlInterceptorFactory } from './clean-request-url';
 import { tastypieInterceptorFactory } from './tastypie';
 
 export default angular
-  .module('interceptors', [environmentModule])
+  .module('interceptors', [])
   .factory('addStaticDirInterceptor', addStaticDirInterceptorFactory)
   .factory('cleanRequestUrlInterceptor', cleanRequestUrlInterceptorFactory)
   .factory('tastypieInterceptor', tastypieInterceptorFactory)

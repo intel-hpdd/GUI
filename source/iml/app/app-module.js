@@ -25,7 +25,6 @@ import angular from 'angular';
 import authModule from '../auth/auth-module';
 import navigateModule from '../navigate/navigate-module';
 import notificationModule from '../notification/notification-module';
-import environmentModule from '../environment-module';
 import commandModule from '../command/command-module';
 import extendScopeModule from '../extend-scope-module';
 import helpMapperModule from '../help-mapper/help-mapper-module.js';
@@ -41,7 +40,6 @@ export default angular
     authModule,
     navigateModule,
     notificationModule,
-    environmentModule,
     commandModule,
     extendScopeModule,
     helpMapperModule

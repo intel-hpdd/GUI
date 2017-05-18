@@ -23,7 +23,6 @@
 
 import angular from 'angular';
 import modelFactoryModule from '../model-factory/model-factory-module';
-import environmentModule from '../environment-module';
 import SessionModel from '../session/session-model.js';
 import UserModel from './user-model';
 import { GROUPS, restrictTo, restrict } from './authorization.js';
@@ -36,7 +35,7 @@ export type credentialsT = Exact<{
 }>;
 
 export default angular
-  .module('auth', [modelFactoryModule, environmentModule])
+  .module('auth', [modelFactoryModule])
   .value('EULA_STATES', {
     EULA: 'eula',
     PASS: 'pass',
