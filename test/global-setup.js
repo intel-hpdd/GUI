@@ -112,13 +112,6 @@ beforeEach(() => {
 
 beforeEach(angular.mock.module(fixturesModule));
 
-window.extendWithConstructor = (constructor, obj) => {
-  const scope = Object.create({}, {});
-  angular.extend(scope, obj);
-  Object.getPrototypeOf(scope).constructor = constructor;
-
-  return scope;
-};
 /**
  * HOF. Allows equal expectation to take on a more
  * fluent interface.

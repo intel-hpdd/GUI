@@ -1,3 +1,5 @@
+import angular from 'angular';
+
 const toHaveBeenCalledNTimesWith = (n: number) =>
   function matcherFactory(received, ...rest) {
     if (!jest.isMockFunction(received))
@@ -61,3 +63,11 @@ expect.extend({
       };
   }
 });
+
+export const extendWithConstructor = (constructor, obj) => {
+  const scope = Object.create({}, {});
+  angular.extend(scope, obj);
+  Object.getPrototypeOf(scope).constructor = constructor;
+
+  return scope;
+};

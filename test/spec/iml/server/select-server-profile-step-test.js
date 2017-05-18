@@ -1,24 +1,28 @@
-import serverModule from '../../../../source/iml/server/server-module';
 import transformedHostProfileFixture
   from '../../../data-fixtures/transformed-host-profile-fixture.json';
 import highland from 'highland';
 import * as fp from '@mfl/fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
+import { extendWithConstructor } from '../../../jest-matchers.js';
 
 describe('select server profile', () => {
   let SelectServerProfileStepCtrl, selectServerProfileStep;
 
-  beforeEach(module(serverModule));
+  beforeEach(
+    angular.mock.module($provide => {
+      $provide.value('OVERRIDE_BUTTON_TYPES', {
+        OVERRIDE: 'override',
+        PROCEED: 'proceed',
+        PROCEED_SKIP: 'proceed and skip'
+      });
+    })
+  );
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/select-server-profile-step.js');
-
+  beforeEach(() => {
+    const mod = require('../../../../source/iml/server/select-server-profile-step.js');
     SelectServerProfileStepCtrl = mod.SelectServerProfileStepCtrl;
     selectServerProfileStep = mod.selectServerProfileStep();
   });
-
-  afterEach(resetAll);
 
   describe('select server profile step ctrl', () => {
     let $scope,
@@ -29,18 +33,16 @@ describe('select server profile', () => {
       selectServerProfileStep;
 
     beforeEach(
-      inject(($rootScope, $controller) => {
+      angular.mock.inject(($rootScope, $controller) => {
         $scope = $rootScope.$new();
         $stepInstance = {
-          transition: jasmine.createSpy('transition')
+          transition: jest.fn()
         };
 
         hostProfileStream = highland();
         spyOn(hostProfileStream, 'destroy');
 
-        createHostProfiles = jasmine
-          .createSpy('createHostProfiles')
-          .and.returnValue(highland());
+        createHostProfiles = jest.fn(() => highland());
 
         data = { pdsh: 'storage0.localdomain' };
 
@@ -55,17 +57,14 @@ describe('select server profile', () => {
     );
 
     it('should setup the controller', () => {
-      const instance = window.extendWithConstructor(
-        SelectServerProfileStepCtrl,
-        {
-          pdsh: data.pdsh,
-          transition: jasmine.any(Function),
-          onSelected: jasmine.any(Function),
-          getHostPath: jasmine.any(Function),
-          pdshUpdate: jasmine.any(Function),
-          close: jasmine.any(Function)
-        }
-      );
+      const instance = extendWithConstructor(SelectServerProfileStepCtrl, {
+        pdsh: data.pdsh,
+        transition: jasmine.any(Function),
+        onSelected: jasmine.any(Function),
+        getHostPath: jasmine.any(Function),
+        pdshUpdate: jasmine.any(Function),
+        close: jasmine.any(Function)
+      });
 
       expect(selectServerProfileStep).toEqual(instance);
     });
@@ -90,7 +89,7 @@ describe('select server profile', () => {
 
     describe('receiving data change on hostProfileSpark', () => {
       beforeEach(
-        inject(() => {
+        angular.mock.inject(() => {
           hostProfileStream.write(transformedHostProfileFixture);
         })
       );
@@ -167,7 +166,97 @@ describe('select server profile', () => {
   describe('selectServerProfileStep', () => {
     it('should contain the appropriate properties', () => {
       expect(selectServerProfileStep).toEqual({
-        template: 'serverProfileStepTemplate',
+        template: `<div class="modal-header">
+  <button type="button" class="close" ng-click="selectServerProfile.close()" ng-disabled="selectServerProfile.disabled">
+    <i class="fa fa-times"></i>
+  </button>
+  <h4 class="modal-title">Add Server - Add Server Profiles</h4>
+  <span class="tooltip-container tooltip-hover">
+    <i class="fa fa-question-circle">
+      <iml-tooltip size="'large'" direction="bottom">
+        <span>Select the server profile to be applied to all servers. Green squares represent servers that are compatible with the selected profile. Red squares represent servers that are incompatible with the selected server profile.</span>
+      </iml-tooltip>
+    </i>
+  </span>
+</div>
+<div class="modal-body select-server-profile-step clearfix">
+  <div ng-if="selectServerProfile.overridden" class="alert alert-danger" role="alert">
+    You are about to configure one or more servers with an incompatible server profile.
+    Configuring servers with incompatible server profiles is unsupported.
+    Click <strong>proceed</strong> to continue.
+  </div>
+  <div>
+    <label>Select Server Profile</label>
+    <span class="tooltip-container tooltip-hover">
+      <i class="fa fa-question-circle">
+        <iml-tooltip size="'large'" direction="right">
+          <span>Select a server profile to set on unconfigured servers.</span>
+        </iml-tooltip>
+      </i>
+    </span>
+  </div>
+  <div class="btn-group fancy-select-box" uib-dropdown on-toggle="open = !open">
+    <button type="button" class="form-control dropdown-toggle" ng-disabled="disabled" uib-dropdown-toggle>
+      <span ng-if="selectServerProfile.profile.invalid" class="label label-danger">Incompatible</span>
+      <span>{{ selectServerProfile.profile.uiName }}</span>
+      <i class="fa" ng-class="{'fa-caret-down': open, 'fa-caret-up': !open}"></i>
+    </button>
+    <ul role="menu" uib-dropdown-menu>
+      <li ng-repeat="profile in selectServerProfile.profiles track by profile.name" ng-click="selectServerProfile.onSelected(profile)">
+        <a class="fancy-select-option">
+          <span ng-if="profile.invalid" class="label label-danger">Incompatible</span>
+          <span class="fancy-select-text">{{ profile.uiName }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <form class="filterServerForm" name="filterServerForm" novalidate>
+    <div class="form-group pdsh-input" ng-class="{'has-error': filterServerForm.pdsh.$invalid, 'has-success': filterServerForm.pdsh.$valid}">
+      <div>
+        <label>Filter by Hostname / Hostlist Expression</label>
+        <span class="tooltip-container tooltip-hover">
+          <i class="fa fa-question-circle">
+            <iml-tooltip size="'large'" direction="right">
+              <span>Enter a hostname / hostlist expression to filter servers.</span>
+            </iml-tooltip>
+          </i>
+        </span>
+      </div>
+      <pdsh pdsh-initial="selectServerProfile.pdsh" pdsh-change="selectServerProfile.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
+    </div>
+  </form>
+  <div class="status-cell-container" ng-repeat="host in selectServerProfile.profile.hosts | pdsh:selectServerProfile.hostnamesHash:selectServerProfile.getHostPath track by host.address">
+    <div ng-class="{invalid: host.invalid, valid: !host.invalid }"
+    class="status-cell activate-popover tooltip-container tooltip-hover">
+      <iml-tooltip size="'large'" direction="right">
+        <span>Address: {{host.address}}</span>
+      </iml-tooltip>
+    </div>
+    <iml-popover title="Status for {{ host.address }}" placement="bottom">
+      <div ng-if="!host.invalid">
+        <i class="fa fa-check-circle"></i> {{ host.uiName }} profile is compatible.
+      </div>
+      <div ng-if="host.invalid">
+        <div class="callout callout-danger">
+          <span>{{ host.address }}</span> incompatible with <span>{{ host.uiName }}</span> profile.
+        </div>
+        <h4>Reasons: </h4>
+        <ul>
+          <li ng-repeat="problem in host.problems track by problem.test">
+            <i class="fa fa-times-circle"></i>
+            <span ng-if="problem.error">There was an error: {{ problem.error }}.</span>
+            <span ng-if="!problem.error">{{ problem.description }}.</span>
+          </li>
+        </ul>
+      </div>
+    </iml-popover>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-disabled="selectServerProfile.disabled" ng-click="selectServerProfile.transition('previous')" class="btn btn-default"><i class="fa fa-long-arrow-left"></i> Previous</button>
+  <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
+</div>`,
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
         onEnter: jasmine.any(Function),
         transition: jasmine.any(Function)
@@ -194,9 +283,9 @@ describe('select server profile', () => {
         response,
         spy;
 
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         data = {
-          spring: jasmine.createSpy('spring'),
+          spring: jest.fn(),
           servers: [],
           serverSpark: {}
         };
@@ -378,15 +467,11 @@ describe('select server profile', () => {
           ]
         };
 
-        createOrUpdateHostsStream = jasmine
-          .createSpy('createOrUpdateHostsStream')
-          .and.returnValue(highland([response]));
+        createOrUpdateHostsStream = jest.fn(() => highland([response]));
 
-        waitForCommandCompletion = jasmine
-          .createSpy('waitForCommandCompletion')
-          .and.callFake(val => highland([val]));
+        waitForCommandCompletion = jest.fn(val => highland([val]));
 
-        getHostProfiles = jasmine.createSpy('getHostProfiles').and.returnValue(
+        getHostProfiles = jest.fn(() =>
           highland([
             {
               some: 'profiles'
@@ -404,7 +489,7 @@ describe('select server profile', () => {
           true
         );
 
-        spy = jasmine.createSpy('spy');
+        spy = jest.fn();
 
         const stream = await result.hostProfileStream;
         stream.each(spy);
@@ -431,7 +516,7 @@ describe('select server profile', () => {
       });
 
       it('should call getHostProfiles', () => {
-        const hosts = fp.map(x => x.command_and_host.host, response.objects);
+        const hosts = fp.map(x => x.command_and_host.host)(response.objects);
 
         expect(getHostProfiles).toHaveBeenCalledOnceWith(data.spring, hosts);
       });
