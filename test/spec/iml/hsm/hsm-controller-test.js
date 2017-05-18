@@ -17,7 +17,7 @@ describe('HSM controller', () => {
 
       agentVsCopytoolChart = {
         stream: {
-          destroy: jasmine.createSpy('destroy')
+          destroy: jest.fn()
         }
       };
 
@@ -26,9 +26,7 @@ describe('HSM controller', () => {
       copytoolStream = highland();
       spyOn(copytoolStream, 'destroy');
 
-      openAddCopytoolModal = jasmine
-        .createSpy('openAddCopytoolModal')
-        .and.returnValue($q.resolve());
+      openAddCopytoolModal = jest.fn(() => $q.resolve());
 
       hsm = $controller(HsmCtrl, {
         $scope,
