@@ -1,15 +1,15 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import qsStreamFactory from '../../../../source/iml/qs-stream/qs-stream.js';
 
 describe('qs stream', () => {
   let $transitions, qsFromLocation, spy, qsStream, destructor;
 
-  beforeEachAsync(async function() {
-    spy = jasmine.createSpy('spy');
+  beforeEach(() => {
+    spy = jest.fn();
 
-    destructor = jasmine.createSpy('destructor');
+    destructor = jest.fn();
 
     $transitions = {
-      onSuccess: jasmine.createSpy('onSuccess').and.returnValue(destructor)
+      onSuccess: jest.fn(() => destructor)
     };
 
     qsFromLocation = jasmine.createSpy('qsFromLocation').and.callFake(obj => {
@@ -20,12 +20,8 @@ describe('qs stream', () => {
       }, '');
     });
 
-    const mod = await mock('source/iml/qs-stream/qs-stream.js', {});
-
-    qsStream = mod.default($transitions, qsFromLocation);
+    qsStream = qsStreamFactory($transitions, qsFromLocation);
   });
-
-  afterEach(resetAll);
 
   it('should be a function', () => {
     expect(qsStream).toEqual(jasmine.any(Function));
@@ -43,7 +39,7 @@ describe('qs stream', () => {
     beforeEach(() => {
       qsStream({ foo: 'bar', baz: 'bap' }).each(spy);
 
-      fn = $transitions.onSuccess.calls.mostRecent().args[1];
+      fn = $transitions.onSuccess.mock.calls[0][1];
     });
 
     it('should push a qs on the stream', () => {

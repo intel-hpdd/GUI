@@ -1,10 +1,8 @@
 import * as maybe from '@mfl/maybe';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('breadcrumb', () => {
-  let getResolvedData,
-    mod,
+  let mockGetResolvedData,
     breadcrumbComponent,
     $scope,
     $compile,
@@ -18,36 +16,32 @@ describe('breadcrumb', () => {
     ol,
     onSuccess,
     onStart,
-    global;
+    mockGlobal;
 
-  beforeEachAsync(async function() {
-    getResolvedData = jasmine.createSpy('getResolvedData');
-    onSuccess = jasmine.createSpy('onSuccess');
-    onStart = jasmine.createSpy('onStart');
-    global = {
-      addEventListener: jasmine.createSpy('addEventListener'),
-      removeEventListener: jasmine.createSpy('removeEventListener')
+  beforeEach(() => {
+    mockGetResolvedData = jest.fn();
+    onSuccess = jest.fn();
+    onStart = jest.fn();
+    mockGlobal = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
     };
 
-    mod = await mock('source/iml/breadcrumb/breadcrumb.js', {
-      'source/iml/route-utils.js': {
-        getResolvedData
-      },
-      'source/iml/global.js': {
-        default: global
-      }
-    });
+    jest.mock('../../../../source/iml/route-utils.js', () => ({
+      getResolvedData: mockGetResolvedData
+    }));
 
-    breadcrumbComponent = mod.default;
+    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+
+    breadcrumbComponent = require('../../../../source/iml/breadcrumb/breadcrumb.js')
+      .default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module(($compileProvider, $provide) => {
+    angular.mock.module(($compileProvider, $provide) => {
       $transitions = {
-        onSuccess: jasmine.createSpy('onSuccess').and.returnValue(onSuccess),
-        onStart: jasmine.createSpy('onStart').and.returnValue(onStart)
+        onSuccess: jest.fn(() => onSuccess),
+        onStart: jest.fn(() => onStart)
       };
 
       $state = {
@@ -88,10 +82,10 @@ describe('breadcrumb', () => {
         }
       };
 
-      getResolvedData.and.returnValue(maybe.of(undefined));
+      mockGetResolvedData.mockReturnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
-      $transitions.onStart.calls.argsFor(0)[1]();
+      $transitions.onStart.mock.calls[0][1]();
       $scope.$digest();
       ol = el.querySelector.bind(el, 'ol');
       link = el.querySelector.bind(el, 'li:first-child > span');
@@ -122,18 +116,18 @@ describe('breadcrumb', () => {
           }
         };
         transition = {
-          to: jasmine.createSpy('to').and.returnValue(curRoute)
+          to: jest.fn().mockReturnValue(curRoute)
         };
 
-        getResolvedData.and.returnValue(
+        mockGetResolvedData.mockReturnValue(
           maybe.of({
             label: 'fs1',
             kind: 'dashboard-fs'
           })
         );
 
-        $transitions.onStart.calls.argsFor(0)[1]();
-        transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+        $transitions.onStart.mock.calls[0][1]();
+        transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
         transitionSuccess(transition);
 
         $scope.$digest();
@@ -185,18 +179,18 @@ describe('breadcrumb', () => {
           };
 
           transition = {
-            to: jasmine.createSpy('to').and.returnValue(curRoute)
+            to: jest.fn().mockReturnValue(curRoute)
           };
 
-          getResolvedData.and.returnValue(
+          mockGetResolvedData.mockReturnValue(
             maybe.of({
               label: 'fs1-MDT0000',
               kind: 'dashboard-mdt'
             })
           );
 
-          $transitions.onStart.calls.argsFor(0)[1]();
-          transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+          $transitions.onStart.mock.calls[0][1]();
+          transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
           transitionSuccess(transition);
 
           $scope.$digest();
@@ -259,18 +253,18 @@ describe('breadcrumb', () => {
             };
 
             transition = {
-              to: jasmine.createSpy('to').and.returnValue(curRoute)
+              to: jest.fn().mockReturnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(
+            mockGetResolvedData.mockReturnValue(
               maybe.of({
                 label: 'fs1',
                 kind: 'dashboard-fs'
               })
             );
 
-            $transitions.onStart.calls.argsFor(0)[1]();
-            transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+            $transitions.onStart.mock.calls[0][1]();
+            transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
             transitionSuccess(transition);
 
             $scope.$digest();
@@ -320,10 +314,10 @@ describe('breadcrumb', () => {
               };
 
               transition = {
-                to: jasmine.createSpy('to').and.returnValue(curRoute)
+                to: jest.fn().mockReturnValue(curRoute)
               };
 
-              getResolvedData.and.returnValue(
+              mockGetResolvedData.mockReturnValue(
                 maybe.of({
                   kind: 'servers'
                 })
@@ -331,8 +325,8 @@ describe('breadcrumb', () => {
 
               $stateParams.resetState = true;
 
-              $transitions.onStart.calls.argsFor(0)[1]();
-              transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+              $transitions.onStart.mock.calls[0][1]();
+              transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
               transitionSuccess(transition);
 
               $scope.$digest();
@@ -360,23 +354,23 @@ describe('breadcrumb', () => {
             };
 
             transition = {
-              to: jasmine.createSpy('to').and.returnValue(curRoute)
+              to: jest.fn().mockReturnValue(curRoute)
             };
 
-            getResolvedData.and.returnValue(
+            mockGetResolvedData.mockReturnValue(
               maybe.of({
                 label: 'fs1',
                 kind: 'filesystem'
               })
             );
 
-            $transitions.onStart.calls.argsFor(0)[1]();
+            $transitions.onStart.mock.calls[0][1]();
           });
 
           describe('when popState fires before on success', () => {
             beforeEach(() => {
-              global.addEventListener.calls.argsFor(0)[1]();
-              transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+              mockGlobal.addEventListener.mock.calls[0][1]();
+              transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
               transitionSuccess(transition);
 
               $scope.$digest();
@@ -408,9 +402,9 @@ describe('breadcrumb', () => {
 
           describe('when success fires before popState', () => {
             beforeEach(() => {
-              transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+              transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
               transitionSuccess(transition);
-              global.addEventListener.calls.argsFor(0)[1]();
+              mockGlobal.addEventListener.mock.calls[0][1]();
 
               $scope.$digest();
               link = el.querySelector.bind(el, 'li:nth-of-type(1) a');
@@ -478,20 +472,20 @@ describe('breadcrumb', () => {
       };
 
       transition = {
-        to: jasmine.createSpy('to').and.returnValue(backButtonRoute)
+        to: jest.fn(() => backButtonRoute)
       };
 
-      getResolvedData.and.returnValue(maybe.of(undefined));
+      mockGetResolvedData.mockReturnValue(maybe.of(undefined));
 
       el = $compile(template)($scope)[0];
 
-      $transitions.onStart.calls.argsFor(0)[1]();
+      $transitions.onStart.mock.calls[0][1]();
     });
 
     describe('when popState fires before onSuccess', () => {
       beforeEach(() => {
-        global.addEventListener.calls.argsFor(0)[1]();
-        transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+        mockGlobal.addEventListener.mock.calls[0][1]();
+        transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
         transitionSuccess(transition);
 
         $scope.$digest();
@@ -515,9 +509,9 @@ describe('breadcrumb', () => {
 
     describe('when onSuccess fires before popState', () => {
       beforeEach(() => {
-        transitionSuccess = $transitions.onSuccess.calls.argsFor(0)[1];
+        transitionSuccess = $transitions.onSuccess.mock.calls[0][1];
         transitionSuccess(transition);
-        global.addEventListener.calls.argsFor(0)[1]();
+        mockGlobal.addEventListener.mock.calls[0][1]();
 
         $scope.$digest();
         link = el.querySelector.bind(el, 'li:first-child > span');

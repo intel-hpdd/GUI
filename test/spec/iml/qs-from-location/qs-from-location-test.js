@@ -1,13 +1,7 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import mod from '../../../../source/iml/qs-from-location/qs-from-location.js';
 
 describe('qs from location', () => {
-  let qsFromLocation, format, mod;
-
-  beforeEachAsync(async function() {
-    mod = await mock('source/iml/qs-from-location/qs-from-location.js', {});
-  });
-
-  afterEach(resetAll);
+  let qsFromLocation, format;
 
   beforeEach(() => {
     format = jasmine.createSpy('format');
@@ -27,7 +21,7 @@ describe('qs from location', () => {
       }
     };
 
-    qsFromLocation = mod.default(state);
+    qsFromLocation = mod(state);
   });
 
   it('should be a function', function() {

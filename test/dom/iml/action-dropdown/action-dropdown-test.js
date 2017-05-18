@@ -9,17 +9,14 @@ describe('action dropdown directive', function() {
 
   beforeEach(
     module(actionDropdownModule, function($compileProvider, $provide) {
-      handleAction = jasmine
-        .createSpy('handleAction')
-        .and.returnValue(highland());
+      handleAction = jest.fn(() => highland());
+
       $provide.value('handleAction', handleAction);
 
-      getCommandStream = jasmine
-        .createSpy('getCommandStream')
-        .and.returnValue(highland());
+      getCommandStream = jest.fn(() => highland());
       $provide.value('getCommandStream', getCommandStream);
 
-      openCommandModal = jasmine.createSpy('openCommandModal');
+      openCommandModal = jest.fn();
       $provide.value('openCommandModal', openCommandModal);
 
       $compileProvider.directive('imlTooltip', imlTooltip);
