@@ -1,16 +1,25 @@
 import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
 import angular from '../../../angular-mock-setup.js';
-import jobIndicatorModule
-  from '../../../../source/iml/job-indicator/job-indicator-module.js';
+import Position from '../../../../source/iml/position.js';
+import imlPopover from '../../../../source/iml/iml-popover.js';
+import jobStatus from '../../../../source/iml/job-indicator/job-indicator.js';
+import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 
 describe('job indicator', () => {
-  beforeEach(angular.mock.module(jobIndicatorModule));
+  beforeEach(
+    angular.mock.module(($provide, $compileProvider) => {
+      $compileProvider.directive('jobStatus', jobStatus);
+      $compileProvider.directive('imlPopover', imlPopover);
+      $compileProvider.directive('imlTooltip', imlTooltip);
+      $provide.service('position', Position);
+    })
+  );
 
   let $scope, $timeout, element, node, getPopover, stream, i;
 
   beforeEach(
-    inject(($rootScope, $compile, _$timeout_) => {
+    angular.mock.inject(($rootScope, $compile, _$timeout_) => {
       $timeout = _$timeout_;
 
       element =
@@ -290,7 +299,6 @@ describe('job indicator', () => {
     });
 
     it('should contain only message1 in the difference array.', () => {
-      console.log('difference', $scope.readMessageDifference.toString());
       expect($scope.readMessageDifference).toEqual(['read lock description1']);
     });
   });

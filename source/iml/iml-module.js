@@ -121,6 +121,7 @@ import { imlTooltip } from './tooltip/tooltip.js';
 import imlPopover from './iml-popover.js';
 import Position from './position.js';
 import { recordStateDirective } from './alert-indicator/alert-indicator.js';
+import jobStatus from './job-indicator/job-indicator.js';
 
 angular
   .module('iml', [
@@ -219,6 +220,7 @@ angular
   .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
   .directive('imlTooltip', imlTooltip)
+  .directive('jobStatus', jobStatus)
   .service('position', Position)
   .directive('imlPopover', imlPopover)
   .factory('getHostProfiles', getHostProfilesFactory)

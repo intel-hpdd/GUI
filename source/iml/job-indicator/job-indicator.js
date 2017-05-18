@@ -19,9 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import _ from '@mfl/lodash-mixins';
 import * as fp from '@mfl/fp';
+
+export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
 
 export default function jobStatusDirective(localApply) {
   'ngInject';
@@ -34,7 +35,7 @@ export default function jobStatusDirective(localApply) {
     link: function link(scope) {
       let isOpened = false;
 
-      angular.extend(scope, {
+      Object.assign(scope, {
         closeOthers: false,
         openWrite: true,
         openRead: true,

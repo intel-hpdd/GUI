@@ -23,7 +23,7 @@
 
 import store from '../store/get-store.js';
 
-import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator-module.js';
+import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator.js';
 
 import { ALLOW_ANONYMOUS_READ } from '../environment.js';
 

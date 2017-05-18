@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator-module.js';
+import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator.js';
 
 import type { ActionT } from '../store/store-module.js';
 
