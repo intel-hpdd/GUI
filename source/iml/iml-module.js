@@ -117,6 +117,11 @@ import {
   createHostProfilesFactory
 } from './server/create-host-profiles-stream';
 
+import { imlTooltip } from './tooltip/tooltip.js';
+import imlPopover from './iml-popover.js';
+import Position from './position.js';
+import { recordStateDirective } from './alert-indicator/alert-indicator.js';
+
 angular
   .module('iml', [
     uiBootstrapModule,
@@ -213,8 +218,17 @@ angular
   .component('pageTitle', pageTitleComponent)
   .component('confirmButton', confirmButtonComponent)
   .directive('uiLoaderView', uiLoaderViewDirective)
+  .directive('imlTooltip', imlTooltip)
+  .service('position', Position)
+  .directive('imlPopover', imlPopover)
   .factory('getHostProfiles', getHostProfilesFactory)
   .factory('createHostProfiles', createHostProfilesFactory)
+  .directive('recordState', recordStateDirective)
+  .constant('STATE_SIZE', {
+    SMALL: 'small',
+    MEDIUM: 'medium',
+    LARGE: 'large'
+  })
   .run(routeTransitions)
   .run($templateCache => {
     'ngInject';

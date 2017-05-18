@@ -44,7 +44,6 @@ import pacemakerModule from '../pacemaker/pacemaker-module';
 import commandModule from '../command/command-module';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module';
 import jobIndicatorModule from '../job-indicator/job-indicator-module';
-import alertIndicatorModule from '../alert-indicator/alert-indicator-module';
 import stepsModule from '../steps/steps-module';
 import extendScopeModule from '../extend-scope-module';
 import highlandModule from '../highland/highland-module';
@@ -83,7 +82,6 @@ export default angular
     commandModule,
     actionDropdownModule,
     jobIndicatorModule,
-    alertIndicatorModule,
     stepsModule,
     extendScopeModule,
     highlandModule,

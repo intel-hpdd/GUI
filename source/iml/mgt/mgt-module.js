@@ -25,7 +25,6 @@ import angular from 'angular';
 import extractApiFilterModule
   from '../extract-api-filter/extract-api-filter-module.js';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
-import alertIndicatorModule from '../alert-indicator/alert-indicator-module.js';
 import jobIndicatorModule from '../job-indicator/job-indicator-module.js';
 import asStreamModule from '../as-stream/as-stream-module.js';
 import asValueModule from '../as-value/as-value-module.js';
@@ -37,7 +36,6 @@ export default angular
   .module('mgtModule', [
     extractApiFilterModule,
     actionDropdownModule,
-    alertIndicatorModule,
     jobIndicatorModule,
     asStreamModule,
     routeToModule,

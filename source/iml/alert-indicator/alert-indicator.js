@@ -38,7 +38,7 @@ export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
 
   const viewer$ = ctrl.alertStream();
   const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
-  const recordFound = fp.flow(fp.eqFn(fp.identity, indexOfRecord, -1), fp.not);
+  const recordFound = fp.flow(fp.eqFn(fp.identity)(indexOfRecord)(-1), fp.not);
 
   const p = propagateChange.bind(null, $scope, ctrl, 'alerts');
 
@@ -59,7 +59,7 @@ export const recordStateDirective = () => {
       displayType: '=',
       alertStream: '='
     },
-    controller: 'RecordStateCtrl',
+    controller: RecordStateCtrl,
     controllerAs: 'ctrl',
     restrict: 'E',
     template: `<span class="record-state">

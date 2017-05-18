@@ -1,12 +1,16 @@
 import _ from '@mfl/lodash-mixins';
-import angular from '../../../angular-mock-setup.js';
+import angular from '../../angular-mock-setup.js';
 
-import positionModule from '../../../../source/iml/position/position-module';
+import Position from '../../../source/iml/position.js';
 
 describe('Positioning service', () => {
   let position, $window;
 
-  beforeEach(angular.mock.module(positionModule));
+  beforeEach(
+    angular.mock.module($provide => {
+      $provide.service('position', Position);
+    })
+  );
 
   beforeEach(
     angular.mock.module($provide => {

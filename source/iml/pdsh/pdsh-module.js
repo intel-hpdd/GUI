@@ -22,19 +22,13 @@
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import tooltipModule from '../tooltip/tooltip-module';
-import popoverModule from '../popover/popover-module';
 import helpModule from '../help-module';
 import pdshParser from '@mfl/pdsh-parser';
 
 import _ from '@mfl/lodash-mixins';
 
 export default angular
-  .module('pdsh-module', [
-    tooltipModule,
-    uiBootstrapModule,
-    popoverModule,
-    helpModule
-  ])
+  .module('pdsh-module', [tooltipModule, uiBootstrapModule, helpModule])
   .directive('pdsh', ['help', pdsh]).name;
 
 /**

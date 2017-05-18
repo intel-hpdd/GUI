@@ -1,15 +1,19 @@
-import positionModule from '../../../../source/iml/position/position-module.js';
-import popoverModule from '../../../../source/iml/popover/popover-module.js';
-import angular from '../../../angular-mock-setup.js';
+import Position from '../../../source/iml/position.js';
+import imlPopover from '../../../source/iml/iml-popover.js';
+import angular from '../../angular-mock-setup.js';
 
 describe('popover', () => {
   let $timeout, $scope, el, popover, button;
 
-  beforeEach(angular.mock.module(positionModule));
-  beforeEach(angular.mock.module(popoverModule));
+  beforeEach(
+    angular.mock.module(($provide, $compileProvider) => {
+      $provide.service('position', Position);
+      $compileProvider.directive('imlPopover', imlPopover);
+    })
+  );
 
   beforeEach(
-    inject(($rootScope, $compile, _$timeout_) => {
+    angular.mock.inject(($rootScope, $compile, _$timeout_) => {
       $timeout = _$timeout_;
 
       const template = `
