@@ -35,11 +35,13 @@ export function addCurrentPage<T: { meta: Object }>(o: T): T {
   };
 }
 
+export const matchById = (id: string) => fp.find(x => x.id === id);
+
 type MapFn<A, B> = A => B;
-export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(mapFn: MapFn<A, C>) => (in$: HighlandStreamT<A>):HighlandStreamT<A> => {
+export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
+  mapFn: MapFn<A, C>
+) => (in$: HighlandStreamT<A>): HighlandStreamT<A> => {
   let v;
 
   return in$.tap(x => (v = x)).flatMap(mapFn).map(() => v).otherwise(() => [v]);
 };
-
-export const matchById = (id: string) => fp.find(x => x.id === id);

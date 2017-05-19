@@ -21,15 +21,14 @@
 
 import angular from 'angular';
 
-export default function(position, $timeout, $window, $compile) {
+export default (position, $timeout, $window, $compile) => {
   'ngInject';
-
   const template =
     '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
-<div class="arrow"></div>\
-<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\
-<div class="popover-content"></div>\
-</div>';
+  <div class="arrow"></div>\
+  <h3 class="popover-title" ng-bind="title" ng-show="title"></h3>\
+  <div class="popover-content"></div>\
+  </div>';
 
   return {
     restrict: 'E',
@@ -176,4 +175,4 @@ export default function(position, $timeout, $window, $compile) {
       }
     }
   };
-}
+};

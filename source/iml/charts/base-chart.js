@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import d3 from 'd3';
 import nv from 'nvd3';
 import global from '../global.js';

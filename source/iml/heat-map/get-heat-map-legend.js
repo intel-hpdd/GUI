@@ -166,7 +166,7 @@ export default function getHeatMapLegendFactory(d3) {
       return chart;
     };
 
-    chart.destroy = _.noop;
+    chart.destroy = () => {};
 
     return chart;
   };

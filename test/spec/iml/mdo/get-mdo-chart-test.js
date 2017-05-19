@@ -1,5 +1,4 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
 import angular from '../../../angular-mock-setup.js';
 
 describe('MDO chart', () => {

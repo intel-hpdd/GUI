@@ -132,9 +132,7 @@ describe('base chart', () => {
     });
 
     it('should register a panel listener', () => {
-      expect(rootPanel.register).toHaveBeenCalledOnceWith(
-        expect.any(Function)
-      );
+      expect(rootPanel.register).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
     it('should register a destroy handler', () => {

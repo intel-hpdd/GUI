@@ -72,14 +72,12 @@ import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 
 export default angular
   .module('server', [
-    pdshModule,
     filtersModule,
     lnetModule,
     corosyncModule,
     pacemakerModule,
     commandModule,
     actionDropdownModule,
-    jobIndicatorModule,
     stepsModule,
     extendScopeModule,
     highlandModule,

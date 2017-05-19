@@ -63,7 +63,7 @@
     "eslint": "3.19.0",
     "eslint-config-prettier": "2.1.0",
     "eslint-plugin-flowtype": "2.33.0",
-    "eslint-plugin-prettier": "2.1.0",
+    "eslint-plugin-prettier": "2.1.1",
     "eslint-plugin-react": "7.0.1",
     "fastdom": "1.0.6",
     "flow-bin": "0.46.0",
