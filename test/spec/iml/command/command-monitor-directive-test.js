@@ -1,52 +1,46 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Command monitor controller', () => {
   let $scope,
     ctrl,
-    getCommandStream,
+    mockGetCommandStream,
     commandStream,
     openCommandModal,
     openCommandModalPromise,
     mod,
-    socketStream,
+    mockSocketStream,
     stream;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     stream = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
-    spyOn(stream, 'destroy');
+    mockSocketStream = jest.fn(() => stream);
+    jest.spyOn(stream, 'destroy');
 
     commandStream = highland();
-    spyOn(commandStream, 'destroy');
-    getCommandStream = jasmine
-      .createSpy('getCommandStream')
-      .and.returnValue(commandStream);
+    jest.spyOn(commandStream, 'destroy');
+    mockGetCommandStream = jest.fn(() => commandStream);
 
-    mod = await mock('source/iml/command/command-monitor-directive.js', {
-      'source/iml/socket/socket-stream': {
-        default: socketStream
-      },
-      'source/iml/command/get-command-stream': {
-        default: getCommandStream
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream',
+      () => mockSocketStream
+    );
+    jest.mock(
+      '../../../../source/iml/command/get-command-stream',
+      () => mockGetCommandStream
+    );
+    mod = require('../../../../source/iml/command/command-monitor-directive.js');
   });
 
-  afterEach(resetAll);
-
-  beforeEach(module('extendScope'));
-
   beforeEach(
-    inject(($rootScope, $controller, $q) => {
+    angular.mock.inject(($rootScope, $controller, $q) => {
       $scope = $rootScope.$new();
-      spyOn($scope, '$on').and.callThrough();
+      jest.spyOn($scope, '$on');
 
       openCommandModalPromise = $q.when();
-      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
+      openCommandModal = jest.fn(() => ({
         result: openCommandModalPromise
-      });
+      }));
 
       ctrl = $controller(mod.CommandMonitorCtrl, {
         $scope,
@@ -56,7 +50,7 @@ describe('Command monitor controller', () => {
   );
 
   it('should request data', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/command', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/command', {
       qs: {
         limit: 0,
         errored: false,
@@ -74,7 +68,7 @@ describe('Command monitor controller', () => {
     });
 
     it('should end the monitor on destroy', () => {
-      const handler = $scope.$on.calls.mostRecent().args[1];
+      const handler = $scope.$on.mock.calls[0][1];
 
       handler();
 
@@ -111,7 +105,7 @@ describe('Command monitor controller', () => {
       });
 
       it('should call getCommandStream with the last response', () => {
-        expect(getCommandStream).toHaveBeenCalledOnceWith([
+        expect(mockGetCommandStream).toHaveBeenCalledOnceWith([
           { cancelled: false }
         ]);
       });
