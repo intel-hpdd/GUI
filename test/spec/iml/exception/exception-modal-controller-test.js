@@ -1,7 +1,6 @@
 import _ from '@mfl/lodash-mixins';
 import highland from 'highland';
-import exceptionModule from '../../../../source/iml/exception/exception-module';
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Exception modal controller', () => {
   let $scope,
@@ -13,27 +12,24 @@ describe('Exception modal controller', () => {
     sendStackTraceToRealTime,
     s,
     reverseStream,
-    socketStream,
+    mockSocketStream,
     mod;
 
-  beforeEachAsync(async () => {
+  beforeEach(() => {
     reverseStream = highland();
 
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.returnValue(reverseStream);
+    mockSocketStream = jest.fn(() => reverseStream);
 
-    mod = await mock('source/iml/exception/exception-modal-controller.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/exception/exception-modal-controller.js');
   });
 
-  afterEach(resetAll);
-
-  beforeEach(module(exceptionModule));
-
   beforeEach(
-    inject(function($rootScope, $controller) {
+    angular.mock.inject(($rootScope, $controller) => {
       $scope = $rootScope.$new();
 
       plainError = new Error('Error');
@@ -63,7 +59,7 @@ describe('Exception modal controller', () => {
         .createSpy('sendStackTraceToRealTime')
         .and.returnValue(s);
 
-      createController = function createController(deps) {
+      createController = deps => {
         deps = _.extend(
           {
             $scope: $scope,
@@ -76,9 +72,9 @@ describe('Exception modal controller', () => {
         $controller(mod.ExceptionModalCtrl, deps);
       };
 
-      getMessage = function getMessage(name) {
+      getMessage = name => {
         return $scope.exceptionModal.messages
-          .filter(function(message) {
+          .filter(message => {
             return message.name === name;
           })
           .pop();
@@ -131,11 +127,9 @@ describe('Exception modal controller', () => {
   });
 
   it('should not throw when handling a plain error', () => {
-    function create() {
+    expect(() => {
       createController({ cause: null, exception: plainError });
-    }
-
-    expect(create).not.toThrow();
+    }).not.toThrow();
   });
 
   describe('handling non-strings when expecting multiline', () => {
@@ -169,11 +163,9 @@ describe('Exception modal controller', () => {
     });
 
     it('should not throw when handling a circular reference', () => {
-      function create() {
+      expect(() => {
         createController({ cause: null, exception: responseError });
-      }
-
-      expect(create).not.toThrow();
+      }).not.toThrow();
     });
 
     it('should return the string representation of the cyclic structure', () => {
@@ -316,7 +308,7 @@ describe('Exception modal controller', () => {
     });
 
     it('should send the request', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith(
+      expect(mockSocketStream).toHaveBeenCalledOnceWith(
         '/srcmap-reverse',
         {
           method: 'post',
@@ -350,7 +342,7 @@ describe('Exception modal controller', () => {
         },
         expected: 'stack'
       }
-    ].forEach(function testProcessResponse(data) {
+    ].forEach(data => {
       describe('and process response', () => {
         it(data.message + ' set the exception.stack to response.data', () => {
           reverseStream.write(data.response);
