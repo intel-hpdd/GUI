@@ -35,7 +35,7 @@ describe('get test host stream', () => {
   );
 
   it('should be a function', function() {
-    expect(getTestHostStream).toEqual(jasmine.any(Function));
+    expect(getTestHostStream).toEqual(expect.any(Function));
   });
 
   it('should return a stream', function() {

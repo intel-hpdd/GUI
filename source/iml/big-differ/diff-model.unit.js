@@ -30,7 +30,7 @@ describe('diff model', () => {
 
   it('should push a view change listener', () => {
     expect(diffModelCtrl.modelCtrl.$viewChangeListeners).toEqual([
-      jasmine.any(Function)
+      expect.any(Function)
     ]);
   });
 
@@ -43,7 +43,7 @@ describe('diff model', () => {
 
   it('should subscribe to diffCtrl', () => {
     expect(diffModelCtrl.diffCtrl.subscribe).toHaveBeenCalledOnceWith(
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 

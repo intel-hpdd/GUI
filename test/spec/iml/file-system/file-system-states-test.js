@@ -9,7 +9,7 @@ describe('file system states', () => {
     expect(fileSystemListState).toEqual({
       url: '/configure/filesystem',
       name: 'app.fileSystem',
-      controller: jasmine.any(Function),
+      controller: expect.any(Function),
       controllerAs: '$ctrl',
       params: {
         resetState: {
@@ -24,7 +24,7 @@ describe('file system states', () => {
         kind: 'File Systems',
         icon: 'fa-files-o'
       },
-      template: jasmine.any(String)
+      template: expect.any(String)
     });
   });
 });

@@ -100,7 +100,7 @@ describe('job tree', function() {
     it('should listen for destroy', function() {
       expect($scope.$on).toHaveBeenCalledOnceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 

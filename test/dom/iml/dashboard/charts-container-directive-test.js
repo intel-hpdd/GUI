@@ -37,7 +37,7 @@ describe('charts container', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
     expect(spy).toHaveBeenCalledOnceWith(
-      jasmine.any($scopeConstructor),
+      expect.any($scopeConstructor),
       'stream'
     );
   });

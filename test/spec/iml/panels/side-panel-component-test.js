@@ -23,7 +23,7 @@ describe('side panel component', () => {
   afterEach(resetAll);
 
   it('should register', () => {
-    expect(rootPanel.register).toHaveBeenCalledOnceWith(jasmine.any(Function));
+    expect(rootPanel.register).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   it('should set flex-basis on change', () => {
@@ -43,7 +43,7 @@ describe('side panel component', () => {
 
     it('should deregister', () => {
       expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
   });

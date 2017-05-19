@@ -32,7 +32,7 @@ describe('union with target', () => {
   afterEach(resetAll);
 
   it('should be a function', () => {
-    expect(unionWithTarget).toEqual(jasmine.any(Function));
+    expect(unionWithTarget).toEqual(expect.any(Function));
   });
 
   it('should union with targets', () => {

@@ -40,7 +40,7 @@ describe('get time params', () => {
     });
 
     it('should return a function', () => {
-      expect(getRequestRange).toEqual(jasmine.any(Function));
+      expect(getRequestRange).toEqual(expect.any(Function));
     });
 
     describe('when invoked', () => {
@@ -59,11 +59,11 @@ describe('get time params', () => {
       });
 
       it('should return a function', () => {
-        expect(requestRange).toEqual(jasmine.any(Function));
+        expect(requestRange).toEqual(expect.any(Function));
       });
 
       it('should return a setLatest method', () => {
-        expect(requestRange.setLatest).toEqual(jasmine.any(Function));
+        expect(requestRange.setLatest).toEqual(expect.any(Function));
       });
 
       it('should set the range on params', () => {
@@ -105,7 +105,7 @@ describe('get time params', () => {
     });
 
     it('should return a function', () => {
-      expect(getRequestDuration).toEqual(jasmine.any(Function));
+      expect(getRequestDuration).toEqual(expect.any(Function));
     });
 
     describe('invoking', () => {
@@ -124,7 +124,7 @@ describe('get time params', () => {
       });
 
       it('should return a function', () => {
-        expect(requestDuration).toEqual(jasmine.any(Function));
+        expect(requestDuration).toEqual(expect.any(Function));
       });
 
       it('should set begin and end params', () => {
@@ -167,8 +167,8 @@ describe('get time params', () => {
   describe('getTimeParams', () => {
     it('should return time param functions', () => {
       expect(getTimeParams).toEqual({
-        getRequestDuration: jasmine.any(Function),
-        getRequestRange: jasmine.any(Function)
+        getRequestDuration: expect.any(Function),
+        getRequestRange: expect.any(Function)
       });
     });
   });

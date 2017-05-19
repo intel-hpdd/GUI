@@ -131,7 +131,7 @@ describe('space usage chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getSpaceUsageChart).toEqual(jasmine.any(Function));
+    expect(getSpaceUsageChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch spaceUsageChart to the store', () => {
@@ -163,7 +163,7 @@ describe('space usage chart', () => {
           host_id: '1'
         }
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
@@ -190,8 +190,8 @@ describe('space usage chart', () => {
   </div>
   <line-chart options="::chart.options" stream="chart.stream"></line-chart>
 </div>`,
-      jasmine.any(Object),
-      jasmine.any(Function)
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -223,9 +223,9 @@ describe('space usage chart', () => {
         endDate: 1464812997102,
         size: 10,
         unit: 'minutes',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });

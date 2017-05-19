@@ -26,7 +26,7 @@ describe('server actions', () => {
   );
 
   it('should be an array', () => {
-    expect(serverActions).toEqual(jasmine.any(Array));
+    expect(serverActions).toEqual(expect.any(Array));
   });
 
   it('should contain actions', () => {
@@ -35,31 +35,31 @@ describe('server actions', () => {
         value: 'Detect File Systems',
         message: 'Detecting File Systems',
         helpTopic: 'detect_file_systems-dialog',
-        buttonTooltip: jasmine.any(Function),
+        buttonTooltip: expect.any(Function),
         jobClass: 'DetectTargetsJob',
-        convertToJob: jasmine.any(Function)
+        convertToJob: expect.any(Function)
       },
       {
         value: 'Re-write Target Configuration',
         message: 'Updating file system NIDs',
         helpTopic: 'rewrite_target_configuration-dialog',
-        buttonTooltip: jasmine.any(Function),
-        buttonDisabled: jasmine.any(Function),
-        toggleDisabledReason: jasmine.any(Function),
-        toggleDisabled: jasmine.any(Function),
+        buttonTooltip: expect.any(Function),
+        buttonDisabled: expect.any(Function),
+        toggleDisabledReason: expect.any(Function),
+        toggleDisabled: expect.any(Function),
         jobClass: 'UpdateNidsJob',
-        convertToJob: jasmine.any(Function)
+        convertToJob: expect.any(Function)
       },
       {
         value: 'Install Updates',
         message: 'Install updates',
         helpTopic: 'install_updates_dialog',
-        buttonTooltip: jasmine.any(Function),
-        buttonDisabled: jasmine.any(Function),
-        toggleDisabledReason: jasmine.any(Function),
-        toggleDisabled: jasmine.any(Function),
+        buttonTooltip: expect.any(Function),
+        buttonDisabled: expect.any(Function),
+        toggleDisabledReason: expect.any(Function),
+        toggleDisabled: expect.any(Function),
         jobClass: 'UpdateJob',
-        convertToJob: jasmine.any(Function)
+        convertToJob: expect.any(Function)
       }
     ]);
   });

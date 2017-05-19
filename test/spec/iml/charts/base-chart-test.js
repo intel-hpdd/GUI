@@ -25,7 +25,7 @@ describe('base chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(baseChart).toEqual(jasmine.any(Function));
+    expect(baseChart).toEqual(expect.any(Function));
   });
 
   it('should generate a directive definition object', () => {
@@ -40,7 +40,7 @@ describe('base chart', () => {
       template: `<div class="chart">
   <svg></svg>
 </div>`,
-      link: jasmine.any(Function)
+      link: expect.any(Function)
     });
   });
 
@@ -108,7 +108,7 @@ describe('base chart', () => {
 
     it('should add a listener for the fullscreen controller', () => {
       expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
@@ -127,20 +127,20 @@ describe('base chart', () => {
     it('should add a resize listener', () => {
       expect(mockGlobal.addEventListener).toHaveBeenCalledOnceWith(
         'resize',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should register a panel listener', () => {
       expect(rootPanel.register).toHaveBeenCalledOnceWith(
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should register a destroy handler', () => {
       expect(scope.$on).toHaveBeenCalledOnceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
@@ -168,20 +168,20 @@ describe('base chart', () => {
       it('should remove the resize listener', () => {
         expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
           'resize',
-          jasmine.any(Function),
+          expect.any(Function),
           false
         );
       });
 
       it('should deregister the panel listener', () => {
         expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 
       it('should remove the full screen controller listener', () => {
         expect(fullScreenCtrl.removeListener).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 

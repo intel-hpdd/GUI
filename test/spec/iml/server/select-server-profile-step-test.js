@@ -58,11 +58,11 @@ describe('select server profile', () => {
     it('should setup the controller', () => {
       const instance = {
         pdsh: data.pdsh,
-        transition: jasmine.any(Function),
-        onSelected: jasmine.any(Function),
-        getHostPath: jasmine.any(Function),
-        pdshUpdate: jasmine.any(Function),
-        close: jasmine.any(Function)
+        transition: expect.any(Function),
+        onSelected: expect.any(Function),
+        getHostPath: expect.any(Function),
+        pdshUpdate: expect.any(Function),
+        close: expect.any(Function)
       };
 
       expect(selectServerProfileStep).toEqual(instance);
@@ -257,8 +257,8 @@ describe('select server profile', () => {
   <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
 </div>`,
         controller: 'SelectServerProfileStepCtrl as selectServerProfile',
-        onEnter: jasmine.any(Function),
-        transition: jasmine.any(Function)
+        onEnter: expect.any(Function),
+        transition: expect.any(Function)
       });
     });
 
@@ -523,7 +523,7 @@ describe('select server profile', () => {
       it('should return data and a hostProfileStream', () => {
         expect(result).toEqual({
           data: data,
-          hostProfileStream: jasmine.any(Promise)
+          hostProfileStream: expect.any(Promise)
         });
       });
 

@@ -65,7 +65,7 @@ describe('Configure LNet', () => {
             $scope,
             socketStream,
             insertHelpFilter,
-            networkInterfaceStream: jasmine.any(Object),
+            networkInterfaceStream: expect.any(Object),
             waitForCommandCompletion: fp.curry2(waitForCommandCompletion)
           },
           {
@@ -84,7 +84,7 @@ describe('Configure LNet', () => {
     it('should listen for $destroy', () => {
       expect($scope.$on).toHaveBeenCalledOnceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
@@ -97,12 +97,12 @@ describe('Configure LNet', () => {
     it('should setup the controller as expected', () => {
       expect(ctrl).toEqual(
         window.extendWithConstructor(ConfigureLnetController, {
-          networkInterfaceStream: jasmine.any(Object),
-          options: jasmine.any(Object),
-          save: jasmine.any(Function),
-          getOptionName: jasmine.any(Function),
-          getLustreNetworkDriverTypeMessage: jasmine.any(Function),
-          getLustreNetworkDiffMessage: jasmine.any(Function)
+          networkInterfaceStream: expect.any(Object),
+          options: expect.any(Object),
+          save: expect.any(Function),
+          getOptionName: expect.any(Function),
+          getLustreNetworkDriverTypeMessage: expect.any(Function),
+          getLustreNetworkDiffMessage: expect.any(Function)
         })
       );
     });

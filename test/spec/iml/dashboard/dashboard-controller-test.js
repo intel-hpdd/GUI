@@ -82,7 +82,7 @@ describe('dashboard controller', () => {
 
   it('should call qsStream', () => {
     expect(qsStream).toHaveBeenCalledOnceWith($stateParams, {
-      to: jasmine.any(Function)
+      to: expect.any(Function)
     });
   });
 

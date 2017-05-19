@@ -104,7 +104,7 @@ describe('get ost balance chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getOstBalanceChart).toEqual(jasmine.any(Function));
+    expect(getOstBalanceChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch to the store', () => {
@@ -122,14 +122,14 @@ describe('get ost balance chart', () => {
   });
 
   it('should call streamWhenVisible', function() {
-    expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
+    expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   it('should setup the OstBalanceChart', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
       'ostBalanceTemplate',
-      jasmine.any(Object),
-      jasmine.any(Function)
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -162,9 +162,9 @@ describe('get ost balance chart', () => {
         percentage: 0,
         page: '',
         stream: s,
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
@@ -236,7 +236,7 @@ describe('get ost balance chart', () => {
 
       it('should generate tooltip content', () => {
         expect(d3Chart.tooltip.contentGenerator).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
     });

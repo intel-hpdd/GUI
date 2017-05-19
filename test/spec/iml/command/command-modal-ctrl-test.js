@@ -73,7 +73,7 @@ describe('command modal', () => {
         backdrop: 'static',
         backdropClass: 'command-modal-backdrop',
         resolve: {
-          commandsStream: jasmine.any(Function)
+          commandsStream: expect.any(Function)
         }
       });
     });

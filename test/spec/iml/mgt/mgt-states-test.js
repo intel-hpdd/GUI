@@ -22,9 +22,9 @@ describe('mgt states', () => {
         icon: 'fa-bullseye'
       },
       resolve: {
-        mgt$: jasmine.any(Function),
-        mgtAlertIndicatorB: jasmine.any(Function),
-        mgtJobIndicatorB: jasmine.any(Function)
+        mgt$: expect.any(Function),
+        mgtAlertIndicatorB: expect.any(Function),
+        mgtJobIndicatorB: expect.any(Function)
       }
     });
   });

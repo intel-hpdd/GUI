@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('agent vs copytool chart reducer', () => {
   it('should be a function', () => {
-    expect(agentVsCopytoolChartReducer).toEqual(jasmine.any(Function));
+    expect(agentVsCopytoolChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

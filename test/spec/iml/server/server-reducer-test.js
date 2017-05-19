@@ -6,7 +6,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {
-    expect(serverReducer).toEqual(jasmine.any(Function));
+    expect(serverReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

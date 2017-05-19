@@ -39,7 +39,7 @@ describe('base dashboard controller', () => {
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(BaseDashboardCtrl, {
       fs: [],
-      fsB: jasmine.any(Function),
+      fsB: expect.any(Function),
       charts: charts
     });
 

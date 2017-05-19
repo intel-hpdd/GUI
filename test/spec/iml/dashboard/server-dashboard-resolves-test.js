@@ -49,7 +49,7 @@ describe('server dashboard resolves', () => {
     });
 
     it('should return a function', () => {
-      expect(serverDashboardChartResolves).toEqual(jasmine.any(Function));
+      expect(serverDashboardChartResolves).toEqual(expect.any(Function));
     });
 
     it('should setup the read write bandwidth chart', () => {

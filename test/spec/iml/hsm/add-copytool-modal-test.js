@@ -65,7 +65,7 @@ describe('Add copytool modal', () => {
         filesystems: [],
         workers: [],
         copytool: {},
-        onSubmit: jasmine.any(Function)
+        onSubmit: expect.any(Function)
       });
 
       expect(addCopytoolModalCtrl).toEqual(scope);
@@ -141,8 +141,8 @@ describe('Add copytool modal', () => {
         backdrop: 'static',
         windowClass: 'add-copytool-modal',
         resolve: {
-          fsStream: jasmine.any(Function),
-          workerStream: jasmine.any(Function)
+          fsStream: expect.any(Function),
+          workerStream: expect.any(Function)
         }
       });
     });

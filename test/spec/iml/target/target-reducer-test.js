@@ -3,7 +3,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('target reducer', () => {
   it('should be a function', () => {
-    expect(targetReducer).toEqual(jasmine.any(Function));
+    expect(targetReducer).toEqual(expect.any(Function));
   });
 
   it('should return the payload on ADD_TARGET_ITEMS', () => {

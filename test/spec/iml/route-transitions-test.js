@@ -35,9 +35,9 @@ describe('route transitions', () => {
   it('should set an onStart hook for three route processors', () => {
     expect($transitions.onStart).toHaveBeenCalledThriceWith(
       {
-        to: jasmine.any(Function)
+        to: expect.any(Function)
       },
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 

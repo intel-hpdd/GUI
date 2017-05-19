@@ -125,7 +125,7 @@ describe('Host Cpu Ram chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getHostCpuRamChart).toEqual(jasmine.any(Function));
+    expect(getHostCpuRamChart).toEqual(expect.any(Function));
   });
 
   describe('for page hostCpuRamChart', () => {
@@ -173,7 +173,7 @@ describe('Host Cpu Ram chart', () => {
             host_id: '1'
           }
         },
-        jasmine.any(Function),
+        expect.any(Function),
         standardConfig
       );
     });
@@ -181,8 +181,8 @@ describe('Host Cpu Ram chart', () => {
     it('should call the chart compiler', () => {
       expect(mockChartCompiler).toHaveBeenCalledOnceWith(
         'hostCpuTemplate',
-        jasmine.any(Object),
-        jasmine.any(Function)
+        expect.any(Object),
+        expect.any(Function)
       );
     });
   });
@@ -221,7 +221,7 @@ describe('Host Cpu Ram chart', () => {
         unit: 'minutes',
         onSubmit: submitHandler,
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });

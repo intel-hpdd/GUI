@@ -20,7 +20,7 @@ describe('server resolves', () => {
   afterEach(resetAll);
 
   it('should be a function', () => {
-    expect(serverResolves).toEqual(jasmine.any(Function));
+    expect(serverResolves).toEqual(expect.any(Function));
   });
 
   describe('getting a promise', () => {
@@ -50,10 +50,10 @@ describe('server resolves', () => {
       const result = await promise;
 
       expect(result).toEqual({
-        jobMonitorStream: jasmine.any(Function),
-        alertMonitorStream: jasmine.any(Function),
-        lnetConfigurationStream: jasmine.any(Function),
-        serversStream: jasmine.any(Object)
+        jobMonitorStream: expect.any(Function),
+        alertMonitorStream: expect.any(Function),
+        lnetConfigurationStream: expect.any(Function),
+        serversStream: expect.any(Object)
       });
     });
   });

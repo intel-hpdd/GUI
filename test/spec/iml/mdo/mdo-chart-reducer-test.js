@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('mdo reducer', () => {
   it('should be a function', () => {
-    expect(mdoChartReducer).toEqual(jasmine.any(Function));
+    expect(mdoChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

@@ -24,7 +24,7 @@ describe('qs stream', () => {
   });
 
   it('should be a function', () => {
-    expect(qsStream).toEqual(jasmine.any(Function));
+    expect(qsStream).toEqual(expect.any(Function));
   });
 
   it('should deregister the listener on stream destruction', () => {

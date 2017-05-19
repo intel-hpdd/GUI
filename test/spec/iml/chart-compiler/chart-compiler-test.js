@@ -22,7 +22,7 @@ describe('chart compiler', () => {
   });
 
   it('should be a function', () => {
-    expect(chartCompiler).toEqual(jasmine.any(Function));
+    expect(chartCompiler).toEqual(expect.any(Function));
   });
 
   it('should return back a promise', () => {
@@ -36,7 +36,7 @@ describe('chart compiler', () => {
 
     expect(obj).toEqual({
       template: 'template/path',
-      stream: jasmine.any(Object),
+      stream: expect.any(Object),
       chartFn
     });
   });

@@ -44,7 +44,7 @@ describe('disconnect modal', () => {
       backdrop: 'static',
       windowClass: 'disconnect-modal',
       keyboard: false,
-      template: jasmine.any(String)
+      template: expect.any(String)
     });
   });
 

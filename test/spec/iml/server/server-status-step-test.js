@@ -136,9 +136,9 @@ describe('Server Status Step', () => {
           'data',
           'getTestHostStream',
           'serversToApiObjects',
-          jasmine.any(Function)
+          expect.any(Function)
         ],
-        transition: jasmine.any(Function)
+        transition: expect.any(Function)
       });
     });
 

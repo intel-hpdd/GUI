@@ -60,7 +60,7 @@ describe('HSM fs controller', () => {
 
   it('should setup ctrl as expected', () => {
     const instance = window.extendWithConstructor(HsmFsCtrl, {
-      onUpdate: jasmine.any(Function)
+      onUpdate: expect.any(Function)
     });
 
     expect(ctrl).toEqual(instance);
@@ -146,7 +146,7 @@ describe('HSM fs controller', () => {
 
   it('should call qsStream', () => {
     expect(qsStream).toHaveBeenCalledOnceWith($stateParams, {
-      to: jasmine.any(Function)
+      to: expect.any(Function)
     });
   });
 

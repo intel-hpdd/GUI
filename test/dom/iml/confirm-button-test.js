@@ -103,7 +103,7 @@ describe('confirm button', () => {
     it('should call addEventListener', () => {
       expect(global.addEventListener).toHaveBeenCalledOnceWith(
         'click',
-        jasmine.any(Function),
+        expect.any(Function),
         false
       );
     });
@@ -117,7 +117,7 @@ describe('confirm button', () => {
       it('should call removeEventListener', () => {
         expect(global.removeEventListener).toHaveBeenCalledOnceWith(
           'click',
-          jasmine.any(Function),
+          expect.any(Function),
           false
         );
       });
@@ -164,7 +164,7 @@ describe('confirm button', () => {
       it('should remove the event listener', () => {
         expect(global.removeEventListener).toHaveBeenCalledOnceWith(
           'click',
-          jasmine.any(Function),
+          expect.any(Function),
           false
         );
       });
@@ -176,7 +176,7 @@ describe('confirm button', () => {
       $scope.$destroy();
       expect(global.removeEventListener).toHaveBeenCalledOnceWith(
         'click',
-        jasmine.any(Function),
+        expect.any(Function),
         false
       );
     });

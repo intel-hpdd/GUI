@@ -26,7 +26,7 @@ describe('status states', () => {
           anonymousReadProtected: true,
           eulaState: true
         },
-        template: jasmine.any(String)
+        template: expect.any(String)
       });
     });
   });
@@ -72,7 +72,7 @@ describe('status states', () => {
           icon: 'fa-tachometer'
         },
         resolve: {
-          notification$: jasmine.any(Function)
+          notification$: expect.any(Function)
         },
         component: 'statusRecords'
       });

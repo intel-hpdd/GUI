@@ -57,9 +57,9 @@ describe('label directive', () => {
 
   it('should call onUpdate', () => {
     expect(spy).toHaveBeenCalledOnceWith({
-      label: jasmine.any(Function),
-      node: jasmine.any(Object),
-      svg: jasmine.any(Object),
+      label: expect.any(Function),
+      node: expect.any(Object),
+      svg: expect.any(Object),
       width: 120,
       height: 140,
       xs: [1, 2, 3, 4]

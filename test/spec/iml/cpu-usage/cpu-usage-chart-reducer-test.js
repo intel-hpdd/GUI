@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {
-    expect(cpuUsageChartReducer).toEqual(jasmine.any(Function));
+    expect(cpuUsageChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

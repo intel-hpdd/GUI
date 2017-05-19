@@ -72,7 +72,7 @@ describe('agent vs copytool stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getAgentVsCopytoolStream).toEqual(jasmine.any(Function));
+    expect(getAgentVsCopytoolStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

@@ -67,11 +67,11 @@ describe('server detail controller', function() {
 
   it('should setup the controller', function() {
     const instance = window.extendWithConstructor(ServerDetailController, {
-      lnetConfigurationStream: jasmine.any(Function),
-      jobMonitorStream: jasmine.any(Function),
-      alertMonitorStream: jasmine.any(Function),
-      corosyncConfigurationStream: jasmine.any(Function),
-      pacemakerConfigurationStream: jasmine.any(Function),
+      lnetConfigurationStream: expect.any(Function),
+      jobMonitorStream: expect.any(Function),
+      alertMonitorStream: expect.any(Function),
+      corosyncConfigurationStream: expect.any(Function),
+      pacemakerConfigurationStream: expect.any(Function),
       networkInterfaceStream: networkInterfaceStream,
       overrideActionClick
     });

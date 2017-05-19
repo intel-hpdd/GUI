@@ -126,7 +126,7 @@ describe('chart directive', () => {
     });
 
     it('should have a dispatcher', function() {
-      expect(chartCtrl.dispatch.event).toEqual(jasmine.any(Function));
+      expect(chartCtrl.dispatch.event).toEqual(expect.any(Function));
     });
   });
 
@@ -142,7 +142,7 @@ describe('chart directive', () => {
     describe('from a stream', function() {
       it('should call listeners', function() {
         expect(spy).toHaveBeenCalledOnceWith({
-          svg: jasmine.any(Object),
+          svg: expect.any(Object),
           width: 120,
           height: 140,
           xs: ['foo', 'bar']
@@ -159,7 +159,7 @@ describe('chart directive', () => {
         $window.addEventListener.calls.argsFor(0)[1]();
 
         expect(spy).toHaveBeenCalledTwiceWith({
-          svg: jasmine.any(Object),
+          svg: expect.any(Object),
           width: 120,
           height: 140,
           xs: ['foo', 'bar']
@@ -173,7 +173,7 @@ describe('chart directive', () => {
 
     expect($window.removeEventListener).toHaveBeenCalledOnceWith(
       'resize',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 });

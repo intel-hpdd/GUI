@@ -75,7 +75,7 @@ describe('action dropdown', () => {
   it('should setup the controller', function() {
     const scope = window.extendWithConstructor(ActionDropdownCtrl, {
       actionDescriptionCache: {},
-      handleAction: jasmine.any(Function),
+      handleAction: expect.any(Function),
       stream: s,
       tooltipPlacement: 'left',
       actionsProperty: 'available_actions',

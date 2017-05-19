@@ -34,7 +34,7 @@ describe('status states', () => {
           anonymousReadProtected: true,
           eulaState: true
         },
-        template: jasmine.any(String)
+        template: expect.any(String)
       });
     });
   });
@@ -65,7 +65,7 @@ describe('status states', () => {
           }
         },
         resolve: {
-          log$: jasmine.any(Function)
+          log$: expect.any(Function)
         },
         data: {
           kind: 'Logs',

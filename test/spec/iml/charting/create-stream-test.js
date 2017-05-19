@@ -51,8 +51,8 @@ describe('create stream', function() {
 
   it('should return an object', () => {
     expect(createStream).toEqual({
-      durationStream: jasmine.any(Function),
-      rangeStream: jasmine.any(Function)
+      durationStream: expect.any(Function),
+      rangeStream: expect.any(Function)
     });
   });
 
@@ -89,7 +89,7 @@ describe('create stream', function() {
     });
 
     it('should call streamWhenVisible', () => {
-      expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
     it('should call request duration', function() {
@@ -140,7 +140,7 @@ describe('create stream', function() {
     });
 
     it('should call streamWhenVisible', () => {
-      expect(streamWhenVisible).toHaveBeenCalledOnceWith(jasmine.any(Function));
+      expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
     it('should call flushOnChange', () => {
@@ -158,7 +158,7 @@ describe('create stream', function() {
 
       expect(streamFn).toHaveBeenCalledOnceWith(
         'requestRangeInner',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
   });

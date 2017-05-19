@@ -134,7 +134,7 @@ describe('file usage chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getFileUsageChart).toEqual(jasmine.any(Function));
+    expect(getFileUsageChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch fileUsageChart to the store', () => {
@@ -166,7 +166,7 @@ describe('file usage chart', () => {
           host_id: '1'
         }
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
@@ -193,8 +193,8 @@ describe('file usage chart', () => {
   </div>
   <line-chart options="::chart.options" stream="chart.stream"></line-chart>
 </div>`,
-      jasmine.any(Object),
-      jasmine.any(Function)
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -220,16 +220,16 @@ describe('file usage chart', () => {
     it('should return a config', () => {
       expect(config).toEqual({
         title: 'foo',
-        stream: jasmine.any(Object),
+        stream: expect.any(Object),
         configType: 'duration',
         page: '',
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
         unit: 'minutes',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });

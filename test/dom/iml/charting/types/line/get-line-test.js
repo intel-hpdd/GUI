@@ -59,7 +59,7 @@ describe('get line', () => {
   );
 
   it('should be a function', () => {
-    expect(getLine).toEqual(jasmine.any(Function));
+    expect(getLine).toEqual(expect.any(Function));
   });
 
   describe('instance', () => {

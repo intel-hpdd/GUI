@@ -39,12 +39,12 @@ describe('Positioning service', () => {
   });
 
   it('should provide default properties', () => {
-    expect(position.defaults).toEqual(jasmine.any(Object));
+    expect(position.defaults).toEqual(expect.any(Object));
 
     _.forEach(position.DIRECTIONS, direction => {
       const obj = position.defaults[direction];
 
-      expect(obj).toEqual(jasmine.any(Object));
+      expect(obj).toEqual(expect.any(Object));
       expect(Object.keys(obj)).toContain('position');
       expect(Object.keys(obj)).toContain('overflows');
     });
@@ -52,7 +52,7 @@ describe('Positioning service', () => {
 
   describe('Positioner', () => {
     it('should provide a positioner', () => {
-      expect(position.positioner).toEqual(jasmine.any(Function));
+      expect(position.positioner).toEqual(expect.any(Function));
 
       const fakePosition = {
         top: 10,

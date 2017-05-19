@@ -25,7 +25,7 @@ describe('window unload', () => {
   it('should register a beforeunload listener to $window', () => {
     expect($window.addEventListener).toHaveBeenCalledOnceWith(
       'beforeunload',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 

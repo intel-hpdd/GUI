@@ -42,7 +42,7 @@ describe('usage info', () => {
   });
 
   it('should add a generateStats method', () => {
-    expect(ctrl.generateStats).toEqual(jasmine.any(Function));
+    expect(ctrl.generateStats).toEqual(expect.any(Function));
   });
 
   it('should set id on the controller', () => {

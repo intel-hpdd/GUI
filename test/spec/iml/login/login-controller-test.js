@@ -145,7 +145,7 @@ describe('Login Controller', () => {
         controller: 'EulaCtrl',
         windowClass: 'eula-modal',
         resolve: {
-          user: jasmine.any(Function)
+          user: expect.any(Function)
         }
       });
     });
@@ -244,7 +244,7 @@ describe('Login Controller', () => {
         keyboard: false,
         backdrop: 'static',
         controller: 'AccessDeniedCtrl',
-        resolve: { message: jasmine.any(Function) }
+        resolve: { message: expect.any(Function) }
       });
     });
 

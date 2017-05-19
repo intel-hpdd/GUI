@@ -130,7 +130,7 @@ describe('cpu usage chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getCpuUsageChart).toEqual(jasmine.any(Function));
+    expect(getCpuUsageChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch fileUsageChart to the store', () => {
@@ -162,7 +162,7 @@ describe('cpu usage chart', () => {
           host_id: '1'
         }
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
@@ -189,8 +189,8 @@ describe('cpu usage chart', () => {
   </div>
   <line-chart options="::chart.options" stream="chart.stream"></line-chart>
 </div>`,
-      jasmine.any(Object),
-      jasmine.any(Function)
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -222,9 +222,9 @@ describe('cpu usage chart', () => {
         endDate: 1464812997102,
         size: 10,
         unit: 'minutes',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });

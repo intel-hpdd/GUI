@@ -131,7 +131,7 @@ describe('dashboard states', () => {
         resolve: {
           charts: 'serverDashboardChartResolves',
           hostStream: 'serverDashboardHostStreamResolves',
-          getData: ['hostsB', '$stateParams', jasmine.any(Function)]
+          getData: ['hostsB', '$stateParams', expect.any(Function)]
         }
       });
     });
@@ -162,7 +162,7 @@ describe('dashboard states', () => {
           charts: 'targetDashboardResolves',
           targetStream: 'targetDashboardTargetStream',
           usageStream: 'targetDashboardUsageStream',
-          getData: ['targetsB', '$stateParams', jasmine.any(Function)]
+          getData: ['targetsB', '$stateParams', expect.any(Function)]
         }
       });
     });
@@ -193,7 +193,7 @@ describe('dashboard states', () => {
           charts: 'targetDashboardResolves',
           targetStream: 'targetDashboardTargetStream',
           usageStream: 'targetDashboardUsageStream',
-          getData: ['targetsB', '$stateParams', jasmine.any(Function)]
+          getData: ['targetsB', '$stateParams', expect.any(Function)]
         }
       });
     });
@@ -223,7 +223,7 @@ describe('dashboard states', () => {
         resolve: {
           charts: 'baseDashboardChartResolves',
           fsStream: 'baseDashboardFsStream',
-          getData: ['fsB', '$stateParams', jasmine.any(Function)]
+          getData: ['fsB', '$stateParams', expect.any(Function)]
         }
       });
     });

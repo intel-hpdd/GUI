@@ -44,7 +44,7 @@ describe('target dashboard', () => {
   it('should setup the controller', () => {
     const scope = window.extendWithConstructor(TargetDashboardController, {
       charts,
-      usageStream: jasmine.any(Function),
+      usageStream: expect.any(Function),
       kind: 'MDT'
     });
 

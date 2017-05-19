@@ -65,7 +65,7 @@ describe('the read write heat map stream', () => {
   });
 
   it('should call flushOnChange', () => {
-    expect(flushOnChange).toHaveBeenCalledWith(jasmine.any(Object));
+    expect(flushOnChange).toHaveBeenCalledWith(expect.any(Object));
   });
 
   it('should pass the data through the stream', () => {

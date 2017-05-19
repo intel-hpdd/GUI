@@ -72,7 +72,7 @@ describe('mdo stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getMdoStream).toEqual(jasmine.any(Function));
+    expect(getMdoStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

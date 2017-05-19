@@ -13,7 +13,7 @@ describe('old gui states', () => {
   beforeEachAsync(async function() {
     resolve = {
       resolve: {
-        getData: jasmine.any(Function)
+        getData: expect.any(Function)
       }
     };
 
@@ -211,7 +211,7 @@ function generateState(url, name, path, helpPage, kind, icon, resolve) {
   return {
     url,
     name,
-    controller: jasmine.any(Function),
+    controller: expect.any(Function),
     controllerAs: '$ctrl',
     template: `
       <iframe-shim params="::$ctrl.params" path="${path}"></iframe-shim>

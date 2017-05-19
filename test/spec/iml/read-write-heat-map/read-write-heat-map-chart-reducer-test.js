@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('read write heat map reducer', () => {
   it('should be a function', () => {
-    expect(readWriteHeatMapChartReducer).toEqual(jasmine.any(Function));
+    expect(readWriteHeatMapChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

@@ -55,14 +55,14 @@ describe('socket worker', () => {
   it('should register a message handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith(
       'message',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 
   it('should register an error handler', () => {
     expect(worker.addEventListener).toHaveBeenCalledOnceWith(
       'error',
-      jasmine.any(Function)
+      expect.any(Function)
     );
   });
 

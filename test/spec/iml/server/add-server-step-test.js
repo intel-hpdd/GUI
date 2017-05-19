@@ -58,9 +58,9 @@ describe('Add server step', () => {
             ROOT_PASSWORD: 'id_password_root',
             ANOTHER_KEY: 'private_key_choice'
           }),
-          pdshUpdate: jasmine.any(Function),
-          transition: jasmine.any(Function),
-          close: jasmine.any(Function)
+          pdshUpdate: expect.any(Function),
+          transition: expect.any(Function),
+          close: expect.any(Function)
         });
 
         expect(addServerStepCtrl).toEqual(expected);
@@ -121,7 +121,7 @@ describe('Add server step', () => {
       expect(addServersStep).toEqual({
         template: 'addServerTemplate',
         controller: 'AddServerStepCtrl as addServer',
-        transition: jasmine.any(Function)
+        transition: expect.any(Function)
       });
     });
 

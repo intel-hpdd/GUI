@@ -33,7 +33,7 @@ describe('override action click', function() {
   );
 
   it('should be a function', function() {
-    expect(overrideActionClick).toEqual(jasmine.any(Function));
+    expect(overrideActionClick).toEqual(expect.any(Function));
   });
 
   it('should fallback without an action state', function() {

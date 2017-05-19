@@ -36,7 +36,7 @@ describe('create store', () => {
   });
 
   it('should be a function', () => {
-    expect(createStore).toEqual(jasmine.any(Function));
+    expect(createStore).toEqual(expect.any(Function));
   });
 
   it('should not emit when store is empty', () => {

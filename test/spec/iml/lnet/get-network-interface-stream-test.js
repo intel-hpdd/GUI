@@ -26,7 +26,7 @@ describe('get network interface stream', function() {
   afterEach(resetAll);
 
   it('should be a function', function() {
-    expect(getNetworkInterfaceStream).toEqual(jasmine.any(Function));
+    expect(getNetworkInterfaceStream).toEqual(expect.any(Function));
   });
 
   it('should return a stream', function() {

@@ -29,7 +29,7 @@ describe('step modal', () => {
     );
 
     it('should have a getDescription method', () => {
-      expect(stepModal.getDescription).toEqual(jasmine.any(Function));
+      expect(stepModal.getDescription).toEqual(expect.any(Function));
     });
 
     it('should return class_name if description starts with it', () => {
@@ -53,7 +53,7 @@ describe('step modal', () => {
     it('should listen for destroy', () => {
       expect($scope.$on).toHaveBeenCalledTwiceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
@@ -158,8 +158,8 @@ describe('step modal', () => {
         windowClass: 'step-modal',
         backdrop: 'static',
         resolve: {
-          jobStream: jasmine.any(Function),
-          stepsStream: jasmine.any(Function)
+          jobStream: expect.any(Function),
+          stepsStream: expect.any(Function)
         }
       });
     });

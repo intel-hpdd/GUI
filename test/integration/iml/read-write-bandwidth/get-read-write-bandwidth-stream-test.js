@@ -73,7 +73,7 @@ describe('The read write bandwidth stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getReadWriteBandwidthStream).toEqual(jasmine.any(Function));
+    expect(getReadWriteBandwidthStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

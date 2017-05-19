@@ -38,7 +38,7 @@ describe('session reducer', () => {
   });
 
   it('should be a function', () => {
-    expect(sessionReducer).toEqual(jasmine.any(Function));
+    expect(sessionReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

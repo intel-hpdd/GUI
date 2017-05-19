@@ -16,7 +16,7 @@ describe('get heat map chart test', () => {
   );
 
   it('should be callable', () => {
-    expect(heatMapChart).toEqual(jasmine.any(Function));
+    expect(heatMapChart).toEqual(expect.any(Function));
   });
 
   it('should set destroy to a noop', () => {
@@ -35,7 +35,7 @@ describe('get heat map chart test', () => {
 
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
-      expect(heatMapChart[accessor]).toEqual(jasmine.any(Function));
+      expect(heatMapChart[accessor]).toEqual(expect.any(Function));
     });
 
     it('should set ' + accessor, () => {

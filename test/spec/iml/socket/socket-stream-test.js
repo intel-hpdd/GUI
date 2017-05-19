@@ -27,7 +27,7 @@ describe('socket stream', () => {
   });
 
   it('should be a function', () => {
-    expect(socketStream).toEqual(jasmine.any(Function));
+    expect(socketStream).toEqual(expect.any(Function));
   });
 
   it('should return a stream', () => {
@@ -72,7 +72,7 @@ describe('socket stream', () => {
             method: 'get'
           }
         },
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 

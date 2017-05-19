@@ -23,7 +23,7 @@ describe('exception modal', () => {
         windowClass: 'exception-modal',
         keyboard: false,
         controller: 'ExceptionModalCtrl',
-        template: jasmine.any(String)
+        template: expect.any(String)
       });
     })
   );

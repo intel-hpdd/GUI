@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('Read Write Bandwidth reducer', () => {
   it('should be a function', () => {
-    expect(readWriteBandwidthChartReducer).toEqual(jasmine.any(Function));
+    expect(readWriteBandwidthChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

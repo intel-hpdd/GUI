@@ -58,7 +58,7 @@ describe('server detail resolves', () => {
   afterEach(resetAll);
 
   it('should be a function', () => {
-    expect(serverDetailResolves).toEqual(jasmine.any(Function));
+    expect(serverDetailResolves).toEqual(expect.any(Function));
   });
 
   describe('getting a promise', () => {
@@ -204,13 +204,13 @@ describe('server detail resolves', () => {
       const result = await promise;
 
       expect(result).toEqual({
-        jobMonitorStream: jasmine.any(Function),
-        alertMonitorStream: jasmine.any(Function),
-        serverStream: jasmine.any(Object),
-        lnetConfigurationStream: jasmine.any(Function),
-        networkInterfaceStream: jasmine.any(Object),
-        corosyncConfigurationStream: jasmine.any(Function),
-        pacemakerConfigurationStream: jasmine.any(Function)
+        jobMonitorStream: expect.any(Function),
+        alertMonitorStream: expect.any(Function),
+        serverStream: expect.any(Object),
+        lnetConfigurationStream: expect.any(Function),
+        networkInterfaceStream: expect.any(Object),
+        corosyncConfigurationStream: expect.any(Function),
+        pacemakerConfigurationStream: expect.any(Function)
       });
     });
   });

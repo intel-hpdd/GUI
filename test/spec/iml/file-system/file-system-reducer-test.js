@@ -6,7 +6,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('file system reducer', () => {
   it('should be a function', () => {
-    expect(fileSystemReducer).toEqual(jasmine.any(Function));
+    expect(fileSystemReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

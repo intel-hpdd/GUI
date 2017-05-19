@@ -31,8 +31,8 @@ describe('spring module', () => {
 
   it('should pass a setup and teardown function to regenerator', function() {
     expect(regenerator).toHaveBeenCalledOnceWith(
-      jasmine.any(Function),
-      jasmine.any(Function)
+      expect.any(Function),
+      expect.any(Function)
     );
   });
 

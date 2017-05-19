@@ -9,7 +9,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('lnet configuration reducer', () => {
   it('should be a function', () => {
-    expect(lnetConfigurationReducer).toEqual(jasmine.any(Function));
+    expect(lnetConfigurationReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

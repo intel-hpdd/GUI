@@ -73,7 +73,7 @@ describe('space usage stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getSpaceUsageStream).toEqual(jasmine.any(Function));
+    expect(getSpaceUsageStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

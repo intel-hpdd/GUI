@@ -41,7 +41,7 @@ describe('HSM controller', () => {
   it('should setup controller as expected', () => {
     const scope = extendWithConstructor(HsmCtrl, {
       chart: agentVsCopytoolChart,
-      openAddModal: jasmine.any(Function)
+      openAddModal: expect.any(Function)
     });
 
     expect(hsm).toEqual(scope);

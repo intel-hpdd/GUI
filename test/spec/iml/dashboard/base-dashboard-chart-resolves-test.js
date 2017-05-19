@@ -89,7 +89,7 @@ describe('base dashboard resolves', () => {
     });
 
     it('should be a function', () => {
-      expect(baseDashboardChartResolves).toEqual(jasmine.any(Function));
+      expect(baseDashboardChartResolves).toEqual(expect.any(Function));
     });
 
     describe('without fs id', () => {

@@ -103,16 +103,16 @@ describe('Steps module', () => {
 
     it('should return the expected interface', () => {
       expect(stepsManagerInstance).toEqual({
-        addWaitingStep: jasmine.any(Function),
-        addStep: jasmine.any(Function),
-        start: jasmine.any(Function),
-        onEnter: jasmine.any(Function),
-        end: jasmine.any(Function),
-        transition: jasmine.any(Function),
-        registerChangeListener: jasmine.any(Function),
-        destroy: jasmine.any(Function),
+        addWaitingStep: expect.any(Function),
+        addStep: expect.any(Function),
+        start: expect.any(Function),
+        onEnter: expect.any(Function),
+        end: expect.any(Function),
+        transition: expect.any(Function),
+        registerChangeListener: expect.any(Function),
+        destroy: expect.any(Function),
         result: {
-          end: jasmine.any(Object)
+          end: expect.any(Object)
         }
       });
     });

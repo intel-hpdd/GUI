@@ -66,7 +66,7 @@ describe('Exception interceptor', () => {
       });
 
       it('should call $exceptionHandler with a custom error', function() {
-        expect(customError).toEqual(jasmine.any(Error));
+        expect(customError).toEqual(expect.any(Error));
       });
 
       it('should add the rejection as a property to the custom error', function() {
@@ -128,7 +128,7 @@ describe('Exception interceptor', () => {
 
       const error = exceptionHandler.calls.mostRecent().args[0];
 
-      expect(error).toEqual(jasmine.any(Error));
+      expect(error).toEqual(expect.any(Error));
     });
   });
 });

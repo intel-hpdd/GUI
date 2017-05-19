@@ -25,7 +25,7 @@ describe('qs from location', () => {
   });
 
   it('should be a function', function() {
-    expect(qsFromLocation).toEqual(jasmine.any(Function));
+    expect(qsFromLocation).toEqual(expect.any(Function));
   });
 
   describe('with valid params', () => {

@@ -72,7 +72,7 @@ describe('get cpu usage stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getCpuUsageStream).toEqual(jasmine.any(Function));
+    expect(getCpuUsageStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

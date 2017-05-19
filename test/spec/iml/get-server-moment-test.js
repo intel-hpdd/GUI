@@ -26,7 +26,7 @@ describe('Get server moment', function() {
   afterEach(resetAll);
 
   it('should be a function', function() {
-    expect(getServerMoment).toEqual(jasmine.any(Function));
+    expect(getServerMoment).toEqual(expect.any(Function));
   });
 
   describe('invoking', () => {

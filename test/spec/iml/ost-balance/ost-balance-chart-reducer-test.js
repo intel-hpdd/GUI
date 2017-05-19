@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('ost balance reducer', () => {
   it('should be a function', () => {
-    expect(ostBalanceChartReducer).toEqual(jasmine.any(Function));
+    expect(ostBalanceChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

@@ -94,12 +94,12 @@ describe('configure corosync', () => {
     it('should setup the controller as expected', () => {
       expect(ctrl).toEqual(
         window.extendWithConstructor(mod.ConfigureCorosyncController, {
-          stream: jasmine.any(Function),
-          alertStream: jasmine.any(Function),
-          jobStream: jasmine.any(Function),
-          observer: jasmine.any(Object),
-          getDiffMessage: jasmine.any(Function),
-          save: jasmine.any(Function)
+          stream: expect.any(Function),
+          alertStream: expect.any(Function),
+          jobStream: expect.any(Function),
+          observer: expect.any(Object),
+          getDiffMessage: expect.any(Function),
+          save: expect.any(Function)
         })
       );
     });

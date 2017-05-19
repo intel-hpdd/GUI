@@ -76,7 +76,7 @@ describe('The memory usage stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getMemoryUsageStream).toEqual(jasmine.any(Function));
+    expect(getMemoryUsageStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

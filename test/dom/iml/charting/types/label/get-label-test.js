@@ -24,7 +24,7 @@ describe('get label', () => {
   );
 
   it('should be a function', () => {
-    expect(getLabel).toEqual(jasmine.any(Function));
+    expect(getLabel).toEqual(expect.any(Function));
   });
 
   it('should have a color getter', () => {

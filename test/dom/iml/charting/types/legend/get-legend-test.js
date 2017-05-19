@@ -33,7 +33,7 @@ describe('get legend', () => {
   });
 
   it('should be a function', () => {
-    expect(getLegend).toEqual(jasmine.any(Function));
+    expect(getLegend).toEqual(expect.any(Function));
   });
 
   describe('instance', () => {
@@ -75,31 +75,31 @@ describe('get legend', () => {
     );
 
     it('should have a colors accessor', () => {
-      expect(legend.colors).toEqual(jasmine.any(Function));
+      expect(legend.colors).toEqual(expect.any(Function));
     });
 
     it('should have a width accessor', () => {
-      expect(legend.width).toEqual(jasmine.any(Function));
+      expect(legend.width).toEqual(expect.any(Function));
     });
 
     it('should have a height accessor', () => {
-      expect(legend.height).toEqual(jasmine.any(Function));
+      expect(legend.height).toEqual(expect.any(Function));
     });
 
     it('should have a padding accessor', () => {
-      expect(legend.padding).toEqual(jasmine.any(Function));
+      expect(legend.padding).toEqual(expect.any(Function));
     });
 
     it('should have a radius accessor', () => {
-      expect(legend.radius).toEqual(jasmine.any(Function));
+      expect(legend.radius).toEqual(expect.any(Function));
     });
 
     it('should have a showLabels accessor', () => {
-      expect(legend.showLabels).toEqual(jasmine.any(Function));
+      expect(legend.showLabels).toEqual(expect.any(Function));
     });
 
     it('should have a dispatch accessor', () => {
-      expect(legend.dispatch).toEqual(jasmine.any(Function));
+      expect(legend.dispatch).toEqual(expect.any(Function));
     });
 
     describe('group', () => {

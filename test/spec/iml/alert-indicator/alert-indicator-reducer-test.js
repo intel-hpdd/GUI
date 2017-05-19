@@ -4,7 +4,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('alert indicator reducer', () => {
   it('should be a function', () => {
-    expect(alertIndicatorReducer).toEqual(jasmine.any(Function));
+    expect(alertIndicatorReducer).toEqual(expect.any(Function));
   });
 
   it('should return the payload on ADD_ALERT_INDICATOR_ITEMS', () => {

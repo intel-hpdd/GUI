@@ -30,7 +30,7 @@ describe('diff component', () => {
 
   it('should register with diffContainerCtrl', () => {
     expect(diffContainerCtrl.register).toHaveBeenCalledOnceWith(
-      jasmine.any(Object)
+      expect.any(Object)
     );
   });
 
@@ -38,7 +38,7 @@ describe('diff component', () => {
     $scope.$destroy();
 
     expect(diffContainerCtrl.deregister).toHaveBeenCalledOnceWith(
-      jasmine.any(Object)
+      expect.any(Object)
     );
   });
 

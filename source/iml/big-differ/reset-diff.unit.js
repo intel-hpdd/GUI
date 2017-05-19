@@ -25,7 +25,7 @@ describe('reset diff', () => {
   );
 
   it('should subscribe to changes', () => {
-    expect(diffCtrl.subscribe).toHaveBeenCalledOnceWith(jasmine.any(Function));
+    expect(diffCtrl.subscribe).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   it('should proxy the reset method', () => {

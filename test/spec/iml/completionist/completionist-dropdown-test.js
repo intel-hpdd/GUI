@@ -56,14 +56,14 @@ describe('completionist dropdown', () => {
     it('should deregister key presses', () => {
       expect(completionist.deregister).toHaveBeenCalledOnceWith(
         'KEY_PRESS',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 
     it('should deregister values', () => {
       expect(completionist.deregister).toHaveBeenCalledOnceWith(
         'VALUES',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
   });

@@ -80,7 +80,7 @@ describe('target dashboard', () => {
     });
 
     it('should return a function', () => {
-      expect(targetDashboardResolves).toEqual(jasmine.any(Function));
+      expect(targetDashboardResolves).toEqual(expect.any(Function));
     });
 
     describe('MDT', () => {
@@ -200,7 +200,7 @@ describe('target dashboard', () => {
     });
 
     it('should be a function', () => {
-      expect(targetDashboardTargetStream).toEqual(jasmine.any(Function));
+      expect(targetDashboardTargetStream).toEqual(expect.any(Function));
     });
 
     it('should call socketStream', () => {

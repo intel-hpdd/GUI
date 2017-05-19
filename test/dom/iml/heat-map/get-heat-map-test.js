@@ -16,7 +16,7 @@ describe('the heat map', () => {
   );
 
   it('should be callable', () => {
-    expect(heatMap).toEqual(jasmine.any(Function));
+    expect(heatMap).toEqual(expect.any(Function));
   });
 
   it('should set destroy to a noop', () => {
@@ -37,7 +37,7 @@ describe('the heat map', () => {
 
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
-      expect(heatMap[accessor]).toEqual(jasmine.any(Function));
+      expect(heatMap[accessor]).toEqual(expect.any(Function));
     });
 
     it('should set ' + accessor, () => {

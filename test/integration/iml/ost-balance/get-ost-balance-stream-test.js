@@ -34,7 +34,7 @@ describe('get OST balance stream', () => {
   afterEach(resetAll);
 
   it('should return a factory function', () => {
-    expect(getOstBalanceStream).toEqual(jasmine.any(Function));
+    expect(getOstBalanceStream).toEqual(expect.any(Function));
   });
 
   describe('fetching metrics', () => {

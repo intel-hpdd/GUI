@@ -42,7 +42,7 @@ describe('chart transformer', () => {
     });
 
     it('should be a function', () => {
-      expect(getConf).toEqual(jasmine.any(Function));
+      expect(getConf).toEqual(expect.any(Function));
     });
 
     it('should take the matching case', () => {

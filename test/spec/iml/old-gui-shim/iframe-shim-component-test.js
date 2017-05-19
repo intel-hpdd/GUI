@@ -117,7 +117,7 @@ describe('iframe shim component', () => {
     it('should remove the load event listener', () => {
       expect(el.removeEventListener).toHaveBeenCalledOnceWith(
         'load',
-        jasmine.any(Function),
+        expect.any(Function),
         true
       );
     });
@@ -125,7 +125,7 @@ describe('iframe shim component', () => {
     it('should remove the message event listener', () => {
       expect(global.removeEventListener).toHaveBeenCalledOnceWith(
         'message',
-        jasmine.any(Function),
+        expect.any(Function),
         false
       );
     });

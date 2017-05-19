@@ -97,7 +97,7 @@ describe('deferred command modal button directive exports', () => {
     });
 
     it('should pass a stream to openCommandModal', () => {
-      expect(openCommandModal).toHaveBeenCalledOnceWith(jasmine.any(Object));
+      expect(openCommandModal).toHaveBeenCalledOnceWith(expect.any(Object));
     });
 
     it('should show the waiting button', () => {

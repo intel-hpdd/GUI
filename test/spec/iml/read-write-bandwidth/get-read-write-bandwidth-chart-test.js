@@ -113,7 +113,7 @@ describe('Read Write Bandwidth chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getReadWriteBandwidthChart).toEqual(jasmine.any(Function));
+    expect(getReadWriteBandwidthChart).toEqual(expect.any(Function));
   });
 
   describe('for page readWriteBandwidthChart', () => {
@@ -162,7 +162,7 @@ describe('Read Write Bandwidth chart', () => {
             host_id: '1'
           }
         },
-        jasmine.any(Function),
+        expect.any(Function),
         standardConfig
       );
     });
@@ -189,8 +189,8 @@ describe('Read Write Bandwidth chart', () => {
   </div>
   <line-chart options="::chart.options" stream="::chart.stream"></line-chart>
 </div>`,
-        jasmine.any(Object),
-        jasmine.any(Function)
+        expect.any(Object),
+        expect.any(Function)
       );
     });
   });
@@ -227,7 +227,7 @@ describe('Read Write Bandwidth chart', () => {
         unit: 'minutes',
         onSubmit: submitHandler,
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
@@ -279,7 +279,7 @@ describe('Read Write Bandwidth chart', () => {
 
       it('should set y tick format', () => {
         expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 

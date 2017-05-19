@@ -99,7 +99,7 @@ describe('popover', () => {
     });
 
     it('should provide a work function', () => {
-      expect($scope.workFn).toHaveBeenCalledWith(jasmine.any(Object));
+      expect($scope.workFn).toHaveBeenCalledWith(expect.any(Object));
     });
   });
 });

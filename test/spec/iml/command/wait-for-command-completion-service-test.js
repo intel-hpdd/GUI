@@ -100,7 +100,7 @@ describe('wait-for-command-completion-service', () => {
     });
 
     it('should call openCommandModal', () => {
-      expect(openCommandModal).toHaveBeenCalledOnceWith(jasmine.any(Object));
+      expect(openCommandModal).toHaveBeenCalledOnceWith(expect.any(Object));
     });
 
     describe('closing the command modal', () => {

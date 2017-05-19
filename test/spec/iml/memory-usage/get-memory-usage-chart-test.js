@@ -139,7 +139,7 @@ describe('memory usage chart', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getMemoryUsageChart).toEqual(jasmine.any(Function));
+    expect(getMemoryUsageChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch fileUsageChart to the store', () => {
@@ -171,7 +171,7 @@ describe('memory usage chart', () => {
           host_id: '1'
         }
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
@@ -179,8 +179,8 @@ describe('memory usage chart', () => {
   it('should call the chart compiler', () => {
     expect(chartCompiler).toHaveBeenCalledOnceWith(
       'memoryUsageTemplate',
-      jasmine.any(Object),
-      jasmine.any(Function)
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -205,16 +205,16 @@ describe('memory usage chart', () => {
 
     it('should return a config', () => {
       expect(config).toEqual({
-        stream: jasmine.any(Object),
+        stream: expect.any(Object),
         configType: 'duration',
         page: '',
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
         unit: 'minutes',
-        onSubmit: jasmine.any(Function),
+        onSubmit: expect.any(Function),
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
@@ -262,7 +262,7 @@ describe('memory usage chart', () => {
 
       it('should set y tick format', () => {
         expect(d3Chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 

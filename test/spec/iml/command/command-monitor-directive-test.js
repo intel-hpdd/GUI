@@ -63,7 +63,7 @@ describe('Command monitor controller', () => {
     it('should listen', () => {
       expect($scope.$on).toHaveBeenCalledOnceWith(
         '$destroy',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 

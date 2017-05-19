@@ -37,8 +37,8 @@ describe('status records component', () => {
 
   it('should return the expected controller properties', () => {
     const instance = jasmine.objectContaining({
-      isCommand: jasmine.any(Function),
-      pageChanged: jasmine.any(Function)
+      isCommand: expect.any(Function),
+      pageChanged: expect.any(Function)
     });
 
     expect(ctrl).toEqual(instance);

@@ -108,7 +108,7 @@ describe('add server modal', () => {
       it('should set a destroy event listener', () => {
         expect($scope.$on).toHaveBeenCalledOnceWith(
           '$destroy',
-          jasmine.any(Function)
+          expect.any(Function)
         );
       });
 
@@ -156,8 +156,8 @@ describe('add server modal', () => {
         keyboard: 'false',
         windowClass: 'add-server-modal',
         resolve: {
-          servers: jasmine.any(Function),
-          step: jasmine.any(Function)
+          servers: expect.any(Function),
+          step: expect.any(Function)
         }
       });
     });

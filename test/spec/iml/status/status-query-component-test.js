@@ -68,7 +68,7 @@ describe('status query controller', () => {
         formatter: statusQsToInputParser
       },
       completer: statusCompleter,
-      onSubmit: jasmine.any(Function)
+      onSubmit: expect.any(Function)
     });
 
     expect(ctrl).toEqual(instance);

@@ -7,7 +7,7 @@ import deepFreeze from '@mfl/deep-freeze';
 
 describe('memory usage chart reducer', () => {
   it('should be a function', () => {
-    expect(memoryUsageChartReducer).toEqual(jasmine.any(Function));
+    expect(memoryUsageChartReducer).toEqual(expect.any(Function));
   });
 
   describe('matching type', () => {

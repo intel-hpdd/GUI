@@ -8,7 +8,7 @@ describe('mgt page component', () => {
         mgtAlertIndicatorB: '<',
         mgtJobIndicatorB: '<'
       },
-      template: jasmine.any(String)
+      template: expect.any(String)
     });
   });
 });

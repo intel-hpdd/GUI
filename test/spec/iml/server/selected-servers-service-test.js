@@ -14,11 +14,11 @@ describe('selected servers service', function() {
   );
 
   it('should be an object', function() {
-    expect(selectedServers).toEqual(jasmine.any(Object));
+    expect(selectedServers).toEqual(expect.any(Object));
   });
 
   it('should have a servers property', function() {
-    expect(selectedServers.servers).toEqual(jasmine.any(Object));
+    expect(selectedServers.servers).toEqual(expect.any(Object));
   });
 
   const dataProvider = [

@@ -66,8 +66,8 @@ describe('confirm action modal', function() {
         backdropClass: 'confirm-action-modal-backdrop',
         backdrop: 'static',
         resolve: {
-          title: jasmine.any(Function),
-          confirmPrompts: jasmine.any(Function)
+          title: expect.any(Function),
+          confirmPrompts: expect.any(Function)
         }
       });
     });

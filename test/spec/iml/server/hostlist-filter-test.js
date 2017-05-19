@@ -23,11 +23,11 @@ describe('hostlist filter service', function() {
 
   it('should expose the expected interface', function() {
     expect(hostlistFilter).toEqual({
-      setHosts: jasmine.any(Function),
-      setHash: jasmine.any(Function),
-      setFuzzy: jasmine.any(Function),
-      setReverse: jasmine.any(Function),
-      compute: jasmine.any(Function)
+      setHosts: expect.any(Function),
+      setHash: expect.any(Function),
+      setFuzzy: expect.any(Function),
+      setReverse: expect.any(Function),
+      compute: expect.any(Function)
     });
   });
 
@@ -47,7 +47,7 @@ describe('hostlist filter service', function() {
       expect(pdshFilter).toHaveBeenCalledOnceWith(
         ['host1', 'host2'],
         { host1: '' },
-        jasmine.any(Function),
+        expect.any(Function),
         true
       );
     });
@@ -55,7 +55,7 @@ describe('hostlist filter service', function() {
     it('should call the natural sort filter', function() {
       expect(naturalSortFilter).toHaveBeenCalledOnceWith(
         'host1Filtered',
-        jasmine.any(Function),
+        expect.any(Function),
         false
       );
     });

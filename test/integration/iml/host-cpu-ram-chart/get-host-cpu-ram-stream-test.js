@@ -76,7 +76,7 @@ describe('The host cpu ram stream', () => {
   });
 
   it('should return a factory function', () => {
-    expect(getHostCpuRamStream).toEqual(jasmine.any(Function));
+    expect(getHostCpuRamStream).toEqual(expect.any(Function));
   });
 
   describe('fetching 10 minutes ago', () => {

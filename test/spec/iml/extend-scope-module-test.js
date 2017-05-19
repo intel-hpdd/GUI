@@ -23,7 +23,7 @@ describe('extend scope test', () => {
 
   describe('local apply', function() {
     it('should be a function', function() {
-      expect(localApply).toEqual(jasmine.any(Function));
+      expect(localApply).toEqual(expect.any(Function));
     });
 
     it('should be on scope', function() {
@@ -105,7 +105,7 @@ describe('extend scope test', () => {
 
   describe('exception handler', function() {
     it('should exist on scope', function() {
-      expect($scope.handleException).toEqual(jasmine.any(Function));
+      expect($scope.handleException).toEqual(expect.any(Function));
     });
 
     it('should call $exceptionHandler', function() {

@@ -36,15 +36,15 @@ describe('get event socket', () => {
   afterEach(resetAll);
 
   it('should be a function', () => {
-    expect(getEventSocket).toEqual(jasmine.any(Function));
+    expect(getEventSocket).toEqual(expect.any(Function));
   });
 
   it('should have a connect method', () => {
-    expect(eventSocket.connect).toEqual(jasmine.any(Function));
+    expect(eventSocket.connect).toEqual(expect.any(Function));
   });
 
   it('should have a send method', () => {
-    expect(eventSocket.send).toEqual(jasmine.any(Function));
+    expect(eventSocket.send).toEqual(expect.any(Function));
   });
 
   it('should get an id', () => {
@@ -125,7 +125,7 @@ describe('get event socket', () => {
     it('should register a once listener on ack send', () => {
       expect(emitter.once).toHaveBeenCalledOnceWith(
         'message',
-        jasmine.any(Function)
+        expect.any(Function)
       );
     });
 

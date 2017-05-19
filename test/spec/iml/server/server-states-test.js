@@ -39,7 +39,7 @@ describe('server states', () => {
           icon: 'fa-tasks'
         },
         resolve: {
-          streams: jasmine.any(Function)
+          streams: expect.any(Function)
         }
       });
     });
@@ -67,8 +67,8 @@ describe('server states', () => {
           icon: 'fa-tasks'
         },
         resolve: {
-          streams: jasmine.any(Function),
-          getData: jasmine.any(Function)
+          streams: expect.any(Function),
+          getData: expect.any(Function)
         }
       });
     });

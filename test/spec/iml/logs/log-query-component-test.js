@@ -53,7 +53,7 @@ describe('log query component controller', () => {
           formatter: 'qsParser'
         },
         completer: 'completer',
-        onSubmit: jasmine.any(Function)
+        onSubmit: expect.any(Function)
       })
     );
   });

@@ -75,7 +75,7 @@ describe('stream when visible', () => {
   );
 
   it('should be a function', () => {
-    expect(streamWhenVisible).toEqual(jasmine.any(Function));
+    expect(streamWhenVisible).toEqual(expect.any(Function));
   });
 
   it('should return a stream', () => {
@@ -84,8 +84,8 @@ describe('stream when visible', () => {
 
   it('should call the page visibility service', () => {
     expect(pageVisibility).toHaveBeenCalledOnceWith(
-      jasmine.any(Function),
-      jasmine.any(Function),
+      expect.any(Function),
+      expect.any(Function),
       30000
     );
   });

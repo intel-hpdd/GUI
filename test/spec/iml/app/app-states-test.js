@@ -24,8 +24,8 @@ describe('app states', () => {
       controllerAs: 'app',
       template: 'appTemplate',
       resolve: {
-        alertStream: ['appAlertStream', jasmine.any(Function)],
-        notificationStream: ['appNotificationStream', jasmine.any(Function)],
+        alertStream: ['appAlertStream', expect.any(Function)],
+        notificationStream: ['appNotificationStream', expect.any(Function)],
         session: ['appSession', fp.identity]
       }
     });

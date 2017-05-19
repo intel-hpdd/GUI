@@ -14,7 +14,7 @@ describe('the heat map legend', function() {
   );
 
   it('should be callable', function() {
-    expect(heatMapLegend).toEqual(jasmine.any(Function));
+    expect(heatMapLegend).toEqual(expect.any(Function));
   });
 
   it('should set destroy to a noop', function() {
@@ -33,7 +33,7 @@ describe('the heat map legend', function() {
 
   accessors.forEach(function(accessor) {
     it('should have a ' + accessor + 'accessor', function() {
-      expect(heatMapLegend[accessor]).toEqual(jasmine.any(Function));
+      expect(heatMapLegend[accessor]).toEqual(expect.any(Function));
     });
 
     it('should set ' + accessor, function() {

@@ -17,7 +17,7 @@ describe('multi stream', () => {
   });
 
   it('should be a function', function() {
-    expect(multiStream).toEqual(jasmine.any(Function));
+    expect(multiStream).toEqual(expect.any(Function));
   });
 
   it('should not emit if all streams not written', function() {
