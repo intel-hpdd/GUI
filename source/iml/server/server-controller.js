@@ -55,7 +55,7 @@ export default function ServerCtrl(
     toggleType: selectedServers.toggleType,
     transform(s, args) {
       const resourceUri = args[0];
-      const eqHost = fp.eqFn(fp.identity, viewLens('host'), resourceUri);
+      const eqHost = fp.eqFn(fp.identity)(viewLens('host'))(resourceUri);
 
       return s.map(fp.filter(eqHost)).sequence();
     },
