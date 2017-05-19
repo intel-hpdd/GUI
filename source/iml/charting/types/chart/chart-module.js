@@ -22,11 +22,10 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import d3Module from '../../../d3/d3-module';
 import debounceModule from '../../../debounce/debounce-module';
 
 import { charterDirective } from './chart-directive';
 
 export default angular
-  .module('chart', [d3Module, debounceModule])
+  .module('chart', [debounceModule])
   .directive('charter', charterDirective).name;

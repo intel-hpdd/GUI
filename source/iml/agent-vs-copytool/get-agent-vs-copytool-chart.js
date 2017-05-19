@@ -49,9 +49,6 @@ import type {
   data$FnT
 } from '../chart-transformers/chart-transformers-module.js';
 
-import agentVsCopytoolTemplate
-  from './assets/html/agent-vs-copytool-chart.html';
-
 export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';
   return function getAgentVsCopytoolChart(overrides: Object) {
@@ -99,7 +96,34 @@ export default (localApply: localApplyT, data$Fn: data$FnT) => {
     const mapProps = fp.map(fp.flow(fp.lensProp, fp.view));
 
     return chartCompiler(
-      agentVsCopytoolTemplate,
+      `<div config-toggle class="agent-vs-copytool">
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="form">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit"
+                  ng-click="::configToggle.setInactive(chart.onSubmit({}, form))"
+                  class="btn btn-success btn-block"
+                  ng-disabled="form.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <div charter class="agent-vs-copytool-chart" stream="chart.stream" on-update="::chart.onUpdate">
+    <g axis scale="::chart.yScale" orient="'left'"></g>
+    <g axis scale="::chart.xScale" orient="'bottom'"></g>
+    <g legend scale="::chart.nameColorScale"></g>
+    <g label on-data="::chart.calcRange" on-update="::chart.rangeLabelOnUpdate"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[0]" color="::chart.colors[0]" comparator-x="::chart.xComparator"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[1]" color="::chart.colors[1]" comparator-x="::chart.xComparator"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[2]" color="::chart.colors[2]" comparator-x="::chart.xComparator"></g>
+  </div>
+</div>`,
       initStream,
       ($scope, stream) => {
         const conf = {

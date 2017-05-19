@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import d3Module from '../d3/d3-module';
 import nvModule from '../nv/nv-module';
 import heatMapModule from '../heat-map/heat-map-module';
 import streamWhenVisibleModule
@@ -38,7 +37,6 @@ import stackedAreaChart from './stacked-area-chart';
 
 export default angular
   .module('charts', [
-    d3Module,
     nvModule,
     uiBootstrapModule,
     heatMapModule,

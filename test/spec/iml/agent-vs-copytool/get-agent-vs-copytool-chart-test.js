@@ -1,14 +1,11 @@
-import * as fp from '@mfl/fp';
-import agentVsCopytoolModule
-  from '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-module';
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('get agent vs copytool chart exports', () => {
-  let getAgentVsCopytoolStream,
-    createDate,
-    chartCompiler,
+  let mockGetAgentVsCopytoolStream,
+    mockD3,
+    mockCreateDate,
+    mockChartCompiler,
     getAgentVsCopytoolChart,
     agentVsCopytoolChart,
     d3,
@@ -20,18 +17,18 @@ describe('get agent vs copytool chart exports', () => {
     config1$,
     config2$,
     selectStoreCount,
-    getStore,
-    durationPayload,
+    mockGetStore,
+    mockDurationPayload,
     submitHandler,
-    durationSubmitHandler,
-    getConf,
+    mockDurationSubmitHandler,
+    mockGetConf,
     localApply,
     data$Fn,
     initStream;
 
-  beforeEachAsync(async function() {
-    getAgentVsCopytoolStream = jasmine.createSpy('getAgentVsCopytoolStream');
-    createDate = jasmine.createSpy('createDate');
+  beforeEach(() => {
+    mockGetAgentVsCopytoolStream = jest.fn();
+    mockCreateDate = jest.fn(x => x);
 
     standardConfig = {
       configType: 'duration',
@@ -46,18 +43,18 @@ describe('get agent vs copytool chart exports', () => {
         base: { ...standardConfig }
       }
     ]);
-    spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, 'destroy');
     config2$ = highland([
       {
         base: standardConfig
       }
     ]);
-    spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -68,16 +65,14 @@ describe('get agent vs copytool chart exports', () => {
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+    mockDurationPayload = jest.fn(x => {
       return { ...standardConfig, ...x };
     });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -85,118 +80,105 @@ describe('get agent vs copytool chart exports', () => {
       };
     });
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
     initStream = highland();
-    spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake((overrides, fn) => {
+    data$Fn = jest.fn((overrides, fn) => {
       fn()();
       return initStream;
     });
 
-    chartCompiler = jasmine
-      .createSpy('chartCompiler')
-      .and.returnValue('chartCompiler');
+    mockChartCompiler = jest.fn(() => 'chartCompiler');
 
-    const mod = await mock(
-      'source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js',
-      {
-        'source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js': {
-          default: getAgentVsCopytoolStream
-        },
-        'source/iml/agent-vs-copytool/assets/html/agent-vs-copytool-chart.html': {
-          default: 'agentTemplate'
-        },
-        'source/iml/chart-compiler/chart-compiler.js': {
-          default: chartCompiler
-        },
-        'source/iml/create-date.js': { default: createDate },
-        'source/iml/store/get-store.js': { default: getStore },
-        'source/iml/duration-picker/duration-payload.js': {
-          default: durationPayload
-        },
-        'source/iml/duration-picker/duration-submit-handler.js': {
-          default: durationSubmitHandler
-        },
-        'source/iml/chart-transformers/chart-transformers.js': { getConf }
-      }
+    jest.mock(
+      '../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js',
+      () => mockGetAgentVsCopytoolStream
     );
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+    jest.mock('../../../../source/iml/create-date.js', () => mockCreateDate);
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-payload.js',
+      () => mockDurationPayload
+    );
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-submit-handler.js',
+      () => mockDurationSubmitHandler
+    );
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({ getConf: mockGetConf })
+    );
+    mockD3 = require('d3');
+
+    const mod = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js');
 
     getAgentVsCopytoolChartFactory = mod.default;
   });
 
-  afterEach(resetAll);
+  beforeEach(() => {
+    jest.spyOn(mockD3.time, 'scale').mockImplementation(() => {
+      timeScale = {};
 
-  beforeEach(module(agentVsCopytoolModule));
+      timeScale.domain = jest.fn(() => timeScale);
+      timeScale.range = jest.fn(() => timeScale);
 
-  beforeEach(
-    inject(_d3_ => {
-      d3 = _d3_;
-      spyOn(d3.time, 'scale').and.callFake(() => {
-        timeScale = {};
+      return timeScale;
+    });
+    jest.spyOn(mockD3.scale, 'linear').mockImplementation(() => {
+      linearScale = {};
 
-        timeScale.domain = jasmine
-          .createSpy('domain')
-          .and.returnValue(timeScale);
-        timeScale.range = jasmine.createSpy('range').and.returnValue(timeScale);
+      linearScale.domain = jest.fn(() => linearScale);
+      linearScale.range = jest.fn(() => linearScale);
 
-        return timeScale;
-      });
-      spyOn(d3.scale, 'linear').and.callFake(() => {
-        linearScale = {};
+      return linearScale;
+    });
+    jest.spyOn(mockD3.scale, 'ordinal').mockImplementation(() => {
+      ordinalScale = {};
 
-        linearScale.domain = jasmine
-          .createSpy('domain')
-          .and.returnValue(linearScale);
-        linearScale.range = jasmine
-          .createSpy('range')
-          .and.returnValue(linearScale);
-
-        return linearScale;
-      });
-      spyOn(d3.scale, 'ordinal').and.callFake(() => {
-        ordinalScale = {};
-
-        ordinalScale.domain = jasmine.createSpy('domain').and.callFake(xs => {
-          if (xs) return ordinalScale;
-          else return currentRange;
-        });
-
-        let currentRange;
-        ordinalScale.range = jasmine.createSpy('range').and.callFake(xs => {
-          if (xs) {
-            currentRange = xs;
-            return ordinalScale;
-          } else {
-            return currentRange;
-          }
-        });
-
-        return ordinalScale;
+      ordinalScale.domain = jest.fn(xs => {
+        if (xs) return ordinalScale;
+        else return currentRange;
       });
 
-      getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-        localApply,
-        fp.curry3(data$Fn),
-        d3
-      );
-
-      agentVsCopytoolChart = getAgentVsCopytoolChart({
-        foo: 'bar'
+      let currentRange;
+      ordinalScale.range = jest.fn(xs => {
+        if (xs) {
+          currentRange = xs;
+          return ordinalScale;
+        } else {
+          return currentRange;
+        }
       });
 
-      const s = chartCompiler.calls.argsFor(0)[1];
-      s.each(() => {});
-    })
-  );
+      return ordinalScale;
+    });
+
+    getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
+      localApply,
+      data$Fn,
+      d3
+    );
+
+    agentVsCopytoolChart = getAgentVsCopytoolChart({
+      foo: 'bar'
+    });
+
+    const s = mockChartCompiler.mock.calls[0][1];
+    s.each(() => {});
+  });
 
   it('should return a function', () => {
-    expect(getAgentVsCopytoolChart).toEqual(jasmine.any(Function));
+    expect(getAgentVsCopytoolChart).toEqual(expect.any(Function));
   });
 
   it('should dispatch to the store', () => {
-    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
       payload: {
         page: 'base',
@@ -210,11 +192,13 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should select the agentVsCopytoolCharts store', () => {
-    expect(getStore.select).toHaveBeenCalledOnceWith('agentVsCopytoolCharts');
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith(
+      'agentVsCopytoolCharts'
+    );
   });
 
   it('should call getConf', () => {
-    expect(getConf).toHaveBeenCalledOnceWith('base');
+    expect(mockGetConf).toHaveBeenCalledOnceWith('base');
   });
 
   it('should call data$Fn', () => {
@@ -222,20 +206,47 @@ describe('get agent vs copytool chart exports', () => {
       {
         foo: 'bar'
       },
-      jasmine.any(Function),
+      expect.any(Function),
       standardConfig
     );
   });
 
   it('should invoke the getAgentVsCopytoolStream', () => {
-    expect(getAgentVsCopytoolStream).toHaveBeenCalledTimes(1);
+    expect(mockGetAgentVsCopytoolStream).toHaveBeenCalledTimes(1);
   });
 
   it('should invoke the chart compiler', () => {
-    expect(chartCompiler).toHaveBeenCalledOnceWith(
-      'agentTemplate',
-      jasmine.any(Object),
-      jasmine.any(Function)
+    expect(mockChartCompiler).toHaveBeenCalledOnceWith(
+      `<div config-toggle class="agent-vs-copytool">
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="form">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit"
+                  ng-click="::configToggle.setInactive(chart.onSubmit({}, form))"
+                  class="btn btn-success btn-block"
+                  ng-disabled="form.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <div charter class="agent-vs-copytool-chart" stream="chart.stream" on-update="::chart.onUpdate">
+    <g axis scale="::chart.yScale" orient="'left'"></g>
+    <g axis scale="::chart.xScale" orient="'bottom'"></g>
+    <g legend scale="::chart.nameColorScale"></g>
+    <g label on-data="::chart.calcRange" on-update="::chart.rangeLabelOnUpdate"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[0]" color="::chart.colors[0]" comparator-x="::chart.xComparator"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[1]" color="::chart.colors[1]" comparator-x="::chart.xComparator"></g>
+    <g line scale-y="::chart.yScale" scale-x="::chart.xScale" value-x="::chart.xValue" value-y="::chart.labels[2]" color="::chart.colors[2]" comparator-x="::chart.xComparator"></g>
+  </div>
+</div>`,
+      expect.any(Object),
+      expect.any(Function)
     );
   });
 
@@ -244,16 +255,16 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should create a xScale', () => {
-    expect(d3.time.scale).toHaveBeenCalledTimes(1);
+    expect(mockD3.time.scale).toHaveBeenCalledTimes(1);
   });
 
   it('should create a yScale', () => {
-    expect(d3.scale.linear).toHaveBeenCalled();
+    expect(mockD3.scale.linear).toHaveBeenCalled();
   });
 
   describe('name color scale', () => {
     it('should be an ordinal scale', () => {
-      expect(d3.scale.ordinal).toHaveBeenCalledTimes(1);
+      expect(mockD3.scale.ordinal).toHaveBeenCalledTimes(1);
     });
 
     it('should set the domain', () => {
@@ -277,11 +288,11 @@ describe('get agent vs copytool chart exports', () => {
     let $scope, s, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         $scope = $rootScope.$new();
         s = highland();
-        spyOn(s, 'destroy');
-        config = chartCompiler.calls.mostRecent().args[2]($scope, s);
+        jest.spyOn(s, 'destroy');
+        config = mockChartCompiler.mock.calls[0][2]($scope, s);
       })
     );
 
@@ -297,27 +308,27 @@ describe('get agent vs copytool chart exports', () => {
         xScale: timeScale,
         yScale: linearScale,
         onUpdate: [
-          jasmine.any(Function),
-          jasmine.any(Function),
-          jasmine.any(Function),
-          jasmine.any(Function)
+          expect.any(Function),
+          expect.any(Function),
+          expect.any(Function),
+          expect.any(Function)
         ],
         rangeLabelOnUpdate: [
-          jasmine.any(Function),
-          jasmine.any(Function),
-          jasmine.any(Function)
+          expect.any(Function),
+          expect.any(Function),
+          expect.any(Function)
         ],
         labels: [
-          jasmine.any(Function),
-          jasmine.any(Function),
-          jasmine.any(Function)
+          expect.any(Function),
+          expect.any(Function),
+          expect.any(Function)
         ],
         colors: ['#F3B600', '#A3B600', '#0067B4'],
         nameColorScale: ordinalScale,
-        calcRange: jasmine.any(Function),
-        xValue: jasmine.any(Function),
-        xComparator: jasmine.any(Function),
-        onSubmit: jasmine.any(Function)
+        calcRange: expect.any(Function),
+        xValue: expect.any(Function),
+        xComparator: expect.any(Function),
+        onSubmit: expect.any(Function)
       });
     });
 
@@ -331,8 +342,6 @@ describe('get agent vs copytool chart exports', () => {
 
     describe('on update', () => {
       it('should update xScale domain', () => {
-        createDate.and.callFake(fp.identity);
-
         config.onUpdate[0]({
           xs: [
             {
@@ -381,7 +390,7 @@ describe('get agent vs copytool chart exports', () => {
       describe('range label on update', () => {
         it('should update label width', () => {
           const label = {
-            width: jasmine.createSpy('width')
+            width: jest.fn()
           };
 
           config.rangeLabelOnUpdate[0]({
@@ -394,7 +403,7 @@ describe('get agent vs copytool chart exports', () => {
 
         it('should update label height', () => {
           const label = {
-            height: jasmine.createSpy('height')
+            height: jest.fn()
           };
 
           config.rangeLabelOnUpdate[1]({
@@ -406,7 +415,7 @@ describe('get agent vs copytool chart exports', () => {
 
         it('should translate node', () => {
           const node = {
-            attr: jasmine.createSpy('attr')
+            attr: jest.fn()
           };
 
           config.rangeLabelOnUpdate[2]({
@@ -427,8 +436,8 @@ describe('get agent vs copytool chart exports', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
-        handler = chartCompiler.calls.mostRecent().args[2];
+      angular.mock.inject($rootScope => {
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -439,7 +448,7 @@ describe('get agent vs copytool chart exports', () => {
 
     it('should call durationSubmitHandler', () => {
       expect(
-        durationSubmitHandler
+        mockDurationSubmitHandler
       ).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {
         page: 'base'
       });

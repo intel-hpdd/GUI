@@ -21,10 +21,9 @@
 
 import angular from 'angular';
 import _ from '@mfl/lodash-mixins';
-import d3module from '../d3/d3-module';
 
 export default angular
-  .module('progressCircleModule', [d3module])
+  .module('progressCircleModule', [])
   .directive('progressCircle', [
     'd3',
     function(d3) {

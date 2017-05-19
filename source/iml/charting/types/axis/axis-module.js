@@ -22,10 +22,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import d3Module from '../../../d3/d3-module';
 
 import { axisDirective } from './axis-directive';
 
-export default angular
-  .module('axis', [d3Module])
-  .directive('axis', axisDirective).name;
+export default angular.module('axis', []).directive('axis', axisDirective).name;
