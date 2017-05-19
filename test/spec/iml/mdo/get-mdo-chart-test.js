@@ -1,28 +1,27 @@
 import highland from 'highland';
 import * as fp from '@mfl/fp';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('MDO chart', () => {
-  let chartCompiler,
-    getMdoStream,
+  let mockChartCompiler,
+    mockGetMdoStream,
     selectStoreCount,
     submitHandler,
     config1$,
     config2$,
     getMdoChart,
-    getStore,
+    mockGetStore,
     standardConfig,
-    durationPayload,
+    mockDurationPayload,
     data$Fn,
     initStream,
-    durationSubmitHandler,
+    mockDurationSubmitHandler,
     localApply,
     mod,
-    getConf;
+    mockGetConf;
 
-  beforeEachAsync(async function() {
-    getMdoStream = {};
+  beforeEach(() => {
+    mockGetMdoStream = {};
 
     standardConfig = {
       configType: 'duration',
@@ -37,18 +36,18 @@ describe('MDO chart', () => {
         mdoChart: { ...standardConfig }
       }
     ]);
-    spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, 'destroy');
     config2$ = highland([
       {
         mdoChart: standardConfig
       }
     ]);
-    spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -59,16 +58,14 @@ describe('MDO chart', () => {
       })
     };
 
-    durationPayload = jasmine.createSpy('durationPayload').and.callFake(x => {
+    mockDurationPayload = jest.fn(x => {
       return { ...standardConfig, ...x };
     });
 
-    submitHandler = jasmine.createSpy('submitHandler');
-    durationSubmitHandler = jasmine
-      .createSpy('durationSubmitHandler')
-      .and.returnValue(submitHandler);
+    submitHandler = jest.fn();
+    mockDurationSubmitHandler = jest.fn(() => submitHandler);
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -76,40 +73,48 @@ describe('MDO chart', () => {
       };
     });
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
-    mod = await mock('source/iml/mdo/get-mdo-chart.js', {
-      'source/iml/mdo/get-mdo-stream.js': { default: getMdoStream },
-      'source/iml/mdo/assets/html/mdo.html': { default: 'mdoTemplate' },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/duration-picker/duration-payload.js': {
-        default: durationPayload
-      },
-      'source/iml/duration-picker/duration-submit-handler.js': {
-        default: durationSubmitHandler
-      },
-      'source/iml/chart-transformers/chart-transformers.js': {
-        getConf: getConf
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/mdo/get-mdo-stream.js',
+      () => mockGetMdoStream
+    );
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-payload.js',
+      () => mockDurationPayload
+    );
+    jest.mock(
+      '../../../../source/iml/duration-picker/duration-submit-handler.js',
+      () => mockDurationSubmitHandler
+    );
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({
+        getConf: mockGetConf
+      })
+    );
+
+    mod = require('../../../../source/iml/mdo/get-mdo-chart.js');
   });
-
-  afterEach(resetAll);
 
   beforeEach(() => {
     initStream = highland();
-    spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, 'destroy');
 
-    data$Fn = jasmine.createSpy('data$Fn').and.callFake(() => initStream);
+    data$Fn = jest.fn(() => initStream);
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
-    getMdoChart = mod.default(localApply, fp.curry3(data$Fn));
+    getMdoChart = mod.default(localApply, data$Fn);
   });
 
   it('should return a factory function', () => {
-    expect(getMdoChart).toEqual(jasmine.any(Function));
+    expect(getMdoChart).toEqual(expect.any(Function));
   });
 
   describe('for page mdoChart', () => {
@@ -123,12 +128,12 @@ describe('MDO chart', () => {
         'mdoChart'
       );
 
-      const s = chartCompiler.calls.argsFor(0)[1];
+      const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
     it('should dispatch mdoChart to the store', () => {
-      expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+      expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
         type: 'DEFAULT_MDO_CHART_ITEMS',
         payload: {
           page: 'mdoChart',
@@ -142,11 +147,11 @@ describe('MDO chart', () => {
     });
 
     it('should select the mdoChart store', () => {
-      expect(getStore.select).toHaveBeenCalledOnceWith('mdoCharts');
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith('mdoCharts');
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledOnceWith('mdoChart');
+      expect(mockGetConf).toHaveBeenCalledOnceWith('mdoChart');
     });
 
     it('should call data$Fn', () => {
@@ -156,16 +161,35 @@ describe('MDO chart', () => {
             host_id: '1'
           }
         },
-        jasmine.any(Function),
+        expect.any(Function),
         standardConfig
       );
     });
 
     it('should call the chart compiler', () => {
-      expect(chartCompiler).toHaveBeenCalledOnceWith(
-        'mdoTemplate',
-        jasmine.any(Object),
-        jasmine.any(Function)
+      expect(mockChartCompiler).toHaveBeenCalledOnceWith(
+        `<div config-toggle>
+  <h5>Metadata Operations</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="mdoForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, mdoForm))" class="btn btn-success btn-block" ng-disabled="mdoForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <stacked-area-chart options="::chart.options" stream="chart.stream"></stacked-area-chart>
+</div>`,
+        expect.any(Object),
+        expect.any(Function)
       );
     });
   });
@@ -174,7 +198,7 @@ describe('MDO chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         getMdoChart(
           {
             qs: {
@@ -184,7 +208,7 @@ describe('MDO chart', () => {
           'mdoChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -202,17 +226,17 @@ describe('MDO chart', () => {
         unit: 'minutes',
         onSubmit: submitHandler,
         options: {
-          setup: jasmine.any(Function)
+          setup: expect.any(Function)
         }
       });
     });
 
     it('should select the mdoChart store', () => {
-      expect(getStore.select).toHaveBeenCalledTwiceWith('mdoCharts');
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('mdoCharts');
     });
 
     it('should call getConf', () => {
-      expect(getConf).toHaveBeenCalledTwiceWith('mdoChart');
+      expect(mockGetConf).toHaveBeenCalledTwiceWith('mdoChart');
     });
 
     it('should call localApply', () => {
@@ -231,21 +255,21 @@ describe('MDO chart', () => {
       let chart, tickFormat;
 
       beforeEach(() => {
-        tickFormat = jasmine.createSpy('tickFormat');
+        tickFormat = jest.fn();
 
         chart = {
-          useInteractiveGuideline: jasmine.createSpy('useInteractiveGuideline'),
+          useInteractiveGuideline: jest.fn(),
           interactiveLayer: {
             tooltip: {
-              headerFormatter: jasmine.createSpy('headerFormatter')
+              headerFormatter: jest.fn()
             }
           },
           yAxis: {
             tickFormat: tickFormat
           },
-          forceY: jasmine.createSpy('forceY'),
+          forceY: jest.fn(),
           xAxis: {
-            showMaxMin: jasmine.createSpy('showMaxMin')
+            showMaxMin: jest.fn()
           }
         };
 
@@ -261,7 +285,7 @@ describe('MDO chart', () => {
       });
 
       it('should set y tick format', () => {
-        expect(tickFormat).toHaveBeenCalledOnceWith(jasmine.any(Function));
+        expect(tickFormat).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should not show max or min over the x axis', () => {
@@ -274,7 +298,7 @@ describe('MDO chart', () => {
     let handler, $scope, config;
 
     beforeEach(
-      inject($rootScope => {
+      angular.mock.inject($rootScope => {
         getMdoChart(
           {
             qs: {
@@ -284,7 +308,7 @@ describe('MDO chart', () => {
           'mdoChart'
         );
 
-        handler = chartCompiler.calls.mostRecent().args[2];
+        handler = mockChartCompiler.mock.calls[0][2];
         $scope = $rootScope.$new();
 
         config = handler($scope, initStream);
@@ -295,7 +319,7 @@ describe('MDO chart', () => {
 
     it('should call durationSubmitHandler', () => {
       expect(
-        durationSubmitHandler
+        mockDurationSubmitHandler
       ).toHaveBeenCalledOnceWith('UPDATE_MDO_CHART_ITEMS', {
         page: 'mdoChart'
       });
