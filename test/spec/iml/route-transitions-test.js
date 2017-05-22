@@ -1,36 +1,34 @@
 // @flow
 
-import { mock, resetAll } from '../../system-mock.js';
-
 import highland from 'highland';
 
 describe('route transitions', () => {
-  let groupAllowed, mod, $transitions, routeTransitions, store, $state;
-  beforeEachAsync(async function() {
-    store = {
-      select: jasmine.createSpy('select')
+  let mockGroupAllowed, mod, $transitions, routeTransitions, mockStore, $state;
+  beforeEach(() => {
+    mockStore = {
+      select: jest.fn()
     };
 
-    groupAllowed = jasmine.createSpy('groupAllowed');
+    mockGroupAllowed = jest.fn();
 
     $transitions = {
-      onStart: jasmine.createSpy('onStart')
+      onStart: jest.fn()
     };
 
     $state = {
-      target: jasmine.createSpy('target')
+      target: jest.fn()
     };
 
-    mod = await mock('source/iml/route-transitions.js', {
-      'source/iml/store/get-store': { default: store },
-      'source/iml/auth/authorization': { groupAllowed }
-    });
+    jest.mock('../../../source/iml/store/get-store', () => mockStore);
+    jest.mock('../../../source/iml/auth/authorization', () => ({
+      groupAllowed: mockGroupAllowed
+    }));
+
+    mod = require('../../../source/iml/route-transitions.js');
 
     routeTransitions = mod.default;
     routeTransitions($transitions, $state);
   });
-
-  afterEach(resetAll);
 
   it('should set an onStart hook for three route processors', () => {
     expect($transitions.onStart).toHaveBeenCalledThriceWith(
@@ -44,7 +42,7 @@ describe('route transitions', () => {
   describe('allow anonymous read', () => {
     let allowAnonymousReadPredicate, processAllowAnonymousRead;
     beforeEach(() => {
-      const args = $transitions.onStart.calls.argsFor(0);
+      const args = $transitions.onStart.mock.calls[0];
       allowAnonymousReadPredicate = args[0];
       processAllowAnonymousRead = args[1];
     });
@@ -72,7 +70,7 @@ describe('route transitions', () => {
     describe('processor', () => {
       describe('with read enabled', () => {
         beforeEach(() => {
-          store.select.and.returnValue(
+          mockStore.select.mockReturnValue(
             highland([
               {
                 session: {
@@ -83,22 +81,19 @@ describe('route transitions', () => {
           );
         });
 
-        itAsync('should select the session store', async () => {
+        it('should select the session store', async () => {
           await processAllowAnonymousRead();
-          expect(store.select).toHaveBeenCalledOnceWith('session');
+          expect(mockStore.select).toHaveBeenCalledOnceWith('session');
         });
 
-        itAsync(
-          'should return undefined if session is read enabled',
-          async () => {
-            expect(await processAllowAnonymousRead()).toBe(undefined);
-          }
-        );
+        it('should return undefined if session is read enabled', async () => {
+          expect(await processAllowAnonymousRead()).toBe(undefined);
+        });
       });
 
       describe('with read not enabled', () => {
         beforeEach(() => {
-          store.select.and.returnValue(
+          mockStore.select.mockReturnValue(
             highland([
               {
                 session: {
@@ -113,13 +108,10 @@ describe('route transitions', () => {
           expect(processAllowAnonymousRead()).toBeAPromise();
         });
 
-        itAsync(
-          'should navigate to /login if the session is not read enabled',
-          async () => {
-            await processAllowAnonymousRead();
-            expect($state.target).toHaveBeenCalledOnceWith('login');
-          }
-        );
+        it('should navigate to /login if the session is not read enabled', async () => {
+          await processAllowAnonymousRead();
+          expect($state.target).toHaveBeenCalledOnceWith('login');
+        });
       });
     });
   });
@@ -127,7 +119,7 @@ describe('route transitions', () => {
   describe('eula', () => {
     let eulaPredicate, processEula;
     beforeEach(() => {
-      const args = $transitions.onStart.calls.argsFor(1);
+      const args = $transitions.onStart.mock.calls[1];
       eulaPredicate = args[0];
       processEula = args[1];
     });
@@ -155,7 +147,7 @@ describe('route transitions', () => {
     describe('processor', () => {
       describe('set to pass', () => {
         beforeEach(() => {
-          store.select.and.returnValue(
+          mockStore.select.mockReturnValue(
             highland([
               {
                 session: {
@@ -168,22 +160,19 @@ describe('route transitions', () => {
           );
         });
 
-        itAsync('should select the session store', async () => {
+        it('should select the session store', async () => {
           await processEula();
-          expect(store.select).toHaveBeenCalledOnceWith('session');
+          expect(mockStore.select).toHaveBeenCalledOnceWith('session');
         });
 
-        itAsync(
-          'should return undefined if eula state is set to pass',
-          async () => {
-            expect(await processEula()).toBe(undefined);
-          }
-        );
+        it('should return undefined if eula state is set to pass', async () => {
+          expect(await processEula()).toBe(undefined);
+        });
       });
 
       describe('not set to pass', () => {
         beforeEach(() => {
-          store.select.and.returnValue(
+          mockStore.select.mockReturnValue(
             highland([
               {
                 session: {
@@ -200,13 +189,10 @@ describe('route transitions', () => {
           expect(processEula()).toBeAPromise();
         });
 
-        itAsync(
-          'should navigate to /login if eula state is not set to pass',
-          async () => {
-            await processEula();
-            expect($state.target).toHaveBeenCalledOnceWith('login');
-          }
-        );
+        it('should navigate to /login if eula state is not set to pass', async () => {
+          await processEula();
+          expect($state.target).toHaveBeenCalledOnceWith('login');
+        });
       });
     });
   });
@@ -214,7 +200,7 @@ describe('route transitions', () => {
   describe('authentication', () => {
     let authenticationPredicate, processAuthentication;
     beforeEach(() => {
-      const args = $transitions.onStart.calls.argsFor(2);
+      const args = $transitions.onStart.mock.calls[2];
       authenticationPredicate = args[0];
       processAuthentication = args[1];
     });
@@ -242,23 +228,23 @@ describe('route transitions', () => {
     describe('processor', () => {
       let transition;
       beforeEach(() => {
-        $state.target.and.returnValue({});
+        $state.target.mockReturnValue({});
 
         transition = {
           router: {
             $state
           },
-          to: jasmine.createSpy('to').and.returnValue({
+          to: jest.fn(() => ({
             data: {
               access: 'fs-admin'
             }
-          })
+          }))
         };
       });
 
       describe('when authenticated', () => {
         it('should return undefined', () => {
-          groupAllowed.and.returnValue(true);
+          mockGroupAllowed.mockReturnValue(true);
           expect(processAuthentication(transition)).toBe(undefined);
         });
       });
@@ -266,12 +252,12 @@ describe('route transitions', () => {
       describe('when not authenticated', () => {
         let result;
         beforeEach(() => {
-          groupAllowed.and.returnValue(false);
+          mockGroupAllowed.mockReturnValue(false);
           result = processAuthentication(transition);
         });
 
         it('should call authorization.groupAllowed', () => {
-          expect(groupAllowed).toHaveBeenCalledOnceWith('fs-admin');
+          expect(mockGroupAllowed).toHaveBeenCalledOnceWith('fs-admin');
         });
 
         it('should call transition.to', () => {
@@ -283,7 +269,7 @@ describe('route transitions', () => {
         });
 
         it('should target the app state if not authenticated', () => {
-          groupAllowed.and.returnValue(false);
+          mockGroupAllowed.mockReturnValue(false);
 
           expect($state.target).toHaveBeenCalledOnceWith('app', undefined, {
             location: true

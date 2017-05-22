@@ -88,25 +88,7 @@ beforeEach(() => {
       };
     },
     toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
-    toBeValid: cssMatcher('ng-valid', 'ng-invalid'),
-    toBeAPromise() {
-      return {
-        compare(actual) {
-          const isPromiseLike = obj => obj && typeof obj.then === 'function';
-
-          if (isPromiseLike(actual))
-            return {
-              pass: true,
-              message: 'Expected object to be a promise'
-            };
-          else
-            return {
-              pass: false,
-              message: 'Expected object not to be a promise'
-            };
-        }
-      };
-    }
+    toBeValid: cssMatcher('ng-valid', 'ng-invalid')
   });
 });
 
