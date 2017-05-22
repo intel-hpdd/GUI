@@ -52,7 +52,7 @@ describe('disconnect modal', () => {
     });
   });
 
-  it('shou ld not open the modal if window has unloaded', () => {
+  it('should not open the modal if window has unloaded', () => {
     mockWindowUnload.unloading = true;
     disconnectModal.open();
     $timeout.flush();
