@@ -1,10 +1,10 @@
 import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
-import dashboardModule from '../../../../source/iml/dashboard/dashboard-module';
+import dashboardController
+  from '../../../../source/iml/dashboard/dashboard-controller.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('dashboard controller', () => {
-  beforeEach(module(dashboardModule));
-
   let $scope,
     $state,
     $stateParams,
@@ -16,22 +16,22 @@ describe('dashboard controller', () => {
     dashboard;
 
   beforeEach(
-    inject(($controller, $rootScope) => {
+    angular.mock.inject(($rootScope, propagateChange) => {
       fsStream = highland();
-      spyOn(fsStream, 'destroy');
+      jest.spyOn(fsStream, 'destroy');
       hostStream = highland();
-      spyOn(hostStream, 'destroy');
+      jest.spyOn(hostStream, 'destroy');
       targetStream = highland();
-      spyOn(targetStream, 'destroy');
+      jest.spyOn(targetStream, 'destroy');
 
       $scope = $rootScope.$new();
-      spyOn($rootScope, '$on').and.callThrough();
+      jest.spyOn($rootScope, '$on');
 
       $stateParams = {};
 
       qs$ = highland();
-      spyOn(qs$, 'destroy');
-      qsStream = jasmine.createSpy('qsStream').and.returnValue(qs$);
+      jest.spyOn(qs$, 'destroy');
+      qsStream = jest.fn(() => qs$);
 
       qs$.write({
         qs: ''
@@ -39,25 +39,27 @@ describe('dashboard controller', () => {
       2;
 
       $state = {
-        go: jasmine.createSpy('go')
+        go: jest.fn()
       };
 
-      dashboard = $controller('DashboardCtrl', {
-        $scope,
-        $stateParams,
-        $state,
+      dashboard = new dashboardController(
         qsStream,
-        fsB: broadcaster(fsStream),
-        hostsB: broadcaster(hostStream),
-        targetsB: broadcaster(targetStream)
-      });
+        $scope,
+        $state,
+        $stateParams,
+        broadcaster(fsStream),
+        broadcaster(hostStream),
+        broadcaster(targetStream),
+        propagateChange
+      );
 
-      jasmine.clock().install();
+      jest.useFakeTimers();
     })
   );
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('should have a fs property', () => {
@@ -217,7 +219,7 @@ describe('dashboard controller', () => {
 
   describe('on destroy', () => {
     beforeEach(() => {
-      const handler = $scope.$on.calls.argsFor(0)[1];
+      const handler = $scope.$on.mock.calls[0][1];
       handler();
     });
 

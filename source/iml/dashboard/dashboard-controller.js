@@ -80,7 +80,7 @@ export default function DashboardCtrl(
         targetSelectStream
           .through(filterBy(item.selected.id))
           .map(fp.filter(x => x.kind !== 'MGT'))
-          .through(p('targets'));
+          .through(p.bind(null, 'targets'));
       }
     },
     onFilterView(item) {
