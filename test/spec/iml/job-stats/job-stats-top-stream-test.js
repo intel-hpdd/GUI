@@ -4,88 +4,83 @@ import highland from 'highland';
 
 import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
-import type { spyT } from 'jasmine';
-
-type callablePropT = spyT & {
+type callablePropT = {
   setLatest: Function
 };
 
 describe('job stats top stream', () => {
   let topDuration,
     topRange,
-    getRequestDuration,
-    requestDuration: callablePropT,
-    getRequestRange,
-    requestRange: callablePropT,
-    socketStream,
-    bufferDataNewerThan;
+    mockGetRequestDuration,
+    requestDurationOverrides: callablePropT,
+    mockGetRequestRange,
+    requestRangeOverrides: callablePropT,
+    mockSocketStream,
+    mockBufferDataNewerThan,
+    requestDuration,
+    requestRange;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.callFake(() => highland([jobStatsFixture]));
+  beforeEach(() => {
+    jest.useFakeTimers();
 
-    requestDuration = jasmine.createSpy('requestDuration').and.callFake(x => x);
+    mockSocketStream = jest.fn(() => highland([jobStatsFixture]));
 
-    requestDuration.setLatest = jasmine
-      .createSpy('setLatest')
-      .and.callFake(x => x);
+    requestDuration = jest.fn(x => x);
+    requestDuration.setLatest = jest.fn(x => x);
 
-    getRequestDuration = jasmine
-      .createSpy('getRequestDuration')
-      .and.returnValue(requestDuration);
+    requestDurationOverrides = jest.fn(() => requestDuration);
 
-    requestRange = jasmine.createSpy('requestRange').and.callFake(x => x);
+    mockGetRequestDuration = jest.fn(() => requestDurationOverrides);
 
-    requestRange.setLatest = jasmine
-      .createSpy('setLatest')
-      .and.callFake(x => x);
+    requestRange = jest.fn(x => x);
+    requestRange.setLatest = jest.fn(x => x);
+    requestRangeOverrides = jest.fn(() => requestRange);
 
-    getRequestRange = jasmine
-      .createSpy('getRequestRange')
-      .and.returnValue(requestRange);
+    mockGetRequestRange = jest.fn(() => requestRangeOverrides);
 
-    bufferDataNewerThan = jasmine
-      .createSpy('bufferDataNewerThan')
-      .and.returnValue(x => x);
+    mockBufferDataNewerThan = jest.fn(() => x => x);
 
-    const mod = await mock('source/iml/job-stats/job-stats-top-stream.js', {
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      },
-      'source/iml/charting/get-time-params.js': {
-        getRequestDuration,
-        getRequestRange
-      },
-      'source/iml/charting/buffer-data-newer-than.js': {
-        default: bufferDataNewerThan
-      }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/charting/get-time-params.js', () => ({
+      getRequestDuration: mockGetRequestDuration,
+      getRequestRange: mockGetRequestRange
+    }));
+    jest.mock(
+      '../../../../source/iml/charting/buffer-data-newer-than.js',
+      () => mockBufferDataNewerThan
+    );
+
+    const mod = require('../../../../source/iml/job-stats/job-stats-top-stream.js');
 
     ({ topDuration, topRange } = mod);
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    jest.clearAllTimers();
+    jest.useRealTimers();
+  });
 
   describe('duration$', () => {
     describe('without id', () => {
       let result;
 
-      beforeEachAsync(async function() {
+      beforeEach(async function() {
         result = await streamToPromise(topDuration());
       });
 
-      it('should call getRequestDuration', () => {
-        expect(getRequestDuration).toHaveBeenCalledNTimesWith(
-          4,
-          {},
-          10,
-          'minute'
-        );
+      it('should call getRequestDuration with overrides', () => {
+        expect(mockGetRequestDuration).toHaveBeenCalledTimes(4);
+        expect(mockGetRequestDuration).toHaveBeenCalledWith({});
+      });
+
+      it('should call requestDuration with params', () => {
+        expect(requestDurationOverrides).toHaveBeenCalledTimes(4);
+        expect(requestDurationOverrides).toHaveBeenCalledWith(10, 'minute');
       });
 
       [
@@ -95,7 +90,7 @@ describe('job stats top stream', () => {
         'write_iops'
       ].forEach(metrics =>
         it(`should call for ${metrics} metric`, () => {
-          expect(socketStream).toHaveBeenCalledOnceWith(
+          expect(mockSocketStream).toHaveBeenCalledOnceWith(
             '/target/metric',
             {
               qs: {
@@ -145,7 +140,7 @@ describe('job stats top stream', () => {
     });
 
     describe('with id', () => {
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         await streamToPromise(
           topDuration(11, 'second', {
             id: '5'
@@ -154,12 +149,13 @@ describe('job stats top stream', () => {
       });
 
       it('should call getRequestDuration', () => {
-        expect(getRequestDuration).toHaveBeenCalledNTimesWith(
-          4,
-          { id: '5' },
-          11,
-          'second'
-        );
+        expect(mockGetRequestDuration).toHaveBeenCalledTimes(4);
+        expect(mockGetRequestDuration).toHaveBeenCalledWith({ id: '5' });
+      });
+
+      it('should call requestDuration with the parameters', () => {
+        expect(requestDurationOverrides).toHaveBeenCalledTimes(4);
+        expect(requestDurationOverrides).toHaveBeenCalledWith(11, 'second');
       });
     });
 
@@ -167,23 +163,18 @@ describe('job stats top stream', () => {
       let spy;
 
       beforeEach(() => {
-        spy = jasmine.createSpy('spy');
-
-        jasmine.clock().install();
-
+        spy = jest.fn();
         topDuration().each(spy);
       });
-
-      afterEach(() => jasmine.clock().uninstall());
 
       it('should call once before 10s', () => {
         expect(spy).toHaveBeenCalledTimes(1);
       });
 
       it('should call every 10s', () => {
-        jasmine.clock().tick(10000);
+        jest.runTimersToTime(10000);
 
-        expect(spy).toHaveBeenCalledTwice();
+        expect(spy).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -192,16 +183,20 @@ describe('job stats top stream', () => {
     describe('without id', () => {
       let result;
 
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         result = await streamToPromise(
           topRange('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z')
         );
       });
 
       it('should call getRequestRange', () => {
-        expect(getRequestRange).toHaveBeenCalledNTimesWith(
-          4,
-          {},
+        expect(mockGetRequestRange).toHaveBeenCalledTimes(4);
+        expect(mockGetRequestRange).toHaveBeenCalledWith({});
+      });
+
+      it('should call getRequestRange with parameters', () => {
+        expect(requestRangeOverrides).toHaveBeenCalledTimes(4);
+        expect(requestRangeOverrides).toHaveBeenCalledWith(
           '2016-08-17T18:34:04.000Z',
           '2016-08-17T18:34:20.000Z'
         );
@@ -214,7 +209,7 @@ describe('job stats top stream', () => {
         'write_iops'
       ].forEach(metrics =>
         it(`should call for ${metrics} metric`, () => {
-          expect(socketStream).toHaveBeenCalledOnceWith(
+          expect(mockSocketStream).toHaveBeenCalledOnceWith(
             '/target/metric',
             {
               qs: {
@@ -264,7 +259,7 @@ describe('job stats top stream', () => {
     });
 
     describe('with id', () => {
-      beforeEachAsync(async function() {
+      beforeEach(async () => {
         await streamToPromise(
           topRange('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z', {
             id: '5'
@@ -272,10 +267,14 @@ describe('job stats top stream', () => {
         );
       });
 
-      it('should call getRequestDuration', () => {
-        expect(getRequestRange).toHaveBeenCalledNTimesWith(
-          4,
-          { id: '5' },
+      it('should call getRequestRange', () => {
+        expect(mockGetRequestRange).toHaveBeenCalledTimes(4);
+        expect(mockGetRequestRange).toHaveBeenCalledWith({ id: '5' });
+      });
+
+      it('should call requestRange with the parameters', () => {
+        expect(requestRangeOverrides).toHaveBeenCalledTimes(4);
+        expect(requestRangeOverrides).toHaveBeenCalledWith(
           '2016-08-17T18:34:04.000Z',
           '2016-08-17T18:34:20.000Z'
         );
