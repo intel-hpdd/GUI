@@ -1,39 +1,43 @@
 import angular from '../../../angular-mock-setup.js';
-
-import disconnectModalModule
-  from '../../../../source/iml/disconnect-modal/disconnect-modal-module.js';
+import windowUnloadFactory
+  from '../../../../source/iml/disconnect-modal/disconnect-modal.js';
 
 describe('disconnect modal', () => {
-  let $uibModal, $timeout, modal;
+  let $uibModal,
+    $timeout,
+    modal,
+    $window,
+    disconnectModalFactory,
+    disconnectModal,
+    mockWindowUnload;
 
   beforeEach(
-    angular.mock.module(
-      disconnectModalModule,
-      {
-        windowUnload: { unloading: false }
-      },
-      $provide => {
-        modal = {};
-        $uibModal = {
-          open: jasmine.createSpy('open').and.returnValue(modal)
-        };
-        $provide.value('$uibModal', $uibModal);
-      }
-    )
-  );
-
-  let disconnectModal, windowUnload;
-
-  beforeEach(
-    inject((_disconnectModal_, _windowUnload_, _$timeout_) => {
-      disconnectModal = _disconnectModal_;
-      windowUnload = _windowUnload_;
+    angular.mock.inject((_$timeout_, _$window_) => {
       $timeout = _$timeout_;
+      $window = _$window_;
     })
   );
 
+  beforeEach(() => {
+    modal = {};
+    $uibModal = {
+      open: jest.fn(() => modal)
+    };
+
+    jest.mock(
+      '../../../../source/iml/window-unload.js',
+      () => mockWindowUnload
+    );
+
+    mockWindowUnload = windowUnloadFactory($window);
+    disconnectModalFactory = require('../../../../source/iml/disconnect-modal/disconnect-modal.js')
+      .default;
+
+    disconnectModal = disconnectModalFactory($uibModal, $timeout);
+  });
+
   afterEach(() => {
-    windowUnload.unloading = false;
+    mockWindowUnload.unloading = false;
   });
 
   it('should call the modal with the expected params', () => {
@@ -48,8 +52,8 @@ describe('disconnect modal', () => {
     });
   });
 
-  it('should not open the modal if window has unloaded', () => {
-    windowUnload.unloading = true;
+  it('shou ld not open the modal if window has unloaded', () => {
+    mockWindowUnload.unloading = true;
     disconnectModal.open();
     $timeout.flush();
 

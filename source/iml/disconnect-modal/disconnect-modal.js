@@ -19,11 +19,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import type { windowUnloadT } from '../window-unload/window-unload-module.js';
+import windowUnload from '../window-unload.js';
 
 export default function disconnectModalFactory(
   $uibModal: Object,
-  windowUnload: windowUnloadT,
   $timeout: Function
 ) {
   'ngInject';

@@ -23,7 +23,6 @@
 
 import angular from 'angular';
 import filtersModule from '../filters/filters-module';
-import windowUnloadModule from '../window-unload/window-unload-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import exceptionHandlerConfig from './exception-handler';
 import exceptionInterceptorFactory from './exception-interceptor';
@@ -35,11 +34,7 @@ import {
 } from './exception-modal-controller';
 
 export default angular
-  .module('exceptionModule', [
-    uiBootstrapModule,
-    filtersModule,
-    windowUnloadModule
-  ])
+  .module('exceptionModule', [uiBootstrapModule, filtersModule])
   .config(exceptionHandlerConfig)
   .config($httpProvider => {
     'ngInject';

@@ -56,8 +56,6 @@ import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
 import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
-import disconnectModalModule
-  from './disconnect-modal/disconnect-modal-module.js';
 import logModule from './logs/log-module.js';
 import treeModule from './tree/tree-module.js';
 import fileSystemModule from './file-system/file-system-module.js';
@@ -124,6 +122,9 @@ import { recordStateDirective } from './alert-indicator/alert-indicator.js';
 import jobStatus from './job-indicator/job-indicator.js';
 import pdsh from './pdsh/pdsh.js';
 import help from './help.js';
+import windowUnload from './window-unload.js';
+import disconnectModal from './disconnect-modal/disconnect-modal.js';
+import disconnectListener from './disconnect-modal/disconnect-listener.js';
 
 const imlModule = angular
   .module('iml', [
@@ -151,7 +152,6 @@ const imlModule = angular
     modelFactoryModule,
     mgtModule,
     logModule,
-    disconnectModalModule,
     treeModule,
     fileSystemModule,
     chartTransformersModule,
@@ -227,6 +227,8 @@ const imlModule = angular
   .factory('getHostProfiles', getHostProfilesFactory)
   .factory('createHostProfiles', createHostProfilesFactory)
   .factory('help', help)
+  .factory('windowUnload', windowUnload)
+  .factory('disconnectModal', disconnectModal)
   .directive('recordState', recordStateDirective)
   .directive('pdsh', pdsh)
   .constant('STATE_SIZE', {
@@ -239,6 +241,11 @@ const imlModule = angular
   .run($templateCache => {
     'ngInject';
     $templateCache.put('/gui/job.html', jobTemplate);
+  })
+  .run(disconnectModal => {
+    'ngInject';
+    disconnectListener.on('open', disconnectModal.open);
+    disconnectListener.on('close', disconnectModal.close);
   });
 
 Object.keys(ENV).forEach(key => imlModule.value(key, ENV[key]));

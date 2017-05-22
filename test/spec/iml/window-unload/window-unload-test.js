@@ -1,26 +1,15 @@
-import windowUnloadModule
-  from '../../../../source/iml/window-unload/window-unload-module';
-import angular from '../../../angular-mock-setup.js';
-
 describe('window unload', () => {
-  let $window;
+  let $window, windowUnload;
 
-  beforeEach(
-    angular.mock.module(windowUnloadModule, $provide => {
-      $window = {
-        addEventListener: jest.fn()
-      };
-      $provide.value('$window', $window);
-    })
-  );
+  beforeEach(() => {
+    $window = {
+      addEventListener: jest.fn()
+    };
 
-  let windowUnload;
-
-  beforeEach(
-    inject(_windowUnload_ => {
-      windowUnload = _windowUnload_;
-    })
-  );
+    windowUnload = require('../../../../source/iml/window-unload.js').default(
+      $window
+    );
+  });
 
   it('should register a beforeunload listener to $window', () => {
     expect($window.addEventListener).toHaveBeenCalledOnceWith(

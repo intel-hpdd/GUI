@@ -1,5 +1,3 @@
-// @flow
-
 //
 // INTEL CONFIDENTIAL
 //
@@ -21,14 +19,17 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
-import { windowUnloadFactory } from './window-unload';
-
 export type windowUnloadT = {
   unloading: boolean
 };
 
-export default angular
-  .module('windowUnload', [])
-  .factory('windowUnload', windowUnloadFactory).name;
+export default function windowUnloadFactory($window) {
+  'ngInject';
+  const state: windowUnloadT = { unloading: false };
+
+  $window.addEventListener('beforeunload', function beforeUnload() {
+    state.unloading = true;
+  });
+
+  return state;
+}
