@@ -1,30 +1,42 @@
 import highland from 'highland';
-import commandModule from '../../../../source/iml/command/command-module';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('step modal', () => {
-  beforeEach(module(commandModule));
-
   describe('step modal controller', () => {
-    let $scope, stepModal, stepsStream, jobStream;
+    let $scope,
+      stepModal,
+      stepsStream,
+      jobStream,
+      mockSocketStream,
+      mod,
+      $uibModal,
+      stream,
+      job;
 
     beforeEach(
-      inject(($rootScope, $controller) => {
-        spyOn($rootScope, '$on').and.callThrough();
+      angular.mock.inject($rootScope => {
+        jest.spyOn($rootScope, '$on');
 
         jobStream = highland();
-        spyOn(jobStream, 'destroy').and.callThrough();
+        jest.spyOn(jobStream, 'destroy');
         stepsStream = highland();
-        spyOn(stepsStream, 'destroy').and.callThrough();
+        jest.spyOn(stepsStream, 'destroy');
 
         $scope = $rootScope.$new();
 
-        stepModal = $controller('StepModalCtrl', {
-          $scope: $scope,
-          stepsStream: stepsStream,
-          jobStream: jobStream
+        stepModal = {};
+        mockSocketStream = jest.fn(() => {
+          return (stream = highland());
         });
+
+        jest.mock(
+          '../../../../source/iml/socket/socket-stream.js',
+          () => mockSocketStream
+        );
+
+        mod = require('../../../../source/iml/command/step-modal-ctrl.js');
+
+        mod.StepModalCtrl.bind(stepModal)($scope, stepsStream, jobStream);
       })
     );
 
@@ -118,99 +130,128 @@ describe('step modal', () => {
 
       expect(stepModal.steps).toEqual({ foo: 'bar' });
     });
-  });
 
-  describe('open step modal', () => {
-    let $uibModal, socketStream, stream, job;
-
-    beforeEachAsync(async function() {
-      socketStream = jasmine.createSpy('socketStream').and.callFake(() => {
-        return (stream = highland());
-      });
-
-      const mod = await mock('source/iml/command/step-modal-ctrl.js', {
-        'source/iml/socket/socket-stream.js': {
-          default: socketStream
-        }
-      });
-
-      $uibModal = {
-        open: jasmine.createSpy('open')
-      };
-
-      const openStepModal = mod.openStepModalFactory($uibModal);
-
-      job = {
-        id: '1',
-        steps: ['/api/step/1/', '/api/step/2/']
-      };
-
-      openStepModal(job);
-    });
-
-    afterEach(resetAll);
-
-    it('should open the modal with the expected object', () => {
-      expect($uibModal.open).toHaveBeenCalledOnceWith({
-        template: 'stepModalTemplate',
-        controller: 'StepModalCtrl',
-        controllerAs: 'stepModal',
-        windowClass: 'step-modal',
-        backdrop: 'static',
-        resolve: {
-          jobStream: expect.any(Function),
-          stepsStream: expect.any(Function)
-        }
-      });
-    });
-
-    describe('get jobs and steps', () => {
-      let jobStream, stepsStream;
-
+    describe('open step modal', () => {
       beforeEach(() => {
-        const resolves = $uibModal.open.calls.mostRecent().args[0].resolve;
+        $uibModal = {
+          open: jest.fn()
+        };
 
-        jobStream = resolves.jobStream();
-        stepsStream = resolves.stepsStream();
+        const openStepModal = mod.openStepModalFactory($uibModal);
+
+        job = {
+          id: '1',
+          steps: ['/api/step/1/', '/api/step/2/']
+        };
+
+        openStepModal(job);
       });
 
-      it('should get the job', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith('/job/1');
-      });
-
-      it('should set last data', () => {
-        stepsStream.resume();
-
-        jobStream.each(x => {
-          expect(x).toEqual(job);
+      it('should open the modal with the expected object', () => {
+        expect($uibModal.open).toHaveBeenCalledOnceWith({
+          template: `<div class="modal-header">
+  <h3 class="modal-title">{{ ::stepModal.job.description }}</h3>
+</div>
+<div class="modal-body">
+  <h4>Details:</h4>
+  <table class="table">
+    <tr>
+      <td>Run At</td>
+      <td>{{ ::stepModal.job.modified_at | date:'MMM dd yyyy HH:mm:ss' }}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td><job-states job="stepModal.job"></job-states> {{ stepModal.getJobAdjective(stepModal.job) | capitalize }}</td>
+    </tr>
+  </table>
+  <h4>Steps</h4>
+  <div class="well" ng-if="stepModal.steps.length === 0">
+    Loading Steps... <i class="fa fa-spinner fa-spin"></i>
+  </div>
+  <uib-accordion close-others="false" ng-if="stepModal.steps.length > 0">
+    <uib-accordion-group is-open="stepModal['accordion' + $index]" ng-repeat="step in stepModal.steps track by step.id">
+      <uib-accordion-heading>
+        <i class="fa" ng-class="{'fa-chevron-down': stepModal['accordion' + $index], 'fa-chevron-right': !stepModal['accordion' + $index]}"></i>
+        <i class="fa header-status" ng-class="{'fa-exclamation': step.state === 'failed', 'fa-check': step.state === 'success', 'fa-refresh fa-spin': step.state === 'incomplete'}"></i>
+        <span>
+          {{ ::step.step_index + 1  }}/{{ ::step.step_count }}  {{ ::stepModal.getDescription(step) }}
+        </span>
+      </uib-accordion-heading>
+      <h4>Arguments</h4>
+      <pre class="logs">{{ step.args|json }}</pre>
+      <div ng-if="step.console">
+        <h4>Logs</h4>
+        <pre class="logs">{{ step.console }}</pre>
+      </div>
+      <div ng-if="step.backtrace">
+        <h4>Backtrace</h4>
+        <pre class="logs">{{ step.backtrace }}</pre>
+      </div>
+    </uib-accordion-group>
+  </uib-accordion>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
+</div>`,
+          controller: 'StepModalCtrl',
+          controllerAs: 'stepModal',
+          windowClass: 'step-modal',
+          backdrop: 'static',
+          resolve: {
+            jobStream: expect.any(Function),
+            stepsStream: expect.any(Function)
+          }
         });
       });
 
-      it('should get the steps', () => {
-        jobStream.resume();
-        stepsStream.resume();
+      describe('get jobs and steps', () => {
+        let jobStream, stepsStream;
 
-        expect(socketStream).toHaveBeenCalledOnceWith(
-          '/step',
-          {
-            qs: {
-              id__in: ['1', '2'],
-              limit: 0
-            }
-          },
-          true
-        );
-      });
+        beforeEach(() => {
+          const resolves = $uibModal.open.mock.calls[0][0].resolve;
 
-      it('should return steps', () => {
-        jobStream.resume();
-
-        stepsStream.each(x => {
-          expect(x).toEqual([{ id: 1, name: 'step' }]);
+          jobStream = resolves.jobStream();
+          stepsStream = resolves.stepsStream();
         });
 
-        stream.write({
-          objects: [{ id: 1, name: 'step' }]
+        it('should get the job', () => {
+          expect(mockSocketStream).toHaveBeenCalledOnceWith('/job/1');
+        });
+
+        it('should set last data', () => {
+          stepsStream.resume();
+
+          jobStream.each(x => {
+            expect(x).toEqual(job);
+          });
+        });
+
+        it('should get the steps', () => {
+          jobStream.resume();
+          stepsStream.resume();
+
+          expect(mockSocketStream).toHaveBeenCalledWith(
+            '/step',
+            {
+              qs: {
+                id__in: ['1', '2'],
+                limit: 0
+              }
+            },
+            true
+          );
+        });
+
+        it('should return steps', () => {
+          jobStream.resume();
+
+          stepsStream.each(x => {
+            expect(x).toEqual([{ id: 1, name: 'step' }]);
+          });
+
+          stream.write({
+            objects: [{ id: 1, name: 'step' }]
+          });
         });
       });
     });

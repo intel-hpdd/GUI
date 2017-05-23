@@ -55,11 +55,9 @@ export function StepModalCtrl($scope, stepsStream, jobStream) {
 
 export function openStepModalFactory($uibModal) {
   'ngInject';
-  const extractApiId = fp.map(
-    fp.invokeMethod('replace', [/\/api\/step\/(\d+)\/$/, '$1'])
-  );
+  const extractApiId = fp.map(x => x.replace(/\/api\/step\/(\d+)\/$/, '$1'));
 
-  return function openStepModal(job) {
+  return job => {
     const jobStream = socketStream('/job/' + job.id);
     jobStream.write(job);
 
@@ -122,8 +120,8 @@ export function openStepModalFactory($uibModal) {
             .fork()
             .pluck('steps')
             .map(extractApiId)
-            .flatMap(function getSteps(stepIds) {
-              return socketStream(
+            .flatMap(stepIds =>
+              socketStream(
                 '/step',
                 {
                   qs: {
@@ -132,8 +130,8 @@ export function openStepModalFactory($uibModal) {
                   }
                 },
                 true
-              );
-            })
+              )
+            )
             .pluck('objects')
         )
       }
