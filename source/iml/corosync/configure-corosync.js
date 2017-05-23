@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 import socketStream from '../socket/socket-stream.js';
 
 import { pick } from '@mfl/obj';
@@ -36,7 +34,7 @@ export function ConfigureCorosyncController(
 
   const p = propagateChange.bind(null, $scope, ctrl);
 
-  angular.extend(ctrl, {
+  Object.assign(ctrl, {
     observer: ctrl.stream(),
     getDiffMessage(state) {
       return insertHelpFilter(`${state.status}_diff`, state);

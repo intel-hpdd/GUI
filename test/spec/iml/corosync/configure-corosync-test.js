@@ -1,49 +1,40 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
 import broadcaster from '../../../../source/iml/broadcaster.js';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('configure corosync', () => {
   let s,
     bindings,
     ctrl,
     $scope,
-    socketStream,
+    mockSocketStream,
     mod,
     alertStream,
     jobStream,
     socketResponse,
     waitForCommandCompletion,
+    mapWaitForCommandCompletion,
     insertHelpFilter;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine.createSpy('socketStream');
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => socketResponse);
 
-    mod = await mock('source/iml/corosync/configure-corosync.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    mod = require('../../../../source/iml/corosync/configure-corosync.js');
   });
-
-  afterEach(resetAll);
-
-  beforeEach(
-    module('corosyncModule', 'highland', $exceptionHandlerProvider => {
-      $exceptionHandlerProvider.mode('log');
-    })
-  );
-
   describe('controller', () => {
     beforeEach(
-      inject(($controller, $rootScope) => {
+      angular.mock.inject(($controller, $rootScope) => {
         $scope = $rootScope.$new();
 
-        waitForCommandCompletion = jasmine
-          .createSpy('waitForCommandCompletion')
-          .and.callFake((bool, x) => [x]);
+        mapWaitForCommandCompletion = jest.fn(x => [x]);
+        waitForCommandCompletion = jest.fn(() => mapWaitForCommandCompletion);
 
         socketResponse = highland();
-        socketStream.and.returnValue(socketResponse);
 
         s = highland();
         spyOn(s, 'destroy');
@@ -59,14 +50,14 @@ describe('configure corosync', () => {
         spyOn(alertStream, 'destroy');
         spyOn(jobStream, 'destroy');
 
-        insertHelpFilter = jasmine.createSpy('insertHelpFilter');
+        insertHelpFilter = jest.fn();
 
         ctrl = $controller(
           mod.ConfigureCorosyncController,
           {
             $scope,
             insertHelpFilter,
-            waitForCommandCompletion: fp.curry2(waitForCommandCompletion)
+            waitForCommandCompletion
           },
           bindings
         );
@@ -92,16 +83,14 @@ describe('configure corosync', () => {
     });
 
     it('should setup the controller as expected', () => {
-      expect(ctrl).toEqual(
-        window.extendWithConstructor(mod.ConfigureCorosyncController, {
-          stream: expect.any(Function),
-          alertStream: expect.any(Function),
-          jobStream: expect.any(Function),
-          observer: expect.any(Object),
-          getDiffMessage: expect.any(Function),
-          save: expect.any(Function)
-        })
-      );
+      expect(ctrl).toEqual({
+        stream: expect.any(Function),
+        alertStream: expect.any(Function),
+        jobStream: expect.any(Function),
+        observer: expect.any(Object),
+        getDiffMessage: expect.any(Function),
+        save: expect.any(Function)
+      });
     });
 
     it('should invoke insertHelpFilter on a diff', () => {
@@ -131,7 +120,7 @@ describe('configure corosync', () => {
       });
 
       it('should put to /corosync_configuration', () => {
-        expect(socketStream).toHaveBeenCalledOnceWith(
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/corosync_configuration/1',
           {
             method: 'put',
@@ -148,20 +137,20 @@ describe('configure corosync', () => {
       it('should wait for command completion', () => {
         socketResponse.write({});
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true, [{}]);
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+        expect(mapWaitForCommandCompletion).toHaveBeenCalledOnceWith([{}]);
       });
 
-      it(
-        'should stop on an error',
-        inject($exceptionHandler => {
-          socketResponse.write({
-            __HighlandStreamError__: true,
-            error: new Error('boom!')
-          });
-
-          expect($exceptionHandler.errors).toEqual([new Error('boom!')]);
-        })
-      );
+      it('should stop on an error', () => {
+        expect(() => {
+          socketResponse
+            .write({
+              __HighlandStreamError__: true,
+              error: new Error('boom!')
+            })
+            .toThrow('boom!');
+        });
+      });
 
       it('should set saving to false', () => {
         socketResponse.write({});
@@ -177,17 +166,14 @@ describe('configure corosync', () => {
         };
       });
 
-      it(
-        'should stop on error',
-        inject($exceptionHandler => {
+      it('should stop on error', () => {
+        expect(() => {
           s.write({
             __HighlandStreamError__: true,
             error: new Error('boom!')
           });
-
-          expect($exceptionHandler.errors).toEqual([new Error('boom!')]);
-        })
-      );
+        }).toThrow('boom!');
+      });
 
       it('should set the value to the ctrl', () => {
         s.write({
