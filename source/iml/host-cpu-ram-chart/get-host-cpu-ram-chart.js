@@ -23,7 +23,6 @@
 
 import flatMapChanges from '@mfl/flat-map-changes';
 
-import hostCpuRamChartTemplate from './assets/html/host-cpu-ram-chart.html';
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler
@@ -83,7 +82,26 @@ export default (data$Fn: data$FnT, localApply: localApplyT) => {
       );
 
     return chartCompiler(
-      hostCpuRamChartTemplate,
+      `<div config-toggle>
+  <h5>{{ chart.title }}</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="hostCpuRamForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({}, hostCpuRamForm))" class="btn btn-success btn-block" ng-disabled="hostCpuRamForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <line-chart options="::chart.options" stream="::chart.stream"></line-chart>
+</div>`,
       initStream,
       ($scope: $scopeT, stream: HighlandStreamT<durationPickerConfigT>) => {
         const conf = {

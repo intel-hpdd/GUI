@@ -23,7 +23,6 @@ import * as fp from '@mfl/fp';
 
 import { formatNumber, formatBytes } from '@mfl/number-formatters';
 import broadcaster from '../../broadcaster.js';
-import usageInfoTemplate from './assets/html/usage-info.html';
 
 export function UsageInfoController($scope, propagateChange) {
   'ngInject';
@@ -69,9 +68,9 @@ export function UsageInfoController($scope, propagateChange) {
   let s = this.stream.flatten();
 
   if (this.id != null) {
-    const eqId = fp.eqFn(fp.identity, fp.view(fp.lensProp('id')), this.id);
+    const eqId = fp.eqFn(fp.identity)(fp.view(fp.lensProp('id')))(this.id);
 
-    s = fp.filter(eqId, s);
+    s = fp.filter(eqId)(s);
   }
 
   this.s2 = broadcaster(buildMetrics(s));
@@ -91,6 +90,14 @@ export function usageInfoDirective() {
     controller: 'UsageInfoController',
     controllerAs: 'ctrl',
     bindToController: true,
-    template: usageInfoTemplate
+    template: `<div class="usage-info">
+  <div ng-if="ctrl.data[ctrl.prefix + '_total'] != null" as-viewer stream="ctrl.s2" transform="ctrl.generateStats(stream)">
+    <pie-graph stream="viewer"></pie-graph>
+    <span>{{ ctrl.format(ctrl.data[ctrl.prefix + '_used']) }}  / {{ ctrl.format(ctrl.data[ctrl.prefix + '_total']) }}</span>
+  </div>
+  <div ng-if="ctrl.data[ctrl.prefix + '_total'] == null">
+    Calculating...
+  </div>
+</div>`
   };
 }

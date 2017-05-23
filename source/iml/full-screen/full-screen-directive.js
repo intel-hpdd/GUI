@@ -21,13 +21,11 @@
 
 import angular from 'angular';
 
-import fullScreenButtonTextTemplate
-  from './assets/html/full-screen-button-text.html';
-
 export function fullScreenBtn() {
   return {
     restrict: 'A',
-    template: fullScreenButtonTextTemplate,
+    template: `<span ng-if="fullScreenCtrl.isFullScreen">Exit Full Screen <i class="fa fa-compress"></i></span>
+<span ng-if="!fullScreenCtrl.isFullScreen">Full Screen <i class="fa fa-expand"></i></span>`,
     require: '^fullScreen',
     scope: {},
     link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {

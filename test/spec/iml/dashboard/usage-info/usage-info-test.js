@@ -1,40 +1,36 @@
 import highland from 'highland';
-import dashboardModule
-  from '../../../../../source/iml/dashboard/dashboard-module.js';
 import { formatBytes } from '@mfl/number-formatters';
+import {
+  UsageInfoController
+} from '../../../../../source/iml/dashboard/usage-info/usage-info.js';
+import angular from '../../../../angular-mock-setup.js';
 
 describe('usage info', () => {
-  let ctrl, $scope, $exceptionHandler, stream, fs;
-
-  beforeEach(module(dashboardModule));
+  let ctrl, $scope, stream, fs;
 
   beforeEach(
-    inject(($controller, $rootScope) => {
+    angular.mock.inject(($rootScope, propagateChange) => {
       $scope = $rootScope.$new();
-
-      $exceptionHandler = jasmine.createSpy('$exceptionHandler');
 
       stream = highland();
 
-      ctrl = $controller(
-        'UsageInfoController',
-        {
-          $scope,
-          $exceptionHandler
-        },
-        {
-          stream,
-          id: '1',
-          prefix: 'bytes'
-        }
-      );
+      ctrl = {
+        stream: stream,
+        id: '1',
+        prefix: 'bytes',
+        format: '',
+        generateStats: () => ({}),
+        s2: undefined
+      };
 
-      jasmine.clock().install();
+      UsageInfoController.bind(ctrl)($scope, propagateChange);
+      jest.useFakeTimers();
     })
   );
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it('should format as bytes', () => {
@@ -76,7 +72,7 @@ describe('usage info', () => {
     });
 
     it('should set data on the controller', () => {
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
       expect(ctrl.data).toEqual({
         id: '1',
@@ -91,11 +87,11 @@ describe('usage info', () => {
     it('should generate stats', () => {
       let results;
 
-      ctrl.generateStats(ctrl.s2()).each(function(x) {
+      ctrl.generateStats(ctrl.s2()).each(x => {
         results = x;
       });
 
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
       expect(results).toEqual([
         [
