@@ -1,10 +1,8 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('root panel component', () => {
-  let inst, el, doc, overlay, raf;
+  let inst, el, mockDoc, overlay, mockRaf, mockQuerySelector;
 
-  beforeEachAsync(async function() {
-    raf = jasmine.createSpy('requestAnimationFrame');
+  beforeEach(() => {
+    mockRaf = jest.fn();
 
     overlay = {
       getBoundingClientRect: () => ({
@@ -12,42 +10,44 @@ describe('root panel component', () => {
       })
     };
 
-    doc = {
+    mockDoc = {
       body: {
-        appendChild: jasmine.createSpy('appendChild'),
-        removeChild: jasmine.createSpy('removeChild')
+        appendChild: jest.fn(),
+        removeChild: jest.fn()
       },
-      createElement: jasmine.createSpy('createElement').and.returnValue(overlay)
+      createElement: jest.fn(() => overlay),
+      querySelector: mockQuerySelector
     };
 
-    const mod = await mock('source/iml/panels/root-panel-component.js', {
-      'source/iml/global.js': {
-        default: {
-          requestAnimationFrame: raf,
-          document: doc
-        }
-      }
-    });
+    mockQuerySelector = jest.fn(() => mockDoc.body);
 
+    jest.mock('../../../../source/iml/global.js', () => ({
+      requestAnimationFrame: mockRaf,
+      document: mockDoc
+    }));
+
+    jest.mock('../../../../source/iml/dom-utils.js', () => ({
+      querySelector: mockQuerySelector
+    }));
+
+    const mod = require('../../../../source/iml/panels/root-panel-component.js');
     el = document.createElement('div');
 
     inst = new mod.Controller([el]);
   });
 
-  afterEach(resetAll);
-
   describe('on change', () => {
     let spy;
 
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       inst.register(spy);
     });
 
     it('should calculate panel object', () => {
       inst.onChange(50);
 
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
 
       expect(spy).toHaveBeenCalledOnceWith({
         sideWidthPx: 50,
@@ -60,7 +60,7 @@ describe('root panel component', () => {
     it('should calculate the panel object when x < 0', () => {
       inst.onChange(-10);
 
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
 
       expect(spy).toHaveBeenCalledOnceWith({
         sideWidthPx: 0,
@@ -73,7 +73,7 @@ describe('root panel component', () => {
     it('should calculate the panel object when x > 35%', () => {
       inst.onChange(1000);
 
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
 
       expect(spy).toHaveBeenCalledOnceWith({
         sideWidthPx: 357.34999999999997,
@@ -87,7 +87,7 @@ describe('root panel component', () => {
       inst.onChange(1000);
       inst.onChange(1000);
 
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
 
       expect(spy).toHaveBeenCalledTimes(1);
     });
@@ -97,7 +97,7 @@ describe('root panel component', () => {
 
       inst.onChange(1000);
 
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
 
       expect(spy).not.toHaveBeenCalled();
     });
@@ -113,7 +113,7 @@ describe('root panel component', () => {
     });
 
     it('should append the overlay to the body', () => {
-      expect(doc.body.appendChild).toHaveBeenCalledOnceWith(overlay);
+      expect(mockDoc.body.appendChild).toHaveBeenCalledOnceWith(overlay);
     });
 
     describe('set inactive', () => {
@@ -126,7 +126,7 @@ describe('root panel component', () => {
       });
 
       it('should remove the overlay from the body', () => {
-        expect(doc.body.removeChild).toHaveBeenCalledOnceWith(overlay);
+        expect(mockDoc.body.removeChild).toHaveBeenCalledOnceWith(overlay);
       });
     });
   });
@@ -135,10 +135,10 @@ describe('root panel component', () => {
     let spy;
 
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       inst.register(spy);
       inst.close();
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
     });
 
     it('should set side width to 0 pixels', () => {
@@ -155,10 +155,10 @@ describe('root panel component', () => {
     let spy;
 
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       inst.register(spy);
       inst.open();
-      raf.calls.mostRecent().args[0]();
+      mockRaf.mock.calls[0][0]();
     });
 
     it('should set side width to 200 pixels', () => {
