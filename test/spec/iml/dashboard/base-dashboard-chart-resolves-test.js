@@ -1,20 +1,13 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('base dashboard resolves', () => {
   let baseDashboardChartResolves, baseDashboardFsStream;
 
-  beforeEachAsync(async function() {
-    const mod = await mock(
-      'source/iml/dashboard/base-dashboard-chart-resolves.js',
-      {}
-    );
+  beforeEach(() => {
+    const mod = require('../../../../source/iml/dashboard/base-dashboard-chart-resolves.js');
 
     ({ baseDashboardChartResolves, baseDashboardFsStream } = mod);
   });
-
-  afterEach(resetAll);
 
   describe('charts', () => {
     let getHostCpuRamChart,
@@ -38,40 +31,28 @@ describe('base dashboard resolves', () => {
     beforeEach(() => {
       mdsChart = { name: 'mdsChart' };
       ossChart = { name: 'ossChart' };
-      getHostCpuRamChart = jasmine
-        .createSpy('getHostCpuRamChart')
-        .and.callFake(title => {
-          if (title === 'Metadata Servers') return mdsChart;
-          else if (title === 'Object Storage Servers') return ossChart;
-        });
+      getHostCpuRamChart = jest.fn(title => {
+        if (title === 'Metadata Servers') return mdsChart;
+        else if (title === 'Object Storage Servers') return ossChart;
+      });
 
       ostBalanceChart = { name: 'ostBalanceChart' };
-      getOstBalanceChart = jasmine
-        .createSpy('getOstBalanceChart')
-        .and.returnValue(ostBalanceChart);
+      getOstBalanceChart = jest.fn(() => ostBalanceChart);
 
       mdoChart = { name: 'mdoChart' };
-      getMdoChart = jasmine.createSpy('getMdoChart').and.returnValue(mdoChart);
+      getMdoChart = jest.fn(() => mdoChart);
 
       readWriteBandwidthChart = { name: 'readWriteBandwidthChart' };
-      getReadWriteBandwidthChart = jasmine
-        .createSpy('getReadWriteBandwidthChart')
-        .and.returnValue(readWriteBandwidthChart);
+      getReadWriteBandwidthChart = jest.fn(() => readWriteBandwidthChart);
 
       readWriteHeatMapChart = { name: 'readWriteHeatMapChart' };
-      getReadWriteHeatMapChart = jasmine
-        .createSpy('getReadWriteHeatMapChart')
-        .and.returnValue(readWriteHeatMapChart);
+      getReadWriteHeatMapChart = jest.fn(() => readWriteHeatMapChart);
 
       fileUsageChart = { name: 'fileUsageChart' };
-      getFileUsageChart = jasmine
-        .createSpy('getFileUsageChart')
-        .and.returnValue(fileUsageChart);
+      getFileUsageChart = jest.fn(() => fileUsageChart);
 
       spaceUsageChart = { name: 'spaceUsageChart' };
-      getSpaceUsageChart = jasmine
-        .createSpy('getSpaceUsageChart')
-        .and.returnValue(spaceUsageChart);
+      getSpaceUsageChart = jest.fn(() => spaceUsageChart);
 
       $stateParams = {};
 
@@ -244,7 +225,7 @@ describe('base dashboard resolves', () => {
         );
       });
 
-      itAsync('should return an array of charts', async function() {
+      it('should return an array of charts', async () => {
         const streams = await promise;
 
         expect(streams).toEqual([
