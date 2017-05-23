@@ -5,32 +5,6 @@ import fixturesModule from './fixtures/fixtures';
 import { find } from '@mfl/lodash-mixins';
 import * as fp from '@mfl/fp';
 
-function cssMatcher(presentClasses, absentClasses) {
-  return () => {
-    return {
-      compare: el => {
-        if (!(el instanceof Element)) el = el[0];
-
-        if (
-          el.classList.contains(presentClasses) &&
-          !el.classList.contains(absentClasses)
-        )
-          return {
-            pass: true,
-            message: `Expected '${angular.mock.dump(el)}' to have class '${presentClasses}'
-            and not have class ${absentClasses}, but had ${el.className}.`
-          };
-        else
-          return {
-            pass: false,
-            message: `Expected '${angular.mock.dump(el)}' not to have class '${presentClasses}'
-            and to have class ${absentClasses}, but had ${el.className}.`
-          };
-      }
-    };
-  };
-}
-
 beforeEach(() => {
   jasmine.addMatchers({
     toHaveText() {
@@ -86,9 +60,7 @@ beforeEach(() => {
             };
         }
       };
-    },
-    toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
-    toBeValid: cssMatcher('ng-valid', 'ng-invalid')
+    }
   });
 });
 

@@ -27,6 +27,27 @@ const toHaveBeenCalledNTimesWith = (n: number) =>
     return result;
   };
 
+const cssMatcher = (presentClasses, absentClasses) =>
+  function matcherFactory(el) {
+    if (!(el instanceof Element)) el = el[0];
+
+    if (
+      el.classList.contains(presentClasses) &&
+      !el.classList.contains(absentClasses)
+    )
+      return {
+        pass: true,
+        message: `Expected '${this.utils.stringify(el)}' to have class '${presentClasses}'
+            and not have class ${absentClasses}, but had ${el.className}.`
+      };
+    else
+      return {
+        pass: false,
+        message: `Expected '${this.utils.stringify(el)}' not to have class '${presentClasses}'
+            and to have class ${absentClasses}, but had ${el.className}.`
+      };
+  };
+
 expect.extend({
   toHaveBeenCalledOnceWith: toHaveBeenCalledNTimesWith(1),
   toHaveBeenCalledTwiceWith: toHaveBeenCalledNTimesWith(2),
@@ -73,7 +94,9 @@ expect.extend({
         pass: false,
         message: 'Expected object not to be a promise'
       };
-  }
+  },
+  toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
+  toBeValid: cssMatcher('ng-valid', 'ng-invalid')
 });
 
 afterEach(() => {

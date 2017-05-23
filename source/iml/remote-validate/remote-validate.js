@@ -20,7 +20,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import _ from '@mfl/lodash-mixins';
 
 export const remoteValidateForm = {
   restrict: 'A',
@@ -49,12 +48,11 @@ export const remoteValidateForm = {
       return this.components[name];
     }.bind(this);
 
-    this.resetComponentsValidity = function() {
-      _(this.components).forEach(function(component, name) {
+    this.resetComponentsValidity = () =>
+      Object.entries(this.components).forEach(([name, component]) => {
         component.$setValidity('server', true);
         delete $scope.serverValidationError[name];
       });
-    }.bind(this);
 
     $scope.$on(
       '$destroy',
@@ -79,11 +77,11 @@ export const remoteValidateForm = {
     const success = callbackBuilder();
 
     const errback = callbackBuilder(function errbackCallback(resp) {
-      _(resp.data).forEach(function(errorList, field) {
+      Object.entries(resp.data).forEach(function([field, errorList]) {
         const component = formController.getComponent(field);
 
         if (component) {
-          if (_.isString(errorList)) errorList = [errorList];
+          if (typeof errorList === 'string') errorList = [errorList];
 
           component.$setValidity('server', false);
           scope.serverValidationError[field] = errorList;
