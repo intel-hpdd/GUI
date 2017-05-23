@@ -1,29 +1,38 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 import { noSpace } from '../../../../source/iml/string.js';
+import highland from 'highland';
 
 describe('status states', () => {
-  let mod, resolveStream, socketStream, addCurrentPage;
+  let mod,
+    mockResolveStream,
+    mockSocketStream,
+    mockAddCurrentPage,
+    mockStore,
+    storeStream;
 
-  beforeEachAsync(async function() {
-    resolveStream = jasmine.createSpy('resolveStream');
-    socketStream = jasmine.createSpy('socketStream');
-    addCurrentPage = jasmine.createSpy('addCurrentPage');
+  beforeEach(() => {
+    mockResolveStream = jest.fn(() => 'promise');
+    mockSocketStream = jest.fn(() => highland(['socket']));
+    mockAddCurrentPage = jest.fn();
 
-    mod = await mock('source/iml/logs/log-states.js', {
-      'source/iml/promise-transforms.js': {
-        resolveStream
-      },
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      },
-      'source/iml/api-transforms.js': {
-        addCurrentPage
-      }
-    });
+    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/api-transforms.js', () => ({
+      addCurrentPage: mockAddCurrentPage
+    }));
+
+    storeStream = highland();
+    mockStore = {
+      select: jest.fn(() => storeStream)
+    };
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+
+    mod = require('../../../../source/iml/logs/log-states.js');
   });
-
-  afterEach(resetAll);
 
   describe('log state', () => {
     it('should create the state ', () => {
@@ -79,11 +88,7 @@ describe('status states', () => {
       let qsFromLocation, $stateParams, log$;
 
       beforeEach(() => {
-        resolveStream.and.returnValue('promise');
-
-        socketStream.and.returnValue('socket');
-
-        qsFromLocation = jasmine.createSpy('qsFromLocation');
+        qsFromLocation = jest.fn();
         $stateParams = {
           param: 'val'
         };
@@ -92,27 +97,27 @@ describe('status states', () => {
       });
 
       it('should call /alert with a qs', () => {
-        qsFromLocation.and.returnValue(
+        qsFromLocation.mockReturnValue(
           'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
         );
 
         log$(qsFromLocation, $stateParams);
 
-        expect(socketStream).toHaveBeenCalledOnceWith(
+        expect(mockSocketStream).toHaveBeenCalledOnceWith(
           '/log/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6'
         );
       });
 
       it('should call /alert without a qs', () => {
-        qsFromLocation.and.returnValue('');
+        qsFromLocation.mockReturnValue('');
 
         log$(qsFromLocation);
 
-        expect(socketStream).toHaveBeenCalledOnceWith('/log/');
+        expect(mockSocketStream).toHaveBeenCalledOnceWith('/log/');
       });
 
       it('should resolve the stream', () => {
-        qsFromLocation.and.returnValue('');
+        qsFromLocation.mockReturnValue('');
 
         const res = log$(qsFromLocation);
 
