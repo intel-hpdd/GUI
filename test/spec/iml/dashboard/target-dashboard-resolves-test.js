@@ -1,36 +1,32 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import * as maybe from '@mfl/maybe';
 
 describe('target dashboard', () => {
-  let socketStream,
+  let mockSocketStream,
     targetDashboardResolves,
     targetDashboardTargetStream,
     targetDashboardUsageStream,
     s,
-    store,
+    mockStore,
     spy,
     $stateParams;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
+    jest.resetModules();
     s = highland();
-    store = {
-      select: jasmine.createSpy('select').and.returnValue(s)
+    mockStore = {
+      select: jest.fn(() => s)
     };
 
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    mockSocketStream = jest.fn(() => s);
 
-    const mod = await mock(
-      'source/iml/dashboard/target-dashboard-resolves.js',
-      {
-        'source/iml/store/get-store': {
-          default: store
-        },
-        'source/iml/socket/socket-stream': {
-          default: socketStream
-        }
-      }
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
+
+    const mod = require('../../../../source/iml/dashboard/target-dashboard-resolves.js');
 
     ({
       targetDashboardResolves,
@@ -38,12 +34,10 @@ describe('target dashboard', () => {
       targetDashboardUsageStream
     } = mod);
 
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
     $stateParams = {};
   });
-
-  afterEach(resetAll);
 
   describe('chart resolves', () => {
     let getFileUsageChart,
@@ -53,21 +47,13 @@ describe('target dashboard', () => {
       getInst;
 
     beforeEach(() => {
-      getFileUsageChart = jasmine
-        .createSpy('getFileUsageChart')
-        .and.returnValue('fileUsageChart');
+      getFileUsageChart = jest.fn(() => 'fileUsageChart');
 
-      getSpaceUsageChart = jasmine
-        .createSpy('getSpaceUsageChart')
-        .and.returnValue('spaceUsageChart');
+      getSpaceUsageChart = jest.fn(() => 'spaceUsageChart');
 
-      getMdoChart = jasmine
-        .createSpy('getMdoChart')
-        .and.returnValue('mdoChart');
+      getMdoChart = jest.fn(() => 'mdoChart');
 
-      getReadWriteBandwidthChart = jasmine
-        .createSpy('getReadWriteBandwidthChart')
-        .and.returnValue('readWriteBandwidthChart');
+      getReadWriteBandwidthChart = jest.fn(() => 'readWriteBandwidthChart');
 
       getInst = targetDashboardResolves.bind(
         null,
@@ -86,7 +72,7 @@ describe('target dashboard', () => {
     describe('MDT', () => {
       let promise;
 
-      beforeEach(function() {
+      beforeEach(() => {
         Object.assign($stateParams, {
           id: '1',
           kind: 'MDT'
@@ -130,7 +116,7 @@ describe('target dashboard', () => {
         );
       });
 
-      itAsync('should return MDT charts', async function() {
+      it('should return MDT charts', async () => {
         const result = await promise;
 
         expect(result).toEqual([
@@ -203,8 +189,8 @@ describe('target dashboard', () => {
       expect(targetDashboardTargetStream).toEqual(expect.any(Function));
     });
 
-    it('should call socketStream', () => {
-      expect(store.select).toHaveBeenCalledOnceWith('targets');
+    it('should call select on the store', () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
     });
 
     it('should stream data', () => {
@@ -220,10 +206,12 @@ describe('target dashboard', () => {
         }
       ]);
 
-      expect(spy).toHaveBeenCalledOnceWith({
-        id: '1',
-        name: 'target1'
-      });
+      expect(spy).toHaveBeenCalledWith(
+        maybe.ofJust({
+          id: '1',
+          name: 'target1'
+        })
+      );
     });
   });
 
@@ -239,7 +227,7 @@ describe('target dashboard', () => {
     });
 
     it('should call socketStream', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/target/1/metric/', {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/target/1/metric/', {
         qs: {
           metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
           latest: true
@@ -247,7 +235,7 @@ describe('target dashboard', () => {
       });
     });
 
-    itAsync('should stream data', async function() {
+    it('should stream data', async () => {
       let result;
 
       s.write([
