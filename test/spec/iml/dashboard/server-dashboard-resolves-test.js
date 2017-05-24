@@ -1,21 +1,10 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 import highland from 'highland';
+import {
+  serverDashboardChartResolves,
+  serverDashboardHostStreamResolves
+} from '../../../../source/iml/dashboard/server-dashboard-resolves.js';
 
 describe('server dashboard resolves', () => {
-  let serverDashboardChartResolves, serverDashboardHostStreamResolves;
-
-  beforeEachAsync(async function() {
-    const mod = await mock(
-      'source/iml/dashboard/server-dashboard-resolves.js',
-      {}
-    );
-
-    ({ serverDashboardChartResolves, serverDashboardHostStreamResolves } = mod);
-  });
-
-  afterEach(resetAll);
-
   describe('chart resolves', () => {
     let getReadWriteBandwidthChart,
       getCpuUsageChart,
@@ -24,17 +13,11 @@ describe('server dashboard resolves', () => {
       promise;
 
     beforeEach(() => {
-      getReadWriteBandwidthChart = jasmine
-        .createSpy('getReadWriteBandwidthChart')
-        .and.returnValue('read/write data');
+      getReadWriteBandwidthChart = jest.fn(() => 'read/write data');
 
-      getMemoryUsageChart = jasmine
-        .createSpy('getMemoryUsageChart')
-        .and.returnValue('memory usage data');
+      getMemoryUsageChart = jest.fn(() => 'memory usage data');
 
-      getCpuUsageChart = jasmine
-        .createSpy('getCpuUsageChart')
-        .and.returnValue('cpu usage data');
+      getCpuUsageChart = jest.fn(() => 'cpu usage data');
 
       $stateParams = {
         id: '1'
@@ -89,7 +72,7 @@ describe('server dashboard resolves', () => {
       expect(promise).toBeAPromise();
     });
 
-    itAsync('should resolve with all the charts', async function() {
+    it('should resolve with all the charts', async () => {
       const res = await promise;
 
       expect(res).toEqual([
