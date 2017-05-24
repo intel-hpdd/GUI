@@ -1,5 +1,5 @@
 module.exports = {
-  resetModules: true,
+  resetModules: false,
   coveragePathIgnorePatterns: ['/node_modules/', '/test'],
   testMatch: ['**/*-test.js'],
   transformIgnorePatterns: ['/node_modules/(?!@mfl)/'],
