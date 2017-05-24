@@ -96,7 +96,35 @@ expect.extend({
       };
   },
   toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
-  toBeValid: cssMatcher('ng-valid', 'ng-invalid')
+  toBeValid: cssMatcher('ng-valid', 'ng-invalid'),
+  toEqualComponent(component, expected) {
+    const clean = s => s.replace(/^\s+/gm, '').replace(/\n/g, '');
+
+    const cleanComponent = c => {
+      if (c && c.template)
+        c = {
+          ...c,
+          template: clean(c.template)
+        };
+
+      return c;
+    };
+
+    const eq = this.equals(cleanComponent(component), cleanComponent(expected));
+
+    const stringy = o => JSON.stringify(o, null, 2);
+
+    if (eq)
+      return {
+        pass: true,
+        message: `expected ${stringy(component)} to equal ${stringy(expected)}`
+      };
+    else
+      return {
+        pass: false,
+        message: `expected ${stringy(component)} not to equal ${stringy(expected)}`
+      };
+  }
 });
 
 afterEach(() => {

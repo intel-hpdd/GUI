@@ -24,42 +24,6 @@ beforeEach(() => {
             };
         }
       };
-    },
-    toEqualComponent(util, customEqualityTesters) {
-      return {
-        compare(component, expected) {
-          const clean = s => s.replace(/^\s+/gm, '').replace(/\n/g, '');
-
-          const cleanComponent = c => {
-            if (c && c.template)
-              c = {
-                ...c,
-                template: clean(c.template)
-              };
-
-            return c;
-          };
-
-          const eq = util.equals(
-            cleanComponent(component),
-            cleanComponent(expected),
-            customEqualityTesters
-          );
-
-          const stringy = o => JSON.stringify(o, null, 2);
-
-          if (eq)
-            return {
-              pass: true,
-              message: `expected ${stringy(component)} to equal ${stringy(expected)}`
-            };
-          else
-            return {
-              pass: false,
-              message: `expected ${stringy(component)} not to equal ${stringy(expected)}`
-            };
-        }
-      };
     }
   });
 });
