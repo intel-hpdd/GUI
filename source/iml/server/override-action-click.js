@@ -19,10 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import highland from 'highland';
+
 export default function overrideActionClickFactory(
   ADD_SERVER_STEPS,
-  openAddServerModal,
-  λ
+  openAddServerModal
 ) {
   'ngInject';
   return function overrideActionClick(record, action) {
@@ -44,7 +45,7 @@ export default function overrideActionClickFactory(
 
       return openAddServerModal(record, step).resultStream;
     } else {
-      return λ(['fallback']);
+      return highland(['fallback']);
     }
   };
 }
