@@ -30,6 +30,7 @@ describe('Read Write Heat Map chart', () => {
   };
 
   beforeEach(() => {
+    jest.resetModules();
     mockGetReadWriteHeatMapStream = jest.fn();
 
     standardConfig = {

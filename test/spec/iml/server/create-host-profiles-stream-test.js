@@ -12,6 +12,7 @@ describe('host profile then', () => {
     createHostProfilesFactory;
 
   beforeEach(() => {
+    jest.resetModules();
     jest.useFakeTimers();
 
     mockSocketStream = jest.fn(() => {

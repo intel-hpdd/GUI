@@ -2,6 +2,7 @@ describe('root panel component', () => {
   let inst, el, mockDoc, overlay, mockRaf, mockQuerySelector;
 
   beforeEach(() => {
+    jest.resetModules();
     mockRaf = jest.fn();
 
     overlay = {

@@ -20,6 +20,7 @@ describe('memory usage chart', () => {
     localApply;
 
   beforeEach(() => {
+    jest.resetModules();
     mockGetMemoryUsageStream = {};
 
     mockGetMemoryUsageStream = jest.fn();

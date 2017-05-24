@@ -4,6 +4,7 @@ describe('mgt resolves', () => {
   let mockStore, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
   beforeEach(() => {
+    jest.resetModules();
     mockStore = {
       select: jest.fn(() => highland())
     };

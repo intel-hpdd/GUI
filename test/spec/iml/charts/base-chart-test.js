@@ -4,6 +4,7 @@ describe('base chart', () => {
   let mockGlobal, mockNv, mockD3, baseChart;
 
   beforeEach(() => {
+    jest.resetModules();
     mockD3 = {
       select: jest.fn(x => x)
     };

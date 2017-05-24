@@ -20,6 +20,7 @@ describe('MDO chart', () => {
     mockGetConf;
 
   beforeEach(() => {
+    jest.resetModules();
     mockGetMdoStream = {};
 
     standardConfig = {

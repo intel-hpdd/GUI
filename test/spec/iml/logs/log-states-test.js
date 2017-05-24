@@ -10,6 +10,7 @@ describe('status states', () => {
     storeStream;
 
   beforeEach(() => {
+    jest.resetModules();
     mockResolveStream = jest.fn(() => 'promise');
     mockSocketStream = jest.fn(() => highland(['socket']));
     mockAddCurrentPage = jest.fn();

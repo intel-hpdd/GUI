@@ -2,6 +2,10 @@ import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 
 describe('step modal', () => {
+  beforeEach(() => {
+    jest.resetModules();
+  });
+
   describe('step modal controller', () => {
     let $scope,
       stepModal,

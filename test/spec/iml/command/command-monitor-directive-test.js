@@ -13,6 +13,7 @@ describe('Command monitor controller', () => {
     stream;
 
   beforeEach(() => {
+    jest.resetModules();
     stream = highland();
     mockSocketStream = jest.fn(() => stream);
     jest.spyOn(stream, 'destroy');

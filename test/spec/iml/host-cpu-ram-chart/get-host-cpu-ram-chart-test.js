@@ -21,6 +21,7 @@ describe('Host Cpu Ram chart', () => {
     mockGetConf;
 
   beforeEach(async () => {
+    jest.resetModules();
     mockGetHostCpuRamStream = {};
 
     standardConfig = {

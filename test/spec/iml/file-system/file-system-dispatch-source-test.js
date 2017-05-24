@@ -6,6 +6,7 @@ describe('file system dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
+    jest.resetModules();
     const mockCacheInitialData = {
       filesystem: ['filesystem']
     };

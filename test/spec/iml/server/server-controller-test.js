@@ -24,6 +24,7 @@ describe('server', () => {
     serverController;
 
   beforeEach(() => {
+    jest.resetModules();
     commandStream = highland();
 
     mockGetCommandStream = jest.fn(() => commandStream);

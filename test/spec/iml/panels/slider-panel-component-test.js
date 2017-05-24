@@ -2,6 +2,7 @@ describe('slider panel', () => {
   let inst, rootPanel, mockDoc;
 
   beforeEach(() => {
+    jest.resetModules();
     mockDoc = {
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()

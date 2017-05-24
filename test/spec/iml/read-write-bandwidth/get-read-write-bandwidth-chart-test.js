@@ -20,6 +20,7 @@ describe('Read Write Bandwidth chart', () => {
     mockGetConf;
 
   beforeEach(() => {
+    jest.resetModules();
     mockGetReadWriteBandwidthStream = {};
 
     standardConfig = {

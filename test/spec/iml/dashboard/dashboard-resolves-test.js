@@ -4,6 +4,7 @@ describe('dashboard resolves', () => {
   let s, spy, mockStore, mockBroadcaster, mod;
 
   beforeEach(() => {
+    jest.resetModules();
     spy = jest.fn();
     s = highland();
 

@@ -20,6 +20,7 @@ describe('cpu usage chart', () => {
     getCpuUsageChartFactory;
 
   beforeEach(() => {
+    jest.resetModules();
     mockGetCpuUsageStream = jest.fn();
 
     standardConfig = {
