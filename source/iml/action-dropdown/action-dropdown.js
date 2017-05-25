@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from '@mfl/fp';
 import getCommandStream from '../command/get-command-stream.js';
 
@@ -44,7 +43,7 @@ export function ActionDropdownCtrl(
   'ngInject';
   const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
 
-  const ctrl = angular.merge(this, {
+  const ctrl = Object.assign(this, {
     actionDescriptionCache,
     handleAction(record, action) {
       setConfirmOpen(true);
@@ -100,7 +99,7 @@ export function ActionDropdownCtrl(
     .tap(
       fp.flow(
         extractPathLengths,
-        fp.reduce(0, add),
+        fp.reduce(0)(add),
         locks => (ctrl.locks = locks)
       )
     )
