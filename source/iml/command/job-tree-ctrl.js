@@ -69,7 +69,7 @@ export function getJobStreamFactory(jobTree) {
   return function getJobStream(jobs) {
     const stream = socketStream('/job', {
       qs: {
-        id__in: fp.map(extractApi, jobs),
+        id__in: fp.map(extractApi)(jobs),
         limit: 0
       }
     });
