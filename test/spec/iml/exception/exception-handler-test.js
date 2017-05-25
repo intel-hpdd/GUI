@@ -1,81 +1,74 @@
-import exceptionModule from '../../../../source/iml/exception/exception-module';
+import exceptionHandlerConfig
+  from '../../../../source/iml/exception/exception-handler.js';
+import windowUnloadFactory from '../../../../source/iml/window-unload.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('exception handler', () => {
   let oldExceptionHandler;
 
   beforeEach(
-    module(function($exceptionHandlerProvider) {
+    angular.mock.module(($provide, $exceptionHandlerProvider) => {
       $exceptionHandlerProvider.mode('log');
-
       oldExceptionHandler = $exceptionHandlerProvider.$get();
-    })
-  );
 
-  beforeEach(
-    module(
-      exceptionModule,
-      $provide => {
-        $provide.value('exceptionModal', jasmine.createSpy('exceptionModal'));
-      },
-      {
-        windowUnload: { unloading: false }
-      }
-    )
+      $provide.factory('windowUnload', windowUnloadFactory);
+      $provide.value('exceptionModal', jest.fn());
+      exceptionHandlerConfig($provide);
+    })
   );
 
   let $exceptionHandler, exceptionModal, windowUnload, error, cause;
 
   beforeEach(
-    inject(function(_$exceptionHandler_, _exceptionModal_, _windowUnload_) {
-      error = new Error('uh oh!');
-      cause = 'Something Happened!';
+    angular.mock.inject(
+      (_$exceptionHandler_, _exceptionModal_, _windowUnload_) => {
+        error = new Error('uh oh!');
+        cause = 'Something Happened!';
 
-      $exceptionHandler = _$exceptionHandler_;
-      exceptionModal = _exceptionModal_;
-      windowUnload = _windowUnload_;
-    })
+        $exceptionHandler = _$exceptionHandler_;
+        exceptionModal = _exceptionModal_;
+        windowUnload = _windowUnload_;
+      }
+    )
   );
 
-  afterEach(function() {
+  afterEach(() => {
     windowUnload.unloading = false;
   });
 
-  it('should not open the modal if the window is unloading', function() {
+  it('should not open the modal if the window is unloading', () => {
     windowUnload.unloading = true;
-
     $exceptionHandler(new Error('foo'), 'bar');
 
     expect(exceptionModal).not.toHaveBeenCalled();
   });
 
-  describe('handling an exception', function() {
-    beforeEach(function() {
+  describe('handling an exception', () => {
+    beforeEach(() => {
       $exceptionHandler(error, cause);
     });
 
-    it('should pass the exception to the modal', function() {
-      expect(
-        exceptionModal.calls.mostRecent().args[0].resolve.exception()
-      ).toBe(error);
+    it('should pass the exception to the modal', () => {
+      expect(exceptionModal.mock.calls[0][0].resolve.exception()).toBe(error);
     });
 
-    it('should pass the cause to the modal', function() {
-      expect(
-        exceptionModal.calls.mostRecent().args[0].resolve.exception().cause
-      ).toBe(cause);
+    it('should pass the cause to the modal', () => {
+      expect(exceptionModal.mock.calls[0][0].resolve.exception().cause).toBe(
+        cause
+      );
     });
 
-    it('should open the modal when there is an error', function() {
+    it('should open the modal when there is an error', () => {
       expect(exceptionModal).toHaveBeenCalled();
     });
 
-    it('should only open the modal once', function() {
+    it('should only open the modal once', () => {
       $exceptionHandler(error, cause);
 
       expect(exceptionModal).toHaveBeenCalledTimes(1);
     });
 
-    it('should delegate to the older $exceptionHandler', function() {
+    it('should delegate to the older $exceptionHandler', () => {
       expect(oldExceptionHandler.errors[0]).toEqual([error, cause]);
     });
   });
