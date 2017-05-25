@@ -1,19 +1,17 @@
 import highland from 'highland';
+import {
+  reduceToStruct,
+  collectById,
+  calculateData,
+  normalize
+} from '../../../../source/iml/job-stats/job-stats-transforms.js';
 
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('job stats transforms', () => {
-  let reduceToStruct, collectById, calculateData, normalize;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/job-stats/job-stats-transforms.js', {});
-
-    ({ reduceToStruct, collectById, calculateData, normalize } = mod);
+  beforeEach(() => {
+    jest.resetModules();
   });
-
-  afterEach(resetAll);
 
   describe('reduceToStruct', () => {
     it('should reduce a key value structure', () => {
@@ -36,7 +34,7 @@ describe('job stats transforms', () => {
   });
 
   describe('normalize', () => {
-    itAsync('should convert a list structure', async function() {
+    it('should convert a list structure', async () => {
       const s = highland([
         {
           data: {
@@ -78,7 +76,7 @@ describe('job stats transforms', () => {
   });
 
   describe('calculateData', () => {
-    itAsync('should work with empty data', async function() {
+    it('should work with empty data', async () => {
       const s = highland([]);
 
       const result = await streamToPromise(calculateData(s));
@@ -86,7 +84,7 @@ describe('job stats transforms', () => {
       expect(result).toEqual([]);
     });
 
-    itAsync('should calculate correctly', async function() {
+    it('should calculate correctly', async () => {
       const s = highland([
         {
           data: 174396378.92222223,
@@ -134,7 +132,7 @@ describe('job stats transforms', () => {
   });
 
   describe('collectById', () => {
-    itAsync('should work with empty data', async function() {
+    it('should work with empty data', async () => {
       const result = await streamToPromise(
         collectById(highland([highland([]), highland([])]))
       );
@@ -142,7 +140,7 @@ describe('job stats transforms', () => {
       expect(result).toEqual([]);
     });
 
-    itAsync('should collect as expected', async function() {
+    it('should collect as expected', async () => {
       const result = await streamToPromise(
         collectById(
           highland([
