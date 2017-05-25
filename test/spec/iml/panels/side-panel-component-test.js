@@ -1,33 +1,31 @@
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  Controller
+} from '../../../../source/iml/panels/side-panel-component.js';
 
 describe('side panel component', () => {
   let el, inst, rootPanel;
 
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/panels/side-panel-component.js', {});
-
+  beforeEach(() => {
     el = {
       style: []
     };
 
     rootPanel = {
-      register: jasmine.createSpy('register'),
-      deregister: jasmine.createSpy('deregister')
+      register: jest.fn(),
+      deregister: jest.fn()
     };
 
-    inst = new mod.Controller([el]);
+    inst = new Controller([el]);
     inst.rootPanel = rootPanel;
     inst.$onInit();
   });
-
-  afterEach(resetAll);
 
   it('should register', () => {
     expect(rootPanel.register).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   it('should set flex-basis on change', () => {
-    const setWidth = rootPanel.register.calls.mostRecent().args[0];
+    const setWidth = rootPanel.register.mock.calls[0][0];
 
     setWidth({
       sideWidthPercentage: 25
