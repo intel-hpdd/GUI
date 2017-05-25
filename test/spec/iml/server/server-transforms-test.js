@@ -1,29 +1,24 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  getCommandAndHost,
+  throwIfServerErrors
+} from '../../../../source/iml/server/server-transforms.js';
 
 describe('server transforms', () => {
-  let getCommandAndHost, throwIfServerErrors;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/server/server-transforms.js', {});
-
-    ({ getCommandAndHost, throwIfServerErrors } = mod);
-
-    jasmine.clock().install();
+  beforeEach(() => {
+    jest.useFakeTimers();
   });
 
-  afterEach(resetAll);
-
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   describe('throw if server errors', () => {
     let inst, handler;
 
     beforeEach(() => {
-      handler = jasmine.createSpy('handler');
+      handler = jest.fn();
       inst = throwIfServerErrors(handler);
     });
 
@@ -54,7 +49,7 @@ describe('server transforms', () => {
     let spy, source$;
 
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       source$ = highland();
       getCommandAndHost(source$).each(spy);
     });
@@ -72,7 +67,7 @@ describe('server transforms', () => {
       });
       source$.end();
 
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
       expect(spy).toHaveBeenCalledOnceWith([
         {
@@ -95,10 +90,10 @@ describe('server transforms', () => {
         });
         source$.end();
 
-        jasmine.clock().tick();
+        jest.runAllTimers();
       };
 
-      expect(shouldThrow).toThrow(new Error('["booom!"]'));
+      expect(shouldThrow).toThrow('["booom!"]');
     });
   });
 });
