@@ -1,30 +1,31 @@
 import highland from 'highland';
-import { mock, resetAll } from '../../../system-mock.js';
 
 describe('job indicator dispatch source', () => {
-  let store, socketStream, stream;
+  let mockStore, mockSocketStream, stream;
 
-  beforeEachAsync(async function() {
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
+  beforeEach(() => {
+    jest.resetModules();
+    mockStore = {
+      dispatch: jest.fn()
     };
 
     stream = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
+    mockSocketStream = jest.fn(() => stream);
 
-    await mock('source/iml/job-indicator/job-indicator-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store },
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/environment.js': {
-        ALLOW_ANONYMOUS_READ: true
-      }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      ALLOW_ANONYMOUS_READ: true
+    }));
+
+    require('../../../../source/iml/job-indicator/job-indicator-dispatch-source.js');
   });
 
-  afterEach(resetAll);
-
   it('should request pending and tasked jobs', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/job/', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/job/', {
       jsonMask: 'objects(write_locks,read_locks,description)',
       qs: {
         limit: 0,
@@ -39,7 +40,7 @@ describe('job indicator dispatch source', () => {
       objects: [{ foo: 'bar' }]
     });
 
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_JOB_INDICATOR_ITEMS',
       payload: [{ foo: 'bar' }]
     });
