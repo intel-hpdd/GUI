@@ -1,10 +1,23 @@
-import {
-  fileSystemListState
-} from '../../../../source/iml/file-system/file-system-states.js';
-
-import { GROUPS } from '../../../../source/iml/auth/authorization.js';
-
 describe('file system states', () => {
+  let fileSystemListState, mockGroups, mockGetStore;
+
+  beforeEach(() => {
+    mockGroups = {
+      SUPERUSERS: 'superusers',
+      FS_ADMINS: 'filesystem_administrators',
+      FS_USERS: 'filesystem_users'
+    };
+    mockGetStore = jest.fn();
+
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+      GROUPS: mockGroups
+    }));
+
+    fileSystemListState = require('../../../../source/iml/file-system/file-system-states.js')
+      .fileSystemListState;
+  });
+
   it('should create the state', () => {
     expect(fileSystemListState).toEqual({
       url: '/configure/filesystem',
@@ -18,13 +31,17 @@ describe('file system states', () => {
       },
       data: {
         helpPage: 'file_systems_tab.htm',
-        access: GROUPS.FS_ADMINS,
+        access: mockGroups.FS_ADMINS,
         anonymousReadProtected: true,
         eulaState: true,
         kind: 'File Systems',
         icon: 'fa-files-o'
       },
-      template: expect.any(String)
+      template: `<div class="container container-full">
+<file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
+   job-indicator-$="$ctrl.jobIndicator$"></file-system>
+</div>
+`
     });
   });
 });
