@@ -1,3 +1,5 @@
+const stringy = o => JSON.stringify(o, null, 2);
+
 const toHaveBeenCalledNTimesWith = (n: number) =>
   function matcherFactory(received, ...rest) {
     if (!jest.isMockFunction(received))
@@ -112,8 +114,6 @@ expect.extend({
 
     const eq = this.equals(cleanComponent(component), cleanComponent(expected));
 
-    const stringy = o => JSON.stringify(o, null, 2);
-
     if (eq)
       return {
         pass: true,
@@ -123,6 +123,25 @@ expect.extend({
       return {
         pass: false,
         message: `expected ${stringy(component)} not to equal ${stringy(expected)}`
+      };
+  },
+  toContainItems: (xs: Object, items: Object) => {
+    const entries = Object.entries(xs);
+    const itemEntry = Object.entries(items);
+
+    const hasEntries = itemEntry.every(([itemKey, itemVal]) =>
+      entries.find(([key, val]) => key === itemKey && val === itemVal)
+    );
+
+    if (hasEntries)
+      return {
+        pass: true,
+        message: `expected ${stringy(items)} not to be in ${stringy(xs)}`
+      };
+    else
+      return {
+        pass: false,
+        message: `expected ${stringy(items)} to be in ${stringy(xs)}`
       };
   }
 });

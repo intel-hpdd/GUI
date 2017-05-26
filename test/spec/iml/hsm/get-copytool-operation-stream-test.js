@@ -1,29 +1,29 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('get copytool operation stream', () => {
-  let socketStream, stream, getCopytoolOperationStream;
+  let mockSocketStream, stream, getCopytoolOperationStream;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
     stream = highland();
-    spyOn(stream, 'destroy');
+    jest.spyOn(stream, 'destroy');
 
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
+    mockSocketStream = jest.fn(() => stream);
 
-    const mod = await mock('source/iml/hsm/get-copytool-operation-stream.js', {
-      'source/iml/socket/socket-stream.js': { default: socketStream }
-    });
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+
+    const mod = require('../../../../source/iml/hsm/get-copytool-operation-stream.js');
 
     getCopytoolOperationStream = mod.default;
   });
 
-  afterEach(resetAll);
-
   it('should get a stream', () => {
     getCopytoolOperationStream();
 
-    expect(socketStream).toHaveBeenCalledOnceWith('/copytool_operation', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/copytool_operation', {
       jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
       qs: {
@@ -60,14 +60,16 @@ updated_at,started_at,throughput,type,state,path,description)',
       stream.write(data);
     });
 
-    it('should add a progress property', () => {
-      result.through(
-        expectStreamToContainItem({ progress: 18.18382677861246 })
-      );
+    it('should add a progress property', async () => {
+      expect((await streamToPromise(result))[0]).toContainItems({
+        progress: 18.18382677861246
+      });
     });
 
-    it('should add a throughput property ', () => {
-      result.through(expectStreamToContainItem({ throughput: 1234.5 }));
+    it('should add a throughput property ', async () => {
+      expect((await streamToPromise(result))[0]).toContainItems({
+        throughput: 1234.5
+      });
     });
   });
 
@@ -78,7 +80,7 @@ updated_at,started_at,throughput,type,state,path,description)',
       result = getCopytoolOperationStream();
     });
 
-    it('should return 0 when computed progress is NaN', () => {
+    it('should return 0 when computed progress is NaN', async () => {
       stream.write({
         objects: [
           {
@@ -88,18 +90,22 @@ updated_at,started_at,throughput,type,state,path,description)',
         ]
       });
 
-      result.through(expectStreamToContainItem({ progress: 0 }));
+      expect((await streamToPromise(result))[0]).toContainItems({
+        progress: 0
+      });
     });
 
-    it('should return 0 for throughput when elapsed time is NaN', () => {
+    it('should return 0 for throughput when elapsed time is NaN', async () => {
       stream.write({
         objects: [{}]
       });
 
-      result.through(expectStreamToContainItem({ throughput: 0 }));
+      expect((await streamToPromise(result))[0]).toContainItems({
+        throughput: 0
+      });
     });
 
-    it('should return 0 for throughput when elapsed time is < 1 second', () => {
+    it('should return 0 for throughput when elapsed time is < 1 second', async () => {
       const date = new Date().toISOString();
       stream.write({
         objects: [
@@ -109,10 +115,13 @@ updated_at,started_at,throughput,type,state,path,description)',
           }
         ]
       });
-      result.through(expectStreamToContainItem({ throughput: 0 }));
+
+      expect((await streamToPromise(result))[0]).toContainItems({
+        throughput: 0
+      });
     });
 
-    it('should return 0 when computed throughput is NaN', () => {
+    it('should return 0 when computed throughput is NaN', async () => {
       const date = new Date();
       stream.write({
         objects: [
@@ -123,7 +132,10 @@ updated_at,started_at,throughput,type,state,path,description)',
           }
         ]
       });
-      result.through(expectStreamToContainItem({ throughput: 0 }));
+
+      expect((await streamToPromise(result))[0]).toContainItems({
+        throughput: 0
+      });
     });
   });
 });

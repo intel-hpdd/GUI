@@ -2,7 +2,6 @@ import angular from 'angular';
 import 'angular-mocks';
 
 import fixturesModule from './fixtures/fixtures';
-import { find } from '@mfl/lodash-mixins';
 import * as fp from '@mfl/fp';
 
 beforeEach(() => {
@@ -41,15 +40,6 @@ window.expectToEqual = function expectToEqualWrap(expected) {
     expect(val).toEqual(expected);
   };
 };
-
-/**
- * Curried. Checks if a stream contains a collection
- * with the given sub-item.
- * @param {Function | Object | String} value
- * @param {Highland.Stream} s
- */
-window.expectStreamToContainItem = value => s =>
-  s.each(x => expect(find(x, value)).toBeTruthy());
 
 window.convertNvDates = function convertNvDates(s) {
   return s.tap(
