@@ -2,34 +2,38 @@ import moment from 'moment';
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('get time params', () => {
-  let getServerMoment,
-    createDate,
+  let mockGetServerMoment,
+    mockCreateDate,
     getRequestRange,
     getRequestDuration,
     getTimeParams;
 
-  beforeEachAsync(async function() {
-    getServerMoment = jasmine.createSpy('getServerMoment');
-    createDate = jasmine.createSpy('createDate');
+  beforeEach(() => {
+    jest.resetModules();
+    mockGetServerMoment = jasmine.createSpy('getServerMoment');
+    mockCreateDate = jasmine.createSpy('createDate');
 
-    const mod = await mock('source/iml/charting/get-time-params.js', {
-      'source/iml/get-server-moment.js': { default: getServerMoment },
-      'source/iml/create-date.js': { default: createDate }
-    });
+    jest.mock(
+      '../../../../source/iml/get-server-moment.js',
+      () => mockGetServerMoment
+    );
+    jest.mock('../../../../source/iml/create-date.js', () => mockCreateDate);
+
+    const mod = require('../../../../source/iml/charting/get-time-params.js');
 
     getRequestRange = mod.getRequestRange;
     getRequestDuration = mod.getRequestDuration;
     getTimeParams = mod.getTimeParams;
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   describe('getRequestRange', () => {
     beforeEach(() => {
-      getServerMoment.and.callFake((d, f) => {
+      mockGetServerMoment.and.callFake((d, f) => {
         // We always convert local time to utc time
         // implicitly before send.
         // For the purposes of these tests,
@@ -47,15 +51,11 @@ describe('get time params', () => {
       let requestRange;
 
       beforeEach(() => {
-        requestRange = getRequestRange(
-          {
-            qs: {
-              id: '4'
-            }
-          },
-          '2015-04-30T00:00',
-          '2015-05-01T00:00'
-        );
+        requestRange = getRequestRange({
+          qs: {
+            id: '4'
+          }
+        })('2015-04-30T00:00', '2015-05-01T00:00');
       });
 
       it('should return a function', () => {
@@ -88,7 +88,7 @@ describe('get time params', () => {
 
   describe('getRequestDuration', () => {
     beforeEach(() => {
-      getServerMoment.and.callFake(() => {
+      mockGetServerMoment.and.callFake(() => {
         // We always convert local time to utc time
         // implicitly before send.
         // For the purposes of these tests,
@@ -97,7 +97,7 @@ describe('get time params', () => {
         return moment.utc('2015-04-30T00:00:00.000Z');
       });
 
-      createDate.and.callFake(d => {
+      mockCreateDate.and.callFake(d => {
         if (!d) d = '2015-04-30T00:00:10.000Z';
 
         return new Date(d);
@@ -112,15 +112,11 @@ describe('get time params', () => {
       let requestDuration;
 
       beforeEach(() => {
-        requestDuration = getRequestDuration(
-          {
-            qs: {
-              id: '3'
-            }
-          },
-          10,
-          'minutes'
-        );
+        requestDuration = getRequestDuration({
+          qs: {
+            id: '3'
+          }
+        })(10, 'minutes');
       });
 
       it('should return a function', () => {
