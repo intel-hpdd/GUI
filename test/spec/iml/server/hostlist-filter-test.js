@@ -1,28 +1,25 @@
-import serverModule from '../../../../source/iml/server/server-module';
+describe('hostlist filter service', () => {
+  let filter, hostlistFilter, mockPdshFilter, mockNaturalSortFilter;
+  beforeEach(() => {
+    mockPdshFilter = jest.fn(() => 'host1Filtered');
+    mockNaturalSortFilter = jest.fn();
 
-describe('hostlist filter service', function() {
-  let pdshFilter, naturalSortFilter;
+    jest.mock(
+      '../../../../source/iml/filters/pdsh-filter.js',
+      () => mockPdshFilter
+    );
+    jest.mock(
+      '../../../../source/iml/filters/natural-sort-filter.js',
+      () => mockNaturalSortFilter
+    );
 
-  beforeEach(
-    module(serverModule, function($provide) {
-      pdshFilter = jasmine.createSpy('pdshFilter');
-      $provide.value('pdshFilter', pdshFilter);
+    hostlistFilter = require('../../../../source/iml/server/hostlist-filter.js')
+      .default;
+    filter = hostlistFilter(mockPdshFilter, mockNaturalSortFilter);
+  });
 
-      naturalSortFilter = jasmine.createSpy('naturalSortFilter');
-      $provide.value('naturalSortFilter', naturalSortFilter);
-    })
-  );
-
-  let hostlistFilter;
-
-  beforeEach(
-    inject(function(_hostlistFilter_) {
-      hostlistFilter = _hostlistFilter_;
-    })
-  );
-
-  it('should expose the expected interface', function() {
-    expect(hostlistFilter).toEqual({
+  it('should expose the expected interface', () => {
+    expect(filter).toEqual({
       setHosts: expect.any(Function),
       setHash: expect.any(Function),
       setFuzzy: expect.any(Function),
@@ -31,11 +28,9 @@ describe('hostlist filter service', function() {
     });
   });
 
-  describe('computing a filtered hostlist', function() {
-    beforeEach(function() {
-      pdshFilter.and.returnValue('host1Filtered');
-
-      hostlistFilter
+  describe('computing a filtered hostlist', () => {
+    beforeEach(() => {
+      filter
         .setHosts(['host1', 'host2'])
         .setHash({ host1: '' })
         .setFuzzy(true)
@@ -43,8 +38,8 @@ describe('hostlist filter service', function() {
         .compute();
     });
 
-    it('should call the pdsh filter', function() {
-      expect(pdshFilter).toHaveBeenCalledOnceWith(
+    it('should call the pdsh filter', () => {
+      expect(mockPdshFilter).toHaveBeenCalledOnceWith(
         ['host1', 'host2'],
         { host1: '' },
         expect.any(Function),
@@ -52,8 +47,8 @@ describe('hostlist filter service', function() {
       );
     });
 
-    it('should call the natural sort filter', function() {
-      expect(naturalSortFilter).toHaveBeenCalledOnceWith(
+    it('should call the natural sort filter', () => {
+      expect(mockNaturalSortFilter).toHaveBeenCalledOnceWith(
         'host1Filtered',
         expect.any(Function),
         false
