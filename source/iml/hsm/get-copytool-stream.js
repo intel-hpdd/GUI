@@ -21,10 +21,9 @@
 
 import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
-import angular from 'angular';
 
 export default function getCopytoolStream(params) {
-  params = angular.merge(
+  params = Object.assign(
     {},
     {
       qs: {
@@ -42,18 +41,18 @@ active_operations_count,available_actions,resource_uri,locks)'
 
   const setStatus = fp.cond(
     [
-      fp.flow(fp.eqFn(fp.identity, viewStateLens, 'started'), fp.not),
-      x => fp.set(statusLens, viewStateLens(x), x)
+      fp.flow(fp.eqFn(fp.identity)(viewStateLens)('started'), fp.not),
+      x => fp.set(statusLens)(viewStateLens(x))(x)
     ],
     [
-      fp.eqFn(fp.identity, viewLensProp('active_operations_count'), 0),
-      fp.set(statusLens, 'idle')
+      fp.eqFn(fp.identity)(viewLensProp('active_operations_count'))(0),
+      fp.set(statusLens)('idle')
     ],
-    [fp.always(true), fp.set(statusLens, 'working')]
+    [fp.always(true), fp.set(statusLens)('working')]
   );
 
   const setStatuses = fp.map(
-    fp.flow(viewLensProp('objects'), fp.over(fp.mapped, setStatus))
+    fp.flow(viewLensProp('objects'), fp.over(fp.mapped)(setStatus))
   );
 
   return socketStream('/copytool', params).through(setStatuses);
