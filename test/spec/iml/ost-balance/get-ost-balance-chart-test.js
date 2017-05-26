@@ -1,25 +1,23 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('get ost balance chart', () => {
-  let getOstBalanceStream,
+  let mockGetOstBalanceStream,
     getOstBalanceChartFactory,
-    chartCompiler,
+    mockChartCompiler,
     streamWhenVisible,
     config1$,
     config2$,
     getOstBalanceChart,
     localApply,
-    getStore,
+    mockGetStore,
     standardConfig,
     selectStoreCount,
-    getConf;
+    mockGetConf;
 
-  beforeEachAsync(async function() {
-    getOstBalanceStream = jasmine
-      .createSpy('getOstBalanceStream')
-      .and.callFake(() => highland());
+  beforeEach(() => {
+    jest.resetModules();
+    mockGetOstBalanceStream = jest.fn(() => highland());
 
     standardConfig = {
       percentage: 0
@@ -30,18 +28,18 @@ describe('get ost balance chart', () => {
         ostBalanceChart: { ...standardConfig }
       }
     ]);
-    spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, 'destroy');
     config2$ = highland([
       {
         ostBalanceChart: standardConfig
       }
     ]);
-    spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, 'destroy');
     selectStoreCount = 0;
 
-    getStore = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.callFake(() => {
+    mockGetStore = {
+      dispatch: jest.fn(),
+      select: jest.fn(() => {
         switch (selectStoreCount) {
           case 0:
             selectStoreCount++;
@@ -52,7 +50,7 @@ describe('get ost balance chart', () => {
       })
     };
 
-    getConf = jasmine.createSpy('getConf').and.callFake(page => {
+    mockGetConf = jest.fn(page => {
       return s => {
         return s.map(x => {
           return x[page];
@@ -60,30 +58,35 @@ describe('get ost balance chart', () => {
       };
     });
 
-    chartCompiler = jasmine.createSpy('chartCompiler');
+    mockChartCompiler = jest.fn();
 
-    const mod = await mock('source/iml/ost-balance/get-ost-balance-chart.js', {
-      'source/iml/ost-balance/get-ost-balance-stream.js': {
-        default: getOstBalanceStream
-      },
-      'source/iml/ost-balance/assets/html/ost-balance.html': {
-        default: 'ostBalanceTemplate'
-      },
-      'source/iml/chart-compiler/chart-compiler.js': { default: chartCompiler },
-      'source/iml/store/get-store.js': { default: getStore },
-      'source/iml/chart-transformers/chart-transformers.js': { getConf }
-    });
+    jest.mock(
+      '../../../../source/iml/ost-balance/get-ost-balance-stream.js',
+      () => mockGetOstBalanceStream
+    );
+    jest.mock(
+      '../../../../source/iml/chart-compiler/chart-compiler.js',
+      () => mockChartCompiler
+    );
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock(
+      '../../../../source/iml/chart-transformers/chart-transformers.js',
+      () => ({ getConf: mockGetConf })
+    );
+
+    const mod = require('../../../../source/iml/ost-balance/get-ost-balance-chart.js');
+
     getOstBalanceChartFactory = mod.default;
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   beforeEach(() => {
-    streamWhenVisible = jasmine
-      .createSpy('streamWhenVisible')
-      .and.callFake(x => x());
+    streamWhenVisible = jest.fn(x => x());
 
-    localApply = jasmine.createSpy('localApply');
+    localApply = jest.fn();
 
     getOstBalanceChart = getOstBalanceChartFactory(
       streamWhenVisible,
@@ -99,7 +102,7 @@ describe('get ost balance chart', () => {
       'ostBalanceChart'
     );
 
-    const s = chartCompiler.calls.argsFor(0)[1];
+    const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
@@ -108,7 +111,7 @@ describe('get ost balance chart', () => {
   });
 
   it('should dispatch to the store', () => {
-    expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'DEFAULT_OST_BALANCE_CHART_ITEMS',
       payload: {
         percentage: 0,
@@ -118,23 +121,57 @@ describe('get ost balance chart', () => {
   });
 
   it('should call getConf with the page', () => {
-    expect(getConf).toHaveBeenCalledOnceWith('ostBalanceChart');
+    expect(mockGetConf).toHaveBeenCalledOnceWith('ostBalanceChart');
   });
 
-  it('should call streamWhenVisible', function() {
+  it('should call streamWhenVisible', () => {
     expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   it('should setup the OstBalanceChart', () => {
-    expect(chartCompiler).toHaveBeenCalledOnceWith(
-      'ostBalanceTemplate',
+    expect(mockChartCompiler).toHaveBeenCalledOnceWith(
+      `<div config-toggle>
+  <h5>OST Balance</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <ng-form name="ostBalanceForm" novalidate>
+        <resettable-group>
+          <div class="form-group" ng-class="{'has-error': ostBalanceForm.percentage.$invalid, 'has-success': ostBalanceForm.percentage.$valid}">
+            <label>Filter by usage</label>
+            <div class="input-group">
+              <div class="input-group-addon">Filter usage</div>
+              <input class="form-control" type="number" ng-model="chart.percentage" name="percentage" min="0" max="100" required />
+              <iml-tooltip class="error-tooltip" toggle="ostBalanceForm.percentage.$invalid" direction="bottom">
+                <span ng-if="ostBalanceForm.percentage.$error.max || ostBalanceForm.percentage.$error.min">
+                  Usage filter must be between 0% and 100%.
+                </span>
+                <span ng-if="ostBalanceForm.percentage.$error.required && !ostBalanceForm.$pristine">
+                  Usage filter is required.
+                </span>
+              </iml-tooltip>
+              <span class="input-group-addon">%</span>
+            </div>
+          </div>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit(ostBalanceForm))" class="btn btn-success btn-block" ng-disabled="ostBalanceForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive();" resetter class="btn btn-cancel btn-block">Cancel</button>
+        </resettable-group>
+      </ng-form>
+    </div>
+  </div>
+  <multi-bar-chart options="::chart.options" stream="chart.stream"></multi-bar-chart>
+</div>`,
       expect.any(Object),
       expect.any(Function)
     );
   });
 
-  it('should create a new stream', function() {
-    expect(getOstBalanceStream).toHaveBeenCalledOnceWith(0, {
+  it('should create a new stream', () => {
+    expect(mockGetOstBalanceStream).toHaveBeenCalledOnceWith(0, {
       qs: {
         filesystem_id: '1'
       }
@@ -145,11 +182,11 @@ describe('get ost balance chart', () => {
     let fn, s, $scope, conf;
 
     beforeEach(
-      inject($rootScope => {
-        fn = chartCompiler.calls.argsFor(0)[2];
+      angular.mock.inject($rootScope => {
+        fn = mockChartCompiler.mock.calls[0][2];
 
         s = highland();
-        spyOn(s, 'destroy');
+        jest.spyOn(s, 'destroy');
 
         $scope = $rootScope.$new();
 
@@ -157,7 +194,7 @@ describe('get ost balance chart', () => {
       })
     );
 
-    it('should setup the conf', function() {
+    it('should setup the conf', () => {
       expect(conf).toEqual({
         percentage: 0,
         page: '',
@@ -169,7 +206,7 @@ describe('get ost balance chart', () => {
       });
     });
 
-    it('should destroy the existing stream', function() {
+    it('should destroy the existing stream', () => {
       $scope.$destroy();
 
       expect(s.destroy).toHaveBeenCalled();
@@ -187,7 +224,7 @@ describe('get ost balance chart', () => {
       });
 
       it('should dispatch to the store', () => {
-        expect(getStore.dispatch).toHaveBeenCalledOnceWith({
+        expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
           type: 'UPDATE_OST_BALANCE_CHART_ITEMS',
           payload: {
             percentage: 10,
@@ -202,14 +239,14 @@ describe('get ost balance chart', () => {
 
       beforeEach(() => {
         d3Chart = {
-          forceY: jasmine.createSpy('forceY'),
-          stacked: jasmine.createSpy('stacked'),
+          forceY: jest.fn(),
+          stacked: jest.fn(),
           yAxis: {
-            tickFormat: jasmine.createSpy('tickFormat')
+            tickFormat: jest.fn()
           },
-          showXAxis: jasmine.createSpy('showXAxis'),
+          showXAxis: jest.fn(),
           tooltip: {
-            contentGenerator: jasmine.createSpy('contentGenerator')
+            contentGenerator: jest.fn()
           }
         };
 
