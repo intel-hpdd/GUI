@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 import * as fp from '@mfl/fp';
 import socketStream from '../socket/socket-stream.js';
 
@@ -41,7 +39,7 @@ export function ConfigureLnetController(
     fp.compose(fp.lensProp('nid'), fp.lensProp('lnd_network'))
   );
 
-  angular.extend(ctrl, {
+  Object.assign(ctrl, {
     options: LNET_OPTIONS,
     save(showModal) {
       ctrl.saving = true;
@@ -51,7 +49,7 @@ export function ConfigureLnetController(
         {
           method: 'post',
           json: {
-            objects: fp.pluck('nid', ctrl.networkInterfaces)
+            objects: fp.pluck('nid')(ctrl.networkInterfaces)
           }
         },
         true
