@@ -1,17 +1,9 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import chartCompiler
+  from '../../../../source/iml/chart-compiler/chart-compiler.js';
 
 describe('chart compiler', () => {
-  let chartCompiler, compilerPromise, s, chartFn;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/chart-compiler/chart-compiler.js', {});
-
-    chartCompiler = mod.default;
-  });
-
-  afterEach(resetAll);
+  let compilerPromise, s, chartFn;
 
   beforeEach(() => {
     s = highland();
@@ -29,7 +21,7 @@ describe('chart compiler', () => {
     expect(compilerPromise).toBeAPromise();
   });
 
-  itAsync('should resolve to the expected values', async function() {
+  it('should resolve to the expected values', async () => {
     s.write('foo');
 
     const obj = await compilerPromise;
