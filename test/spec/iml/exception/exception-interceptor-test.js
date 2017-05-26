@@ -1,4 +1,6 @@
-import exceptionModule from '../../../../source/iml/exception/exception-module';
+import exceptionInterceptorFactory
+  from '../../../../source/iml/exception/exception-interceptor.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('Exception interceptor', () => {
   let exceptionInterceptor,
@@ -9,44 +11,37 @@ describe('Exception interceptor', () => {
     errbackSpy;
 
   beforeEach(
-    module({ STATIC_URL: '/api/' }, exceptionModule, function($provide) {
-      $provide.value(
-        '$exceptionHandler',
-        jasmine.createSpy('$exceptionHandler')
-      );
-    })
-  );
-
-  beforeEach(
-    inject(function(_exceptionInterceptor_, _$exceptionHandler_, _$rootScope_) {
-      exceptionInterceptor = _exceptionInterceptor_;
-      exceptionHandler = _$exceptionHandler_;
+    angular.mock.inject((_$exceptionHandler_, _$rootScope_, _$q_) => {
+      exceptionHandler = jest.fn();
       $rootScope = _$rootScope_;
-      errbackSpy = jasmine.createSpy('errbackSpy');
+      errbackSpy = jest.fn();
       error = new Error('Test Error!');
 
       response = {
         data: {},
         status: 500,
-        headers: jasmine.createSpy('headers').and.callFake(function() {
-          return {};
-        }),
+        headers: jest.fn(() => ({})),
         config: {
           method: 'GET',
           url: '/foo'
         }
       };
+
+      exceptionInterceptor = exceptionInterceptorFactory(
+        exceptionHandler,
+        _$q_
+      );
     })
   );
 
-  describe('request error', function() {
-    it('should call $exceptionHandler with the same error that was passed in', function() {
+  describe('request error', () => {
+    it('should call $exceptionHandler with the same error that was passed in', () => {
       exceptionInterceptor.requestError(error);
 
       expect(exceptionHandler).toHaveBeenCalledOnceWith(error);
     });
 
-    it('should call $exceptionHandler with a cause if passed a string.', function() {
+    it('should call $exceptionHandler with a cause if passed a string.', () => {
       const errorString = 'Uh Oh!';
 
       exceptionInterceptor.requestError(errorString);
@@ -54,32 +49,32 @@ describe('Exception interceptor', () => {
       expect(exceptionHandler).toHaveBeenCalledWith(null, errorString);
     });
 
-    describe('custom error', function() {
+    describe('custom error', () => {
       let strangeError, customError;
 
-      beforeEach(function() {
+      beforeEach(() => {
         strangeError = { foo: 'bar' };
 
         exceptionInterceptor.requestError(strangeError);
 
-        customError = exceptionHandler.calls.mostRecent().args[0];
+        customError = exceptionHandler.mock.calls[0][0];
       });
 
-      it('should call $exceptionHandler with a custom error', function() {
+      it('should call $exceptionHandler with a custom error', () => {
         expect(customError).toEqual(expect.any(Error));
       });
 
-      it('should add the rejection as a property to the custom error', function() {
+      it('should add the rejection as a property to the custom error', () => {
         expect(customError.rejection).toEqual(strangeError);
       });
     });
   });
 
-  describe('response error', function() {
+  describe('response error', () => {
     const passThroughs = [400, 403];
 
-    passThroughs.forEach(function testStatus(status) {
-      it('should reject ' + status + ' errors', function() {
+    passThroughs.forEach(status => {
+      it('should reject ' + status + ' errors', () => {
         response.status = status;
 
         const out = exceptionInterceptor.responseError(response);
@@ -95,25 +90,25 @@ describe('Exception interceptor', () => {
         'should not call the $exceptionHandler with an error on ' +
           status +
           's',
-        function() {
+        () => {
           response.status = status;
 
           exceptionInterceptor.responseError(response);
 
-          expect(exceptionHandler.calls.count()).toBe(0);
+          expect(exceptionHandler.mock.calls.length).toBe(0);
         }
       );
     });
 
-    it('should call the $exceptionHandler with an error on 0s', function() {
+    it('should call the $exceptionHandler with an error on 0s', () => {
       response.status = 0;
 
       exceptionInterceptor.responseError(response);
 
-      expect(exceptionHandler.calls.count()).toBe(1);
+      expect(exceptionHandler.mock.calls.length).toBe(1);
     });
 
-    it('should reject 500 errors', function() {
+    it('should reject 500 errors', () => {
       const out = exceptionInterceptor.responseError(response);
 
       out.then(null, errbackSpy);
@@ -123,10 +118,10 @@ describe('Exception interceptor', () => {
       expect(errbackSpy).toHaveBeenCalled();
     });
 
-    it('should call the $exceptionHandler with an error on 500s', function() {
+    it('should call the $exceptionHandler with an error on 500s', () => {
       exceptionInterceptor.responseError(response);
 
-      const error = exceptionHandler.calls.mostRecent().args[0];
+      const error = exceptionHandler.mock.calls[0][0];
 
       expect(error).toEqual(expect.any(Error));
     });
