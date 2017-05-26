@@ -1,48 +1,47 @@
 // @flow
 
-import { mock, resetAll } from '../../system-mock.js';
+describe('mockAngular exec', () => {
+  let result$, mod, element, injector, mockAngular, mockAngularExec;
 
-describe('angular exec', () => {
-  let result$, mod, element, injector, angular, angularExec;
-
-  beforeEachAsync(async () => {
+  beforeEach(() => {
+    jest.resetModules();
     injector = {
-      has: jasmine.createSpy('has'),
-      get: jasmine.createSpy('get')
+      has: jest.fn(),
+      get: jest.fn()
     };
 
     element = {
-      injector: jasmine.createSpy('injector').and.returnValue(injector)
+      injector: jest.fn(() => injector)
     };
 
-    angular = {
-      element: jasmine.createSpy('element').and.returnValue(element)
+    mockAngular = {
+      element: jest.fn(() => element)
     };
 
-    mod = await mock('source/iml/angular-exec.js', {
-      angular: { default: angular }
-    });
+    jest.mock('angular', () => mockAngular);
 
-    angularExec = mod.default;
+    mod = require('../../../source/iml/angular-exec.js');
+
+    mockAngularExec = mod.default;
   });
-
-  afterEach(resetAll);
 
   describe('invoking the service', () => {
     let service;
     beforeEach(() => {
-      injector.has.and.returnValues(false, true, true);
+      injector.has.mockReturnValueOnce(false);
+      injector.has.mockReturnValueOnce(true);
+      injector.has.mockReturnValueOnce(true);
 
       service = {
-        go: jasmine.createSpy('go').and.returnValue('x')
+        go: jest.fn(() => 'x')
       };
 
-      injector.get.and.returnValue(service);
+      injector.get.mockReturnValue(service);
     });
 
     describe('on first request', () => {
       beforeEach(() => {
-        result$ = angularExec('$state', 'go', 'app.dashboard.overview');
+        result$ = mockAngularExec('$state', 'go', 'app.dashboard.overview');
       });
 
       it('should return a stream', () => {
@@ -51,7 +50,7 @@ describe('angular exec', () => {
 
       it('should call the element', done => {
         result$.each(() => {
-          expect(angular.element).toHaveBeenCalledOnceWith(document.body);
+          expect(mockAngular.element).toHaveBeenCalledOnceWith(document.body);
           done();
         });
       });
@@ -83,7 +82,7 @@ describe('angular exec', () => {
 
       describe('on subsequent requests', () => {
         beforeEach(() => {
-          result$ = angularExec('$state', 'go', 'app.servers');
+          result$ = mockAngularExec('$state', 'go', 'app.servers');
         });
 
         it('should retrieve the service from cache', done => {
