@@ -1,27 +1,27 @@
 import highland from 'highland';
 import HsmFsCtrl from '../../../../source/iml/hsm/hsm-fs-controller';
-import hsmFsModule from '../../../../source/iml/hsm/hsm-fs-module';
 import broadcaster from '../../../../source/iml/broadcaster.js';
+import angular from '../../../angular-mock-setup.js';
+import * as maybe from '@mfl/maybe';
 
 describe('HSM fs controller', () => {
   let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB;
 
-  beforeEach(module(hsmFsModule));
-
   beforeEach(() => {
-    jasmine.clock().install();
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
-    jasmine.clock().uninstall();
+    jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   beforeEach(
-    inject(($controller, $rootScope) => {
+    angular.mock.inject(($rootScope, propagateChange) => {
       $scope = $rootScope.$new();
 
       $state = {
-        go: jasmine.createSpy('go'),
+        go: jest.fn(),
         router: {
           globals: {
             params: {
@@ -36,30 +36,32 @@ describe('HSM fs controller', () => {
       };
 
       fsStream = highland();
-      spyOn(fsStream, 'destroy');
+      jest.spyOn(fsStream, 'destroy');
 
       qs$ = highland();
-      spyOn(qs$, 'destroy');
-      qsStream = jasmine.createSpy('qsStream').and.returnValue(qs$);
+      jest.spyOn(qs$, 'destroy');
+      qsStream = jest.fn(() => qs$);
       qs$.write({
         qs: ''
       });
-      jasmine.clock().tick();
+      jest.runAllTimers();
 
       fsStreamB = broadcaster(fsStream);
 
-      ctrl = $controller('HsmFsCtrl', {
+      ctrl = {};
+      HsmFsCtrl.bind(ctrl)(
         $scope,
         $state,
         $stateParams,
-        fsStream: fsStreamB,
-        qsStream
-      });
+        qsStream,
+        fsStreamB,
+        propagateChange
+      );
     })
   );
 
   it('should setup ctrl as expected', () => {
-    const instance = window.extendWithConstructor(HsmFsCtrl, {
+    const instance = Object.assign({}, HsmFsCtrl, {
       onUpdate: expect.any(Function)
     });
 
@@ -94,7 +96,7 @@ describe('HSM fs controller', () => {
 
   it('should set fileSystems data', () => {
     fsStream.write([{ id: '1' }, { id: '2' }]);
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(ctrl.fileSystems).toEqual([{ id: '1' }, { id: '2' }]);
   });
@@ -110,12 +112,14 @@ describe('HSM fs controller', () => {
         label: 'bar'
       }
     ]);
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
-    expect(ctrl.fs).toEqual({
-      id: '1',
-      label: 'foo'
-    });
+    expect(ctrl.fs).toEqual(
+      maybe.ofJust({
+        id: '1',
+        label: 'foo'
+      })
+    );
   });
 
   it('should filter out if fsId does not exist', () => {
@@ -126,7 +130,7 @@ describe('HSM fs controller', () => {
     qs$.write({
       qs: ''
     });
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
     expect(ctrl.fs).toBe(null);
   });
@@ -139,9 +143,9 @@ describe('HSM fs controller', () => {
     qs$.write({
       qs: ''
     });
-    jasmine.clock().tick();
+    jest.runAllTimers();
 
-    expect(ctrl.fs).toEqual({ id: '3' });
+    expect(ctrl.fs).toEqual(maybe.ofJust({ id: '3' }));
   });
 
   it('should call qsStream', () => {
