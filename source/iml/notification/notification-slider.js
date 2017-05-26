@@ -21,8 +21,6 @@
 
 import * as fp from '@mfl/fp';
 
-import notificationSliderTemplate from './assets/html/notification-slider.html';
-
 export function NotificationSliderController(
   $scope,
   $timeout,
@@ -80,7 +78,18 @@ export function notificationSlider() {
     },
     controllerAs: 'ctrl',
     bindToController: true,
-    template: notificationSliderTemplate,
+    template: `<div class='notification-slider' ng-if='open' ng-mouseenter='enter()' ng-mouseleave='leave()'>
+  <div class='notification-message'>
+    <h4>
+      <i class='fa fa-exclamation-triangle' style='margin-right: 6px;'></i>{{ message }}
+    </h4>
+  </div>
+
+  <div class='btn-group btn-group-justified btn-block'>
+    <a type='button' class='btn btn-block btn-danger' ng-click='close()'>Close<i class='fa fa-times-circle-o'></i></a>
+    <a type='button' class='btn btn-block btn-danger' href='/ui/status/?severity__in=WARNING,ERROR&active=true'>Details<i class='fa fa-arrow-circle-o-right'></i></a>
+  </div>
+</div>`,
     controller: 'NotificationSliderController'
   };
 }
