@@ -1,27 +1,27 @@
 import highland from 'highland';
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('lnet dispatch source', () => {
-  let store, s, socketStream;
+  let mockStore, s, mockSocketStream;
 
-  beforeEachAsync(async function() {
+  beforeEach(() => {
+    jest.resetModules();
     s = highland();
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(s);
+    mockSocketStream = jest.fn(() => s);
 
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
+    mockStore = {
+      dispatch: jest.fn()
     };
 
-    await mock('source/iml/lnet/lnet-dispatch-source.js', {
-      'source/iml/store/get-store.js': { default: store },
-      'source/iml/socket/socket-stream.js': {
-        default: socketStream
-      },
-      'source/iml/environment.js': {
-        ALLOW_ANONYMOUS_READ: true
-      }
-    });
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      ALLOW_ANONYMOUS_READ: true
+    }));
+
+    require('../../../../source/iml/lnet/lnet-dispatch-source.js');
 
     s.write({
       meta: 'meta',
@@ -36,10 +36,10 @@ describe('lnet dispatch source', () => {
     });
   });
 
-  afterEach(resetAll);
+  afterEach(() => (window.angular = null));
 
   it('should invoke the socket stream', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {
       qs: {
         dehydrate__host: false,
         limit: 0
@@ -48,7 +48,7 @@ describe('lnet dispatch source', () => {
   });
 
   it('should write the objects to the stream', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_LNET_CONFIGURATION_ITEMS',
       payload: [
         {
@@ -67,7 +67,7 @@ describe('lnet dispatch source', () => {
       objects: ['more lnet configurations']
     });
 
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_LNET_CONFIGURATION_ITEMS',
       payload: ['more lnet configurations']
     });
