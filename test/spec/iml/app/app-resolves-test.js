@@ -1,94 +1,84 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('app resolves', () => {
-  let socketStream,
-    resolveStream,
+  let mockSocketStream,
+    mockResolveStream,
     promise,
     stream,
     appModule,
-    CACHE_INITIAL_DATA;
-
-  beforeEachAsync(async function() {
+    mockCacheInitialData;
+  beforeEach(() => {
+    jest.resetModules();
     promise = {};
-    resolveStream = jasmine.createSpy('resolveStream');
-    resolveStream.and.returnValue(promise);
-
+    mockResolveStream = jest.fn();
+    mockResolveStream.mockReturnValue(promise);
     stream = {};
-    socketStream = jasmine.createSpy('socketStream');
-    socketStream.and.returnValue(stream);
+    mockSocketStream = jest.fn();
+    mockSocketStream.mockReturnValue(stream);
+    mockCacheInitialData = { session: {} };
+    appModule = jest.mock(
+      '../../../../source/iml/promise-transforms.js',
+      () => ({
+        resolveStream: mockResolveStream
+      })
+    );
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      CACHE_INITIAL_DATA: mockCacheInitialData
+    }));
 
-    CACHE_INITIAL_DATA = {
-      session: {}
-    };
-
-    appModule = await mock('source/iml/app/app-resolves.js', {
-      'source/iml/promise-transforms.js': { resolveStream },
-      'source/iml/socket/socket-stream.js': { default: socketStream },
-      'source/iml/environment.js': { CACHE_INITIAL_DATA }
-    });
+    appModule = require('../../../../source/iml/app/app-resolves.js');
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   describe('app alert stream', () => {
     let result;
-
     beforeEach(() => {
       result = appModule.alertStream();
     });
-
     it('should return a promise', () => {
       expect(result).toBe(promise);
     });
-
     it('should create a socket connection', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/alert/', {
         jsonMask: 'objects(message)',
-        qs: {
-          severity__in: ['WARNING', 'ERROR'],
-          limit: 0,
-          active: true
-        }
+        qs: { severity__in: ['WARNING', 'ERROR'], limit: 0, active: true }
       });
     });
   });
-
   describe('app notification stream', () => {
     let result;
-
     beforeEach(() => {
       result = appModule.appNotificationStream();
     });
-
     it('should return a promise', () => {
       expect(result).toBe(promise);
     });
-
     it('should create a socket connection', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/health');
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/health');
     });
-
     it('should call resolveStream with a stream', () => {
-      expect(resolveStream).toHaveBeenCalledOnceWith(stream);
+      expect(mockResolveStream).toHaveBeenCalledOnceWith(stream);
     });
   });
-
   describe('app session', () => {
     let appSession, SessionModel, session;
-
     beforeEach(() => {
       session = {};
-      SessionModel = jasmine.createSpy('SessionModel').and.returnValue(session);
-
+      SessionModel = jest.fn(() => session);
       appSession = appModule.appSessionFactory(SessionModel);
     });
-
     it('should return the session', () => {
       expect(appSession).toBe(session);
     });
-
     it('should call the session with initial data', () => {
-      expect(SessionModel).toHaveBeenCalledOnceWith(CACHE_INITIAL_DATA.session);
+      expect(SessionModel).toHaveBeenCalledOnceWith(
+        mockCacheInitialData.session
+      );
     });
   });
 });
