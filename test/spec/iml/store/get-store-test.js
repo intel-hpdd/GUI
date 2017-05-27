@@ -1,142 +1,175 @@
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('get store', () => {
-  let targetReducer,
-    createStore,
+  let mockMockMockMockTargetReducer,
+    mockMockMockMockCreateStore,
     store,
-    alertIndicatorReducer,
-    readWriteBandwidthChartReducer,
-    jobIndicatorReducer,
-    serverReducer,
-    lnetConfigurationReducer,
-    treeReducer,
-    fileSystemReducer,
-    readWriteHeatMapChartReducer,
-    mdoChartReducer,
-    ostBalanceChartReducer,
-    hostCpuRamChartReducer,
-    agentVsCopytoolChartReducer,
-    fileUsageChartReducer,
-    spaceUsageChartReducer,
-    cpuUsageChartReducer,
-    memoryUsageChartReducer,
-    userReducer,
+    mockMockMockMockAlertIndicatorReducer,
+    mockMockMockMockReadWriteBandwidthChartReducer,
+    mockMockMockMockJobIndicatorReducer,
+    mockMockMockMockServerReducer,
+    mockMockMockMockLnetConfigurationReducer,
+    mockMockMockMockTreeReducer,
+    mockMockMockMockFileSystemReducer,
+    mockMockMockMockReadWriteHeatMapChartReducer,
+    mockMockMockMockMdoChartReducer,
+    mockMockMockMockOstBalanceChartReducer,
+    mockMockMockMockHostCpuRamChartReducer,
+    mockMockMockMockAgentVsCopytoolChartReducer,
+    mockMockMockMockFileUsageChartReducer,
+    mockMockMockMockSpaceUsageChartReducer,
+    mockMockMockMockCpuUsageChartReducer,
+    mockMockMockMockMemoryUsageChartReducer,
+    mockMockMockMockUserReducer,
     storeInstance,
-    jobStatsReducer,
-    loginFormReducer,
-    sessionReducer;
-
-  beforeEachAsync(async function() {
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
-    };
-
-    createStore = jasmine.createSpy('createStore').and.returnValue(store);
-
-    targetReducer = {};
-    alertIndicatorReducer = {};
-    jobIndicatorReducer = {};
-    serverReducer = {};
-    lnetConfigurationReducer = {};
-    treeReducer = {};
-    fileSystemReducer = {};
-    readWriteHeatMapChartReducer = {};
-    mdoChartReducer = {};
-    ostBalanceChartReducer = {};
-    readWriteBandwidthChartReducer = {};
-    hostCpuRamChartReducer = {};
-    agentVsCopytoolChartReducer = {};
-    fileUsageChartReducer = {};
-    spaceUsageChartReducer = {};
-    cpuUsageChartReducer = {};
-    memoryUsageChartReducer = {};
-    userReducer = {};
-    jobStatsReducer = {};
-    loginFormReducer = {};
-    sessionReducer = {};
-
-    const storeModule = await mock('source/iml/store/get-store.js', {
-      'source/iml/target/target-reducer.js': { default: targetReducer },
-      'source/iml/alert-indicator/alert-indicator-reducer.js': {
-        default: alertIndicatorReducer
-      },
-      'source/iml/job-indicator/job-indicator-reducer.js': {
-        default: jobIndicatorReducer
-      },
-      'source/iml/server/server-reducer.js': { default: serverReducer },
-      'source/iml/lnet/lnet-configuration-reducer.js': {
-        default: lnetConfigurationReducer
-      },
-      'source/iml/tree/tree-reducer.js': { default: treeReducer },
-      'source/iml/file-system/file-system-reducer.js': {
-        default: fileSystemReducer
-      },
-      'source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js': {
-        default: readWriteHeatMapChartReducer
-      },
-      'source/iml/mdo/mdo-chart-reducer.js': { default: mdoChartReducer },
-      'source/iml/ost-balance/ost-balance-chart-reducer.js': {
-        default: ostBalanceChartReducer
-      },
-      'source/iml/read-write-bandwidth/read-write-bandwidth-chart-reducer.js': {
-        default: readWriteBandwidthChartReducer
-      },
-      'source/iml/host-cpu-ram-chart/host-cpu-ram-chart-reducer.js': {
-        default: hostCpuRamChartReducer
-      },
-      'source/iml/agent-vs-copytool/agent-vs-copytool-chart-reducer.js': {
-        default: agentVsCopytoolChartReducer
-      },
-      'source/iml/file-usage/file-usage-chart-reducer.js': {
-        default: fileUsageChartReducer
-      },
-      'source/iml/space-usage/space-usage-chart-reducer.js': {
-        default: spaceUsageChartReducer
-      },
-      'source/iml/cpu-usage/cpu-usage-chart-reducer.js': {
-        default: cpuUsageChartReducer
-      },
-      'source/iml/memory-usage/memory-usage-chart-reducer.js': {
-        default: memoryUsageChartReducer
-      },
-      'source/iml/user/user-reducer.js': { default: userReducer },
-      'source/iml/store/create-store.js': { default: createStore },
-      'source/iml/job-stats/job-stats-reducer': { default: jobStatsReducer },
-      'source/iml/login/login-form-reducer': { default: loginFormReducer },
-      'source/iml/session/session-reducer': { default: sessionReducer }
-    });
+    mockMockMockMockJobStatsReducer,
+    mockMockMockMockLoginFormReducer,
+    mockMockMockMockSessionReducer;
+  beforeEach(() => {
+    jest.resetModules();
+    store = { dispatch: jest.fn() };
+    mockMockMockMockCreateStore = jest.fn(() => store);
+    mockMockMockMockTargetReducer = {};
+    mockMockMockMockAlertIndicatorReducer = {};
+    mockMockMockMockJobIndicatorReducer = {};
+    mockMockMockMockServerReducer = {};
+    mockMockMockMockLnetConfigurationReducer = {};
+    mockMockMockMockTreeReducer = {};
+    mockMockMockMockFileSystemReducer = {};
+    mockMockMockMockReadWriteHeatMapChartReducer = {};
+    mockMockMockMockMdoChartReducer = {};
+    mockMockMockMockOstBalanceChartReducer = {};
+    mockMockMockMockReadWriteBandwidthChartReducer = {};
+    mockMockMockMockHostCpuRamChartReducer = {};
+    mockMockMockMockAgentVsCopytoolChartReducer = {};
+    mockMockMockMockFileUsageChartReducer = {};
+    mockMockMockMockSpaceUsageChartReducer = {};
+    mockMockMockMockCpuUsageChartReducer = {};
+    mockMockMockMockMemoryUsageChartReducer = {};
+    mockMockMockMockUserReducer = {};
+    mockMockMockMockJobStatsReducer = {};
+    mockMockMockMockLoginFormReducer = {};
+    mockMockMockMockSessionReducer = {};
+    jest.mock(
+      '../../../../source/iml/target/target-reducer.js',
+      () => mockMockMockMockTargetReducer
+    );
+    jest.mock(
+      '../../../../source/iml/alert-indicator/alert-indicator-reducer.js',
+      () => mockMockMockMockAlertIndicatorReducer
+    );
+    jest.mock(
+      '../../../../source/iml/job-indicator/job-indicator-reducer.js',
+      () => mockMockMockMockJobIndicatorReducer
+    );
+    jest.mock(
+      '../../../../source/iml/server/server-reducer.js',
+      () => mockMockMockMockServerReducer
+    );
+    jest.mock(
+      '../../../../source/iml/lnet/lnet-configuration-reducer.js',
+      () => mockMockMockMockLnetConfigurationReducer
+    );
+    jest.mock(
+      '../../../../source/iml/tree/tree-reducer.js',
+      () => mockMockMockMockTreeReducer
+    );
+    jest.mock(
+      '../../../../source/iml/file-system/file-system-reducer.js',
+      () => mockMockMockMockFileSystemReducer
+    );
+    jest.mock(
+      '../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js',
+      () => mockMockMockMockReadWriteHeatMapChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/mdo/mdo-chart-reducer.js',
+      () => mockMockMockMockMdoChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/ost-balance/ost-balance-chart-reducer.js',
+      () => mockMockMockMockOstBalanceChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/read-write-bandwidth/read-write-bandwidth-chart-reducer.js',
+      () => mockMockMockMockReadWriteBandwidthChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/host-cpu-ram-chart/host-cpu-ram-chart-reducer.js',
+      () => mockMockMockMockHostCpuRamChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/agent-vs-copytool/agent-vs-copytool-chart-reducer.js',
+      () => mockMockMockMockAgentVsCopytoolChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/file-usage/file-usage-chart-reducer.js',
+      () => mockMockMockMockFileUsageChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/space-usage/space-usage-chart-reducer.js',
+      () => mockMockMockMockSpaceUsageChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/cpu-usage/cpu-usage-chart-reducer.js',
+      () => mockMockMockMockCpuUsageChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/memory-usage/memory-usage-chart-reducer.js',
+      () => mockMockMockMockMemoryUsageChartReducer
+    );
+    jest.mock(
+      '../../../../source/iml/user/user-reducer.js',
+      () => mockMockMockMockUserReducer
+    );
+    jest.mock(
+      '../../../../source/iml/store/create-store.js',
+      () => mockMockMockMockCreateStore
+    );
+    jest.mock(
+      '../../../../source/iml/job-stats/job-stats-reducer',
+      () => mockMockMockMockJobStatsReducer
+    );
+    jest.mock(
+      '../../../../source/iml/login/login-form-reducer',
+      () => mockMockMockMockLoginFormReducer
+    );
+    jest.mock(
+      '../../../../source/iml/session/session-reducer',
+      () => mockMockMockMockSessionReducer
+    );
+    const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   it('should return a store', () => {
     expect(storeInstance).toBe(store);
   });
-
   it('should create a store', () => {
-    expect(createStore).toHaveBeenCalledOnceWith({
-      targets: targetReducer,
-      alertIndicators: alertIndicatorReducer,
-      jobIndicators: jobIndicatorReducer,
-      server: serverReducer,
-      lnetConfiguration: lnetConfigurationReducer,
-      tree: treeReducer,
-      fileSystems: fileSystemReducer,
-      readWriteHeatMapCharts: readWriteHeatMapChartReducer,
-      mdoCharts: mdoChartReducer,
-      ostBalanceCharts: ostBalanceChartReducer,
-      readWriteBandwidthCharts: readWriteBandwidthChartReducer,
-      hostCpuRamCharts: hostCpuRamChartReducer,
-      agentVsCopytoolCharts: agentVsCopytoolChartReducer,
-      fileUsageCharts: fileUsageChartReducer,
-      spaceUsageCharts: spaceUsageChartReducer,
-      cpuUsageCharts: cpuUsageChartReducer,
-      memoryUsageCharts: memoryUsageChartReducer,
-      users: userReducer,
-      jobStatsConfig: jobStatsReducer,
-      loginForm: loginFormReducer,
-      session: sessionReducer
+    expect(mockMockMockMockCreateStore).toHaveBeenCalledOnceWith({
+      targets: mockMockMockMockTargetReducer,
+      alertIndicators: mockMockMockMockAlertIndicatorReducer,
+      jobIndicators: mockMockMockMockJobIndicatorReducer,
+      server: mockMockMockMockServerReducer,
+      lnetConfiguration: mockMockMockMockLnetConfigurationReducer,
+      tree: mockMockMockMockTreeReducer,
+      fileSystems: mockMockMockMockFileSystemReducer,
+      readWriteHeatMapCharts: mockMockMockMockReadWriteHeatMapChartReducer,
+      mdoCharts: mockMockMockMockMdoChartReducer,
+      ostBalanceCharts: mockMockMockMockOstBalanceChartReducer,
+      readWriteBandwidthCharts: mockMockMockMockReadWriteBandwidthChartReducer,
+      hostCpuRamCharts: mockMockMockMockHostCpuRamChartReducer,
+      agentVsCopytoolCharts: mockMockMockMockAgentVsCopytoolChartReducer,
+      fileUsageCharts: mockMockMockMockFileUsageChartReducer,
+      spaceUsageCharts: mockMockMockMockSpaceUsageChartReducer,
+      cpuUsageCharts: mockMockMockMockCpuUsageChartReducer,
+      memoryUsageCharts: mockMockMockMockMemoryUsageChartReducer,
+      users: mockMockMockMockUserReducer,
+      jobStatsConfig: mockMockMockMockJobStatsReducer,
+      loginForm: mockMockMockMockLoginFormReducer,
+      session: mockMockMockMockSessionReducer
     });
   });
 });
