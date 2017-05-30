@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export function labelDirective(d3, getLabel) {
+export function labelDirective(getLabel) {
   'ngInject';
   return {
     restrict: 'A',
