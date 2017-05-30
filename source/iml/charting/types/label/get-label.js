@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export function getLabelFactory(d3) {
+export function getLabelFactory() {
   'ngInject';
   return function getLabel() {
     let color = '#000000';
