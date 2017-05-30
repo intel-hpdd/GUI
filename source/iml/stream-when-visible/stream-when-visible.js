@@ -22,7 +22,6 @@
 // express and approved by Intel in writing.
 
 import highland from 'highland';
-import * as fp from '@mfl/fp';
 import pageVisibility from '../page-visibility.js';
 
 import type { HighlandStreamT, errorWrapT } from 'highland';
@@ -64,7 +63,7 @@ export function streamWhenVisible(
     function onShow() {
       stream = streamFn();
 
-      stream.consume(consume).each(fp.noop);
+      stream.consume(consume).each(() => {});
     }
 
     function consume(error: Error, x, push, next) {
