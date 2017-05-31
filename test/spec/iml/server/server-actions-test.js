@@ -1,34 +1,27 @@
-import serverModule from '../../../../source/iml/server/server-module';
+import serverActionsFactory
+  from '../../../../source/iml/server/server-actions.js';
 
 describe('server actions', () => {
   let serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;
 
-  beforeEach(module(serverModule));
+  beforeEach(() => {
+    serverActions = serverActionsFactory();
 
-  beforeEach(
-    inject(_serverActions_ => {
-      serverActions = _serverActions_;
-
-      hosts = [
-        {
-          id: 1,
-          resource_uri: '/api/host/1',
-          server_profile: {
-            managed: true
-          }
-        }
-      ];
-
-      detectFs = serverActions[0];
-      rewriteTargetConfig = serverActions[1];
-      installUpdates = serverActions[2];
-    })
-  );
+    hosts = [
+      {
+        id: 1,
+        resource_uri: '/api/host/1',
+        server_profile: { managed: true }
+      }
+    ];
+    detectFs = serverActions[0];
+    rewriteTargetConfig = serverActions[1];
+    installUpdates = serverActions[2];
+  });
 
   it('should be an array', () => {
     expect(serverActions).toEqual(expect.any(Array));
   });
-
   it('should contain actions', () => {
     expect(serverActions).toEqual([
       {
@@ -63,36 +56,18 @@ describe('server actions', () => {
       }
     ]);
   });
-
   it('should convert detect file systems hosts to a job', () => {
     const result = detectFs.convertToJob(hosts);
-
     expect(result).toEqual([
-      {
-        class_name: 'DetectTargetsJob',
-        args: {
-          hosts: ['/api/host/1']
-        }
-      }
+      { class_name: 'DetectTargetsJob', args: { hosts: ['/api/host/1'] } }
     ]);
   });
-
   it('should check if a re-write target configuration host is disabled', () => {
     const result = rewriteTargetConfig.buttonDisabled(hosts);
-
     expect(result).toBe(false);
   });
-
   it('should convert install updates hosts to a job', () => {
     const result = installUpdates.convertToJob(hosts);
-
-    expect(result).toEqual([
-      {
-        class_name: 'UpdateJob',
-        args: {
-          host_id: 1
-        }
-      }
-    ]);
+    expect(result).toEqual([{ class_name: 'UpdateJob', args: { host_id: 1 } }]);
   });
 });
