@@ -1,8 +1,14 @@
 // @flow
 
 describe('tree actions', () => {
+  let addTreeItems,
+    toggleCollectionOpen,
+    updateCollectionOffset,
+    toggleItemOpen,
+    createItem;
   beforeEach(() => {
     jest.resetModules();
+
     const mod = require('../../../../source/iml/tree/tree-actions.js');
     ({
       addTreeItems,
