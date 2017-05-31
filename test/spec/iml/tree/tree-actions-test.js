@@ -1,17 +1,9 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('tree actions', () => {
-  let addTreeItems,
-    createItem,
-    toggleCollectionOpen,
-    updateCollectionOffset,
-    toggleItemOpen;
-
-  beforeEachAsync(async function() {
-    const mod = await mock('source/iml/tree/tree-actions.js', {});
-
+  beforeEach(() => {
+    jest.resetModules();
+    const mod = require('../../../../source/iml/tree/tree-actions.js');
     ({
       addTreeItems,
       toggleCollectionOpen,
@@ -21,7 +13,9 @@ describe('tree actions', () => {
     } = mod);
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   describe('add tree items', () => {
     it('should return an addItemsActionT', () => {
