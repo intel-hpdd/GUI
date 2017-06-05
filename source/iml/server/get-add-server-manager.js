@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import _ from '@mfl/lodash-mixins';
-
 export function addServerStepsFactory(
   ADD_SERVER_STEPS,
   addServersStep,
@@ -45,8 +43,7 @@ export function getAddServerManagerFactory(
   'ngInject';
   return function getAddServerManager() {
     const manager = stepsManager();
-
-    _.pairs(addServerSteps).forEach(function addStep(pair) {
+    Object.entries(addServerSteps).forEach(pair => {
       manager.addStep(pair[0], pair[1]);
     });
 
