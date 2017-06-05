@@ -1,50 +1,37 @@
 import highland from 'highland';
-
-import { mock, resetAll } from '../../../system-mock.js';
-
 describe('alert indicator dispatch source', () => {
-  let store, stream, socketStream;
-
-  beforeEachAsync(async function() {
-    store = {
-      dispatch: jasmine.createSpy('dispatch')
-    };
-
+  let mockStore, stream, mockSocketStream, mod;
+  beforeEach(() => {
+    jest.resetModules();
+    mockStore = { dispatch: jest.fn() };
     stream = highland();
-    spyOn(stream, 'destroy');
-
-    socketStream = jasmine.createSpy('socketStream').and.returnValue(stream);
-
-    await mock(
-      'source/iml/alert-indicator/alert-indicator-dispatch-source.js',
-      {
-        'source/iml/store/get-store.js': { default: store },
-        'source/iml/socket/socket-stream.js': { default: socketStream },
-        'source/iml/environment.js': {
-          ALLOW_ANONYMOUS_READ: true
-        }
-      }
+    jest.spyOn(stream, 'destroy');
+    mockSocketStream = jest.fn(() => stream);
+    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
+    jest.mock('../../../../source/iml/environment.js', () => ({
+      ALLOW_ANONYMOUS_READ: true
+    }));
+
+    mod = require('../../../../source/iml/alert-indicator/alert-indicator-dispatch-source.js');
   });
 
-  afterEach(resetAll);
+  afterEach(() => {
+    window.angular = null;
+  });
 
   it('should request alerts', () => {
-    expect(socketStream).toHaveBeenCalledOnceWith('/alert/', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/alert/', {
       jsonMask: 'objects(affected,message)',
-      qs: {
-        limit: 0,
-        active: true
-      }
+      qs: { limit: 0, active: true }
     });
   });
-
   it('should update alerts when new items arrive from a persistent socket', () => {
-    stream.write({
-      objects: ['more alerts']
-    });
-
-    expect(store.dispatch).toHaveBeenCalledOnceWith({
+    stream.write({ objects: ['more alerts'] });
+    expect(mockStore.dispatch).toHaveBeenCalledOnceWith({
       type: 'ADD_ALERT_INDICATOR_ITEMS',
       payload: ['more alerts']
     });
