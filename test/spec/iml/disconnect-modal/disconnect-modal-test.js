@@ -15,6 +15,10 @@ describe('disconnect modal', () => {
     jest.resetModules();
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(
     angular.mock.inject((_$timeout_, _$window_) => {
       $timeout = _$timeout_;

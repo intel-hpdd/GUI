@@ -64,6 +64,7 @@ describe('job stats top stream', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
+    window.angular = null;
   });
 
   describe('duration$', () => {

@@ -24,6 +24,10 @@ describe('job indicator dispatch source', () => {
     require('../../../../source/iml/job-indicator/job-indicator-dispatch-source.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should request pending and tasked jobs', () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith('/job/', {
       jsonMask: 'objects(write_locks,read_locks,description)',

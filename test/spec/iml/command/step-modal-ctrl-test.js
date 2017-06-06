@@ -6,6 +6,10 @@ describe('step modal', () => {
     jest.resetModules();
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('step modal controller', () => {
     let $scope,
       stepModal,

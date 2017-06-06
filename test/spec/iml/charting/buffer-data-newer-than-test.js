@@ -24,6 +24,7 @@ describe('buffer data newer than', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
+    window.angular = null;
   });
 
   it('should flatten milliseconds single seconds', () => {

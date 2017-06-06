@@ -29,6 +29,10 @@ describe('Exception modal controller', () => {
     mod = require('../../../../source/iml/exception/exception-modal-controller.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(
     angular.mock.inject(($rootScope, $controller) => {
       $scope = $rootScope.$new();

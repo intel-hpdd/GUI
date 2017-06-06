@@ -114,6 +114,10 @@ describe('cpu usage chart', () => {
     getCpuUsageChartFactory = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     getCpuUsageChart = getCpuUsageChartFactory(localApply, data$Fn);
 

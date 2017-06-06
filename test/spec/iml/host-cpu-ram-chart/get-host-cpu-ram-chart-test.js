@@ -109,6 +109,10 @@ describe('Host Cpu Ram chart', () => {
       .default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     initStream = highland();
     spyOn(initStream, 'destroy');

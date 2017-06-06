@@ -115,6 +115,10 @@ describe('space usage chart', () => {
     getSpaceUsageChartFactory = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     getSpaceUsageChart = getSpaceUsageChartFactory(localApply, data$Fn);
 

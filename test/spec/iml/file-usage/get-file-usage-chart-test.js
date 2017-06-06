@@ -116,6 +116,10 @@ describe('file usage chart', () => {
     getFileUsageChartFactory = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     getFileUsageChart = getFileUsageChartFactory(localApply, data$Fn);
 

@@ -31,6 +31,10 @@ describe('route transitions', () => {
     routeTransitions($transitions, $state);
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should set an onStart hook for three route processors', () => {
     expect($transitions.onStart).toHaveBeenCalledThriceWith(
       {

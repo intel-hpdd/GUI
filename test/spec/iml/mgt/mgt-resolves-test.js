@@ -18,6 +18,10 @@ describe('mgt resolves', () => {
     mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should select alertIndicators', () => {
     mgtAlertIndicatorStream();
 

@@ -72,6 +72,7 @@ describe('create or update hosts stream', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
+    window.angular = null;
   });
 
   it('should call serversToApiObjects', () => {

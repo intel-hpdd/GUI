@@ -17,7 +17,7 @@ describe('get network interface stream', () => {
   });
 
   afterEach(() => {
-    jest.resetModules();
+    window.angular = null;
   });
 
   it('should be a function', () => {

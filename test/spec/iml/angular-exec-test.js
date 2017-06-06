@@ -25,6 +25,10 @@ describe('mockAngular exec', () => {
     mockAngularExec = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('invoking the service', () => {
     let service;
     beforeEach(() => {

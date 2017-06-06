@@ -33,6 +33,10 @@ describe('Command monitor controller', () => {
     mod = require('../../../../source/iml/command/command-monitor-directive.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(
     angular.mock.inject(($rootScope, $controller, $q) => {
       $scope = $rootScope.$new();

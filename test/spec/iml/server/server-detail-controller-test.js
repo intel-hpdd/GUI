@@ -5,13 +5,6 @@ import angular from '../../../angular-mock-setup.js';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
 describe('server detail controller', () => {
-  beforeEach(
-    angular.mock.module($exceptionHandlerProvider => {
-      jest.resetModules();
-      $exceptionHandlerProvider.mode('log');
-    })
-  );
-
   let $scope,
     serverDetailController,
     serverStream,
@@ -23,6 +16,17 @@ describe('server detail controller', () => {
     lnetConfigurationStream,
     pacemakerConfigurationStream,
     corosyncConfigurationStream;
+
+  beforeEach(
+    angular.mock.module($exceptionHandlerProvider => {
+      jest.resetModules();
+      $exceptionHandlerProvider.mode('log');
+    })
+  );
+
+  afterEach(() => {
+    window.angular = null;
+  });
 
   beforeEach(
     inject(($rootScope, _$exceptionHandler_, propagateChange) => {

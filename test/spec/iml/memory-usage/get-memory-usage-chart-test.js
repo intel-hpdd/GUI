@@ -115,6 +115,10 @@ describe('memory usage chart', () => {
     getMemoryUsageChartFactory = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     getMemoryUsageChart = getMemoryUsageChartFactory(localApply, data$Fn);
 

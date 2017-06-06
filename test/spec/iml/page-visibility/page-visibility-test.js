@@ -23,6 +23,7 @@ describe('page visibility', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    window.angular = null;
   });
 
   it('should be a function', () => {

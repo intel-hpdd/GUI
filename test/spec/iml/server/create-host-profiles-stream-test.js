@@ -36,6 +36,7 @@ describe('host profile then', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
+    window.angular = null;
   });
 
   describe('get host profiles', () => {

@@ -39,6 +39,10 @@ describe('server', () => {
     serverController = serverControllerModule.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(
     angular.mock.inject(($rootScope, $controller, $q) => {
       $scope = $rootScope.$new();

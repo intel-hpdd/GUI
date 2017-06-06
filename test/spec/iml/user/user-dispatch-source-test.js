@@ -22,6 +22,11 @@ describe('user dispatch source', () => {
 
     require('../../../../source/iml/user/user-dispatch-source.js');
   });
+
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     s.write({ meta: 'meta', objects: [{ id: 1 }, { id: 2 }] });
   });

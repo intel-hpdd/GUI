@@ -122,6 +122,10 @@ describe('get agent vs copytool chart exports', () => {
     getAgentVsCopytoolChartFactory = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     jest.spyOn(mockD3.time, 'scale').mockImplementation(() => {
       timeScale = {};

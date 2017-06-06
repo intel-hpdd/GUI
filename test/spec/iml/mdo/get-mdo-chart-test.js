@@ -102,6 +102,10 @@ describe('MDO chart', () => {
     mod = require('../../../../source/iml/mdo/get-mdo-chart.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     initStream = highland();
     jest.spyOn(initStream, 'destroy');

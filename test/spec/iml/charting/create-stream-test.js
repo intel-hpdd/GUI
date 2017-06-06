@@ -38,6 +38,10 @@ describe('create stream', () => {
     createStream = mod.default(streamWhenVisible);
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should return an object', () => {
     expect(createStream).toEqual({
       durationStream: expect.any(Function),

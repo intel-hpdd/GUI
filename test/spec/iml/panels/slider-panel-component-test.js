@@ -24,6 +24,10 @@ describe('slider panel', () => {
     inst.rootPanel = rootPanel;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('on mousedown', () => {
     beforeEach(() => {
       inst.onMouseDown();

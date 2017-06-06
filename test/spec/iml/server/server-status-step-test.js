@@ -3,17 +3,12 @@ import angular from '../../../angular-mock-setup.js';
 describe('Server Status Step', () => {
   let mod, mockResolveStream;
   beforeEach(() => {
-    jest.resetModules();
     mockResolveStream = jest.fn(x => x);
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
 
     mod = require('../../../../source/iml/server/server-status-step.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('controller', () => {

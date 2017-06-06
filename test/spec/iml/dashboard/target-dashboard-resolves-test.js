@@ -39,6 +39,10 @@ describe('target dashboard', () => {
     $stateParams = {};
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('chart resolves', () => {
     let getFileUsageChart,
       getSpaceUsageChart,

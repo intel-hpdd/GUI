@@ -20,6 +20,10 @@ describe('old gui resolves', () => {
     mod = require('../../../../source/iml/old-gui-shim/old-gui-resolves.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('old filesystem detail resolve', () => {
     it('should resolve with the specified id', async () => {
       mockGetStore.select.mockImplementation(key => {

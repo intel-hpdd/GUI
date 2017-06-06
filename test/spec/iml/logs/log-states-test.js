@@ -35,6 +35,10 @@ describe('status states', () => {
     mod = require('../../../../source/iml/logs/log-states.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('log state', () => {
     it('should create the state ', () => {
       expect(mod.logState).toEqual({

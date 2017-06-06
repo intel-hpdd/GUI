@@ -16,6 +16,10 @@ describe('server resolves', () => {
     serverResolves = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should be a function', () => {
     expect(serverResolves).toEqual(expect.any(Function));
   });

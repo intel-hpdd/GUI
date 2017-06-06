@@ -37,6 +37,10 @@ describe('root panel component', () => {
     inst = new mod.Controller([el]);
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('on change', () => {
     let spy;
 

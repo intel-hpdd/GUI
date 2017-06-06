@@ -51,6 +51,10 @@ describe('jobstats resolves', () => {
     ({ jobstats$, getData } = mod);
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('jobstats$', () => {
     it('should select duration when there is no id prop', async () => {
       await jobstats$({});

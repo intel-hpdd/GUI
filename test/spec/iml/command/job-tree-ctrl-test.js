@@ -29,6 +29,10 @@ describe('job tree', () => {
       JobTreeCtrl = mod.JobTreeCtrl;
     });
 
+    afterEach(() => {
+      window.angular = null;
+    });
+
     beforeEach(
       angular.mock.inject($rootScope => {
         jobStream = highland();
@@ -148,6 +152,10 @@ describe('job tree', () => {
       jobTree = jest.fn();
       const getJobStream = mod.getJobStreamFactory(jobTree);
       stream = getJobStream(['/api/job/1/', '/api/job/2/']);
+    });
+
+    afterEach(() => {
+      window.angular = null;
     });
 
     it('should call socketStream', () => {

@@ -42,6 +42,10 @@ describe('hsm fs resolve', () => {
     ({ fsCollStream, getData } = mod);
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('fsCollStream', () => {
     beforeEach(() => {
       fsCollStream();

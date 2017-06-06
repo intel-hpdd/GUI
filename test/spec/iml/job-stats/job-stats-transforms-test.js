@@ -13,6 +13,10 @@ describe('job stats transforms', () => {
     jest.resetModules();
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('reduceToStruct', () => {
     it('should reduce a key value structure', () => {
       expect(

@@ -29,6 +29,10 @@ describe('server dispatch source', () => {
     require('../../../../source/iml/server/server-dispatch-source.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   beforeEach(() => {
     s.write({
       meta: 'meta',

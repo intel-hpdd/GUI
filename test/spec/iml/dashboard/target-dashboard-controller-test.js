@@ -26,6 +26,11 @@ describe('target dashboard', () => {
       );
     })
   );
+
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should setup the controller', () => {
     const scope = {
       ...TargetDashboardController,

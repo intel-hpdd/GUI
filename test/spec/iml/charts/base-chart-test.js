@@ -25,6 +25,10 @@ describe('base chart', () => {
     baseChart = mod.default;
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   it('should return a factory function', () => {
     expect(baseChart).toEqual(expect.any(Function));
   });

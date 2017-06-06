@@ -27,6 +27,11 @@ describe('configure corosync', () => {
 
     mod = require('../../../../source/iml/corosync/configure-corosync.js');
   });
+
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('controller', () => {
     beforeEach(
       angular.mock.inject(($controller, $rootScope) => {

@@ -20,6 +20,10 @@ describe('dashboard resolves', () => {
     mod = require('../../../../source/iml/dashboard/dashboard-resolves.js');
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('fs stream', () => {
     let fsStream;
 

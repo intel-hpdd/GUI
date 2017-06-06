@@ -13,6 +13,10 @@ describe('duration submit handler', () => {
     durationSubmitter = mod.default('chart_type', { page: 'base' });
   });
 
+  afterEach(() => {
+    window.angular = null;
+  });
+
   describe('passing a range form', () => {
     it('should dispatch the range form changes to the store', () => {
       const forms = {
