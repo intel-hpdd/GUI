@@ -11,7 +11,7 @@ describe('get network interface stream', () => {
       () => mockSocketStream
     );
 
-    mod = require('../../../../source/iml/lnet/get-network-interface-stream.js');
+    const mod = require('../../../../source/iml/lnet/get-network-interface-stream.js');
     getNetworkInterfaceStream = mod.default;
     stream = getNetworkInterfaceStream({ qs: { host__id: '1' } });
   });

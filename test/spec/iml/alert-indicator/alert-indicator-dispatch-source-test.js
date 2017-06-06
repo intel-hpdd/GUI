@@ -1,6 +1,6 @@
 import highland from 'highland';
 describe('alert indicator dispatch source', () => {
-  let mockStore, stream, mockSocketStream, mod;
+  let mockStore, stream, mockSocketStream;
   beforeEach(() => {
     jest.resetModules();
     mockStore = { dispatch: jest.fn() };
@@ -16,7 +16,7 @@ describe('alert indicator dispatch source', () => {
       ALLOW_ANONYMOUS_READ: true
     }));
 
-    mod = require('../../../../source/iml/alert-indicator/alert-indicator-dispatch-source.js');
+    require('../../../../source/iml/alert-indicator/alert-indicator-dispatch-source.js');
   });
 
   afterEach(() => {

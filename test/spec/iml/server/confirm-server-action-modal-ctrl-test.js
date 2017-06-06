@@ -22,7 +22,7 @@ describe('Confirm server action modal', () => {
       () => mockSocketStream
     );
 
-    mod = require('../../../../source/iml/server/confirm-server-action-modal-ctrl.js');
+    const mod = require('../../../../source/iml/server/confirm-server-action-modal-ctrl.js');
     ConfirmServerActionModalCtrl = mod.default;
   });
 

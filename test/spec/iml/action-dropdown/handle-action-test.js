@@ -18,7 +18,7 @@ describe('handle action', () => {
       () => mockSocketStream
     );
 
-    mod = require('../../../../source/iml/action-dropdown/handle-action.js');
+    const mod = require('../../../../source/iml/action-dropdown/handle-action.js');
     handleAction = mod.default(openConfirmActionModal);
   });
   afterEach(() => {
