@@ -1,9 +1,8 @@
-import appModule from '../../../../source/iml/app/app-module';
 import highland from 'highland';
+import angular from '../../../angular-mock-setup.js';
+import fixturesModule from '../../../fixtures/fixtures.js';
 
 describe('App controller', () => {
-  beforeEach(module(appModule));
-
   let $scope,
     appController,
     sessionFixture,
@@ -15,137 +14,105 @@ describe('App controller', () => {
     alertStream,
     notificationStream;
 
+  beforeEach(angular.mock.module(fixturesModule));
   beforeEach(
-    inject(function($rootScope, $q, $controller, fixtures) {
-      help = {
-        get: jasmine.createSpy('help').and.returnValue('2015')
-      };
-
+    angular.mock.inject(($rootScope, $q, fixtures) => {
+      help = { get: jest.fn(() => '2015') };
       GROUPS = {};
-
-      ENV = {
-        RUNTIME_VERSION: 'dev'
-      };
-
-      navigate = jasmine.createSpy('navigate');
-
+      ENV = { RUNTIME_VERSION: 'dev' };
+      navigate = jest.fn();
       $scope = $rootScope.$new();
-
       deferred = $q.defer();
-
       sessionFixture = fixtures.getFixture('session', function(fixture) {
         return fixture.status === 200;
       });
-
       alertStream = highland();
-      spyOn(alertStream, 'destroy');
-
+      jest.spyOn(alertStream, 'destroy');
       notificationStream = highland();
-      spyOn(notificationStream, 'destroy');
+      jest.spyOn(notificationStream, 'destroy');
 
-      appController = $controller('AppCtrl', {
-        $scope: $scope,
-        session: {
+      const mod = require('../../../../source/iml/app/app-controller.js');
+      appController = {};
+      mod.default.bind(appController)(
+        $scope,
+        {
           user: sessionFixture.data.user,
-          $delete: jasmine
-            .createSpy('$delete')
-            .and.returnValue(deferred.promise)
+          $delete: jest.fn().mockReturnValue(deferred.promise)
         },
-        navigate: navigate,
-        help: help,
-        alertStream: alertStream,
-        notificationStream: notificationStream,
-        ENV: ENV,
-        GROUPS: GROUPS
-      });
+        navigate,
+        ENV,
+        GROUPS,
+        help,
+        notificationStream,
+        alertStream
+      );
     })
   );
-
-  it('should retrieve the copyright year from help text', function() {
+  it('should retrieve the copyright year from help text', () => {
     expect(help.get).toHaveBeenCalledOnceWith('copyright_year');
   });
-
-  it('should set the copyright year on the controller', function() {
+  it('should set the copyright year on the controller', () => {
     expect(appController.COPYRIGHT_YEAR).toBe('2015');
   });
-
-  it('should have a method to redirect to login', function() {
+  it('should have a method to redirect to login', () => {
     appController.login();
-
     expect(navigate).toHaveBeenCalledOnceWith('login/');
   });
-
-  it('should tell if the user is logged in', function() {
+  it('should tell if the user is logged in', () => {
     expect(appController.loggedIn).toBe(true);
   });
-
-  it('should direct the on click method to the proper action', function() {
+  it('should direct the on click method to the proper action', () => {
     expect(appController.onClick).toBe(appController.logout);
   });
-
-  it('should tell if the user is logged in', function() {
+  it('should tell if the user is logged in', () => {
     expect(appController.loggedIn).toBe(true);
   });
-
-  it('should direct the on click method to the proper action', function() {
+  it('should direct the on click method to the proper action', () => {
     expect(appController.onClick).toBe(appController.logout);
   });
-
-  describe('above limit', function() {
-    beforeEach(function() {
+  describe('above limit', () => {
+    beforeEach(() => {
       notificationStream.write({ count: 100 });
     });
-
-    it('should tell we are above the limit', function() {
+    it('should tell we are above the limit', () => {
       expect(appController.status.aboveLimit).toBe(true);
     });
-
-    it('should cap the count at limit', function() {
+    it('should cap the count at limit', () => {
       expect(appController.status.count).toBe(99);
     });
   });
-
-  describe('below limit', function() {
-    beforeEach(function() {
+  describe('below limit', () => {
+    beforeEach(() => {
       notificationStream.write({ count: 1 });
     });
-
-    it('should tell we are below the limit', function() {
+    it('should tell we are below the limit', () => {
       expect(appController.status.aboveLimit).toBe(false);
     });
-
-    it('should not cap the count', function() {
+    it('should not cap the count', () => {
       expect(appController.status.count).toBe(1);
     });
   });
-
-  describe('logout', function() {
-    beforeEach(function() {
+  describe('logout', () => {
+    beforeEach(() => {
       appController.logout();
-
       deferred.resolve();
       $scope.$apply();
     });
-
-    it('should delete the session', function() {
+    it('should delete the session', () => {
       expect(appController.session.$delete).toHaveBeenCalledTimes(1);
     });
-
-    it('should navigate to login', function() {
+    it('should navigate to login', () => {
       expect(navigate).toHaveBeenCalledOnceWith('login/', undefined);
     });
   });
-
-  describe('destroy', function() {
-    beforeEach(function() {
+  describe('destroy', () => {
+    beforeEach(() => {
       $scope.$destroy();
     });
-
-    it('should destroy the notification stream', function() {
+    it('should destroy the notification stream', () => {
       expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
     });
-
-    it('should destroy the alert stream', function() {
+    it('should destroy the alert stream', () => {
       expect(alertStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
