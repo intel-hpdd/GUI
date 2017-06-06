@@ -42,6 +42,6 @@ export default function TargetDashboardController(
   $scope.$on('$destroy', () => {
     targetStream.destroy();
     usageStream.endBroadcast();
-    fp.map(c => c.stream.destroy(), charts);
+    fp.map(c => c.stream.destroy())(charts);
   });
 }
