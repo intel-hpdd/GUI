@@ -51,15 +51,6 @@ window.convertNvDates = function convertNvDates(s) {
   );
 };
 
-window.flushD3Transitions = function flushD3Transitions() {
-  const now = Date.now;
-  Date.now = function() {
-    return Infinity;
-  };
-  window.d3.timer.flush();
-  Date.now = now;
-};
-
 window.beforeEachAsync = (runAsync: Function, timeout: number) => {
   timeout = timeout || jasmine.DEFAULT_TIMEOUT_INTERVAL;
 
