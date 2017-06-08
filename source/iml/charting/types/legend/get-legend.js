@@ -20,10 +20,12 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
+import d3 from 'd3';
+import * as maybe from '@mfl/maybe';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
-export function getLegendFactory(d3) {
+export function getLegendFactory() {
   'ngInject';
   return function getLegend() {
     let colors;
@@ -40,7 +42,8 @@ export function getLegendFactory(d3) {
 
     const mapDimensions = fp.flow(
       fp.head,
-      fp.map(fp.invokeMethod('getBoundingClientRect', []))
+      maybe.fromJust.bind(null),
+      fp.map(fp.invokeMethod('getBoundingClientRect')([]))
     );
 
     const translate = (x, y) => `translate(${x},${y})`;
@@ -128,7 +131,8 @@ export function getLegendFactory(d3) {
               .select('circle')
               .transition()
               .attr('fill-opacity', opacityVal);
-            dispatch.selection(fp.head(group.data()), selected);
+
+            dispatch.selection(maybe.fromJust(fp.head(group.data())), selected);
           });
       });
     }
@@ -136,7 +140,7 @@ export function getLegendFactory(d3) {
     function mapToCoords(groups) {
       let pos = 0;
       let row = 1;
-      const groupHeight = fp.head(groups).height;
+      const groupHeight = maybe.fromJust(fp.head(groups)).height;
 
       return fp.map(function mapCoordinates(curObj) {
         const itemWidth = curObj.width;
@@ -153,7 +157,7 @@ export function getLegendFactory(d3) {
         curObj.fits = curObj.y <= height;
 
         return curObj;
-      }, groups);
+      })(groups);
     }
 
     legend.colors = function colorAccessor(_) {
