@@ -66,7 +66,7 @@ describe('The notification slider directive', () => {
           bubbles: true
         });
         findSlider().dispatchEvent(event);
-        //$timeout.verifyNoPendingTasks();
+        $timeout.verifyNoPendingTasks();
         $timeout.flush(5000);
         expect(findSlider()).toBeShown();
         $timeout.verifyNoPendingTasks();
@@ -78,7 +78,7 @@ describe('The notification slider directive', () => {
           bubbles: true
         });
         findSlider().dispatchEvent(event);
-        //$timeout.verifyNoPendingTasks();
+        $timeout.verifyNoPendingTasks();
         event = new MouseEvent('mouseout', {
           clientX: 500,
           clientY: 500,
