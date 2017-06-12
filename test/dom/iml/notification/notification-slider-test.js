@@ -19,7 +19,7 @@ describe('The notification slider directive', () => {
   );
 
   beforeEach(
-    angular.mock.inject(function($rootScope, $compile, _$timeout_) {
+    angular.mock.inject(($rootScope, $compile, _$timeout_) => {
       const template =
         '<notification-slider stream="stream"></notification-slider>';
       $timeout = _$timeout_;
@@ -31,60 +31,72 @@ describe('The notification slider directive', () => {
       $scope.$digest();
     })
   );
+
+  beforeEach(() => {
+    document.body.appendChild(el);
+  });
+
+  afterEach(() => {
+    document.body.removeChild(el);
+  });
+
   describe('a single alert', () => {
     beforeEach(() => {
       $scope.stream.write({ objects: [{ message: 'an alert' }] });
+      // Flush 0 because JSDOM sets document to hidden which pushes
+      // an untrackable $timeout animate call onto the $timeout queue.
+      $timeout.flush(0);
     });
+
     it('should display', () => {
       expect(findSlider()).toBeShown();
     });
+
     it('should display a message', () => {
       const text = el
         .querySelector('.notification-message h4')
         .textContent.trim();
+
       expect(text).toEqual('an alert');
     });
+
     it('should retract after 5 seconds', () => {
       $timeout.flush(5000);
       expect(findSlider()).toBeNull();
     });
+
     it('should be closable', () => {
       el.querySelector('.btn-danger').click();
       expect(findSlider()).toBeNull();
     });
+
     describe('mousing', () => {
       beforeEach(() => {
-        document.body.appendChild(el);
-      });
-      afterEach(() => {
-        document.body.removeChild(el);
-      });
-      it('should stay open while moused over', () => {
         const event = new MouseEvent('mouseover', {
           clientX: 50,
           clientY: 50,
           bubbles: true
         });
+
         findSlider().dispatchEvent(event);
         $timeout.verifyNoPendingTasks();
+      });
+
+      it('should stay open while moused over', () => {
         $timeout.flush(5000);
+
         expect(findSlider()).toBeShown();
         $timeout.verifyNoPendingTasks();
       });
+
       it('should close when moused out', () => {
-        let event = new MouseEvent('mouseover', {
-          clientX: 50,
-          clientY: 50,
-          bubbles: true
-        });
-        findSlider().dispatchEvent(event);
-        $timeout.verifyNoPendingTasks();
-        event = new MouseEvent('mouseout', {
+        const event = new MouseEvent('mouseout', {
           clientX: 500,
           clientY: 500,
           bubbles: true
         });
         findSlider().dispatchEvent(event);
+
         $timeout.flush(5000);
         expect(findSlider()).toBeNull();
       });
