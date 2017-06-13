@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import _ from '@mfl/lodash-mixins';
+import d3 from 'd3';
 
-export default function getHeatMapChart(nv, d3, getHeatMapLegend, getHeatMap) {
+export default function getHeatMapChart(nv, getHeatMapLegend, getHeatMap) {
   'ngInject';
   return function getChart() {
     let margin = {

@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export default function getHeatMapLegendFactory(d3) {
+export default function getHeatMapLegendFactory() {
   'ngInject';
   const TEXT_PADDING = 5;
   const STEP_WIDTH = 1;

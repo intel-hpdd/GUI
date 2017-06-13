@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import _ from '@mfl/lodash-mixins';
+import d3 from 'd3';
 
-export default function getHeatMapFactory(d3) {
+export default function getHeatMapFactory() {
   'ngInject';
   return function getHeatMap() {
     let xScale = _.noop;

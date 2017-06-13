@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import moment from 'moment';
+import d3 from 'd3';
 
-export default function stackedAreaChart(d3, dateTicks, baseChart) {
+export default function stackedAreaChart(dateTicks, baseChart) {
   'ngInject';
   const colors = d3.scale.category20c();
 

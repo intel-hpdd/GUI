@@ -1,6 +1,7 @@
 import _ from '@mfl/lodash-mixins';
 import angular from '../../../angular-mock-setup.js';
 import heatMapModule from '../../../../source/iml/heat-map/heat-map-module.js';
+import d3 from 'd3';
 
 describe('get heat map chart test', () => {
   beforeEach(angular.mock.module(heatMapModule));
@@ -48,34 +49,30 @@ describe('get heat map chart test', () => {
   });
 
   describe('when populated', () => {
-    let d3, svg, div, setup, query, queryAll;
+    let svg, div, setup, query, queryAll;
 
-    beforeEach(
-      inject(_d3_ => {
-        d3 = _d3_;
+    beforeEach(() => {
+      div = document.createElement('div');
 
-        div = document.createElement('div');
+      svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', 500);
+      svg.setAttribute('height', 500);
 
-        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('width', 500);
-        svg.setAttribute('height', 500);
+      div.appendChild(svg);
 
-        div.appendChild(svg);
+      document.body.appendChild(div);
 
-        document.body.appendChild(div);
+      heatMapChart.zValue(_.pluckPath('data.stats_read_bytes'));
 
-        heatMapChart.zValue(_.pluckPath('data.stats_read_bytes'));
+      heatMapChart.xAxis().tickFormat(d3.time.format.utc('%H:%M:%S'));
 
-        heatMapChart.xAxis().tickFormat(d3.time.format.utc('%H:%M:%S'));
+      query = svg.querySelector.bind(svg);
+      queryAll = svg.querySelectorAll.bind(svg);
 
-        query = svg.querySelector.bind(svg);
-        queryAll = svg.querySelectorAll.bind(svg);
-
-        setup = function setup(d) {
-          d3.select(svg).datum(d).call(heatMapChart);
-        };
-      })
-    );
+      setup = function setup(d) {
+        d3.select(svg).datum(d).call(heatMapChart);
+      };
+    });
 
     afterEach(() => {
       document.body.removeChild(div);
