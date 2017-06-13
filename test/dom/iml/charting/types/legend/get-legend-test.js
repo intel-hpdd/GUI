@@ -191,7 +191,6 @@ describe('get legend', () => {
             maybe.fromJust.bind(null),
             fp.map(getItemDimensions)
           )(legendContainer.selectAll('.legend-wrap > g'));
-          console.log('itemdimensions', document.body.clientHeight);
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
         it('should be arranged in the appropriate order', () => {

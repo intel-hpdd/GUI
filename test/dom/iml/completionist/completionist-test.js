@@ -53,7 +53,6 @@ describe('completionist', () => {
       input.dispatchEvent(new Event('focus'));
     });
     it('should render choices', () => {
-      console.log('qsa', Array.from(qsa('li')));
       const texts = Array.from(qsa('li')).map(x => x.textContent.trim());
       expect(texts).toEqual(['foo', 'bar']);
     });
