@@ -69,7 +69,7 @@ describe('tooltip', () => {
         root
       );
 
-      tooltip = querySelector(root, '.inferno-tt');
+      tooltip = root.querySelector('.inferno-tt');
     });
 
     it('should not render a tooltip', () => {
