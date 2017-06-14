@@ -53,5 +53,5 @@ export const getResolvedData = (
     x => fp.find(val => val === x)(transition.getResolveTokens()),
     maybe.of(resolveName)
   );
-  return maybe.map(transition.getResolveValue, resolvedToken);
+  return maybe.map(transition.getResolveValue.bind(transition), resolvedToken);
 };
