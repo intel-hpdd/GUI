@@ -150,6 +150,7 @@ describe('get line', () => {
         expect(line.getAttribute('stroke')).toEqual('#000000');
       });
       it('should set stroke-dasharray to the total length of the line', () => {
+        expect.assertions(2);
         line
           .getAttribute('stroke-dasharray')
           .split(' ')
