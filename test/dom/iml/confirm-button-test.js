@@ -1,53 +1,35 @@
-import { mock, resetAll } from '../../system-mock.js';
+import angular from '../../angular-mock-setup.js';
 
 describe('confirm button', () => {
-  let mod, spy, defaultButton, verifyButton, waitingButton, global;
+  let mod, spy, defaultButton, verifyButton, waitingButton, mockGlobal;
 
-  beforeEachAsync(async function() {
-    spy = jasmine.createSpy('spy');
-    global = document;
-    spyOn(global, 'addEventListener').and.callThrough();
-    spyOn(global, 'removeEventListener').and.callThrough();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    spy = jest.fn();
+    mockGlobal = document;
+    jest.spyOn(mockGlobal, 'addEventListener');
+    jest.spyOn(mockGlobal, 'removeEventListener');
+    jest.mock('../../../source/iml/global.js', () => mockGlobal);
 
-    mod = await mock('source/iml/confirm-button.js', {
-      'source/iml/global.js': { default: global }
-    });
+    mod = require('../../../source/iml/confirm-button.js');
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module('extendScope', $compileProvider => {
+    angular.mock.module('extendScope', $compileProvider => {
       $compileProvider.component('confirmButton', mod.default);
     })
   );
 
   let $scope, el;
-
   beforeEach(
-    inject(($compile, $rootScope) => {
+    angular.mock.inject(($compile, $rootScope) => {
       $scope = $rootScope.$new();
       $scope.spy = spy;
 
-      const template = `
-    <confirm-button confirm-click="spy()">
-      <default-button>
-        <button>Delete</button>
-      </default-button>
-      <verify-button>
-        <button>Confirm Delete</button>
-      </verify-button>
-      <waiting-button>
-        <button>Waiting</button>
-      </waiting-button>
-    </confirm-button>
-    `;
-
+      const template = ` <confirm-button confirm-click="spy()"> <default-button> <button>Delete</button> </default-button> <verify-button> <button>Confirm Delete</button> </verify-button> <waiting-button> <button>Waiting</button> </waiting-button> </confirm-button> `;
       el = $compile(template)($scope)[0];
-      spyOn(el, 'addEventListener').and.callThrough();
-
-      spyOn(el, 'removeEventListener').and.callThrough();
-
+      jest.spyOn(el, 'addEventListener');
+      jest.spyOn(el, 'removeEventListener');
       $scope.$digest();
 
       defaultButton = el.querySelector.bind(el, 'default-button');
@@ -74,7 +56,7 @@ describe('confirm button', () => {
     });
 
     it('should not have added an event listener', () => {
-      expect(global.addEventListener).not.toHaveBeenCalled();
+      expect(mockGlobal.addEventListener).not.toHaveBeenCalled();
     });
   });
 
@@ -101,7 +83,7 @@ describe('confirm button', () => {
     });
 
     it('should call addEventListener', () => {
-      expect(global.addEventListener).toHaveBeenCalledOnceWith(
+      expect(mockGlobal.addEventListener).toHaveBeenCalledOnceWith(
         'click',
         expect.any(Function),
         false
@@ -115,7 +97,7 @@ describe('confirm button', () => {
       });
 
       it('should call removeEventListener', () => {
-        expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+        expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
           'click',
           expect.any(Function),
           false
@@ -162,7 +144,7 @@ describe('confirm button', () => {
       });
 
       it('should remove the event listener', () => {
-        expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+        expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
           'click',
           expect.any(Function),
           false
@@ -174,7 +156,8 @@ describe('confirm button', () => {
   describe('destroy', () => {
     it('should remove the event listener from global', () => {
       $scope.$destroy();
-      expect(global.removeEventListener).toHaveBeenCalledOnceWith(
+
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
         'click',
         expect.any(Function),
         false
