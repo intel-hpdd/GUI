@@ -1,25 +1,20 @@
 // @flow
-
 import Inferno from 'inferno';
-
-import { mock, resetAll } from '../../system-mock.js';
 import { querySelector } from '../../../source/iml/dom-utils.js';
 
 describe('help tooltip', () => {
-  let root, helpTooltip: HTMLElement, HelpTooltip, HELP_TEXT;
+  let root, helpTooltip: HTMLElement, HelpTooltip, mockHelpText;
 
   describe('with a message', () => {
-    beforeEachAsync(async function() {
+    beforeEach(() => {
       root = document.createElement('div');
-      HELP_TEXT = {
-        my_key: 'your value'
-      };
+      mockHelpText = { my_key: 'your value' };
+      jest.mock('../../../source/iml/environment.js', () => ({
+        HELP_TEXT: mockHelpText
+      }));
 
-      const mod = await mock('source/iml/help-tooltip.js', {
-        'source/iml/environment.js': { HELP_TEXT }
-      });
+      HelpTooltip = require('../../../source/iml/help-tooltip.js').default;
 
-      HelpTooltip = mod.default;
       Inferno.render(
         <HelpTooltip
           helpKey="my_key"
@@ -31,8 +26,6 @@ describe('help tooltip', () => {
 
       helpTooltip = querySelector(root, '.inferno-tt');
     });
-
-    afterEach(resetAll);
 
     it('should render the helpTooltip', () => {
       expect(helpTooltip).not.toBeNull();
@@ -78,7 +71,7 @@ describe('help tooltip', () => {
         root
       );
 
-      helpTooltip = querySelector(root, '.inferno-tt');
+      helpTooltip = root.querySelector('.inferno-tt');
     });
 
     it('should not render a tooltip', () => {
