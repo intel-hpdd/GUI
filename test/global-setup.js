@@ -4,29 +4,6 @@ import 'angular-mocks';
 import fixturesModule from './fixtures/fixtures';
 import * as fp from '@mfl/fp';
 
-beforeEach(() => {
-  jasmine.addMatchers({
-    toHaveText() {
-      return {
-        compare: (el, text) => {
-          const elText = el.textContent.trim();
-
-          if (elText === text)
-            return {
-              pass: true,
-              message: `Expected '${elText}' not to be text '${text}'.`
-            };
-          else
-            return {
-              pass: false,
-              message: `Expected '${elText}' to be text '${text}'.`
-            };
-        }
-      };
-    }
-  });
-});
-
 beforeEach(angular.mock.module(fixturesModule));
 
 /**

@@ -1,9 +1,17 @@
-import parselyBoxModule
-  from '../../../../source/iml/parsely-box/parsely-box-module';
+import {
+  parselyBox,
+  parseQuery
+} from '../../../../source/iml/parsely-box/parsely-box.js';
+import completionist
+  from '../../../../source/iml/completionist/completionist.js';
+import completionistModelHook
+  from '../../../../source/iml/completionist/completionist-model-hook.js';
+import completionistDropdownComponent
+  from '../../../../source/iml/completionist/completionist-dropdown.js';
+import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('parsely box', () => {
-  beforeEach(module(parselyBoxModule));
-
   let el,
     $scope,
     qs,
@@ -15,7 +23,24 @@ describe('parsely box', () => {
     completionistDropdown;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('completionist', completionist);
+      $compileProvider.component(
+        'completionistDropdown',
+        completionistDropdownComponent
+      );
+      $compileProvider.directive(
+        'completionistModelHook',
+        completionistModelHook
+      );
+      $compileProvider.directive('imlTooltip', imlTooltip);
+      $compileProvider.directive('parselyBox', parselyBox);
+      $compileProvider.directive('parseQuery', parseQuery);
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject(($rootScope, $compile) => {
       const template = `
 <parsely-box
   on-submit="::onSubmit(qs)"
@@ -55,7 +80,7 @@ describe('parsely box', () => {
               }
             ];
         },
-        onSubmit: jasmine.createSpy('onSubmit'),
+        onSubmit: jest.fn(),
         initialQuery: ''
       });
 
