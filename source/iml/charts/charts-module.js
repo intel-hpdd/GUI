@@ -23,7 +23,6 @@
 
 import angular from 'angular';
 import nvModule from '../nv/nv-module';
-import heatMapModule from '../heat-map/heat-map-module';
 import streamWhenVisibleModule
   from '../stream-when-visible/stream-when-visible-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
@@ -36,12 +35,7 @@ import pieGraph from './pie-graph';
 import stackedAreaChart from './stacked-area-chart';
 
 export default angular
-  .module('charts', [
-    nvModule,
-    uiBootstrapModule,
-    heatMapModule,
-    streamWhenVisibleModule
-  ])
+  .module('charts', [nvModule, uiBootstrapModule, streamWhenVisibleModule])
   .value('baseChart', baseChart)
   .factory('dateTicks', dateTicksFactory)
   .directive('heatMap', heatMap)

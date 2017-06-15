@@ -6,7 +6,7 @@ describe('the heat map', () => {
   let heatMap;
 
   beforeEach(() => {
-    heatMap = getHeatMap()();
+    heatMap = getHeatMap();
   });
 
   it('should be callable', () => {

@@ -1,20 +1,29 @@
 import _ from '@mfl/lodash-mixins';
-import angular from '../../../angular-mock-setup.js';
-import heatMapModule from '../../../../source/iml/heat-map/heat-map-module.js';
+import getHeatMapChart
+  from '../../../../source/iml/heat-map/get-heat-map-chart.js';
 import d3 from 'd3';
 
 describe('get heat map chart test', () => {
-  beforeEach(angular.mock.module(heatMapModule));
+  let heatMapChart;
 
-  let getHeatMapChart, heatMapChart;
+  beforeEach(() => {
+    window.d3 = d3;
+  });
 
-  beforeEach(
-    inject(_getHeatMapChart_ => {
-      getHeatMapChart = _getHeatMapChart_;
+  afterEach(() => {
+    delete window.d3;
+  });
 
-      heatMapChart = getHeatMapChart();
-    })
-  );
+  beforeEach(() => {
+    HTMLElement.prototype.getBBox = () => ({
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0
+    });
+
+    heatMapChart = getHeatMapChart();
+  });
 
   it('should be callable', () => {
     expect(heatMapChart).toEqual(expect.any(Function));
@@ -33,7 +42,6 @@ describe('get heat map chart test', () => {
     'xAxisDetail',
     'duration'
   ];
-
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
       expect(heatMapChart[accessor]).toEqual(expect.any(Function));
@@ -41,9 +49,7 @@ describe('get heat map chart test', () => {
 
     it('should set ' + accessor, () => {
       const val = { foo: 'bar' };
-
       heatMapChart[accessor](val);
-
       expect(heatMapChart[accessor]()).toBe(val);
     });
   });
@@ -53,23 +59,22 @@ describe('get heat map chart test', () => {
 
     beforeEach(() => {
       div = document.createElement('div');
-
       svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.setAttribute('width', 500);
       svg.setAttribute('height', 500);
 
       div.appendChild(svg);
-
       document.body.appendChild(div);
 
       heatMapChart.zValue(_.pluckPath('data.stats_read_bytes'));
-
       heatMapChart.xAxis().tickFormat(d3.time.format.utc('%H:%M:%S'));
 
       query = svg.querySelector.bind(svg);
       queryAll = svg.querySelectorAll.bind(svg);
 
       setup = function setup(d) {
+        d3.select(svg).style('height', '500px');
+        d3.select(svg).style('width', '500px');
         d3.select(svg).datum(d).call(heatMapChart);
       };
     });
@@ -80,7 +85,6 @@ describe('get heat map chart test', () => {
 
     it('should show the no data message when there is no data', () => {
       setup([]);
-
       expect(query('.nv-noData').innerHTML).toEqual('No Data Available.');
     });
 
@@ -125,11 +129,9 @@ describe('get heat map chart test', () => {
 
       it('should remove the cell on exit', () => {
         setup([]);
-
         expect(queryAll('.cell').length).toBe(0);
       });
     });
-
     describe('with multiple data points', () => {
       beforeEach(() => {
         setup([
@@ -168,9 +170,8 @@ describe('get heat map chart test', () => {
 
       describe('when interacting', () => {
         let clickSpy;
-
         beforeEach(() => {
-          clickSpy = jasmine.createSpy('onMouseClick');
+          clickSpy = jest.fn();
           heatMapChart.dispatch.on('click', clickSpy);
 
           const event = new MouseEvent('mousemove', {
