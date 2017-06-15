@@ -3,15 +3,13 @@ import angular from '../../../../../angular-mock-setup.js';
 import * as d3 from 'd3';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 
-import {
-  getLabelFactory
-} from '../../../../../../source/iml/charting/types/label/get-label';
+import getLabel
+  from '../../../../../../source/iml/charting/types/label/get-label';
 
 describe('get label', () => {
-  let getLabel, svg, label;
+  let svg, label;
   beforeEach(angular.mock.module('d3'));
   beforeEach(() => {
-    getLabel = getLabelFactory(d3);
     svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', 500);
     svg.setAttribute('height', 500);

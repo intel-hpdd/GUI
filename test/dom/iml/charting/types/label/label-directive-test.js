@@ -1,27 +1,32 @@
 import highland from 'highland';
 import d3 from 'd3';
-import angular from 'angular';
-
-import labelModule
-  from '../../../../../../source/iml/charting/types/label/label-module';
-
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import {
+  charterDirective
+} from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import {
+  labelDirective
+} from '../../../../../../source/iml/charting/types/label/label-directive.js';
+import angular from '../../../../../angular-mock-setup.js';
 
 describe('label directive', () => {
-  beforeEach(module(labelModule, chartModule));
-
   let $scope, el, qs, label, spy;
 
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.module($compileProvider => {
+      $compileProvider.directive('charter', charterDirective);
+      $compileProvider.directive('label', labelDirective);
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject(($rootScope, $compile) => {
       const template = `
       <div charter stream="stream">
         <g label on-data="onData" on-update="onUpdate"></g>
       </div>
     `;
 
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       $scope = $rootScope.$new();
       $scope.stream = highland([[1, 2, 3, 4]]);
       $scope.onData = () => ['data'];

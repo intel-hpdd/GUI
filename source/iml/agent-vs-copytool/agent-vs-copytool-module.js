@@ -28,7 +28,6 @@ import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import streamWhenVisibleModule
   from '../stream-when-visible/stream-when-visible-module';
-import debounceModule from '../debounce/debounce-module';
 import chartModule from '../charting/types/chart/chart-module';
 import axisModule from '../charting/types/axis/axis-module';
 import labelModule from '../charting/types/label/label-module';
@@ -54,7 +53,6 @@ export default angular
     configToggleModule,
     durationPickerModule,
     streamWhenVisibleModule,
-    debounceModule,
     chartModule,
     axisModule,
     labelModule,

@@ -21,8 +21,9 @@
 
 import * as fp from '@mfl/fp';
 import d3 from 'd3';
+import getLabel from './get-label.js';
 
-export function labelDirective(getLabel) {
+export function labelDirective() {
   'ngInject';
   return {
     restrict: 'A',
