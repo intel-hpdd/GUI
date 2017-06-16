@@ -20,8 +20,9 @@
 // express and approved by Intel in writing.
 
 import * as fp from '@mfl/fp';
+import d3 from 'd3';
 
-export function axisDirective(d3) {
+export function axisDirective() {
   'ngInject';
   return {
     restrict: 'A',
