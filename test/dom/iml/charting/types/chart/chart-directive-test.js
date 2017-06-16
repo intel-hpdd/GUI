@@ -1,15 +1,19 @@
 import highland from 'highland';
 import d3 from 'd3';
-import angular from 'angular';
-import * as fp from '@mfl/fp';
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import angular from '../../../../../angular-mock-setup.js';
 
 describe('chart directive', () => {
   let chartCtrl, $window;
 
   beforeEach(
-    module(chartModule, ($provide, $compileProvider) => {
+    angular.mock.module(($provide, $compileProvider) => {
+      jest.mock('@mfl/debounce', () => jest.fn(x => x));
+
+      const {
+        charterDirective
+      } = require('../../../../../../source/iml/charting/types/chart/chart-directive.js');
+
+      $compileProvider.directive('charter', charterDirective);
       $compileProvider.directive('tester', () => {
         return {
           require: '^^charter',
@@ -20,15 +24,10 @@ describe('chart directive', () => {
       });
 
       $window = {
-        addEventListener: jasmine.createSpy('addEventListener'),
-        removeEventListener: jasmine.createSpy('removeEventListener')
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn()
       };
       $provide.value('$window', $window);
-
-      $provide.value(
-        'debounce',
-        jasmine.createSpy('debounce').and.callFake(fp.identity)
-      );
     })
   );
 
@@ -58,6 +57,8 @@ describe('chart directive', () => {
       $compile(el)($scope);
 
       qs = expr => el.querySelector(expr);
+      qs('svg').setAttribute('width', 200);
+      qs('svg').setAttribute('height', 200);
 
       $scope.$digest();
     })
@@ -134,7 +135,7 @@ describe('chart directive', () => {
     let spy;
 
     beforeEach(() => {
-      spy = jasmine.createSpy('spy');
+      spy = jest.fn();
       chartCtrl.onUpdate.push(spy);
       $scope.stream.write(['foo', 'bar']);
     });
@@ -156,14 +157,16 @@ describe('chart directive', () => {
 
     describe('from a resize', () => {
       it('should call listeners', () => {
-        $window.addEventListener.calls.argsFor(0)[1]();
+        $window.addEventListener.mock.calls[0][1]();
 
-        expect(spy).toHaveBeenCalledTwiceWith({
+        expect(spy).toHaveBeenCalledWith({
           svg: expect.any(Object),
           width: 120,
           height: 140,
           xs: ['foo', 'bar']
         });
+
+        expect(spy).toHaveBeenCalledTimes(2);
       });
     });
   });

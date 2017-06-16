@@ -20,7 +20,6 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import * as fp from '@mfl/fp';
 import debounce from '@mfl/debounce';
 import d3 from 'd3';
 
@@ -68,12 +67,14 @@ export function charterDirective($window) {
   <g ng-attr-transform="translate({{ ctrl.margin.left }},{{ ctrl.margin.top }})" ng-transclude></g>
 </svg>`,
     link(scope, el, attrs, ctrl) {
-      const setDimenstions = fp.flow(
-        fp.invokeMethod('attr', ['width', ctrl.getOuterWidth]),
-        fp.invokeMethod('attr', ['height', ctrl.getOuterHeight])
-      );
+      const setDimensions = x => {
+        x.attr('width', ctrl.getOuterWidth());
+        x.attr('height', ctrl.getOuterHeight());
 
-      setDimenstions(ctrl.svg);
+        return x;
+      };
+
+      setDimensions(ctrl.svg);
 
       scope.stream.each(xs => {
         ctrl.onUpdate.forEach(update => {
@@ -95,7 +96,7 @@ export function charterDirective($window) {
       function onResize() {
         ctrl.onUpdate.forEach(onChange =>
           onChange({
-            svg: setDimenstions(ctrl.svg).transition().duration(0),
+            svg: setDimensions(ctrl.svg).transition().duration(0),
             width: ctrl.getWidth(),
             height: ctrl.getHeight(),
             xs: ctrl.svg.datum()
