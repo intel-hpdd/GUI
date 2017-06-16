@@ -1,11 +1,24 @@
 import * as fp from '@mfl/fp';
-import commonStatusSearchesModule
-  from '../../../../../source/iml/status/common-status-searches/common-status-searches-module';
+import angular from '../../../../angular-mock-setup.js';
+import angularUiBootstrap from 'angular-ui-bootstrap';
+import commonStatusSearchesComponent
+  from '../../../../../source/iml/status/common-status-searches/common-status-searches-component.js';
 
 describe('common status searches', () => {
-  beforeEach(module(commonStatusSearchesModule, 'ngAnimateMock'));
-
   let el, $scope, $animate, qs, cleanText, panelTitle, panelCollapse, searches;
+
+  beforeEach(
+    angular.mock.module(
+      angularUiBootstrap,
+      'ngAnimateMock',
+      $compileProvider => {
+        $compileProvider.component(
+          'commonStatusSearches',
+          commonStatusSearchesComponent
+        );
+      }
+    )
+  );
 
   beforeEach(
     inject(($rootScope, $compile, _$animate_) => {
@@ -14,10 +27,7 @@ describe('common status searches', () => {
       $animate = _$animate_;
       $scope = $rootScope.$new();
 
-      cleanText = fp.flow(
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
+      cleanText = fp.flow(fp.view(fp.lensProp('textContent')), x => x.trim());
 
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
