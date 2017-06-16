@@ -21,13 +21,25 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export function controller() {}
+import Inferno from 'inferno';
 
 export default {
-  controller,
-  template: `
-<div class="row">
-  <h1 style="margin: 40px;">This is a test page for Storage</h1>
-</div>
-  `
+  controller($element: HTMLElement[]) {
+    'ngInject';
+    Inferno.render(<StorageComponent />, $element[0]);
+  }
 };
+
+function StorageComponent() {
+  return (
+    <div class="container container-full storage container">
+      <div class="well text-center no-plugins">
+        <h1>No storage plugins are currently installed.</h1>
+        <p>
+          When storage plugins are installed,
+          use this tab to configure and view storage resources such as controllers.
+        </p>
+      </div>
+    </div>
+  );
+}
