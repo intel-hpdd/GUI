@@ -22,9 +22,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import highlandModule from '../highland/highland-module';
 import asStream from './as-stream';
 
-export default angular
-  .module('asStream', [highlandModule])
-  .directive('asStream', asStream).name;
+export default angular.module('asStream', []).directive('asStream', asStream)
+  .name;

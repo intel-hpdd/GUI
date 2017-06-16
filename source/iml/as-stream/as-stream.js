@@ -19,7 +19,9 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-export default function asStream(highland) {
+import highland from 'highland';
+
+export default function asStream() {
   'ngInject';
   return {
     restrict: 'A',
