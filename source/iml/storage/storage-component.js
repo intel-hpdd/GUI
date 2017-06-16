@@ -26,11 +26,11 @@ import Inferno from 'inferno';
 export default {
   controller($element: HTMLElement[]) {
     'ngInject';
-    Inferno.render(<StorageComponent />, $element[0]);
+    Inferno.render(<StorageComponentBasic />, $element[0]);
   }
 };
 
-function StorageComponent() {
+export function StorageComponentBasic() {
   return (
     <div class="container container-full storage container">
       <div class="well text-center no-plugins">
