@@ -1,21 +1,24 @@
 import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import angular from '../../../angular-mock-setup.js';
+import fileSystemComponent
+  from '../../../../source/iml/file-system/file-system-component.js';
+import asValueModule from '../../../../source/iml/as-value/as-value-module.js';
+import asStreamModule
+  from '../../../../source/iml/as-stream/as-stream-module.js';
+import extractApiFilterModule
+  from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
 
 describe('file system component', () => {
-  let mod;
-
-  beforeEachAsync(async function() {
-    mod = await mock('source/iml/file-system/file-system-component.js', {});
-  });
-
-  afterEach(resetAll);
-
   beforeEach(
-    module('asValue', 'asStream', 'extractApiFilter', $compileProvider => {
-      $compileProvider.component('fileSystem', mod.default);
-    })
+    angular.mock.module(
+      asValueModule,
+      asStreamModule,
+      extractApiFilterModule,
+      $compileProvider => {
+        $compileProvider.component('fileSystem', fileSystemComponent);
+      }
+    )
   );
 
   let el, $scope;

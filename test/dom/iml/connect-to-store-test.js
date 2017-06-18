@@ -1,13 +1,26 @@
 // @flow
 
-import connectToStore from '../../../source/iml/connect-to-store.js';
 import Inferno from 'inferno';
-import store from '../../../source/iml/store/get-store.js';
 import { addErrors } from '../../../source/iml/login/login-form-actions.js';
 
 describe('connect to store', () => {
-  let root, LoginForm;
+  let root, LoginForm, connectToStore, store;
   beforeEach(() => {
+    const worker = {
+      addEventListener: jest.fn()
+    };
+
+    const mockGetWebWorker = jest.fn(() => worker);
+
+    jest.mock(
+      '../../../source/iml/socket-worker/get-web-worker.js',
+      () => mockGetWebWorker
+    );
+
+    store = require('../../../source/iml/store/get-store.js').default;
+
+    connectToStore = require('../../../source/iml/connect-to-store').default;
+
     root = document.createElement('div');
 
     LoginForm = connectToStore('loginForm', ({ loginForm, foo }) => (
