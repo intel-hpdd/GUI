@@ -28,13 +28,7 @@
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@mfl/flow-jasmine/-/flow-jasmine-1.6.1.tgz#ddf955193823af50f2180fc613e81cf7fbde2043"
 
-"@mfl/fp@8.0.1":
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/@mfl/fp/-/fp-8.0.1.tgz#7b4b718551b02b3307639f1c9dd01c12a6de36ec"
-  dependencies:
-    "@mfl/maybe" "3.0.0"
-
-"@mfl/fp@8.0.3":
+"@mfl/fp@8.0.3", "@mfl/fp@^8.0.3":
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/@mfl/fp/-/fp-8.0.3.tgz#6703f3b818edead4acd52c2316e3bfe2ae797117"
   dependencies:
@@ -50,10 +44,6 @@
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@mfl/math/-/math-6.0.1.tgz#7f017be78a4de3f9531d6d0b2f081010762109d3"
 
-"@mfl/maybe@3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@mfl/maybe/-/maybe-3.0.0.tgz#184d40305afb14011eb9008677771c14d07d98fd"
-
 "@mfl/maybe@3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@mfl/maybe/-/maybe-3.1.0.tgz#d20824e499a4aa3fe161f85a7355312f53357315"
@@ -66,26 +56,26 @@
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@mfl/obj/-/obj-6.0.3.tgz#d8d1c1ea6285dd2a5c4c092eb0e5053dd7eb9283"
 
-"@mfl/parsely@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@mfl/parsely/-/parsely-4.0.0.tgz#47242c9720305a4400b50f91ed4d062810e002db"
+"@mfl/parsely@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@mfl/parsely/-/parsely-4.0.1.tgz#c9ac17db13af9048dc66e0b391e0f3d2a50d71b0"
   dependencies:
-    "@mfl/fp" "8.0.1"
+    "@mfl/fp" "^8.0.3"
 
-"@mfl/pdsh-parser@1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@mfl/pdsh-parser/-/pdsh-parser-1.0.4.tgz#c189b40d8d9f2f1f2c158952d90b62902b1b7bae"
+"@mfl/pdsh-parser@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@mfl/pdsh-parser/-/pdsh-parser-1.0.5.tgz#51a5eb72e5868f2543f1790083a0068d00fa5755"
   dependencies:
-    "@mfl/fp" "8.0.1"
+    "@mfl/fp" "^8.0.3"
     "@mfl/math" "6.0.1"
     "@mfl/obj" "6.0.3"
 
-"@mfl/qs-parsers@4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@mfl/qs-parsers/-/qs-parsers-4.0.0.tgz#0a025b7ac64cb1a037a5b93acbf9bb8a61924570"
+"@mfl/qs-parsers@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@mfl/qs-parsers/-/qs-parsers-4.0.1.tgz#73f8bc00e25e118ee770f9ea9deb7eedb20cc082"
   dependencies:
-    "@mfl/fp" "8.0.1"
-    "@mfl/parsely" "4.0.0"
+    "@mfl/fp" "^8.0.3"
+    "@mfl/parsely" "^4.0.1"
 
 abab@^1.0.3:
   version "1.0.3"
