@@ -73,6 +73,7 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
+import confirmButtonComponent from './confirm-button.js';
 import storageModule from './storage/storage-module.js';
 
 import { loginState } from './login/login-states.js';
