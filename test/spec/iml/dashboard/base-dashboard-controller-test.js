@@ -1,6 +1,5 @@
 import highland from 'highland';
-import BaseDashboardCtrl
-  from '../../../../source/iml/dashboard/base-dashboard-controller';
+import BaseDashboardCtrl from '../../../../source/iml/dashboard/base-dashboard-controller';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import angular from '../../../angular-mock-setup.js';
 

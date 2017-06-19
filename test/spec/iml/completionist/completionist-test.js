@@ -1,5 +1,4 @@
-import completionistModule
-  from '../../../../source/iml/completionist/completionist-module.js';
+import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('completionist', () => {

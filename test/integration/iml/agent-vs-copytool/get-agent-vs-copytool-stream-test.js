@@ -2,8 +2,7 @@ import highland from 'highland';
 import moment from 'moment';
 import * as maybe from '@mfl/maybe';
 
-import agentVsCopytoolFixtures
-  from '../../../data-fixtures/agent-vs-copytool-fixtures.json';
+import agentVsCopytoolFixtures from '../../../data-fixtures/agent-vs-copytool-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

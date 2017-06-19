@@ -2,9 +2,7 @@ import * as fp from '@mfl/fp';
 import d3 from 'd3';
 import { gt } from '@mfl/math';
 import { flushD3Transitions } from '../../../../../test-utils.js';
-import {
-  getLineFactory
-} from '../../../../../../source/iml/charting/types/line/get-line';
+import { getLineFactory } from '../../../../../../source/iml/charting/types/line/get-line';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 const getCoord = (curr, idx) => Math.round(curr.split(',')[idx]);

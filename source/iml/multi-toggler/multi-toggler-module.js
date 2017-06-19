@@ -22,8 +22,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import multiToggleContainerComponent
-  from './multi-toggler-container-component.js';
+import multiToggleContainerComponent from './multi-toggler-container-component.js';
 import multiTogglerComponent from './multi-toggler-component.js';
 import multiTogglerModelDirective from './multi-toggler-model-directive.js';
 

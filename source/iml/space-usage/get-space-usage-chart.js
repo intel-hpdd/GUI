@@ -24,8 +24,7 @@ import flatMapChanges from '@mfl/flat-map-changes';
 import getSpaceUsageStream from './get-space-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
@@ -34,14 +33,10 @@ import {
   UPDATE_SPACE_USAGE_CHART_ITEMS
 } from './space-usage-chart-reducer.js';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';

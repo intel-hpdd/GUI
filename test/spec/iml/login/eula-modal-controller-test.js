@@ -1,5 +1,4 @@
-import eulaModalController
-  from '../../../../source/iml/login/eula-modal-controller.js';
+import eulaModalController from '../../../../source/iml/login/eula-modal-controller.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('Eula Modal Controller', () => {

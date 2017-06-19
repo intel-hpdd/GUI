@@ -1,6 +1,5 @@
 import highland from 'highland';
-import ServerDashboardController
-  from '../../../../source/iml/dashboard/server-dashboard-controller.js';
+import ServerDashboardController from '../../../../source/iml/dashboard/server-dashboard-controller.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('Server dashboard controller', () => {

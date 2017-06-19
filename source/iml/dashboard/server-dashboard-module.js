@@ -21,8 +21,7 @@
 
 import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
-import readWriteBandwidthModule
-  from '../read-write-bandwidth/read-write-bandwidth-module';
+import readWriteBandwidthModule from '../read-write-bandwidth/read-write-bandwidth-module';
 import cpuUsageModule from '../cpu-usage/cpu-usage-module';
 import memoryUsageModule from '../memory-usage/memory-usage-module';
 import ServerDashboardCtrl from './server-dashboard-controller';

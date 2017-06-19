@@ -6,6 +6,7 @@
     "prettier"
   ],
   "rules": {
+    "no-useless-escape": "off",
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
     "flowtype/space-after-type-colon": [

@@ -34,9 +34,7 @@ import { addHostIds } from './log-transforms.js';
 
 import { addCurrentPage } from '../api-transforms.js';
 
-import type {
-  qsFromLocationT
-} from '../qs-from-location/qs-from-location-module.js';
+import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
 export const logState = {
   name: 'app.log',

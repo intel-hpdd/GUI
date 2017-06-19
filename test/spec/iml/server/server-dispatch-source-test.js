@@ -4,7 +4,6 @@ describe('server dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
-
     const mockCacheInitialData = {
       host: ['host']
     };

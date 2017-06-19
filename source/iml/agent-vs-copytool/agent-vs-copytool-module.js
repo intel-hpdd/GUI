@@ -26,8 +26,7 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import streamWhenVisibleModule
-  from '../stream-when-visible/stream-when-visible-module';
+import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import chartModule from '../charting/types/chart/chart-module';
 import axisModule from '../charting/types/axis/axis-module';
 import labelModule from '../charting/types/label/label-module';
@@ -35,9 +34,7 @@ import lineModule from '../charting/types/line/line-module';
 import legendModule from '../charting/types/legend/legend-module';
 import getAgentVsCopytoolChartFactory from './get-agent-vs-copytool-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addAgentVsCopytoolActionT = {
   type:

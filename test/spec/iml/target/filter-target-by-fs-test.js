@@ -1,6 +1,5 @@
 import highland from 'highland';
-import filterTargetByFs
-  from '../../../../source/iml/target/filter-target-by-fs.js';
+import filterTargetByFs from '../../../../source/iml/target/filter-target-by-fs.js';
 
 describe('filter target by fs', () => {
   let data;

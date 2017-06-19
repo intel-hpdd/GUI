@@ -10,7 +10,6 @@ describe('create or update hosts stream', () => {
     resultStream;
 
   beforeEach(() => {
-
     jest.useFakeTimers();
 
     hostStreams = [];

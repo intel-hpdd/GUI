@@ -20,7 +20,6 @@ describe('Read Write Bandwidth chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-
     mockGetReadWriteBandwidthStream = {};
 
     standardConfig = {

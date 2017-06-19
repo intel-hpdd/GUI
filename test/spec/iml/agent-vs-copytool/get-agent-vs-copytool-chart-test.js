@@ -27,7 +27,6 @@ describe('get agent vs copytool chart exports', () => {
     initStream;
 
   beforeEach(() => {
-
     mockGetAgentVsCopytoolStream = jest.fn();
     mockCreateDate = jest.fn(x => x);
 

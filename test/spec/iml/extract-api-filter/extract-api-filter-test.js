@@ -1,5 +1,4 @@
-import extractApiFilterModule
-  from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
+import extractApiFilterModule from '../../../../source/iml/extract-api-filter/extract-api-filter-module.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('extract api filter', () => {

@@ -1,8 +1,6 @@
 // @flow
 
-import {
-  default as sessionReducer
-} from '../../../../source/iml/session/session-reducer.js';
+import { default as sessionReducer } from '../../../../source/iml/session/session-reducer.js';
 
 import type { sessionT } from '../../../../source/iml/api-types.js';
 

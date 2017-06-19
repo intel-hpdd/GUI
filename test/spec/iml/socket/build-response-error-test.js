@@ -1,5 +1,4 @@
-import buildResponseError
-  from '../../../../source/iml/socket/build-response-error.js';
+import buildResponseError from '../../../../source/iml/socket/build-response-error.js';
 
 describe('build response error', () => {
   it('should keep an existing error', () => {

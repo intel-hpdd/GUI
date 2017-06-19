@@ -1,9 +1,6 @@
-import completionist
-  from '../../../../source/iml/completionist/completionist.js';
-import completionistDropdown
-  from '../../../../source/iml/completionist/completionist-dropdown.js';
-import completionistModelHook
-  from '../../../../source/iml/completionist/completionist-model-hook.js';
+import completionist from '../../../../source/iml/completionist/completionist.js';
+import completionistDropdown from '../../../../source/iml/completionist/completionist-dropdown.js';
+import completionistModelHook from '../../../../source/iml/completionist/completionist-model-hook.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('completionist', () => {

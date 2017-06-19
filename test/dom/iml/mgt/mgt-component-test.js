@@ -1,26 +1,19 @@
 import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import mgtComponent from '../../../../source/iml/mgt/mgt-component.js';
-import {
-  recordStateDirective
-} from '../../../../source/iml/alert-indicator/alert-indicator.js';
+import { recordStateDirective } from '../../../../source/iml/alert-indicator/alert-indicator.js';
 import jobStatus from '../../../../source/iml/job-indicator/job-indicator.js';
 import asValue from '../../../../source/iml/as-value/as-value.js';
 import asStream from '../../../../source/iml/as-stream/as-stream.js';
-import extractApiFilter
-  from '../../../../source/iml/extract-api-filter/extract-api-filter.js';
+import extractApiFilter from '../../../../source/iml/extract-api-filter/extract-api-filter.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import imlPopover from '../../../../source/iml/iml-popover.js';
 import position from '../../../../source/iml/position.js';
 import routeTo from '../../../../source/iml/route-to/route-to.js';
 import angular from '../../../angular-mock-setup.js';
 import uiBootstrap from 'angular-ui-bootstrap';
-import {
-  openConfirmActionModalFactory
-} from '../../../../source/iml/action-dropdown/confirm-action-modal.js';
-import {
-  openCommandModalFactory
-} from '../../../../source/iml/command/command-modal-ctrl.js';
+import { openConfirmActionModalFactory } from '../../../../source/iml/action-dropdown/confirm-action-modal.js';
+import { openCommandModalFactory } from '../../../../source/iml/command/command-modal-ctrl.js';
 
 describe('mgt component', () => {
   let mockGetCommandStream, mockSocketStream;

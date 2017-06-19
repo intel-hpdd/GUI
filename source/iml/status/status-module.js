@@ -23,10 +23,8 @@
 
 import angular from 'angular';
 import parselyBoxModule from '../parsely-box/parsely-box-module.js';
-import qsFromLocationModule
-  from '../qs-from-location/qs-from-location-module.js';
-import commonStatusSearchesModule
-  from '../status/common-status-searches/common-status-searches-module.js';
+import qsFromLocationModule from '../qs-from-location/qs-from-location-module.js';
+import commonStatusSearchesModule from '../status/common-status-searches/common-status-searches-module.js';
 import extendScopeModule from '../extend-scope-module.js';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
 import statusQueryComponent from './status-query-component.js';

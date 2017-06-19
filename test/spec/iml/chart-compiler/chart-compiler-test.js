@@ -1,6 +1,5 @@
 import highland from 'highland';
-import chartCompiler
-  from '../../../../source/iml/chart-compiler/chart-compiler.js';
+import chartCompiler from '../../../../source/iml/chart-compiler/chart-compiler.js';
 
 describe('chart compiler', () => {
   let compilerPromise, s, chartFn;

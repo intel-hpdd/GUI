@@ -1,8 +1,6 @@
 import * as fp from '@mfl/fp';
 import d3 from 'd3';
-import {
-  getLegendFactory
-} from '../../../../../../source/iml/charting/types/legend/get-legend.js';
+import { getLegendFactory } from '../../../../../../source/iml/charting/types/legend/get-legend.js';
 import * as maybe from '@mfl/maybe';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 

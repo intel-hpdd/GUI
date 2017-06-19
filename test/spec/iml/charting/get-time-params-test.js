@@ -10,7 +10,6 @@ describe('get time params', () => {
     getTimeParams;
 
   beforeEach(() => {
-
     mockGetServerMoment = jasmine.createSpy('getServerMoment');
     mockCreateDate = jasmine.createSpy('createDate');
 

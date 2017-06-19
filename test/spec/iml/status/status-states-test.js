@@ -4,7 +4,6 @@ describe('status states', () => {
   let mod, mockResolveStream, mockSocketStream;
 
   beforeEach(() => {
-
     mockResolveStream = jest.fn();
     mockSocketStream = jest.fn();
 

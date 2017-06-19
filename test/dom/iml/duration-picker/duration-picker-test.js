@@ -2,8 +2,7 @@ import {
   DURATIONS,
   default as durationPicker
 } from '../../../../source/iml/duration-picker/duration-picker.js';
-import capitalizeFilter
-  from '../../../../source/iml/filters/capitalize-filter.js';
+import capitalizeFilter from '../../../../source/iml/filters/capitalize-filter.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import angular from '../../../angular-mock-setup.js';
 import angularUiBootstrap from 'angular-ui-bootstrap';

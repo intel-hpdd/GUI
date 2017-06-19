@@ -1,6 +1,5 @@
 import * as fp from '@mfl/fp';
-import removeUsedLnetOptionsFilter
-  from '../../../../source/iml/lnet/remove-used-lnet-options-filter.js';
+import removeUsedLnetOptionsFilter from '../../../../source/iml/lnet/remove-used-lnet-options-filter.js';
 import lnetOptions from '../../../../source/iml/lnet/lnet-options.js';
 
 describe('Remove used LNet options', () => {

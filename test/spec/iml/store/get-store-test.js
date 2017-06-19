@@ -24,7 +24,6 @@ describe('get store', () => {
     mockMockMockMockLoginFormReducer,
     mockMockMockMockSessionReducer;
   beforeEach(() => {
-
     store = { dispatch: jest.fn() };
     mockMockMockMockCreateStore = jest.fn(() => store);
     mockMockMockMockTargetReducer = {};

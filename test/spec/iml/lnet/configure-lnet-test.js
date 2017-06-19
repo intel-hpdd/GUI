@@ -1,8 +1,7 @@
 import angular from '../../../angular-mock-setup.js';
 import highland from 'highland';
 
-import networkInterfaceDataFixtures
-  from '../../../data-fixtures/network-interface-fixtures.json';
+import networkInterfaceDataFixtures from '../../../data-fixtures/network-interface-fixtures.json';
 
 describe('Configure LNet', () => {
   let $scope,
@@ -19,7 +18,6 @@ describe('Configure LNet', () => {
     LNET_OPTIONS;
 
   beforeEach(() => {
-
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
 

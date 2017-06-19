@@ -28,9 +28,7 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getCpuUsageChartFactory from './get-cpu-usage-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addCpuUsageActionT = {
   type: 'UPDATE_CPU_USAGE_CHART_ITEMS' | 'DEFAULT_CPU_USAGE_CHART_ITEMS',

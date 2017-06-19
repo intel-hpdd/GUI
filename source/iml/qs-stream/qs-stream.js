@@ -23,9 +23,7 @@
 
 import highland from 'highland';
 
-import type {
-  qsFromLocationT
-} from '../qs-from-location/qs-from-location-module.js';
+import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
 import type {
   TransitionT,

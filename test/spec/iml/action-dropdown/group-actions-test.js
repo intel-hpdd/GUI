@@ -1,7 +1,5 @@
-import groupActions
-  from '../../../../source/iml/action-dropdown/group-actions.js';
-import groupActionsFixtures
-  from '../../../data-fixtures/group-actions-fixtures.json';
+import groupActions from '../../../../source/iml/action-dropdown/group-actions.js';
+import groupActionsFixtures from '../../../data-fixtures/group-actions-fixtures.json';
 
 describe('ordering groups', () => {
   let groupActionsFilter;

@@ -24,7 +24,6 @@ describe('server', () => {
     serverController;
 
   beforeEach(() => {
-
     commandStream = highland();
 
     mockGetCommandStream = jest.fn(() => commandStream);

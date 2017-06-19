@@ -3,12 +3,8 @@ import d3 from 'd3';
 import angular from '../../../../../angular-mock-setup.js';
 import * as fp from '@mfl/fp';
 import * as maybe from '@mfl/maybe';
-import {
-  charterDirective
-} from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
-import {
-  axisDirective
-} from '../../../../../../source/iml/charting/types/axis/axis-directive.js';
+import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import { axisDirective } from '../../../../../../source/iml/charting/types/axis/axis-directive.js';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 
 describe('axis directive', () => {

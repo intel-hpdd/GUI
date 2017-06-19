@@ -1,5 +1,4 @@
-import resettableGroupModule
-  from '../../../../source/iml/resettable-group/resettable-group-module.js';
+import resettableGroupModule from '../../../../source/iml/resettable-group/resettable-group-module.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('resettable group', () => {

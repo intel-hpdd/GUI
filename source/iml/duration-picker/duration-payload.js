@@ -22,9 +22,7 @@
 // express and approved by Intel in writing.
 
 import type { durationPayloadT } from './duration-picker-module.js';
-import type {
-  heatMapDurationPayloadT
-} from '../read-write-heat-map/read-write-heat-map-module.js';
+import type { heatMapDurationPayloadT } from '../read-write-heat-map/read-write-heat-map-module.js';
 import getServerMoment from '../get-server-moment.js';
 
 type durationPayloadsT = heatMapDurationPayloadT | durationPayloadT;

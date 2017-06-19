@@ -4,7 +4,6 @@ describe('base chart', () => {
   let mockGlobal, mockNv, mockD3, baseChart;
 
   beforeEach(() => {
-
     mockD3 = {
       select: jest.fn(x => x)
     };

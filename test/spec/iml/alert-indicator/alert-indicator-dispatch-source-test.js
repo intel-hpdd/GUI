@@ -2,7 +2,6 @@ import highland from 'highland';
 describe('alert indicator dispatch source', () => {
   let mockStore, stream, mockSocketStream;
   beforeEach(() => {
-
     mockStore = { dispatch: jest.fn() };
     stream = highland();
     jest.spyOn(stream, 'destroy');

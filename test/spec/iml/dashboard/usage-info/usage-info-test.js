@@ -1,8 +1,6 @@
 import highland from 'highland';
 import { formatBytes } from '@mfl/number-formatters';
-import {
-  UsageInfoController
-} from '../../../../../source/iml/dashboard/usage-info/usage-info.js';
+import { UsageInfoController } from '../../../../../source/iml/dashboard/usage-info/usage-info.js';
 import angular from '../../../../angular-mock-setup.js';
 
 describe('usage info', () => {

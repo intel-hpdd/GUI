@@ -1,6 +1,5 @@
 import angular from '../../../angular-mock-setup.js';
-import transformedHostProfileFixture
-  from '../../../data-fixtures/transformed-host-profile-fixture.json';
+import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
 
 import highland from 'highland';
 import * as fp from '@mfl/fp';
@@ -12,7 +11,6 @@ describe('host profile then', () => {
     createHostProfilesFactory;
 
   beforeEach(() => {
-
     jest.useFakeTimers();
 
     mockSocketStream = jest.fn(() => {
@@ -62,7 +60,8 @@ describe('host profile then', () => {
               managed: true,
               name: 'base_managed',
               resource_uri: '/api/server_profile/base_managed/',
-              ui_description: 'A storage server suitable for creating new HA-enabled filesystem targets',
+              ui_description:
+                'A storage server suitable for creating new HA-enabled filesystem targets',
               ui_name: 'Managed Storage Server',
               user_selectable: true,
               worker: false
@@ -73,7 +72,8 @@ describe('host profile then', () => {
               managed: true,
               name: 'base_managed_rh7',
               resource_uri: '/api/server_profile/base_managed_rh7/',
-              ui_description: 'A storage server suitable for creating new HA-enabled filesystem targets on RH 7.2',
+              ui_description:
+                'A storage server suitable for creating new HA-enabled filesystem targets on RH 7.2',
               ui_name: 'Managed Storage Server For EL7.2',
               user_selectable: true,
               worker: false
@@ -165,7 +165,8 @@ describe('host profile then', () => {
                 profiles: {
                   base_managed: [
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: 'Result unavailable while host agent starts',
                       pass: false,
                       test: 'zfs_installed == False'
@@ -173,13 +174,15 @@ describe('host profile then', () => {
                   ],
                   base_managed_rh7: [
                     {
-                      description: 'The profile is designed for version 7 of EL',
+                      description:
+                        'The profile is designed for version 7 of EL',
                       error: '',
                       pass: false,
                       test: 'distro_version < 8 and distro_version >= 7'
                     },
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: '',
                       pass: true,
                       test: 'zfs_installed == False'
@@ -202,7 +205,8 @@ describe('host profile then', () => {
                 profiles: {
                   base_managed: [
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: 'Result unavailable while host agent starts',
                       pass: false,
                       test: 'zfs_installed == False'
@@ -210,13 +214,15 @@ describe('host profile then', () => {
                   ],
                   base_managed_rh7: [
                     {
-                      description: 'The profile is designed for version 7 of EL',
+                      description:
+                        'The profile is designed for version 7 of EL',
                       error: '',
                       pass: false,
                       test: 'distro_version < 8 and distro_version >= 7'
                     },
                     {
-                      description: 'ZFS is installed but is unsupported by the Managed Storage Server profile',
+                      description:
+                        'ZFS is installed but is unsupported by the Managed Storage Server profile',
                       error: '',
                       pass: true,
                       test: 'zfs_installed == False'

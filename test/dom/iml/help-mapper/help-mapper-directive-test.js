@@ -1,7 +1,6 @@
 import angular from '../../../angular-mock-setup.js';
 
-import helpMapperModule
-  from '../../../../source/iml/help-mapper/help-mapper-module.js';
+import helpMapperModule from '../../../../source/iml/help-mapper/help-mapper-module.js';
 
 describe('help mapper', () => {
   let $state, $transitions;

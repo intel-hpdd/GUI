@@ -1,5 +1,4 @@
-import selectedServersService
-  from '../../../../source/iml/server/selected-servers-service.js';
+import selectedServersService from '../../../../source/iml/server/selected-servers-service.js';
 
 describe('selected servers service', () => {
   let selectedServers;

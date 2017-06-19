@@ -1,5 +1,4 @@
-import configToggle
-  from '../../../../source/iml/config-toggle/config-toggle.js';
+import configToggle from '../../../../source/iml/config-toggle/config-toggle.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('config toggle', () => {

@@ -4,7 +4,6 @@ describe('server resolves', () => {
   let mockStore, serverResolves;
 
   beforeEach(() => {
-
     mockStore = {
       select: jest.fn(() => highland())
     };

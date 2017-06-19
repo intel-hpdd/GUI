@@ -23,8 +23,7 @@
 
 import angular from 'angular';
 import nvModule from '../nv/nv-module';
-import streamWhenVisibleModule
-  from '../stream-when-visible/stream-when-visible-module';
+import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 import baseChart from './base-chart';
 import dateTicksFactory from './date-ticks';

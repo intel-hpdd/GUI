@@ -26,13 +26,9 @@ import { data$Fn, getConf } from './chart-transformers.js';
 
 import type { HighlandStreamT } from 'highland';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
-import type {
-  heatMapDurationPayloadT
-} from '../read-write-heat-map/read-write-heat-map-module.js';
+import type { heatMapDurationPayloadT } from '../read-write-heat-map/read-write-heat-map-module.js';
 
 import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
 

@@ -1,6 +1,5 @@
 import highland from 'highland';
-import TargetDashboardController
-  from '../../../../source/iml/dashboard/target-dashboard-controller';
+import TargetDashboardController from '../../../../source/iml/dashboard/target-dashboard-controller';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import angular from '../../../angular-mock-setup.js';
 
@@ -8,7 +7,6 @@ describe('target dashboard', () => {
   let $scope, ctrl, charts, targetStream, usageStream;
   beforeEach(
     angular.mock.inject($rootScope => {
-
       $scope = $rootScope.$new();
       charts = [{ stream: { destroy: jest.fn() } }];
       jest.spyOn(charts[0].stream, 'destroy');

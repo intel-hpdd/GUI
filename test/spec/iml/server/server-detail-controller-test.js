@@ -1,6 +1,5 @@
 import highland from 'highland';
-import ServerDetailController
-  from '../../../../source/iml/server/server-detail-controller.js';
+import ServerDetailController from '../../../../source/iml/server/server-detail-controller.js';
 import angular from '../../../angular-mock-setup.js';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 
@@ -19,7 +18,6 @@ describe('server detail controller', () => {
 
   beforeEach(
     angular.mock.module($exceptionHandlerProvider => {
-
       $exceptionHandlerProvider.mode('log');
     })
   );

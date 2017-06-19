@@ -1,6 +1,5 @@
 import _ from '@mfl/lodash-mixins';
-import getHeatMapLegend
-  from '../../../../source/iml/heat-map/get-heat-map-legend.js';
+import getHeatMapLegend from '../../../../source/iml/heat-map/get-heat-map-legend.js';
 import d3 from 'd3';
 
 describe('the heat map legend', () => {

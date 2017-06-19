@@ -2,8 +2,7 @@ import highland from 'highland';
 import moment from 'moment';
 import * as maybe from '@mfl/maybe';
 
-import hostCpuRamDataFixtures
-  from '../../../data-fixtures/host-cpu-ram-data-fixtures.json';
+import hostCpuRamDataFixtures from '../../../data-fixtures/host-cpu-ram-data-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

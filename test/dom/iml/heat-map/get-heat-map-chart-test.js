@@ -1,6 +1,5 @@
 import _ from '@mfl/lodash-mixins';
-import getHeatMapChart
-  from '../../../../source/iml/heat-map/get-heat-map-chart.js';
+import getHeatMapChart from '../../../../source/iml/heat-map/get-heat-map-chart.js';
 import d3 from 'd3';
 
 describe('get heat map chart test', () => {

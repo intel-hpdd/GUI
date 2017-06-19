@@ -26,8 +26,7 @@ import flatMapChanges from '@mfl/flat-map-changes';
 import getFileUsageStream from './get-file-usage-stream.js';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
@@ -36,9 +35,7 @@ import {
   DEFAULT_FILE_USAGE_CHART_ITEMS
 } from './file-usage-chart-reducer.js';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
 import type {

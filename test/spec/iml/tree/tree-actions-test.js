@@ -7,8 +7,6 @@ describe('tree actions', () => {
     toggleItemOpen,
     createItem;
   beforeEach(() => {
-
-
     const mod = require('../../../../source/iml/tree/tree-actions.js');
     ({
       addTreeItems,

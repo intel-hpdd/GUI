@@ -31,7 +31,8 @@ describe('log table component', () => {
             host_id: 1,
             fqdn: 'test001.localdomain',
             tag: 'cluster_sim',
-            message: 'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
+            message:
+              'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
             substitutions: [
               {
                 start: 48,

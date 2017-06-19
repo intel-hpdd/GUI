@@ -31,7 +31,9 @@ describe('chart directive', () => {
     })
   );
 
-  let el = 'bar', qs, $scope;
+  let el = 'bar',
+    qs,
+    $scope;
 
   beforeEach(
     inject(($rootScope, $compile) => {

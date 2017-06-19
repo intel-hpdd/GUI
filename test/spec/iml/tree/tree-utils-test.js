@@ -9,7 +9,6 @@ describe('tree utils', () => {
     mockStore;
 
   beforeEach(() => {
-
     mockToggleCollectionOpen = jest.fn().mockImplementation((id, open) => ({
       type: 'TOGGLE_COLLECTION_OPEN',
       payload: { id, open }

@@ -21,10 +21,22 @@ const toHaveBeenCalledNTimesWith = (n: number) =>
 
     if (result.pass)
       result.message = () =>
-        `Expected mock ${this.utils.printReceived(received)} not to have been called with ${rest} ${n} time(s) but it was.`;
+        `Expected mock ${this.utils.printReceived(
+          received
+        )} not to have been called with ${rest} ${n} time(s) but it was.`;
     else
       result.message = () =>
-        `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize('time', n)} but it was called ${this.utils.pluralize('time', foundCount)}.\n\nMock this.utils.printReceived(received) call listing:\n${this.utils.stringify(received.mock.calls)}.`;
+        `Expect mock to be called with ${this.utils.printExpected(
+          rest
+        )} ${this.utils.pluralize(
+          'time',
+          n
+        )} but it was called ${this.utils.pluralize(
+          'time',
+          foundCount
+        )}.\n\nMock this.utils.printReceived(received) call listing:\n${this.utils.stringify(
+          received.mock.calls
+        )}.`;
 
     return result;
   };
@@ -39,13 +51,17 @@ const cssMatcher = (presentClasses, absentClasses) =>
     )
       return {
         pass: true,
-        message: `Expected '${this.utils.stringify(el)}' to have class '${presentClasses}'
+        message: `Expected '${this.utils.stringify(
+          el
+        )}' to have class '${presentClasses}'
             and not have class ${absentClasses}, but had ${el.className}.`
       };
     else
       return {
         pass: false,
-        message: `Expected '${this.utils.stringify(el)}' not to have class '${presentClasses}'
+        message: `Expected '${this.utils.stringify(
+          el
+        )}' not to have class '${presentClasses}'
             and to have class ${absentClasses}, but had ${el.className}.`
       };
   };
@@ -61,12 +77,16 @@ expect.extend({
     if (el.classList.contains(clazz))
       return {
         pass: true,
-        message: `Expected '${this.utils.stringify(el)}' not to have class '${clazz}'.`
+        message: `Expected '${this.utils.stringify(
+          el
+        )}' not to have class '${clazz}'.`
       };
     else
       return {
         pass: false,
-        message: `Expected '${this.utils.stringify(el)}' to have class '${clazz}'.`
+        message: `Expected '${this.utils.stringify(
+          el
+        )}' to have class '${clazz}'.`
       };
   },
   toBeShown(el) {
@@ -122,7 +142,9 @@ expect.extend({
     else
       return {
         pass: false,
-        message: `expected ${stringy(component)} not to equal ${stringy(expected)}`
+        message: `expected ${stringy(component)} not to equal ${stringy(
+          expected
+        )}`
       };
   },
   toContainItems: (xs: Object, items: Object) => {

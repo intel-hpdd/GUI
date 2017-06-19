@@ -27,12 +27,9 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 
-import getReadWriteBandwidthChartFactory
-  from './get-read-write-bandwidth-chart';
+import getReadWriteBandwidthChartFactory from './get-read-write-bandwidth-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type readWriteBandwidthActionT = {
   type:

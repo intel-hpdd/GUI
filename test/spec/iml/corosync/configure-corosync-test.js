@@ -17,7 +17,6 @@ describe('configure corosync', () => {
     insertHelpFilter;
 
   beforeEach(() => {
-
     mockSocketStream = jest.fn(() => socketResponse);
 
     jest.mock(

@@ -1,6 +1,4 @@
-import {
-  Controller
-} from '../../../../source/iml/panels/side-panel-component.js';
+import { Controller } from '../../../../source/iml/panels/side-panel-component.js';
 
 describe('side panel component', () => {
   let el, inst, rootPanel;

@@ -2,8 +2,7 @@ import highland from 'highland';
 import moment from 'moment';
 import * as maybe from '@mfl/maybe';
 
-import memoryUsageDataFixtures
-  from '../../../data-fixtures/memory-usage-fixtures.json';
+import memoryUsageDataFixtures from '../../../data-fixtures/memory-usage-fixtures.json';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

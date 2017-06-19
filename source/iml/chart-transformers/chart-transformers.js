@@ -30,9 +30,7 @@ import {
 
 import type { HighlandStreamT } from 'highland';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { createStreamT } from '../charting/charting-module.js';
 

@@ -6,7 +6,6 @@ describe('app resolves', () => {
     appModule,
     mockCacheInitialData;
   beforeEach(() => {
-
     promise = {};
     mockResolveStream = jest.fn();
     mockResolveStream.mockReturnValue(promise);

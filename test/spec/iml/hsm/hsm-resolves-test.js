@@ -10,7 +10,6 @@ describe('hsm resolve', () => {
     $stateParams;
 
   beforeEach(() => {
-
     mockResolveStream = jest.fn();
     mockGetCopytoolOperationStream = jest.fn(() => s);
     mockGetCopytoolStream = jest.fn(() => s);

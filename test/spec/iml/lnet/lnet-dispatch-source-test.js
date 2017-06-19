@@ -4,7 +4,6 @@ describe('lnet dispatch source', () => {
   let mockStore, s, mockSocketStream;
 
   beforeEach(() => {
-    
     s = highland();
     mockSocketStream = jest.fn(() => s);
 

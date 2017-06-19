@@ -1,7 +1,6 @@
 import angular from '../../../angular-mock-setup.js';
 
-import completionistModule
-  from '../../../../source/iml/completionist/completionist-module.js';
+import completionistModule from '../../../../source/iml/completionist/completionist-module.js';
 
 describe('completionist dropdown', () => {
   let completionistDropdown, completionist, localApply, $scope;

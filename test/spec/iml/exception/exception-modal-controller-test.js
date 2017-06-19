@@ -16,7 +16,6 @@ describe('Exception modal controller', () => {
     mod;
 
   beforeEach(() => {
-
     reverseStream = highland();
 
     mockSocketStream = jest.fn(() => reverseStream);

@@ -4,7 +4,6 @@ describe('job indicator dispatch source', () => {
   let mockStore, mockSocketStream, stream;
 
   beforeEach(() => {
-
     mockStore = {
       dispatch: jest.fn()
     };

@@ -16,7 +16,6 @@ describe('get ost balance chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-
     mockGetOstBalanceStream = jest.fn(() => highland());
 
     standardConfig = {

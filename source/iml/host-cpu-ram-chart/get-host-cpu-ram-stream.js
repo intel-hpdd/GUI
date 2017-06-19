@@ -29,7 +29,8 @@ export default (requestRange, buff) => {
     const params = requestRange({
       qs: {
         reduce_fn: 'average',
-        metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait,mem_MemFree,mem_MemTotal'
+        metrics:
+          'cpu_total,cpu_user,cpu_system,cpu_iowait,mem_MemFree,mem_MemTotal'
       }
     });
 

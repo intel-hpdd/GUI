@@ -3,9 +3,7 @@ import broadcast from '../../../../source/iml/broadcaster.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import imlPopover from '../../../../source/iml/iml-popover.js';
 import Position from '../../../../source/iml/position.js';
-import {
-  recordStateDirective
-} from '../../../../source/iml/alert-indicator/alert-indicator.js';
+import { recordStateDirective } from '../../../../source/iml/alert-indicator/alert-indicator.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('alert indicator', () => {

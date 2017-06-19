@@ -1,5 +1,4 @@
-import exceptionModal
-  from '../../../../source/iml/exception/exception-modal.js';
+import exceptionModal from '../../../../source/iml/exception/exception-modal.js';
 
 describe('exception modal', () => {
   let $uibModal, modal;
@@ -19,7 +18,8 @@ describe('exception modal', () => {
       windowClass: 'exception-modal',
       keyboard: false,
       controller: 'ExceptionModalCtrl',
-      template: '<div class="modal-header"> \
+      template:
+        '<div class="modal-header"> \
       <h3>An Error Has Occurred!</h3> \
   </div> \
   <div class="modal-body"> \

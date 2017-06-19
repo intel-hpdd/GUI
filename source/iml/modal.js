@@ -40,11 +40,10 @@ type bodyT = {
   children?: React$Element<*>
 };
 
-export const Body = ({ children, moreClasses = [] }: bodyT) => (
+export const Body = ({ children, moreClasses = [] }: bodyT) =>
   <div className={`modal-body ${moreClasses.join(' ')}`}>
     {children}
-  </div>
-);
+  </div>;
 
 type footerT = {
   children?: React$Element<*>

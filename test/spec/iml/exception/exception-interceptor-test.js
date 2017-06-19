@@ -1,5 +1,4 @@
-import exceptionInterceptorFactory
-  from '../../../../source/iml/exception/exception-interceptor.js';
+import exceptionInterceptorFactory from '../../../../source/iml/exception/exception-interceptor.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('Exception interceptor', () => {

@@ -1,9 +1,6 @@
-import multiTogglerContainerComponent
-  from '../../../../source/iml/multi-toggler/multi-toggler-container-component.js';
-import multiTogglerComponent
-  from '../../../../source/iml/multi-toggler/multi-toggler-component.js';
-import multiTogglerModel
-  from '../../../../source/iml/multi-toggler/multi-toggler-model-directive.js';
+import multiTogglerContainerComponent from '../../../../source/iml/multi-toggler/multi-toggler-container-component.js';
+import multiTogglerComponent from '../../../../source/iml/multi-toggler/multi-toggler-component.js';
+import multiTogglerModel from '../../../../source/iml/multi-toggler/multi-toggler-model-directive.js';
 import angular from '../../../angular-mock-setup.js';
 
 import angularUiBootstrap from 'angular-ui-bootstrap';

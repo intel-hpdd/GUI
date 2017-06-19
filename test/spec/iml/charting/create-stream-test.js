@@ -8,7 +8,6 @@ describe('create stream', () => {
     mockFlushOnChange;
 
   beforeEach(() => {
-
     streamWhenVisible = jest.fn(() => 'streamWhenVisible');
     mockBufferDataNewerThan = jest.fn(() => 'bufferDataNewerThan');
     requestRangeInner = jest.fn(() => 'requestRangeInner');

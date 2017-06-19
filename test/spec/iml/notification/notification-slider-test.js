@@ -1,9 +1,7 @@
 import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 
-import {
-  NotificationSliderController
-} from '../../../../source/iml/notification/notification-slider.js';
+import { NotificationSliderController } from '../../../../source/iml/notification/notification-slider.js';
 
 describe('The notification slider', () => {
   let $exceptionHandler, $scope, $timeout, alertStream, ctrl;

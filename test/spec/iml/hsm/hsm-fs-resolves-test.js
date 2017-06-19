@@ -12,7 +12,6 @@ describe('hsm fs resolve', () => {
     promise;
 
   beforeEach(() => {
-
     s = highland();
     mockSocketStream = jest.fn(() => s);
 

@@ -5,7 +5,6 @@ import highland from 'highland';
 describe('session dispatch source', () => {
   let mockSocketStream, session$, spy, mockCacheInitialData, store;
   beforeEach(() => {
-
     mockCacheInitialData = {
       session: {
         read_enabled: false,

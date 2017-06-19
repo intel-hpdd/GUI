@@ -1,5 +1,4 @@
-import alertIndicatorReducer
-  from '../../../../source/iml/alert-indicator/alert-indicator-reducer.js';
+import alertIndicatorReducer from '../../../../source/iml/alert-indicator/alert-indicator-reducer.js';
 import deepFreeze from '@mfl/deep-freeze';
 
 describe('alert indicator reducer', () => {

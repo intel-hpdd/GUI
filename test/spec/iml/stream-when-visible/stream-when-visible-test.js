@@ -16,7 +16,6 @@ describe('stream', () => {
     spy;
 
   beforeEach(() => {
-
     removeListener = jest.fn();
     mockPageVisibility = jest.fn().mockReturnValue(removeListener);
     jest.mock(

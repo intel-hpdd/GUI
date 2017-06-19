@@ -1,5 +1,4 @@
-import serverActionsFactory
-  from '../../../../source/iml/server/server-actions.js';
+import serverActionsFactory from '../../../../source/iml/server/server-actions.js';
 
 describe('server actions', () => {
   let serverActions, hosts, detectFs, rewriteTargetConfig, installUpdates;

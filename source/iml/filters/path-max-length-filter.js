@@ -48,7 +48,9 @@ export default $cacheFactory => {
     parts[pointer] = '...';
 
     while (1) {
-      path = `${pathComponents.leadingSlash}${parts.join('/')}/${pathComponents.filename}`;
+      path = `${pathComponents.leadingSlash}${parts.join(
+        '/'
+      )}/${pathComponents.filename}`;
 
       if (path.length <= maxLength || parts.length === 1) break;
 

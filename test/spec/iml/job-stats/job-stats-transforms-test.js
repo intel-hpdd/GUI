@@ -9,9 +9,7 @@ import {
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('job stats transforms', () => {
-  beforeEach(() => {
-
-  });
+  beforeEach(() => {});
 
   describe('reduceToStruct', () => {
     it('should reduce a key value structure', () => {

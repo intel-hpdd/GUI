@@ -20,7 +20,6 @@ describe('MDO chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-
     mockGetMdoStream = {};
 
     standardConfig = {

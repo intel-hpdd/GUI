@@ -1,6 +1,5 @@
 import highland from 'highland';
-import overrideActionClickFactory
-  from '../../../../source/iml/server/override-action-click.js';
+import overrideActionClickFactory from '../../../../source/iml/server/override-action-click.js';
 
 describe('override action click', () => {
   let record, openAddServerModal, overrideActionClick, addServerSteps;

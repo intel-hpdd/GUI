@@ -1,7 +1,6 @@
 describe('duration submit handler', () => {
   let mockGetStore, durationSubmitter, mod;
   beforeEach(() => {
-
     mockGetStore = {
       dispatch: jest.fn()
     };

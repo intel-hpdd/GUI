@@ -1,7 +1,6 @@
 import highland from 'highland';
 
-import ostBalanceModule
-  from '../../../../source/iml/ost-balance/ost-balance-module';
+import ostBalanceModule from '../../../../source/iml/ost-balance/ost-balance-module';
 
 import { mock, resetAll } from '../../../system-mock.js';
 

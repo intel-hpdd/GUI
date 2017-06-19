@@ -1,8 +1,7 @@
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
-import groupActionsFilter
-  from '../../../../source/iml/action-dropdown/group-actions.js';
+import groupActionsFilter from '../../../../source/iml/action-dropdown/group-actions.js';
 import * as maybe from '@mfl/maybe';
 import angular from '../../../angular-mock-setup.js';
 import uiBootstrapModule from 'angular-ui-bootstrap';
@@ -112,10 +111,12 @@ describe('action dropdown directive', () => {
               {
                 args: { host_id: 2 },
                 class_name: 'ShutdownHostJob',
-                confirmation: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \ be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
+                confirmation:
+                  'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will  be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
                 display_group: 2,
                 display_order: 60,
-                long_description: 'Initiate an orderly shutdown on the host. \ Any HA-capable targets running on the host will \ be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
+                long_description:
+                  'Initiate an orderly shutdown on the host.  Any HA-capable targets running on the host will  be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
                 verb: 'Shutdown'
               },
               {
@@ -124,7 +125,8 @@ describe('action dropdown directive', () => {
                 confirmation: null,
                 display_group: 2,
                 display_order: 50,
-                long_description: 'Initiate a reboot on the host. Any HA-capable targets running on the host will be \ failed over to a peer. Non-HA-capable targets will be unavailable until the host has finished rebooting.',
+                long_description:
+                  'Initiate a reboot on the host. Any HA-capable targets running on the host will be  failed over to a peer. Non-HA-capable targets will be unavailable until the host has finished rebooting.',
                 verb: 'Reboot'
               }
             ],
@@ -135,14 +137,16 @@ describe('action dropdown directive', () => {
               {
                 display_group: 3,
                 display_order: 100,
-                long_description: 'Shut down the LNet networking layer and stop any targets running on this server.',
+                long_description:
+                  'Shut down the LNet networking layer and stop any targets running on this server.',
                 state: 'lnet_down',
                 verb: 'Stop LNet'
               },
               {
                 display_group: 3,
                 display_order: 110,
-                long_description: 'If LNet is running, stop LNET and unload the LNet kernel module to ensure that \ it will be reloaded before any targets are started again.',
+                long_description:
+                  'If LNet is running, stop LNET and unload the LNet kernel module to ensure that  it will be reloaded before any targets are started again.',
                 state: 'lnet_unloaded',
                 verb: 'Unload LNet'
               }

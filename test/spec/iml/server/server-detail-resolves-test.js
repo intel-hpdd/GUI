@@ -15,7 +15,6 @@ describe('server detail resolves', () => {
     spy;
 
   beforeEach(() => {
-
     mockStore = {
       select: jest.fn(key => {
         if (key === 'server') return (serverStream = highland());
@@ -186,7 +185,8 @@ describe('server detail resolves', () => {
       expect(
         mockSocketStream
       ).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
+        jsonMask:
+          'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
         qs: {
           host__id: '1',
           limit: 0
@@ -225,7 +225,6 @@ describe('server detail resolves', () => {
 describe('getting data', () => {
   let result, mockStore, mockSocketStream, mockGetNetworkInterfaceStream;
   beforeEach(async () => {
-
     mockStore = {
       select: jest.fn(key => {
         if (key === 'server')

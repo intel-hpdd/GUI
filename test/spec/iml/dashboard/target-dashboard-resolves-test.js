@@ -12,7 +12,6 @@ describe('target dashboard', () => {
     $stateParams;
 
   beforeEach(() => {
-
     s = highland();
     mockStore = {
       select: jest.fn(() => s)

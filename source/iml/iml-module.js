@@ -61,10 +61,8 @@ import treeModule from './tree/tree-module.js';
 import fileSystemModule from './file-system/file-system-module.js';
 import qsStreamModule from './qs-stream/qs-stream-module.js';
 import multiTogglerModule from './multi-toggler/multi-toggler-module.js';
-import chartTransformersModule
-  from './chart-transformers/chart-transformers-module.js';
-import resettableGroupModule
-  from './resettable-group/resettable-group-module.js';
+import chartTransformersModule from './chart-transformers/chart-transformers-module.js';
+import resettableGroupModule from './resettable-group/resettable-group-module.js';
 import oldRouteModule from './old-gui-shim/old-route-module.js';
 import asViewerDirective from './as-viewer/as-viewer.js';
 import sliderPanelComponent from './panels/slider-panel-component.js';

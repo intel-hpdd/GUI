@@ -1,7 +1,6 @@
 import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
-import dashboardController
-  from '../../../../source/iml/dashboard/dashboard-controller.js';
+import dashboardController from '../../../../source/iml/dashboard/dashboard-controller.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('dashboard controller', () => {

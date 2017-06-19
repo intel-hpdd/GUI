@@ -25,8 +25,7 @@ import flatMapChanges from '@mfl/flat-map-changes';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
 import { formatBytes } from '@mfl/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import getStore from '../store/get-store.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
@@ -36,9 +35,7 @@ import {
 } from './read-write-bandwidth-chart-reducer.js';
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 import type { HighlandStreamT } from 'highland';
 import type {
   durationPickerConfigT,

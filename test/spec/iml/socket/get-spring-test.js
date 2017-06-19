@@ -4,7 +4,6 @@ describe('spring module', () => {
   let mockRegenerator, mockSocketStream, getSpring, s;
 
   beforeEach(() => {
-
     s = highland();
     spyOn(s, 'destroy');
     mockSocketStream = jest.fn(() => s);

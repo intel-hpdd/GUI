@@ -2,9 +2,7 @@ import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 
 describe('step modal', () => {
-  beforeEach(() => {
-
-  });
+  beforeEach(() => {});
 
   describe('step modal controller', () => {
     let $scope,

@@ -2,7 +2,6 @@ describe('iframe shim component', () => {
   let context, el, $scope, $location, mockGlobal, frame;
 
   beforeEach(() => {
-
     mockGlobal = {
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()

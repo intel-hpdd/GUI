@@ -14,7 +14,6 @@ describe('Add copytool modal', () => {
     mockResolveStream;
 
   beforeEach(() => {
-
     s = highland();
     mockSocketStream = jest.fn(() => s);
     mockResolveStream = jest.fn();

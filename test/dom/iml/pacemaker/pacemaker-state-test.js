@@ -1,6 +1,5 @@
 import highland from 'highland';
-import pacemakerState
-  from '../../../../source/iml/pacemaker/pacemaker-state.js';
+import pacemakerState from '../../../../source/iml/pacemaker/pacemaker-state.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('pacemaker state directive', () => {

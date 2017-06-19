@@ -29,7 +29,8 @@ export default function getCopytoolStream(params) {
       qs: {
         limit: 0
       },
-      jsonMask: 'objects(id,label,host/label,archive,state,\
+      jsonMask:
+        'objects(id,label,host/label,archive,state,\
 active_operations_count,available_actions,resource_uri,locks)'
     },
     params || {}

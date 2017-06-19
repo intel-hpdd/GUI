@@ -44,7 +44,9 @@ export default ({
 
   return (
     <div
-      className={`tooltip inferno-tt ${direction} ${size} ${moreClasses.join(' ')}`}
+      className={`tooltip inferno-tt ${direction} ${size} ${moreClasses.join(
+        ' '
+      )}`}
     >
       <div class="tooltip-arrow" />
       <div class="tooltip-inner">

@@ -2,7 +2,6 @@ import highland from 'highland';
 describe('target dispatch source', () => {
   let mockStore, stream, mockSocketStream;
   beforeEach(() => {
-
     const mockCacheInitialData = { target: ['targets'] };
     stream = highland();
     mockSocketStream = jest.fn(() => stream);

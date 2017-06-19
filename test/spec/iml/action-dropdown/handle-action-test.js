@@ -6,7 +6,6 @@ describe('handle action', () => {
     openConfirmActionModal,
     openResult;
   beforeEach(() => {
-
     jest.useFakeTimers();
     mockSocketStream = jest.fn(() => {
       return (actionStream = highland());

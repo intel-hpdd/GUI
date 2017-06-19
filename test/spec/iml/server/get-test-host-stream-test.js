@@ -1,5 +1,4 @@
-import getTestHostStream
-  from '../../../../source/iml/server/get-test-host-stream.js';
+import getTestHostStream from '../../../../source/iml/server/get-test-host-stream.js';
 import highland from 'highland';
 
 describe('get test host stream', () => {

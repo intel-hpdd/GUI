@@ -4,7 +4,6 @@ import highland from 'highland';
 describe('The authorization service', () => {
   let authorization, mockStore, session$, GROUPS;
   beforeEach(() => {
-
     session$ = highland();
     GROUPS = {
       SUPERUSERS: 'superusers',

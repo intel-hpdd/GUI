@@ -49,7 +49,9 @@ export function getData($stateParams: jobStatsParamsT) {
         .map(matchById($stateParams.id))
         .map(
           maybe.map.bind(null, x => ({
-            label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
+            label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt(
+              $stateParams.endDate
+            )})`
           }))
         )
         .map(

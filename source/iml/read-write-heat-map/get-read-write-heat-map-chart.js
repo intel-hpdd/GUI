@@ -27,8 +27,7 @@ import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
 import { formatNumber, formatBytes } from '@mfl/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import getStore from '../store/get-store.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { values } from '@mfl/obj';
@@ -62,9 +61,7 @@ import type { HighlandStreamT } from 'highland';
 
 import type { StateServiceT } from 'angular-ui-router';
 
-import type {
-  streamWhenChartVisibleT
-} from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
 
 export default (
   $state: StateServiceT,

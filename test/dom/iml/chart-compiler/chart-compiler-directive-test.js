@@ -1,6 +1,4 @@
-import {
-  chartCompilerDirective
-} from '../../../../source/iml/chart-compiler/chart-compiler-directive.js';
+import { chartCompilerDirective } from '../../../../source/iml/chart-compiler/chart-compiler-directive.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('chart compiler directive', () => {

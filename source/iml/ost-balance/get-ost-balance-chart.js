@@ -34,9 +34,7 @@ import getStore from '../store/get-store.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
-import type {
-  streamWhenChartVisibleT
-} from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
 
 import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
 

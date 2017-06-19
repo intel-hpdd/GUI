@@ -1,11 +1,7 @@
 import highland from 'highland';
 import d3 from 'd3';
-import {
-  charterDirective
-} from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
-import {
-  labelDirective
-} from '../../../../../../source/iml/charting/types/label/label-directive.js';
+import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
+import { labelDirective } from '../../../../../../source/iml/charting/types/label/label-directive.js';
 import angular from '../../../../../angular-mock-setup.js';
 
 describe('label directive', () => {

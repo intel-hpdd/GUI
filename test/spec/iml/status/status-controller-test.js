@@ -1,9 +1,7 @@
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 import angular from '../../../angular-mock-setup.js';
-import {
-  StatusController
-} from '../../../../source/iml/status/status-records-component.js';
+import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 
 describe('status records component', () => {
   let $scope, $location, ctrl, notificationStream;

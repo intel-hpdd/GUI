@@ -29,9 +29,7 @@ import highlandModule from '../highland/highland-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
 import getHostCpuRamChartFactory from './get-host-cpu-ram-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addHostCpuRamActionT = {
   type: 'DEFAULT_HOST_CPU_RAM_CHART_ITEMS' | 'UPDATE_HOST_CPU_RAM_CHART_ITEMS',

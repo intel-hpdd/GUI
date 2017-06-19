@@ -5,7 +5,6 @@ describe('old gui resolves', () => {
   let mockGetStore, mockSocketStream, mod;
 
   beforeEach(() => {
-
     mockGetStore = {
       select: jest.fn()
     };

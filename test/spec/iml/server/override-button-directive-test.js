@@ -1,8 +1,7 @@
 import angular from '../../../angular-mock-setup.js';
 import uiBootstrap from 'angular-ui-bootstrap';
 
-import overrideButtonDirective
-  from '../../../../source/iml/server/override-button-directive.js';
+import overrideButtonDirective from '../../../../source/iml/server/override-button-directive.js';
 
 describe('Override Directive', () => {
   let $scope, element, button;

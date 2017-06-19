@@ -1,6 +1,5 @@
 import angular from '../../../angular-mock-setup.js';
-import windowUnloadFactory
-  from '../../../../source/iml/disconnect-modal/disconnect-modal.js';
+import windowUnloadFactory from '../../../../source/iml/disconnect-modal/disconnect-modal.js';
 
 describe('disconnect modal', () => {
   let $uibModal,
@@ -11,9 +10,7 @@ describe('disconnect modal', () => {
     disconnectModal,
     mockWindowUnload;
 
-  beforeEach(() => {
-
-  });
+  beforeEach(() => {});
 
   beforeEach(
     angular.mock.inject((_$timeout_, _$window_) => {

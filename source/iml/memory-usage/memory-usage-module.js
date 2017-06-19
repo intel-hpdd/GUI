@@ -27,13 +27,10 @@ import chartingModule from '../charting/charting-module';
 import highlandModule from '../highland/highland-module';
 import configToggleModule from '../config-toggle/config-toggle-module';
 import durationPickerModule from '../duration-picker/duration-picker-module';
-import streamWhenVisibleModule
-  from '../stream-when-visible/stream-when-visible-module';
+import streamWhenVisibleModule from '../stream-when-visible/stream-when-visible-module';
 import getMemoryUsageChartFactory from './get-memory-usage-chart';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addMemoryUsageActionT = {
   type: 'UPDATE_MEMORY_USAGE_CHART_ITEMS' | 'DEFAULT_MEMORY_USAGE_CHART_ITEMS',

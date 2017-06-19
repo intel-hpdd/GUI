@@ -7,7 +7,6 @@ describe('jobstats resolves', () => {
   let jobstats$, getData, mockTopDuration, mockTopRange, mockStore;
 
   beforeEach(() => {
-
     mockTopDuration = jest.fn(() => highland(['topDuration']));
 
     mockTopRange = jest.fn(() => 'topRange');

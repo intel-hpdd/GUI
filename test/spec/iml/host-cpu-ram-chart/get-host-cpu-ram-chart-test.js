@@ -21,7 +21,6 @@ describe('Host Cpu Ram chart', () => {
     mockGetConf;
 
   beforeEach(async () => {
-
     mockGetHostCpuRamStream = {};
 
     standardConfig = {

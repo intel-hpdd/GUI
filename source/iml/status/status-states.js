@@ -29,9 +29,7 @@ import * as fp from '@mfl/fp';
 
 import { resolveStream } from '../promise-transforms.js';
 
-import type {
-  qsFromLocationT
-} from '../qs-from-location/qs-from-location-module.js';
+import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
 export const statusState = {
   name: 'app.status',

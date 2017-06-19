@@ -2,12 +2,9 @@ import {
   parselyBox,
   parseQuery
 } from '../../../../source/iml/parsely-box/parsely-box.js';
-import completionist
-  from '../../../../source/iml/completionist/completionist.js';
-import completionistModelHook
-  from '../../../../source/iml/completionist/completionist-model-hook.js';
-import completionistDropdownComponent
-  from '../../../../source/iml/completionist/completionist-dropdown.js';
+import completionist from '../../../../source/iml/completionist/completionist.js';
+import completionistModelHook from '../../../../source/iml/completionist/completionist-model-hook.js';
+import completionistDropdownComponent from '../../../../source/iml/completionist/completionist-dropdown.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import angular from '../../../angular-mock-setup.js';
 

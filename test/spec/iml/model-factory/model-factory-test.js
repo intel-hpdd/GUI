@@ -1,9 +1,7 @@
 import angular from '../../../angular-mock-setup.js';
 
-import modelFactoryModule
-  from '../../../../source/iml/model-factory/model-factory-module.js';
-import interceptorsModule
-  from '../../../../source/iml/interceptors/interceptor-module.js';
+import modelFactoryModule from '../../../../source/iml/model-factory/model-factory-module.js';
+import interceptorsModule from '../../../../source/iml/interceptors/interceptor-module.js';
 
 describe('model factory', () => {
   let $httpBackend,

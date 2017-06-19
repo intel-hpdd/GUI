@@ -2,7 +2,6 @@ describe('page visibility', () => {
   let mockDoc, pageVisibility, mockClear;
 
   beforeEach(() => {
-
     mockDoc = {
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()

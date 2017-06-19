@@ -21,7 +21,6 @@ describe('file usage chart', () => {
     localApply;
 
   beforeEach(() => {
-
     fileUsageStream = {};
     mockGetFileUsageStream = jest.fn(() => fileUsageStream);
 

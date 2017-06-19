@@ -2,7 +2,6 @@ describe('Get server moment', () => {
   let getServerMoment, mockEnvironment, momentInstance, mockMoment;
 
   beforeEach(() => {
-
     mockEnvironment = {
       SERVER_TIME_DIFF: 2000
     };

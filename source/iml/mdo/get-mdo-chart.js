@@ -34,22 +34,17 @@ import getMdoStream from './get-mdo-stream.js';
 import { formatNumber } from '@mfl/number-formatters';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
-import type {
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
 import type {
   filesystemQueryT,
   targetQueryT
 } from '../dashboard/dashboard-module.js';
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply: localApplyT, data$Fn: data$FnT) => {
   'ngInject';

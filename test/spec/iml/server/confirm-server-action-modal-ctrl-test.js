@@ -12,7 +12,6 @@ describe('Confirm server action modal', () => {
     confirmServer,
     ConfirmServerActionModalCtrl;
   beforeEach(() => {
-
     mockSocketStream = jest.fn(() => {
       return (stream = highland());
     });

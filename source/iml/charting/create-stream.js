@@ -28,9 +28,7 @@ import { flushOnChange } from '../chart-transformers/chart-transformers.js';
 
 import { getTimeParams } from './get-time-params.js';
 
-import type {
-  streamWhenChartVisibleT
-} from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
 
 export default (streamWhenVisible: streamWhenChartVisibleT) => {
   'ngInject';

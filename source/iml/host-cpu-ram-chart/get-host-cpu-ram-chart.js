@@ -25,8 +25,7 @@ import flatMapChanges from '@mfl/flat-map-changes';
 
 import getHostCpuRamStream from './get-host-cpu-ram-stream.js';
 import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler
-  from '../duration-picker/duration-submit-handler.js';
+import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 import getStore from '../store/get-store.js';
 
@@ -40,9 +39,7 @@ import { hasChanges } from '../tree/tree-transforms.js';
 
 import type { $scopeT } from 'angular';
 
-import type {
-  data$FnT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
 import type { HighlandStreamT } from 'highland';
 

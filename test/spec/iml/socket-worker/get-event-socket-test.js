@@ -6,7 +6,6 @@ describe('get event socket', () => {
     eventSocket;
 
   beforeEach(() => {
-
     mockSocketWorker = {
       addEventListener: jest.fn(),
       postMessage: jest.fn()

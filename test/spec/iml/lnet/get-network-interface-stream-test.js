@@ -2,7 +2,6 @@ import highland from 'highland';
 describe('get network interface stream', () => {
   let mockSocketStream, ss, getNetworkInterfaceStream, stream;
   beforeEach(() => {
-
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
     jest.spyOn(ss, 'write');

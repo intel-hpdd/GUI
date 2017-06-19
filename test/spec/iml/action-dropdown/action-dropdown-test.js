@@ -14,7 +14,6 @@ describe('action dropdown', () => {
     ActionDropdownCtrl;
 
   beforeEach(() => {
-
     commandStream = highland();
     jest.spyOn(commandStream, 'destroy');
     mockGetCommandStream = jest.fn(() => commandStream);

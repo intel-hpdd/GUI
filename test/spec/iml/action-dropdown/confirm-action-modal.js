@@ -1,5 +1,4 @@
-import actionDropdownModule
-  from '../../../../source/iml/action-dropdown/action-dropdown-module';
+import actionDropdownModule from '../../../../source/iml/action-dropdown/action-dropdown-module';
 
 describe('confirm action modal', function() {
   beforeEach(module(actionDropdownModule));
@@ -60,7 +59,8 @@ describe('confirm action modal', function() {
 
     it('should open the modal as expected', function() {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
-        templateUrl: 'iml/action-dropdown/assets/html/confirm-action-modal.html',
+        templateUrl:
+          'iml/action-dropdown/assets/html/confirm-action-modal.html',
         controller: 'ConfirmActionModalCtrl',
         windowClass: 'confirm-action-modal',
         backdropClass: 'confirm-action-modal-backdrop',

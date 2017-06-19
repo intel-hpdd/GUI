@@ -5,7 +5,6 @@ describe('buffer data newer than', () => {
   let mockGetServerMoment, bufferDataNewerThan, spy;
 
   beforeEach(() => {
-
     jest.useFakeTimers();
 
     spy = jest.fn();

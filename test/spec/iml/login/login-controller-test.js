@@ -5,7 +5,6 @@ describe('Login Controller', () => {
   const userEulaStates = { EULA: 'eula', PASS: 'pass', DENIED: 'denied' };
   let $uibModal, navigate, LoginCtrl, help, mod, SessionModel;
   beforeEach(() => {
-
     mod = require('../../../../source/iml/login/login-controller.js');
     LoginCtrl = mod.default;
 

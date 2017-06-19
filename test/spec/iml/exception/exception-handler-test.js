@@ -1,5 +1,4 @@
-import exceptionHandlerConfig
-  from '../../../../source/iml/exception/exception-handler.js';
+import exceptionHandlerConfig from '../../../../source/iml/exception/exception-handler.js';
 import windowUnloadFactory from '../../../../source/iml/window-unload.js';
 import angular from '../../../angular-mock-setup.js';
 

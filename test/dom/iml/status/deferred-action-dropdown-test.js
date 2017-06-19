@@ -94,11 +94,13 @@ describe('deferred action dropdown', () => {
                 host_id: 2
               },
               class_name: 'ShutdownHostJob',
-              confirmation: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \
+              confirmation:
+                'Initiate an orderly shutdown on the host. Any HA-capable targets running on the host will \
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
               display_group: 2,
               display_order: 60,
-              long_description: 'Initiate an orderly shutdown on the host. Any HA-capable targets running on \
+              long_description:
+                'Initiate an orderly shutdown on the host. Any HA-capable targets running on \
   the host will \
   be failed over to a peer. Non-HA-capable targets will be unavailable until the host has been restarted.',
               verb: 'Shutdown'
@@ -111,7 +113,8 @@ describe('deferred action dropdown', () => {
               confirmation: null,
               display_group: 2,
               display_order: 50,
-              long_description: 'Initiate a reboot on the host. Any HA-capable targets running on the host will be \
+              long_description:
+                'Initiate a reboot on the host. Any HA-capable targets running on the host will be \
   failed over to a peer. Non-HA-capable targets will be unavailable until the host has finished rebooting.',
               verb: 'Reboot'
             }

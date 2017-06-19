@@ -27,7 +27,8 @@ export default function getCopytoolOperationStream(params) {
   params = angular.merge(
     {},
     {
-      jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
+      jsonMask:
+        'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
       qs: {
         active: true,

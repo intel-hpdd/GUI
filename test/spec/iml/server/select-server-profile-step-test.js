@@ -1,5 +1,4 @@
-import transformedHostProfileFixture
-  from '../../../data-fixtures/transformed-host-profile-fixture.json';
+import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
 import highland from 'highland';
 import * as fp from '@mfl/fp';
 import angular from '../../../angular-mock-setup.js';

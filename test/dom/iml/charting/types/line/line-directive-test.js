@@ -1,10 +1,8 @@
 import d3 from 'd3';
 import highland from 'highland';
 import * as fp from '@mfl/fp';
-import lineModule
-  from '../../../../../../source/iml/charting/types/line/line-module';
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import lineModule from '../../../../../../source/iml/charting/types/line/line-module';
+import chartModule from '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('line directive', () => {
   let chartCtrl;

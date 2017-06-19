@@ -21,7 +21,6 @@ describe('space usage chart', () => {
     getSpaceUsageChartFactory;
 
   beforeEach(() => {
-
     spaceUsageStream = {};
 
     mockGetSpaceUsageStream = jest.fn(() => spaceUsageStream);

@@ -1,8 +1,6 @@
 import highland from 'highland';
-import legendModule
-  from '../../../../../../source/iml/charting/types/legend/legend-module';
-import chartModule
-  from '../../../../../../source/iml/charting/types/chart/chart-module';
+import legendModule from '../../../../../../source/iml/charting/types/legend/legend-module';
+import chartModule from '../../../../../../source/iml/charting/types/chart/chart-module';
 
 describe('legend directive', () => {
   let chartCtrl;

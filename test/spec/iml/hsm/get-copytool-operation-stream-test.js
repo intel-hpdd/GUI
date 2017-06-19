@@ -24,7 +24,8 @@ describe('get copytool operation stream', () => {
     getCopytoolOperationStream();
 
     expect(mockSocketStream).toHaveBeenCalledOnceWith('/copytool_operation', {
-      jsonMask: 'objects(id,copytool/host/label,processed_bytes,total_bytes,\
+      jsonMask:
+        'objects(id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)',
       qs: {
         active: true,

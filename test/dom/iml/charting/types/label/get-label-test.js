@@ -3,8 +3,7 @@ import angular from '../../../../../angular-mock-setup.js';
 import * as d3 from 'd3';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 
-import getLabel
-  from '../../../../../../source/iml/charting/types/label/get-label';
+import getLabel from '../../../../../../source/iml/charting/types/label/get-label';
 
 describe('get label', () => {
   let svg, label;

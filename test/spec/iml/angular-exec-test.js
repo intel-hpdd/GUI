@@ -4,7 +4,6 @@ describe('mockAngular exec', () => {
   let result$, mod, element, injector, mockAngular, mockAngularExec;
 
   beforeEach(() => {
-
     injector = {
       has: jest.fn(),
       get: jest.fn()

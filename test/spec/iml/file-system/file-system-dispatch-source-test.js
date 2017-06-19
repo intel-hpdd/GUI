@@ -6,7 +6,6 @@ describe('file system dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
-
     const mockCacheInitialData = {
       filesystem: ['filesystem']
     };
@@ -55,7 +54,8 @@ describe('file system dispatch source', () => {
   it('should invoke the socket stream', () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith('/filesystem', {
       qs: {
-        jsonMask: 'objects(id,resource_uri,label,locks,name,client_count,bytes_total,bytes_free,available_actions,mgt(primary_server_name,primary_server),mdts(resource_uri))',
+        jsonMask:
+          'objects(id,resource_uri,label,locks,name,client_count,bytes_total,bytes_free,available_actions,mgt(primary_server_name,primary_server),mdts(resource_uri))',
         limit: 0
       }
     });

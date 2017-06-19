@@ -2,8 +2,6 @@ describe('socket worker', () => {
   let worker, mockGetWebWorker, socketWorker, mockDisconnectListener;
 
   beforeEach(() => {
-
-
     worker = {
       addEventListener: jest.fn()
     };

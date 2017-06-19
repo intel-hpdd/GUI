@@ -22,8 +22,7 @@
 // express and approved by Intel in writing.
 
 import angular from 'angular';
-import extractApiFilterModule
-  from '../extract-api-filter/extract-api-filter-module.js';
+import extractApiFilterModule from '../extract-api-filter/extract-api-filter-module.js';
 import actionDropdownModule from '../action-dropdown/action-dropdown-module.js';
 import asStreamModule from '../as-stream/as-stream-module.js';
 import asValueModule from '../as-value/as-value-module.js';

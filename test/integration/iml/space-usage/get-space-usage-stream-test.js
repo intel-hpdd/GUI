@@ -1,7 +1,6 @@
 import highland from 'highland';
 import moment from 'moment';
-import spaceUsageDataFixtures
-  from '../../../data-fixtures/space-usage-fixtures.json';
+import spaceUsageDataFixtures from '../../../data-fixtures/space-usage-fixtures.json';
 
 import * as maybe from '@mfl/maybe';
 

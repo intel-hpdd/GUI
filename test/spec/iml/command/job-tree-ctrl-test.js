@@ -15,7 +15,6 @@ describe('job tree', () => {
       JobTreeCtrl;
 
     beforeEach(() => {
-
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
@@ -134,7 +133,6 @@ describe('job tree', () => {
     let mockSocketStream, jobTree, ss, stream;
 
     beforeEach(() => {
-
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
