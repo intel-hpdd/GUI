@@ -40,8 +40,8 @@ export function lineDirective(getLine) {
       const line = getLine();
 
       const callLine = fp.flow(
-        fp.invokeMethod('select', [fp.always(node)]),
-        fp.invokeMethod('call', [line])
+        x => x.select(fp.always(node)),
+        x => x.call(line)
       );
 
       chartCtrl.dispatch.on(`event.line${line.getCount()}`, (type, args) => {
