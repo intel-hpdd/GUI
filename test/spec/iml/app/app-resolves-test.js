@@ -6,7 +6,7 @@ describe('app resolves', () => {
     appModule,
     mockCacheInitialData;
   beforeEach(() => {
-    jest.resetModules();
+
     promise = {};
     mockResolveStream = jest.fn();
     mockResolveStream.mockReturnValue(promise);
@@ -29,10 +29,6 @@ describe('app resolves', () => {
     }));
 
     appModule = require('../../../../source/iml/app/app-resolves.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('app alert stream', () => {

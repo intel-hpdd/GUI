@@ -5,7 +5,7 @@ import highland from 'highland';
 describe('route transitions', () => {
   let mockGroupAllowed, mod, $transitions, routeTransitions, mockStore, $state;
   beforeEach(() => {
-    jest.resetModules();
+
     mockStore = {
       select: jest.fn()
     };
@@ -29,10 +29,6 @@ describe('route transitions', () => {
 
     routeTransitions = mod.default;
     routeTransitions($transitions, $state);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should set an onStart hook for three route processors', () => {

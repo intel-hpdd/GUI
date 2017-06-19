@@ -27,7 +27,7 @@ describe('get agent vs copytool chart exports', () => {
     initStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetAgentVsCopytoolStream = jest.fn();
     mockCreateDate = jest.fn(x => x);
 
@@ -120,10 +120,6 @@ describe('get agent vs copytool chart exports', () => {
     const mod = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js');
 
     getAgentVsCopytoolChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

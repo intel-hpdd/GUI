@@ -21,7 +21,7 @@ describe('space usage chart', () => {
     getSpaceUsageChartFactory;
 
   beforeEach(() => {
-    jest.resetModules();
+
     spaceUsageStream = {};
 
     mockGetSpaceUsageStream = jest.fn(() => spaceUsageStream);
@@ -113,10 +113,6 @@ describe('space usage chart', () => {
     const mod = require('../../../../source/iml/space-usage/get-space-usage-chart.js');
 
     getSpaceUsageChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

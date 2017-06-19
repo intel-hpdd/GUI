@@ -10,7 +10,7 @@ describe('create or update hosts stream', () => {
     resultStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     jest.useFakeTimers();
 
     hostStreams = [];
@@ -72,7 +72,6 @@ describe('create or update hosts stream', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
 
   it('should call serversToApiObjects', () => {

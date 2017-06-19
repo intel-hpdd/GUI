@@ -10,7 +10,7 @@ describe('status states', () => {
     storeStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockResolveStream = jest.fn(() => 'promise');
     mockSocketStream = jest.fn(() => highland(['socket']));
     mockAddCurrentPage = jest.fn();
@@ -33,10 +33,6 @@ describe('status states', () => {
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
     mod = require('../../../../source/iml/logs/log-states.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('log state', () => {

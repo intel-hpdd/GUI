@@ -20,7 +20,7 @@ describe('Read Write Bandwidth chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetReadWriteBandwidthStream = {};
 
     standardConfig = {
@@ -100,10 +100,6 @@ describe('Read Write Bandwidth chart', () => {
     );
 
     mod = require('../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

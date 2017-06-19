@@ -2,7 +2,7 @@ describe('iframe shim component', () => {
   let context, el, $scope, $location, mockGlobal, frame;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGlobal = {
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -57,7 +57,6 @@ describe('iframe shim component', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
 
   it('should set loading to true', () => {

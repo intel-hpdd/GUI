@@ -4,7 +4,7 @@ describe('status states', () => {
   let mod, mockResolveStream, mockSocketStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockResolveStream = jest.fn();
     mockSocketStream = jest.fn();
 
@@ -17,10 +17,6 @@ describe('status states', () => {
     );
 
     mod = require('../../../../source/iml/status/status-states.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('status state', () => {

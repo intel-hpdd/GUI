@@ -6,7 +6,7 @@ describe('file system dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
-    jest.resetModules();
+
     const mockCacheInitialData = {
       filesystem: ['filesystem']
     };
@@ -29,10 +29,6 @@ describe('file system dispatch source', () => {
     );
 
     require('../../../../source/iml/file-system/file-system-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

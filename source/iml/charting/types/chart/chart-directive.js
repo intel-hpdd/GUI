@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import debounce from '@mfl/debounce';
 import d3 from 'd3';
 
@@ -37,7 +36,7 @@ export function charterDirective($window) {
     controller: function CharterDirectiveCtrl($element) {
       /* jshint -W034 */
       'ngInject';
-      this.margin = angular.extend(
+      this.margin = Object.assign(
         {
           top: 30,
           right: 30,

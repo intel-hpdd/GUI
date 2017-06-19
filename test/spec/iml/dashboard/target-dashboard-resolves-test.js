@@ -12,7 +12,7 @@ describe('target dashboard', () => {
     $stateParams;
 
   beforeEach(() => {
-    jest.resetModules();
+
     s = highland();
     mockStore = {
       select: jest.fn(() => s)
@@ -37,10 +37,6 @@ describe('target dashboard', () => {
     spy = jest.fn();
 
     $stateParams = {};
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('chart resolves', () => {

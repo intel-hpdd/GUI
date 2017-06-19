@@ -2,7 +2,7 @@ describe('socket worker', () => {
   let worker, mockGetWebWorker, socketWorker, mockDisconnectListener;
 
   beforeEach(() => {
-    jest.resetModules();
+
 
     worker = {
       addEventListener: jest.fn()
@@ -29,10 +29,6 @@ describe('socket worker', () => {
     const socketWorkerModule = require('../../../../source/iml/socket-worker/socket-worker.js');
 
     socketWorker = socketWorkerModule.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should create a worker with a remote script', () => {

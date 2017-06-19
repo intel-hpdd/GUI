@@ -16,7 +16,7 @@ describe('Exception modal controller', () => {
     mod;
 
   beforeEach(() => {
-    jest.resetModules();
+
     reverseStream = highland();
 
     mockSocketStream = jest.fn(() => reverseStream);
@@ -27,10 +27,6 @@ describe('Exception modal controller', () => {
     );
 
     mod = require('../../../../source/iml/exception/exception-modal-controller.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

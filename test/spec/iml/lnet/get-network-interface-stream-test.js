@@ -2,7 +2,7 @@ import highland from 'highland';
 describe('get network interface stream', () => {
   let mockSocketStream, ss, getNetworkInterfaceStream, stream;
   beforeEach(() => {
-    jest.resetModules();
+
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
     jest.spyOn(ss, 'write');
@@ -14,10 +14,6 @@ describe('get network interface stream', () => {
     const mod = require('../../../../source/iml/lnet/get-network-interface-stream.js');
     getNetworkInterfaceStream = mod.default;
     stream = getNetworkInterfaceStream({ qs: { host__id: '1' } });
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should be a function', () => {

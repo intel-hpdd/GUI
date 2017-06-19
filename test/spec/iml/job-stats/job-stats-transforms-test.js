@@ -10,11 +10,7 @@ import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('job stats transforms', () => {
   beforeEach(() => {
-    jest.resetModules();
-  });
 
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('reduceToStruct', () => {

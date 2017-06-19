@@ -2,7 +2,7 @@ import highland from 'highland';
 describe('alert indicator dispatch source', () => {
   let mockStore, stream, mockSocketStream;
   beforeEach(() => {
-    jest.resetModules();
+
     mockStore = { dispatch: jest.fn() };
     stream = highland();
     jest.spyOn(stream, 'destroy');
@@ -17,10 +17,6 @@ describe('alert indicator dispatch source', () => {
     }));
 
     require('../../../../source/iml/alert-indicator/alert-indicator-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should request alerts', () => {

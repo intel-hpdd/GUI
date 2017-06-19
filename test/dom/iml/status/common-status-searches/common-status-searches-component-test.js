@@ -7,6 +7,10 @@ import commonStatusSearchesComponent
 describe('common status searches', () => {
   let el, $scope, $animate, qs, cleanText, panelTitle, panelCollapse, searches;
 
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
+
   beforeEach(
     angular.mock.module(
       angularUiBootstrap,

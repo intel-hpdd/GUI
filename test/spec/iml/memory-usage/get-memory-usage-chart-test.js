@@ -20,7 +20,7 @@ describe('memory usage chart', () => {
     localApply;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetMemoryUsageStream = {};
 
     mockGetMemoryUsageStream = jest.fn();
@@ -113,10 +113,6 @@ describe('memory usage chart', () => {
     const mod = require('../../../../source/iml/memory-usage/get-memory-usage-chart.js');
 
     getMemoryUsageChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

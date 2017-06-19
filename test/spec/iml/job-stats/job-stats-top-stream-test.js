@@ -23,7 +23,7 @@ describe('job stats top stream', () => {
     requestRange;
 
   beforeEach(() => {
-    jest.resetModules();
+
     jest.useFakeTimers();
 
     mockSocketStream = jest.fn(() => highland([jobStatsFixture]));
@@ -64,7 +64,6 @@ describe('job stats top stream', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
 
   describe('duration$', () => {

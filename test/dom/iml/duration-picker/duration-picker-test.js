@@ -17,6 +17,10 @@ describe('the duration picker', () => {
     getErrorText,
     durationControls;
 
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
+
   beforeEach(
     angular.mock.module(
       angularUiBootstrap,

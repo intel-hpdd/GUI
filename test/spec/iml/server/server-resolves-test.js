@@ -4,7 +4,7 @@ describe('server resolves', () => {
   let mockStore, serverResolves;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockStore = {
       select: jest.fn(() => highland())
     };
@@ -14,10 +14,6 @@ describe('server resolves', () => {
     const mod = require('../../../../source/iml/server/server-resolves.js');
 
     serverResolves = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should be a function', () => {

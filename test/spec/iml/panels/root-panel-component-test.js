@@ -2,7 +2,7 @@ describe('root panel component', () => {
   let inst, el, mockDoc, overlay, mockRaf, mockQuerySelector;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockRaf = jest.fn();
 
     overlay = {
@@ -35,10 +35,6 @@ describe('root panel component', () => {
     el = document.createElement('div');
 
     inst = new mod.Controller([el]);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('on change', () => {

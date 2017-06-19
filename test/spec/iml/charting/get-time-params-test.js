@@ -10,7 +10,7 @@ describe('get time params', () => {
     getTimeParams;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetServerMoment = jasmine.createSpy('getServerMoment');
     mockCreateDate = jasmine.createSpy('createDate');
 
@@ -25,10 +25,6 @@ describe('get time params', () => {
     getRequestRange = mod.getRequestRange;
     getRequestDuration = mod.getRequestDuration;
     getTimeParams = mod.getTimeParams;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('getRequestRange', () => {

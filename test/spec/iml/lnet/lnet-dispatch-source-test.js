@@ -4,7 +4,7 @@ describe('lnet dispatch source', () => {
   let mockStore, s, mockSocketStream;
 
   beforeEach(() => {
-    jest.resetModules();
+    
     s = highland();
     mockSocketStream = jest.fn(() => s);
 

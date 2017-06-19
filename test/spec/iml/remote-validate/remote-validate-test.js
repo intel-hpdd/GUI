@@ -208,7 +208,7 @@ describe('Remote validate directive', () => {
         getDeferred = () => {
           const deferred = $q.defer();
 
-          angular.extend($scope, {
+          Object.assign($scope, {
             validate: deferred.promise
           });
 

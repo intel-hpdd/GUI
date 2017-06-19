@@ -12,11 +12,7 @@ describe('disconnect modal', () => {
     mockWindowUnload;
 
   beforeEach(() => {
-    jest.resetModules();
-  });
 
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

@@ -17,7 +17,7 @@ describe('configure corosync', () => {
     insertHelpFilter;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockSocketStream = jest.fn(() => socketResponse);
 
     jest.mock(
@@ -26,10 +26,6 @@ describe('configure corosync', () => {
     );
 
     mod = require('../../../../source/iml/corosync/configure-corosync.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('controller', () => {

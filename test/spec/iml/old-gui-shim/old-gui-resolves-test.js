@@ -5,7 +5,7 @@ describe('old gui resolves', () => {
   let mockGetStore, mockSocketStream, mod;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetStore = {
       select: jest.fn()
     };
@@ -18,10 +18,6 @@ describe('old gui resolves', () => {
     );
 
     mod = require('../../../../source/iml/old-gui-shim/old-gui-resolves.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('old filesystem detail resolve', () => {

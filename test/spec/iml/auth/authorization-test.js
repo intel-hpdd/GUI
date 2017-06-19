@@ -4,7 +4,7 @@ import highland from 'highland';
 describe('The authorization service', () => {
   let authorization, mockStore, session$, GROUPS;
   beforeEach(() => {
-    jest.resetModules();
+
     session$ = highland();
     GROUPS = {
       SUPERUSERS: 'superusers',
@@ -15,10 +15,6 @@ describe('The authorization service', () => {
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
     authorization = require('../../../../source/iml/auth/authorization.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should select the session store', () => {

@@ -7,7 +7,7 @@ describe('tree actions', () => {
     toggleItemOpen,
     createItem;
   beforeEach(() => {
-    jest.resetModules();
+
 
     const mod = require('../../../../source/iml/tree/tree-actions.js');
     ({
@@ -17,10 +17,6 @@ describe('tree actions', () => {
       toggleItemOpen,
       createItem
     } = mod);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('add tree items', () => {

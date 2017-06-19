@@ -16,7 +16,7 @@ describe('get ost balance chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetOstBalanceStream = jest.fn(() => highland());
 
     standardConfig = {
@@ -77,10 +77,6 @@ describe('get ost balance chart', () => {
     const mod = require('../../../../source/iml/ost-balance/get-ost-balance-chart.js');
 
     getOstBalanceChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

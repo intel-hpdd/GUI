@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
   EXISTING_KEYS: 'existing_keys_choice',
   ROOT_PASSWORD: 'id_password_root',
@@ -31,7 +29,7 @@ export function AddServerStepCtrl($scope, $stepInstance, data) {
   'ngInject';
   const servers = data.servers;
 
-  angular.extend(this, {
+  Object.assign(this, {
     fields: {
       auth_type: (servers && servers.auth_type) ||
         ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS,

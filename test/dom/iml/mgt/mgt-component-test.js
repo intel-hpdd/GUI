@@ -13,6 +13,7 @@ import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import imlPopover from '../../../../source/iml/iml-popover.js';
 import position from '../../../../source/iml/position.js';
 import routeTo from '../../../../source/iml/route-to/route-to.js';
+import angular from '../../../angular-mock-setup.js';
 import uiBootstrap from 'angular-ui-bootstrap';
 import {
   openConfirmActionModalFactory
@@ -20,10 +21,13 @@ import {
 import {
   openCommandModalFactory
 } from '../../../../source/iml/command/command-modal-ctrl.js';
-import angular from '../../../angular-mock-setup.js';
 
 describe('mgt component', () => {
   let mockGetCommandStream, mockSocketStream;
+
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
 
   beforeEach(
     angular.mock.module(

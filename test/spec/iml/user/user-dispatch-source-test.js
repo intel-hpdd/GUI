@@ -4,7 +4,6 @@ describe('user dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
-    jest.resetModules();
     mockStore = { dispatch: jest.fn() };
     s = highland();
     mockSocketStream = jest.fn(() => s);
@@ -21,10 +20,6 @@ describe('user dispatch source', () => {
     }));
 
     require('../../../../source/iml/user/user-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

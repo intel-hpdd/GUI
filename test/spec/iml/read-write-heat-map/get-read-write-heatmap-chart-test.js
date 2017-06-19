@@ -30,7 +30,7 @@ describe('Read Write Heat Map chart', () => {
   };
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetReadWriteHeatMapStream = jest.fn();
 
     standardConfig = {
@@ -118,10 +118,6 @@ describe('Read Write Heat Map chart', () => {
     }));
 
     mod = require('../../../../source/iml/read-write-heat-map/get-read-write-heat-map-chart.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

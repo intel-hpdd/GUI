@@ -20,7 +20,7 @@ describe('MDO chart', () => {
     mockGetConf;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetMdoStream = {};
 
     standardConfig = {
@@ -100,10 +100,6 @@ describe('MDO chart', () => {
     );
 
     mod = require('../../../../source/iml/mdo/get-mdo-chart.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

@@ -2,7 +2,7 @@ import highland from 'highland';
 describe('target dispatch source', () => {
   let mockStore, stream, mockSocketStream;
   beforeEach(() => {
-    jest.resetModules();
+
     const mockCacheInitialData = { target: ['targets'] };
     stream = highland();
     mockSocketStream = jest.fn(() => stream);
@@ -18,10 +18,6 @@ describe('target dispatch source', () => {
     );
 
     require('../../../../source/iml/target/target-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should dispatch cached targets into the store', () => {

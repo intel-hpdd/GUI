@@ -8,7 +8,7 @@ describe('target dashboard', () => {
   let $scope, ctrl, charts, targetStream, usageStream;
   beforeEach(
     angular.mock.inject($rootScope => {
-      jest.resetModules();
+
       $scope = $rootScope.$new();
       charts = [{ stream: { destroy: jest.fn() } }];
       jest.spyOn(charts[0].stream, 'destroy');
@@ -26,10 +26,6 @@ describe('target dashboard', () => {
       );
     })
   );
-
-  afterEach(() => {
-    window.angular = null;
-  });
 
   it('should setup the controller', () => {
     const scope = {

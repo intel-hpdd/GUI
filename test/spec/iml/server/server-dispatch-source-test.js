@@ -4,7 +4,7 @@ describe('server dispatch source', () => {
   let mockStore, mockSocketStream, s;
 
   beforeEach(() => {
-    jest.resetModules();
+
     const mockCacheInitialData = {
       host: ['host']
     };
@@ -27,10 +27,6 @@ describe('server dispatch source', () => {
     );
 
     require('../../../../source/iml/server/server-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

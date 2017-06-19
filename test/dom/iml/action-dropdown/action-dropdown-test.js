@@ -9,6 +9,11 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 
 describe('action dropdown directive', () => {
   let handleAction, openCommandModal, mockGetCommandStream, cleanText;
+
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
+
   beforeEach(
     angular.mock.module(
       uiBootstrapModule,

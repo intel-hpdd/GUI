@@ -21,7 +21,7 @@ describe('file usage chart', () => {
     localApply;
 
   beforeEach(() => {
-    jest.resetModules();
+
     fileUsageStream = {};
     mockGetFileUsageStream = jest.fn(() => fileUsageStream);
 
@@ -114,10 +114,6 @@ describe('file usage chart', () => {
     const mod = require('../../../../source/iml/file-usage/get-file-usage-chart.js');
 
     getFileUsageChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

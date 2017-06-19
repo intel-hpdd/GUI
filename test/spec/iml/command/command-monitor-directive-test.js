@@ -13,7 +13,7 @@ describe('Command monitor controller', () => {
     stream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     stream = highland();
     mockSocketStream = jest.fn(() => stream);
     jest.spyOn(stream, 'destroy');
@@ -31,10 +31,6 @@ describe('Command monitor controller', () => {
       () => mockGetCommandStream
     );
     mod = require('../../../../source/iml/command/command-monitor-directive.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

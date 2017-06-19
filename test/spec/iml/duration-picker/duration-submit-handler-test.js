@@ -1,7 +1,7 @@
 describe('duration submit handler', () => {
   let mockGetStore, durationSubmitter, mod;
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetStore = {
       dispatch: jest.fn()
     };
@@ -11,10 +11,6 @@ describe('duration submit handler', () => {
     mod = require('../../../../source/iml/duration-picker/duration-submit-handler.js');
 
     durationSubmitter = mod.default('chart_type', { page: 'base' });
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('passing a range form', () => {

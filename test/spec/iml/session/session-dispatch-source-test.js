@@ -5,7 +5,7 @@ import highland from 'highland';
 describe('session dispatch source', () => {
   let mockSocketStream, session$, spy, mockCacheInitialData, store;
   beforeEach(() => {
-    jest.resetModules();
+
     mockCacheInitialData = {
       session: {
         read_enabled: false,
@@ -30,10 +30,6 @@ describe('session dispatch source', () => {
 
     store = require('../../../../source/iml/store/get-store.js').default;
     require('../../../../source/iml/session/session-dispatch-source.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should push the initial session through the session store', () => {

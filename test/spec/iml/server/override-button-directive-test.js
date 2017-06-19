@@ -1,15 +1,18 @@
 import angular from '../../../angular-mock-setup.js';
+import uiBootstrap from 'angular-ui-bootstrap';
+
 import overrideButtonDirective
   from '../../../../source/iml/server/override-button-directive.js';
-import uiBootstrapModule from 'angular-ui-bootstrap';
 
 describe('Override Directive', () => {
   let $scope, element, button;
 
-  beforeEach(angular.mock.module(uiBootstrapModule));
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
 
   beforeEach(
-    angular.mock.module(($provide, $compileProvider) => {
+    angular.mock.module(uiBootstrap, ($provide, $compileProvider) => {
       $provide.value('OVERRIDE_BUTTON_TYPES', {
         OVERRIDE: 'override',
         PROCEED: 'proceed',

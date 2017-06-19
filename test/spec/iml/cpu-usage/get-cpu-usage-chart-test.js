@@ -20,7 +20,7 @@ describe('cpu usage chart', () => {
     getCpuUsageChartFactory;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockGetCpuUsageStream = jest.fn();
 
     standardConfig = {
@@ -112,10 +112,6 @@ describe('cpu usage chart', () => {
     const mod = require('../../../../source/iml/cpu-usage/get-cpu-usage-chart.js');
 
     getCpuUsageChartFactory = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

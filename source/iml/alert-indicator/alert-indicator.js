@@ -19,14 +19,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from '@mfl/fp';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 
 export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   'ngInject';
-  const ctrl = angular.extend(this, {
+  const ctrl = Object.assign(this, {
     alerts: [],
     hasAlerts() {
       return ctrl.alerts.length > 0;

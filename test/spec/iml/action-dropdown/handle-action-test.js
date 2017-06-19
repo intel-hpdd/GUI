@@ -6,7 +6,7 @@ describe('handle action', () => {
     openConfirmActionModal,
     openResult;
   beforeEach(() => {
-    jest.resetModules();
+
     jest.useFakeTimers();
     mockSocketStream = jest.fn(() => {
       return (actionStream = highland());
@@ -24,7 +24,6 @@ describe('handle action', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
   describe('job', () => {
     let record, action;

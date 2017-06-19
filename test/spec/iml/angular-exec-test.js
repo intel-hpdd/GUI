@@ -4,7 +4,7 @@ describe('mockAngular exec', () => {
   let result$, mod, element, injector, mockAngular, mockAngularExec;
 
   beforeEach(() => {
-    jest.resetModules();
+
     injector = {
       has: jest.fn(),
       get: jest.fn()
@@ -23,10 +23,6 @@ describe('mockAngular exec', () => {
     mod = require('../../../source/iml/angular-exec.js');
 
     mockAngularExec = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('invoking the service', () => {

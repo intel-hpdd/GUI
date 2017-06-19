@@ -161,7 +161,7 @@ expect.extend({
 });
 
 afterEach(() => {
-  //window.angular = null;
+  window.angular = null;
   window.d3 = null;
   window.nvd3 = null;
 });

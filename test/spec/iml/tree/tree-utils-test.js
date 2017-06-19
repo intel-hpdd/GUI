@@ -9,7 +9,7 @@ describe('tree utils', () => {
     mockStore;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockToggleCollectionOpen = jest.fn().mockImplementation((id, open) => ({
       type: 'TOGGLE_COLLECTION_OPEN',
       payload: { id, open }
@@ -32,10 +32,6 @@ describe('tree utils', () => {
 
     const mod = require('../../../../source/iml/tree/tree-utils.js');
     ({ toggleCollection, toggleItem, updateCollOffset } = mod);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('toggle collection', () => {

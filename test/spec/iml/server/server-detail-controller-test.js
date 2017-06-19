@@ -19,14 +19,10 @@ describe('server detail controller', () => {
 
   beforeEach(
     angular.mock.module($exceptionHandlerProvider => {
-      jest.resetModules();
+
       $exceptionHandlerProvider.mode('log');
     })
   );
-
-  afterEach(() => {
-    window.angular = null;
-  });
 
   beforeEach(
     inject(($rootScope, _$exceptionHandler_, propagateChange) => {

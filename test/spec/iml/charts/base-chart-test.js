@@ -4,7 +4,7 @@ describe('base chart', () => {
   let mockGlobal, mockNv, mockD3, baseChart;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockD3 = {
       select: jest.fn(x => x)
     };
@@ -23,10 +23,6 @@ describe('base chart', () => {
     const mod = require('../../../../source/iml/charts/base-chart.js');
 
     baseChart = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should return a factory function', () => {

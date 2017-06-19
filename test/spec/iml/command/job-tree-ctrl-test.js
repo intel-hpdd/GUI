@@ -15,7 +15,7 @@ describe('job tree', () => {
       JobTreeCtrl;
 
     beforeEach(() => {
-      jest.resetModules();
+
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
@@ -27,10 +27,6 @@ describe('job tree', () => {
       const mod = require('../../../../source/iml/command/job-tree-ctrl.js');
 
       JobTreeCtrl = mod.JobTreeCtrl;
-    });
-
-    afterEach(() => {
-      window.angular = null;
     });
 
     beforeEach(
@@ -116,7 +112,7 @@ describe('job tree', () => {
           job.resource_uri,
           {
             method: 'put',
-            json: angular.extend({ state: 'cancelled' }, job)
+            json: Object.assign({ state: 'cancelled' }, job)
           },
           true
         );
@@ -138,7 +134,7 @@ describe('job tree', () => {
     let mockSocketStream, jobTree, ss, stream;
 
     beforeEach(() => {
-      jest.resetModules();
+
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
@@ -152,10 +148,6 @@ describe('job tree', () => {
       jobTree = jest.fn();
       const getJobStream = mod.getJobStreamFactory(jobTree);
       stream = getJobStream(['/api/job/1/', '/api/job/2/']);
-    });
-
-    afterEach(() => {
-      window.angular = null;
     });
 
     it('should call socketStream', () => {

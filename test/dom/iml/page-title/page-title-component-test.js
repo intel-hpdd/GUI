@@ -16,7 +16,6 @@ describe('page title component', () => {
     destroyOnSuccess;
 
   beforeEach(() => {
-    jest.resetModules();
     mockGetResolvedData = jest.fn();
 
     jest.mock('../../../../source/iml/route-utils', () => ({
@@ -25,10 +24,6 @@ describe('page title component', () => {
 
     pageTitleComponent = require('../../../../source/iml/page-title/page-title-component.js')
       .default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

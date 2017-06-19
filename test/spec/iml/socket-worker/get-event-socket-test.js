@@ -6,7 +6,7 @@ describe('get event socket', () => {
     eventSocket;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockSocketWorker = {
       addEventListener: jest.fn(),
       postMessage: jest.fn()
@@ -40,10 +40,6 @@ describe('get event socket', () => {
 
     getEventSocket = getEventSocketModule.default;
     eventSocket = getEventSocket();
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should be a function', () => {

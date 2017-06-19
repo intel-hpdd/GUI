@@ -19,12 +19,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from '@mfl/fp';
 
 export default function ServerDashboardCtrl($scope, hostStream, charts) {
   'ngInject';
-  const serverDashboard = angular.extend(this, {
+  const serverDashboard = Object.assign(this, {
     charts
   });
 

@@ -24,7 +24,7 @@ describe('server', () => {
     serverController;
 
   beforeEach(() => {
-    jest.resetModules();
+
     commandStream = highland();
 
     mockGetCommandStream = jest.fn(() => commandStream);
@@ -37,10 +37,6 @@ describe('server', () => {
     const serverControllerModule = require('../../../../source/iml/server/server-controller.js');
 
     serverController = serverControllerModule.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

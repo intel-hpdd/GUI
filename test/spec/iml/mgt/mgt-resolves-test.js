@@ -4,7 +4,7 @@ describe('mgt resolves', () => {
   let mockStore, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockStore = {
       select: jest.fn(() => highland())
     };
@@ -16,10 +16,6 @@ describe('mgt resolves', () => {
     mgtStream = mod.mgt$;
     mgtJobIndicatorStream = mod.mgtJobIndicatorB;
     mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should select alertIndicators', () => {

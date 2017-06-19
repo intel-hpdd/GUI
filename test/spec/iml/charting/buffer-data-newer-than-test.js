@@ -5,7 +5,7 @@ describe('buffer data newer than', () => {
   let mockGetServerMoment, bufferDataNewerThan, spy;
 
   beforeEach(() => {
-    jest.resetModules();
+
     jest.useFakeTimers();
 
     spy = jest.fn();
@@ -24,7 +24,6 @@ describe('buffer data newer than', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
 
   it('should flatten milliseconds single seconds', () => {

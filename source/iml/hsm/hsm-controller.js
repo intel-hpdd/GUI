@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 export default function HsmCtrl(
   $scope,
   openAddCopytoolModal,
@@ -29,7 +27,7 @@ export default function HsmCtrl(
   agentVsCopytoolChart
 ) {
   'ngInject';
-  const hsm = angular.extend(this, {
+  const hsm = Object.assign(this, {
     chart: agentVsCopytoolChart,
     openAddModal() {
       hsm.modalOpen = true;

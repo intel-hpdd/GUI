@@ -5,7 +5,7 @@ describe('Login Controller', () => {
   const userEulaStates = { EULA: 'eula', PASS: 'pass', DENIED: 'denied' };
   let $uibModal, navigate, LoginCtrl, help, mod, SessionModel;
   beforeEach(() => {
-    jest.resetModules();
+
     mod = require('../../../../source/iml/login/login-controller.js');
     LoginCtrl = mod.default;
 
@@ -13,10 +13,6 @@ describe('Login Controller', () => {
     help = { get: jest.fn(() => 'foo') };
 
     $uibModal = { instances: {} };
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(angular.mock.module(fixtures));

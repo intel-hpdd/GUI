@@ -19,7 +19,7 @@ describe('Configure LNet', () => {
     LNET_OPTIONS;
 
   beforeEach(() => {
-    jest.resetModules();
+
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
 
@@ -30,10 +30,6 @@ describe('Configure LNet', () => {
     mod = require('../../../../source/iml/lnet/configure-lnet.js');
 
     ConfigureLnetController = mod.ConfigureLnetController;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('Controller', () => {

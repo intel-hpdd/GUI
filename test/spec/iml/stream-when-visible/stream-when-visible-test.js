@@ -16,7 +16,7 @@ describe('stream', () => {
     spy;
 
   beforeEach(() => {
-    jest.resetModules();
+
     removeListener = jest.fn();
     mockPageVisibility = jest.fn().mockReturnValue(removeListener);
     jest.mock(
@@ -40,10 +40,6 @@ describe('stream', () => {
       documentHidden,
       documentVisible
     );
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('when visible', () => {

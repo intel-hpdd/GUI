@@ -12,7 +12,7 @@ describe('Confirm server action modal', () => {
     confirmServer,
     ConfirmServerActionModalCtrl;
   beforeEach(() => {
-    jest.resetModules();
+
     mockSocketStream = jest.fn(() => {
       return (stream = highland());
     });
@@ -24,10 +24,6 @@ describe('Confirm server action modal', () => {
 
     const mod = require('../../../../source/iml/server/confirm-server-action-modal-ctrl.js');
     ConfirmServerActionModalCtrl = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

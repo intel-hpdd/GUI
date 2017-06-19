@@ -15,7 +15,7 @@ describe('server detail resolves', () => {
     spy;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockStore = {
       select: jest.fn(key => {
         if (key === 'server') return (serverStream = highland());
@@ -55,10 +55,6 @@ describe('server detail resolves', () => {
     };
 
     serverDetailResolves = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should be a function', () => {
@@ -229,7 +225,7 @@ describe('server detail resolves', () => {
 describe('getting data', () => {
   let result, mockStore, mockSocketStream, mockGetNetworkInterfaceStream;
   beforeEach(async () => {
-    jest.resetModules();
+
     mockStore = {
       select: jest.fn(key => {
         if (key === 'server')
@@ -256,10 +252,6 @@ describe('getting data', () => {
     const mod = require('../../../../source/iml/server/server-detail-resolves.js');
 
     result = await mod.getData({ id: 7 });
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should not call the socket stream', () => {

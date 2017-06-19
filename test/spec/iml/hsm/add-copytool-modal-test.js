@@ -14,7 +14,7 @@ describe('Add copytool modal', () => {
     mockResolveStream;
 
   beforeEach(() => {
-    jest.resetModules();
+
     s = highland();
     mockSocketStream = jest.fn(() => s);
     mockResolveStream = jest.fn();
@@ -30,10 +30,6 @@ describe('Add copytool modal', () => {
     mod = require('../../../../source/iml/hsm/add-copytool-modal.js');
 
     AddCopytoolModalCtrl = mod.AddCopytoolModalCtrl;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('add copytool modal controller', () => {

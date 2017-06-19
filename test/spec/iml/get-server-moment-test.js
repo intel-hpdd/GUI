@@ -2,7 +2,7 @@ describe('Get server moment', () => {
   let getServerMoment, mockEnvironment, momentInstance, mockMoment;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockEnvironment = {
       SERVER_TIME_DIFF: 2000
     };
@@ -19,10 +19,6 @@ describe('Get server moment', () => {
     const mod = require('../../../source/iml/get-server-moment.js');
 
     getServerMoment = mod.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should be a function', () => {

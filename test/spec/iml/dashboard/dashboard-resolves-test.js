@@ -4,7 +4,7 @@ describe('dashboard resolves', () => {
   let s, spy, mockStore, mockBroadcaster, mod;
 
   beforeEach(() => {
-    jest.resetModules();
+
     spy = jest.fn();
     s = highland();
 
@@ -18,10 +18,6 @@ describe('dashboard resolves', () => {
     jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
 
     mod = require('../../../../source/iml/dashboard/dashboard-resolves.js');
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('fs stream', () => {

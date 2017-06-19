@@ -19,7 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
 import * as fp from '@mfl/fp';
 
 import { resolveStream } from '../promise-transforms.js';
@@ -35,7 +34,7 @@ export function ServerStatusStepCtrl(
   localApply
 ) {
   'ngInject';
-  angular.extend(this, {
+  Object.assign(this, {
     pdsh: data.pdsh,
     /**
      * Update hostnames.

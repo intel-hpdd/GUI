@@ -4,7 +4,7 @@ describe('spring module', () => {
   let mockRegenerator, mockSocketStream, getSpring, s;
 
   beforeEach(() => {
-    jest.resetModules();
+
     s = highland();
     spyOn(s, 'destroy');
     mockSocketStream = jest.fn(() => s);
@@ -21,10 +21,6 @@ describe('spring module', () => {
 
     getSpring = getSpringDependencies.default;
     getSpring();
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should pass a setup and teardown function to regenerator', () => {

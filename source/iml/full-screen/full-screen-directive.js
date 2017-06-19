@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 export function fullScreenBtn() {
   return {
     restrict: 'A',
@@ -68,7 +66,7 @@ export function fullScreen() {
         body = null;
       });
 
-      angular.extend(this, {
+      Object.assign(this, {
         isFullScreen: false,
         fullScreen(fullScreenMode) {
           this.isFullScreen = fullScreenMode;

@@ -19,7 +19,6 @@ describe('breadcrumb', () => {
     mockGlobal;
 
   beforeEach(() => {
-    jest.resetModules();
     mockGetResolvedData = jest.fn();
     onSuccess = jest.fn();
     onStart = jest.fn();
@@ -36,10 +35,6 @@ describe('breadcrumb', () => {
 
     breadcrumbComponent = require('../../../../source/iml/breadcrumb/breadcrumb.js')
       .default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(

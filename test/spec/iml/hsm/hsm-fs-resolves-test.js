@@ -12,7 +12,7 @@ describe('hsm fs resolve', () => {
     promise;
 
   beforeEach(() => {
-    jest.resetModules();
+
     s = highland();
     mockSocketStream = jest.fn(() => s);
 
@@ -40,10 +40,6 @@ describe('hsm fs resolve', () => {
     const mod = require('../../../../source/iml/hsm/hsm-fs-resolves.js');
 
     ({ fsCollStream, getData } = mod);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('fsCollStream', () => {

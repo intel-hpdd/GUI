@@ -7,7 +7,7 @@ describe('jobstats resolves', () => {
   let jobstats$, getData, mockTopDuration, mockTopRange, mockStore;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockTopDuration = jest.fn(() => highland(['topDuration']));
 
     mockTopRange = jest.fn(() => 'topRange');
@@ -49,10 +49,6 @@ describe('jobstats resolves', () => {
     const mod = require('../../../../source/iml/job-stats/job-stats-resolves.js');
 
     ({ jobstats$, getData } = mod);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('jobstats$', () => {

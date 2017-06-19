@@ -8,7 +8,7 @@ describe('create stream', () => {
     mockFlushOnChange;
 
   beforeEach(() => {
-    jest.resetModules();
+
     streamWhenVisible = jest.fn(() => 'streamWhenVisible');
     mockBufferDataNewerThan = jest.fn(() => 'bufferDataNewerThan');
     requestRangeInner = jest.fn(() => 'requestRangeInner');
@@ -36,10 +36,6 @@ describe('create stream', () => {
     const mod = require('../../../../source/iml/charting/create-stream.js');
 
     createStream = mod.default(streamWhenVisible);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should return an object', () => {

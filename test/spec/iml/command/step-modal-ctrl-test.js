@@ -3,11 +3,7 @@ import angular from '../../../angular-mock-setup.js';
 
 describe('step modal', () => {
   beforeEach(() => {
-    jest.resetModules();
-  });
 
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('step modal controller', () => {

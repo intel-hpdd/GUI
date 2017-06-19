@@ -10,7 +10,7 @@ describe('hsm resolve', () => {
     $stateParams;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockResolveStream = jest.fn();
     mockGetCopytoolOperationStream = jest.fn(() => s);
     mockGetCopytoolStream = jest.fn(() => s);
@@ -40,10 +40,6 @@ describe('hsm resolve', () => {
       $stateParams
     );
     copytoolStream = mod.copytoolStream.bind(null, $stateParams);
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   describe('copytoolOperationStream', () => {

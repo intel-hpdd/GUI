@@ -14,7 +14,7 @@ describe('action dropdown', () => {
     ActionDropdownCtrl;
 
   beforeEach(() => {
-    jest.resetModules();
+
     commandStream = highland();
     jest.spyOn(commandStream, 'destroy');
     mockGetCommandStream = jest.fn(() => commandStream);
@@ -34,7 +34,6 @@ describe('action dropdown', () => {
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
-    window.angular = null;
   });
 
   beforeEach(

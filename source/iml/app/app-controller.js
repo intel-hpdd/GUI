@@ -19,8 +19,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import angular from 'angular';
-
 export default function AppCtrl(
   $scope,
   session,
@@ -34,7 +32,7 @@ export default function AppCtrl(
   'ngInject';
   const login = navigate.bind(null, 'login/');
 
-  angular.extend(this, {
+  Object.assign(this, {
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
     COPYRIGHT_YEAR: help.get('copyright_year'),
     GROUPS,

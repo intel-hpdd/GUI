@@ -21,7 +21,7 @@ describe('Host Cpu Ram chart', () => {
     mockGetConf;
 
   beforeEach(async () => {
-    jest.resetModules();
+
     mockGetHostCpuRamStream = {};
 
     standardConfig = {
@@ -107,10 +107,6 @@ describe('Host Cpu Ram chart', () => {
 
     mod = require('../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js')
       .default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   beforeEach(() => {

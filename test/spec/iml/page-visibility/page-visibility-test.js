@@ -2,7 +2,7 @@ describe('page visibility', () => {
   let mockDoc, pageVisibility, mockClear;
 
   beforeEach(() => {
-    jest.resetModules();
+
     mockDoc = {
       addEventListener: jest.fn(),
       removeEventListener: jest.fn()
@@ -23,7 +23,6 @@ describe('page visibility', () => {
 
   afterEach(() => {
     jest.useRealTimers();
-    window.angular = null;
   });
 
   it('should be a function', () => {

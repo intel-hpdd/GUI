@@ -24,7 +24,7 @@ describe('get store', () => {
     mockMockMockMockLoginFormReducer,
     mockMockMockMockSessionReducer;
   beforeEach(() => {
-    jest.resetModules();
+
     store = { dispatch: jest.fn() };
     mockMockMockMockCreateStore = jest.fn(() => store);
     mockMockMockMockTargetReducer = {};
@@ -138,10 +138,6 @@ describe('get store', () => {
     );
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
-  });
-
-  afterEach(() => {
-    window.angular = null;
   });
 
   it('should return a store', () => {

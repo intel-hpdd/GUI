@@ -9,10 +9,12 @@ import angular from '../../../angular-mock-setup.js';
 import angularUiBootstrap from 'angular-ui-bootstrap';
 
 describe('multi toggler', () => {
-  beforeEach(angular.mock.module(angularUiBootstrap));
+  beforeEach(() => {
+    if (!window.angular) require('angular');
+  });
 
   beforeEach(
-    angular.mock.module($compileProvider => {
+    angular.mock.module(angularUiBootstrap, $compileProvider => {
       $compileProvider.component(
         'multiTogglerContainer',
         multiTogglerContainerComponent
