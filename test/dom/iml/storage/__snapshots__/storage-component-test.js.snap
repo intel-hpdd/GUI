@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage component should render the storage no-plugins found html 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <div
+      class="well text-center no-plugins"
+    >
+      <h1>
+        No storage plugins are currently installed.
+      </h1>
+      <p>
+        When storage plugins are installed, use this tab to configure and view storage resources such as controllers.
+      </p>
+    </div>
+  </div>
+</div>
+`;
