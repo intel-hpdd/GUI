@@ -1,7 +1,5 @@
-import StorageComponent
-  from '../../../../source/iml/storage/storage-component.js';
-import StorageComponentBasic
-  from '../../../../source/iml/storage/storage-component.js';
+import StorageComponent from '../../../../source/iml/storage/storage-component.js';
+import StorageComponentBasic from '../../../../source/iml/storage/storage-component.js';
 import Inferno from 'inferno';
 import { querySelector } from '../../../../source/iml/dom-utils.js';
 
