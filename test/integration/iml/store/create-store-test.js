@@ -9,7 +9,7 @@ describe('create store', () => {
   let store, spy;
 
   beforeEach(() => {
-    spy = jasmine.createSpy('spy');
+    spy = jest.fn();
 
     store = createStore({
       stuff: (state = [], { type, payload }) => {

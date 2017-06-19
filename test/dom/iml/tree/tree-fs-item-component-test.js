@@ -1,31 +1,33 @@
 // @flow
 
-import { mock, resetAll } from '../../../system-mock.js';
 import { querySelector } from '../../../../source/iml/dom-utils.js';
-
+import angular from '../../../angular-mock-setup.js';
 import type { $scopeT, $compileT } from 'angular';
 
 describe('tree fs item component', () => {
-  let mod, toggleItem;
+  let mockToggleItem, treeFsComponent;
 
-  beforeEachAsync(async function() {
-    toggleItem = jasmine.createSpy('toggleItem');
+  beforeEach(() => {
+    mockToggleItem = jest.fn();
 
-    mod = await mock('source/iml/tree/tree-fs-item-component.js', {
-      'source/iml/tree/tree-utils': { toggleItem }
-    });
+    jest.mock('../../../../source/iml/tree/tree-utils', () => ({
+      toggleItem: mockToggleItem
+    }));
+
+    treeFsComponent = require('../../../../source/iml/tree/tree-fs-item-component.js')
+      .default;
   });
 
   beforeEach(
-    module($compileProvider => {
-      $compileProvider.component('treeFsItem', mod.default);
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('treeFsItem', treeFsComponent);
     })
   );
 
   let el, $scope;
 
   beforeEach(
-    inject(($compile: $compileT, $rootScope: $scopeT) => {
+    angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = Object.create($rootScope.$new());
 
       $scope.record = {
@@ -45,8 +47,6 @@ describe('tree fs item component', () => {
       $scope.$digest();
     })
   );
-
-  afterEach(resetAll);
 
   it('should link to the fs detail page', () => {
     const route = querySelector(el, 'a').getAttribute('ui-sref');
@@ -69,7 +69,7 @@ describe('tree fs item component', () => {
   });
 
   it('should not render any children', () => {
-    expect(querySelector(el, '.children')).toBeNull();
+    expect(el.querySelector('.children')).toBeNull();
   });
 
   it('should start with arrow pointed right', () => {
@@ -86,12 +86,12 @@ describe('tree fs item component', () => {
       $scope.$digest();
     });
 
-    it('should show the children', () => {
-      expect(el.querySelector('.children')).not.toBeNull();
+    it('should call the store', () => {
+      expect(mockToggleItem).toHaveBeenCalledOnceWith(1, 1, true);
     });
 
-    it('should call the store', () => {
-      expect(toggleItem).toHaveBeenCalledOnceWith(1, 1, true);
+    it('should show the children', () => {
+      expect(querySelector(el, '.children')).not.toBeNull();
     });
   });
 });
