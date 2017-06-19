@@ -1,8 +1,13 @@
 import highland from 'highland';
-import corosyncModule from '../../../../source/iml/corosync/corosync-module';
+import angular from '../../../angular-mock-setup.js';
+import corosyncState from '../../../../source/iml/corosync/corosync-state.js';
 
 describe('corosync state directive', () => {
-  beforeEach(module(corosyncModule));
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('corosyncState', corosyncState);
+    })
+  );
 
   let el, $scope;
 
