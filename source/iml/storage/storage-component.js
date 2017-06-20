@@ -21,43 +21,26 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as maybe from '@mfl/maybe';
-import store from '../store/get-store.js';
+import Inferno from 'inferno';
 
-import { streamToPromise } from '../promise-transforms.js';
-
-import { matchById } from '../api-transforms.js';
-
-export const oldFilesystemDetailResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('fileSystems')).then(
-        matchById($stateParams.id)
-      );
-    }
+export default {
+  controller($element: HTMLElement[]) {
+    'ngInject';
+    Inferno.render(<StorageComponent />, $element[0]);
   }
 };
 
-export const oldUserDetailResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('users').filter(xs => xs.length))
-        .then(matchById($stateParams.id))
-        .then(maybe.map.bind(null, (x: Object) => ({ label: x.username })))
-        .then(maybe.withDefault.bind(null, () => ({ label: '' })));
-    }
-  }
-};
-
-export const oldTargetResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('targets')).then(
-        matchById($stateParams.id)
-      );
-    }
-  }
-};
+export function StorageComponent() {
+  return (
+    <div class="container container-full storage container">
+      <div class="well text-center no-plugins">
+        <h1>No storage plugins are currently installed.</h1>
+        <p>
+          When storage plugins are installed,
+          use this tab to configure and view storage resources such as
+          controllers.
+        </p>
+      </div>
+    </div>
+  );
+}
