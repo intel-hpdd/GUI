@@ -1,72 +1,70 @@
 import highland from 'highland';
 import * as fp from '@mfl/fp';
-import commandModule from '../../../../source/iml/command/command-module';
-
-import { mock, resetAll } from '../../../system-mock.js';
+import {
+  deferredCmdModalBtnDirective
+} from '../../../../source/iml/command/deferred-cmd-modal-btn-directive.js';
+import angular from '../../../angular-mock-setup.js';
 
 describe('deferred command modal button directive exports', () => {
-  let socketStream,
+  let mockSocketStream,
     openCommandModal,
     modalStream,
-    resolveStream,
+    mockResolveStream,
     DeferredCommandModalBtnCtrl;
 
-  beforeEachAsync(async function() {
-    socketStream = jasmine
-      .createSpy('socketStream')
-      .and.returnValue(highland());
+  beforeEach(() => {
+    mockSocketStream = jest.fn(() => highland());
+    mockResolveStream = jest.fn(() => Promise.resolve());
 
-    resolveStream = jasmine
-      .createSpy('resolveStream')
-      .and.returnValue(Promise.resolve());
-
-    const mod = await mock(
-      'source/iml/command/deferred-cmd-modal-btn-controller.js',
-      {
-        'source/iml/socket/socket-stream.js': { default: socketStream },
-        'source/iml/promise-transforms.js': { resolveStream }
-      }
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
     );
 
-    DeferredCommandModalBtnCtrl = mod.default;
+    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+
+    DeferredCommandModalBtnCtrl = require('../../../../source/iml/command/deferred-cmd-modal-btn-controller.js')
+      .default;
   });
 
-  afterEach(resetAll);
-
   beforeEach(
-    module(commandModule, ($provide, $controllerProvider) => {
+    angular.mock.module(($provide, $controllerProvider, $compileProvider) => {
       modalStream = highland();
-      openCommandModal = jasmine.createSpy('openCommandModal').and.returnValue({
+      openCommandModal = jest.fn(() => ({
         resultStream: modalStream
-      });
+      }));
+
       $provide.value('openCommandModal', openCommandModal);
 
       $controllerProvider.register(
         'DeferredCommandModalBtnCtrl',
         DeferredCommandModalBtnCtrl
       );
+
+      $compileProvider.directive(
+        'deferredCmdModalBtn',
+        deferredCmdModalBtnDirective
+      );
     })
   );
 
   let $scope, cleanText, el, qs, waitingButton, commandDetailButton;
-
   beforeEach(
-    inject(($rootScope, $compile) => {
+    angular.mock.inject(($rootScope, $compile) => {
       const template =
         '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
       $scope = $rootScope.$new();
       $scope.resourceUri = '/api/command/1/';
 
-      cleanText = fp.flow(
-        fp.view(fp.lensProp('textContent')),
-        fp.invokeMethod('trim', [])
-      );
-
+      cleanText = fp.flow(fp.view(fp.lensProp('textContent')), x => x.trim());
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
       waitingButton = qs.bind(el, 'button[disabled]');
       commandDetailButton = qs.bind(el, '.cmd-detail-btn');
+
       $scope.$digest();
     })
   );
@@ -89,11 +87,11 @@ describe('deferred command modal button directive exports', () => {
     });
 
     it('should fetch the resource URI', () => {
-      expect(socketStream).toHaveBeenCalledOnceWith('/api/command/1/');
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/command/1/');
     });
 
     it('should pass a stream resolveStream', () => {
-      expect(highland.isStream(resolveStream.calls.argsFor(0)[0])).toBe(true);
+      expect(highland.isStream(mockResolveStream.mock.calls[0][0])).toBe(true);
     });
 
     it('should pass a stream to openCommandModal', () => {
