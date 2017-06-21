@@ -8,7 +8,7 @@
     "postversion": "rollup -c rollup-config.js --output='dist/bundle.js'",
     "eslint": "eslint ./",
     "flow": "flow",
-    "cover": "npm run jest -- --cover"
+    "cover": "jest --coverage"
   },
   "pre-commit": [
     "flow",

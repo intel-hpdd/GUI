@@ -1,6 +1,7 @@
 {
   "ignore": [
-    "node_modules/angular/angular.js"
+    "node_modules/angular/angular.js",
+    "node_modules/nvd3/build/nv.d3.js"
   ],
   "presets": [
     [
