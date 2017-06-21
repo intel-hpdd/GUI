@@ -2,10 +2,14 @@ language: node_js
 node_js:
 - 6
 cache: yarn
+before_script:
+- yarn global add codecov
 script:
 - yarn run eslint
 - yarn run flow
-- yarn run test -- --runInBand
+- yarn run cover -- --runInBand
+after_success:
+- codecov
 deploy:
   provider: npm
   email: joe.grund@intel.com
