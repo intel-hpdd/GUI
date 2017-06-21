@@ -20,8 +20,7 @@ store.dispatch({
 
 if (ALLOW_ANONYMOUS_READ)
   socketStream('/filesystem', {
-    qs: {
-      jsonMask: noSpace`objects(
+    jsonMask: noSpace`objects(
         id,
         resource_uri,
         label,
@@ -39,6 +38,7 @@ if (ALLOW_ANONYMOUS_READ)
           resource_uri
         )
       )`,
+    qs: {
       limit: 0
     }
   })
