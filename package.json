@@ -69,7 +69,7 @@
     "flow-bin": "^0.48.0",
     "font-awesome": "4.7.0",
     "highland": "3.0.0-beta.4",
-    "inferno": "3.1.2",
+    "inferno": "3.6.0",
     "inferno-component": "3.1.2",
     "jest": "^20.0.4",
     "less-plugin-clean-css": "1.5.1",
