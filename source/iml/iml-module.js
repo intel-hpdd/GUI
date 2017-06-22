@@ -15,6 +15,7 @@ import './file-system/file-system-dispatch-source.js';
 import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
+import './storage/storage-dispatch-source.js';
 
 import * as ENV from './environment.js';
 import angular from 'angular';
