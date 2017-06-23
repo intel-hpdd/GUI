@@ -40,7 +40,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
 
   const serverStream = store
     .select('server')
-    .map(fp.find(x => x.id === $stateParams.id));
+    .map(xs => xs.find(x => x.id === $stateParams.id));
 
   const allHostMatches = {
     qs: {
@@ -52,7 +52,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   const lnetConfigurationStream = broadcaster(
     store
       .select('lnetConfiguration')
-      .map(fp.find(x => x.host === `/api/host/${$stateParams.id}/`))
+      .map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
   );
 
   const merge = (a, b) => angular.merge(a, b, allHostMatches);
