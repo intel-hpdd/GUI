@@ -11,7 +11,7 @@ import type { TransitionT, StateDeclarationT } from 'angular-ui-router';
 
 import { querySelector } from './dom-utils.js';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 type ctrlT = {
   loaded: boolean,

@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../../../../angular-mock-setup.js';
 import * as d3 from 'd3';
 import { flushD3Transitions } from '../../../../../test-utils.js';

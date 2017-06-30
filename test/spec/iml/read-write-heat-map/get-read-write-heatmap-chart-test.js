@@ -1,7 +1,7 @@
 import angular from '../../../angular-mock-setup.js';
 import highland from 'highland';
 
-import { values } from '@mfl/obj';
+import { values } from '@iml/obj';
 
 describe('Read Write Heat Map chart', () => {
   let mockChartCompiler,

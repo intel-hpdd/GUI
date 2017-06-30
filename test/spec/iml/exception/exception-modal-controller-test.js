@@ -1,4 +1,4 @@
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 

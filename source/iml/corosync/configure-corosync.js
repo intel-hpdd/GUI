@@ -5,7 +5,7 @@
 
 import socketStream from '../socket/socket-stream.js';
 
-import { pick } from '@mfl/obj';
+import { pick } from '@iml/obj';
 
 export function ConfigureCorosyncController(
   $scope,

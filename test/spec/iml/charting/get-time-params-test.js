@@ -1,6 +1,6 @@
 import moment from 'moment';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 describe('get time params', () => {
   let mockGetServerMoment,

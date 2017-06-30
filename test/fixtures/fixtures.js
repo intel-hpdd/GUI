@@ -1,5 +1,5 @@
 import angular from 'angular';
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 
 export default angular
   .module('fixtures', [])

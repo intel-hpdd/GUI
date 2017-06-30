@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import socketStream from '../socket/socket-stream.js';
 import multiStream from '../multi-stream.js';
 

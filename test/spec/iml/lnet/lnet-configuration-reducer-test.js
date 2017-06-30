@@ -1,4 +1,4 @@
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('lnet configuration reducer', () => {
   let lnetConfigurationReducer;

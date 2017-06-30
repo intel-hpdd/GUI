@@ -1,6 +1,6 @@
 import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../../angular-mock-setup.js';
 
 describe('select server profile', () => {

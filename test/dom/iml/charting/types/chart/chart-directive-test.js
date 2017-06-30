@@ -7,7 +7,7 @@ describe('chart directive', () => {
 
   beforeEach(
     angular.mock.module(($provide, $compileProvider) => {
-      jest.mock('@mfl/debounce', () => jest.fn(x => x));
+      jest.mock('@iml/debounce', () => jest.fn(x => x));
 
       const {
         charterDirective

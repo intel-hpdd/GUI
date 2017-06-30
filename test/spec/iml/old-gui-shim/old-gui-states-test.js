@@ -1,5 +1,5 @@
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
 
 describe('old gui states', () => {
   let oldGuiStates,

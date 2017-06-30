@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import flatMapChanges from '@mfl/flat-map-changes';
+import * as fp from '@iml/fp';
+import flatMapChanges from '@iml/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
@@ -15,7 +15,7 @@ import {
 } from './mdo-chart-reducer.js';
 
 import getMdoStream from './get-mdo-stream.js';
-import { formatNumber } from '@mfl/number-formatters';
+import { formatNumber } from '@iml/number-formatters';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';

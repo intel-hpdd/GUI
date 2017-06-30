@@ -2,7 +2,7 @@ import highland from 'highland';
 import sumByDate from '../../../../source/iml/charting/sum-by-date.js';
 import jobStatsFixture from '../../../data-fixtures/job-stats-fixture.json';
 
-import { values } from '@mfl/obj';
+import { values } from '@iml/obj';
 
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 

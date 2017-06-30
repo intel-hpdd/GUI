@@ -6,8 +6,8 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
 
 import getServerMoment from '../get-server-moment.js';
 import createDate from '../create-date.js';

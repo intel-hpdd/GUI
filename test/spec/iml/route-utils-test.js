@@ -1,4 +1,4 @@
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 import {
   apiPathToUiPath,

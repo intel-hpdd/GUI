@@ -6,8 +6,8 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
-import * as obj from '@mfl/obj';
-import * as fp from '@mfl/fp';
+import * as obj from '@iml/obj';
+import * as fp from '@iml/fp';
 import socketStream from '../socket/socket-stream.js';
 import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
 import sumByDate from '../charting/sum-by-date.js';

@@ -8,7 +8,7 @@
 import socketStream from '../socket/socket-stream.js';
 import LNET_OPTIONS from './lnet-options.js';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 export default function getNetworkInterfaceStream(params: {}) {
   return socketStream('/network_interface', params || {}).pluck('objects').map(

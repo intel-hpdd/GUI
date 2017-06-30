@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import * as inputToQsParser from '@mfl/qs-parsers/source/input-to-qs-parser.js';
-import * as parsely from '@mfl/parsely';
+import * as fp from '@iml/fp';
+import * as inputToQsParser from '@iml/qs-parsers/source/input-to-qs-parser.js';
+import * as parsely from '@iml/parsely';
 
-import { inputToQsTokens } from '@mfl/qs-parsers/source/tokens.js';
+import { inputToQsTokens } from '@iml/qs-parsers/source/tokens.js';
 
-import type { tokensToResult } from '@mfl/parsely';
+import type { tokensToResult } from '@iml/parsely';
 
 export const tokenizer = parsely.getLexer(inputToQsTokens);
 

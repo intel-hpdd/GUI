@@ -7,7 +7,7 @@
 
 import store from '../store/get-store.js';
 import moment from 'moment';
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 import { matchById } from '../api-transforms.js';
 

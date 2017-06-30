@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../../../angular-mock-setup.js';
 import angularUiBootstrap from 'angular-ui-bootstrap';
 import commonStatusSearchesComponent from '../../../../../source/iml/status/common-status-searches/common-status-searches-component.js';

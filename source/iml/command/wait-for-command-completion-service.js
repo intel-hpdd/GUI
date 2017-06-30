@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import getCommandStream from '../command/get-command-stream.js';
 
 import { setState, isFinished } from './command-transforms.js';

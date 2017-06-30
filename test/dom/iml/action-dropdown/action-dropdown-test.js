@@ -1,8 +1,8 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import groupActionsFilter from '../../../../source/iml/action-dropdown/group-actions.js';
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 import angular from '../../../angular-mock-setup.js';
 import uiBootstrapModule from 'angular-ui-bootstrap';
 

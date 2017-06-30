@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../../angular-mock-setup.js';
 import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 

@@ -3,7 +3,7 @@ import {
   DEFAULT_MEMORY_USAGE_CHART_ITEMS,
   default as memoryUsageChartReducer
 } from '../../../../source/iml/memory-usage/memory-usage-chart-reducer.js';
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('memory usage chart reducer', () => {
   it('should be a function', () => {

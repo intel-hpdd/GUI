@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
 
 const getHostByFqdn = (hosts, fqdn) =>
   maybe.map(x => x.id, fp.find(x => x.fqdn === fqdn)(hosts));

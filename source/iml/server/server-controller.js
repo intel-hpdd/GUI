@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import { values } from '@mfl/obj';
+import * as fp from '@iml/fp';
+import { values } from '@iml/obj';
 
 import getCommandStream from '../command/get-command-stream.js';
 

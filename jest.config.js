@@ -5,6 +5,6 @@ module.exports = {
   clearMocks: true,
   coveragePathIgnorePatterns: ['/node_modules/', '/test'],
   testMatch: ['**/*-test.js', '**/*.integration.js', '**/*.unit.js'],
-  transformIgnorePatterns: ['/node_modules/(?!@mfl)/'],
+  transformIgnorePatterns: ['/node_modules/(?!@iml)/'],
   setupTestFrameworkScriptFile: './test/jest-matchers.js'
 };

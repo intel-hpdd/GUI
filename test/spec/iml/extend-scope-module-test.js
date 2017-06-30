@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../angular-mock-setup.js';
 import extendScopeModule from '../../../source/iml/extend-scope-module';
 

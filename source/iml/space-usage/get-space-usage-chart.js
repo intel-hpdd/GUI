@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 
 import getSpaceUsageStream from './get-space-usage-stream.js';
 import getStore from '../store/get-store.js';

@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import extractApiId from '@mfl/extract-api';
+import * as fp from '@iml/fp';
+import extractApiId from '@iml/extract-api';
 
 const viewLens = fp.flow(fp.lensProp, fp.view);
 

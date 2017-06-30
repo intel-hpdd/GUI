@@ -2,7 +2,7 @@ import highland from 'highland';
 import HsmFsCtrl from '../../../../source/iml/hsm/hsm-fs-controller';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import angular from '../../../angular-mock-setup.js';
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 describe('HSM fs controller', () => {
   let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB;
