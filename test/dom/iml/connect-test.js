@@ -8,7 +8,10 @@ describe('connect test', () => {
   it('should pass the mapped state to the component', () => {
     const ConnectedDiv = connect(
       (name: string) => ({ name }),
-      ({ name }) => <div>{name}</div>
+      ({ name }) =>
+        <div>
+          {name}
+        </div>
     );
 
     const container = document.createElement('div');

@@ -18,16 +18,15 @@ function AboutComponent() {
             ? <text>
                 Intel® Manager for Lustre* software {VERSION} (build {BUILD})
               </text>
-            : <text>Intel® Manager for Lustre* software build: {BUILD}</text>}
+            : <text>
+                Intel® Manager for Lustre* software build: {BUILD}
+              </text>}
         </div>
       </div>
       <div>
         <div>
           <p>
-            Copyright ©
-            {' '}
-            {HELP_TEXT.copyright_year}
-            {' '}
+            Copyright © {HELP_TEXT.copyright_year}{' '}
             <a href="http://www.intel.com/">Intel Corporation</a>
             . All rights reserved.
           </p>
@@ -50,8 +49,8 @@ function AboutComponent() {
 
           <p>
             The software includes some third party software licensed under the
-            GNU GPL. Please
-            contact Intel if you require the source code to GPL components.
+            GNU GPL. Please contact Intel if you require the source code to GPL
+            components.
           </p>
         </div>
       </div>

@@ -56,9 +56,8 @@ export default function DashboardCtrl(
       if (!item.selected) {
         item.selectedTarget = dashboard.targets = null;
       } else {
-        const filterBy = dashboard.fs === item
-          ? filterTargetByFs
-          : filterTargetByHost;
+        const filterBy =
+          dashboard.fs === item ? filterTargetByFs : filterTargetByHost;
 
         targetSelectStream = targetsB();
         targetSelectStream
