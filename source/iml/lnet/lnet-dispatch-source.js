@@ -10,7 +10,12 @@ import socketStream from '../socket/socket-stream.js';
 
 import { ADD_LNET_CONFIGURATION_ITEMS } from './lnet-configuration-reducer.js';
 
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { CACHE_INITIAL_DATA, ALLOW_ANONYMOUS_READ } from '../environment.js';
+
+store.dispatch({
+  type: ADD_LNET_CONFIGURATION_ITEMS,
+  payload: CACHE_INITIAL_DATA.lnet_configuration
+});
 
 if (ALLOW_ANONYMOUS_READ)
   socketStream('/lnet_configuration', {

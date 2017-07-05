@@ -17,7 +17,20 @@ describe('lnet dispatch source', () => {
       () => mockSocketStream
     );
     jest.mock('../../../../source/iml/environment.js', () => ({
-      ALLOW_ANONYMOUS_READ: true
+      ALLOW_ANONYMOUS_READ: true,
+      CACHE_INITIAL_DATA: {
+        lnet_configuration: {
+          meta: 'meta',
+          objects: [
+            {
+              id: 1
+            },
+            {
+              id: 2
+            }
+          ]
+        }
+      }
     }));
 
     require('../../../../source/iml/lnet/lnet-dispatch-source.js');

@@ -109,12 +109,10 @@ describe('server detail resolves', () => {
       });
 
       it('should return the server associated with the route', () => {
-        expect(spy).toHaveBeenCalledOnceWith(
-          maybe.ofJust({
-            id: '1',
-            address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
-          })
-        );
+        expect(spy).toHaveBeenCalledOnceWith({
+          id: '1',
+          address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
+        });
       });
 
       it('should not return servers which have an id that does not match the route', () => {
@@ -149,15 +147,13 @@ describe('server detail resolves', () => {
       });
 
       it('should return the item associated with the route', () => {
-        expect(spy).toHaveBeenCalledOnceWith(
-          maybe.ofJust({
-            id: '1',
-            host: '/api/host/1/',
-            state: 'lnet_up',
-            resource_uri: '/api/lnet_configuration/1/',
-            label: 'lnet configuration'
-          })
-        );
+        expect(spy).toHaveBeenCalledOnceWith({
+          id: '1',
+          host: '/api/host/1/',
+          state: 'lnet_up',
+          resource_uri: '/api/lnet_configuration/1/',
+          label: 'lnet configuration'
+        });
       });
 
       it('should not return items not associated with the route', () => {
