@@ -22,7 +22,9 @@ describe('Modal test', () => {
               <p>Test content</p>
             </Body>
             <Footer class="modal-footer">
-              <button class="btn btn-success" onClick={onAgree}>Agree</button>
+              <button class="btn btn-success" onClick={onAgree}>
+                Agree
+              </button>
               <button class="btn btn-danger" onClick={onDisagree}>
                 Do Not Agree
               </button>

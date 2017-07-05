@@ -74,9 +74,8 @@ export default function pdsh(help: Object) {
       function parseExpressionForValidity(value) {
         scope.pdsh.parseExpression(value);
 
-        const validity = _.isEmpty(value) || parsedState === states.SUCCESS
-          ? true
-          : false;
+        const validity =
+          _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
 
         ctrl.pdsh.$setValidity('pdsh', validity);
       }

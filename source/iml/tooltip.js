@@ -34,7 +34,9 @@ export default ({
     >
       <div class="tooltip-arrow" />
       <div class="tooltip-inner">
-        <span>{message}</span>
+        <span>
+          {message}
+        </span>
       </div>
     </div>
   );
