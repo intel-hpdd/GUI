@@ -31,7 +31,7 @@ export default {
     $state: StateServiceT,
     $stateParams: { id?: number },
     $scope: $scopeT,
-    localApply: localApplyT
+    localApply: localApplyT<*>
   ) {
     'ngInject';
     type T = jobStatsConfigT & {

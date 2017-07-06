@@ -40,7 +40,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
 
   const serverStream = store
     .select('server')
-    .map(xs => xs.find(x => x.id === $stateParams.id));
+    .map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
 
   const allHostMatches = {
     qs: {

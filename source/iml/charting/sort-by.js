@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style

@@ -9,6 +9,8 @@ import pdshParser from '@mfl/pdsh-parser';
 import _ from '@mfl/lodash-mixins';
 
 export default function pdsh(help: Object) {
+  'ngInject';
+
   return {
     scope: {
       pdshChange: '&',

@@ -30,7 +30,7 @@ import type {
 } from '../dashboard/dashboard-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getMdoChart(
     overrides: filesystemQueryT | targetQueryT,

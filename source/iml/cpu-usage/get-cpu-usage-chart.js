@@ -24,7 +24,7 @@ import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getCpuUsageChart(overrides: targetQueryT, page: string) {
     getStore.dispatch({

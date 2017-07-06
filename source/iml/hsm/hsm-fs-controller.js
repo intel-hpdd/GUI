@@ -11,18 +11,18 @@ import type { StateServiceT } from 'angular-ui-router';
 
 import type { $scopeT } from 'angular';
 
-import type { fsCollStream } from './hsm-fs-resolves.js';
-
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
 import type { PropagateChange } from '../extend-scope-module.js';
+
+import type { HighlandStreamT } from 'highland';
 
 export default function HsmFsCtrl(
   $scope: $scopeT,
   $state: StateServiceT,
   $stateParams: Object,
   qsStream: qsStreamT,
-  fsStream: fsCollStream,
+  fsStream: () => HighlandStreamT<any>,
   propagateChange: PropagateChange
 ) {
   'ngInject';

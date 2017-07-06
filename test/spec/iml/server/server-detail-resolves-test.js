@@ -95,11 +95,11 @@ describe('server detail resolves', () => {
       beforeEach(async () => {
         serverStream.write([
           {
-            id: '1',
+            id: 1,
             address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
           },
           {
-            id: '2',
+            id: 2,
             address: 'lotus-35vm16.lotus.hpdd.lab.intel.com'
           }
         ]);
@@ -110,14 +110,14 @@ describe('server detail resolves', () => {
 
       it('should return the server associated with the route', () => {
         expect(spy).toHaveBeenCalledOnceWith({
-          id: '1',
+          id: 1,
           address: 'lotus-35vm15.lotus.hpdd.lab.intel.com'
         });
       });
 
       it('should not return servers which have an id that does not match the route', () => {
         expect(spy).not.toHaveBeenCalledWith({
-          id: '2',
+          id: 2,
           address: 'lotus-35vm16.lotus.hpdd.lab.intel.com'
         });
       });
@@ -127,14 +127,14 @@ describe('server detail resolves', () => {
       beforeEach(async () => {
         lnetStream.write([
           {
-            id: '1',
+            id: 1,
             host: '/api/host/1/',
             state: 'lnet_up',
             resource_uri: '/api/lnet_configuration/1/',
             label: 'lnet configuration'
           },
           {
-            id: '2',
+            id: 2,
             host: '/api/host/2/',
             state: 'lnet_up',
             resource_uri: '/api/lnet_configuration/2/',
@@ -148,7 +148,7 @@ describe('server detail resolves', () => {
 
       it('should return the item associated with the route', () => {
         expect(spy).toHaveBeenCalledOnceWith({
-          id: '1',
+          id: 1,
           host: '/api/host/1/',
           state: 'lnet_up',
           resource_uri: '/api/lnet_configuration/1/',
@@ -158,7 +158,7 @@ describe('server detail resolves', () => {
 
       it('should not return items not associated with the route', () => {
         expect(spy).not.toHaveBeenCalledWith({
-          id: '2',
+          id: 2,
           host: '/api/host/2/',
           state: 'lnet_up',
           resource_uri: '/api/lnet_configuration/2/',

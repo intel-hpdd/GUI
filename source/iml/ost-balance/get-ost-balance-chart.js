@@ -33,7 +33,7 @@ import type { HighlandStreamT } from 'highland';
 
 export default (
   streamWhenVisible: streamWhenChartVisibleT,
-  localApply: localApplyT
+  localApply: localApplyT<*>
 ) => {
   'ngInject';
   return function getOstBalanceChart(

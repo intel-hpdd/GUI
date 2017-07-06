@@ -31,7 +31,7 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-export default (data$Fn: data$FnT, localApply: localApplyT) => {
+export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
   'ngInject';
   return function getReadWriteBandwidthChart(
     overrides: filesystemQueryT | targetQueryT,
