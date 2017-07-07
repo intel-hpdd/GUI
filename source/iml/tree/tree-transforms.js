@@ -6,16 +6,16 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
-import * as obj from '@mfl/obj';
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
-import flatMapChanges from '@mfl/flat-map-changes';
+import * as obj from '@iml/obj';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
+import flatMapChanges from '@iml/flat-map-changes';
 
 import { addCurrentPage } from '../api-transforms.js';
 
 import { addTreeItems, createItem } from '../tree/tree-actions.js';
 
-import type { Maybe } from '@mfl/maybe';
+import type { Maybe } from '@iml/maybe';
 
 import type { treeItemT, treeHashT } from './tree-types.js';
 

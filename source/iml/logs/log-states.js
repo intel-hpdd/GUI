@@ -10,7 +10,7 @@ import parserPermutations from '../parser-permutations.js';
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from '../status/status-qs-to-old-qs-parser.js';
 import store from '../store/get-store.js';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import { resolveStream } from '../promise-transforms.js';
 

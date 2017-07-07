@@ -1,6 +1,6 @@
 import d3 from 'd3';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import { lineDirective } from '../../../../../../source/iml/charting/types/line/line-directive.js';
 import { getLineFactory } from '../../../../../../source/iml/charting/types/line/get-line.js';
 import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';

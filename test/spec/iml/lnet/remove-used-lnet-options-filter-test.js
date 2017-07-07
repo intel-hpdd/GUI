@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import removeUsedLnetOptionsFilter from '../../../../source/iml/lnet/remove-used-lnet-options-filter.js';
 import lnetOptions from '../../../../source/iml/lnet/lnet-options.js';
 

@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 describe('socket stream', () => {
   let mockGetEventSocket, socket, spy, socketStream;

@@ -1,5 +1,5 @@
 import jobIndicatorReducer from '../../../../source/iml/job-indicator/job-indicator-reducer.js';
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('job indicator reducer', () => {
   it('should be a function', () => {

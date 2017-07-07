@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import flatMapChanges from '@mfl/flat-map-changes';
+import * as fp from '@iml/fp';
+import flatMapChanges from '@iml/flat-map-changes';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
-import { formatNumber, formatBytes } from '@mfl/number-formatters';
+import { formatNumber, formatBytes } from '@iml/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import getStore from '../store/get-store.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import { values } from '@mfl/obj';
+import { values } from '@iml/obj';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
 

@@ -4,7 +4,7 @@ import { default as sessionReducer } from '../../../../source/iml/session/sessio
 
 import type { sessionT } from '../../../../source/iml/api-types.js';
 
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('session reducer', () => {
   let session: sessionT;

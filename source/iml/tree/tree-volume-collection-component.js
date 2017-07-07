@@ -7,7 +7,7 @@
 
 import socketStream from '../socket/socket-stream.js';
 import store from '../store/get-store.js';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import { toggleCollection } from './tree-utils.js';
 

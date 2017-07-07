@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 
 import getMemoryUsageStream from './get-memory-usage-stream.js';
-import { formatBytes } from '@mfl/number-formatters';
+import { formatBytes } from '@iml/number-formatters';
 import getStore from '../store/get-store.js';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';

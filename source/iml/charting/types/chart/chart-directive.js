@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import debounce from '@mfl/debounce';
+import debounce from '@iml/debounce';
 import d3 from 'd3';
 
 export function charterDirective($window) {

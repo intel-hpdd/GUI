@@ -1,4 +1,4 @@
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 
 import angular from '../../../angular-mock-setup.js';
 import paginateFilter from '../../../../source/iml/filters/paginate-filter';

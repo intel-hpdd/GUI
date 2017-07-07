@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 
 export default function atScrollBoundary() {
   'ngInject';

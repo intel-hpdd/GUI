@@ -9,7 +9,7 @@ import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 import parserPermutations from '../parser-permutations.js';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import { resolveStream } from '../promise-transforms.js';
 

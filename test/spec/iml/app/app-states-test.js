@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import { appState } from '../../../../source/iml/app/app-states.js';
 describe('app states', () => {
   it('should create the state', () => {

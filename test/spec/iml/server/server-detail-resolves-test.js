@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 describe('server detail resolves', () => {
   let mockStore,

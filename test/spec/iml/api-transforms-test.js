@@ -1,5 +1,5 @@
 import highland from 'highland';
-import { of } from '@mfl/maybe';
+import { of } from '@iml/maybe';
 
 import {
   addCurrentPage,

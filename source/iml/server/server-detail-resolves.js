@@ -10,7 +10,7 @@ import socketStream from '../socket/socket-stream.js';
 import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
 import angular from 'angular';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import broadcaster from '../broadcaster.js';
 
 import { matchById } from '../api-transforms.js';

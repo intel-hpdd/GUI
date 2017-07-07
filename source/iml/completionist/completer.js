@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as parsely from '@mfl/parsely';
+import * as parsely from '@iml/parsely';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
-import { and } from '@mfl/qs-parsers/source/input-to-qs-parser.js';
+import { and } from '@iml/qs-parsers/source/input-to-qs-parser.js';
 
-import type { tokensToResult, Result } from '@mfl/parsely';
+import type { tokensToResult, Result } from '@iml/parsely';
 
 const blacklist = [
   'value',

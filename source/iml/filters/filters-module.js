@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { formatNumber, formatBytes } from '@mfl/number-formatters';
+import { formatNumber, formatBytes } from '@iml/number-formatters';
 import angular from 'angular';
 import pdshFilter from './pdsh-filter';
 import capitalizeFilter from './capitalize-filter';

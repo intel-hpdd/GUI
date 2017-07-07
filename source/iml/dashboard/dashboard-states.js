@@ -31,7 +31,7 @@ import { streamToPromise } from '../promise-transforms.js';
 
 import { matchById } from '../api-transforms.js';
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 import type { HighlandStreamT } from 'highland';
 

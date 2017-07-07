@@ -1,5 +1,5 @@
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import angular from '../../../angular-mock-setup.js';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';

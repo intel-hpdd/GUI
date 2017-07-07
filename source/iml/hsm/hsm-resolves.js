@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import getCopytoolStream from './get-copytool-stream.js';
 import getCopytoolOperationStream from './get-copytool-operation-stream.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
-import type { Maybe } from '@mfl/maybe';
+import type { Maybe } from '@iml/maybe';
 
 const fsParams = filesystemId => {
   return {

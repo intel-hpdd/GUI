@@ -3,7 +3,7 @@ import {
   DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
   default as readWriteBandwidthChartReducer
 } from '../../../../source/iml/read-write-bandwidth/read-write-bandwidth-chart-reducer.js';
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('Read Write Bandwidth reducer', () => {
   it('should be a function', () => {

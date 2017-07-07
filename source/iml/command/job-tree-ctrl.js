@@ -3,9 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import extractApi from '@mfl/extract-api';
+import extractApi from '@iml/extract-api';
 import socketStream from '../socket/socket-stream.js';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
   'ngInject';
