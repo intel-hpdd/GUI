@@ -28,7 +28,7 @@ import type { durationPayloadT } from '../duration-picker/duration-picker-module
 import type { localApplyT } from '../extend-scope-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getAgentVsCopytoolChart(overrides: Object) {
     const page = 'base';

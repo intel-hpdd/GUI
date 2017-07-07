@@ -1,14 +1,17 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import * as fp from '@mfl/fp';
+
+import type { HighlandStreamT } from 'highland';
 
 import type { $scopeT } from 'angular';
 
-export type localApplyT<R> = (scope: $scopeT, fn: (...rest: any[]) => R) => ?R;
+export type localApplyT<R> = (scope: $scopeT, fn?: () => R) => ?R;
 
 export type PropagateChange = <T>(
   $scopeT,
@@ -26,7 +29,7 @@ export default angular
         '$delegate',
         '$exceptionHandler',
         function addExceptionHandler($delegate, $exceptionHandler) {
-          $delegate.handleException = fp.unary($exceptionHandler);
+          $delegate.handleException = x => $exceptionHandler(x);
 
           return $delegate;
         }
@@ -90,6 +93,6 @@ export default angular
         .tap(x => {
           obj[prop] = x;
         })
-        .stopOnError(fp.unary($exceptionHandler))
+        .stopOnError(x => $exceptionHandler(x))
         .each(localApply.bind(null, $scope));
   }).name;

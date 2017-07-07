@@ -49,7 +49,7 @@ import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when
 
 export default (
   $state: StateServiceT,
-  localApply: localApplyT,
+  localApply: localApplyT<*>,
   readWriteHeatMapTypes: readWriteHeatMapTypesT,
   streamWhenVisible: streamWhenChartVisibleT
 ) => {

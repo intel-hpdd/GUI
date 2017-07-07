@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -7,7 +9,7 @@ export type windowUnloadT = {
   unloading: boolean
 };
 
-export default function windowUnloadFactory($window) {
+export default function windowUnloadFactory($window: typeof window) {
   'ngInject';
   const state: windowUnloadT = { unloading: false };
 

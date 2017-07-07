@@ -34,7 +34,7 @@ declare var window: {
   addEventListener: (
     evName: string,
     cb: (ev: Object) => any,
-    useCapture: boolean
+    useCapture?: boolean
   ) => void,
   removeEventListener: (
     evName: string,

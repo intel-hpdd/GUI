@@ -1,5 +1,7 @@
 import highland from 'highland';
 
+import { streamToPromise as mockStreamToPromise } from '../../../../source/iml/promise-transforms.js';
+
 describe('hsm fs resolve', () => {
   let mockSocketStream,
     s,
@@ -31,7 +33,8 @@ describe('hsm fs resolve', () => {
       () => mockSocketStream
     );
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
-      resolveStream: mockResolveStream
+      resolveStream: mockResolveStream,
+      streamToPromise: mockStreamToPromise
     }));
     jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
@@ -65,30 +68,31 @@ describe('hsm fs resolve', () => {
 
   describe('getData', () => {
     beforeEach(() => {
-      stream.write({
+      stream.write([
+        {
+          id: 1,
+          label: 1
+        }
+      ]);
+    });
+
+    it('should return the matching fs', async () => {
+      const fs = await getData({
+        fsId: '1'
+      });
+
+      expect(fs).toEqual({
         id: 1,
         label: 1
       });
     });
 
-    it('should return the matching fs', async () => {
+    it('should return a undefined on a non-match ', async () => {
       const fs = await getData({
-        id: 1
+        fsId: '2'
       });
 
-      expect(fs).toEqual({
-        label: null
-      });
-    });
-
-    it('should return a null label ', async () => {
-      const fs = await getData({
-        id: 2
-      });
-
-      expect(fs).toEqual({
-        label: null
-      });
+      expect(fs).toEqual(undefined);
     });
   });
 });
