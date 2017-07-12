@@ -46,14 +46,3 @@ export const oldTargetResolve = {
     }
   }
 };
-
-export const oldStoragePluginResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(
-        socketStream(`/storage_resource/${$stateParams.id}`, {}, true)
-      ).then(x => ({ label: x.plugin_name }));
-    }
-  }
-};

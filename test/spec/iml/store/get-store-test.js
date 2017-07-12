@@ -20,33 +20,35 @@ describe('get store', () => {
     mockMemoryUsageChartReducer,
     mockUserReducer,
     storeInstance,
-    mockJobStatsReducer,
-    mockLoginFormReducer,
-    mockSessionReducer;
+    mockMockMockMockJobStatsReducer,
+    mockMockMockMockLoginFormReducer,
+    mockMockMockMockSessionReducer,
+    mockMockMockMockStorageReducer;
   beforeEach(() => {
     store = { dispatch: jest.fn() };
-    mockCreateStore = jest.fn(() => store);
-    mockTargetReducer = {};
-    mockAlertIndicatorReducer = {};
-    mockJobIndicatorReducer = {};
-    mockServerReducer = {};
-    mockLnetConfigurationReducer = {};
-    mockTreeReducer = {};
-    mockFileSystemReducer = {};
-    mockReadWriteHeatMapChartReducer = {};
-    mockMdoChartReducer = {};
-    mockOstBalanceChartReducer = {};
-    mockReadWriteBandwidthChartReducer = {};
-    mockHostCpuRamChartReducer = {};
-    mockAgentVsCopytoolChartReducer = {};
-    mockFileUsageChartReducer = {};
-    mockSpaceUsageChartReducer = {};
-    mockCpuUsageChartReducer = {};
-    mockMemoryUsageChartReducer = {};
-    mockUserReducer = {};
-    mockJobStatsReducer = {};
-    mockLoginFormReducer = {};
-    mockSessionReducer = {};
+    mockMockMockMockCreateStore = jest.fn(() => store);
+    mockMockMockMockTargetReducer = {};
+    mockMockMockMockAlertIndicatorReducer = {};
+    mockMockMockMockJobIndicatorReducer = {};
+    mockMockMockMockServerReducer = {};
+    mockMockMockMockLnetConfigurationReducer = {};
+    mockMockMockMockTreeReducer = {};
+    mockMockMockMockFileSystemReducer = {};
+    mockMockMockMockReadWriteHeatMapChartReducer = {};
+    mockMockMockMockMdoChartReducer = {};
+    mockMockMockMockOstBalanceChartReducer = {};
+    mockMockMockMockReadWriteBandwidthChartReducer = {};
+    mockMockMockMockHostCpuRamChartReducer = {};
+    mockMockMockMockAgentVsCopytoolChartReducer = {};
+    mockMockMockMockFileUsageChartReducer = {};
+    mockMockMockMockSpaceUsageChartReducer = {};
+    mockMockMockMockCpuUsageChartReducer = {};
+    mockMockMockMockMemoryUsageChartReducer = {};
+    mockMockMockMockUserReducer = {};
+    mockMockMockMockJobStatsReducer = {};
+    mockMockMockMockLoginFormReducer = {};
+    mockMockMockMockSessionReducer = {};
+    mockMockMockMockStorageReducer = {};
     jest.mock(
       '../../../../source/iml/target/target-reducer.js',
       () => mockTargetReducer
@@ -135,6 +137,10 @@ describe('get store', () => {
       '../../../../source/iml/session/session-reducer',
       () => mockSessionReducer
     );
+    jest.mock(
+      '../../../../source/iml/storage/storage-reducer',
+      () => mockMockMockMockStorageReducer
+    );
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });
@@ -143,28 +149,29 @@ describe('get store', () => {
     expect(storeInstance).toBe(store);
   });
   it('should create a store', () => {
-    expect(mockCreateStore).toHaveBeenCalledOnceWith({
-      targets: mockTargetReducer,
-      alertIndicators: mockAlertIndicatorReducer,
-      jobIndicators: mockJobIndicatorReducer,
-      server: mockServerReducer,
-      lnetConfiguration: mockLnetConfigurationReducer,
-      tree: mockTreeReducer,
-      fileSystems: mockFileSystemReducer,
-      readWriteHeatMapCharts: mockReadWriteHeatMapChartReducer,
-      mdoCharts: mockMdoChartReducer,
-      ostBalanceCharts: mockOstBalanceChartReducer,
-      readWriteBandwidthCharts: mockReadWriteBandwidthChartReducer,
-      hostCpuRamCharts: mockHostCpuRamChartReducer,
-      agentVsCopytoolCharts: mockAgentVsCopytoolChartReducer,
-      fileUsageCharts: mockFileUsageChartReducer,
-      spaceUsageCharts: mockSpaceUsageChartReducer,
-      cpuUsageCharts: mockCpuUsageChartReducer,
-      memoryUsageCharts: mockMemoryUsageChartReducer,
-      users: mockUserReducer,
-      jobStatsConfig: mockJobStatsReducer,
-      loginForm: mockLoginFormReducer,
-      session: mockSessionReducer
+    expect(mockMockMockMockCreateStore).toHaveBeenCalledOnceWith({
+      targets: mockMockMockMockTargetReducer,
+      alertIndicators: mockMockMockMockAlertIndicatorReducer,
+      jobIndicators: mockMockMockMockJobIndicatorReducer,
+      server: mockMockMockMockServerReducer,
+      lnetConfiguration: mockMockMockMockLnetConfigurationReducer,
+      tree: mockMockMockMockTreeReducer,
+      fileSystems: mockMockMockMockFileSystemReducer,
+      readWriteHeatMapCharts: mockMockMockMockReadWriteHeatMapChartReducer,
+      mdoCharts: mockMockMockMockMdoChartReducer,
+      ostBalanceCharts: mockMockMockMockOstBalanceChartReducer,
+      readWriteBandwidthCharts: mockMockMockMockReadWriteBandwidthChartReducer,
+      hostCpuRamCharts: mockMockMockMockHostCpuRamChartReducer,
+      agentVsCopytoolCharts: mockMockMockMockAgentVsCopytoolChartReducer,
+      fileUsageCharts: mockMockMockMockFileUsageChartReducer,
+      spaceUsageCharts: mockMockMockMockSpaceUsageChartReducer,
+      cpuUsageCharts: mockMockMockMockCpuUsageChartReducer,
+      memoryUsageCharts: mockMockMockMockMemoryUsageChartReducer,
+      users: mockMockMockMockUserReducer,
+      jobStatsConfig: mockMockMockMockJobStatsReducer,
+      loginForm: mockMockMockMockLoginFormReducer,
+      session: mockMockMockMockSessionReducer,
+      storage: mockMockMockMockStorageReducer
     });
   });
 });
