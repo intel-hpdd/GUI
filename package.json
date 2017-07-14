@@ -57,7 +57,7 @@
     "bootstrap": "3.3.7",
     "cross-env": "4.0.0",
     "css-loader": "^0.28.4",
-    "d3": "3.5.17",
+    "d3": "4.10.0",
     "del": "2.2.2",
     "eslint": "^4.1.1",
     "eslint-config-prettier": "^2.3.0",
