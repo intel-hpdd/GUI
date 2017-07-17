@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -7,11 +9,11 @@ import * as fp from '@iml/fp';
 import socketStream from '../socket/socket-stream.js';
 
 export function ConfigureLnetController(
-  $scope,
-  LNET_OPTIONS,
-  insertHelpFilter,
-  waitForCommandCompletion,
-  propagateChange
+  $scope: Object,
+  LNET_OPTIONS: Object,
+  insertHelpFilter: Function,
+  waitForCommandCompletion: Function,
+  propagateChange: Function
 ) {
   'ngInject';
   const ctrl = this;

@@ -277,6 +277,7 @@ describe('select server profile', () => {
         createOrUpdateHostsStream,
         getHostProfiles,
         waitForCommandCompletion,
+        waitForCommandCompletionInner,
         result,
         response,
         spy;
@@ -467,7 +468,8 @@ describe('select server profile', () => {
 
         createOrUpdateHostsStream = jest.fn(() => highland([response]));
 
-        waitForCommandCompletion = jest.fn(val => highland([val]));
+        waitForCommandCompletionInner = jest.fn(() => highland([]));
+        waitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
 
         getHostProfiles = jest.fn(() =>
           highland([
@@ -500,6 +502,8 @@ describe('select server profile', () => {
       });
 
       it('should pass commands to wait for command completion', () => {
+        expect.assertions(2);
+
         const commands = fp.flow(
           x => x.objects,
           fp.map(x => x.command_and_host),
@@ -507,8 +511,8 @@ describe('select server profile', () => {
           fp.filter(x => x)
         )(response);
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(
-          true,
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+        expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith(
           commands
         );
       });

@@ -112,7 +112,7 @@ export function createHostProfilesFactory(waitForCommandCompletion) {
       .map(fp.map(x => x.commands[0]))
       .flatMap(
         x =>
-          x.length ? waitForCommandCompletion(showCommands, x) : highland([])
+          x.length ? waitForCommandCompletion(showCommands)(x) : highland([])
       );
   };
 }

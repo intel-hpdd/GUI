@@ -192,7 +192,7 @@ export function selectServerProfileStep() {
         fp.map(x => x.command),
         fp.filter(Boolean),
         x =>
-          x.length ? waitForCommandCompletion(showCommand, x) : highland([])
+          x.length ? waitForCommandCompletion(showCommand)(x) : highland([])
       );
 
       const hostProfileStream = createOrUpdateHostsStream(data.servers)
