@@ -31,7 +31,7 @@ describe('app states', () => {
           <li><a tabindex="-1" id="power-conf-item" ui-sref="app.oldPower({ resetState: true })">Power Control</a></li>
           <li><a tabindex="-1" id="filesystem-conf-item" ui-sref="app.fileSystem({ resetState: true })">File Systems</a></li>
           <li><a tabindex="-1" id="hsm-conf-item" ui-sref="app.hsmFs.hsm({ resetState: true })">HSM</a></li>
-          <li><a tabindex="-1" id="storage-conf-item" ui-sref="app.oldStorageResource({ resetState: true })">Storage</a></li>
+          <li><a tabindex=\"-1\" id=\"storage-conf-item\" ui-sref=\"app.storage({ resetState: true })\">Storage</a></li>
           <li><a tabindex="-1" id="user-conf-item" ui-sref="app.oldUser({ resetState: true })">Users</a></li>
           <li><a tabindex="-1" id="volume-conf-item" ui-sref="app.oldVolume({ resetState: true })">Volumes</a></li>
           <li><a tabindex="-1" id="mgt-conf-item" ui-sref="app.mgt({ resetState: true })">MGTs</a></li>
