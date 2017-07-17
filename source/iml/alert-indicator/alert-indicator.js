@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -5,9 +7,12 @@
 
 import * as fp from '@iml/fp';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
-
-export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
+export function RecordStateCtrl(
+  $scope: Object,
+  $compile: Object,
+  STATE_SIZE: Object,
+  propagateChange: Function
+) {
   'ngInject';
   const ctrl = Object.assign(this, {
     alerts: [],
@@ -20,15 +25,11 @@ export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
   });
 
   const viewer$ = ctrl.alertStream();
-  const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
-  const recordFound = fp.flow(fp.eqFn(fp.identity)(indexOfRecord)(-1), fp.not);
+  const recordFound = x => x.affected.indexOf(ctrl.recordId) !== -1;
 
   const p = propagateChange.bind(null, $scope, ctrl, 'alerts');
 
-  viewer$
-    .map(fp.filter(fp.flow(viewLens('affected'), recordFound)))
-    .map(fp.map(viewLens('message')))
-    .through(p);
+  viewer$.map(fp.filter(recordFound)).map(fp.map(x => x.message)).through(p);
 
   $scope.$on('$destroy', viewer$.destroy.bind(viewer$));
 }
