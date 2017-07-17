@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage component TableFilter should render correctly 1`] = `
+<div>
+  <div
+    class="form-group well"
+  >
+    <label
+      class="control-label"
+    >
+      Filter Resource Class
+    </label>
+    <select
+      class="form-control"
+    >
+      <option
+        value="EMCPower,linux"
+      >
+        linux-EMCPower
+      </option>
+      <option
+        value="LinuxDeviceNode,linux"
+      >
+        linux-LinuxDeviceNode
+      </option>
+      <option
+        value="LocalMount,linux"
+      >
+        linux-LocalMount
+      </option>
+    </select>
+  </div>
+</div>
+`;

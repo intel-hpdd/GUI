@@ -7,7 +7,6 @@
 
 import * as maybe from '@iml/maybe';
 import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
 
 import { streamToPromise } from '../promise-transforms.js';
 

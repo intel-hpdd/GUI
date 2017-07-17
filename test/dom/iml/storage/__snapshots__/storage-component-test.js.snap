@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`storage component should render the storage basic html 1`] = `
+exports[`storage component should render no plugins 1`] = `
 <div>
   <div
     class="container container-full storage container"
@@ -9,8 +9,74 @@ exports[`storage component should render the storage basic html 1`] = `
       class="well text-center no-plugins"
     >
       <h1>
-        A Problem occurred while reading the database
+        No storage plugins are currently installed.
       </h1>
+      <p>
+        When storage plugins are installed, use this tab to configure and view storage resources such as controllers.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage component should render with plugins 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <div>
+      <h4
+        class="section-header"
+      >
+        Storage Resources
+      </h4>
+      <div
+        class="form-group well"
+      >
+        <label
+          class="control-label"
+        >
+          Filter Resource Class
+        </label>
+        <select
+          class="form-control"
+        >
+          <option
+            value="EMCPower,linux"
+          >
+            linux-EMCPower
+          </option>
+        </select>
+      </div>
+      <div
+        class="table-container loading"
+      >
+        <div
+          class="well text-center resource-table-no-records"
+        >
+          <h1>
+            No records found
+          </h1>
+        </div>
+        <div
+          class="add-storage-device"
+        >
+          <h4
+            class="section-header"
+          >
+            Add Storage Device
+          </h4>
+          <button
+            type="button"
+            class="btn btn-default btn-sm"
+          >
+            <i
+              class="fa fa-plus-circle text-success"
+            />
+            Add Storage Device
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { storage$ } from './storage-resolves.js';
+import { storageB, alertIndicatorB } from './storage-resolves.js';
 
 export const storageState = {
   name: 'app.storage',
@@ -19,7 +19,7 @@ export const storageState = {
     kind: 'Storage',
     icon: 'fa-hdd-o'
   },
-  resolve: { storage$ },
+  resolve: { storageB, alertIndicatorB },
   component: 'storage'
 };
 

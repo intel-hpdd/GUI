@@ -11,7 +11,7 @@ export type directionsT = 'left' | 'right' | 'top' | 'bottom';
 
 export type sizesT = '' | 'xsmall' | 'small' | 'medium' | 'large';
 
-type tooltipT = {
+type TooltipProps = {
   message?: string,
   direction: directionsT,
   size?: sizesT,
@@ -23,7 +23,7 @@ export default ({
   direction,
   size = '',
   moreClasses = []
-}: tooltipT) => {
+}: TooltipProps) => {
   if (!message) return;
 
   return (
