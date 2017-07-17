@@ -14,7 +14,8 @@ import type { Command } from './command-types.js';
 
 export default (openCommandModal: Function) => {
   'ngInject';
-  return (showModal: boolean, response: Command[]) => {
+
+  return (showModal: boolean) => (response: Command[]) => {
     const command$ = getCommandStream(response).map(fp.map(setState));
 
     if (showModal) {

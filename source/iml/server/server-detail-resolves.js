@@ -28,10 +28,9 @@ export const getData = ($stateParams: { id: string }) => {
 
 export default function serverDetailResolves($stateParams: { id: string }) {
   'ngInject';
-  const getObjectsOrNull = x => (x.objects.length ? x : null);
-  const getFlatObjOrNull = fp.flow(
-    highland.map(getObjectsOrNull),
-    fp.invokeMethod('flatten')([])
+  const getObjectsOrNull = x => (x.objects.length ? x.objects : null);
+  const getFlatObjOrNull = fp.flow(highland.map(getObjectsOrNull), x =>
+    x.flatten()
   );
 
   const jobMonitorStream = broadcaster(store.select('jobIndicators'));

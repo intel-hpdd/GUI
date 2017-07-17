@@ -42,7 +42,7 @@ describe('wait-for-command-completion-service', () => {
     beforeEach(() => {
       responseWithCommands = [{}];
 
-      waitForCommandCompletion(false, responseWithCommands).each(spy);
+      waitForCommandCompletion(false)(responseWithCommands).each(spy);
     });
 
     it('should call get command stream', () => {
@@ -89,7 +89,7 @@ describe('wait-for-command-completion-service', () => {
     beforeEach(() => {
       responseWithCommands = [{}];
 
-      waitForCommandCompletion(true, responseWithCommands);
+      waitForCommandCompletion(true)(responseWithCommands);
     });
 
     it('should call openCommandModal', () => {
