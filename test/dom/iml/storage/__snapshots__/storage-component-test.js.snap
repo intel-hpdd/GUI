@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage component should render the storage basic html 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <div
+      class="well text-center no-plugins"
+    >
+      <h1>
+        A Problem occurred while reading the database
+      </h1>
+    </div>
+  </div>
+</div>
+`;

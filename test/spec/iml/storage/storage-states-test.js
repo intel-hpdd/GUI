@@ -1,4 +1,5 @@
 import { storageState } from '../../../../source/iml/storage/storage-states.js';
+import { storage$ } from '../../../../source/iml/storage/storage-resolves.js';
 
 describe('storage states', () => {
   describe('storage state', () => {
@@ -15,7 +16,7 @@ describe('storage states', () => {
           kind: 'Storage',
           icon: 'fa-hdd-o'
         },
-        resolve: {},
+        resolve: { storage$ },
         component: 'storage'
       });
     });
