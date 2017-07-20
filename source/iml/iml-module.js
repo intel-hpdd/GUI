@@ -100,7 +100,7 @@ import {
 import { imlTooltip } from './tooltip/tooltip.js';
 import imlPopover from './iml-popover.js';
 import Position from './position.js';
-import { recordStateDirective } from './alert-indicator/alert-indicator.js';
+import { alertIndicatorNg } from './alert-indicator/alert-indicator.js';
 import jobStatus from './job-indicator/job-indicator.js';
 import pdsh from './pdsh/pdsh.js';
 import help from './help.js';
@@ -210,7 +210,7 @@ const imlModule = angular
   .factory('help', help)
   .factory('windowUnload', windowUnload)
   .factory('disconnectModal', disconnectModal)
-  .directive('recordState', recordStateDirective)
+  .component('recordState', alertIndicatorNg)
   .directive('pdsh', pdsh)
   .constant('STATE_SIZE', {
     SMALL: 'small',

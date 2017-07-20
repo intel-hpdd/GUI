@@ -38,7 +38,8 @@ export class PopoverContainer extends Component {
   }
   render() {
     const children = this.props.children.map(c => {
-      if (c.props.popoverButton)
+      if (!c.props) return c;
+      else if (c.props.popoverButton)
         return Inferno.cloneVNode(c, {
           onClick: this.handleClick.bind(this)
         });
