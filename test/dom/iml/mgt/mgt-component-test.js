@@ -1,7 +1,7 @@
 import highland from 'highland';
 import broadcaster from '../../../../source/iml/broadcaster.js';
 import mgtComponent from '../../../../source/iml/mgt/mgt-component.js';
-import { recordStateDirective } from '../../../../source/iml/alert-indicator/alert-indicator.js';
+import { alertIndicatorNg } from '../../../../source/iml/alert-indicator/alert-indicator.js';
 import jobStatus from '../../../../source/iml/job-indicator/job-indicator.js';
 import asValue from '../../../../source/iml/as-value/as-value.js';
 import asStream from '../../../../source/iml/as-stream/as-stream.js';
@@ -50,7 +50,7 @@ describe('mgt component', () => {
 
         $provide.value('socketStream', jest.fn());
         $compileProvider.component('mgt', mgtComponent);
-        $compileProvider.directive('recordState', recordStateDirective);
+        $compileProvider.component('recordState', alertIndicatorNg);
         $compileProvider.directive('jobStatus', jobStatus);
         $provide.factory('handleAction', handleActionFactory);
         $provide.factory(
@@ -86,7 +86,10 @@ describe('mgt component', () => {
 
       $scope = $rootScope.$new();
       $scope.mgtStream = highland();
-      $scope.mgtAlertIndicatorStream = broadcaster(highland());
+
+      const s = highland();
+      s.write([]);
+      $scope.mgtAlertIndicatorStream = broadcaster(s);
       $scope.mgtJobIndicatorStream = broadcaster(highland());
       el = $compile(template)($scope)[0];
       $scope.$digest();
