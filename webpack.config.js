@@ -8,11 +8,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const extractLess = new ExtractTextPlugin('[name].[contenthash].css');
 
-const pathsToClean = ['dist/*.*'];
+const pathsToClean = ['dist/*'];
 
 const cleanOptions = {
   root: __dirname,
-  verbose: true,
+  verbose: false,
   dry: false,
   watch: true
 };
