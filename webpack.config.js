@@ -2,10 +2,20 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const extractLess = new ExtractTextPlugin('[name].[contenthash].css');
+
+const pathsToClean = ['dist/*'];
+
+const cleanOptions = {
+  root: __dirname,
+  verbose: false,
+  dry: false,
+  watch: true
+};
 
 const config = {
   devtool: 'source-map',
@@ -75,7 +85,8 @@ const config = {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.ejs'
-    })
+    }),
+    new CleanWebpackPlugin(pathsToClean, cleanOptions)
   ]
 };
 
