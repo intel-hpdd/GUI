@@ -2,6 +2,7 @@ import highland from 'highland';
 import broadcast from '../../../../source/iml/broadcaster.js';
 import Inferno from 'inferno';
 import AlertIndicator from '../../../../source/iml/alert-indicator/alert-indicator.js';
+import { renderToSnapshot } from '../../../test-utils.js';
 
 describe('AlertIndicator DOM testing', () => {
   let alertStream,
@@ -15,15 +16,7 @@ describe('AlertIndicator DOM testing', () => {
     alerts,
     tooltip;
 
-  let renderToSnapshot;
-
   beforeEach(() => {
-    renderToSnapshot = child => {
-      const root = document.createElement('div');
-      Inferno.render(child, root);
-      return root.innerHTML;
-    };
-
     stream = highland();
 
     alertStream = broadcast(stream);
