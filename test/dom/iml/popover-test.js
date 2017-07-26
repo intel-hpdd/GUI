@@ -7,19 +7,11 @@ import {
   PopoverTitle,
   PopoverContainer
 } from '../../../source/iml/popover';
+import WindowClickListener from '../../../source/iml/window-click-listener.js';
+import { renderToSnapshot } from '../../test-utils.js';
 import { querySelector } from '../../../source/iml/dom-utils.js';
 
 describe('Popover DOM testing', () => {
-  let renderToSnapshot;
-
-  beforeEach(() => {
-    renderToSnapshot = child => {
-      const root = document.createElement('div');
-      Inferno.render(child, root);
-      return root.innerHTML;
-    };
-  });
-
   it('should render correctly without a title', () => {
     expect(
       renderToSnapshot(
@@ -73,12 +65,14 @@ describe('Popover DOM testing', () => {
       root = document.createElement('div');
 
       vNode = (
-        <PopoverContainer>
-          <button popoverButton={true} />
-          <Popover popover={true} direction="right">
-            <PopoverContent>bar</PopoverContent>
-          </Popover>
-        </PopoverContainer>
+        <WindowClickListener>
+          <PopoverContainer>
+            <button popoverButton={true} />
+            <Popover popover={true} direction="right">
+              <PopoverContent>bar</PopoverContent>
+            </Popover>
+          </PopoverContainer>
+        </WindowClickListener>
       );
 
       Inferno.render(vNode, root);

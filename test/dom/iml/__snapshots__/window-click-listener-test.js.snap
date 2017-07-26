@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WindowClickListener DOM testing should close when an adjacent el is clicked 1`] = `"<span class=\\"clicker\\">closed</span>"`;
+
+exports[`WindowClickListener DOM testing should close when clicked twice 1`] = `"<span class=\\"clicker\\">closed</span>"`;
+
+exports[`WindowClickListener DOM testing should open when clicked 1`] = `"<span class=\\"clicker\\">open</span>"`;
+
+exports[`WindowClickListener DOM testing should render the child 1`] = `"<span class=\\"clicker\\">closed</span>"`;

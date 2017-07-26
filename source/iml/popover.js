@@ -13,39 +13,16 @@ type PopoverChildProps = {
 };
 
 export class PopoverContainer extends Component {
-  windowListener: ?Function;
-  state: { isOpen: boolean };
-  constructor(props: PopoverChildProps) {
-    super(props);
-    this.state = { isOpen: false };
-  }
-  windowHandler() {
-    const { isOpen: previousIsOpen } = this.state;
-    const isOpen = !previousIsOpen;
-
-    this.setState({ isOpen });
-
-    if (isOpen || !this.windowListener) return;
-
-    window.removeEventListener('click', this.windowListener, false);
-    this.windowListener = null;
-  }
-  handleClick() {
-    if (this.windowListener) return;
-
-    this.windowListener = this.windowHandler.bind(this);
-    window.addEventListener('click', this.windowListener);
-  }
   render() {
     const children = this.props.children.map(c => {
       if (!c.props) return c;
       else if (c.props.popoverButton)
         return Inferno.cloneVNode(c, {
-          onClick: this.handleClick.bind(this)
+          onClick: this.props.toggleOpen
         });
       else if (c.props.popover)
         return Inferno.cloneVNode(c, {
-          visible: this.state.isOpen
+          visible: this.props.isOpen
         });
       else return c;
     });

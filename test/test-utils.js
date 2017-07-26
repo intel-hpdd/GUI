@@ -1,4 +1,5 @@
 import * as fp from '@iml/fp';
+import Inferno from 'inferno';
 
 export const extendWithConstructor = (constructor, obj) => {
   const scope = Object.create({}, {});
@@ -25,3 +26,9 @@ export const convertNvDates = s =>
       });
     })
   );
+
+export const renderToSnapshot = child => {
+  const root = document.createElement('div');
+  Inferno.render(child, root);
+  return root.innerHTML;
+};
