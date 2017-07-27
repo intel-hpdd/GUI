@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown DOM Tests should respond to isOpen 1`] = `"<div class=\\"btn-group dropdown open\\"><button></button><ul></ul></div>"`;

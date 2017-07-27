@@ -36,15 +36,15 @@ a:hover {
 
 .page-header {
   margin-top: 0;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 15px 20px;
-  background-color: #0067B4;
-  border-bottom: 1px solid darken(#0067B4, 10%);
+  background-color: #0067b4;
+  border-bottom: 1px solid darken(#0067b4, 10%);
 }
 
 .section-header {
   margin-top: 50px;
-  color: #0067B4;
+  color: #0067b4;
 }
 
 .section-top-margin {
@@ -186,13 +186,21 @@ button.close:focus {
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0}
-  100% {opacity: 1}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  0% {opacity: 1}
-  100% {opacity: 0}
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 ui-loader-view {
@@ -233,5 +241,11 @@ ui-loader-view {
         transition: none;
       }
     }
+  }
+}
+
+.pagination {
+  li.disabled > a {
+    pointer-events: none;
   }
 }

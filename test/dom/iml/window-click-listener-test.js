@@ -29,8 +29,6 @@ describe('WindowClickListener DOM testing', () => {
         <MockComponent />
       </WindowClickListener>
     );
-
-    Inferno.render(component, root);
   });
 
   afterEach(() => {
@@ -38,17 +36,37 @@ describe('WindowClickListener DOM testing', () => {
     querySelector(document, 'body').removeChild(sibling);
   });
 
+  it('should throw on more than one child', () => {
+    expect(() =>
+      Inferno.render(
+        <WindowClickListener>
+          <div />
+          <div />
+        </WindowClickListener>,
+        root
+      )
+    ).toThrow();
+  });
+
+  it('should throw on zero children', () => {
+    // $FlowFixMe: This is passing wrong types on purpose
+    expect(() => Inferno.render(<WindowClickListener />, root)).toThrow();
+  });
+
   it('should render the child', () => {
+    Inferno.render(component, root);
     expect(renderToSnapshot(component)).toMatchSnapshot();
   });
 
   it('should open when clicked', () => {
+    Inferno.render(component, root);
     querySelector(root, '.clicker').click();
 
     expect(root.innerHTML).toMatchSnapshot();
   });
 
   it('should close when clicked twice', () => {
+    Inferno.render(component, root);
     const clicker = querySelector(root, '.clicker');
     clicker.click();
     clicker.click();
@@ -56,6 +74,7 @@ describe('WindowClickListener DOM testing', () => {
   });
 
   it('should close when an adjacent el is clicked', () => {
+    Inferno.render(component, root);
     querySelector(root, '.clicker').click();
     sibling.click();
     expect(root.innerHTML).toMatchSnapshot();
