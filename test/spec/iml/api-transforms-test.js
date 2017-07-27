@@ -4,7 +4,8 @@ import { of } from '@iml/maybe';
 import {
   addCurrentPage,
   rememberValue,
-  matchById
+  matchById,
+  filterSame
 } from '../../../source/iml/api-transforms.js';
 
 describe('api transforms', () => {
@@ -104,5 +105,16 @@ describe('match by id', () => {
         { id: 10, name: 'c' }
       ])
     ).toEqual(of({ id: 7, name: 'b' }));
+  });
+});
+
+describe('filterSame', () => {
+  it('should return bool on change / no change', () => {
+    expect.assertions(3);
+    const filter = filterSame(x => x.prop);
+
+    expect(filter({ prop: 'foo' })).toBe(true);
+    expect(filter({ prop: 'foo' })).toBe(false);
+    expect(filter({ prop: 'bar' })).toBe(true);
   });
 });
