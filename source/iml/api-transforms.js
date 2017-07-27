@@ -29,3 +29,16 @@ export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
 
   return in$.tap(x => (v = x)).flatMap(mapFn).map(() => v).otherwise(() => [v]);
 };
+
+export const filterSame = <A, B>(fn: B => A) => {
+  let last: ?A;
+
+  return (x: B) => {
+    const current = fn(x);
+    if (last === current) return false;
+
+    last = current;
+
+    return true;
+  };
+};
