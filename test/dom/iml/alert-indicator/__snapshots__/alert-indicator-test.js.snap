@@ -1,3 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AlertIndicator DOM testing exclamation icon interaction should not show the label on small size 1`] = `"<span class=\\"record-state\\"><span style=\\"position: relative;\\"><span popoverbutton=\\"true\\" class=\\"icon-wrap tooltip-container tooltip-hover\\"><i class=\\"fa activate-popover fa-exclamation-circle\\"></i><div class=\\"tooltip inferno-tt top medium \\"><div class=\\"tooltip-arrow\\"></div><div class=\\"tooltip-inner\\"><span>response message</span></div></div></span></span></span>"`;
+exports[`AlertIndicator DOM testing exclamation icon interaction should not show the label on small size 1`] = `
+<div>
+  <span
+    class="record-state"
+  >
+    <span
+      style="position: relative;"
+    >
+      <span
+        popoverbutton="true"
+        class="icon-wrap tooltip-container tooltip-hover"
+      >
+        <i
+          class="fa activate-popover fa-exclamation-circle"
+        />
+        <div
+          class="tooltip inferno-tt top medium "
+        >
+          <div
+            class="tooltip-arrow"
+          />
+          <div
+            class="tooltip-inner"
+          >
+            <span>
+              response message
+            </span>
+          </div>
+        </div>
+      </span>
+    </span>
+  </span>
+</div>
+`;

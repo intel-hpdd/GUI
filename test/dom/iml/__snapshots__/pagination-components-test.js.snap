@@ -2,16 +2,278 @@
 
 exports[`EntriesDropdown DOM testing clicking should open when clicked 1`] = `"<div class=\\"btn-group dropdown open\\"><button type=\\"button\\" aria-haspopup=\\"true\\" aria-expanded=\\"false\\" class=\\"btn btn-info btn-sm dropdown-toggle\\">Entries: 10 <span class=\\"caret\\"></span></button><ul role=\\"menu\\" class=\\"dropdown-menu\\"><li><a>10</a></li><li><a>25</a></li><li><a>50</a></li><li><a>100</a></li></ul></div>"`;
 
-exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `"<div class=\\"btn-group dropdown \\"><button type=\\"button\\" aria-haspopup=\\"true\\" aria-expanded=\\"false\\" class=\\"btn btn-info btn-sm dropdown-toggle\\">Entries: 10 <span class=\\"caret\\"></span></button><ul role=\\"menu\\" class=\\"dropdown-menu\\"><li><a>10</a></li><li><a>25</a></li><li><a>50</a></li><li><a>100</a></li></ul></div>"`;
+exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `
+<div>
+  <div
+    class="btn-group dropdown "
+  >
+    <button
+      type="button"
+      aria-haspopup="true"
+      aria-expanded="false"
+      class="btn btn-info btn-sm dropdown-toggle"
+    >
+      Entries: 
+      10
+      <span
+        class="caret"
+      />
+    </button>
+    <ul
+      role="menu"
+      class="dropdown-menu"
+    >
+      <li>
+        <a>
+          10
+        </a>
+      </li>
+      <li>
+        <a>
+          25
+        </a>
+      </li>
+      <li>
+        <a>
+          50
+        </a>
+      </li>
+      <li>
+        <a>
+          100
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
 
-exports[`Pager DOM testing should disable the next button if on the last page 1`] = `"<ul class=\\"pagination\\"><li class=\\"pagination-prev \\"><a>‹</a></li><li class=\\"pagination-page \\"><a>1</a></li><li class=\\"pagination-page \\"><a>2</a></li><li class=\\"pagination-page \\"><a>3</a></li><li class=\\"pagination-page active\\"><a>4</a></li><li class=\\"pagination-next disabled\\"><a>›</a></li></ul>"`;
+exports[`Pager DOM testing should disable the next button if on the last page 1`] = `
+<div>
+  <ul
+    class="pagination"
+  >
+    <li
+      class="pagination-prev "
+    >
+      <a>
+        ‹
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        1
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        2
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        3
+      </a>
+    </li>
+    <li
+      class="pagination-page active"
+    >
+      <a>
+        4
+      </a>
+    </li>
+    <li
+      class="pagination-next disabled"
+    >
+      <a>
+        ›
+      </a>
+    </li>
+  </ul>
+</div>
+`;
 
-exports[`Pager DOM testing should disable the previous button if on the first page 1`] = `"<ul class=\\"pagination\\"><li class=\\"pagination-prev disabled\\"><a>‹</a></li><li class=\\"pagination-page active\\"><a>1</a></li><li class=\\"pagination-page \\"><a>2</a></li><li class=\\"pagination-page \\"><a>3</a></li><li class=\\"pagination-page \\"><a>4</a></li><li class=\\"pagination-next \\"><a>›</a></li></ul>"`;
+exports[`Pager DOM testing should disable the previous button if on the first page 1`] = `
+<div>
+  <ul
+    class="pagination"
+  >
+    <li
+      class="pagination-prev disabled"
+    >
+      <a>
+        ‹
+      </a>
+    </li>
+    <li
+      class="pagination-page active"
+    >
+      <a>
+        1
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        2
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        3
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        4
+      </a>
+    </li>
+    <li
+      class="pagination-next "
+    >
+      <a>
+        ›
+      </a>
+    </li>
+  </ul>
+</div>
+`;
 
-exports[`Pager DOM testing should render as expected 1`] = `"<ul class=\\"pagination\\"><li class=\\"pagination-prev \\"><a>‹</a></li><li class=\\"pagination-page \\"><a>1</a></li><li class=\\"pagination-page active\\"><a>2</a></li><li class=\\"pagination-page \\"><a>3</a></li><li class=\\"pagination-page \\"><a>4</a></li><li class=\\"pagination-next \\"><a>›</a></li></ul>"`;
+exports[`Pager DOM testing should render as expected 1`] = `
+<div>
+  <ul
+    class="pagination"
+  >
+    <li
+      class="pagination-prev "
+    >
+      <a>
+        ‹
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        1
+      </a>
+    </li>
+    <li
+      class="pagination-page active"
+    >
+      <a>
+        2
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        3
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        4
+      </a>
+    </li>
+    <li
+      class="pagination-next "
+    >
+      <a>
+        ›
+      </a>
+    </li>
+  </ul>
+</div>
+`;
 
-exports[`Pager DOM testing should render nothing if there is a single page 1`] = `""`;
+exports[`Pager DOM testing should render nothing if there is a single page 1`] = `
+<div>
+  
+</div>
+`;
 
-exports[`Pager DOM testing should reset pages if on the trailing edge 1`] = `"<ul class=\\"pagination\\"><li class=\\"pagination-prev \\"><a>‹</a></li><li class=\\"pagination-page \\"><a>4</a></li><li class=\\"pagination-page \\"><a>5</a></li><li class=\\"pagination-page \\"><a>6</a></li><li class=\\"pagination-page \\"><a>7</a></li><li class=\\"pagination-page active\\"><a>8</a></li><li class=\\"pagination-next disabled\\"><a>›</a></li></ul>"`;
+exports[`Pager DOM testing should reset pages if on the trailing edge 1`] = `
+<div>
+  <ul
+    class="pagination"
+  >
+    <li
+      class="pagination-prev "
+    >
+      <a>
+        ‹
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        4
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        5
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        6
+      </a>
+    </li>
+    <li
+      class="pagination-page "
+    >
+      <a>
+        7
+      </a>
+    </li>
+    <li
+      class="pagination-page active"
+    >
+      <a>
+        8
+      </a>
+    </li>
+    <li
+      class="pagination-next disabled"
+    >
+      <a>
+        ›
+      </a>
+    </li>
+  </ul>
+</div>
+`;
 
-exports[`TableInfo DOM testing should render as expected 1`] = `"<span>showing 11-20 of 100</span>"`;
+exports[`TableInfo DOM testing should render as expected 1`] = `
+<div>
+  <span>
+    showing 
+    11
+    -
+    20
+    of 
+    100
+  </span>
+</div>
+`;
