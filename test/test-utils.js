@@ -30,5 +30,5 @@ export const convertNvDates = s =>
 export const renderToSnapshot = child => {
   const root = document.createElement('div');
   Inferno.render(child, root);
-  return root.innerHTML;
+  return root;
 };
