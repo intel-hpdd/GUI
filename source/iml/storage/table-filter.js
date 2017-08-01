@@ -28,7 +28,7 @@ export default ({
   idx: number
 }) =>
   <div class="form-group well">
-    <label class="control-label">Filter Resource Class</label>
+    <label class="control-label">Select Resource Class</label>
     <select class="form-control" onChange={handleChange}>
       {classes.map((x, i) =>
         <option

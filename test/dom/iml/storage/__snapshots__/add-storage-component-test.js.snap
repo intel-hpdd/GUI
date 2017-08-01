@@ -1,0 +1,410 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage component interaction submitting the form should render error 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <h4
+      class="section-header"
+    >
+      Add Storage Device
+    </h4>
+    <div
+      class="form-group well"
+    >
+      <label
+        class="control-label"
+      >
+        Select Resource Class
+      </label>
+      <select
+        class="form-control"
+      >
+        <option
+          value="EMCPower,linux"
+        >
+          linux-EMCPower
+        </option>
+      </select>
+    </div>
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="alert span4 offset4 alert-danger"
+      >
+        An unexpected error occured. Please update form and resubmit.
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="size"
+        >
+          Size
+        </label>
+        <input
+          required=""
+          type="text"
+          id="size"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="filesystem_type"
+        >
+          Filesystem type
+        </label>
+        <input
+          type="text"
+          id="filesystem_type"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="uuid"
+        >
+          Uuid
+        </label>
+        <input
+          required=""
+          type="text"
+          id="uuid"
+          class="form-control"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-success"
+      >
+        Save
+        <i
+          class="fa fa-check-circle"
+        />
+      </button>
+    </form>
+    <div
+      style="margin: 25px 0px;"
+    >
+      <a
+        href="about:blankconfigure/storage"
+      >
+        ← Return to storage configuration page
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage component interaction submitting the form should render loading 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <h4
+      class="section-header"
+    >
+      Add Storage Device
+    </h4>
+    <div
+      class="form-group well"
+    >
+      <label
+        class="control-label"
+      >
+        Select Resource Class
+      </label>
+      <select
+        class="form-control"
+      >
+        <option
+          value="EMCPower,linux"
+        >
+          linux-EMCPower
+        </option>
+      </select>
+    </div>
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="form-group"
+      >
+        <label
+          for="size"
+        >
+          Size
+        </label>
+        <input
+          required=""
+          type="text"
+          id="size"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="filesystem_type"
+        >
+          Filesystem type
+        </label>
+        <input
+          type="text"
+          id="filesystem_type"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="uuid"
+        >
+          Uuid
+        </label>
+        <input
+          required=""
+          type="text"
+          id="uuid"
+          class="form-control"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-success"
+        disabled=""
+      >
+        Save
+        <i
+          class="fa fa-spinner fa-spin"
+        />
+      </button>
+    </form>
+    <div
+      style="margin: 25px 0px;"
+    >
+      <a
+        href="about:blankconfigure/storage"
+      >
+        ← Return to storage configuration page
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage component interaction submitting the form should render success 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <h4
+      class="section-header"
+    >
+      Add Storage Device
+    </h4>
+    <div
+      class="form-group well"
+    >
+      <label
+        class="control-label"
+      >
+        Select Resource Class
+      </label>
+      <select
+        class="form-control"
+      >
+        <option
+          value="EMCPower,linux"
+        >
+          linux-EMCPower
+        </option>
+      </select>
+    </div>
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="alert span4 offset4 alert-success"
+      >
+        Record Created.
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="size"
+        >
+          Size
+        </label>
+        <input
+          required=""
+          type="text"
+          id="size"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="filesystem_type"
+        >
+          Filesystem type
+        </label>
+        <input
+          type="text"
+          id="filesystem_type"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="uuid"
+        >
+          Uuid
+        </label>
+        <input
+          required=""
+          type="text"
+          id="uuid"
+          class="form-control"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-success"
+      >
+        Save
+        <i
+          class="fa fa-check-circle"
+        />
+      </button>
+    </form>
+    <div
+      style="margin: 25px 0px;"
+    >
+      <a
+        href="about:blankconfigure/storage"
+      >
+        ← Return to storage configuration page
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage component should render nothing with no data 1`] = `
+<div>
+  
+</div>
+`;
+
+exports[`storage component should render with data 1`] = `
+<div>
+  <div
+    class="container container-full storage container"
+  >
+    <h4
+      class="section-header"
+    >
+      Add Storage Device
+    </h4>
+    <div
+      class="form-group well"
+    >
+      <label
+        class="control-label"
+      >
+        Select Resource Class
+      </label>
+      <select
+        class="form-control"
+      >
+        <option
+          value="EMCPower,linux"
+        >
+          linux-EMCPower
+        </option>
+      </select>
+    </div>
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="form-group"
+      >
+        <label
+          for="size"
+        >
+          Size
+        </label>
+        <input
+          required=""
+          type="text"
+          id="size"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="filesystem_type"
+        >
+          Filesystem type
+        </label>
+        <input
+          type="text"
+          id="filesystem_type"
+          class="form-control"
+        />
+      </div>
+      <div
+        class="form-group"
+      >
+        <label
+          for="uuid"
+        >
+          Uuid
+        </label>
+        <input
+          required=""
+          type="text"
+          id="uuid"
+          class="form-control"
+        />
+      </div>
+      <button
+        type="submit"
+        class="btn btn-success"
+      >
+        Save
+        <i
+          class="fa fa-check-circle"
+        />
+      </button>
+    </form>
+    <div
+      style="margin: 25px 0px;"
+    >
+      <a
+        href="about:blankconfigure/storage"
+      >
+        ← Return to storage configuration page
+      </a>
+    </div>
+  </div>
+</div>
+`;

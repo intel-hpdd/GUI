@@ -59,7 +59,9 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
-import storageModule from './storage/storage-module.js';
+import storageComponent from './storage/storage-component.js';
+import storageComponentDetail from './storage/storage-component-detail.js';
+import addStorageComponent from './storage/add-storage-component.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -81,7 +83,7 @@ import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
 
-import { storageState } from './storage/storage-states.js';
+import { storageState, addStorageState } from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -142,8 +144,7 @@ const imlModule = angular
     fileSystemModule,
     chartTransformersModule,
     resettableGroupModule,
-    oldRouteModule,
-    storageModule
+    oldRouteModule
   ])
   .config($compileProvider => {
     'ngInject';
@@ -194,7 +195,8 @@ const imlModule = angular
       .state(dashboardMdtState)
       .state(dashboardFsState)
       .state(jobStatsState)
-      .state(storageState);
+      .state(storageState)
+      .state(addStorageState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
@@ -218,6 +220,9 @@ const imlModule = angular
   .factory('disconnectModal', disconnectModal)
   .component('recordState', alertIndicatorNg)
   .directive('pdsh', pdsh)
+  .component('storage', storageComponent)
+  .component('addStorage', addStorageComponent)
+  .component('storageDetail', storageComponentDetail)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',

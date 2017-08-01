@@ -8,7 +8,7 @@ exports[`storage component TableFilter should render correctly 1`] = `
     <label
       class="control-label"
     >
-      Filter Resource Class
+      Select Resource Class
     </label>
     <select
       class="form-control"

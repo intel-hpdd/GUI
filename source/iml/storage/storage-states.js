@@ -7,6 +7,22 @@
 
 import { storageB, alertIndicatorB } from './storage-resolves.js';
 
+export const addStorageState = {
+  name: 'app.addStorage',
+  url: '/configure/storage/add',
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
+  data: {
+    kind: 'Add Storage Device',
+    icon: 'fa-hdd-o'
+  },
+  resolve: { storageB },
+  component: 'addStorage'
+};
+
 export const storageState = {
   name: 'app.storage',
   url: '/configure/storage',

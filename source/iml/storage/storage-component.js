@@ -13,6 +13,7 @@ import Inferno from 'inferno';
 import { ResourceTable } from './resource-table.js';
 import { asViewer } from '../as-viewer/as-viewer';
 import storageResources from './storage-resources.js';
+import { UI_ROOT } from '../environment.js';
 
 type StorageProps = {
   storage: State,
@@ -22,9 +23,13 @@ type StorageProps = {
 const AddStorageDevice = () =>
   <div class="add-storage-device">
     <h4 class="section-header">Add Storage Device</h4>
-    <button type="button" class="btn btn-default btn-sm">
+    <a
+      type="button"
+      class="btn btn-default btn-sm"
+      href={`${UI_ROOT}configure/storage/add`}
+    >
       <i class="fa fa-plus-circle text-success" /> Add Storage Device
-    </button>
+    </a>
   </div>;
 
 const NoPlugins = () =>
