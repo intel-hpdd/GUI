@@ -2,28 +2,21 @@ import _ from '@iml/lodash-mixins';
 import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 
-describe('Exception modal controller', () => {
+fdescribe('Exception modal controller', () => {
   let $scope,
     createController,
     getMessage,
     plainError,
     responseError,
     stackTraceContainsLineNumber,
-    sendStackTraceToRealTime,
+    sendStackTraceToSrcmapReverseService,
     s,
     reverseStream,
-    mockSocketStream,
     mod;
 
   beforeEach(() => {
-    reverseStream = highland();
-
-    mockSocketStream = jest.fn(() => reverseStream);
-
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    reverseStream = Promise.resolve();
+    window.fetch = jest.fn(() => reverseStream);
 
     mod = require('../../../../source/iml/exception/exception-modal-controller.js');
   });
@@ -54,13 +47,13 @@ describe('Exception modal controller', () => {
       stackTraceContainsLineNumber = jest.fn(() => true);
 
       s = highland();
-      sendStackTraceToRealTime = jest.fn(() => s);
+      sendStackTraceToSrcmapReverseService = jest.fn(() => s);
 
       createController = deps => {
         deps = _.extend(
           {
             $scope: $scope,
-            sendStackTraceToRealTime: sendStackTraceToRealTime,
+            sendStackTraceToSrcmapReverseService: sendStackTraceToSrcmapReverseService,
             stackTraceContainsLineNumber: stackTraceContainsLineNumber
           },
           deps
@@ -192,8 +185,8 @@ describe('Exception modal controller', () => {
       });
     });
 
-    it('should not call sendStackTraceToRealTime', () => {
-      expect(sendStackTraceToRealTime).not.toHaveBeenCalled();
+    it('should not call sendStackTraceToSrcmapReverseService', () => {
+      expect(sendStackTraceToSrcmapReverseService).not.toHaveBeenCalled();
     });
 
     it('should have a loadingStack value of undefined', () => {
@@ -214,8 +207,8 @@ describe('Exception modal controller', () => {
         expect(stackTraceContainsLineNumber).toHaveBeenCalled();
       });
 
-      it('should call sendStackTraceToRealTime', () => {
-        expect(sendStackTraceToRealTime).toHaveBeenCalled();
+      it('should call sendStackTraceToSrcmapReverseService', () => {
+        expect(sendStackTraceToSrcmapReverseService).toHaveBeenCalled();
       });
 
       it('should have a loadingStack value of true', () => {
@@ -288,11 +281,12 @@ describe('Exception modal controller', () => {
     });
   });
 
-  describe('send stack trace to real time factory', () => {
-    let exception, sendStackTraceToRealTime, result;
+  describe('send stack trace to srcmap-reverse service', () => {
+    let exception, sendStackTraceToSrcmapReverseService, result;
 
     beforeEach(() => {
-      sendStackTraceToRealTime = mod.sendStackTraceToRealTime;
+      sendStackTraceToSrcmapReverseService =
+        mod.sendStackTraceToSrcmapReverseService;
 
       exception = {
         cause: 'cause',
@@ -301,55 +295,59 @@ describe('Exception modal controller', () => {
         url: 'url'
       };
 
-      result = sendStackTraceToRealTime(exception);
+      result = sendStackTraceToSrcmapReverseService(exception);
     });
 
     it('should send the request', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith(
-        '/srcmap-reverse',
-        {
-          method: 'post',
-          cause: exception.cause,
-          message: exception.message,
-          stack: exception.stack,
-          url: exception.url
+      expect(window.fetch).toHaveBeenCalledOnceWith('/iml-srcmap-reverse', {
+        method: 'POST',
+        headers: {
+          Connection: 'close',
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Transfer-Encoding': 'chunked'
         },
-        true
-      );
+        body: JSON.stringify({
+          trace: exception.stack
+        })
+      });
     });
 
     it('should return a stream', () => {
       expect(highland.isStream(result)).toBe(true);
     });
+  });
+});
 
-    [
-      {
-        message: 'should',
-        response: {
-          data: 'formatted exception'
-        },
-        expected: 'formatted exception'
-      },
-      {
-        message: 'should not',
-        response: {
-          error: {
-            stack: 'internal error'
-          }
-        },
-        expected: 'stack'
-      }
-    ].forEach(data => {
-      describe('and process response', () => {
-        it(data.message + ' set the exception.stack to response.data', () => {
-          reverseStream.write(data.response);
-          reverseStream.end();
+describe('and process response', () => {
+  let responsePromise,
+    jsonPromise,
+    exception,
+    sendStackTraceToSrcmapReverseService,
+    result;
 
-          result.each(updatedException => {
-            expect(updatedException.stack).toEqual(data.expected);
-          });
-        });
-      });
+  beforeEach(() => {
+    exception = {
+      cause: 'cause',
+      message: 'message',
+      stack: 'stack',
+      url: 'url'
+    };
+  });
+
+  it('should set the exception.stack to the response', () => {
+    jsonPromise = Promise.resolve('formatted exception');
+    responsePromise = Promise.resolve({ json: jest.fn(() => jsonPromise) });
+    window.fetch = jest.fn(() => responsePromise);
+
+    ({
+      sendStackTraceToSrcmapReverseService
+    } = require('../../../../source/iml/exception/exception-modal-controller.js'));
+
+    result = sendStackTraceToSrcmapReverseService(exception);
+
+    result.each(updatedException => {
+      expect(updatedException.stack).toEqual('formatted exception');
     });
   });
 });

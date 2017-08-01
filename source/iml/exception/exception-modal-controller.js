@@ -4,14 +4,14 @@
 // license that can be found in the LICENSE file.
 
 import _ from '@iml/lodash-mixins';
-import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
 export function ExceptionModalCtrl(
   $scope,
   $document,
   exception,
   stackTraceContainsLineNumber,
-  sendStackTraceToRealTime
+  sendStackTraceToSrcmapReverseService
 ) {
   'ngInject';
   $scope.exceptionModal = {
@@ -23,7 +23,9 @@ export function ExceptionModalCtrl(
 
   if (!exception.statusCode && stackTraceContainsLineNumber(exception)) {
     $scope.exceptionModal.loadingStack = true;
-    sendStackTraceToRealTime(exception).each(function updateData(newException) {
+    sendStackTraceToSrcmapReverseService(exception).each(function updateData(
+      newException
+    ) {
       $scope.exceptionModal.loadingStack = false;
       _.find($scope.exceptionModal.messages, {
         name: 'Client Stack Trace'
@@ -127,20 +129,25 @@ export function stackTraceContainsLineNumbers(stackTrace) {
     });
 }
 
-export function sendStackTraceToRealTime(exception) {
-  return socketStream(
-    '/srcmap-reverse',
-    {
-      method: 'post',
-      cause: exception.cause,
-      message: exception.message,
-      stack: exception.stack,
-      url: exception.url
-    },
-    true
-  ).map(function processResponse(x) {
-    if (x && x.data) exception.stack = x.data;
+export function sendStackTraceToSrcmapReverseService(exception) {
+  return highland(
+    fetch('/iml-srcmap-reverse', {
+      method: 'POST',
+      headers: {
+        Connection: 'close',
+        Accept: 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Transfer-Encoding': 'chunked'
+      },
+      body: JSON.stringify({
+        trace: exception.stack
+      })
+    })
+  )
+    .flatMap(response => highland(response.json()))
+    .map(stack => {
+      if (stack) exception.stack = stack;
 
-    return exception;
-  });
+      return exception;
+    });
 }

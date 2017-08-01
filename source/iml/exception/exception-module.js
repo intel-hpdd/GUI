@@ -13,7 +13,7 @@ import exceptionInterceptorFactory from './exception-interceptor';
 import exceptionModalFactory from './exception-modal';
 import {
   ExceptionModalCtrl,
-  sendStackTraceToRealTime,
+  sendStackTraceToSrcmapReverseService,
   stackTraceContainsLineNumbers
 } from './exception-modal-controller';
 
@@ -28,4 +28,7 @@ export default angular
   .factory('exceptionModal', exceptionModalFactory)
   .controller('ExceptionModalCtrl', ExceptionModalCtrl)
   .value('stackTraceContainsLineNumber', stackTraceContainsLineNumbers)
-  .value('sendStackTraceToRealTime', sendStackTraceToRealTime).name;
+  .value(
+    'sendStackTraceToSrcmapReverseService',
+    sendStackTraceToSrcmapReverseService
+  ).name;
