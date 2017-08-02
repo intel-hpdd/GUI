@@ -134,10 +134,8 @@ export function sendStackTraceToSrcmapReverseService(exception) {
     fetch('/iml-srcmap-reverse', {
       method: 'POST',
       headers: {
-        Connection: 'close',
         Accept: 'application/json',
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Transfer-Encoding': 'chunked'
+        'Content-Type': 'application/json; charset=UTF-8'
       },
       body: JSON.stringify({
         trace: exception.stack
@@ -145,8 +143,16 @@ export function sendStackTraceToSrcmapReverseService(exception) {
     })
   )
     .flatMap(response => highland(response.json()))
+    .errors((e, push) => {
+      push(null, {
+        error: {
+          stack: e
+        }
+      });
+    })
     .map(stack => {
-      if (stack) exception.stack = stack;
+      if (stack && !stack.error) exception.stack = stack;
+      else if (stack && stack.error) exception.error = stack.error;
 
       return exception;
     });

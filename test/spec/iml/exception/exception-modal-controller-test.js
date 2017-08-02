@@ -1,9 +1,11 @@
 import _ from '@iml/lodash-mixins';
 import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
+import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
-fdescribe('Exception modal controller', () => {
+describe('Exception modal controller', () => {
   let $scope,
+    oldFetch,
     createController,
     getMessage,
     plainError,
@@ -16,9 +18,14 @@ fdescribe('Exception modal controller', () => {
 
   beforeEach(() => {
     reverseStream = Promise.resolve();
+    oldFetch = window.fetch;
     window.fetch = jest.fn(() => reverseStream);
 
     mod = require('../../../../source/iml/exception/exception-modal-controller.js');
+  });
+
+  afterEach(() => {
+    window.fetch = oldFetch;
   });
 
   beforeEach(
@@ -302,10 +309,8 @@ fdescribe('Exception modal controller', () => {
       expect(window.fetch).toHaveBeenCalledOnceWith('/iml-srcmap-reverse', {
         method: 'POST',
         headers: {
-          Connection: 'close',
           Accept: 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Transfer-Encoding': 'chunked'
+          'Content-Type': 'application/json; charset=UTF-8'
         },
         body: JSON.stringify({
           trace: exception.stack
@@ -324,7 +329,9 @@ describe('and process response', () => {
     jsonPromise,
     exception,
     sendStackTraceToSrcmapReverseService,
-    result;
+    result,
+    spy,
+    oldFetch;
 
   beforeEach(() => {
     exception = {
@@ -333,21 +340,56 @@ describe('and process response', () => {
       stack: 'stack',
       url: 'url'
     };
+
+    spy = jest.fn();
   });
 
-  it('should set the exception.stack to the response', () => {
-    jsonPromise = Promise.resolve('formatted exception');
-    responsePromise = Promise.resolve({ json: jest.fn(() => jsonPromise) });
-    window.fetch = jest.fn(() => responsePromise);
+  describe('without error', () => {
+    beforeEach(() => {
+      jsonPromise = Promise.resolve('formatted exception');
+      responsePromise = Promise.resolve({ json: jest.fn(() => jsonPromise) });
+      oldFetch = window.fetch;
+      window.fetch = jest.fn(() => responsePromise);
 
-    ({
-      sendStackTraceToSrcmapReverseService
-    } = require('../../../../source/iml/exception/exception-modal-controller.js'));
+      ({
+        sendStackTraceToSrcmapReverseService
+      } = require('../../../../source/iml/exception/exception-modal-controller.js'));
 
-    result = sendStackTraceToSrcmapReverseService(exception);
+      result = sendStackTraceToSrcmapReverseService(exception);
+    });
 
-    result.each(updatedException => {
-      expect(updatedException.stack).toEqual('formatted exception');
+    afterEach(() => {
+      window.fetch = oldFetch;
+    });
+
+    it('should set the exception.stack to the response', async () => {
+      await streamToPromise(result.each(spy));
+      expect(spy.mock.calls[0][0].stack).toBe('formatted exception');
+    });
+  });
+
+  describe('with internal error', () => {
+    beforeEach(() => {
+      responsePromise = Promise.reject(
+        'SyntaxError: Unexpected token < in JSON at position 0'
+      );
+      oldFetch = window.fetch;
+      window.fetch = jest.fn(() => responsePromise);
+
+      ({
+        sendStackTraceToSrcmapReverseService
+      } = require('../../../../source/iml/exception/exception-modal-controller.js'));
+
+      result = sendStackTraceToSrcmapReverseService(exception);
+    });
+
+    afterEach(() => {
+      window.fetch = oldFetch;
+    });
+
+    it('should not set the exception.stack to response.data', async () => {
+      await streamToPromise(result.each(spy));
+      expect(spy.mock.calls[0][0].stack).toBe('stack');
     });
   });
 });
