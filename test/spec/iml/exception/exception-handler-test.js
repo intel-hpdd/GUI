@@ -43,8 +43,29 @@ describe('exception handler', () => {
   });
 
   describe('handling an exception', () => {
+    let oldFetch;
+
     beforeEach(() => {
+      oldFetch = window.fetch;
+      window.fetch = jest.fn(() => 'fetch');
       $exceptionHandler(error, cause);
+    });
+
+    afterEach(() => {
+      window.fetch = oldFetch;
+    });
+
+    it('should send the request', () => {
+      expect(window.fetch).toHaveBeenCalledOnceWith('/iml-srcmap-reverse', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: JSON.stringify({
+          trace: error.stack
+        })
+      });
     });
 
     it('should pass the exception to the modal', () => {
