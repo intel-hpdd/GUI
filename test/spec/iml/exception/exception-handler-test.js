@@ -68,16 +68,6 @@ describe('exception handler', () => {
       });
     });
 
-    it('should pass the exception to the modal', () => {
-      expect(exceptionModal.mock.calls[0][0].resolve.exception()).toBe(error);
-    });
-
-    it('should pass the cause to the modal', () => {
-      expect(exceptionModal.mock.calls[0][0].resolve.exception().cause).toBe(
-        cause
-      );
-    });
-
     it('should open the modal when there is an error', () => {
       expect(exceptionModal).toHaveBeenCalled();
     });

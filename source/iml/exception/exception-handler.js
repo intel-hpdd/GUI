@@ -29,18 +29,8 @@ export default $provide => {
 
       // Lazy Load to avoid a $rootScope circular dependency.
       const exceptionModal = get('exceptionModal');
-      const $document = get('$document');
 
-      exception.cause = cause;
-      exception.url = $document[0].URL;
-
-      exceptionModal({
-        resolve: {
-          exception: function() {
-            return exception;
-          }
-        }
-      });
+      exceptionModal();
     };
 
     function get(serviceName) {
