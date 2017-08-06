@@ -37,7 +37,7 @@ type Chart = {
   title: string
 };
 
-type Stats = {
+export type Stats = {
   data: ?(Object[]),
   label: string,
   name: string,

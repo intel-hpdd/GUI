@@ -1,48 +1,30 @@
-import {
-  storageState,
-  addStorageState
-} from '../../../../source/iml/storage/storage-states.js';
-import {
-  storageB,
-  alertIndicatorB
-} from '../../../../source/iml/storage/storage-resolves.js';
+describe('storage states', () => {
+  let storageState, addStorageState, storageDetailState;
 
-describe('add storage state', () => {
-  it('should create the storage state', () => {
-    expect(addStorageState).toEqual({
-      name: 'app.addStorage',
-      url: '/configure/storage/add',
-      params: {
-        resetState: {
-          dynamic: true
-        }
-      },
-      data: {
-        kind: 'Add Storage Device',
-        icon: 'fa-hdd-o'
-      },
-      resolve: { storageB },
-      component: 'addStorage'
-    });
+  beforeEach(() => {
+    jest.mock('../../../../source/iml/storage/storage-resolves.js', () => ({
+      storageB: 'storageB',
+      alertIndicatorB: 'alertIndicatorB',
+      getData: 'getData',
+      storageResource$: 'storageResource$'
+    }));
+
+    ({
+      storageState,
+      addStorageState,
+      storageDetailState
+    } = require('../../../../source/iml/storage/storage-states.js'));
   });
-});
 
-describe('storage state', () => {
   it('should create the storage state', () => {
-    expect(storageState).toEqual({
-      name: 'app.storage',
-      url: '/configure/storage',
-      params: {
-        resetState: {
-          dynamic: true
-        }
-      },
-      data: {
-        kind: 'Storage',
-        icon: 'fa-hdd-o'
-      },
-      resolve: { storageB, alertIndicatorB },
-      component: 'storage'
-    });
+    expect(addStorageState).toMatchSnapshot();
+  });
+
+  it('should create the storage state', () => {
+    expect(storageState).toMatchSnapshot();
+  });
+
+  it('should create the storage detail state', () => {
+    expect(storageDetailState).toMatchSnapshot();
   });
 });

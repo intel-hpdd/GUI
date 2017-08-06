@@ -5,7 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { storageB, alertIndicatorB } from './storage-resolves.js';
+import {
+  storageB,
+  alertIndicatorB,
+  getData,
+  storageResource$
+} from './storage-resolves.js';
+
+import { GROUPS } from '../auth/authorization.js';
 
 export const addStorageState = {
   name: 'app.addStorage',
@@ -16,6 +23,8 @@ export const addStorageState = {
     }
   },
   data: {
+    helpPage: 'storage_tab.htm',
+    access: GROUPS.FS_ADMINS,
     kind: 'Add Storage Device',
     icon: 'fa-hdd-o'
   },
@@ -32,6 +41,8 @@ export const storageState = {
     }
   },
   data: {
+    helpPage: 'storage_tab.htm',
+    access: GROUPS.FS_ADMINS,
     kind: 'Storage',
     icon: 'fa-hdd-o'
   },
@@ -39,7 +50,7 @@ export const storageState = {
   component: 'storage'
 };
 
-export const storageStateDetail = {
+export const storageDetailState = {
   name: 'app.storageDetail',
   url: '/configure/storage/:id',
   params: {
@@ -48,9 +59,15 @@ export const storageStateDetail = {
     }
   },
   data: {
+    helpPage: 'storage_tab.htm',
+    access: GROUPS.FS_ADMINS,
     kind: 'Storage Detail',
     icon: 'fa-hdd-o'
   },
-  resolve: {},
+  resolve: {
+    getData,
+    storageResource$,
+    alertIndicatorB
+  },
   component: 'storageDetail'
 };

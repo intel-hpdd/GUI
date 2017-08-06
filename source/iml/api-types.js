@@ -51,3 +51,10 @@ export type Meta = {
   previous: ?string,
   total_count: number
 };
+
+export type Point = {|
+  data: {|
+    [key: string]: number
+  |},
+  ts: string
+|};

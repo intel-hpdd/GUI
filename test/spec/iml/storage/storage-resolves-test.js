@@ -4,7 +4,14 @@ import highland from 'highland';
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('storage resolves', () => {
-  let mockStore, state, storageB, alertIndicatorB;
+  let mockStore,
+    mockSocketStream,
+    state,
+    storageB,
+    alertIndicatorB,
+    getData,
+    storageResource$;
+
   beforeEach(() => {
     state = {
       resourceClasses: [{ plugin_name: 'pluginName', class_name: 'className' }],
@@ -18,6 +25,13 @@ describe('storage resolves', () => {
         offset: 0
       }
     };
+
+    mockSocketStream = jest.fn(() => highland([{ plugin_name: 'foo' }]));
+
+    jest.mock(
+      '../../../../source/iml/socket/socket-stream.js',
+      () => mockSocketStream
+    );
 
     mockStore = jest.genMockFromModule(
       '../../../../source/iml/store/get-store.js'
@@ -41,7 +55,9 @@ describe('storage resolves', () => {
 
     ({
       storageB,
-      alertIndicatorB
+      alertIndicatorB,
+      getData,
+      storageResource$
     } = require('../../../../source/iml/storage/storage-resolves.js'));
   });
 
@@ -71,5 +87,34 @@ describe('storage resolves', () => {
     const x = await streamToPromise(b());
 
     expect(x).toEqual('state');
+  });
+
+  it('should resolve getData', async () => {
+    expect.assertions(2);
+
+    const x = await getData({ id: '3' });
+
+    expect(mockSocketStream).toHaveBeenCalledOnceWith(
+      '/api/storage_resource/3',
+      {},
+      true
+    );
+
+    expect(x).toEqual({ label: 'foo' });
+  });
+
+  it('should resolve storageResource$', async () => {
+    expect.assertions(2);
+
+    const s = await storageResource$({ id: '3' });
+    const x = await streamToPromise(s);
+
+    expect(mockSocketStream).toHaveBeenCalledOnceWith(
+      '/api/storage_resource/3',
+      {},
+      true
+    );
+
+    expect(x).toEqual({ plugin_name: 'foo' });
   });
 });
