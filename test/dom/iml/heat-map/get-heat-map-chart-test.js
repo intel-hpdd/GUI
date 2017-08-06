@@ -183,7 +183,9 @@ describe('get heat map chart test', () => {
         });
 
         afterEach(() => {
-          document.body.removeChild(document.querySelector('.nvtooltip'));
+          const tooltip = document.querySelector('.nvtooltip');
+
+          tooltip.parentNode.removeChild(tooltip);
         });
 
         it('should show the tooltip', () => {

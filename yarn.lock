@@ -111,7 +111,7 @@ acorn@^4.0.3, acorn@^4.0.4:
   version "4.0.13"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-4.0.13.tgz#105495ae5361d697bd195c825192e1ad7f253787"
 
-acorn@^5.0.0, acorn@^5.0.1:
+acorn@^5.0.0, acorn@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.1.1.tgz#53fe161111f912ab999ee887a90a0bc52822fd75"
 
@@ -1868,9 +1868,9 @@ eslint-scope@^3.7.1:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.3.0.tgz#fcd7c96376bbf34c85ee67ed0012a299642b108f"
+eslint@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-4.4.0.tgz#a3e153e704b64f78290ef03592494eaba228d3bc"
   dependencies:
     ajv "^5.2.0"
     babel-code-frame "^6.22.0"
@@ -1880,7 +1880,7 @@ eslint@^4.3.0:
     debug "^2.6.8"
     doctrine "^2.0.0"
     eslint-scope "^3.7.1"
-    espree "^3.4.3"
+    espree "^3.5.0"
     esquery "^1.0.0"
     estraverse "^4.2.0"
     esutils "^2.0.2"
@@ -1892,7 +1892,7 @@ eslint@^4.3.0:
     imurmurhash "^0.1.4"
     inquirer "^3.0.6"
     is-resolvable "^1.0.0"
-    js-yaml "^3.8.4"
+    js-yaml "^3.9.1"
     json-stable-stringify "^1.0.1"
     levn "^0.3.0"
     lodash "^4.17.4"
@@ -1909,11 +1909,11 @@ eslint@^4.3.0:
     table "^4.0.1"
     text-table "~0.2.0"
 
-espree@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/espree/-/espree-3.4.3.tgz#2910b5ccd49ce893c2ffffaab4fd8b3a31b82374"
+espree@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/espree/-/espree-3.5.0.tgz#98358625bdd055861ea27e2867ea729faf463d8d"
   dependencies:
-    acorn "^5.0.1"
+    acorn "^5.1.1"
     acorn-jsx "^3.0.0"
 
 esprima@^2.6.0, esprima@^2.7.1:
@@ -1923,6 +1923,10 @@ esprima@^2.6.0, esprima@^2.7.1:
 esprima@^3.1.1, esprima@~3.1.0:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/esprima/-/esprima-3.1.3.tgz#fdca51cee6133895e3c88d535ce49dbff62a4633"
+
+esprima@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/esprima/-/esprima-4.0.0.tgz#4499eddcd1110e0b218bacf2fa7f7f59f55ca804"
 
 esquery@^1.0.0:
   version "1.0.0"
@@ -2135,9 +2139,9 @@ flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
 
-flow-bin@^0.51.1:
-  version "0.51.1"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.51.1.tgz#7929c6f0a94e765429fcb2ee6e468278faa9c732"
+flow-bin@^0.52.0:
+  version "0.52.0"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.52.0.tgz#b6d9abe8bcd1ee5c62df386451a4e2553cadc3a3"
 
 font-awesome-webpack@^0.0.5-beta.2:
   version "0.0.5-beta.2"
@@ -2422,9 +2426,9 @@ html-minifier@^3.0.1, html-minifier@^3.2.3:
     relateurl "0.2.x"
     uglify-js "3.0.x"
 
-html-webpack-plugin@^2.29.0:
-  version "2.29.0"
-  resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-2.29.0.tgz#e987f421853d3b6938c8c4c8171842e5fd17af23"
+html-webpack-plugin@^2.30.1:
+  version "2.30.1"
+  resolved "https://registry.yarnpkg.com/html-webpack-plugin/-/html-webpack-plugin-2.30.1.tgz#7f9c421b7ea91ec460f56527d78df484ee7537d5"
   dependencies:
     bluebird "^3.4.7"
     html-minifier "^3.2.3"
@@ -2496,32 +2500,32 @@ indexof@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/indexof/-/indexof-0.0.1.tgz#82dc336d232b9062179d05ab3293a66059fd435d"
 
-inferno-component@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.7.0.tgz#8d03b8bf59742e905406917bb5002731e0a7db27"
+inferno-component@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/inferno-component/-/inferno-component-3.7.1.tgz#145496541661b7c350fca9a0137f4c7f2f8a4a07"
   dependencies:
-    inferno "3.7.0"
-    inferno-shared "3.7.0"
-    inferno-vnode-flags "3.7.0"
+    inferno "3.7.1"
+    inferno-shared "3.7.1"
+    inferno-vnode-flags "3.7.1"
 
-inferno-shared@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.7.0.tgz#a5a5b9f2c96ba0f7898fde856b4ce5581ba350b3"
+inferno-shared@3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/inferno-shared/-/inferno-shared-3.7.1.tgz#3dc6a8b26ceb91e3baf7eb875809802c65bd7929"
 
 inferno-vnode-flags@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.0.0.tgz#f396390f3dafae3b76eea04d04eed6cf2004473b"
 
-inferno-vnode-flags@3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.7.0.tgz#422ff0a0a98f7923c14fe7d0c4d22785449abe66"
+inferno-vnode-flags@3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/inferno-vnode-flags/-/inferno-vnode-flags-3.7.1.tgz#75483848c2d3cb16522c35abdc99e79b0967dd03"
 
-inferno@3.7.0, inferno@^3.7.0:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.7.0.tgz#0bea890e21a5daca425cb958ba185cf4d06e99b9"
+inferno@3.7.1, inferno@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/inferno/-/inferno-3.7.1.tgz#11a2d485e53c3ae21b15b06fb2cf4973830946dd"
   dependencies:
-    inferno-shared "3.7.0"
-    inferno-vnode-flags "3.7.0"
+    inferno-shared "3.7.1"
+    inferno-vnode-flags "3.7.1"
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -3021,12 +3025,19 @@ js-tokens@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@^3.7.0, js-yaml@^3.8.4:
+js-yaml@^3.7.0:
   version "3.8.4"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.8.4.tgz#520b4564f86573ba96662af85a8cafa7b4b5a6f6"
   dependencies:
     argparse "^1.0.7"
     esprima "^3.1.1"
+
+js-yaml@^3.9.1:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.9.1.tgz#08775cebdfdd359209f0d2acd383c8f86a6904a0"
+  dependencies:
+    argparse "^1.0.7"
+    esprima "^4.0.0"
 
 js-yaml@~3.7.0:
   version "3.7.0"
@@ -3535,9 +3546,9 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nvd3@1.8.4:
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/nvd3/-/nvd3-1.8.4.tgz#1a3a1694c6021182ff320a764e79dd971f5aac02"
+nvd3@^1.8.5:
+  version "1.8.5"
+  resolved "https://registry.yarnpkg.com/nvd3/-/nvd3-1.8.5.tgz#94a0c98ff1c3366b721fa7a8705b3c6e9eaf6bb6"
 
 "nwmatcher@>= 1.3.9 < 2.0.0":
   version "1.4.1"
