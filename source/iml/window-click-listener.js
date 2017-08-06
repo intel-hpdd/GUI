@@ -7,6 +7,7 @@
 
 import Inferno from 'inferno';
 import Component from 'inferno-component';
+import { cloneChildren } from './inferno-utils.js';
 
 export default class WindowClickListener extends Component {
   windowListener: ?Function;
@@ -42,14 +43,9 @@ export default class WindowClickListener extends Component {
           .length} children`
       );
 
-    if (!this.props.children)
-      throw new Error(
-        `WindowClickListener expects a single child, got 0 children`
-      );
-
-    return Inferno.cloneVNode(this.props.children, {
+    return cloneChildren(this.props.children, () => ({
       isOpen: this.state.isOpen,
       toggleOpen: this.toggleOpen.bind(this)
-    });
+    }))[0];
   }
 }
