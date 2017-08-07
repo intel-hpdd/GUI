@@ -31,6 +31,7 @@ declare var window: {
     [key: string]: string
   },
   IS_RELEASE: boolean,
+  dispatchEvent: Event => void,
   addEventListener: (
     evName: string,
     cb: (ev: Object) => any,
