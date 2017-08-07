@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`line tests should render as expected 1`] = `
+<svg>
+  <g>
+    <defs
+      class="clip1"
+    >
+      <clippath
+        id="clip1"
+      >
+        <rect
+          width="200"
+          height="200"
+        />
+      </clippath>
+    </defs>
+    <g
+      clip-path="url(about:blank#clip1)"
+      class="clipPath1"
+    >
+      <path
+        class="line line1"
+        stroke="green"
+        d="M0,200L200,0"
+        style="stroke-opacity: 1;"
+        stroke-dasharray="100 100"
+        stroke-dashoffset="100"
+      />
+    </g>
+  </g>
+</svg>
+`;

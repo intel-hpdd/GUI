@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as expected 1`] = `
+<svg>
+  <g>
+    <g>
+      <path
+        class="area area1"
+        stroke="green"
+        fill="green"
+        fill-opacity="0.2"
+        d="M0,200L200,0L200,200L0,200Z"
+      />
+    </g>
+  </g>
+</svg>
+`;
