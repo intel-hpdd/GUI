@@ -52,7 +52,7 @@ describe('help mapper', () => {
         globals: {
           $current: {
             data: {
-              helpPage: 'server_tab.htm'
+              helpPage: 'Graphical_User_Interface_9_0.html#9.3.1'
             }
           }
         }
@@ -62,7 +62,7 @@ describe('help mapper', () => {
     $scope.$digest();
 
     expect(el.querySelector('a').getAttribute('ng-href')).toBe(
-      '/static/webhelp/?server_tab.htm'
+      '/static/webhelp/docs/Graphical_User_Interface_9_0.html#9.3.1'
     );
   });
 });

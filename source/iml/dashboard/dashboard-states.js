@@ -140,7 +140,7 @@ export const dashboardState = {
     targetsB: dashboardTargetB
   },
   data: {
-    helpPage: 'dashboard_charts.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.1',
     anonymousReadProtected: true,
     eulaState: true
   },

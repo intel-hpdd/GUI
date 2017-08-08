@@ -51,7 +51,7 @@ export const hsmFsState = {
   <ui-loader-view class="section-top-margin"></ui-loader-view>
 </div>`,
   data: {
-    helpPage: 'hsm_page.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.4',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     eulaState: true

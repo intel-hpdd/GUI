@@ -76,7 +76,7 @@ describe('hsm states', () => {
           fsStream: 'fsCollStream'
         },
         data: {
-          helpPage: 'hsm_page.htm',
+          helpPage: 'Graphical_User_Interface_9_0.html#9.3.4',
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
           eulaState: true

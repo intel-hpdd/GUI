@@ -23,7 +23,7 @@ export default () => ({
       maybe.withDefault(
         () => '',
         maybe.map(
-          (x: string) => `?${x}`,
+          (x: string) => `docs/${x}`,
           maybe.of($current.data && $current.data.helpPage)
         )
       );

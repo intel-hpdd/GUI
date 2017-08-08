@@ -70,7 +70,7 @@ describe('dashboard states', () => {
         data: {
           anonymousReadProtected: true,
           eulaState: true,
-          helpPage: 'dashboard_charts.htm'
+          helpPage: 'Graphical_User_Interface_9_0.html#9.1'
         },
         controller: 'DashboardCtrl',
         controllerAs: 'dashboard',

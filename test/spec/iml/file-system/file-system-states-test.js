@@ -30,7 +30,7 @@ describe('file system states', () => {
         }
       },
       data: {
-        helpPage: 'file_systems_tab.htm',
+        helpPage: 'Graphical_User_Interface_9_0.html#9.3.3',
         access: mockGroups.FS_ADMINS,
         anonymousReadProtected: true,
         eulaState: true,
