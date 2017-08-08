@@ -34,6 +34,6 @@ export const getData = ($stateParams: { id: string }) => {
 export const storageResource$ = ($stateParams: { id: string }) => {
   'ngInject';
   return resolveStream(
-    socketStream(`/api/storage_resource/${$stateParams.id}`, {}, true)
+    socketStream(`/api/storage_resource/${$stateParams.id}`, {})
   );
 };

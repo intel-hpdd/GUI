@@ -111,8 +111,7 @@ describe('storage resolves', () => {
 
     expect(mockSocketStream).toHaveBeenCalledOnceWith(
       '/api/storage_resource/3',
-      {},
-      true
+      {}
     );
 
     expect(x).toEqual({ plugin_name: 'foo' });

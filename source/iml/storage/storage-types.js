@@ -32,18 +32,45 @@ export type StorageResourceClass = {
   fields: Field[]
 };
 
-type Chart = {
+type Chart = {|
   series: string[],
   title: string
-};
+|};
 
-export type Stats = {
-  data: ?(Object[]),
+export type TimeseriesChart = {|
+  type: 'timeseries',
+  title: string,
+  series: TimeseriesStats[]
+|};
+
+export type HistogramChart = {|
+  type: 'histogram',
+  title: string,
+  series: HistogramStats[]
+|};
+
+export type HistogramData = {|
+  bin_labels: string[],
+  values: number[]
+|};
+
+export type HistogramStats = {|
   label: string,
   name: string,
-  type: string,
+  type: 'histogram',
+  data: HistogramData,
   unit_name: string
-};
+|};
+
+export type TimeseriesStats = {|
+  label: string,
+  name: string,
+  type: 'timeseries',
+  data: null,
+  unit_name: string
+|};
+
+export type Stats = HistogramStats | TimeseriesStats;
 
 export type Attribute = {
   class: string,

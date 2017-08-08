@@ -60,7 +60,7 @@ import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
 import storageComponent from './storage/storage-component.js';
-import storageComponentDetail from './storage/storage-component-detail.js';
+import storageDetailComponent from './storage/storage-detail-component.js';
 import addStorageComponent from './storage/add-storage-component.js';
 
 import { loginState } from './login/login-states.js';
@@ -83,7 +83,11 @@ import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
 
-import { storageState, addStorageState } from './storage/storage-states.js';
+import {
+  storageState,
+  addStorageState,
+  storageDetailState
+} from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -196,7 +200,8 @@ const imlModule = angular
       .state(dashboardFsState)
       .state(jobStatsState)
       .state(storageState)
-      .state(addStorageState);
+      .state(addStorageState)
+      .state(storageDetailState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
@@ -222,7 +227,7 @@ const imlModule = angular
   .directive('pdsh', pdsh)
   .component('storage', storageComponent)
   .component('addStorage', addStorageComponent)
-  .component('storageDetail', storageComponentDetail)
+  .component('storageDetail', storageDetailComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',
