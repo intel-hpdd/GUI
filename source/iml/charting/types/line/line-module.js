@@ -7,10 +7,6 @@
 
 import angular from 'angular';
 
-import { getLineFactory } from './get-line';
 import { lineDirective } from './line-directive';
 
-export default angular
-  .module('line', [])
-  .directive('line', lineDirective)
-  .factory('getLine', getLineFactory).name;
+export default angular.module('line', []).directive('line', lineDirective).name;

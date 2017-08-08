@@ -11,10 +11,13 @@ export const extendWithConstructor = (constructor, obj) => {
 
 export const flushD3Transitions = d3 => {
   const now = Date.now;
+
   Date.now = function() {
     return Infinity;
   };
+
   d3.timer.flush();
+
   Date.now = now;
 };
 
