@@ -47,11 +47,7 @@ class HistogramScales extends Component {
   yScale: Object;
   componentWillMount() {
     this.xScale = d3.scale.ordinal();
-
     this.yScale = d3.scale.linear();
-    // this.colors = d3.scale
-    //   .category20b()
-    //   .domain(this.props.chart.series.map(x => x.label));
   }
   render() {
     this.xScale
@@ -63,7 +59,7 @@ class HistogramScales extends Component {
         0,
         d3.max(this.props.points, (x: Point): number =>
           Math.max(...values(x.data))
-        )
+        ) + 100
       ])
       .range([this.props.dimensions.usableHeight - 20, 0]);
 

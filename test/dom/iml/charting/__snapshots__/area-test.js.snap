@@ -3,7 +3,22 @@
 exports[`should render as expected 1`] = `
 <svg>
   <g>
-    <g>
+    <defs
+      class="area-clip1"
+    >
+      <clippath
+        id="area-clip1"
+      >
+        <rect
+          width="200"
+          height="200"
+        />
+      </clippath>
+    </defs>
+    <g
+      clip-path="url(about:blank#area-clip1)"
+      class="clipPath1"
+    >
       <path
         class="area area1"
         stroke="green"

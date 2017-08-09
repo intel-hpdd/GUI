@@ -26,15 +26,26 @@ import { values } from '@iml/obj';
 import { cloneChildren } from '../inferno-utils.js';
 import { uniqBy } from '@iml/fp';
 
+const NoData = props =>
+  <div
+    style={{
+      height: '500px',
+      display: 'flex',
+      'justify-content': 'center',
+      'align-items': 'center'
+    }}
+  >
+    <h3>
+      {props.message}
+    </h3>
+  </div>;
+
 class Scales extends Component {
   xScale: Object;
   yScale: Object;
   componentWillMount() {
     this.xScale = d3.time.scale();
     this.yScale = d3.scale.linear();
-    // this.colors = d3.scale
-    //   .category20b()
-    //   .domain(this.props.chart.series.map(x => x.label));
   }
   render() {
     const getX = (x: Point) => new Date(x.ts);
@@ -106,7 +117,10 @@ export default class StorageResourceTimeSeries extends Component {
     this.stream.destroy();
   }
   render() {
-    if (this.state.data == null) return <div>NO DATA!!!</div>;
+    if (this.state.data == null) return <NoData message="Fetching Data..." />;
+
+    if (this.state.data.length === 0)
+      return <NoData message="No Data Available." />;
 
     const { data } = this.state;
 
