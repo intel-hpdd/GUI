@@ -38,13 +38,11 @@ describe('help mapper', () => {
     expect(el.querySelector('a')).not.toBeNull();
   });
 
-  it('should not end with a qs', () => {
-    expect(el.querySelector('a').getAttribute('ng-href')).toBe(
-      '/static/webhelp/'
-    );
+  it('should not end with /help/', () => {
+    expect(el.querySelector('a').getAttribute('ng-href')).toBe('/help/');
   });
 
-  it('should end with a qs on matching route change', () => {
+  it('should end with a path plus hash on matching route change', () => {
     const fn = $transitions.onSuccess.mock.calls[0][1];
 
     fn({
@@ -52,7 +50,7 @@ describe('help mapper', () => {
         globals: {
           $current: {
             data: {
-              helpPage: 'server_tab.htm'
+              helpPage: 'Graphical_User_Interface_9_0.html#9.3.1'
             }
           }
         }
@@ -62,7 +60,7 @@ describe('help mapper', () => {
     $scope.$digest();
 
     expect(el.querySelector('a').getAttribute('ng-href')).toBe(
-      '/static/webhelp/?server_tab.htm'
+      '/help/docs/Graphical_User_Interface_9_0.html#9.3.1'
     );
   });
 });

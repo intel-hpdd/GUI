@@ -23,7 +23,7 @@ import type { qsFromLocationT } from '../qs-from-location/qs-from-location-modul
 export const logState = {
   name: 'app.log',
   data: {
-    helpPage: 'logs_page.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.5',
     anonymousReadProtected: true,
     eulaState: true
   },

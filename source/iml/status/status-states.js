@@ -18,7 +18,7 @@ import type { qsFromLocationT } from '../qs-from-location/qs-from-location-modul
 export const statusState = {
   name: 'app.status',
   data: {
-    helpPage: 'status_page.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.6',
     anonymousReadProtected: true,
     eulaState: true
   },

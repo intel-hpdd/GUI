@@ -27,7 +27,7 @@ export const fileSystemListState = {
     }
   },
   data: {
-    helpPage: 'file_systems_tab.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.3',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     eulaState: true,

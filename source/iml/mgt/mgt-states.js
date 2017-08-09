@@ -19,7 +19,7 @@ export const mgtState = {
     }
   },
   data: {
-    helpPage: 'mgts_tab.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.8',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     eulaState: true,
