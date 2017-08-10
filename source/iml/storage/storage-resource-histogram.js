@@ -14,7 +14,7 @@ import d3 from 'd3';
 import Chart from '../charting/chart.js';
 import Axis from '../charting/axis.js';
 import Legend from '../charting/legend.js';
-import Area from '../charting/Area.js';
+import Area from '../charting/area.js';
 
 import { cloneChildren } from '../inferno-utils.js';
 import { zipBy } from '@iml/fp';

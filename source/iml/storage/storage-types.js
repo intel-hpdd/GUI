@@ -88,7 +88,7 @@ export type StorageResource = {
   charts: Chart[],
   class_name: string,
   default_alias: string,
-  deletable: false,
+  deletable: boolean,
   id: number,
   parent_classes: ?(string[]),
   plugin_name: string,
