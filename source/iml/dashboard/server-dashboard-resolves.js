@@ -51,7 +51,7 @@ export function serverDashboardHostStreamResolves(
         return x;
       },
       Nothing() {
-        throw new Error(`Unable to find target ${$stateParams.id}`);
+        throw new Error(`Unable to find server ${$stateParams.id}`);
       }
     })
   );
