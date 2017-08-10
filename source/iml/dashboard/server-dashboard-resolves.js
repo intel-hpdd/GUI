@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-
 import type { HighlandStreamT } from 'highland';
-
 import type { chartT } from './dashboard-types.js';
+
+import { matchWith } from '@iml/maybe';
+import { matchById } from '../api-transforms.js';
 
 export function serverDashboardChartResolves(
   $stateParams: { id: string },
@@ -45,5 +45,14 @@ export function serverDashboardHostStreamResolves(
   hostsB: () => HighlandStreamT<Object[]>
 ) {
   'ngInject';
-  return hostsB().map(fp.filter(x => x.id === $stateParams.id)).map(x => x[0]);
+  return hostsB().map(matchById($stateParams.id)).map(
+    matchWith.bind(null, {
+      Just(x) {
+        return x;
+      },
+      Nothing() {
+        throw new Error(`Unable to find target ${$stateParams.id}`);
+      }
+    })
+  );
 }

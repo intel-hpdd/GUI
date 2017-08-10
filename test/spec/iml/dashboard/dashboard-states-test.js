@@ -464,7 +464,6 @@ describe('dashboard states', () => {
         },
         resolve: {
           charts: 'baseDashboardChartResolves',
-          fsStream: 'baseDashboardFsStream',
           getData: ['fsB', '$stateParams', expect.any(Function)]
         }
       });

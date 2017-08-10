@@ -16,10 +16,7 @@ import {
   dashboardTargetB
 } from './dashboard-resolves.js';
 
-import {
-  baseDashboardChartResolves,
-  baseDashboardFsStream
-} from './base-dashboard-chart-resolves.js';
+import { baseDashboardChartResolves } from './base-dashboard-chart-resolves.js';
 
 import {
   targetDashboardResolves,
@@ -352,7 +349,6 @@ export const dashboardFsState = {
   },
   resolve: {
     charts: baseDashboardChartResolves,
-    fsStream: baseDashboardFsStream,
     getData: ['fsB', '$stateParams', getDataFn]
   }
 };

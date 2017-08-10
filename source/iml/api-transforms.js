@@ -19,7 +19,7 @@ export function addCurrentPage<T: { meta: Object }>(o: T): T {
   };
 }
 
-export const matchById = (id: string) => fp.find(x => x.id === id);
+export const matchById = (id: string) => fp.find(x => x.id === parseInt(id));
 
 type MapFn<A, B> = A => B;
 export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
