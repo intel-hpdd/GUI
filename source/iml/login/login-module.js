@@ -8,7 +8,6 @@
 import angular from 'angular';
 import authModule from '../auth/auth-module';
 import remoteValidateModule from '../remote-validate/remote-validate-module';
-import atScrollBoundaryModule from '../at-scroll-boundary/at-scroll-boundary-module';
 import accessDeniedModule from '../access-denied/access-denied-module';
 import tooltipModule from '../tooltip/tooltip-module';
 import navigateModule from '../navigate/navigate-module';
@@ -19,7 +18,6 @@ export default angular
   .module('login', [
     authModule,
     remoteValidateModule,
-    atScrollBoundaryModule,
     accessDeniedModule,
     tooltipModule,
     navigateModule
