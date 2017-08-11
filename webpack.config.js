@@ -19,6 +19,9 @@ const config = {
   devtool: 'source-map',
   target: 'web',
   entry: './source/iml/iml-module.js',
+  node: {
+    setImmediate: false
+  },
   output: {
     publicPath: '/gui/',
     path: path.resolve(__dirname, 'dist'),
