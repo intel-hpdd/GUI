@@ -21,7 +21,7 @@ import {
 if (ALLOW_ANONYMOUS_READ) {
   socketStream('/storage_resource_class', {
     qs: {
-      plugin_internal: true, // @TODO: make sure to remove this before shipping.
+      plugin_internal: false,
       limit: 0
     }
   })

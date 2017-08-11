@@ -47,7 +47,7 @@ describe('storageDispatchSource', () => {
     expect(
       mockSocketStream
     ).toHaveBeenCalledOnceWith('/storage_resource_class', {
-      qs: { limit: 0, plugin_internal: true }
+      qs: { limit: 0, plugin_internal: false }
     });
   });
 
