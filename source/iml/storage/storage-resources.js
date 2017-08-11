@@ -9,6 +9,7 @@ import { type State } from './storage-reducer.js';
 
 import flatMapChanges from '@iml/flat-map-changes';
 import socketStream from '../socket/socket-stream.js';
+import highland from 'highland';
 
 import { filterSame } from '../api-transforms.js';
 import { flow } from '@iml/fp';
@@ -25,6 +26,8 @@ export default () => {
   return flatMapChanges((x: State) => {
     // $FlowFixMe: This will never be null
     const r = x.resourceClasses[x.config.selectIndex];
+
+    if (r == null) return highland([{ objects: [] }]);
 
     type Params = {
       qs: { offset: number, limit: number, order_by?: string }
