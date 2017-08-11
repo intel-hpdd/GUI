@@ -7,14 +7,7 @@ import {
 } from '../../../source/iml/pagination-components.js';
 import { renderToSnapshot } from '../../test-utils.js';
 import { querySelector } from '../../../source/iml/dom-utils.js';
-
-type Meta = {
-  limit: number,
-  next: ?string,
-  offset: number,
-  previous: ?string,
-  total_count: number
-};
+import type { Meta } from '../../../source/iml/api-types.js';
 
 describe('EntriesDropdown DOM testing', () => {
   let clickHandler, vnode;

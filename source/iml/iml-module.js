@@ -16,6 +16,7 @@ import './file-system/file-system-dispatch-source.js';
 import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
+import './storage/storage-dispatch-source.js';
 
 import * as ENV from './environment.js';
 import angular from 'angular';
@@ -58,6 +59,9 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
+import storageComponent from './storage/storage-component.js';
+import storageDetailComponent from './storage/storage-detail-component.js';
+import addStorageComponent from './storage/add-storage-component.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -78,6 +82,12 @@ import { logState, logTableState } from './logs/log-states.js';
 import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
+
+import {
+  storageState,
+  addStorageState,
+  storageDetailState
+} from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -188,7 +198,10 @@ const imlModule = angular
       .state(dashboardOstState)
       .state(dashboardMdtState)
       .state(dashboardFsState)
-      .state(jobStatsState);
+      .state(jobStatsState)
+      .state(storageState)
+      .state(addStorageState)
+      .state(storageDetailState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
@@ -212,6 +225,9 @@ const imlModule = angular
   .factory('disconnectModal', disconnectModal)
   .component('recordState', alertIndicatorNg)
   .directive('pdsh', pdsh)
+  .component('storage', storageComponent)
+  .component('addStorage', addStorageComponent)
+  .component('storageDetail', storageDetailComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',

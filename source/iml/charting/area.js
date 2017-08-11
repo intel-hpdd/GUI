@@ -8,6 +8,7 @@
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 import d3 from 'd3';
+import global from '../global.js';
 import { flow } from '@iml/fp';
 
 let counter = 0;
@@ -17,8 +18,30 @@ export default class Area extends Component {
   componentWillMount() {
     this.count = counter += 1;
 
+    const strPlusCount = str => str + this.count;
+    const clipCount = strPlusCount('area-clip');
+
+    const clipPath = this.props.chartingGroup
+      .append('defs')
+      .attr('class', clipCount)
+      .append('svg:clipPath')
+      .attr('id', clipCount);
+
+    clipPath
+      .append('svg:rect')
+      .attr(
+        'width',
+        this.props.xScale.range()[this.props.xScale.range().length - 1]
+      )
+      .attr('height', this.props.yScale.range()[0]);
+
     this.props.chartingGroup
       .append('g')
+      .attr(
+        'clip-path',
+        `url(${global.location.href}${strPlusCount('#area-clip')})`
+      )
+      .attr('class', strPlusCount('clipPath'))
       .append('svg:path')
       .classed(`area area${this.count}`, true);
   }

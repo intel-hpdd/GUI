@@ -1,0 +1,531 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage detail component changing the alias saving the alias after saving the alias should match the snapshot 1`] = `
+<div>
+  <div
+    class="container container-full container"
+  >
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="detail-panel form-group"
+      >
+        <h4
+          class="section-header"
+        >
+          my-class
+          Detail
+        </h4>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alias
+          </div>
+          <div>
+            <input
+              required=""
+              type="text"
+              name="alias"
+              id="alias"
+              value="my-resource"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Name
+            :
+          </div>
+          <div>
+            <span>
+              <span>
+                resource1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alerts:
+          </div>
+          <div>
+            <span
+              class="record-state"
+            >
+              <span
+                style="position: relative;"
+              >
+                <span
+                  popoverbutton="true"
+                  class="icon-wrap tooltip-container tooltip-hover"
+                >
+                  <i
+                    class="fa activate-popover fa-check-circle"
+                  />
+                  <div
+                    class="tooltip inferno-tt top small "
+                  >
+                    <div
+                      class="tooltip-arrow"
+                    />
+                    <div
+                      class="tooltip-inner"
+                    >
+                      <span>
+                        No Issues
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </span>
+              <span
+                style="padding-left: 10px;"
+                class="state-label"
+              >
+                No Issues
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            
+          </div>
+          <div>
+            <button
+              id="saveButton"
+              type="submit"
+              class="btn btn-default"
+              disabled=""
+            >
+              Save 
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <div>
+        <h4
+          style="margin-top: 50px;"
+          class="text-center"
+        >
+          chart title
+        </h4>
+        storageResourceHistogram
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage detail component changing the alias saving the alias should match the snapshot 1`] = `
+<div>
+  <div
+    class="container container-full container"
+  >
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="detail-panel form-group"
+      >
+        <h4
+          class="section-header"
+        >
+          my-class
+          Detail
+        </h4>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alias
+          </div>
+          <div>
+            <input
+              required=""
+              type="text"
+              name="alias"
+              id="alias"
+              value="my-resource"
+              class="form-control"
+              disabled=""
+            />
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Name
+            :
+          </div>
+          <div>
+            <span>
+              <span>
+                resource1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alerts:
+          </div>
+          <div>
+            <span
+              class="record-state"
+            >
+              <span
+                style="position: relative;"
+              >
+                <span
+                  popoverbutton="true"
+                  class="icon-wrap tooltip-container tooltip-hover"
+                >
+                  <i
+                    class="fa activate-popover fa-check-circle"
+                  />
+                  <div
+                    class="tooltip inferno-tt top small "
+                  >
+                    <div
+                      class="tooltip-arrow"
+                    />
+                    <div
+                      class="tooltip-inner"
+                    >
+                      <span>
+                        No Issues
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </span>
+              <span
+                style="padding-left: 10px;"
+                class="state-label"
+              >
+                No Issues
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            
+          </div>
+          <div>
+            <button
+              id="saveButton"
+              type="submit"
+              class="btn btn-default"
+              disabled=""
+            >
+              Save 
+              <i
+                class="fa fa-spinner fa-spin"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <div>
+        <h4
+          style="margin-top: 50px;"
+          class="text-center"
+        >
+          chart title
+        </h4>
+        storageResourceHistogram
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage detail component deleting a resource should match the snapshot 1`] = `
+<div>
+  <div
+    class="container container-full container"
+  >
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="detail-panel form-group"
+      >
+        <h4
+          class="section-header"
+        >
+          my-class
+          Detail
+        </h4>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alias
+          </div>
+          <div>
+            <input
+              required=""
+              type="text"
+              name="alias"
+              id="alias"
+              value="my-resource"
+              class="form-control"
+              disabled=""
+            />
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Name
+            :
+          </div>
+          <div>
+            <span>
+              <span>
+                resource1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alerts:
+          </div>
+          <div>
+            <span
+              class="record-state"
+            >
+              <span
+                style="position: relative;"
+              >
+                <span
+                  popoverbutton="true"
+                  class="icon-wrap tooltip-container tooltip-hover"
+                >
+                  <i
+                    class="fa activate-popover fa-check-circle"
+                  />
+                  <div
+                    class="tooltip inferno-tt top small "
+                  >
+                    <div
+                      class="tooltip-arrow"
+                    />
+                    <div
+                      class="tooltip-inner"
+                    >
+                      <span>
+                        No Issues
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </span>
+              <span
+                style="padding-left: 10px;"
+                class="state-label"
+              >
+                No Issues
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            <button
+              id="deleteButton"
+              type="button"
+              class="btn btn-danger"
+              disabled=""
+            >
+              Delete 
+              <i
+                class="fa fa-spinner fa-spin"
+              />
+            </button>
+          </div>
+          <div>
+            <button
+              id="saveButton"
+              type="submit"
+              disabled=""
+              class="btn btn-default"
+            >
+              Save 
+              <i
+                class="fa fa-spinner fa-spin"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <div>
+        <h4
+          style="margin-top: 50px;"
+          class="text-center"
+        >
+          chart title
+        </h4>
+        storageResourceHistogram
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage detail component should render the storage detail form 1`] = `
+<div>
+  <div
+    class="container container-full container"
+  >
+    <form
+      autocomplete="off"
+    >
+      <div
+        class="detail-panel form-group"
+      >
+        <h4
+          class="section-header"
+        >
+          my-class
+          Detail
+        </h4>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alias
+          </div>
+          <div>
+            <input
+              required=""
+              type="text"
+              name="alias"
+              id="alias"
+              value="my-resource"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Name
+            :
+          </div>
+          <div>
+            <span>
+              <span>
+                resource1
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            Alerts:
+          </div>
+          <div>
+            <span
+              class="record-state"
+            >
+              <span
+                style="position: relative;"
+              >
+                <span
+                  popoverbutton="true"
+                  class="icon-wrap tooltip-container tooltip-hover"
+                >
+                  <i
+                    class="fa activate-popover fa-check-circle"
+                  />
+                  <div
+                    class="tooltip inferno-tt top small "
+                  >
+                    <div
+                      class="tooltip-arrow"
+                    />
+                    <div
+                      class="tooltip-inner"
+                    >
+                      <span>
+                        No Issues
+                      </span>
+                    </div>
+                  </div>
+                </span>
+              </span>
+              <span
+                style="padding-left: 10px;"
+                class="state-label"
+              >
+                No Issues
+              </span>
+            </span>
+          </div>
+        </div>
+        <div
+          class="detail-row"
+        >
+          <div>
+            
+          </div>
+          <div>
+            <button
+              id="saveButton"
+              type="submit"
+              disabled=""
+              class="btn btn-default"
+            >
+              Save 
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+      <div>
+        <h4
+          style="margin-top: 50px;"
+          class="text-center"
+        >
+          chart title
+        </h4>
+        storageResourceHistogram
+      </div>
+    </div>
+  </div>
+</div>
+`;
