@@ -18,10 +18,10 @@ export default function LoginCtrl(
   <h3>End User License Agreement Terms</h3>
 </div>
 <div class="modal-body eula">
-  <div class="well" at-scroll-boundary one-hit="{{ true }}" ng-bind-html="eulaCtrl.eula"></div>
+  <div class="well" ng-bind-html="eulaCtrl.eula"></div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-success" ng-disabled="!hitBoundary" ng-click="eulaCtrl.accept()">Agree</button>
+  <button class="btn btn-success" ng-click="eulaCtrl.accept()">Agree</button>
   <button class="btn btn-danger" ng-click="eulaCtrl.reject()">Do Not Agree</button>
 </div>`,
       controller: 'EulaCtrl',
