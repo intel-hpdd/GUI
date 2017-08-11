@@ -74,18 +74,4 @@ describe('old gui resolves', () => {
       expect(result).toEqual(maybe.ofJust({ id: 7, label: 'target7' }));
     });
   });
-
-  describe('old storage plugin resolve', () => {
-    it('should resolve with the specified id', async () => {
-      mockSocketStream.mockImplementation(url => {
-        if (url === '/storage_resource/7')
-          return highland([{ id: 7, plugin_name: 'plugin2' }]);
-      });
-
-      const result = await mod.oldStoragePluginResolve.resolve.getData({
-        id: 7
-      });
-      expect(result).toEqual({ label: 'plugin2' });
-    });
-  });
 });

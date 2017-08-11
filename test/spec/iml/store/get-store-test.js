@@ -22,7 +22,8 @@ describe('get store', () => {
     storeInstance,
     mockJobStatsReducer,
     mockLoginFormReducer,
-    mockSessionReducer;
+    mockSessionReducer,
+    mockStorageReducer;
   beforeEach(() => {
     store = { dispatch: jest.fn() };
     mockCreateStore = jest.fn(() => store);
@@ -47,6 +48,7 @@ describe('get store', () => {
     mockJobStatsReducer = {};
     mockLoginFormReducer = {};
     mockSessionReducer = {};
+    mockStorageReducer = {};
     jest.mock(
       '../../../../source/iml/target/target-reducer.js',
       () => mockTargetReducer
@@ -135,6 +137,10 @@ describe('get store', () => {
       '../../../../source/iml/session/session-reducer',
       () => mockSessionReducer
     );
+    jest.mock(
+      '../../../../source/iml/storage/storage-reducer',
+      () => mockStorageReducer
+    );
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });
@@ -164,7 +170,8 @@ describe('get store', () => {
       users: mockUserReducer,
       jobStatsConfig: mockJobStatsReducer,
       loginForm: mockLoginFormReducer,
-      session: mockSessionReducer
+      session: mockSessionReducer,
+      storage: mockStorageReducer
     });
   });
 });

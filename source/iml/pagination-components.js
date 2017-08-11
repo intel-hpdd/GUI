@@ -5,6 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import type { Meta } from './api-types.js';
 import Inferno, { linkEvent } from 'inferno';
 import WindowClickListener from './window-click-listener.js';
 import DropdownContainer from './dropdown-component.js';
@@ -36,14 +37,6 @@ export const EntriesDropdown = (props: EntriesProps) =>
       </ul>
     </DropdownContainer>
   </WindowClickListener>;
-
-type Meta = {
-  limit: number,
-  next: ?string,
-  offset: number,
-  previous: ?string,
-  total_count: number
-};
 
 type PerPageProps = {
   meta: Meta

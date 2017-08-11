@@ -1,0 +1,724 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as expected 1`] = `
+<div>
+  <div
+    style="height: 500px;"
+    class="storage-detail-chart"
+  >
+    <svg
+      style="width: 100%; height: 100%;"
+      class="charting"
+    >
+      <g
+        transform="translate(50,50)"
+        class="charting-group"
+      >
+        <g
+          class="axis x-axis"
+          transform="translate(0,-100)"
+        >
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >1
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(-40,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >2
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(-80,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >3
+            </text>
+          </g>
+          <path
+            class="domain"
+            d="M-80,6V0H0V6"
+          />
+        </g>
+        <g
+          class="axis y-axis"
+        >
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-100)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              0
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-90.38461538461539)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              10
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-80.76923076923077)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              20
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-71.15384615384616)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              30
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-61.53846153846154)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              40
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-51.92307692307692)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              50
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-42.307692307692314)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              60
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-32.692307692307686)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              70
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-23.076923076923073)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              80
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-13.461538461538458)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              90
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-3.8461538461538436)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              100
+            </text>
+          </g>
+          <path
+            class="domain"
+            d="M-6,-100H0V0H-6"
+          />
+        </g>
+        <defs
+          class="area-clip1"
+        >
+          <clippath
+            id="area-clip1"
+          >
+            <rect
+              width="-80"
+              height="-100"
+            />
+          </clippath>
+        </defs>
+        <g
+          clip-path="url(about:blank#area-clip1)"
+          class="clipPath1"
+        >
+          <path
+            class="area area1"
+            stroke="#1f77b4"
+            fill="#1f77b4"
+            fill-opacity="0.2"
+            d="M0,-98.07692307692307Q-32,-97.3076923076923,-40,-97.11538461538461Q-48,-96.92307692307692,-80,-96.15384615384616L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+          />
+        </g>
+        <g>
+          
+        </g>
+      </g>
+      <g
+        class="legend chart-legend"
+        transform="translate(50,0)"
+      >
+        <g
+          class="legend-group"
+          transform="translate(0,0)"
+        >
+          <circle
+            class="legend-circle"
+            fill="#1f77b4"
+            stroke="#1f77b4"
+            fill-opacity="0"
+            r="5"
+          />
+          <text
+            class="legend-label"
+            dx="10"
+            dy="4"
+          >
+            reads
+          </text>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+`;
+
+exports[`should render as expected with two series 1`] = `
+<div>
+  <div
+    style="height: 500px;"
+    class="storage-detail-chart"
+  >
+    <svg
+      style="width: 100%; height: 100%;"
+      class="charting"
+    >
+      <g
+        transform="translate(50,50)"
+        class="charting-group"
+      >
+        <g
+          class="axis x-axis"
+          transform="translate(0,-100)"
+        >
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >1
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(-40,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >2
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(-80,0)"
+          >
+            <line
+              y2="6"
+              x2="0"
+            />
+            <text
+              dy=".71em"
+              style="text-anchor: middle;"
+              y="9"
+              x="0"
+            >
+              >3
+            </text>
+          </g>
+          <path
+            class="domain"
+            d="M-80,6V0H0V6"
+          />
+        </g>
+        <g
+          class="axis y-axis"
+        >
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-100)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              0
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-90.43062200956938)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              10
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-80.86124401913875)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              20
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-71.29186602870814)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              30
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-61.72248803827751)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              40
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-52.15311004784689)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              50
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-42.58373205741627)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              60
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-33.01435406698564)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              70
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-23.444976076555022)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              80
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-13.875598086124397)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              90
+            </text>
+          </g>
+          <g
+            class="tick"
+            style="opacity: 1;"
+            transform="translate(0,-4.30622009569378)"
+          >
+            <line
+              x2="-6"
+              y2="0"
+            />
+            <text
+              dy=".32em"
+              style="text-anchor: end;"
+              x="-9"
+              y="0"
+            >
+              100
+            </text>
+          </g>
+          <path
+            class="domain"
+            d="M-6,-100H0V0H-6"
+          />
+        </g>
+        <defs
+          class="area-clip2"
+        >
+          <clippath
+            id="area-clip2"
+          >
+            <rect
+              width="-80"
+              height="-100"
+            />
+          </clippath>
+        </defs>
+        <g
+          clip-path="url(about:blank#area-clip2)"
+          class="clipPath2"
+        >
+          <path
+            class="area area2"
+            stroke="#1f77b4"
+            fill="#1f77b4"
+            fill-opacity="0.2"
+            d="M0,-98.08612440191388Q-32,-97.32057416267942,-40,-97.1291866028708Q-48,-96.93779904306218,-80,-96.17224880382776L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+          />
+        </g>
+        <defs
+          class="area-clip3"
+        >
+          <clippath
+            id="area-clip3"
+          >
+            <rect
+              width="-80"
+              height="-100"
+            />
+          </clippath>
+        </defs>
+        <g
+          clip-path="url(about:blank#area-clip3)"
+          class="clipPath3"
+        >
+          <path
+            class="area area3"
+            stroke="#ff7f0e"
+            fill="#ff7f0e"
+            fill-opacity="0.2"
+            d="M0,-97.60765550239235Q-32,-96.8421052631579,-40,-96.65071770334929Q-48,-96.45933014354067,-80,-95.69377990430623L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+          />
+        </g>
+        <g>
+          
+        </g>
+      </g>
+      <g
+        class="legend chart-legend"
+        transform="translate(50,0)"
+      >
+        <g
+          class="legend-group"
+          transform="translate(0,0)"
+        >
+          <circle
+            class="legend-circle"
+            fill="#1f77b4"
+            stroke="#1f77b4"
+            fill-opacity="0"
+            r="5"
+          />
+          <text
+            class="legend-label"
+            dx="10"
+            dy="4"
+          >
+            reads
+          </text>
+        </g>
+        <g
+          class="legend-group"
+          transform="translate(0,0)"
+        >
+          <circle
+            class="legend-circle"
+            fill="#ff7f0e"
+            stroke="#ff7f0e"
+            fill-opacity="0"
+            r="5"
+          />
+          <text
+            class="legend-label"
+            dx="10"
+            dy="4"
+          >
+            writes
+          </text>
+        </g>
+      </g>
+    </svg>
+  </div>
+</div>
+`;

@@ -30,6 +30,12 @@ ui-view {
   color: @white;
 }
 
+.alert.alert-success {
+  background-color: @brand-success;
+  border-color: darken(@brand-success, 10%);
+  color: @white;
+}
+
 a:hover {
   cursor: pointer;
 }
@@ -89,7 +95,8 @@ html body {
   color: @white;
 }
 
-.form-control.ng-invalid {
+.form-control.ng-invalid,
+.form-control:invalid {
   .has-error .form-control;
 }
 
