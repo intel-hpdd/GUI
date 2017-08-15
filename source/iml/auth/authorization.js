@@ -49,3 +49,18 @@ export function restrict() {
     }
   };
 }
+
+type CSRFToken =
+  | {
+      'X-CSRFToken': string
+    }
+  | {};
+const csrfRegex = /csrftoken=([^;|$]+)/;
+export const getCSRFToken: () => CSRFToken = () => {
+  const csrfTokenMatch = document.cookie.match(csrfRegex);
+  const csrfToken = {};
+
+  if (csrfTokenMatch && csrfTokenMatch[1])
+    csrfToken['X-CSRFToken'] = csrfTokenMatch[1];
+  return csrfToken;
+};

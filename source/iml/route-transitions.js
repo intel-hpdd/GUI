@@ -20,7 +20,6 @@ export type routeStateT = StateDeclarationT & {
   data?: {
     parent?: string,
     anonymousReadProtected?: boolean,
-    eulaState?: boolean,
     helpPage?: string,
     label?: string,
     parentName?: string,
@@ -44,18 +43,6 @@ export default function routeTransitions(
       if (!session.read_enabled) return $state.target('login');
     });
 
-  const eulaStatePredicate = {
-    to: state => {
-      return state.data && state.data.eulaState === true;
-    }
-  };
-
-  const processEulaState = () =>
-    streamToPromise(store.select('session')).then(({ session }) => {
-      if (session.user && session.user.eula_state !== 'pass')
-        return $state.target('login');
-    });
-
   const authenticationPredicate = {
     to: state => {
       return state.data && state.data.access != null;
@@ -72,6 +59,5 @@ export default function routeTransitions(
   };
 
   $transitions.onStart(allowAnonymousReadPredicate, processAllowAnonymousRead);
-  $transitions.onStart(eulaStatePredicate, processEulaState);
   $transitions.onStart(authenticationPredicate, processAuthentication);
 }

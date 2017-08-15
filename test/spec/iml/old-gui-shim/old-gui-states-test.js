@@ -214,7 +214,6 @@ function generateState(url, name, path, helpPage, kind, icon, resolve) {
       helpPage,
       access: 'filesystem_administrators',
       anonymousReadProtected: true,
-      eulaState: true,
       kind,
       icon,
       noSpinner: true

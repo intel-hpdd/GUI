@@ -18,10 +18,8 @@ type groupT = {
 };
 
 export type userT = {
-  accepted_eula: boolean,
   alert_subscriptions: {}[],
   email: string,
-  eula_state: 'eula' | 'pass' | 'denied',
   first_name: string,
   full_name: string,
   groups: groupT[],

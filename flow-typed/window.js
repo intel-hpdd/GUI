@@ -25,6 +25,7 @@ declare var window: {
   clearTimeout: (id: number | null) => void,
   document: Document,
   crypto: Crypto,
+  fetch: GlobalFetch.fetch,
   STATIC_URL: string,
   CACHE_INITIAL_DATA: cacheInitialDataT,
   HELP_TEXT: {

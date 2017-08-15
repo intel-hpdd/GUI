@@ -1,268 +1,146 @@
-import angular from '../../../angular-mock-setup.js';
-import fixtures from '../../../fixtures/fixtures.js';
+// @flow
 
-describe('Login Controller', () => {
-  const userEulaStates = { EULA: 'eula', PASS: 'pass', DENIED: 'denied' };
-  let $uibModal, navigate, LoginCtrl, help, mod, SessionModel;
+describe('login controller', () => {
+  let mockAuthorization,
+    mockEnvironment,
+    mockGlobal,
+    navigate,
+    json,
+    fetchPromise,
+    finishFetch,
+    ctrl;
   beforeEach(() => {
-    mod = require('../../../../source/iml/login/login-controller.js');
-    LoginCtrl = mod.default;
+    mockAuthorization = {
+      getCSRFToken: jest.fn(() => ({
+        'X-CSRFToken': 'qqo4KXV34frTf0mzlKlEK7FaTffEoqqb'
+      }))
+    };
 
-    navigate = jest.fn();
-    help = { get: jest.fn(() => 'foo') };
-
-    $uibModal = { instances: {} };
-  });
-
-  beforeEach(angular.mock.module(fixtures));
-
-  let loginController,
-    $httpBackend,
-    sessionFixture,
-    sessionFixtures,
-    sessionPromise,
-    sessionData,
-    failedSessionFixture,
-    failedSessionPromise,
-    failedSessionData,
-    actOnEulaState,
-    $rootScope;
-  beforeEach(
-    angular.mock.inject(
-      ($controller, $q, $http, _$httpBackend_, _$rootScope_, fixtures) => {
-        $httpBackend = _$httpBackend_;
-        $rootScope = _$rootScope_;
-
-        $uibModal.open = jest.fn(options => {
-          const modalResult = $q.defer();
-          const modalInstance = {
-            close: jest.fn(result => {
-              modalResult.resolve(result);
-            }),
-            dismiss: jest.fn(reason => {
-              $http.delete('session/');
-              modalResult.reject(reason);
-            }),
-            result: modalResult.promise,
-            opened: $q.defer().resolve(true)
-          };
-          $uibModal.instances[
-            (options.template, options.windowClass)
-          ] = modalInstance;
-
-          return modalInstance;
-        });
-
-        sessionFixtures = fixtures.asName('session');
-        sessionFixture = sessionFixtures.getFixture(fixture => {
-          return fixture.status === 200;
-        });
-
-        actOnEulaState = eulaState =>
-          jest.fn((initializeEulaDialog, initializeDeniedDialog) => {
-            switch (eulaState) {
-              case userEulaStates.EULA:
-                return initializeEulaDialog(sessionData.user);
-              case userEulaStates.DENIED:
-                $http.get('session/');
-                return initializeDeniedDialog();
-              default:
-                $http.get('session/');
-            }
-          });
-        sessionData = {
-          ...sessionFixture.data,
-          user: {
-            ...sessionFixture.data.user,
-            actOnEulaState: actOnEulaState(userEulaStates.EULA)
-          }
-        };
-
-        sessionPromise = {
-          $promise: $q.resolve(sessionData)
-        };
-        failedSessionPromise = $q.reject(failedSessionData);
-        SessionModel = {
-          login: jest.fn((username, password) => {
-            $http.post('session/', { username, password });
-
-            return sessionPromise;
-          }),
-          delete: jest.fn(() => ({
-            $promise: $q.resolve()
-          }))
-        };
-
-        loginController = {};
-        LoginCtrl.bind(loginController)(
-          $uibModal,
-          $q,
-          SessionModel,
-          help,
-          navigate,
-          true
-        );
-
-        $httpBackend.whenPOST('session/').respond(201);
-        $httpBackend
-          .whenGET('session/')
-          .respond.apply(null, sessionFixture.toArray());
-      }
-    )
-  );
-  afterEach(() => {
-    $httpBackend.verifyNoOutstandingExpectation();
-    $httpBackend.verifyNoOutstandingRequest();
-  });
-
-  it('should have an ALLOW_ANONYMOUS_READ property', () => {
-    expect(loginController.ALLOW_ANONYMOUS_READ).toBe(true);
-  });
-
-  it('should have a method to go to index', () => {
-    loginController.goToIndex();
-    expect(navigate).toHaveBeenCalledWith();
-  });
-
-  describe('authenticated user', () => {
-    const credentials = { username: 'foo', password: 'bar' };
-    beforeEach(() => {
-      $httpBackend.expectPOST('session/', credentials).respond(201);
-      loginController = { ...loginController, ...credentials };
-      loginController.submitLogin();
-      expect($uibModal.open.mock.calls.length).toEqual(0);
-    });
-
-    it('should show the eula dialog if api says so', () => {
-      $httpBackend.flush();
-      expect($uibModal.open.mock.calls.length).toEqual(1);
-      expect($uibModal.open).toHaveBeenCalledWith({
-        template: `<div class="modal-header">
-  <h3>End User License Agreement Terms</h3>
-</div>
-<div class="modal-body eula">
-  <div class="well" ng-bind-html="eulaCtrl.eula"></div>
-</div>
-<div class="modal-footer">
-  <button class="btn btn-success" ng-click="eulaCtrl.accept()">Agree</button>
-  <button class="btn btn-danger" ng-click="eulaCtrl.reject()">Do Not Agree</button>
-</div>`,
-        keyboard: false,
-        backdrop: 'static',
-        controller: 'EulaCtrl',
-        windowClass: 'eula-modal',
-        resolve: { user: expect.any(Function) }
-      });
-    });
-    it('should redirect to base uri if api says so', () => {
-      sessionData.user.eula_state = userEulaStates.PASS;
-      sessionData.user.actOnEulaState = actOnEulaState(userEulaStates.PASS);
-      $httpBackend
-        .expectGET('session/')
-        .respond.apply(null, sessionFixture.toArray());
-      $httpBackend.flush();
-      expect($uibModal.open.mock.calls.length).toEqual(0);
-      expect(navigate).toHaveBeenCalledTimes(1);
-    });
-    it('should logout when eula is rejected', () => {
-      $httpBackend.flush();
-      $httpBackend.expectDELETE('session/').respond(204);
-      $uibModal.instances['eula-modal'].dismiss('dismiss');
-      $httpBackend.flush();
-    });
-    it('should login when eula is accepted', () => {
-      $httpBackend.flush();
-      $uibModal.instances['eula-modal'].close();
-      $rootScope.$digest();
-      expect(navigate).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('unauthenticated user', () => {
-    beforeEach(() => {
-      failedSessionFixture = sessionFixtures.getFixture(fixture => {
-        return fixture.status === 400;
-      });
-
-      failedSessionData = {
-        ...failedSessionFixture.data,
-        user: {
-          ...failedSessionFixture.data.user,
-          actOnEulaState: actOnEulaState(userEulaStates.EULA)
-        }
-      };
-
-      $httpBackend
-        .expectPOST('session/')
-        .respond.apply(null, failedSessionFixture.toArray());
-      loginController = {
-        ...loginController,
-        ...{
-          username: 'badHacker',
-          password: 'bruteForce'
-        }
-      };
-
-      sessionPromise.$promise = failedSessionPromise;
-
-      loginController.submitLogin();
-    });
-    it('should have a rejected promise', () => {
-      const err = jest.fn();
-      loginController.validate.catch(err);
-      $httpBackend.flush();
-      $rootScope.$digest();
-      expect(err).toHaveBeenCalled();
-    });
-    it('should update progress', () => {
-      expect(loginController.inProgress).toBeTruthy();
-      $httpBackend.flush();
-      expect(loginController.inProgress).toBeFalsy();
-    });
-  });
-  describe('non-superuser', () => {
-    let adminSessionData, adminSession;
-    beforeEach(
-      angular.mock.inject($q => {
-        adminSession = sessionFixtures.getFixture(fixture => {
-          return fixture.data.user && fixture.data.user.username === 'admin';
-        });
-        adminSessionData = {
-          ...adminSession.data,
-          user: {
-            ...adminSession.data.user,
-            actOnEulaState: actOnEulaState(userEulaStates.DENIED)
-          }
-        };
-
-        sessionPromise.$promise = $q.resolve(adminSessionData);
-
-        $httpBackend
-          .expectGET('session/')
-          .respond.apply(null, adminSession.toArray());
-        loginController = {
-          ...loginController,
-          ...{ username: 'admin', password: 'foo' }
-        };
-        loginController.submitLogin();
-        $httpBackend.flush();
-      })
+    jest.mock(
+      '../../../../source/iml/auth/authorization.js',
+      () => mockAuthorization
     );
-    it('should be denied', () => {
-      expect($uibModal.open.mock.calls.length).toEqual(1);
-      expect($uibModal.open).toHaveBeenCalledWith({
-        template: `<div class="modal-header">
-    <h3><i class="fa fa-ban"></i> Access Denied</h3>
-</div>
-<div class="modal-body access-denied">{{ accessDeniedCtrl.message }}</div>`,
-        keyboard: false,
-        backdrop: 'static',
-        controller: 'AccessDeniedCtrl',
-        resolve: { message: expect.any(Function) }
+
+    mockEnvironment = {
+      ALLOW_ANONYMOUS_READ: true
+    };
+
+    jest.mock('../../../../source/iml/environment.js', () => mockEnvironment);
+
+    json = jest.fn(() => Promise.resolve({ __all__: 'User Unauthorized' }));
+    fetchPromise = new Promise(res => {
+      finishFetch = code => {
+        switch (code) {
+          case 201:
+            res({ status: code });
+            break;
+          default:
+            res({
+              json
+            });
+        }
+      };
+    });
+
+    mockGlobal = {
+      fetch: jest.fn(() => fetchPromise)
+    };
+    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+
+    navigate = jest.fn(() => 'navigate');
+
+    ctrl = {
+      inProgress: null,
+      submitLogin: () => {},
+      validate: () => {},
+      ALLOW_ANONYMOUS_READ: null,
+      goToIndex: null,
+      username: 'johnsonw',
+      password: 'abc123'
+    };
+    require('../../../../source/iml/login/login-controller.js').default.bind(
+      ctrl
+    )(navigate);
+  });
+
+  it('should set ALLOW_ANONYMOUS_READ', () => {
+    expect(ctrl.ALLOW_ANONYMOUS_READ).toEqual(true);
+  });
+
+  it('should set goToIndex', () => {
+    expect(ctrl.goToIndex).toEqual(navigate);
+  });
+
+  describe('logging in', () => {
+    beforeEach(() => {
+      ctrl.submitLogin();
+    });
+
+    it('should set the form to inProgress', () => {
+      expect(ctrl.inProgress).toBe(true);
+    });
+
+    it('should post to the session api', () => {
+      expect(mockGlobal.fetch).toHaveBeenCalledWith('/api/session/', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'X-CSRFToken': 'qqo4KXV34frTf0mzlKlEK7FaTffEoqqb'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          username: 'johnsonw',
+          password: 'abc123'
+        })
       });
     });
-    it('should not perform any further actions', () => {
-      expect(navigate).not.toHaveBeenCalled();
-      expect(loginController.inProgress).toBeTruthy();
+
+    describe('after successful session creation', () => {
+      beforeEach(async () => {
+        finishFetch(201);
+        await ctrl.validate;
+      });
+
+      it('should set inProgress to false', () => {
+        expect(ctrl.inProgress).toBe(false);
+      });
+
+      it('should navigate to the dashboard', () => {
+        expect(navigate).toHaveBeenCalledWith();
+        expect(navigate).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('after unsuccessful session creation', () => {
+      let spy;
+      beforeEach(async () => {
+        finishFetch(403);
+        spy = jest.fn(() => 'spy');
+
+        try {
+          await ctrl.validate;
+        } catch (e) {
+          spy(e);
+        }
+      });
+
+      it('should invoke the json message', () => {
+        expect(json).toHaveBeenCalledWith();
+        expect(json).toHaveBeenCalledTimes(1);
+      });
+
+      it('should set inProgress to false', () => {
+        expect(ctrl.inProgress).toBe(false);
+      });
+
+      it('should return a reason why the session was not created', () => {
+        expect(spy).toHaveBeenCalledWith({
+          data: {
+            __all__: 'User Unauthorized'
+          }
+        });
+      });
     });
   });
 });

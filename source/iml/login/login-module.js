@@ -12,7 +12,6 @@ import accessDeniedModule from '../access-denied/access-denied-module';
 import tooltipModule from '../tooltip/tooltip-module';
 import navigateModule from '../navigate/navigate-module';
 import LoginController from './login-controller';
-import EulaCtrl from './eula-modal-controller';
 
 export default angular
   .module('login', [
@@ -22,5 +21,4 @@ export default angular
     tooltipModule,
     navigateModule
   ])
-  .controller('LoginCtrl', LoginController)
-  .controller('EulaCtrl', EulaCtrl).name;
+  .controller('LoginCtrl', LoginController).name;

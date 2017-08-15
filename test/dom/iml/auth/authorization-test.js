@@ -149,10 +149,8 @@ describe('authorization', () => {
             read_enabled: false,
             resource_uri: '',
             user: {
-              accepted_eula: true,
               alert_subscriptions: [{}],
               email: 'john.doe@intel.com',
-              eula_state: 'pass',
               first_name: 'John',
               full_name: 'John Doe',
               groups: test.sessionGroups,

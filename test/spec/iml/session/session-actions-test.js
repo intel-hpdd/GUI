@@ -27,10 +27,8 @@ describe('session actions', () => {
       read_enabled: true,
       resource_uri: '/api/session',
       user: {
-        accepted_eula: false,
         alert_subscriptions: [],
         email: 'william.c.johnson@intel.com',
-        eula_state: 'pass',
         first_name: 'Will',
         full_name: 'William Johnson',
         groups: [],
