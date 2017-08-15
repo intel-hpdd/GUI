@@ -1,5 +1,5 @@
 describe('file system states', () => {
-  let fileSystemListState, mockGroups, mockGetStore;
+  let fileSystemListState, mockGroups, mockGetStore, mockBroadcaster;
 
   beforeEach(() => {
     mockGroups = {
@@ -7,9 +7,15 @@ describe('file system states', () => {
       FS_ADMINS: 'filesystem_administrators',
       FS_USERS: 'filesystem_users'
     };
-    mockGetStore = jest.fn();
+
+    mockGetStore = {
+      select: jest.fn(name => name)
+    };
+
+    mockBroadcaster = jest.fn(name => name);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
+    jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
     jest.mock('../../../../source/iml/auth/authorization.js', () => ({
       GROUPS: mockGroups
     }));
@@ -41,6 +47,32 @@ describe('file system states', () => {
    job-indicator-$="$ctrl.jobIndicator$"></file-system>
 </div>
 `
+    });
+  });
+
+  describe('controller', () => {
+    beforeEach(() => {
+      fileSystemListState.controller();
+    });
+
+    it('should set the fileSystem stream', () => {
+      expect(fileSystemListState.fileSystem$).toEqual('fileSystems');
+    });
+
+    it('should call the broadcaster with jobIndicators', () => {
+      expect(mockBroadcaster).toHaveBeenCalledWith('jobIndicators');
+    });
+
+    it('should set the jobIndicators stream', () => {
+      expect(fileSystemListState.jobIndicator$).toEqual('jobIndicators');
+    });
+
+    it('should call the broadcaster with alertIndicators', () => {
+      expect(mockBroadcaster).toHaveBeenCalledWith('alertIndicators');
+    });
+
+    it('should set the alertIndicators stream', () => {
+      expect(fileSystemListState.alertIndicator$).toEqual('alertIndicators');
     });
   });
 });
