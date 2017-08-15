@@ -227,3 +227,29 @@ describe('authorization', () => {
     });
   });
 });
+
+describe('csrf token', () => {
+  let mockGlobal, getCSRFToken, result;
+  beforeEach(() => {
+    mockGlobal = {
+      document: {
+        cookie:
+          'csrftoken=qqo4KXV34frTfOmzlKlEK7FaTffEoqqb; sessionid=023846e4c1efdfe032b32994ed663e2a; io=GNPAFJDn-8fLfrGOAAEL'
+      }
+    };
+
+    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+
+    ({
+      getCSRFToken
+    } = require('../../../../source/iml/auth/authorization.js'));
+
+    result = getCSRFToken();
+  });
+
+  it('should return the csrf token', () => {
+    expect(result).toEqual({
+      'X-CSRFToken': 'qqo4KXV34frTfOmzlKlEK7FaTffEoqqb'
+    });
+  });
+});
