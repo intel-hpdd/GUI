@@ -54,6 +54,7 @@ export const remoteValidateForm = {
 
         (func || angular.noop)(resp);
 
+        if (!scope.$$phase) scope.$digest();
         return resp;
       };
     }

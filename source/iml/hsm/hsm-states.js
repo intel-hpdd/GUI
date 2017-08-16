@@ -53,8 +53,7 @@ export const hsmFsState = {
   data: {
     helpPage: 'Graphical_User_Interface_9_0.html#9.3.4',
     access: GROUPS.FS_ADMINS,
-    anonymousReadProtected: true,
-    eulaState: true
+    anonymousReadProtected: true
   },
   resolve: {
     fsStream: fsCollStream
