@@ -7,6 +7,5 @@
 
 import { ALLOW_ANONYMOUS_READ, CACHE_INITIAL_DATA } from './environment.js';
 
-type CanDispatch = () => boolean;
-export const canDispatch: CanDispatch = () =>
+export const canDispatch = () =>
   ALLOW_ANONYMOUS_READ || CACHE_INITIAL_DATA.session.user != null;
