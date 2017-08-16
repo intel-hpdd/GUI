@@ -33,11 +33,11 @@ export default function LoginCtrl(navigate: Navigate) {
         })
       })
       .then(response => {
-        if (response.status !== 201) {
-          return response.json().then(reason => Promise.reject(reason));
-        } else {
+        if (response.status < 400) {
           this.inProgress = false;
           navigate();
+        } else {
+          return response.json().then(reason => Promise.reject(reason));
         }
       })
       .catch(reason => {
