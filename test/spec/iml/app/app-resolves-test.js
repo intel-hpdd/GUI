@@ -61,19 +61,12 @@ describe('app resolves', () => {
     });
   });
   describe('app session', () => {
-    let appSession, SessionModel, session;
+    let appSession;
     beforeEach(() => {
-      session = {};
-      SessionModel = jest.fn(() => session);
-      appSession = appModule.appSessionFactory(SessionModel);
+      appSession = appModule.appSessionFactory();
     });
     it('should return the session', () => {
-      expect(appSession).toBe(session);
-    });
-    it('should call the session with initial data', () => {
-      expect(SessionModel).toHaveBeenCalledOnceWith(
-        mockCacheInitialData.session
-      );
+      expect(appSession).toBe(mockCacheInitialData.session);
     });
   });
 });

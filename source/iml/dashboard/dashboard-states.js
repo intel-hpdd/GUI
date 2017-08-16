@@ -138,8 +138,7 @@ export const dashboardState = {
   },
   data: {
     helpPage: 'Graphical_User_Interface_9_0.html#9.1',
-    anonymousReadProtected: true,
-    eulaState: true
+    anonymousReadProtected: true
   },
   controller: 'DashboardCtrl',
   controllerAs: 'dashboard',

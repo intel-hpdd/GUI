@@ -34,7 +34,7 @@ describe('route transitions', () => {
   });
 
   it('should set an onStart hook for three route processors', () => {
-    expect($transitions.onStart).toHaveBeenCalledThriceWith(
+    expect($transitions.onStart).toHaveBeenCalledTwiceWith(
       {
         to: expect.any(Function)
       },
@@ -119,91 +119,10 @@ describe('route transitions', () => {
     });
   });
 
-  describe('eula', () => {
-    let eulaPredicate, processEula;
-    beforeEach(() => {
-      const args = $transitions.onStart.mock.calls[1];
-      eulaPredicate = args[0];
-      processEula = args[1];
-    });
-
-    describe('predicate', () => {
-      it('should return false if flag is not true', () => {
-        expect(
-          eulaPredicate.to({
-            data: {}
-          })
-        ).toBe(false);
-      });
-
-      it('should return true if flag is true', () => {
-        expect(
-          eulaPredicate.to({
-            data: {
-              eulaState: true
-            }
-          })
-        ).toBe(true);
-      });
-    });
-
-    describe('processor', () => {
-      describe('set to pass', () => {
-        beforeEach(() => {
-          mockStore.select.mockReturnValue(
-            highland([
-              {
-                session: {
-                  user: {
-                    eula_state: 'pass'
-                  }
-                }
-              }
-            ])
-          );
-        });
-
-        it('should select the session store', async () => {
-          await processEula();
-          expect(mockStore.select).toHaveBeenCalledOnceWith('session');
-        });
-
-        it('should return undefined if eula state is set to pass', async () => {
-          expect(await processEula()).toBe(undefined);
-        });
-      });
-
-      describe('not set to pass', () => {
-        beforeEach(() => {
-          mockStore.select.mockReturnValue(
-            highland([
-              {
-                session: {
-                  user: {
-                    eula_state: 'other'
-                  }
-                }
-              }
-            ])
-          );
-        });
-
-        it('should return a promise if eula state is not set to pass', () => {
-          expect(processEula()).toBeAPromise();
-        });
-
-        it('should navigate to /login if eula state is not set to pass', async () => {
-          await processEula();
-          expect($state.target).toHaveBeenCalledOnceWith('login');
-        });
-      });
-    });
-  });
-
   describe('authentication', () => {
     let authenticationPredicate, processAuthentication;
     beforeEach(() => {
-      const args = $transitions.onStart.mock.calls[2];
+      const args = $transitions.onStart.mock.calls[1];
       authenticationPredicate = args[0];
       processAuthentication = args[1];
     });

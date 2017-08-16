@@ -24,8 +24,7 @@ describe('status states', () => {
         name: 'app.status',
         data: {
           helpPage: 'Graphical_User_Interface_9_0.html#9.6',
-          anonymousReadProtected: true,
-          eulaState: true
+          anonymousReadProtected: true
         },
         template: expect.any(String)
       });

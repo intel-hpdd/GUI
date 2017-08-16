@@ -107,7 +107,6 @@ export default [
       helpPage,
       access: GROUPS.FS_ADMINS,
       anonymousReadProtected: true,
-      eulaState: true,
       kind,
       icon,
       noSpinner: true

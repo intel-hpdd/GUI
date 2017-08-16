@@ -40,8 +40,7 @@ describe('status states', () => {
         name: 'app.log',
         data: {
           helpPage: 'Graphical_User_Interface_9_0.html#9.5',
-          anonymousReadProtected: true,
-          eulaState: true
+          anonymousReadProtected: true
         },
         template: expect.any(String)
       });

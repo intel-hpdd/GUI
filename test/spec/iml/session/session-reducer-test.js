@@ -13,10 +13,8 @@ describe('session reducer', () => {
       read_enabled: true,
       resource_uri: '/api/session',
       user: {
-        accepted_eula: false,
         alert_subscriptions: [{}],
         email: 'william.c.johnson@intel.com',
-        eula_state: 'eula',
         first_name: 'Will',
         full_name: 'William Johnson',
         groups: [],

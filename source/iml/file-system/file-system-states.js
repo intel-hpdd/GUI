@@ -30,7 +30,6 @@ export const fileSystemListState = {
     helpPage: 'Graphical_User_Interface_9_0.html#9.3.3',
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    eulaState: true,
     kind: 'File Systems',
     icon: 'fa-files-o'
   },
