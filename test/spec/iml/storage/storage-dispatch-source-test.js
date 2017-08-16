@@ -3,7 +3,7 @@
 import highland from 'highland';
 
 describe('storageDispatchSource', () => {
-  let mockStore, mockSocketStream, state;
+  let mockStore, mockSocketStream, mockDispatchSourceUtils, state;
 
   beforeEach(() => {
     state = {
@@ -36,11 +36,19 @@ describe('storageDispatchSource', () => {
       () => mockSocketStream
     );
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock('../../../../source/iml/environment.js', () => ({
-      ALLOW_ANONYMOUS_READ: true
-    }));
+    mockDispatchSourceUtils = {
+      canDispatch: jest.fn(() => true)
+    };
+    jest.mock(
+      '../../../../source/iml/dispatch-source-utils.js',
+      () => mockDispatchSourceUtils
+    );
 
     require('../../../../source/iml/storage/storage-dispatch-source.js');
+  });
+
+  it('should make sure that the app can dispatch', () => {
+    expect(mockDispatchSourceUtils.canDispatch).toHaveBeenCalledWith();
   });
 
   it('should call the socketStream', () => {

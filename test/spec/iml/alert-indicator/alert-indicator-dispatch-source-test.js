@@ -1,6 +1,6 @@
 import highland from 'highland';
 describe('alert indicator dispatch source', () => {
-  let mockStore, stream, mockSocketStream;
+  let mockStore, stream, mockSocketStream, mockDispatchSourceUtils;
   beforeEach(() => {
     mockStore = { dispatch: jest.fn() };
     stream = highland();
@@ -11,11 +11,19 @@ describe('alert indicator dispatch source', () => {
       '../../../../source/iml/socket/socket-stream.js',
       () => mockSocketStream
     );
-    jest.mock('../../../../source/iml/environment.js', () => ({
-      ALLOW_ANONYMOUS_READ: true
-    }));
+    mockDispatchSourceUtils = {
+      canDispatch: jest.fn(() => true)
+    };
+    jest.mock(
+      '../../../../source/iml/dispatch-source-utils.js',
+      () => mockDispatchSourceUtils
+    );
 
     require('../../../../source/iml/alert-indicator/alert-indicator-dispatch-source.js');
+  });
+
+  it('should make sure that the app can dispatch', () => {
+    expect(mockDispatchSourceUtils.canDispatch).toHaveBeenCalledWith();
   });
 
   it('should request alerts', () => {
