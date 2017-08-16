@@ -21,7 +21,6 @@ import './storage/storage-dispatch-source.js';
 import * as ENV from './environment.js';
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import ngResource from 'angular-resource';
 import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
 import exceptionModule from './exception/exception-module';
@@ -38,9 +37,7 @@ import hsmFsModule from './hsm/hsm-fs-module';
 import hsmModule from './hsm/hsm-module';
 import aboutComponent from './about/about-component.js';
 import modalDecoratorModule from './modal-decorator/modal-decorator-module';
-import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
-import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
 import logModule from './logs/log-module.js';
 import treeModule from './tree/tree-module.js';
@@ -121,7 +118,6 @@ import disconnectListener from './disconnect-modal/disconnect-listener.js';
 const imlModule = angular
   .module('iml', [
     uiBootstrapModule,
-    ngResource,
     ngAnimate,
     routeToModule,
     exceptionModule,
@@ -139,9 +135,7 @@ const imlModule = angular
     hsmModule,
     multiTogglerModule,
     modalDecoratorModule,
-    interceptorModule,
     statusModule,
-    modelFactoryModule,
     mgtModule,
     logModule,
     treeModule,
@@ -157,15 +151,6 @@ const imlModule = angular
   .config($locationProvider => {
     'ngInject';
     $locationProvider.html5Mode(true).hashPrefix('!');
-  })
-  .config($httpProvider => {
-    'ngInject';
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-  })
-  .config(modelFactoryProvider => {
-    'ngInject';
-    modelFactoryProvider.setUrlPrefix('/api/');
   })
   .config($animateProvider => {
     'ngInject';

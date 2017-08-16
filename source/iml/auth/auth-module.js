@@ -6,7 +6,6 @@
 // license that can be found in the LICENSE file.
 
 import angular from 'angular';
-import modelFactoryModule from '../model-factory/model-factory-module';
 import { GROUPS, restrictTo, restrict } from './authorization.js';
 
 import type { Exact } from '../../flow-workarounds.js';
@@ -17,7 +16,7 @@ export type credentialsT = Exact<{
 }>;
 
 export default angular
-  .module('auth', [modelFactoryModule])
+  .module('auth', [])
   .constant('GROUPS', GROUPS)
   .directive('restrictTo', restrictTo)
   .directive('restrict', restrict).name;
