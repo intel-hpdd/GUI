@@ -53,7 +53,7 @@ describe('command modal', () => {
           </div>
 
           <div ng-repeat="job in jobTree.jobs track by job.id"
-               ng-include="'job.html'"></div>
+               ng-include="'/gui/job.html'"></div>
         </div>
       </div>
 
