@@ -1,7 +1,7 @@
 import highland from 'highland';
 
 describe('server dispatch source', () => {
-  let mockStore, mockSocketStream, s;
+  let mockStore, mockSocketStream, mockDispatchSourceUtils, s;
 
   beforeEach(() => {
     const mockCacheInitialData = {
@@ -17,9 +17,15 @@ describe('server dispatch source', () => {
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
     jest.mock('../../../../source/iml/environment.js', () => ({
-      CACHE_INITIAL_DATA: mockCacheInitialData,
-      ALLOW_ANONYMOUS_READ: true
+      CACHE_INITIAL_DATA: mockCacheInitialData
     }));
+    mockDispatchSourceUtils = {
+      canDispatch: jest.fn(() => true)
+    };
+    jest.mock(
+      '../../../../source/iml/dispatch-source-utils.js',
+      () => mockDispatchSourceUtils
+    );
     jest.mock(
       '../../../../source/iml/socket/socket-stream.js',
       () => mockSocketStream
@@ -40,6 +46,10 @@ describe('server dispatch source', () => {
         }
       ]
     });
+  });
+
+  it('should make sure that the app can dispatch', () => {
+    expect(mockDispatchSourceUtils.canDispatch).toHaveBeenCalledWith();
   });
 
   it('should dispatch cached servers into the store', () => {

@@ -1,12 +1,10 @@
-import highland from 'highland';
-
 describe('base dashboard resolves', () => {
-  let baseDashboardChartResolves, baseDashboardFsStream;
+  let baseDashboardChartResolves;
 
   beforeEach(() => {
     const mod = require('../../../../source/iml/dashboard/base-dashboard-chart-resolves.js');
 
-    ({ baseDashboardChartResolves, baseDashboardFsStream } = mod);
+    ({ baseDashboardChartResolves } = mod);
   });
 
   describe('charts', () => {
@@ -239,39 +237,6 @@ describe('base dashboard resolves', () => {
           ossChart
         ]);
       });
-    });
-  });
-
-  describe('fs stream', () => {
-    let $stateParams, fsStream, b;
-
-    beforeEach(() => {
-      $stateParams = {
-        id: 1
-      };
-      fsStream = highland();
-
-      b = baseDashboardFsStream(() => fsStream, $stateParams);
-    });
-
-    it('should stream data', () => {
-      let result;
-
-      fsStream.write([
-        {
-          id: 1,
-          foo: 'bar'
-        }
-      ]);
-
-      b().each(x => (result = x));
-
-      expect(result).toEqual([
-        {
-          id: 1,
-          foo: 'bar'
-        }
-      ]);
     });
   });
 });

@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storageReducer should add storage resource classes 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": Array [
+    "foo",
+  ],
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should return an initial state 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should set sorting 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "foo",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should set sorting desc 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": true,
+    "sortKey": "foo",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should set the loading 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": true,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should set the select index 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": 3,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should set the storage config 1`] = `
+Object {
+  "config": Object {
+    "entries": 20,
+    "loading": false,
+    "offset": 100,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": null,
+  "resources": null,
+}
+`;
+
+exports[`storageReducer should storage resources 1`] = `
+Object {
+  "config": Object {
+    "entries": 10,
+    "loading": false,
+    "offset": 0,
+    "selectIndex": null,
+    "sortDesc": false,
+    "sortKey": "",
+  },
+  "resourceClasses": null,
+  "resources": Object {
+    "meta": Object {},
+    "objects": Array [],
+  },
+}
+`;

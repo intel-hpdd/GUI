@@ -8,11 +8,11 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { canDispatch } from '../dispatch-source-utils.js';
 
 import { ADD_USER_ITEMS } from './user-reducer.js';
 
-if (ALLOW_ANONYMOUS_READ)
+if (canDispatch())
   socketStream('/user', {
     qs: {
       limit: 0

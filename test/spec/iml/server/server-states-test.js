@@ -221,10 +221,9 @@ describe('server states', () => {
           }
         },
         data: {
-          helpPage: 'server_tab.htm',
+          helpPage: 'Graphical_User_Interface_9_0.html#9.3.1',
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
-          eulaState: true,
           kind: 'Servers',
           icon: 'fa-tasks'
         },
@@ -323,10 +322,9 @@ describe('server states', () => {
           }
         },
         data: {
-          helpPage: 'server_detail_page.htm',
+          helpPage: 'Graphical_User_Interface_9_0.html#9.3.1.1',
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
-          eulaState: true,
           kind: 'Server Detail',
           icon: 'fa-tasks'
         },

@@ -1,0 +1,96 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as expected 1`] = `
+<svg>
+  <g
+    class="legend chart-legend"
+  >
+    <g
+      class="legend-group"
+      transform="translate(0,0)"
+    >
+      <circle
+        class="legend-circle"
+        fill="green"
+        stroke="green"
+        fill-opacity="0"
+        r="5"
+      />
+      <text
+        class="legend-label"
+        dx="10"
+        dy="4"
+      >
+        foo
+      </text>
+    </g>
+    <g
+      class="legend-group"
+      transform="translate(20,0)"
+    >
+      <circle
+        class="legend-circle"
+        fill="blue"
+        stroke="blue"
+        fill-opacity="0"
+        r="5"
+      />
+      <text
+        class="legend-label"
+        dx="10"
+        dy="4"
+      >
+        bar
+      </text>
+    </g>
+  </g>
+</svg>
+`;
+
+exports[`should transform 1`] = `
+<svg>
+  <g
+    class="legend chart-legend"
+    transform="translate(0,100)"
+  >
+    <g
+      class="legend-group"
+      transform="translate(0,0)"
+    >
+      <circle
+        class="legend-circle"
+        fill="green"
+        stroke="green"
+        fill-opacity="0"
+        r="5"
+      />
+      <text
+        class="legend-label"
+        dx="10"
+        dy="4"
+      >
+        foo
+      </text>
+    </g>
+    <g
+      class="legend-group"
+      transform="translate(20,0)"
+    >
+      <circle
+        class="legend-circle"
+        fill="blue"
+        stroke="blue"
+        fill-opacity="0"
+        r="5"
+      />
+      <text
+        class="legend-label"
+        dx="10"
+        dy="4"
+      >
+        bar
+      </text>
+    </g>
+  </g>
+</svg>
+`;

@@ -1,5 +1,4 @@
 import highland from 'highland';
-import * as maybe from '@iml/maybe';
 
 describe('target dashboard', () => {
   let mockSocketStream,
@@ -196,21 +195,19 @@ describe('target dashboard', () => {
       targetStream.each(spy);
       s.write([
         {
-          id: '5',
+          id: 5,
           name: 'target5'
         },
         {
-          id: '1',
+          id: 1,
           name: 'target1'
         }
       ]);
 
-      expect(spy).toHaveBeenCalledWith(
-        maybe.ofJust({
-          id: '1',
-          name: 'target1'
-        })
-      );
+      expect(spy).toHaveBeenCalledWith({
+        id: 1,
+        name: 'target1'
+      });
     });
   });
 

@@ -39,9 +39,8 @@ describe('status states', () => {
       expect(mod.logState).toEqual({
         name: 'app.log',
         data: {
-          helpPage: 'logs_page.htm',
-          anonymousReadProtected: true,
-          eulaState: true
+          helpPage: 'Graphical_User_Interface_9_0.html#9.5',
+          anonymousReadProtected: true
         },
         template: expect.any(String)
       });

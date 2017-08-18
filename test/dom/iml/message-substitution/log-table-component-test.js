@@ -59,10 +59,8 @@ describe('log table component', () => {
             read_enabled: true,
             resource_uri: '/session',
             user: {
-              accepted_eula: true,
               alert_subscriptions: [{}],
               email: 'john.doe@intel.com',
-              eula_state: 'pass',
               first_name: 'John',
               full_name: 'John Doe',
               groups: [
@@ -162,10 +160,8 @@ describe('log table component', () => {
             read_enabled: true,
             resource_uri: '/session',
             user: {
-              accepted_eula: true,
               alert_subscriptions: [{}],
               email: 'john.doe@intel.com',
-              eula_state: 'pass',
               first_name: 'John',
               full_name: 'John Doe',
               groups: [

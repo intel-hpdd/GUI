@@ -8,7 +8,8 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 import broadcaster from '../broadcaster.js';
-import * as fp from '@iml/fp';
+import { matchWith } from '@iml/maybe';
+import { matchById } from '../api-transforms.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
@@ -55,7 +56,16 @@ export function targetDashboardResolves(
 
 export function targetDashboardTargetStream($stateParams: { id: string }) {
   'ngInject';
-  return store.select('targets').map(fp.find(x => x.id === $stateParams.id));
+  return store.select('targets').map(matchById($stateParams.id)).map(
+    matchWith.bind(null, {
+      Just(x) {
+        return x;
+      },
+      Nothing() {
+        throw new Error(`Unable to find target ${$stateParams.id}`);
+      }
+    })
+  );
 }
 
 export function targetDashboardUsageStream($stateParams: { id: string }) {

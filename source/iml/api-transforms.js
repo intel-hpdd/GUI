@@ -19,7 +19,7 @@ export function addCurrentPage<T: { meta: Object }>(o: T): T {
   };
 }
 
-export const matchById = (id: string) => fp.find(x => x.id === id);
+export const matchById = (id: string) => fp.find(x => x.id === parseInt(id));
 
 type MapFn<A, B> = A => B;
 export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
@@ -28,4 +28,17 @@ export const rememberValue = <A, B, C: HighlandStreamT<B> | B[]>(
   let v;
 
   return in$.tap(x => (v = x)).flatMap(mapFn).map(() => v).otherwise(() => [v]);
+};
+
+export const filterSame = <A, B>(fn: B => A) => {
+  let last: ?A;
+
+  return (x: B) => {
+    const current = fn(x);
+    if (last === current) return false;
+
+    last = current;
+
+    return true;
+  };
 };

@@ -1,7 +1,7 @@
 import highland from 'highland';
 
 describe('lnet dispatch source', () => {
-  let mockStore, s, mockSocketStream;
+  let mockStore, s, mockSocketStream, mockDispatchSourceUtils;
 
   beforeEach(() => {
     s = highland();
@@ -17,7 +17,6 @@ describe('lnet dispatch source', () => {
       () => mockSocketStream
     );
     jest.mock('../../../../source/iml/environment.js', () => ({
-      ALLOW_ANONYMOUS_READ: true,
       CACHE_INITIAL_DATA: {
         lnet_configuration: {
           meta: 'meta',
@@ -32,6 +31,13 @@ describe('lnet dispatch source', () => {
         }
       }
     }));
+    mockDispatchSourceUtils = {
+      canDispatch: jest.fn(() => true)
+    };
+    jest.mock(
+      '../../../../source/iml/dispatch-source-utils.js',
+      () => mockDispatchSourceUtils
+    );
 
     require('../../../../source/iml/lnet/lnet-dispatch-source.js');
 
@@ -49,6 +55,10 @@ describe('lnet dispatch source', () => {
   });
 
   afterEach(() => (window.angular = null));
+
+  it('should make sure that the app can dispatch', () => {
+    expect(mockDispatchSourceUtils.canDispatch).toHaveBeenCalledWith();
+  });
 
   it('should invoke the socket stream', () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith('/lnet_configuration', {

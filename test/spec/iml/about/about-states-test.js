@@ -13,7 +13,6 @@ describe('about states', () => {
       },
       data: {
         anonymousReadProtected: true,
-        eulaState: true,
         kind: 'About Intel® Manager for Lustre* software',
         icon: 'fa-info-circle'
       }

@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage states should create the storage detail state 1`] = `
+Object {
+  "component": "storageDetail",
+  "data": Object {
+    "access": "filesystem_administrators",
+    "helpPage": "storage_tab.htm",
+    "icon": "fa-hdd-o",
+    "kind": "Storage Detail",
+  },
+  "name": "app.storageDetail",
+  "params": Object {
+    "resetState": Object {
+      "dynamic": true,
+    },
+  },
+  "resolve": Object {
+    "alertIndicatorB": "alertIndicatorB",
+    "getData": "getData",
+    "storageResource$": "storageResource$",
+  },
+  "url": "/configure/storage/:id",
+}
+`;
+
+exports[`storage states should create the storage state 1`] = `
+Object {
+  "component": "addStorage",
+  "data": Object {
+    "access": "filesystem_administrators",
+    "helpPage": "storage_tab.htm",
+    "icon": "fa-hdd-o",
+    "kind": "Add Storage Device",
+  },
+  "name": "app.addStorage",
+  "params": Object {
+    "resetState": Object {
+      "dynamic": true,
+    },
+  },
+  "resolve": Object {
+    "storageB": "storageB",
+  },
+  "url": "/configure/storage/add",
+}
+`;
+
+exports[`storage states should create the storage state 2`] = `
+Object {
+  "component": "storage",
+  "data": Object {
+    "access": "filesystem_administrators",
+    "helpPage": "storage_tab.htm",
+    "icon": "fa-hdd-o",
+    "kind": "Storage",
+  },
+  "name": "app.storage",
+  "params": Object {
+    "resetState": Object {
+      "dynamic": true,
+    },
+  },
+  "resolve": Object {
+    "alertIndicatorB": "alertIndicatorB",
+    "storageB": "storageB",
+  },
+  "url": "/configure/storage",
+}
+`;

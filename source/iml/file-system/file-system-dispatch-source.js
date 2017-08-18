@@ -9,7 +9,9 @@ import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 import { noSpace } from '../string.js';
 
-import { CACHE_INITIAL_DATA, ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { CACHE_INITIAL_DATA } from '../environment.js';
+
+import { canDispatch } from '../dispatch-source-utils.js';
 
 import { ADD_FS_ITEMS } from './file-system-reducer.js';
 
@@ -18,7 +20,7 @@ store.dispatch({
   payload: CACHE_INITIAL_DATA.filesystem
 });
 
-if (ALLOW_ANONYMOUS_READ)
+if (canDispatch())
   socketStream('/filesystem', {
     jsonMask: noSpace`objects(
         id,
