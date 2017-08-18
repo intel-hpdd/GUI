@@ -9,11 +9,11 @@ import store from '../store/get-store.js';
 
 import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator.js';
 
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { canDispatch } from '../dispatch-source-utils.js';
 
 import socketStream from '../socket/socket-stream.js';
 
-if (ALLOW_ANONYMOUS_READ)
+if (canDispatch())
   socketStream('/job/', {
     jsonMask: 'objects(write_locks,read_locks,description)',
     qs: {

@@ -1,4 +1,5 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
+import Inferno from 'inferno';
 
 export const extendWithConstructor = (constructor, obj) => {
   const scope = Object.create({}, {});
@@ -10,10 +11,13 @@ export const extendWithConstructor = (constructor, obj) => {
 
 export const flushD3Transitions = d3 => {
   const now = Date.now;
+
   Date.now = function() {
     return Infinity;
   };
+
   d3.timer.flush();
+
   Date.now = now;
 };
 
@@ -25,3 +29,9 @@ export const convertNvDates = s =>
       });
     })
   );
+
+export const renderToSnapshot = child => {
+  const root = document.createElement('div');
+  Inferno.render(child, root);
+  return root;
+};

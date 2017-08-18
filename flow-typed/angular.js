@@ -50,9 +50,11 @@ declare module angular {
   declare class Module {
     provider(name:string, providerType:Function):Module;
     factory(name:string, providerFunction:Function):Module;
+    factory(name:string, providerList:Array<obj>):Module;
     controller(name:string, constructor:Function):Module;
     service(name:string, constructor:Function):Module;
     config(configFn:Function):Module;
+    config(configList:Array<obj>):Module;
     run(initializationFn:Function):Module;
     directive(name:string, directiveFactory:Function):Module;
     component(name:string, options:Object):Module;

@@ -1,0 +1,484 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage resource time series should render data 1`] = `
+<div>
+  <div
+    style="height: 500px; display: flex;"
+    class="storage-detail-chart"
+  >
+    <div
+      style="display: flex;"
+    >
+      <h5
+        style="width: 24px;"
+      >
+        reads
+      </h5>
+    </div>
+    <div>
+      <svg
+        style="width: 100%; height: 100%;"
+        class="charting"
+      >
+        <g
+          transform="translate(50,50)"
+          class="charting-group"
+        >
+          <g
+            class="axis x-axis"
+            transform="translate(0,-100)"
+          >
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :40
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-8,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :41
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-16,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :42
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-24,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :43
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-32,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :44
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-40,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :45
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-48,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :46
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-56,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :47
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-64,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :48
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-72,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :49
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(-80,0)"
+            >
+              <line
+                y2="6"
+                x2="0"
+              />
+              <text
+                dy=".71em"
+                style="text-anchor: middle;"
+                y="9"
+                x="0"
+              >
+                :50
+              </text>
+            </g>
+            <path
+              class="domain"
+              d="M-80,6V0H0V6"
+            />
+          </g>
+          <g
+            class="axis y-axis"
+          >
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-100)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                0.0
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-87.5)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                0.5
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-75)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                1.0
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-62.5)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                1.5
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-50)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                2.0
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-37.5)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                2.5
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-25)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                3.0
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,-12.5)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                3.5
+              </text>
+            </g>
+            <g
+              class="tick"
+              style="opacity: 1;"
+              transform="translate(0,0)"
+            >
+              <line
+                x2="-6"
+                y2="0"
+              />
+              <text
+                dy=".32em"
+                style="text-anchor: end;"
+                x="-9"
+                y="0"
+              >
+                4.0
+              </text>
+            </g>
+            <path
+              class="domain"
+              d="M-6,-100H0V0H-6"
+            />
+          </g>
+          <defs
+            class="clip1"
+          >
+            <clippath
+              id="clip1"
+            >
+              <rect
+                width="-80"
+                height="-100"
+              />
+            </clippath>
+          </defs>
+          <g
+            clip-path="url(about:blank#clip1)"
+            class="clipPath1"
+          >
+            <path
+              class="line line1"
+              stroke="#1f77b4"
+              d="M0,-25L-80,0"
+              style="stroke-opacity: 1;"
+              stroke-dashoffset="0"
+            />
+          </g>
+          <g>
+            
+          </g>
+        </g>
+        <g
+          class="legend chart-legend"
+          transform="translate(50,0)"
+        >
+          <g
+            class="legend-group"
+            transform="translate(0,0)"
+          >
+            <circle
+              class="legend-circle"
+              fill="#1f77b4"
+              stroke="#1f77b4"
+              fill-opacity="1"
+              r="5"
+            />
+            <text
+              class="legend-label"
+              dx="10"
+              dy="4"
+            >
+              reads
+            </text>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`storage resource time series should render empty data 1`] = `
+<div>
+  <div
+    style="height: 500px; display: flex;"
+  >
+    <h3>
+      No Data Available.
+    </h3>
+  </div>
+</div>
+`;
+
+exports[`storage resource time series should render when fetching data 1`] = `
+<div>
+  <div
+    style="height: 500px; display: flex;"
+  >
+    <h3>
+      Fetching Data...
+    </h3>
+  </div>
+</div>
+`;

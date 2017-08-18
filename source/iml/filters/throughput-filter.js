@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { formatBytes } from '@mfl/number-formatters';
+import { formatBytes } from '@iml/number-formatters';
 
 export default function throughput() {
   'ngInject';

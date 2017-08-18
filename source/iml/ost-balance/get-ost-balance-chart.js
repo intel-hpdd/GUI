@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import {
@@ -33,7 +33,7 @@ import type { HighlandStreamT } from 'highland';
 
 export default (
   streamWhenVisible: streamWhenChartVisibleT,
-  localApply: localApplyT
+  localApply: localApplyT<*>
 ) => {
   'ngInject';
   return function getOstBalanceChart(

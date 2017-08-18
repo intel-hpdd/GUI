@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import extractApi from '@mfl/extract-api';
+import extractApi from '@iml/extract-api';
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
-import type { Maybe } from '@mfl/maybe';
+import type { Maybe } from '@iml/maybe';
 
 import type { TransitionT } from 'angular-ui-router';
 

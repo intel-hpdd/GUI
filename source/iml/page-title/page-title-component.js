@@ -7,7 +7,7 @@
 
 import { getResolvedData } from '../route-utils.js';
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 import type { TransitionT, StateServiceT } from 'angular-ui-router';
 

@@ -1,8 +1,7 @@
 import d3 from 'd3';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import { lineDirective } from '../../../../../../source/iml/charting/types/line/line-directive.js';
-import { getLineFactory } from '../../../../../../source/iml/charting/types/line/get-line.js';
 import { charterDirective } from '../../../../../../source/iml/charting/types/chart/chart-directive.js';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 import angular from '../../../../../angular-mock-setup.js';
@@ -11,10 +10,9 @@ describe('line directive', () => {
   let chartCtrl;
 
   beforeEach(
-    angular.mock.module(($compileProvider, $provide) => {
+    angular.mock.module($compileProvider => {
       Element.prototype.getTotalLength = () => 0;
       $compileProvider.directive('line', lineDirective);
-      $provide.factory('getLine', getLineFactory);
       $compileProvider.directive('charter', charterDirective);
       $compileProvider.directive('tester', () => {
         return {

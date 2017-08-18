@@ -24,7 +24,8 @@ export function appNotificationStream() {
   return resolveStream(socketStream('/health'));
 }
 
-export function appSessionFactory(SessionModel) {
+export function appSessionFactory() {
   'ngInject';
-  return new SessionModel(CACHE_INITIAL_DATA.session);
+
+  return CACHE_INITIAL_DATA.session;
 }

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should clone children and add props 1`] = `
+<div>
+  <div>
+    <span>
+      To: 
+      person
+      Message: 
+      hi
+    </span>
+  </div>
+</div>
+`;
+
+exports[`should clone multiple children and add props 1`] = `
+<div>
+  <div>
+    <span>
+      To: 
+      person
+      Message: 
+      hi
+    </span>
+    <span>
+      To: 
+      person
+      Message: 
+      hi
+    </span>
+  </div>
+</div>
+`;

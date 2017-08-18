@@ -1,5 +1,5 @@
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
 
 describe('old gui states', () => {
   let oldGuiStates,
@@ -8,8 +8,7 @@ describe('old gui states', () => {
     mockResolves,
     oldFilesystemDetailResolve,
     oldUserDetailResolve,
-    oldTargetResolve,
-    oldStoragePluginResolve;
+    oldTargetResolve;
 
   beforeEach(() => {
     resolve = {
@@ -35,13 +34,11 @@ describe('old gui states', () => {
     oldFilesystemDetailResolve = generateResolveData();
     oldUserDetailResolve = generateResolveData();
     oldTargetResolve = generateResolveData();
-    oldStoragePluginResolve = generateResolveData();
 
     mockResolves = {
       oldFilesystemDetailResolve,
       oldUserDetailResolve,
-      oldTargetResolve,
-      oldStoragePluginResolve
+      oldTargetResolve
     };
 
     jest.mock(
@@ -197,44 +194,6 @@ describe('old gui states', () => {
       )
     );
   });
-
-  it('should contain the app.oldStorageResource state', () => {
-    const state = fp.find(x => x.name === 'app.oldStorageResource')(
-      oldGuiStates
-    );
-    expect(state).toEqual(
-      maybe.ofJust(
-        generateState(
-          '/configure/storage',
-          'app.oldStorageResource',
-          '/configureold/storage/',
-          'storage_tab.htm',
-          'Storage',
-          'fa-hdd-o',
-          {}
-        )
-      )
-    );
-  });
-
-  it('should contain the app.oldStorageResourceDetail state', () => {
-    const state = fp.find(x => x.name === 'app.oldStorageResourceDetail')(
-      oldGuiStates
-    );
-    expect(state).toEqual(
-      maybe.ofJust(
-        generateState(
-          '/configure/storage/:id',
-          'app.oldStorageResourceDetail',
-          '/storage_resourceold',
-          'storage_tab.htm',
-          'Storage Detail',
-          'fa-hdd-o',
-          resolve
-        )
-      )
-    );
-  });
 });
 
 function generateState(url, name, path, helpPage, kind, icon, resolve) {
@@ -255,7 +214,6 @@ function generateState(url, name, path, helpPage, kind, icon, resolve) {
       helpPage,
       access: 'filesystem_administrators',
       anonymousReadProtected: true,
-      eulaState: true,
       kind,
       icon,
       noSpinner: true

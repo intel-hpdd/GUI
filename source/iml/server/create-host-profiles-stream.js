@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import _ from '@mfl/lodash-mixins';
+import * as fp from '@iml/fp';
+import _ from '@iml/lodash-mixins';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
@@ -112,7 +112,7 @@ export function createHostProfilesFactory(waitForCommandCompletion) {
       .map(fp.map(x => x.commands[0]))
       .flatMap(
         x =>
-          x.length ? waitForCommandCompletion(showCommands, x) : highland([])
+          x.length ? waitForCommandCompletion(showCommands)(x) : highland([])
       );
   };
 }

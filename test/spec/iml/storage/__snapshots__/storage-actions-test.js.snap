@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`storage actions should have a addStorageResourceClasses action 1`] = `
+Object {
+  "payload": Array [],
+  "type": "ADD_STORAGE_RESOURCE_CLASSES",
+}
+`;
+
+exports[`storage actions should have a addStorageResources action 1`] = `
+Object {
+  "payload": Object {
+    "objects": Array [],
+  },
+  "type": "ADD_STORAGE_RESOURCES",
+}
+`;
+
+exports[`storage actions should have a setStorageConfig action 1`] = `
+Object {
+  "payload": Object {},
+  "type": "SET_STORAGE_CONFIG",
+}
+`;
+
+exports[`storage actions should have a setStorageResourceClassIndex action 1`] = `
+Object {
+  "payload": 2,
+  "type": "SET_STORAGE_SELECT_INDEX",
+}
+`;
+
+exports[`storage actions should have a setStorageTableLoading action 1`] = `
+Object {
+  "payload": true,
+  "type": "SET_STORAGE_TABLE_LOADING",
+}
+`;

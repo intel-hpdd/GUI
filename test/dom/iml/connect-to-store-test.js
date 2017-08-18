@@ -25,10 +25,18 @@ describe('connect to store', () => {
 
     LoginForm = connectToStore('loginForm', ({ loginForm, foo }) =>
       <div>
-        <h1>{loginForm.__all__}</h1>
-        <p id="username">{loginForm.username[0]}</p>
-        <p id="password">{loginForm.password[0]}</p>
-        <p id="foo">{foo}</p>
+        <h1>
+          {loginForm.__all__}
+        </h1>
+        <p id="username">
+          {loginForm.username[0]}
+        </p>
+        <p id="password">
+          {loginForm.password[0]}
+        </p>
+        <p id="foo">
+          {foo}
+        </p>
       </div>
     );
 

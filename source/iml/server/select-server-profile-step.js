@@ -4,8 +4,8 @@
 // license that can be found in the LICENSE file.
 
 import highland from 'highland';
-import _ from '@mfl/lodash-mixins';
-import * as fp from '@mfl/fp';
+import _ from '@iml/lodash-mixins';
+import * as fp from '@iml/fp';
 
 import { getCommandAndHost } from './server-transforms.js';
 
@@ -192,7 +192,7 @@ export function selectServerProfileStep() {
         fp.map(x => x.command),
         fp.filter(Boolean),
         x =>
-          x.length ? waitForCommandCompletion(showCommand, x) : highland([])
+          x.length ? waitForCommandCompletion(showCommand)(x) : highland([])
       );
 
       const hostProfileStream = createOrUpdateHostsStream(data.servers)

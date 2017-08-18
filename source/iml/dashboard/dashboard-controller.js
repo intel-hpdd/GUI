@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import filterTargetByFs from '../target/filter-target-by-fs.js';
 import filterTargetByHost from '../target/filter-target-by-host.js';
@@ -56,9 +56,8 @@ export default function DashboardCtrl(
       if (!item.selected) {
         item.selectedTarget = dashboard.targets = null;
       } else {
-        const filterBy = dashboard.fs === item
-          ? filterTargetByFs
-          : filterTargetByHost;
+        const filterBy =
+          dashboard.fs === item ? filterTargetByFs : filterTargetByHost;
 
         targetSelectStream = targetsB();
         targetSelectStream

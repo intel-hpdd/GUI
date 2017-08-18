@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
-import * as fp from '@mfl/fp';
+import flatMapChanges from '@iml/flat-map-changes';
+import * as fp from '@iml/fp';
 
-import { entries } from '@mfl/obj';
+import { entries } from '@iml/obj';
 import {
   DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS,
   UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS
@@ -28,7 +28,7 @@ import type { durationPayloadT } from '../duration-picker/duration-picker-module
 import type { localApplyT } from '../extend-scope-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getAgentVsCopytoolChart(overrides: Object) {
     const page = 'base';

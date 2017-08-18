@@ -1,4 +1,4 @@
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 import angular from '../../../angular-mock-setup.js';
 
 describe('breadcrumb', () => {

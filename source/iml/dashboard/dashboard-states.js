@@ -16,10 +16,7 @@ import {
   dashboardTargetB
 } from './dashboard-resolves.js';
 
-import {
-  baseDashboardChartResolves,
-  baseDashboardFsStream
-} from './base-dashboard-chart-resolves.js';
+import { baseDashboardChartResolves } from './base-dashboard-chart-resolves.js';
 
 import {
   targetDashboardResolves,
@@ -31,7 +28,7 @@ import { streamToPromise } from '../promise-transforms.js';
 
 import { matchById } from '../api-transforms.js';
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 import type { HighlandStreamT } from 'highland';
 
@@ -140,9 +137,8 @@ export const dashboardState = {
     targetsB: dashboardTargetB
   },
   data: {
-    helpPage: 'dashboard_charts.htm',
-    anonymousReadProtected: true,
-    eulaState: true
+    helpPage: 'Graphical_User_Interface_9_0.html#9.1',
+    anonymousReadProtected: true
   },
   controller: 'DashboardCtrl',
   controllerAs: 'dashboard',
@@ -352,7 +348,6 @@ export const dashboardFsState = {
   },
   resolve: {
     charts: baseDashboardChartResolves,
-    fsStream: baseDashboardFsStream,
     getData: ['fsB', '$stateParams', getDataFn]
   }
 };

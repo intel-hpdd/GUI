@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import * as maybe from '@mfl/maybe';
+import * as fp from '@iml/fp';
+import * as maybe from '@iml/maybe';
 import global from '../global.js';
 
 import { getResolvedData } from '../route-utils.js';
@@ -19,7 +19,7 @@ import type {
   StateParamsT
 } from 'angular-ui-router';
 
-import type { Maybe } from '@mfl/maybe';
+import type { Maybe } from '@iml/maybe';
 
 export type breadcrumbT = {
   name: string,

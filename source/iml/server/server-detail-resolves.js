@@ -10,7 +10,7 @@ import socketStream from '../socket/socket-stream.js';
 import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
 import angular from 'angular';
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import broadcaster from '../broadcaster.js';
 
 import { matchById } from '../api-transforms.js';
@@ -28,10 +28,9 @@ export const getData = ($stateParams: { id: string }) => {
 
 export default function serverDetailResolves($stateParams: { id: string }) {
   'ngInject';
-  const getObjectsOrNull = x => (x.objects.length ? x : null);
-  const getFlatObjOrNull = fp.flow(
-    highland.map(getObjectsOrNull),
-    fp.invokeMethod('flatten')([])
+  const getObjectsOrNull = x => (x.objects.length ? x.objects : null);
+  const getFlatObjOrNull = fp.flow(highland.map(getObjectsOrNull), x =>
+    x.flatten()
   );
 
   const jobMonitorStream = broadcaster(store.select('jobIndicators'));
@@ -40,7 +39,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
 
   const serverStream = store
     .select('server')
-    .map(fp.find(x => x.id === $stateParams.id));
+    .map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
 
   const allHostMatches = {
     qs: {
@@ -52,7 +51,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   const lnetConfigurationStream = broadcaster(
     store
       .select('lnetConfiguration')
-      .map(fp.find(x => x.host === `/api/host/${$stateParams.id}/`))
+      .map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
   );
 
   const merge = (a, b) => angular.merge(a, b, allHostMatches);

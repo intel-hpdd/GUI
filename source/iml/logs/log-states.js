@@ -10,7 +10,7 @@ import parserPermutations from '../parser-permutations.js';
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from '../status/status-qs-to-old-qs-parser.js';
 import store from '../store/get-store.js';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import { resolveStream } from '../promise-transforms.js';
 
@@ -23,9 +23,8 @@ import type { qsFromLocationT } from '../qs-from-location/qs-from-location-modul
 export const logState = {
   name: 'app.log',
   data: {
-    helpPage: 'logs_page.htm',
-    anonymousReadProtected: true,
-    eulaState: true
+    helpPage: 'Graphical_User_Interface_9_0.html#9.5',
+    anonymousReadProtected: true
   },
   template: `
   <div class="container log container-full">

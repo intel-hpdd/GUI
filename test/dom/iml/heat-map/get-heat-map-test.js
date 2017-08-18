@@ -1,4 +1,4 @@
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 import d3 from 'd3';
 import getHeatMap from '../../../../source/iml/heat-map/get-heat-map.js';
 

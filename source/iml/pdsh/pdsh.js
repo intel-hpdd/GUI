@@ -5,10 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import pdshParser from '@mfl/pdsh-parser';
-import _ from '@mfl/lodash-mixins';
+import pdshParser from '@iml/pdsh-parser';
+import _ from '@iml/lodash-mixins';
 
 export default function pdsh(help: Object) {
+  'ngInject';
+
   return {
     scope: {
       pdshChange: '&',
@@ -74,9 +76,8 @@ export default function pdsh(help: Object) {
       function parseExpressionForValidity(value) {
         scope.pdsh.parseExpression(value);
 
-        const validity = _.isEmpty(value) || parsedState === states.SUCCESS
-          ? true
-          : false;
+        const validity =
+          _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
 
         ctrl.pdsh.$setValidity('pdsh', validity);
       }

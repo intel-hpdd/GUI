@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 
 import getCpuUsageStream from './get-cpu-usage-stream.js';
 import getStore from '../store/get-store.js';
@@ -24,7 +24,7 @@ import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getCpuUsageChart(overrides: targetQueryT, page: string) {
     getStore.dispatch({

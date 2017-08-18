@@ -3,9 +3,36 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
-export default function asValue(localApply, $exceptionHandler) {
+import type { Element } from 'react';
+import type { HighlandStreamT } from 'highland';
+
+import Inferno from 'inferno';
+import Component from 'inferno-component';
+
+export const asValue = <B: {}>(
+  key: string,
+  WrappedComponent: (b: B) => Element<*>
+) =>
+  class AsValue extends Component {
+    state: B;
+    props: {
+      stream: HighlandStreamT<B>
+    };
+    componentWillMount() {
+      this.props.stream.fork().each((x: B) =>
+        this.setState({
+          [key]: x
+        })
+      );
+    }
+    render() {
+      return <WrappedComponent {...this.props} {...this.state} />;
+    }
+  };
+
+export default (localApply, $exceptionHandler) => {
   'ngInject';
   return {
     restrict: 'A',
@@ -30,4 +57,4 @@ export default function asValue(localApply, $exceptionHandler) {
       });
     }
   };
-}
+};

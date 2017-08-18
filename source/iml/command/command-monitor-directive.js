@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import socketStream from '../socket/socket-stream.js';
 import getCommandStream from '../command/get-command-stream.js';
 
@@ -15,14 +15,12 @@ import type { localApplyT } from '../extend-scope-module.js';
 
 const set = (ctx, name) => x => (ctx[name] = x);
 
-const notCancelled = fp.filter(
-  fp.flow(fp.view(fp.lensProp('cancelled')), fp.not)
-);
+const notCancelled = fp.filter(fp.flow(x => x.cancelled, fp.not));
 
 export function CommandMonitorCtrl(
   $scope: $scopeT,
   openCommandModal: Function,
-  localApply: localApplyT,
+  localApply: localApplyT<*>,
   $exceptionHandler: Function
 ) {
   'ngInject';
@@ -42,11 +40,12 @@ export function CommandMonitorCtrl(
   });
 
   commandMonitor$
-    .map(fp.flow(fp.view(fp.lensProp('objects')), notCancelled))
+    .map(x => x.objects)
+    .map(notCancelled)
     .tap(set(this, 'lastObjects'))
-    .tap(fp.flow(fp.view(fp.lensProp('length')), set(this, 'length')))
+    .tap(fp.flow(x => x.length, set(this, 'length')))
     .stopOnError(e => $exceptionHandler(e))
-    .each(localApply.bind(null, $scope));
+    .each(() => localApply($scope));
 
   this.length = 1;
 

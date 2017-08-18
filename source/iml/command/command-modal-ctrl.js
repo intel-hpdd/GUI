@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import highland from 'highland';
 
 import type { $scopeT } from 'angular';
@@ -68,7 +68,7 @@ export function openCommandModalFactory($uibModal: Object) {
           </div>
 
           <div ng-repeat="job in jobTree.jobs track by job.id"
-               ng-include="'job.html'"></div>
+               ng-include="'/gui/job.html'"></div>
         </div>
       </div>
 

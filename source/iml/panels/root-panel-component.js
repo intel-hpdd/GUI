@@ -50,6 +50,7 @@ export function Controller($element: HTMLElement[]) {
       x = overlayWidthPx * (sideWidthPercentage / 100);
 
     global.requestAnimationFrame(() => {
+      global.dispatchEvent(new Event('resize'));
       listeners.forEach(l =>
         l({
           sideWidthPx: x,

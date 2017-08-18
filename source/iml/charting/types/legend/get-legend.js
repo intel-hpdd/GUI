@@ -1,13 +1,13 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import d3 from 'd3';
-import * as maybe from '@mfl/maybe';
-
-const viewLens = fp.flow(fp.lensProp, fp.view);
+import * as maybe from '@iml/maybe';
 
 export function getLegendFactory() {
   'ngInject';
@@ -19,20 +19,16 @@ export function getLegendFactory() {
     let padding = 10;
     const dispatch = d3.dispatch('selection');
     let showLabels = true;
-    const mapX = fp.map(viewLens('x'));
-    const mapY = fp.map(viewLens('y'));
+    const mapX = fp.map(x => x.x);
+    const mapY = fp.map(x => x.y);
     const xScale = d3.scale.ordinal();
     const yScale = d3.scale.ordinal();
 
-    const mapDimensions = fp.flow(
-      fp.head,
-      maybe.fromJust.bind(null),
-      fp.map(fp.invokeMethod('getBoundingClientRect')([]))
-    );
+    const mapDimensions = xs => xs[0].map(x => x.getBoundingClientRect());
 
     const translate = (x, y) => `translate(${x},${y})`;
 
-    function legend(sel) {
+    function legend(sel: Object) {
       xScale.domain(colors.domain());
       yScale.domain(colors.domain());
 
@@ -71,7 +67,19 @@ export function getLegendFactory() {
 
         const itemWidths = mapDimensions(groups);
 
-        const canFit = fp.flow(fp.last, viewLens('fits'));
+        const canFit = xs =>
+          maybe.matchWith(
+            {
+              Just(x) {
+                return x.fits;
+              },
+              Nothing() {
+                return false;
+              }
+            },
+            fp.last(xs)
+          );
+
         const processCoordinates = fp.cond(
           [canFit, fp.identity],
           [
@@ -116,7 +124,7 @@ export function getLegendFactory() {
               .transition()
               .attr('fill-opacity', opacityVal);
 
-            dispatch.selection(maybe.fromJust(fp.head(group.data())), selected);
+            dispatch.selection(group.data()[0], selected);
           });
       });
     }
@@ -124,7 +132,7 @@ export function getLegendFactory() {
     function mapToCoords(groups) {
       let pos = 0;
       let row = 1;
-      const groupHeight = maybe.fromJust(fp.head(groups)).height;
+      const groupHeight = groups[0].height;
 
       return fp.map(function mapCoordinates(curObj) {
         const itemWidth = curObj.width;

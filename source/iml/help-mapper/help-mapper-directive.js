@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 
 export default () => ({
   restrict: 'A',
   template: `
-<a id="help-menu" ng-href="/static/webhelp/{{vm.page}}" target="_blank">
+<a id="help-menu" ng-href="/help/{{vm.page}}" target="_blank">
   <i class="fa fa-question-circle"></i> Help
 </a>
   `,
@@ -23,7 +23,7 @@ export default () => ({
       maybe.withDefault(
         () => '',
         maybe.map(
-          (x: string) => `?${x}`,
+          (x: string) => `docs/${x}`,
           maybe.of($current.data && $current.data.helpPage)
         )
       );

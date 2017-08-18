@@ -1,4 +1,4 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 import asValue from '../../../../source/iml/as-value/as-value.js';

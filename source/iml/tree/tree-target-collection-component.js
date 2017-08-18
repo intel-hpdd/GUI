@@ -10,7 +10,7 @@ import store from '../store/get-store.js';
 
 import type { $scopeT } from 'angular';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 import { toggleCollection } from './tree-utils.js';
 

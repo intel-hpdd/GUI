@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as expected 1`] = `
+<svg>
+  <g>
+    <defs
+      class="area-clip1"
+    >
+      <clippath
+        id="area-clip1"
+      >
+        <rect
+          width="200"
+          height="200"
+        />
+      </clippath>
+    </defs>
+    <g
+      clip-path="url(about:blank#area-clip1)"
+      class="clipPath1"
+    >
+      <path
+        class="area area1"
+        stroke="green"
+        fill="green"
+        fill-opacity="0.2"
+        d="M0,200L200,0L200,200L0,200Z"
+      />
+    </g>
+  </g>
+</svg>
+`;

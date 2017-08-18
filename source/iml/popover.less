@@ -1,0 +1,66 @@
+.popover-container {
+  position: relative;
+
+  &.popover-hover:hover .popover {
+    display: block;
+    opacity: .9;
+    max-width: 200px;
+
+    .popover-inner {
+      word-wrap: break-word;
+    }
+  }
+}
+
+.popover {
+  top: auto;
+  left: auto;
+  width: 200px;
+
+  &.xsmall {
+    width: 50px;
+  }
+
+  &.small {
+    width: 100px;
+  }
+
+  &.medium {
+    width: 150px;
+  }
+
+  &.large {
+    width: 200px;
+  }
+
+  &.right {
+    left: 100%;
+    bottom: 50%;
+    transform: translateY(50%);
+  }
+
+  &.left {
+    bottom: 50%;
+    transform: translate(-100%, 50%);
+  }
+
+  &.bottom {
+    transform: translateX(50%);
+    top: 100%;
+    right: 50%;
+  }
+
+  &.top {
+    transform: translate(50%, -100%);
+    top: 0;
+    right: 50%;
+  }
+}
+
+.popover {
+  display: none;
+
+  &.in {
+    display: block;
+  }
+}

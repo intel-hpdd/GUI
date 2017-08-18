@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 import getReadWriteBandwidthStream from './get-read-write-bandwidth-stream.js';
-import { formatBytes } from '@mfl/number-formatters';
+import { formatBytes } from '@iml/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import getStore from '../store/get-store.js';
@@ -31,7 +31,7 @@ import type {
   targetQueryT
 } from '../dashboard/dashboard-module.js';
 
-export default (data$Fn: data$FnT, localApply: localApplyT) => {
+export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
   'ngInject';
   return function getReadWriteBandwidthChart(
     overrides: filesystemQueryT | targetQueryT,

@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@mfl/flat-map-changes';
+import flatMapChanges from '@iml/flat-map-changes';
 
 import getFileUsageStream from './get-file-usage-stream.js';
 import getStore from '../store/get-store.js';
@@ -27,7 +27,7 @@ import type {
   configToStreamT
 } from '../chart-transformers/chart-transformers-module.js';
 
-export default (localApply: localApplyT, data$Fn: data$FnT) => {
+export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
   return function getFileUsageChart(
     title: string,

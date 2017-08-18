@@ -1,77 +1,112 @@
+// @flow
+
 //
 // Copyright (c) 2017 Intel Corporation. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import Inferno from 'inferno';
+import Tooltip from '../tooltip.js';
+import WindowClickListener from '../window-click-listener.js';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+import { asViewer } from '../as-viewer/as-viewer';
+import {
+  PopoverContainer,
+  Popover,
+  PopoverTitle,
+  PopoverContent
+} from '../popover.js';
 
-export function RecordStateCtrl($scope, $compile, STATE_SIZE, propagateChange) {
-  'ngInject';
-  const ctrl = Object.assign(this, {
-    alerts: [],
-    hasAlerts() {
-      return ctrl.alerts.length > 0;
-    },
-    showLabel: function showLabel() {
-      return ctrl.displayType === STATE_SIZE.MEDIUM;
-    }
-  });
+const getMessage = alerts => {
+  let message = `${alerts.length} Issues`;
 
-  const viewer$ = ctrl.alertStream();
-  const indexOfRecord = fp.invokeMethod('indexOf', [ctrl.recordId]);
-  const recordFound = fp.flow(fp.eqFn(fp.identity)(indexOfRecord)(-1), fp.not);
+  if (alerts.length === 0) message = 'No Issues';
+  else if (alerts.length === 1) message = alerts[0].message;
 
-  const p = propagateChange.bind(null, $scope, ctrl, 'alerts');
+  return message;
+};
 
-  viewer$
-    .map(fp.filter(fp.flow(viewLens('affected'), recordFound)))
-    .map(fp.map(viewLens('message')))
-    .through(p);
+const AlertIndicator = asViewer(
+  'alerts',
+  ({
+    alerts: xs,
+    size,
+    recordId
+  }: {
+    alerts: Object[],
+    size?: 'small' | 'medium',
+    recordId: string
+  }) => {
+    const alerts = xs.filter(x => x.affected.find(y => y === recordId));
 
-  $scope.$on('$destroy', viewer$.destroy.bind(viewer$));
-}
+    return (
+      <span class="record-state">
+        <WindowClickListener>
+          <PopoverContainer>
+            <span
+              class="icon-wrap tooltip-container tooltip-hover"
+              popoverButton={true}
+            >
+              <i
+                className={`fa activate-popover ${alerts.length > 0
+                  ? 'fa-exclamation-circle'
+                  : 'fa-check-circle'}`}
+              />
+              <Tooltip
+                size={alerts.length === 0 ? 'small' : 'medium'}
+                direction="top"
+                message={getMessage(alerts)}
+              />
+            </span>
+            {alerts.length
+              ? <Popover popover={true} direction="bottom">
+                  <PopoverTitle>Alerts</PopoverTitle>
+                  <PopoverContent>
+                    <ul>
+                      {alerts.map(x =>
+                        <li key={x.id}>
+                          {x.message}
+                        </li>
+                      )}
+                    </ul>
+                  </PopoverContent>
+                </Popover>
+              : ''}
+          </PopoverContainer>
+        </WindowClickListener>
 
-export const recordStateDirective = () => {
-  'ngInject';
-  return {
-    scope: {},
-    bindToController: {
-      recordId: '=',
-      displayType: '=',
-      alertStream: '='
-    },
-    controller: RecordStateCtrl,
-    controllerAs: 'ctrl',
-    restrict: 'E',
-    template: `<span class="record-state">
-  <span class="icon-wrap tooltip-container tooltip-hover">
-    <i class="fa activate-popover"
-       ng-class="{'fa-exclamation-circle': ctrl.hasAlerts(), 'fa-check-circle': !ctrl.hasAlerts() }"
-    >
-      <iml-tooltip size="ctrl.alerts.length === 0 ? 'small' : 'medium'" direction="right">
-        <ng-pluralize count="ctrl.alerts.length"
-                      when="{
-          0: 'No Issues',
-          1: '{{ ctrl.alerts[0] }}',
-          'other': '{} Issues'}">
-        </ng-pluralize>
-      </iml-tooltip>
-    </i>
-    <iml-popover placement="bottom" title="Alerts"
-                 on-toggle="ctrl.onToggle(state)" ng-if="ctrl.hasAlerts()">
-      <ul>
-        <li ng-repeat="alert in ctrl.alerts">{{alert}}</li>
-      </ul>
-    </iml-popover>
-  </span>
-  <ng-pluralize class="state-label" ng-if="ctrl.showLabel()" count="ctrl.alerts.length"
-                when="{
-    0: 'No Issues',
-    1: '{{ ctrl.alerts[0] }}',
-    'other': '{} Issues'}">
-  </ng-pluralize>
-</span>`
-  };
+        {size === 'medium'
+          ? <span style="padding-left:10px;" class="state-label">
+              {getMessage(alerts)}
+            </span>
+          : ''}
+      </span>
+    );
+  }
+);
+
+export default AlertIndicator;
+
+export const alertIndicatorNg = {
+  bindings: { recordId: '<', displayType: '<', alertStream: '<' },
+  controller: function($element: HTMLElement[]) {
+    'ngInject';
+
+    const el = $element[0];
+
+    this.$onInit = () => {
+      Inferno.render(
+        <AlertIndicator
+          viewer={this.alertStream}
+          size={this.displayType}
+          recordId={this.recordId}
+        />,
+        el
+      );
+    };
+
+    this.$onDestroy = () => {
+      Inferno.render(null, el);
+    };
+  }
 };

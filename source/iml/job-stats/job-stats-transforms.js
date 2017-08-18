@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import * as math from '@mfl/math';
-import * as maybe from '@mfl/maybe';
-import { entries } from '@mfl/obj';
+import * as fp from '@iml/fp';
+import * as math from '@iml/math';
+import * as maybe from '@iml/maybe';
+import { entries } from '@iml/obj';
 
 import type { Exact } from '../../flow-workarounds';
 

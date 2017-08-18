@@ -12,7 +12,9 @@ describe('App controller', () => {
     ENV,
     GROUPS,
     alertStream,
-    notificationStream;
+    notificationStream,
+    mockAuthorization,
+    mockGlobal;
 
   beforeEach(angular.mock.module(fixturesModule));
   beforeEach(
@@ -23,13 +25,28 @@ describe('App controller', () => {
       navigate = jest.fn();
       $scope = $rootScope.$new();
       deferred = $q.defer();
-      sessionFixture = fixtures.getFixture('session', function(fixture) {
+      sessionFixture = fixtures.getFixture('session', fixture => {
         return fixture.status === 200;
       });
       alertStream = highland();
       jest.spyOn(alertStream, 'destroy');
       notificationStream = highland();
       jest.spyOn(notificationStream, 'destroy');
+
+      mockAuthorization = {
+        getCSRFToken: jest.fn(() => ({
+          'X-CSRFToken': 'qqo4KXV34frTf0mzlKlEK7FaTffEoqqb'
+        }))
+      };
+      jest.mock(
+        '../../../../source/iml/auth/authorization.js',
+        () => mockAuthorization
+      );
+
+      mockGlobal = {
+        fetch: jest.fn(() => Promise.resolve())
+      };
+      jest.mock('../../../../source/iml/global.js', () => mockGlobal);
 
       const mod = require('../../../../source/iml/app/app-controller.js');
       appController = {};
@@ -99,10 +116,20 @@ describe('App controller', () => {
       $scope.$apply();
     });
     it('should delete the session', () => {
-      expect(appController.session.$delete).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.fetch).toHaveBeenCalledWith('/api/session/', {
+        method: 'delete',
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          'X-CSRFToken': 'qqo4KXV34frTf0mzlKlEK7FaTffEoqqb'
+        }
+      });
+      expect(mockGlobal.fetch).toHaveBeenCalledTimes(1);
     });
     it('should navigate to login', () => {
-      expect(navigate).toHaveBeenCalledOnceWith('login/', undefined);
+      expect(navigate).toHaveBeenCalledWith('login/', undefined);
+      expect(navigate).toHaveBeenCalledTimes(1);
     });
   });
   describe('destroy', () => {

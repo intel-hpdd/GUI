@@ -1,5 +1,5 @@
 import angular from 'angular';
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 
 export default angular
   .module('fixtures', [])
@@ -10,10 +10,8 @@ export default angular
         read_enabled: true,
         resource_uri: '/api/session/',
         user: {
-          accepted_eula: false,
           alert_subscriptions: [],
           email: 'debug@debug.co.eh',
-          eula_state: 'eula',
           first_name: '',
           full_name: '',
           groups: [
@@ -43,10 +41,8 @@ export default angular
         read_enabled: true,
         resource_uri: '/api/session/',
         user: {
-          accepted_eula: false,
           alert_subscriptions: [],
           email: 'admin@debug.co.eh',
-          eula_state: 'denied',
           first_name: '',
           full_name: '',
           groups: [

@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import store from '../store/get-store.js';
+import global from '../global.js';
 
 let user;
 
@@ -49,3 +50,13 @@ export function restrict() {
     }
   };
 }
+
+const csrfRegex = /csrftoken=([^;|$]+)/;
+export const getCSRFToken = () => {
+  const csrfTokenMatch = global.document.cookie.match(csrfRegex);
+  const csrfToken = {};
+
+  if (csrfTokenMatch && csrfTokenMatch[1])
+    csrfToken['X-CSRFToken'] = csrfTokenMatch[1];
+  return csrfToken;
+};

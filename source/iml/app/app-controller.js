@@ -3,6 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import { getCSRFToken } from '../auth/authorization.js';
+import global from '../global.js';
+
 export default function AppCtrl(
   $scope,
   session,
@@ -36,7 +39,17 @@ export default function AppCtrl(
   }
 
   function logout() {
-    return session.$delete().then(login);
+    return global
+      .fetch('/api/session/', {
+        method: 'delete',
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+          ...getCSRFToken()
+        }
+      })
+      .then(login);
   }
 
   const LIMIT = 99;

@@ -3,9 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
+import getLine from './get-line.js';
 
-export function lineDirective(getLine) {
+export function lineDirective() {
   'ngInject';
   return {
     restrict: 'A',

@@ -5,13 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import broadcaster from '../broadcaster.js';
-import * as fp from '@mfl/fp';
-
-import type { HighlandStreamT } from 'highland';
-
 import type { chartT, chartTitleT, chartTitleKeyT } from './dashboard-types.js';
+
+import angular from 'angular';
 
 export function baseDashboardChartResolves(
   $stateParams: { id?: string },
@@ -66,12 +62,4 @@ export function baseDashboardChartResolves(
       id ? `oss${id}` : 'ossbase'
     )
   ]);
-}
-
-export function baseDashboardFsStream(
-  fsB: () => HighlandStreamT<Object[]>,
-  $stateParams: { id: string }
-) {
-  'ngInject';
-  return broadcaster(fsB().map(fp.filter(x => x.id === $stateParams.id)));
 }

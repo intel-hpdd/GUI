@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import flatMapChanges from '@mfl/flat-map-changes';
+import * as fp from '@iml/fp';
+import flatMapChanges from '@iml/flat-map-changes';
 import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
-import { formatNumber, formatBytes } from '@mfl/number-formatters';
+import { formatNumber, formatBytes } from '@iml/number-formatters';
 import durationPayload from '../duration-picker/duration-payload.js';
 import getStore from '../store/get-store.js';
 import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import { values } from '@mfl/obj';
+import { values } from '@iml/obj';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
@@ -22,8 +22,6 @@ import {
   DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
   UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
 } from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
-
-import readWriteHeatMapTemplate from './assets/html/read-write-heat-map.html';
 
 import { SERVER_TIME_DIFF } from '../environment.js';
 
@@ -49,7 +47,7 @@ import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when
 
 export default (
   $state: StateServiceT,
-  localApply: localApplyT,
+  localApply: localApplyT<*>,
   readWriteHeatMapTypes: readWriteHeatMapTypesT,
   streamWhenVisible: streamWhenChartVisibleT
 ) => {
@@ -88,7 +86,31 @@ export default (
     );
 
     return chartCompiler(
-      readWriteHeatMapTemplate,
+      `<div class="read-write-heat-map" config-toggle>
+  <h5>Read/Write Heat Map</h5>
+  <div class="controls" ng-if="configToggle.inactive()">
+    <button class="btn btn-xs btn-primary" ng-click="configToggle.setActive()">Configure <i class="fa fa-cog"></i></button>
+    <a full-screen-btn class="btn btn-primary btn-xs"></a>
+    <a class="drag btn btn-xs btn-default">Drag <i class="fa fa-arrows"></i></a>
+  </div>
+  <div class="configuration" ng-if="configToggle.active()">
+    <div class="well well-lg">
+      <form name="readWriteHeatMapForm">
+        <resettable-group>
+          <duration-picker type="chart.configType" size="chart.size" unit="chart.unit" start-date="chart.startDate | toDate" end-date="chart.endDate | toDate"></duration-picker>
+          <div class="form-group" >
+            <label class="control-label">Select data to view</label>
+            <select name="type" class="form-control" ng-model="chart.dataType"
+                    ng-options="value as chart.toReadableType(value) for value in chart.TYPES"></select>
+          </div>
+          <button type="submit" ng-click="::configToggle.setInactive(chart.onSubmit({dataType: chart.dataType}, readWriteHeatMapForm))" class="btn btn-success btn-block" ng-disabled="readWriteHeatMapForm.$invalid">Update</button>
+          <button ng-click="::configToggle.setInactive()" class="btn btn-cancel btn-block" resetter>Cancel</button>
+        </resettable-group>
+      </form>
+    </div>
+  </div>
+  <heat-map options="::chart.options" stream="::chart.stream"></heat-map>
+</div>`,
       initStream,
       ($scope: $scopeT, stream: HighlandStreamT<Object[]>) => {
         const conf = {

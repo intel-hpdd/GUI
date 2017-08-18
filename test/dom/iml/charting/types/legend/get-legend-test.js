@@ -1,11 +1,12 @@
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import d3 from 'd3';
 import { getLegendFactory } from '../../../../../../source/iml/charting/types/legend/get-legend.js';
-import * as maybe from '@mfl/maybe';
+import * as maybe from '@iml/maybe';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 
 describe('get legend', () => {
   let getLegend, div, svg, w, h, mouseClick;
+
   beforeEach(() => {
     getLegend = getLegendFactory();
     mouseClick = new MouseEvent('click');
@@ -23,9 +24,11 @@ describe('get legend', () => {
   afterEach(() => {
     document.body.removeChild(div);
   });
+
   it('should be a function', () => {
     expect(getLegend).toEqual(expect.any(Function));
   });
+
   describe('instance', () => {
     let legend, legendContainer;
     const componentNames = [
@@ -36,6 +39,7 @@ describe('get legend', () => {
       'waiting requests in queue2',
       'idle workers2'
     ];
+
     beforeEach(() => {
       const colorOrdinal = d3.scale.ordinal();
       colorOrdinal.domain(componentNames);
@@ -60,24 +64,31 @@ describe('get legend', () => {
     it('should have a colors accessor', () => {
       expect(legend.colors).toEqual(expect.any(Function));
     });
+
     it('should have a width accessor', () => {
       expect(legend.width).toEqual(expect.any(Function));
     });
+
     it('should have a height accessor', () => {
       expect(legend.height).toEqual(expect.any(Function));
     });
+
     it('should have a padding accessor', () => {
       expect(legend.padding).toEqual(expect.any(Function));
     });
+
     it('should have a radius accessor', () => {
       expect(legend.radius).toEqual(expect.any(Function));
     });
+
     it('should have a showLabels accessor', () => {
       expect(legend.showLabels).toEqual(expect.any(Function));
     });
+
     it('should have a dispatch accessor', () => {
       expect(legend.dispatch).toEqual(expect.any(Function));
     });
+
     describe('group', () => {
       componentNames.forEach(name => {
         it(`should have a circle for ${name}`, () => {
@@ -87,6 +98,7 @@ describe('get legend', () => {
           expect(circle.size()).toBe(1);
         });
       });
+
       componentNames.forEach(name => {
         it(`should have a label for ${name}`, () => {
           const label = legendContainer
@@ -96,12 +108,15 @@ describe('get legend', () => {
         });
       });
     });
+
     describe('events', () => {
       let onSelectionSpy, node;
+
       beforeEach(() => {
         onSelectionSpy = jest.fn();
         legend.dispatch().on('selection', onSelectionSpy);
       });
+
       describe('on selected', () => {
         componentNames.forEach(name => {
           it(`should dispatch the selection event for "${name}"`, () => {
@@ -113,6 +128,7 @@ describe('get legend', () => {
             expect(onSelectionSpy).toHaveBeenCalledOnceWith(name, true);
           });
         });
+
         componentNames.forEach(name => {
           it(`should not have a fill opacity for "${name}"`, () => {
             node = legendContainer
@@ -126,6 +142,7 @@ describe('get legend', () => {
           });
         });
       });
+
       describe('on unselected', () => {
         componentNames.forEach(name => {
           it(`should dispatch the selection event for "${name}"`, () => {
@@ -138,6 +155,7 @@ describe('get legend', () => {
             expect(onSelectionSpy).toHaveBeenCalledOnceWith(name, false);
           });
         });
+
         componentNames.forEach(name => {
           it(`should have a fill opacity for "${name}"`, () => {
             node = legendContainer
@@ -154,8 +172,10 @@ describe('get legend', () => {
         });
       });
     });
+
     describe('layout', () => {
       let itemDimensions;
+
       describe('with labels', () => {
         it('should display the label', () => {
           const labels = legendContainer.selectAll('.legend-wrap g text');
@@ -170,6 +190,7 @@ describe('get legend', () => {
           )(labels);
           expect(hasLabels).toEqual(true);
         });
+
         it('should display the circles', () => {
           const circles = legendContainer.selectAll('.legend-wrap g circle');
           const displayPropNotSet = fp.flow(
@@ -183,6 +204,7 @@ describe('get legend', () => {
           )(circles);
           expect(hasCircles).toEqual(true);
         });
+
         xit('should not overlap with others', () => {
           itemDimensions = fp.flow(
             fp.head,
@@ -191,6 +213,7 @@ describe('get legend', () => {
           )(legendContainer.selectAll('.legend-wrap > g'));
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
+
         it('should be arranged in the appropriate order', () => {
           const labels = fp.head(
             legendContainer.selectAll('.legend-wrap g text')
@@ -200,11 +223,13 @@ describe('get legend', () => {
           ).toBe(true);
         });
       });
+
       describe('without labels', () => {
         beforeEach(() => {
           legend.width(200);
           legendContainer.call(legend);
         });
+
         it('should not display the label', () => {
           const labels = legendContainer.selectAll('.legend-wrap g text');
           const displayIsNone = fp.flow(
@@ -218,6 +243,7 @@ describe('get legend', () => {
           )(labels);
           expect(noLabels).toBe(true);
         });
+
         it('should display the circles', () => {
           const circles = legendContainer.selectAll('.legend-wrap g circle');
           const displayPropNotSet = fp.flow(
@@ -231,12 +257,14 @@ describe('get legend', () => {
           )(circles);
           expect(hasCircles).toEqual(true);
         });
+
         xit('should not overlap with others', () => {
-          itemDimensions = fp.flow(fp.head, fp.map(getItemDimensions))(
+          itemDimensions = fp.flow(xs => xs[0], fp.map(getItemDimensions))(
             legendContainer.selectAll('.legend-wrap > g')
           );
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
+
         it('should be arranged in the appropriate order', () => {
           const labels = fp.head(
             legendContainer.selectAll('.legend-wrap g text')

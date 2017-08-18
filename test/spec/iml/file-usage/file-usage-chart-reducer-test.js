@@ -3,7 +3,7 @@ import {
   DEFAULT_FILE_USAGE_CHART_ITEMS,
   default as fileUsageChartReducer
 } from '../../../../source/iml/file-usage/file-usage-chart-reducer.js';
-import deepFreeze from '@mfl/deep-freeze';
+import deepFreeze from '@iml/deep-freeze';
 
 describe('server reducer', () => {
   it('should be a function', () => {

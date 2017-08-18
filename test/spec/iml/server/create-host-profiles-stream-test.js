@@ -2,7 +2,7 @@ import angular from '../../../angular-mock-setup.js';
 import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
 
 import highland from 'highland';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
 describe('host profile then', () => {
   let mockSocketStream,
@@ -286,14 +286,15 @@ describe('host profile then', () => {
   });
 
   describe('create host profiles', () => {
-    let profile, spy, waitForCommandCompletion;
+    let profile, spy, waitForCommandCompletion, waitForCommandCompletionInner;
 
     beforeEach(() => {
       streams = [];
 
       const mod = require('../../../../source/iml/server/create-host-profiles-stream.js');
 
-      waitForCommandCompletion = jest.fn(() => highland());
+      waitForCommandCompletionInner = jest.fn(() => highland());
+      waitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
 
       const createHostProfiles = mod.createHostProfilesFactory(
         waitForCommandCompletion
@@ -362,7 +363,11 @@ describe('host profile then', () => {
 
       it('should pass in the commands to wait for command completion', () => {
         jest.runAllTimers();
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(false, [
+
+        expect.assertions(2);
+
+        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(false);
+        expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith([
           {
             command: 1
           }

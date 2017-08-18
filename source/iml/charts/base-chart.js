@@ -7,9 +7,9 @@ import d3 from 'd3';
 import nv from 'nvd3';
 import global from '../global.js';
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 
-import _ from '@mfl/lodash-mixins';
+import _ from '@iml/lodash-mixins';
 
 import {
   documentHidden,
