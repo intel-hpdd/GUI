@@ -11,14 +11,15 @@ import type { StorageResourceClass } from './storage-types.js';
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { canDispatch } from '../dispatch-source-utils.js';
+
 import { flow } from '@iml/fp';
 import {
   addStorageResourceClasses,
   setStorageSelectIndex
 } from './storage-actions.js';
 
-if (ALLOW_ANONYMOUS_READ) {
+if (canDispatch()) {
   socketStream('/storage_resource_class', {
     qs: {
       plugin_internal: false,

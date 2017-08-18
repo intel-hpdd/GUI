@@ -10,14 +10,14 @@ import socketStream from '../socket/socket-stream.js';
 
 import { ADD_ALERT_INDICATOR_ITEMS } from './alert-indicator-reducer.js';
 
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { canDispatch } from '../dispatch-source-utils.js';
 
 import type { HighlandStreamT } from 'highland';
 
 type bodyT = Array<{ affected: string[], message: string }>;
 type resp$T = HighlandStreamT<{ objects: bodyT }>;
 
-if (ALLOW_ANONYMOUS_READ) {
+if (canDispatch()) {
   const alert$: resp$T = socketStream('/alert/', {
     jsonMask: 'objects(affected,message)',
     qs: {

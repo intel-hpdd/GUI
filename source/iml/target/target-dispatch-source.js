@@ -10,14 +10,16 @@ import socketStream from '../socket/socket-stream.js';
 
 import { ADD_TARGET_ITEMS } from './target-reducer.js';
 
-import { CACHE_INITIAL_DATA, ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { CACHE_INITIAL_DATA } from '../environment.js';
+
+import { canDispatch } from '../dispatch-source-utils.js';
 
 store.dispatch({
   type: ADD_TARGET_ITEMS,
   payload: CACHE_INITIAL_DATA.target
 });
 
-if (ALLOW_ANONYMOUS_READ)
+if (canDispatch())
   socketStream('/target', {
     qs: {
       limit: 0

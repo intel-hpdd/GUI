@@ -1,7 +1,7 @@
 import highland from 'highland';
 
 describe('job indicator dispatch source', () => {
-  let mockStore, mockSocketStream, stream;
+  let mockStore, mockSocketStream, mockDispatchSourceUtils, stream;
 
   beforeEach(() => {
     mockStore = {
@@ -16,11 +16,19 @@ describe('job indicator dispatch source', () => {
       '../../../../source/iml/socket/socket-stream.js',
       () => mockSocketStream
     );
-    jest.mock('../../../../source/iml/environment.js', () => ({
-      ALLOW_ANONYMOUS_READ: true
-    }));
+    mockDispatchSourceUtils = {
+      canDispatch: jest.fn(() => true)
+    };
+    jest.mock(
+      '../../../../source/iml/dispatch-source-utils.js',
+      () => mockDispatchSourceUtils
+    );
 
     require('../../../../source/iml/job-indicator/job-indicator-dispatch-source.js');
+  });
+
+  it('should make sure that the app can dispatch', () => {
+    expect(mockDispatchSourceUtils.canDispatch).toHaveBeenCalledWith();
   });
 
   it('should request pending and tasked jobs', () => {

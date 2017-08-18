@@ -8,7 +8,9 @@
 import store from '../store/get-store.js';
 import socketStream from '../socket/socket-stream.js';
 
-import { CACHE_INITIAL_DATA, ALLOW_ANONYMOUS_READ } from '../environment.js';
+import { CACHE_INITIAL_DATA } from '../environment.js';
+
+import { canDispatch } from '../dispatch-source-utils.js';
 
 import { ADD_SERVER_ITEMS } from './server-reducer.js';
 
@@ -17,7 +19,7 @@ store.dispatch({
   payload: CACHE_INITIAL_DATA.host
 });
 
-if (ALLOW_ANONYMOUS_READ)
+if (canDispatch())
   socketStream('/host', {
     qs: { limit: 0 }
   })
