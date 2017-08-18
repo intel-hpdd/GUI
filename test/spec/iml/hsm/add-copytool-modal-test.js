@@ -258,7 +258,6 @@ describe('Add copytool modal', () => {
                type="number"
                ng-model="addCopytool.copytool.archive"
                min="0"
-               ng-pattern="/^\d+$/"
                required="true"
                placeholder="Enter archive number"
         />

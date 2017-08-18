@@ -1,3 +1,5 @@
+import highland from 'highland';
+
 describe('dashboard states', () => {
   let mod,
     mockDashboardFsB,
@@ -69,8 +71,7 @@ describe('dashboard states', () => {
         },
         data: {
           anonymousReadProtected: true,
-          eulaState: true,
-          helpPage: 'dashboard_charts.htm'
+          helpPage: 'Graphical_User_Interface_9_0.html#9.1'
         },
         controller: 'DashboardCtrl',
         controllerAs: 'dashboard',
@@ -252,6 +253,31 @@ describe('dashboard states', () => {
           getData: ['hostsB', '$stateParams', expect.any(Function)]
         }
       });
+    });
+  });
+
+  describe('getDataFn', () => {
+    let s$, $stateParams, result;
+    beforeEach(() => {
+      s$ = highland();
+      $stateParams = {
+        id: 1
+      };
+
+      result = mod.dashboardServerState.resolve.getData[2](
+        () => s$,
+        $stateParams
+      );
+    });
+
+    it('should pass in the label when present', async () => {
+      s$.write([{ id: 1, label: 'good' }, { id: 2, label: 'bad' }]);
+      expect(await result).toEqual({ label: 'good' });
+    });
+
+    it('should pass an empty label when not present', async () => {
+      s$.write([{ id: 2 }]);
+      expect(await result).toEqual({ label: '' });
     });
   });
 
@@ -464,7 +490,6 @@ describe('dashboard states', () => {
         },
         resolve: {
           charts: 'baseDashboardChartResolves',
-          fsStream: 'baseDashboardFsStream',
           getData: ['fsB', '$stateParams', expect.any(Function)]
         }
       });

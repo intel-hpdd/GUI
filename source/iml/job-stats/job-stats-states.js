@@ -20,9 +20,8 @@ export const jobStatsState = {
     }
   },
   data: {
-    helpPage: 'view_job_statistics.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.4',
     anonymousReadProtected: true,
-    eulaState: true,
     kind: 'Job Stats',
     icon: 'fa-signal'
   },

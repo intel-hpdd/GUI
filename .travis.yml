@@ -12,6 +12,7 @@ after_success:
 - codecov
 before_deploy: yarn postversion
 deploy:
+  skip_cleanup: true
   provider: npm
   email: joe.grund@intel.com
   api_key:

@@ -15,7 +15,7 @@ describe('jobstats resolves', () => {
           return highland([
             [
               {
-                id: '1',
+                id: 1,
                 name: 'foo'
               }
             ]
@@ -89,7 +89,7 @@ describe('jobstats resolves', () => {
 
     it('it should return a label when there is an id prop', async () => {
       const result = await getData({
-        id: '1',
+        id: 1,
         startDate: '2016-08-17T18:34:04.000Z',
         endDate: '2016-08-17T18:34:20.000Z'
       });

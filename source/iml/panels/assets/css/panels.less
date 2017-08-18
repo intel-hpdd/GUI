@@ -1,6 +1,15 @@
 root-panel {
   display: block;
 
+  &.active {
+    .user-select();
+
+    slider-panel,
+    .handle {
+      background-color: @gray-light;
+    }
+  }
+
   @media (max-width: @screen-tablet) {
     height: ~"calc(100vh - 25px)";
     overflow: auto;
@@ -13,7 +22,7 @@ root-panel {
     cursor: pointer;
 
     &:hover {
-      .side{
+      .side {
         background-color: lighten(@gray, 20%);
       }
 
@@ -53,14 +62,6 @@ root-panel {
       flex-direction: row;
     }
 
-    &.active {
-      .user-select();
-
-      slider-panel, .handle {
-        background-color: @gray-light;
-      }
-    }
-
     side-panel {
       display: block;
       align-items: stretch;
@@ -87,10 +88,11 @@ root-panel {
       display: none;
       cursor: ew-resize;
       transition: background-color 0.2s;
-      background-color: #BBB;
+      background-color: #bbb;
       z-index: 999;
 
-      &:hover, &:hover .handle {
+      &:hover,
+      &:hover .handle {
         background-color: @gray-light;
       }
 
@@ -98,7 +100,7 @@ root-panel {
         position: relative;
         width: 100%;
         height: 100%;
-        border-top: 57px solid #0067B4;
+        border-top: 57px solid #0067b4;
       }
 
       .handle {
@@ -109,7 +111,7 @@ root-panel {
         height: 64px;
         width: 18px;
         transition: background-color 0.2s;
-        background-color: #BBB;
+        background-color: #bbb;
         position: absolute;
         z-index: 999;
         top: ~"calc(50% - 32px)";
@@ -132,18 +134,18 @@ root-panel {
       border-left: darken(@gray-lighter, 10%);
 
       page-title {
-        flex: 0 0 57px
+        flex: 0 0 57px;
       }
 
       breadcrumb {
-        flex: 0 0 56px
+        flex: 0 0 56px;
       }
 
       .view-container {
         flex-grow: 1;
 
         &.waiting {
-          +footer {
+          + footer {
             opacity: 0;
             visibility: hidden;
           }

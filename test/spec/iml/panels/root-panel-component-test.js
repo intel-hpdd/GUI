@@ -23,7 +23,8 @@ describe('root panel component', () => {
 
     jest.mock('../../../../source/iml/global.js', () => ({
       requestAnimationFrame: mockRaf,
-      document: mockDoc
+      document: mockDoc,
+      dispatchEvent: jest.fn()
     }));
 
     jest.mock('../../../../source/iml/dom-utils.js', () => ({

@@ -16,11 +16,11 @@ import './file-system/file-system-dispatch-source.js';
 import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
+import './storage/storage-dispatch-source.js';
 
 import * as ENV from './environment.js';
 import angular from 'angular';
 import uiBootstrapModule from 'angular-ui-bootstrap';
-import ngResource from 'angular-resource';
 import uiRouter from 'angular-ui-router';
 import ngAnimate from 'angular-animate';
 import exceptionModule from './exception/exception-module';
@@ -37,9 +37,7 @@ import hsmFsModule from './hsm/hsm-fs-module';
 import hsmModule from './hsm/hsm-module';
 import aboutComponent from './about/about-component.js';
 import modalDecoratorModule from './modal-decorator/modal-decorator-module';
-import interceptorModule from './interceptors/interceptor-module';
 import statusModule from './status/status-module';
-import modelFactoryModule from './model-factory/model-factory-module';
 import mgtModule from './mgt/mgt-module';
 import logModule from './logs/log-module.js';
 import treeModule from './tree/tree-module.js';
@@ -58,6 +56,9 @@ import routeTransitions from './route-transitions.js';
 import breadcrumbComponent from './breadcrumb/breadcrumb.js';
 import pageTitleComponent from './page-title/page-title-component.js';
 import uiLoaderViewDirective from './ui-loader-view-directive.js';
+import storageComponent from './storage/storage-component.js';
+import storageDetailComponent from './storage/storage-detail-component.js';
+import addStorageComponent from './storage/add-storage-component.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -78,6 +79,12 @@ import { logState, logTableState } from './logs/log-states.js';
 import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
+
+import {
+  storageState,
+  addStorageState,
+  storageDetailState
+} from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -111,7 +118,6 @@ import disconnectListener from './disconnect-modal/disconnect-listener.js';
 const imlModule = angular
   .module('iml', [
     uiBootstrapModule,
-    ngResource,
     ngAnimate,
     routeToModule,
     exceptionModule,
@@ -129,9 +135,7 @@ const imlModule = angular
     hsmModule,
     multiTogglerModule,
     modalDecoratorModule,
-    interceptorModule,
     statusModule,
-    modelFactoryModule,
     mgtModule,
     logModule,
     treeModule,
@@ -147,15 +151,6 @@ const imlModule = angular
   .config($locationProvider => {
     'ngInject';
     $locationProvider.html5Mode(true).hashPrefix('!');
-  })
-  .config($httpProvider => {
-    'ngInject';
-    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-  })
-  .config(modelFactoryProvider => {
-    'ngInject';
-    modelFactoryProvider.setUrlPrefix('/api/');
   })
   .config($animateProvider => {
     'ngInject';
@@ -188,7 +183,10 @@ const imlModule = angular
       .state(dashboardOstState)
       .state(dashboardMdtState)
       .state(dashboardFsState)
-      .state(jobStatsState);
+      .state(jobStatsState)
+      .state(storageState)
+      .state(addStorageState)
+      .state(storageDetailState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
   })
@@ -212,6 +210,9 @@ const imlModule = angular
   .factory('disconnectModal', disconnectModal)
   .component('recordState', alertIndicatorNg)
   .directive('pdsh', pdsh)
+  .component('storage', storageComponent)
+  .component('addStorage', addStorageComponent)
+  .component('storageDetail', storageDetailComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',

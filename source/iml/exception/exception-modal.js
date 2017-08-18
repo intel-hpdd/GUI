@@ -3,25 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-
 const template =
   '<div class="modal-header"> \
-      <h3>An Error Has Occurred!</h3> \
+      <h3> \
+        <i class="fa fa-exclamation-triangle"></i> \
+        Encountered An Error \
+      </h3> \
   </div> \
-  <div class="modal-body"> \
-    <ul> \
-      <li ng-repeat="item in exceptionModal.messages"> \
-        <h5>{{ item.name | capitalize:true }}:</h5> \
-        <pre ng-if="exceptionModal.loadingStack && item.name === \'Client Stack Trace\'" \
-        class="loading">Processing... <i class="fa fa-spinner fa-spin fa-2x"></i></pre> \
-        <pre ng-if="!exceptionModal.loadingStack || item.name !== \'Client Stack Trace\'">{{item.value}}</pre> \
-      </li> \
-    </ul> \
+  <div class="modal-body text-center"> \
+    <p>An unexpected error has occurred. <br />Please collect chroma-diagnostics and send to support.</p> \
   </div> \
   <div class="modal-footer"> \
     <button ng-click="exceptionModal.reload()" class="btn btn-large btn-block" type="button"> \
-      <i class="icon-rotate-right"></i> Reload\
+      <i class="fa fa-refresh"></i> Reload\
     </button> \
   </div>';
 
@@ -36,7 +30,7 @@ export default $uibModal => {
   };
 
   return function open(opts) {
-    const options = _.merge(defaultOptions, opts);
+    const options = Object.assign(defaultOptions, opts);
 
     return $uibModal.open(options);
   };
