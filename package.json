@@ -66,7 +66,7 @@
     "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "fastdom": "1.0.6",
-    "file-loader": "^0.11.2",
+    "file-loader": "^1.0.0-rc.0",
     "flow-bin": "^0.52.0",
     "font-awesome": "4.7.0",
     "font-awesome-webpack": "^0.0.5-beta.2",
