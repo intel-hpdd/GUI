@@ -12,16 +12,16 @@ import type { HighlandStreamT } from 'highland';
 
 const empty = {};
 
-export default function multiStream<T>(streams: HighlandStreamT<T>[]) {
+export default function multiStream(streams: any) {
   return highland(function(push) {
     const s: HighlandStreamT<mixed[]> = this;
 
-    const data: any[] = fp.map(fp.always(empty))(streams);
+    const data: any = fp.map(fp.always(empty))(streams);
 
-    streams.forEach((s2: HighlandStreamT<T>, index: number) => {
+    streams.forEach((s2, index: number) => {
       s.onDestroy(s2.destroy.bind(s2));
 
-      s2.errors(e => push(e)).each((x: T) => {
+      s2.errors(e => push(e)).each(x => {
         data[index] = x;
 
         if (data.indexOf(empty) === -1) push(null, [...data]);
@@ -29,3 +29,9 @@ export default function multiStream<T>(streams: HighlandStreamT<T>[]) {
     });
   });
 }
+
+type MultiStream2<A, B> = (
+  [HighlandStreamT<A>, HighlandStreamT<B>]
+) => HighlandStreamT<[A, B]>;
+
+export const multiStream2: MultiStream2<*, *> = xs => (multiStream(xs): any);
