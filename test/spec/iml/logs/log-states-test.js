@@ -95,7 +95,7 @@ describe('status states', () => {
         log$ = mod.logTableState.resolve.log$;
       });
 
-      it('should call /alert with a qs', () => {
+      it('should call /log with a qs', () => {
         qsFromLocation.mockReturnValue(
           'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
         );
@@ -107,7 +107,7 @@ describe('status states', () => {
         );
       });
 
-      it('should call /alert without a qs', () => {
+      it('should call /log without a qs', () => {
         qsFromLocation.mockReturnValue('');
 
         log$(qsFromLocation);

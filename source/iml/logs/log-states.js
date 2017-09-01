@@ -18,7 +18,11 @@ import { addHostIds } from './log-transforms.js';
 
 import { addCurrentPage } from '../api-transforms.js';
 
+import { multiStream2 } from '../multi-stream.js';
+
 import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
+
+import type { HighlandStreamT } from 'highland';
 
 export const logState = {
   name: 'app.log',
@@ -67,7 +71,10 @@ export const logTableState = {
 
       if (qs.length) qs = `?${qs}`;
 
-      const $ = store.select('server').zip(socketStream(`/log/${qs}`));
+      const $: HighlandStreamT<[Object[], Object]> = multiStream2([
+        store.select('server'),
+        socketStream(`/log/${qs}`)
+      ]);
 
       return resolveStream($.map(fp.flow(addHostIds, addCurrentPage)));
     }
