@@ -23,7 +23,7 @@
     "@iml/debounce": "^1.0.2",
     "@iml/deep-freeze": "2.0.2",
     "@iml/extract-api": "1.0.4",
-    "@iml/flat-map-changes": "1.0.3",
+    "@iml/flat-map-changes": "1.0.4",
     "@iml/flow-highland": "4.3.0",
     "@iml/flow-jasmine": "1.6.1",
     "@iml/fp": "8.0.3",
