@@ -14,9 +14,9 @@
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@iml/extract-api/-/extract-api-1.0.4.tgz#82830068624f4ce6ddd634b89c3dde2551ef59c9"
 
-"@iml/flat-map-changes@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@iml/flat-map-changes/-/flat-map-changes-1.0.3.tgz#1ce0ba3500cb9d1d78b10d3b7f42df02c6d9a64c"
+"@iml/flat-map-changes@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@iml/flat-map-changes/-/flat-map-changes-1.0.4.tgz#0682dbe8bcf520a549226ed7586959bbb5361494"
   dependencies:
     highland "3.0.0-beta.4"
 
