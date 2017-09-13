@@ -1,6 +1,6 @@
 {
   "name": "@iml/gui",
-  "version": "6.2.0",
+  "version": "6.2.1",
   "license": "MIT",
   "author": "IML Team",
   "scripts": {
@@ -11,11 +11,7 @@
     "flow": "flow",
     "cover": "jest --coverage"
   },
-  "pre-commit": [
-    "flow",
-    "eslint",
-    "test"
-  ],
+  "pre-commit": ["flow", "eslint", "test"],
   "repository": {
     "type": "git",
     "url": "https://github.com/intel-hpdd/GUI.git"
