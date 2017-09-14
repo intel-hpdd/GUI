@@ -311,6 +311,7 @@ export default {
 
     this.$onDestroy = () => {
       this.storageResource$.destroy();
+      this.alertIndicatorB.endBroadcast();
       Inferno.render(null, el);
     };
   }
