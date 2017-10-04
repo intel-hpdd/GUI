@@ -23,7 +23,7 @@ export const addStorageState = {
     }
   },
   data: {
-    helpPage: 'storage_tab.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.5',
     access: GROUPS.FS_ADMINS,
     kind: 'Add Storage Device',
     icon: 'fa-hdd-o'
@@ -41,7 +41,7 @@ export const storageState = {
     }
   },
   data: {
-    helpPage: 'storage_tab.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.5',
     access: GROUPS.FS_ADMINS,
     kind: 'Storage',
     icon: 'fa-hdd-o'
@@ -59,7 +59,7 @@ export const storageDetailState = {
     }
   },
   data: {
-    helpPage: 'storage_tab.htm',
+    helpPage: 'Graphical_User_Interface_9_0.html#9.3.5',
     access: GROUPS.FS_ADMINS,
     kind: 'Storage Detail',
     icon: 'fa-hdd-o'
