@@ -5,7 +5,7 @@ Object {
   "component": "storageDetail",
   "data": Object {
     "access": "filesystem_administrators",
-    "helpPage": "storage_tab.htm",
+    "helpPage": "Graphical_User_Interface_9_0.html#9.3.5",
     "icon": "fa-hdd-o",
     "kind": "Storage Detail",
   },
@@ -29,7 +29,7 @@ Object {
   "component": "addStorage",
   "data": Object {
     "access": "filesystem_administrators",
-    "helpPage": "storage_tab.htm",
+    "helpPage": "Graphical_User_Interface_9_0.html#9.3.5",
     "icon": "fa-hdd-o",
     "kind": "Add Storage Device",
   },
@@ -51,7 +51,7 @@ Object {
   "component": "storage",
   "data": Object {
     "access": "filesystem_administrators",
-    "helpPage": "storage_tab.htm",
+    "helpPage": "Graphical_User_Interface_9_0.html#9.3.5",
     "icon": "fa-hdd-o",
     "kind": "Storage",
   },
