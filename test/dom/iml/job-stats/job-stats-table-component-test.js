@@ -133,7 +133,7 @@ describe('jobstats table component', () => {
 
     it('should have a help link', () => {
       expect(el.querySelector('h4 a').getAttribute('href')).toBe(
-        '/static/webhelp/?view_job_statistics.htm'
+        '/help/docs/Graphical_User_Interface_9_0.html#9.4'
       );
     });
   });

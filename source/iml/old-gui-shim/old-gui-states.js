@@ -18,7 +18,7 @@ export default [
     '/configure/volume',
     'app.oldVolume',
     'configureold/volume',
-    'volumes_tab.htm',
+    'Graphical_User_Interface_9_0.html#9.3.7',
     'Volumes',
     'fa-th',
     {}
@@ -27,7 +27,7 @@ export default [
     '/configure/power',
     'app.oldPower',
     'configureold/power',
-    'power_control_tab.htm',
+    'Graphical_User_Interface_9_0.html#9.3.2',
     'Power Control',
     'fa-bolt',
     {}
@@ -36,7 +36,7 @@ export default [
     '/configure/filesystem/create',
     'app.oldFilesystemCreate',
     'configureold/filesystem/create',
-    'creating_a_file_system2.htm',
+    'Graphical_User_Interface_9_0.html#9.3.3',
     'Create File System',
     'fa-files-o',
     {}
@@ -45,7 +45,7 @@ export default [
     '/configure/filesystem/:id',
     'app.oldFilesystemDetail',
     'configureold/filesystem/detail',
-    'file_systems_details_page.htm',
+    'Graphical_User_Interface_9_0.html#9.1.1',
     'File System Detail',
     'fa-files-o',
     oldFilesystemDetailResolve
@@ -54,7 +54,7 @@ export default [
     '/configure/user',
     'app.oldUser',
     '/configureold/user',
-    'users_tab.htm',
+    'Graphical_User_Interface_9_0.html#9.3.6',
     'Users',
     'fa-users',
     {}
@@ -63,7 +63,7 @@ export default [
     '/configure/user/:id',
     'app.oldUserDetail',
     '/userold',
-    'users_tab.htm',
+    'Graphical_User_Interface_9_0.html#9.3.6',
     'User detail',
     'fa-user',
     oldUserDetailResolve
