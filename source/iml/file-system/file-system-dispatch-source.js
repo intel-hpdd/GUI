@@ -31,6 +31,8 @@ if (canDispatch())
         client_count,
         bytes_total,
         bytes_free,
+        files_total,
+        files_free,
         available_actions,
         mgt(
           primary_server_name,
