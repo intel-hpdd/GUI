@@ -55,7 +55,7 @@
     "babel-preset-env": "^1.6.0",
     "bootstrap": "3.3.7",
     "clean-webpack-plugin": "^0.1.16",
-    "cross-env": "5.0.2",
+    "cross-env": "5.1.0",
     "css-loader": "^0.28.4",
     "d3": "3.5.17",
     "del": "2.2.2",
