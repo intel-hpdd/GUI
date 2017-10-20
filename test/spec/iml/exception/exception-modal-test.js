@@ -26,7 +26,7 @@ describe('exception modal', () => {
       </h3> \
   </div> \
   <div class="modal-body text-center"> \
-    <p>An unexpected error has occurred. <br />Please collect chroma-diagnostics and send to support.</p> \
+    <p>An unexpected error has occurred. <br />Please collect iml-diagnostics and send to support.</p> \
   </div> \
   <div class="modal-footer"> \
     <button ng-click="exceptionModal.reload()" class="btn btn-large btn-block" type="button"> \
