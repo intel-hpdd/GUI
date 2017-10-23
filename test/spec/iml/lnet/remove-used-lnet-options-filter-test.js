@@ -16,17 +16,7 @@ describe('Remove used LNet options', () => {
       networkInterfaces[0]
     );
 
-    expect(filtered).toEqual([
-      { name: 'Not Lustre Network', value: -1 },
-      { name: 'Lustre Network 0', value: 0 },
-      { name: 'Lustre Network 1', value: 1 },
-      { name: 'Lustre Network 2', value: 2 },
-      { name: 'Lustre Network 3', value: 3 },
-      { name: 'Lustre Network 4', value: 4 },
-      { name: 'Lustre Network 5', value: 5 },
-      { name: 'Lustre Network 8', value: 8 },
-      { name: 'Lustre Network 9', value: 9 }
-    ]);
+    expect(filtered).toMatchSnapshot();
   });
   it('should always have Not Lustre Network', () => {
     const networkInterface = createNetworkInterface(-1);

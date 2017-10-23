@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Remove used LNet options should filter out used values 1`] = `
+Array [
+  Object {
+    "name": "Not Lustre Network",
+    "value": -1,
+  },
+  Object {
+    "name": "Lustre Network 0",
+    "value": 0,
+  },
+  Object {
+    "name": "Lustre Network 1",
+    "value": 1,
+  },
+  Object {
+    "name": "Lustre Network 2",
+    "value": 2,
+  },
+  Object {
+    "name": "Lustre Network 3",
+    "value": 3,
+  },
+  Object {
+    "name": "Lustre Network 4",
+    "value": 4,
+  },
+  Object {
+    "name": "Lustre Network 5",
+    "value": 5,
+  },
+  Object {
+    "name": "Lustre Network 8",
+    "value": 8,
+  },
+  Object {
+    "name": "Lustre Network 9",
+    "value": 9,
+  },
+  Object {
+    "name": "Lustre Network 10",
+    "value": 10,
+  },
+  Object {
+    "name": "Lustre Network 11",
+    "value": 11,
+  },
+  Object {
+    "name": "Lustre Network 12",
+    "value": 12,
+  },
+  Object {
+    "name": "Lustre Network 13",
+    "value": 13,
+  },
+  Object {
+    "name": "Lustre Network 14",
+    "value": 14,
+  },
+  Object {
+    "name": "Lustre Network 15",
+    "value": 15,
+  },
+  Object {
+    "name": "Lustre Network 16",
+    "value": 16,
+  },
+  Object {
+    "name": "Lustre Network 17",
+    "value": 17,
+  },
+  Object {
+    "name": "Lustre Network 18",
+    "value": 18,
+  },
+  Object {
+    "name": "Lustre Network 19",
+    "value": 19,
+  },
+  Object {
+    "name": "Lustre Network 20",
+    "value": 20,
+  },
+  Object {
+    "name": "Lustre Network 21",
+    "value": 21,
+  },
+  Object {
+    "name": "Lustre Network 22",
+    "value": 22,
+  },
+  Object {
+    "name": "Lustre Network 23",
+    "value": 23,
+  },
+  Object {
+    "name": "Lustre Network 24",
+    "value": 24,
+  },
+  Object {
+    "name": "Lustre Network 25",
+    "value": 25,
+  },
+  Object {
+    "name": "Lustre Network 26",
+    "value": 26,
+  },
+  Object {
+    "name": "Lustre Network 27",
+    "value": 27,
+  },
+  Object {
+    "name": "Lustre Network 28",
+    "value": 28,
+  },
+  Object {
+    "name": "Lustre Network 29",
+    "value": 29,
+  },
+  Object {
+    "name": "Lustre Network 30",
+    "value": 30,
+  },
+  Object {
+    "name": "Lustre Network 31",
+    "value": 31,
+  },
+  Object {
+    "name": "Lustre Network 32",
+    "value": 32,
+  },
+  Object {
+    "name": "Lustre Network 33",
+    "value": 33,
+  },
+  Object {
+    "name": "Lustre Network 34",
+    "value": 34,
+  },
+  Object {
+    "name": "Lustre Network 35",
+    "value": 35,
+  },
+  Object {
+    "name": "Lustre Network 36",
+    "value": 36,
+  },
+  Object {
+    "name": "Lustre Network 37",
+    "value": 37,
+  },
+  Object {
+    "name": "Lustre Network 38",
+    "value": 38,
+  },
+  Object {
+    "name": "Lustre Network 39",
+    "value": 39,
+  },
+  Object {
+    "name": "Lustre Network 40",
+    "value": 40,
+  },
+  Object {
+    "name": "Lustre Network 41",
+    "value": 41,
+  },
+  Object {
+    "name": "Lustre Network 42",
+    "value": 42,
+  },
+  Object {
+    "name": "Lustre Network 43",
+    "value": 43,
+  },
+  Object {
+    "name": "Lustre Network 44",
+    "value": 44,
+  },
+  Object {
+    "name": "Lustre Network 45",
+    "value": 45,
+  },
+  Object {
+    "name": "Lustre Network 46",
+    "value": 46,
+  },
+  Object {
+    "name": "Lustre Network 47",
+    "value": 47,
+  },
+  Object {
+    "name": "Lustre Network 48",
+    "value": 48,
+  },
+]
+`;
