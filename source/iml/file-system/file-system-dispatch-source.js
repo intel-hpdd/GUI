@@ -34,6 +34,7 @@ if (canDispatch())
         files_total,
         files_free,
         available_actions,
+        immutable_state,
         mgt(
           primary_server_name,
           primary_server
