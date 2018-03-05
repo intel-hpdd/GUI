@@ -127,6 +127,23 @@ describe('select server profile', () => {
       });
     });
 
+    describe('profile stream', () => {
+      beforeEach(() => {
+        const hostProfileFixture = require('../../../data-fixtures/transformed-host-profile-fixture.json');
+        const setValid = x => {
+          x.invalid = false;
+          return x;
+        }
+        const hostProfiles = fp.map(setValid)(hostProfileFixture);
+
+        hostProfileStream.write(hostProfiles);
+      });
+
+      it('should display in the correct order', () => {
+        expect(selectServerProfileStep.profiles).toMatchSnapshot();
+      });
+    });
+
     describe('get host path', () => {
       let item;
       beforeEach(() => {
