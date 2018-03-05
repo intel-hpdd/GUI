@@ -64,11 +64,17 @@ export function SelectServerProfileStepCtrl(
 
   hostProfileStream
     .tap(function(profiles) {
-      profiles.sort(function sortProfiles(a, b) {
-        if (a.invalid === true) return 1;
-        else if (b.invalid === true) return -1;
-        else return 0;
-      });
+      profiles
+        .sort((a, b) => {
+          if (a.invalid === true) return 1;
+          else if (b.invalid === true) return -1;
+          else return 0;
+        })
+        .sort((a, b) => {
+          if (a.name === 'base_monitored') return -1;
+          else if (b.name === 'base_monitored') return 1;
+          else return 0;
+        });
 
       selectServerProfileStep.profiles = profiles;
 
