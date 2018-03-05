@@ -128,19 +128,27 @@ describe('select server profile', () => {
     });
 
     describe('profile stream', () => {
+      let hostProfileFixture;
       beforeEach(() => {
-        const hostProfileFixture = require('../../../data-fixtures/transformed-host-profile-fixture.json');
-        const setValid = x => {
-          x.invalid = false;
-          return x;
-        }
-        const hostProfiles = fp.map(setValid)(hostProfileFixture);
-
-        hostProfileStream.write(hostProfiles);
+        hostProfileFixture = require('../../../data-fixtures/transformed-host-profile-fixture.json');
       });
 
       it('should display in the correct order', () => {
+        const setValid = x => {
+          x.invalid = false;
+          return x;
+        };
+        const hostProfiles = fp.map(setValid)(hostProfileFixture);
+
+        hostProfileStream.write(hostProfiles);
         expect(selectServerProfileStep.profiles).toMatchSnapshot();
+      });
+
+      describe('with invalid profiles', () => {
+        it('should display in the correct order', () => {
+          hostProfileStream.write(hostProfileFixture);
+          expect(selectServerProfileStep.profiles).toMatchSnapshot();
+        });
       });
     });
 
