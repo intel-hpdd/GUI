@@ -65,7 +65,7 @@ export function SelectServerProfileStepCtrl(
   hostProfileStream
     .tap(function(profiles) {
       profiles
-        .sort(function sortProfiles(a, b) {
+        .sort((a, b) => {
           if (a.invalid === true) return 1;
           else if (b.invalid === true) return -1;
           else return 0;
