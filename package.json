@@ -11,7 +11,15 @@
     "flow": "flow",
     "cover": "jest --coverage"
   },
-  "pre-commit": ["flow", "eslint", "test"],
+  "files": [
+    "__init__.pyc",
+    "dist"
+  ],
+  "pre-commit": [
+    "flow",
+    "eslint",
+    "test"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/intel-hpdd/GUI.git"
