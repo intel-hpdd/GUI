@@ -3,4 +3,4 @@
 /node_modules
 /.idea
 /test/OUTPUT_DIR
-/dist
+/targetdir

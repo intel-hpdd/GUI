@@ -1,20 +1,48 @@
-language: node_js
-node_js:
-- 8
-before_script:
-- npm i -g add codecov
-script:
-- npm run eslint
-- npm run flow
-- npm run cover -- --runInBand
-after_success:
-- codecov
-before_deploy: npm postversion
-deploy:
-  skip_cleanup: true
-  provider: npm
-  email: "$NPM_EMAIL"
-  api_key: "$NPM_TOKEN"
-  on:
-    tags: true
-    repo: intel-hpdd/GUI
+language: generic
+sudo: required
+services:
+  - docker
+jobs:
+  include:
+    - stage: test
+      env: Type='virus scan'
+      script:
+      - ./include/travis/virus-scan.sh
+    - stage: test
+      env: Type='mock build test'
+      script:
+      - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
+    - stage: deploy-npm
+      if: branch =~ ^v\d+\.\d+\.\d+-1.*$
+      env: Type='NPM Deploy'
+      language: node_js
+      node_js:
+      - 8
+      before_script:
+        - npm i -g add codecov
+      script:
+        - npm run eslint
+        - npm run flow
+        - npm run cover -- --runInBand
+      after_success:
+        - codecov
+      before_deploy: npm postversion
+      deploy:
+        provider: npm
+        email: "$NPM_EMAIL"
+        skip_cleanup: true
+        api_key: "$NPM_TOKEN"
+        on:
+          all_branches: true
+          repo: intel-hpdd/GUI
+    - stage: deploy-copr
+      if: branch =~ ^v\d+\.\d+\.\d+-.+$
+      env: Type='Copr deploy'
+      before_deploy:
+      - include/travis/copr-deploy.sh prepare
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build"
+        on:
+          all_branches: true
