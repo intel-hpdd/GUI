@@ -1,5 +1,5 @@
 NAME            := iml-gui
-PACKAGE_VERSION := 6.2.6
+PACKAGE_VERSION := 6.3.0
 PACKAGE_RELEASE := 1
 
 #BASEURL ?= $(PWD)/targetdir

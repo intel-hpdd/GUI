@@ -1,6 +1,6 @@
 %define base_name gui
 Name:       iml-%{base_name}
-Version:    6.2.6
+Version:    6.3.0
 Release:    1%{?dist}
 Summary:    Graphical User Interface for Intel Manager for Lustre.
 License:    MIT
@@ -32,6 +32,9 @@ rm -rf %{buildroot}
 %{_libdir}/iml-manager/%{name}
 
 %changelog
+* Thu Mar 15 2018 Brian J. Murrell <brian.murrell@intel.com> - 6.3.0-1
+- Build using the module-tools framework
+
 * Mon Oct 23 2017 Joe Grund <joe.grund@intel.com> - 6.2.5-1
 - Bump LNets to 50
 - Fix error message working

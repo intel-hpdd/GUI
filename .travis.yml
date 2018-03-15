@@ -12,20 +12,22 @@ jobs:
       env: Type='mock build test'
       script:
       - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
-    - stage: deploy-npm
-      if: branch =~ ^v\d+\.\d+\.\d+-1.*$
-      env: Type='NPM Deploy'
+    - stage: test
+      env: Type='Test Checks'
       language: node_js
       node_js:
       - 8
       before_script:
-        - npm i -g add codecov
+      - npm i -g add codecov
       script:
-        - npm run eslint
-        - npm run flow
-        - npm run cover -- --runInBand
+      - npm run eslint
+      - npm run flow
+      - npm run cover -- --runInBand
       after_success:
-        - codecov
+      - codecov
+    - stage: deploy-npm
+      if: branch =~ ^v\d+\.\d+\.\d+-1.*$
+      env: Type='NPM Deploy'
       before_deploy: npm postversion
       deploy:
         provider: npm
