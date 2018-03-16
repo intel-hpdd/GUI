@@ -1,4 +1,7 @@
 %define base_name gui
+%define managerdir /iml-manager/
+%define backcompatdir /usr/lib%{managerdir}
+
 Name:       iml-%{base_name}
 Version:    6.3.0
 Release:    1%{?dist}
@@ -22,18 +25,23 @@ This module is a bundled version of the realtime user interface for Intel Manage
 %install
 rm -rf %{buildroot}
 
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/iml-manager/%{name}
-cp -a targetdir/. $RPM_BUILD_ROOT%{_libdir}/iml-manager/%{name}/
+mkdir -p %{buildroot}%{_datadir}%{managerdir}%{name}
+cp -al targetdir/. %{buildroot}%{_datadir}%{managerdir}%{name}
+mkdir -p %{buildroot}%{backcompatdir}
+ln -s %{_datadir}%{managerdir}%{name} %{buildroot}%{backcompatdir}%{name}
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%{_libdir}/iml-manager/%{name}
+%{_datadir}
+%{backcompatdir}
 
 %changelog
 * Thu Mar 15 2018 Brian J. Murrell <brian.murrell@intel.com> - 6.3.0-1
 - Build using the module-tools framework
+- Move content to /usr/share and create a backcompat symlink
+  to be removed at some future update
 
 * Mon Oct 23 2017 Joe Grund <joe.grund@intel.com> - 6.2.5-1
 - Bump LNets to 50
