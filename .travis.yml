@@ -28,7 +28,7 @@ jobs:
     - stage: deploy-npm
       if: branch =~ ^v\d+\.\d+\.\d+-1.*$
       env: Type='NPM Deploy'
-      before_deploy: npm postversion
+      before_deploy: npm run postversion
       deploy:
         provider: npm
         email: "$NPM_EMAIL"
