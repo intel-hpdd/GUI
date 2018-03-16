@@ -8,7 +8,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const extractLess = new ExtractTextPlugin('[name].[contenthash].css');
 
-const pathsToClean = ['dist/index.html', 'dist/main.*'];
+const pathsToClean = ['targetdir/index.html', 'targetdir/main.*'];
 
 const cleanOptions = {
   root: __dirname,
@@ -24,7 +24,7 @@ const config = {
   },
   output: {
     publicPath: '/gui/',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'targetdir'),
     filename: '[name].[chunkhash].js'
   },
   module: {

@@ -1,11 +1,11 @@
 {
   "name": "@iml/gui",
-  "version": "6.2.6",
+  "version": "6.3.0",
   "license": "MIT",
   "author": "IML Team",
   "scripts": {
     "test": "jest",
-    "postversion": "rm -rf ./dist; cross-env NODE_ENV=production webpack -p",
+    "postversion": "rm -rf ./targetdir; cross-env NODE_ENV=production webpack -p",
     "watch": "webpack -w",
     "eslint": "eslint ./",
     "flow": "flow",
@@ -13,7 +13,7 @@
   },
   "files": [
     "__init__.pyc",
-    "dist"
+    "targetdir/"
   ],
   "pre-commit": [
     "flow",
