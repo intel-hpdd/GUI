@@ -5,16 +5,16 @@
 Name:       iml-%{base_name}
 Version:    6.3.0
 Release:    1%{?dist}
-Summary:    Graphical User Interface for Intel Manager for Lustre.
+Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
 Group:      System Environment/Libraries
-URL:        https://github.com/intel-hpdd/%{base_name}
+URL:        https://github.com/whamcloud/%{base_name}
 Source0:    https://registry.npmjs.org/@iml/%{base_name}/-/%{base_name}-%{version}.tgz
 
 BuildArch:  noarch
 
 %description
-This module is a bundled version of the realtime user interface for Intel Manager for Lustre.
+This module is a bundled version of the realtime user interface for Integrated Manager for Lustre.
 
 %prep
 %setup -q -n package

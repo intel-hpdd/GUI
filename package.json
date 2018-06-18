@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/intel-hpdd/GUI.git"
+    "url": "https://github.com/whamcloud/GUI.git"
   },
   "publishConfig": {
     "access": "public"
