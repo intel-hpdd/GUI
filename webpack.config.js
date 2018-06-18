@@ -35,6 +35,10 @@ const config = {
           'url-loader?limit=1000&mimetype=application/font-woff&name=/gui/[hash].[ext]'
       },
       {
+        test: /\.ico$/,
+        loader: 'file-loader?name=/[name].[ext]'
+      },
+      {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader?name=/gui/[hash].[ext]'
       },

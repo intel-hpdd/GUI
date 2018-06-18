@@ -7,6 +7,7 @@
 
 import 'font-awesome-webpack';
 import '../styles/imports.less';
+import '../favicon.ico';
 
 import './target/target-dispatch-source.js';
 import './alert-indicator/alert-indicator-dispatch-source.js';
