@@ -58,7 +58,7 @@ else
 copr_build iml_copr_build: $(PREREQ)
 	$(ECHO) copr-cli $(COPR_CONFIG) buildmock $(OWNER_PROJECT)       \
 		 --scm-type git                                  \
-		 --scm-url https://github.com/whamcloud/$(NAME)
+		 --scm-url https://github.com/intel-hpdd/$(NAME)
 endif
 
 .PHONY: copr_build iml_copr_build
