@@ -41,7 +41,7 @@ jobs:
         api_key: "$NPM_TOKEN"
         on:
           all_branches: true
-          repo: intel-hpdd/GUI
+          repo: whamcloud/GUI
     - stage: deploy-copr
       if: branch =~ ^v\d+\.\d+\.\d+-.+$
       env: Type='Copr deploy'

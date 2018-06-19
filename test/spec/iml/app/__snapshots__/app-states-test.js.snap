@@ -94,9 +94,9 @@ Object {
     <ui-loader-view class=\\"app-view view-container\\"></ui-loader-view>
     <footer class=\\"text-center\\">
       <small>
-        Intel&reg; Manager for Lustre* software {{ app.RUNTIME_VERSION }} is
+        Integrated Manager for Lustre software {{ app.RUNTIME_VERSION }} is
         Copyright &copy; {{ app.COPYRIGHT_YEAR }} Intel Corporation. All rights reserved.
-        <a ui-sref=\\"app.about({ resetState: true })\\" class=\\"navigation\\">About Intel&reg; Manager for Lustre* software</a>
+        <a ui-sref=\\"app.about({ resetState: true })\\" class=\\"navigation\\">About Integrated Manager for Lustre software</a>
         <a id=\\"system-status\\" ui-sref=\\"app.oldSystemStatus({ resetState: true })\\" restrict-to=\\"{{ app.GROUPS.FS_ADMINS }}\\">System Status</a>
       </small>
     </footer>

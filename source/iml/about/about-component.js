@@ -16,10 +16,10 @@ function AboutComponent() {
           <div class="about-logo" />
           {IS_RELEASE
             ? <text>
-                Intel® Manager for Lustre* software {VERSION} (build {BUILD})
+                Integrated Manager for Lustre software {VERSION} (build {BUILD})
               </text>
             : <text>
-                Intel® Manager for Lustre* software build: {BUILD}
+                Integrated Manager for Lustre software build: {BUILD}
               </text>}
         </div>
       </div>

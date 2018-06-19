@@ -14,7 +14,7 @@ export const aboutState = {
   },
   data: {
     anonymousReadProtected: true,
-    kind: 'About Intel® Manager for Lustre* software',
+    kind: 'About Integrated Manager for Lustre software',
     icon: 'fa-info-circle'
   }
 };
