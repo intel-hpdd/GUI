@@ -1,5 +1,5 @@
 NAME            := iml-gui
-PACKAGE_VERSION := 6.3.0
+PACKAGE_VERSION := 6.3.1
 PACKAGE_RELEASE := 1
 
 install_build_deps:
