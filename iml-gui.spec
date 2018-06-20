@@ -38,6 +38,10 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
+* Wed Jun 20 2018 Will Johnson <wjohnson@whamcloud.com> - 6.3.1-1
+- Changed logos from Intel to Whamcloud
+- Removed Intel branding (except copyright)
+
 * Thu Mar 15 2018 Brian J. Murrell <brian.murrell@intel.com> - 6.3.0-1
 - Build using the module-tools framework
 - Move content to /usr/share and create a backcompat symlink
