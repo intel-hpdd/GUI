@@ -3,7 +3,7 @@
 %define backcompatdir /usr/lib%{managerdir}
 
 Name:       iml-%{base_name}
-Version:    6.3.0
+Version:    6.3.1
 Release:    1%{?dist}
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
