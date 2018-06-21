@@ -200,8 +200,8 @@ describe('server states', () => {
     <h4 class="section-header">Server Actions</h4>
 
     <div class="action-buttons">
-      <span ng-repeat="action in server.actions track by action.value">
-        <a type="button" class="btn btn-primary btn-sm tooltip-container tooltip-hover"
+      <span class="tooltip-container tooltip-hover" ng-repeat="action in server.actions track by action.value">
+        <a type="button" class="btn btn-primary btn-sm"
            ng-class="{disabled: action.buttonDisabled(server.servers)}"
            ng-click="server.setEditName(action.value)">
           {{action.value}}
