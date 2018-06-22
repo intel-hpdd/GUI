@@ -18,6 +18,7 @@ import './user/user-dispatch-source.js';
 import './job-indicator/job-indicator-dispatch-source.js';
 import './session/session-dispatch-source.js';
 import './storage/storage-dispatch-source.js';
+import './date/date-type-dispatch-source.js';
 
 import * as ENV from './environment.js';
 import angular from 'angular';
@@ -60,6 +61,7 @@ import uiLoaderViewDirective from './ui-loader-view-directive.js';
 import storageComponent from './storage/storage-component.js';
 import storageDetailComponent from './storage/storage-detail-component.js';
 import addStorageComponent from './storage/add-storage-component.js';
+import { dateComponent } from './date/date.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -207,6 +209,7 @@ const imlModule = angular
   .component('storage', storageComponent)
   .component('addStorage', addStorageComponent)
   .component('storageDetail', storageDetailComponent)
+  .component('dateComponent', dateComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',

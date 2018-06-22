@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`date type should create the component markup 1`] = `
+<div>
+  <div
+    class="well well-sm date-type"
+  >
+    <label
+      class="radio"
+    >
+      <input
+        type="radio"
+        name="datetype"
+        id="utc"
+        value="UTC"
+      />
+      UTC
+    </label>
+    <label
+      class="radio"
+    >
+      <input
+        type="radio"
+        name="datetype"
+        id="local"
+      />
+      Local
+    </label>
+  </div>
+</div>
+`;

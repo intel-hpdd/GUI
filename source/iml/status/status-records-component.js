@@ -22,7 +22,13 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
   propagateChange($scope, this, 'data', s);
 
-  $scope.$on('$destroy', () => this.notification$.destroy());
+  const isUtc$ = this.dateType$.pluck('isUtc');
+  propagateChange($scope, this, 'isUtc', isUtc$);
+
+  $scope.$on('$destroy', () => {
+    this.notification$.destroy();
+    this.dateType$.destroy();
+  });
 
   const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];
   const getType = fp.flow(
@@ -42,7 +48,8 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
 export default {
   bindings: {
-    notification$: '<'
+    notification$: '<',
+    dateType$: '<'
   },
   controller: StatusController,
   template: `
@@ -67,10 +74,12 @@ export default {
           </td>
           <td class="hidden-xs">{{ row.record_type }}</td>
           <td>
-            <a route-to="log/?datetime__gte={{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="$ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="$ctrl.isUtc === false" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
           </td>
           <td>
-            <a ng-if="!row.active" route-to="log/?datetime__gte={{ row.end | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="!row.active && $ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="!row.active && $ctrl.isUtc === false" route-to="log/?datetime__gte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
           </td>
           <td>{{ row.message }}</td>
           <td>

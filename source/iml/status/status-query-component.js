@@ -52,6 +52,7 @@ export default {
         completer="::$ctrl.completer(value, cursorPosition)"
       ></parsely-box>
       <common-status-searches></common-status-searches>
+      <date-component></date-component>
       <ui-loader-view class="status-table"></ui-loader-view>
     </div>
   </div>

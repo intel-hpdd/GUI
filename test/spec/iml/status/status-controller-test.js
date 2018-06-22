@@ -4,7 +4,7 @@ import angular from '../../../angular-mock-setup.js';
 import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 
 describe('status records component', () => {
-  let $scope, $location, ctrl, notificationStream;
+  let $scope, $location, ctrl, notificationStream, dateTypeStream;
 
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {
@@ -17,8 +17,12 @@ describe('status records component', () => {
       notificationStream = highland();
       jest.spyOn(notificationStream, 'destroy');
 
+      dateTypeStream = highland();
+      jest.spyOn(dateTypeStream, 'destroy');
+
       ctrl = {
-        notification$: notificationStream
+        notification$: notificationStream,
+        dateType$: dateTypeStream
       };
 
       StatusController.call(ctrl, $scope, $location, propagateChange);
@@ -37,6 +41,11 @@ describe('status records component', () => {
   it('should destroy the notificationStream when the scope is destroyed', () => {
     $scope.$destroy();
     expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should destroy the dateTypeStream when the scope is destroyed', () => {
+    $scope.$destroy();
+    expect(dateTypeStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('getting notificationStream data', () => {
@@ -70,6 +79,13 @@ describe('status records component', () => {
         total_count: 4,
         current_page: 1
       });
+    });
+  });
+
+  describe('getting dateTypeStream data', () => {
+    it('should set the dateType on the controller', () => {
+      dateTypeStream.write({ isUtc: false });
+      expect(ctrl.isUtc).toEqual(false);
     });
   });
 

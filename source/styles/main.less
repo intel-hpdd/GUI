@@ -251,6 +251,23 @@ ui-loader-view {
   }
 }
 
+.date-type {
+  position: relative;
+  padding-top: 25px;
+
+  label {
+    margin-left: 30px;
+  }
+
+  &:after {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    color: @gray-dark;
+    content: "Date Timezone:"
+  }
+}
+
 .pagination {
   li.disabled > a {
     pointer-events: none;

@@ -1,16 +1,20 @@
 import { noSpace } from '../../../../source/iml/string.js';
 
 describe('status states', () => {
-  let mod, mockResolveStream, mockSocketStream;
+  let mod, mockResolveStream, mockSocketStream, mockSelect;
 
   beforeEach(() => {
     mockResolveStream = jest.fn();
     mockSocketStream = jest.fn();
+    mockSelect = jest.fn();
 
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
     jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock('../../../../source/iml/store/get-store.js', () => ({
+      select: mockSelect
+    }));
 
     mod = require('../../../../source/iml/status/status-states.js');
   });
@@ -69,13 +73,14 @@ describe('status states', () => {
           icon: 'fa-tachometer'
         },
         resolve: {
-          notification$: expect.any(Function)
+          notification$: expect.any(Function),
+          dateType$: expect.any(Function)
         },
         component: 'statusRecords'
       });
     });
 
-    describe('resolve', () => {
+    describe('resolve notification$', () => {
       let qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
@@ -127,6 +132,16 @@ describe('status states', () => {
         const res = notification$(qsFromLocation);
 
         expect(res).toBe('promise');
+      });
+    });
+
+    describe('resolve dateType$', () => {
+      beforeEach(() => {
+        mod.tableState.resolve.dateType$();
+      });
+
+      it('should select dateType stream from the store', () => {
+        expect(mockSelect).toHaveBeenCalledOnceWith('dateType');
       });
     });
   });

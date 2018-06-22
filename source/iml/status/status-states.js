@@ -8,6 +8,7 @@
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 import parserPermutations from '../parser-permutations.js';
+import getStore from '../store/get-store.js';
 
 import * as fp from '@iml/fp';
 
@@ -69,6 +70,9 @@ export const tableState = {
       if (qs.length) qs = '?' + qs;
 
       return resolveStream(socketStream('/alert/' + qs));
+    },
+    dateType$() {
+      return getStore.select('dateType');
     }
   },
   component: 'statusRecords'
