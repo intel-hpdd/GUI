@@ -86,29 +86,14 @@ describe('file usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/file-usage/get-file-usage-stream.js',
-      () => mockGetFileUsageStream
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/file-usage/get-file-usage-stream.js', () => mockGetFileUsageStream);
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        getConf: mockGetConf
-      })
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      getConf: mockGetConf
+    }));
 
     const mod = require('../../../../source/iml/file-usage/get-file-usage-chart.js');
 
@@ -321,9 +306,7 @@ describe('file usage chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_FILE_USAGE_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_FILE_USAGE_CHART_ITEMS', {
         page: 'target1'
       });
     });

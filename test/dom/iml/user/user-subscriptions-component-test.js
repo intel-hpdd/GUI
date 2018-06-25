@@ -16,14 +16,9 @@ describe('user subscriptions component', () => {
   beforeEach(() => {
     if (!window.angular) require('angular');
 
-    mockSocketStream = jest
-      .fn()
-      .mockImplementation(() => (socket$ = highland()));
+    mockSocketStream = jest.fn().mockImplementation(() => (socket$ = highland()));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/user/user-subscriptions-component.js');
   });
@@ -33,10 +28,7 @@ describe('user subscriptions component', () => {
       $provide.value('insertHelpFilter', jest.fn());
 
       $compileProvider.component('userSubscriptions', mod.default);
-      $compileProvider.component(
-        'multiTogglerContainer',
-        multiTogglerContainerComponent
-      );
+      $compileProvider.component('multiTogglerContainer', multiTogglerContainerComponent);
       $compileProvider.component('differ', diffComponent);
       $compileProvider.component('resetDiff', resetDiff);
       $compileProvider.component('multiToggler', multiTogglerComponent);
@@ -44,10 +36,7 @@ describe('user subscriptions component', () => {
       $compileProvider.directive('configToggle', configToggle);
       $compileProvider.directive('diffContainer', diffContainer);
       $compileProvider.directive('diffModel', diffModel);
-      $compileProvider.directive(
-        'multiTogglerModel',
-        multiTogglerModelDirective
-      );
+      $compileProvider.directive('multiTogglerModel', multiTogglerModelDirective);
     })
   );
 
@@ -89,9 +78,7 @@ describe('user subscriptions component', () => {
   });
 
   it('should show the list of choices', () => {
-    const labels = Array.from(el.querySelectorAll('.sub-label')).map(
-      x => x.textContent
-    );
+    const labels = Array.from(el.querySelectorAll('.sub-label')).map(x => x.textContent);
 
     expect(labels).toEqual(['Alert event:', 'Syslog event:']);
   });
@@ -135,9 +122,7 @@ describe('user subscriptions component', () => {
           {
             method: 'patch',
             json: {
-              objects: [
-                { user: '/api/user/2', alert_type: '/api/alert_type/26/' }
-              ],
+              objects: [{ user: '/api/user/2', alert_type: '/api/alert_type/26/' }],
               deleted_objects: ['/api/alert_subscription/45/']
             }
           },

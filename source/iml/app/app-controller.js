@@ -6,16 +6,7 @@
 import { getCSRFToken } from '../auth/authorization.js';
 import global from '../global.js';
 
-export default function AppCtrl(
-  $scope,
-  session,
-  navigate,
-  ENV,
-  GROUPS,
-  help,
-  notificationStream,
-  alertStream
-) {
+export default function AppCtrl($scope, session, navigate, ENV, GROUPS, help, notificationStream, alertStream) {
   'ngInject';
   const login = navigate.bind(null, 'login/');
 
@@ -66,8 +57,7 @@ export default function AppCtrl(
 
       ctrl.link = '/ui/status/';
 
-      if (status.health !== 'GOOD')
-        ctrl.link += '?severity__in=WARNING,ERROR&active=true';
+      if (status.health !== 'GOOD') ctrl.link += '?severity__in=WARNING,ERROR&active=true';
     })
     .through(p);
 

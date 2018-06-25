@@ -8,6 +8,4 @@
 import angular from 'angular';
 import iframeShimComponent from './iframe-shim-component.js';
 
-export default angular
-  .module('oldRoutes', [])
-  .component('iframeShim', iframeShimComponent).name;
+export default angular.module('oldRoutes', []).component('iframeShim', iframeShimComponent).name;

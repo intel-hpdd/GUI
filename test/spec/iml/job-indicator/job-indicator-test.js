@@ -22,8 +22,7 @@ describe('job indicator', () => {
     angular.mock.inject(($rootScope, $compile, _$timeout_) => {
       $timeout = _$timeout_;
 
-      element =
-        '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
+      element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
 
       $scope = $rootScope.$new();
 
@@ -103,9 +102,7 @@ describe('job indicator', () => {
       });
 
       it('should get write lock tooltip message ', () => {
-        expect($scope.getLockTooltipMessage()).toEqual(
-          '1 ongoing write lock operation.' + ' Click to review details.'
-        );
+        expect($scope.getLockTooltipMessage()).toEqual('1 ongoing write lock operation.' + ' Click to review details.');
       });
     });
 
@@ -132,9 +129,7 @@ describe('job indicator', () => {
       });
 
       it('should get read lock tooltip message ', () => {
-        expect($scope.getLockTooltipMessage()).toEqual(
-          'Locked by 1 pending operation. ' + 'Click to review details.'
-        );
+        expect($scope.getLockTooltipMessage()).toEqual('Locked by 1 pending operation. ' + 'Click to review details.');
       });
     });
 
@@ -169,16 +164,12 @@ describe('job indicator', () => {
       it('should contain a read and write lock job message', () => {
         const messages = $scope.readMessages.concat($scope.writeMessages);
 
-        expect(messages).toEqual([
-          'read lock description',
-          'write lock description'
-        ]);
+        expect(messages).toEqual(['read lock description', 'write lock description']);
       });
 
       it('should get lock tooltip message for both read and write lock messages', () => {
         expect($scope.getLockTooltipMessage()).toEqual(
-          'There is 1 ongoing write lock' +
-            ' operation and 1 pending read lock operation. Click to review details.'
+          'There is 1 ongoing write lock' + ' operation and 1 pending read lock operation. Click to review details.'
         );
       });
     });
@@ -365,9 +356,7 @@ describe('job indicator', () => {
     });
 
     it('should contain only message1 in the difference array.', () => {
-      expect($scope.writeMessageDifference).toEqual([
-        'write lock description1'
-      ]);
+      expect($scope.writeMessageDifference).toEqual(['write lock description1']);
     });
   });
 });

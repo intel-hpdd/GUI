@@ -7,7 +7,11 @@ export default function pieGraph(baseChart) {
   'ngInject';
   return baseChart({
     generateChart: function generateChart(nv) {
-      return nv.models.pie().width(20).height(20).growOnHover(false);
+      return nv.models
+        .pie()
+        .width(20)
+        .height(20)
+        .growOnHover(false);
     }
   });
 }

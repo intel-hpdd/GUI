@@ -11,10 +11,7 @@ describe('mdo stream', () => {
   beforeEach(() => {
     const mockCreateMoment = () => moment('2013-11-15T19:25:20+00:00');
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockCreateMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockCreateMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -28,16 +25,11 @@ describe('mdo stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
-    getMdoStream = require('../../../../source/iml/mdo/get-mdo-stream.js')
-      .default;
+    getMdoStream = require('../../../../source/iml/mdo/get-mdo-stream.js').default;
 
     spy = jest.fn();
 

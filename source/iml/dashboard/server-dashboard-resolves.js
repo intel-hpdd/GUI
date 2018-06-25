@@ -45,14 +45,16 @@ export function serverDashboardHostStreamResolves(
   hostsB: () => HighlandStreamT<Object[]>
 ) {
   'ngInject';
-  return hostsB().map(matchById($stateParams.id)).map(
-    matchWith.bind(null, {
-      Just(x) {
-        return x;
-      },
-      Nothing() {
-        throw new Error(`Unable to find server ${$stateParams.id}`);
-      }
-    })
-  );
+  return hostsB()
+    .map(matchById($stateParams.id))
+    .map(
+      matchWith.bind(null, {
+        Just(x) {
+          return x;
+        },
+        Nothing() {
+          throw new Error(`Unable to find server ${$stateParams.id}`);
+        }
+      })
+    );
 }

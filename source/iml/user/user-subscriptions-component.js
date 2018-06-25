@@ -16,11 +16,7 @@ export default {
     subscriptions: '<',
     resourceUri: '<'
   },
-  controller(
-    $scope: $scopeT,
-    insertHelpFilter: Function,
-    propagateChange: PropagateChange
-  ) {
+  controller($scope: $scopeT, insertHelpFilter: Function, propagateChange: PropagateChange) {
     'ngInject';
     const toVal = x => (x === true ? 'On' : 'Off');
 

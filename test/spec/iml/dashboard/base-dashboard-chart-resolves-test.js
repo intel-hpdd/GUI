@@ -113,19 +113,11 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the file usage chart', () => {
-        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'File Usage',
-          'Files Used',
-          {},
-          'fileusagebase'
-        );
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith('File Usage', 'Files Used', {}, 'fileusagebase');
       });
 
       it('should get the space usage chart', () => {
-        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
-          {},
-          'spaceusagebase'
-        );
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith({}, 'spaceusagebase');
       });
     });
 
@@ -208,19 +200,11 @@ describe('base dashboard resolves', () => {
       });
 
       it('should get the file usage chart', () => {
-        expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'File Usage',
-          'Files Used',
-          {},
-          'fileusagebase'
-        );
+        expect(getFileUsageChart).toHaveBeenCalledOnceWith('File Usage', 'Files Used', {}, 'fileusagebase');
       });
 
       it('should get the space usage chart', () => {
-        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
-          {},
-          'spaceusagebase'
-        );
+        expect(getSpaceUsageChart).toHaveBeenCalledOnceWith({}, 'spaceusagebase');
       });
 
       it('should return an array of charts', async () => {

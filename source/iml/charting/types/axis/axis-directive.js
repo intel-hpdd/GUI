@@ -18,10 +18,12 @@ export function axisDirective() {
     templateNamespace: 'svg',
     template: '<g class="axis"></g>',
     link(scope, el, attrs, chartCtrl) {
-      const axis = d3.svg.axis().scale(scope.scale).orient(scope.orient);
+      const axis = d3.svg
+        .axis()
+        .scale(scope.scale)
+        .orient(scope.orient);
 
-      const translateBottom = a =>
-        a.attr('transform', `translate(0,${chartCtrl.getHeight() - 20})`);
+      const translateBottom = a => a.attr('transform', `translate(0,${chartCtrl.getHeight() - 20})`);
 
       const translate = fp.cond(
         [fp.eq('bottom'), fp.always(translateBottom)],

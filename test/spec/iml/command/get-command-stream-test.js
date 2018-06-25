@@ -1,21 +1,13 @@
 import highland from 'highland';
 
 describe('get the command stream', () => {
-  let mockSocketStream,
-    stream,
-    getCommandStream,
-    getCommandStreamModule,
-    commandList,
-    result;
+  let mockSocketStream, stream, getCommandStream, getCommandStreamModule, commandList, result;
 
   beforeEach(() => {
     stream = highland();
     mockSocketStream = jest.fn(() => stream);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     getCommandStreamModule = require('../../../../source/iml/command/get-command-stream.js');
 

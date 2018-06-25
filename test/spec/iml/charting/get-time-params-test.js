@@ -3,20 +3,13 @@ import highland from 'highland';
 import * as fp from '@iml/fp';
 
 describe('get time params', () => {
-  let mockGetServerMoment,
-    mockCreateDate,
-    getRequestRange,
-    getRequestDuration,
-    getTimeParams;
+  let mockGetServerMoment, mockCreateDate, getRequestRange, getRequestDuration, getTimeParams;
 
   beforeEach(() => {
     mockGetServerMoment = jest.fn();
     mockCreateDate = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockGetServerMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockGetServerMoment);
     jest.mock('../../../../source/iml/create-date.js', () => mockCreateDate);
 
     const mod = require('../../../../source/iml/charting/get-time-params.js');

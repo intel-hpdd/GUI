@@ -30,8 +30,7 @@ export const DiffContainerController = class {
 
     this.reset = () => differs.forEach(differ => differ.reset());
 
-    this.noSubmit = () =>
-      differs.every(differ => differ.getState().status === 'clean');
+    this.noSubmit = () => differs.every(differ => differ.getState().status === 'clean');
   }
 };
 

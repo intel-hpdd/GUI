@@ -15,12 +15,7 @@ describe('base dashboard controller', () => {
       chart = { stream: { destroy: jest.fn() } };
       charts = [Object.create(chart), Object.create(chart)];
       baseDashboardCtrl = {};
-      BaseDashboardCtrl.bind(baseDashboardCtrl)(
-        $scope,
-        broadcaster(fsStream),
-        charts,
-        propagateChange
-      );
+      BaseDashboardCtrl.bind(baseDashboardCtrl)($scope, broadcaster(fsStream), charts, propagateChange);
     })
   );
   it('should setup the controller', () => {

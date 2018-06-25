@@ -45,14 +45,7 @@ describe('base chart', () => {
   });
 
   describe('linking function', () => {
-    let linker,
-      s,
-      generateChart,
-      scope,
-      element,
-      fullScreenCtrl,
-      svg,
-      rootPanel;
+    let linker, s, generateChart, scope, element, fullScreenCtrl, svg, rootPanel;
 
     beforeEach(() => {
       s = highland();
@@ -107,9 +100,7 @@ describe('base chart', () => {
     });
 
     it('should add a listener for the fullscreen controller', () => {
-      expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(
-        expect.any(Function)
-      );
+      expect(fullScreenCtrl.addListener).toHaveBeenCalledOnceWith(expect.any(Function));
     });
 
     it('should generate the chart', () => {
@@ -125,10 +116,7 @@ describe('base chart', () => {
     });
 
     it('should add a resize listener', () => {
-      expect(mockGlobal.addEventListener).toHaveBeenCalledOnceWith(
-        'resize',
-        expect.any(Function)
-      );
+      expect(mockGlobal.addEventListener).toHaveBeenCalledOnceWith('resize', expect.any(Function));
     });
 
     it('should register a panel listener', () => {
@@ -136,10 +124,7 @@ describe('base chart', () => {
     });
 
     it('should register a destroy handler', () => {
-      expect(scope.$on).toHaveBeenCalledOnceWith(
-        '$destroy',
-        expect.any(Function)
-      );
+      expect(scope.$on).toHaveBeenCalledOnceWith('$destroy', expect.any(Function));
     });
 
     describe('rendering data', () => {
@@ -152,9 +137,7 @@ describe('base chart', () => {
       });
 
       it('should set the new data', () => {
-        expect(svg.datum).toHaveBeenCalledOnceWith([
-          { id: '3', ts: '2014-01-07T14:42:50.000Z' }
-        ]);
+        expect(svg.datum).toHaveBeenCalledOnceWith([{ id: '3', ts: '2014-01-07T14:42:50.000Z' }]);
       });
     });
 
@@ -164,23 +147,15 @@ describe('base chart', () => {
       });
 
       it('should remove the resize listener', () => {
-        expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
-          'resize',
-          expect.any(Function),
-          false
-        );
+        expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith('resize', expect.any(Function), false);
       });
 
       it('should deregister the panel listener', () => {
-        expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(rootPanel.deregister).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should remove the full screen controller listener', () => {
-        expect(fullScreenCtrl.removeListener).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(fullScreenCtrl.removeListener).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should remove the svg element', () => {

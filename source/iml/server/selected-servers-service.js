@@ -39,8 +39,7 @@ export default function SelectedServersService() {
    */
   this.addNewServers = function addNewServers(servers) {
     servers.forEach(function addThem(server) {
-      if (selectedServers.servers[server.fqdn] == null)
-        selectedServers.servers[server.fqdn] = false;
+      if (selectedServers.servers[server.fqdn] == null) selectedServers.servers[server.fqdn] = false;
     });
   };
 }

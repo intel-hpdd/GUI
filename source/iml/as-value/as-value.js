@@ -11,10 +11,7 @@ import type { HighlandStreamT } from 'highland';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-export const asValue = <B: {}>(
-  key: string,
-  WrappedComponent: (b: B) => Element<*>
-) =>
+export const asValue = <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class AsValue extends Component {
     state: B;
     props: {
@@ -42,8 +39,7 @@ export default (localApply, $exceptionHandler) => {
     },
     link: function link(scope, el, attrs, ctrl, $transclude) {
       $transclude(function createValue(clone, transcludedScope) {
-        if (transcludedScope.curr)
-          throw new Error('curr already set on transcluded scope.');
+        if (transcludedScope.curr) throw new Error('curr already set on transcluded scope.');
 
         transcludedScope.curr = {};
 

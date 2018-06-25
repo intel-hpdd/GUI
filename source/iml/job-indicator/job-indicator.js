@@ -40,10 +40,7 @@ export default function jobStatusDirective(localApply) {
           scope.writeMessageDifference.length = 0;
         },
         shouldShowLockIcon: function shouldShowLockIcon() {
-          return (
-            scope.writeMessages.length + scope.readMessages.length > 0 ||
-            isOpened
-          );
+          return scope.writeMessages.length + scope.readMessages.length > 0 || isOpened;
         },
         getLockTooltipMessage: function getLockTooltipMessage() {
           const readMessages = scope.readMessages;
@@ -56,19 +53,13 @@ export default function jobStatusDirective(localApply) {
               '1': 'There is 1 ongoing write lock operation and ',
               other: 'There are {} ongoing write lock operations and '
             };
-            const writeMessage = _.pluralize(
-              writeMessages.length,
-              writeMessageMap
-            );
+            const writeMessage = _.pluralize(writeMessages.length, writeMessageMap);
 
             readMessageMap = {
               '1': '1 pending read lock operation.',
               other: '{} pending read lock operations.'
             };
-            const readMessage = _.pluralize(
-              readMessages.length,
-              readMessageMap
-            );
+            const readMessage = _.pluralize(readMessages.length, readMessageMap);
 
             message = writeMessage + readMessage + ' Click to review details.';
           } else if (writeMessages.length > 0) {
@@ -76,17 +67,13 @@ export default function jobStatusDirective(localApply) {
               '1': '1 ongoing write lock operation.',
               other: '{} ongoing write lock operations.'
             };
-            message =
-              _.pluralize(writeMessages.length, writeMessageMap) +
-              ' Click to review details.';
+            message = _.pluralize(writeMessages.length, writeMessageMap) + ' Click to review details.';
           } else if (readMessages.length > 0) {
             readMessageMap = {
               '1': 'Locked by 1 pending operation.',
               other: 'Locked by {} pending operations.'
             };
-            message =
-              _.pluralize(readMessages.length, readMessageMap) +
-              ' Click to review details.';
+            message = _.pluralize(readMessages.length, readMessageMap) + ' Click to review details.';
           }
 
           return message;
@@ -109,9 +96,7 @@ export default function jobStatusDirective(localApply) {
           mapDescription,
           x => {
             //this is in a closure because we want to access messages at call time not define time.
-            scope[type + 'MessageDifference'] = fp.difference(
-              scope[type + 'Messages']
-            )(x);
+            scope[type + 'MessageDifference'] = fp.difference(scope[type + 'Messages'])(x);
 
             return x;
           },

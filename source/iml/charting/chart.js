@@ -80,11 +80,7 @@ export default class Chart extends Component {
         class="charting"
         style={{ width: '100%', height: '100%' }}
       >
-        <g
-          class="charting-group"
-          transform={`translate(${this.props.margins.left},${this.props.margins
-            .top})`}
-        >
+        <g class="charting-group" transform={`translate(${this.props.margins.left},${this.props.margins.top})`}>
           {(() => {
             if (this.state.svg) {
               const svg = d3.select(this.state.svg).datum(this.props.points);

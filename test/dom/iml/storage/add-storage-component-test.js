@@ -12,14 +12,9 @@ describe('storage component', () => {
 
   beforeEach(() => {
     mockSocketStream = jest.fn();
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
-    ({
-      AddStorageComponent
-    } = require('../../../../source/iml/storage/add-storage-component.js'));
+    ({ AddStorageComponent } = require('../../../../source/iml/storage/add-storage-component.js'));
 
     storage$ = highland();
   });
@@ -47,9 +42,7 @@ describe('storage component', () => {
       }
     });
 
-    expect(
-      renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
   });
 
   it('should render with data', () => {
@@ -123,9 +116,7 @@ describe('storage component', () => {
       }
     });
 
-    expect(
-      renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
   });
 
   describe('interaction', () => {
@@ -207,10 +198,7 @@ describe('storage component', () => {
         }
       });
 
-      Inferno.render(
-        <AddStorageComponent viewer={broadcaster(storage$)} />,
-        root
-      );
+      Inferno.render(<AddStorageComponent viewer={broadcaster(storage$)} />, root);
     });
 
     afterEach(() => {

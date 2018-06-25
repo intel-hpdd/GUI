@@ -18,7 +18,12 @@ export function fsCollStream() {
     socketStream('/filesystem', {
       jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
     })
-  ).then(fp.flow(s => s.map(x => x.objects), broadcaster));
+  ).then(
+    fp.flow(
+      s => s.map(x => x.objects),
+      broadcaster
+    )
+  );
 }
 
 export const getData = ($stateParams: { fsId?: string }) => {

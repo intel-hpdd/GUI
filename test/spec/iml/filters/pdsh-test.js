@@ -40,19 +40,13 @@ describe('PDSH filter', function() {
     it('should retrieve valid hostnames from the list of items', function() {
       const hostnames = { hostname2: 1, hostname7: 1 };
       const result = pdsh(items, hostnames, hostPath, false);
-      expect(result).toEqual([
-        { host_name: 'hostname2' },
-        { host_name: 'hostname7' }
-      ]);
+      expect(result).toEqual([{ host_name: 'hostname2' }, { host_name: 'hostname7' }]);
     });
 
     it('should retrieve matching substrings from the list of items with fuzzy match', function() {
       const hostnames = { hostname1: 1 };
       const result = pdsh(items, hostnames, hostPath, true);
-      expect(result).toEqual([
-        { host_name: 'hostname1' },
-        { host_name: 'hostname10' }
-      ]);
+      expect(result).toEqual([{ host_name: 'hostname1' }, { host_name: 'hostname10' }]);
     });
 
     it('should return no matches with fuzzy match turned off', function() {

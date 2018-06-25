@@ -10,10 +10,7 @@ import sortByDate from './sort-by-date.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export default function bufferDataNewerThan(
-  size: number | string,
-  unit: string
-) {
+export default function bufferDataNewerThan(size: number | string, unit: string) {
   let buffer = [];
 
   return function bufferDataNewerThanInner(s: HighlandStreamT<*>) {
@@ -22,10 +19,12 @@ export default function bufferDataNewerThan(
     return s
       .collect()
       .tap(() => {
-        leadingEdge = getServerMoment().milliseconds(0).subtract(size, unit);
+        leadingEdge = getServerMoment()
+          .milliseconds(0)
+          .subtract(size, unit);
 
         const secs = leadingEdge.seconds();
-        leadingEdge.seconds(secs - secs % 10);
+        leadingEdge.seconds(secs - (secs % 10));
 
         leadingEdge = leadingEdge.valueOf();
       })

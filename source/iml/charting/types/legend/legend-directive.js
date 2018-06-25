@@ -15,12 +15,17 @@ export function legendDirective(getLegend) {
     require: '^^charter',
     templateNamespace: 'svg',
     link(scope, el, attrs, chartCtrl) {
-      const legend = getLegend().colors(scope.scale).showLabels(true);
+      const legend = getLegend()
+        .colors(scope.scale)
+        .showLabels(true);
 
       const node = el[0];
 
       const updateLegend = ({ svg, width }) => {
-        legend.width(width).height(20).padding(20);
+        legend
+          .width(width)
+          .height(20)
+          .padding(20);
 
         svg.select(fp.always(node)).call(legend);
       };

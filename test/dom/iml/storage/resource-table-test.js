@@ -113,10 +113,7 @@ describe('ResourceTable DOM tests', () => {
             type: { class: 'String', label: 'Type', markup: 'tcp', raw: 'tcp' },
             up: { class: 'Boolean', label: 'Up', markup: 'True', raw: true }
           },
-          charts: [
-            { series: ['tx_bytes'], title: 'tx_bytes' },
-            { series: ['rx_bytes'], title: 'rx_bytes' }
-          ],
+          charts: [{ series: ['tx_bytes'], title: 'tx_bytes' }, { series: ['rx_bytes'], title: 'rx_bytes' }],
           class_name: 'HostNetworkInterface',
           default_alias: "HostNetworkInterface (10, u'enp0s10')",
           deletable: false,
@@ -175,10 +172,7 @@ describe('ResourceTable DOM tests', () => {
             type: { class: 'String', label: 'Type', markup: 'tcp', raw: 'tcp' },
             up: { class: 'Boolean', label: 'Up', markup: 'True', raw: true }
           },
-          charts: [
-            { series: ['tx_bytes'], title: 'tx_bytes' },
-            { series: ['rx_bytes'], title: 'rx_bytes' }
-          ],
+          charts: [{ series: ['tx_bytes'], title: 'tx_bytes' }, { series: ['rx_bytes'], title: 'rx_bytes' }],
           class_name: 'HostNetworkInterface',
           default_alias: "HostNetworkInterface (10, u'enp0s3')",
           deletable: false,
@@ -211,15 +205,11 @@ describe('ResourceTable DOM tests', () => {
 
     alertIndicatorB = broadcaster(highland([[]]));
 
-    mockStore = jest.genMockFromModule(
-      '../../../../source/iml/store/get-store.js'
-    ).default;
+    mockStore = jest.genMockFromModule('../../../../source/iml/store/get-store.js').default;
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    ({
-      ResourceTable
-    } = require('../../../../source/iml/storage/resource-table.js'));
+    ({ ResourceTable } = require('../../../../source/iml/storage/resource-table.js'));
   });
 
   it('should render without data', () => {

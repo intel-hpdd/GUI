@@ -9,6 +9,4 @@ import angular from 'angular';
 import extendScopeModule from '../extend-scope-module';
 import asValue from './as-value';
 
-export default angular
-  .module('asValue', [extendScopeModule])
-  .directive('asValue', asValue).name;
+export default angular.module('asValue', [extendScopeModule]).directive('asValue', asValue).name;

@@ -21,22 +21,13 @@ import { getConf } from '../chart-transformers/chart-transformers.js';
 
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 import type { HighlandStreamT } from 'highland';
-import type {
-  durationPickerConfigT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPickerConfigT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
 export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
   'ngInject';
-  return function getReadWriteBandwidthChart(
-    overrides: filesystemQueryT | targetQueryT,
-    page: string
-  ) {
+  return function getReadWriteBandwidthChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS,
       payload: durationPayload({ page })
@@ -45,12 +36,7 @@ export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
     const config1$ = getStore.select('readWriteBandwidthCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getReadWriteBandwidthStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getReadWriteBandwidthStream)));
 
     return chartCompiler(
       `<div config-toggle>
@@ -83,10 +69,7 @@ export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
           endDate: '',
           size: 1,
           unit: '',
-          onSubmit: durationSubmitHandler(
-            UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS,
-            { page }
-          ),
+          onSubmit: durationSubmitHandler(UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS, { page }),
           options: {
             setup: function setup(d3Chart) {
               d3Chart.useInteractiveGuideline(true);

@@ -39,15 +39,13 @@ export function Controller($element: HTMLElement[]) {
 
     running = true;
 
-    const overlayWidthPx =
-      overlay.getBoundingClientRect().width - SLIDER_WIDTH_PX;
+    const overlayWidthPx = overlay.getBoundingClientRect().width - SLIDER_WIDTH_PX;
 
     x = Math.max(x, 0);
-    let sideWidthPercentage = x / overlayWidthPx * 100;
+    let sideWidthPercentage = (x / overlayWidthPx) * 100;
     sideWidthPercentage = Math.min(MAX_SIDE_PERCENTAGE, sideWidthPercentage);
 
-    if (sideWidthPercentage === MAX_SIDE_PERCENTAGE)
-      x = overlayWidthPx * (sideWidthPercentage / 100);
+    if (sideWidthPercentage === MAX_SIDE_PERCENTAGE) x = overlayWidthPx * (sideWidthPercentage / 100);
 
     global.requestAnimationFrame(() => {
       global.dispatchEvent(new Event('resize'));

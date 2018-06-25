@@ -16,7 +16,10 @@ export default function stackedAreaChart(dateTicks, baseChart) {
 
   return baseChart({
     generateChart: function(nv) {
-      return nv.models.stackedAreaChart().color(keyColor).clipEdge(true);
+      return nv.models
+        .stackedAreaChart()
+        .color(keyColor)
+        .clipEdge(true);
     },
     onUpdate: function onUpdate(chart, data) {
       if (!Array.isArray(data) || !data[0]) return;

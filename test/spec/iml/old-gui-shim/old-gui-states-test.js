@@ -41,10 +41,7 @@ describe('old gui states', () => {
       oldTargetResolve
     };
 
-    jest.mock(
-      '../../../../source/iml/old-gui-shim/old-gui-resolves.js',
-      () => mockResolves
-    );
+    jest.mock('../../../../source/iml/old-gui-shim/old-gui-resolves.js', () => mockResolves);
 
     jest.mock('../../../../source/iml/auth/authorization.js', () => ({
       GROUPS: mockGroups
@@ -90,9 +87,7 @@ describe('old gui states', () => {
   });
 
   it('should contain the app.oldFilesystemCreate state', () => {
-    const state = fp.find(x => x.name === 'app.oldFilesystemCreate')(
-      oldGuiStates
-    );
+    const state = fp.find(x => x.name === 'app.oldFilesystemCreate')(oldGuiStates);
     expect(state).toEqual(
       maybe.ofJust(
         generateState(
@@ -109,9 +104,7 @@ describe('old gui states', () => {
   });
 
   it('should contain the app.oldFilesystemDetail state', () => {
-    const state = fp.find(x => x.name === 'app.oldFilesystemDetail')(
-      oldGuiStates
-    );
+    const state = fp.find(x => x.name === 'app.oldFilesystemDetail')(oldGuiStates);
     expect(state).toEqual(
       maybe.ofJust(
         generateState(
@@ -165,15 +158,7 @@ describe('old gui states', () => {
     const state = fp.find(x => x.name === 'app.oldTarget')(oldGuiStates);
     expect(state).toEqual(
       maybe.ofJust(
-        generateState(
-          '/target/:id',
-          'app.oldTarget',
-          '/targetold',
-          '',
-          'Target Detail',
-          'fa-bullseye',
-          resolve
-        )
+        generateState('/target/:id', 'app.oldTarget', '/targetold', '', 'Target Detail', 'fa-bullseye', resolve)
       )
     );
   });

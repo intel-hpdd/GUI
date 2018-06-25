@@ -30,8 +30,6 @@ export default function multiStream(streams: any) {
   });
 }
 
-type MultiStream2<A, B> = (
-  [HighlandStreamT<A>, HighlandStreamT<B>]
-) => HighlandStreamT<[A, B]>;
+type MultiStream2<A, B> = ([HighlandStreamT<A>, HighlandStreamT<B>]) => HighlandStreamT<[A, B]>;
 
 export const multiStream2: MultiStream2<*, *> = xs => (multiStream(xs): any);

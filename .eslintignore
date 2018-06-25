@@ -4,4 +4,5 @@ flow-typed/angular-ui-router.js
 flow-typed/inferno-component.js
 test/data-fixtures/
 coverage/**
-dist/**
+targetdir/**
+include/**

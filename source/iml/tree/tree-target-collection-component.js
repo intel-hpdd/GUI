@@ -21,10 +21,7 @@ import type { treeItemT } from './tree-types.js';
 import type { PropagateChange } from '../extend-scope-module.js';
 
 export default (kind: string) => {
-  function treeTargetCollection(
-    $scope: $scopeT,
-    propagateChange: PropagateChange
-  ) {
+  function treeTargetCollection($scope: $scopeT, propagateChange: PropagateChange) {
     'ngInject';
     Object.assign(this, {
       onOpen: toggleCollection,
@@ -35,11 +32,7 @@ export default (kind: string) => {
     });
 
     const fn = (x: treeItemT) => {
-      return (
-        x.parentTreeId === this.parentId &&
-        x.fsId === this.fsId &&
-        x.type === kind
-      );
+      return x.parentTreeId === this.parentId && x.fsId === this.fsId && x.type === kind;
     };
 
     function computePage(meta) {
@@ -49,9 +42,7 @@ export default (kind: string) => {
 
     const t1 = store.select('tree');
 
-    t1
-      .through(emitOnItem(fn))
-      .through(propagateChange.bind(null, $scope, this, 'x'));
+    t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
 
     const structFn = fp.always({
       type: kind,
@@ -72,9 +63,7 @@ export default (kind: string) => {
 
     const targetCollection$ = store.select('tree');
 
-    targetCollection$
-      .through(transformItems(fn, structFn, fnTo$))
-      .each(store.dispatch);
+    targetCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
   }
 
   return {

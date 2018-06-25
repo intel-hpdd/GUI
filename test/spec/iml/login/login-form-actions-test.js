@@ -1,9 +1,6 @@
 // @flow
 
-import {
-  addErrors,
-  addInProgress
-} from '../../../../source/iml/login/login-form-actions.js';
+import { addErrors, addInProgress } from '../../../../source/iml/login/login-form-actions.js';
 
 describe('login form actions', () => {
   it('should return an errors action', () => {

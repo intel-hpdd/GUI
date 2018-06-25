@@ -10,10 +10,7 @@ describe('status states', () => {
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/status/status-states.js');
   });
@@ -99,9 +96,7 @@ describe('status states', () => {
       });
 
       it('should call /alert with a qs', () => {
-        qsFromLocation.mockReturnValue(
-          'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
-        );
+        qsFromLocation.mockReturnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
 
         notification$(qsFromLocation, $stateParams);
 

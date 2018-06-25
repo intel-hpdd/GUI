@@ -35,8 +35,7 @@ describe('tree server item component', () => {
         opens: {}
       };
 
-      const template =
-        '<tree-volume-item parent="parent" record="record"></tree-volume-item>';
+      const template = '<tree-volume-item parent="parent" record="record"></tree-volume-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();

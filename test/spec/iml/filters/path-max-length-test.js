@@ -87,9 +87,7 @@ describe('pathMaxLength Filter', () => {
 
   Object.keys(testCases).forEach(function(path) {
     testCases[path].forEach(function(test) {
-      const msg = test.msg
-        ? test.msg
-        : `should change ${path} to ${test.result}`;
+      const msg = test.msg ? test.msg : `should change ${path} to ${test.result}`;
       const cacheKey = test.maxLength + path;
 
       describe('for path ' + path + ' at length ' + test.maxLength, function() {

@@ -13,21 +13,10 @@ import commandModule from '../command/command-module';
 import extendScopeModule from '../extend-scope-module';
 import helpMapperModule from '../help-mapper/help-mapper-module.js';
 import AppCtrl from './app-controller';
-import {
-  appSessionFactory,
-  appNotificationStream,
-  alertStream
-} from './app-resolves';
+import { appSessionFactory, appNotificationStream, alertStream } from './app-resolves';
 
 export default angular
-  .module('app', [
-    authModule,
-    navigateModule,
-    notificationModule,
-    commandModule,
-    extendScopeModule,
-    helpMapperModule
-  ])
+  .module('app', [authModule, navigateModule, notificationModule, commandModule, extendScopeModule, helpMapperModule])
   .factory('appSession', appSessionFactory)
   .value('appNotificationStream', appNotificationStream)
   .value('appAlertStream', alertStream)

@@ -41,10 +41,7 @@ describe('Modal test', () => {
     let el: ?HTMLElement;
 
     beforeEach(() => {
-      Inferno.render(
-        <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />,
-        root
-      );
+      Inferno.render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />, root);
       el = root.querySelector('.modal');
     });
     it('should not exist on the element', () => {
@@ -53,10 +50,7 @@ describe('Modal test', () => {
   });
   describe('with modal visible', () => {
     beforeEach(() => {
-      Inferno.render(
-        <TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />,
-        root
-      );
+      Inferno.render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />, root);
       el = querySelector(root, '.modal');
     });
     it('should have the extra classes', () => {
@@ -72,9 +66,7 @@ describe('Modal test', () => {
       expect(el.classList).toContain('in');
     });
     it('should set the document role on the modal-dialog', () => {
-      expect(querySelector(el, '.modal-dialog').getAttribute('role')).toEqual(
-        'document'
-      );
+      expect(querySelector(el, '.modal-dialog').getAttribute('role')).toEqual('document');
     });
     it('should have a modal-content container', () => {
       expect(querySelector(el, '.modal-content')).not.toBeNull();
@@ -88,9 +80,7 @@ describe('Modal test', () => {
         expect(modalHeader).not.toBeNull();
       });
       it('should have the title', () => {
-        expect(querySelector(modalHeader, 'h3').textContent).toEqual(
-          'This is the header'
-        );
+        expect(querySelector(modalHeader, 'h3').textContent).toEqual('This is the header');
       });
     });
     describe('modal body', () => {
@@ -102,9 +92,7 @@ describe('Modal test', () => {
         expect(modalBody).not.toBeNull();
       });
       it('should render the content component', () => {
-        expect(querySelector(modalBody, 'p').textContent).toEqual(
-          'Test content'
-        );
+        expect(querySelector(modalBody, 'p').textContent).toEqual('Test content');
       });
     });
     describe('modal footer', () => {

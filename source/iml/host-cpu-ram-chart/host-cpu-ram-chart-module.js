@@ -21,10 +21,5 @@ export type addHostCpuRamActionT = {
 };
 
 export default angular
-  .module('hostCpuRamChart', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('hostCpuRamChart', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .factory('getHostCpuRamChart', getHostCpuRamChartFactory).name;

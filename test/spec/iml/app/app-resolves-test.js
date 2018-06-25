@@ -1,10 +1,5 @@
 describe('app resolves', () => {
-  let mockSocketStream,
-    mockResolveStream,
-    promise,
-    stream,
-    appModule,
-    mockCacheInitialData;
+  let mockSocketStream, mockResolveStream, promise, stream, appModule, mockCacheInitialData;
   beforeEach(() => {
     promise = {};
     mockResolveStream = jest.fn();
@@ -13,16 +8,10 @@ describe('app resolves', () => {
     mockSocketStream = jest.fn();
     mockSocketStream.mockReturnValue(stream);
     mockCacheInitialData = { session: {} };
-    appModule = jest.mock(
-      '../../../../source/iml/promise-transforms.js',
-      () => ({
-        resolveStream: mockResolveStream
-      })
-    );
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    appModule = jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+      resolveStream: mockResolveStream
+    }));
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/environment.js', () => ({
       CACHE_INITIAL_DATA: mockCacheInitialData
     }));

@@ -84,29 +84,14 @@ describe('cpu usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/cpu-usage/get-cpu-usage-stream.js',
-      () => mockGetCpuUsageStream
-    );
+    jest.mock('../../../../source/iml/cpu-usage/get-cpu-usage-stream.js', () => mockGetCpuUsageStream);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        getConf: mockGetConf
-      })
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      getConf: mockGetConf
+    }));
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
 
     const mod = require('../../../../source/iml/cpu-usage/get-cpu-usage-chart.js');
 
@@ -295,11 +280,7 @@ describe('cpu usage chart', () => {
       });
 
       it('should set colors', () => {
-        expect(chart.color).toHaveBeenCalledOnceWith([
-          '#2f7087',
-          '#f09659',
-          '#f0d359'
-        ]);
+        expect(chart.color).toHaveBeenCalledOnceWith(['#2f7087', '#f09659', '#f0d359']);
       });
     });
   });
@@ -319,9 +300,7 @@ describe('cpu usage chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_CPU_USAGE_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_CPU_USAGE_CHART_ITEMS', {
         page: 'server1'
       });
     });

@@ -13,10 +13,7 @@ export function fullScreenBtn() {
     link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {
       scope.fullScreenCtrl = fullScreenCtrl;
 
-      const applyAndToggleFullScreen = scope.$apply.bind(
-        scope,
-        toggleFullScreen
-      );
+      const applyAndToggleFullScreen = scope.$apply.bind(scope, toggleFullScreen);
 
       clickHandler('on');
       scope.$on('$destroy', clickHandler.bind(null, 'off'));

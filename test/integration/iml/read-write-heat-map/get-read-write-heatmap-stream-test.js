@@ -1,12 +1,7 @@
 import highland from 'highland';
 
 describe('the read write heat map stream', () => {
-  let mockSocketStream,
-    mockFlushOnChange,
-    getReadWriteHeatMapStream,
-    spy,
-    result$,
-    change$;
+  let mockSocketStream, mockFlushOnChange, getReadWriteHeatMapStream, spy, result$, change$;
 
   beforeEach(() => {
     mockSocketStream = jest.fn(() => {
@@ -15,19 +10,13 @@ describe('the read write heat map stream', () => {
       return s;
     });
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mockFlushOnChange = jest.fn(() => (change$ = highland()));
 
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        flushOnChange: mockFlushOnChange
-      })
-    );
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      flushOnChange: mockFlushOnChange
+    }));
 
     spy = jest.fn();
 

@@ -6,8 +6,7 @@ describe('lnet configuration reducer', () => {
     jest.mock('../../../../source/iml/lnet/lnet-module.js', () => ({
       ADD_LNET_CONFIGURATION_ITEMS: 'ADD_LNET_CONFIGURATION_ITEMS'
     }));
-    lnetConfigurationReducer = require('../../../../source/iml/lnet/lnet-configuration-reducer.js')
-      .default;
+    lnetConfigurationReducer = require('../../../../source/iml/lnet/lnet-configuration-reducer.js').default;
   });
 
   it('should be a function', () => {

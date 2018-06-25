@@ -16,24 +16,19 @@ import { resolveStream, streamToPromise } from '../promise-transforms.js';
 
 export const storageB = (): Promise<() => HighlandStreamT<mixed>> => {
   store.dispatch(setStorageTableLoading(true));
-  return resolveStream(
-    store.select('storage').filter((x: State) => x.config.selectIndex != null)
-  ).then(broadcaster);
+  return resolveStream(store.select('storage').filter((x: State) => x.config.selectIndex != null)).then(broadcaster);
 };
 
-export const alertIndicatorB = () =>
-  resolveStream(store.select('alertIndicators')).then(broadcaster);
+export const alertIndicatorB = () => resolveStream(store.select('alertIndicators')).then(broadcaster);
 
 export const getData = ($stateParams: { id: string }) => {
   'ngInject';
-  return streamToPromise(
-    socketStream(`/api/storage_resource/${$stateParams.id}`, {}, true)
-  ).then(x => ({ label: x.plugin_name }));
+  return streamToPromise(socketStream(`/api/storage_resource/${$stateParams.id}`, {}, true)).then(x => ({
+    label: x.plugin_name
+  }));
 };
 
 export const storageResource$ = ($stateParams: { id: string }) => {
   'ngInject';
-  return resolveStream(
-    socketStream(`/api/storage_resource/${$stateParams.id}`, {})
-  );
+  return resolveStream(socketStream(`/api/storage_resource/${$stateParams.id}`, {}));
 };

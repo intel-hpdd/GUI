@@ -31,9 +31,7 @@ describe('qs from location', () => {
   describe('with valid params', () => {
     let result;
     beforeEach(() => {
-      mockFormat.mockReturnValueOnce(
-        '/status?severity=info&record_type=active'
-      );
+      mockFormat.mockReturnValueOnce('/status?severity=info&record_type=active');
 
       result = qsFromLocation({ severity: 'info', record_type: 'active' });
     });

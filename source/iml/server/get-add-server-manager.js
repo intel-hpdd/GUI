@@ -3,12 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export function addServerStepsFactory(
-  ADD_SERVER_STEPS,
-  addServersStep,
-  serverStatusStep,
-  selectServerProfileStep
-) {
+export function addServerStepsFactory(ADD_SERVER_STEPS, addServersStep, serverStatusStep, selectServerProfileStep) {
   'ngInject';
   const steps = {};
   steps[ADD_SERVER_STEPS.ADD] = addServersStep;
@@ -18,12 +13,7 @@ export function addServerStepsFactory(
   return steps;
 }
 
-export function getAddServerManagerFactory(
-  addServerSteps,
-  stepsManager,
-  waitUntilLoadedStep,
-  ADD_SERVER_STEPS
-) {
+export function getAddServerManagerFactory(addServerSteps, stepsManager, waitUntilLoadedStep, ADD_SERVER_STEPS) {
   'ngInject';
   return function getAddServerManager() {
     const manager = stepsManager();

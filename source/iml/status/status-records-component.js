@@ -13,11 +13,7 @@ import type { $scopeT, $locationT } from 'angular';
 
 import type { PropagateChange } from '../extend-scope-module.js';
 
-export function StatusController(
-  $scope: $scopeT,
-  $location: $locationT,
-  propagateChange: PropagateChange
-) {
+export function StatusController($scope: $scopeT, $location: $locationT, propagateChange: PropagateChange) {
   'ngInject';
   const s = this.notification$
     .map(addCurrentPage)
@@ -28,18 +24,16 @@ export function StatusController(
 
   $scope.$on('$destroy', () => this.notification$.destroy());
 
-  const types = [
-    'CommandErroredAlert',
-    'CommandSuccessfulAlert',
-    'CommandRunningAlert',
-    'CommandCancelledAlert'
-  ];
+  const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];
   const getType = fp.flow(
     fp.view(fp.lensProp('record_type')),
     fp.lensProp,
     fp.view
   );
-  this.isCommand = fp.flow(getType, fn => fn(fp.zipObject(types)(types)));
+  this.isCommand = fp.flow(
+    getType,
+    fn => fn(fp.zipObject(types)(types))
+  );
 
   this.pageChanged = () => {
     $location.search('offset', (this.meta.current_page - 1) * this.meta.limit);

@@ -5,16 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  serverDashboardHostStreamResolves,
-  serverDashboardChartResolves
-} from './server-dashboard-resolves.js';
+import { serverDashboardHostStreamResolves, serverDashboardChartResolves } from './server-dashboard-resolves.js';
 
-import {
-  dashboardFsB,
-  dashboardHostB,
-  dashboardTargetB
-} from './dashboard-resolves.js';
+import { dashboardFsB, dashboardHostB, dashboardTargetB } from './dashboard-resolves.js';
 
 import { baseDashboardChartResolves } from './base-dashboard-chart-resolves.js';
 
@@ -118,10 +111,7 @@ const targetDashboardTemplate = `<h4 class="section-header">{{ targetDashboard.k
 
 <charts-container charts="targetDashboard.charts"></charts-container>`;
 
-const getDataFn = (
-  b: () => HighlandStreamT<Object[]>,
-  $stateParams: { id: string }
-) => {
+const getDataFn = (b: () => HighlandStreamT<Object[]>, $stateParams: { id: string }) => {
   return streamToPromise(b())
     .then(matchById($stateParams.id))
     .then(maybe.map.bind(null, (x: Object) => ({ label: x.label })))

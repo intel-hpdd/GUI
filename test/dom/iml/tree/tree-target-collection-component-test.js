@@ -14,10 +14,7 @@ describe('tree target collection component', () => {
   beforeEach(() => {
     mockSocketStream = jest.fn(() => (socket$ = highland()));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/tree/tree-target-collection-component.js');
 
@@ -37,8 +34,7 @@ describe('tree target collection component', () => {
   beforeEach(
     angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       const $scope = $rootScope.$new();
-      const template =
-        '<tree-ost-collection parent-id="0"></tree-ost-collection>';
+      const template = '<tree-ost-collection parent-id="0"></tree-ost-collection>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -53,8 +49,7 @@ describe('tree target collection component', () => {
   afterEach(() =>
     store.dispatch({
       type: 'RESET_STATE'
-    })
-  );
+    }));
 
   it('should render the collection', () => {
     expect(el).not.toBe(null);

@@ -12,10 +12,7 @@ describe('multi toggler', () => {
 
   beforeEach(
     angular.mock.module(angularUiBootstrap, $compileProvider => {
-      $compileProvider.component(
-        'multiTogglerContainer',
-        multiTogglerContainerComponent
-      );
+      $compileProvider.component('multiTogglerContainer', multiTogglerContainerComponent);
       $compileProvider.component('multiToggler', multiTogglerComponent);
       $compileProvider.directive('multiTogglerModel', multiTogglerModel);
     })
@@ -33,20 +30,14 @@ describe('multi toggler', () => {
   );
   it('should select the state on all', () => {
     el.querySelector('multi-toggler .btn-group a').click();
-    expect(
-      el.querySelectorAll('multi-toggler-container > button.active').length
-    ).toBe(2);
+    expect(el.querySelectorAll('multi-toggler-container > button.active').length).toBe(2);
   });
   it('should invert the state on all', () => {
     el.querySelectorAll('multi-toggler .btn-group a')[2].click();
-    expect(
-      el.querySelectorAll('multi-toggler-container > button.active').length
-    ).toBe(1);
+    expect(el.querySelectorAll('multi-toggler-container > button.active').length).toBe(1);
   });
   it('should de-select the state on all', () => {
     el.querySelectorAll('multi-toggler .btn-group a')[1].click();
-    expect(
-      el.querySelectorAll('multi-toggler-container > button.active').length
-    ).toBe(0);
+    expect(el.querySelectorAll('multi-toggler-container > button.active').length).toBe(0);
   });
 });

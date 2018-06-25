@@ -13,10 +13,7 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 import getStore from '../store/get-store.js';
 
-import {
-  UPDATE_HOST_CPU_RAM_CHART_ITEMS,
-  DEFAULT_HOST_CPU_RAM_CHART_ITEMS
-} from './host-cpu-ram-chart-reducer.js';
+import { UPDATE_HOST_CPU_RAM_CHART_ITEMS, DEFAULT_HOST_CPU_RAM_CHART_ITEMS } from './host-cpu-ram-chart-reducer.js';
 import { getConf } from '../chart-transformers/chart-transformers.js';
 
 import { hasChanges } from '../tree/tree-transforms.js';
@@ -27,25 +24,15 @@ import type { data$FnT } from '../chart-transformers/chart-transformers-module.j
 
 import type { HighlandStreamT } from 'highland';
 
-import type {
-  durationPickerConfigT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPickerConfigT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { localApplyT } from '../extend-scope-module.js';
 
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
 export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
   'ngInject';
-  return function getHostCpuRamChart(
-    title: string,
-    overrides: filesystemQueryT | targetQueryT,
-    page: string
-  ) {
+  return function getHostCpuRamChart(title: string, overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_HOST_CPU_RAM_CHART_ITEMS,
       payload: durationPayload({ page })
@@ -55,12 +42,7 @@ export default (data$Fn: data$FnT, localApply: localApplyT<*>) => {
     const initStream = config1$
       .through(getConf(page))
       .filter(hasChanges(x => x))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getHostCpuRamStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getHostCpuRamStream)));
 
     return chartCompiler(
       `<div config-toggle>

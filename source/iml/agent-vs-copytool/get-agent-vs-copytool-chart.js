@@ -41,12 +41,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
     const config1$ = getStore.select('agentVsCopytoolCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getAgentVsCopytoolStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getAgentVsCopytoolStream)));
 
     const xScale = d3.time.scale();
     const yScale = d3.scale.linear();
@@ -56,9 +51,15 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
       .range(['#F3B600', '#A3B600', '#0067B4']);
 
     const getNumbers = x =>
-      entries(x).filter(([k]) => k !== 'ts').map(([, v]) => v);
+      entries(x)
+        .filter(([k]) => k !== 'ts')
+        .map(([, v]) => v);
 
-    const getMax = fp.flow(fp.map(getNumbers), xs => [].concat(...xs), d3.max);
+    const getMax = fp.flow(
+      fp.map(getNumbers),
+      xs => [].concat(...xs),
+      d3.max
+    );
 
     const getTime = fp.invokeMethod('getTime')([]);
     const xComparator = fp.eqFn(getTime)(getTime);
@@ -72,7 +73,12 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
       return [range.format({ implicitYear: false })];
     }
 
-    const mapProps = fp.map(fp.flow(fp.lensProp, fp.view));
+    const mapProps = fp.map(
+      fp.flow(
+        fp.lensProp,
+        fp.view
+      )
+    );
 
     return chartCompiler(
       `<div config-toggle class="agent-vs-copytool">
@@ -124,8 +130,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
           rangeLabelOnUpdate: [
             ({ label, width }) => label.width(width),
             ({ label }) => label.height(20),
-            ({ node, height }) =>
-              node.attr('transform', `translate(0,${height})`)
+            ({ node, height }) => node.attr('transform', `translate(0,${height})`)
           ],
           nameColorScale,
           calcRange,
@@ -133,10 +138,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
           xComparator,
           labels: mapProps(nameColorScale.domain()),
           colors: nameColorScale.range(),
-          onSubmit: durationSubmitHandler(
-            UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS,
-            { page }
-          )
+          onSubmit: durationSubmitHandler(UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS, { page })
         };
 
         const config2$ = getStore.select('agentVsCopytoolCharts');

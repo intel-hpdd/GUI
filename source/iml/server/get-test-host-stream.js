@@ -17,14 +17,12 @@ export default function getTestHostStreamFactory() {
       status.uiName = _.apiToHuman(status.name);
     });
 
-    const s2 = stream
-      .tap(_.fmap(setUiName))
-      .map(function checkTotalValidity(resp) {
-        return {
-          objects: resp,
-          valid: _.every(resp, 'valid')
-        };
-      });
+    const s2 = stream.tap(_.fmap(setUiName)).map(function checkTotalValidity(resp) {
+      return {
+        objects: resp,
+        valid: _.every(resp, 'valid')
+      };
+    });
 
     s2.destroy = stream.destroy.bind(stream);
 

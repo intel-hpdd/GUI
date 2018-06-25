@@ -40,9 +40,7 @@ export default function createStore(reducers: Object): StoreT {
 
   type fnToStrMap$T = () => HighlandStreamT<{ [key: string]: mixed }>;
 
-  const view: fnToStrMap$T = broadcast(
-    stream.scan(combined, {}).filter(x => Object.keys(x).length > 0)
-  );
+  const view: fnToStrMap$T = broadcast(stream.scan(combined, {}).filter(x => Object.keys(x).length > 0));
 
   return {
     dispatch: stream.write.bind(stream),

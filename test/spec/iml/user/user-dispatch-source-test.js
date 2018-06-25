@@ -8,17 +8,11 @@ describe('user dispatch source', () => {
     s = highland();
     mockSocketStream = jest.fn(() => s);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     mockDispatchSourceUtils = {
       canDispatch: jest.fn(() => true)
     };
-    jest.mock(
-      '../../../../source/iml/dispatch-source-utils.js',
-      () => mockDispatchSourceUtils
-    );
+    jest.mock('../../../../source/iml/dispatch-source-utils.js', () => mockDispatchSourceUtils);
     jest.mock('../../../../source/iml/user/user-reducer.js', () => ({
       ADD_USER_ITEMS: 'ADD_USER_ITEMS'
     }));

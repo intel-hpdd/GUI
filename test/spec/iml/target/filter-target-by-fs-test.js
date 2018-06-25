@@ -34,9 +34,11 @@ describe('filter target by fs', () => {
   it('should return the targets with the matching fs', function() {
     let result;
 
-    highland(data).through(filterTargetByFs(1)).each(function(x) {
-      result = x;
-    });
+    highland(data)
+      .through(filterTargetByFs(1))
+      .each(function(x) {
+        result = x;
+      });
 
     expect(result).toEqual([
       {

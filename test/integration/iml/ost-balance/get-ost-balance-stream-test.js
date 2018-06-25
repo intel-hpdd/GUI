@@ -16,13 +16,9 @@ describe('get OST balance stream', () => {
       return s;
     });
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
-    getOstBalanceStream = require('../../../../source/iml/ost-balance/get-ost-balance-stream.js')
-      .default;
+    getOstBalanceStream = require('../../../../source/iml/ost-balance/get-ost-balance-stream.js').default;
 
     spy = jest.fn();
 
@@ -46,11 +42,7 @@ describe('get OST balance stream', () => {
     });
 
     it('should request data without overrides', () => {
-      expect(mockSocketStream).toHaveBeenCalledTwiceWith(
-        '/ost-balance',
-        { percentage: 0 },
-        true
-      );
+      expect(mockSocketStream).toHaveBeenCalledTwiceWith('/ost-balance', { percentage: 0 }, true);
     });
 
     it('should return computed data', () => {

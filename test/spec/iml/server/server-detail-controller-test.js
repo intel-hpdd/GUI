@@ -55,9 +55,7 @@ describe('server detail controller', () => {
           jobMonitorStream: broadcaster(jobMonitorStream),
           alertMonitorStream: broadcaster(alertMonitorStream),
           corosyncConfigurationStream: broadcaster(corosyncConfigurationStream),
-          pacemakerConfigurationStream: broadcaster(
-            pacemakerConfigurationStream
-          ),
+          pacemakerConfigurationStream: broadcaster(pacemakerConfigurationStream),
           networkInterfaceStream,
           serverStream
         },

@@ -14,8 +14,7 @@ type Props = {
 };
 
 export default (props: Props) => {
-  if (props.children.length !== 2)
-    throw new Error('DropdownContainer expects two children');
+  if (props.children.length !== 2) throw new Error('DropdownContainer expects two children');
 
   const [button, ul] = props.children;
 

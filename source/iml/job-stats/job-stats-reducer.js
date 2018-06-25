@@ -16,10 +16,7 @@ const startingState = {
   desc: true
 };
 
-export default function(
-  state: Object = startingState,
-  { type, payload }: ActionT
-): Object {
+export default function(state: Object = startingState, { type, payload }: ActionT): Object {
   switch (type) {
     case SET_DURATION:
       return {

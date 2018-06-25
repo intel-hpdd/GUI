@@ -86,29 +86,14 @@ describe('memory usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/memory-usage/get-memory-usage-stream.js',
-      () => mockGetMemoryUsageStream
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/memory-usage/get-memory-usage-stream.js', () => mockGetMemoryUsageStream);
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        getConf: mockGetConf
-      })
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      getConf: mockGetConf
+    }));
     const mod = require('../../../../source/iml/memory-usage/get-memory-usage-chart.js');
 
     getMemoryUsageChartFactory = mod.default;
@@ -231,9 +216,7 @@ describe('memory usage chart', () => {
     });
 
     it('should select the memoryUsageChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith(
-        'memoryUsageCharts'
-      );
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('memoryUsageCharts');
     });
 
     it('should call getConf', () => {
@@ -274,9 +257,7 @@ describe('memory usage chart', () => {
       });
 
       it('should set y tick format', () => {
-        expect(d3Chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(d3Chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should not show max and min on the x axis', () => {
@@ -300,9 +281,7 @@ describe('memory usage chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_MEMORY_USAGE_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_MEMORY_USAGE_CHART_ITEMS', {
         page: 'server1'
       });
     });

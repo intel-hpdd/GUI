@@ -18,10 +18,7 @@ export default (commandList: Command[]): HighlandStreamT<Command[]> => {
     }
   };
 
-  const stream: HighlandStreamT<{ objects: Command[] }> = socketStream(
-    '/command',
-    options
-  );
+  const stream: HighlandStreamT<{ objects: Command[] }> = socketStream('/command', options);
 
   stream.write({
     objects: commandList

@@ -19,24 +19,18 @@ export const tokenizer = parsely.getLexer(inputToQsTokens);
 const type = parsely.matchValueTo('type', 'message_class');
 const types = parsely.choice(
   ['normal', 'lustre', 'lustre_error', 'copytool', 'copytool_error'].map(type =>
-    fp.flow(parsely.matchValue(type), parsely.onSuccess(x => x.toUpperCase()))
+    fp.flow(
+      parsely.matchValue(type),
+      parsely.onSuccess(x => x.toUpperCase())
+    )
   )
 );
-const typeParser = parsely.choice([
-  inputToQsParser.assign(type, types),
-  inputToQsParser.inList(type, types)
-]);
+const typeParser = parsely.choice([inputToQsParser.assign(type, types), inputToQsParser.inList(type, types)]);
 
 //service parser
 const service = parsely.matchValueTo('service', 'tag');
-const assign: tokensToResult = inputToQsParser.assign(
-  service,
-  inputToQsParser.value
-);
-const inList: tokensToResult = inputToQsParser.inList(
-  service,
-  inputToQsParser.value
-);
+const assign: tokensToResult = inputToQsParser.assign(service, inputToQsParser.value);
+const inList: tokensToResult = inputToQsParser.inList(service, inputToQsParser.value);
 const serviceParser = parsely.choice([inList, assign]);
 
 //message parser
@@ -48,18 +42,18 @@ const date = parsely.matchValueTo('date', 'datetime');
 
 const rightHand = fp.flow(
   parsely.parseStr([date, inputToQsParser.ascOrDesc]),
-  parsely.onSuccess(x => x.split('-').reverse().join('-'))
+  parsely.onSuccess(x =>
+    x
+      .split('-')
+      .reverse()
+      .join('-')
+  )
 );
 
 // hostname parser
 const host = parsely.matchValueTo('host', 'fqdn');
 const hostName = parsely.many1(
-  parsely.choice([
-    inputToQsParser.value,
-    inputToQsParser.number,
-    inputToQsParser.dot,
-    inputToQsParser.dash
-  ])
+  parsely.choice([inputToQsParser.value, inputToQsParser.number, inputToQsParser.dot, inputToQsParser.dash])
 );
 const hostAssign = inputToQsParser.assign(host, hostName);
 const hostStarts = inputToQsParser.starts(host, hostName);
@@ -82,4 +76,10 @@ const expr = parsely.sepBy1(choices)(inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(fp.flow(tokenizer, logParser, x => x.result));
+export default fp.memoize(
+  fp.flow(
+    tokenizer,
+    logParser,
+    x => x.result
+  )
+);

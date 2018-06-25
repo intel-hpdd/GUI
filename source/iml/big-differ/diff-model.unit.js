@@ -23,15 +23,11 @@ describe('diff model', () => {
   });
 
   it('should push a formatter', () => {
-    expect(diffModelCtrl.modelCtrl.$formatters).toEqual([
-      diffModelCtrl.diffCtrl.remoteChange
-    ]);
+    expect(diffModelCtrl.modelCtrl.$formatters).toEqual([diffModelCtrl.diffCtrl.remoteChange]);
   });
 
   it('should push a view change listener', () => {
-    expect(diffModelCtrl.modelCtrl.$viewChangeListeners).toEqual([
-      expect.any(Function)
-    ]);
+    expect(diffModelCtrl.modelCtrl.$viewChangeListeners).toEqual([expect.any(Function)]);
   });
 
   it('should send a local change when view changes', () => {
@@ -42,9 +38,7 @@ describe('diff model', () => {
   });
 
   it('should subscribe to diffCtrl', () => {
-    expect(diffModelCtrl.diffCtrl.subscribe).toHaveBeenCalledOnceWith(
-      expect.any(Function)
-    );
+    expect(diffModelCtrl.diffCtrl.subscribe).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
   describe('subscribing', () => {
@@ -59,9 +53,7 @@ describe('diff model', () => {
         local: 'foo'
       });
 
-      expect(diffModelCtrl.modelCtrl.$setViewValue).toHaveBeenCalledOnceWith(
-        'foo'
-      );
+      expect(diffModelCtrl.modelCtrl.$setViewValue).toHaveBeenCalledOnceWith('foo');
     });
 
     it('should call $render', () => {

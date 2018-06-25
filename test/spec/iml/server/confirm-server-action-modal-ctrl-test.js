@@ -16,10 +16,7 @@ describe('Confirm server action modal', () => {
       return (stream = highland());
     });
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/server/confirm-server-action-modal-ctrl.js');
     ConfirmServerActionModalCtrl = mod.default;

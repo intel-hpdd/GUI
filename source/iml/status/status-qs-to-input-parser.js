@@ -26,11 +26,7 @@ const rightHands = parsely.choice(
         parsely.onSuccess(x => x.toLowerCase())
       )
     )
-    .concat([
-      parsely.matchValueTo('none', 'false'),
-      qsToInputParser.value,
-      qsToInputParser.number
-    ])
+    .concat([parsely.matchValueTo('none', 'false'), qsToInputParser.value, qsToInputParser.number])
 );
 
 const assign = qsToInputParser.assign(leftHands, rightHands);
@@ -44,4 +40,10 @@ const expr = parsely.sepBy1(choices)(qsToInputParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(fp.flow(tokenizer, statusParser, x => x.result));
+export default fp.memoize(
+  fp.flow(
+    tokenizer,
+    statusParser,
+    x => x.result
+  )
+);

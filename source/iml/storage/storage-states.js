@@ -5,12 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  storageB,
-  alertIndicatorB,
-  getData,
-  storageResource$
-} from './storage-resolves.js';
+import { storageB, alertIndicatorB, getData, storageResource$ } from './storage-resolves.js';
 
 import { GROUPS } from '../auth/authorization.js';
 

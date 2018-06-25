@@ -22,9 +22,7 @@ export function StepModalCtrl($scope, stepsStream, jobStream) {
       else return COMMAND_STATES.SUCCEEDED;
     },
     getDescription: function getDescription(step) {
-      return step.description.indexOf(step.class_name) === 0
-        ? step.class_name
-        : step.description;
+      return step.description.indexOf(step.class_name) === 0 ? step.class_name : step.description;
     }
   });
 

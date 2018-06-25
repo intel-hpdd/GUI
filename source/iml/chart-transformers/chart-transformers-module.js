@@ -16,27 +16,15 @@ import type { heatMapDurationPayloadT } from '../read-write-heat-map/read-write-
 
 import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
 
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
-type confTypes =
-  | durationPayloadT
-  | heatMapDurationPayloadT
-  | ostBalancePayloadT;
+type confTypes = durationPayloadT | heatMapDurationPayloadT | ostBalancePayloadT;
 
-export type configToStreamT = (
-  x: durationPayloadT
-) => (a: any, b: any) => HighlandStreamT<any>;
+export type configToStreamT = (x: durationPayloadT) => (a: any, b: any) => HighlandStreamT<any>;
 
 export type getConfT = (page: string) => HighlandStreamT<confTypes>;
 
-export type data$FnT = (
-  filesystemQueryT | targetQueryT,
-  configToStreamT,
-  mixed
-) => HighlandStreamT<mixed>;
+export type data$FnT = (filesystemQueryT | targetQueryT, configToStreamT, mixed) => HighlandStreamT<mixed>;
 
 export default angular
   .module('chartTransformers', [])

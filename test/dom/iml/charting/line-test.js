@@ -25,8 +25,14 @@ describe('line tests', () => {
   it('should render as expected', () => {
     Inferno.render(
       <Line
-        xScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
-        yScale={d3.scale.linear().domain([0, 100]).range([200, 0])}
+        xScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([0, 200])}
+        yScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([200, 0])}
         xValue={x => x}
         yValue={x => x}
         xComparator={(x, y) => x === y}

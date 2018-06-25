@@ -18,10 +18,7 @@ describe('session dispatch source', () => {
 
     mockSocketStream = jest.fn(() => session$);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     jest.mock('../../../../source/iml/environment.js', () => ({
       CACHE_INITIAL_DATA: mockCacheInitialData

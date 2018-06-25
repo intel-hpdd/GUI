@@ -13,10 +13,7 @@ export default function qsFromLocationFactory($state: StateServiceT) {
 
   return function qsFromLocation(params: Object): string {
     let parts =
-      new UrlMatcher(
-        $state.transition.to().url,
-        $state.router.urlMatcherFactory.paramTypes
-      ).format(params) || '';
+      new UrlMatcher($state.transition.to().url, $state.router.urlMatcherFactory.paramTypes).format(params) || '';
 
     parts = parts.split('?');
     return parts.length > 1 ? parts.pop() : '';

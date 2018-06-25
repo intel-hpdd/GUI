@@ -10,10 +10,7 @@ describe('get copytool operation stream', () => {
 
     mockSocketStream = jest.fn(() => stream);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/hsm/get-copytool-operation-stream.js');
 

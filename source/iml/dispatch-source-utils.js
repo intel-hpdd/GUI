@@ -7,5 +7,4 @@
 
 import { ALLOW_ANONYMOUS_READ, CACHE_INITIAL_DATA } from './environment.js';
 
-export const canDispatch = () =>
-  ALLOW_ANONYMOUS_READ || CACHE_INITIAL_DATA.session.user != null;
+export const canDispatch = () => ALLOW_ANONYMOUS_READ || CACHE_INITIAL_DATA.session.user != null;

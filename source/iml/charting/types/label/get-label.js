@@ -24,7 +24,10 @@ export default function getLabel() {
         .append('g')
         .classed('label-group', true);
 
-      enteringLabelGroup.style('opacity', 0).transition().style('opacity', 1);
+      enteringLabelGroup
+        .style('opacity', 0)
+        .transition()
+        .style('opacity', 1);
 
       enteringLabelGroup.append('rect').classed('label-rect', true);
 

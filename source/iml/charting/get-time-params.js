@@ -21,10 +21,7 @@ type Point = {
   ts: string
 };
 
-export const getRequestRange = (overrides: Object) => (
-  begin: number | string,
-  end: string
-) => {
+export const getRequestRange = (overrides: Object) => (begin: number | string, end: string) => {
   getRequestRange.setLatest = fp.identity;
 
   return getRequestRange;
@@ -38,10 +35,7 @@ export const getRequestRange = (overrides: Object) => (
   }
 };
 
-export const getRequestDuration = (overrides: Object) => (
-  size: number | string,
-  unit: string
-) => {
+export const getRequestDuration = (overrides: Object) => (size: number | string, unit: string) => {
   let latest;
 
   getRequestDuration.setLatest = (s: HighlandStreamT<Point>) => {
@@ -69,9 +63,12 @@ export const getRequestDuration = (overrides: Object) => (
       const end = getServerMoment().milliseconds(0);
 
       const secs = end.seconds();
-      end.seconds(secs - secs % 10);
+      end.seconds(secs - (secs % 10));
 
-      params.qs.end = end.clone().add(10, 'seconds').toISOString();
+      params.qs.end = end
+        .clone()
+        .add(10, 'seconds')
+        .toISOString();
 
       params.qs.begin = end
         .subtract(size, unit)

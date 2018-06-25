@@ -33,13 +33,9 @@ export function SelectServerProfileStepCtrl(
 
       hostProfileStream.destroy();
 
-      if (action === 'previous')
-        return $stepInstance.transition(action, { data: data });
+      if (action === 'previous') return $stepInstance.transition(action, { data: data });
 
-      createHostProfiles(
-        this.profile,
-        action === OVERRIDE_BUTTON_TYPES.PROCEED
-      ).pull(function pullToken(err) {
+      createHostProfiles(this.profile, action === OVERRIDE_BUTTON_TYPES.PROCEED).pull(function pullToken(err) {
         if (err) throw err;
 
         $stepInstance.end();
@@ -81,9 +77,7 @@ export function SelectServerProfileStepCtrl(
       // Avoid a stale reference here by
       // pulling off the new value if we already have a profile.
       const profile = selectServerProfileStep.profile;
-      selectServerProfileStep.profile = profile
-        ? _.find(profiles, { name: profile.name })
-        : profiles[0];
+      selectServerProfileStep.profile = profile ? _.find(profiles, { name: profile.name }) : profiles[0];
     })
     .stopOnError(fp.unary($exceptionHandler))
     .each(localApply.bind(null, $scope));
@@ -184,21 +178,14 @@ export function selectServerProfileStep() {
   <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
 </div>`,
     controller: 'SelectServerProfileStepCtrl as selectServerProfile',
-    onEnter: function onEnter(
-      data,
-      createOrUpdateHostsStream,
-      getHostProfiles,
-      waitForCommandCompletion,
-      showCommand
-    ) {
+    onEnter: function onEnter(data, createOrUpdateHostsStream, getHostProfiles, waitForCommandCompletion, showCommand) {
       'ngInject';
       const getProfiles = _.partial(getHostProfiles, data.spring);
 
       const waitForCommand = fp.flow(
         fp.map(x => x.command),
         fp.filter(Boolean),
-        x =>
-          x.length ? waitForCommandCompletion(showCommand)(x) : highland([])
+        x => (x.length ? waitForCommandCompletion(showCommand)(x) : highland([]))
       );
 
       const hostProfileStream = createOrUpdateHostsStream(data.servers)

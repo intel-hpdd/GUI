@@ -21,10 +21,7 @@ describe('Add copytool modal', () => {
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/hsm/add-copytool-modal.js');
 
@@ -45,12 +42,7 @@ describe('Add copytool modal', () => {
         fsStream = highland();
 
         addCopytoolModalCtrl = {};
-        AddCopytoolModalCtrl.bind(addCopytoolModalCtrl)(
-          $scope,
-          $uibModalInstance,
-          workerStream,
-          fsStream
-        );
+        AddCopytoolModalCtrl.bind(addCopytoolModalCtrl)($scope, $uibModalInstance, workerStream, fsStream);
       })
     );
 
@@ -325,10 +317,7 @@ describe('Add copytool modal', () => {
         let result;
 
         beforeEach(() => {
-          result = getResolve('workerStream')(
-            mockResolveStream,
-            mockSocketStream
-          );
+          result = getResolve('workerStream')(mockResolveStream, mockSocketStream);
         });
 
         it('should create a new worker stream', () => {

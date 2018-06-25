@@ -4,13 +4,7 @@ import highland from 'highland';
 import { streamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('storage resolves', () => {
-  let mockStore,
-    mockSocketStream,
-    state,
-    storageB,
-    alertIndicatorB,
-    getData,
-    storageResource$;
+  let mockStore, mockSocketStream, state, storageB, alertIndicatorB, getData, storageResource$;
 
   beforeEach(() => {
     state = {
@@ -28,14 +22,9 @@ describe('storage resolves', () => {
 
     mockSocketStream = jest.fn(() => highland([{ plugin_name: 'foo' }]));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
-    mockStore = jest.genMockFromModule(
-      '../../../../source/iml/store/get-store.js'
-    ).default;
+    mockStore = jest.genMockFromModule('../../../../source/iml/store/get-store.js').default;
     const s = highland();
 
     mockStore.select.mockImplementationOnce(key => {
@@ -94,11 +83,7 @@ describe('storage resolves', () => {
 
     const x = await getData({ id: '3' });
 
-    expect(mockSocketStream).toHaveBeenCalledOnceWith(
-      '/api/storage_resource/3',
-      {},
-      true
-    );
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/storage_resource/3', {}, true);
 
     expect(x).toEqual({ label: 'foo' });
   });
@@ -109,10 +94,7 @@ describe('storage resolves', () => {
     const s = await storageResource$({ id: '3' });
     const x = await streamToPromise(s);
 
-    expect(mockSocketStream).toHaveBeenCalledOnceWith(
-      '/api/storage_resource/3',
-      {}
-    );
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/storage_resource/3', {});
 
     expect(x).toEqual({ plugin_name: 'foo' });
   });

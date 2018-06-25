@@ -57,9 +57,7 @@ describe('server actions', () => {
   });
   it('should convert detect file systems hosts to a job', () => {
     const result = detectFs.convertToJob(hosts);
-    expect(result).toEqual([
-      { class_name: 'DetectTargetsJob', args: { hosts: ['/api/host/1'] } }
-    ]);
+    expect(result).toEqual([{ class_name: 'DetectTargetsJob', args: { hosts: ['/api/host/1'] } }]);
   });
   it('should check if a re-write target configuration host is disabled', () => {
     const result = rewriteTargetConfig.buttonDisabled(hosts);

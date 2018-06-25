@@ -16,11 +16,7 @@ export default {
     path: '@',
     params: '<'
   },
-  controller: function(
-    $element: HTMLElement[],
-    $scope: $scopeT,
-    $location: $locationT
-  ) {
+  controller: function($element: HTMLElement[], $scope: $scopeT, $location: $locationT) {
     'ngInject';
     const frameShim = $element[0];
     const frame: HTMLIFrameElement = (frameShim.querySelector('iframe'): any);

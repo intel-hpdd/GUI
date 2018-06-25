@@ -20,10 +20,5 @@ export type addFileUsageActionT = {
 };
 
 export default angular
-  .module('fileUsageModule', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('fileUsageModule', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .factory('getFileUsageChart', getFileUsageChartFactory).name;

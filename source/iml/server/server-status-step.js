@@ -56,9 +56,7 @@ export function ServerStatusStepCtrl(
   testHostStream
     .tap(function(resp) {
       serverStatusStep.isValid = resp.valid;
-      serverStatusStep.serversStatus = hostlistFilter
-        .setHosts(resp.objects)
-        .compute();
+      serverStatusStep.serversStatus = hostlistFilter.setHosts(resp.objects).compute();
     })
     .stopOnError(fp.unary($exceptionHandler))
     .each(localApply.bind(null, $scope));
@@ -132,9 +130,7 @@ export const serverStatusStep = {
       const objects = serversToApiObjects(data.servers);
 
       return {
-        testHostStream: resolveStream(
-          getTestHostStream(data.spring, { objects: objects })
-        ),
+        testHostStream: resolveStream(getTestHostStream(data.spring, { objects: objects })),
         data: data
       };
     }
@@ -146,8 +142,6 @@ export const serverStatusStep = {
    * @returns {Object} The step to move to.
    */
   transition: function transition(steps, action) {
-    return action === 'previous'
-      ? steps.addServersStep
-      : steps.selectServerProfileStep;
+    return action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep;
   }
 };

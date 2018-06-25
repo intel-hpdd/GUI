@@ -10,10 +10,7 @@ describe('buffer data newer than', () => {
     spy = jest.fn();
     mockGetServerMoment = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockGetServerMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockGetServerMoment);
 
     const mod = require('../../../../source/iml/charting/buffer-data-newer-than.js');
 
@@ -62,18 +59,12 @@ describe('buffer data newer than', () => {
   it('should sort the dates', () => {
     mockGetServerMoment.mockReturnValue(moment('2015-05-11T00:00:00.000Z'));
 
-    highland([
-      { ts: '2015-05-10T23:51:50.000Z' },
-      { ts: '2015-05-10T23:50:50.000Z' }
-    ])
+    highland([{ ts: '2015-05-10T23:51:50.000Z' }, { ts: '2015-05-10T23:50:50.000Z' }])
       .through(bufferDataNewerThan(10, 'minutes'))
       .collect()
       .each(spy);
 
-    expect(spy).toHaveBeenCalledOnceWith([
-      { ts: '2015-05-10T23:50:50.000Z' },
-      { ts: '2015-05-10T23:51:50.000Z' }
-    ]);
+    expect(spy).toHaveBeenCalledOnceWith([{ ts: '2015-05-10T23:50:50.000Z' }, { ts: '2015-05-10T23:51:50.000Z' }]);
   });
 
   it('should buffer points', () => {
@@ -90,7 +81,9 @@ describe('buffer data newer than', () => {
     s1.end();
     jest.runAllTimers();
 
-    s2.through(buff).collect().each(spy);
+    s2.through(buff)
+      .collect()
+      .each(spy);
     s2.write({ ts: '2015-05-10T23:51:50.000Z' });
     s2.write({ ts: '2015-05-10T23:52:50.000Z' });
     s2.end();

@@ -1,34 +1,22 @@
-import {
-  DURATIONS,
-  default as durationPicker
-} from '../../../../source/iml/duration-picker/duration-picker.js';
+import { DURATIONS, default as durationPicker } from '../../../../source/iml/duration-picker/duration-picker.js';
 import capitalizeFilter from '../../../../source/iml/filters/capitalize-filter.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import angular from '../../../angular-mock-setup.js';
 import angularUiBootstrap from 'angular-ui-bootstrap';
 
 describe('the duration picker', () => {
-  let $scope,
-    el,
-    dropdownButton,
-    dropdownMenu,
-    input,
-    getErrorText,
-    durationControls;
+  let $scope, el, dropdownButton, dropdownMenu, input, getErrorText, durationControls;
 
   beforeEach(() => {
     if (!window.angular) require('angular');
   });
 
   beforeEach(
-    angular.mock.module(
-      angularUiBootstrap,
-      ($filterProvider, $compileProvider) => {
-        $filterProvider.register('capitalize', capitalizeFilter);
-        $compileProvider.directive('imlTooltip', imlTooltip);
-        $compileProvider.component('durationPicker', durationPicker);
-      }
-    )
+    angular.mock.module(angularUiBootstrap, ($filterProvider, $compileProvider) => {
+      $filterProvider.register('capitalize', capitalizeFilter);
+      $compileProvider.directive('imlTooltip', imlTooltip);
+      $compileProvider.component('durationPicker', durationPicker);
+    })
   );
 
   beforeEach(
@@ -47,8 +35,7 @@ describe('the duration picker', () => {
       input = el.querySelector('.duration-size');
       dropdownMenu = el.querySelector('.dropdown-menu');
       durationControls = el.querySelector('.duration-controls');
-      getErrorText = () =>
-        el.querySelector('div.error-tooltip.in').textContent.trim();
+      getErrorText = () => el.querySelector('div.error-tooltip.in').textContent.trim();
     })
   );
   describe('when choosing a duration', () => {
@@ -81,25 +68,21 @@ describe('the duration picker', () => {
   describe('when choosing a range', () => {
     let start, end, rangeButton;
     beforeEach(() => {
-      rangeButton = Array.from(
-        el.querySelectorAll('button[uib-btn-radio]')
-      ).filter(x => x.getAttribute('uib-btn-radio') === `'range'`)[0];
+      rangeButton = Array.from(el.querySelectorAll('button[uib-btn-radio]')).filter(
+        x => x.getAttribute('uib-btn-radio') === `'range'`
+      )[0];
       rangeButton.click();
       start = el.querySelector('input[name="start"]');
       end = el.querySelector('input[name="end"]');
     });
     it('should set the start date input to the value provided', () => {
       const startDate = new Date(start.value + 'Z');
-      const utcDateVal = new Date(
-        startDate.valueOf() + $scope.startDate.getTimezoneOffset() * 60 * 1000
-      );
+      const utcDateVal = new Date(startDate.valueOf() + $scope.startDate.getTimezoneOffset() * 60 * 1000);
       expect(utcDateVal.toISOString()).toBe('2016-04-13T15:07:45.352Z');
     });
     it('should set the end date to the value provided', () => {
       const endDate = new Date(end.value + 'Z');
-      const utcDateVal = new Date(
-        endDate.valueOf() + $scope.endDate.getTimezoneOffset() * 60 * 1000
-      );
+      const utcDateVal = new Date(endDate.valueOf() + $scope.endDate.getTimezoneOffset() * 60 * 1000);
       expect(utcDateVal.toISOString()).toBe('2016-04-13T16:07:45.352Z');
     });
     it('should be invalid if start is blank', () => {

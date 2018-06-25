@@ -31,10 +31,7 @@ export type durationFormT = {
 
 export type durationSubmitHandlerT = (
   chartType: string
-) => (
-  overrides: Object,
-  forms: { rangeForm: rangeFormT, durationForm: durationFormT }
-) => void;
+) => (overrides: Object, forms: { rangeForm: rangeFormT, durationForm: durationFormT }) => void;
 
 export type rangeConfigT = {
   configType: 'range',

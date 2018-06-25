@@ -12,14 +12,8 @@ describe('socket worker', () => {
 
     mockGetWebWorker = jest.fn(() => worker);
 
-    jest.mock(
-      '../../../../source/iml/socket-worker/get-web-worker.js',
-      () => mockGetWebWorker
-    );
-    jest.mock(
-      '../../../../source/iml/disconnect-modal/disconnect-listener.js',
-      () => mockDisconnectListener
-    );
+    jest.mock('../../../../source/iml/socket-worker/get-web-worker.js', () => mockGetWebWorker);
+    jest.mock('../../../../source/iml/disconnect-modal/disconnect-listener.js', () => mockDisconnectListener);
     jest.mock('../../../../source/iml/environment.js', () => ({
       STATIC_URL: '/gui/'
     }));
@@ -30,23 +24,15 @@ describe('socket worker', () => {
   });
 
   it('should create a worker with a remote script', () => {
-    expect(mockGetWebWorker).toHaveBeenCalledOnceWith(
-      `/gui/node_modules/socket-worker/dist/bundle.js`
-    );
+    expect(mockGetWebWorker).toHaveBeenCalledOnceWith(`/gui/node_modules/socket-worker/dist/bundle.js`);
   });
 
   it('should register a message handler', () => {
-    expect(worker.addEventListener).toHaveBeenCalledOnceWith(
-      'message',
-      expect.any(Function)
-    );
+    expect(worker.addEventListener).toHaveBeenCalledOnceWith('message', expect.any(Function));
   });
 
   it('should register an error handler', () => {
-    expect(worker.addEventListener).toHaveBeenCalledOnceWith(
-      'error',
-      expect.any(Function)
-    );
+    expect(worker.addEventListener).toHaveBeenCalledOnceWith('error', expect.any(Function));
   });
 
   it('should return the worker', () => {
@@ -55,9 +41,7 @@ describe('socket worker', () => {
 
   it('should throw on error', () => {
     const err = new Error('boom!');
-    expect(worker.addEventListener.mock.calls[1][1].bind(null, err)).toThrow(
-      'boom!'
-    );
+    expect(worker.addEventListener.mock.calls[1][1].bind(null, err)).toThrow('boom!');
   });
 
   describe('message handling', () => {

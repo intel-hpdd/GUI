@@ -56,9 +56,7 @@ describe('Steps module', () => {
 
         $scope.$digest();
 
-        expect(node.html()).toEqual(
-          '<div class="ng-binding ng-scope">bar</div>'
-        );
+        expect(node.html()).toEqual('<div class="ng-binding ng-scope">bar</div>');
       });
     });
 
@@ -121,18 +119,14 @@ describe('Steps module', () => {
       let error;
       beforeEach(() => {
         try {
-          stepsManagerInstance
-            .addWaitingStep(waitingStep)
-            .addWaitingStep(waitingStep);
+          stepsManagerInstance.addWaitingStep(waitingStep).addWaitingStep(waitingStep);
         } catch (e) {
           error = e;
         }
       });
 
       it('should throw an error when addWaitingStep is called twice', () => {
-        expect(error.message).toEqual(
-          'Cannot assign the waiting step as it is already defined.'
-        );
+        expect(error.message).toEqual('Cannot assign the waiting step as it is already defined.');
       });
     });
 
@@ -167,11 +161,7 @@ describe('Steps module', () => {
       });
 
       it('should start on step1', () => {
-        expect(listener).toHaveBeenCalledOnceWith(
-          step1,
-          undefined,
-          waitingStep
-        );
+        expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
       });
 
       it('should transition to step2', () => {
@@ -191,11 +181,7 @@ describe('Steps module', () => {
 
         $rootScope.$digest();
 
-        expect(listener).toHaveBeenCalledOnceWith(
-          step1,
-          undefined,
-          waitingStep
-        );
+        expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined);
       });
 
@@ -206,11 +192,7 @@ describe('Steps module', () => {
 
         $rootScope.$digest();
 
-        expect(listener).not.toHaveBeenCalledOnceWith(
-          step2,
-          undefined,
-          waitingStep
-        );
+        expect(listener).not.toHaveBeenCalledOnceWith(step2, undefined, waitingStep);
       });
     });
   });

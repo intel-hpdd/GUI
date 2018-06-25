@@ -15,8 +15,7 @@ export default function asStream() {
     },
     link: function link(scope, el, attrs, ctrl, $transclude) {
       $transclude(function createStream(clone, transcludedScope) {
-        if (transcludedScope.str)
-          throw new Error('str already set on transcluded scope.');
+        if (transcludedScope.str) throw new Error('str already set on transcluded scope.');
 
         const stream = highland();
 

@@ -47,7 +47,10 @@ describe('as viewer', () => {
         $scope.$digest();
 
         const find = el[0].querySelector.bind(el[0]);
-        getText = fp.flow(find, fp.view(fp.lensProp('textContent')));
+        getText = fp.flow(
+          find,
+          fp.view(fp.lensProp('textContent'))
+        );
       })
     );
 
@@ -101,7 +104,10 @@ describe('as viewer', () => {
         $scope.$digest();
 
         const find = el[0].querySelector.bind(el[0]);
-        getText = fp.flow(find, fp.view(fp.lensProp('textContent')));
+        getText = fp.flow(
+          find,
+          fp.view(fp.lensProp('textContent'))
+        );
       })
     );
 

@@ -28,9 +28,6 @@ describe('chart compiler directive', () => {
   });
   it('should call the chart with scope and stream', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
-    expect(spy).toHaveBeenCalledOnceWith(
-      expect.any($scopeConstructor),
-      'stream'
-    );
+    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), 'stream');
   });
 });

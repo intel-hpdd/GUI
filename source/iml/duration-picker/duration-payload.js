@@ -23,7 +23,11 @@ export default (overrides: Object): durationPayloadsT =>
         .milliseconds(0)
         .toDate()
         .valueOf(),
-      endDate: getServerMoment().seconds(0).milliseconds(0).toDate().valueOf()
+      endDate: getServerMoment()
+        .seconds(0)
+        .milliseconds(0)
+        .toDate()
+        .valueOf()
     },
     overrides
   );

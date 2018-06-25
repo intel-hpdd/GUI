@@ -13,12 +13,7 @@ import type { $scopeT } from 'angular';
 
 export type localApplyT<R> = (scope: $scopeT, fn?: () => R) => ?R;
 
-export type PropagateChange = <T>(
-  $scopeT,
-  Object,
-  string,
-  HighlandStreamT<T>
-) => HighlandStreamT<T>;
+export type PropagateChange = <T>($scopeT, Object, string, HighlandStreamT<T>) => HighlandStreamT<T>;
 
 export default angular
   .module('extendScope', [])
@@ -83,10 +78,7 @@ export default angular
       };
     }
   ])
-  .factory('propagateChange', function propagateChangeFactory(
-    $exceptionHandler,
-    localApply
-  ) {
+  .factory('propagateChange', function propagateChangeFactory($exceptionHandler, localApply) {
     'ngInject';
     return ($scope, obj, prop, s) =>
       s

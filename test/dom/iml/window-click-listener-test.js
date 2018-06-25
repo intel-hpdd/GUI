@@ -9,10 +9,7 @@ describe('WindowClickListener DOM testing', () => {
   let root, component, sibling;
 
   beforeEach(() => {
-    const MockComponent = (props: {
-      isOpen?: boolean,
-      toggleOpen?: Function
-    }) => {
+    const MockComponent = (props: { isOpen?: boolean, toggleOpen?: Function }) => {
       return (
         <span class="clicker" onClick={props.toggleOpen}>
           {props.isOpen ? 'open' : 'closed'}

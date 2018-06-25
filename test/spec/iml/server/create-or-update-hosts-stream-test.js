@@ -1,13 +1,7 @@
 import highland from 'highland';
 
 describe('create or update hosts stream', () => {
-  let mockSocketStream,
-    mockCacheInitialData,
-    mockServersToApiObjects,
-    hostStreams,
-    server,
-    spy,
-    resultStream;
+  let mockSocketStream, mockCacheInitialData, mockServersToApiObjects, hostStreams, server, spy, resultStream;
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -42,17 +36,11 @@ describe('create or update hosts stream', () => {
       }
     ]);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/environment.js', () => ({
       CACHE_INITIAL_DATA: mockCacheInitialData
     }));
-    jest.mock(
-      '../../../../source/iml/server/servers-to-api-objects.js',
-      () => mockServersToApiObjects
-    );
+    jest.mock('../../../../source/iml/server/servers-to-api-objects.js', () => mockServersToApiObjects);
 
     const mod = require('../../../../source/iml/server/create-or-update-hosts-stream.js');
 
@@ -78,9 +66,7 @@ describe('create or update hosts stream', () => {
   });
 
   it('should return a stream', () => {
-    expect(Object.getPrototypeOf(resultStream)).toBe(
-      Object.getPrototypeOf(highland())
-    );
+    expect(Object.getPrototypeOf(resultStream)).toBe(Object.getPrototypeOf(highland()));
   });
 
   describe('just posts', () => {
@@ -309,10 +295,7 @@ describe('create or update hosts stream', () => {
   describe('nothing', () => {
     beforeEach(() => {
       hostStreams[0].write({
-        objects: [
-          { address: 'storage0.localdomain' },
-          { address: 'storage1.localdomain' }
-        ]
+        objects: [{ address: 'storage0.localdomain' }, { address: 'storage1.localdomain' }]
       });
       hostStreams[0].write(highland.nil);
 

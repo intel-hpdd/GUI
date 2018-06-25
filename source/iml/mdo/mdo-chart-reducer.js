@@ -8,10 +8,7 @@
 export const UPDATE_MDO_CHART_ITEMS = 'UPDATE_MDO_CHART_ITEMS';
 export const DEFAULT_MDO_CHART_ITEMS = 'DEFAULT_MDO_CHART_ITEMS';
 
-import type {
-  durationPayloadHashT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadHashT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { addMdoActionT } from './mdo-module.js';
 
@@ -21,10 +18,7 @@ function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
   });
 }
 
-export default function(
-  state: durationPayloadHashT = {},
-  { type, payload }: addMdoActionT
-): durationPayloadHashT {
+export default function(state: durationPayloadHashT = {}, { type, payload }: addMdoActionT): durationPayloadHashT {
   switch (type) {
     case DEFAULT_MDO_CHART_ITEMS:
       if (!state[payload.page]) state = mergeState(state, payload);

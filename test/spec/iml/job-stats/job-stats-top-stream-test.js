@@ -43,18 +43,12 @@ describe('job stats top stream', () => {
 
     mockBufferDataNewerThan = jest.fn(() => x => x);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/charting/get-time-params.js', () => ({
       getRequestDuration: mockGetRequestDuration,
       getRequestRange: mockGetRequestRange
     }));
-    jest.mock(
-      '../../../../source/iml/charting/buffer-data-newer-than.js',
-      () => mockBufferDataNewerThan
-    );
+    jest.mock('../../../../source/iml/charting/buffer-data-newer-than.js', () => mockBufferDataNewerThan);
 
     const mod = require('../../../../source/iml/job-stats/job-stats-top-stream.js');
 
@@ -84,12 +78,7 @@ describe('job stats top stream', () => {
         expect(requestDurationOverrides).toHaveBeenCalledWith(10, 'minute');
       });
 
-      [
-        'read_bytes',
-        'write_bytes',
-        'read_iops',
-        'write_iops'
-      ].forEach(metrics =>
+      ['read_bytes', 'write_bytes', 'read_iops', 'write_iops'].forEach(metrics =>
         it(`should call for ${metrics} metric`, () => {
           expect(mockSocketStream).toHaveBeenCalledOnceWith(
             '/target/metric',
@@ -185,9 +174,7 @@ describe('job stats top stream', () => {
       let result;
 
       beforeEach(async () => {
-        result = await streamToPromise(
-          topRange('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z')
-        );
+        result = await streamToPromise(topRange('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z'));
       });
 
       it('should call getRequestRange', () => {
@@ -197,18 +184,10 @@ describe('job stats top stream', () => {
 
       it('should call getRequestRange with parameters', () => {
         expect(requestRangeOverrides).toHaveBeenCalledTimes(4);
-        expect(requestRangeOverrides).toHaveBeenCalledWith(
-          '2016-08-17T18:34:04.000Z',
-          '2016-08-17T18:34:20.000Z'
-        );
+        expect(requestRangeOverrides).toHaveBeenCalledWith('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z');
       });
 
-      [
-        'read_bytes',
-        'write_bytes',
-        'read_iops',
-        'write_iops'
-      ].forEach(metrics =>
+      ['read_bytes', 'write_bytes', 'read_iops', 'write_iops'].forEach(metrics =>
         it(`should call for ${metrics} metric`, () => {
           expect(mockSocketStream).toHaveBeenCalledOnceWith(
             '/target/metric',
@@ -275,10 +254,7 @@ describe('job stats top stream', () => {
 
       it('should call requestRange with the parameters', () => {
         expect(requestRangeOverrides).toHaveBeenCalledTimes(4);
-        expect(requestRangeOverrides).toHaveBeenCalledWith(
-          '2016-08-17T18:34:04.000Z',
-          '2016-08-17T18:34:20.000Z'
-        );
+        expect(requestRangeOverrides).toHaveBeenCalledWith('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z');
       });
     });
   });

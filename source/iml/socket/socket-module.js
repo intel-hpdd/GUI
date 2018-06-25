@@ -7,8 +7,4 @@
 
 import type { HighlandStreamT } from 'highland';
 
-export type SocketStreamT<T> = (
-  path: string,
-  options: Object,
-  isAck?: boolean
-) => HighlandStreamT<T>;
+export type SocketStreamT<T> = (path: string, options: Object, isAck?: boolean) => HighlandStreamT<T>;

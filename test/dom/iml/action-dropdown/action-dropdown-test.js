@@ -14,51 +14,36 @@ describe('action dropdown directive', () => {
   });
 
   beforeEach(
-    angular.mock.module(
-      uiBootstrapModule,
-      ($compileProvider, $provide, $controllerProvider, $filterProvider) => {
-        handleAction = jest.fn(() => highland());
-        $provide.value('handleAction', handleAction);
-        mockGetCommandStream = jest.fn(() => highland());
-        $provide.value('getCommandStream', mockGetCommandStream);
-        openCommandModal = jest.fn();
-        $provide.value('openCommandModal', openCommandModal);
-        $filterProvider.register('groupActions', groupActionsFilter);
-        $compileProvider.directive('imlTooltip', imlTooltip);
-        cleanText = x => x.textContent && x.textContent.trim();
+    angular.mock.module(uiBootstrapModule, ($compileProvider, $provide, $controllerProvider, $filterProvider) => {
+      handleAction = jest.fn(() => highland());
+      $provide.value('handleAction', handleAction);
+      mockGetCommandStream = jest.fn(() => highland());
+      $provide.value('getCommandStream', mockGetCommandStream);
+      openCommandModal = jest.fn();
+      $provide.value('openCommandModal', openCommandModal);
+      $filterProvider.register('groupActions', groupActionsFilter);
+      $compileProvider.directive('imlTooltip', imlTooltip);
+      cleanText = x => x.textContent && x.textContent.trim();
 
-        jest.mock(
-          '../../../../source/iml/command/get-command-stream.js',
-          () => mockGetCommandStream
-        );
+      jest.mock('../../../../source/iml/command/get-command-stream.js', () => mockGetCommandStream);
 
-        const {
-          ActionDropdownCtrl,
-          actionDropdown,
-          actionDescriptionCache
-        } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
-        $provide.factory('actionDescriptionCache', actionDescriptionCache);
-        $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
-        $compileProvider.directive('actionDropdown', actionDropdown);
+      const {
+        ActionDropdownCtrl,
+        actionDropdown,
+        actionDescriptionCache
+      } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
+      $provide.factory('actionDescriptionCache', actionDescriptionCache);
+      $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
+      $compileProvider.directive('actionDropdown', actionDropdown);
 
-        jest.useFakeTimers();
-      }
-    )
+      jest.useFakeTimers();
+    })
   );
   afterEach(() => {
     jest.clearAllTimers();
     jest.useRealTimers();
   });
-  let $scope,
-    $timeout,
-    el,
-    button,
-    records,
-    groupHeaders,
-    buttonGroup,
-    verbs,
-    tooltip,
-    tooltipText;
+  let $scope, $timeout, el, button, records, groupHeaders, buttonGroup, verbs, tooltip, tooltipText;
   describe('before records are sent', () => {
     beforeEach(
       angular.mock.inject(($compile, $rootScope) => {
@@ -137,8 +122,7 @@ describe('action dropdown directive', () => {
               {
                 display_group: 3,
                 display_order: 100,
-                long_description:
-                  'Shut down the LNet networking layer and stop any targets running on this server.',
+                long_description: 'Shut down the LNet networking layer and stop any targets running on this server.',
                 state: 'lnet_down',
                 verb: 'Stop LNet'
               },
@@ -174,19 +158,14 @@ describe('action dropdown directive', () => {
         verbs = el.querySelectorAll.bind(el, 'li a');
         groupHeaders = el.querySelectorAll.bind(el, 'li.dropdown-header');
         tooltip = document.body.querySelector.bind(document.body, '.tooltip');
-        tooltipText = document.body.querySelector.bind(
-          document.body,
-          '.tooltip .tooltip-inner'
-        );
+        tooltipText = document.body.querySelector.bind(document.body, '.tooltip .tooltip-inner');
       })
     );
     afterEach(() => {
       document.body.removeChild(el);
     });
     it('should display the first header', () => {
-      expect(cleanText(maybe.fromJust(fp.head(groupHeaders())))).toEqual(
-        'server001'
-      );
+      expect(cleanText(maybe.fromJust(fp.head(groupHeaders())))).toEqual('server001');
     });
     it('should display the second header', () => {
       expect(cleanText(groupHeaders()[1])).toEqual('lnet configuration');
@@ -229,13 +208,10 @@ describe('action dropdown directive', () => {
         expect(tooltip()).not.toBeNull();
       });
       it('should should show the long description', () => {
-        expect(cleanText(tooltipText())).toEqual(
-          records[0].available_actions[0].long_description
-        );
+        expect(cleanText(tooltipText())).toEqual(records[0].available_actions[0].long_description);
       });
       it('should update the long_description if it changes', () => {
-        records[0].available_actions[0].long_description =
-          'Description of action word';
+        records[0].available_actions[0].long_description = 'Description of action word';
         $scope.stream.write(records);
         jest.runAllTimers();
         expect(cleanText(tooltipText())).toEqual('Description of action word');
@@ -247,10 +223,7 @@ describe('action dropdown directive', () => {
         maybe.fromJust(fp.head(verbs())).click();
       });
       it('should cause the action to be handled', () => {
-        expect(handleAction).toHaveBeenCalledOnceWith(
-          records[0],
-          records[0].available_actions[0]
-        );
+        expect(handleAction).toHaveBeenCalledOnceWith(records[0], records[0].available_actions[0]);
       });
       it('should disable the button', () => {
         expect(button().disabled).toBe(true);
@@ -270,9 +243,7 @@ describe('action dropdown directive', () => {
       records[0].available_actions[0].verb = 'Action Word';
       $scope.stream.write(records);
       jest.runAllTimers();
-      expect(cleanText(maybe.fromJust(fp.head(verbs())))).toEqual(
-        'Action Word'
-      );
+      expect(cleanText(maybe.fromJust(fp.head(verbs())))).toEqual('Action Word');
     });
   });
 });

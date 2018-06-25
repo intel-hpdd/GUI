@@ -21,9 +21,7 @@ import getAgentVsCopytoolChartFactory from './get-agent-vs-copytool-chart';
 import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 export type addAgentVsCopytoolActionT = {
-  type:
-    | 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS'
-    | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+  type: 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS' | 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
   payload: durationPayloadT
 };
 

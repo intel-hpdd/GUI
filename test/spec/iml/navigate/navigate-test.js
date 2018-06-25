@@ -5,19 +5,15 @@ describe('navigate', () => {
   let $window;
 
   beforeEach(
-    angular.mock.module(
-      navigateModule,
-      { UI_ROOT: '/root/of/app/' },
-      $provide => {
-        $window = {
-          location: {
-            href: ''
-          }
-        };
+    angular.mock.module(navigateModule, { UI_ROOT: '/root/of/app/' }, $provide => {
+      $window = {
+        location: {
+          href: ''
+        }
+      };
 
-        $provide.value('$window', $window);
-      }
-    )
+      $provide.value('$window', $window);
+    })
   );
 
   let navigate, UI_ROOT;

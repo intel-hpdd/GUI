@@ -11,9 +11,7 @@ export default function ServerDashboardCtrl($scope, hostStream, charts) {
     charts
   });
 
-  hostStream.through(
-    $scope.propagateChange.bind(null, $scope, serverDashboard, 'server')
-  );
+  hostStream.through($scope.propagateChange.bind(null, $scope, serverDashboard, 'server'));
 
   $scope.$on('$destroy', () => {
     hostStream.destroy();

@@ -18,7 +18,10 @@ describe('axis', () => {
     Inferno.render(
       <Axis
         type="x"
-        xScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+        xScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([0, 200])}
         dimensions={{ usableWidth: 200, usableHeight: 200 }}
         chartingGroup={d3.select(chartingGroup).datum([0, 100])}
       />,
@@ -32,7 +35,10 @@ describe('axis', () => {
     Inferno.render(
       <Axis
         type="y"
-        yScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+        yScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([0, 200])}
         dimensions={{ usableWidth: 200, usableHeight: 200 }}
         chartingGroup={d3.select(chartingGroup).datum([0, 100])}
       />,
@@ -51,7 +57,10 @@ describe('axis', () => {
       Inferno.render(
         <Axis
           type="y"
-          yScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+          yScale={d3.scale
+            .linear()
+            .domain([0, 100])
+            .range([0, 200])}
           chartingGroup={d3.select(chartingGroup).datum([0, 100])}
         />,
         svg
@@ -62,7 +71,10 @@ describe('axis', () => {
       Inferno.render(
         <Axis
           type="y"
-          yScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+          yScale={d3.scale
+            .linear()
+            .domain([0, 100])
+            .range([0, 200])}
           dimensions={{ usableWidth: 200, usableHeight: 200 }}
         />,
         svg
@@ -74,7 +86,10 @@ describe('axis', () => {
     Inferno.render(
       <Axis
         type="y"
-        yScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+        yScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([0, 200])}
         dimensions={{ usableWidth: 200, usableHeight: 200 }}
         chartingGroup={d3.select(chartingGroup).datum([0, 100])}
       />,
@@ -84,7 +99,10 @@ describe('axis', () => {
     Inferno.render(
       <Axis
         type="y"
-        yScale={d3.scale.linear().domain([0, 100]).range([0, 200])}
+        yScale={d3.scale
+          .linear()
+          .domain([0, 100])
+          .range([0, 200])}
         dimensions={{ usableWidth: 200, usableHeight: 200 }}
       />,
       svg

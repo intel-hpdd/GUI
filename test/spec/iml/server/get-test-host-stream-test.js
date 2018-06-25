@@ -9,10 +9,7 @@ describe('get test host stream', () => {
     data = [
       {
         address: 'lotus-34vm5.iml.intel.com',
-        status: [
-          { name: 'auth', value: true },
-          { name: 'reverse_ping', value: false }
-        ]
+        status: [{ name: 'auth', value: true }, { name: 'reverse_ping', value: false }]
       }
     ];
     testHostStream = getTestHostStream()(spring, {

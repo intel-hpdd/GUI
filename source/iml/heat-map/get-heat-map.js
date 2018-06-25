@@ -27,19 +27,35 @@ export default () => {
         container = selection = null;
       };
 
-      const getX = _.compose(xScale, xValue);
-      const getY = _.compose(yScale, yValue);
-      const getColor = _.compose(colorScale, zScale, zValue);
+      const getX = _.compose(
+        xScale,
+        xValue
+      );
+      const getY = _.compose(
+        yScale,
+        yValue
+      );
+      const getColor = _.compose(
+        colorScale,
+        zScale,
+        zValue
+      );
 
       // data join
       const heatMapModel = container.selectAll('.heat-map-model').data([data]);
 
       // Create the structure on enter.
-      heatMapModel.enter().append('g').attr('class', 'heat-map-model');
+      heatMapModel
+        .enter()
+        .append('g')
+        .attr('class', 'heat-map-model');
 
       const row = heatMapModel.selectAll('.row').data(_.identity);
 
-      row.enter().append('g').attr('class', 'row');
+      row
+        .enter()
+        .append('g')
+        .attr('class', 'row');
 
       const gridHeight = height / yScale.domain().length;
 

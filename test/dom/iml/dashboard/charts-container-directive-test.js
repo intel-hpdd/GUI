@@ -6,9 +6,7 @@ import angular from '../../../angular-mock-setup.js';
 describe('charts container', () => {
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider
-        .directive('chartCompiler', chartCompilerDirective)
-        .directive('chartsContainer', chartsContainer);
+      $compileProvider.directive('chartCompiler', chartCompilerDirective).directive('chartsContainer', chartsContainer);
     })
   );
 
@@ -45,9 +43,6 @@ describe('charts container', () => {
   it('should call the chart with a new scope', () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
-    expect(spy).toHaveBeenCalledOnceWith(
-      expect.any($scopeConstructor),
-      'stream'
-    );
+    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), 'stream');
   });
 });

@@ -7,15 +7,8 @@
 
 import angular from 'angular';
 import commandModule from '../command/command-module';
-import {
-  ActionDropdownCtrl,
-  actionDropdown,
-  actionDescriptionCache
-} from './action-dropdown';
-import {
-  ConfirmActionModalCtrl,
-  openConfirmActionModalFactory
-} from './confirm-action-modal';
+import { ActionDropdownCtrl, actionDropdown, actionDescriptionCache } from './action-dropdown';
+import { ConfirmActionModalCtrl, openConfirmActionModalFactory } from './confirm-action-modal';
 import groupActionsFilter from './group-actions';
 import handleActionFactory from './handle-action';
 import uiBootstrapModule from 'angular-ui-bootstrap';

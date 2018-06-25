@@ -3,25 +3,13 @@ import highland from 'highland';
 
 describe('job tree', () => {
   describe('job tree ctrl', () => {
-    let $scope,
-      jobTree,
-      getJobStream,
-      jobStream,
-      mockSocketStream,
-      GROUPS,
-      openStepModal,
-      job,
-      ss,
-      JobTreeCtrl;
+    let $scope, jobTree, getJobStream, jobStream, mockSocketStream, GROUPS, openStepModal, job, ss, JobTreeCtrl;
 
     beforeEach(() => {
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
-      jest.mock(
-        '../../../../source/iml/socket/socket-stream.js',
-        () => mockSocketStream
-      );
+      jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
       const mod = require('../../../../source/iml/command/job-tree-ctrl.js');
 
@@ -89,10 +77,7 @@ describe('job tree', () => {
     });
 
     it('should listen for destroy', () => {
-      expect($scope.$on).toHaveBeenCalledOnceWith(
-        '$destroy',
-        expect.any(Function)
-      );
+      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', expect.any(Function));
     });
 
     it('should end the stream on destroy', () => {
@@ -136,10 +121,7 @@ describe('job tree', () => {
       ss = highland();
       mockSocketStream = jest.fn(() => ss);
 
-      jest.mock(
-        '../../../../source/iml/socket/socket-stream.js',
-        () => mockSocketStream
-      );
+      jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
       const mod = require('../../../../source/iml/command/job-tree-ctrl.js');
 

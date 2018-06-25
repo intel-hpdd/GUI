@@ -1,9 +1,6 @@
 // @flow
 
-import {
-  restrict,
-  restrictTo
-} from '../../../../source/iml/auth/authorization.js';
+import { restrict, restrictTo } from '../../../../source/iml/auth/authorization.js';
 
 import store from '../../../../source/iml/store/get-store.js';
 
@@ -201,11 +198,8 @@ describe('authorization', () => {
             $scope.$digest();
           });
 
-          it(`should be ${test.sessionGroups[0]
-            .name} to group ${test.group}`, () => {
-            expect(el.hasClass('invisible')).toEqual(
-              !test.visibility.restrictTo
-            );
+          it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
+            expect(el.hasClass('invisible')).toEqual(!test.visibility.restrictTo);
           });
         });
 
@@ -216,11 +210,8 @@ describe('authorization', () => {
           });
 
           it(`should be ${test.isVisible ? 'visible' : 'invisible'}
- to group ${test.sessionGroups[0]
-   .name} when restricted to ${test.group}`, () => {
-            expect(el.hasClass('invisible')).toEqual(
-              !test.visibility.restricted
-            );
+ to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
+            expect(el.hasClass('invisible')).toEqual(!test.visibility.restricted);
           });
         });
       });
@@ -240,9 +231,7 @@ describe('csrf token', () => {
 
     jest.mock('../../../../source/iml/global.js', () => mockGlobal);
 
-    ({
-      getCSRFToken
-    } = require('../../../../source/iml/auth/authorization.js'));
+    ({ getCSRFToken } = require('../../../../source/iml/auth/authorization.js'));
 
     result = getCSRFToken();
   });

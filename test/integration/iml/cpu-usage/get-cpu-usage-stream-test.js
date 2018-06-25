@@ -6,19 +6,12 @@ import { convertNvDates } from '../../../test-utils.js';
 import fixtures from '../../../data-fixtures/cpu-usage-fixtures.json';
 
 describe('get cpu usage stream', () => {
-  let mockSocketStream,
-    bufferDataNewerThan,
-    getCpuUsageStream,
-    endAndRunTimers,
-    spy;
+  let mockSocketStream, bufferDataNewerThan, getCpuUsageStream, endAndRunTimers, spy;
 
   beforeEach(() => {
     const mockCreateMoment = () => moment('2013-11-15T19:25:20+00:00');
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockCreateMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockCreateMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -32,16 +25,11 @@ describe('get cpu usage stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
-    getCpuUsageStream = require('../../../../source/iml/cpu-usage/get-cpu-usage-stream.js')
-      .default;
+    getCpuUsageStream = require('../../../../source/iml/cpu-usage/get-cpu-usage-stream.js').default;
 
     spy = jest.fn();
 

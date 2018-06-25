@@ -21,10 +21,7 @@ export type cookieActionT = Exact<{
   payload: { cookie: string }
 }>;
 
-export type sessionActionsT =
-  | sessionActionT
-  | cookieActionT
-  | Exact<{ type: string, payload: any }>;
+export type sessionActionsT = sessionActionT | cookieActionT | Exact<{ type: string, payload: any }>;
 
 type stateT = {
   session?: sessionT,

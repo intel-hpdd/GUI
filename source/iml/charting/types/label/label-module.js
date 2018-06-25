@@ -9,5 +9,4 @@ import angular from 'angular';
 
 import { labelDirective } from './label-directive';
 
-export default angular.module('label', []).directive('label', labelDirective)
-  .name;
+export default angular.module('label', []).directive('label', labelDirective).name;

@@ -29,18 +29,12 @@ export default class Area extends Component {
 
     clipPath
       .append('svg:rect')
-      .attr(
-        'width',
-        this.props.xScale.range()[this.props.xScale.range().length - 1]
-      )
+      .attr('width', this.props.xScale.range()[this.props.xScale.range().length - 1])
       .attr('height', this.props.yScale.range()[0]);
 
     this.props.chartingGroup
       .append('g')
-      .attr(
-        'clip-path',
-        `url(${global.location.href}${strPlusCount('#area-clip')})`
-      )
+      .attr('clip-path', `url(${global.location.href}${strPlusCount('#area-clip')})`)
       .attr('class', strPlusCount('clipPath'))
       .append('svg:path')
       .classed(`area area${this.count}`, true);
@@ -49,9 +43,19 @@ export default class Area extends Component {
     const area = d3.svg
       .area()
       .interpolate('cardinal')
-      .x(flow(this.props.xValue, this.props.xScale))
+      .x(
+        flow(
+          this.props.xValue,
+          this.props.xScale
+        )
+      )
       .y0(this.props.yScale.range()[0])
-      .y1(flow(this.props.y1Value, this.props.yScale));
+      .y1(
+        flow(
+          this.props.y1Value,
+          this.props.yScale
+        )
+      );
 
     this.props.chartingGroup
       .select(`.area${this.count}`)

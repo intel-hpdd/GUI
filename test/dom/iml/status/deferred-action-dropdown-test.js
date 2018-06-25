@@ -12,10 +12,7 @@ describe('deferred action dropdown', () => {
   beforeEach(() => {
     mockSocketStream = jest.fn(() => (s = highland()));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/status/deferred-action-dropdown.js');
   });
@@ -25,45 +22,35 @@ describe('deferred action dropdown', () => {
   });
 
   beforeEach(
-    angular.mock.module(
-      uiBootstrapModule,
-      ($controllerProvider, $compileProvider, $provide, $filterProvider) => {
-        const handleAction = jest.fn(() => highland());
-        $provide.value('handleAction', handleAction);
+    angular.mock.module(uiBootstrapModule, ($controllerProvider, $compileProvider, $provide, $filterProvider) => {
+      const handleAction = jest.fn(() => highland());
+      $provide.value('handleAction', handleAction);
 
-        const openCommandModal = jest.fn();
-        $provide.value('openCommandModal', openCommandModal);
+      const openCommandModal = jest.fn();
+      $provide.value('openCommandModal', openCommandModal);
 
-        const {
-          ActionDropdownCtrl,
-          actionDropdown,
-          actionDescriptionCache
-        } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
+      const {
+        ActionDropdownCtrl,
+        actionDropdown,
+        actionDescriptionCache
+      } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
 
-        $provide.factory('actionDescriptionCache', actionDescriptionCache);
-        $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
-        $compileProvider.directive('actionDropdown', actionDropdown);
-        $filterProvider.register('groupActions', groupActionsFilter);
+      $provide.factory('actionDescriptionCache', actionDescriptionCache);
+      $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
+      $compileProvider.directive('actionDropdown', actionDropdown);
+      $filterProvider.register('groupActions', groupActionsFilter);
 
-        $controllerProvider.register(
-          'DeferredActionDropdownCtrl',
-          mod.DeferredActionDropdownCtrl
-        );
+      $controllerProvider.register('DeferredActionDropdownCtrl', mod.DeferredActionDropdownCtrl);
 
-        $compileProvider.component(
-          'deferredActionDropdown',
-          mod.deferredActionDropdownComponent
-        );
-      }
-    )
+      $compileProvider.component('deferredActionDropdown', mod.deferredActionDropdownComponent);
+    })
   );
 
   let el, $scope, qs, actionDropdown, dropdownButton, loadingButton, cleanText;
 
   beforeEach(
     angular.mock.inject(($rootScope, $compile) => {
-      const template =
-        '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
+      const template = '<deferred-action-dropdown row="::row"></deferred-action-dropdown>';
 
       $scope = $rootScope.$new();
       $scope.row = {

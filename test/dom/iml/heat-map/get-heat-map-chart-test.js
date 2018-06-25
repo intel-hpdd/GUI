@@ -32,15 +32,7 @@ describe('get heat map chart test', () => {
     expect(heatMapChart.destroy).toBe(_.noop);
   });
 
-  const accessors = [
-    'margin',
-    'formatter',
-    'zValue',
-    'noData',
-    'xAxisLabel',
-    'xAxisDetail',
-    'duration'
-  ];
+  const accessors = ['margin', 'formatter', 'zValue', 'noData', 'xAxisLabel', 'xAxisDetail', 'duration'];
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
       expect(heatMapChart[accessor]).toEqual(expect.any(Function));
@@ -74,7 +66,9 @@ describe('get heat map chart test', () => {
       setup = function setup(d) {
         d3.select(svg).style('height', '500px');
         d3.select(svg).style('width', '500px');
-        d3.select(svg).datum(d).call(heatMapChart);
+        d3.select(svg)
+          .datum(d)
+          .call(heatMapChart);
       };
     });
 
@@ -109,9 +103,7 @@ describe('get heat map chart test', () => {
       });
 
       it('should position the row at 0,0', () => {
-        expect(query('.row').getAttribute('transform')).toEqual(
-          'translate(0,0)'
-        );
+        expect(query('.row').getAttribute('transform')).toEqual('translate(0,0)');
       });
 
       it('should set the cell to height - margin', () => {
@@ -193,21 +185,15 @@ describe('get heat map chart test', () => {
         });
 
         it('should show the z value', () => {
-          expect(document.querySelector('.nvtooltip .value').innerHTML).toEqual(
-            '8091667852.6'
-          );
+          expect(document.querySelector('.nvtooltip .value').innerHTML).toEqual('8091667852.6');
         });
 
         it('should show the x value', () => {
-          expect(
-            document.querySelector('.nvtooltip .x-value').innerHTML
-          ).toEqual('11:44:10');
+          expect(document.querySelector('.nvtooltip .x-value').innerHTML).toEqual('11:44:10');
         });
 
         it('should show the y value', () => {
-          expect(
-            document.querySelector('.nvtooltip tbody .key').innerHTML
-          ).toEqual('OST003');
+          expect(document.querySelector('.nvtooltip tbody .key').innerHTML).toEqual('OST003');
         });
       });
     });

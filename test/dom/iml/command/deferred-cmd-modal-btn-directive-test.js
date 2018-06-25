@@ -4,20 +4,13 @@ import { deferredCmdModalBtnDirective } from '../../../../source/iml/command/def
 import angular from '../../../angular-mock-setup.js';
 
 describe('deferred command modal button directive exports', () => {
-  let mockSocketStream,
-    openCommandModal,
-    modalStream,
-    mockResolveStream,
-    DeferredCommandModalBtnCtrl;
+  let mockSocketStream, openCommandModal, modalStream, mockResolveStream, DeferredCommandModalBtnCtrl;
 
   beforeEach(() => {
     mockSocketStream = jest.fn(() => highland());
     mockResolveStream = jest.fn(() => Promise.resolve());
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
@@ -36,28 +29,24 @@ describe('deferred command modal button directive exports', () => {
 
       $provide.value('openCommandModal', openCommandModal);
 
-      $controllerProvider.register(
-        'DeferredCommandModalBtnCtrl',
-        DeferredCommandModalBtnCtrl
-      );
+      $controllerProvider.register('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl);
 
-      $compileProvider.directive(
-        'deferredCmdModalBtn',
-        deferredCmdModalBtnDirective
-      );
+      $compileProvider.directive('deferredCmdModalBtn', deferredCmdModalBtnDirective);
     })
   );
 
   let $scope, cleanText, el, qs, waitingButton, commandDetailButton;
   beforeEach(
     angular.mock.inject(($rootScope, $compile) => {
-      const template =
-        '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
+      const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
       $scope = $rootScope.$new();
       $scope.resourceUri = '/api/command/1/';
 
-      cleanText = fp.flow(fp.view(fp.lensProp('textContent')), x => x.trim());
+      cleanText = fp.flow(
+        fp.view(fp.lensProp('textContent')),
+        x => x.trim()
+      );
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
       waitingButton = qs.bind(el, 'button[disabled]');

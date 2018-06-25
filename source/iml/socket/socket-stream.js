@@ -16,11 +16,7 @@ type errorRespT = {
   error?: { [key: string]: string }
 };
 
-export default function sendRequest<B>(
-  path: string,
-  options: Object = {},
-  isAck: boolean = false
-): HighlandStreamT<B> {
+export default function sendRequest<B>(path: string, options: Object = {}, isAck: boolean = false): HighlandStreamT<B> {
   const socket = getEventSocket();
 
   socket.connect();
@@ -54,17 +50,16 @@ export default function sendRequest<B>(
     stream.on('error', fp.noop);
   } else {
     socket.send(data);
-    const s: HighlandStreamT<B & errorRespT> = highland(
-      'message',
-      socket
-    ).onDestroy(end);
-    stream = s.map((response): B => {
-      const error = response.error;
+    const s: HighlandStreamT<B & errorRespT> = highland('message', socket).onDestroy(end);
+    stream = s.map(
+      (response): B => {
+        const error = response.error;
 
-      if (error) throw buildResponseError(error);
+        if (error) throw buildResponseError(error);
 
-      return response;
-    });
+        return response;
+      }
+    );
   }
 
   return stream;

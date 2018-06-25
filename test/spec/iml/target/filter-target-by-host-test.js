@@ -26,9 +26,11 @@ describe('filter target by host', () => {
   it('should return targets matching host id', function() {
     let result;
 
-    highland(data).through(filterTargetByHost('5')).each(function(x) {
-      result = x;
-    });
+    highland(data)
+      .through(filterTargetByHost('5'))
+      .each(function(x) {
+        result = x;
+      });
 
     expect(result).toEqual([
       {

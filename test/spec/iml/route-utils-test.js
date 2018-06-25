@@ -1,15 +1,10 @@
 import * as maybe from '@iml/maybe';
 
-import {
-  apiPathToUiPath,
-  getResolvedData
-} from '../../../source/iml/route-utils.js';
+import { apiPathToUiPath, getResolvedData } from '../../../source/iml/route-utils.js';
 
 describe('route utils', () => {
   it('should convert a filesystem api resource to a routeable link', () => {
-    expect(apiPathToUiPath('/api/filesystem/1/')).toEqual(
-      'configure/filesystem/1/'
-    );
+    expect(apiPathToUiPath('/api/filesystem/1/')).toEqual('configure/filesystem/1/');
   });
 
   it('should convert a host api resource to a routeable link', () => {
@@ -33,22 +28,14 @@ describe('getResolvedData', () => {
 
   describe('with the resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.mockReturnValue([
-        'fsStream',
-        'targetStream',
-        'getData',
-        'otherStream'
-      ]);
+      transition.getResolveTokens.mockReturnValue(['fsStream', 'targetStream', 'getData', 'otherStream']);
 
       transition.getResolveValue.mockReturnValue({
         label: 'fs1',
         kind: 'filesystem'
       });
 
-      result = maybe.withDefault(
-        () => {},
-        getResolvedData(transition, resolveName)
-      );
+      result = maybe.withDefault(() => {}, getResolvedData(transition, resolveName));
     });
 
     it('should call getResolveTokens', () => {
@@ -69,16 +56,9 @@ describe('getResolvedData', () => {
 
   describe('without resolve name', () => {
     beforeEach(() => {
-      transition.getResolveTokens.mockReturnValue([
-        'fsStream',
-        'targetStream',
-        'otherStream'
-      ]);
+      transition.getResolveTokens.mockReturnValue(['fsStream', 'targetStream', 'otherStream']);
 
-      result = maybe.withDefault(
-        () => 'no match found',
-        getResolvedData(transition, resolveName)
-      );
+      result = maybe.withDefault(() => 'no match found', getResolvedData(transition, resolveName));
     });
 
     it('should call getResolveTokens', () => {

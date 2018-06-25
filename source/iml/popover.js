@@ -27,23 +27,13 @@ export class PopoverContainer extends Component {
       else return c;
     });
 
-    return (
-      <span style="position: relative;">
-        {children}
-      </span>
-    );
+    return <span style="position: relative;">{children}</span>;
   }
 }
 
-export const PopoverTitle = ({ children }: PopoverChildProps) =>
-  <h3 class="popover-title">
-    {children}
-  </h3>;
+export const PopoverTitle = ({ children }: PopoverChildProps) => <h3 class="popover-title">{children}</h3>;
 
-export const PopoverContent = ({ children }: PopoverChildProps) =>
-  <div class="popover-content">
-    {children}
-  </div>;
+export const PopoverContent = ({ children }: PopoverChildProps) => <div class="popover-content">{children}</div>;
 
 type PopoverProps = {
   children?: React$Element<*>,

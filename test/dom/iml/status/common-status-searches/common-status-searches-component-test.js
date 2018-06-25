@@ -11,16 +11,9 @@ describe('common status searches', () => {
   });
 
   beforeEach(
-    angular.mock.module(
-      angularUiBootstrap,
-      'ngAnimateMock',
-      $compileProvider => {
-        $compileProvider.component(
-          'commonStatusSearches',
-          commonStatusSearchesComponent
-        );
-      }
-    )
+    angular.mock.module(angularUiBootstrap, 'ngAnimateMock', $compileProvider => {
+      $compileProvider.component('commonStatusSearches', commonStatusSearchesComponent);
+    })
   );
 
   beforeEach(
@@ -30,7 +23,10 @@ describe('common status searches', () => {
       $animate = _$animate_;
       $scope = $rootScope.$new();
 
-      cleanText = fp.flow(fp.view(fp.lensProp('textContent')), x => x.trim());
+      cleanText = fp.flow(
+        fp.view(fp.lensProp('textContent')),
+        x => x.trim()
+      );
 
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
@@ -56,9 +52,7 @@ describe('common status searches', () => {
     });
 
     it('should link to active alerts query', () => {
-      expect(searches()[0].getAttribute('href')).toBe(
-        '/ui/status/?severity__in=WARNING,ERROR&active=true'
-      );
+      expect(searches()[0].getAttribute('href')).toBe('/ui/status/?severity__in=WARNING,ERROR&active=true');
     });
 
     it('should have a search alerts', () => {
@@ -66,9 +60,7 @@ describe('common status searches', () => {
     });
 
     it('should link to alerts query', () => {
-      expect(searches()[1].getAttribute('href')).toBe(
-        '/ui/status/?record_type__endswith=Alert'
-      );
+      expect(searches()[1].getAttribute('href')).toBe('/ui/status/?record_type__endswith=Alert');
     });
 
     it('should have search commands', () => {
@@ -76,9 +68,7 @@ describe('common status searches', () => {
     });
 
     it('should link to commands query', () => {
-      expect(searches()[2].getAttribute('href')).toBe(
-        '/ui/status/?record_type__contains=Command'
-      );
+      expect(searches()[2].getAttribute('href')).toBe('/ui/status/?record_type__contains=Command');
     });
 
     it('should have search events', () => {
@@ -86,9 +76,7 @@ describe('common status searches', () => {
     });
 
     it('should link to events query', () => {
-      expect(searches()[3].getAttribute('href')).toBe(
-        '/ui/status/?record_type__contains=Event'
-      );
+      expect(searches()[3].getAttribute('href')).toBe('/ui/status/?record_type__contains=Event');
     });
   });
 });

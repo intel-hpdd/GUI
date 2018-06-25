@@ -21,14 +21,8 @@ describe('Command monitor controller', () => {
     jest.spyOn(commandStream, 'destroy');
     mockGetCommandStream = jest.fn(() => commandStream);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream',
-      () => mockSocketStream
-    );
-    jest.mock(
-      '../../../../source/iml/command/get-command-stream',
-      () => mockGetCommandStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream', () => mockSocketStream);
+    jest.mock('../../../../source/iml/command/get-command-stream', () => mockGetCommandStream);
     mod = require('../../../../source/iml/command/command-monitor-directive.js');
   });
 
@@ -61,10 +55,7 @@ describe('Command monitor controller', () => {
 
   describe('destroy', () => {
     it('should listen', () => {
-      expect($scope.$on).toHaveBeenCalledOnceWith(
-        '$destroy',
-        expect.any(Function)
-      );
+      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', expect.any(Function));
     });
 
     it('should end the monitor on destroy', () => {
@@ -105,9 +96,7 @@ describe('Command monitor controller', () => {
       });
 
       it('should call getCommandStream with the last response', () => {
-        expect(mockGetCommandStream).toHaveBeenCalledOnceWith([
-          { cancelled: false }
-        ]);
+        expect(mockGetCommandStream).toHaveBeenCalledOnceWith([{ cancelled: false }]);
       });
 
       it('should end the stream after the modal closes', () => {

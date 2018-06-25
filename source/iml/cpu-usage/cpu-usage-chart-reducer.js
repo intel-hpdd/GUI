@@ -8,10 +8,7 @@
 export const UPDATE_CPU_USAGE_CHART_ITEMS = 'UPDATE_CPU_USAGE_CHART_ITEMS';
 export const DEFAULT_CPU_USAGE_CHART_ITEMS = 'DEFAULT_CPU_USAGE_CHART_ITEMS';
 
-import type {
-  durationPayloadHashT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadHashT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { addCpuUsageActionT } from './cpu-usage-module.js';
 
@@ -21,10 +18,7 @@ function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
   });
 }
 
-export default function(
-  state: durationPayloadHashT = {},
-  { type, payload }: addCpuUsageActionT
-): durationPayloadHashT {
+export default function(state: durationPayloadHashT = {}, { type, payload }: addCpuUsageActionT): durationPayloadHashT {
   switch (type) {
     case DEFAULT_CPU_USAGE_CHART_ITEMS:
       if (!state[payload.page]) state = mergeState(state, payload);

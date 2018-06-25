@@ -65,11 +65,7 @@ describe('Add server step', () => {
       });
 
       it('should update the fields on pdsh change', () => {
-        addServerStepCtrl.pdshUpdate(
-          'foo[01-02].com',
-          ['foo01.com', 'foo02.com'],
-          { 'foo01.com': 1, 'foo02.com': 1 }
-        );
+        addServerStepCtrl.pdshUpdate('foo[01-02].com', ['foo01.com', 'foo02.com'], { 'foo01.com': 1, 'foo02.com': 1 });
 
         expect(addServerStepCtrl.fields).toEqual({
           auth_type: 'existing_keys_choice',
@@ -97,10 +93,7 @@ describe('Add server step', () => {
             }
           };
 
-          expect($stepInstance.transition).toHaveBeenCalledOnceWith(
-            'next',
-            expected
-          );
+          expect($stepInstance.transition).toHaveBeenCalledOnceWith('next', expected);
         });
       });
     });

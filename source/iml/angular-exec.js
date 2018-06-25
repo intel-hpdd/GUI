@@ -17,7 +17,7 @@ type stateServiceT = {
 };
 
 type cacheT = {
-  '$state'?: stateServiceT
+  $state?: stateServiceT
 };
 
 const cache: cacheT = {};
@@ -25,11 +25,7 @@ const cache: cacheT = {};
 type servicesT = '$state';
 type methodsT = 'go';
 
-export default <R>(
-  service: servicesT,
-  method: methodsT,
-  ...args: any[]
-): HighlandStreamT<R> => {
+export default <R>(service: servicesT, method: methodsT, ...args: any[]): HighlandStreamT<R> => {
   const s: HighlandStreamT<R> = highland();
   const inj = angular.element(querySelector(document, 'body')).injector();
 

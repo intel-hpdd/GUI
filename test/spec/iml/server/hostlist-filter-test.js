@@ -4,17 +4,10 @@ describe('hostlist filter service', () => {
     mockPdshFilter = jest.fn(() => 'host1Filtered');
     mockNaturalSortFilter = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/filters/pdsh-filter.js',
-      () => mockPdshFilter
-    );
-    jest.mock(
-      '../../../../source/iml/filters/natural-sort-filter.js',
-      () => mockNaturalSortFilter
-    );
+    jest.mock('../../../../source/iml/filters/pdsh-filter.js', () => mockPdshFilter);
+    jest.mock('../../../../source/iml/filters/natural-sort-filter.js', () => mockNaturalSortFilter);
 
-    hostlistFilter = require('../../../../source/iml/server/hostlist-filter.js')
-      .default;
+    hostlistFilter = require('../../../../source/iml/server/hostlist-filter.js').default;
     filter = hostlistFilter(mockPdshFilter, mockNaturalSortFilter);
   });
 
@@ -39,20 +32,11 @@ describe('hostlist filter service', () => {
     });
 
     it('should call the pdsh filter', () => {
-      expect(mockPdshFilter).toHaveBeenCalledOnceWith(
-        ['host1', 'host2'],
-        { host1: '' },
-        expect.any(Function),
-        true
-      );
+      expect(mockPdshFilter).toHaveBeenCalledOnceWith(['host1', 'host2'], { host1: '' }, expect.any(Function), true);
     });
 
     it('should call the natural sort filter', () => {
-      expect(mockNaturalSortFilter).toHaveBeenCalledOnceWith(
-        'host1Filtered',
-        expect.any(Function),
-        false
-      );
+      expect(mockNaturalSortFilter).toHaveBeenCalledOnceWith('host1Filtered', expect.any(Function), false);
     });
   });
 });

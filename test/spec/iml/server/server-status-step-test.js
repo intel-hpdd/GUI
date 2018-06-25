@@ -12,12 +12,7 @@ describe('Server Status Step', () => {
   });
 
   describe('controller', () => {
-    let $stepInstance,
-      data,
-      serverStatus,
-      testHostStream,
-      hostlistFilter,
-      OVERRIDE_BUTTON_TYPES;
+    let $stepInstance, data, serverStatus, testHostStream, hostlistFilter, OVERRIDE_BUTTON_TYPES;
     beforeEach(
       angular.mock.inject(($rootScope, $exceptionHandler, localApply) => {
         const $scope = $rootScope.$new();
@@ -94,9 +89,7 @@ describe('Server Status Step', () => {
         testHostStream.write(response);
       });
       it('should set the hosts on the filter', () => {
-        expect(hostlistFilter.setHosts).toHaveBeenCalledOnceWith(
-          response.objects
-        );
+        expect(hostlistFilter.setHosts).toHaveBeenCalledOnceWith(response.objects);
       });
       it('should set status validity', () => {
         expect(serverStatus.isValid).toBe(false);
@@ -169,12 +162,7 @@ describe('Server Status Step', () => {
   <override-button overridden="serverStatus.overridden" is-valid="serverStatus.isValid" on-change="serverStatus.transition(message)" is-disabled="serverStatus.disabled"></override-button>
 </div>`,
         controller: 'ServerStatusStepCtrl as serverStatus',
-        onEnter: [
-          'data',
-          'getTestHostStream',
-          'serversToApiObjects',
-          expect.any(Function)
-        ],
+        onEnter: ['data', 'getTestHostStream', 'serversToApiObjects', expect.any(Function)],
         transition: expect.any(Function)
       });
     });
@@ -196,10 +184,7 @@ describe('Server Status Step', () => {
         data = {
           spring: jest.fn(),
           servers: {
-            addresses: [
-              'lotus-34vm5.iml.intel.com',
-              'lotus-34vm6.iml.intel.com'
-            ]
+            addresses: ['lotus-34vm5.iml.intel.com', 'lotus-34vm6.iml.intel.com']
           }
         };
         onEnter = serverStatusStep.onEnter[3];

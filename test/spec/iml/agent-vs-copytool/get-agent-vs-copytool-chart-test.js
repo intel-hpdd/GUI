@@ -96,24 +96,12 @@ describe('get agent vs copytool chart exports', () => {
       '../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js',
       () => mockGetAgentVsCopytoolStream
     );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/create-date.js', () => mockCreateDate);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({ getConf: mockGetConf })
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
     mockD3 = require('d3');
 
     const mod = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js');
@@ -159,11 +147,7 @@ describe('get agent vs copytool chart exports', () => {
       return ordinalScale;
     });
 
-    getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(
-      localApply,
-      data$Fn,
-      d3
-    );
+    getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(localApply, data$Fn, d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
       foo: 'bar'
@@ -192,9 +176,7 @@ describe('get agent vs copytool chart exports', () => {
   });
 
   it('should select the agentVsCopytoolCharts store', () => {
-    expect(mockGetStore.select).toHaveBeenCalledOnceWith(
-      'agentVsCopytoolCharts'
-    );
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith('agentVsCopytoolCharts');
   });
 
   it('should call getConf', () => {
@@ -268,19 +250,11 @@ describe('get agent vs copytool chart exports', () => {
     });
 
     it('should set the domain', () => {
-      expect(ordinalScale.domain).toHaveBeenCalledOnceWith([
-        'running actions',
-        'waiting requests',
-        'idle workers'
-      ]);
+      expect(ordinalScale.domain).toHaveBeenCalledOnceWith(['running actions', 'waiting requests', 'idle workers']);
     });
 
     it('should set the range', () => {
-      expect(ordinalScale.range).toHaveBeenCalledOnceWith([
-        '#F3B600',
-        '#A3B600',
-        '#0067B4'
-      ]);
+      expect(ordinalScale.range).toHaveBeenCalledOnceWith(['#F3B600', '#A3B600', '#0067B4']);
     });
   });
 
@@ -307,22 +281,9 @@ describe('get agent vs copytool chart exports', () => {
         unit: 'minutes',
         xScale: timeScale,
         yScale: linearScale,
-        onUpdate: [
-          expect.any(Function),
-          expect.any(Function),
-          expect.any(Function),
-          expect.any(Function)
-        ],
-        rangeLabelOnUpdate: [
-          expect.any(Function),
-          expect.any(Function),
-          expect.any(Function)
-        ],
-        labels: [
-          expect.any(Function),
-          expect.any(Function),
-          expect.any(Function)
-        ],
+        onUpdate: [expect.any(Function), expect.any(Function), expect.any(Function), expect.any(Function)],
+        rangeLabelOnUpdate: [expect.any(Function), expect.any(Function), expect.any(Function)],
+        labels: [expect.any(Function), expect.any(Function), expect.any(Function)],
         colors: ['#F3B600', '#A3B600', '#0067B4'],
         nameColorScale: ordinalScale,
         calcRange: expect.any(Function),
@@ -423,10 +384,7 @@ describe('get agent vs copytool chart exports', () => {
             height: 60
           });
 
-          expect(node.attr).toHaveBeenCalledOnceWith(
-            'transform',
-            'translate(0,60)'
-          );
+          expect(node.attr).toHaveBeenCalledOnceWith('transform', 'translate(0,60)');
         });
       });
     });
@@ -447,9 +405,7 @@ describe('get agent vs copytool chart exports', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {
         page: 'base'
       });
     });

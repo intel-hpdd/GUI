@@ -12,8 +12,7 @@ describe('jobstats table component', () => {
     mockStore = { select: jest.fn(() => config$), dispatch: jest.fn() };
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    jobstatsTableComponent = require('../../../../source/iml/job-stats/job-stats-table-component.js')
-      .default;
+    jobstatsTableComponent = require('../../../../source/iml/job-stats/job-stats-table-component.js').default;
   });
 
   beforeEach(
@@ -32,8 +31,7 @@ describe('jobstats table component', () => {
     angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       $scope = $rootScope.$new();
       $scope.jobstats$ = highland();
-      const template =
-        '<job-stats-table stats-$="jobstats$"></job-stats-table>';
+      const template = '<job-stats-table stats-$="jobstats$"></job-stats-table>';
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
@@ -126,15 +124,11 @@ describe('jobstats table component', () => {
     });
 
     it('should have a help message', () => {
-      expect(el.querySelector('h4').textContent).toContain(
-        'Jobstats not found'
-      );
+      expect(el.querySelector('h4').textContent).toContain('Jobstats not found');
     });
 
     it('should have a help link', () => {
-      expect(el.querySelector('h4 a').getAttribute('href')).toBe(
-        '/help/docs/Graphical_User_Interface_9_0.html#9.4'
-      );
+      expect(el.querySelector('h4 a').getAttribute('href')).toBe('/help/docs/Graphical_User_Interface_9_0.html#9.4');
     });
   });
 });

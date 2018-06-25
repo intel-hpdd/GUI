@@ -17,12 +17,7 @@ export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
 
   const hostlistFilter = {
     compute: function compute() {
-      const pdshFilterResults = pdshFilter(
-        state.hosts,
-        state.hash,
-        getter,
-        state.fuzzy
-      );
+      const pdshFilterResults = pdshFilter(state.hosts, state.hash, getter, state.fuzzy);
       return naturalSortFilter(pdshFilterResults, getter, state.reverse);
     }
   };

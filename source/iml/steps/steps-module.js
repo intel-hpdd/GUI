@@ -26,11 +26,7 @@ export default angular
            * @param {Object} [resolves]
            * @param {Object} [waitingStep]
            */
-          scope.manager.registerChangeListener(function onChanges(
-            step,
-            resolves,
-            waitingStep
-          ) {
+          scope.manager.registerChangeListener(function onChanges(step, resolves, waitingStep) {
             if (!resolvesFinished && waitingStep && waitingStep.template) {
               // Create new scope
               innerScope = scope.$new();
@@ -108,10 +104,7 @@ export default angular
            * @returns {*}
            */
           addWaitingStep: function addWaitingStep(step) {
-            if (steps.waitingStep)
-              throw new Error(
-                'Cannot assign the waiting step as it is already defined.'
-              );
+            if (steps.waitingStep) throw new Error('Cannot assign the waiting step as it is already defined.');
 
             steps.waitingStep = step;
 
@@ -137,8 +130,7 @@ export default angular
           start: function start(stepName, extraResolves) {
             currentStep = steps[stepName];
 
-            if (listener)
-              listener(steps[stepName], extraResolves, steps.waitingStep);
+            if (listener) listener(steps[stepName], extraResolves, steps.waitingStep);
             else
               pending = {
                 step: steps[stepName],
@@ -159,8 +151,7 @@ export default angular
           onEnter: function onEnter(resolves) {
             resolves = resolves || {};
 
-            if (currentStep.onEnter)
-              return $injector.invoke(currentStep.onEnter, null, resolves);
+            if (currentStep.onEnter) return $injector.invoke(currentStep.onEnter, null, resolves);
             else return resolves;
           },
           /**
@@ -183,9 +174,7 @@ export default angular
            * @param {Function} changeListener
            * @returns {Object}
            */
-          registerChangeListener: function registerChangeListener(
-            changeListener
-          ) {
+          registerChangeListener: function registerChangeListener(changeListener) {
             listener = changeListener;
 
             if (pending) {

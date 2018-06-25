@@ -9,14 +9,8 @@ describe('completionist', () => {
   beforeEach(
     angular.mock.module($compileProvider => {
       $compileProvider.component('completionist', completionist);
-      $compileProvider.component(
-        'completionistDropdown',
-        completionistDropdown
-      );
-      $compileProvider.directive(
-        'completionistModelHook',
-        completionistModelHook
-      );
+      $compileProvider.component('completionistDropdown', completionistDropdown);
+      $compileProvider.directive('completionistModelHook', completionistModelHook);
     })
   );
 

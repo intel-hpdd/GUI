@@ -9,6 +9,4 @@ import angular from 'angular';
 
 import routeToDirective from './route-to';
 
-export default angular
-  .module('route-to', [])
-  .directive('routeTo', routeToDirective).name;
+export default angular.module('route-to', []).directive('routeTo', routeToDirective).name;

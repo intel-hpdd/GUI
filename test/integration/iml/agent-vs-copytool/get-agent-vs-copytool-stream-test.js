@@ -5,19 +5,12 @@ import { getRequestDuration } from '../../../../source/iml/charting/get-time-par
 import fixtures from '../../../data-fixtures/agent-vs-copytool-fixtures.json';
 
 describe('agent vs copytool stream', () => {
-  let mockSocketStream,
-    bufferDataNewerThan,
-    getAgentVsCopytoolStream,
-    endAndRunTimers,
-    spy;
+  let mockSocketStream, bufferDataNewerThan, getAgentVsCopytoolStream, endAndRunTimers, spy;
 
   beforeEach(() => {
     const mockCreateMoment = () => moment('2015-12-04T18:40:00+00:00');
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockCreateMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockCreateMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -31,13 +24,9 @@ describe('agent vs copytool stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
     getAgentVsCopytoolStream = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js')
       .default;

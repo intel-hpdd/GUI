@@ -18,10 +18,7 @@ describe('action dropdown', () => {
     jest.spyOn(commandStream, 'destroy');
     mockGetCommandStream = jest.fn(() => commandStream);
 
-    jest.mock(
-      '../../../../source/iml/command/get-command-stream.js',
-      () => mockGetCommandStream
-    );
+    jest.mock('../../../../source/iml/command/get-command-stream.js', () => mockGetCommandStream);
 
     const mod = require('../../../../source/iml/action-dropdown/action-dropdown.js');
 
@@ -36,34 +33,32 @@ describe('action dropdown', () => {
   });
 
   beforeEach(
-    angular.mock.inject(
-      ($rootScope, $exceptionHandler, localApply, propagateChange) => {
-        $scope = $rootScope.$new();
-        actionStream = highland();
-        handleAction = jest.fn(() => actionStream);
+    angular.mock.inject(($rootScope, $exceptionHandler, localApply, propagateChange) => {
+      $scope = $rootScope.$new();
+      actionStream = highland();
+      handleAction = jest.fn(() => actionStream);
 
-        commandModalStream = highland();
-        openCommandModal = jest.fn(() => ({
-          resultStream: commandModalStream
-        }));
+      commandModalStream = highland();
+      openCommandModal = jest.fn(() => ({
+        resultStream: commandModalStream
+      }));
 
-        s = highland();
+      s = highland();
 
-        ctrl = {
-          stream: s
-        };
+      ctrl = {
+        stream: s
+      };
 
-        ActionDropdownCtrl.bind(ctrl)(
-          $scope,
-          $exceptionHandler,
-          handleAction,
-          {},
-          openCommandModal,
-          localApply,
-          propagateChange
-        );
-      }
-    )
+      ActionDropdownCtrl.bind(ctrl)(
+        $scope,
+        $exceptionHandler,
+        handleAction,
+        {},
+        openCommandModal,
+        localApply,
+        propagateChange
+      );
+    })
   );
 
   it('should setup the controller', () => {

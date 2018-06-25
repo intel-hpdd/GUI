@@ -10,6 +10,4 @@ import commandModule from '../command/command-module';
 import highlandModule from '../highland/highland-module';
 import HsmFsCtrl from './hsm-fs-controller';
 
-export default angular
-  .module('hsmFs', [commandModule, highlandModule])
-  .controller('HsmFsCtrl', HsmFsCtrl).name;
+export default angular.module('hsmFs', [commandModule, highlandModule]).controller('HsmFsCtrl', HsmFsCtrl).name;

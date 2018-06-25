@@ -44,7 +44,10 @@ describe('get legend', () => {
       const colorOrdinal = d3.scale.ordinal();
       colorOrdinal.domain(componentNames);
       colorOrdinal.range(
-        d3.scale.category10().range().slice(0, componentNames.length)
+        d3.scale
+          .category10()
+          .range()
+          .slice(0, componentNames.length)
       );
       legend = getLegend()
         .colors(colorOrdinal)
@@ -92,18 +95,14 @@ describe('get legend', () => {
     describe('group', () => {
       componentNames.forEach(name => {
         it(`should have a circle for ${name}`, () => {
-          const circle = legendContainer
-            .selectAll('.legend-circle')
-            .filter(d => d === name);
+          const circle = legendContainer.selectAll('.legend-circle').filter(d => d === name);
           expect(circle.size()).toBe(1);
         });
       });
 
       componentNames.forEach(name => {
         it(`should have a label for ${name}`, () => {
-          const label = legendContainer
-            .selectAll('.legend-label')
-            .filter(d => d === name);
+          const label = legendContainer.selectAll('.legend-label').filter(d => d === name);
           expect(label.text()).toEqual(name);
         });
       });
@@ -215,12 +214,8 @@ describe('get legend', () => {
         });
 
         it('should be arranged in the appropriate order', () => {
-          const labels = fp.head(
-            legendContainer.selectAll('.legend-wrap g text')
-          );
-          expect(
-            verifyInExpectedOrder(maybe.fromJust(labels), componentNames)
-          ).toBe(true);
+          const labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          expect(verifyInExpectedOrder(maybe.fromJust(labels), componentNames)).toBe(true);
         });
       });
 
@@ -259,31 +254,23 @@ describe('get legend', () => {
         });
 
         xit('should not overlap with others', () => {
-          itemDimensions = fp.flow(xs => xs[0], fp.map(getItemDimensions))(
-            legendContainer.selectAll('.legend-wrap > g')
-          );
+          itemDimensions = fp.flow(
+            xs => xs[0],
+            fp.map(getItemDimensions)
+          )(legendContainer.selectAll('.legend-wrap > g'));
           expect(verifyNoIntersections(itemDimensions)).toBe(true);
         });
 
         it('should be arranged in the appropriate order', () => {
-          const labels = fp.head(
-            legendContainer.selectAll('.legend-wrap g text')
-          );
-          expect(
-            verifyInExpectedOrder(maybe.fromJust(labels), componentNames)
-          ).toBe(true);
+          const labels = fp.head(legendContainer.selectAll('.legend-wrap g text'));
+          expect(verifyInExpectedOrder(maybe.fromJust(labels), componentNames)).toBe(true);
         });
       });
     });
     const detectCollision = a => b => {
-      const horizontalIntersection =
-        (a.right >= b.left && a.left <= b.left) ||
-        (b.right >= a.left && b.left <= a.left);
+      const horizontalIntersection = (a.right >= b.left && a.left <= b.left) || (b.right >= a.left && b.left <= a.left);
       const verticalIntersection = a.top === b.top && a.bottom === b.bottom;
-      return (
-        !horizontalIntersection ||
-        (horizontalIntersection && !verticalIntersection)
-      );
+      return !horizontalIntersection || (horizontalIntersection && !verticalIntersection);
     };
     function verifyNoIntersections(itemDimensions) {
       return itemDimensions.every((dims, index, arr) => {

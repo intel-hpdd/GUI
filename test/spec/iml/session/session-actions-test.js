@@ -1,27 +1,15 @@
 // @flow
 
-import {
-  setSession,
-  setCookie
-} from '../../../../source/iml/session/session-actions.js';
+import { setSession, setCookie } from '../../../../source/iml/session/session-actions.js';
 
-import {
-  SET_SESSION,
-  SET_COOKIE
-} from '../../../../source/iml/session/session-reducer.js';
+import { SET_SESSION, SET_COOKIE } from '../../../../source/iml/session/session-reducer.js';
 
-import type {
-  sessionActionT,
-  cookieActionT
-} from '../../../../source/iml/session/session-reducer.js';
+import type { sessionActionT, cookieActionT } from '../../../../source/iml/session/session-reducer.js';
 
 import type { sessionT } from '../../../../source/iml/api-types.js';
 
 describe('session actions', () => {
-  let session: sessionT,
-    sessionResult: sessionActionT,
-    cookie: string,
-    cookieResult: cookieActionT;
+  let session: sessionT, sessionResult: sessionActionT, cookie: string, cookieResult: cookieActionT;
   beforeEach(() => {
     session = {
       read_enabled: true,

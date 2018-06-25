@@ -16,12 +16,7 @@ describe('The notification slider', () => {
 
       ctrl = { stream: alertStream };
 
-      NotificationSliderController.bind(ctrl)(
-        $scope,
-        $timeout,
-        localApply,
-        $exceptionHandler
-      );
+      NotificationSliderController.bind(ctrl)($scope, $timeout, localApply, $exceptionHandler);
     })
   );
 

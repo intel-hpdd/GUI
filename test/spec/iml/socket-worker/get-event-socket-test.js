@@ -1,9 +1,5 @@
 describe('get event socket', () => {
-  let mockSocketWorker,
-    mockGetRandomValue,
-    emitter,
-    getEventSocket,
-    eventSocket;
+  let mockSocketWorker, mockGetRandomValue, emitter, getEventSocket, eventSocket;
 
   beforeEach(() => {
     mockSocketWorker = {
@@ -23,18 +19,9 @@ describe('get event socket', () => {
 
     mockGetRandomValue = jest.fn(() => 5);
 
-    jest.mock(
-      '../../../../source/iml/event-emitter.js',
-      () => mockEventEmitter
-    );
-    jest.mock(
-      '../../../../source/iml/get-random-value.js',
-      () => mockGetRandomValue
-    );
-    jest.mock(
-      '../../../../source/iml/socket-worker/socket-worker.js',
-      () => mockSocketWorker
-    );
+    jest.mock('../../../../source/iml/event-emitter.js', () => mockEventEmitter);
+    jest.mock('../../../../source/iml/get-random-value.js', () => mockGetRandomValue);
+    jest.mock('../../../../source/iml/socket-worker/socket-worker.js', () => mockSocketWorker);
     const getEventSocketModule = require('../../../../source/iml/socket-worker/get-event-socket.js');
 
     getEventSocket = getEventSocketModule.default;
@@ -129,10 +116,7 @@ describe('get event socket', () => {
     });
 
     it('should register a once listener on ack send', () => {
-      expect(emitter.once).toHaveBeenCalledOnceWith(
-        'message',
-        expect.any(Function)
-      );
+      expect(emitter.once).toHaveBeenCalledOnceWith('message', expect.any(Function));
     });
 
     it('should ack the response', () => {

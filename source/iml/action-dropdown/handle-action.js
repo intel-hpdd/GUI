@@ -138,8 +138,8 @@ export default function handleActionFactory(openConfirmActionModal) {
   function confirmAction(confirm) {
     if (!confirm.required) return confirm.action();
 
-    return openConfirmActionModal(confirm.message, confirm.prompts).resultStream
-      .errors(function handleCancel(err, push) {
+    return openConfirmActionModal(confirm.message, confirm.prompts)
+      .resultStream.errors(function handleCancel(err, push) {
         if (err === 'cancel') return;
 
         push(err);

@@ -15,12 +15,6 @@ import mgtComponent from './mgt-component.js';
 import mgtPageComponent from './mgt-page-component.js';
 
 export default angular
-  .module('mgtModule', [
-    extractApiFilterModule,
-    actionDropdownModule,
-    asStreamModule,
-    routeToModule,
-    asValueModule
-  ])
+  .module('mgtModule', [extractApiFilterModule, actionDropdownModule, asStreamModule, routeToModule, asValueModule])
   .component('mgt', mgtComponent)
   .component('mgtPage', mgtPageComponent).name;

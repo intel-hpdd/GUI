@@ -16,8 +16,7 @@ export default class WindowClickListener extends Component {
     children: React$Element<*>
   };
   componentWillUnmount() {
-    if (this.windowListener)
-      window.removeEventListener('click', this.windowListener, false);
+    if (this.windowListener) window.removeEventListener('click', this.windowListener, false);
   }
   windowHandler() {
     const { isOpen: previousIsOpen } = this.state;
@@ -38,10 +37,7 @@ export default class WindowClickListener extends Component {
   }
   render() {
     if (Array.isArray(this.props.children))
-      throw new Error(
-        `WindowClickListener expects a single child, got ${this.props.children
-          .length} children`
-      );
+      throw new Error(`WindowClickListener expects a single child, got ${this.props.children.length} children`);
 
     return cloneChildren(this.props.children, () => ({
       isOpen: this.state.isOpen,

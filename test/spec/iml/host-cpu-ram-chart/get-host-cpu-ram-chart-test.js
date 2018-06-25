@@ -75,37 +75,21 @@ describe('Host Cpu Ram chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js',
-      () => mockGetHostCpuRamStream
-    );
+    jest.mock('../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-stream.js', () => mockGetHostCpuRamStream);
 
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
 
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
 
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
 
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        getConf: mockGetConf
-      })
-    );
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      getConf: mockGetConf
+    }));
 
-    mod = require('../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js')
-      .default;
+    mod = require('../../../../source/iml/host-cpu-ram-chart/get-host-cpu-ram-chart.js').default;
   });
 
   beforeEach(() => {
@@ -329,9 +313,7 @@ describe('Host Cpu Ram chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_HOST_CPU_RAM_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_HOST_CPU_RAM_CHART_ITEMS', {
         page: 'hostCpuRamChart'
       });
     });

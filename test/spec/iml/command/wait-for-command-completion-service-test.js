@@ -1,12 +1,7 @@
 import highland from 'highland';
 
 describe('wait-for-command-completion-service', () => {
-  let mockGetCommandStream,
-    commandStream,
-    spy,
-    mockResultStream,
-    openCommandModal,
-    waitForCommandCompletion;
+  let mockGetCommandStream, commandStream, spy, mockResultStream, openCommandModal, waitForCommandCompletion;
 
   beforeEach(() => {
     commandStream = highland();
@@ -19,10 +14,7 @@ describe('wait-for-command-completion-service', () => {
       resultStream: mockResultStream
     }));
 
-    jest.mock(
-      '../../../../source/iml/command/get-command-stream.js',
-      () => mockGetCommandStream
-    );
+    jest.mock('../../../../source/iml/command/get-command-stream.js', () => mockGetCommandStream);
 
     const mod = require('../../../../source/iml/command/wait-for-command-completion-service.js');
 

@@ -14,8 +14,7 @@ describe('page visibility', () => {
       clearTimeout: mockClear
     }));
 
-    pageVisibility = require('../../../../source/iml/page-visibility.js')
-      .default;
+    pageVisibility = require('../../../../source/iml/page-visibility.js').default;
 
     jest.useFakeTimers();
   });
@@ -43,10 +42,7 @@ describe('page visibility', () => {
     });
 
     it('should add an event listener', () => {
-      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
-        'visibilitychange',
-        expect.any(Function)
-      );
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith('visibilitychange', expect.any(Function));
     });
 
     describe('when removing', () => {
@@ -61,10 +57,7 @@ describe('page visibility', () => {
       });
 
       it('should remove the listener', () => {
-        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
-          'visibilitychange',
-          expect.any(Function)
-        );
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith('visibilitychange', expect.any(Function));
       });
     });
 

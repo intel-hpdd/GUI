@@ -12,15 +12,8 @@ export type chartParamsT = {
   }
 };
 export type scopeToElementT = (scope: Object) => HTMLElement[];
-export type chartT = (
-  overrides: chartParamsT,
-  page: string
-) => Promise<scopeToElementT>;
-export type chartTitleT = (
-  title: string,
-  overrides: chartParamsT,
-  page: string
-) => Promise<scopeToElementT>;
+export type chartT = (overrides: chartParamsT, page: string) => Promise<scopeToElementT>;
+export type chartTitleT = (title: string, overrides: chartParamsT, page: string) => Promise<scopeToElementT>;
 export type chartTitleKeyT = (
   title: string,
   key: string,

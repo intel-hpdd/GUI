@@ -14,27 +14,16 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
-import {
-  UPDATE_FILE_USAGE_CHART_ITEMS,
-  DEFAULT_FILE_USAGE_CHART_ITEMS
-} from './file-usage-chart-reducer.js';
+import { UPDATE_FILE_USAGE_CHART_ITEMS, DEFAULT_FILE_USAGE_CHART_ITEMS } from './file-usage-chart-reducer.js';
 
 import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
 import type { targetQueryT } from '../dashboard/dashboard-module.js';
-import type {
-  data$FnT,
-  configToStreamT
-} from '../chart-transformers/chart-transformers-module.js';
+import type { data$FnT, configToStreamT } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
-  return function getFileUsageChart(
-    title: string,
-    keyName: string,
-    overrides: targetQueryT,
-    page: string
-  ) {
+  return function getFileUsageChart(title: string, keyName: string, overrides: targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_FILE_USAGE_CHART_ITEMS,
       payload: durationPayload({ page })
@@ -44,14 +33,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
     const initStream = config1$
       .through(getConf(page))
       .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(
-            null,
-            overrides,
-            (() => getFileUsageStream(keyName): configToStreamT)
-          )
-        )
+        flatMapChanges.bind(null, data$Fn.bind(null, overrides, (() => getFileUsageStream(keyName): configToStreamT)))
       );
 
     return chartCompiler(

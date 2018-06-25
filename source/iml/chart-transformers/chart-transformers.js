@@ -7,10 +7,7 @@
 
 import highland from 'highland';
 
-import {
-  documentHidden,
-  documentVisible
-} from '../stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from '../stream-when-visible/stream-when-visible.js';
 
 import type { HighlandStreamT } from 'highland';
 
@@ -18,10 +15,7 @@ import type { durationPayloadT } from '../duration-picker/duration-picker-module
 
 import type { createStreamT } from '../charting/charting-module.js';
 
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
 import type { configToStreamT } from './chart-transformers-module.js';
 

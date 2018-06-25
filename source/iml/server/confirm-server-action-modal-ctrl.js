@@ -5,12 +5,7 @@
 
 import socketStream from '../socket/socket-stream.js';
 
-export default function ConfirmServerActionModalCtrl(
-  $scope,
-  $uibModalInstance,
-  hosts,
-  action
-) {
+export default function ConfirmServerActionModalCtrl($scope, $uibModalInstance, hosts, action) {
   'ngInject';
   $scope.confirmServerActionModal = {
     hosts,

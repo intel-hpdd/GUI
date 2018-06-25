@@ -14,10 +14,7 @@ describe('add server modal', () => {
       open: jest.fn()
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/get-spring.js',
-      () => mockGetSpring
-    );
+    jest.mock('../../../../source/iml/socket/get-spring.js', () => mockGetSpring);
 
     const mod = require('../../../../source/iml/server/add-server-modal-ctrl.js');
 
@@ -26,11 +23,7 @@ describe('add server modal', () => {
   });
 
   describe('controller', () => {
-    let addServerModalCtrl,
-      $scope,
-      stepsManager,
-      resultEndPromise,
-      invokeController;
+    let addServerModalCtrl, $scope, stepsManager, resultEndPromise, invokeController;
     const deps = {};
 
     beforeEach(
@@ -65,10 +58,7 @@ describe('add server modal', () => {
         });
 
         invokeController = moreDeps => {
-          addServerModalCtrl = $controller(
-            AddServerModalCtrl,
-            Object.assign(deps, moreDeps)
-          );
+          addServerModalCtrl = $controller(AddServerModalCtrl, Object.assign(deps, moreDeps));
         };
       })
     );
@@ -103,10 +93,7 @@ describe('add server modal', () => {
       });
 
       it('should set a destroy event listener', () => {
-        expect($scope.$on).toHaveBeenCalledOnceWith(
-          '$destroy',
-          expect.any(Function)
-        );
+        expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', expect.any(Function));
       });
 
       describe('on close and destroy', () => {

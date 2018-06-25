@@ -3,15 +3,7 @@ import highland from 'highland';
 import { streamToPromise as mockStreamToPromise } from '../../../../source/iml/promise-transforms.js';
 
 describe('hsm fs resolve', () => {
-  let mockSocketStream,
-    s,
-    stream,
-    mockStore,
-    mockResolveStream,
-    fsCollStream,
-    getData,
-    mockBroadcaster,
-    promise;
+  let mockSocketStream, s, stream, mockStore, mockResolveStream, fsCollStream, getData, mockBroadcaster, promise;
 
   beforeEach(() => {
     s = highland();
@@ -28,10 +20,7 @@ describe('hsm fs resolve', () => {
 
     mockBroadcaster = jest.fn(x => x);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream,
       streamToPromise: mockStreamToPromise

@@ -9,6 +9,4 @@ import angular from 'angular';
 
 import { navigateFactory } from './navigate';
 
-export default angular
-  .module('navigate', [])
-  .factory('navigate', navigateFactory).name;
+export default angular.module('navigate', []).factory('navigate', navigateFactory).name;

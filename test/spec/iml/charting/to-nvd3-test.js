@@ -47,11 +47,10 @@ describe('the to nvd3 plugin', () => {
   });
 
   it('should return an empty struct when there is no data', () => {
-    highland([]).through(toNvd3(['read', 'write'])).each(spy);
+    highland([])
+      .through(toNvd3(['read', 'write']))
+      .each(spy);
 
-    expect(spy).toHaveBeenCalledOnceWith([
-      { key: 'read', values: [] },
-      { key: 'write', values: [] }
-    ]);
+    expect(spy).toHaveBeenCalledOnceWith([{ key: 'read', values: [] }, { key: 'write', values: [] }]);
   });
 });

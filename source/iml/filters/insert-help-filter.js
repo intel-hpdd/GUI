@@ -13,8 +13,7 @@ export default function insertHelpFilterFilter($sce, help) {
     let wrapper = help.get(key);
     const value = wrapper.valueOf();
 
-    if (regexp.test(value) && params)
-      wrapper = $sce.trustAsHtml(sprintf(value, params));
+    if (regexp.test(value) && params) wrapper = $sce.trustAsHtml(sprintf(value, params));
 
     return wrapper;
   };

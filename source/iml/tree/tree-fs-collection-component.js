@@ -30,8 +30,7 @@ function treeFsCollection($scope: $scopeT, propagateChange: PropagateChange) {
     }
   });
 
-  const fn = (x: treeItemT) =>
-    x.parentTreeId === this.parentId && x.type === 'fs';
+  const fn = (x: treeItemT) => x.parentTreeId === this.parentId && x.type === 'fs';
 
   function computePage(meta) {
     const currentPage = meta.offset / meta.limit + 1;
@@ -40,9 +39,7 @@ function treeFsCollection($scope: $scopeT, propagateChange: PropagateChange) {
 
   const t1 = store.select('tree');
 
-  t1
-    .through(emitOnItem(fn))
-    .through(propagateChange.bind(null, $scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'fs',
@@ -60,9 +57,7 @@ function treeFsCollection($scope: $scopeT, propagateChange: PropagateChange) {
 
   const fsCollection$ = store.select('tree');
 
-  fsCollection$
-    .through(transformItems(fn, structFn, fnTo$))
-    .each(store.dispatch);
+  fsCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
 }
 
 export default {

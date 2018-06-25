@@ -5,15 +5,7 @@ describe('step modal', () => {
   beforeEach(() => {});
 
   describe('step modal controller', () => {
-    let $scope,
-      stepModal,
-      stepsStream,
-      jobStream,
-      mockSocketStream,
-      mod,
-      $uibModal,
-      stream,
-      job;
+    let $scope, stepModal, stepsStream, jobStream, mockSocketStream, mod, $uibModal, stream, job;
 
     beforeEach(
       angular.mock.inject($rootScope => {
@@ -31,10 +23,7 @@ describe('step modal', () => {
           return (stream = highland());
         });
 
-        jest.mock(
-          '../../../../source/iml/socket/socket-stream.js',
-          () => mockSocketStream
-        );
+        jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
         mod = require('../../../../source/iml/command/step-modal-ctrl.js');
 
@@ -65,10 +54,7 @@ describe('step modal', () => {
     });
 
     it('should listen for destroy', () => {
-      expect($scope.$on).toHaveBeenCalledTwiceWith(
-        '$destroy',
-        expect.any(Function)
-      );
+      expect($scope.$on).toHaveBeenCalledTwiceWith('$destroy', expect.any(Function));
     });
 
     describe('destroy', () => {

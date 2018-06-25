@@ -6,19 +6,12 @@ import { convertNvDates } from '../../../test-utils.js';
 import fixtures from '../../../data-fixtures/read-write-bandwidth-fixtures.json';
 
 describe('The read write bandwidth stream', () => {
-  let mockSocketStream,
-    bufferDataNewerThan,
-    getReadWriteBandwidthStream,
-    endAndRunTimers,
-    spy;
+  let mockSocketStream, bufferDataNewerThan, getReadWriteBandwidthStream, endAndRunTimers, spy;
 
   beforeEach(() => {
     const mockCreateMoment = () => moment('2013-12-11T13:15:00+00:00');
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockCreateMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockCreateMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -32,13 +25,9 @@ describe('The read write bandwidth stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
     getReadWriteBandwidthStream = require('../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js')
       .default;
@@ -64,10 +53,7 @@ describe('The read write bandwidth stream', () => {
       const buff = bufferDataNewerThan(10, 'minutes');
       const requestDuration = getRequestDuration({})(10, 'minutes');
 
-      readWriteBandwidthStream = getReadWriteBandwidthStream(
-        requestDuration,
-        buff
-      );
+      readWriteBandwidthStream = getReadWriteBandwidthStream(requestDuration, buff);
 
       readWriteBandwidthStream.through(convertNvDates).each(spy);
     });

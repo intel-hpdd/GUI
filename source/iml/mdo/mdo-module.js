@@ -26,10 +26,5 @@ export type addMdoActionT = {
 };
 
 export default angular
-  .module('mdo', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('mdo', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .factory('getMdoChart', getMdoChartFactory).name;

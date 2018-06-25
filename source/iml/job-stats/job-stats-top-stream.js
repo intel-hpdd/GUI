@@ -12,16 +12,9 @@ import socketStream from '../socket/socket-stream.js';
 import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
 import sumByDate from '../charting/sum-by-date.js';
 
-import {
-  normalize,
-  calculateData,
-  collectById
-} from './job-stats-transforms.js';
+import { normalize, calculateData, collectById } from './job-stats-transforms.js';
 
-import {
-  getRequestDuration,
-  getRequestRange
-} from '../charting/get-time-params.js';
+import { getRequestDuration, getRequestRange } from '../charting/get-time-params.js';
 
 const getData$ = (builder, buffer) => (metric, arg1, arg2, overrides = {}) => {
   const d = builder(overrides)(arg1, arg2);
@@ -59,11 +52,7 @@ const getDuration$ = getData$(getRequestDuration, bufferDataNewerThan);
 // eslint-disable-next-line no-unused-vars
 const getRange$ = getData$(getRequestRange, (...rest) => x => x);
 
-export const topDuration = (
-  duration: number = 10,
-  unit: string = 'minute',
-  overrides: Object = {}
-) => {
+export const topDuration = (duration: number = 10, unit: string = 'minute', overrides: Object = {}) => {
   const streams = [
     getDuration$('read_bytes', duration, unit, overrides),
     getDuration$('write_bytes', duration, unit, overrides),
@@ -72,18 +61,16 @@ export const topDuration = (
   ];
 
   return highland((push, next) => {
-    highland(streams.map(s => s())).through(collectById).each(x => {
-      push(null, x);
-      next();
-    });
+    highland(streams.map(s => s()))
+      .through(collectById)
+      .each(x => {
+        push(null, x);
+        next();
+      });
   }).ratelimit(1, 10000);
 };
 
-export const topRange = (
-  start: string,
-  end: string,
-  overrides: Object = {}
-) => {
+export const topRange = (start: string, end: string, overrides: Object = {}) => {
   const streams = [
     getRange$('read_bytes', start, end, overrides),
     getRange$('write_bytes', start, end, overrides),

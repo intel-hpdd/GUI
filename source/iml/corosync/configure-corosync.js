@@ -7,12 +7,7 @@ import socketStream from '../socket/socket-stream.js';
 
 import { pick } from '@iml/obj';
 
-export function ConfigureCorosyncController(
-  $scope,
-  waitForCommandCompletion,
-  propagateChange,
-  insertHelpFilter
-) {
+export function ConfigureCorosyncController($scope, waitForCommandCompletion, propagateChange, insertHelpFilter) {
   'ngInject';
   const ctrl = this;
 

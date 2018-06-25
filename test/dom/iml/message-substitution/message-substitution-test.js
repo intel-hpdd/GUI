@@ -20,10 +20,7 @@ describe('message substitution component', () => {
 
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.component(
-        'messageSubstitution',
-        mod.messageSubstitution
-      );
+      $compileProvider.component('messageSubstitution', mod.messageSubstitution);
     })
   );
 
@@ -31,8 +28,7 @@ describe('message substitution component', () => {
     angular.mock.inject(function(_$compile_, $rootScope) {
       $scope = $rootScope.$new();
       $compile = _$compile_;
-      template =
-        '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
+      template = '<message-substitution substitutions="::substitutions" message="::message"></message-substitution>';
 
       $scope.message =
         'Lustre: 2178:0:(client.c:2048:ptlrpc_expire_one_request()) @@@ Request sent has timed out for ' +
@@ -80,15 +76,11 @@ describe('message substitution component', () => {
       });
 
       it('should link to the lotus server', () => {
-        expect(links.item(0).getAttribute('route-to')).toEqual(
-          'configure/server/1/'
-        );
+        expect(links.item(0).getAttribute('route-to')).toEqual('configure/server/1/');
       });
 
       it('should display the lotus server label', () => {
-        expect(links.item(0).textContent).toEqual(
-          'lotus-35vm15.lotus.hpdd.lab.intel.com'
-        );
+        expect(links.item(0).textContent).toEqual('lotus-35vm15.lotus.hpdd.lab.intel.com');
       });
 
       it('should not set a target attribute on the server link', () => {
@@ -96,9 +88,7 @@ describe('message substitution component', () => {
       });
 
       it('should link to the filesystem', () => {
-        expect(links.item(1).getAttribute('route-to')).toEqual(
-          'configure/filesystem/2/'
-        );
+        expect(links.item(1).getAttribute('route-to')).toEqual('configure/filesystem/2/');
       });
 
       it('should display the filesystem label', () => {

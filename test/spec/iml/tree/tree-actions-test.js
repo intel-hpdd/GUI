@@ -1,20 +1,10 @@
 // @flow
 
 describe('tree actions', () => {
-  let addTreeItems,
-    toggleCollectionOpen,
-    updateCollectionOffset,
-    toggleItemOpen,
-    createItem;
+  let addTreeItems, toggleCollectionOpen, updateCollectionOffset, toggleItemOpen, createItem;
   beforeEach(() => {
     const mod = require('../../../../source/iml/tree/tree-actions.js');
-    ({
-      addTreeItems,
-      toggleCollectionOpen,
-      updateCollectionOffset,
-      toggleItemOpen,
-      createItem
-    } = mod);
+    ({ addTreeItems, toggleCollectionOpen, updateCollectionOffset, toggleItemOpen, createItem } = mod);
   });
 
   describe('add tree items', () => {

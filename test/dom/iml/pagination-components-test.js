@@ -1,10 +1,6 @@
 // @flow
 import Inferno from 'inferno';
-import {
-  Pager,
-  EntriesDropdown,
-  TableInfo
-} from '../../../source/iml/pagination-components.js';
+import { Pager, EntriesDropdown, TableInfo } from '../../../source/iml/pagination-components.js';
 import { renderToSnapshot } from '../../test-utils.js';
 import { querySelector } from '../../../source/iml/dom-utils.js';
 import type { Meta } from '../../../source/iml/api-types.js';
@@ -90,9 +86,7 @@ describe('Pager DOM testing', () => {
       previous: null,
       next: null
     };
-    expect(
-      renderToSnapshot(<Pager meta={meta} setOffset={clickHandler} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<Pager meta={meta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
   it('should render as expected', () => {
@@ -103,9 +97,7 @@ describe('Pager DOM testing', () => {
       offset: 49
     };
 
-    expect(
-      renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
   it('should reset pages if on the trailing edge', () => {
@@ -116,9 +108,7 @@ describe('Pager DOM testing', () => {
       offset: 199
     };
 
-    expect(
-      renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
   it('should disable the previous button if on the first page', () => {
@@ -129,9 +119,7 @@ describe('Pager DOM testing', () => {
       offset: 0
     };
 
-    expect(
-      renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
   it('should disable the next button if on the last page', () => {
@@ -142,9 +130,7 @@ describe('Pager DOM testing', () => {
       offset: 95
     };
 
-    expect(
-      renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)
-    ).toMatchSnapshot();
+    expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
   describe('click handling', () => {

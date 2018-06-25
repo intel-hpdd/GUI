@@ -13,10 +13,7 @@ import highland from 'highland';
 
 import { filterSame } from '../api-transforms.js';
 import { flow } from '@iml/fp';
-import {
-  addStorageResources,
-  setStorageTableLoading
-} from './storage-actions.js';
+import { addStorageResources, setStorageTableLoading } from './storage-actions.js';
 
 import store from '../store/get-store.js';
 
@@ -40,15 +37,15 @@ export default () => {
       }
     };
 
-    if (x.config.sortKey !== '')
-      params.qs.order_by = `${x.config.sortDesc ? '-' : ''}attr_${x.config
-        .sortKey}`;
+    if (x.config.sortKey !== '') params.qs.order_by = `${x.config.sortDesc ? '-' : ''}attr_${x.config.sortKey}`;
 
-    return socketStream(
-      `/api/storage_resource/${r.plugin_name}/${r.class_name}/`,
-      params
-    );
+    return socketStream(`/api/storage_resource/${r.plugin_name}/${r.class_name}/`, params);
   }, s)
     .tap(() => store.dispatch(setStorageTableLoading(false)))
-    .tap(flow(addStorageResources, store.dispatch));
+    .tap(
+      flow(
+        addStorageResources,
+        store.dispatch
+      )
+    );
 };

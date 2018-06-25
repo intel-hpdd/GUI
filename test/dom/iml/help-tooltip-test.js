@@ -15,14 +15,7 @@ describe('help tooltip', () => {
 
       HelpTooltip = require('../../../source/iml/help-tooltip.js').default;
 
-      Inferno.render(
-        <HelpTooltip
-          helpKey="my_key"
-          direction="bottom"
-          moreClasses={['extra-class']}
-        />,
-        root
-      );
+      Inferno.render(<HelpTooltip helpKey="my_key" direction="bottom" moreClasses={['extra-class']} />, root);
 
       helpTooltip = querySelector(root, '.inferno-tt');
     });
@@ -64,14 +57,7 @@ describe('help tooltip', () => {
     beforeEach(() => {
       root = document.createElement('div');
 
-      Inferno.render(
-        <HelpTooltip
-          helpKey=""
-          direction="bottom"
-          moreClasses={['extra-class']}
-        />,
-        root
-      );
+      Inferno.render(<HelpTooltip helpKey="" direction="bottom" moreClasses={['extra-class']} />, root);
 
       helpTooltip = root.querySelector('.inferno-tt');
     });

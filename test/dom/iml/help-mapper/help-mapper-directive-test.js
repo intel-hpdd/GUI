@@ -59,8 +59,6 @@ describe('help mapper', () => {
 
     $scope.$digest();
 
-    expect(el.querySelector('a').getAttribute('ng-href')).toBe(
-      '/help/docs/Graphical_User_Interface_9_0.html#9.3.1'
-    );
+    expect(el.querySelector('a').getAttribute('ng-href')).toBe('/help/docs/Graphical_User_Interface_9_0.html#9.3.1');
   });
 });

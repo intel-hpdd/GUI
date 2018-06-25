@@ -5,18 +5,9 @@ describe('log query component controller', () => {
   let ctrl, $scope, $location, $stateParams, controller, qsStream, s;
 
   beforeEach(() => {
-    jest.mock(
-      '../../../../source/iml/logs/log-input-to-qs-parser.js',
-      () => 'inputParser'
-    );
-    jest.mock(
-      '../../../../source/iml/logs/log-qs-to-input-parser.js',
-      () => 'qsParser'
-    );
-    jest.mock(
-      '../../../../source/iml/logs/log-completer.js',
-      () => 'completer'
-    );
+    jest.mock('../../../../source/iml/logs/log-input-to-qs-parser.js', () => 'inputParser');
+    jest.mock('../../../../source/iml/logs/log-qs-to-input-parser.js', () => 'qsParser');
+    jest.mock('../../../../source/iml/logs/log-completer.js', () => 'completer');
 
     const mod = require('../../../../source/iml/logs/log-query-component.js');
 
@@ -41,13 +32,7 @@ describe('log query component controller', () => {
 
       ctrl = {};
 
-      controller.bind(ctrl)(
-        $scope,
-        $location,
-        $stateParams,
-        qsStream,
-        propagateChange
-      );
+      controller.bind(ctrl)($scope, $location, $stateParams, qsStream, propagateChange);
     })
   );
 

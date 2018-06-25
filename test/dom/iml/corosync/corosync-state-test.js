@@ -24,11 +24,7 @@ describe('corosync state directive', () => {
     })
   );
 
-  const states = [
-    ['Corosync Started', 'started'],
-    ['Corosync Stopped', 'stopped'],
-    ['Unconfigured', 'unconfigured']
-  ];
+  const states = [['Corosync Started', 'started'], ['Corosync Stopped', 'stopped'], ['Unconfigured', 'unconfigured']];
 
   states.forEach(state => {
     it(`should display state for ${state[0]} with no host id`, () => {

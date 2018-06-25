@@ -23,11 +23,15 @@ import type { HighlandStreamT } from 'highland';
 
 type treeItemToBooleanT = (x: treeItemT) => boolean;
 
-type getChildByT = (
-  fn: treeItemToBooleanT
-) => (x: HighlandStreamT<treeHashT>) => HighlandStreamT<Maybe<treeItemT>>;
+type getChildByT = (fn: treeItemToBooleanT) => (x: HighlandStreamT<treeHashT>) => HighlandStreamT<Maybe<treeItemT>>;
 export const getChildBy: getChildByT = fn =>
-  highland.map(fp.flow(obj.values, fp.filter(fn), x => maybe.of(x[0])));
+  highland.map(
+    fp.flow(
+      obj.values,
+      fp.filter(fn),
+      x => maybe.of(x[0])
+    )
+  );
 
 export const emitOnItem = (fn: treeItemToBooleanT) =>
   fp.flow(

@@ -15,8 +15,7 @@ describe('As stream', () => {
 
       jest.mock('highland', () => mockHighland);
 
-      asStream = require('../../../../source/iml/as-stream/as-stream.js')
-        .default;
+      asStream = require('../../../../source/iml/as-stream/as-stream.js').default;
 
       $compileProvider.directive('asStream', asStream);
       $compileProvider.directive('asValue', asValue);
@@ -49,7 +48,10 @@ describe('As stream', () => {
       el = compile($scope);
 
       const find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(find, x => x.textContent.trim());
+      getText = fp.flow(
+        find,
+        x => x.textContent.trim()
+      );
     })
   );
 
@@ -57,9 +59,7 @@ describe('As stream', () => {
     $scope = $rootScope.$new();
     $scope.str = 'food';
 
-    expect(compile.bind(null, $scope)).toThrow(
-      new Error('str already set on transcluded scope.')
-    );
+    expect(compile.bind(null, $scope)).toThrow(new Error('str already set on transcluded scope.'));
   });
 
   it('should be foo to start', function() {

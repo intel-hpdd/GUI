@@ -8,7 +8,10 @@ import _ from '@iml/lodash-mixins';
 import highland from 'highland';
 import socketStream from '../socket/socket-stream.js';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+const viewLens = fp.flow(
+  fp.lensProp,
+  fp.view
+);
 const objectsLens = viewLens('objects');
 
 export function getHostProfilesFactory(CACHE_INITIAL_DATA) {
@@ -31,17 +34,12 @@ export function getHostProfilesFactory(CACHE_INITIAL_DATA) {
       .filter(fp.every(viewLens('profiles_valid')))
       .map(function(hosts) {
         // Pull out the profiles and flatten them.
-        const profiles = [{}]
-          .concat(_.pluck(hosts, 'profiles'))
-          .concat(function concatArrays(a, b) {
-            return _.isArray(a) ? a.concat(b) : undefined;
-          });
+        const profiles = [{}].concat(_.pluck(hosts, 'profiles')).concat(function concatArrays(a, b) {
+          return _.isArray(a) ? a.concat(b) : undefined;
+        });
         const merged = _.merge.apply(_, profiles);
 
-        return Object.keys(merged).reduce(function buildStructure(
-          arr,
-          profileName
-        ) {
+        return Object.keys(merged).reduce(function buildStructure(arr, profileName) {
           const item = {
             name: profileName,
             uiName: _.find(CACHE_INITIAL_DATA.server_profile, {
@@ -89,11 +87,7 @@ export function createHostProfilesFactory(waitForCommandCompletion) {
       .map(objectsLens)
       .map(
         fp.flow(
-          fp.filter(
-            x =>
-              x.server_profile &&
-              x.server_profile.initial_state === 'unconfigured'
-          ),
+          fp.filter(x => x.server_profile && x.server_profile.initial_state === 'unconfigured'),
           fp.filter(findInProfiles),
           fp.map(x => ({
             host: x.id,
@@ -110,9 +104,6 @@ export function createHostProfilesFactory(waitForCommandCompletion) {
       .flatMap(x => socketStream('/host_profile', x, true))
       .map(objectsLens)
       .map(fp.map(x => x.commands[0]))
-      .flatMap(
-        x =>
-          x.length ? waitForCommandCompletion(showCommands)(x) : highland([])
-      );
+      .flatMap(x => (x.length ? waitForCommandCompletion(showCommands)(x) : highland([])));
   };
 }

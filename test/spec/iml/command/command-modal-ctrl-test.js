@@ -99,11 +99,7 @@ describe('command modal', () => {
       angular.mock.inject(($rootScope, propagateChange) => {
         commandsStream = highland();
 
-        commandModal = new CommandModalCtrl(
-          commandsStream,
-          $rootScope.$new(),
-          propagateChange
-        );
+        commandModal = new CommandModalCtrl(commandsStream, $rootScope.$new(), propagateChange);
       })
     );
 

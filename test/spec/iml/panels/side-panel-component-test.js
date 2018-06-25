@@ -38,9 +38,7 @@ describe('side panel component', () => {
     });
 
     it('should deregister', () => {
-      expect(rootPanel.deregister).toHaveBeenCalledOnceWith(
-        expect.any(Function)
-      );
+      expect(rootPanel.deregister).toHaveBeenCalledOnceWith(expect.any(Function));
     });
   });
 });

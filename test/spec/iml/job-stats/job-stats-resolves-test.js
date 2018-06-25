@@ -29,13 +29,10 @@ describe('jobstats resolves', () => {
       })
     };
 
-    jest.mock(
-      '../../../../source/iml/job-stats/job-stats-top-stream.js',
-      () => ({
-        topDuration: mockTopDuration,
-        topRange: mockTopRange
-      })
-    );
+    jest.mock('../../../../source/iml/job-stats/job-stats-top-stream.js', () => ({
+      topDuration: mockTopDuration,
+      topRange: mockTopRange
+    }));
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
@@ -68,17 +65,11 @@ describe('jobstats resolves', () => {
         endDate: '2016-08-17T18:34:20.000Z'
       });
 
-      expect(
-        mockTopRange
-      ).toHaveBeenCalledOnceWith(
-        '2016-08-17T18:34:04.000Z',
-        '2016-08-17T18:34:20.000Z',
-        {
-          qs: {
-            id: '1'
-          }
+      expect(mockTopRange).toHaveBeenCalledOnceWith('2016-08-17T18:34:04.000Z', '2016-08-17T18:34:20.000Z', {
+        qs: {
+          id: '1'
         }
-      );
+      });
     });
   });
 

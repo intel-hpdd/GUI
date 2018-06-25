@@ -9,10 +9,7 @@ export const ADD_ALERT_INDICATOR_ITEMS = 'ADD_ALERT_INDICATOR_ITEMS';
 
 import type { ActionT } from '../store/store-module.js';
 
-export default function(
-  state: Array<Object> = [],
-  { type, payload }: ActionT
-): Array<Object> {
+export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_ALERT_INDICATOR_ITEMS:
       return payload;

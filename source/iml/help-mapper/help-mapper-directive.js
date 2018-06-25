@@ -22,17 +22,11 @@ export default () => ({
     const getPage = $current =>
       maybe.withDefault(
         () => '',
-        maybe.map(
-          (x: string) => `docs/${x}`,
-          maybe.of($current.data && $current.data.helpPage)
-        )
+        maybe.map((x: string) => `docs/${x}`, maybe.of($current.data && $current.data.helpPage))
       );
 
     this.page = getPage($state.$current);
 
-    $transitions.onSuccess(
-      {},
-      transition => (this.page = getPage(transition.router.globals.$current))
-    );
+    $transitions.onSuccess({}, transition => (this.page = getPage(transition.router.globals.$current)));
   }
 });

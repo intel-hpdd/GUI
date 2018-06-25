@@ -29,10 +29,7 @@ export function apiPathToUiPath(resourceUri: string) {
   }
 }
 
-export const getResolvedData = (
-  transition: TransitionT,
-  resolveName: string
-): Maybe<any> => {
+export const getResolvedData = (transition: TransitionT, resolveName: string): Maybe<any> => {
   const resolvedToken = maybe.chain(
     x => fp.find(val => val === x)(transition.getResolveTokens()),
     maybe.of(resolveName)

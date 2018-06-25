@@ -8,4 +8,7 @@
 import type { HighlandStreamT } from 'highland';
 
 export default (cmp: Function) => (s: HighlandStreamT<Object[]>) =>
-  s.collect().invoke('sort', [cmp]).sequence();
+  s
+    .collect()
+    .invoke('sort', [cmp])
+    .sequence();

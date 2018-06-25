@@ -3,7 +3,10 @@ import { default as mockD3 } from 'd3';
 import { gt } from '@iml/math';
 import { flushD3Transitions } from '../../../../../test-utils.js';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+const viewLens = fp.flow(
+  fp.lensProp,
+  fp.view
+);
 const getCoord = (curr, idx) => Math.round(curr.split(',')[idx]);
 
 describe('get line', () => {
@@ -11,7 +14,12 @@ describe('get line', () => {
     return line
       .getAttribute('d')
       .split(/([L|M])/)
-      .filter(fp.flow(viewLens('length'), x => gt(0, x)))
+      .filter(
+        fp.flow(
+          viewLens('length'),
+          x => gt(0, x)
+        )
+      )
       .reduce((arr, curr) => {
         if (/[M|L]/.test(curr)) {
           arr.push({ type: curr });
@@ -35,8 +43,7 @@ describe('get line', () => {
       }
     }));
 
-    getLine = require('../../../../../../source/iml/charting/types/line/get-line')
-      .default;
+    getLine = require('../../../../../../source/iml/charting/types/line/get-line').default;
 
     Element.prototype.getTotalLength = () => 100;
     div = document.createElement('div');
@@ -169,9 +176,7 @@ describe('get line', () => {
       });
 
       it('should set the corresponding clip path', () => {
-        expect(query('.clipPath1').getAttribute('clip-path')).toEqual(
-          'url(https://foo/#clip1)'
-        );
+        expect(query('.clipPath1').getAttribute('clip-path')).toEqual('url(https://foo/#clip1)');
       });
       it('should calculate the line from data', () => {
         expect(line.getAttribute('d')).toEqual('M0,100L50,50L100,0');
@@ -191,9 +196,7 @@ describe('get line', () => {
       });
 
       it('should set stroke-dashoffset to the total length of the line', () => {
-        expect(
-          parseInt(line.getAttribute('stroke-dashoffset'))
-        ).toBeGreaterThan(0);
+        expect(parseInt(line.getAttribute('stroke-dashoffset'))).toBeGreaterThan(0);
       });
 
       it('should animate stroke-dashoffset to 0', () => {
@@ -233,12 +236,7 @@ describe('get line', () => {
         });
 
         it('should update the line data keep the previous point and duplicate the last point', () => {
-          expect(mockD3.select(line).datum()).toEqual([
-            { x: 0, y: 0 },
-            { x: 1, y: 1 },
-            { x: 2, y: 2 },
-            { x: 3, y: 3 }
-          ]);
+          expect(mockD3.select(line).datum()).toEqual([{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }]);
         });
 
         describe('ending layout', () => {
@@ -263,11 +261,7 @@ describe('get line', () => {
 
         it('should end with new data', () => {
           flushD3Transitions(mockD3);
-          expect(mockD3.select(line).datum()).toEqual([
-            { x: 1, y: 1 },
-            { x: 2, y: 2 },
-            { x: 3, y: 3 }
-          ]);
+          expect(mockD3.select(line).datum()).toEqual([{ x: 1, y: 1 }, { x: 2, y: 2 }, { x: 3, y: 3 }]);
         });
       });
 

@@ -13,10 +13,7 @@ describe('tree volume collection component', () => {
   beforeEach(() => {
     mockSocketStream = jest.fn(() => (socket$ = highland()));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     store = require('../../../../source/iml/store/get-store.js').default;
 
@@ -36,8 +33,7 @@ describe('tree volume collection component', () => {
   beforeEach(
     angular.mock.inject(($compile: $compileT, $rootScope: $scopeT) => {
       const $scope = $rootScope.$new();
-      const template =
-        '<tree-volume-collection host-id="1" parent-id="0"></tree-volume-collection>';
+      const template = '<tree-volume-collection host-id="1" parent-id="0"></tree-volume-collection>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -52,8 +48,7 @@ describe('tree volume collection component', () => {
   afterEach(() =>
     store.dispatch({
       type: 'RESET_STATE'
-    })
-  );
+    }));
 
   it('should render the collection', () => {
     expect(el).not.toBe(null);

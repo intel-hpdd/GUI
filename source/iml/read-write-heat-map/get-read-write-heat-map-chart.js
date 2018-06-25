@@ -29,15 +29,9 @@ import type { $scopeT } from 'angular';
 
 import type { localApplyT } from '../extend-scope-module.js';
 
-import type {
-  readWriteHeatMapTypesT,
-  heatMapDurationPayloadT
-} from './read-write-heat-map-module.js';
+import type { readWriteHeatMapTypesT, heatMapDurationPayloadT } from './read-write-heat-map-module.js';
 
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
 import type { HighlandStreamT } from 'highland';
 
@@ -55,10 +49,7 @@ export default (
   const dataLens = fp.view(fp.lensProp('data'));
   const maxMillisecondsDiff = 30000;
 
-  return function getReadWriteHeatMapChart(
-    overrides: filesystemQueryT | targetQueryT,
-    page: string
-  ) {
+  return function getReadWriteHeatMapChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
       payload: durationPayload({
@@ -133,10 +124,7 @@ export default (
 
             return readable.charAt(0).toUpperCase() + readable.slice(1);
           },
-          onSubmit: durationSubmitHandler(
-            UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS,
-            { page }
-          ),
+          onSubmit: durationSubmitHandler(UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS, { page }),
           options: {
             setup(d3Chart) {
               d3Chart.margin({
@@ -147,9 +135,7 @@ export default (
 
               d3Chart.dispatch.on('click', function onClick(points) {
                 let sDate = new Date(points.current.ts);
-                const eDate = points.next
-                  ? new Date(points.next.ts)
-                  : new Date();
+                const eDate = points.next ? new Date(points.next.ts) : new Date();
                 const dateDiff = eDate.getTime() - sDate.getTime();
 
                 if (dateDiff < maxMillisecondsDiff) {
@@ -170,7 +156,10 @@ export default (
               });
               d3Chart.formatter(getFormatter(conf.dataType));
               d3Chart.zValue(
-                fp.flow(dataLens, fp.view(fp.lensProp(conf.dataType)))
+                fp.flow(
+                  dataLens,
+                  fp.view(fp.lensProp(conf.dataType))
+                )
               );
 
               d3Chart.xAxis().ticks(3);
@@ -178,7 +167,10 @@ export default (
             beforeUpdate: function beforeUpdate(d3Chart) {
               d3Chart.formatter(getFormatter(conf.dataType));
               d3Chart.zValue(
-                fp.flow(dataLens, fp.view(fp.lensProp(conf.dataType)))
+                fp.flow(
+                  dataLens,
+                  fp.view(fp.lensProp(conf.dataType))
+                )
               );
               d3Chart.xAxisDetail(conf.toReadableType(conf.dataType));
             }

@@ -8,14 +8,23 @@
 import * as fp from '@iml/fp';
 import extractApiId from '@iml/extract-api';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+const viewLens = fp.flow(
+  fp.lensProp,
+  fp.view
+);
 
 export default function filterTargetByHost(id: number) {
   const failoverServersLens = viewLens('failover_servers');
   const primaryServer = viewLens('primary_server');
 
   const getFailover = fp.cond(
-    [fp.flow(failoverServersLens, Array.isArray), failoverServersLens],
+    [
+      fp.flow(
+        failoverServersLens,
+        Array.isArray
+      ),
+      failoverServersLens
+    ],
     [fp.always(true), fp.always([])]
   );
 
@@ -25,6 +34,12 @@ export default function filterTargetByHost(id: number) {
   const lengthProp = viewLens('length');
 
   return fp.map(
-    fp.filter(fp.flow(concat(getFailover, primaryServer), eqId, lengthProp))
+    fp.filter(
+      fp.flow(
+        concat(getFailover, primaryServer),
+        eqId,
+        lengthProp
+      )
+    )
   );
 }

@@ -20,10 +20,7 @@ describe('override action click', () => {
       install_method: 'root_password'
     };
 
-    overrideActionClick = overrideActionClickFactory(
-      addServerSteps,
-      openAddServerModal
-    );
+    overrideActionClick = overrideActionClickFactory(addServerSteps, openAddServerModal);
   });
 
   it('should be a function', () => {
@@ -74,15 +71,9 @@ describe('override action click', () => {
       step: 'select profile'
     }
   ].forEach(data => {
-    it(
-      'should open the add server modal when needed for step ' + data.step,
-      () => {
-        overrideActionClick(data.record, data.action);
-        expect(openAddServerModal).toHaveBeenCalledOnceWith(
-          data.record,
-          data.step
-        );
-      }
-    );
+    it('should open the add server modal when needed for step ' + data.step, () => {
+      overrideActionClick(data.record, data.action);
+      expect(openAddServerModal).toHaveBeenCalledOnceWith(data.record, data.step);
+    });
   });
 });

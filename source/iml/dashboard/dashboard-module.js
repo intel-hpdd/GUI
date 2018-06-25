@@ -22,10 +22,7 @@ import readWriteHeatMapModule from '../read-write-heat-map/read-write-heat-map-m
 import chartCompilerModule from '../chart-compiler/chart-compiler-module';
 import { chartsContainer } from './charts-container-directive';
 import DashboardCtrl from './dashboard-controller';
-import {
-  usageInfoDirective,
-  UsageInfoController
-} from './usage-info/usage-info';
+import { usageInfoDirective, UsageInfoController } from './usage-info/usage-info';
 
 export type filesystemQueryT = {
   qs: {

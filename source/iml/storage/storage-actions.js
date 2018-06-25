@@ -21,9 +21,7 @@ export const addStorageResourceClasses = (payload: StorageResourceClass[]) => ({
   payload
 });
 
-export const addStorageResources = (payload: {
-  objects: StorageResource[]
-}) => ({
+export const addStorageResources = (payload: { objects: StorageResource[] }) => ({
   type: ADD_STORAGE_RESOURCES,
   payload
 });

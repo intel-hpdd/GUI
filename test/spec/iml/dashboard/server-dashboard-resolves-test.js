@@ -6,11 +6,7 @@ import {
 
 describe('server dashboard resolves', () => {
   describe('chart resolves', () => {
-    let getReadWriteBandwidthChart,
-      getCpuUsageChart,
-      getMemoryUsageChart,
-      $stateParams,
-      promise;
+    let getReadWriteBandwidthChart, getCpuUsageChart, getMemoryUsageChart, $stateParams, promise;
 
     beforeEach(() => {
       getReadWriteBandwidthChart = jest.fn(() => 'read/write data');
@@ -75,11 +71,7 @@ describe('server dashboard resolves', () => {
     it('should resolve with all the charts', async () => {
       const res = await promise;
 
-      expect(res).toEqual([
-        'read/write data',
-        'cpu usage data',
-        'memory usage data'
-      ]);
+      expect(res).toEqual(['read/write data', 'cpu usage data', 'memory usage data']);
     });
   });
 

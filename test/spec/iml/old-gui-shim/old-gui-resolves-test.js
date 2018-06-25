@@ -11,10 +11,7 @@ describe('old gui resolves', () => {
     mockSocketStream = jest.fn();
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/old-gui-shim/old-gui-resolves.js');
   });
@@ -23,13 +20,7 @@ describe('old gui resolves', () => {
     it('should resolve with the specified id', async () => {
       mockGetStore.select.mockImplementation(key => {
         if (key === 'fileSystems')
-          return highland([
-            [
-              { id: 5, label: 'fs5' },
-              { id: 7, label: 'fs7' },
-              { id: 10, label: 'fs10' }
-            ]
-          ]);
+          return highland([[{ id: 5, label: 'fs5' }, { id: 7, label: 'fs7' }, { id: 10, label: 'fs10' }]]);
       });
 
       const result = await mod.oldFilesystemDetailResolve.resolve.getData({
@@ -44,11 +35,7 @@ describe('old gui resolves', () => {
       mockGetStore.select.mockImplementation(key => {
         if (key === 'users')
           return highland([
-            [
-              { id: 5, username: 'adam' },
-              { id: 7, username: 'stephany' },
-              { id: 10, username: 'mickey' }
-            ]
+            [{ id: 5, username: 'adam' }, { id: 7, username: 'stephany' }, { id: 10, username: 'mickey' }]
           ]);
       });
 
@@ -61,13 +48,7 @@ describe('old gui resolves', () => {
     it('should resolve with the specified id', async () => {
       mockGetStore.select.mockImplementation(key => {
         if (key === 'targets')
-          return highland([
-            [
-              { id: 5, label: 'target5' },
-              { id: 7, label: 'target7' },
-              { id: 10, label: 'target10' }
-            ]
-          ]);
+          return highland([[{ id: 5, label: 'target5' }, { id: 7, label: 'target7' }, { id: 10, label: 'target10' }]]);
       });
 
       const result = await mod.oldTargetResolve.resolve.getData({ id: 7 });

@@ -13,18 +13,10 @@ import configToggleModule from '../config-toggle/config-toggle-module';
 import HsmCtrl from './hsm-controller';
 import hsmCdtStatusDirective from './hsm-cdt-status-directive';
 
-import {
-  AddCopytoolModalCtrl,
-  openAddCopytoolModalFactory
-} from './add-copytool-modal';
+import { AddCopytoolModalCtrl, openAddCopytoolModalFactory } from './add-copytool-modal';
 
 export default angular
-  .module('hsm', [
-    progressCircleModule,
-    commandModule,
-    agentVsCopytoolModule,
-    configToggleModule
-  ])
+  .module('hsm', [progressCircleModule, commandModule, agentVsCopytoolModule, configToggleModule])
   .factory('openAddCopytoolModal', openAddCopytoolModalFactory)
   .controller('AddCopytoolModalCtrl', AddCopytoolModalCtrl)
   .controller('HsmCtrl', HsmCtrl)
