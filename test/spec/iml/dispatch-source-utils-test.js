@@ -13,9 +13,7 @@ describe('dispatch source utils', () => {
       };
 
       jest.mock('../../../source/iml/environment.js', () => mockEnvironment);
-      ({
-        canDispatch
-      } = require('../../../source/iml/dispatch-source-utils.js'));
+      ({ canDispatch } = require('../../../source/iml/dispatch-source-utils.js'));
     });
 
     it('should be allowed to dispatch', () => {
@@ -35,9 +33,7 @@ describe('dispatch source utils', () => {
       };
 
       jest.mock('../../../source/iml/environment.js', () => mockEnvironment);
-      ({
-        canDispatch
-      } = require('../../../source/iml/dispatch-source-utils.js'));
+      ({ canDispatch } = require('../../../source/iml/dispatch-source-utils.js'));
     });
 
     it('should be allowed to dispatch', () => {
@@ -57,9 +53,7 @@ describe('dispatch source utils', () => {
       };
 
       jest.mock('../../../source/iml/environment.js', () => mockEnvironment);
-      ({
-        canDispatch
-      } = require('../../../source/iml/dispatch-source-utils.js'));
+      ({ canDispatch } = require('../../../source/iml/dispatch-source-utils.js'));
     });
 
     it('should be allowed to dispatch', () => {

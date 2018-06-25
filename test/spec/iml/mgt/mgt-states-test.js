@@ -1,9 +1,5 @@
 describe('mgt states', () => {
-  let mgtState,
-    mockGroups,
-    mockMgt$,
-    mockMgtJobIndicatorB,
-    mockMgtAlertIndicatorB;
+  let mgtState, mockGroups, mockMgt$, mockMgtJobIndicatorB, mockMgtAlertIndicatorB;
 
   beforeEach(() => {
     mockGroups = {

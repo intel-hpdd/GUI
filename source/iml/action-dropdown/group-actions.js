@@ -8,7 +8,12 @@ import * as fp from '@iml/fp';
 export default function groupActionsFilter() {
   const numDisplayGroups = fp.flow(
     fp.map(fp.view(fp.lensProp('display_group'))),
-    fp.filter(fp.flow(fp.eq(undefined), fp.not)),
+    fp.filter(
+      fp.flow(
+        fp.eq(undefined),
+        fp.not
+      )
+    ),
     fp.view(fp.lensProp('length'))
   );
 

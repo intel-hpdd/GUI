@@ -70,7 +70,13 @@ export function ActionDropdownCtrl(
   const p = propagateChange.bind(null, $scope, ctrl, 'records');
 
   const asArray = fp.cond(
-    [fp.flow(Array.isArray, fp.not), fp.arrayWrap],
+    [
+      fp.flow(
+        Array.isArray,
+        fp.not
+      ),
+      fp.arrayWrap
+    ],
     [fp.True, fp.identity]
   );
 
@@ -95,9 +101,7 @@ export function ActionDropdownCtrl(
       .flatMap(function openModal(x) {
         const stream = getCommandStream([x.command || x]);
 
-        return openCommandModal(stream).resultStream.tap(
-          stream.destroy.bind(stream)
-        );
+        return openCommandModal(stream).resultStream.tap(stream.destroy.bind(stream));
       });
   }
 }

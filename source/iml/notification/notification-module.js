@@ -9,10 +9,7 @@ import angular from 'angular';
 
 import extendScopeModule from '../extend-scope-module';
 
-import {
-  NotificationSliderController,
-  notificationSlider
-} from './notification-slider';
+import { NotificationSliderController, notificationSlider } from './notification-slider';
 
 export default angular
   .module('notificationModule', [extendScopeModule])

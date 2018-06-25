@@ -15,9 +15,7 @@ describe('storageReducer', () => {
   });
 
   it('should return an initial state', () => {
-    expect(
-      storageReducer(undefined, { type: 'FOO', payload: 3 })
-    ).toMatchSnapshot();
+    expect(storageReducer(undefined, { type: 'FOO', payload: 3 })).toMatchSnapshot();
   });
 
   it('should add storage resource classes', () => {

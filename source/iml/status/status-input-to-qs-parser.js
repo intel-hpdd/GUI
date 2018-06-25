@@ -31,16 +31,10 @@ const severityParser = parsely.choice([inListSeverity, assignSeverity]);
 
 // type parser
 const type = parsely.matchValueTo('type', 'record_type');
-const assign: tokensToResult = inputToQsParser.assign(
-  type,
-  inputToQsParser.value
-);
+const assign: tokensToResult = inputToQsParser.assign(type, inputToQsParser.value);
 const like: tokensToResult = inputToQsParser.like(type, inputToQsParser.value);
 const ends: tokensToResult = inputToQsParser.ends(type, inputToQsParser.value);
-const inList: tokensToResult = inputToQsParser.inList(
-  type,
-  inputToQsParser.value
-);
+const inList: tokensToResult = inputToQsParser.inList(type, inputToQsParser.value);
 const typeParser = parsely.choice([inList, like, ends, assign]);
 
 const begin = parsely.matchValue('begin');
@@ -49,7 +43,12 @@ const beginOrEnd = parsely.choice([begin, end]);
 
 const rightHand = fp.flow(
   parsely.parseStr([beginOrEnd, inputToQsParser.ascOrDesc]),
-  parsely.onSuccess(x => x.split('-').reverse().join('-'))
+  parsely.onSuccess(x =>
+    x
+      .split('-')
+      .reverse()
+      .join('-')
+  )
 );
 
 const orderByParser = parsely.parseStr([inputToQsParser.orderBy, rightHand]);
@@ -73,4 +72,10 @@ const expr = parsely.sepBy1(choices)(inputToQsParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(fp.flow(tokenizer, statusParser, x => x.result));
+export default fp.memoize(
+  fp.flow(
+    tokenizer,
+    statusParser,
+    x => x.result
+  )
+);

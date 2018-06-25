@@ -7,10 +7,7 @@
 
 import angular from 'angular';
 
-import {
-  remoteValidateForm,
-  remoteValidateComponent
-} from './remote-validate.js';
+import { remoteValidateForm, remoteValidateComponent } from './remote-validate.js';
 
 export default angular
   .module('remote-validate', [])

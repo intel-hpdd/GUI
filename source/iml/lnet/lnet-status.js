@@ -7,13 +7,7 @@
 
 import Inferno from 'inferno';
 
-type statesT =
-  | 'lnet_up'
-  | 'lnet_down'
-  | 'lnet_unloaded'
-  | 'configured'
-  | 'unconfigured'
-  | 'undeployed';
+type statesT = 'lnet_up' | 'lnet_down' | 'lnet_unloaded' | 'configured' | 'unconfigured' | 'undeployed';
 
 type stateT = {
   state: ?statesT
@@ -76,8 +70,6 @@ export default {
     'ngInject';
     this.stream
       .filter(Boolean)
-      .each(({ state }: stateT) =>
-        Inferno.render(<LnetStatusComponent state={state} />, $element[0])
-      );
+      .each(({ state }: stateT) => Inferno.render(<LnetStatusComponent state={state} />, $element[0]));
   }
 };

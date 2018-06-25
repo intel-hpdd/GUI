@@ -5,25 +5,24 @@
 
 import * as fp from '@iml/fp';
 
-export function NotificationSliderController(
-  $scope,
-  $timeout,
-  localApply,
-  $exceptionHandler
-) {
+export function NotificationSliderController($scope, $timeout, localApply, $exceptionHandler) {
   'ngInject';
   let promise;
 
-  const closeAfter5Seconds = $timeout.bind(
-    null,
-    () => ($scope.open = false),
-    5000
-  );
+  const closeAfter5Seconds = $timeout.bind(null, () => ($scope.open = false), 5000);
 
   const objectLens = fp.lensProp('objects');
 
   this.stream
-    .map(fp.view(fp.compose(objectLens, fp.mapped, fp.lensProp('message'))))
+    .map(
+      fp.view(
+        fp.compose(
+          objectLens,
+          fp.mapped,
+          fp.lensProp('message')
+        )
+      )
+    )
     .map(fp.view(objectLens))
     .filter(fp.view(fp.lensProp('length')))
     .stopOnError(fp.unary($exceptionHandler))

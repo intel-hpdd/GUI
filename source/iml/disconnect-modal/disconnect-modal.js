@@ -7,10 +7,7 @@
 
 import windowUnload from '../window-unload.js';
 
-export default function disconnectModalFactory(
-  $uibModal: Object,
-  $timeout: Function
-) {
+export default function disconnectModalFactory($uibModal: Object, $timeout: Function) {
   'ngInject';
   const options = {
     backdrop: 'static',

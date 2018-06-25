@@ -9,16 +9,9 @@ import highland from 'highland';
 
 import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
-import type {
-  TransitionT,
-  TransitionServiceT,
-  HookMatchCriteriaT
-} from 'angular-ui-router';
+import type { TransitionT, TransitionServiceT, HookMatchCriteriaT } from 'angular-ui-router';
 
-export default (
-  $transitions: TransitionServiceT,
-  qsFromLocation: qsFromLocationT
-) => {
+export default ($transitions: TransitionServiceT, qsFromLocation: qsFromLocationT) => {
   'ngInject';
   return (params: Object, match: HookMatchCriteriaT = {}) => {
     const s = highland();

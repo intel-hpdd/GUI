@@ -17,17 +17,7 @@ describe('the heat map', () => {
     expect(heatMap.destroy).toBe(_.noop);
   });
 
-  const accessors = [
-    'xValue',
-    'yValue',
-    'zValue',
-    'xScale',
-    'yScale',
-    'colorScale',
-    'width',
-    'height',
-    'duration'
-  ];
+  const accessors = ['xValue', 'yValue', 'zValue', 'xScale', 'yScale', 'colorScale', 'width', 'height', 'duration'];
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
       expect(heatMap[accessor]).toEqual(expect.any(Function));
@@ -78,10 +68,19 @@ describe('the heat map', () => {
 
       setup = d => {
         const merged = _.flatten(d);
-        const keys = _(merged).pluck('id').uniq().value();
+        const keys = _(merged)
+          .pluck('id')
+          .uniq()
+          .value();
 
-        heatMap.xScale().domain(d3.extent(merged, xValue)).range([0, 500]);
-        heatMap.yScale().domain(keys).rangePoints([0, 500], 1.0);
+        heatMap
+          .xScale()
+          .domain(d3.extent(merged, xValue))
+          .range([0, 500]);
+        heatMap
+          .yScale()
+          .domain(keys)
+          .rangePoints([0, 500], 1.0);
         heatMap.zScale().domain(d3.extent(merged, zValue));
         selection.datum(d).call(heatMap);
       };
@@ -114,9 +113,7 @@ describe('the heat map', () => {
       });
 
       it('should position the row at 0,0', () => {
-        expect(query('.row').getAttribute('transform')).toEqual(
-          'translate(0,0)'
-        );
+        expect(query('.row').getAttribute('transform')).toEqual('translate(0,0)');
       });
 
       it('should set the cell to full height', () => {

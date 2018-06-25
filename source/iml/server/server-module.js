@@ -11,15 +11,8 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 import ServerCtrl from './server-controller';
 import serverActionsFactory from './server-actions';
 import ConfirmServerActionModalCtrl from './confirm-server-action-modal-ctrl';
-import {
-  ADD_SERVER_AUTH_CHOICES,
-  AddServerStepCtrl,
-  addServersStepFactory
-} from './add-server-step';
-import {
-  SelectServerProfileStepCtrl,
-  selectServerProfileStep
-} from './select-server-profile-step';
+import { ADD_SERVER_AUTH_CHOICES, AddServerStepCtrl, addServersStepFactory } from './add-server-step';
+import { SelectServerProfileStepCtrl, selectServerProfileStep } from './select-server-profile-step';
 import ServerDetailController from './server-detail-controller';
 import filtersModule from '../filters/filters-module';
 import lnetModule from '../lnet/lnet-module';
@@ -33,24 +26,15 @@ import highlandModule from '../highland/highland-module';
 import asValueModule from '../as-value/as-value-module';
 import asStreamModule from '../as-stream/as-stream-module';
 import SelectedServersService from './selected-servers-service';
-import {
-  AddServerModalCtrl,
-  openAddServerModalFactory
-} from './add-server-modal-ctrl';
+import { AddServerModalCtrl, openAddServerModalFactory } from './add-server-modal-ctrl';
 import overrideActionClickFactory from './override-action-click';
 import overrideButtonDirective from './override-button-directive';
 
-import {
-  addServerStepsFactory,
-  getAddServerManagerFactory
-} from './get-add-server-manager';
+import { addServerStepsFactory, getAddServerManagerFactory } from './get-add-server-manager';
 import getTestHostStreamFactory from './get-test-host-stream';
 import hostlistFilterFactory from './hostlist-filter';
 import { ServerStatusStepCtrl, serverStatusStep } from './server-status-step';
-import {
-  waitUntilLoadedCtrl,
-  waitUntilLoadedStep
-} from './wait-until-loaded-step';
+import { waitUntilLoadedCtrl, waitUntilLoadedStep } from './wait-until-loaded-step';
 import serversToApiObjects from './servers-to-api-objects';
 import createOrUpdateHostsStream from './create-or-update-hosts-stream';
 

@@ -82,35 +82,19 @@ describe('storage detail component', () => {
       }
     };
 
-    jest.mock(
-      '../../../../source/iml/storage/storage-resource-histogram.js',
-      () => mockStorageResourceHistogram
-    );
+    jest.mock('../../../../source/iml/storage/storage-resource-histogram.js', () => mockStorageResourceHistogram);
 
-    jest.mock(
-      '../../../../source/iml/storage/storage-resource-time-series.js',
-      () => mockStorageResourceTimeSeries
-    );
+    jest.mock('../../../../source/iml/storage/storage-resource-time-series.js', () => mockStorageResourceTimeSeries);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     jest.mock('../../../../source/iml/global.js', () => mockGlobal);
 
-    ({
-      StorageDetail
-    } = require('../../../../source/iml/storage/storage-detail-component.js'));
+    ({ StorageDetail } = require('../../../../source/iml/storage/storage-detail-component.js'));
 
     storageResource$.write(createResourceData(false));
 
-    node = renderToSnapshot(
-      <StorageDetail
-        stream={storageResource$}
-        alertIndicatorB={alertIndicator$}
-      />
-    );
+    node = renderToSnapshot(<StorageDetail stream={storageResource$} alertIndicatorB={alertIndicator$} />);
 
     querySelector(document, 'body').appendChild(node);
 

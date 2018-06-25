@@ -20,8 +20,7 @@ export function groupAllowed(groupName) {
       if (group.name === GROUPS.SUPERUSERS) return true;
 
       //Filesystem administrators can do everything a filesystem user can do.
-      if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS)
-        return true;
+      if (group.name === GROUPS.FS_ADMINS && groupName === GROUPS.FS_USERS) return true;
 
       // Fallback to matching on names.
       return group.name === groupName;
@@ -56,7 +55,6 @@ export const getCSRFToken = () => {
   const csrfTokenMatch = global.document.cookie.match(csrfRegex);
   const csrfToken = {};
 
-  if (csrfTokenMatch && csrfTokenMatch[1])
-    csrfToken['X-CSRFToken'] = csrfTokenMatch[1];
+  if (csrfTokenMatch && csrfTokenMatch[1]) csrfToken['X-CSRFToken'] = csrfTokenMatch[1];
   return csrfToken;
 };

@@ -83,7 +83,11 @@ describe('Read Write Heat Map chart', () => {
       };
     });
 
-    streamWhenVisible = jest.fn(fn => fn().consume().each(() => {}));
+    streamWhenVisible = jest.fn(fn =>
+      fn()
+        .consume()
+        .each(() => {})
+    );
 
     mockChartCompiler = jest.fn();
 
@@ -92,22 +96,10 @@ describe('Read Write Heat Map chart', () => {
       () => mockGetReadWriteHeatMapStream
     );
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({ getConf: mockGetConf })
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/environment.js', () => ({
       SERVER_TIME_DIFF: 270
     }));
@@ -128,12 +120,7 @@ describe('Read Write Heat Map chart', () => {
       go: jest.fn()
     };
 
-    getReadWriteHeatMapChart = mod.default(
-      $state,
-      localApply,
-      readWriteHeatMapTypes,
-      streamWhenVisible
-    );
+    getReadWriteHeatMapChart = mod.default($state, localApply, readWriteHeatMapTypes, streamWhenVisible);
   });
 
   it('should return a factory function', () => {
@@ -171,9 +158,7 @@ describe('Read Write Heat Map chart', () => {
     });
 
     it('should select the readWriteHeatMap store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledOnceWith(
-        'readWriteHeatMapCharts'
-      );
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith('readWriteHeatMapCharts');
     });
 
     it('should call getConf', () => {
@@ -253,12 +238,7 @@ describe('Read Write Heat Map chart', () => {
     it('should return a config', () => {
       expect(config).toEqual({
         stream: initStream,
-        TYPES: [
-          'stats_read_bytes',
-          'stats_write_bytes',
-          'stats_read_iops',
-          'stats_write_iops'
-        ],
+        TYPES: ['stats_read_bytes', 'stats_write_bytes', 'stats_read_iops', 'stats_write_iops'],
         configType: 'duration',
         page: '',
         dataType: 'stats_read_bytes',
@@ -276,9 +256,7 @@ describe('Read Write Heat Map chart', () => {
     });
 
     it('should select the readWriteHeatMapChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith(
-        'readWriteHeatMapCharts'
-      );
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('readWriteHeatMapCharts');
     });
 
     it('should call getConf', () => {
@@ -297,19 +275,11 @@ describe('Read Write Heat Map chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    const humanReadable = [
-      'Read Byte/s',
-      'Write Byte/s',
-      'Read IOPS',
-      'Write IOPS'
-    ];
+    const humanReadable = ['Read Byte/s', 'Write Byte/s', 'Read IOPS', 'Write IOPS'];
     values(readWriteHeatMapTypes).forEach((type, idx) => {
-      it(
-        'readable type should convert' + type + ' to ' + humanReadable[idx],
-        () => {
-          expect(config.toReadableType(type)).toEqual(humanReadable[idx]);
-        }
-      );
+      it('readable type should convert' + type + ' to ' + humanReadable[idx], () => {
+        expect(config.toReadableType(type)).toEqual(humanReadable[idx]);
+      });
     });
 
     describe('options', () => {
@@ -347,9 +317,7 @@ describe('Read Write Heat Map chart', () => {
         });
 
         it('should setup a formatter', () => {
-          expect(d3Chart.formatter).toHaveBeenCalledOnceWith(
-            expect.any(Function)
-          );
+          expect(d3Chart.formatter).toHaveBeenCalledOnceWith(expect.any(Function));
         });
 
         it('should setup the z value', () => {
@@ -361,10 +329,7 @@ describe('Read Write Heat Map chart', () => {
         });
 
         it('should setup a click handler', () => {
-          expect(d3Chart.dispatch.on).toHaveBeenCalledOnceWith(
-            'click',
-            expect.any(Function)
-          );
+          expect(d3Chart.dispatch.on).toHaveBeenCalledOnceWith('click', expect.any(Function));
         });
 
         it('should ensure that minimum distance between current and next is 30 seconds', () => {
@@ -395,9 +360,7 @@ describe('Read Write Heat Map chart', () => {
         });
 
         it('should setup a formatter', () => {
-          expect(d3Chart.formatter).toHaveBeenCalledOnceWith(
-            expect.any(Function)
-          );
+          expect(d3Chart.formatter).toHaveBeenCalledOnceWith(expect.any(Function));
         });
 
         it('should setup the z value', () => {
@@ -435,9 +398,7 @@ describe('Read Write Heat Map chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS', {
         page: 'readWriteHeatMapChart'
       });
     });

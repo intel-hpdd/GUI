@@ -9,11 +9,7 @@ import * as fp from '@iml/fp';
 
 import global from './global.js';
 
-export default function pageVisibility(
-  onHide: Function,
-  onShow: Function,
-  timeout: number = 0
-): Function {
+export default function pageVisibility(onHide: Function, onShow: Function, timeout: number = 0): Function {
   let id;
 
   const setCancelled = () => {
@@ -35,7 +31,13 @@ export default function pageVisibility(
 
   const onVisibilityChange = fp.cond(
     [() => global.document.hidden, setCancelled],
-    [fp.flow(cancelTimeout, fp.not), onShow]
+    [
+      fp.flow(
+        cancelTimeout,
+        fp.not
+      ),
+      onShow
+    ]
   );
 
   global.document.addEventListener('visibilitychange', onVisibilityChange);

@@ -9,8 +9,7 @@ export default () => {
     transclude: true,
     link(scope, el, attrs, ctrl, $transclude) {
       $transclude(function transcludeContent(clone, transcludedScope) {
-        if (transcludedScope.configToggle)
-          throw new Error('configToggle already set on transcluded scope.');
+        if (transcludedScope.configToggle) throw new Error('configToggle already set on transcluded scope.');
 
         let state;
 

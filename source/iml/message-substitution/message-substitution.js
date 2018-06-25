@@ -47,9 +47,7 @@ export const MessageSubstitutionCtrl = class {
     }, this.message);
   }
   $postLink() {
-    const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(
-      this.$scope
-    );
+    const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(this.$scope);
     this.$element.appendChild(compiledEl[0]);
   }
 };

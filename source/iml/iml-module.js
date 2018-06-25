@@ -81,11 +81,7 @@ import { hsmFsState, hsmState } from './hsm/hsm-states.js';
 
 import { jobStatsState } from './job-stats/job-stats-states.js';
 
-import {
-  storageState,
-  addStorageState,
-  storageDetailState
-} from './storage/storage-states.js';
+import { storageState, addStorageState, storageDetailState } from './storage/storage-states.js';
 
 import {
   dashboardState,
@@ -100,10 +96,7 @@ import oldGUIStates from './old-gui-shim/old-gui-states.js';
 
 import jobTemplate from './command/assets/html/job.html';
 
-import {
-  getHostProfilesFactory,
-  createHostProfilesFactory
-} from './server/create-host-profiles-stream';
+import { getHostProfilesFactory, createHostProfilesFactory } from './server/create-host-profiles-stream';
 
 import { imlTooltip } from './tooltip/tooltip.js';
 import imlPopover from './iml-popover.js';

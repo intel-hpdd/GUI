@@ -19,9 +19,7 @@ describe('storageDispatchSource', () => {
       }
     };
 
-    mockStore = jest.genMockFromModule(
-      '../../../../source/iml/store/get-store.js'
-    ).default;
+    mockStore = jest.genMockFromModule('../../../../source/iml/store/get-store.js').default;
     const s = highland();
 
     mockStore.select.mockImplementationOnce(() => {
@@ -31,18 +29,12 @@ describe('storageDispatchSource', () => {
     });
 
     mockSocketStream = jest.fn(() => highland([{ objects: [] }]));
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
     mockDispatchSourceUtils = {
       canDispatch: jest.fn(() => true)
     };
-    jest.mock(
-      '../../../../source/iml/dispatch-source-utils.js',
-      () => mockDispatchSourceUtils
-    );
+    jest.mock('../../../../source/iml/dispatch-source-utils.js', () => mockDispatchSourceUtils);
 
     require('../../../../source/iml/storage/storage-dispatch-source.js');
   });
@@ -52,9 +44,7 @@ describe('storageDispatchSource', () => {
   });
 
   it('should call the socketStream', () => {
-    expect(
-      mockSocketStream
-    ).toHaveBeenCalledOnceWith('/storage_resource_class', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/storage_resource_class', {
       qs: { limit: 0, plugin_internal: false }
     });
   });

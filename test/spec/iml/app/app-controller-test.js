@@ -38,10 +38,7 @@ describe('App controller', () => {
           'X-CSRFToken': 'qqo4KXV34frTf0mzlKlEK7FaTffEoqqb'
         }))
       };
-      jest.mock(
-        '../../../../source/iml/auth/authorization.js',
-        () => mockAuthorization
-      );
+      jest.mock('../../../../source/iml/auth/authorization.js', () => mockAuthorization);
 
       mockGlobal = {
         fetch: jest.fn(() => Promise.resolve())

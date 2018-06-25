@@ -35,8 +35,7 @@ describe('tree target item component', () => {
         label: 'target1'
       };
 
-      const template =
-        '<tree-target-item fs-id="\'1\'" kind="\'ost\'" record="record"></tree-target-item>';
+      const template = '<tree-target-item fs-id="\'1\'" kind="\'ost\'" record="record"></tree-target-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -46,17 +45,13 @@ describe('tree target item component', () => {
   it('should link to the target detail page', () => {
     const route = querySelector(el, 'a').getAttribute('ui-sref');
 
-    expect(route).toBe(
-      'app.oldTarget({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.oldTarget({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the target dashboard page', () => {
     const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
 
-    expect(route).toBe(
-      'app.dashboard.ost({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.dashboard.ost({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the label', () => {

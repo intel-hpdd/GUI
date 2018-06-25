@@ -22,11 +22,7 @@ describe('diff component', () => {
         deregister: jest.fn()
       };
 
-      diffComponent = $componentController(
-        'differ',
-        { $scope },
-        { diffContainerCtrl }
-      );
+      diffComponent = $componentController('differ', { $scope }, { diffContainerCtrl });
 
       diffComponent.$onInit();
       diffComponent.subscribe(subscriber);
@@ -34,17 +30,13 @@ describe('diff component', () => {
   );
 
   it('should register with diffContainerCtrl', () => {
-    expect(diffContainerCtrl.register).toHaveBeenCalledOnceWith(
-      expect.any(Object)
-    );
+    expect(diffContainerCtrl.register).toHaveBeenCalledOnceWith(expect.any(Object));
   });
 
   it('should deregister with diffContainerCtrl on destroy', () => {
     $scope.$destroy();
 
-    expect(diffContainerCtrl.deregister).toHaveBeenCalledOnceWith(
-      expect.any(Object)
-    );
+    expect(diffContainerCtrl.deregister).toHaveBeenCalledOnceWith(expect.any(Object));
   });
 
   it('should have a state getter', () => {

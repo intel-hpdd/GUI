@@ -23,7 +23,7 @@ updated_at,started_at,throughput,type,state,path,description)',
   );
 
   const buildProgress = fp.map(function buildProgress(item) {
-    const progress = item.processed_bytes / item.total_bytes * 100;
+    const progress = (item.processed_bytes / item.total_bytes) * 100;
 
     item.progress = isFinite(progress) ? progress : 0;
 
@@ -31,8 +31,7 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const buildThroughput = fp.map(function buildThroughput(item) {
-    const elapsed =
-      (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
+    const elapsed = (Date.parse(item.updated_at) - Date.parse(item.started_at)) / 1000;
 
     if (elapsed < 1 || !isFinite(elapsed)) {
       item.throughput = 0;
@@ -46,7 +45,11 @@ updated_at,started_at,throughput,type,state,path,description)',
   });
 
   const addMetrics = fp.map(
-    fp.flow(fp.view(fp.lensProp('objects')), buildProgress, buildThroughput)
+    fp.flow(
+      fp.view(fp.lensProp('objects')),
+      buildProgress,
+      buildThroughput
+    )
   );
 
   return socketStream('/copytool_operation', params).through(addMetrics);

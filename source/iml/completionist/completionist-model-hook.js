@@ -5,14 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import {
-  CompletionistCtrl,
-  VALUES,
-  VALUE,
-  KEY_PRESS
-} from './completionist.js';
+import { CompletionistCtrl, VALUES, VALUE, KEY_PRESS } from './completionist.js';
 
-type ctrl = {
+type controller = {
   completionist: CompletionistCtrl,
   ngModel: {
     $viewValue: string,
@@ -29,26 +24,22 @@ export default function completionistModelHook($document: Document[]) {
       ngModel: 'ngModel',
       completionist: '^completionist'
     },
-    link(
-      scope: { $on: Function },
-      element: Array<HTMLInputElement>,
-      attrs: {},
-      ctrl: ctrl
-    ) {
+    link(scope: { $on: Function }, element: Array<HTMLInputElement>, attrs: {}, ctrl: controller) {
       const el = element[0];
 
-      ctrl.ngModel.$parsers.unshift((value: string): string => {
-        ctrl.completionist.parse(value, el.selectionStart);
+      ctrl.ngModel.$parsers.unshift(
+        (value: string): string => {
+          ctrl.completionist.parse(value, el.selectionStart);
 
-        return value;
-      });
+          return value;
+        }
+      );
 
       const onValue = value => {
         const viewValue = ctrl.ngModel.$viewValue;
         const text = !isFinite(value.start)
           ? `${viewValue}${viewValue.length ? ' ' : ''}${value.suggestion}`
-          : `${viewValue.slice(0, value.start)}${value.suggestion ||
-              ''}${viewValue.slice(value.end)}`;
+          : `${viewValue.slice(0, value.start)}${value.suggestion || ''}${viewValue.slice(value.end)}`;
 
         ctrl.ngModel.$setViewValue(text);
         ctrl.ngModel.$render();

@@ -34,12 +34,13 @@ export default () => {
       const availableHeight = height - margin.top - margin.bottom;
 
       //data join.
-      const wrap = container
-        .selectAll('.heat-map-legend')
-        .data([legendScale.ticks(100)]);
+      const wrap = container.selectAll('.heat-map-legend').data([legendScale.ticks(100)]);
 
       // setup structure on enter.
-      const gEnter = wrap.enter().append('g').attr('class', 'heat-map-legend');
+      const gEnter = wrap
+        .enter()
+        .append('g')
+        .attr('class', 'heat-map-legend');
 
       gEnter.append('text').attr('class', 'min');
 
@@ -56,7 +57,10 @@ export default () => {
 
       const step = stepsGroup.selectAll('.step').data(x => x);
 
-      const fill = fp.compose(colorScale, legendScale);
+      const fill = fp.compose(
+        colorScale,
+        legendScale
+      );
 
       step
         .enter()
@@ -78,28 +82,20 @@ export default () => {
       const minBBox = getBBox(minText);
       const maxBBox = getBBox(maxText);
 
-      const minAndStepsWidth =
-        minBBox.width + stepsBBox.width + TEXT_PADDING * 2;
+      const minAndStepsWidth = minBBox.width + stepsBBox.width + TEXT_PADDING * 2;
 
       const legendWidth = minAndStepsWidth + maxBBox.width;
 
       stepsGroup.attr(
         'transform',
-        'translate(' +
-          (minBBox.width + TEXT_PADDING) +
-          ',' +
-          (availableHeight - 10) / 2 +
-          ')'
+        'translate(' + (minBBox.width + TEXT_PADDING) + ',' + (availableHeight - 10) / 2 + ')'
       );
 
       minText.attr('dy', Y_TEXT_OFFSET);
 
       maxText.attr('x', minAndStepsWidth).attr('dy', Y_TEXT_OFFSET);
 
-      wrap.attr(
-        'transform',
-        'translate(' + (availableWidth - legendWidth) + ',' + margin.top + ')'
-      );
+      wrap.attr('transform', 'translate(' + (availableWidth - legendWidth) + ',' + margin.top + ')');
 
       chart.destroy = function destroy() {
         container.remove();

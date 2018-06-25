@@ -18,14 +18,14 @@ export default (streamWhenVisible: streamWhenChartVisibleT) => {
   'ngInject';
   const { getRequestRange, getRequestDuration } = getTimeParams;
 
-  const createStreamFn = (durationFn: Function, buffFn: Function) => (
-    overrides: Object
-  ) => (streamFn: Function, begin: number, end: number | string) => {
+  const createStreamFn = (durationFn: Function, buffFn: Function) => (overrides: Object) => (
+    streamFn: Function,
+    begin: number,
+    end: number | string
+  ) => {
     const d = durationFn(overrides);
 
-    return flushOnChange(
-      streamWhenVisible(() => streamFn(d(begin, end), buffFn(begin, end)))
-    );
+    return flushOnChange(streamWhenVisible(() => streamFn(d(begin, end), buffFn(begin, end))));
   };
 
   return {

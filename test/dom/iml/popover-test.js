@@ -1,12 +1,7 @@
 // @flow
 
 import Inferno from 'inferno';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTitle,
-  PopoverContainer
-} from '../../../source/iml/popover';
+import { Popover, PopoverContent, PopoverTitle, PopoverContainer } from '../../../source/iml/popover';
 import WindowClickListener from '../../../source/iml/window-click-listener.js';
 import { renderToSnapshot } from '../../test-utils.js';
 import { querySelector } from '../../../source/iml/dom-utils.js';
@@ -40,9 +35,7 @@ describe('Popover DOM testing', () => {
       renderToSnapshot(
         <Popover visible={true} direction="right">
           <PopoverTitle>Hi</PopoverTitle>
-          <PopoverContent>
-            {message}
-          </PopoverContent>
+          <PopoverContent>{message}</PopoverContent>
         </Popover>
       )
     ).toMatchSnapshot();

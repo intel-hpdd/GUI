@@ -14,10 +14,7 @@ import socketStream from '../socket/socket-stream.js';
 import { canDispatch } from '../dispatch-source-utils.js';
 
 import { flow } from '@iml/fp';
-import {
-  addStorageResourceClasses,
-  setStorageSelectIndex
-} from './storage-actions.js';
+import { addStorageResourceClasses, setStorageSelectIndex } from './storage-actions.js';
 
 if (canDispatch()) {
   socketStream('/storage_resource_class', {
@@ -27,7 +24,12 @@ if (canDispatch()) {
     }
   })
     .map((x: { objects: StorageResourceClass[] }) => x.objects)
-    .each(flow(addStorageResourceClasses, store.dispatch));
+    .each(
+      flow(
+        addStorageResourceClasses,
+        store.dispatch
+      )
+    );
 
   store
     .select('storage')

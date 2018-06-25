@@ -9,10 +9,7 @@ import * as fp from '@iml/fp';
 import flatMapChanges from '@iml/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import {
-  DEFAULT_MDO_CHART_ITEMS,
-  UPDATE_MDO_CHART_ITEMS
-} from './mdo-chart-reducer.js';
+import { DEFAULT_MDO_CHART_ITEMS, UPDATE_MDO_CHART_ITEMS } from './mdo-chart-reducer.js';
 
 import getMdoStream from './get-mdo-stream.js';
 import { formatNumber } from '@iml/number-formatters';
@@ -24,18 +21,12 @@ import { getConf } from '../chart-transformers/chart-transformers.js';
 
 import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
 
 export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
   'ngInject';
-  return function getMdoChart(
-    overrides: filesystemQueryT | targetQueryT,
-    page: string
-  ) {
+  return function getMdoChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_MDO_CHART_ITEMS,
       payload: durationPayload({ page })
@@ -44,12 +35,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
     const config1$ = getStore.select('mdoCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getMdoStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getMdoStream)));
 
     return chartCompiler(
       `<div config-toggle>

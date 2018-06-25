@@ -7,12 +7,7 @@ import socketStream from '../socket/socket-stream.js';
 
 import { resolveStream } from '../promise-transforms.js';
 
-export function AddCopytoolModalCtrl(
-  $scope,
-  $uibModalInstance,
-  workerStream,
-  fsStream
-) {
+export function AddCopytoolModalCtrl($scope, $uibModalInstance, workerStream, fsStream) {
   'ngInject';
   const addCopytoolModalCtrl = this;
 

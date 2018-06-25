@@ -4,12 +4,7 @@ import Inferno from 'inferno';
 import highland from 'highland';
 
 describe('storage resource time series', () => {
-  let mockSocketStream,
-    mockBufferDataNewerThan,
-    mockGetTimeParams,
-    mockStream,
-    StorageResourceTimeSeries,
-    root;
+  let mockSocketStream, mockBufferDataNewerThan, mockGetTimeParams, mockStream, StorageResourceTimeSeries, root;
 
   beforeEach(() => {
     mockStream = highland();
@@ -28,22 +23,15 @@ describe('storage resource time series', () => {
 
     mockBufferDataNewerThan = jest.fn(() => x => x);
 
-    jest.mock(
-      '../../../../source/iml/charting/buffer-data-newer-than.js',
-      () => mockBufferDataNewerThan
-    );
+    jest.mock('../../../../source/iml/charting/buffer-data-newer-than.js', () => mockBufferDataNewerThan);
 
     jest.mock('../../../../source/iml/charting/get-time-params.js', () => ({
       getTimeParams: mockGetTimeParams
     }));
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
-    StorageResourceTimeSeries = require('../../../../source/iml/storage/storage-resource-time-series.js')
-      .default;
+    StorageResourceTimeSeries = require('../../../../source/iml/storage/storage-resource-time-series.js').default;
 
     root = document.createElement('div');
 
@@ -61,10 +49,7 @@ describe('storage resource time series', () => {
       ]
     };
 
-    Inferno.render(
-      <StorageResourceTimeSeries resourceUri="/api/foo/bar/" chart={data} />,
-      root
-    );
+    Inferno.render(<StorageResourceTimeSeries resourceUri="/api/foo/bar/" chart={data} />, root);
     // $FlowFixMe: Mock for test
     Element.prototype.getTotalLength = () => 100;
     jest.useFakeTimers();

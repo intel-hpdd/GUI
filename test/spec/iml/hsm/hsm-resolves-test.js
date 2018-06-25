@@ -17,14 +17,8 @@ describe('hsm resolve', () => {
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock(
-      '../../../../source/iml/hsm/get-copytool-operation-stream.js',
-      () => mockGetCopytoolOperationStream
-    );
-    jest.mock(
-      '../../../../source/iml/hsm/get-copytool-stream.js',
-      () => mockGetCopytoolStream
-    );
+    jest.mock('../../../../source/iml/hsm/get-copytool-operation-stream.js', () => mockGetCopytoolOperationStream);
+    jest.mock('../../../../source/iml/hsm/get-copytool-stream.js', () => mockGetCopytoolStream);
 
     const mod = require('../../../../source/iml/hsm/hsm-resolves.js');
 
@@ -34,10 +28,7 @@ describe('hsm resolve', () => {
       fsId: 1
     };
 
-    copytoolOperationStream = mod.copytoolOperationStream.bind(
-      null,
-      $stateParams
-    );
+    copytoolOperationStream = mod.copytoolOperationStream.bind(null, $stateParams);
     copytoolStream = mod.copytoolStream.bind(null, $stateParams);
   });
 

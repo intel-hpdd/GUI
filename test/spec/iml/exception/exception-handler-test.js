@@ -19,16 +19,14 @@ describe('exception handler', () => {
   let $exceptionHandler, exceptionModal, windowUnload, error, cause;
 
   beforeEach(
-    angular.mock.inject(
-      (_$exceptionHandler_, _exceptionModal_, _windowUnload_) => {
-        error = new Error('uh oh!');
-        cause = 'Something Happened!';
+    angular.mock.inject((_$exceptionHandler_, _exceptionModal_, _windowUnload_) => {
+      error = new Error('uh oh!');
+      cause = 'Something Happened!';
 
-        $exceptionHandler = _$exceptionHandler_;
-        exceptionModal = _exceptionModal_;
-        windowUnload = _windowUnload_;
-      }
-    )
+      $exceptionHandler = _$exceptionHandler_;
+      exceptionModal = _exceptionModal_;
+      windowUnload = _windowUnload_;
+    })
   );
 
   afterEach(() => {

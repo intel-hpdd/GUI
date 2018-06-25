@@ -12,11 +12,7 @@ type headerT = {
 };
 
 export const Header = ({ children }: headerT) => {
-  return (
-    <div class="modal-header">
-      {children}
-    </div>
-  );
+  return <div class="modal-header">{children}</div>;
 };
 
 type bodyT = {
@@ -24,21 +20,16 @@ type bodyT = {
   children?: React$Element<*>
 };
 
-export const Body = ({ children, moreClasses = [] }: bodyT) =>
-  <div className={`modal-body ${moreClasses.join(' ')}`}>
-    {children}
-  </div>;
+export const Body = ({ children, moreClasses = [] }: bodyT) => (
+  <div className={`modal-body ${moreClasses.join(' ')}`}>{children}</div>
+);
 
 type footerT = {
   children?: React$Element<*>
 };
 
 export const Footer = ({ children }: footerT) => {
-  return (
-    <div class="modal-footer">
-      {children}
-    </div>
-  );
+  return <div class="modal-footer">{children}</div>;
 };
 
 type modalT = {
@@ -51,16 +42,9 @@ export const Modal = ({ moreClasses = [], children, visible }: modalT) => {
   if (!visible) return;
 
   return (
-    <div
-      style={{ display: 'block' }}
-      tabindex="-1"
-      role="dialog"
-      className={`modal fade in ${moreClasses.join(' ')}`}
-    >
+    <div style={{ display: 'block' }} tabindex="-1" role="dialog" className={`modal fade in ${moreClasses.join(' ')}`}>
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          {children}
-        </div>
+        <div class="modal-content">{children}</div>
       </div>
     </div>
   );

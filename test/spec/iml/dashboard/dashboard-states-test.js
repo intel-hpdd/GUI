@@ -31,30 +31,21 @@ describe('dashboard states', () => {
       dashboardTargetB: mockDashboardTargetB
     }));
 
-    jest.mock(
-      '../../../../source/iml/dashboard/base-dashboard-chart-resolves.js',
-      () => ({
-        baseDashboardChartResolves: mockBaseDashboardChartResolves,
-        baseDashboardFsStream: mockBaseDashboardFsStream
-      })
-    );
+    jest.mock('../../../../source/iml/dashboard/base-dashboard-chart-resolves.js', () => ({
+      baseDashboardChartResolves: mockBaseDashboardChartResolves,
+      baseDashboardFsStream: mockBaseDashboardFsStream
+    }));
 
-    jest.mock(
-      '../../../../source/iml/dashboard/server-dashboard-resolves.js',
-      () => ({
-        serverDashboardChartResolves: mockServerDashboardChartResolves,
-        serverDashboardHostStreamResolves: mockServerDashboardHostStreamResolves
-      })
-    );
+    jest.mock('../../../../source/iml/dashboard/server-dashboard-resolves.js', () => ({
+      serverDashboardChartResolves: mockServerDashboardChartResolves,
+      serverDashboardHostStreamResolves: mockServerDashboardHostStreamResolves
+    }));
 
-    jest.mock(
-      '../../../../source/iml/dashboard/target-dashboard-resolves.js',
-      () => ({
-        targetDashboardResolves: mockTargetDashboardResolves,
-        targetDashboardUsageStream: mockTargetDashboardUsageStream,
-        targetDashboardTargetStream: mockTargetDashboardTargetStream
-      })
-    );
+    jest.mock('../../../../source/iml/dashboard/target-dashboard-resolves.js', () => ({
+      targetDashboardResolves: mockTargetDashboardResolves,
+      targetDashboardUsageStream: mockTargetDashboardUsageStream,
+      targetDashboardTargetStream: mockTargetDashboardTargetStream
+    }));
 
     mod = require('../../../../source/iml/dashboard/dashboard-states.js');
   });
@@ -264,10 +255,7 @@ describe('dashboard states', () => {
         id: 1
       };
 
-      result = mod.dashboardServerState.resolve.getData[2](
-        () => s$,
-        $stateParams
-      );
+      result = mod.dashboardServerState.resolve.getData[2](() => s$, $stateParams);
     });
 
     it('should pass in the label when present', async () => {

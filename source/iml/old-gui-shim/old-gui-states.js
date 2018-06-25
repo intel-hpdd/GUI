@@ -7,11 +7,7 @@
 
 import { GROUPS } from '../auth/authorization.js';
 
-import {
-  oldFilesystemDetailResolve,
-  oldUserDetailResolve,
-  oldTargetResolve
-} from './old-gui-resolves.js';
+import { oldFilesystemDetailResolve, oldUserDetailResolve, oldTargetResolve } from './old-gui-resolves.js';
 
 export default [
   [
@@ -68,24 +64,8 @@ export default [
     'fa-user',
     oldUserDetailResolve
   ],
-  [
-    '/target/:id',
-    'app.oldTarget',
-    '/targetold',
-    '',
-    'Target Detail',
-    'fa-bullseye',
-    oldTargetResolve
-  ],
-  [
-    '/system_status',
-    'app.oldSystemStatus',
-    '/system_statusold',
-    '',
-    'System status',
-    'fa-database',
-    {}
-  ]
+  ['/target/:id', 'app.oldTarget', '/targetold', '', 'Target Detail', 'fa-bullseye', oldTargetResolve],
+  ['/system_status', 'app.oldSystemStatus', '/system_statusold', '', 'System status', 'fa-database', {}]
 ].map(([url, name, path, helpPage, kind, icon, resolve]) => {
   return Object.assign({
     url,

@@ -1,7 +1,4 @@
-import {
-  ADD_USER_ITEMS,
-  default as userReducer
-} from '../../../../source/iml/user/user-reducer.js';
+import { ADD_USER_ITEMS, default as userReducer } from '../../../../source/iml/user/user-reducer.js';
 import deepFreeze from '@iml/deep-freeze';
 
 describe('user reducer', () => {

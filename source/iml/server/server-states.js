@@ -4,10 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import serverResolves from './server-resolves.js';
-import {
-  default as serverDetailResolves,
-  getData
-} from './server-detail-resolves.js';
+import { default as serverDetailResolves, getData } from './server-detail-resolves.js';
 
 import { GROUPS } from '../auth/authorization.js';
 

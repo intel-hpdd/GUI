@@ -23,12 +23,7 @@ describe('select server profile', () => {
   });
 
   describe('select server profile step ctrl', () => {
-    let $scope,
-      $stepInstance,
-      data,
-      createHostProfiles,
-      hostProfileStream,
-      selectServerProfileStep;
+    let $scope, $stepInstance, data, createHostProfiles, hostProfileStream, selectServerProfileStep;
 
     beforeEach(
       angular.mock.inject(($rootScope, $controller) => {
@@ -93,9 +88,7 @@ describe('select server profile', () => {
       );
 
       it('should set the profiles', () => {
-        expect(selectServerProfileStep.profiles).toEqual(
-          transformedHostProfileFixture
-        );
+        expect(selectServerProfileStep.profiles).toEqual(transformedHostProfileFixture);
       });
 
       describe('receiving more data', () => {
@@ -104,9 +97,7 @@ describe('select server profile', () => {
         });
 
         it('should keep the same profile', () => {
-          expect(selectServerProfileStep.profile).toEqual(
-            transformedHostProfileFixture[0]
-          );
+          expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
 
@@ -120,9 +111,7 @@ describe('select server profile', () => {
         });
 
         it('should set the profile on the scope', () => {
-          expect(selectServerProfileStep.profile).toEqual(
-            transformedHostProfileFixture[0]
-          );
+          expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
     });
@@ -291,9 +280,7 @@ describe('select server profile', () => {
         serverStatusStep: {}
       };
 
-      expect(selectServerProfileStep.transition(steps)).toEqual(
-        steps.serverStatusStep
-      );
+      expect(selectServerProfileStep.transition(steps)).toEqual(steps.serverStatusStep);
     });
 
     describe('on enter', () => {
@@ -506,13 +493,7 @@ describe('select server profile', () => {
 
         onEnter = selectServerProfileStep.onEnter;
 
-        result = onEnter(
-          data,
-          createOrUpdateHostsStream,
-          getHostProfiles,
-          waitForCommandCompletion,
-          true
-        );
+        result = onEnter(data, createOrUpdateHostsStream, getHostProfiles, waitForCommandCompletion, true);
 
         spy = jest.fn();
 
@@ -521,9 +502,7 @@ describe('select server profile', () => {
       });
 
       it('should create or update the hosts', () => {
-        expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(
-          data.servers
-        );
+        expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(data.servers);
       });
 
       it('should pass commands to wait for command completion', () => {
@@ -537,9 +516,7 @@ describe('select server profile', () => {
         )(response);
 
         expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
-        expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith(
-          commands
-        );
+        expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith(commands);
       });
 
       it('should call getHostProfiles', () => {

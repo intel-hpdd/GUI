@@ -5,10 +5,7 @@ describe('get network interface stream', () => {
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
     jest.spyOn(ss, 'write');
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/lnet/get-network-interface-stream.js');
     getNetworkInterfaceStream = mod.default;

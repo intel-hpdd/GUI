@@ -7,11 +7,7 @@
 
 import store from '../store/get-store.js';
 
-import {
-  toggleCollectionOpen,
-  toggleItemOpen,
-  updateCollectionOffset
-} from './tree-actions.js';
+import { toggleCollectionOpen, toggleItemOpen, updateCollectionOffset } from './tree-actions.js';
 
 export const toggleCollection = (id: number, open: boolean): void => {
   store.dispatch(toggleCollectionOpen(id, open));

@@ -79,9 +79,7 @@ export function sorter() {
           const dropIndex = [].indexOf.call(container.children, dropNode);
           const dragIndex = parseInt(event.dataTransfer.getData('text'), 10);
 
-          const dragNode = [].slice
-            .call(container.children, dragIndex, dragIndex + 1)
-            .pop();
+          const dragNode = [].slice.call(container.children, dragIndex, dragIndex + 1).pop();
 
           if (dragIndex > dropIndex) container.insertBefore(dragNode, dropNode);
           else container.insertBefore(dragNode, dropNode.nextSibling);
@@ -137,10 +135,7 @@ export function sortItem() {
       function dragStart(event) {
         sortContainerCtrl.dragStart();
 
-        const index = [].indexOf.call(
-          event.target.parentNode.children,
-          event.target
-        );
+        const index = [].indexOf.call(event.target.parentNode.children, event.target);
 
         event.dataTransfer.effectAllowed = 'move';
         event.dataTransfer.setData('text', index.toString());

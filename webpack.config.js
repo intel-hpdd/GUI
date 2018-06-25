@@ -31,8 +31,7 @@ const config = {
     rules: [
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader:
-          'url-loader?limit=1000&mimetype=application/font-woff&name=/gui/[hash].[ext]'
+        loader: 'url-loader?limit=1000&mimetype=application/font-woff&name=/gui/[hash].[ext]'
       },
       {
         test: /\.ico$/,
@@ -57,10 +56,7 @@ const config = {
                 'env',
                 {
                   targets: {
-                    browsers: [
-                      'last 1 chrome version',
-                      'last 1 firefox version'
-                    ],
+                    browsers: ['last 1 chrome version', 'last 1 firefox version'],
                     modules: false,
                     forceAllTransforms: process.env.NODE_ENV === 'production'
                   }

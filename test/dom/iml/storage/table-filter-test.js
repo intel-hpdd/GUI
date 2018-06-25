@@ -11,8 +11,7 @@ describe('storage component', () => {
     mockStore = { dispatch: jest.fn() };
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    TableFilter = require('../../../../source/iml/storage/table-filter.js')
-      .default;
+    TableFilter = require('../../../../source/iml/storage/table-filter.js').default;
   });
 
   describe('TableFilter', () => {
@@ -162,12 +161,7 @@ describe('storage component', () => {
 
     it('should render correctly', () => {
       expect(
-        renderToSnapshot(
-          <TableFilter
-            classes={state.storageResourcesClasses}
-            idx={state.storageResourceClassIndex}
-          />
-        )
+        renderToSnapshot(<TableFilter classes={state.storageResourcesClasses} idx={state.storageResourceClassIndex} />)
       ).toMatchSnapshot();
     });
 
@@ -177,10 +171,7 @@ describe('storage component', () => {
       const root = document.createElement('div');
       querySelector(document, 'body').appendChild(root);
       Inferno.render(
-        <TableFilter
-          classes={state.storageResourcesClasses}
-          idx={state.storageResourceClassIndex}
-        />,
+        <TableFilter classes={state.storageResourcesClasses} idx={state.storageResourceClassIndex} />,
         root
       );
 

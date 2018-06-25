@@ -1,7 +1,4 @@
-import {
-  tokenizer,
-  choices
-} from '../../../../source/iml/status/status-input-to-qs-parser.js';
+import { tokenizer, choices } from '../../../../source/iml/status/status-input-to-qs-parser.js';
 
 import completer from '../../../../source/iml/completionist/completer.js';
 
@@ -50,15 +47,9 @@ describe('completer', () => {
     ],
     'type in 3': [{ start: 8, end: 9, suggestion: '[' }],
     'type=AlertEvent': [{ start: Infinity, end: Infinity, suggestion: 'and' }],
-    'severity in [warning,error,critical]': [
-      { start: Infinity, end: Infinity, suggestion: 'and' }
-    ],
-    'order by begin asc': [
-      { start: Infinity, end: Infinity, suggestion: 'and' }
-    ],
-    'order by end desc': [
-      { start: Infinity, end: Infinity, suggestion: 'and' }
-    ],
+    'severity in [warning,error,critical]': [{ start: Infinity, end: Infinity, suggestion: 'and' }],
+    'order by begin asc': [{ start: Infinity, end: Infinity, suggestion: 'and' }],
+    'order by end desc': [{ start: Infinity, end: Infinity, suggestion: 'and' }],
     'type = LNetOfflineAlert and severity in [info] and offset = 10': [
       { start: Infinity, end: Infinity, suggestion: 'and' }
     ]

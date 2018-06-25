@@ -16,9 +16,7 @@ import type { HighlandStreamT } from 'highland';
 
 type openCommandModalT = (x: Promise<HighlandStreamT<Command[]>>) => Object;
 
-export default function DeferredCommandModalBtnCtrl(
-  openCommandModal: openCommandModalT
-) {
+export default function DeferredCommandModalBtnCtrl(openCommandModal: openCommandModalT) {
   'ngInject';
   const setLoading = x => (this.loading = x);
 
@@ -29,8 +27,8 @@ export default function DeferredCommandModalBtnCtrl(
 
     const wrapped = resolveStream(stream.map(fp.arrayWrap));
 
-    openCommandModal(wrapped).resultStream
-      .tap(setLoading.bind(null, false))
+    openCommandModal(wrapped)
+      .resultStream.tap(setLoading.bind(null, false))
       .tap(stream.destroy.bind(stream))
       .pull(fp.noop);
   };

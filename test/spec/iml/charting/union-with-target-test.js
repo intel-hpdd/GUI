@@ -10,10 +10,7 @@ describe('union with target', () => {
 
     spy = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/charting/union-with-target.js');
 
@@ -219,7 +216,10 @@ describe('union with target', () => {
   });
 
   it('should return empty metrics', () => {
-    highland([]).through(unionWithTarget).collect().each(spy);
+    highland([])
+      .through(unionWithTarget)
+      .collect()
+      .each(spy);
 
     targetStream.write({
       objects: [

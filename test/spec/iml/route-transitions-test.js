@@ -1,12 +1,7 @@
 import highland from 'highland';
 
 describe('route transitions', () => {
-  let mockGroupAllowed,
-    mod,
-    $transitions: any,
-    routeTransitions,
-    mockStore,
-    $state: any;
+  let mockGroupAllowed, mod, $transitions: any, routeTransitions, mockStore, $state: any;
   beforeEach(() => {
     mockStore = {
       select: jest.fn()

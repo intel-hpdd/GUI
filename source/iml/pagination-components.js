@@ -15,47 +15,36 @@ type EntriesProps = {
   setEntries: Function
 };
 
-export const EntriesDropdown = (props: EntriesProps) =>
+export const EntriesDropdown = (props: EntriesProps) => (
   <WindowClickListener>
     <DropdownContainer>
-      <button
-        type="button"
-        class="btn btn-info btn-sm dropdown-toggle"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
+      <button type="button" class="btn btn-info btn-sm dropdown-toggle" aria-haspopup="true" aria-expanded="false">
         Entries: {props.entries} <span class="caret" />
       </button>
       <ul role="menu" class="dropdown-menu">
-        {[10, 25, 50, 100].map(x =>
+        {[10, 25, 50, 100].map(x => (
           <li>
-            <a onClick={linkEvent(x, props.setEntries)}>
-              {x}
-            </a>
+            <a onClick={linkEvent(x, props.setEntries)}>{x}</a>
           </li>
-        )}
+        ))}
       </ul>
     </DropdownContainer>
-  </WindowClickListener>;
+  </WindowClickListener>
+);
 
 type PerPageProps = {
   meta: Meta
 };
 
-export const TableInfo = ({ meta }: PerPageProps) =>
+export const TableInfo = ({ meta }: PerPageProps) => (
   <span>
-    showing {meta.offset + 1}-{Math.min(
-      meta.offset + meta.limit,
-      meta.total_count
-    )}{' '}
-    of {meta.total_count}
-  </span>;
+    showing {meta.offset + 1}-{Math.min(meta.offset + meta.limit, meta.total_count)} of {meta.total_count}
+  </span>
+);
 
-const computePage = ({ limit, offset }) =>
-  limit === 0 ? 1 : Math.floor(offset / limit + 1);
+const computePage = ({ limit, offset }) => (limit === 0 ? 1 : Math.floor(offset / limit + 1));
 
-const computePages = ({ limit, total_count: totalCount }) =>
-  limit === 0 ? 1 : Math.ceil(totalCount / limit);
+const computePages = ({ limit, total_count: totalCount }) => (limit === 0 ? 1 : Math.ceil(totalCount / limit));
 
 const MAX_SIZE = 5;
 
@@ -95,21 +84,15 @@ export const Pager = ({ meta, setOffset }: PagerProps) => {
   return (
     <ul class="pagination">
       <li className={`pagination-prev ${page === 1 ? 'disabled' : ''}`}>
-        <a onClick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>
-          ‹
-        </a>
+        <a onClick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
       </li>
-      {getPages(page, pages).map(x =>
+      {getPages(page, pages).map(x => (
         <li className={`pagination-page ${page === x ? 'active' : ''}`}>
-          <a onClick={linkEvent(computeOffset(x, meta.limit), setOffset)}>
-            {x}
-          </a>
+          <a onClick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
         </li>
-      )}
+      ))}
       <li class={`pagination-next ${page === pages ? 'disabled' : ''}`}>
-        <a onClick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>
-          ›
-        </a>
+        <a onClick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
       </li>
     </ul>
   );

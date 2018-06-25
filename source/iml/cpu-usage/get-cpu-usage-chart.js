@@ -14,10 +14,7 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
-import {
-  UPDATE_CPU_USAGE_CHART_ITEMS,
-  DEFAULT_CPU_USAGE_CHART_ITEMS
-} from './cpu-usage-chart-reducer.js';
+import { UPDATE_CPU_USAGE_CHART_ITEMS, DEFAULT_CPU_USAGE_CHART_ITEMS } from './cpu-usage-chart-reducer.js';
 import type { $scopeT } from 'angular';
 import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
 import type { localApplyT } from '../extend-scope-module.js';
@@ -35,12 +32,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
     const config1$ = getStore.select('cpuUsageCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getCpuUsageStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getCpuUsageStream)));
 
     return chartCompiler(
       `<div config-toggle>

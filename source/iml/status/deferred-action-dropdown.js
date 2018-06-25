@@ -12,10 +12,7 @@ import multiStream from '../multi-stream.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export function DeferredActionDropdownCtrl(
-  $scope: Object,
-  localApply: Function
-): void {
+export function DeferredActionDropdownCtrl($scope: Object, localApply: Function): void {
   'ngInject';
   const ctrl = this;
   const getActions = fp.map((x: string) =>
@@ -24,7 +21,10 @@ export function DeferredActionDropdownCtrl(
     })
   );
 
-  const getMs = fp.flow(getActions, multiStream);
+  const getMs = fp.flow(
+    getActions,
+    multiStream
+  );
 
   ctrl.ms = highland();
 
@@ -33,8 +33,7 @@ export function DeferredActionDropdownCtrl(
 
     const ms: HighlandStreamT<any[]> = getMs(ctrl.row.affected);
 
-    ms
-      .tap(() => (ctrl.loading = false))
+    ms.tap(() => (ctrl.loading = false))
       .tap(localApply.bind(null, $scope))
       .pipe(ctrl.ms);
 

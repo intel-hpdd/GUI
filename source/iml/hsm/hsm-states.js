@@ -7,11 +7,7 @@
 
 import { getData, fsCollStream } from './hsm-fs-resolves.js';
 
-import {
-  copytoolStream,
-  copytoolOperationStream,
-  agentVsCopytoolChart
-} from './hsm-resolves.js';
+import { copytoolStream, copytoolOperationStream, agentVsCopytoolChart } from './hsm-resolves.js';
 
 import { GROUPS } from '../auth/authorization.js';
 

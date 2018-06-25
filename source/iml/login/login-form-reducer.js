@@ -38,10 +38,7 @@ export type loginFormT = Exact<{
   inProgress: boolean
 }>;
 
-export default (
-  state: loginFormT = { inProgress: false },
-  actions: loginFormActionsT
-): loginFormT => {
+export default (state: loginFormT = { inProgress: false }, actions: loginFormActionsT): loginFormT => {
   switch (actions.type) {
     case ADD_ERRORS:
       return {

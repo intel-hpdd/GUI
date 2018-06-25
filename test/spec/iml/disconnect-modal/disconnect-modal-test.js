@@ -2,13 +2,7 @@ import angular from '../../../angular-mock-setup.js';
 import windowUnloadFactory from '../../../../source/iml/disconnect-modal/disconnect-modal.js';
 
 describe('disconnect modal', () => {
-  let $uibModal,
-    $timeout,
-    modal,
-    $window,
-    disconnectModalFactory,
-    disconnectModal,
-    mockWindowUnload;
+  let $uibModal, $timeout, modal, $window, disconnectModalFactory, disconnectModal, mockWindowUnload;
 
   beforeEach(() => {});
 
@@ -25,14 +19,10 @@ describe('disconnect modal', () => {
       open: jest.fn(() => modal)
     };
 
-    jest.mock(
-      '../../../../source/iml/window-unload.js',
-      () => mockWindowUnload
-    );
+    jest.mock('../../../../source/iml/window-unload.js', () => mockWindowUnload);
 
     mockWindowUnload = windowUnloadFactory($window);
-    disconnectModalFactory = require('../../../../source/iml/disconnect-modal/disconnect-modal.js')
-      .default;
+    disconnectModalFactory = require('../../../../source/iml/disconnect-modal/disconnect-modal.js').default;
 
     disconnectModal = disconnectModalFactory($uibModal, $timeout);
   });

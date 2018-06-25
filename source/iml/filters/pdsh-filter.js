@@ -18,9 +18,7 @@ export default function pdsh() {
     hostnamesHash = hostnamesHash || {};
     const hostnames = Object.keys(hostnamesHash);
 
-    const filteredItems = input.filter(
-      filterInputByHostName(hostnamesHash, hostnames, hostPath, fuzzy)
-    );
+    const filteredItems = input.filter(filterInputByHostName(hostnamesHash, hostnames, hostPath, fuzzy));
 
     return hostnames.length > 0 ? filteredItems : input;
   };
@@ -41,9 +39,7 @@ export default function pdsh() {
      */
     return function innerFilterInputByHostName(item) {
       if (fuzzy) {
-        const matches = hostnames.filter(
-          filterCurrentItemByHostNameList(hostPath(item), fuzzy)
-        );
+        const matches = hostnames.filter(filterCurrentItemByHostNameList(hostPath(item), fuzzy));
         return matches.length > 0;
       } else {
         return hostnamesHash[hostPath(item)] != null;

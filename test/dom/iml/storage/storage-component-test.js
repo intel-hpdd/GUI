@@ -7,24 +7,16 @@ import type { State } from '../../../../source/iml/storage/storage-reducer.js';
 import { renderToSnapshot } from '../../../test-utils.js';
 
 describe('storage component', () => {
-  let StorageComponent,
-    mockStore,
-    storage$: HighlandStreamT<State>,
-    alertIndicator$: HighlandStreamT<Object[]>;
+  let StorageComponent, mockStore, storage$: HighlandStreamT<State>, alertIndicator$: HighlandStreamT<Object[]>;
 
   beforeEach(() => {
     mockStore = { dispatch: jest.fn() };
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
     const mockStorageResources = jest.fn(() => highland([]));
-    jest.mock(
-      '../../../../source/iml/storage/storage-resources.js',
-      () => mockStorageResources
-    );
+    jest.mock('../../../../source/iml/storage/storage-resources.js', () => mockStorageResources);
 
-    ({
-      StorageComponent
-    } = require('../../../../source/iml/storage/storage-component.js'));
+    ({ StorageComponent } = require('../../../../source/iml/storage/storage-component.js'));
 
     storage$ = highland();
     alertIndicator$ = highland();
@@ -55,10 +47,7 @@ describe('storage component', () => {
 
     expect(
       renderToSnapshot(
-        <StorageComponent
-          viewer={broadcaster(storage$)}
-          alertIndicatorB={broadcaster(alertIndicator$)}
-        />
+        <StorageComponent viewer={broadcaster(storage$)} alertIndicatorB={broadcaster(alertIndicator$)} />
       )
     ).toMatchSnapshot();
   });
@@ -136,10 +125,7 @@ describe('storage component', () => {
 
     expect(
       renderToSnapshot(
-        <StorageComponent
-          viewer={broadcaster(storage$)}
-          alertIndicatorB={broadcaster(alertIndicator$)}
-        />
+        <StorageComponent viewer={broadcaster(storage$)} alertIndicatorB={broadcaster(alertIndicator$)} />
       )
     ).toMatchSnapshot();
   });

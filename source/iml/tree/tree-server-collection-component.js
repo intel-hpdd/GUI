@@ -20,10 +20,7 @@ import type { treeItemT } from './tree-types.js';
 
 import type { PropagateChange } from '../extend-scope-module.js';
 
-function treeServerCollection(
-  $scope: $scopeT,
-  propagateChange: PropagateChange
-) {
+function treeServerCollection($scope: $scopeT, propagateChange: PropagateChange) {
   'ngInject';
   Object.assign(this, {
     onOpen: toggleCollection,
@@ -33,8 +30,7 @@ function treeServerCollection(
     }
   });
 
-  const fn = (x: treeItemT) =>
-    x.parentTreeId === this.parentId && x.type === 'host';
+  const fn = (x: treeItemT) => x.parentTreeId === this.parentId && x.type === 'host';
 
   function computePage(meta) {
     const currentPage = meta.offset / meta.limit + 1;
@@ -43,9 +39,7 @@ function treeServerCollection(
 
   const t1 = store.select('tree');
 
-  t1
-    .through(emitOnItem(fn))
-    .through(propagateChange.bind(null, $scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'host',
@@ -63,9 +57,7 @@ function treeServerCollection(
 
   const hostCollection$ = store.select('tree');
 
-  hostCollection$
-    .through(transformItems(fn, structFn, fnTo$))
-    .each(store.dispatch);
+  hostCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
 }
 
 export default {

@@ -30,10 +30,7 @@ describe('date ticks', () => {
   });
 
   it('should accept an array as a range', () => {
-    const func = dateTicks.getTickFormatFunc([
-      '2013-11-11 00:00',
-      '2013-12-11 00:00'
-    ]);
+    const func = dateTicks.getTickFormatFunc(['2013-11-11 00:00', '2013-12-11 00:00']);
 
     expect(func('2013-11-12 13:30')).toEqual('Nov 12 13:30');
   });

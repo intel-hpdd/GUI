@@ -2,12 +2,7 @@ import { noSpace } from '../../../../source/iml/string.js';
 import highland from 'highland';
 
 describe('status states', () => {
-  let mod,
-    mockResolveStream,
-    mockSocketStream,
-    mockAddCurrentPage,
-    mockStore,
-    storeStream;
+  let mod, mockResolveStream, mockSocketStream, mockAddCurrentPage, mockStore, storeStream;
 
   beforeEach(() => {
     mockResolveStream = jest.fn(() => 'promise');
@@ -17,10 +12,7 @@ describe('status states', () => {
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/api-transforms.js', () => ({
       addCurrentPage: mockAddCurrentPage
     }));
@@ -96,9 +88,7 @@ describe('status states', () => {
       });
 
       it('should call /log with a qs', () => {
-        qsFromLocation.mockReturnValue(
-          'foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6'
-        );
+        qsFromLocation.mockReturnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
 
         log$(qsFromLocation, $stateParams);
 

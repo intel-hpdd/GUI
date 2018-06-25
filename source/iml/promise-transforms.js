@@ -9,9 +9,7 @@ import * as fp from '@iml/fp';
 
 import type { HighlandStreamT, errorWrapT } from 'highland';
 
-export function resolveStream<T>(
-  stream: HighlandStreamT<T>
-): Promise<HighlandStreamT<T>> {
+export function resolveStream<T>(stream: HighlandStreamT<T>): Promise<HighlandStreamT<T>> {
   return new Promise(resolve => {
     stream.pull((error, x) => {
       if (error)

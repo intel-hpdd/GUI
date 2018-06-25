@@ -53,17 +53,11 @@ describe('completionist dropdown', () => {
     });
 
     it('should deregister key presses', () => {
-      expect(completionist.deregister).toHaveBeenCalledOnceWith(
-        'KEY_PRESS',
-        expect.any(Function)
-      );
+      expect(completionist.deregister).toHaveBeenCalledOnceWith('KEY_PRESS', expect.any(Function));
     });
 
     it('should deregister values', () => {
-      expect(completionist.deregister).toHaveBeenCalledOnceWith(
-        'VALUES',
-        expect.any(Function)
-      );
+      expect(completionist.deregister).toHaveBeenCalledOnceWith('VALUES', expect.any(Function));
     });
   });
 

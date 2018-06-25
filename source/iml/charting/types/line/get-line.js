@@ -44,34 +44,36 @@ export default function getLine() {
         .attr('width', xScale.range()[xScale.range().length - 1])
         .attr('height', yScale.range()[0]);
 
-      const clipGroup = item
-        .selectAll(`.${strPlusCount('clipPath')}`)
-        .data(['foo']);
+      const clipGroup = item.selectAll(`.${strPlusCount('clipPath')}`).data(['foo']);
 
       clipGroup
         .enter()
         .append('g')
-        .attr(
-          'clip-path',
-          `url(${global.location.href}${strPlusCount('#clip')})`
-        )
+        .attr('clip-path', `url(${global.location.href}${strPlusCount('#clip')})`)
         .attr('class', strPlusCount('clipPath'));
 
       const line = d3.svg
         .line()
         .interpolate(interpolate)
-        .x(fp.flow(xValue, xScale))
-        .y(fp.flow(yValue, yScale));
+        .x(
+          fp.flow(
+            xValue,
+            xScale
+          )
+        )
+        .y(
+          fp.flow(
+            yValue,
+            yScale
+          )
+        );
 
       const lineCount = strPlusCount('line');
       const lineClassCount = `.${lineCount}`;
 
       let lineEl = clipGroup.selectAll(lineClassCount);
 
-      const shouldShift =
-        lineEl.size() &&
-        data.length &&
-        !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
+      const shouldShift = lineEl.size() && data.length && !xComparator(xValue(data[0]), xValue(lineEl.datum()[0]));
 
       if (shouldShift) data = [lineEl.datum()[0]].concat(data);
 
@@ -84,7 +86,10 @@ export default function getLine() {
         .attr('stroke', color)
         .style('stroke-opacity', opacity)
         .each('end', function removeOldPoint() {
-          if (shouldShift) d3.select(this).datum(data.slice(1)).attr('d', line);
+          if (shouldShift)
+            d3.select(this)
+              .datum(data.slice(1))
+              .attr('d', line);
         });
 
       lineEl
@@ -97,8 +102,7 @@ export default function getLine() {
         .each(function animateEntering() {
           const totalLength = this.getTotalLength();
 
-          d3
-            .select(this)
+          d3.select(this)
             .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
             .attr('stroke-dashoffset', totalLength);
         })

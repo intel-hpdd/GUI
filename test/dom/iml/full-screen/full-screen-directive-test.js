@@ -1,17 +1,8 @@
-import {
-  fullScreenBtn,
-  fullScreen
-} from '../../../../source/iml/full-screen/full-screen-directive.js';
+import { fullScreenBtn, fullScreen } from '../../../../source/iml/full-screen/full-screen-directive.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('Full Screen Module', () => {
-  let $scope,
-    $fullScreenController,
-    fullScreenContainer,
-    button,
-    icon,
-    body,
-    spy;
+  let $scope, $fullScreenController, fullScreenContainer, button, icon, body, spy;
 
   beforeEach(
     angular.mock.module($compileProvider => {
@@ -26,9 +17,7 @@ describe('Full Screen Module', () => {
       const template = ` <div class="full-screen"> <button type="button" full-screen-btn></button> <p>This will go fullscreen</p> </div>`;
       fullScreenContainer = $compile(template)($scope);
       $scope.$digest();
-      $fullScreenController = fullScreenContainer.inheritedData(
-        '$fullScreenController'
-      );
+      $fullScreenController = fullScreenContainer.inheritedData('$fullScreenController');
       spy = jest.fn();
       button = fullScreenContainer[0].querySelector('button');
       icon = button.querySelector.bind(button, 'i');

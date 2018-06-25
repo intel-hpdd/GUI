@@ -10,13 +10,7 @@ import getStore from '../store/get-store.js';
 import type { rangeFormT, durationFormT } from './duration-picker-module.js';
 
 export default (chartType: string, key: Object) => {
-  return (
-    overrides: Object,
-    {
-      rangeForm,
-      durationForm
-    }: { rangeForm: rangeFormT, durationForm: durationFormT }
-  ) => {
+  return (overrides: Object, { rangeForm, durationForm }: { rangeForm: rangeFormT, durationForm: durationFormT }) => {
     if (rangeForm)
       getStore.dispatch({
         type: chartType,

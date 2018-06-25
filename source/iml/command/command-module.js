@@ -17,10 +17,7 @@ import { JobTreeCtrl, getJobStreamFactory } from './job-tree-ctrl';
 
 import { StepModalCtrl, openStepModalFactory } from './step-modal-ctrl';
 
-import {
-  CommandModalCtrl,
-  openCommandModalFactory
-} from './command-modal-ctrl';
+import { CommandModalCtrl, openCommandModalFactory } from './command-modal-ctrl';
 
 export default angular
   .module('command', [extendScopeModule])

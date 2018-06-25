@@ -29,8 +29,9 @@ type ReducedHistogram = {
 
 const getHistogramSeries = (xs: HistogramStats[]) =>
   xs
-    .map(({ data: { bin_labels, values }, name }): ReducedHistogram[] =>
-      zipBy((l, r) => ({ bin: l, data: { [name]: r } }))(bin_labels)(values)
+    .map(
+      ({ data: { bin_labels: binLabels, values }, name }): ReducedHistogram[] =>
+        zipBy((l, r) => ({ bin: l, data: { [name]: r } }))(binLabels)(values)
     )
     .reduce((xs, ys) =>
       xs.map((x, i) => ({
@@ -50,17 +51,10 @@ class HistogramScales extends Component {
     this.yScale = d3.scale.linear();
   }
   render() {
-    this.xScale
-      .domain(this.props.points.map(p => p.bin))
-      .rangePoints([0, this.props.dimensions.usableWidth]);
+    this.xScale.domain(this.props.points.map(p => p.bin)).rangePoints([0, this.props.dimensions.usableWidth]);
 
     this.yScale
-      .domain([
-        0,
-        d3.max(this.props.points, (x: Point): number =>
-          Math.max(...values(x.data))
-        ) + 100
-      ])
+      .domain([0, d3.max(this.props.points, (x: Point): number => Math.max(...values(x.data))) + 100])
       .range([this.props.dimensions.usableHeight - 20, 0]);
 
     return (
@@ -78,9 +72,7 @@ class HistogramScales extends Component {
 export default class StorageResourceHistogram extends Component {
   props: { chart: HistogramChart };
   render() {
-    const colors = d3.scale
-      .category10()
-      .domain(this.props.chart.series.map(x => x.name));
+    const colors = d3.scale.category10().domain(this.props.chart.series.map(x => x.name));
 
     return (
       <div class="storage-detail-chart" style={{ height: '500px' }}>
@@ -97,14 +89,14 @@ export default class StorageResourceHistogram extends Component {
             <Legend colors={colors} transform="translate(50,0)" />
             <Axis type="x" />
             <Axis type="y" />
-            {this.props.chart.series.map(x =>
+            {this.props.chart.series.map(x => (
               <Area
                 interpolate="cardinal"
                 color={() => colors(x.name)}
                 xValue={x => x.bin}
                 y1Value={p => p.data[x.name]}
               />
-            )}
+            ))}
           </HistogramScales>
         </Chart>
       </div>

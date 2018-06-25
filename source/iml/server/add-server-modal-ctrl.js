@@ -5,13 +5,7 @@
 
 import getSpring from '../socket/get-spring.js';
 
-export function AddServerModalCtrl(
-  $scope,
-  $uibModalInstance,
-  getAddServerManager,
-  servers,
-  step
-) {
+export function AddServerModalCtrl($scope, $uibModalInstance, getAddServerManager, servers, step) {
   'ngInject';
   const manager = (this.manager = getAddServerManager());
   const spring = getSpring();

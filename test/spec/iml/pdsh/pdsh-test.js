@@ -5,17 +5,7 @@ import imlPopover from '../../../../source/iml/iml-popover.js';
 import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 
 describe('PDSH directive', () => {
-  let $scope,
-    $timeout,
-    element,
-    query,
-    queryAll,
-    inputField,
-    groupAddOn,
-    help,
-    node,
-    inputEvent,
-    clickEvent;
+  let $scope, $timeout, element, query, queryAll, inputField, groupAddOn, help, node, inputEvent, clickEvent;
 
   beforeEach(
     angular.mock.module(($provide, $compileProvider) => {
@@ -158,9 +148,7 @@ describe('PDSH directive', () => {
       });
 
       it('should have a placeholder', () => {
-        expect(inputField.getAttribute('placeholder')).toEqual(
-          'placeholder text'
-        );
+        expect(inputField.getAttribute('placeholder')).toEqual('placeholder text');
       });
     });
 
@@ -206,15 +194,11 @@ describe('PDSH directive', () => {
     });
 
     it('should have a placeholder', () => {
-      expect(inputField.getAttribute('placeholder')).toEqual(
-        'Enter hostname / hostlist expression.'
-      );
+      expect(inputField.getAttribute('placeholder')).toEqual('Enter hostname / hostlist expression.');
     });
 
     it('should trigger a change for the initial value', () => {
-      expect($scope.pdshChange).toHaveBeenCalledWith(initialValue, [
-        initialValue
-      ]);
+      expect($scope.pdshChange).toHaveBeenCalledWith(initialValue, [initialValue]);
     });
 
     describe('modify existing value', () => {
@@ -225,9 +209,7 @@ describe('PDSH directive', () => {
       });
 
       it('should call pdshChange with storage[1-10].localdomain', () => {
-        expect($scope.pdshChange.mock.calls[2][0]).toEqual(
-          'storage[1-10].localdomain'
-        );
+        expect($scope.pdshChange.mock.calls[2][0]).toEqual('storage[1-10].localdomain');
       });
     });
   });

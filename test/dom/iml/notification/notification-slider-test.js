@@ -10,18 +10,14 @@ describe('The notification slider directive', () => {
 
   beforeEach(
     angular.mock.module(($controllerProvider, $compileProvider) => {
-      $controllerProvider.register(
-        'NotificationSliderController',
-        NotificationSliderController
-      );
+      $controllerProvider.register('NotificationSliderController', NotificationSliderController);
       $compileProvider.directive('notificationSlider', notificationSlider);
     })
   );
 
   beforeEach(
     angular.mock.inject(($rootScope, $compile, _$timeout_) => {
-      const template =
-        '<notification-slider stream="stream"></notification-slider>';
+      const template = '<notification-slider stream="stream"></notification-slider>';
       $timeout = _$timeout_;
       $scope = $rootScope.$new();
       $scope.stream = highland();
@@ -53,9 +49,7 @@ describe('The notification slider directive', () => {
     });
 
     it('should display a message', () => {
-      const text = el
-        .querySelector('.notification-message h4')
-        .textContent.trim();
+      const text = el.querySelector('.notification-message h4').textContent.trim();
 
       expect(text).toEqual('an alert');
     });
@@ -109,9 +103,7 @@ describe('The notification slider directive', () => {
       });
     });
     it('should display a message', () => {
-      const text = el
-        .querySelector('.notification-message h4')
-        .textContent.trim();
+      const text = el.querySelector('.notification-message h4').textContent.trim();
       expect(text).toEqual('2 active alerts');
     });
   });

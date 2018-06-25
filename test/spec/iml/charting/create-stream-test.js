@@ -20,17 +20,13 @@ describe('create stream', () => {
 
     mockFlushOnChange = jest.fn(x => x);
 
-    jest.mock(
-      '../../../../source/iml/charting/buffer-data-newer-than.js',
-      () => mockBufferDataNewerThan
-    );
+    jest.mock('../../../../source/iml/charting/buffer-data-newer-than.js', () => mockBufferDataNewerThan);
     jest.mock('../../../../source/iml/charting/get-time-params.js', () => ({
       getTimeParams: mockGetTimeParams
     }));
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({ flushOnChange: mockFlushOnChange })
-    );
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      flushOnChange: mockFlushOnChange
+    }));
 
     const mod = require('../../../../source/iml/charting/create-stream.js');
 
@@ -57,11 +53,7 @@ describe('create stream', () => {
       begin = 5;
       end = 6;
 
-      durationStream = createStream.durationStream(overrides)(
-        streamFn,
-        begin,
-        end
-      );
+      durationStream = createStream.durationStream(overrides)(streamFn, begin, end);
       createFn = streamWhenVisible.mock.calls[0][0];
     });
 
@@ -70,9 +62,7 @@ describe('create stream', () => {
     });
 
     it('should call getRequestDuration with overrides', () => {
-      expect(mockGetTimeParams.getRequestDuration).toHaveBeenCalledOnceWith(
-        overrides
-      );
+      expect(mockGetTimeParams.getRequestDuration).toHaveBeenCalledOnceWith(overrides);
     });
 
     it('should call streamWhenVisible', () => {
@@ -94,10 +84,7 @@ describe('create stream', () => {
     it('should invoke the stream with args', () => {
       createFn();
 
-      expect(streamFn).toHaveBeenCalledOnceWith(
-        'requestDurationInner',
-        'bufferDataNewerThan'
-      );
+      expect(streamFn).toHaveBeenCalledOnceWith('requestDurationInner', 'bufferDataNewerThan');
     });
   });
 
@@ -123,9 +110,7 @@ describe('create stream', () => {
     });
 
     it('should call getRequestRange with overrides', () => {
-      expect(mockGetTimeParams.getRequestRange).toHaveBeenCalledOnceWith(
-        overrides
-      );
+      expect(mockGetTimeParams.getRequestRange).toHaveBeenCalledOnceWith(overrides);
     });
 
     it('should call streamWhenVisible', () => {
@@ -145,10 +130,7 @@ describe('create stream', () => {
     it('should invoke the stream with args', () => {
       createFn();
 
-      expect(streamFn).toHaveBeenCalledOnceWith(
-        'requestRangeInner',
-        expect.any(Function)
-      );
+      expect(streamFn).toHaveBeenCalledOnceWith('requestRangeInner', expect.any(Function));
     });
   });
 });

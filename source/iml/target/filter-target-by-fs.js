@@ -10,10 +10,14 @@ import * as fp from '@iml/fp';
 export default function filterTargetByFs(id: number) {
   const findById = xs => xs.find(x => id === x.id) != null;
 
-  const getData = x =>
-    Array.isArray(x.filesystems) ? x.filesystems : [{ id: x.filesystem_id }];
+  const getData = x => (Array.isArray(x.filesystems) ? x.filesystems : [{ id: x.filesystem_id }]);
 
-  const filter = fp.filter(fp.flow(getData, findById));
+  const filter = fp.filter(
+    fp.flow(
+      getData,
+      findById
+    )
+  );
 
   return fp.map(filter);
 }

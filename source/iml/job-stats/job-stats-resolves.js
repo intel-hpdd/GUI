@@ -32,9 +32,7 @@ export function getData($stateParams: jobStatsParamsT) {
         .map(matchById($stateParams.id))
         .map(
           maybe.map.bind(null, x => ({
-            label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt(
-              $stateParams.endDate
-            )})`
+            label: `${x.name} (${fmt($stateParams.startDate)} - ${fmt($stateParams.endDate)})`
           }))
         )
         .map(
@@ -56,8 +54,5 @@ export const jobstats$ = ($stateParams: jobStatsParamsT) => {
         }
       })
     );
-  else
-    return streamToPromise(store.select('jobStatsConfig')).then(c =>
-      resolveStream(topDuration(c.duration))
-    );
+  else return streamToPromise(store.select('jobStatsConfig')).then(c => resolveStream(topDuration(c.duration)));
 };

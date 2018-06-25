@@ -21,8 +21,7 @@ export default keyName => (requestRange, buff) => {
     socketStream('/target/metric', params, true)
       .flatten()
       .tap(function calculateCpuAndRam(x) {
-        x.data[keyName] =
-          (x.data.filestotal - x.data.filesfree) / x.data.filestotal;
+        x.data[keyName] = (x.data.filestotal - x.data.filesfree) / x.data.filestotal;
       })
       .through(buff)
       .through(requestRange.setLatest)

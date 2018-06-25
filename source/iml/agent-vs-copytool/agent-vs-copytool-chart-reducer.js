@@ -5,15 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS =
-  'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS';
-export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS =
-  'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS';
+export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS = 'UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS';
+export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS = 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS';
 
-import type {
-  durationPayloadHashT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadHashT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { addAgentVsCopytoolActionT } from './agent-vs-copytool-module.js';
 

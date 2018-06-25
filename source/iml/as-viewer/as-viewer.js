@@ -9,10 +9,7 @@ import type { HighlandStreamT } from 'highland';
 import Inferno from 'inferno';
 import Component from 'inferno-component';
 
-export const asViewer = <B: {}>(
-  key: string,
-  WrappedComponent: (b: B) => Element<*>
-) =>
+export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class AsViewer extends Component {
     state: B;
     stream: HighlandStreamT<B>;
@@ -50,8 +47,7 @@ export default () => {
       const name = scope.name || 'viewer';
 
       $transclude((clone, transcludedScope) => {
-        if (transcludedScope.viewer)
-          throw new Error(`${name} already set on transcluded scope.`);
+        if (transcludedScope.viewer) throw new Error(`${name} already set on transcluded scope.`);
 
         let viewer = scope.stream();
 

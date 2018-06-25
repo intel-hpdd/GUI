@@ -9,6 +9,4 @@ import angular from 'angular';
 
 import { charterDirective } from './chart-directive';
 
-export default angular
-  .module('chart', [])
-  .directive('charter', charterDirective).name;
+export default angular.module('chart', []).directive('charter', charterDirective).name;

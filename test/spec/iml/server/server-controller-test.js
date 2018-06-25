@@ -28,10 +28,7 @@ describe('server', () => {
 
     mockGetCommandStream = jest.fn(() => commandStream);
 
-    jest.mock(
-      '../../../../source/iml/command/get-command-stream.js',
-      () => mockGetCommandStream
-    );
+    jest.mock('../../../../source/iml/command/get-command-stream.js', () => mockGetCommandStream);
 
     const serverControllerModule = require('../../../../source/iml/server/server-controller.js');
 
@@ -131,12 +128,9 @@ describe('server', () => {
 
   Object.keys(expectedProperties).forEach(key => {
     describe('test initial values', () => {
-      it(
-        'should have a ' + key + ' value of ' + expectedProperties[key],
-        () => {
-          expect(server[key]).toEqual(expectedProperties[key]);
-        }
-      );
+      it('should have a ' + key + ' value of ' + expectedProperties[key], () => {
+        expect(server[key]).toEqual(expectedProperties[key]);
+      });
     });
   });
 
@@ -168,7 +162,10 @@ describe('server', () => {
       ]
     ]);
 
-    server.transform(s, ['/api/host/4/']).collect().each(spy);
+    server
+      .transform(s, ['/api/host/4/'])
+      .collect()
+      .each(spy);
 
     expect(spy).toHaveBeenCalledWith([
       {
@@ -237,12 +234,7 @@ describe('server', () => {
       });
 
       it('should call the pdsh filter with appropriate args', () => {
-        expect(pdshFilter).toHaveBeenCalledWith(
-          server.servers,
-          server.hostnamesHash,
-          server.getHostPath,
-          false
-        );
+        expect(pdshFilter).toHaveBeenCalledWith(server.servers, server.hostnamesHash, server.getHostPath, false);
       });
     });
 
@@ -331,9 +323,7 @@ describe('server', () => {
       });
 
       it('should register a then listener', () => {
-        expect(openResult.result.then).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(openResult.result.then).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should stop editing when confirmed', () => {

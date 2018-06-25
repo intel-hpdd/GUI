@@ -20,10 +20,5 @@ export type addCpuUsageActionT = {
 };
 
 export default angular
-  .module('cpuUsageModule', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('cpuUsageModule', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .factory('getCpuUsageChart', getCpuUsageChartFactory).name;

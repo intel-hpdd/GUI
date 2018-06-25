@@ -5,5 +5,4 @@
 
 import type { HighlandStreamT } from 'highland';
 
-export default (s: HighlandStreamT<Object>) =>
-  s.filter(x => new Date(x.ts).getTime() > 0);
+export default (s: HighlandStreamT<Object>) => s.filter(x => new Date(x.ts).getTime() > 0);

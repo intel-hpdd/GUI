@@ -8,10 +8,7 @@ import {
 
 import * as fp from '@iml/fp';
 
-import {
-  documentHidden,
-  documentVisible
-} from '../../../../source/iml/stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from '../../../../source/iml/stream-when-visible/stream-when-visible.js';
 
 describe('chart transformer', () => {
   let s, config1, config2, spy;
@@ -138,11 +135,7 @@ describe('chart transformer', () => {
       });
 
       it('should invoke rangeStream', () => {
-        expect(rangeStream).toHaveBeenCalledOnceWith(
-          chart$,
-          1465829589123,
-          1465829761462
-        );
+        expect(rangeStream).toHaveBeenCalledOnceWith(chart$, 1465829589123, 1465829761462);
       });
 
       it('should return a duration stream', () => {

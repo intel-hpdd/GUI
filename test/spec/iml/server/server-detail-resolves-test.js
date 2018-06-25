@@ -24,11 +24,9 @@ describe('server detail resolves', () => {
     };
 
     mockSocketStream = jest.fn(path => {
-      if (path === '/corosync_configuration')
-        return (corosyncStream = highland());
+      if (path === '/corosync_configuration') return (corosyncStream = highland());
 
-      if (path === '/pacemaker_configuration')
-        return (pacemakerStream = highland());
+      if (path === '/pacemaker_configuration') return (pacemakerStream = highland());
     });
 
     mockNetworkInterfaceStream = highland();
@@ -36,14 +34,8 @@ describe('server detail resolves', () => {
     mockGetNetworkInterfaceStream = jest.fn(() => mockNetworkInterfaceStream);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
-    jest.mock(
-      '../../../../source/iml/lnet/get-network-interface-stream.js',
-      () => mockGetNetworkInterfaceStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock('../../../../source/iml/lnet/get-network-interface-stream.js', () => mockGetNetworkInterfaceStream);
 
     const mod = require('../../../../source/iml/server/server-detail-resolves.js');
 
@@ -178,11 +170,8 @@ describe('server detail resolves', () => {
     });
 
     it('should create a corosync configuration stream', () => {
-      expect(
-        mockSocketStream
-      ).toHaveBeenCalledOnceWith('/corosync_configuration', {
-        jsonMask:
-          'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/corosync_configuration', {
+        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)',
         qs: {
           host__id: '1',
           limit: 0
@@ -191,9 +180,7 @@ describe('server detail resolves', () => {
     });
 
     it('should create a pacemaker configuration stream', () => {
-      expect(
-        mockSocketStream
-      ).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith('/pacemaker_configuration', {
         jsonMask: 'objects(resource_uri,available_actions,locks,state,id)',
         qs: {
           host__id: '1',
@@ -223,24 +210,15 @@ describe('getting data', () => {
   beforeEach(async () => {
     mockStore = {
       select: jest.fn(key => {
-        if (key === 'server')
-          return highland([
-            [{ id: 5, name: 'b' }, { id: 7, name: 'a' }, { id: 10, name: 'c' }]
-          ]);
+        if (key === 'server') return highland([[{ id: 5, name: 'b' }, { id: 7, name: 'a' }, { id: 10, name: 'c' }]]);
       })
     };
 
     mockSocketStream = jest.fn();
     mockGetNetworkInterfaceStream = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
-    jest.mock(
-      '../../../../source/iml/lnet/get-network-interface-stream.js',
-      () => mockGetNetworkInterfaceStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock('../../../../source/iml/lnet/get-network-interface-stream.js', () => mockGetNetworkInterfaceStream);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 

@@ -40,7 +40,10 @@ export default () => {
   const y = d3.scale.ordinal();
   const z = d3.scale.linear().range([0, 1]);
 
-  const xAxis = d3.svg.axis().scale(x).orient('bottom');
+  const xAxis = d3.svg
+    .axis()
+    .scale(x)
+    .orient('bottom');
 
   const colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
   const color = d3.scale
@@ -82,7 +85,10 @@ export default () => {
           .attr('dy', '-.7em')
           .style('text-anchor', 'middle');
 
-        noDataText.attr('x', xPos).attr('y', yPos).text(_.identity);
+        noDataText
+          .attr('x', xPos)
+          .attr('y', yPos)
+          .text(_.identity);
 
         return chart;
       } else {
@@ -96,7 +102,10 @@ export default () => {
       let wrap = container.selectAll('g.heat-map-chart').data([data]);
 
       // Create the structure on enter.
-      let gEnter = wrap.enter().append('g').attr('class', 'heat-map-chart');
+      let gEnter = wrap
+        .enter()
+        .append('g')
+        .attr('class', 'heat-map-chart');
 
       let chartGroupGEnter = gEnter.append('g').attr('class', 'chart-group');
 
@@ -114,16 +123,15 @@ export default () => {
       chartGroupGEnter.append('g').attr('class', 'nv-interactive');
 
       // These operate on enter + update.
-      const chartGroup = wrap
-        .select('.chart-group')
-        .attr('transform', translator(margin.left, margin.top));
-      const legendGroup = wrap
-        .select('.legend-group')
-        .attr('transform', translator(margin.left, 0));
+      const chartGroup = wrap.select('.chart-group').attr('transform', translator(margin.left, margin.top));
+      const legendGroup = wrap.select('.legend-group').attr('transform', translator(margin.left, 0));
       const heatMapGroup = wrap.select('.heat-map-group');
       const interactiveGroup = wrap.select('.nv-interactive');
 
-      const keys = _(merged).pluck('name').uniq().value();
+      const keys = _(merged)
+        .pluck('name')
+        .uniq()
+        .value();
 
       x.domain(d3.extent(merged, xValue)).range([0, availableWidth]);
 
@@ -134,7 +142,10 @@ export default () => {
       //------------------------------------------------------------
       // Legend
 
-      const legend = d3.scale.linear().domain([0, 99]).range([0, 1]);
+      const legend = d3.scale
+        .linear()
+        .domain([0, 99])
+        .range([0, 1]);
 
       let heatMapLegend = getHeatMapLegend();
 
@@ -156,8 +167,7 @@ export default () => {
 
       if (margin.top !== heatMapLegend.height()) {
         margin.top = heatMapLegend.height();
-        availableHeight =
-          parseInt(container.style('height'), 10) - margin.top - margin.bottom;
+        availableHeight = parseInt(container.style('height'), 10) - margin.top - margin.bottom;
         chartGroup.attr('transform', translator(0, margin.top));
       }
 
@@ -176,7 +186,11 @@ export default () => {
 
       interactiveGroup.call(interactiveLayer);
 
-      const getColor = _.compose(color, z, zValue);
+      const getColor = _.compose(
+        color,
+        z,
+        zValue
+      );
 
       interactiveLayer.dispatch.on('elementMousemove', function(e) {
         const yRange = y.range();

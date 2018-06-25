@@ -22,9 +22,7 @@ it('should render as expected', () => {
     ]
   };
 
-  expect(
-    renderToSnapshot(<StorageResourceHistogram chart={data} />)
-  ).toMatchSnapshot();
+  expect(renderToSnapshot(<StorageResourceHistogram chart={data} />)).toMatchSnapshot();
 });
 
 it('should render as expected with two series', () => {
@@ -55,7 +53,5 @@ it('should render as expected with two series', () => {
     ]
   };
 
-  expect(
-    renderToSnapshot(<StorageResourceHistogram chart={data} />)
-  ).toMatchSnapshot();
+  expect(renderToSnapshot(<StorageResourceHistogram chart={data} />)).toMatchSnapshot();
 });

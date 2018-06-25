@@ -8,10 +8,7 @@
 import flatMapChanges from '@iml/flat-map-changes';
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
-import {
-  DEFAULT_OST_BALANCE_CHART_ITEMS,
-  UPDATE_OST_BALANCE_CHART_ITEMS
-} from './ost-balance-chart-reducer.js';
+import { DEFAULT_OST_BALANCE_CHART_ITEMS, UPDATE_OST_BALANCE_CHART_ITEMS } from './ost-balance-chart-reducer.js';
 
 import getOstBalanceStream from './get-ost-balance-stream.js';
 import getStore from '../store/get-store.js';
@@ -22,24 +19,15 @@ import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when
 
 import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
 
-import type {
-  filesystemQueryT,
-  targetQueryT
-} from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
 
 import type { localApplyT } from '../extend-scope-module.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export default (
-  streamWhenVisible: streamWhenChartVisibleT,
-  localApply: localApplyT<*>
-) => {
+export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApplyT<*>) => {
   'ngInject';
-  return function getOstBalanceChart(
-    overrides: filesystemQueryT | targetQueryT,
-    page: string
-  ) {
+  return function getOstBalanceChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_OST_BALANCE_CHART_ITEMS,
       payload: {

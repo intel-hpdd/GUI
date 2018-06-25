@@ -11,10 +11,7 @@ export default function buildResponseError(error: errorT): Error {
   if (error instanceof Error) return error;
   else if (typeof error === 'string') return new Error(error);
   else
-    return Object.keys(error).reduce(function fillOutProperties(
-      err: Error,
-      key: string
-    ) {
+    return Object.keys(error).reduce(function fillOutProperties(err: Error, key: string) {
       if (key !== 'message')
         // $FlowFixMe: flow does not recogize this monkey-patch
         err[key] = error[key];

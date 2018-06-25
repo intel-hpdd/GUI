@@ -1,12 +1,7 @@
 import highland from 'highland';
 import { of } from '@iml/maybe';
 
-import {
-  addCurrentPage,
-  rememberValue,
-  matchById,
-  filterSame
-} from '../../../source/iml/api-transforms.js';
+import { addCurrentPage, rememberValue, matchById, filterSame } from '../../../source/iml/api-transforms.js';
 
 describe('api transforms', () => {
   describe('add current page', () => {
@@ -98,13 +93,9 @@ describe('api transforms', () => {
 describe('match by id', () => {
   it('should match by the id', () => {
     const matcher = matchById(7);
-    expect(
-      matcher([
-        { id: 1, name: 'a' },
-        { id: 7, name: 'b' },
-        { id: 10, name: 'c' }
-      ])
-    ).toEqual(of({ id: 7, name: 'b' }));
+    expect(matcher([{ id: 1, name: 'a' }, { id: 7, name: 'b' }, { id: 10, name: 'c' }])).toEqual(
+      of({ id: 7, name: 'b' })
+    );
   });
 });
 

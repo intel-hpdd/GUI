@@ -7,14 +7,11 @@
 
 import * as fp from '@iml/fp';
 
-export default (): Function => (
-  options: Array<Object>,
-  networkInterfaces: Array<Object>,
-  networkInterface: Object
-) => {
-  const nids = fp.flow(fp.filter(x => x !== networkInterface), fp.pluck('nid'))(
-    networkInterfaces
-  );
+export default (): Function => (options: Array<Object>, networkInterfaces: Array<Object>, networkInterface: Object) => {
+  const nids = fp.flow(
+    fp.filter(x => x !== networkInterface),
+    fp.pluck('nid')
+  )(networkInterfaces);
 
   return options.filter(option => {
     // Not Lustre Network is a special case.

@@ -116,9 +116,7 @@ describe('ui loader view directive', () => {
           expect(uiLoaderRootView.classList.contains('waiting')).toBe(false);
         });
         it('should not have a "waiting" class on appView parent', () => {
-          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(
-            false
-          );
+          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(false);
         });
         it('should not have a "waiting" class on the app view', () => {
           expect(uiLoaderAppView.classList.contains('waiting')).toBe(false);
@@ -179,9 +177,7 @@ describe('ui loader view directive', () => {
           expect(uiLoaderRootView.classList.contains('waiting')).toBe(false);
         });
         it('should not have a "waiting" class on appView parent', () => {
-          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(
-            false
-          );
+          expect(uiLoaderAppViewContainer.classList.contains('waiting')).toBe(false);
         });
         it('should not have a "waiting" class on the app view', () => {
           expect(uiLoaderAppView.classList.contains('waiting')).toBe(false);
@@ -199,10 +195,7 @@ describe('ui loader view directive', () => {
         expect(onStartDestructor).toHaveBeenCalledTimes(1);
       });
       it('should call $animate.off', () => {
-        expect($animate.off).toHaveBeenCalledOnceWith(
-          'enter',
-          uiLoaderRootView
-        );
+        expect($animate.off).toHaveBeenCalledOnceWith('enter', uiLoaderRootView);
       });
     });
   });

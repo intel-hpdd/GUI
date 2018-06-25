@@ -1,8 +1,5 @@
 import highland from 'highland';
-import {
-  getCommandAndHost,
-  throwIfServerErrors
-} from '../../../../source/iml/server/server-transforms.js';
+import { getCommandAndHost, throwIfServerErrors } from '../../../../source/iml/server/server-transforms.js';
 
 describe('server transforms', () => {
   beforeEach(() => {

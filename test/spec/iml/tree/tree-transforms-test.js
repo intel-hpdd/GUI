@@ -73,9 +73,7 @@ describe('tree transforms', () => {
       transformer.each(x => {
         expect(x).toEqual({
           type: 'ADD_TREE_ITEMS',
-          payload: [
-            { parentId: 0, meta: { offset: 0, limit: 20, current_page: 1 } }
-          ]
+          payload: [{ parentId: 0, meta: { offset: 0, limit: 20, current_page: 1 } }]
         });
         done();
       });

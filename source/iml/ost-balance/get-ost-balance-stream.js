@@ -12,10 +12,7 @@ import { flushOnChange } from '../chart-transformers/chart-transformers.js';
 
 import type { HighlandStreamT } from 'highland';
 
-export default (
-  percentage: number,
-  overrides: Object = {}
-): HighlandStreamT<mixed> =>
+export default (percentage: number, overrides: Object = {}): HighlandStreamT<mixed> =>
   highland((push, next) => {
     socketStream('/ost-balance', { ...overrides, percentage }, true).each(x => {
       push(null, x);

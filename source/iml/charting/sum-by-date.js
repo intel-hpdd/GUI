@@ -21,16 +21,27 @@ type Point = Exact<{
 type Sum = (xs: Array<Point[]>) => Point[];
 const sum: Sum = fp.map(
   fp.chainL((a: Point, b: Point) =>
-    obj.entries(b.data).reduce((o: Point, [k: string, v: number]): Point => ({
-      ...o,
-      data: {
-        ...o.data,
-        [k]: (o.data[k] || 0) + v
-      }
-    }), { ...a })
+    obj.entries(b.data).reduce(
+      (o: Point, [k: string, v: number]): Point => ({
+        ...o,
+        data: {
+          ...o.data,
+          [k]: (o.data[k] || 0) + v
+        }
+      }),
+      { ...a }
+    )
   )
 );
 
 type Stat$ = HighlandStreamT<Point>;
 export default (s: Stat$): Stat$ =>
-  s.group('ts').map(fp.flow(obj.values, sum)).flatten();
+  s
+    .group('ts')
+    .map(
+      fp.flow(
+        obj.values,
+        sum
+      )
+    )
+    .flatten();

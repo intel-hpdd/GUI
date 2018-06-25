@@ -1,8 +1,5 @@
 import angular from '../../../angular-mock-setup.js';
-import {
-  remoteValidateForm,
-  remoteValidateComponent
-} from '../../../../source/iml/remote-validate/remote-validate.js';
+import { remoteValidateForm, remoteValidateComponent } from '../../../../source/iml/remote-validate/remote-validate.js';
 
 describe('Remote validate directive', () => {
   let controller, formControllerSpy, $q, $scope, $element;
@@ -15,14 +12,8 @@ describe('Remote validate directive', () => {
 
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive(
-        'remoteValidateForm',
-        () => remoteValidateForm
-      );
-      $compileProvider.directive(
-        'remoteValidateComponent',
-        () => remoteValidateComponent
-      );
+      $compileProvider.directive('remoteValidateForm', () => remoteValidateForm);
+      $compileProvider.directive('remoteValidateComponent', () => remoteValidateComponent);
     })
   );
 
@@ -71,10 +62,7 @@ describe('Remote validate directive', () => {
       controller.registerComponent('foo', obj);
       controller.resetComponentsValidity();
 
-      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith(
-        'server',
-        true
-      );
+      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith('server', true);
 
       expect(obj.$setValidity).toHaveBeenCalledWith('server', true);
       expect($scope.serverValidationError.foo).toBeUndefined();
@@ -94,12 +82,7 @@ describe('Remote validate directive', () => {
       controller.registerComponent('foo', createComponent());
       controller.registerComponent('bar', createComponent());
 
-      remoteValidateForm.link(
-        $scope,
-        $element,
-        { validate: 'validate' },
-        controller
-      );
+      remoteValidateForm.link($scope, $element, { validate: 'validate' }, controller);
       $scope.$digest();
 
       $scope.validate = deferred.promise;
@@ -107,12 +90,8 @@ describe('Remote validate directive', () => {
     });
 
     it('should mark components with validation errors', () => {
-      expect(
-        controller.getComponent('foo').$setValidity
-      ).not.toHaveBeenCalled();
-      expect(
-        controller.getComponent('bar').$setValidity
-      ).not.toHaveBeenCalled();
+      expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
+      expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalled();
 
       deferred.reject({
         data: {
@@ -122,21 +101,14 @@ describe('Remote validate directive', () => {
 
       $scope.$digest();
 
-      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith(
-        'server',
-        false
-      );
+      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith('server', false);
       expect($scope.serverValidationError.foo).toEqual(['Required Field']);
 
-      expect(
-        controller.getComponent('bar').$setValidity
-      ).not.toHaveBeenCalledWith('server', false);
+      expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalledWith('server', false);
     });
 
     it('should reset validity when the component has no errors', () => {
-      expect(
-        controller.getComponent('foo').$setValidity
-      ).not.toHaveBeenCalled();
+      expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
 
       $scope.serverValidationError.foo = ['blah'];
 
@@ -144,10 +116,7 @@ describe('Remote validate directive', () => {
 
       $scope.$digest();
 
-      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith(
-        'server',
-        true
-      );
+      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith('server', true);
       expect($scope.serverValidationError.foo).toBeUndefined();
     });
 
@@ -161,13 +130,8 @@ describe('Remote validate directive', () => {
       });
       $scope.$digest();
 
-      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith(
-        'server',
-        true
-      );
-      expect($scope.serverValidationError.__all__).toEqual([
-        'Missing some info.'
-      ]);
+      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith('server', true);
+      expect($scope.serverValidationError.__all__).toEqual(['Missing some info.']);
     });
   });
 

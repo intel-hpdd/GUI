@@ -8,5 +8,4 @@
 import angular from 'angular';
 import asStream from './as-stream';
 
-export default angular.module('asStream', []).directive('asStream', asStream)
-  .name;
+export default angular.module('asStream', []).directive('asStream', asStream).name;

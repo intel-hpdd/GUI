@@ -8,6 +8,4 @@ import uiBootstrapModule from 'angular-ui-bootstrap';
 
 import { helpTooltip } from './tooltip';
 
-export default angular
-  .module('iml-tooltip', [uiBootstrapModule])
-  .directive('helpTooltip', helpTooltip).name;
+export default angular.module('iml-tooltip', [uiBootstrapModule]).directive('helpTooltip', helpTooltip).name;

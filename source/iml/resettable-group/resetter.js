@@ -17,12 +17,7 @@ export default () => {
     restrict: 'A',
     scope: {},
     require: '^resettableGroup',
-    link: (
-      scope: scp,
-      element: Array<HTMLElement>,
-      attrs: Object,
-      resettableGroupCtrl: ResettableGroupController
-    ) => {
+    link: (scope: scp, element: Array<HTMLElement>, attrs: Object, resettableGroupCtrl: ResettableGroupController) => {
       function onClick() {
         resettableGroupCtrl.reset();
       }

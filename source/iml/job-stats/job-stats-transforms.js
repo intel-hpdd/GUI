@@ -47,14 +47,17 @@ export const reduceToStruct = (x: NumberMap) =>
     []
   );
 
-export const normalize = (
-  s: HighlandStreamT<Data>
-): HighlandStreamT<FlatData> =>
-  s.map(fp.flow((x: Data) => x.data, reduceToStruct)).flatten();
+export const normalize = (s: HighlandStreamT<Data>): HighlandStreamT<FlatData> =>
+  s
+    .map(
+      fp.flow(
+        (x: Data) => x.data,
+        reduceToStruct
+      )
+    )
+    .flatten();
 
-export const calculateData = (
-  s: HighlandStreamT<FlatData>
-): HighlandStreamT<MetricData[]> =>
+export const calculateData = (s: HighlandStreamT<FlatData>): HighlandStreamT<MetricData[]> =>
   s.group('id').map((x: {| [key: string]: FlatData[] |}) =>
     entries(x).reduce(
       (out: MetricData[], [id: string, xs: FlatData[]]) =>
@@ -80,19 +83,23 @@ export const collectById = (
     >
   >
 ): HighlandStreamT<{ [key: string]: number, id: string }[]> =>
-  streams.merge().flatten().collect().map(xs =>
-    xs.reduce((arr, curr: { [key: string]: number, id: string }) => {
-      const r = maybe.map(x => {
-        Object.assign(x, curr);
-        return arr;
-      }, fp.find(x => x.id === curr.id)(arr));
+  streams
+    .merge()
+    .flatten()
+    .collect()
+    .map(xs =>
+      xs.reduce((arr, curr: { [key: string]: number, id: string }) => {
+        const r = maybe.map(x => {
+          Object.assign(x, curr);
+          return arr;
+        }, fp.find(x => x.id === curr.id)(arr));
 
-      return maybe.withDefault(() => {
-        arr.push({
-          ...curr
-        });
+        return maybe.withDefault(() => {
+          arr.push({
+            ...curr
+          });
 
-        return arr;
-      }, r);
-    }, [])
-  );
+          return arr;
+        }, r);
+      }, [])
+    );

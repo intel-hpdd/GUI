@@ -7,11 +7,7 @@ const regex = /^.+\:\d+\:\d+.*$/;
 
 export default $provide => {
   'ngInject';
-  $provide.decorator('$exceptionHandler', function(
-    $injector,
-    windowUnload,
-    $delegate
-  ) {
+  $provide.decorator('$exceptionHandler', function($injector, windowUnload, $delegate) {
     'ngInject';
     let triggered;
     const cache = {};
@@ -34,20 +30,16 @@ export default $provide => {
     };
 
     function get(serviceName) {
-      return (
-        cache[serviceName] || (cache[serviceName] = $injector.get(serviceName))
-      );
+      return cache[serviceName] || (cache[serviceName] = $injector.get(serviceName));
     }
   });
 };
 
 function stackTraceContainsLineNumbers(stackTrace) {
-  return stackTrace.stack
-    .split('\n')
-    .some(function verifyStackTraceContainsLineNumbers(val) {
-      const match = val.trim().match(regex);
-      return match == null ? false : match.length > 0;
-    });
+  return stackTrace.stack.split('\n').some(function verifyStackTraceContainsLineNumbers(val) {
+    const match = val.trim().match(regex);
+    return match == null ? false : match.length > 0;
+  });
 }
 
 function sendStackTraceToSrcmapReverseService(exception) {

@@ -19,26 +19,12 @@ import { UI_ROOT } from '../environment.js';
 const PageAlert = ({ children, className }) => {
   if (!children) return;
 
-  return (
-    <div className={`alert span4 offset4 ${className}`}>
-      {children}
-    </div>
-  );
+  return <div className={`alert span4 offset4 ${className}`}>{children}</div>;
 };
 
-const FormItem = ({
-  field,
-  value,
-  onInput
-}: {
-  field: Field,
-  value: string,
-  onInput: Function
-}) =>
+const FormItem = ({ field, value, onInput }: { field: Field, value: string, onInput: Function }) => (
   <div class="form-group">
-    <label for={field.name}>
-      {field.label}
-    </label>
+    <label for={field.name}>{field.label}</label>
     <input
       required={!field.optional}
       value={value}
@@ -47,7 +33,8 @@ const FormItem = ({
       class="form-control"
       id={field.name}
     />
-  </div>;
+  </div>
+);
 
 type AddFormState = {
   form: {
@@ -132,9 +119,7 @@ class AddStorageForm extends Component {
 
     return (
       <form autocomplete="off" onSubmit={this.handleSubmit.bind(this, id)}>
-        <PageAlert
-          className={this.state.saveFailed ? 'alert-danger' : 'alert-success'}
-        >
+        <PageAlert className={this.state.saveFailed ? 'alert-danger' : 'alert-success'}>
           {(() => {
             switch (this.state.saveFailed) {
               case true:
@@ -146,25 +131,17 @@ class AddStorageForm extends Component {
             }
           })()}
         </PageAlert>
-        {this.props.resourceClass.fields.map(x =>
+        {this.props.resourceClass.fields.map(x => (
           <FormItem
             field={x}
             key={x.name}
             value={this.state.form[id][x.name]}
             onInput={this.onInput.bind(this, id, x.name)}
           />
-        )}
-        <button
-          disabled={this.state.loading}
-          type="submit"
-          class="btn btn-success"
-        >
+        ))}
+        <button disabled={this.state.loading} type="submit" class="btn btn-success">
           Save
-          <i
-            className={`fa ${this.state.loading
-              ? 'fa-spinner fa-spin'
-              : 'fa-check-circle'}`}
-          />
+          <i className={`fa ${this.state.loading ? 'fa-spinner fa-spin' : 'fa-check-circle'}`} />
         </button>
       </form>
     );
@@ -174,16 +151,14 @@ class AddStorageForm extends Component {
 export const AddStorageComponent = asViewer(
   'storage',
   ({
-    storage: { resourceClasses, config: { selectIndex } }
+    storage: {
+      resourceClasses,
+      config: { selectIndex }
+    }
   }: {
     storage: State
   }) => {
-    if (
-      !resourceClasses ||
-      selectIndex == null ||
-      !resourceClasses[selectIndex]
-    )
-      return;
+    if (!resourceClasses || selectIndex == null || !resourceClasses[selectIndex]) return;
 
     return (
       <div class="container container-full storage container">
@@ -191,9 +166,7 @@ export const AddStorageComponent = asViewer(
         <TableFilter classes={resourceClasses} idx={selectIndex} />
         <AddStorageForm resourceClass={resourceClasses[selectIndex]} />
         <div style={{ margin: '25px 0' }}>
-          <a href={`${UI_ROOT}configure/storage`}>
-            &larr; Return to storage configuration page
-          </a>
+          <a href={`${UI_ROOT}configure/storage`}>&larr; Return to storage configuration page</a>
         </div>
       </div>
     );

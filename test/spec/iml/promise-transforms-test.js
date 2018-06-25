@@ -1,10 +1,7 @@
 import highland from 'highland';
 import * as fp from '@iml/fp';
 
-import {
-  resolveStream,
-  streamToPromise
-} from '../../../source/iml/promise-transforms.js';
+import { resolveStream, streamToPromise } from '../../../source/iml/promise-transforms.js';
 
 describe('resolve stream', () => {
   let stream, Stream, spy;

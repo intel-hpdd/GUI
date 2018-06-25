@@ -34,10 +34,8 @@ export function charterDirective($window) {
       this.svg = el.select('svg');
       this.getOuterWidth = () => parseInt(el.style('width'), 10);
       this.getOuterHeight = () => parseInt(el.style('height'), 10);
-      this.getWidth = () =>
-        this.getOuterWidth() - this.margin.left - this.margin.right;
-      this.getHeight = () =>
-        this.getOuterHeight() - this.margin.top - this.margin.bottom;
+      this.getWidth = () => this.getOuterWidth() - this.margin.left - this.margin.right;
+      this.getHeight = () => this.getOuterHeight() - this.margin.top - this.margin.bottom;
       this.dispatch = d3.dispatch('event');
 
       this.onUpdate = this.onUpdate || [];
@@ -64,7 +62,10 @@ export function charterDirective($window) {
           if (!document.body.contains(ctrl.svg[0][0])) return;
 
           update({
-            svg: ctrl.svg.datum(xs).transition().duration(2000),
+            svg: ctrl.svg
+              .datum(xs)
+              .transition()
+              .duration(2000),
             width: ctrl.getWidth(),
             height: ctrl.getHeight(),
             xs
@@ -79,7 +80,9 @@ export function charterDirective($window) {
       function onResize() {
         ctrl.onUpdate.forEach(onChange =>
           onChange({
-            svg: setDimensions(ctrl.svg).transition().duration(0),
+            svg: setDimensions(ctrl.svg)
+              .transition()
+              .duration(0),
             width: ctrl.getWidth(),
             height: ctrl.getHeight(),
             xs: ctrl.svg.datum()
@@ -87,9 +90,7 @@ export function charterDirective($window) {
         );
       }
 
-      scope.$on('$destroy', () =>
-        $window.removeEventListener('resize', debounced)
-      );
+      scope.$on('$destroy', () => $window.removeEventListener('resize', debounced));
     }
   };
 }

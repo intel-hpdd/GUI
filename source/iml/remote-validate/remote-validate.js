@@ -12,10 +12,7 @@ export const remoteValidateForm = {
     'ngInject';
     const formController = $element.controller('form');
 
-    if (formController === undefined)
-      throw new Error(
-        'formController not found, needed by remote-validate-form'
-      );
+    if (formController === undefined) throw new Error('formController not found, needed by remote-validate-form');
 
     this.components = {
       __all__: formController
@@ -74,14 +71,11 @@ export const remoteValidateForm = {
       });
     });
 
-    const deregisterWatch = scope.$watch(
-      attrs.validate,
-      function validateWatcher(newValidate, oldValidate) {
-        if (newValidate === oldValidate) return;
+    const deregisterWatch = scope.$watch(attrs.validate, function validateWatcher(newValidate, oldValidate) {
+      if (newValidate === oldValidate) return;
 
-        newValidate.then(success, errback);
-      }
-    );
+      newValidate.then(success, errback);
+    });
 
     scope.$on('$destroy', function() {
       scope.serverValidationError = null;

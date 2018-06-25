@@ -58,26 +58,13 @@ export default function naturalSort() {
       result = -1;
     } else if (pos >= componentsInB.length) {
       result = 1;
-    } else if (
-      typeof componentsInA[pos] === 'number' &&
-      typeof componentsInB[pos] === 'string'
-    ) {
+    } else if (typeof componentsInA[pos] === 'number' && typeof componentsInB[pos] === 'string') {
       result = -1;
-    } else if (
-      typeof componentsInA[pos] === 'string' &&
-      typeof componentsInB[pos] === 'number'
-    ) {
+    } else if (typeof componentsInA[pos] === 'string' && typeof componentsInB[pos] === 'number') {
       result = 1;
     } else {
-      result = calculateValueForALessThanB(
-        componentsInA[pos],
-        componentsInB[pos]
-      );
-      result = calculateValueForAEqualB(
-        componentsInA[pos],
-        componentsInB[pos],
-        result
-      );
+      result = calculateValueForALessThanB(componentsInA[pos], componentsInB[pos]);
+      result = calculateValueForAEqualB(componentsInA[pos], componentsInB[pos], result);
     }
 
     return result;

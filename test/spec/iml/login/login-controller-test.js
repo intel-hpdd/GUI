@@ -1,14 +1,7 @@
 // @flow
 
 describe('login controller', () => {
-  let mockAuthorization,
-    mockEnvironment,
-    mockGlobal,
-    navigate,
-    json,
-    fetchPromise,
-    finishFetch,
-    ctrl;
+  let mockAuthorization, mockEnvironment, mockGlobal, navigate, json, fetchPromise, finishFetch, ctrl;
   beforeEach(() => {
     mockAuthorization = {
       getCSRFToken: jest.fn(() => ({
@@ -16,10 +9,7 @@ describe('login controller', () => {
       }))
     };
 
-    jest.mock(
-      '../../../../source/iml/auth/authorization.js',
-      () => mockAuthorization
-    );
+    jest.mock('../../../../source/iml/auth/authorization.js', () => mockAuthorization);
 
     mockEnvironment = {
       ALLOW_ANONYMOUS_READ: true
@@ -58,9 +48,7 @@ describe('login controller', () => {
       username: 'johnsonw',
       password: 'abc123'
     };
-    require('../../../../source/iml/login/login-controller.js').default.bind(
-      ctrl
-    )(navigate);
+    require('../../../../source/iml/login/login-controller.js').default.bind(ctrl)(navigate);
   });
 
   it('should set ALLOW_ANONYMOUS_READ', () => {

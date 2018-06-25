@@ -1,7 +1,4 @@
-import {
-  ADD_FS_ITEMS,
-  default as fileSystemReducer
-} from '../../../../source/iml/file-system/file-system-reducer.js';
+import { ADD_FS_ITEMS, default as fileSystemReducer } from '../../../../source/iml/file-system/file-system-reducer.js';
 import deepFreeze from '@iml/deep-freeze';
 
 describe('file system reducer', () => {

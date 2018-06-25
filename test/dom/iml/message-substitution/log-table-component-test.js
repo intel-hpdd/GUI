@@ -7,18 +7,7 @@ import { setSession } from '../../../../source/iml/session/session-actions.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('log table component', () => {
-  let $scope,
-    template,
-    el,
-    log$,
-    table,
-    dateField,
-    fqdnLink,
-    fqdnSpan,
-    fqdnRestricted,
-    tag,
-    message,
-    messageLink;
+  let $scope, template, el, log$, table, dateField, fqdnLink, fqdnSpan, fqdnRestricted, tag, message, messageLink;
 
   beforeEach(() => {
     log$ = highland([
@@ -33,8 +22,7 @@ describe('log table component', () => {
             host_id: 1,
             fqdn: 'test001.localdomain',
             tag: 'cluster_sim',
-            message:
-              'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
+            message: 'Lustre: Cluster simulator syslog session start test001.localdomain 2016-06-24 14:53:33.208454',
             substitutions: [
               {
                 start: 48,
@@ -94,16 +82,10 @@ describe('log table component', () => {
         $scope.$digest();
 
         table = el.querySelector.bind(el, 'table');
-        dateField = el.querySelector.bind(
-          el,
-          'table tr td:nth-of-type(1) span'
-        );
+        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) span');
         fqdnLink = el.querySelector.bind(el, 'table tr td:nth-of-type(2) a');
         fqdnSpan = el.querySelector.bind(el, 'table tr td:nth-of-type(2) span');
-        fqdnRestricted = el.querySelector.bind(
-          el,
-          'table tr td:nth-of-type(3)'
-        );
+        fqdnRestricted = el.querySelector.bind(el, 'table tr td:nth-of-type(3)');
         tag = el.querySelector.bind(el, 'table tr td:nth-of-type(4)');
         message = el.querySelector.bind(el, 'table tr td:nth-of-type(5)');
         messageLink = el.querySelector.bind(el, 'table tr td:nth-of-type(5) a');
@@ -140,15 +122,12 @@ describe('log table component', () => {
 
     it('should display the message in the fifth column', () => {
       expect(message().textContent.trim()).toEqual(
-        'Lustre: Cluster simulator syslog session start test001.localdomain' +
-          ' 2016-06-24 14:53:33.208454'
+        'Lustre: Cluster simulator syslog session start test001.localdomain' + ' 2016-06-24 14:53:33.208454'
       );
     });
 
     it('should link to the fqdn in the message column', () => {
-      expect(messageLink().getAttribute('route-to')).toEqual(
-        'configure/server/1/'
-      );
+      expect(messageLink().getAttribute('route-to')).toEqual('configure/server/1/');
     });
   });
 
@@ -189,16 +168,10 @@ describe('log table component', () => {
         $scope.$digest();
 
         table = el.querySelector.bind(el, 'table');
-        dateField = el.querySelector.bind(
-          el,
-          'table tr td:nth-of-type(1) span'
-        );
+        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) span');
         fqdnLink = el.querySelector.bind(el, 'table tr td:nth-of-type(2)');
         fqdnSpan = el.querySelector.bind(el, 'table tr td:nth-of-type(2) span');
-        fqdnRestricted = el.querySelector.bind(
-          el,
-          'table tr td:nth-of-type(3)'
-        );
+        fqdnRestricted = el.querySelector.bind(el, 'table tr td:nth-of-type(3)');
         tag = el.querySelector.bind(el, 'table tr td:nth-of-type(4)');
         message = el.querySelector.bind(el, 'table tr td:nth-of-type(5)');
         messageLink = el.querySelector.bind(el, 'table tr td:nth-of-type(5) a');
@@ -218,9 +191,7 @@ describe('log table component', () => {
     });
 
     it('should display the fqdn in the third column', () => {
-      expect(fqdnRestricted().textContent.trim()).toEqual(
-        'test001.localdomain'
-      );
+      expect(fqdnRestricted().textContent.trim()).toEqual('test001.localdomain');
     });
 
     it('should display the tag in the fourth column', () => {
@@ -229,8 +200,7 @@ describe('log table component', () => {
 
     it('should display the message in the fifth column', () => {
       expect(message().textContent.trim()).toEqual(
-        'Lustre: Cluster simulator syslog session start test001.localdomain' +
-          ' 2016-06-24 14:53:33.208454'
+        'Lustre: Cluster simulator syslog session start test001.localdomain' + ' 2016-06-24 14:53:33.208454'
       );
     });
 

@@ -110,19 +110,11 @@ describe('iframe shim component', () => {
     });
 
     it('should remove the load event listener', () => {
-      expect(el.removeEventListener).toHaveBeenCalledOnceWith(
-        'load',
-        expect.any(Function),
-        true
-      );
+      expect(el.removeEventListener).toHaveBeenCalledOnceWith('load', expect.any(Function), true);
     });
 
     it('should remove the message event listener', () => {
-      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith(
-        'message',
-        expect.any(Function),
-        false
-      );
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith('message', expect.any(Function), false);
     });
   });
 });

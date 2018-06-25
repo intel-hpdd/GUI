@@ -12,20 +12,11 @@ describe('confirm action modal', function() {
   });
 
   beforeEach(
-    angular.mock.module(
-      uiBootstrapModule,
-      ($compileProvider, $provide, $controllerProvider) => {
-        $provide.factory(
-          'openConfirmActionModal',
-          openConfirmActionModalFactory
-        );
+    angular.mock.module(uiBootstrapModule, ($compileProvider, $provide, $controllerProvider) => {
+      $provide.factory('openConfirmActionModal', openConfirmActionModalFactory);
 
-        $controllerProvider.register(
-          'ConfirmActionModalCtrl',
-          ConfirmActionModalCtrl
-        );
-      }
-    )
+      $controllerProvider.register('ConfirmActionModalCtrl', ConfirmActionModalCtrl);
+    })
   );
 
   describe('confirm action modal', function() {

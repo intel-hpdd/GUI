@@ -9,9 +9,7 @@ describe('chart directive', () => {
     angular.mock.module(($provide, $compileProvider) => {
       jest.mock('@iml/debounce', () => jest.fn(x => x));
 
-      const {
-        charterDirective
-      } = require('../../../../../../source/iml/charting/types/chart/chart-directive.js');
+      const { charterDirective } = require('../../../../../../source/iml/charting/types/chart/chart-directive.js');
 
       $compileProvider.directive('charter', charterDirective);
       $compileProvider.directive('tester', () => {
@@ -176,9 +174,6 @@ describe('chart directive', () => {
   it('should remove the listener on destroy', () => {
     $scope.$destroy();
 
-    expect($window.removeEventListener).toHaveBeenCalledOnceWith(
-      'resize',
-      expect.any(Function)
-    );
+    expect($window.removeEventListener).toHaveBeenCalledOnceWith('resize', expect.any(Function));
   });
 });

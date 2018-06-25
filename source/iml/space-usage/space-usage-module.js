@@ -20,10 +20,5 @@ export type addSpaceUsageActionT = {
 };
 
 export default angular
-  .module('spaceUsageModule', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('spaceUsageModule', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .factory('getSpaceUsageChart', getSpaceUsageChartFactory).name;

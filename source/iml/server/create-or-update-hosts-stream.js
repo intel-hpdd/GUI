@@ -29,7 +29,12 @@ export default function createOrUpdateHostsStream(servers) {
       const findByAddress = _.findInCollection(['address']);
 
       const toPost = objects
-        .filter(_.compose(_.inverse, findByAddress(servers)))
+        .filter(
+          _.compose(
+            _.inverse,
+            findByAddress(servers)
+          )
+        )
         .map(addDefaultProfile);
 
       const postHostStream = updateHostStream('post', toPost);
@@ -43,29 +48,25 @@ export default function createOrUpdateHostsStream(servers) {
 
       const leftovers = _.difference(objects, toPut, toPost);
       const unchangedServers = {
-        objects: servers
-          .filter(findByAddress(leftovers))
-          .map(function buildResponse(server) {
-            return {
-              command_and_host: {
-                command: false,
-                host: server
-              },
-              error: null,
-              traceback: null
-            };
-          })
+        objects: servers.filter(findByAddress(leftovers)).map(function buildResponse(server) {
+          return {
+            command_and_host: {
+              command: false,
+              host: server
+            },
+            error: null,
+            traceback: null
+          };
+        })
       };
 
       return highland([postHostStream, putHostStream])
         .merge()
         .collect()
         .map(function combine(responses) {
-          responses = responses
-            .concat(unchangedServers)
-            .concat(function concatArrays(a, b) {
-              return Array.isArray(a) ? a.concat(b) : undefined;
-            });
+          responses = responses.concat(unchangedServers).concat(function concatArrays(a, b) {
+            return Array.isArray(a) ? a.concat(b) : undefined;
+          });
 
           return _.merge.apply(_, responses);
         });

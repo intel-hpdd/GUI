@@ -46,17 +46,15 @@ const ends = qsToInputParser.ends(leftHands, rightHands);
 const inList = qsToInputParser.inList(leftHands, rightHands);
 const date = qsToInputParser.dateParser(leftHands);
 const orderBy = qsToInputParser.orderByParser(leftHands);
-const choices = parsely.choice([
-  like,
-  starts,
-  ends,
-  inList,
-  date,
-  assign,
-  orderBy
-]);
+const choices = parsely.choice([like, starts, ends, inList, date, assign, orderBy]);
 const expr = parsely.sepBy1(choices)(qsToInputParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const logParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
-export default fp.memoize(fp.flow(tokenizer, logParser, x => x.result));
+export default fp.memoize(
+  fp.flow(
+    tokenizer,
+    logParser,
+    x => x.result
+  )
+);

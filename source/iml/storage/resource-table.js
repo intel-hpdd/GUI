@@ -6,12 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import type { HighlandStreamT } from 'highland';
-import type {
-  Column,
-  Attribute,
-  StorageResourceClass,
-  StorageResourceResponse
-} from './storage-types.js';
+import type { Column, Attribute, StorageResourceClass, StorageResourceResponse } from './storage-types.js';
 
 import store from '../store/get-store.js';
 import { UI_ROOT } from '../environment.js';
@@ -27,10 +22,7 @@ type SortedAttribute = {
   key: string
 };
 
-const sortedAttributes = (
-  columns: Column[],
-  attributes: { [string]: Attribute }
-): SortedAttribute[] =>
+const sortedAttributes = (columns: Column[], attributes: { [string]: Attribute }): SortedAttribute[] =>
   (entries(attributes): Array<[string, Attribute]>).reduce((arr, [key, v]) => {
     const index = columns.findIndex(c => c.name === key);
 
@@ -42,30 +34,19 @@ const sortedAttributes = (
     return arr;
   }, []);
 
-export const StorageAttribute = ({
-  attribute
-}: {
-  attribute: SortedAttribute
-}) => {
+export const StorageAttribute = ({ attribute }: { attribute: SortedAttribute }) => {
   if (attribute.class === 'ResourceReference') {
     if (!attribute.raw) return;
 
     const id = extractApiId(attribute.raw);
-    return (
-      <a
-        href={`${UI_ROOT}configure/storage/${id}`}
-        dangerouslySetInnerHTML={{ __html: attribute.markup }}
-      />
-    );
+    return <a href={`${UI_ROOT}configure/storage/${id}`} dangerouslySetInnerHTML={{ __html: attribute.markup }} />;
   } else {
     return <span dangerouslySetInnerHTML={{ __html: attribute.markup }} />;
   }
 };
 
 const handleSort = ([sortKey: string, sortDesc: boolean]) => {
-  store.dispatch(
-    setStorageConfig({ sortKey, sortDesc: !sortDesc, loading: true })
-  );
+  store.dispatch(setStorageConfig({ sortKey, sortDesc: !sortDesc, loading: true }));
 };
 
 const setEntries = entries => {
@@ -122,37 +103,31 @@ export const ResourceTable = ({
         <tr>
           <th>Name</th>
           <th>Alerts</th>
-          {columns.map(c =>
+          {columns.map(c => (
             <th key={c.name}>
               <a onClick={linkEvent([c.name, sortDesc], handleSort)}>
                 {c.label}
                 <i className={`fa ${ascDesc(c.name, sortKey, sortDesc)}`} />
               </a>
             </th>
-          )}
+          ))}
         </tr>
         <tbody>
-          {objectWithAttributes.map(x =>
+          {objectWithAttributes.map(x => (
             <tr>
               <td>
-                <a href={`${UI_ROOT}configure/storage/${x.id}`}>
-                  {x.alias}
-                </a>
+                <a href={`${UI_ROOT}configure/storage/${x.id}`}>{x.alias}</a>
               </td>
               <td>
-                <AlertIndicator
-                  viewer={alertIndicatorB}
-                  size="medium"
-                  recordId={x.id}
-                />
+                <AlertIndicator viewer={alertIndicatorB} size="medium" recordId={x.id} />
               </td>
-              {x.sortedAttributes.map(v =>
+              {x.sortedAttributes.map(v => (
                 <td key={v.key}>
                   <StorageAttribute attribute={v} />
                 </td>
-              )}
+              ))}
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
       <div class="text-center">

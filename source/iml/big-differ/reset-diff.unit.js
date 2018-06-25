@@ -20,11 +20,7 @@ describe('reset diff', () => {
         reset: jest.fn()
       };
 
-      resetDiffComponent = $componentController(
-        'resetDiff',
-        { $scope },
-        { diffCtrl }
-      );
+      resetDiffComponent = $componentController('resetDiff', { $scope }, { diffCtrl });
       resetDiffComponent.$onInit();
     })
   );

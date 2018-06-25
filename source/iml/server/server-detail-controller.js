@@ -43,9 +43,7 @@ export default function ServerDetailController(
 
   $scope.$on('$destroy', function onDestroy() {
     Object.keys(streams).forEach(function destroy(key) {
-      streams[key].destroy
-        ? streams[key].destroy()
-        : streams[key].endBroadcast();
+      streams[key].destroy ? streams[key].destroy() : streams[key].endBroadcast();
     });
   });
 }

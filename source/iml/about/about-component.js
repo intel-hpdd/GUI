@@ -14,20 +14,19 @@ function AboutComponent() {
       <div>
         <div>
           <div class="about-logo" />
-          {IS_RELEASE
-            ? <text>
-                Integrated Manager for Lustre software {VERSION} (build {BUILD})
-              </text>
-            : <text>
-                Integrated Manager for Lustre software build: {BUILD}
-              </text>}
+          {IS_RELEASE ? (
+            <text>
+              Integrated Manager for Lustre software {VERSION} (build {BUILD})
+            </text>
+          ) : (
+            <text>Integrated Manager for Lustre software build: {BUILD}</text>
+          )}
         </div>
       </div>
       <div>
         <div>
           <p>
-            Copyright © {HELP_TEXT.copyright_year}{' '}
-            <a href="http://www.intel.com/">Intel Corporation</a>
+            Copyright © {HELP_TEXT.copyright_year} <a href="http://www.intel.com/">Intel Corporation</a>
             . All rights reserved.
           </p>
         </div>
@@ -35,8 +34,7 @@ function AboutComponent() {
       <div>
         <div>
           <p>
-            Intel is a trademark of Intel Corporation in the U.S. and other
-            countries.
+            Intel is a trademark of Intel Corporation in the U.S. and other countries.
             <br />
             * Other names and brands may be claimed as the property of others.
           </p>
@@ -48,9 +46,8 @@ function AboutComponent() {
           <h5>GPL components</h5>
 
           <p>
-            The software includes some third party software licensed under the
-            GNU GPL. Please contact Intel if you require the source code to GPL
-            components.
+            The software includes some third party software licensed under the GNU GPL. Please contact Intel if you
+            require the source code to GPL components.
           </p>
         </div>
       </div>

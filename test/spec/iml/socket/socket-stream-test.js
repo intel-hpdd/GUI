@@ -16,10 +16,7 @@ describe('socket stream', () => {
 
     mockGetEventSocket = jest.fn(() => socket);
 
-    jest.mock(
-      '../../../../source/iml/socket-worker/get-event-socket.js',
-      () => mockGetEventSocket
-    );
+    jest.mock('../../../../source/iml/socket-worker/get-event-socket.js', () => mockGetEventSocket);
 
     const socketStreamModule = require('../../../../source/iml/socket/socket-stream.js');
 

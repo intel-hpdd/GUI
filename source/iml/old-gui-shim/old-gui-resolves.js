@@ -16,9 +16,7 @@ export const oldFilesystemDetailResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
       'ngInject';
-      return streamToPromise(store.select('fileSystems')).then(
-        matchById($stateParams.id)
-      );
+      return streamToPromise(store.select('fileSystems')).then(matchById($stateParams.id));
     }
   }
 };
@@ -39,9 +37,7 @@ export const oldTargetResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
       'ngInject';
-      return streamToPromise(store.select('targets')).then(
-        matchById($stateParams.id)
-      );
+      return streamToPromise(store.select('targets')).then(matchById($stateParams.id));
     }
   }
 };

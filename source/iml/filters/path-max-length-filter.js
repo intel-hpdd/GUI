@@ -26,15 +26,12 @@ export default $cacheFactory => {
   function reducePath(pathComponents, maxLength) {
     let path;
     const parts = pathComponents.parts;
-    let pointer =
-      Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
+    let pointer = Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
 
     parts[pointer] = '...';
 
     while (1) {
-      path = `${pathComponents.leadingSlash}${parts.join(
-        '/'
-      )}/${pathComponents.filename}`;
+      path = `${pathComponents.leadingSlash}${parts.join('/')}/${pathComponents.filename}`;
 
       if (path.length <= maxLength || parts.length === 1) break;
 
@@ -60,8 +57,7 @@ export default $cacheFactory => {
 
     const pathComponents = splitUp(path);
 
-    if (pathComponents.parts.length > 0)
-      path = reducePath(pathComponents, maxLength);
+    if (pathComponents.parts.length > 0) path = reducePath(pathComponents, maxLength);
 
     // catchall if the filename alone puts us over the length limit
     if (path.length > maxLength) path = '...';

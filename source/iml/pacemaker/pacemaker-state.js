@@ -42,9 +42,7 @@ export default {
     'ngInject';
     this.stream
       .filter(Boolean)
-      .each(({ state }: stateT) =>
-        Inferno.render(<PacemakerStateComponent state={state} />, $element[0])
-      );
+      .each(({ state }: stateT) => Inferno.render(<PacemakerStateComponent state={state} />, $element[0]));
 
     this.$onDestroy = () => this.stream.destroy();
   }

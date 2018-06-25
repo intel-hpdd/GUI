@@ -1,8 +1,4 @@
-import {
-  setState,
-  trimLogs,
-  isFinished
-} from '../../../../source/iml/command/command-transforms.js';
+import { setState, trimLogs, isFinished } from '../../../../source/iml/command/command-transforms.js';
 
 describe('command transform', () => {
   describe('set state', () => {

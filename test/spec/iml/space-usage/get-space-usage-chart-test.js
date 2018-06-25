@@ -87,27 +87,12 @@ describe('space usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/space-usage/get-space-usage-stream.js',
-      () => mockGetSpaceUsageStream
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/space-usage/get-space-usage-stream.js', () => mockGetSpaceUsageStream);
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({ getConf: mockGetConf })
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
 
     const mod = require('../../../../source/iml/space-usage/get-space-usage-chart.js');
 
@@ -305,9 +290,7 @@ describe('space usage chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_SPACE_USAGE_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_SPACE_USAGE_CHART_ITEMS', {
         page: 'target1'
       });
     });

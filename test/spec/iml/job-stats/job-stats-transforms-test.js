@@ -131,9 +131,7 @@ describe('job stats transforms', () => {
 
   describe('collectById', () => {
     it('should work with empty data', async () => {
-      const result = await streamToPromise(
-        collectById(highland([highland([]), highland([])]))
-      );
+      const result = await streamToPromise(collectById(highland([highland([]), highland([])])));
 
       expect(result).toEqual([]);
     });

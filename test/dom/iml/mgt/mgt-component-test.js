@@ -28,10 +28,7 @@ describe('mgt component', () => {
       uiBootstrap,
       ($provide, $compileProvider, $controllerProvider, $filterProvider) => {
         mockGetCommandStream = jest.fn(() => highland());
-        jest.mock(
-          '../../../../source/iml/command/get-command-stream.js',
-          () => mockGetCommandStream
-        );
+        jest.mock('../../../../source/iml/command/get-command-stream.js', () => mockGetCommandStream);
 
         const {
           ActionDropdownCtrl,
@@ -40,23 +37,16 @@ describe('mgt component', () => {
         } = require('../../../../source/iml/action-dropdown/action-dropdown.js');
 
         mockSocketStream = jest.fn(() => highland());
-        jest.mock(
-          '../../../../source/iml/socket/socket-stream.js',
-          () => mockSocketStream
-        );
+        jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
-        const handleActionFactory = require('../../../../source/iml/action-dropdown/handle-action.js')
-          .default;
+        const handleActionFactory = require('../../../../source/iml/action-dropdown/handle-action.js').default;
 
         $provide.value('socketStream', jest.fn());
         $compileProvider.component('mgt', mgtComponent);
         $compileProvider.component('recordState', alertIndicatorNg);
         $compileProvider.directive('jobStatus', jobStatus);
         $provide.factory('handleAction', handleActionFactory);
-        $provide.factory(
-          'openConfirmActionModal',
-          openConfirmActionModalFactory
-        );
+        $provide.factory('openConfirmActionModal', openConfirmActionModalFactory);
 
         $provide.factory('openCommandModal', openCommandModalFactory);
         $controllerProvider.register('ActionDropdownCtrl', ActionDropdownCtrl);
@@ -123,9 +113,7 @@ describe('mgt component', () => {
     });
 
     it('should link to the mgt detail page', () => {
-      expect(el.querySelector('td a').getAttribute('route-to')).toBe(
-        'target/1'
-      );
+      expect(el.querySelector('td a').getAttribute('route-to')).toBe('target/1');
     });
 
     it('should render the first filesystem', () => {
@@ -137,15 +125,11 @@ describe('mgt component', () => {
     });
 
     it('should render the first filesystem link', () => {
-      expect(el.querySelector('td.comma-list a').getAttribute('route-to')).toBe(
-        'configure/filesystem/1'
-      );
+      expect(el.querySelector('td.comma-list a').getAttribute('route-to')).toBe('configure/filesystem/1');
     });
 
     it('should render the second filesystem link', () => {
-      expect(
-        el.querySelectorAll('td.comma-list a')[1].getAttribute('route-to')
-      ).toBe('configure/filesystem/2');
+      expect(el.querySelectorAll('td.comma-list a')[1].getAttribute('route-to')).toBe('configure/filesystem/2');
     });
 
     it('should render the volume name', () => {

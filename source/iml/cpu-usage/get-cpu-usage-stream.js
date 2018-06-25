@@ -23,10 +23,7 @@ export default (requestRange, buff) => {
       .flatten()
       .tap(function mapper(x) {
         types.forEach(function(type) {
-          x.data[type] =
-            (100 * x.data['cpu_' + type] + x.data.cpu_total / 2) /
-            x.data.cpu_total /
-            100;
+          x.data[type] = (100 * x.data['cpu_' + type] + x.data.cpu_total / 2) / x.data.cpu_total / 100;
         });
       })
       .map(function calculateCpuAndRam(x) {

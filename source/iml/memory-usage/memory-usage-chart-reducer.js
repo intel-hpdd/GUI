@@ -5,15 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const UPDATE_MEMORY_USAGE_CHART_ITEMS =
-  'UPDATE_MEMORY_USAGE_CHART_ITEMS';
-export const DEFAULT_MEMORY_USAGE_CHART_ITEMS =
-  'DEFAULT_MEMORY_USAGE_CHART_ITEMS';
+export const UPDATE_MEMORY_USAGE_CHART_ITEMS = 'UPDATE_MEMORY_USAGE_CHART_ITEMS';
+export const DEFAULT_MEMORY_USAGE_CHART_ITEMS = 'DEFAULT_MEMORY_USAGE_CHART_ITEMS';
 
-import type {
-  durationPayloadHashT,
-  durationPayloadT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadHashT, durationPayloadT } from '../duration-picker/duration-picker-module.js';
 
 import type { addMemoryUsageActionT } from './memory-usage-module.js';
 

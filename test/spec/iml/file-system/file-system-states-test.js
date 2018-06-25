@@ -20,8 +20,7 @@ describe('file system states', () => {
       GROUPS: mockGroups
     }));
 
-    fileSystemListState = require('../../../../source/iml/file-system/file-system-states.js')
-      .fileSystemListState;
+    fileSystemListState = require('../../../../source/iml/file-system/file-system-states.js').fileSystemListState;
   });
 
   it('should create the state', () => {

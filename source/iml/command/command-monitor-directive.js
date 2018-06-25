@@ -15,7 +15,12 @@ import type { localApplyT } from '../extend-scope-module.js';
 
 const set = (ctx, name) => x => (ctx[name] = x);
 
-const notCancelled = fp.filter(fp.flow(x => x.cancelled, fp.not));
+const notCancelled = fp.filter(
+  fp.flow(
+    x => x.cancelled,
+    fp.not
+  )
+);
 
 export function CommandMonitorCtrl(
   $scope: $scopeT,
@@ -43,7 +48,12 @@ export function CommandMonitorCtrl(
     .map(x => x.objects)
     .map(notCancelled)
     .tap(set(this, 'lastObjects'))
-    .tap(fp.flow(x => x.length, set(this, 'length')))
+    .tap(
+      fp.flow(
+        x => x.length,
+        set(this, 'length')
+      )
+    )
     .stopOnError(e => $exceptionHandler(e))
     .each(() => localApply($scope));
 

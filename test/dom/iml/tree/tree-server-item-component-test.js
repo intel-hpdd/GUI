@@ -32,8 +32,7 @@ describe('tree server item component', () => {
       $scope.record = { id: 1, fqdn: 'lotus-34vm3.lotus.hpdd.lab.intel.com' };
       $scope.parent = { treeId: 1, opens: {} };
 
-      const template =
-        '<tree-server-item parent="parent" record="record"></tree-server-item>';
+      const template = '<tree-server-item parent="parent" record="record"></tree-server-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -42,22 +41,16 @@ describe('tree server item component', () => {
 
   it('should link to the server detail page', () => {
     const route = querySelector(el, 'a').getAttribute('ui-sref');
-    expect(route).toBe(
-      'app.serverDetail({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.serverDetail({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the server dashboard page', () => {
     const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
-    expect(route).toBe(
-      'app.dashboard.server({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.dashboard.server({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the fqdn', () => {
-    expect(querySelector(el, 'a').textContent.trim()).toBe(
-      'lotus-34vm3.lotus.hpdd.lab.intel.com'
-    );
+    expect(querySelector(el, 'a').textContent.trim()).toBe('lotus-34vm3.lotus.hpdd.lab.intel.com');
   });
 
   it('should not render any children', () => {
@@ -65,9 +58,7 @@ describe('tree server item component', () => {
   });
 
   it('should start with arrow pointed right', () => {
-    expect(el.querySelector('i.fa-chevron-right')).not.toHaveClass(
-      'fa-rotate-90'
-    );
+    expect(el.querySelector('i.fa-chevron-right')).not.toHaveClass('fa-rotate-90');
   });
 
   describe('on click', () => {

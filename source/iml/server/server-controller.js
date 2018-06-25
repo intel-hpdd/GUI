@@ -8,7 +8,10 @@ import { values } from '@iml/obj';
 
 import getCommandStream from '../command/get-command-stream.js';
 
-const viewLens = fp.flow(fp.lensProp, fp.view);
+const viewLens = fp.flow(
+  fp.lensProp,
+  fp.view
+);
 
 export default function ServerCtrl(
   $scope,
@@ -51,12 +54,7 @@ export default function ServerCtrl(
       });
     },
     getFilteredHosts() {
-      const filtered = pdshFilter(
-        this.servers,
-        this.hostnamesHash,
-        this.getHostPath,
-        this.pdshFuzzy
-      );
+      const filtered = pdshFilter(this.servers, this.hostnamesHash, this.getHostPath, this.pdshFuzzy);
 
       return naturalSortFilter(filtered, this.getHostPath, this.reverse);
     },
@@ -160,9 +158,7 @@ export default function ServerCtrl(
         if (data == null) return;
 
         const commandStream = getCommandStream([data]);
-        openCommandModal(commandStream).result.then(
-          commandStream.destroy.bind(commandStream)
-        );
+        openCommandModal(commandStream).result.then(commandStream.destroy.bind(commandStream));
       });
     },
     overrideActionClick
@@ -170,9 +166,7 @@ export default function ServerCtrl(
 
   const p = $scope.propagateChange.bind(null, $scope, $scope.server, 'servers');
 
-  streams.serversStream
-    .tap(selectedServers.addNewServers.bind(selectedServers))
-    .through(p);
+  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
 
   $scope.$on('$destroy', () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

@@ -20,9 +20,7 @@ export default (openCommandModal: Function) => {
 
     if (showModal) {
       const commandModal$ = command$.fork();
-      openCommandModal(commandModal$).resultStream.each(() =>
-        commandModal$.destroy()
-      );
+      openCommandModal(commandModal$).resultStream.each(() => commandModal$.destroy());
     }
 
     return command$

@@ -5,10 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type {
-  StorageResourceClass,
-  StorageResourceResponse
-} from './storage-types.js';
+import type { StorageResourceClass, StorageResourceResponse } from './storage-types.js';
 import type { ActionT } from '../store/store-module.js';
 
 export type Config = {

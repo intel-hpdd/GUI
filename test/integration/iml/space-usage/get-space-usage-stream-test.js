@@ -6,19 +6,12 @@ import { convertNvDates } from '../../../test-utils.js';
 import fixtures from '../../../data-fixtures/space-usage-fixtures.json';
 
 describe('space usage stream', () => {
-  let mockSocketStream,
-    bufferDataNewerThan,
-    getSpaceUsageStream,
-    endAndRunTimers,
-    spy;
+  let mockSocketStream, bufferDataNewerThan, getSpaceUsageStream, endAndRunTimers, spy;
 
   beforeEach(() => {
     const mockCreateMoment = () => moment('2014-04-14T13:12:00+00:00');
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockCreateMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockCreateMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -32,16 +25,11 @@ describe('space usage stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
-    getSpaceUsageStream = require('../../../../source/iml/space-usage/get-space-usage-stream.js')
-      .default;
+    getSpaceUsageStream = require('../../../../source/iml/space-usage/get-space-usage-stream.js').default;
 
     spy = jest.fn();
 

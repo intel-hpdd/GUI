@@ -70,10 +70,7 @@ describe('create store', () => {
       s.each(spy);
       s.destroy();
 
-      expect(spy).toHaveBeenCalledOnceWith([
-        { id: 1, name: 'foo' },
-        { id: 2, name: 'bar' }
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith([{ id: 1, name: 'foo' }, { id: 2, name: 'bar' }]);
     });
 
     it('should emit moreStuff state', () => {
@@ -82,10 +79,7 @@ describe('create store', () => {
       s.each(spy);
       s.destroy();
 
-      expect(spy).toHaveBeenCalledOnceWith([
-        { id: 3, name: 'some' },
-        { id: 4, name: 'stuff' }
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith([{ id: 3, name: 'some' }, { id: 4, name: 'stuff' }]);
     });
 
     it('should emit updated state', () => {
@@ -100,10 +94,7 @@ describe('create store', () => {
 
       s.destroy();
 
-      expect(spy).toHaveBeenCalledOnceWith([
-        { id: 1, name: 'boop' },
-        { id: 2, name: 'bar' }
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith([{ id: 1, name: 'boop' }, { id: 2, name: 'bar' }]);
     });
 
     it('should emit once per change', () => {
@@ -125,10 +116,7 @@ describe('create store', () => {
 
       s.each(spy);
 
-      expect(spy).toHaveBeenCalledOnceWith([
-        { id: 1, name: 'foo' },
-        { id: 2, name: 'bar' }
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith([{ id: 1, name: 'foo' }, { id: 2, name: 'bar' }]);
     });
 
     it('should not emit after destroy', () => {
@@ -142,10 +130,7 @@ describe('create store', () => {
         payload: { id: 1, name: 'boop' }
       });
 
-      expect(spy).not.toHaveBeenCalledWith([
-        { id: 1, name: 'boop' },
-        { id: 2, name: 'bar' }
-      ]);
+      expect(spy).not.toHaveBeenCalledWith([{ id: 1, name: 'boop' }, { id: 2, name: 'bar' }]);
     });
 
     it('should not remove other viewers when destroy is called twice', () => {
@@ -163,10 +148,7 @@ describe('create store', () => {
         payload: { id: 1, name: 'boop' }
       });
 
-      expect(spy).toHaveBeenCalledOnceWith([
-        { id: 1, name: 'boop' },
-        { id: 2, name: 'bar' }
-      ]);
+      expect(spy).toHaveBeenCalledOnceWith([{ id: 1, name: 'boop' }, { id: 2, name: 'bar' }]);
     });
   });
 });

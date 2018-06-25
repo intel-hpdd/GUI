@@ -11,16 +11,18 @@ import LNET_OPTIONS from './lnet-options.js';
 import * as fp from '@iml/fp';
 
 export default function getNetworkInterfaceStream(params: {}) {
-  return socketStream('/network_interface', params || {}).pluck('objects').map(
-    fp.map(function setNidIfEmpty(x) {
-      if (!x.nid)
-        x.nid = {
-          lnd_type: x.lnd_types[0],
-          lnd_network: LNET_OPTIONS[0].value,
-          network_interface: x.resource_uri
-        };
+  return socketStream('/network_interface', params || {})
+    .pluck('objects')
+    .map(
+      fp.map(function setNidIfEmpty(x) {
+        if (!x.nid)
+          x.nid = {
+            lnd_type: x.lnd_types[0],
+            lnd_network: LNET_OPTIONS[0].value,
+            network_interface: x.resource_uri
+          };
 
-      return x;
-    })
-  );
+        return x;
+      })
+    );
 }

@@ -20,26 +20,21 @@ type StorageProps = {
   alertIndicatorB: () => HighlandStreamT<any>
 };
 
-const AddStorageDevice = () =>
+const AddStorageDevice = () => (
   <div class="add-storage-device">
     <h4 class="section-header">Add Storage Device</h4>
-    <a
-      type="button"
-      class="btn btn-default btn-sm"
-      href={`${UI_ROOT}configure/storage/add`}
-    >
+    <a type="button" class="btn btn-default btn-sm" href={`${UI_ROOT}configure/storage/add`}>
       <i class="fa fa-plus-circle text-success" /> Add Storage Device
     </a>
-  </div>;
+  </div>
+);
 
-const NoPlugins = () =>
+const NoPlugins = () => (
   <div class="well text-center no-plugins">
     <h1>No storage plugins are currently installed.</h1>
-    <p>
-      When storage plugins are installed, use this tab to configure and view
-      storage resources such as controllers.
-    </p>
-  </div>;
+    <p>When storage plugins are installed, use this tab to configure and view storage resources such as controllers.</p>
+  </div>
+);
 
 export const StorageComponent = asViewer(
   'storage',
@@ -55,24 +50,27 @@ export const StorageComponent = asViewer(
 
     return (
       <div class="container container-full storage container">
-        {selectIndex != null && resourceClasses.length
-          ? <div>
-              <h4 class="section-header">Storage Resources</h4>
-              <TableFilter classes={resourceClasses} idx={selectIndex} />
-              <div className={`table-container ${loading ? 'loading' : ''}`}>
-                {resources &&
-                  <ResourceTable
-                    resourceClass={resourceClasses[selectIndex]}
-                    resources={resources}
-                    alertIndicatorB={alertIndicatorB}
-                    sortKey={sortKey}
-                    sortDesc={sortDesc}
-                    entries={entries}
-                  />}
-                <AddStorageDevice />
-              </div>
+        {selectIndex != null && resourceClasses.length ? (
+          <div>
+            <h4 class="section-header">Storage Resources</h4>
+            <TableFilter classes={resourceClasses} idx={selectIndex} />
+            <div className={`table-container ${loading ? 'loading' : ''}`}>
+              {resources && (
+                <ResourceTable
+                  resourceClass={resourceClasses[selectIndex]}
+                  resources={resources}
+                  alertIndicatorB={alertIndicatorB}
+                  sortKey={sortKey}
+                  sortDesc={sortDesc}
+                  entries={entries}
+                />
+              )}
+              <AddStorageDevice />
             </div>
-          : <NoPlugins />}
+          </div>
+        ) : (
+          <NoPlugins />
+        )}
       </div>
     );
   }
@@ -88,13 +86,7 @@ export default {
     const storageResources$ = storageResources().each(() => {});
 
     this.$onInit = () => {
-      Inferno.render(
-        <StorageComponent
-          alertIndicatorB={this.alertIndicatorB}
-          viewer={this.storageB}
-        />,
-        el
-      );
+      Inferno.render(<StorageComponent alertIndicatorB={this.alertIndicatorB} viewer={this.storageB} />, el);
     };
 
     this.$onDestroy = () => {

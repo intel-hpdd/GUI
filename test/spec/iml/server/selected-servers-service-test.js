@@ -22,15 +22,11 @@ describe('selected servers service', () => {
   dataProvider.forEach(function checktype(item) {
     it('should toggle for ' + item.name, () => {
       selectedServers.toggleType(item.name);
-      expect(selectedServers.servers['https://hostname1.localdomain']).toBe(
-        item.expected
-      );
+      expect(selectedServers.servers['https://hostname1.localdomain']).toBe(item.expected);
     });
   });
   it('should add a new server', () => {
     selectedServers.addNewServers([{ fqdn: 'https://hostname2.localdomain' }]);
-    expect(selectedServers.servers['https://hostname2.localdomain']).toBe(
-      false
-    );
+    expect(selectedServers.servers['https://hostname2.localdomain']).toBe(false);
   });
 });

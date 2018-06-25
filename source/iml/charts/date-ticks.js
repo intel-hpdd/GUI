@@ -33,6 +33,8 @@ export default () => {
   };
 
   function toMoment(d) {
-    return moment(d).utc().toDate();
+    return moment(d)
+      .utc()
+      .toDate();
   }
 };

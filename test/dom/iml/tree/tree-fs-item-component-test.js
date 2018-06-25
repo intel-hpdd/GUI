@@ -14,8 +14,7 @@ describe('tree fs item component', () => {
       toggleItem: mockToggleItem
     }));
 
-    treeFsComponent = require('../../../../source/iml/tree/tree-fs-item-component.js')
-      .default;
+    treeFsComponent = require('../../../../source/iml/tree/tree-fs-item-component.js').default;
   });
 
   beforeEach(
@@ -40,8 +39,7 @@ describe('tree fs item component', () => {
         opens: {}
       };
 
-      const template =
-        '<tree-fs-item parent="parent" record="record"></tree-fs-item>';
+      const template = '<tree-fs-item parent="parent" record="record"></tree-fs-item>';
 
       el = $compile(template)($scope)[0];
       $scope.$digest();
@@ -51,17 +49,13 @@ describe('tree fs item component', () => {
   it('should link to the fs detail page', () => {
     const route = querySelector(el, 'a').getAttribute('ui-sref');
 
-    expect(route).toBe(
-      'app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should link to the fs dashboard page', () => {
     const route = querySelector(el, 'a.dashboard-link').getAttribute('ui-sref');
 
-    expect(route).toBe(
-      'app.dashboard.fs({ id: $ctrl.record.id, resetState: true })'
-    );
+    expect(route).toBe('app.dashboard.fs({ id: $ctrl.record.id, resetState: true })');
   });
 
   it('should render the label', () => {
@@ -73,9 +67,7 @@ describe('tree fs item component', () => {
   });
 
   it('should start with arrow pointed right', () => {
-    expect(querySelector(el, 'i.fa-chevron-right')).not.toHaveClass(
-      'fa-rotate-90'
-    );
+    expect(querySelector(el, 'i.fa-chevron-right')).not.toHaveClass('fa-rotate-90');
   });
 
   describe('on click', () => {

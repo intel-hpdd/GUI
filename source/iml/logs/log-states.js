@@ -71,12 +71,16 @@ export const logTableState = {
 
       if (qs.length) qs = `?${qs}`;
 
-      const $: HighlandStreamT<[Object[], Object]> = multiStream2([
-        store.select('server'),
-        socketStream(`/log/${qs}`)
-      ]);
+      const $: HighlandStreamT<[Object[], Object]> = multiStream2([store.select('server'), socketStream(`/log/${qs}`)]);
 
-      return resolveStream($.map(fp.flow(addHostIds, addCurrentPage)));
+      return resolveStream(
+        $.map(
+          fp.flow(
+            addHostIds,
+            addCurrentPage
+          )
+        )
+      );
     }
   },
   component: 'logTable'

@@ -1,10 +1,6 @@
 import highland from 'highland';
 describe('handle action', () => {
-  let mockSocketStream,
-    actionStream,
-    handleAction,
-    openConfirmActionModal,
-    openResult;
+  let mockSocketStream, actionStream, handleAction, openConfirmActionModal, openResult;
   beforeEach(() => {
     jest.useFakeTimers();
     mockSocketStream = jest.fn(() => {
@@ -12,10 +8,7 @@ describe('handle action', () => {
     });
     openResult = { resultStream: highland() };
     openConfirmActionModal = jest.fn().mockReturnValue(openResult);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/action-dropdown/handle-action.js');
     handleAction = mod.default(openConfirmActionModal);
@@ -37,9 +30,7 @@ describe('handle action', () => {
     });
     it('should open the confirm modal if there is confirmation', () => {
       handleAction(record, action);
-      expect(openConfirmActionModal).toHaveBeenCalledOnceWith('foo(foo bar)', [
-        'Are you sure you want to foo bar?'
-      ]);
+      expect(openConfirmActionModal).toHaveBeenCalledOnceWith('foo(foo bar)', ['Are you sure you want to foo bar?']);
     });
     it('should not open the confirm modal without confirmation', () => {
       delete action.confirmation;
@@ -113,19 +104,13 @@ describe('handle action', () => {
       beforeEach(() => {
         response = {
           transition_job: { description: "It's gonna do stuff!" },
-          dependency_jobs: [
-            { requires_confirmation: true, description: 'This will do stuff' }
-          ]
+          dependency_jobs: [{ requires_confirmation: true, description: 'This will do stuff' }]
         };
         actionStream.write(response);
       });
       it('should open the confirm action modal', () => {
         stream.each(() => {
-          expect(
-            openConfirmActionModal
-          ).toHaveBeenCalledOnceWith("It's gonna do stuff!", [
-            'This will do stuff'
-          ]);
+          expect(openConfirmActionModal).toHaveBeenCalledOnceWith("It's gonna do stuff!", ['This will do stuff']);
         });
         openResult.resultStream.write(true);
         actionStream.write({});

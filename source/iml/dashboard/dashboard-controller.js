@@ -18,11 +18,7 @@ import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
 import type { PropagateChange } from '../extend-scope-module.js';
 
-import type {
-  dashboardFsB,
-  dashboardHostB,
-  dashboardTargetB
-} from './dashboard-resolves.js';
+import type { dashboardFsB, dashboardHostB, dashboardTargetB } from './dashboard-resolves.js';
 
 export default function DashboardCtrl(
   qsStream: qsStreamT,
@@ -56,8 +52,7 @@ export default function DashboardCtrl(
       if (!item.selected) {
         item.selectedTarget = dashboard.targets = null;
       } else {
-        const filterBy =
-          dashboard.fs === item ? filterTargetByFs : filterTargetByHost;
+        const filterBy = dashboard.fs === item ? filterTargetByFs : filterTargetByHost;
 
         targetSelectStream = targetsB();
         targetSelectStream

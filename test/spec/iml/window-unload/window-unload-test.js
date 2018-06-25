@@ -6,16 +6,11 @@ describe('window unload', () => {
       addEventListener: jest.fn()
     };
 
-    windowUnload = require('../../../../source/iml/window-unload.js').default(
-      $window
-    );
+    windowUnload = require('../../../../source/iml/window-unload.js').default($window);
   });
 
   it('should register a beforeunload listener to $window', () => {
-    expect($window.addEventListener).toHaveBeenCalledOnceWith(
-      'beforeunload',
-      expect.any(Function)
-    );
+    expect($window.addEventListener).toHaveBeenCalledOnceWith('beforeunload', expect.any(Function));
   });
 
   it('should return an object representing unload state', () => {

@@ -35,9 +35,7 @@ export function getLegendFactory() {
       sel.each(function setData() {
         const container = d3.select(this).classed('chart-legend', true);
 
-        const groups = container
-          .selectAll('.legend-group')
-          .data(colors.domain());
+        const groups = container.selectAll('.legend-group').data(colors.domain());
 
         const enteringGroups = groups
           .enter()
@@ -93,7 +91,12 @@ export function getLegendFactory() {
         );
 
         const updateScale = (x, y) =>
-          fp.flow(mapToCoords, processCoordinates, x, y);
+          fp.flow(
+            mapToCoords,
+            processCoordinates,
+            x,
+            y
+          );
 
         const updateXScale = updateScale(mapX, xScale.range);
         updateXScale(itemWidths);

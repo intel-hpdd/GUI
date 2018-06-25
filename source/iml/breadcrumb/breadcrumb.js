@@ -13,11 +13,7 @@ import { getResolvedData } from '../route-utils.js';
 
 import type { routeStateT } from '../route-transitions.js';
 
-import type {
-  TransitionT,
-  StateServiceT,
-  StateParamsT
-} from 'angular-ui-router';
+import type { TransitionT, StateServiceT, StateParamsT } from 'angular-ui-router';
 
 import type { Maybe } from '@iml/maybe';
 
@@ -43,26 +39,17 @@ const Controller = class {
   onSuccessEvent: boolean;
   originalStackLength: number;
   $onDestroy: Function;
-  constructor(
-    $transitions: TransitionT,
-    $state: StateServiceT,
-    $stateParams: StateParamsT
-  ) {
+  constructor($transitions: TransitionT, $state: StateServiceT, $stateParams: StateParamsT) {
     'ngInject';
     const nodeStackLocation = (kind: string): number => {
-      const item: Maybe<breadcrumbT> = fp.find(item => item.kind === kind)(
-        this.stack
-      );
+      const item: Maybe<breadcrumbT> = fp.find(item => item.kind === kind)(this.stack);
 
       const idx = maybe.map(x => this.stack.indexOf(x), item);
 
       return maybe.withDefault(() => -1, idx);
     };
 
-    const createBreadcrumb = (
-      node: routeStateT,
-      resolvedData: breadcrumbDataT
-    ): breadcrumbT => {
+    const createBreadcrumb = (node: routeStateT, resolvedData: breadcrumbDataT): breadcrumbT => {
       const data = Object.assign({}, resolvedData, node.data);
 
       return {
@@ -80,11 +67,7 @@ const Controller = class {
       const breadcrumb = createBreadcrumb(route, resolvedData);
       const stackIdx = nodeStackLocation(breadcrumb.kind);
 
-      if (
-        $stateParams.resetState ||
-        (this.poppedStateEvent === true && stackIdx === -1)
-      )
-        this.stack.length = 0;
+      if ($stateParams.resetState || (this.poppedStateEvent === true && stackIdx === -1)) this.stack.length = 0;
       else if (stackIdx > -1) this.stack = this.stack.slice(0, stackIdx);
 
       this.stack.push(breadcrumb);
@@ -105,26 +88,20 @@ const Controller = class {
       return true;
     });
 
-    const destroyOnSuccess = $transitions.onSuccess(
-      {},
-      (transition: TransitionT) => {
-        this.onSuccessEvent = true;
-        this.loading = false;
+    const destroyOnSuccess = $transitions.onSuccess({}, (transition: TransitionT) => {
+      this.onSuccessEvent = true;
+      this.loading = false;
 
-        const curRoute = transition.to();
-        const data = defaultToObj(getResolvedData(transition, 'getData'));
+      const curRoute = transition.to();
+      const data = defaultToObj(getResolvedData(transition, 'getData'));
 
-        this.originalStackLength = this.stack.length;
-        updateStack(curRoute, data);
-      }
-    );
+      this.originalStackLength = this.stack.length;
+      updateStack(curRoute, data);
+    });
 
     const handlePopState = () => {
       this.poppedStateEvent = true;
-      if (
-        this.onSuccessEvent === true &&
-        this.stack.length > this.originalStackLength
-      )
+      if (this.onSuccessEvent === true && this.stack.length > this.originalStackLength)
         this.stack = this.stack.slice(this.stack.length - 1);
     };
 

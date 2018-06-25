@@ -19,40 +19,25 @@ export type readWriteHeatMapTypesT = {
   WRITE_IOPS: 'stats_write_iops'
 };
 
-import type {
-  durationPayloadT,
-  durationConfigT,
-  rangeConfigT
-} from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT, durationConfigT, rangeConfigT } from '../duration-picker/duration-picker-module.js';
 
 import type { scopeToElementT } from '../dashboard/dashboard-types.js';
 
-export type heatMapConfigT =
-  | (rangeConfigT & { dataType: string })
-  | (durationConfigT & { dataType: string });
+export type heatMapConfigT = (rangeConfigT & { dataType: string }) | (durationConfigT & { dataType: string });
 export type heatMapDurationPayloadT = durationPayloadT & { dataType: string };
-export type getReadWriteHeatMapChartT = (
-  overrides: Object
-) => Promise<scopeToElementT>;
+export type getReadWriteHeatMapChartT = (overrides: Object) => Promise<scopeToElementT>;
 
 export type heatMapPayloadHashT = {
   [page: string]: heatMapDurationPayloadT
 };
 
 export type addReadWriteHeatMapActionT = {
-  type:
-    | 'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS'
-    | 'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS',
+  type: 'DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS' | 'UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS',
   payload: heatMapDurationPayloadT
 };
 
 export default angular
-  .module('readWriteHeatMap', [
-    chartsModule,
-    chartingModule,
-    highlandModule,
-    durationPickerModule
-  ])
+  .module('readWriteHeatMap', [chartsModule, chartingModule, highlandModule, durationPickerModule])
   .constant('readWriteHeatMapTypes', {
     READ_BYTES: 'stats_read_bytes',
     WRITE_BYTES: 'stats_write_bytes',

@@ -8,14 +8,9 @@ import extractApiFilterModule from '../../../../source/iml/extract-api-filter/ex
 
 describe('file system component', () => {
   beforeEach(
-    angular.mock.module(
-      asValueModule,
-      asStreamModule,
-      extractApiFilterModule,
-      $compileProvider => {
-        $compileProvider.component('fileSystem', fileSystemComponent);
-      }
-    )
+    angular.mock.module(asValueModule, asStreamModule, extractApiFilterModule, $compileProvider => {
+      $compileProvider.component('fileSystem', fileSystemComponent);
+    })
   );
 
   let el, $scope;
@@ -43,15 +38,11 @@ describe('file system component', () => {
     });
 
     it('should render no data message', () => {
-      expect(el.querySelector('.no-fs h1')).toHaveText(
-        'No File Systems are configured'
-      );
+      expect(el.querySelector('.no-fs h1')).toHaveText('No File Systems are configured');
     });
 
     it('should render a create file system button', () => {
-      expect(el.querySelector('.no-fs a').getAttribute('route-to')).toBe(
-        'configure/filesystem/create/'
-      );
+      expect(el.querySelector('.no-fs a').getAttribute('route-to')).toBe('configure/filesystem/create/');
     });
   });
 
@@ -90,15 +81,11 @@ describe('file system component', () => {
     });
 
     it('should link to the fs detail page', () => {
-      expect(el.querySelector('td a').getAttribute('route-to')).toBe(
-        'configure/filesystem/1'
-      );
+      expect(el.querySelector('td a').getAttribute('route-to')).toBe('configure/filesystem/1');
     });
 
     it('should link to the server detail page', () => {
-      expect(el.querySelectorAll('td a')[1].getAttribute('route-to')).toBe(
-        'configure/server/1'
-      );
+      expect(el.querySelectorAll('td a')[1].getAttribute('route-to')).toBe('configure/server/1');
     });
 
     it('should render the primary management server', () => {

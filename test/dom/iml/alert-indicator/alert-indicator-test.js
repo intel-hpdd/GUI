@@ -5,16 +5,7 @@ import AlertIndicator from '../../../../source/iml/alert-indicator/alert-indicat
 import { renderToSnapshot } from '../../../test-utils.js';
 
 describe('AlertIndicator DOM testing', () => {
-  let alertStream,
-    recordId,
-    displayType,
-    node,
-    popover,
-    i,
-    stream,
-    stateLabel,
-    alerts,
-    tooltip;
+  let alertStream, recordId, displayType, node, popover, i, stream, stateLabel, alerts, tooltip;
 
   beforeEach(() => {
     stream = highland();
@@ -28,14 +19,7 @@ describe('AlertIndicator DOM testing', () => {
     stream.write([]);
 
     node = document.createElement('div');
-    Inferno.render(
-      <AlertIndicator
-        viewer={alertStream}
-        size={displayType}
-        recordId={recordId}
-      />,
-      node
-    );
+    Inferno.render(<AlertIndicator viewer={alertStream} size={displayType} recordId={recordId} />, node);
 
     popover = node.querySelector.bind(node, '.popover');
     i = node.querySelector.bind(node, 'i');
@@ -132,13 +116,7 @@ describe('AlertIndicator DOM testing', () => {
 
     it('should not show the label on small size', () => {
       expect(
-        renderToSnapshot(
-          <AlertIndicator
-            viewer={alertStream}
-            size="small"
-            recordId={recordId}
-          />
-        )
+        renderToSnapshot(<AlertIndicator viewer={alertStream} size="small" recordId={recordId} />)
       ).toMatchSnapshot();
     });
   });

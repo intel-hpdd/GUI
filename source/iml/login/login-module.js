@@ -14,11 +14,5 @@ import navigateModule from '../navigate/navigate-module';
 import LoginController from './login-controller';
 
 export default angular
-  .module('login', [
-    authModule,
-    remoteValidateModule,
-    accessDeniedModule,
-    tooltipModule,
-    navigateModule
-  ])
+  .module('login', [authModule, remoteValidateModule, accessDeniedModule, tooltipModule, navigateModule])
   .controller('LoginCtrl', LoginController).name;

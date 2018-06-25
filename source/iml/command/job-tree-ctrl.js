@@ -16,10 +16,7 @@ export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
     jobs: [],
     openStep: openStepModal,
     showTransition: function showTransition(job) {
-      return (
-        job.available_transitions.length > 0 &&
-        pendingTransitions.indexOf(job.id) === -1
-      );
+      return job.available_transitions.length > 0 && pendingTransitions.indexOf(job.id) === -1;
     },
     doTransition: function doTransition(job, newState) {
       job.state = newState;

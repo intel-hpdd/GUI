@@ -24,14 +24,8 @@ describe('file system dispatch source', () => {
     mockDispatchSourceUtils = {
       canDispatch: jest.fn(() => true)
     };
-    jest.mock(
-      '../../../../source/iml/dispatch-source-utils.js',
-      () => mockDispatchSourceUtils
-    );
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/dispatch-source-utils.js', () => mockDispatchSourceUtils);
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     require('../../../../source/iml/file-system/file-system-dispatch-source.js');
   });

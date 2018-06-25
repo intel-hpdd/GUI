@@ -4,15 +4,7 @@ import dashboardController from '../../../../source/iml/dashboard/dashboard-cont
 import angular from '../../../angular-mock-setup.js';
 
 describe('dashboard controller', () => {
-  let $scope,
-    $state,
-    $stateParams,
-    qsStream,
-    qs$,
-    fsStream,
-    hostStream,
-    targetStream,
-    dashboard;
+  let $scope, $state, $stateParams, qsStream, qs$, fsStream, hostStream, targetStream, dashboard;
 
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {

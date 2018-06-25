@@ -9,12 +9,7 @@ import Inferno from 'inferno';
 import Component from 'inferno-component';
 
 import type { HighlandStreamT } from 'highland';
-import type {
-  StorageResource,
-  TimeseriesChart,
-  HistogramChart,
-  Stats
-} from './storage-types.js';
+import type { StorageResource, TimeseriesChart, HistogramChart, Stats } from './storage-types.js';
 
 import { values } from '@iml/obj';
 import { asValue } from '../as-value/as-value.js';
@@ -27,9 +22,7 @@ import StorageResourceHistogram from './storage-resource-histogram.js';
 import StorageResourceTimeSeries from './storage-resource-time-series.js';
 import global from '../global.js';
 
-const buildCharts = (
-  x: StorageResource
-): (TimeseriesChart | HistogramChart)[] =>
+const buildCharts = (x: StorageResource): (TimeseriesChart | HistogramChart)[] =>
   x.charts.map(c => {
     const series: Stats[] = c.series.map(s => x.stats[s]).filter(Boolean);
     const type: 'histogram' | 'timeseries' = series
@@ -57,11 +50,9 @@ const TextField = ({
   value: string,
   processing: boolean,
   onInput: Function
-}) =>
+}) => (
   <div class="detail-row">
-    <div>
-      {label}
-    </div>
+    <div>{label}</div>
     <div>
       <input
         required={!optional}
@@ -74,7 +65,8 @@ const TextField = ({
         value={value}
       />
     </div>
-  </div>;
+  </div>
+);
 
 const DeleteButton = ({
   deletable,
@@ -99,20 +91,9 @@ const DeleteButton = ({
     );
 };
 
-const SaveButton = ({
-  processing,
-  canSave
-}: {
-  processing: boolean,
-  canSave: boolean
-}) => {
+const SaveButton = ({ processing, canSave }: { processing: boolean, canSave: boolean }) => {
   return (
-    <button
-      id="saveButton"
-      type="submit"
-      class="btn btn-default"
-      disabled={processing || !canSave ? true : false}
-    >
+    <button id="saveButton" type="submit" class="btn btn-default" disabled={processing || !canSave ? true : false}>
       Save <Spinner display={processing} />
     </button>
   );
@@ -200,14 +181,9 @@ class StorageDetailForm extends Component {
 
   render() {
     return (
-      <form
-        autocomplete="off"
-        onSubmit={this.handleSubmit.bind(this, this.props.resource.id)}
-      >
+      <form autocomplete="off" onSubmit={this.handleSubmit.bind(this, this.props.resource.id)}>
         <div class="detail-panel form-group">
-          <h4 class="section-header">
-            {this.props.resource.class_name} Detail
-          </h4>
+          <h4 class="section-header">{this.props.resource.class_name} Detail</h4>
           <TextField
             label="Alias"
             name="alias"
@@ -216,24 +192,18 @@ class StorageDetailForm extends Component {
             processing={this.state.processing}
             onInput={this.onInput.bind(this, this.props.resource.id)}
           />
-          {values(this.props.resource.attributes).map(x =>
+          {values(this.props.resource.attributes).map(x => (
             <div class="detail-row">
-              <div>
-                {x.label}:
-              </div>
+              <div>{x.label}:</div>
               <div>
                 <StorageAttribute attribute={x} />
               </div>
             </div>
-          )}
+          ))}
           <div class="detail-row">
             <div>Alerts:</div>
             <div>
-              <AlertIndicator
-                viewer={this.props.alertIndicatorB}
-                size="medium"
-                recordId={this.props.resource.id}
-              />
+              <AlertIndicator viewer={this.props.alertIndicatorB} size="medium" recordId={this.props.resource.id} />
             </div>
           </div>
           <div class="detail-row">
@@ -245,10 +215,7 @@ class StorageDetailForm extends Component {
               />
             </div>
             <div>
-              <SaveButton
-                processing={this.state.processing}
-                canSave={this.state.oldAlias !== this.state.alias}
-              />
+              <SaveButton processing={this.state.processing} canSave={this.state.oldAlias !== this.state.alias} />
             </div>
           </div>
         </div>
@@ -259,33 +226,23 @@ class StorageDetailForm extends Component {
 
 export const StorageDetail = asValue(
   'resource',
-  ({
-    resource,
-    alertIndicatorB
-  }: {
-    resource: StorageResource,
-    alertIndicatorB: () => HighlandStreamT<any>
-  }) => {
+  ({ resource, alertIndicatorB }: { resource: StorageResource, alertIndicatorB: () => HighlandStreamT<any> }) => {
     return (
       <div class="container container-full container">
-        <StorageDetailForm
-          resource={resource}
-          alertIndicatorB={alertIndicatorB}
-        />
+        <StorageDetailForm resource={resource} alertIndicatorB={alertIndicatorB} />
         <div>
-          {buildCharts(resource).map(c =>
+          {buildCharts(resource).map(c => (
             <div>
               <h4 class="text-center" style={{ 'margin-top': '50px' }}>
                 {c.title}
               </h4>
-              {c.type === 'histogram'
-                ? <StorageResourceHistogram chart={c} />
-                : <StorageResourceTimeSeries
-                    chart={c}
-                    resourceUri={resource.resource_uri}
-                  />}
+              {c.type === 'histogram' ? (
+                <StorageResourceHistogram chart={c} />
+              ) : (
+                <StorageResourceTimeSeries chart={c} resourceUri={resource.resource_uri} />
+              )}
             </div>
-          )}
+          ))}
         </div>
       </div>
     );
@@ -300,13 +257,7 @@ export default {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(
-        <StorageDetail
-          stream={this.storageResource$}
-          alertIndicatorB={this.alertIndicatorB}
-        />,
-        el
-      );
+      Inferno.render(<StorageDetail stream={this.storageResource$} alertIndicatorB={this.alertIndicatorB} />, el);
     };
 
     this.$onDestroy = () => {

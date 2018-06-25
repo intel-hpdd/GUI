@@ -33,17 +33,11 @@ describe('slider panel', () => {
     });
 
     it('should add mousemove listener', () => {
-      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
-        'mousemove',
-        expect.any(Function)
-      );
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith('mousemove', expect.any(Function));
     });
 
     it('should add mouseup listener', () => {
-      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith(
-        'mouseup',
-        expect.any(Function)
-      );
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith('mouseup', expect.any(Function));
     });
 
     describe('on mousemove', () => {
@@ -68,17 +62,11 @@ describe('slider panel', () => {
       });
 
       it('should remove mousemove listener', () => {
-        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
-          'mousemove',
-          expect.any(Function)
-        );
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith('mousemove', expect.any(Function));
       });
 
       it('should remove mouseup listener', () => {
-        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith(
-          'mouseup',
-          expect.any(Function)
-        );
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith('mouseup', expect.any(Function));
       });
     });
   });

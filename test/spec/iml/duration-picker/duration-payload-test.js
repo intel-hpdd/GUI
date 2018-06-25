@@ -26,10 +26,7 @@ describe('duration payload', () => {
       return momentObj;
     });
 
-    jest.mock(
-      '../../../../source/iml/get-server-moment.js',
-      () => mockGetServerMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => mockGetServerMoment);
     const mod = require('../../../../source/iml/duration-picker/duration-payload.js');
 
     durationPayload = mod.default;

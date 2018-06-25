@@ -19,26 +19,18 @@ import type { $scopeT } from 'angular';
 
 import type { PropagateChange } from '../extend-scope-module.js';
 
-function treeVolumeCollection(
-  $scope: $scopeT,
-  propagateChange: PropagateChange
-) {
+function treeVolumeCollection($scope: $scopeT, propagateChange: PropagateChange) {
   'ngInject';
   function computePage(meta) {
     const currentPage = meta.offset / meta.limit + 1;
     return (currentPage - 1) * meta.limit;
   }
 
-  const fn = (x: treeItemT) =>
-    x.parentTreeId === this.parentId &&
-    x.hostId === this.hostId &&
-    x.type === 'volume';
+  const fn = (x: treeItemT) => x.parentTreeId === this.parentId && x.hostId === this.hostId && x.type === 'volume';
 
   const t1 = store.select('tree');
 
-  t1
-    .through(emitOnItem(fn))
-    .through(propagateChange.bind(null, $scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
 
   const structFn = fp.always({
     type: 'volume',
@@ -59,9 +51,7 @@ function treeVolumeCollection(
 
   const volumeCollection$ = store.select('tree');
 
-  volumeCollection$
-    .through(transformItems(fn, structFn, fnTo$))
-    .each(store.dispatch);
+  volumeCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
 
   Object.assign(this, {
     onOpen: toggleCollection,

@@ -1,7 +1,4 @@
-import {
-  waitUntilLoadedCtrl,
-  waitUntilLoadedStep
-} from '../../../../source/iml/server/wait-until-loaded-step.js';
+import { waitUntilLoadedCtrl, waitUntilLoadedStep } from '../../../../source/iml/server/wait-until-loaded-step.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('wait until add server resolves complete', () => {
@@ -24,10 +21,7 @@ describe('wait until add server resolves complete', () => {
     it('should emit the closeModal event', () => {
       let closeModalCalled = false;
 
-      $rootScope.$on(
-        'addServerModal::closeModal',
-        () => (closeModalCalled = true)
-      );
+      $rootScope.$on('addServerModal::closeModal', () => (closeModalCalled = true));
 
       scope.wait.close();
       scope.$digest();

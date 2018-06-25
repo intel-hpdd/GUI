@@ -14,9 +14,7 @@ export default angular
           email: 'debug@debug.co.eh',
           first_name: '',
           full_name: '',
-          groups: [
-            { id: '1', name: 'superusers', resource_uri: '/api/group/1/' }
-          ],
+          groups: [{ id: '1', name: 'superusers', resource_uri: '/api/group/1/' }],
           id: '1',
           is_superuser: true,
           last_name: '',
@@ -67,12 +65,7 @@ export default angular
   .service('fixtures', function() {
     const fixtures = {};
 
-    this.registerFixture = function registerFixture(
-      name,
-      status,
-      data,
-      headers
-    ) {
+    this.registerFixture = function registerFixture(name, status, data, headers) {
       if (_.isPlainObject(status)) {
         data = status;
         status = 200;
@@ -117,8 +110,7 @@ export default angular
 
       const fixture = group.filter(filter)[0];
 
-      if (!fixture)
-        throw new Error(`No matching fixtures found under ${name}!`);
+      if (!fixture) throw new Error(`No matching fixtures found under ${name}!`);
 
       return _.cloneDeep(fixture);
     };

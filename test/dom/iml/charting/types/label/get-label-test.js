@@ -61,7 +61,9 @@ describe('get label', () => {
       label.width(500);
       label.height(400);
       document.body.appendChild(svg);
-      d3.select(svg).datum([1, 2, 3, 4, 5, 6]).call(label);
+      d3.select(svg)
+        .datum([1, 2, 3, 4, 5, 6])
+        .call(label);
       qs = expr => svg.querySelector(expr);
     });
     afterEach(() => {
@@ -91,9 +93,7 @@ describe('get label', () => {
     it('should set text y position', () => {
       const labelText = qs('.label-text');
       const { height } = labelText.getBoundingClientRect();
-      expect(parseFloat(qs('.label-text').getAttribute('y'), 10)).toBe(
-        (400 + height) / 2
-      );
+      expect(parseFloat(qs('.label-text').getAttribute('y'), 10)).toBe((400 + height) / 2);
     });
     it('should set text anchor to middle', () => {
       expect(qs('.label-text').style['text-anchor']).toBe('middle');

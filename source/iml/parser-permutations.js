@@ -7,16 +7,11 @@
 
 import * as fp from '@iml/fp';
 
-const modifiers = [
-  '__in',
-  '__contains',
-  '__startswith',
-  '__endswith',
-  '__gte',
-  '__gt',
-  '__lte',
-  '__lt'
-];
+const modifiers = ['__in', '__contains', '__startswith', '__endswith', '__gte', '__gt', '__lte', '__lt'];
 
 export default (items: Array<string>) =>
-  fp.xProd(items)(modifiers).map(x => x.join('')).concat(items).join('&');
+  fp
+    .xProd(items)(modifiers)
+    .map(x => x.join(''))
+    .concat(items)
+    .join('&');

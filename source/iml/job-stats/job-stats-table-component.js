@@ -71,9 +71,7 @@ export default {
       }
     });
 
-    const config$: HighlandStreamT<jobStatsConfigT> = store.select(
-      'jobStatsConfig'
-    );
+    const config$: HighlandStreamT<jobStatsConfigT> = store.select('jobStatsConfig');
 
     config$.each(c => {
       Object.assign(that, c);

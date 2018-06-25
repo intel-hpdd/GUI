@@ -4,12 +4,7 @@ import { extendWithConstructor } from '../../../test-utils.js';
 import HsmCtrl from '../../../../source/iml/hsm/hsm-controller';
 
 describe('HSM controller', () => {
-  let hsm,
-    $scope,
-    agentVsCopytoolChart,
-    openAddCopytoolModal,
-    copytoolOperationStream,
-    copytoolStream;
+  let hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal, copytoolOperationStream, copytoolStream;
 
   beforeEach(
     angular.mock.inject(($controller, $rootScope, $q) => {

@@ -1,7 +1,4 @@
-import {
-  parselyBox,
-  parseQuery
-} from '../../../../source/iml/parsely-box/parsely-box.js';
+import { parselyBox, parseQuery } from '../../../../source/iml/parsely-box/parsely-box.js';
 import completionist from '../../../../source/iml/completionist/completionist.js';
 import completionistModelHook from '../../../../source/iml/completionist/completionist-model-hook.js';
 import completionistDropdownComponent from '../../../../source/iml/completionist/completionist-dropdown.js';
@@ -9,27 +6,13 @@ import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
 import angular from '../../../angular-mock-setup.js';
 
 describe('parsely box', () => {
-  let el,
-    $scope,
-    qs,
-    searchButton,
-    indicator,
-    tooltip,
-    form,
-    input,
-    completionistDropdown;
+  let el, $scope, qs, searchButton, indicator, tooltip, form, input, completionistDropdown;
 
   beforeEach(
     angular.mock.module($compileProvider => {
       $compileProvider.component('completionist', completionist);
-      $compileProvider.component(
-        'completionistDropdown',
-        completionistDropdownComponent
-      );
-      $compileProvider.directive(
-        'completionistModelHook',
-        completionistModelHook
-      );
+      $compileProvider.component('completionistDropdown', completionistDropdownComponent);
+      $compileProvider.directive('completionistModelHook', completionistModelHook);
       $compileProvider.directive('imlTooltip', imlTooltip);
       $compileProvider.directive('parselyBox', parselyBox);
       $compileProvider.directive('parseQuery', parseQuery);

@@ -10,21 +10,13 @@ import extendScopeModule from '../extend-scope-module';
 import bigDifferModule from '../big-differ/big-differ-module';
 import commandModule from '../command/command-module';
 import filterModule from '../filters/filters-module';
-import {
-  ConfigureLnetController,
-  configureLnetComponent
-} from './configure-lnet';
+import { ConfigureLnetController, configureLnetComponent } from './configure-lnet';
 import lnetStatus from './lnet-status';
 import options from './lnet-options';
 import removeUsedLnetOptionsFilter from './remove-used-lnet-options-filter';
 
 export default angular
-  .module('lnetModule', [
-    extendScopeModule,
-    bigDifferModule,
-    filterModule,
-    commandModule
-  ])
+  .module('lnetModule', [extendScopeModule, bigDifferModule, filterModule, commandModule])
   .value('LNET_OPTIONS', options)
   .controller('ConfigureLnetController', ConfigureLnetController)
   .component('configureLnet', configureLnetComponent)

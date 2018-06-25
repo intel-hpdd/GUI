@@ -11,10 +11,7 @@ describe('spring module', () => {
     mockRegenerator = jest.fn();
 
     jest.mock('../../../../source/iml/regenerator.js', () => mockRegenerator);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const getSpringDependencies = require('../../../../source/iml/socket/get-spring.js');
 
@@ -23,10 +20,7 @@ describe('spring module', () => {
   });
 
   it('should pass a setup and teardown function to regenerator', () => {
-    expect(mockRegenerator).toHaveBeenCalledOnceWith(
-      expect.any(Function),
-      expect.any(Function)
-    );
+    expect(mockRegenerator).toHaveBeenCalledOnceWith(expect.any(Function), expect.any(Function));
   });
 
   it('should setup a socket stream', () => {

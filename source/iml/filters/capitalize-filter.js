@@ -10,7 +10,12 @@ export default function capitalizeFilter() {
   return function(words, all) {
     if (!_.isString(words)) return words;
 
-    if (all) words = words.trim().split(/\s+/).map(_.capitalize).join(' ');
+    if (all)
+      words = words
+        .trim()
+        .split(/\s+/)
+        .map(_.capitalize)
+        .join(' ');
     else words = _.capitalize(words);
 
     return words;

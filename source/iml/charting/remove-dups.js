@@ -7,5 +7,4 @@
 
 import type { HighlandStreamT } from 'highland';
 
-export default (s: HighlandStreamT<Object>) =>
-  s.uniqBy((a, b) => a.ts === b.ts);
+export default (s: HighlandStreamT<Object>) => s.uniqBy((a, b) => a.ts === b.ts);

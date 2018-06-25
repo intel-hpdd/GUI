@@ -21,10 +21,7 @@ describe('Configure LNet', () => {
     ss = highland();
     mockSocketStream = jest.fn(() => ss);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     mod = require('../../../../source/iml/lnet/configure-lnet.js');
 
     ConfigureLnetController = mod.ConfigureLnetController;
@@ -33,16 +30,10 @@ describe('Configure LNet', () => {
   describe('Controller', () => {
     beforeEach(
       angular.mock.inject(($rootScope, propagateChange) => {
-        waitForCommandCompletionResponse = jest.fn(response =>
-          highland([response])
-        );
-        waitForCommandCompletion = jest.fn(
-          () => waitForCommandCompletionResponse
-        );
+        waitForCommandCompletionResponse = jest.fn(response => highland([response]));
+        waitForCommandCompletion = jest.fn(() => waitForCommandCompletionResponse);
 
-        networkInterfaceResponse = angular.copy(
-          networkInterfaceDataFixtures.in[0]
-        );
+        networkInterfaceResponse = angular.copy(networkInterfaceDataFixtures.in[0]);
 
         $scope = $rootScope.$new();
 
@@ -82,10 +73,7 @@ describe('Configure LNet', () => {
     });
 
     it('should listen for $destroy', () => {
-      expect($scope.$on).toHaveBeenCalledOnceWith(
-        '$destroy',
-        expect.any(Function)
-      );
+      expect($scope.$on).toHaveBeenCalledOnceWith('$destroy', expect.any(Function));
     });
 
     it('should end the network interface stream on destroy', () => {

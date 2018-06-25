@@ -19,18 +19,11 @@ describe('target dashboard', () => {
     mockSocketStream = jest.fn(() => s);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     const mod = require('../../../../source/iml/dashboard/target-dashboard-resolves.js');
 
-    ({
-      targetDashboardResolves,
-      targetDashboardTargetStream,
-      targetDashboardUsageStream
-    } = mod);
+    ({ targetDashboardResolves, targetDashboardTargetStream, targetDashboardUsageStream } = mod);
 
     spy = jest.fn();
 
@@ -38,11 +31,7 @@ describe('target dashboard', () => {
   });
 
   describe('chart resolves', () => {
-    let getFileUsageChart,
-      getSpaceUsageChart,
-      getMdoChart,
-      getReadWriteBandwidthChart,
-      getInst;
+    let getFileUsageChart, getSpaceUsageChart, getMdoChart, getReadWriteBandwidthChart, getInst;
 
     beforeEach(() => {
       getFileUsageChart = jest.fn(() => 'fileUsageChart');
@@ -117,11 +106,7 @@ describe('target dashboard', () => {
       it('should return MDT charts', async () => {
         const result = await promise;
 
-        expect(result).toEqual([
-          'mdoChart',
-          'fileUsageChart',
-          'spaceUsageChart'
-        ]);
+        expect(result).toEqual(['mdoChart', 'fileUsageChart', 'spaceUsageChart']);
       });
     });
 

@@ -18,10 +18,7 @@ describe('stream', () => {
   beforeEach(() => {
     removeListener = jest.fn();
     mockPageVisibility = jest.fn().mockReturnValue(removeListener);
-    jest.mock(
-      '../../../../source/iml/page-visibility.js',
-      () => mockPageVisibility
-    );
+    jest.mock('../../../../source/iml/page-visibility.js', () => mockPageVisibility);
 
     visibilityStream = highland();
     jest.spyOn(visibilityStream, 'destroy');
@@ -34,11 +31,7 @@ describe('stream', () => {
 
     $document = [{ hidden: false }];
 
-    streamWhenVisible = mod.streamWhenVisible(
-      $document,
-      documentHidden,
-      documentVisible
-    );
+    streamWhenVisible = mod.streamWhenVisible($document, documentHidden, documentVisible);
   });
 
   describe('when visible', () => {
@@ -57,11 +50,7 @@ describe('stream', () => {
       expect(highland.isStream(stream)).toBe(true);
     });
     it('should call the page visibility service', () => {
-      expect(mockPageVisibility).toHaveBeenCalledOnceWith(
-        expect.any(Function),
-        expect.any(Function),
-        30000
-      );
+      expect(mockPageVisibility).toHaveBeenCalledOnceWith(expect.any(Function), expect.any(Function), 30000);
     });
     it('should pass errors to stream', () => {
       inStream.write({

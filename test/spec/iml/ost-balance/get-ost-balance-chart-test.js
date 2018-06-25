@@ -59,19 +59,10 @@ describe('get ost balance chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock(
-      '../../../../source/iml/ost-balance/get-ost-balance-stream.js',
-      () => mockGetOstBalanceStream
-    );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/ost-balance/get-ost-balance-stream.js', () => mockGetOstBalanceStream);
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({ getConf: mockGetConf })
-    );
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
 
     const mod = require('../../../../source/iml/ost-balance/get-ost-balance-chart.js');
 
@@ -83,10 +74,7 @@ describe('get ost balance chart', () => {
 
     localApply = jest.fn();
 
-    getOstBalanceChart = getOstBalanceChartFactory(
-      streamWhenVisible,
-      localApply
-    );
+    getOstBalanceChart = getOstBalanceChartFactory(streamWhenVisible, localApply);
 
     getOstBalanceChart(
       {
@@ -267,9 +255,7 @@ describe('get ost balance chart', () => {
       });
 
       it('should generate tooltip content', () => {
-        expect(d3Chart.tooltip.contentGenerator).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(d3Chart.tooltip.contentGenerator).toHaveBeenCalledOnceWith(expect.any(Function));
       });
     });
   });

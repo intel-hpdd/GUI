@@ -1,7 +1,4 @@
-import {
-  ADD_SERVER_ITEMS,
-  default as serverReducer
-} from '../../../../source/iml/server/server-reducer.js';
+import { ADD_SERVER_ITEMS, default as serverReducer } from '../../../../source/iml/server/server-reducer.js';
 import deepFreeze from '@iml/deep-freeze';
 
 describe('server reducer', () => {

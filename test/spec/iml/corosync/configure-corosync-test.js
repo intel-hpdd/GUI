@@ -19,10 +19,7 @@ describe('configure corosync', () => {
   beforeEach(() => {
     mockSocketStream = jest.fn(() => socketResponse);
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
 
     mod = require('../../../../source/iml/corosync/configure-corosync.js');
   });

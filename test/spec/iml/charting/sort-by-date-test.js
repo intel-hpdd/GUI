@@ -9,17 +9,11 @@ describe('the sort by date plugin', function() {
   });
 
   it('should sort items by date', function() {
-    highland([
-      { ts: '2015-05-10T23:51:50.000Z' },
-      { ts: '2015-05-10T23:50:50.000Z' }
-    ])
+    highland([{ ts: '2015-05-10T23:51:50.000Z' }, { ts: '2015-05-10T23:50:50.000Z' }])
       .through(sortByDate)
       .collect()
       .each(spy);
 
-    expect(spy).toHaveBeenCalledOnceWith([
-      { ts: '2015-05-10T23:50:50.000Z' },
-      { ts: '2015-05-10T23:51:50.000Z' }
-    ]);
+    expect(spy).toHaveBeenCalledOnceWith([{ ts: '2015-05-10T23:50:50.000Z' }, { ts: '2015-05-10T23:51:50.000Z' }]);
   });
 });

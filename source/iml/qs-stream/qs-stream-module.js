@@ -14,11 +14,7 @@ import type { HookMatchCriteriaT } from 'angular-ui-router';
 
 import type { HighlandStreamT } from 'highland';
 
-export type qsStreamT = (
-  params: Object,
-  match?: HookMatchCriteriaT
-) => HighlandStreamT<{ qs: string }>;
+export type qsStreamT = (params: Object, match?: HookMatchCriteriaT) => HighlandStreamT<{ qs: string }>;
 
-export default angular
-  .module('qsStream', [qsFromLocationModule, highlandModule])
-  .factory('qsStream', qsStreamFactory).name;
+export default angular.module('qsStream', [qsFromLocationModule, highlandModule]).factory('qsStream', qsStreamFactory)
+  .name;

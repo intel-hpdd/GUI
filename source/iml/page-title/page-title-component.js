@@ -18,35 +18,25 @@ export default {
     'ngInject';
     const ctrl = this;
     const route = $state.router.globals.$current;
-    const resolvedData = defaultToObj(
-      getResolvedData($state.transition, 'getData')
-    );
+    const resolvedData = defaultToObj(getResolvedData($state.transition, 'getData'));
 
     ctrl.page = {
       ...resolvedData,
       ...route.data
     };
 
-    const destroyOnBefore = $transitions.onStart(
-      {},
-      () => (ctrl.loading = true)
-    );
+    const destroyOnBefore = $transitions.onStart({}, () => (ctrl.loading = true));
 
-    const destroyOnSuccess = $transitions.onSuccess(
-      {},
-      (transition: TransitionT) => {
-        ctrl.loading = false;
+    const destroyOnSuccess = $transitions.onSuccess({}, (transition: TransitionT) => {
+      ctrl.loading = false;
 
-        const resolvedData = defaultToObj(
-          getResolvedData(transition, 'getData')
-        );
+      const resolvedData = defaultToObj(getResolvedData(transition, 'getData'));
 
-        ctrl.page = {
-          ...resolvedData,
-          ...transition.to().data
-        };
-      }
-    );
+      ctrl.page = {
+        ...resolvedData,
+        ...transition.to().data
+      };
+    });
 
     ctrl.$onDestroy = () => {
       destroyOnBefore();

@@ -20,9 +20,7 @@ describe('storageResources', () => {
       }
     };
 
-    mockStore = jest.genMockFromModule(
-      '../../../../source/iml/store/get-store.js'
-    ).default;
+    mockStore = jest.genMockFromModule('../../../../source/iml/store/get-store.js').default;
     const s = highland();
 
     mockStore.select.mockImplementationOnce(() => {
@@ -32,14 +30,10 @@ describe('storageResources', () => {
     });
 
     mockSocketStream = jest.fn(() => highland(['stream']));
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
 
-    storageResources = require('../../../../source/iml/storage/storage-resources.js')
-      .default;
+    storageResources = require('../../../../source/iml/storage/storage-resources.js').default;
   });
 
   it('should be a function', () => {
@@ -55,9 +49,7 @@ describe('storageResources', () => {
   it('should call socketStream with the expected config', async () => {
     await streamToPromise(storageResources());
 
-    expect(
-      mockSocketStream
-    ).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
       qs: { limit: 10, offset: 0 }
     });
   });
@@ -68,9 +60,7 @@ describe('storageResources', () => {
 
     await streamToPromise(storageResources());
 
-    expect(
-      mockSocketStream
-    ).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
       qs: { limit: 10, offset: 0, order_by: '-attr_foo' }
     });
   });
@@ -81,9 +71,7 @@ describe('storageResources', () => {
 
     await streamToPromise(storageResources());
 
-    expect(
-      mockSocketStream
-    ).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/storage_resource/pluginName/className/', {
       qs: { limit: 10, offset: 0, order_by: 'attr_foo' }
     });
   });

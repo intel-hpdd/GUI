@@ -10,11 +10,7 @@ import { streamToPromise } from './promise-transforms.js';
 
 import { groupAllowed } from './auth/authorization.js';
 
-import type {
-  TransitionServiceT,
-  StateDeclarationT,
-  StateServiceT
-} from 'angular-ui-router';
+import type { TransitionServiceT, StateDeclarationT, StateServiceT } from 'angular-ui-router';
 
 export type routeStateT = StateDeclarationT & {
   data?: {
@@ -27,10 +23,7 @@ export type routeStateT = StateDeclarationT & {
   }
 };
 
-export default function routeTransitions(
-  $transitions: TransitionServiceT,
-  $state: StateServiceT
-) {
+export default function routeTransitions($transitions: TransitionServiceT, $state: StateServiceT) {
   'ngInject';
   const allowAnonymousReadPredicate = {
     to: state => {

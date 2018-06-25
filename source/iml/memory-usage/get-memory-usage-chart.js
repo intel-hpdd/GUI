@@ -15,10 +15,7 @@ import durationSubmitHandler from '../duration-picker/duration-submit-handler.js
 import chartCompiler from '../chart-compiler/chart-compiler.js';
 
 import { getConf } from '../chart-transformers/chart-transformers.js';
-import {
-  UPDATE_MEMORY_USAGE_CHART_ITEMS,
-  DEFAULT_MEMORY_USAGE_CHART_ITEMS
-} from './memory-usage-chart-reducer.js';
+import { UPDATE_MEMORY_USAGE_CHART_ITEMS, DEFAULT_MEMORY_USAGE_CHART_ITEMS } from './memory-usage-chart-reducer.js';
 
 import type { $scopeT } from 'angular';
 import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
@@ -37,12 +34,7 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
     const config1$ = getStore.select('memoryUsageCharts');
     const initStream = config1$
       .through(getConf(page))
-      .through(
-        flatMapChanges.bind(
-          null,
-          data$Fn.bind(null, overrides, () => getMemoryUsageStream)
-        )
-      );
+      .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getMemoryUsageStream)));
 
     return chartCompiler(
       `<div config-toggle>

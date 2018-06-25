@@ -22,8 +22,7 @@ describe('page title component', () => {
       getResolvedData: mockGetResolvedData
     }));
 
-    pageTitleComponent = require('../../../../source/iml/page-title/page-title-component.js')
-      .default;
+    pageTitleComponent = require('../../../../source/iml/page-title/page-title-component.js').default;
   });
 
   beforeEach(
@@ -62,9 +61,7 @@ describe('page title component', () => {
 
   describe('when the transition starts', () => {
     beforeEach(() => {
-      mockGetResolvedData.mockReturnValue(
-        maybe.of({ label: 'fs1', kind: 'Dashboard' })
-      );
+      mockGetResolvedData.mockReturnValue(maybe.of({ label: 'fs1', kind: 'Dashboard' }));
 
       el = $compile(template)($scope)[0];
       $transitions.onStart.mock.calls[0][1]();
@@ -78,14 +75,10 @@ describe('page title component', () => {
   });
   describe('after a successful transition', () => {
     beforeEach(() => {
-      mockGetResolvedData.mockReturnValue(
-        maybe.of({ label: 'fs1', kind: 'Dashboard' })
-      );
+      mockGetResolvedData.mockReturnValue(maybe.of({ label: 'fs1', kind: 'Dashboard' }));
 
       el = $compile(template)($scope)[0];
-      mockGetResolvedData.mockReturnValue(
-        maybe.of({ label: 'fs1-MDT0000', kind: 'Dashboard' })
-      );
+      mockGetResolvedData.mockReturnValue(maybe.of({ label: 'fs1-MDT0000', kind: 'Dashboard' }));
 
       const transition = {
         to: jest.fn(() => ({ data: { kind: 'Dashboard', icon: 'icon2' } }))
@@ -111,9 +104,7 @@ describe('page title component', () => {
   });
   describe('on destroy', () => {
     beforeEach(() => {
-      mockGetResolvedData.mockReturnValue(
-        maybe.of({ label: 'fs1', kind: 'Dashboard' })
-      );
+      mockGetResolvedData.mockReturnValue(maybe.of({ label: 'fs1', kind: 'Dashboard' }));
 
       el = $compile(template)($scope)[0];
       $scope.$digest();

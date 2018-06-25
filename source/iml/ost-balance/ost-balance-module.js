@@ -13,10 +13,7 @@ import getOstBalanceChartFactory from './get-ost-balance-chart';
 
 import type { HighlandStreamT } from 'highland';
 
-export type getOstBalanceStreamT = (
-  percentage: number,
-  overrides: Object
-) => HighlandStreamT<mixed>;
+export type getOstBalanceStreamT = (percentage: number, overrides: Object) => HighlandStreamT<mixed>;
 
 export type ostBalancePayloadT = {
   percentage: number,

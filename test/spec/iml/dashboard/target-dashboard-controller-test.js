@@ -15,13 +15,7 @@ describe('target dashboard', () => {
       usageStream = highland();
       jest.spyOn(usageStream, 'destroy');
       ctrl = {};
-      TargetDashboardController.bind(ctrl)(
-        $scope,
-        { kind: 'MDT' },
-        charts,
-        targetStream,
-        broadcaster(usageStream)
-      );
+      TargetDashboardController.bind(ctrl)($scope, { kind: 'MDT' }, charts, targetStream, broadcaster(usageStream));
     })
   );
 

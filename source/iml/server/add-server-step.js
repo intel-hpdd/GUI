@@ -15,8 +15,7 @@ export function AddServerStepCtrl($scope, $stepInstance, data) {
 
   Object.assign(this, {
     fields: {
-      auth_type:
-        (servers && servers.auth_type) || ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS,
+      auth_type: (servers && servers.auth_type) || ADD_SERVER_AUTH_CHOICES.EXISTING_KEYS,
       pdsh: data.pdsh
     },
     CHOICES: ADD_SERVER_AUTH_CHOICES,

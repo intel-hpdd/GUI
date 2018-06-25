@@ -18,11 +18,13 @@ export function ConfigureLnetController(
   'ngInject';
   const ctrl = this;
 
-  const getNetworkName = value =>
-    LNET_OPTIONS.find(x => x.value === value).name;
+  const getNetworkName = value => LNET_OPTIONS.find(x => x.value === value).name;
 
   const lndNetworkLens = fp.view(
-    fp.compose(fp.lensProp('nid'), fp.lensProp('lnd_network'))
+    fp.compose(
+      fp.lensProp('nid'),
+      fp.lensProp('lnd_network')
+    )
   );
 
   Object.assign(ctrl, {
@@ -60,14 +62,9 @@ export function ConfigureLnetController(
     }
   });
 
-  ctrl.networkInterfaceStream.through(
-    propagateChange.bind(null, $scope, ctrl, 'networkInterfaces')
-  );
+  ctrl.networkInterfaceStream.through(propagateChange.bind(null, $scope, ctrl, 'networkInterfaces'));
 
-  $scope.$on(
-    '$destroy',
-    ctrl.networkInterfaceStream.destroy.bind(ctrl.networkInterfaceStream)
-  );
+  $scope.$on('$destroy', ctrl.networkInterfaceStream.destroy.bind(ctrl.networkInterfaceStream));
 }
 
 export const configureLnetComponent = {

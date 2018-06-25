@@ -78,25 +78,13 @@ describe('Read Write Bandwidth chart', () => {
       '../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js',
       () => mockGetReadWriteBandwidthStream
     );
-    jest.mock(
-      '../../../../source/iml/chart-compiler/chart-compiler.js',
-      () => mockChartCompiler
-    );
+    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
     jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-payload.js',
-      () => mockDurationPayload
-    );
-    jest.mock(
-      '../../../../source/iml/duration-picker/duration-submit-handler.js',
-      () => mockDurationSubmitHandler
-    );
-    jest.mock(
-      '../../../../source/iml/chart-transformers/chart-transformers.js',
-      () => ({
-        getConf: mockGetConf
-      })
-    );
+    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
+    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
+    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+      getConf: mockGetConf
+    }));
 
     mod = require('../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js');
   });
@@ -146,9 +134,7 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     it('should select the readWriteBandwidthChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledOnceWith(
-        'readWriteBandwidthCharts'
-      );
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith('readWriteBandwidthCharts');
     });
 
     it('should call getConf', () => {
@@ -233,9 +219,7 @@ describe('Read Write Bandwidth chart', () => {
     });
 
     it('should select the readWriteBandwidthChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith(
-        'readWriteBandwidthCharts'
-      );
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('readWriteBandwidthCharts');
     });
 
     it('should call getConf', () => {
@@ -278,9 +262,7 @@ describe('Read Write Bandwidth chart', () => {
       });
 
       it('should set y tick format', () => {
-        expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(
-          expect.any(Function)
-        );
+        expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
       it('should set colors', () => {
@@ -321,9 +303,7 @@ describe('Read Write Bandwidth chart', () => {
     );
 
     it('should call durationSubmitHandler', () => {
-      expect(
-        mockDurationSubmitHandler
-      ).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS', {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS', {
         page: 'readWriteBandwidthChart'
       });
     });

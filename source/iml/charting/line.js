@@ -40,6 +40,9 @@ export default class Line extends Component {
       .xComparator(this.props.xComparator)
       .yValue(this.props.yValue);
 
-    chartingGroup.transition().duration(0).call(this.line);
+    chartingGroup
+      .transition()
+      .duration(0)
+      .call(this.line);
   }
 }

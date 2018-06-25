@@ -35,7 +35,10 @@ describe('axis directive', () => {
       $scope.stream = highland();
       $scope.stream.write([1, 2, 3, 4]);
       $scope.onUpdate = [];
-      $scope.scale = d3.scale.linear().domain([0, 4]).range([0, 200]);
+      $scope.scale = d3.scale
+        .linear()
+        .domain([0, 4])
+        .range([0, 200]);
 
       el = angular.element(template)[0];
       document.body.appendChild(el);
@@ -70,10 +73,7 @@ describe('axis directive', () => {
   });
 
   it('should have an upper tick', function() {
-    expect(
-      maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text'))))
-        .textContent
-    ).toEqual('4.0');
+    expect(maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text')))).textContent).toEqual('4.0');
   });
 
   it('should update on new data', function() {
@@ -82,9 +82,6 @@ describe('axis directive', () => {
 
     flushD3Transitions(d3);
 
-    expect(
-      maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text'))))
-        .textContent
-    ).toEqual('3.0');
+    expect(maybe.fromJust(fp.last([].slice.call(el.querySelectorAll('.tick text')))).textContent).toEqual('3.0');
   });
 });

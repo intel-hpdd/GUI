@@ -21,25 +21,22 @@ import { resolveStream } from '../promise-transforms.js';
 
 export const getData = ($stateParams: { id: string }) => {
   'ngInject';
-  return streamToPromise(
-    store.select('server').map(matchById($stateParams.id))
-  );
+  return streamToPromise(store.select('server').map(matchById($stateParams.id)));
 };
 
 export default function serverDetailResolves($stateParams: { id: string }) {
   'ngInject';
   const getObjectsOrNull = x => (x.objects.length ? x.objects : null);
-  const getFlatObjOrNull = fp.flow(highland.map(getObjectsOrNull), x =>
-    x.flatten()
+  const getFlatObjOrNull = fp.flow(
+    highland.map(getObjectsOrNull),
+    x => x.flatten()
   );
 
   const jobMonitorStream = broadcaster(store.select('jobIndicators'));
 
   const alertMonitorStream = broadcaster(store.select('alertIndicators'));
 
-  const serverStream = store
-    .select('server')
-    .map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
+  const serverStream = store.select('server').map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
 
   const allHostMatches = {
     qs: {
@@ -49,9 +46,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   };
 
   const lnetConfigurationStream = broadcaster(
-    store
-      .select('lnetConfiguration')
-      .map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
+    store.select('lnetConfiguration').map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
   );
 
   const merge = (a, b) => angular.merge(a, b, allHostMatches);
@@ -72,8 +67,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     merge(
       {},
       {
-        jsonMask:
-          'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
+        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
       }
     )
   );
@@ -105,17 +99,15 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     corosyncConfigurationStream,
     pacemakerConfigurationStream
   ]).then(
-    (
-      [
-        jobMonitorStream,
-        alertMonitorStream,
-        serverStream,
-        lnetConfigurationStream,
-        networkInterfaceStream,
-        corosyncConfigurationStream,
-        pacemakerConfigurationStream
-      ]
-    ) => ({
+    ([
+      jobMonitorStream,
+      alertMonitorStream,
+      serverStream,
+      lnetConfigurationStream,
+      networkInterfaceStream,
+      corosyncConfigurationStream,
+      pacemakerConfigurationStream
+    ]) => ({
       jobMonitorStream,
       alertMonitorStream,
       serverStream,

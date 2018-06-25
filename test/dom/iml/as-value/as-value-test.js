@@ -13,18 +13,19 @@ describe('As value Inferno', () => {
 
     el = document.createElement('div');
 
-    const AsValue = asValue('curr', ({ curr }) =>
+    const AsValue = asValue('curr', ({ curr }) => (
       <div>
-        <span class="num">
-          {curr}
-        </span>
+        <span class="num">{curr}</span>
       </div>
-    );
+    ));
 
     Inferno.render(<AsValue stream={s} />, el);
 
     const find = el.querySelector.bind(el);
-    getText = fp.flow(find, fp.view(fp.lensProp('textContent')));
+    getText = fp.flow(
+      find,
+      fp.view(fp.lensProp('textContent'))
+    );
   });
 
   it('should be empty to start', function() {
@@ -53,8 +54,7 @@ describe('As value', () => {
     angular.mock.inject(function($rootScope, _$compile_) {
       $compile = _$compile_;
 
-      const template =
-        '<div as-value stream="stream">\
+      const template = '<div as-value stream="stream">\
       <span class="num" >{{ curr.val }}</span>\
     </div>';
 
@@ -72,7 +72,10 @@ describe('As value', () => {
       $scope.$digest();
 
       const find = el[0].querySelector.bind(el[0]);
-      getText = fp.flow(find, fp.view(fp.lensProp('textContent')));
+      getText = fp.flow(
+        find,
+        fp.view(fp.lensProp('textContent'))
+      );
     })
   );
 

@@ -46,12 +46,7 @@ export default function pdsh(help: Object) {
     `,
     replace: true,
     require: '^form',
-    link: function link(
-      scope: Object,
-      elm: HTMLElement[],
-      attrs: Object,
-      ctrl: Object
-    ) {
+    link: function link(scope: Object, elm: HTMLElement[], attrs: Object, ctrl: Object) {
       const states = {
         NEUTRAL: '',
         SUCCESS: 'has-success',
@@ -66,8 +61,7 @@ export default function pdsh(help: Object) {
       let pdshExpression = '';
 
       if (!scope.pdshInitial) scope.pdshInitial = '';
-      if (!scope.pdshPlaceholder)
-        scope.pdshPlaceholder = help.get('pdsh_placeholder');
+      if (!scope.pdshPlaceholder) scope.pdshPlaceholder = help.get('pdsh_placeholder');
 
       /**
        * Parses the expression to determine if the expression is valid. The value is set on the form.
@@ -76,8 +70,7 @@ export default function pdsh(help: Object) {
       function parseExpressionForValidity(value) {
         scope.pdsh.parseExpression(value);
 
-        const validity =
-          _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
+        const validity = _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
 
         ctrl.pdsh.$setValidity('pdsh', validity);
       }
@@ -151,8 +144,7 @@ export default function pdsh(help: Object) {
         },
         // $FlowFixMe Getter / Setter not supported by flow
         get errorMessages() {
-          if (scope.pdshRequired && _.isEmpty(scope.pdsh.expression))
-            errorMessages.push('Expression required.');
+          if (scope.pdshRequired && _.isEmpty(scope.pdsh.expression)) errorMessages.push('Expression required.');
 
           errorMessages = _.unique(errorMessages);
 

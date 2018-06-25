@@ -26,7 +26,14 @@ export function CommandModalCtrl(
   'ngInject';
   this.accordion0 = true;
 
-  const xForm = highland.map(fp.map(fp.flow(trimLogs, setState)));
+  const xForm = highland.map(
+    fp.map(
+      fp.flow(
+        trimLogs,
+        setState
+      )
+    )
+  );
 
   propagateChange($scope, this, 'commands', xForm(commandsStream));
 }

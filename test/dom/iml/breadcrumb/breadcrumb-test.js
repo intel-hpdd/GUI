@@ -33,8 +33,7 @@ describe('breadcrumb', () => {
 
     jest.mock('../../../../source/iml/global.js', () => mockGlobal);
 
-    breadcrumbComponent = require('../../../../source/iml/breadcrumb/breadcrumb.js')
-      .default;
+    breadcrumbComponent = require('../../../../source/iml/breadcrumb/breadcrumb.js').default;
   });
 
   beforeEach(
@@ -142,9 +141,7 @@ describe('breadcrumb', () => {
       });
 
       it('should set the ui-state-params attribute for dashboard', () => {
-        expect(link().getAttribute('ui-state-params')).toEqual(
-          'breadcrumb.params'
-        );
+        expect(link().getAttribute('ui-state-params')).toEqual('breadcrumb.params');
       });
 
       it('should display the kind and label for dashboard', () => {
@@ -205,9 +202,7 @@ describe('breadcrumb', () => {
         });
 
         it('should set the ui-state-params attribute for dashboard', () => {
-          expect(link().getAttribute('ui-state-params')).toEqual(
-            'breadcrumb.params'
-          );
+          expect(link().getAttribute('ui-state-params')).toEqual('breadcrumb.params');
         });
 
         it('should display the kind and label for dashboard', () => {
@@ -223,9 +218,7 @@ describe('breadcrumb', () => {
         });
 
         it('should set the ui-state-params attribute for filesystem', () => {
-          expect(link2().getAttribute('ui-state-params')).toEqual(
-            'breadcrumb.params'
-          );
+          expect(link2().getAttribute('ui-state-params')).toEqual('breadcrumb.params');
         });
 
         it('should display the icon for the filesystem', () => {
@@ -233,9 +226,7 @@ describe('breadcrumb', () => {
         });
 
         it('should display the target kind and label', () => {
-          expect(link3().textContent.trim()).toEqual(
-            'dashboard-mdt : fs1-MDT0000'
-          );
+          expect(link3().textContent.trim()).toEqual('dashboard-mdt : fs1-MDT0000');
         });
 
         it('should display the icon for the target', () => {
@@ -278,9 +269,7 @@ describe('breadcrumb', () => {
           });
 
           it('should set the ui-state-params attribute for dashboard', () => {
-            expect(link().getAttribute('ui-state-params')).toEqual(
-              'breadcrumb.params'
-            );
+            expect(link().getAttribute('ui-state-params')).toEqual('breadcrumb.params');
           });
 
           it('should display the kind and label for dashboard', () => {

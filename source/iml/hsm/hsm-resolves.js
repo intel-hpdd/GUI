@@ -31,20 +31,26 @@ const routePath = fp.flow(
 
 export function copytoolOperationStream($stateParams: {}) {
   'ngInject';
-  return fp.flow(routePath, getCopytoolOperationStream, resolveStream)(
-    $stateParams
-  );
+  return fp.flow(
+    routePath,
+    getCopytoolOperationStream,
+    resolveStream
+  )($stateParams);
 }
 
 export function copytoolStream($stateParams: {}) {
   'ngInject';
-  return fp.flow(routePath, getCopytoolStream, resolveStream)($stateParams);
+  return fp.flow(
+    routePath,
+    getCopytoolStream,
+    resolveStream
+  )($stateParams);
 }
 
-export function agentVsCopytoolChart(
-  $stateParams: {},
-  getAgentVsCopytoolChart: Function
-) {
+export function agentVsCopytoolChart($stateParams: {}, getAgentVsCopytoolChart: Function) {
   'ngInject';
-  return fp.flow(routePath, getAgentVsCopytoolChart)($stateParams);
+  return fp.flow(
+    routePath,
+    getAgentVsCopytoolChart
+  )($stateParams);
 }

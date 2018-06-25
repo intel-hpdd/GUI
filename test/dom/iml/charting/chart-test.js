@@ -4,10 +4,7 @@ import Inferno from 'inferno';
 
 import { renderToSnapshot } from '../../../test-utils.js';
 
-const Child = (props: Object) =>
-  <div>
-    {JSON.stringify(props[props.propName])}
-  </div>;
+const Child = (props: Object) => <div>{JSON.stringify(props[props.propName])}</div>;
 
 describe('charting', () => {
   let Chart;
@@ -21,10 +18,7 @@ describe('charting', () => {
   it('should match', () => {
     expect(
       renderToSnapshot(
-        <Chart
-          margins={{ top: 50, right: 50, bottom: 50, left: 50 }}
-          points={[1, 2, 3]}
-        >
+        <Chart margins={{ top: 50, right: 50, bottom: 50, left: 50 }} points={[1, 2, 3]}>
           <Child propName="margins" />
           <Child propName="dimensions" />
           <Child propName="points" />
@@ -39,10 +33,7 @@ describe('charting', () => {
     root.style.setProperty('height', '500px');
 
     Inferno.render(
-      <Chart
-        margins={{ top: 50, right: 50, bottom: 50, left: 50 }}
-        points={[1, 2, 3]}
-      >
+      <Chart margins={{ top: 50, right: 50, bottom: 50, left: 50 }} points={[1, 2, 3]}>
         <Child propName="margins" />
         <Child propName="dimensions" />
         <Child propName="points" />
@@ -69,10 +60,7 @@ describe('charting', () => {
     root.style.setProperty('height', '500px');
 
     Inferno.render(
-      <Chart
-        margins={{ top: 50, right: 50, bottom: 50, left: 50 }}
-        points={[1, 2, 3]}
-      >
+      <Chart margins={{ top: 50, right: 50, bottom: 50, left: 50 }} points={[1, 2, 3]}>
         <Child propName="margins" />
         <Child propName="dimensions" />
         <Child propName="points" />

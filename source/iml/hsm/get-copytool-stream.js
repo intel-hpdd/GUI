@@ -20,24 +20,30 @@ active_operations_count,available_actions,resource_uri,locks)'
     params || {}
   );
 
-  const viewLensProp = fp.flow(fp.lensProp, fp.view);
+  const viewLensProp = fp.flow(
+    fp.lensProp,
+    fp.view
+  );
   const statusLens = fp.lensProp('status');
   const viewStateLens = viewLensProp('state');
 
   const setStatus = fp.cond(
     [
-      fp.flow(fp.eqFn(fp.identity)(viewStateLens)('started'), fp.not),
+      fp.flow(
+        fp.eqFn(fp.identity)(viewStateLens)('started'),
+        fp.not
+      ),
       x => fp.set(statusLens)(viewStateLens(x))(x)
     ],
-    [
-      fp.eqFn(fp.identity)(viewLensProp('active_operations_count'))(0),
-      fp.set(statusLens)('idle')
-    ],
+    [fp.eqFn(fp.identity)(viewLensProp('active_operations_count'))(0), fp.set(statusLens)('idle')],
     [fp.always(true), fp.set(statusLens)('working')]
   );
 
   const setStatuses = fp.map(
-    fp.flow(viewLensProp('objects'), fp.over(fp.mapped)(setStatus))
+    fp.flow(
+      viewLensProp('objects'),
+      fp.over(fp.mapped)(setStatus)
+    )
   );
 
   return socketStream('/copytool', params).through(setStatuses);

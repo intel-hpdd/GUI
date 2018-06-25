@@ -7,18 +7,12 @@ import { convertNvDates } from '../../../test-utils.js';
 import fixtures from '../../../data-fixtures/file-usage-fixtures.json';
 
 describe('file usage stream', () => {
-  let mockSocketStream,
-    bufferDataNewerThan,
-    getFileUsageStream,
-    endAndRunTimers,
-    spy;
+  let mockSocketStream, bufferDataNewerThan, getFileUsageStream, endAndRunTimers, spy;
 
   beforeEach(() => {
     const mockGetServerMoment = moment('2014-04-14T13:23:00.000Z');
 
-    jest.mock('../../../../source/iml/get-server-moment.js', () => () =>
-      mockGetServerMoment
-    );
+    jest.mock('../../../../source/iml/get-server-moment.js', () => () => mockGetServerMoment);
 
     const mockCreateStream = () => {
       mockSocketStream = highland();
@@ -32,16 +26,11 @@ describe('file usage stream', () => {
       return mockSocketStream;
     };
 
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockCreateStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockCreateStream);
 
-    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js')
-      .default;
+    bufferDataNewerThan = require('../../../../source/iml/charting/buffer-data-newer-than.js').default;
 
-    getFileUsageStream = require('../../../../source/iml/file-usage/get-file-usage-stream.js')
-      .default;
+    getFileUsageStream = require('../../../../source/iml/file-usage/get-file-usage-stream.js').default;
 
     spy = jest.fn();
 

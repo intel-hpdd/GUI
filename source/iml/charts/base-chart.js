@@ -11,10 +11,7 @@ import * as fp from '@iml/fp';
 
 import _ from '@iml/lodash-mixins';
 
-import {
-  documentHidden,
-  documentVisible
-} from '../stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from '../stream-when-visible/stream-when-visible.js';
 
 export default function baseChart(overrides) {
   const defaultDirective = {
@@ -52,8 +49,7 @@ export default function baseChart(overrides) {
       rootPanelCtrl.register(throttled);
       global.addEventListener('resize', throttled);
 
-      if (scope.options && scope.options.setup)
-        scope.options.setup(chart, d3, nv);
+      if (scope.options && scope.options.setup) scope.options.setup(chart, d3, nv);
 
       const toggleNoData = xs => {
         if (xs === documentHidden) {
@@ -90,8 +86,7 @@ export default function baseChart(overrides) {
 
         config.onUpdate(chart, v);
 
-        if (scope.options && scope.options.beforeUpdate)
-          scope.options.beforeUpdate(chart);
+        if (scope.options && scope.options.beforeUpdate) scope.options.beforeUpdate(chart);
 
         render();
 

@@ -9,17 +9,11 @@ import angular from 'angular';
 
 import highlandModule from '../highland/highland-module';
 
-import {
-  streamWhenVisible,
-  documentHidden,
-  documentVisible
-} from './stream-when-visible';
+import { streamWhenVisible, documentHidden, documentVisible } from './stream-when-visible';
 
 import type { HighlandStreamT } from 'highland';
 
-export type streamWhenChartVisibleT = (
-  streamFn: () => HighlandStreamT<mixed>
-) => HighlandStreamT<mixed>;
+export type streamWhenChartVisibleT = (streamFn: () => HighlandStreamT<mixed>) => HighlandStreamT<mixed>;
 
 export default angular
   .module('streamWhenVisible', [highlandModule])

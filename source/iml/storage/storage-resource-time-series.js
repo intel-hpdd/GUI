@@ -26,7 +26,7 @@ import { values } from '@iml/obj';
 import { cloneChildren } from '../inferno-utils.js';
 import { uniqBy } from '@iml/fp';
 
-const NoData = props =>
+const NoData = props => (
   <div
     style={{
       height: '500px',
@@ -35,10 +35,9 @@ const NoData = props =>
       'align-items': 'center'
     }}
   >
-    <h3>
-      {props.message}
-    </h3>
-  </div>;
+    <h3>{props.message}</h3>
+  </div>
+);
 
 class Scales extends Component {
   xScale: Object;
@@ -50,17 +49,10 @@ class Scales extends Component {
   render() {
     const getX = (x: Point) => new Date(x.ts);
 
-    this.xScale
-      .domain(d3.extent(this.props.points, getX))
-      .range([0, this.props.dimensions.usableWidth]);
+    this.xScale.domain(d3.extent(this.props.points, getX)).range([0, this.props.dimensions.usableWidth]);
 
     this.yScale
-      .domain([
-        0,
-        d3.max(this.props.points, (x: Point): number =>
-          Math.max(...values(x.data))
-        )
-      ])
+      .domain([0, d3.max(this.props.points, (x: Point): number => Math.max(...values(x.data)))])
       .range([this.props.dimensions.usableHeight - 20, 0]);
 
     return (
@@ -119,21 +111,15 @@ export default class StorageResourceTimeSeries extends Component {
   render() {
     if (this.state.data == null) return <NoData message="Fetching Data..." />;
 
-    if (this.state.data.length === 0)
-      return <NoData message="No Data Available." />;
+    if (this.state.data.length === 0) return <NoData message="No Data Available." />;
 
     const { data } = this.state;
 
     const getX = (x: Point) => new Date(x.ts);
-    const colors = d3.scale
-      .category10()
-      .domain(this.props.chart.series.map(x => x.name).reverse());
+    const colors = d3.scale.category10().domain(this.props.chart.series.map(x => x.name).reverse());
 
     return (
-      <div
-        class="storage-detail-chart"
-        style={{ height: '500px', display: 'flex' }}
-      >
+      <div class="storage-detail-chart" style={{ height: '500px', display: 'flex' }}>
         <div style={{ flex: '0 0 24px', display: 'flex' }}>
           <h5
             style={{
@@ -142,9 +128,7 @@ export default class StorageResourceTimeSeries extends Component {
               width: '24px'
             }}
           >
-            {uniqBy(x => x)(this.props.chart.series.map(x => x.unit_name)).join(
-              ', '
-            )}
+            {uniqBy(x => x)(this.props.chart.series.map(x => x.unit_name)).join(', ')}
           </h5>
         </div>
         <div style={{ flex: '1' }}>
@@ -161,15 +145,14 @@ export default class StorageResourceTimeSeries extends Component {
               <Legend colors={colors} transform="translate(50,0)" />
               <Axis type="x" />
               <Axis type="y" />
-              {this.props.chart.series.map(x =>
+              {this.props.chart.series.map(x => (
                 <Line
                   color={() => colors(x.name)}
                   xValue={(x: Point) => new Date(x.ts)}
                   yValue={p => p.data[x.name]}
-                  xComparator={(x, y) =>
-                    getX(x).getTime() === getX(y).getTime()}
+                  xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
                 />
-              )}
+              ))}
             </Scales>
           </Chart>
         </div>

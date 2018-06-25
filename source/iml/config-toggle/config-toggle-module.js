@@ -8,6 +8,4 @@
 import angular from 'angular';
 import configToggle from './config-toggle';
 
-export default angular
-  .module('configToggle', [])
-  .directive('configToggle', configToggle).name;
+export default angular.module('configToggle', []).directive('configToggle', configToggle).name;

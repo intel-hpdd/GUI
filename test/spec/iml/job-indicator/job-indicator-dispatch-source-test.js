@@ -12,17 +12,11 @@ describe('job indicator dispatch source', () => {
     mockSocketStream = jest.fn(() => stream);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock(
-      '../../../../source/iml/socket/socket-stream.js',
-      () => mockSocketStream
-    );
+    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
     mockDispatchSourceUtils = {
       canDispatch: jest.fn(() => true)
     };
-    jest.mock(
-      '../../../../source/iml/dispatch-source-utils.js',
-      () => mockDispatchSourceUtils
-    );
+    jest.mock('../../../../source/iml/dispatch-source-utils.js', () => mockDispatchSourceUtils);
 
     require('../../../../source/iml/job-indicator/job-indicator-dispatch-source.js');
   });

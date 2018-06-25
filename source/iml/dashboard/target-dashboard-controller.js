@@ -5,13 +5,7 @@
 
 import * as fp from '@iml/fp';
 
-export default function TargetDashboardController(
-  $scope,
-  $stateParams,
-  charts,
-  targetStream,
-  usageStream
-) {
+export default function TargetDashboardController($scope, $stateParams, charts, targetStream, usageStream) {
   'ngInject';
   const targetDashboard = Object.assign(this, {
     charts,
@@ -19,9 +13,7 @@ export default function TargetDashboardController(
     kind: $stateParams.kind
   });
 
-  targetStream.through(
-    $scope.propagateChange.bind(null, $scope, targetDashboard, 'target')
-  );
+  targetStream.through($scope.propagateChange.bind(null, $scope, targetDashboard, 'target'));
 
   $scope.$on('$destroy', () => {
     targetStream.destroy();

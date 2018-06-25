@@ -40,9 +40,7 @@ describe('Insert help text filter', () => {
 
   describe('with params', function() {
     beforeEach(function() {
-      helpFilter.valueOf.mockReturnValueOnce(
-        'This row has changed locally. Click to reset value to %(remote)s'
-      );
+      helpFilter.valueOf.mockReturnValueOnce('This row has changed locally. Click to reset value to %(remote)s');
 
       result = insertHelp('key', {
         remote: 'Lustre Network 0'
@@ -50,9 +48,7 @@ describe('Insert help text filter', () => {
     });
 
     it('should populate the help text with params', function() {
-      expect(result.valueOf()).toEqual(
-        'This row has changed locally. Click to reset value to Lustre Network 0'
-      );
+      expect(result.valueOf()).toEqual('This row has changed locally. Click to reset value to Lustre Network 0');
     });
   });
 });

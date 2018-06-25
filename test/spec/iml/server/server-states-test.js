@@ -1,9 +1,5 @@
 describe('server states', () => {
-  let serverState,
-    serverDetailState,
-    mockGroups,
-    mockServerResolves,
-    mockServerDetailResolves;
+  let serverState, serverDetailState, mockGroups, mockServerResolves, mockServerDetailResolves;
 
   beforeEach(() => {
     mockGroups = {
@@ -19,14 +15,8 @@ describe('server states', () => {
     jest.mock('../../../../source/iml/auth/authorization.js', () => ({
       GROUPS: mockGroups
     }));
-    jest.mock(
-      '../../../../source/iml/server/server-resolves.js',
-      () => mockServerResolves
-    );
-    jest.mock(
-      '../../../../source/iml/server/server-detail-resolves.js',
-      () => mockServerDetailResolves
-    );
+    jest.mock('../../../../source/iml/server/server-resolves.js', () => mockServerResolves);
+    jest.mock('../../../../source/iml/server/server-detail-resolves.js', () => mockServerDetailResolves);
 
     const mod = require('../../../../source/iml/server/server-states.js');
 

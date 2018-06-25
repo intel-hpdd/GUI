@@ -9,10 +9,7 @@ import { ADD_JOB_INDICATOR_ITEMS } from './job-indicator.js';
 
 import type { ActionT } from '../store/store-module.js';
 
-export default function(
-  state: Array<Object> = [],
-  { type, payload }: ActionT
-): Array<Object> {
+export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_JOB_INDICATOR_ITEMS:
       return payload;

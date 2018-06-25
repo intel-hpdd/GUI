@@ -95,15 +95,8 @@ Position.prototype.position = function(direction, tooltipPositioner) {
   return this.defaults[direction].position(tooltipPositioner);
 };
 
-Position.prototype.overflows = function(
-  direction,
-  windowPositioner,
-  tooltipPositioner
-) {
-  return this.defaults[direction].overflows(
-    windowPositioner,
-    tooltipPositioner
-  );
+Position.prototype.overflows = function(direction, windowPositioner, tooltipPositioner) {
+  return this.defaults[direction].overflows(windowPositioner, tooltipPositioner);
 };
 
 function positionerFactory(positionFinder, DIRECTIONS) {

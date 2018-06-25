@@ -1,9 +1,6 @@
 // @flow
 
-import {
-  setSort,
-  setDuration
-} from '../../../../source/iml/job-stats/job-stats-actions.js';
+import { setSort, setDuration } from '../../../../source/iml/job-stats/job-stats-actions.js';
 
 describe('job stats actions', () => {
   it('should set duration', () => {

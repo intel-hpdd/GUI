@@ -17,15 +17,7 @@ describe('the heat map legend', () => {
     expect(heatMapLegend.destroy).toEqual(expect.any(Function));
   });
 
-  const accessors = [
-    'colorScale',
-    'legendScale',
-    'zScale',
-    'formatter',
-    'width',
-    'height',
-    'margin'
-  ];
+  const accessors = ['colorScale', 'legendScale', 'zScale', 'formatter', 'width', 'height', 'margin'];
   accessors.forEach(accessor => {
     it('should have a ' + accessor + 'accessor', () => {
       expect(heatMapLegend[accessor]).toEqual(expect.any(Function));
@@ -49,10 +41,7 @@ describe('the heat map legend', () => {
         y: 0
       });
 
-      heatMapLegendGroup = document.createElementNS(
-        'http://www.w3.org/2000/svg',
-        'g'
-      );
+      heatMapLegendGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 
       selection = d3.select(heatMapLegendGroup);
       svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -67,7 +56,10 @@ describe('the heat map legend', () => {
         .range(colors)
         .domain(d3.range(0, 1, 1.0 / (colors.length - 1)).concat(1));
 
-      const legend = d3.scale.linear().domain([0, 99]).range([0, 1]);
+      const legend = d3.scale
+        .linear()
+        .domain([0, 99])
+        .range([0, 1]);
       heatMapLegend
         .width(500)
         .height(30)

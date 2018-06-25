@@ -12,26 +12,12 @@ export default function serverResolves() {
 
   const alertMonitorStream = broadcaster(store.select('alertIndicators'));
 
-  const lnetConfigurationStream = broadcaster(
-    store.select('lnetConfiguration')
-  );
+  const lnetConfigurationStream = broadcaster(store.select('lnetConfiguration'));
 
   const serversStream = store.select('server');
 
-  return Promise.all([
-    jobMonitorStream,
-    alertMonitorStream,
-    lnetConfigurationStream,
-    serversStream
-  ]).then(
-    (
-      [
-        jobMonitorStream,
-        alertMonitorStream,
-        lnetConfigurationStream,
-        serversStream
-      ]
-    ) => ({
+  return Promise.all([jobMonitorStream, alertMonitorStream, lnetConfigurationStream, serversStream]).then(
+    ([jobMonitorStream, alertMonitorStream, lnetConfigurationStream, serversStream]) => ({
       jobMonitorStream,
       alertMonitorStream,
       lnetConfigurationStream,

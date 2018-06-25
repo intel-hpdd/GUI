@@ -27,9 +27,7 @@ export default (position, $timeout, $window, $compile) => {
       let popoverLinker = $compile(template);
 
       let popoverButton = angular.element(
-        Array.from(el[0].parentNode.children).filter(x =>
-          x.classList.contains('activate-popover')
-        )[0]
+        Array.from(el[0].parentNode.children).filter(x => x.classList.contains('activate-popover'))[0]
       );
 
       let wrappedWindow = angular.element($window);
@@ -70,9 +68,7 @@ export default (position, $timeout, $window, $compile) => {
 
           positioner = position.positioner(popoverEl[0]);
 
-          angular
-            .element(popoverEl[0].querySelector('.popover-content'))
-            .append(clone);
+          angular.element(popoverEl[0].querySelector('.popover-content')).append(clone);
 
           popoverEl.on('click', function handleClick($event) {
             $event.stopPropagation();
@@ -118,9 +114,9 @@ export default (position, $timeout, $window, $compile) => {
       }
 
       /**
-         * Toggles the visibility of the popover. Used as an event callback.
-         * @param {object} $event
-         */
+       * Toggles the visibility of the popover. Used as an event callback.
+       * @param {object} $event
+       */
       function toggle($event) {
         $event.stopPropagation();
 
@@ -138,8 +134,8 @@ export default (position, $timeout, $window, $compile) => {
       }
 
       /**
-         * destroys the popover and unbinds the window click listener.
-         */
+       * destroys the popover and unbinds the window click listener.
+       */
       function hide() {
         scope.open = false;
 
@@ -149,8 +145,8 @@ export default (position, $timeout, $window, $compile) => {
       }
 
       /**
-         * Figures out the placement of the popover and applies it to the element's style.
-         */
+       * Figures out the placement of the popover and applies it to the element's style.
+       */
       function recalculate() {
         if (!popoverEl) return;
 

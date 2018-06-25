@@ -16,8 +16,15 @@ export default function jobTreeFactory() {
   return function jobTree(jobs) {
     const shallowestOccurrence = {};
 
-    const children = _(jobs).pluck('wait_for').flatten().unique().value();
-    const roots = _(jobs).pluck('resource_uri').difference(children).value();
+    const children = _(jobs)
+      .pluck('wait_for')
+      .flatten()
+      .unique()
+      .value();
+    const roots = _(jobs)
+      .pluck('resource_uri')
+      .difference(children)
+      .value();
 
     const tree = roots.map(function buildTree(uri) {
       const root = getAJob(uri);
@@ -49,8 +56,7 @@ export default function jobTreeFactory() {
      */
     function jobChildren(job, depth) {
       const shallowest = shallowestOccurrence[job.resource_uri];
-      if (shallowest == null || shallowest > depth)
-        shallowestOccurrence[job.resource_uri] = depth;
+      if (shallowest == null || shallowest > depth) shallowestOccurrence[job.resource_uri] = depth;
 
       const children = job.wait_for.reduce(function expandChildren(arr, uri) {
         const child = getAJob(uri);

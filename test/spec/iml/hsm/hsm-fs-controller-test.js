@@ -49,14 +49,7 @@ describe('HSM fs controller', () => {
       fsStreamB = broadcaster(fsStream);
 
       ctrl = {};
-      HsmFsCtrl.bind(ctrl)(
-        $scope,
-        $state,
-        $stateParams,
-        qsStream,
-        fsStreamB,
-        propagateChange
-      );
+      HsmFsCtrl.bind(ctrl)($scope, $state, $stateParams, qsStream, fsStreamB, propagateChange);
     })
   );
 
