@@ -1,44 +1,80 @@
 // @flow
 
 import { querySelector } from '../../../../source/iml/dom-utils.js';
-import { renderToSnapshot } from '../../../test-utils.js';
+import angular from '../../../angular-mock-setup.js';
+import highland from 'highland';
 
 import Inferno from 'inferno';
 
+import type { HighlandStreamT } from 'highland';
+
 describe('date type', () => {
-  let root,
+  let root: HTMLElement,
     DateType,
     dateType: HTMLElement,
     mockDispatch,
+    mockSelect,
     utcRb: HTMLInputElement,
     localRb: HTMLInputElement,
-    changeEvent;
+    changeEvent: Event,
+    $scope: $scope,
+    $compile,
+    template: string,
+    dateType$: HighlandStreamT<{ isUtc: boolean }>;
+
+  beforeEach(() => {
+    mockDispatch = jest.fn();
+    dateType$ = highland();
+    mockSelect = jest.fn(() => dateType$);
+
+    jest.mock('../../../../source/iml/store/get-store.js', () => ({
+      dispatch: mockDispatch,
+      select: mockSelect
+    }));
+
+    DateType = require('../../../../source/iml/date/date.js').dateComponent;
+  });
+
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('dateType', DateType);
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+      template = '<date-type></date-type>';
+    })
+  );
 
   beforeEach(() => {
     changeEvent = new Event('change');
-    mockDispatch = jest.fn();
+    dateType$.write({ isUtc: false });
 
-    jest.mock('../../../../source/iml/store/get-store.js', () => ({
-      dispatch: mockDispatch
-    }));
-
-    DateType = require('../../../../source/iml/date/date.js').DateType;
-
-    root = document.createElement('div');
+    root = $compile(template)($scope)[0];
     querySelector(document, 'body').appendChild(root);
-    Inferno.render(<DateType isUtc={false} />, root);
     dateType = querySelector(root, '.date-type');
     localRb = (querySelector(dateType, '#local'): any);
     utcRb = (querySelector(dateType, '#utc'): any);
 
     mockDispatch.mockImplementation(({ payload }) => {
-      if (payload) utcRb.checked = true;
-      else localRb.checked = true;
+      if (payload) dateType$.write({ isUtc: true });
+      else dateType$.write({ isUtc: false });
     });
   });
 
+  afterEach(() => {
+    querySelector(document, 'body').removeChild(root);
+  });
+
   it('should create the component markup', () => {
-    expect(renderToSnapshot(<DateType isUtc={false} />)).toMatchSnapshot();
+    expect(dateType).toMatchSnapshot();
+  });
+
+  it('should select the dateType stream', () => {
+    expect(mockSelect).toHaveBeenCalledOnceWith('dateType');
   });
 
   it('should select the local radio button', () => {
@@ -88,6 +124,14 @@ describe('date type', () => {
 
     it('should not select the utc button', () => {
       expect(utcRb.checked).toBe(false);
+    });
+  });
+
+  describe('removing', () => {
+    it('should no longer render the element', () => {
+      $scope.$destroy();
+      const removedDateType = root.querySelector('.date-type');
+      expect(removedDateType).toBeNull();
     });
   });
 });

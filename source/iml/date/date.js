@@ -17,31 +17,31 @@ const Utc = ({ isUtc }: DateTypeProps) => {
   if (isUtc)
     return (
       <label class="radio">
-        <input type="radio" name="datetype" id="utc" value="UTC" onChange={handleChange} checked="checked" />
+        <input type="radio" name="datetype" id="utc" onChange={handleChange} checked="checked" />
         UTC
       </label>
     );
   else
     return (
       <label class="radio">
-        <input type="radio" name="datetype" id="utc" value="UTC" onChange={handleChange} />
+        <input type="radio" name="datetype" id="utc" onChange={handleChange} />
         UTC
       </label>
     );
 };
 
 const Local = ({ isUtc }: DateTypeProps) => {
-  if (!isUtc)
+  if (isUtc)
     return (
       <label class="radio">
-        <input type="radio" name="datetype" id="local" value="Local" onChange={handleChange} checked="checked" />
+        <input type="radio" name="datetype" id="local" onChange={handleChange} />
         Local
       </label>
     );
   else
     return (
       <label class="radio">
-        <input type="radio" name="datetype" id="local" value="Local" onChange={handleChange} />
+        <input type="radio" name="datetype" id="local" onChange={handleChange} checked="checked" />
         Local
       </label>
     );
