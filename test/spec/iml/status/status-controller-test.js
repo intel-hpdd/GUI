@@ -4,7 +4,7 @@ import angular from '../../../angular-mock-setup.js';
 import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 
 describe('status records component', () => {
-  let $scope, $location, ctrl, notificationStream, dateTypeStream;
+  let $scope, $location, ctrl, notificationStream, tzPickerStream;
 
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {
@@ -17,12 +17,12 @@ describe('status records component', () => {
       notificationStream = highland();
       jest.spyOn(notificationStream, 'destroy');
 
-      dateTypeStream = highland();
-      jest.spyOn(dateTypeStream, 'destroy');
+      tzPickerStream = highland();
+      jest.spyOn(tzPickerStream, 'destroy');
 
       ctrl = {
         notification$: notificationStream,
-        dateType$: dateTypeStream
+        tzPicker$: tzPickerStream
       };
 
       StatusController.call(ctrl, $scope, $location, propagateChange);
@@ -43,9 +43,9 @@ describe('status records component', () => {
     expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
   });
 
-  it('should destroy the dateTypeStream when the scope is destroyed', () => {
+  it('should destroy the tzPickerStream when the scope is destroyed', () => {
     $scope.$destroy();
-    expect(dateTypeStream.destroy).toHaveBeenCalledTimes(1);
+    expect(tzPickerStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('getting notificationStream data', () => {
@@ -82,9 +82,9 @@ describe('status records component', () => {
     });
   });
 
-  describe('getting dateTypeStream data', () => {
-    it('should set the dateType on the controller', () => {
-      dateTypeStream.write({ isUtc: false });
+  describe('getting tzPickerStream data', () => {
+    it('should set the tzPicker on the controller', () => {
+      tzPickerStream.write({ isUtc: false });
       expect(ctrl.isUtc).toEqual(false);
     });
   });

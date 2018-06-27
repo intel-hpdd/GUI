@@ -24,7 +24,7 @@ describe('get store', () => {
     mockLoginFormReducer,
     mockSessionReducer,
     mockStorageReducer,
-    mockDateTypeReducer;
+    mockTzPickerReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
@@ -51,7 +51,7 @@ describe('get store', () => {
     mockLoginFormReducer = {};
     mockSessionReducer = {};
     mockStorageReducer = {};
-    mockDateTypeReducer = {};
+    mockTzPickerReducer = {};
     jest.mock(
       '../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js',
       () => mockReadWriteHeatMapChartReducer
@@ -87,7 +87,7 @@ describe('get store', () => {
     jest.mock('../../../../source/iml/lnet/lnet-configuration-reducer.js', () => mockLnetConfigurationReducer);
     jest.mock('../../../../source/iml/tree/tree-reducer.js', () => mockTreeReducer);
     jest.mock('../../../../source/iml/file-system/file-system-reducer.js', () => mockFileSystemReducer);
-    jest.mock('../../../../source/iml/date/date-type-reducer.js', () => mockDateTypeReducer);
+    jest.mock('../../../../source/iml/tz-picker/tz-picker-reducer.js', () => mockTzPickerReducer);
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });
@@ -119,7 +119,7 @@ describe('get store', () => {
       loginForm: mockLoginFormReducer,
       session: mockSessionReducer,
       storage: mockStorageReducer,
-      dateType: mockDateTypeReducer
+      tzPicker: mockTzPickerReducer
     });
   });
 });

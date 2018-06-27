@@ -74,7 +74,7 @@ describe('status states', () => {
         },
         resolve: {
           notification$: expect.any(Function),
-          dateType$: expect.any(Function)
+          tzPicker$: expect.any(Function)
         },
         component: 'statusRecords'
       });
@@ -135,13 +135,13 @@ describe('status states', () => {
       });
     });
 
-    describe('resolve dateType$', () => {
+    describe('resolve tzPicker$', () => {
       beforeEach(() => {
-        mod.tableState.resolve.dateType$();
+        mod.tableState.resolve.tzPicker$();
       });
 
-      it('should select dateType stream from the store', () => {
-        expect(mockSelect).toHaveBeenCalledOnceWith('dateType');
+      it('should select tzPicker stream from the store', () => {
+        expect(mockSelect).toHaveBeenCalledOnceWith('tzPicker');
       });
     });
   });

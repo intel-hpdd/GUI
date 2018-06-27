@@ -71,8 +71,8 @@ export const tableState = {
 
       return resolveStream(socketStream('/alert/' + qs));
     },
-    dateType$() {
-      return getStore.select('dateType');
+    tzPicker$() {
+      return getStore.select('tzPicker');
     }
   },
   component: 'statusRecords'

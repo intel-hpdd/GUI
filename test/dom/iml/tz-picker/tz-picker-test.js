@@ -8,10 +8,10 @@ import Inferno from 'inferno';
 
 import type { HighlandStreamT } from 'highland';
 
-describe('date type', () => {
+describe('tzPicker', () => {
   let root: HTMLElement,
-    DateType,
-    dateType: HTMLElement,
+    TzPicker,
+    tzPicker: HTMLElement,
     mockDispatch,
     mockSelect,
     utcRb: HTMLInputElement,
@@ -20,24 +20,24 @@ describe('date type', () => {
     $scope: $scope,
     $compile,
     template: string,
-    dateType$: HighlandStreamT<{ isUtc: boolean }>;
+    tzPicker$: HighlandStreamT<{ isUtc: boolean }>;
 
   beforeEach(() => {
     mockDispatch = jest.fn();
-    dateType$ = highland();
-    mockSelect = jest.fn(() => dateType$);
+    tzPicker$ = highland();
+    mockSelect = jest.fn(() => tzPicker$);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => ({
       dispatch: mockDispatch,
       select: mockSelect
     }));
 
-    DateType = require('../../../../source/iml/date/date.js').dateComponent;
+    TzPicker = require('../../../../source/iml/tz-picker/tz-picker.js').tzPickerComponent;
   });
 
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.component('dateType', DateType);
+      $compileProvider.component('tzPicker', TzPicker);
     })
   );
 
@@ -45,23 +45,23 @@ describe('date type', () => {
     angular.mock.inject((_$compile_, $rootScope) => {
       $scope = $rootScope.$new();
       $compile = _$compile_;
-      template = '<date-type></date-type>';
+      template = '<tz-picker></tz-picker>';
     })
   );
 
   beforeEach(() => {
     changeEvent = new Event('change');
-    dateType$.write({ isUtc: false });
+    tzPicker$.write({ isUtc: false });
 
     root = $compile(template)($scope)[0];
     querySelector(document, 'body').appendChild(root);
-    dateType = querySelector(root, '.date-type');
-    localRb = (querySelector(dateType, '#local'): any);
-    utcRb = (querySelector(dateType, '#utc'): any);
+    tzPicker = querySelector(root, '.tz-picker');
+    localRb = (querySelector(tzPicker, '#local'): any);
+    utcRb = (querySelector(tzPicker, '#utc'): any);
 
     mockDispatch.mockImplementation(({ payload }) => {
-      if (payload) dateType$.write({ isUtc: true });
-      else dateType$.write({ isUtc: false });
+      if (payload) tzPicker$.write({ isUtc: true });
+      else tzPicker$.write({ isUtc: false });
     });
   });
 
@@ -70,11 +70,11 @@ describe('date type', () => {
   });
 
   it('should create the component markup', () => {
-    expect(dateType).toMatchSnapshot();
+    expect(tzPicker).toMatchSnapshot();
   });
 
-  it('should select the dateType stream', () => {
-    expect(mockSelect).toHaveBeenCalledOnceWith('dateType');
+  it('should select the tzPicker stream', () => {
+    expect(mockSelect).toHaveBeenCalledOnceWith('tzPicker');
   });
 
   it('should select the local radio button', () => {
@@ -92,7 +92,7 @@ describe('date type', () => {
 
     it('should notify the store that UTC is seleccted', () => {
       expect(mockDispatch).toHaveBeenCalledOnceWith({
-        type: 'SET_DATE_TYPE',
+        type: 'SET_TIME_ZONE',
         payload: true
       });
     });
@@ -113,7 +113,7 @@ describe('date type', () => {
 
     it('should notify the store that Local was seleccted', () => {
       expect(mockDispatch).toHaveBeenCalledOnceWith({
-        type: 'SET_DATE_TYPE',
+        type: 'SET_TIME_ZONE',
         payload: false
       });
     });
@@ -130,8 +130,8 @@ describe('date type', () => {
   describe('removing', () => {
     it('should no longer render the element', () => {
       $scope.$destroy();
-      const removedDateType = root.querySelector('.date-type');
-      expect(removedDateType).toBeNull();
+      const removedTzPicker = root.querySelector('.tz-picker');
+      expect(removedTzPicker).toBeNull();
     });
   });
 });

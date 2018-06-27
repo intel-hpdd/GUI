@@ -22,12 +22,12 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
   propagateChange($scope, this, 'data', s);
 
-  const isUtc$ = this.dateType$.pluck('isUtc');
+  const isUtc$ = this.tzPicker$.pluck('isUtc');
   propagateChange($scope, this, 'isUtc', isUtc$);
 
   $scope.$on('$destroy', () => {
     this.notification$.destroy();
-    this.dateType$.destroy();
+    this.tzPicker$.destroy();
   });
 
   const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];
@@ -49,7 +49,7 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 export default {
   bindings: {
     notification$: '<',
-    dateType$: '<'
+    tzPicker$: '<'
   },
   controller: StatusController,
   template: `
@@ -74,11 +74,11 @@ export default {
           </td>
           <td class="hidden-xs">{{ row.record_type }}</td>
           <td>
-            <a ng-if="$ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="$ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
             <a ng-if="$ctrl.isUtc === false" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
           </td>
           <td>
-            <a ng-if="!row.active && $ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+            <a ng-if="!row.active && $ctrl.isUtc === true" route-to="log/?datetime__gte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
             <a ng-if="!row.active && $ctrl.isUtc === false" route-to="log/?datetime__gte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
           </td>
           <td>{{ row.message }}</td>
