@@ -80,7 +80,14 @@ describe('get store', () => {
     jest.mock('../../../../source/iml/login/login-form-reducer', () => mockLoginFormReducer);
     jest.mock('../../../../source/iml/session/session-reducer', () => mockSessionReducer);
     jest.mock('../../../../source/iml/storage/storage-reducer', () => mockStorageReducer);
-    jest.mock('../../../../source/iml/date/date-type-reducer', () => mockDateTypeReducer);
+    jest.mock('../../../../source/iml/target/target-reducer.js', () => mockTargetReducer);
+    jest.mock('../../../../source/iml/alert-indicator/alert-indicator-reducer.js', () => mockAlertIndicatorReducer);
+    jest.mock('../../../../source/iml/job-indicator/job-indicator-reducer.js', () => mockJobIndicatorReducer);
+    jest.mock('../../../../source/iml/server/server-reducer.js', () => mockServerReducer);
+    jest.mock('../../../../source/iml/lnet/lnet-configuration-reducer.js', () => mockLnetConfigurationReducer);
+    jest.mock('../../../../source/iml/tree/tree-reducer.js', () => mockTreeReducer);
+    jest.mock('../../../../source/iml/file-system/file-system-reducer.js', () => mockFileSystemReducer);
+    jest.mock('../../../../source/iml/date/date-type-reducer.js', () => mockDateTypeReducer);
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });

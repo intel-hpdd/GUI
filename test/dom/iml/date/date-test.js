@@ -6,7 +6,13 @@ import { renderToSnapshot } from '../../../test-utils.js';
 import Inferno from 'inferno';
 
 describe('date type', () => {
-  let root, DateType, dateType: HTMLElement, mockDispatch, utcRb, localRb, changeEvent;
+  let root,
+    DateType,
+    dateType: HTMLElement,
+    mockDispatch,
+    utcRb: HTMLInputElement,
+    localRb: HTMLInputElement,
+    changeEvent;
 
   beforeEach(() => {
     changeEvent = new Event('change');
@@ -22,8 +28,8 @@ describe('date type', () => {
     querySelector(document, 'body').appendChild(root);
     Inferno.render(<DateType isUtc={false} />, root);
     dateType = querySelector(root, '.date-type');
-    localRb = querySelector(dateType, '#local');
-    utcRb = querySelector(dateType, '#utc');
+    localRb = (querySelector(dateType, '#local'): any);
+    utcRb = (querySelector(dateType, '#utc'): any);
 
     mockDispatch.mockImplementation(({ payload }) => {
       if (payload) utcRb.checked = true;

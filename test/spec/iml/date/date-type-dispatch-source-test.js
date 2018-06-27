@@ -1,9 +1,10 @@
 // @flow
 
 import highland from 'highland';
+import type { HighlandStreamT } from 'highland';
 
 describe('date type dispatch source', () => {
-  let mockDispatch, mockCanDispatch, mockSelect, dateType$, errSpy;
+  let mockDispatch, mockCanDispatch, mockSelect, dateType$: HighlandStreamT<{ isUtc: boolean }>, errSpy;
   beforeEach(() => {
     errSpy = jest.fn();
     mockDispatch = jest.fn();
