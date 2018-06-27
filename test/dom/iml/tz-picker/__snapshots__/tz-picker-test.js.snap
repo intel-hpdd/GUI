@@ -2,8 +2,13 @@
 
 exports[`tzPicker should create the component markup 1`] = `
 <div
-  class="well well-sm tz-picker"
+  class="detail-panel"
 >
+  <h5
+    class="section-header"
+  >
+    Select Timezone
+  </h5>
   <div
     class="radio"
   >

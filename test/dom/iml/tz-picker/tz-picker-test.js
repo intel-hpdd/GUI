@@ -55,7 +55,7 @@ describe('tzPicker', () => {
 
     root = $compile(template)($scope)[0];
     querySelector(document, 'body').appendChild(root);
-    tzPicker = querySelector(root, '.tz-picker');
+    tzPicker = querySelector(root, '.detail-panel');
     localRb = (querySelector(tzPicker, '#local'): any);
     utcRb = (querySelector(tzPicker, '#utc'): any);
 

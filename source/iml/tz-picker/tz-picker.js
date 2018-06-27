@@ -41,7 +41,8 @@ const TzPickerElement = ({ isChecked, id }) => {
 
 export const TzPicker = ({ isUtc }: TzPickerProps) => {
   return (
-    <div class="well well-sm tz-picker">
+    <div class="detail-panel">
+      <h5 class="section-header">Select Timezone</h5>
       <TzPickerElement isChecked={isUtc === true} id="utc" />
       <TzPickerElement isChecked={isUtc === false} id="local" />
     </div>
