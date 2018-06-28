@@ -24,6 +24,7 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
   $scope.$on('$destroy', () => {
     this.notification$.destroy();
+    this.tzPickerB.endBroadcast();
   });
 
   const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];

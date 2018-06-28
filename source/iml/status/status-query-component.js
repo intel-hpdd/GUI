@@ -16,7 +16,7 @@ import type { PropagateChange } from '../extend-scope-module.js';
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
 export function StatusQueryController(
-  $scope: $scopeT,
+  $scope: $scopeT & { tzPickerB: { endBroadcast: () => null } },
   $location: $locationT,
   qsStream: qsStreamT,
   propagateChange: PropagateChange,
@@ -29,6 +29,10 @@ export function StatusQueryController(
   qs$.map(x => x.qs).through(p);
 
   this.$onDestroy = () => qs$.destroy();
+
+  $scope.$on('$destroy', () => {
+    this.tzPickerB.endBroadcast();
+  });
 
   Object.assign(this, {
     parserFormatter: {
