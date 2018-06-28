@@ -29,6 +29,7 @@ import userReducer from '../user/user-reducer.js';
 import loginFormReducer from '../login/login-form-reducer.js';
 import sessionReducer from '../session/session-reducer.js';
 import storageReducer from '../storage/storage-reducer.js';
+import tzPickerReducer from '../tz-picker/tz-picker-reducer.js';
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -52,5 +53,6 @@ export default createStore({
   users: userReducer,
   loginForm: loginFormReducer,
   session: sessionReducer,
-  storage: storageReducer
+  storage: storageReducer,
+  tzPicker: tzPickerReducer
 });

@@ -23,7 +23,9 @@ describe('get store', () => {
     mockJobStatsReducer,
     mockLoginFormReducer,
     mockSessionReducer,
-    mockStorageReducer;
+    mockStorageReducer,
+    mockTzPickerReducer;
+
   beforeEach(() => {
     store = { dispatch: jest.fn() };
     mockCreateStore = jest.fn(() => store);
@@ -49,13 +51,7 @@ describe('get store', () => {
     mockLoginFormReducer = {};
     mockSessionReducer = {};
     mockStorageReducer = {};
-    jest.mock('../../../../source/iml/target/target-reducer.js', () => mockTargetReducer);
-    jest.mock('../../../../source/iml/alert-indicator/alert-indicator-reducer.js', () => mockAlertIndicatorReducer);
-    jest.mock('../../../../source/iml/job-indicator/job-indicator-reducer.js', () => mockJobIndicatorReducer);
-    jest.mock('../../../../source/iml/server/server-reducer.js', () => mockServerReducer);
-    jest.mock('../../../../source/iml/lnet/lnet-configuration-reducer.js', () => mockLnetConfigurationReducer);
-    jest.mock('../../../../source/iml/tree/tree-reducer.js', () => mockTreeReducer);
-    jest.mock('../../../../source/iml/file-system/file-system-reducer.js', () => mockFileSystemReducer);
+    mockTzPickerReducer = {};
     jest.mock(
       '../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js',
       () => mockReadWriteHeatMapChartReducer
@@ -84,6 +80,14 @@ describe('get store', () => {
     jest.mock('../../../../source/iml/login/login-form-reducer', () => mockLoginFormReducer);
     jest.mock('../../../../source/iml/session/session-reducer', () => mockSessionReducer);
     jest.mock('../../../../source/iml/storage/storage-reducer', () => mockStorageReducer);
+    jest.mock('../../../../source/iml/target/target-reducer.js', () => mockTargetReducer);
+    jest.mock('../../../../source/iml/alert-indicator/alert-indicator-reducer.js', () => mockAlertIndicatorReducer);
+    jest.mock('../../../../source/iml/job-indicator/job-indicator-reducer.js', () => mockJobIndicatorReducer);
+    jest.mock('../../../../source/iml/server/server-reducer.js', () => mockServerReducer);
+    jest.mock('../../../../source/iml/lnet/lnet-configuration-reducer.js', () => mockLnetConfigurationReducer);
+    jest.mock('../../../../source/iml/tree/tree-reducer.js', () => mockTreeReducer);
+    jest.mock('../../../../source/iml/file-system/file-system-reducer.js', () => mockFileSystemReducer);
+    jest.mock('../../../../source/iml/tz-picker/tz-picker-reducer.js', () => mockTzPickerReducer);
     const storeModule = require('../../../../source/iml/store/get-store.js');
     storeInstance = storeModule.default;
   });
@@ -114,7 +118,8 @@ describe('get store', () => {
       jobStatsConfig: mockJobStatsReducer,
       loginForm: mockLoginFormReducer,
       session: mockSessionReducer,
-      storage: mockStorageReducer
+      storage: mockStorageReducer,
+      tzPicker: mockTzPickerReducer
     });
   });
 });

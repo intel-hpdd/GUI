@@ -12,6 +12,7 @@ import parserPermutations from '../parser-permutations.js';
 import * as fp from '@iml/fp';
 
 import { resolveStream } from '../promise-transforms.js';
+import { tzPickerB } from '../tz-picker/tz-picker-resolves.js';
 
 import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
@@ -30,6 +31,7 @@ export const statusState = {
 
 export const queryState = {
   name: 'app.status.query',
+  resolve: { tzPickerB },
   component: 'statusQuery'
 };
 
@@ -69,7 +71,8 @@ export const tableState = {
       if (qs.length) qs = '?' + qs;
 
       return resolveStream(socketStream('/alert/' + qs));
-    }
+    },
+    tzPickerB
   },
   component: 'statusRecords'
 };

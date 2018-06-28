@@ -4,7 +4,7 @@ import angular from '../../../angular-mock-setup.js';
 import { StatusController } from '../../../../source/iml/status/status-records-component.js';
 
 describe('status records component', () => {
-  let $scope, $location, ctrl, notificationStream;
+  let $scope, $location, ctrl, notificationStream, tzPickerB;
 
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {
@@ -17,8 +17,13 @@ describe('status records component', () => {
       notificationStream = highland();
       jest.spyOn(notificationStream, 'destroy');
 
+      tzPickerB = {
+        endBroadcast: jest.fn()
+      };
+
       ctrl = {
-        notification$: notificationStream
+        notification$: notificationStream,
+        tzPickerB
       };
 
       StatusController.call(ctrl, $scope, $location, propagateChange);
@@ -34,9 +39,18 @@ describe('status records component', () => {
     expect(ctrl).toEqual(instance);
   });
 
-  it('should destroy the notificationStream when the scope is destroyed', () => {
-    $scope.$destroy();
-    expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
+  describe('destroying the scope', () => {
+    beforeEach(() => {
+      $scope.$destroy();
+    });
+
+    it('should destroy the notificationStream', () => {
+      expect(notificationStream.destroy).toHaveBeenCalledOnceWith();
+    });
+
+    it('should end the tzPicker broadcast', () => {
+      expect(tzPickerB.endBroadcast).toHaveBeenCalledOnceWith();
+    });
   });
 
   describe('getting notificationStream data', () => {

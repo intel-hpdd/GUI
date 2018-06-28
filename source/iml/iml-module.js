@@ -60,6 +60,7 @@ import uiLoaderViewDirective from './ui-loader-view-directive.js';
 import storageComponent from './storage/storage-component.js';
 import storageDetailComponent from './storage/storage-detail-component.js';
 import addStorageComponent from './storage/add-storage-component.js';
+import { tzPickerComponent } from './tz-picker/tz-picker.js';
 
 import { loginState } from './login/login-states.js';
 
@@ -207,6 +208,7 @@ const imlModule = angular
   .component('storage', storageComponent)
   .component('addStorage', addStorageComponent)
   .component('storageDetail', storageDetailComponent)
+  .component('tzPicker', tzPickerComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',

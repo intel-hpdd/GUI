@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`tzPicker should create the component markup 1`] = `
+<div
+  class="detail-panel"
+>
+  <h5
+    class="section-header"
+  >
+    Select Timezone
+  </h5>
+  <div
+    class="radio"
+  >
+    <label
+      class="radio"
+    >
+      <input
+        type="radio"
+        name="tzPicker"
+        id="utc"
+      />
+      <span>
+        UTC
+      </span>
+    </label>
+  </div>
+  <div
+    class="radio"
+  >
+    <label
+      class="radio"
+    >
+      <input
+        type="radio"
+        name="tzPicker"
+        id="local"
+      />
+      <span>
+        Local
+      </span>
+    </label>
+  </div>
+</div>
+`;

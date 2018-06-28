@@ -22,7 +22,10 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
   propagateChange($scope, this, 'data', s);
 
-  $scope.$on('$destroy', () => this.notification$.destroy());
+  $scope.$on('$destroy', () => {
+    this.notification$.destroy();
+    this.tzPickerB.endBroadcast();
+  });
 
   const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];
   const getType = fp.flow(
@@ -42,7 +45,8 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 
 export default {
   bindings: {
-    notification$: '<'
+    notification$: '<',
+    tzPickerB: '<'
   },
   controller: StatusController,
   template: `
@@ -66,11 +70,17 @@ export default {
             </span>
           </td>
           <td class="hidden-xs">{{ row.record_type }}</td>
-          <td>
-            <a route-to="log/?datetime__gte={{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+          <td as-viewer stream="::$ctrl.tzPickerB">
+            <span as-value stream="::viewer">
+              <a ng-if="curr.val.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+              <a ng-if="curr.val.isUtc === false" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
+            </span>
           </td>
-          <td>
-            <a ng-if="!row.active" route-to="log/?datetime__gte={{ row.end | date:'yyyy-MM-dd HH:mm:ss' }}">{{ row.end | date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+          <td as-viewer stream="::$ctrl.tzPickerB">
+            <span as-value stream="::viewer">
+              <a ng-if="!row.active && curr.val.isUtc === true" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+              <a ng-if="!row.active && curr.val.isUtc === false" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
+            </span>
           </td>
           <td>{{ row.message }}</td>
           <td>

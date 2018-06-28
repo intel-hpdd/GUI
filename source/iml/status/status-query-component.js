@@ -16,7 +16,7 @@ import type { PropagateChange } from '../extend-scope-module.js';
 import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
 
 export function StatusQueryController(
-  $scope: $scopeT,
+  $scope: $scopeT & { tzPickerB: { endBroadcast: () => null } },
   $location: $locationT,
   qsStream: qsStreamT,
   propagateChange: PropagateChange,
@@ -30,6 +30,10 @@ export function StatusQueryController(
 
   this.$onDestroy = () => qs$.destroy();
 
+  $scope.$on('$destroy', () => {
+    this.tzPickerB.endBroadcast();
+  });
+
   Object.assign(this, {
     parserFormatter: {
       parser: statusInputToQsParser,
@@ -41,6 +45,9 @@ export function StatusQueryController(
 }
 
 export default {
+  bindings: {
+    tzPickerB: '<'
+  },
   controller: StatusQueryController,
   template: `
   <div class="row">
@@ -52,6 +59,7 @@ export default {
         completer="::$ctrl.completer(value, cursorPosition)"
       ></parsely-box>
       <common-status-searches></common-status-searches>
+      <tz-picker stream="::$ctrl.tzPickerB"></tz-picker>
       <ui-loader-view class="status-table"></ui-loader-view>
     </div>
   </div>
