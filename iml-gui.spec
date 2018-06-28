@@ -38,7 +38,7 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
-* Wed Jun 28 2018 Will Johnson <wjohnson@whamcloud.com> - 6.4.0-1
+* Thu Jun 28 2018 Will Johnson <wjohnson@whamcloud.com> - 6.4.0-1
 - Make time configurable on status page
 
 * Wed Jun 20 2018 Will Johnson <wjohnson@whamcloud.com> - 6.3.1-1
