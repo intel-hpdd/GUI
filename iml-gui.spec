@@ -3,7 +3,7 @@
 %define backcompatdir /usr/lib%{managerdir}
 
 Name:       iml-%{base_name}
-Version:    6.3.1
+Version:    6.4.0
 Release:    1%{?dist}
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
+* Thu Jun 28 2018 Will Johnson <wjohnson@whamcloud.com> - 6.4.0-1
+- Make time configurable on status page
+
 * Wed Jun 20 2018 Will Johnson <wjohnson@whamcloud.com> - 6.3.1-1
 - Changed logos from Intel to Whamcloud
 - Removed Intel branding (except copyright)
