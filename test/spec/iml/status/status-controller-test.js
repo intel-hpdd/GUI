@@ -21,8 +21,7 @@ describe('status records component', () => {
       jest.spyOn(tzPickerStream, 'destroy');
 
       ctrl = {
-        notification$: notificationStream,
-        tzPicker$: tzPickerStream
+        notification$: notificationStream
       };
 
       StatusController.call(ctrl, $scope, $location, propagateChange);
@@ -41,11 +40,6 @@ describe('status records component', () => {
   it('should destroy the notificationStream when the scope is destroyed', () => {
     $scope.$destroy();
     expect(notificationStream.destroy).toHaveBeenCalledTimes(1);
-  });
-
-  it('should destroy the tzPickerStream when the scope is destroyed', () => {
-    $scope.$destroy();
-    expect(tzPickerStream.destroy).toHaveBeenCalledTimes(1);
   });
 
   describe('getting notificationStream data', () => {
@@ -79,13 +73,6 @@ describe('status records component', () => {
         total_count: 4,
         current_page: 1
       });
-    });
-  });
-
-  describe('getting tzPickerStream data', () => {
-    it('should set the tzPicker on the controller', () => {
-      tzPickerStream.write({ isUtc: false });
-      expect(ctrl.isUtc).toEqual(false);
     });
   });
 

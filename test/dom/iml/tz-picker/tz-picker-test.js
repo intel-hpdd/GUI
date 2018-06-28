@@ -8,28 +8,29 @@ import Inferno from 'inferno';
 
 import type { HighlandStreamT } from 'highland';
 
+type UtcStream = HighlandStreamT<{ isUtc: boolean }>;
+
 describe('tzPicker', () => {
   let root: HTMLElement,
     TzPicker,
     tzPicker: HTMLElement,
     mockDispatch,
-    mockSelect,
     utcRb: HTMLInputElement,
     localRb: HTMLInputElement,
     changeEvent: Event,
     $scope: $scope,
     $compile,
     template: string,
-    tzPicker$: HighlandStreamT<{ isUtc: boolean }>;
+    tzPicker$: UtcStream,
+    tzPickerB: () => UtcStream;
 
   beforeEach(() => {
     mockDispatch = jest.fn();
     tzPicker$ = highland();
-    mockSelect = jest.fn(() => tzPicker$);
+    tzPickerB = jest.fn(() => tzPicker$);
 
     jest.mock('../../../../source/iml/store/get-store.js', () => ({
-      dispatch: mockDispatch,
-      select: mockSelect
+      dispatch: mockDispatch
     }));
 
     TzPicker = require('../../../../source/iml/tz-picker/tz-picker.js').tzPickerComponent;
@@ -44,8 +45,9 @@ describe('tzPicker', () => {
   beforeEach(
     angular.mock.inject((_$compile_, $rootScope) => {
       $scope = $rootScope.$new();
+      $scope.stream = tzPickerB;
       $compile = _$compile_;
-      template = '<tz-picker></tz-picker>';
+      template = '<tz-picker stream="stream"></tz-picker>';
     })
   );
 
@@ -71,10 +73,6 @@ describe('tzPicker', () => {
 
   it('should create the component markup', () => {
     expect(tzPicker).toMatchSnapshot();
-  });
-
-  it('should select the tzPicker stream', () => {
-    expect(mockSelect).toHaveBeenCalledOnceWith('tzPicker');
   });
 
   it('should select the local radio button', () => {

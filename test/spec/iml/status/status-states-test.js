@@ -1,19 +1,19 @@
 import { noSpace } from '../../../../source/iml/string.js';
 
 describe('status states', () => {
-  let mod, mockResolveStream, mockSocketStream, mockSelect;
+  let mod, mockResolveStream, mockSocketStream, mockTzPickerB;
 
   beforeEach(() => {
     mockResolveStream = jest.fn();
     mockSocketStream = jest.fn();
-    mockSelect = jest.fn();
+    mockTzPickerB = jest.fn();
 
     jest.mock('../../../../source/iml/promise-transforms.js', () => ({
       resolveStream: mockResolveStream
     }));
     jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/store/get-store.js', () => ({
-      select: mockSelect
+    jest.mock('../../../../source/iml/tz-picker/tz-picker-resolves.js', () => ({
+      tzPickerB: mockTzPickerB
     }));
 
     mod = require('../../../../source/iml/status/status-states.js');
@@ -36,6 +36,9 @@ describe('status states', () => {
     it('should create the state', () => {
       expect(mod.queryState).toEqual({
         name: 'app.status.query',
+        resolve: {
+          tzPickerB: expect.any(Function)
+        },
         component: 'statusQuery'
       });
     });
@@ -74,7 +77,7 @@ describe('status states', () => {
         },
         resolve: {
           notification$: expect.any(Function),
-          tzPicker$: expect.any(Function)
+          tzPickerB: expect.any(Function)
         },
         component: 'statusRecords'
       });
@@ -135,13 +138,13 @@ describe('status states', () => {
       });
     });
 
-    describe('resolve tzPicker$', () => {
+    describe('resolve tzPickerB', () => {
       beforeEach(() => {
-        mod.tableState.resolve.tzPicker$();
+        mod.tableState.resolve.tzPickerB();
       });
 
       it('should select tzPicker stream from the store', () => {
-        expect(mockSelect).toHaveBeenCalledOnceWith('tzPicker');
+        expect(mockTzPickerB).toHaveBeenCalledTimes(1);
       });
     });
   });

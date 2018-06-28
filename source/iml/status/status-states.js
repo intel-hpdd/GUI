@@ -8,11 +8,11 @@
 import socketStream from '../socket/socket-stream.js';
 import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
 import parserPermutations from '../parser-permutations.js';
-import getStore from '../store/get-store.js';
 
 import * as fp from '@iml/fp';
 
 import { resolveStream } from '../promise-transforms.js';
+import { tzPickerB } from '../tz-picker/tz-picker-resolves.js';
 
 import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
@@ -31,6 +31,7 @@ export const statusState = {
 
 export const queryState = {
   name: 'app.status.query',
+  resolve: { tzPickerB },
   component: 'statusQuery'
 };
 
@@ -71,9 +72,7 @@ export const tableState = {
 
       return resolveStream(socketStream('/alert/' + qs));
     },
-    tzPicker$() {
-      return getStore.select('tzPicker');
-    }
+    tzPickerB
   },
   component: 'statusRecords'
 };

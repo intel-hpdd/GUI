@@ -3,10 +3,9 @@
 import Inferno from 'inferno';
 import getStore from '../store/get-store.js';
 import { setTimeZoneToUtc, setTimeZoneToLocal } from './tz-picker-actions.js';
+import { asViewer } from '../as-viewer/as-viewer.js';
 
-export type TzPickerProps = {
-  isUtc: boolean
-};
+import type { TzPickerProps } from './tz-picker-reducer.js';
 
 const handleChange = evt => {
   if (evt.target.id === 'utc') getStore.dispatch(setTimeZoneToUtc());
@@ -39,7 +38,7 @@ const TzPickerElement = ({ isChecked, id }) => {
     );
 };
 
-export const TzPicker = ({ isUtc }: TzPickerProps) => {
+export const TzPicker = asViewer('tzPicker', ({ tzPicker: { isUtc } }: { tzPicker: TzPickerProps }) => {
   return (
     <div class="detail-panel">
       <h5 class="section-header">Select Timezone</h5>
@@ -47,19 +46,19 @@ export const TzPicker = ({ isUtc }: TzPickerProps) => {
       <TzPickerElement isChecked={isUtc === false} id="local" />
     </div>
   );
-};
+});
 
 export const tzPickerComponent = {
-  binding: {},
+  bindings: {
+    stream: '<'
+  },
   controller: function($element: HTMLElement[]) {
     'ngInject';
 
     const el = $element[0];
 
     this.$onInit = () => {
-      getStore.select('tzPicker').each(tz => {
-        Inferno.render(<TzPicker isUtc={tz.isUtc} />, el);
-      });
+      Inferno.render(<TzPicker viewer={this.stream} />, el);
     };
 
     this.$onDestroy = () => {

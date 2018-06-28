@@ -41,6 +41,9 @@ export function StatusQueryController(
 }
 
 export default {
+  bindings: {
+    tzPickerB: '<'
+  },
   controller: StatusQueryController,
   template: `
   <div class="row">
@@ -52,7 +55,7 @@ export default {
         completer="::$ctrl.completer(value, cursorPosition)"
       ></parsely-box>
       <common-status-searches></common-status-searches>
-      <tz-picker></tz-picker>
+      <tz-picker stream="::$ctrl.tzPickerB"></tz-picker>
       <ui-loader-view class="status-table"></ui-loader-view>
     </div>
   </div>
