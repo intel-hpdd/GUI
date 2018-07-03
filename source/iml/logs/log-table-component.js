@@ -7,7 +7,10 @@
 
 function controller($location: Object) {
   'ngInject';
-  this.$onDestroy = () => this.log$.destroy();
+  this.$onDestroy = () => {
+    this.log$.destroy();
+    this.tzPickerB.endBroadcast();
+  };
 
   this.pageChanged = meta => {
     $location.search('offset', (meta.current_page - 1) * meta.limit);
@@ -16,7 +19,8 @@ function controller($location: Object) {
 
 export default {
   bindings: {
-    log$: '<'
+    log$: '<',
+    tzPickerB: '<'
   },
   controller,
   template: `
@@ -34,9 +38,7 @@ export default {
       <tbody>
         <tr ng-repeat="row in curr.val.objects track by row.resource_uri">
           <td>
-            <span>
-              {{ ::row.datetime| date:'yyyy-MM-dd HH:mm:ss' : 'UTC' }}
-            </span>
+            <display-date tz-picker-b="::$ctrl.tzPickerB" datetime="::row.datetime"></display-date>
           </td>
           <td restrict-to="{{ app.GROUPS.FS_ADMINS }}">
             <a ng-if="row.host_id != null" route-to="configure/server/{{ row.host_id }}">{{ ::row.fqdn }}</a>

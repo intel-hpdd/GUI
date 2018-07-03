@@ -2,7 +2,7 @@ import highland from 'highland';
 import angular from '../../../angular-mock-setup.js';
 
 describe('log query component controller', () => {
-  let ctrl, $scope, $location, $stateParams, controller, qsStream, s;
+  let ctrl, $scope, $location, $stateParams, controller, qsStream, tzPickerB, s;
 
   beforeEach(() => {
     jest.mock('../../../../source/iml/logs/log-input-to-qs-parser.js', () => 'inputParser');
@@ -18,6 +18,10 @@ describe('log query component controller', () => {
     angular.mock.inject(($rootScope, propagateChange) => {
       $scope = $rootScope.$new();
 
+      tzPickerB = {
+        endBroadcast: jest.fn()
+      };
+
       $location = {
         search: jest.fn()
       };
@@ -30,7 +34,9 @@ describe('log query component controller', () => {
       jest.spyOn(s, 'destroy');
       qsStream = jest.fn(() => s);
 
-      ctrl = {};
+      ctrl = {
+        tzPickerB
+      };
 
       controller.bind(ctrl)($scope, $location, $stateParams, qsStream, propagateChange);
     })
@@ -67,9 +73,17 @@ describe('log query component controller', () => {
     expect($location.search).toHaveBeenCalledOnceWith('foo=bar');
   });
 
-  it('should destroy the route stream when the scope is destroyed', () => {
-    $scope.$destroy();
+  describe('on destroying the scope', () => {
+    beforeEach(() => {
+      $scope.$destroy();
+    });
 
-    expect(s.destroy).toHaveBeenCalledTimes(1);
+    it('should destroy the route stream', () => {
+      expect(s.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should end the broadcaster', () => {
+      expect(tzPickerB.endBroadcast).toHaveBeenCalledOnceWith();
+    });
   });
 });

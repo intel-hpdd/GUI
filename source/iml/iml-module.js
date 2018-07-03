@@ -61,6 +61,7 @@ import storageComponent from './storage/storage-component.js';
 import storageDetailComponent from './storage/storage-detail-component.js';
 import addStorageComponent from './storage/add-storage-component.js';
 import { tzPickerComponent } from './tz-picker/tz-picker.js';
+import { displayDateComponent } from './display-date';
 
 import { loginState } from './login/login-states.js';
 
@@ -209,6 +210,7 @@ const imlModule = angular
   .component('addStorage', addStorageComponent)
   .component('storageDetail', storageDetailComponent)
   .component('tzPicker', tzPickerComponent)
+  .component('displayDate', displayDateComponent)
   .constant('STATE_SIZE', {
     SMALL: 'small',
     MEDIUM: 'medium',
