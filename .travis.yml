@@ -52,6 +52,8 @@ jobs:
         on:
           all_branches: true
     - stage: cd
+      git:
+        depth: 999999
       env: Type='Continuous Deployment'
       script:
         - include/travis/copr-deploy.sh prepare
