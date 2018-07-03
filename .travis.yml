@@ -55,7 +55,7 @@ jobs:
       env: Type='Continuous Deployment'
       script:
         - include/travis/copr-deploy.sh prepare
-        - ./travis_wait "./include/travis/run_in_centos7_docker.sh (yum install -y npm && include/travis/copr-deploy.sh build_srpm)"
+        - ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build_srpm"
 stages:
   - test
   - name: deploy-npm
