@@ -29,7 +29,6 @@ jobs:
       after_success:
       - codecov
     - stage: deploy-npm
-      if: branch =~ ^v\d+\.\d+\.\d+-1.*$
       env: Type='NPM Deploy'
       before_deploy:
         - npm i
@@ -43,7 +42,6 @@ jobs:
           all_branches: true
           repo: whamcloud/GUI
     - stage: deploy-copr
-      if: branch =~ ^v\d+\.\d+\.\d+-.+$
       env: Type='Copr deploy'
       before_deploy:
       - include/travis/copr-deploy.sh prepare
@@ -53,3 +51,16 @@ jobs:
         script: ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build"
         on:
           all_branches: true
+    - stage: cd
+      env: Type='Continuous Deployment'
+      script:
+        - include/travis/copr-deploy.sh prepare
+        - ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build_srpm"
+stages:
+  - test
+  - name: deploy-npm
+    if: branch =~ ^v\d+\.\d+\.\d+-1.*$
+  - name: deploy-copr
+    if: branch =~ ^v\d+\.\d+\.\d+-.+$
+  - name: cd
+    if: branch = master AND type = push AND fork = false
