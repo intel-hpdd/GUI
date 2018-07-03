@@ -34,7 +34,10 @@ describe('status states', () => {
           helpPage: 'Graphical_User_Interface_9_0.html#9.5',
           anonymousReadProtected: true
         },
-        template: expect.any(String)
+        resolve: {
+          tzPickerB: expect.any(Function)
+        },
+        component: 'logQuery'
       });
     });
   });
@@ -65,7 +68,8 @@ describe('status states', () => {
           }
         },
         resolve: {
-          log$: expect.any(Function)
+          log$: expect.any(Function),
+          tzPickerB: expect.any(Function)
         },
         data: {
           kind: 'Logs',

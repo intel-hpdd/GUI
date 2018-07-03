@@ -72,14 +72,14 @@ export default {
           <td class="hidden-xs">{{ row.record_type }}</td>
           <td as-viewer stream="::$ctrl.tzPickerB">
             <span as-value stream="::viewer">
-              <a ng-if="curr.val.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
-              <a ng-if="curr.val.isUtc === false" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
+              <a ng-if="curr.val.isUtc === true" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ssUTC' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+              <a ng-if="curr.val.isUtc === false" route-to="log/?datetime__gte={{ row.begin | date : 'yyyy-MM-dd HH:mm:ssUTC' : 'UTC' }}">{{ row.begin | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
             </span>
           </td>
           <td as-viewer stream="::$ctrl.tzPickerB">
             <span as-value stream="::viewer">
-              <a ng-if="!row.active && curr.val.isUtc === true" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
-              <a ng-if="!row.active && curr.val.isUtc === false" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
+              <a ng-if="!row.active && curr.val.isUtc === true" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ssUTC' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' : 'UTC' }}</a>
+              <a ng-if="!row.active && curr.val.isUtc === false" route-to="log/?datetime__lte={{ row.end | date : 'yyyy-MM-dd HH:mm:ssUTC' : 'UTC' }}">{{ row.end | date : 'yyyy-MM-dd HH:mm:ss' }}</a>
             </span>
           </td>
           <td>{{ row.message }}</td>

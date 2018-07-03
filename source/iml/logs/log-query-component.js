@@ -28,7 +28,10 @@ export function controller(
 
   qs$.map(x => x.qs).through(p);
 
-  $scope.$on('$destroy', () => qs$.destroy());
+  $scope.$on('$destroy', () => {
+    qs$.destroy();
+    this.tzPickerB.endBroadcast();
+  });
 
   Object.assign(this, {
     parserFormatter: {
@@ -41,17 +44,24 @@ export function controller(
 }
 
 export default {
+  bindings: {
+    tzPickerB: '<'
+  },
   controller,
   template: `
-<div class="row">
-  <div class="col-xs-12">
-    <parsely-box
-      on-submit="::$ctrl.onSubmit(qs)"
-      query="$ctrl.qs"
-      parser-formatter="::$ctrl.parserFormatter"
-      completer="::$ctrl.completer(value, cursorPosition)"
-    ></parsely-box>
+  <div class="container log container-full">  
+    <div class="row">
+      <div class="col-xs-12">
+        <parsely-box
+          on-submit="::$ctrl.onSubmit(qs)"
+          query="$ctrl.qs"
+          parser-formatter="::$ctrl.parserFormatter"
+          completer="::$ctrl.completer(value, cursorPosition)"
+        ></parsely-box>
+        <tz-picker stream="::$ctrl.tzPickerB"></tz-picker>
+      </div>
+    </div>
+    <ui-loader-view class="log-table"></ui-loader-view>
   </div>
-</div>
   `
 };

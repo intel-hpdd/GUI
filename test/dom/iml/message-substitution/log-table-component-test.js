@@ -2,12 +2,26 @@ import logModule from '../../../../source/iml/logs/log-module.js';
 import highland from 'highland';
 import store from '../../../../source/iml/store/get-store.js';
 
+import { displayDateComponent } from '../../../../source/iml/display-date.js';
 import { setSession } from '../../../../source/iml/session/session-actions.js';
 
 import angular from '../../../angular-mock-setup.js';
 
 describe('log table component', () => {
-  let $scope, template, el, log$, table, dateField, fqdnLink, fqdnSpan, fqdnRestricted, tag, message, messageLink;
+  let $scope,
+    template,
+    el,
+    log$,
+    table,
+    dateField,
+    fqdnLink,
+    fqdnSpan,
+    fqdnRestricted,
+    tag,
+    message,
+    messageLink,
+    tzPickerB,
+    tzPicker$;
 
   beforeEach(() => {
     log$ = highland([
@@ -35,9 +49,19 @@ describe('log table component', () => {
         ]
       }
     ]);
+
+    tzPicker$ = highland([{ isUtc: true }]);
+    tzPickerB = jest.fn(() => tzPicker$);
+    tzPickerB.endBroadcast = jest.fn();
   });
 
   beforeEach(angular.mock.module(logModule));
+
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component('displayDate', displayDateComponent);
+    })
+  );
 
   describe('with authorization', () => {
     beforeEach(
@@ -77,12 +101,13 @@ describe('log table component', () => {
 
         $scope = $rootScope.$new();
         $scope.log$ = log$;
-        template = '<log-table log$="::log$"></log-table>';
+        $scope.tzPickerB = tzPickerB;
+        template = '<log-table log$="::log$" tz-picker-b="::tzPickerB"></log-table>';
         el = $compile(template)($scope)[0];
         $scope.$digest();
 
         table = el.querySelector.bind(el, 'table');
-        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) span');
+        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) .date');
         fqdnLink = el.querySelector.bind(el, 'table tr td:nth-of-type(2) a');
         fqdnSpan = el.querySelector.bind(el, 'table tr td:nth-of-type(2) span');
         fqdnRestricted = el.querySelector.bind(el, 'table tr td:nth-of-type(3)');
@@ -163,12 +188,13 @@ describe('log table component', () => {
 
         $scope = $rootScope.$new();
         $scope.log$ = log$;
-        template = '<log-table log$="::log$"></log-table>';
+        $scope.tzPickerB = tzPickerB;
+        template = '<log-table log$="::log$" tz-picker-b="::tzPickerB"></log-table>';
         el = $compile(template)($scope)[0];
         $scope.$digest();
 
         table = el.querySelector.bind(el, 'table');
-        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) span');
+        dateField = el.querySelector.bind(el, 'table tr td:nth-of-type(1) .date');
         fqdnLink = el.querySelector.bind(el, 'table tr td:nth-of-type(2)');
         fqdnSpan = el.querySelector.bind(el, 'table tr td:nth-of-type(2) span');
         fqdnRestricted = el.querySelector.bind(el, 'table tr td:nth-of-type(3)');

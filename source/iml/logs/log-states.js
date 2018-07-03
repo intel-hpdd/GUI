@@ -20,6 +20,8 @@ import { addCurrentPage } from '../api-transforms.js';
 
 import { multiStream2 } from '../multi-stream.js';
 
+import { tzPickerB } from '../tz-picker/tz-picker-resolves.js';
+
 import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
 
 import type { HighlandStreamT } from 'highland';
@@ -30,12 +32,8 @@ export const logState = {
     helpPage: 'Graphical_User_Interface_9_0.html#9.5',
     anonymousReadProtected: true
   },
-  template: `
-  <div class="container log container-full">
-    <log-query></log-query>
-    <ui-loader-view class="log-table"></ui-loader-view>
-  </div>
-  `
+  resolve: { tzPickerB },
+  component: 'logQuery'
 };
 
 export const logTableState = {
@@ -81,7 +79,8 @@ export const logTableState = {
           )
         )
       );
-    }
+    },
+    tzPickerB
   },
   component: 'logTable'
 };

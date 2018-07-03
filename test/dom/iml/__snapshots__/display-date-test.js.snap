@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Display Date Component local time should create markup 1`] = `
+<span
+  class="date"
+>
+  <span>
+    2018-07-01 08:30:00
+  </span>
+</span>
+`;
+
+exports[`Display Date Component utc should create the markup 1`] = `
+<span
+  class="date"
+>
+  <span>
+    2018-07-01 12:30:00
+  </span>
+</span>
+`;
