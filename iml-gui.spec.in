@@ -1,10 +1,11 @@
 %define base_name gui
 %define managerdir /iml-manager/
 %define backcompatdir /usr/lib%{managerdir}
+%{?!package_release: %global package_release @RELEASE@}
 
 Name:       iml-%{base_name}
 Version:    6.4.0
-Release:    1%{?dist}
+Release:    %{package_release}%{?dist}
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
 Group:      System Environment/Libraries
