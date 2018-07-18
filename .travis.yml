@@ -8,10 +8,6 @@ addons:
 jobs:
   include:
     - stage: test
-      env: Type='virus scan'
-      script:
-      - ./include/travis/virus-scan.sh
-    - stage: test
       env: Type='mock build test'
       script:
       - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
