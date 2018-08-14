@@ -3,7 +3,7 @@
 %define backcompatdir /usr/lib%{managerdir}
 
 Name:       iml-%{base_name}
-Version:    6.3.2
+Version:    6.3.3
 Release:    1%{?dist}
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
+* Tue Aug 14 2018 Joe Grund <jgrund@whamcloud.com> - 6.3.3-1
+- Remove more branding
+
 * Tue Aug 14 2018 Joe Grund <jgrund@whamcloud.com> - 6.3.2-1
 - Bump for branding only release
 
