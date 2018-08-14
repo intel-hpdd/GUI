@@ -95,7 +95,7 @@ Object {
     <footer class=\\"text-center\\">
       <small>
         Integrated Manager for Lustre software {{ app.RUNTIME_VERSION }} is
-        Copyright &copy; {{ app.COPYRIGHT_YEAR }} Intel Corporation. All rights reserved.
+        Copyright &copy; {{ app.COPYRIGHT_YEAR }} DDN. All rights reserved.
         <a ui-sref=\\"app.about({ resetState: true })\\" class=\\"navigation\\">About Integrated Manager for Lustre software</a>
         <a id=\\"system-status\\" ui-sref=\\"app.oldSystemStatus({ resetState: true })\\" restrict-to=\\"{{ app.GROUPS.FS_ADMINS }}\\">System Status</a>
       </small>

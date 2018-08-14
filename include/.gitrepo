@@ -4,7 +4,7 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = git@github.com:intel-hpdd/module-tools.git
+	remote = git@github.com:whamcloud/module-tools.git
 	branch = master
 	commit = b884930a98e188e2889cc0b9e087b987ffa7aefc
 	parent = 2b5ec77e66f73af56c5fe99b9727426770f5ba12
