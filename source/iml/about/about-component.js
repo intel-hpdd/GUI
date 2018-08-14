@@ -27,30 +27,8 @@ function AboutComponent() {
         <div>
           <p>
             Copyright © {HELP_TEXT.copyright_year}{' '}
-            <a href="http://www.intel.com/">Intel Corporation</a>
+            <a href="http://www.ddn.com/">DDN</a>
             . All rights reserved.
-          </p>
-        </div>
-      </div>
-      <div>
-        <div>
-          <p>
-            Intel is a trademark of Intel Corporation in the U.S. and other
-            countries.
-            <br />
-            * Other names and brands may be claimed as the property of others.
-          </p>
-        </div>
-      </div>
-      <div>
-        <div>
-          <h4>Licensing notices</h4>
-          <h5>GPL components</h5>
-
-          <p>
-            The software includes some third party software licensed under the
-            GNU GPL. Please contact Intel if you require the source code to GPL
-            components.
           </p>
         </div>
       </div>
