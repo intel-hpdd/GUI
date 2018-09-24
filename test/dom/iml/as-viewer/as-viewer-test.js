@@ -2,7 +2,8 @@ import highland from "highland";
 import * as fp from "@iml/fp";
 import angular from "../../../angular-mock-setup.js";
 import broadcaster from "../../../../source/iml/broadcaster.js";
-import asViewerDirective from "../../../../source/iml/as-viewer/as-viewer.js";
+import { default as asViewerDirective, asViewers } from "../../../../source/iml/as-viewer/as-viewer.js";
+import Inferno from "inferno";
 
 describe("as viewer", () => {
   let $compile, $scope, el, s, getText, v;
@@ -182,6 +183,79 @@ describe("as viewer", () => {
       it("should update c", function() {
         expect(getText(".c")).toEqual("c");
       });
+    });
+  });
+});
+
+describe("as viewers", () => {
+  let root, viewer1B, viewer1V, viewer2B, viewer2V, viewer3B, viewer3V, MultipleViewersComponent;
+
+  describe("with proper args", () => {
+    beforeEach(() => {
+      viewer1B = broadcaster(highland([{ viewer1: { key1: "val1" } }]));
+      viewer1V = viewer1B();
+      jest.spyOn(viewer1V, "destroy");
+      viewer2B = broadcaster(highland([{ viewer2: { key2: "val2" } }]));
+      viewer2V = viewer2B();
+      jest.spyOn(viewer2V, "destroy");
+      viewer3B = broadcaster(highland([{ viewer3: { key3: "val3" } }]));
+      viewer3V = viewer3B();
+      jest.spyOn(viewer3V, "destroy");
+
+      MultipleViewersComponent = asViewers(
+        ["viewer1", "viewer2", "viewer3"],
+        ({ viewer1: { key1 }, viewer2: { key2 }, viewer3: { key3 }, name }) => {
+          return (
+            <div id="multiple-viewers-component">
+              <h1 id="name">{name}</h1>
+              <div id="key1">{key1}</div>
+              <div id="key2">{key2}</div>
+              <div id="key3">{key3}</div>
+            </div>
+          );
+        }
+      );
+
+      root = document.createElement("div");
+      Inferno.render(
+        <MultipleViewersComponent viewers={[viewer1V, viewer2V, viewer3V]} name={"test-component"} />,
+        root
+      );
+    });
+
+    it("should match the snapshot", () => {
+      expect(root).toMatchSnapshot();
+    });
+
+    describe("removing the component", () => {
+      beforeEach(() => {
+        Inferno.render(null, root);
+      });
+
+      it("should end the broadcast for viewer1", () => {
+        expect(viewer1V.destroy).toHaveBeenCalledTimes(1);
+      });
+
+      it("should end the broadcast for viewer2", () => {
+        expect(viewer2V.destroy).toHaveBeenCalledTimes(1);
+      });
+
+      it("should end the broadcast for viewer3", () => {
+        expect(viewer3V.destroy).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+
+  describe("with duplicate keys", () => {
+    beforeEach(() => {});
+
+    it("should throw an exception", () => {
+      expect(
+        () =>
+          (MultipleViewersComponent = asViewers(["viewer1", "viewer2", "viewer3", "viewer3"], () => {
+            return <div id="multiple-viewers-component" />;
+          }))
+      ).toThrow(new Error("asViewers keys must be unique."));
     });
   });
 });

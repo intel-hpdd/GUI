@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`as viewers with proper args should match the snapshot 1`] = `
+<div>
+  <div
+    id="multiple-viewers-component"
+  >
+    <h1
+      id="name"
+    >
+      test-component
+    </h1>
+    <div
+      id="key1"
+    >
+      val1
+    </div>
+    <div
+      id="key2"
+    >
+      val2
+    </div>
+    <div
+      id="key3"
+    >
+      val3
+    </div>
+  </div>
+</div>
+`;
