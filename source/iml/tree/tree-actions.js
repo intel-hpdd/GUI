@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { ADD_TREE_ITEMS, TOGGLE_COLLECTION_OPEN, TOGGLE_ITEM_OPEN, UPDATE_COLLECTION_OFFSET } from './tree-types.js';
+import { ADD_TREE_ITEMS, TOGGLE_COLLECTION_OPEN, TOGGLE_ITEM_OPEN, UPDATE_COLLECTION_OFFSET } from "./tree-types.js";
 
-import type { treeItemT } from './tree-types.js';
+import type { treeItemT } from "./tree-types.js";
 
 export function addTreeItems(payload: treeItemT[]) {
   return {

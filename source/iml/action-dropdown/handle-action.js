@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
 export default function handleActionFactory(openConfirmActionModal) {
-  'ngInject';
+  "ngInject";
   /**
    * Performs the given action
    * @param {Object} record
@@ -37,11 +37,11 @@ export default function handleActionFactory(openConfirmActionModal) {
 
     const jobSender = _.partial(
       socketStream,
-      '/command',
+      "/command",
       {
-        method: 'post',
+        method: "post",
         json: {
-          jobs: [_.pick(action, 'class_name', 'args')],
+          jobs: [_.pick(action, "class_name", "args")],
           message: message
         }
       },
@@ -66,7 +66,7 @@ export default function handleActionFactory(openConfirmActionModal) {
   function changeState(socketStream, record, action) {
     const sendStateChange = _.partial(function sendStateChange(isDryRun) {
       const data = {
-        method: 'put',
+        method: "put",
         json: { state: action.state }
       };
 
@@ -122,7 +122,7 @@ export default function handleActionFactory(openConfirmActionModal) {
     return socketStream(
       path,
       {
-        method: 'put',
+        method: "put",
         json: record
       },
       true
@@ -140,7 +140,7 @@ export default function handleActionFactory(openConfirmActionModal) {
 
     return openConfirmActionModal(confirm.message, confirm.prompts)
       .resultStream.errors(function handleCancel(err, push) {
-        if (err === 'cancel') return;
+        if (err === "cancel") return;
 
         push(err);
       })

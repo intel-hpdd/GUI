@@ -5,21 +5,21 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import * as obj from '@iml/obj';
-import * as fp from '@iml/fp';
-import * as maybe from '@iml/maybe';
-import flatMapChanges from '@iml/flat-map-changes';
+import highland from "highland";
+import * as obj from "@iml/obj";
+import * as fp from "@iml/fp";
+import * as maybe from "@iml/maybe";
+import flatMapChanges from "@iml/flat-map-changes";
 
-import { addCurrentPage } from '../api-transforms.js';
+import { addCurrentPage } from "../api-transforms.js";
 
-import { addTreeItems, createItem } from '../tree/tree-actions.js';
+import { addTreeItems, createItem } from "../tree/tree-actions.js";
 
-import type { Maybe } from '@iml/maybe';
+import type { Maybe } from "@iml/maybe";
 
-import type { treeItemT, treeHashT } from './tree-types.js';
+import type { treeItemT, treeHashT } from "./tree-types.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 type treeItemToBooleanT = (x: treeItemT) => boolean;
 

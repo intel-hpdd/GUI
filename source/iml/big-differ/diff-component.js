@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const CLEAN = 'clean';
-export const LOCAL = 'local';
-export const REMOTE = 'remote';
-export const CONFLICT = 'conflict';
+export const CLEAN = "clean";
+export const LOCAL = "local";
+export const REMOTE = "remote";
+export const CONFLICT = "conflict";
 
 type State = {
   status: string,
@@ -25,7 +25,7 @@ export type diffComponentCtrl = {
 };
 
 export function DiffComponentCtrl($scope: Object) {
-  'ngInject';
+  "ngInject";
   this.$onInit = () => {
     let state: State = {
       status: CLEAN,
@@ -93,14 +93,14 @@ export function DiffComponentCtrl($scope: Object) {
     this.diffContainerCtrl.register(this);
   };
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     this.diffContainerCtrl.deregister(this);
   });
 }
 
 export default {
   require: {
-    diffContainerCtrl: '^diffContainer'
+    diffContainerCtrl: "^diffContainer"
   },
   transclude: true,
   controller: DiffComponentCtrl,

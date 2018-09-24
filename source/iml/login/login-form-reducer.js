@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Exact } from '../../flow-workarounds.js';
+import type { Exact } from "../../flow-workarounds.js";
 
-export const ADD_ERRORS = 'ADD_ERRORS';
-export const ADD_IN_PROGRESS = 'ADD_IN_PROGRESS';
+export const ADD_ERRORS = "ADD_ERRORS";
+export const ADD_IN_PROGRESS = "ADD_IN_PROGRESS";
 
 export type errorsActionT = Exact<{
   type: typeof ADD_ERRORS,

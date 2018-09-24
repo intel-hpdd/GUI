@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import getStore from '../store/get-store.js';
-import { setTimeZoneToUtc, setTimeZoneToLocal } from './tz-picker-actions.js';
-import { asViewer } from '../as-viewer/as-viewer.js';
+import Inferno from "inferno";
+import getStore from "../store/get-store.js";
+import { setTimeZoneToUtc, setTimeZoneToLocal } from "./tz-picker-actions.js";
+import { asViewer } from "../as-viewer/as-viewer.js";
 
-import type { TzPickerProps } from './tz-picker-reducer.js';
+import type { TzPickerProps } from "./tz-picker-reducer.js";
 
 const handleChange = evt => {
-  if (evt.target.id === 'utc') getStore.dispatch(setTimeZoneToUtc());
+  if (evt.target.id === "utc") getStore.dispatch(setTimeZoneToUtc());
   else getStore.dispatch(setTimeZoneToLocal());
 };
 
 const TzLabel = ({ id }) => {
-  if (id === 'utc') return <span>UTC</span>;
+  if (id === "utc") return <span>UTC</span>;
   else return <span>Local</span>;
 };
 
@@ -43,7 +43,7 @@ const TzPickerElement = ({ isChecked, id }) => {
     );
 };
 
-export const TzPicker = asViewer('tzPicker', ({ tzPicker: { isUtc } }: { tzPicker: TzPickerProps }) => {
+export const TzPicker = asViewer("tzPicker", ({ tzPicker: { isUtc } }: { tzPicker: TzPickerProps }) => {
   return (
     <div class="detail-panel">
       <h5 class="section-header">Select Timezone</h5>
@@ -55,10 +55,10 @@ export const TzPicker = asViewer('tzPicker', ({ tzPicker: { isUtc } }: { tzPicke
 
 export const tzPickerComponent = {
   bindings: {
-    stream: '<'
+    stream: "<"
   },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

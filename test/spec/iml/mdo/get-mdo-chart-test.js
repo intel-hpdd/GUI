@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('MDO chart', () => {
+describe("MDO chart", () => {
   let mockChartCompiler,
     mockGetMdoStream,
     selectStoreCount,
@@ -23,9 +23,9 @@ describe('MDO chart', () => {
     mockGetMdoStream = {};
 
     standardConfig = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1464812942650,
       endDate: 1464812997102
     };
@@ -35,13 +35,13 @@ describe('MDO chart', () => {
         mdoChart: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         mdoChart: standardConfig
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -74,21 +74,21 @@ describe('MDO chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock('../../../../source/iml/mdo/get-mdo-stream.js', () => mockGetMdoStream);
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
-    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+    jest.mock("../../../../source/iml/mdo/get-mdo-stream.js", () => mockGetMdoStream);
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/duration-picker/duration-payload.js", () => mockDurationPayload);
+    jest.mock("../../../../source/iml/duration-picker/duration-submit-handler.js", () => mockDurationSubmitHandler);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({
       getConf: mockGetConf
     }));
 
-    mod = require('../../../../source/iml/mdo/get-mdo-chart.js');
+    mod = require("../../../../source/iml/mdo/get-mdo-chart.js");
   });
 
   beforeEach(() => {
     initStream = highland();
-    jest.spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, "destroy");
 
     data$Fn = jest.fn(() => initStream);
 
@@ -97,52 +97,52 @@ describe('MDO chart', () => {
     getMdoChart = mod.default(localApply, data$Fn);
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getMdoChart).toEqual(expect.any(Function));
   });
 
-  describe('for page mdoChart', () => {
+  describe("for page mdoChart", () => {
     beforeEach(() => {
       getMdoChart(
         {
           qs: {
-            host_id: '1'
+            host_id: "1"
           }
         },
-        'mdoChart'
+        "mdoChart"
       );
 
       const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
-    it('should dispatch mdoChart to the store', () => {
+    it("should dispatch mdoChart to the store", () => {
       expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-        type: 'DEFAULT_MDO_CHART_ITEMS',
+        type: "DEFAULT_MDO_CHART_ITEMS",
         payload: {
-          page: 'mdoChart',
-          configType: 'duration',
+          page: "mdoChart",
+          configType: "duration",
           size: 10,
-          unit: 'minutes',
+          unit: "minutes",
           startDate: 1464812942650,
           endDate: 1464812997102
         }
       });
     });
 
-    it('should select the mdoChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledOnceWith('mdoCharts');
+    it("should select the mdoChart store", () => {
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith("mdoCharts");
     });
 
-    it('should call getConf', () => {
-      expect(mockGetConf).toHaveBeenCalledOnceWith('mdoChart');
+    it("should call getConf", () => {
+      expect(mockGetConf).toHaveBeenCalledOnceWith("mdoChart");
     });
 
-    it('should call data$Fn', () => {
+    it("should call data$Fn", () => {
       expect(data$Fn).toHaveBeenCalledOnceWith(
         {
           qs: {
-            host_id: '1'
+            host_id: "1"
           }
         },
         expect.any(Function),
@@ -150,7 +150,7 @@ describe('MDO chart', () => {
       );
     });
 
-    it('should call the chart compiler', () => {
+    it("should call the chart compiler", () => {
       expect(mockChartCompiler).toHaveBeenCalledOnceWith(
         `<div config-toggle>
   <h5>Metadata Operations</h5>
@@ -178,7 +178,7 @@ describe('MDO chart', () => {
     });
   });
 
-  describe('setup', () => {
+  describe("setup", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -186,10 +186,10 @@ describe('MDO chart', () => {
         getMdoChart(
           {
             qs: {
-              host_id: '1'
+              host_id: "1"
             }
           },
-          'mdoChart'
+          "mdoChart"
         );
 
         handler = mockChartCompiler.mock.calls[0][2];
@@ -199,15 +199,15 @@ describe('MDO chart', () => {
       })
     );
 
-    it('should return a config', () => {
+    it("should return a config", () => {
       expect(config).toEqual({
         stream: initStream,
-        configType: 'duration',
-        page: '',
+        configType: "duration",
+        page: "",
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         onSubmit: submitHandler,
         options: {
           setup: expect.any(Function)
@@ -215,19 +215,19 @@ describe('MDO chart', () => {
       });
     });
 
-    it('should select the mdoChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('mdoCharts');
+    it("should select the mdoChart store", () => {
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith("mdoCharts");
     });
 
-    it('should call getConf', () => {
-      expect(mockGetConf).toHaveBeenCalledTwiceWith('mdoChart');
+    it("should call getConf", () => {
+      expect(mockGetConf).toHaveBeenCalledTwiceWith("mdoChart");
     });
 
-    it('should call localApply', () => {
+    it("should call localApply", () => {
       expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
-    it('should destroy the stream when the chart is destroyed', () => {
+    it("should destroy the stream when the chart is destroyed", () => {
       $scope.$destroy();
 
       expect(initStream.destroy).toHaveBeenCalled();
@@ -235,7 +235,7 @@ describe('MDO chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('chart', () => {
+    describe("chart", () => {
       let chart, tickFormat;
 
       beforeEach(() => {
@@ -260,25 +260,25 @@ describe('MDO chart', () => {
         config.options.setup(chart);
       });
 
-      it('should use interactive guideline', () => {
+      it("should use interactive guideline", () => {
         expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should should force y', () => {
+      it("should should force y", () => {
         expect(chart.forceY).toHaveBeenCalledOnceWith([0, 1]);
       });
 
-      it('should set y tick format', () => {
+      it("should set y tick format", () => {
         expect(tickFormat).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
-      it('should not show max or min over the x axis', () => {
+      it("should not show max or min over the x axis", () => {
         expect(chart.xAxis.showMaxMin).toHaveBeenCalledOnceWith(false);
       });
     });
   });
 
-  describe('on submit', () => {
+  describe("on submit", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -286,10 +286,10 @@ describe('MDO chart', () => {
         getMdoChart(
           {
             qs: {
-              host_id: '1'
+              host_id: "1"
             }
           },
-          'mdoChart'
+          "mdoChart"
         );
 
         handler = mockChartCompiler.mock.calls[0][2];
@@ -301,13 +301,13 @@ describe('MDO chart', () => {
       })
     );
 
-    it('should call durationSubmitHandler', () => {
-      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_MDO_CHART_ITEMS', {
-        page: 'mdoChart'
+    it("should call durationSubmitHandler", () => {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith("UPDATE_MDO_CHART_ITEMS", {
+        page: "mdoChart"
       });
     });
 
-    it('should invoke the submit handler', () => {
+    it("should invoke the submit handler", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });

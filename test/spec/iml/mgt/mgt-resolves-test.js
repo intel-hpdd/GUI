@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('mgt resolves', () => {
+describe("mgt resolves", () => {
   let mockStore, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
 
   beforeEach(() => {
@@ -8,36 +8,36 @@ describe('mgt resolves', () => {
       select: jest.fn(() => highland())
     };
 
-    jest.mock('../../../../source/iml/store/get-store', () => mockStore);
+    jest.mock("../../../../source/iml/store/get-store", () => mockStore);
 
-    const mod = require('../../../../source/iml/mgt/mgt-resolves.js');
+    const mod = require("../../../../source/iml/mgt/mgt-resolves.js");
 
     mgtStream = mod.mgt$;
     mgtJobIndicatorStream = mod.mgtJobIndicatorB;
     mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
   });
 
-  it('should select alertIndicators', () => {
+  it("should select alertIndicators", () => {
     mgtAlertIndicatorStream();
 
-    expect(mockStore.select).toHaveBeenCalledOnceWith('alertIndicators');
+    expect(mockStore.select).toHaveBeenCalledOnceWith("alertIndicators");
   });
 
-  it('should select jobIndicators', () => {
+  it("should select jobIndicators", () => {
     mgtJobIndicatorStream();
 
-    expect(mockStore.select).toHaveBeenCalledOnceWith('jobIndicators');
+    expect(mockStore.select).toHaveBeenCalledOnceWith("jobIndicators");
   });
 
-  it('should select targets', () => {
+  it("should select targets", () => {
     mockStore.select.mockReturnValue(highland());
 
     mgtStream();
 
-    expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
+    expect(mockStore.select).toHaveBeenCalledOnceWith("targets");
   });
 
-  it('should filter targets for MGTs', () => {
+  it("should filter targets for MGTs", () => {
     const spy = jest.fn();
     const s = highland();
 
@@ -45,8 +45,8 @@ describe('mgt resolves', () => {
 
     mgtStream().each(spy);
 
-    s.write([{ kind: 'OST' }, { kind: 'MGT' }]);
+    s.write([{ kind: "OST" }, { kind: "MGT" }]);
 
-    expect(spy).toHaveBeenCalledOnceWith([{ kind: 'MGT' }]);
+    expect(spy).toHaveBeenCalledOnceWith([{ kind: "MGT" }]);
   });
 });

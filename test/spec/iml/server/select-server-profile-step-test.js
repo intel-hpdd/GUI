@@ -1,28 +1,28 @@
-import transformedHostProfileFixture from '../../../data-fixtures/transformed-host-profile-fixture.json';
-import highland from 'highland';
-import * as fp from '@iml/fp';
-import angular from '../../../angular-mock-setup.js';
+import transformedHostProfileFixture from "../../../data-fixtures/transformed-host-profile-fixture.json";
+import highland from "highland";
+import * as fp from "@iml/fp";
+import angular from "../../../angular-mock-setup.js";
 
-describe('select server profile', () => {
+describe("select server profile", () => {
   let SelectServerProfileStepCtrl, selectServerProfileStep;
 
   beforeEach(
     angular.mock.module($provide => {
-      $provide.value('OVERRIDE_BUTTON_TYPES', {
-        OVERRIDE: 'override',
-        PROCEED: 'proceed',
-        PROCEED_SKIP: 'proceed and skip'
+      $provide.value("OVERRIDE_BUTTON_TYPES", {
+        OVERRIDE: "override",
+        PROCEED: "proceed",
+        PROCEED_SKIP: "proceed and skip"
       });
     })
   );
 
   beforeEach(() => {
-    const mod = require('../../../../source/iml/server/select-server-profile-step.js');
+    const mod = require("../../../../source/iml/server/select-server-profile-step.js");
     SelectServerProfileStepCtrl = mod.SelectServerProfileStepCtrl;
     selectServerProfileStep = mod.selectServerProfileStep();
   });
 
-  describe('select server profile step ctrl', () => {
+  describe("select server profile step ctrl", () => {
     let $scope, $stepInstance, data, createHostProfiles, hostProfileStream, selectServerProfileStep;
 
     beforeEach(
@@ -33,11 +33,11 @@ describe('select server profile', () => {
         };
 
         hostProfileStream = highland();
-        jest.spyOn(hostProfileStream, 'destroy');
+        jest.spyOn(hostProfileStream, "destroy");
 
         createHostProfiles = jest.fn(() => highland());
 
-        data = { pdsh: 'storage0.localdomain' };
+        data = { pdsh: "storage0.localdomain" };
 
         selectServerProfileStep = $controller(SelectServerProfileStepCtrl, {
           $scope,
@@ -49,7 +49,7 @@ describe('select server profile', () => {
       })
     );
 
-    it('should setup the controller', () => {
+    it("should setup the controller", () => {
       const instance = {
         pdsh: data.pdsh,
         transition: expect.any(Function),
@@ -62,67 +62,67 @@ describe('select server profile', () => {
       expect(selectServerProfileStep).toEqual(instance);
     });
 
-    describe('transition', () => {
+    describe("transition", () => {
       let action;
       beforeEach(() => {
-        action = 'previous';
+        action = "previous";
         selectServerProfileStep.transition(action);
       });
 
-      it('should end the hostProfileSpark', () => {
+      it("should end the hostProfileSpark", () => {
         expect(hostProfileStream.destroy).toHaveBeenCalledTimes(1);
       });
 
-      it('should call transition on the step instance', () => {
+      it("should call transition on the step instance", () => {
         expect($stepInstance.transition).toHaveBeenCalledOnceWith(action, {
           data: data
         });
       });
     });
 
-    describe('receiving data change on hostProfileSpark', () => {
+    describe("receiving data change on hostProfileSpark", () => {
       beforeEach(
         angular.mock.inject(() => {
           hostProfileStream.write(transformedHostProfileFixture);
         })
       );
 
-      it('should set the profiles', () => {
+      it("should set the profiles", () => {
         expect(selectServerProfileStep.profiles).toEqual(transformedHostProfileFixture);
       });
 
-      describe('receiving more data', () => {
+      describe("receiving more data", () => {
         beforeEach(() => {
           hostProfileStream.write(transformedHostProfileFixture);
         });
 
-        it('should keep the same profile', () => {
+        it("should keep the same profile", () => {
           expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
 
-      describe('onSelected', () => {
+      describe("onSelected", () => {
         beforeEach(() => {
           selectServerProfileStep.onSelected(transformedHostProfileFixture[0]);
         });
 
-        it('should set overridden to false', () => {
+        it("should set overridden to false", () => {
           expect(selectServerProfileStep.overridden).toEqual(false);
         });
 
-        it('should set the profile on the scope', () => {
+        it("should set the profile on the scope", () => {
           expect(selectServerProfileStep.profile).toEqual(transformedHostProfileFixture[0]);
         });
       });
     });
 
-    describe('profile stream', () => {
+    describe("profile stream", () => {
       let hostProfileFixture;
       beforeEach(() => {
-        hostProfileFixture = require('../../../data-fixtures/transformed-host-profile-fixture.json');
+        hostProfileFixture = require("../../../data-fixtures/transformed-host-profile-fixture.json");
       });
 
-      it('should display in the correct order', () => {
+      it("should display in the correct order", () => {
         const setValid = x => {
           x.invalid = false;
           return x;
@@ -133,35 +133,35 @@ describe('select server profile', () => {
         expect(selectServerProfileStep.profiles).toMatchSnapshot();
       });
 
-      describe('with invalid profiles', () => {
-        it('should display in the correct order', () => {
+      describe("with invalid profiles", () => {
+        it("should display in the correct order", () => {
           hostProfileStream.write(hostProfileFixture);
           expect(selectServerProfileStep.profiles).toMatchSnapshot();
         });
       });
     });
 
-    describe('get host path', () => {
+    describe("get host path", () => {
       let item;
       beforeEach(() => {
         item = {
-          address: 'address'
+          address: "address"
         };
       });
 
-      it('should retrieve the host address', () => {
+      it("should retrieve the host address", () => {
         expect(selectServerProfileStep.getHostPath(item)).toEqual(item.address);
       });
     });
 
-    describe('pdsh update', () => {
+    describe("pdsh update", () => {
       let pdsh, hostnames, hostnamesHash;
       beforeEach(() => {
-        pdsh = 'test[001-002].localdomain';
-        hostnames = ['test001.localdomain', 'test002.localdomain'];
+        pdsh = "test[001-002].localdomain";
+        hostnames = ["test001.localdomain", "test002.localdomain"];
         hostnamesHash = {
-          'test001.localdomain': 1,
-          'test002.localdomain': 1
+          "test001.localdomain": 1,
+          "test002.localdomain": 1
         };
       });
 
@@ -169,14 +169,14 @@ describe('select server profile', () => {
         selectServerProfileStep.pdshUpdate(pdsh, hostnames, hostnamesHash);
       });
 
-      it('should have the hostnamesHash', () => {
+      it("should have the hostnamesHash", () => {
         expect(selectServerProfileStep.hostnamesHash).toEqual(hostnamesHash);
       });
     });
   });
 
-  describe('selectServerProfileStep', () => {
-    it('should contain the appropriate properties', () => {
+  describe("selectServerProfileStep", () => {
+    it("should contain the appropriate properties", () => {
       expect(selectServerProfileStep).toEqual({
         template: `<div class="modal-header">
   <button type="button" class="close" ng-click="selectServerProfile.close()" ng-disabled="selectServerProfile.disabled">
@@ -269,13 +269,13 @@ describe('select server profile', () => {
   <button ng-disabled="selectServerProfile.disabled" ng-click="selectServerProfile.transition('previous')" class="btn btn-default"><i class="fa fa-long-arrow-left"></i> Previous</button>
   <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
 </div>`,
-        controller: 'SelectServerProfileStepCtrl as selectServerProfile',
+        controller: "SelectServerProfileStepCtrl as selectServerProfile",
         onEnter: expect.any(Function),
         transition: expect.any(Function)
       });
     });
 
-    it('should transition to the server status step', () => {
+    it("should transition to the server status step", () => {
       const steps = {
         serverStatusStep: {}
       };
@@ -283,7 +283,7 @@ describe('select server profile', () => {
       expect(selectServerProfileStep.transition(steps)).toEqual(steps.serverStatusStep);
     });
 
-    describe('on enter', () => {
+    describe("on enter", () => {
       let onEnter,
         data,
         createOrUpdateHostsStream,
@@ -308,17 +308,17 @@ describe('select server profile', () => {
                 command: {
                   cancelled: false,
                   complete: false,
-                  created_at: '2014-12-10T17:11:00.852148+00:00',
+                  created_at: "2014-12-10T17:11:00.852148+00:00",
                   dismissed: false,
                   errored: false,
-                  id: '390',
-                  jobs: ['/api/job/390/'],
-                  logs: '',
-                  message: 'Setting up host lotus-34vm5.iml.intel.com',
-                  resource_uri: '/api/command/390/'
+                  id: "390",
+                  jobs: ["/api/job/390/"],
+                  logs: "",
+                  message: "Setting up host lotus-34vm5.iml.intel.com",
+                  resource_uri: "/api/command/390/"
                 },
                 host: {
-                  address: 'lotus-34vm5.iml.intel.com',
+                  address: "lotus-34vm5.iml.intel.com",
                   available_actions: [],
                   available_jobs: [],
                   available_transitions: [],
@@ -326,11 +326,11 @@ describe('select server profile', () => {
                   client_mounts: [],
                   content_type_id: 35,
                   corosync_reported_up: false,
-                  fqdn: 'lotus-34vm5.iml.intel.com',
-                  id: '32',
+                  fqdn: "lotus-34vm5.iml.intel.com",
+                  id: "32",
                   immutable_state: true,
-                  install_method: 'existing_keys_choice',
-                  label: 'lotus-34vm5.iml.intel.com',
+                  install_method: "existing_keys_choice",
+                  label: "lotus-34vm5.iml.intel.com",
                   locks: {
                     read: [],
                     write: [390]
@@ -339,25 +339,25 @@ describe('select server profile', () => {
                   needs_fence_reconfiguration: false,
                   needs_update: false,
                   nids: [],
-                  nodename: 'lotus-34vm5',
+                  nodename: "lotus-34vm5",
                   private_key: null,
                   private_key_passphrase: null,
-                  properties: '{}',
-                  resource_uri: '/api/host/32/',
+                  properties: "{}",
+                  resource_uri: "/api/host/32/",
                   root_pw: null,
                   server_profile: {
                     default: false,
-                    initial_state: 'unconfigured',
+                    initial_state: "unconfigured",
                     managed: false,
-                    name: 'default',
-                    resource_uri: '/api/server_profile/default/',
-                    ui_description: 'An unconfigured server.',
-                    ui_name: 'Unconfigured Server',
+                    name: "default",
+                    resource_uri: "/api/server_profile/default/",
+                    ui_description: "An unconfigured server.",
+                    ui_name: "Unconfigured Server",
                     user_selectable: false,
                     worker: false
                   },
-                  state: 'undeployed',
-                  state_modified_at: '2014-12-10T17:11:00.845748+00:00',
+                  state: "undeployed",
+                  state_modified_at: "2014-12-10T17:11:00.845748+00:00",
                   version: null
                 }
               },
@@ -369,17 +369,17 @@ describe('select server profile', () => {
                 command: {
                   cancelled: false,
                   complete: false,
-                  created_at: '2014-12-10T17:11:03.280882+00:00',
+                  created_at: "2014-12-10T17:11:03.280882+00:00",
                   dismissed: false,
                   errored: false,
-                  id: '391',
-                  jobs: ['/api/job/391/'],
-                  logs: '',
-                  message: 'Setting up host lotus-34vm6.iml.intel.com',
-                  resource_uri: '/api/command/391/'
+                  id: "391",
+                  jobs: ["/api/job/391/"],
+                  logs: "",
+                  message: "Setting up host lotus-34vm6.iml.intel.com",
+                  resource_uri: "/api/command/391/"
                 },
                 host: {
-                  address: 'lotus-34vm6.iml.intel.com',
+                  address: "lotus-34vm6.iml.intel.com",
                   available_actions: [],
                   available_jobs: [],
                   available_transitions: [],
@@ -387,11 +387,11 @@ describe('select server profile', () => {
                   client_mounts: [],
                   content_type_id: 35,
                   corosync_reported_up: false,
-                  fqdn: 'lotus-34vm6.iml.intel.com',
-                  id: '33',
+                  fqdn: "lotus-34vm6.iml.intel.com",
+                  id: "33",
                   immutable_state: true,
-                  install_method: 'existing_keys_choice',
-                  label: 'lotus-34vm6.iml.intel.com',
+                  install_method: "existing_keys_choice",
+                  label: "lotus-34vm6.iml.intel.com",
                   locks: {
                     read: [],
                     write: [391]
@@ -400,25 +400,25 @@ describe('select server profile', () => {
                   needs_fence_reconfiguration: false,
                   needs_update: false,
                   nids: [],
-                  nodename: 'lotus-34vm6',
+                  nodename: "lotus-34vm6",
                   private_key: null,
                   private_key_passphrase: null,
-                  properties: '{}',
-                  resource_uri: '/api/host/33/',
+                  properties: "{}",
+                  resource_uri: "/api/host/33/",
                   root_pw: null,
                   server_profile: {
                     default: false,
-                    initial_state: 'unconfigured',
+                    initial_state: "unconfigured",
                     managed: false,
-                    name: 'default',
-                    resource_uri: '/api/server_profile/default/',
-                    ui_description: 'An unconfigured server.',
-                    ui_name: 'Unconfigured Server',
+                    name: "default",
+                    resource_uri: "/api/server_profile/default/",
+                    ui_description: "An unconfigured server.",
+                    ui_name: "Unconfigured Server",
                     user_selectable: false,
                     worker: false
                   },
-                  state: 'undeployed',
-                  state_modified_at: '2014-12-10T17:11:03.273059+00:00',
+                  state: "undeployed",
+                  state_modified_at: "2014-12-10T17:11:03.273059+00:00",
                   version: null
                 }
               },
@@ -429,7 +429,7 @@ describe('select server profile', () => {
               command_and_host: {
                 command: false,
                 host: {
-                  address: 'lotus-34vm7.iml.intel.com',
+                  address: "lotus-34vm7.iml.intel.com",
                   available_actions: [],
                   available_jobs: [],
                   available_transitions: [],
@@ -437,11 +437,11 @@ describe('select server profile', () => {
                   client_mounts: [],
                   content_type_id: 35,
                   corosync_reported_up: false,
-                  fqdn: 'lotus-34vm7.iml.intel.com',
-                  id: '33',
+                  fqdn: "lotus-34vm7.iml.intel.com",
+                  id: "33",
                   immutable_state: true,
-                  install_method: 'existing_keys_choice',
-                  label: 'lotus-34vm7.iml.intel.com',
+                  install_method: "existing_keys_choice",
+                  label: "lotus-34vm7.iml.intel.com",
                   locks: {
                     read: [],
                     write: [391]
@@ -450,25 +450,25 @@ describe('select server profile', () => {
                   needs_fence_reconfiguration: false,
                   needs_update: false,
                   nids: [],
-                  nodename: 'lotus-34vm7',
+                  nodename: "lotus-34vm7",
                   private_key: null,
                   private_key_passphrase: null,
-                  properties: '{}',
-                  resource_uri: '/api/host/34/',
+                  properties: "{}",
+                  resource_uri: "/api/host/34/",
                   root_pw: null,
                   server_profile: {
                     default: false,
-                    initial_state: 'unconfigured',
+                    initial_state: "unconfigured",
                     managed: false,
-                    name: 'default',
-                    resource_uri: '/api/server_profile/default/',
-                    ui_description: 'An unconfigured server.',
-                    ui_name: 'Unconfigured Server',
+                    name: "default",
+                    resource_uri: "/api/server_profile/default/",
+                    ui_description: "An unconfigured server.",
+                    ui_name: "Unconfigured Server",
                     user_selectable: false,
                     worker: false
                   },
-                  state: 'undeployed',
-                  state_modified_at: '2014-12-10T17:11:03.273059+00:00',
+                  state: "undeployed",
+                  state_modified_at: "2014-12-10T17:11:03.273059+00:00",
                   version: null
                 }
               },
@@ -486,7 +486,7 @@ describe('select server profile', () => {
         getHostProfiles = jest.fn(() =>
           highland([
             {
-              some: 'profiles'
+              some: "profiles"
             }
           ])
         );
@@ -501,11 +501,11 @@ describe('select server profile', () => {
         stream.each(spy);
       });
 
-      it('should create or update the hosts', () => {
+      it("should create or update the hosts", () => {
         expect(createOrUpdateHostsStream).toHaveBeenCalledOnceWith(data.servers);
       });
 
-      it('should pass commands to wait for command completion', () => {
+      it("should pass commands to wait for command completion", () => {
         expect.assertions(2);
 
         const commands = fp.flow(
@@ -519,21 +519,21 @@ describe('select server profile', () => {
         expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith(commands);
       });
 
-      it('should call getHostProfiles', () => {
+      it("should call getHostProfiles", () => {
         const hosts = fp.map(x => x.command_and_host.host)(response.objects);
 
         expect(getHostProfiles).toHaveBeenCalledOnceWith(data.spring, hosts);
       });
 
-      it('should return data and a hostProfileStream', () => {
+      it("should return data and a hostProfileStream", () => {
         expect(result).toEqual({
           data: data,
           hostProfileStream: expect.any(Promise)
         });
       });
 
-      it('should return the profiles', () => {
-        expect(spy).toHaveBeenCalledOnceWith({ some: 'profiles' });
+      it("should return the profiles", () => {
+        expect(spy).toHaveBeenCalledOnceWith({ some: "profiles" });
       });
     });
   });

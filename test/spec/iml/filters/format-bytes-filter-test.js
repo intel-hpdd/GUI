@@ -1,8 +1,8 @@
-import angular from '../../../angular-mock-setup.js';
-import filterModule from '../../../../source/iml/filters/filters-module';
-import { formatBytes } from '@iml/number-formatters';
+import angular from "../../../angular-mock-setup.js";
+import filterModule from "../../../../source/iml/filters/filters-module";
+import { formatBytes } from "@iml/number-formatters";
 
-describe('format bytes filter', () => {
+describe("format bytes filter", () => {
   let fmtBytesFilter;
 
   beforeEach(angular.mock.module(filterModule));
@@ -13,7 +13,7 @@ describe('format bytes filter', () => {
     })
   );
 
-  it('should be format bytes', () => {
+  it("should be format bytes", () => {
     expect(fmtBytesFilter).toBe(formatBytes);
   });
 });

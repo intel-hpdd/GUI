@@ -10,10 +10,10 @@ export type windowUnloadT = {
 };
 
 export default function windowUnloadFactory($window: typeof window) {
-  'ngInject';
+  "ngInject";
   const state: windowUnloadT = { unloading: false };
 
-  $window.addEventListener('beforeunload', function beforeUnload() {
+  $window.addEventListener("beforeunload", function beforeUnload() {
     state.unloading = true;
   });
 

@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import _ from '@iml/lodash-mixins';
+import angular from "angular";
+import _ from "@iml/lodash-mixins";
 
-export default angular.module('progressCircleModule', []).directive('progressCircle', [
-  'd3',
+export default angular.module("progressCircleModule", []).directive("progressCircle", [
+  "d3",
   function(d3) {
     return {
       scope: {
-        radius: '=',
-        complete: '@'
+        radius: "=",
+        complete: "@"
       },
       replace: true,
-      restrict: 'E',
+      restrict: "E",
       template: '<div class="progress-circle"><svg></svg></div>',
       link: function(scope, element) {
         const diameter = scope.radius * 2;
@@ -24,15 +24,15 @@ export default angular.module('progressCircleModule', []).directive('progressCir
         element.css({ width: diameter, height: diameter });
 
         const svg = d3
-          .select(element[0].querySelector('svg'))
-          .attr('width', diameter)
-          .attr('height', diameter)
-          .append('g')
-          .attr('transform', 'translate(' + scope.radius + ',' + scope.radius + ')');
+          .select(element[0].querySelector("svg"))
+          .attr("width", diameter)
+          .attr("height", diameter)
+          .append("g")
+          .attr("transform", "translate(" + scope.radius + "," + scope.radius + ")");
 
-        const circle = svg.append('circle').attr('r', 0);
+        const circle = svg.append("circle").attr("r", 0);
 
-        circle.transition(500).attr('r', innerCircleRadius);
+        circle.transition(500).attr("r", innerCircleRadius);
 
         const pie = d3.layout
           .pie()
@@ -46,7 +46,7 @@ export default angular.module('progressCircleModule', []).directive('progressCir
           .outerRadius(scope.radius)
           .innerRadius(innerCircleRadius);
 
-        const values = ['elapsed', 'remaining'];
+        const values = ["elapsed", "remaining"];
         const color = d3.scale
           .ordinal()
           .domain(values)
@@ -80,53 +80,53 @@ export default angular.module('progressCircleModule', []).directive('progressCir
           });
 
           // Text: data join
-          const text = svg.selectAll('text').data([complete]);
+          const text = svg.selectAll("text").data([complete]);
 
           // Text: enter
           text
             .enter()
-            .append('text')
-            .style('font-size', scope.radius / 2 + 'px');
+            .append("text")
+            .style("font-size", scope.radius / 2 + "px");
 
           // Text: enter + update
           text
             .text(function(d) {
-              return d + '%';
+              return d + "%";
             })
-            .attr('x', function() {
+            .attr("x", function() {
               const rect = this.getBoundingClientRect();
 
               return -1 * (rect.width / 2);
             })
-            .attr('y', function() {
+            .attr("y", function() {
               const rect = this.getBoundingClientRect();
 
               return (scope.radius - rect.height) / 2;
             });
 
           // Path: data join
-          const path = svg.selectAll('path').data(pie(slices));
+          const path = svg.selectAll("path").data(pie(slices));
 
           // Path: update
           path
             .transition()
             .duration(200)
-            .attrTween('d', arcTween);
+            .attrTween("d", arcTween);
 
           // Path: enter
           path
             .enter()
-            .append('path')
-            .attr('class', function getColor(d) {
+            .append("path")
+            .attr("class", function getColor(d) {
               return color(d.data.key);
             })
-            .attr('d', arc)
+            .attr("d", arc)
             .each(function(d) {
               this.current = d;
             });
         }
 
-        scope.$watch('complete', update);
+        scope.$watch("complete", update);
       }
     };
   }

@@ -1,4 +1,4 @@
-describe('hsm states', () => {
+describe("hsm states", () => {
   let mod,
     mockCopytoolStream,
     mockCopytoolOperationStream,
@@ -8,39 +8,39 @@ describe('hsm states', () => {
     mockGroups;
 
   beforeEach(() => {
-    mockCopytoolStream = 'copytoolStream';
-    mockCopytoolOperationStream = 'copytoolOperationStream';
-    mockAgentVsCopytoolChart = 'agentVsCopytoolChart';
-    mockFsCollStream = 'fsCollStream';
-    mockGetData = 'getData';
+    mockCopytoolStream = "copytoolStream";
+    mockCopytoolOperationStream = "copytoolOperationStream";
+    mockAgentVsCopytoolChart = "agentVsCopytoolChart";
+    mockFsCollStream = "fsCollStream";
+    mockGetData = "getData";
     mockGroups = {
-      FS_ADMINS: 'filesystem_administrators'
+      FS_ADMINS: "filesystem_administrators"
     };
 
-    jest.mock('../../../../source/iml/hsm/hsm-resolves.js', () => ({
+    jest.mock("../../../../source/iml/hsm/hsm-resolves.js", () => ({
       copytoolStream: mockCopytoolStream,
       copytoolOperationStream: mockCopytoolOperationStream,
       agentVsCopytoolChart: mockAgentVsCopytoolChart
     }));
 
-    jest.mock('../../../../source/iml/hsm/hsm-fs-resolves.js', () => ({
+    jest.mock("../../../../source/iml/hsm/hsm-fs-resolves.js", () => ({
       fsCollStream: mockFsCollStream,
       getData: mockGetData
     }));
 
-    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+    jest.mock("../../../../source/iml/auth/authorization.js", () => ({
       GROUPS: mockGroups
     }));
 
-    mod = require('../../../../source/iml/hsm/hsm-states.js');
+    mod = require("../../../../source/iml/hsm/hsm-states.js");
   });
 
-  describe('hsm fs state', () => {
-    it('should create the state', () => {
+  describe("hsm fs state", () => {
+    it("should create the state", () => {
       expect(mod.hsmFsState).toEqual({
-        name: 'app.hsmFs',
-        controller: 'HsmFsCtrl',
-        controllerAs: 'hsmFs',
+        name: "app.hsmFs",
+        controller: "HsmFsCtrl",
+        controllerAs: "hsmFs",
         template: `<div class="container container-full hsm">
   <div class="row">
     <div config-toggle class="col-xs-12">
@@ -73,10 +73,10 @@ describe('hsm states', () => {
   <ui-loader-view class="section-top-margin"></ui-loader-view>
 </div>`,
         resolve: {
-          fsStream: 'fsCollStream'
+          fsStream: "fsCollStream"
         },
         data: {
-          helpPage: 'Graphical_User_Interface_9_0.html#9.3.4',
+          helpPage: "Graphical_User_Interface_9_0.html#9.3.4",
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true
         }
@@ -84,11 +84,11 @@ describe('hsm states', () => {
     });
   });
 
-  describe('hsm state', () => {
-    it('should create the state', () => {
+  describe("hsm state", () => {
+    it("should create the state", () => {
       expect(mod.hsmState).toEqual({
-        url: '/configure/hsm/:fsId',
-        name: 'app.hsmFs.hsm',
+        url: "/configure/hsm/:fsId",
+        name: "app.hsmFs.hsm",
         params: {
           fsId: {
             value: null,
@@ -100,11 +100,11 @@ describe('hsm states', () => {
           }
         },
         data: {
-          kind: 'HSM',
-          icon: 'fa-files-o'
+          kind: "HSM",
+          icon: "fa-files-o"
         },
-        controller: 'HsmCtrl',
-        controllerAs: 'hsm',
+        controller: "HsmCtrl",
+        controllerAs: "hsm",
         template: `<div class="no-copytools well text-center" ng-if="hsm.copytools.length === 0">
   <h3>No Copytools are configured</h3>
   <button ng-click="hsm.openAddModal()" ng-disabled="hsm.modalOpen" class="btn btn-primary btn-lg">
@@ -263,10 +263,10 @@ describe('hsm states', () => {
   </button>
 </div>`,
         resolve: {
-          getData: 'getData',
-          copytoolOperationStream: 'copytoolOperationStream',
-          copytoolStream: 'copytoolStream',
-          agentVsCopytoolChart: 'agentVsCopytoolChart'
+          getData: "getData",
+          copytoolOperationStream: "copytoolOperationStream",
+          copytoolStream: "copytoolStream",
+          agentVsCopytoolChart: "agentVsCopytoolChart"
         }
       });
     });

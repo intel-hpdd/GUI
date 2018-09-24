@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
-import { navigateFactory } from './navigate';
+import { navigateFactory } from "./navigate";
 
-export default angular.module('navigate', []).factory('navigate', navigateFactory).name;
+export default angular.module("navigate", []).factory("navigate", navigateFactory).name;

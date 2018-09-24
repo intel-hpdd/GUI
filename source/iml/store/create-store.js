@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import broadcast from '../broadcaster.js';
+import highland from "highland";
+import broadcast from "../broadcaster.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { ActionT, StoreT } from './store-module.js';
+import type { ActionT, StoreT } from "./store-module.js";
 
 type reducersT = { [key: string]: (prev: mixed, curr: ActionT) => mixed };
 type combineT = { [key: string]: mixed };

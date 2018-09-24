@@ -3,15 +3,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import serverResolves from './server-resolves.js';
-import { default as serverDetailResolves, getData } from './server-detail-resolves.js';
+import serverResolves from "./server-resolves.js";
+import { default as serverDetailResolves, getData } from "./server-detail-resolves.js";
 
-import { GROUPS } from '../auth/authorization.js';
+import { GROUPS } from "../auth/authorization.js";
 
 export const serverState = {
-  name: 'app.server',
-  url: '/configure/server',
-  controller: 'ServerCtrl',
+  name: "app.server",
+  url: "/configure/server",
+  controller: "ServerCtrl",
   template: `<div class="container container-full server-ctrl">
   <div class="no-servers well text-center" ng-if="server.servers.length === 0">
     <h1>No servers are configured</h1>
@@ -188,11 +188,11 @@ export const serverState = {
   </div>
 </div>`,
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.3.1',
+    helpPage: "Graphical_User_Interface_9_0.html#9.3.1",
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    kind: 'Servers',
-    icon: 'fa-tasks'
+    kind: "Servers",
+    icon: "fa-tasks"
   },
   params: {
     resetState: {
@@ -205,10 +205,10 @@ export const serverState = {
 };
 
 export const serverDetailState = {
-  name: 'app.serverDetail',
-  url: '/configure/server/:id',
-  controller: 'ServerDetailController',
-  controllerAs: 'serverDetail',
+  name: "app.serverDetail",
+  url: "/configure/server/:id",
+  controller: "ServerDetailController",
+  controllerAs: "serverDetail",
   template: `<div class="server-detail-ctrl">
   <div ng-if="!serverDetail.server" class="well text-center">
     <h1>Server Not Found</h1>
@@ -290,11 +290,11 @@ export const serverDetailState = {
     }
   },
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.3.1.1',
+    helpPage: "Graphical_User_Interface_9_0.html#9.3.1.1",
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
-    kind: 'Server Detail',
-    icon: 'fa-tasks'
+    kind: "Server Detail",
+    icon: "fa-tasks"
   },
   resolve: {
     streams: serverDetailResolves,

@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import d3 from 'd3';
+import * as fp from "@iml/fp";
+import d3 from "d3";
 
 export function axisDirective() {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      scale: '=',
-      orient: '='
+      scale: "=",
+      orient: "="
     },
-    require: '^^charter',
-    templateNamespace: 'svg',
+    require: "^^charter",
+    templateNamespace: "svg",
     template: '<g class="axis"></g>',
     link(scope, el, attrs, chartCtrl) {
       const axis = d3.svg
@@ -23,16 +23,16 @@ export function axisDirective() {
         .scale(scope.scale)
         .orient(scope.orient);
 
-      const translateBottom = a => a.attr('transform', `translate(0,${chartCtrl.getHeight() - 20})`);
+      const translateBottom = a => a.attr("transform", `translate(0,${chartCtrl.getHeight() - 20})`);
 
       const translate = fp.cond(
-        [fp.eq('bottom'), fp.always(translateBottom)],
+        [fp.eq("bottom"), fp.always(translateBottom)],
         [fp.always(true), fp.always(fp.identity)]
       );
 
       const axisEl = d3
         .select(el[0])
-        .select('.axis')
+        .select(".axis")
         .call(translate(scope.orient));
 
       const updateAxis = ({ svg }) =>

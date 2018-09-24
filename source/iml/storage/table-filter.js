@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { StorageResourceClass } from './storage-types.js';
+import type { StorageResourceClass } from "./storage-types.js";
 
-import Inferno from 'inferno';
-import store from '../store/get-store.js';
-import { setStorageSelectIndex, setStorageTableLoading } from './storage-actions.js';
+import Inferno from "inferno";
+import store from "../store/get-store.js";
+import { setStorageSelectIndex, setStorageTableLoading } from "./storage-actions.js";
 
 const handleChange = ev => {
   const select = ev.target;

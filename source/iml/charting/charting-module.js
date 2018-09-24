@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import highlandModule from '../highland/highland-module';
-import chartCompilerModule from '../chart-compiler/chart-compiler-module';
-import createStream from './create-stream';
+import angular from "angular";
+import highlandModule from "../highland/highland-module";
+import chartCompilerModule from "../chart-compiler/chart-compiler-module";
+import createStream from "./create-stream";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 export type bufferDataNewerThanT = (
   size: number,
   unit: string
@@ -21,5 +21,5 @@ export type createStreamT = {
   rangeStream: Function
 };
 
-export default angular.module('charting', [highlandModule, chartCompilerModule]).factory('createStream', createStream)
+export default angular.module("charting", [highlandModule, chartCompilerModule]).factory("createStream", createStream)
   .name;

@@ -3,23 +3,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
 export function sorter() {
   const CLASS_NAMES = {
-    OVERLAY: 'sort-overlay',
-    SORTING: 'sorting',
-    OVER: 'over'
+    OVERLAY: "sort-overlay",
+    SORTING: "sorting",
+    OVER: "over"
   };
 
-  const sortOverlay = document.createElement('div');
+  const sortOverlay = document.createElement("div");
   sortOverlay.className = CLASS_NAMES.OVERLAY;
 
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {},
     controller: function($element, $scope) {
-      'ngInject';
+      "ngInject";
       const self = this;
 
       this._sortItems = [];
@@ -35,13 +35,13 @@ export function sorter() {
           const overlay = sortOverlay.cloneNode();
           item.append(overlay);
 
-          overlay.addEventListener('dragenter', dragEnter, false);
+          overlay.addEventListener("dragenter", dragEnter, false);
 
-          overlay.addEventListener('dragover', dragOver, false);
+          overlay.addEventListener("dragover", dragOver, false);
 
-          overlay.addEventListener('dragleave', dragLeave, false);
+          overlay.addEventListener("dragleave", dragLeave, false);
 
-          overlay.addEventListener('drop', drop, false);
+          overlay.addEventListener("drop", drop, false);
         });
       };
 
@@ -59,7 +59,7 @@ export function sorter() {
       }
 
       function dragOver(event) {
-        event.dataTransfer.dropEffect = 'move';
+        event.dataTransfer.dropEffect = "move";
 
         if (event.preventDefault) event.preventDefault();
 
@@ -77,7 +77,7 @@ export function sorter() {
           const container = dropNode.parentNode;
 
           const dropIndex = [].indexOf.call(container.children, dropNode);
-          const dragIndex = parseInt(event.dataTransfer.getData('text'), 10);
+          const dragIndex = parseInt(event.dataTransfer.getData("text"), 10);
 
           const dragNode = [].slice.call(container.children, dragIndex, dragIndex + 1).pop();
 
@@ -85,13 +85,13 @@ export function sorter() {
           else container.insertBefore(dragNode, dropNode.nextSibling);
 
           $element[0].querySelectorAll(`.${CLASS_NAMES.OVERLAY}`).forEach(x => {
-            x.removeEventListener('dragenter', dragEnter, false);
+            x.removeEventListener("dragenter", dragEnter, false);
 
-            x.removeEventListener('dragover', dragOver, false);
+            x.removeEventListener("dragover", dragOver, false);
 
-            x.removeEventListener('dragleave', dragLeave, false);
+            x.removeEventListener("dragleave", dragLeave, false);
 
-            x.removeEventListener('drop', drop, false);
+            x.removeEventListener("drop", drop, false);
 
             x.parentNode.removeChild(x);
           });
@@ -103,7 +103,7 @@ export function sorter() {
         return false;
       }
 
-      $scope.$on('$destroy', function() {
+      $scope.$on("$destroy", function() {
         self._sortItems = null;
       });
     }
@@ -112,22 +112,22 @@ export function sorter() {
 
 export function sortItem() {
   return {
-    restrict: 'A',
-    require: '^sorter',
+    restrict: "A",
+    require: "^sorter",
     link: function link(scope, wrappedEl, attrs, sortContainerCtrl) {
       let el = wrappedEl[0];
 
       sortContainerCtrl.addSortItem(wrappedEl);
 
-      wrappedEl.attr('draggable', true);
+      wrappedEl.attr("draggable", true);
 
-      el.addEventListener('dragstart', dragStart, false);
+      el.addEventListener("dragstart", dragStart, false);
 
-      el.addEventListener('dragend', sortContainerCtrl.dragEnd, false);
+      el.addEventListener("dragend", sortContainerCtrl.dragEnd, false);
 
-      scope.$on('$destroy', function() {
-        el.removeEventListener('dragstart', dragStart, false);
-        el.removeEventListener('dragend', sortContainerCtrl.dragEnd, false);
+      scope.$on("$destroy", function() {
+        el.removeEventListener("dragstart", dragStart, false);
+        el.removeEventListener("dragend", sortContainerCtrl.dragEnd, false);
 
         el = wrappedEl = null;
       });
@@ -137,8 +137,8 @@ export function sortItem() {
 
         const index = [].indexOf.call(event.target.parentNode.children, event.target);
 
-        event.dataTransfer.effectAllowed = 'move';
-        event.dataTransfer.setData('text', index.toString());
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text", index.toString());
       }
     }
   };

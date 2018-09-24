@@ -1,14 +1,14 @@
-import _ from '@iml/lodash-mixins';
-import angular from '../../angular-mock-setup.js';
+import _ from "@iml/lodash-mixins";
+import angular from "../../angular-mock-setup.js";
 
-import Position from '../../../source/iml/position.js';
+import Position from "../../../source/iml/position.js";
 
-describe('Positioning service', () => {
+describe("Positioning service", () => {
   let position, $window;
 
   beforeEach(
     angular.mock.module($provide => {
-      $provide.service('position', Position);
+      $provide.service("position", Position);
     })
   );
 
@@ -19,7 +19,7 @@ describe('Positioning service', () => {
         innerHeight: 300
       };
 
-      $provide.value('$window', $window);
+      $provide.value("$window", $window);
     })
   );
 
@@ -29,29 +29,29 @@ describe('Positioning service', () => {
     })
   );
 
-  it('should expose directions', () => {
+  it("should expose directions", () => {
     expect(position.DIRECTIONS).toEqual({
-      TOP: 'top',
-      BOTTOM: 'bottom',
-      RIGHT: 'right',
-      LEFT: 'left'
+      TOP: "top",
+      BOTTOM: "bottom",
+      RIGHT: "right",
+      LEFT: "left"
     });
   });
 
-  it('should provide default properties', () => {
+  it("should provide default properties", () => {
     expect(position.defaults).toEqual(expect.any(Object));
 
     _.forEach(position.DIRECTIONS, direction => {
       const obj = position.defaults[direction];
 
       expect(obj).toEqual(expect.any(Object));
-      expect(Object.keys(obj)).toContain('position');
-      expect(Object.keys(obj)).toContain('overflows');
+      expect(Object.keys(obj)).toContain("position");
+      expect(Object.keys(obj)).toContain("overflows");
     });
   });
 
-  describe('Positioner', () => {
-    it('should provide a positioner', () => {
+  describe("Positioner", () => {
+    it("should provide a positioner", () => {
       expect(position.positioner).toEqual(expect.any(Function));
 
       const fakePosition = {
@@ -79,7 +79,7 @@ describe('Positioning service', () => {
       });
     });
 
-    it('should know the current position', () => {
+    it("should know the current position", () => {
       const positioner = position.positioner($window);
 
       $window.innerHeight = 5;

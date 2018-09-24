@@ -5,25 +5,25 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import highland from 'highland';
+import * as fp from "@iml/fp";
+import highland from "highland";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { Command } from './command-types.js';
+import type { Command } from "./command-types.js";
 
-import { setState, trimLogs } from './command-transforms.js';
+import { setState, trimLogs } from "./command-transforms.js";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 export function CommandModalCtrl(
   commandsStream: HighlandStreamT<Command[]>,
   $scope: $scopeT,
   propagateChange: PropagateChange
 ) {
-  'ngInject';
+  "ngInject";
   this.accordion0 = true;
 
   const xForm = highland.map(
@@ -35,11 +35,11 @@ export function CommandModalCtrl(
     )
   );
 
-  propagateChange($scope, this, 'commands', xForm(commandsStream));
+  propagateChange($scope, this, "commands", xForm(commandsStream));
 }
 
 export function openCommandModalFactory($uibModal: Object) {
-  'ngInject';
+  "ngInject";
   return (stream: HighlandStreamT<Command[]>) =>
     $uibModal.open({
       template: `<div class="modal-header">
@@ -89,11 +89,11 @@ export function openCommandModalFactory($uibModal: Object) {
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-      controller: 'CommandModalCtrl',
-      controllerAs: 'commandModal',
-      windowClass: 'command-modal',
-      backdrop: 'static',
-      backdropClass: 'command-modal-backdrop',
+      controller: "CommandModalCtrl",
+      controllerAs: "commandModal",
+      windowClass: "command-modal",
+      backdrop: "static",
+      backdropClass: "command-modal-backdrop",
       resolve: {
         commandsStream: fp.always(stream)
       }

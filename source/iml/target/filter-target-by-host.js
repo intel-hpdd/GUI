@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import extractApiId from '@iml/extract-api';
+import * as fp from "@iml/fp";
+import extractApiId from "@iml/extract-api";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -14,8 +14,8 @@ const viewLens = fp.flow(
 );
 
 export default function filterTargetByHost(id: number) {
-  const failoverServersLens = viewLens('failover_servers');
-  const primaryServer = viewLens('primary_server');
+  const failoverServersLens = viewLens("failover_servers");
+  const primaryServer = viewLens("primary_server");
 
   const getFailover = fp.cond(
     [
@@ -31,7 +31,7 @@ export default function filterTargetByHost(id: number) {
   const concat = (fnA, fnB) => x => fnA(x).concat(fnB(x));
 
   const eqId = fp.filter(fp.eqFn(fp.identity)(extractApiId)(id));
-  const lengthProp = viewLens('length');
+  const lengthProp = viewLens("length");
 
   return fp.map(
     fp.filter(

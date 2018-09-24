@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import d3 from 'd3';
+import * as fp from "@iml/fp";
+import d3 from "d3";
 
 function getBBox(selection) {
   return selection.node().getBBox();
@@ -34,28 +34,28 @@ export default () => {
       const availableHeight = height - margin.top - margin.bottom;
 
       //data join.
-      const wrap = container.selectAll('.heat-map-legend').data([legendScale.ticks(100)]);
+      const wrap = container.selectAll(".heat-map-legend").data([legendScale.ticks(100)]);
 
       // setup structure on enter.
       const gEnter = wrap
         .enter()
-        .append('g')
-        .attr('class', 'heat-map-legend');
+        .append("g")
+        .attr("class", "heat-map-legend");
 
-      gEnter.append('text').attr('class', 'min');
+      gEnter.append("text").attr("class", "min");
 
-      gEnter.append('g').attr('class', 'steps');
+      gEnter.append("g").attr("class", "steps");
 
-      gEnter.append('text').attr('class', 'max');
+      gEnter.append("text").attr("class", "max");
 
       // These operate on enter + update.
-      const minText = wrap.select('.min');
-      const stepsGroup = wrap.select('.steps');
-      const maxText = wrap.select('.max');
+      const minText = wrap.select(".min");
+      const stepsGroup = wrap.select(".steps");
+      const maxText = wrap.select(".max");
 
-      const Y_TEXT_OFFSET = '1.2em';
+      const Y_TEXT_OFFSET = "1.2em";
 
-      const step = stepsGroup.selectAll('.step').data(x => x);
+      const step = stepsGroup.selectAll(".step").data(x => x);
 
       const fill = fp.compose(
         colorScale,
@@ -64,14 +64,14 @@ export default () => {
 
       step
         .enter()
-        .append('rect')
-        .attr('class', 'step')
-        .attr('width', STEP_WIDTH)
-        .attr('height', 11)
-        .attr('x', function calcWidth(d, i) {
+        .append("rect")
+        .attr("class", "step")
+        .attr("width", STEP_WIDTH)
+        .attr("height", 11)
+        .attr("x", function calcWidth(d, i) {
           return i * STEP_WIDTH;
         })
-        .attr('fill', fill);
+        .attr("fill", fill);
 
       const domain = zScale.domain();
 
@@ -87,15 +87,15 @@ export default () => {
       const legendWidth = minAndStepsWidth + maxBBox.width;
 
       stepsGroup.attr(
-        'transform',
-        'translate(' + (minBBox.width + TEXT_PADDING) + ',' + (availableHeight - 10) / 2 + ')'
+        "transform",
+        "translate(" + (minBBox.width + TEXT_PADDING) + "," + (availableHeight - 10) / 2 + ")"
       );
 
-      minText.attr('dy', Y_TEXT_OFFSET);
+      minText.attr("dy", Y_TEXT_OFFSET);
 
-      maxText.attr('x', minAndStepsWidth).attr('dy', Y_TEXT_OFFSET);
+      maxText.attr("x", minAndStepsWidth).attr("dy", Y_TEXT_OFFSET);
 
-      wrap.attr('transform', 'translate(' + (availableWidth - legendWidth) + ',' + margin.top + ')');
+      wrap.attr("transform", "translate(" + (availableWidth - legendWidth) + "," + margin.top + ")");
 
       chart.destroy = function destroy() {
         container.remove();

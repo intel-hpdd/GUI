@@ -3,15 +3,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import highland from 'highland';
-import removeDups from '../charting/remove-dups.js';
-import toNvd3 from '../charting/to-nvd3.js';
+import socketStream from "../socket/socket-stream.js";
+import highland from "highland";
+import removeDups from "../charting/remove-dups.js";
+import toNvd3 from "../charting/to-nvd3.js";
 
 const statsPrefixRegex = /^stats_/;
 const stripStatsPrefix = x => {
   const data = Object.entries(x.data).reduce((result, [key, value]) => {
-    const newKey = key.trim().replace(statsPrefixRegex, '');
+    const newKey = key.trim().replace(statsPrefixRegex, "");
     result[newKey] = value;
     return result;
   }, {});
@@ -23,34 +23,34 @@ const stripStatsPrefix = x => {
 };
 
 const stats = [
-  'close',
-  'getattr',
-  'getxattr',
-  'link',
-  'mkdir',
-  'mknod',
-  'open',
-  'rename',
-  'rmdir',
-  'setattr',
-  'statfs',
-  'unlink'
+  "close",
+  "getattr",
+  "getxattr",
+  "link",
+  "mkdir",
+  "mknod",
+  "open",
+  "rename",
+  "rmdir",
+  "setattr",
+  "statfs",
+  "unlink"
 ];
 
-const prependStats = ''.concat.bind('stats_');
-const metrics = stats.map(x => prependStats(x)).join(',');
+const prependStats = "".concat.bind("stats_");
+const metrics = stats.map(x => prependStats(x)).join(",");
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
-        reduce_fn: 'sum',
-        kind: 'MDT',
+        reduce_fn: "sum",
+        kind: "MDT",
         metrics
       }
     });
 
-    socketStream('/target/metric', params, true)
+    socketStream("/target/metric", params, true)
       .flatten()
       .map(stripStatsPrefix)
       .through(buff)

@@ -1,19 +1,19 @@
-import highland from 'highland';
-import * as fp from '@iml/fp';
-import angular from '../../../angular-mock-setup.js';
-import broadcaster from '../../../../source/iml/broadcaster.js';
-import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
+import highland from "highland";
+import * as fp from "@iml/fp";
+import angular from "../../../angular-mock-setup.js";
+import broadcaster from "../../../../source/iml/broadcaster.js";
+import asViewerDirective from "../../../../source/iml/as-viewer/as-viewer.js";
 
-describe('as viewer', () => {
+describe("as viewer", () => {
   let $compile, $scope, el, s, getText, v;
 
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive('asViewer', asViewerDirective);
+      $compileProvider.directive("asViewer", asViewerDirective);
     })
   );
 
-  describe('with transform', () => {
+  describe("with transform", () => {
     beforeEach(
       angular.mock.inject(($rootScope, _$compile_) => {
         $compile = _$compile_;
@@ -37,7 +37,7 @@ describe('as viewer', () => {
 
         $scope.setNum = function setNum(s) {
           v = s;
-          jest.spyOn(v, 'destroy');
+          jest.spyOn(v, "destroy");
           v.each(function(x) {
             $scope.num = x;
           });
@@ -49,26 +49,26 @@ describe('as viewer', () => {
         const find = el[0].querySelector.bind(el[0]);
         getText = fp.flow(
           find,
-          fp.view(fp.lensProp('textContent'))
+          fp.view(fp.lensProp("textContent"))
         );
       })
     );
 
-    it('should add 2 to num', () => {
+    it("should add 2 to num", () => {
       s.write(1);
       $scope.$digest();
 
-      expect(getText('.num')).toEqual('3');
+      expect(getText(".num")).toEqual("3");
     });
 
-    it('should destroy the viewer when scope is destroyed', () => {
+    it("should destroy the viewer when scope is destroyed", () => {
       $scope.$destroy();
 
       expect(v.destroy).toHaveBeenCalled();
     });
   });
 
-  describe('without transform', function() {
+  describe("without transform", function() {
     beforeEach(
       angular.mock.inject(function($rootScope, _$compile_) {
         $compile = _$compile_;
@@ -106,49 +106,49 @@ describe('as viewer', () => {
         const find = el[0].querySelector.bind(el[0]);
         getText = fp.flow(
           find,
-          fp.view(fp.lensProp('textContent'))
+          fp.view(fp.lensProp("textContent"))
         );
       })
     );
 
-    describe('multiple children', function() {
+    describe("multiple children", function() {
       beforeEach(function() {
         s.write({
-          a: 'eeey',
-          b: 'bee'
+          a: "eeey",
+          b: "bee"
         });
         $scope.$digest();
       });
 
-      it('should set a', function() {
-        expect(getText('.a')).toEqual('eeey');
+      it("should set a", function() {
+        expect(getText(".a")).toEqual("eeey");
       });
 
-      it('should set b', function() {
-        expect(getText('.b')).toEqual('bee');
+      it("should set b", function() {
+        expect(getText(".b")).toEqual("bee");
       });
 
-      describe('on destroy b', function() {
+      describe("on destroy b", function() {
         beforeEach(function() {
           $scope.$$childTail.$destroy();
           s.write({
-            a: 'a',
-            b: 'b'
+            a: "a",
+            b: "b"
           });
           $scope.$digest();
         });
 
-        it('should update a', function() {
-          expect(getText('.a')).toEqual('a');
+        it("should update a", function() {
+          expect(getText(".a")).toEqual("a");
         });
 
-        it('should not update b', function() {
-          expect(getText('.b')).toEqual('bee');
+        it("should not update b", function() {
+          expect(getText(".b")).toEqual("bee");
         });
       });
     });
 
-    describe('adding a child', function() {
+    describe("adding a child", function() {
       beforeEach(function() {
         const template =
           '<div as-viewer stream="stream">\
@@ -164,23 +164,23 @@ describe('as viewer', () => {
         const child = $compile(template)($scope);
         el[0].appendChild(child[0]);
         s.write({
-          a: 'a',
-          b: 'b',
-          c: 'c'
+          a: "a",
+          b: "b",
+          c: "c"
         });
         $scope.$digest();
       });
 
-      it('should update a', function() {
-        expect(getText('.a')).toEqual('a');
+      it("should update a", function() {
+        expect(getText(".a")).toEqual("a");
       });
 
-      it('should update b', function() {
-        expect(getText('.b')).toEqual('b');
+      it("should update b", function() {
+        expect(getText(".b")).toEqual("b");
       });
 
-      it('should update c', function() {
-        expect(getText('.c')).toEqual('c');
+      it("should update c", function() {
+        expect(getText(".c")).toEqual("c");
       });
     });
   });

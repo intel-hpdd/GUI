@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import angular from 'angular';
+import highland from "highland";
+import angular from "angular";
 
-import { querySelector } from './dom-utils.js';
+import { querySelector } from "./dom-utils.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 type stateServiceT = {
   go: (name: string) => void
@@ -22,12 +22,12 @@ type cacheT = {
 
 const cache: cacheT = {};
 
-type servicesT = '$state';
-type methodsT = 'go';
+type servicesT = "$state";
+type methodsT = "go";
 
 export default <R>(service: servicesT, method: methodsT, ...args: any[]): HighlandStreamT<R> => {
   const s: HighlandStreamT<R> = highland();
-  const inj = angular.element(querySelector(document, 'body')).injector();
+  const inj = angular.element(querySelector(document, "body")).injector();
 
   function loop() {
     if (cache[service]) {

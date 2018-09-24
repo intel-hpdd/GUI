@@ -3,21 +3,21 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import highland from 'highland';
-import removeDups from '../charting/remove-dups.js';
-import toNvd3 from '../charting/to-nvd3.js';
+import socketStream from "../socket/socket-stream.js";
+import highland from "highland";
+import removeDups from "../charting/remove-dups.js";
+import toNvd3 from "../charting/to-nvd3.js";
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
-        reduce_fn: 'average',
-        metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait,mem_MemFree,mem_MemTotal'
+        reduce_fn: "average",
+        metrics: "cpu_total,cpu_user,cpu_system,cpu_iowait,mem_MemFree,mem_MemTotal"
       }
     });
 
-    socketStream('/host/metric', params, true)
+    socketStream("/host/metric", params, true)
       .flatten()
       .map(function calculateCpuAndRam(x) {
         const cpuSum = x.data.cpu_user + x.data.cpu_system + x.data.cpu_iowait;
@@ -31,7 +31,7 @@ export default (requestRange, buff) => {
       .through(buff)
       .through(requestRange.setLatest)
       .through(removeDups)
-      .through(toNvd3(['cpu', 'ram']))
+      .through(toNvd3(["cpu", "ram"]))
       .each(function pushData(x) {
         push(null, x);
         next();

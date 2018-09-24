@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import getCopytoolStream from './get-copytool-stream.js';
-import getCopytoolOperationStream from './get-copytool-operation-stream.js';
+import * as fp from "@iml/fp";
+import getCopytoolStream from "./get-copytool-stream.js";
+import getCopytoolOperationStream from "./get-copytool-operation-stream.js";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
-import * as maybe from '@iml/maybe';
+import * as maybe from "@iml/maybe";
 
-import type { Maybe } from '@iml/maybe';
+import type { Maybe } from "@iml/maybe";
 
 const fsParams = filesystemId => {
   return {
@@ -30,7 +30,7 @@ const routePath = fp.flow(
 );
 
 export function copytoolOperationStream($stateParams: {}) {
-  'ngInject';
+  "ngInject";
   return fp.flow(
     routePath,
     getCopytoolOperationStream,
@@ -39,7 +39,7 @@ export function copytoolOperationStream($stateParams: {}) {
 }
 
 export function copytoolStream($stateParams: {}) {
-  'ngInject';
+  "ngInject";
   return fp.flow(
     routePath,
     getCopytoolStream,
@@ -48,7 +48,7 @@ export function copytoolStream($stateParams: {}) {
 }
 
 export function agentVsCopytoolChart($stateParams: {}, getAgentVsCopytoolChart: Function) {
-  'ngInject';
+  "ngInject";
   return fp.flow(
     routePath,
     getAgentVsCopytoolChart

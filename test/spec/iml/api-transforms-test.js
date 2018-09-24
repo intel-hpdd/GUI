@@ -1,11 +1,11 @@
-import highland from 'highland';
-import { of } from '@iml/maybe';
+import highland from "highland";
+import { of } from "@iml/maybe";
 
-import { addCurrentPage, rememberValue, matchById, filterSame } from '../../../source/iml/api-transforms.js';
+import { addCurrentPage, rememberValue, matchById, filterSame } from "../../../source/iml/api-transforms.js";
 
-describe('api transforms', () => {
-  describe('add current page', () => {
-    it('should return 1 if limit is 0', () => {
+describe("api transforms", () => {
+  describe("add current page", () => {
+    it("should return 1 if limit is 0", () => {
       const result = addCurrentPage({
         meta: {
           limit: 0,
@@ -22,7 +22,7 @@ describe('api transforms', () => {
       });
     });
 
-    it('should calculate offset over limit plus 1', () => {
+    it("should calculate offset over limit plus 1", () => {
       const result = addCurrentPage({
         meta: {
           limit: 20,
@@ -40,7 +40,7 @@ describe('api transforms', () => {
     });
   });
 
-  describe('remember value', () => {
+  describe("remember value", () => {
     let spy, in$, transformFn;
 
     beforeEach(() => {
@@ -58,54 +58,54 @@ describe('api transforms', () => {
       jest.useRealTimers();
     });
 
-    it('should remember on a value', () => {
+    it("should remember on a value", () => {
       transformFn.mockImplementation(s => highland([s]));
 
-      in$.write('foo');
+      in$.write("foo");
 
       jest.runOnlyPendingTimers();
 
-      expect(spy).toHaveBeenCalledOnceWith('foo');
+      expect(spy).toHaveBeenCalledOnceWith("foo");
     });
 
-    it('should remember when no value', () => {
+    it("should remember when no value", () => {
       transformFn.mockImplementation(() => highland([]));
 
-      in$.write('foo');
+      in$.write("foo");
 
       in$.end();
 
       jest.runOnlyPendingTimers();
 
-      expect(spy).toHaveBeenCalledOnceWith('foo');
+      expect(spy).toHaveBeenCalledOnceWith("foo");
     });
 
-    it('should call the transform fn', () => {
+    it("should call the transform fn", () => {
       transformFn.mockImplementation(() => highland([]));
 
-      in$.write('foo');
+      in$.write("foo");
 
-      expect(transformFn).toHaveBeenCalledOnceWith('foo');
+      expect(transformFn).toHaveBeenCalledOnceWith("foo");
     });
   });
 });
 
-describe('match by id', () => {
-  it('should match by the id', () => {
+describe("match by id", () => {
+  it("should match by the id", () => {
     const matcher = matchById(7);
-    expect(matcher([{ id: 1, name: 'a' }, { id: 7, name: 'b' }, { id: 10, name: 'c' }])).toEqual(
-      of({ id: 7, name: 'b' })
+    expect(matcher([{ id: 1, name: "a" }, { id: 7, name: "b" }, { id: 10, name: "c" }])).toEqual(
+      of({ id: 7, name: "b" })
     );
   });
 });
 
-describe('filterSame', () => {
-  it('should return bool on change / no change', () => {
+describe("filterSame", () => {
+  it("should return bool on change / no change", () => {
     expect.assertions(3);
     const filter = filterSame(x => x.prop);
 
-    expect(filter({ prop: 'foo' })).toBe(true);
-    expect(filter({ prop: 'foo' })).toBe(false);
-    expect(filter({ prop: 'bar' })).toBe(true);
+    expect(filter({ prop: "foo" })).toBe(true);
+    expect(filter({ prop: "foo" })).toBe(false);
+    expect(filter({ prop: "bar" })).toBe(true);
   });
 });

@@ -5,51 +5,51 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import store from '../store/get-store.js';
-import * as fp from '@iml/fp';
+import socketStream from "../socket/socket-stream.js";
+import store from "../store/get-store.js";
+import * as fp from "@iml/fp";
 
-import { toggleCollection } from './tree-utils.js';
+import { toggleCollection } from "./tree-utils.js";
 
-import { emitOnItem, transformItems } from './tree-transforms.js';
+import { emitOnItem, transformItems } from "./tree-transforms.js";
 
-import type { treeItemT } from './tree-types.js';
+import type { treeItemT } from "./tree-types.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 function treeVolumeCollection($scope: $scopeT, propagateChange: PropagateChange) {
-  'ngInject';
+  "ngInject";
   function computePage(meta) {
     const currentPage = meta.offset / meta.limit + 1;
     return (currentPage - 1) * meta.limit;
   }
 
-  const fn = (x: treeItemT) => x.parentTreeId === this.parentId && x.hostId === this.hostId && x.type === 'volume';
+  const fn = (x: treeItemT) => x.parentTreeId === this.parentId && x.hostId === this.hostId && x.type === "volume";
 
-  const t1 = store.select('tree');
+  const t1 = store.select("tree");
 
-  t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
+  t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, "x"));
 
   const structFn = fp.always({
-    type: 'volume',
+    type: "volume",
     parentTreeId: this.parentId,
     hostId: this.hostId
   });
 
   const fnTo$ = item =>
-    socketStream('/volume/', {
-      jsonMask: 'meta,objects(label,id,resource_uri,size,status)',
+    socketStream("/volume/", {
+      jsonMask: "meta,objects(label,id,resource_uri,size,status)",
       qs: {
         host_id: this.hostId,
         offset: computePage(item.meta),
         limit: item.meta.limit,
-        order_by: 'label'
+        order_by: "label"
       }
     });
 
-  const volumeCollection$ = store.select('tree');
+  const volumeCollection$ = store.select("tree");
 
   volumeCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
 
@@ -65,8 +65,8 @@ function treeVolumeCollection($scope: $scopeT, propagateChange: PropagateChange)
 export default {
   controller: treeVolumeCollection,
   bindings: {
-    parentId: '<',
-    hostId: '<'
+    parentId: "<",
+    hostId: "<"
   },
   template: `
 <div class="col-12">

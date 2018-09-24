@@ -5,24 +5,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import extractApi from '@iml/extract-api';
+import extractApi from "@iml/extract-api";
 
-import * as maybe from '@iml/maybe';
+import * as maybe from "@iml/maybe";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import type { Maybe } from '@iml/maybe';
+import type { Maybe } from "@iml/maybe";
 
-import type { TransitionT } from 'angular-ui-router';
+import type { TransitionT } from "angular-ui-router";
 
 export function apiPathToUiPath(resourceUri: string) {
-  const resource = resourceUri.split('/')[2];
+  const resource = resourceUri.split("/")[2];
   const id = extractApi(resourceUri);
 
   switch (resource) {
-    case 'filesystem':
+    case "filesystem":
       return `configure/filesystem/${id}/`;
-    case 'host':
+    case "host":
       return `configure/server/${id}/`;
     default:
       return `${resource}/${id}/`;

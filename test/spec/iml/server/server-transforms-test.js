@@ -1,7 +1,7 @@
-import highland from 'highland';
-import { getCommandAndHost, throwIfServerErrors } from '../../../../source/iml/server/server-transforms.js';
+import highland from "highland";
+import { getCommandAndHost, throwIfServerErrors } from "../../../../source/iml/server/server-transforms.js";
 
-describe('server transforms', () => {
+describe("server transforms", () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
@@ -11,7 +11,7 @@ describe('server transforms', () => {
     jest.useRealTimers();
   });
 
-  describe('throw if server errors', () => {
+  describe("throw if server errors", () => {
     let inst, handler;
 
     beforeEach(() => {
@@ -19,17 +19,17 @@ describe('server transforms', () => {
       inst = throwIfServerErrors(handler);
     });
 
-    it('should throw on error', () => {
+    it("should throw on error", () => {
       expect(() =>
         inst([
           {
-            error: 'fooz'
+            error: "fooz"
           }
         ])
       ).toThrow(new Error('["fooz"]'));
     });
 
-    it('should call fn on success', () => {
+    it("should call fn on success", () => {
       const response = [
         {
           error: null
@@ -42,7 +42,7 @@ describe('server transforms', () => {
     });
   });
 
-  describe('get command and host', () => {
+  describe("get command and host", () => {
     let spy, source$;
 
     beforeEach(() => {
@@ -51,12 +51,12 @@ describe('server transforms', () => {
       getCommandAndHost(source$).each(spy);
     });
 
-    it('should get the command and host', () => {
+    it("should get the command and host", () => {
       source$.write({
         objects: [
           {
             command_and_host: {
-              host: 'host'
+              host: "host"
             },
             error: null
           }
@@ -68,20 +68,20 @@ describe('server transforms', () => {
 
       expect(spy).toHaveBeenCalledOnceWith([
         {
-          host: 'host'
+          host: "host"
         }
       ]);
     });
 
-    it('should throw on error', () => {
+    it("should throw on error", () => {
       const shouldThrow = () => {
         source$.write({
           objects: [
             {
               command_and_host: {
-                host: 'host'
+                host: "host"
               },
-              error: 'booom!'
+              error: "booom!"
             }
           ]
         });

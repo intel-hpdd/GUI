@@ -1,6 +1,6 @@
-import { DiffModelCtrl } from './diff-model';
+import { DiffModelCtrl } from "./diff-model";
 
-describe('diff model', () => {
+describe("diff model", () => {
   let diffModelCtrl;
 
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe('diff model', () => {
     diffModelCtrl.modelCtrl = {
       $formatters: [],
       $viewChangeListeners: [],
-      $viewValue: '',
+      $viewValue: "",
       $setViewValue: jest.fn(),
       $render: jest.fn()
     };
@@ -22,49 +22,49 @@ describe('diff model', () => {
     diffModelCtrl.$onInit();
   });
 
-  it('should push a formatter', () => {
+  it("should push a formatter", () => {
     expect(diffModelCtrl.modelCtrl.$formatters).toEqual([diffModelCtrl.diffCtrl.remoteChange]);
   });
 
-  it('should push a view change listener', () => {
+  it("should push a view change listener", () => {
     expect(diffModelCtrl.modelCtrl.$viewChangeListeners).toEqual([expect.any(Function)]);
   });
 
-  it('should send a local change when view changes', () => {
+  it("should send a local change when view changes", () => {
     const fn = diffModelCtrl.modelCtrl.$viewChangeListeners[0];
     fn();
 
-    expect(diffModelCtrl.diffCtrl.localChange).toHaveBeenCalledOnceWith('');
+    expect(diffModelCtrl.diffCtrl.localChange).toHaveBeenCalledOnceWith("");
   });
 
-  it('should subscribe to diffCtrl', () => {
+  it("should subscribe to diffCtrl", () => {
     expect(diffModelCtrl.diffCtrl.subscribe).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
-  describe('subscribing', () => {
+  describe("subscribing", () => {
     let fn;
 
     beforeEach(() => {
       fn = diffModelCtrl.diffCtrl.subscribe.mock.calls[0][0];
     });
 
-    it('should set view value with new local', () => {
+    it("should set view value with new local", () => {
       fn({
-        local: 'foo'
+        local: "foo"
       });
 
-      expect(diffModelCtrl.modelCtrl.$setViewValue).toHaveBeenCalledOnceWith('foo');
+      expect(diffModelCtrl.modelCtrl.$setViewValue).toHaveBeenCalledOnceWith("foo");
     });
 
-    it('should call $render', () => {
+    it("should call $render", () => {
       fn({
-        local: 'foo'
+        local: "foo"
       });
 
       expect(diffModelCtrl.modelCtrl.$render).toHaveBeenCalledTimes(1);
     });
 
-    it('should return early if local is null', () => {
+    it("should return early if local is null", () => {
       fn({
         local: null
       });
@@ -72,9 +72,9 @@ describe('diff model', () => {
       expect(diffModelCtrl.modelCtrl.$render).not.toHaveBeenCalled();
     });
 
-    it('should return early if local === $viewValue', () => {
+    it("should return early if local === $viewValue", () => {
       fn({
-        local: ''
+        local: ""
       });
 
       expect(diffModelCtrl.modelCtrl.$render).not.toHaveBeenCalled();

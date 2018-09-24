@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('get agent vs copytool chart exports', () => {
+describe("get agent vs copytool chart exports", () => {
   let mockGetAgentVsCopytoolStream,
     mockD3,
     mockCreateDate,
@@ -31,9 +31,9 @@ describe('get agent vs copytool chart exports', () => {
     mockCreateDate = jest.fn(x => x);
 
     standardConfig = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1464812942650,
       endDate: 1464812997102
     };
@@ -43,13 +43,13 @@ describe('get agent vs copytool chart exports', () => {
         base: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         base: standardConfig
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -83,34 +83,34 @@ describe('get agent vs copytool chart exports', () => {
     localApply = jest.fn();
 
     initStream = highland();
-    jest.spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, "destroy");
 
     data$Fn = jest.fn((overrides, fn) => {
       fn()();
       return initStream;
     });
 
-    mockChartCompiler = jest.fn(() => 'chartCompiler');
+    mockChartCompiler = jest.fn(() => "chartCompiler");
 
     jest.mock(
-      '../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js',
+      "../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-stream.js",
       () => mockGetAgentVsCopytoolStream
     );
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
-    jest.mock('../../../../source/iml/create-date.js', () => mockCreateDate);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
-    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
-    mockD3 = require('d3');
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
+    jest.mock("../../../../source/iml/create-date.js", () => mockCreateDate);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/duration-picker/duration-payload.js", () => mockDurationPayload);
+    jest.mock("../../../../source/iml/duration-picker/duration-submit-handler.js", () => mockDurationSubmitHandler);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({ getConf: mockGetConf }));
+    mockD3 = require("d3");
 
-    const mod = require('../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js');
+    const mod = require("../../../../source/iml/agent-vs-copytool/get-agent-vs-copytool-chart.js");
 
     getAgentVsCopytoolChartFactory = mod.default;
   });
 
   beforeEach(() => {
-    jest.spyOn(mockD3.time, 'scale').mockImplementation(() => {
+    jest.spyOn(mockD3.time, "scale").mockImplementation(() => {
       timeScale = {};
 
       timeScale.domain = jest.fn(() => timeScale);
@@ -118,7 +118,7 @@ describe('get agent vs copytool chart exports', () => {
 
       return timeScale;
     });
-    jest.spyOn(mockD3.scale, 'linear').mockImplementation(() => {
+    jest.spyOn(mockD3.scale, "linear").mockImplementation(() => {
       linearScale = {};
 
       linearScale.domain = jest.fn(() => linearScale);
@@ -126,7 +126,7 @@ describe('get agent vs copytool chart exports', () => {
 
       return linearScale;
     });
-    jest.spyOn(mockD3.scale, 'ordinal').mockImplementation(() => {
+    jest.spyOn(mockD3.scale, "ordinal").mockImplementation(() => {
       ordinalScale = {};
 
       ordinalScale.domain = jest.fn(xs => {
@@ -150,54 +150,54 @@ describe('get agent vs copytool chart exports', () => {
     getAgentVsCopytoolChart = getAgentVsCopytoolChartFactory(localApply, data$Fn, d3);
 
     agentVsCopytoolChart = getAgentVsCopytoolChart({
-      foo: 'bar'
+      foo: "bar"
     });
 
     const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
-  it('should return a function', () => {
+  it("should return a function", () => {
     expect(getAgentVsCopytoolChart).toEqual(expect.any(Function));
   });
 
-  it('should dispatch to the store', () => {
+  it("should dispatch to the store", () => {
     expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-      type: 'DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS',
+      type: "DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS",
       payload: {
-        page: 'base',
-        configType: 'duration',
+        page: "base",
+        configType: "duration",
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         startDate: 1464812942650,
         endDate: 1464812997102
       }
     });
   });
 
-  it('should select the agentVsCopytoolCharts store', () => {
-    expect(mockGetStore.select).toHaveBeenCalledOnceWith('agentVsCopytoolCharts');
+  it("should select the agentVsCopytoolCharts store", () => {
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith("agentVsCopytoolCharts");
   });
 
-  it('should call getConf', () => {
-    expect(mockGetConf).toHaveBeenCalledOnceWith('base');
+  it("should call getConf", () => {
+    expect(mockGetConf).toHaveBeenCalledOnceWith("base");
   });
 
-  it('should call data$Fn', () => {
+  it("should call data$Fn", () => {
     expect(data$Fn).toHaveBeenCalledOnceWith(
       {
-        foo: 'bar'
+        foo: "bar"
       },
       expect.any(Function),
       standardConfig
     );
   });
 
-  it('should invoke the getAgentVsCopytoolStream', () => {
+  it("should invoke the getAgentVsCopytoolStream", () => {
     expect(mockGetAgentVsCopytoolStream).toHaveBeenCalledTimes(1);
   });
 
-  it('should invoke the chart compiler', () => {
+  it("should invoke the chart compiler", () => {
     expect(mockChartCompiler).toHaveBeenCalledOnceWith(
       `<div config-toggle class="agent-vs-copytool">
   <div class="controls" ng-if="configToggle.inactive()">
@@ -232,59 +232,59 @@ describe('get agent vs copytool chart exports', () => {
     );
   });
 
-  it('should return a chart compiler', () => {
-    expect(agentVsCopytoolChart).toBe('chartCompiler');
+  it("should return a chart compiler", () => {
+    expect(agentVsCopytoolChart).toBe("chartCompiler");
   });
 
-  it('should create a xScale', () => {
+  it("should create a xScale", () => {
     expect(mockD3.time.scale).toHaveBeenCalledTimes(1);
   });
 
-  it('should create a yScale', () => {
+  it("should create a yScale", () => {
     expect(mockD3.scale.linear).toHaveBeenCalled();
   });
 
-  describe('name color scale', () => {
-    it('should be an ordinal scale', () => {
+  describe("name color scale", () => {
+    it("should be an ordinal scale", () => {
       expect(mockD3.scale.ordinal).toHaveBeenCalledTimes(1);
     });
 
-    it('should set the domain', () => {
-      expect(ordinalScale.domain).toHaveBeenCalledOnceWith(['running actions', 'waiting requests', 'idle workers']);
+    it("should set the domain", () => {
+      expect(ordinalScale.domain).toHaveBeenCalledOnceWith(["running actions", "waiting requests", "idle workers"]);
     });
 
-    it('should set the range', () => {
-      expect(ordinalScale.range).toHaveBeenCalledOnceWith(['#F3B600', '#A3B600', '#0067B4']);
+    it("should set the range", () => {
+      expect(ordinalScale.range).toHaveBeenCalledOnceWith(["#F3B600", "#A3B600", "#0067B4"]);
     });
   });
 
-  describe('compiler', () => {
+  describe("compiler", () => {
     let $scope, s, config;
 
     beforeEach(
       angular.mock.inject($rootScope => {
         $scope = $rootScope.$new();
         s = highland();
-        jest.spyOn(s, 'destroy');
+        jest.spyOn(s, "destroy");
         config = mockChartCompiler.mock.calls[0][2]($scope, s);
       })
     );
 
-    it('should return a conf', () => {
+    it("should return a conf", () => {
       expect(config).toEqual({
         stream: s,
-        configType: 'duration',
-        page: '',
+        configType: "duration",
+        page: "",
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         xScale: timeScale,
         yScale: linearScale,
         onUpdate: [expect.any(Function), expect.any(Function), expect.any(Function), expect.any(Function)],
         rangeLabelOnUpdate: [expect.any(Function), expect.any(Function), expect.any(Function)],
         labels: [expect.any(Function), expect.any(Function), expect.any(Function)],
-        colors: ['#F3B600', '#A3B600', '#0067B4'],
+        colors: ["#F3B600", "#A3B600", "#0067B4"],
         nameColorScale: ordinalScale,
         calcRange: expect.any(Function),
         xValue: expect.any(Function),
@@ -293,7 +293,7 @@ describe('get agent vs copytool chart exports', () => {
       });
     });
 
-    it('should destroy the stream when the chart is destroyed', () => {
+    it("should destroy the stream when the chart is destroyed", () => {
       $scope.$destroy();
 
       expect(initStream.destroy).toHaveBeenCalled();
@@ -301,23 +301,23 @@ describe('get agent vs copytool chart exports', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('on update', () => {
-      it('should update xScale domain', () => {
+    describe("on update", () => {
+      it("should update xScale domain", () => {
         config.onUpdate[0]({
           xs: [
             {
-              ts: '1'
+              ts: "1"
             },
             {
-              ts: '2'
+              ts: "2"
             }
           ]
         });
 
-        expect(timeScale.domain).toHaveBeenCalledOnceWith(['1', '2']);
+        expect(timeScale.domain).toHaveBeenCalledOnceWith(["1", "2"]);
       });
 
-      it('should update yScale domain', () => {
+      it("should update yScale domain", () => {
         config.onUpdate[1]({
           xs: [
             {
@@ -336,20 +336,20 @@ describe('get agent vs copytool chart exports', () => {
         expect(linearScale.domain).toHaveBeenCalledOnceWith([0, 9001]);
       });
 
-      it('should update xScale range', () => {
+      it("should update xScale range", () => {
         config.onUpdate[2]({ width: 500 });
 
         expect(timeScale.range).toHaveBeenCalledOnceWith([0, 500]);
       });
 
-      it('should update yScale Range', () => {
+      it("should update yScale Range", () => {
         config.onUpdate[3]({ height: 300 });
 
         expect(linearScale.range).toHaveBeenCalledOnceWith([280, 30]);
       });
 
-      describe('range label on update', () => {
-        it('should update label width', () => {
+      describe("range label on update", () => {
+        it("should update label width", () => {
           const label = {
             width: jest.fn()
           };
@@ -362,7 +362,7 @@ describe('get agent vs copytool chart exports', () => {
           expect(label.width).toHaveBeenCalledOnceWith(50);
         });
 
-        it('should update label height', () => {
+        it("should update label height", () => {
           const label = {
             height: jest.fn()
           };
@@ -374,7 +374,7 @@ describe('get agent vs copytool chart exports', () => {
           expect(label.height).toHaveBeenCalledOnceWith(20);
         });
 
-        it('should translate node', () => {
+        it("should translate node", () => {
           const node = {
             attr: jest.fn()
           };
@@ -384,13 +384,13 @@ describe('get agent vs copytool chart exports', () => {
             height: 60
           });
 
-          expect(node.attr).toHaveBeenCalledOnceWith('transform', 'translate(0,60)');
+          expect(node.attr).toHaveBeenCalledOnceWith("transform", "translate(0,60)");
         });
       });
     });
   });
 
-  describe('on submit', () => {
+  describe("on submit", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -404,13 +404,13 @@ describe('get agent vs copytool chart exports', () => {
       })
     );
 
-    it('should call durationSubmitHandler', () => {
-      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS', {
-        page: 'base'
+    it("should call durationSubmitHandler", () => {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith("UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS", {
+        page: "base"
       });
     });
 
-    it('should invoke the submit handler', () => {
+    it("should invoke the submit handler", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });

@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { GROUPS, groupAllowed } from '../auth/authorization.js';
+import { GROUPS, groupAllowed } from "../auth/authorization.js";
 
-import { apiPathToUiPath } from '../route-utils.js';
+import { apiPathToUiPath } from "../route-utils.js";
 
 type substitutionT = {
   end: number,
@@ -17,7 +17,7 @@ type substitutionT = {
 };
 
 export const MessageSubstitutionCtrl = class {
-  substituteMessage: string = '';
+  substituteMessage: string = "";
   substitutions: Array<substitutionT>;
   message: string;
   $compile: Function;
@@ -25,7 +25,7 @@ export const MessageSubstitutionCtrl = class {
   $scope: Object;
 
   constructor($scope: Object, $element: HTMLElement[], $compile: Function) {
-    'ngInject';
+    "ngInject";
     this.$scope = $scope;
     this.$element = $element[0];
     this.$compile = $compile;
@@ -54,8 +54,8 @@ export const MessageSubstitutionCtrl = class {
 
 export const messageSubstitution = {
   bindings: {
-    message: '<',
-    substitutions: '<'
+    message: "<",
+    substitutions: "<"
   },
   controller: MessageSubstitutionCtrl
 };

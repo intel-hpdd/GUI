@@ -1,24 +1,24 @@
 // @flow
-import Inferno from 'inferno';
-import Dropdown from '../../../source/iml/dropdown-component.js';
-import { renderToSnapshot } from '../../test-utils.js';
-import { querySelector } from '../../../source/iml/dom-utils.js';
+import Inferno from "inferno";
+import Dropdown from "../../../source/iml/dropdown-component.js";
+import { renderToSnapshot } from "../../test-utils.js";
+import { querySelector } from "../../../source/iml/dom-utils.js";
 
-describe('Dropdown DOM Tests', () => {
+describe("Dropdown DOM Tests", () => {
   let root, clickHandler;
 
   beforeEach(() => {
-    root = document.createElement('div');
-    querySelector(document, 'body').appendChild(root);
+    root = document.createElement("div");
+    querySelector(document, "body").appendChild(root);
 
     clickHandler = jest.fn();
   });
 
   afterEach(() => {
-    querySelector(document, 'body').removeChild(root);
+    querySelector(document, "body").removeChild(root);
   });
 
-  it('should throw if two children nodes are not passed', () => {
+  it("should throw if two children nodes are not passed", () => {
     expect(() =>
       Inferno.render(
         <Dropdown isOpen={false} toggleOpen={clickHandler}>
@@ -29,7 +29,7 @@ describe('Dropdown DOM Tests', () => {
     ).toThrow();
   });
 
-  it('should open on click', () => {
+  it("should open on click", () => {
     Inferno.render(
       <Dropdown isOpen={false} toggleOpen={clickHandler}>
         <button />
@@ -38,11 +38,11 @@ describe('Dropdown DOM Tests', () => {
       root
     );
 
-    querySelector(root, 'button').click();
+    querySelector(root, "button").click();
     expect(clickHandler).toHaveBeenCalledOnceWith(expect.any(Object));
   });
 
-  it('should respond to isOpen', () => {
+  it("should respond to isOpen", () => {
     expect(
       renderToSnapshot(
         <Dropdown isOpen={true} toggleOpen={clickHandler}>

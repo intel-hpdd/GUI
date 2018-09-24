@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import store from './store/get-store.js';
+import Inferno from "inferno";
+import Component from "inferno-component";
+import store from "./store/get-store.js";
 
-import type { Element } from 'react';
+import type { Element } from "react";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class ConnectToStore extends Component {

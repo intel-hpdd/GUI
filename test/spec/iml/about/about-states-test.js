@@ -1,11 +1,11 @@
-import { aboutState } from '../../../../source/iml/about/about-states.js';
+import { aboutState } from "../../../../source/iml/about/about-states.js";
 
-describe('about states', () => {
-  it('should create the state', () => {
+describe("about states", () => {
+  it("should create the state", () => {
     expect(aboutState).toEqual({
-      name: 'app.about',
-      url: '/about',
-      component: 'aboutComponent',
+      name: "app.about",
+      url: "/about",
+      component: "aboutComponent",
       params: {
         resetState: {
           dynamic: true
@@ -13,8 +13,8 @@ describe('about states', () => {
       },
       data: {
         anonymousReadProtected: true,
-        kind: 'About Integrated Manager for Lustre software',
-        icon: 'fa-info-circle'
+        kind: "About Integrated Manager for Lustre software",
+        icon: "fa-info-circle"
       }
     });
   });

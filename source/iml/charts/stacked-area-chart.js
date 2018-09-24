@@ -3,11 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import moment from 'moment';
-import d3 from 'd3';
+import moment from "moment";
+import d3 from "d3";
 
 export default function stackedAreaChart(dateTicks, baseChart) {
-  'ngInject';
+  "ngInject";
   const colors = d3.scale.category20c();
 
   function keyColor(d) {

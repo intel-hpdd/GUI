@@ -6,21 +6,21 @@
 // license that can be found in the LICENSE file.
 
 function controller($location: Object) {
-  'ngInject';
+  "ngInject";
   this.$onDestroy = () => {
     this.log$.destroy();
     this.tzPickerB.endBroadcast();
   };
 
   this.pageChanged = meta => {
-    $location.search('offset', (meta.current_page - 1) * meta.limit);
+    $location.search("offset", (meta.current_page - 1) * meta.limit);
   };
 }
 
 export default {
   bindings: {
-    log$: '<',
-    tzPickerB: '<'
+    log$: "<",
+    tzPickerB: "<"
   },
   controller,
   template: `

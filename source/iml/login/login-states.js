@@ -6,10 +6,10 @@
 // license that can be found in the LICENSE file.
 
 export const loginState = {
-  name: 'login',
-  url: '/login',
-  controller: 'LoginCtrl',
-  controllerAs: 'login',
+  name: "login",
+  url: "/login",
+  controller: "LoginCtrl",
+  controllerAs: "login",
   template: `<div class="container">
   <div class="login-partial">
     <header class="logo"></header>

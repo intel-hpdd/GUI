@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
 
-import { ADD_TARGET_ITEMS } from './target-reducer.js';
+import { ADD_TARGET_ITEMS } from "./target-reducer.js";
 
-import { CACHE_INITIAL_DATA } from '../environment.js';
+import { CACHE_INITIAL_DATA } from "../environment.js";
 
-import { canDispatch } from '../dispatch-source-utils.js';
+import { canDispatch } from "../dispatch-source-utils.js";
 
 store.dispatch({
   type: ADD_TARGET_ITEMS,
@@ -20,7 +20,7 @@ store.dispatch({
 });
 
 if (canDispatch())
-  socketStream('/target', {
+  socketStream("/target", {
     qs: {
       limit: 0
     }

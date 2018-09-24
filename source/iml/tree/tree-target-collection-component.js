@@ -5,24 +5,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import store from '../store/get-store.js';
+import socketStream from "../socket/socket-stream.js";
+import store from "../store/get-store.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import { toggleCollection } from './tree-utils.js';
+import { toggleCollection } from "./tree-utils.js";
 
-import { emitOnItem, transformItems } from './tree-transforms.js';
+import { emitOnItem, transformItems } from "./tree-transforms.js";
 
-import type { treeItemT } from './tree-types.js';
+import type { treeItemT } from "./tree-types.js";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 export default (kind: string) => {
   function treeTargetCollection($scope: $scopeT, propagateChange: PropagateChange) {
-    'ngInject';
+    "ngInject";
     Object.assign(this, {
       onOpen: toggleCollection,
       $onDestroy() {
@@ -40,9 +40,9 @@ export default (kind: string) => {
       return (currentPage - 1) * meta.limit;
     }
 
-    const t1 = store.select('tree');
+    const t1 = store.select("tree");
 
-    t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, 'x'));
+    t1.through(emitOnItem(fn)).through(propagateChange.bind(null, $scope, this, "x"));
 
     const structFn = fp.always({
       type: kind,
@@ -51,8 +51,8 @@ export default (kind: string) => {
     });
 
     const fnTo$ = item =>
-      socketStream('/target/', {
-        jsonMask: 'meta,objects(label,id,resource_uri)',
+      socketStream("/target/", {
+        jsonMask: "meta,objects(label,id,resource_uri)",
         qs: {
           offset: computePage(item.meta),
           limit: item.meta.limit,
@@ -61,7 +61,7 @@ export default (kind: string) => {
         }
       });
 
-    const targetCollection$ = store.select('tree');
+    const targetCollection$ = store.select("tree");
 
     targetCollection$.through(transformItems(fn, structFn, fnTo$)).each(store.dispatch);
   }
@@ -86,8 +86,8 @@ export default (kind: string) => {
   </div>
     `,
     bindings: {
-      parentId: '<',
-      fsId: '<'
+      parentId: "<",
+      fsId: "<"
     },
     controller: treeTargetCollection
   };

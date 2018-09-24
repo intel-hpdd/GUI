@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
-import { pick } from '@iml/obj';
+import { pick } from "@iml/obj";
 
 export function ConfigureCorosyncController($scope, waitForCommandCompletion, propagateChange, insertHelpFilter) {
-  'ngInject';
+  "ngInject";
   const ctrl = this;
 
   const p = propagateChange.bind(null, $scope, ctrl);
@@ -24,21 +24,21 @@ export function ConfigureCorosyncController($scope, waitForCommandCompletion, pr
       socketStream(
         `/corosync_configuration/${ctrl.config.id}`,
         {
-          method: 'put',
-          json: pick(['id', 'mcast_port', 'network_interfaces'], ctrl.config)
+          method: "put",
+          json: pick(["id", "mcast_port", "network_interfaces"], ctrl.config)
         },
         true
       )
         .map(command => [command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
-        .through(p.bind(null, 'saving'));
+        .through(p.bind(null, "saving"));
     }
   });
 
-  ctrl.stream().through(p.bind(null, 'config'));
+  ctrl.stream().through(p.bind(null, "config"));
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     ctrl.stream.endBroadcast();
     ctrl.alertStream.endBroadcast();
     ctrl.jobStream.endBroadcast();
@@ -121,10 +121,10 @@ export const configureCorosyncComponent = {
   </diff-container>
 </div>`,
   bindings: {
-    stream: '<',
-    alertStream: '<',
-    jobStream: '<'
+    stream: "<",
+    alertStream: "<",
+    jobStream: "<"
   },
-  restrict: 'E',
-  controller: 'ConfigureCorosyncController'
+  restrict: "E",
+  controller: "ConfigureCorosyncController"
 };

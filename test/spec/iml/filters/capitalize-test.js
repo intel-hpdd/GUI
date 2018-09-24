@@ -1,23 +1,23 @@
-import angular from '../../../angular-mock-setup.js';
-import filterModule from '../../../../source/iml/filters/filters-module';
+import angular from "../../../angular-mock-setup.js";
+import filterModule from "../../../../source/iml/filters/filters-module";
 
-describe('Capitalize Filter', () => {
+describe("Capitalize Filter", () => {
   let capitalize;
 
   beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
     angular.mock.inject($filter => {
-      capitalize = $filter('capitalize');
+      capitalize = $filter("capitalize");
     })
   );
 
   const tests = [
-    { input: 'foo', expected: 'Foo', expectedAll: 'Foo' },
-    { input: 'foo bar', expected: 'Foo bar', expectedAll: 'Foo Bar' },
-    { input: 'foo', expected: 'Foo', expectedAll: 'Foo' },
+    { input: "foo", expected: "Foo", expectedAll: "Foo" },
+    { input: "foo bar", expected: "Foo bar", expectedAll: "Foo Bar" },
+    { input: "foo", expected: "Foo", expectedAll: "Foo" },
     { input: 5, expected: 5, expectedAll: 5 },
-    { input: 'BAZ', expected: 'BAZ', expectedAll: 'BAZ' }
+    { input: "BAZ", expected: "BAZ", expectedAll: "BAZ" }
   ];
 
   tests.forEach(function runTest(test) {
@@ -36,7 +36,7 @@ describe('Capitalize Filter', () => {
 
   function getDescription(input, expected, isAll) {
     const description = `should convert ${input} to ${expected}`;
-    const allDescription = description + 'using all';
+    const allDescription = description + "using all";
 
     return isAll ? allDescription : description;
   }

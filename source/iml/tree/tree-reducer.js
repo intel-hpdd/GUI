@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from '@iml/maybe';
+import * as maybe from "@iml/maybe";
 
 import {
   ADD_TREE_ITEMS,
@@ -13,9 +13,9 @@ import {
   UPDATE_COLLECTION_OFFSET,
   TOGGLE_ITEM_OPEN,
   RESET_STATE
-} from './tree-types.js';
+} from "./tree-types.js";
 
-import type { treeActionsT, treeHashT } from './tree-types.js';
+import type { treeActionsT, treeHashT } from "./tree-types.js";
 
 function updateItem(state, id, fn) {
   const nextStateM = maybe.map(

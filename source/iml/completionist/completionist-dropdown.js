@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { CompletionistCtrl } from './completionist.js';
-import { VALUES, VALUE, KEY_PRESS } from './completionist.js';
+import type { CompletionistCtrl } from "./completionist.js";
+import { VALUES, VALUE, KEY_PRESS } from "./completionist.js";
 
 const CompletionistDropdownCtrl = class {
   values: Array<?string> = [];
@@ -15,7 +15,7 @@ const CompletionistDropdownCtrl = class {
   localApply: Function;
   $onDestroy: Function;
   constructor($scope: Object, localApply: Function) {
-    'ngInject';
+    "ngInject";
     this.localApply = localApply.bind(null, $scope);
   }
   $onInit() {
@@ -25,22 +25,22 @@ const CompletionistDropdownCtrl = class {
       const maxVal = this.values.length + 1;
 
       switch (x.name) {
-        case 'escape':
+        case "escape":
           x.event.preventDefault();
           this.completionist.emit(VALUES, []);
           break;
-        case 'up':
+        case "up":
           x.event.preventDefault();
           this.index = (maxVal + (this.index - 1)) % maxVal;
           this.localApply();
           break;
-        case 'down':
+        case "down":
           x.event.preventDefault();
           this.index = (this.index + 1) % maxVal;
           this.localApply();
           break;
-        case 'enter':
-        case 'tab':
+        case "enter":
+        case "tab":
           if (this.values[this.index] != null) {
             x.event.preventDefault();
             this.completionist.emit(VALUE, this.values[this.index]);
@@ -72,7 +72,7 @@ const CompletionistDropdownCtrl = class {
 
 export default {
   require: {
-    completionist: '^completionist'
+    completionist: "^completionist"
   },
   controller: CompletionistDropdownCtrl,
   template: `

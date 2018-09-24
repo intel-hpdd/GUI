@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('target dashboard', () => {
+describe("target dashboard", () => {
   let mockSocketStream,
     targetDashboardResolves,
     targetDashboardTargetStream,
@@ -18,10 +18,10 @@ describe('target dashboard', () => {
 
     mockSocketStream = jest.fn(() => s);
 
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    const mod = require('../../../../source/iml/dashboard/target-dashboard-resolves.js');
+    const mod = require("../../../../source/iml/dashboard/target-dashboard-resolves.js");
 
     ({ targetDashboardResolves, targetDashboardTargetStream, targetDashboardUsageStream } = mod);
 
@@ -30,17 +30,17 @@ describe('target dashboard', () => {
     $stateParams = {};
   });
 
-  describe('chart resolves', () => {
+  describe("chart resolves", () => {
     let getFileUsageChart, getSpaceUsageChart, getMdoChart, getReadWriteBandwidthChart, getInst;
 
     beforeEach(() => {
-      getFileUsageChart = jest.fn(() => 'fileUsageChart');
+      getFileUsageChart = jest.fn(() => "fileUsageChart");
 
-      getSpaceUsageChart = jest.fn(() => 'spaceUsageChart');
+      getSpaceUsageChart = jest.fn(() => "spaceUsageChart");
 
-      getMdoChart = jest.fn(() => 'mdoChart');
+      getMdoChart = jest.fn(() => "mdoChart");
 
-      getReadWriteBandwidthChart = jest.fn(() => 'readWriteBandwidthChart');
+      getReadWriteBandwidthChart = jest.fn(() => "readWriteBandwidthChart");
 
       getInst = targetDashboardResolves.bind(
         null,
@@ -52,171 +52,171 @@ describe('target dashboard', () => {
       );
     });
 
-    it('should return a function', () => {
+    it("should return a function", () => {
       expect(targetDashboardResolves).toEqual(expect.any(Function));
     });
 
-    describe('MDT', () => {
+    describe("MDT", () => {
       let promise;
 
       beforeEach(() => {
         Object.assign($stateParams, {
-          id: '1',
-          kind: 'MDT'
+          id: "1",
+          kind: "MDT"
         });
 
         promise = getInst();
       });
 
-      it('should call mdoChart', () => {
+      it("should call mdoChart", () => {
         expect(getMdoChart).toHaveBeenCalledOnceWith(
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
 
-      it('should call fileUsageChart', () => {
+      it("should call fileUsageChart", () => {
         expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'File Usage',
-          'Files Used',
+          "File Usage",
+          "Files Used",
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
 
-      it('should call spaceUsageChart', () => {
+      it("should call spaceUsageChart", () => {
         expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
 
-      it('should return MDT charts', async () => {
+      it("should return MDT charts", async () => {
         const result = await promise;
 
-        expect(result).toEqual(['mdoChart', 'fileUsageChart', 'spaceUsageChart']);
+        expect(result).toEqual(["mdoChart", "fileUsageChart", "spaceUsageChart"]);
       });
     });
 
-    describe('OST', () => {
+    describe("OST", () => {
       beforeEach(() => {
         Object.assign($stateParams, {
-          id: '1',
-          kind: 'OST'
+          id: "1",
+          kind: "OST"
         });
 
         getInst();
       });
 
-      it('should call readWriteBandwidthChart', () => {
+      it("should call readWriteBandwidthChart", () => {
         expect(getReadWriteBandwidthChart).toHaveBeenCalledOnceWith(
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
 
-      it('should call fileUsageChart', () => {
+      it("should call fileUsageChart", () => {
         expect(getFileUsageChart).toHaveBeenCalledOnceWith(
-          'Object Usage',
-          'Objects Used',
+          "Object Usage",
+          "Objects Used",
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
 
-      it('should call spaceUsageChart', () => {
+      it("should call spaceUsageChart", () => {
         expect(getSpaceUsageChart).toHaveBeenCalledOnceWith(
           {
             qs: {
-              id: '1'
+              id: "1"
             }
           },
-          'target1'
+          "target1"
         );
       });
     });
   });
 
-  describe('target stream', () => {
+  describe("target stream", () => {
     let targetStream;
 
     beforeEach(() => {
       Object.assign($stateParams, {
-        id: '1'
+        id: "1"
       });
 
       targetStream = targetDashboardTargetStream($stateParams);
     });
 
-    it('should be a function', () => {
+    it("should be a function", () => {
       expect(targetDashboardTargetStream).toEqual(expect.any(Function));
     });
 
-    it('should call select on the store', () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
+    it("should call select on the store", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("targets");
     });
 
-    it('should stream data', () => {
+    it("should stream data", () => {
       targetStream.each(spy);
       s.write([
         {
           id: 5,
-          name: 'target5'
+          name: "target5"
         },
         {
           id: 1,
-          name: 'target1'
+          name: "target1"
         }
       ]);
 
       expect(spy).toHaveBeenCalledWith({
         id: 1,
-        name: 'target1'
+        name: "target1"
       });
     });
   });
 
-  describe('usage stream', () => {
+  describe("usage stream", () => {
     let promise;
 
     beforeEach(() => {
       Object.assign($stateParams, {
-        id: '1'
+        id: "1"
       });
 
       promise = targetDashboardUsageStream($stateParams);
     });
 
-    it('should call socketStream', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith('/target/1/metric/', {
+    it("should call socketStream", () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith("/target/1/metric/", {
         qs: {
-          metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
+          metrics: "filestotal,filesfree,kbytestotal,kbytesfree",
           latest: true
         }
       });
     });
 
-    it('should stream data', async () => {
+    it("should stream data", async () => {
       let result;
 
       s.write([

@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('get OST balance stream', () => {
+describe("get OST balance stream", () => {
   let mockSocketStream, getOstBalanceStream, spy, end;
 
   beforeEach(() => {
@@ -16,9 +16,9 @@ describe('get OST balance stream', () => {
       return s;
     });
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    getOstBalanceStream = require('../../../../source/iml/ost-balance/get-ost-balance-stream.js').default;
+    getOstBalanceStream = require("../../../../source/iml/ost-balance/get-ost-balance-stream.js").default;
 
     spy = jest.fn();
 
@@ -30,23 +30,23 @@ describe('get OST balance stream', () => {
     jest.useRealTimers();
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getOstBalanceStream).toEqual(expect.any(Function));
   });
 
-  describe('fetching metrics', () => {
+  describe("fetching metrics", () => {
     beforeEach(() => {
       getOstBalanceStream(0, {}).each(spy);
 
-      end('foo');
+      end("foo");
     });
 
-    it('should request data without overrides', () => {
-      expect(mockSocketStream).toHaveBeenCalledTwiceWith('/ost-balance', { percentage: 0 }, true);
+    it("should request data without overrides", () => {
+      expect(mockSocketStream).toHaveBeenCalledTwiceWith("/ost-balance", { percentage: 0 }, true);
     });
 
-    it('should return computed data', () => {
-      expect(spy).toHaveBeenCalledOnceWith('foo');
+    it("should return computed data", () => {
+      expect(spy).toHaveBeenCalledOnceWith("foo");
     });
   });
 });

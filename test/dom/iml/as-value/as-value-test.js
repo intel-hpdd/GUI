@@ -1,19 +1,19 @@
-import * as fp from '@iml/fp';
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
-import asValueModule from '../../../../source/iml/as-value/as-value-module';
-import Inferno from 'inferno';
-import { asValue } from '../../../../source/iml/as-value/as-value.js';
+import * as fp from "@iml/fp";
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
+import asValueModule from "../../../../source/iml/as-value/as-value-module";
+import Inferno from "inferno";
+import { asValue } from "../../../../source/iml/as-value/as-value.js";
 
-describe('As value Inferno', () => {
+describe("As value Inferno", () => {
   let el, s, getText;
 
   beforeEach(() => {
     s = highland();
 
-    el = document.createElement('div');
+    el = document.createElement("div");
 
-    const AsValue = asValue('curr', ({ curr }) => (
+    const AsValue = asValue("curr", ({ curr }) => (
       <div>
         <span class="num">{curr}</span>
       </div>
@@ -24,28 +24,28 @@ describe('As value Inferno', () => {
     const find = el.querySelector.bind(el);
     getText = fp.flow(
       find,
-      fp.view(fp.lensProp('textContent'))
+      fp.view(fp.lensProp("textContent"))
     );
   });
 
-  it('should be empty to start', function() {
-    expect(getText('.num')).toEqual('');
+  it("should be empty to start", function() {
+    expect(getText(".num")).toEqual("");
   });
 
-  it('should output num', function() {
+  it("should output num", function() {
     s.write(1);
-    expect(getText('.num')).toEqual('1');
+    expect(getText(".num")).toEqual("1");
   });
 
-  it('should output a stream of nums', function() {
+  it("should output a stream of nums", function() {
     s.write(1);
     s.write(2);
     s.end();
-    expect(getText('.num')).toEqual('2');
+    expect(getText(".num")).toEqual("2");
   });
 });
 
-describe('As value', () => {
+describe("As value", () => {
   beforeEach(angular.mock.module(asValueModule));
 
   let $compile, $scope, el, s, getText;
@@ -74,24 +74,24 @@ describe('As value', () => {
       const find = el[0].querySelector.bind(el[0]);
       getText = fp.flow(
         find,
-        fp.view(fp.lensProp('textContent'))
+        fp.view(fp.lensProp("textContent"))
       );
     })
   );
 
-  it('should be empty to start', function() {
-    expect(getText('.num')).toEqual('');
+  it("should be empty to start", function() {
+    expect(getText(".num")).toEqual("");
   });
 
-  it('should output num', function() {
+  it("should output num", function() {
     s.write(1);
-    expect(getText('.num')).toEqual('1');
+    expect(getText(".num")).toEqual("1");
   });
 
-  it('should output a stream of nums', function() {
+  it("should output a stream of nums", function() {
     s.write(1);
     s.write(2);
     s.end();
-    expect(getText('.num')).toEqual('2');
+    expect(getText(".num")).toEqual("2");
   });
 });

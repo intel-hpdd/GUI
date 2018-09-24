@@ -3,16 +3,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
 export const remoteValidateForm = {
-  restrict: 'A',
+  restrict: "A",
   scope: true,
   controller: function($scope, $element) {
-    'ngInject';
-    const formController = $element.controller('form');
+    "ngInject";
+    const formController = $element.controller("form");
 
-    if (formController === undefined) throw new Error('formController not found, needed by remote-validate-form');
+    if (formController === undefined) throw new Error("formController not found, needed by remote-validate-form");
 
     this.components = {
       __all__: formController
@@ -31,12 +31,12 @@ export const remoteValidateForm = {
 
     this.resetComponentsValidity = () =>
       Object.entries(this.components).forEach(([name, component]) => {
-        component.$setValidity('server', true);
+        component.$setValidity("server", true);
         delete $scope.serverValidationError[name];
       });
 
     $scope.$on(
-      '$destroy',
+      "$destroy",
       function() {
         this.components = null;
       }.bind(this)
@@ -63,9 +63,9 @@ export const remoteValidateForm = {
         const component = formController.getComponent(field);
 
         if (component) {
-          if (typeof errorList === 'string') errorList = [errorList];
+          if (typeof errorList === "string") errorList = [errorList];
 
-          component.$setValidity('server', false);
+          component.$setValidity("server", false);
           scope.serverValidationError[field] = errorList;
         }
       });
@@ -77,7 +77,7 @@ export const remoteValidateForm = {
       newValidate.then(success, errback);
     });
 
-    scope.$on('$destroy', function() {
+    scope.$on("$destroy", function() {
       scope.serverValidationError = null;
       deregisterWatch();
     });
@@ -85,8 +85,8 @@ export const remoteValidateForm = {
 };
 
 export const remoteValidateComponent = {
-  require: ['^remoteValidateForm', 'ngModel'],
-  restrict: 'A',
+  require: ["^remoteValidateForm", "ngModel"],
+  restrict: "A",
   link: function(scope, el, attrs, ctrls) {
     const formController = ctrls[0];
     const ngModel = ctrls[1];

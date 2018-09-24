@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function naturalSort() {
-  'ngInject';
+  "ngInject";
   const re = /([a-zA-Z]+)|([0-9]+)/g;
   let getStringToSort;
 
@@ -58,9 +58,9 @@ export default function naturalSort() {
       result = -1;
     } else if (pos >= componentsInB.length) {
       result = 1;
-    } else if (typeof componentsInA[pos] === 'number' && typeof componentsInB[pos] === 'string') {
+    } else if (typeof componentsInA[pos] === "number" && typeof componentsInB[pos] === "string") {
       result = -1;
-    } else if (typeof componentsInA[pos] === 'string' && typeof componentsInB[pos] === 'number') {
+    } else if (typeof componentsInA[pos] === "string" && typeof componentsInB[pos] === "number") {
       result = 1;
     } else {
       result = calculateValueForALessThanB(componentsInA[pos], componentsInB[pos]);
@@ -100,7 +100,7 @@ export default function naturalSort() {
    * @returns {Array}
    */
   function splitStringIntoComponents(val) {
-    if (typeof val === 'number') return [val];
+    if (typeof val === "number") return [val];
 
     let m;
     const components = [];

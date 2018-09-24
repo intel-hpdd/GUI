@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Meta } from './api-types.js';
-import Inferno, { linkEvent } from 'inferno';
-import WindowClickListener from './window-click-listener.js';
-import DropdownContainer from './dropdown-component.js';
+import type { Meta } from "./api-types.js";
+import Inferno, { linkEvent } from "inferno";
+import WindowClickListener from "./window-click-listener.js";
+import DropdownContainer from "./dropdown-component.js";
 
 type EntriesProps = {
   entries: number,
@@ -83,15 +83,15 @@ export const Pager = ({ meta, setOffset }: PagerProps) => {
 
   return (
     <ul class="pagination">
-      <li className={`pagination-prev ${page === 1 ? 'disabled' : ''}`}>
+      <li className={`pagination-prev ${page === 1 ? "disabled" : ""}`}>
         <a onClick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
       </li>
       {getPages(page, pages).map(x => (
-        <li className={`pagination-page ${page === x ? 'active' : ''}`}>
+        <li className={`pagination-page ${page === x ? "active" : ""}`}>
           <a onClick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
         </li>
       ))}
-      <li class={`pagination-next ${page === pages ? 'disabled' : ''}`}>
+      <li class={`pagination-next ${page === pages ? "disabled" : ""}`}>
         <a onClick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
       </li>
     </ul>

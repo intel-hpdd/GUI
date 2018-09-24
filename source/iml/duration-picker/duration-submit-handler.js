@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import getStore from '../store/get-store.js';
+import getStore from "../store/get-store.js";
 
-import type { rangeFormT, durationFormT } from './duration-picker-module.js';
+import type { rangeFormT, durationFormT } from "./duration-picker-module.js";
 
 export default (chartType: string, key: Object) => {
   return (overrides: Object, { rangeForm, durationForm }: { rangeForm: rangeFormT, durationForm: durationFormT }) => {
@@ -16,7 +16,7 @@ export default (chartType: string, key: Object) => {
         type: chartType,
         payload: Object.assign(
           {
-            configType: 'range',
+            configType: "range",
             startDate: rangeForm.start.$modelValue,
             endDate: rangeForm.end.$modelValue
           },
@@ -29,7 +29,7 @@ export default (chartType: string, key: Object) => {
         type: chartType,
         payload: Object.assign(
           {
-            configType: 'duration',
+            configType: "duration",
             size: durationForm.size.$modelValue,
             unit: durationForm.unit.$modelValue
           },

@@ -17,7 +17,7 @@ declare class EventEmitter {
 
 export type EventEmitterT = EventEmitter;
 
-import highland from 'highland';
+import highland from "highland";
 
 const EE: typeof EventEmitter = Object.getPrototypeOf(Object.getPrototypeOf((highland(): any))).constructor;
 

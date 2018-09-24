@@ -1,48 +1,48 @@
-import highland from 'highland';
+import highland from "highland";
 import {
   getConf,
   data$Fn,
   flushOnChange,
   waitForChartData
-} from '../../../../source/iml/chart-transformers/chart-transformers.js';
+} from "../../../../source/iml/chart-transformers/chart-transformers.js";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import { documentHidden, documentVisible } from '../../../../source/iml/stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from "../../../../source/iml/stream-when-visible/stream-when-visible.js";
 
-describe('chart transformer', () => {
+describe("chart transformer", () => {
   let s, config1, config2, spy;
 
   beforeEach(() => {
     spy = jest.fn();
     config1 = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1465829589123,
       endDate: 1465829610575
     };
 
     config2 = {
-      configType: 'range',
+      configType: "range",
       size: 3,
-      unit: 'hours',
+      unit: "hours",
       startDate: 1465829589123,
       endDate: 1465829761462
     };
   });
 
-  describe('getConf', () => {
+  describe("getConf", () => {
     let conf$;
     beforeEach(() => {
-      conf$ = getConf('target8');
+      conf$ = getConf("target8");
     });
 
-    it('should be a function', () => {
+    it("should be a function", () => {
       expect(getConf).toEqual(expect.any(Function));
     });
 
-    it('should take the matching case', () => {
+    it("should take the matching case", () => {
       s = highland([
         {
           base: config1,
@@ -55,7 +55,7 @@ describe('chart transformer', () => {
     });
   });
 
-  describe('data$Fn', () => {
+  describe("data$Fn", () => {
     let fn,
       createStream,
       durationStreamOverrides,
@@ -91,85 +91,85 @@ describe('chart transformer', () => {
       fn = data$Fn(createStream);
     });
 
-    describe('with duration type', () => {
+    describe("with duration type", () => {
       beforeEach(() => {
         s = fn(overrides, chartStreamFn, config1);
       });
 
-      it('should invoke durationStream with the overrides', () => {
+      it("should invoke durationStream with the overrides", () => {
         expect(durationStreamOverrides).toHaveBeenCalledOnceWith(overrides);
       });
 
-      it('should invoke rangeStream with the overrides', () => {
+      it("should invoke rangeStream with the overrides", () => {
         expect(rangeStreamOverrides).toHaveBeenCalledOnceWith(overrides);
       });
 
-      it('should invoke chartStreamFn with config', () => {
+      it("should invoke chartStreamFn with config", () => {
         expect(chartStreamFn).toHaveBeenCalledOnceWith(config1);
       });
 
-      it('should invoke durationStream', () => {
-        expect(durationStream).toHaveBeenCalledOnceWith(chart$, 10, 'minutes');
+      it("should invoke durationStream", () => {
+        expect(durationStream).toHaveBeenCalledOnceWith(chart$, 10, "minutes");
       });
 
-      it('should return a duration stream', () => {
+      it("should return a duration stream", () => {
         expect(s).toEqual(duration$);
       });
     });
 
-    describe('with range type', () => {
+    describe("with range type", () => {
       beforeEach(() => {
         s = fn(overrides, chartStreamFn, config2);
       });
 
-      it('should invoke durationStream with the overrides', () => {
+      it("should invoke durationStream with the overrides", () => {
         expect(durationStreamOverrides).toHaveBeenCalledOnceWith(overrides);
       });
 
-      it('should invoke rangeStream with the overrides', () => {
+      it("should invoke rangeStream with the overrides", () => {
         expect(rangeStreamOverrides).toHaveBeenCalledOnceWith(overrides);
       });
 
-      it('should invoke chartStreamFn with config', () => {
+      it("should invoke chartStreamFn with config", () => {
         expect(chartStreamFn).toHaveBeenCalledOnceWith(config2);
       });
 
-      it('should invoke rangeStream', () => {
+      it("should invoke rangeStream", () => {
         expect(rangeStream).toHaveBeenCalledOnceWith(chart$, 1465829589123, 1465829761462);
       });
 
-      it('should return a duration stream', () => {
+      it("should return a duration stream", () => {
         expect(s).toEqual(range$);
       });
     });
   });
 });
 
-describe('flush on change', () => {
+describe("flush on change", () => {
   let source$, s, spy;
 
   beforeEach(() => {
     spy = jest.fn();
     source$ = highland();
     s = flushOnChange(source$);
-    jest.spyOn(s, 'destroy');
+    jest.spyOn(s, "destroy");
   });
 
-  it('should write document hidden', () => {
+  it("should write document hidden", () => {
     s.each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith(documentHidden);
   });
 
-  it('should write document visible', () => {
-    source$.write('foo');
+  it("should write document visible", () => {
+    source$.write("foo");
     s.each(spy);
 
     expect(spy).toHaveBeenCalledOnceWith(documentVisible);
   });
 
-  it('should catch errors', () => {
-    const error = new Error('it goes boom!');
+  it("should catch errors", () => {
+    const error = new Error("it goes boom!");
     source$.write({
       __HighlandStreamError__: true,
       error
@@ -180,7 +180,7 @@ describe('flush on change', () => {
     expect(spy).toHaveBeenCalledOnceWith(error);
   });
 
-  it('should handle ending a stream', () => {
+  it("should handle ending a stream", () => {
     source$.end();
     s.each(spy);
 
@@ -188,37 +188,37 @@ describe('flush on change', () => {
   });
 });
 
-describe('waitForChartData', () => {
+describe("waitForChartData", () => {
   let source$, s, spy;
 
   beforeEach(() => {
     spy = jest.fn();
     source$ = highland();
     s = waitForChartData(source$);
-    jest.spyOn(s, 'destroy');
+    jest.spyOn(s, "destroy");
 
     source$.write(documentHidden);
     source$.write(documentVisible);
     source$.write({ x: 1 });
   });
 
-  it('should not pass documentHidden to the stream', () => {
+  it("should not pass documentHidden to the stream", () => {
     s.each(spy);
     expect(spy).not.toHaveBeenCalledWith(documentHidden);
   });
 
-  it('should not pass documentVisible to the stream', () => {
+  it("should not pass documentVisible to the stream", () => {
     s.each(spy);
     expect(spy).not.toHaveBeenCalledWith(documentVisible);
   });
 
-  it('should pass the data', () => {
+  it("should pass the data", () => {
     s.each(spy);
     expect(spy).toHaveBeenCalledOnceWith({ x: 1 });
   });
 
-  it('should catch errors', () => {
-    const error = new Error('it goes boom!');
+  it("should catch errors", () => {
+    const error = new Error("it goes boom!");
     source$.write({
       __HighlandStreamError__: true,
       error
@@ -229,7 +229,7 @@ describe('waitForChartData', () => {
     expect(spy).toHaveBeenCalledOnceWith(error);
   });
 
-  it('should handle ending a stream', () => {
+  it("should handle ending a stream", () => {
     source$.end();
     s.each(spy);
 

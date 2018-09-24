@@ -20,13 +20,13 @@ const template =
   </div>';
 
 export default $uibModal => {
-  'ngInject';
+  "ngInject";
   const defaultOptions = {
-    backdrop: 'static',
-    controller: 'ExceptionModalCtrl',
+    backdrop: "static",
+    controller: "ExceptionModalCtrl",
     keyboard: false,
     template,
-    windowClass: 'exception-modal'
+    windowClass: "exception-modal"
   };
 
   return function open(opts) {

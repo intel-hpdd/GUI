@@ -1,6 +1,6 @@
-import mod from '../../../../source/iml/qs-from-location/qs-from-location.js';
+import mod from "../../../../source/iml/qs-from-location/qs-from-location.js";
 
-describe('qs from location', () => {
+describe("qs from location", () => {
   let qsFromLocation, mockFormat;
 
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe('qs from location', () => {
     const state = {
       router: {
         urlMatcherFactory: {
-          paramTypes: 'paramTypes',
+          paramTypes: "paramTypes",
           UrlMatcher: jest.fn(() => ({
             format: mockFormat
           }))
@@ -16,7 +16,7 @@ describe('qs from location', () => {
       },
       transition: {
         to: jest.fn(() => ({
-          url: '/status?severity&record_type'
+          url: "/status?severity&record_type"
         }))
       }
     };
@@ -24,26 +24,26 @@ describe('qs from location', () => {
     qsFromLocation = mod(state);
   });
 
-  it('should be a function', function() {
+  it("should be a function", function() {
     expect(qsFromLocation).toEqual(expect.any(Function));
   });
 
-  describe('with valid params', () => {
+  describe("with valid params", () => {
     let result;
     beforeEach(() => {
-      mockFormat.mockReturnValueOnce('/status?severity=info&record_type=active');
+      mockFormat.mockReturnValueOnce("/status?severity=info&record_type=active");
 
-      result = qsFromLocation({ severity: 'info', record_type: 'active' });
+      result = qsFromLocation({ severity: "info", record_type: "active" });
     });
 
-    it('should return the qs', function() {
-      expect(result).toEqual('severity=info&record_type=active');
+    it("should return the qs", function() {
+      expect(result).toEqual("severity=info&record_type=active");
     });
   });
 
-  it('should return an empty string for no qs', function() {
-    mockFormat.mockReturnValueOnce('/status');
+  it("should return an empty string for no qs", function() {
+    mockFormat.mockReturnValueOnce("/status");
 
-    expect(qsFromLocation({})).toEqual('');
+    expect(qsFromLocation({})).toEqual("");
   });
 });

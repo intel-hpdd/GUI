@@ -6,12 +6,12 @@
 // license that can be found in the LICENSE file.
 
 export const DURATIONS = {
-  MINUTES: 'minutes',
-  HOURS: 'hours',
-  DAYS: 'days',
-  WEEKS: 'weeks',
-  MONTHS: 'months',
-  YEARS: 'years'
+  MINUTES: "minutes",
+  HOURS: "hours",
+  DAYS: "days",
+  WEEKS: "weeks",
+  MONTHS: "months",
+  YEARS: "years"
 };
 
 export default {
@@ -81,14 +81,14 @@ export default {
   </div>
 </div>`,
   bindings: {
-    type: '<',
-    size: '<',
-    unit: '<',
-    startDate: '<',
-    endDate: '<'
+    type: "<",
+    size: "<",
+    unit: "<",
+    startDate: "<",
+    endDate: "<"
   },
   controller() {
-    'ngInject';
+    "ngInject";
     Object.assign(this, {
       units: [
         { unit: DURATIONS.MINUTES, count: 60 },

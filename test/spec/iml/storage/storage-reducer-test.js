@@ -7,27 +7,27 @@ import storageReducer, {
   SET_STORAGE_CONFIG,
   SET_STORAGE_SORTING,
   SET_STORAGE_TABLE_LOADING
-} from '../../../../source/iml/storage/storage-reducer.js';
+} from "../../../../source/iml/storage/storage-reducer.js";
 
-describe('storageReducer', () => {
-  it('should be a function', () => {
+describe("storageReducer", () => {
+  it("should be a function", () => {
     expect(storageReducer).toEqual(expect.any(Function));
   });
 
-  it('should return an initial state', () => {
-    expect(storageReducer(undefined, { type: 'FOO', payload: 3 })).toMatchSnapshot();
+  it("should return an initial state", () => {
+    expect(storageReducer(undefined, { type: "FOO", payload: 3 })).toMatchSnapshot();
   });
 
-  it('should add storage resource classes', () => {
+  it("should add storage resource classes", () => {
     expect(
       storageReducer(undefined, {
         type: ADD_STORAGE_RESOURCE_CLASSES,
-        payload: ['foo']
+        payload: ["foo"]
       })
     ).toMatchSnapshot();
   });
 
-  it('should storage resources', () => {
+  it("should storage resources", () => {
     expect(
       storageReducer(undefined, {
         type: ADD_STORAGE_RESOURCES,
@@ -36,7 +36,7 @@ describe('storageReducer', () => {
     ).toMatchSnapshot();
   });
 
-  it('should set the storage config', () => {
+  it("should set the storage config", () => {
     expect(
       storageReducer(undefined, {
         type: SET_STORAGE_CONFIG,
@@ -45,30 +45,30 @@ describe('storageReducer', () => {
     ).toMatchSnapshot();
   });
 
-  it('should set sorting', () => {
+  it("should set sorting", () => {
     expect(
       storageReducer(undefined, {
         type: SET_STORAGE_SORTING,
-        payload: 'foo'
+        payload: "foo"
       })
     ).toMatchSnapshot();
   });
 
-  it('should set sorting desc', () => {
+  it("should set sorting desc", () => {
     const state1 = storageReducer(undefined, {
       type: SET_STORAGE_SORTING,
-      payload: 'foo'
+      payload: "foo"
     });
 
     const state2 = storageReducer(state1, {
       type: SET_STORAGE_SORTING,
-      payload: 'foo'
+      payload: "foo"
     });
 
     expect(state2).toMatchSnapshot();
   });
 
-  it('should set the select index', () => {
+  it("should set the select index", () => {
     expect(
       storageReducer(undefined, {
         type: SET_STORAGE_SELECT_INDEX,
@@ -77,7 +77,7 @@ describe('storageReducer', () => {
     ).toMatchSnapshot();
   });
 
-  it('should set the loading', () => {
+  it("should set the loading", () => {
     expect(
       storageReducer(undefined, {
         type: SET_STORAGE_TABLE_LOADING,
@@ -86,7 +86,7 @@ describe('storageReducer', () => {
     ).toMatchSnapshot();
   });
 
-  it('should return the same object on no loading change', () => {
+  it("should return the same object on no loading change", () => {
     const state1 = storageReducer(undefined, {
       type: SET_STORAGE_TABLE_LOADING,
       payload: true

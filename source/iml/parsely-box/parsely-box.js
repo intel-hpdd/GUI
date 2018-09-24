@@ -3,20 +3,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export function parselyBox() {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {},
     bindToController: {
-      onSubmit: '&',
-      completer: '&',
-      parserFormatter: '=',
-      query: '=?'
+      onSubmit: "&",
+      completer: "&",
+      parserFormatter: "=",
+      query: "=?"
     },
-    controllerAs: 'ctrl',
+    controllerAs: "ctrl",
     controller: fp.noop,
     template: `<form name="form" class="p-box" ng-submit="ctrl.onSubmit({ qs: ctrl.query })">
   <completionist completer="ctrl.completer({ value: value, cursorPosition: cursorPosition })">
@@ -51,11 +51,11 @@ export function parselyBox() {
 }
 
 export function parseQuery() {
-  'ngInject';
+  "ngInject";
   return {
-    require: 'ngModel',
+    require: "ngModel",
     scope: {
-      parserFormatter: '='
+      parserFormatter: "="
     },
     link(scope, element, attrs, ctrl) {
       ctrl.$formatters.push(function parseToInput(x) {

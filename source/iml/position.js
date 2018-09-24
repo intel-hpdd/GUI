@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
 const asCalc = dimension => `calc(50% - ${dimension}px`;
 
 function Position($window) {
-  'ngInject';
+  "ngInject";
   this.$window = $window;
 
   this.DIRECTIONS = {
-    TOP: 'top',
-    BOTTOM: 'bottom',
-    RIGHT: 'right',
-    LEFT: 'left'
+    TOP: "top",
+    BOTTOM: "bottom",
+    RIGHT: "right",
+    LEFT: "left"
   };
 
   this.defaults = {};
@@ -23,9 +23,9 @@ function Position($window) {
   this.defaults[this.DIRECTIONS.TOP] = {
     position: function(tooltipPositioner) {
       return {
-        top: tooltipPositioner.height * -1 + 'px',
+        top: tooltipPositioner.height * -1 + "px",
         left: asCalc(tooltipPositioner.width / 2),
-        'min-width': tooltipPositioner.width + 'px'
+        "min-width": tooltipPositioner.width + "px"
       };
     },
     overflows: function(windowPositioner, tooltipPositioner) {
@@ -37,8 +37,8 @@ function Position($window) {
     position: function(tooltipPositioner) {
       return {
         top: asCalc(tooltipPositioner.height / 2),
-        left: '100%',
-        'min-width': tooltipPositioner.width + 'px'
+        left: "100%",
+        "min-width": tooltipPositioner.width + "px"
       };
     },
     overflows: function(windowPositioner, tooltipPositioner) {
@@ -50,8 +50,8 @@ function Position($window) {
     position: function(tooltipPositioner) {
       return {
         top: asCalc(tooltipPositioner.height / 2),
-        left: tooltipPositioner.width * -1 + 'px',
-        'min-width': tooltipPositioner.width + 'px'
+        left: tooltipPositioner.width * -1 + "px",
+        "min-width": tooltipPositioner.width + "px"
       };
     },
     overflows: function(windowPositioner, tooltipPositioner) {
@@ -62,9 +62,9 @@ function Position($window) {
   this.defaults[this.DIRECTIONS.BOTTOM] = {
     position: function(tooltipPositioner) {
       return {
-        top: '100%',
+        top: "100%",
         left: asCalc(tooltipPositioner.width / 2),
-        'min-width': tooltipPositioner.width + 'px'
+        "min-width": tooltipPositioner.width + "px"
       };
     },
     overflows: function(windowPositioner, tooltipPositioner) {
@@ -74,7 +74,7 @@ function Position($window) {
 }
 
 Position.prototype.positioner = function(element) {
-  if (typeof element.getBoundingClientRect === 'function')
+  if (typeof element.getBoundingClientRect === "function")
     return positionerFactory(function() {
       return element.getBoundingClientRect();
     }, this.DIRECTIONS);
@@ -100,7 +100,7 @@ Position.prototype.overflows = function(direction, windowPositioner, tooltipPosi
 };
 
 function positionerFactory(positionFinder, DIRECTIONS) {
-  const props = _.values(DIRECTIONS).concat('height', 'width');
+  const props = _.values(DIRECTIONS).concat("height", "width");
 
   const propertiesObject = props.reduce(function(obj, prop) {
     obj[prop] = {

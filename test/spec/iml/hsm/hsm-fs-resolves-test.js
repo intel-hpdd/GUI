@@ -1,8 +1,8 @@
-import highland from 'highland';
+import highland from "highland";
 
-import { streamToPromise as mockStreamToPromise } from '../../../../source/iml/promise-transforms.js';
+import { streamToPromise as mockStreamToPromise } from "../../../../source/iml/promise-transforms.js";
 
-describe('hsm fs resolve', () => {
+describe("hsm fs resolve", () => {
   let mockSocketStream, s, stream, mockStore, mockResolveStream, fsCollStream, getData, mockBroadcaster, promise;
 
   beforeEach(() => {
@@ -20,42 +20,42 @@ describe('hsm fs resolve', () => {
 
     mockBroadcaster = jest.fn(x => x);
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+    jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream,
       streamToPromise: mockStreamToPromise
     }));
-    jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock("../../../../source/iml/broadcaster.js", () => mockBroadcaster);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
 
-    const mod = require('../../../../source/iml/hsm/hsm-fs-resolves.js');
+    const mod = require("../../../../source/iml/hsm/hsm-fs-resolves.js");
 
     ({ fsCollStream, getData } = mod);
   });
 
-  describe('fsCollStream', () => {
+  describe("fsCollStream", () => {
     beforeEach(() => {
       fsCollStream();
     });
 
-    it('should invoke socketStream with a call to filesystem', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith('/filesystem', {
-        jsonMask: 'objects(id,label,cdt_status,hsm_control_params,locks)'
+    it("should invoke socketStream with a call to filesystem", () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith("/filesystem", {
+        jsonMask: "objects(id,label,cdt_status,hsm_control_params,locks)"
       });
     });
 
-    it('should resolve the stream', () => {
+    it("should resolve the stream", () => {
       expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
     });
 
-    it('should send the stream through broadcaster', async () => {
+    it("should send the stream through broadcaster", async () => {
       await promise;
 
       expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('getData', () => {
+  describe("getData", () => {
     beforeEach(() => {
       stream.write([
         {
@@ -65,9 +65,9 @@ describe('hsm fs resolve', () => {
       ]);
     });
 
-    it('should return the matching fs', async () => {
+    it("should return the matching fs", async () => {
       const fs = await getData({
-        fsId: '1'
+        fsId: "1"
       });
 
       expect(fs).toEqual({
@@ -76,9 +76,9 @@ describe('hsm fs resolve', () => {
       });
     });
 
-    it('should return a undefined on a non-match ', async () => {
+    it("should return a undefined on a non-match ", async () => {
       const fs = await getData({
-        fsId: '2'
+        fsId: "2"
       });
 
       expect(fs).toEqual(undefined);

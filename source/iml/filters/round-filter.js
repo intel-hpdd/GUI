@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function roundFilter() {
-  'ngInject';
+  "ngInject";
   return function rounder(value, places) {
     // Return value if number is not as expected.
     if (isNaN(parseFloat(value)) || !isFinite(value)) return value;

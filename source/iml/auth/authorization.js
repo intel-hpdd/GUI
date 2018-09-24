@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import global from '../global.js';
+import store from "../store/get-store.js";
+import global from "../global.js";
 
 let user;
 
-store.select('session').each(({ session }) => (user = session.user));
+store.select("session").each(({ session }) => (user = session.user));
 
 export function groupAllowed(groupName) {
   const hasGroups = user && Array.isArray(user.groups);
@@ -29,15 +29,15 @@ export function groupAllowed(groupName) {
 }
 
 export const GROUPS = Object.freeze({
-  SUPERUSERS: 'superusers',
-  FS_ADMINS: 'filesystem_administrators',
-  FS_USERS: 'filesystem_users'
+  SUPERUSERS: "superusers",
+  FS_ADMINS: "filesystem_administrators",
+  FS_USERS: "filesystem_users"
 });
 
 export function restrictTo() {
   return {
     link($scope, el, attrs) {
-      if (!groupAllowed(attrs.restrictTo)) el.addClass('invisible');
+      if (!groupAllowed(attrs.restrictTo)) el.addClass("invisible");
     }
   };
 }
@@ -45,7 +45,7 @@ export function restrictTo() {
 export function restrict() {
   return {
     link($scope, el, attrs) {
-      if (groupAllowed(attrs.restrict)) el.addClass('invisible');
+      if (groupAllowed(attrs.restrict)) el.addClass("invisible");
     }
   };
 }
@@ -55,6 +55,6 @@ export const getCSRFToken = () => {
   const csrfTokenMatch = global.document.cookie.match(csrfRegex);
   const csrfToken = {};
 
-  if (csrfTokenMatch && csrfTokenMatch[1]) csrfToken['X-CSRFToken'] = csrfTokenMatch[1];
+  if (csrfTokenMatch && csrfTokenMatch[1]) csrfToken["X-CSRFToken"] = csrfTokenMatch[1];
   return csrfToken;
 };

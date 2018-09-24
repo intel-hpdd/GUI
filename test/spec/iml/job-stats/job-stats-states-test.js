@@ -1,33 +1,33 @@
-describe('job stats states', () => {
+describe("job stats states", () => {
   let jobStatsState, mockJobstats$, mockGetData;
 
   beforeEach(() => {
-    mockJobstats$ = 'jobstats$';
-    mockGetData = 'getData';
+    mockJobstats$ = "jobstats$";
+    mockGetData = "getData";
 
-    jest.mock('../../../../source/iml/job-stats/job-stats-resolves.js', () => ({
+    jest.mock("../../../../source/iml/job-stats/job-stats-resolves.js", () => ({
       jobstats$: mockJobstats$,
       getData: mockGetData
     }));
 
-    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+    jest.mock("../../../../source/iml/auth/authorization.js", () => ({
       GROUPS: {
-        FS_ADMINS: 'FS_ADMINS'
+        FS_ADMINS: "FS_ADMINS"
       }
     }));
 
-    const mod = require('../../../../source/iml/job-stats/job-stats-states.js');
+    const mod = require("../../../../source/iml/job-stats/job-stats-states.js");
 
     jobStatsState = mod.jobStatsState;
   });
 
-  it('should create the state', () => {
+  it("should create the state", () => {
     expect(jobStatsState).toEqualComponent({
-      name: 'app.jobstats',
-      url: '/jobstats?id&startDate&endDate',
+      name: "app.jobstats",
+      url: "/jobstats?id&startDate&endDate",
       resolve: {
-        jobstats$: 'jobstats$',
-        getData: 'getData'
+        jobstats$: "jobstats$",
+        getData: "getData"
       },
       params: {
         resetState: {
@@ -35,10 +35,10 @@ describe('job stats states', () => {
         }
       },
       data: {
-        helpPage: 'Graphical_User_Interface_9_0.html#9.4',
+        helpPage: "Graphical_User_Interface_9_0.html#9.4",
         anonymousReadProtected: true,
-        kind: 'Job Stats',
-        icon: 'fa-signal'
+        kind: "Job Stats",
+        icon: "fa-signal"
       },
       template: `
           <div class="container container-full">

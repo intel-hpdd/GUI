@@ -1,7 +1,7 @@
-import angular from '../../../angular-mock-setup.js';
-import { remoteValidateForm, remoteValidateComponent } from '../../../../source/iml/remote-validate/remote-validate.js';
+import angular from "../../../angular-mock-setup.js";
+import { remoteValidateForm, remoteValidateComponent } from "../../../../source/iml/remote-validate/remote-validate.js";
 
-describe('Remote validate directive', () => {
+describe("Remote validate directive", () => {
   let controller, formControllerSpy, $q, $scope, $element;
 
   function createComponent() {
@@ -12,8 +12,8 @@ describe('Remote validate directive', () => {
 
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive('remoteValidateForm', () => remoteValidateForm);
-      $compileProvider.directive('remoteValidateComponent', () => remoteValidateComponent);
+      $compileProvider.directive("remoteValidateForm", () => remoteValidateForm);
+      $compileProvider.directive("remoteValidateComponent", () => remoteValidateComponent);
     })
   );
 
@@ -37,122 +37,122 @@ describe('Remote validate directive', () => {
     })
   );
 
-  describe('controller', () => {
-    it('should register components', () => {
+  describe("controller", () => {
+    it("should register components", () => {
       const obj = {};
-      controller.registerComponent('foo', obj);
+      controller.registerComponent("foo", obj);
 
       expect(controller.components.foo).toBe(obj);
     });
 
-    it('should get components', () => {
+    it("should get components", () => {
       const obj = {};
-      controller.registerComponent('foo', obj);
+      controller.registerComponent("foo", obj);
 
-      expect(controller.getComponent('foo')).toBe(obj);
-      expect(controller.getComponent('bar')).toBeUndefined();
+      expect(controller.getComponent("foo")).toBe(obj);
+      expect(controller.getComponent("bar")).toBeUndefined();
     });
 
-    it('should reset components validity', () => {
+    it("should reset components validity", () => {
       $scope.serverValidationError = {
-        foo: ['bar']
+        foo: ["bar"]
       };
 
       const obj = createComponent();
-      controller.registerComponent('foo', obj);
+      controller.registerComponent("foo", obj);
       controller.resetComponentsValidity();
 
-      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith('server', true);
+      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith("server", true);
 
-      expect(obj.$setValidity).toHaveBeenCalledWith('server', true);
+      expect(obj.$setValidity).toHaveBeenCalledWith("server", true);
       expect($scope.serverValidationError.foo).toBeUndefined();
     });
 
-    it('should have the form registered as a component', () => {
-      expect(controller.getComponent('__all__')).toBe(formControllerSpy);
+    it("should have the form registered as a component", () => {
+      expect(controller.getComponent("__all__")).toBe(formControllerSpy);
     });
   });
 
-  describe('linking function', () => {
+  describe("linking function", () => {
     let deferred;
 
     beforeEach(() => {
       deferred = $q.defer();
 
-      controller.registerComponent('foo', createComponent());
-      controller.registerComponent('bar', createComponent());
+      controller.registerComponent("foo", createComponent());
+      controller.registerComponent("bar", createComponent());
 
-      remoteValidateForm.link($scope, $element, { validate: 'validate' }, controller);
+      remoteValidateForm.link($scope, $element, { validate: "validate" }, controller);
       $scope.$digest();
 
       $scope.validate = deferred.promise;
       $scope.$digest();
     });
 
-    it('should mark components with validation errors', () => {
-      expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
-      expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalled();
+    it("should mark components with validation errors", () => {
+      expect(controller.getComponent("foo").$setValidity).not.toHaveBeenCalled();
+      expect(controller.getComponent("bar").$setValidity).not.toHaveBeenCalled();
 
       deferred.reject({
         data: {
-          foo: ['Required Field']
+          foo: ["Required Field"]
         }
       });
 
       $scope.$digest();
 
-      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith('server', false);
-      expect($scope.serverValidationError.foo).toEqual(['Required Field']);
+      expect(controller.getComponent("foo").$setValidity).toHaveBeenCalledWith("server", false);
+      expect($scope.serverValidationError.foo).toEqual(["Required Field"]);
 
-      expect(controller.getComponent('bar').$setValidity).not.toHaveBeenCalledWith('server', false);
+      expect(controller.getComponent("bar").$setValidity).not.toHaveBeenCalledWith("server", false);
     });
 
-    it('should reset validity when the component has no errors', () => {
-      expect(controller.getComponent('foo').$setValidity).not.toHaveBeenCalled();
+    it("should reset validity when the component has no errors", () => {
+      expect(controller.getComponent("foo").$setValidity).not.toHaveBeenCalled();
 
-      $scope.serverValidationError.foo = ['blah'];
+      $scope.serverValidationError.foo = ["blah"];
 
       deferred.resolve();
 
       $scope.$digest();
 
-      expect(controller.getComponent('foo').$setValidity).toHaveBeenCalledWith('server', true);
+      expect(controller.getComponent("foo").$setValidity).toHaveBeenCalledWith("server", true);
       expect($scope.serverValidationError.foo).toBeUndefined();
     });
 
-    it('should map the __all__ property to the form itself', () => {
+    it("should map the __all__ property to the form itself", () => {
       expect(formControllerSpy.$setValidity).not.toHaveBeenCalled();
 
       deferred.reject({
         data: {
-          __all__: 'Missing some info.'
+          __all__: "Missing some info."
         }
       });
       $scope.$digest();
 
-      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith('server', true);
-      expect($scope.serverValidationError.__all__).toEqual(['Missing some info.']);
+      expect(formControllerSpy.$setValidity).toHaveBeenCalledWith("server", true);
+      expect($scope.serverValidationError.__all__).toEqual(["Missing some info."]);
     });
   });
 
-  describe('form component directive', () => {
+  describe("form component directive", () => {
     it(
       "should register it's model onto the form controller",
       angular.mock.inject($rootScope => {
         const controllers = [controller, jest.fn()];
         const scope = $rootScope.$new();
         const attrs = {
-          name: 'foo'
+          name: "foo"
         };
 
         remoteValidateComponent.link(scope, {}, attrs, controllers);
 
-        expect(controller.getComponent('foo')).toBe(controllers[1]);
+        expect(controller.getComponent("foo")).toBe(controllers[1]);
       })
     );
   });
 
-  describe('testing the directive set', () => {
+  describe("testing the directive set", () => {
     let form, getDeferred;
 
     beforeEach(
@@ -181,52 +181,52 @@ describe('Remote validate directive', () => {
       })
     );
 
-    it('should validate fields', () => {
+    it("should validate fields", () => {
       getDeferred().reject({
         data: {
-          __all__: 'uh-oh',
-          foo: 'Missing some info.',
-          bar: 'Missing some info.'
+          __all__: "uh-oh",
+          foo: "Missing some info.",
+          bar: "Missing some info."
         }
       });
 
       $scope.$digest();
 
       expect(form).toBeInvalid();
-      expect(form).toHaveClass('ng-invalid-server');
+      expect(form).toHaveClass("ng-invalid-server");
 
-      const ul = form.querySelector('ul');
+      const ul = form.querySelector("ul");
 
       expect(ul).not.toBeNull();
 
-      expect(ul.querySelectorAll('li').length).toBe(1);
+      expect(ul.querySelectorAll("li").length).toBe(1);
 
-      expect(ul.querySelector('li').textContent.trim()).toBe('uh-oh');
+      expect(ul.querySelector("li").textContent.trim()).toBe("uh-oh");
 
-      expect(form.querySelector('input')).toBeInvalid();
+      expect(form.querySelector("input")).toBeInvalid();
 
-      expect(form.querySelector('input')).toHaveClass('ng-invalid-server');
+      expect(form.querySelector("input")).toHaveClass("ng-invalid-server");
 
-      expect(form.querySelector('select')).toBeInvalid();
-      expect(form.querySelector('select')).toHaveClass('ng-invalid-server');
+      expect(form.querySelector("select")).toBeInvalid();
+      expect(form.querySelector("select")).toHaveClass("ng-invalid-server");
 
       getDeferred().resolve();
       $scope.$digest();
 
       expect(form).toBeValid();
 
-      expect(form.querySelector('ul')).toBeNull();
+      expect(form.querySelector("ul")).toBeNull();
 
-      const input = form.querySelector('input');
+      const input = form.querySelector("input");
 
       expect(input).toBeValid();
 
-      expect(input).not.toHaveClass('ng-invalid-server');
+      expect(input).not.toHaveClass("ng-invalid-server");
 
-      const select = form.querySelector('select');
+      const select = form.querySelector("select");
 
       expect(select).toBeValid();
-      expect(select).not.toHaveClass('ng-invalid-server');
+      expect(select).not.toHaveClass("ng-invalid-server");
     });
   });
 });

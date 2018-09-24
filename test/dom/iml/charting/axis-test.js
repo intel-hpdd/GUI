@@ -1,20 +1,20 @@
 // @flow
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
-import Axis from '../../../../source/iml/charting/axis.js';
-import d3 from 'd3';
+import Axis from "../../../../source/iml/charting/axis.js";
+import d3 from "d3";
 
-describe('axis', () => {
+describe("axis", () => {
   let svg, chartingGroup;
 
   beforeEach(() => {
-    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    chartingGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    chartingGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     svg.appendChild(chartingGroup);
   });
 
-  it('should render x as expected', () => {
+  it("should render x as expected", () => {
     Inferno.render(
       <Axis
         type="x"
@@ -31,7 +31,7 @@ describe('axis', () => {
     expect(svg).toMatchSnapshot();
   });
 
-  it('should render y as expected', () => {
+  it("should render y as expected", () => {
     Inferno.render(
       <Axis
         type="y"
@@ -50,7 +50,7 @@ describe('axis', () => {
     Inferno.render(null, svg);
   });
 
-  it('should throw when props are missing', () => {
+  it("should throw when props are missing", () => {
     expect.assertions(2);
 
     expect(() =>
@@ -82,7 +82,7 @@ describe('axis', () => {
     ).toThrow();
   });
 
-  it('should skip cleanup', () => {
+  it("should skip cleanup", () => {
     Inferno.render(
       <Axis
         type="y"

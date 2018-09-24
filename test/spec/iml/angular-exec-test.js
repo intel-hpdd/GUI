@@ -1,8 +1,8 @@
 // @flow
 
-import highland from 'highland';
+import highland from "highland";
 
-describe('mockAngular exec', () => {
+describe("mockAngular exec", () => {
   let result$, mod, element, injector, mockAngular, mockAngularExec;
 
   beforeEach(() => {
@@ -19,14 +19,14 @@ describe('mockAngular exec', () => {
       element: jest.fn(() => element)
     };
 
-    jest.mock('angular', () => mockAngular);
+    jest.mock("angular", () => mockAngular);
 
-    mod = require('../../../source/iml/angular-exec.js');
+    mod = require("../../../source/iml/angular-exec.js");
 
     mockAngularExec = mod.default;
   });
 
-  describe('invoking the service', () => {
+  describe("invoking the service", () => {
     let service;
     beforeEach(() => {
       injector.has.mockReturnValueOnce(false);
@@ -34,61 +34,61 @@ describe('mockAngular exec', () => {
       injector.has.mockReturnValueOnce(true);
 
       service = {
-        go: jest.fn(() => 'x')
+        go: jest.fn(() => "x")
       };
 
       injector.get.mockReturnValue(service);
     });
 
-    describe('on first request', () => {
+    describe("on first request", () => {
       beforeEach(() => {
-        result$ = mockAngularExec('$state', 'go', 'app.dashboard.overview');
+        result$ = mockAngularExec("$state", "go", "app.dashboard.overview");
       });
 
-      it('should return a stream', () => {
+      it("should return a stream", () => {
         expect(highland.isStream(result$)).toBe(true);
       });
 
-      it('should call the element', done => {
+      it("should call the element", done => {
         result$.each(() => {
           expect(mockAngular.element).toHaveBeenCalledOnceWith(document.body);
           done();
         });
       });
 
-      it('should invoke the injector', done => {
+      it("should invoke the injector", done => {
         result$.each(() => {
           expect(element.injector).toHaveBeenCalledTimes(1);
           done();
         });
       });
 
-      it('should call inj.has', done => {
+      it("should call inj.has", done => {
         result$.each(() => {
-          expect(injector.has).toHaveBeenCalledTwiceWith('$state');
+          expect(injector.has).toHaveBeenCalledTwiceWith("$state");
           done();
         });
       });
 
-      it('should pass the value being returned', done => {
+      it("should pass the value being returned", done => {
         result$.each(x => {
-          expect(x).toEqual('x');
+          expect(x).toEqual("x");
           done();
         });
       });
 
-      it('should end the stream', done => {
+      it("should end the stream", done => {
         result$.done(done);
       });
 
-      describe('on subsequent requests', () => {
+      describe("on subsequent requests", () => {
         beforeEach(() => {
-          result$ = mockAngularExec('$state', 'go', 'app.servers');
+          result$ = mockAngularExec("$state", "go", "app.servers");
         });
 
-        it('should retrieve the service from cache', done => {
+        it("should retrieve the service from cache", done => {
           result$.each(() => {
-            expect(injector.get).toHaveBeenCalledOnceWith('$state');
+            expect(injector.get).toHaveBeenCalledOnceWith("$state");
             done();
           });
         });

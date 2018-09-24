@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import statusQsToInputParser from './status-qs-to-input-parser.js';
-import statusInputToQsParser from './status-input-to-qs-parser.js';
-import statusCompleter from './status-completer.js';
+import statusQsToInputParser from "./status-qs-to-input-parser.js";
+import statusInputToQsParser from "./status-input-to-qs-parser.js";
+import statusCompleter from "./status-completer.js";
 
-import type { $scopeT, $locationT } from 'angular';
+import type { $scopeT, $locationT } from "angular";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
-import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from "../qs-stream/qs-stream-module.js";
 
 export function StatusQueryController(
   $scope: $scopeT & { tzPickerB: { endBroadcast: () => null } },
@@ -22,15 +22,15 @@ export function StatusQueryController(
   propagateChange: PropagateChange,
   $stateParams: Object
 ) {
-  'ngInject';
+  "ngInject";
   const qs$ = qsStream($stateParams);
-  const p = propagateChange.bind(null, $scope, this, 'qs');
+  const p = propagateChange.bind(null, $scope, this, "qs");
 
   qs$.map(x => x.qs).through(p);
 
   this.$onDestroy = () => qs$.destroy();
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     this.tzPickerB.endBroadcast();
   });
 
@@ -46,7 +46,7 @@ export function StatusQueryController(
 
 export default {
   bindings: {
-    tzPickerB: '<'
+    tzPickerB: "<"
   },
   controller: StatusQueryController,
   template: `

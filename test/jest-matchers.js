@@ -26,10 +26,10 @@ const toHaveBeenCalledNTimesWith = (n: number) =>
     else
       result.message = () =>
         `Expect mock to be called with ${this.utils.printExpected(rest)} ${this.utils.pluralize(
-          'time',
+          "time",
           n
         )} but it was called ${this.utils.pluralize(
-          'time',
+          "time",
           foundCount
         )}.\n\nMock this.utils.printReceived(received) call listing:\n${this.utils.printReceived(
           received.mock.calls
@@ -78,7 +78,7 @@ expect.extend({
   toBeShown(el) {
     if (!(el instanceof Element)) el = el[0];
 
-    if (el && !el.classList.contains('ng-hide'))
+    if (el && !el.classList.contains("ng-hide"))
       return {
         pass: true,
         message: "Expected element to have 'ng-hide' class."
@@ -90,23 +90,23 @@ expect.extend({
       };
   },
   toBeAPromise(actual) {
-    const isPromiseLike = obj => obj && typeof obj.then === 'function';
+    const isPromiseLike = obj => obj && typeof obj.then === "function";
 
     if (isPromiseLike(actual))
       return {
         pass: true,
-        message: 'Expected object to be a promise'
+        message: "Expected object to be a promise"
       };
     else
       return {
         pass: false,
-        message: 'Expected object not to be a promise'
+        message: "Expected object not to be a promise"
       };
   },
-  toBeInvalid: cssMatcher('ng-invalid', 'ng-valid'),
-  toBeValid: cssMatcher('ng-valid', 'ng-invalid'),
+  toBeInvalid: cssMatcher("ng-invalid", "ng-valid"),
+  toBeValid: cssMatcher("ng-valid", "ng-invalid"),
   toEqualComponent(component, expected) {
-    const clean = s => s.replace(/^\s+/gm, '').replace(/\n/g, '');
+    const clean = s => s.replace(/^\s+/gm, "").replace(/\n/g, "");
 
     const cleanComponent = c => {
       if (c && c.template)

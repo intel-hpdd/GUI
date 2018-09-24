@@ -5,28 +5,28 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@iml/flat-map-changes';
-import chartCompiler from '../chart-compiler/chart-compiler.js';
+import flatMapChanges from "@iml/flat-map-changes";
+import chartCompiler from "../chart-compiler/chart-compiler.js";
 
-import { DEFAULT_OST_BALANCE_CHART_ITEMS, UPDATE_OST_BALANCE_CHART_ITEMS } from './ost-balance-chart-reducer.js';
+import { DEFAULT_OST_BALANCE_CHART_ITEMS, UPDATE_OST_BALANCE_CHART_ITEMS } from "./ost-balance-chart-reducer.js";
 
-import getOstBalanceStream from './get-ost-balance-stream.js';
-import getStore from '../store/get-store.js';
+import getOstBalanceStream from "./get-ost-balance-stream.js";
+import getStore from "../store/get-store.js";
 
-import { getConf } from '../chart-transformers/chart-transformers.js';
+import { getConf } from "../chart-transformers/chart-transformers.js";
 
-import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from "../stream-when-visible/stream-when-visible-module.js";
 
-import type { ostBalancePayloadT } from '../ost-balance/ost-balance-module.js';
+import type { ostBalancePayloadT } from "../ost-balance/ost-balance-module.js";
 
-import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from "../dashboard/dashboard-module.js";
 
-import type { localApplyT } from '../extend-scope-module.js';
+import type { localApplyT } from "../extend-scope-module.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApplyT<*>) => {
-  'ngInject';
+  "ngInject";
   return function getOstBalanceChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_OST_BALANCE_CHART_ITEMS,
@@ -38,7 +38,7 @@ export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApp
 
     const config1$: HighlandStreamT<{
       [page: string]: ostBalancePayloadT
-    }> = getStore.select('ostBalanceCharts');
+    }> = getStore.select("ostBalanceCharts");
 
     const initStream = config1$
       .through(getConf(page))
@@ -94,7 +94,7 @@ export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApp
         const conf = {
           stream,
           percentage: 0,
-          page: '',
+          page: "",
           onSubmit(ostBalanceForm: { percentage: { $modelValue: number } }) {
             getStore.dispatch({
               type: UPDATE_OST_BALANCE_CHART_ITEMS,
@@ -110,12 +110,12 @@ export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApp
 
               d3Chart.stacked(true);
 
-              d3Chart.yAxis.tickFormat(d3.format('.1%'));
+              d3Chart.yAxis.tickFormat(d3.format(".1%"));
 
               d3Chart.showXAxis(false);
 
               d3Chart.tooltip.contentGenerator(d => {
-                if (d == null) return '';
+                if (d == null) return "";
 
                 const detail = d.data.detail;
                 detail.id = d.data.x;
@@ -150,13 +150,13 @@ export default (streamWhenVisible: streamWhenChartVisibleT, localApply: localApp
 
         const config2$: HighlandStreamT<{
           [page: string]: ostBalancePayloadT
-        }> = getStore.select('ostBalanceCharts');
+        }> = getStore.select("ostBalanceCharts");
         config2$.through(getConf(page)).each((x: ostBalancePayloadT) => {
           Object.assign(conf, x);
           localApply($scope);
         });
 
-        $scope.$on('$destroy', function onDestroy() {
+        $scope.$on("$destroy", function onDestroy() {
           stream.destroy();
           config1$.destroy();
           config2$.destroy();

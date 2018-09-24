@@ -1,12 +1,12 @@
-import { chartsContainer } from '../../../../source/iml/dashboard/charts-container-directive.js';
-import { chartCompilerDirective } from '../../../../source/iml/chart-compiler/chart-compiler-directive.js';
+import { chartsContainer } from "../../../../source/iml/dashboard/charts-container-directive.js";
+import { chartCompilerDirective } from "../../../../source/iml/chart-compiler/chart-compiler-directive.js";
 
-import angular from '../../../angular-mock-setup.js';
+import angular from "../../../angular-mock-setup.js";
 
-describe('charts container', () => {
+describe("charts container", () => {
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive('chartCompiler', chartCompilerDirective).directive('chartsContainer', chartsContainer);
+      $compileProvider.directive("chartCompiler", chartCompilerDirective).directive("chartsContainer", chartsContainer);
     })
   );
 
@@ -21,8 +21,8 @@ describe('charts container', () => {
       $scope = $rootScope.$new();
       $scope.charts = [
         {
-          template: '<foo></foo>',
-          stream: 'stream',
+          template: "<foo></foo>",
+          stream: "stream",
           chartFn: spy
         }
       ];
@@ -32,17 +32,17 @@ describe('charts container', () => {
     })
   );
 
-  it('should add a dashboard row wrapper', () => {
-    expect(el.querySelector('.row.dashboard')).toBeTruthy();
+  it("should add a dashboard row wrapper", () => {
+    expect(el.querySelector(".row.dashboard")).toBeTruthy();
   });
 
-  it('should add a chart wrapper', () => {
-    expect(el.querySelectorAll('.dashboard-chart').length).toBe(1);
+  it("should add a chart wrapper", () => {
+    expect(el.querySelectorAll(".dashboard-chart").length).toBe(1);
   });
 
-  it('should call the chart with a new scope', () => {
+  it("should call the chart with a new scope", () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
 
-    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), 'stream');
+    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), "stream");
   });
 });

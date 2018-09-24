@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
-import type { HighlandStreamT } from 'highland';
-import { flushOnChange } from '../chart-transformers/chart-transformers.js';
+import type { HighlandStreamT } from "highland";
+import { flushOnChange } from "../chart-transformers/chart-transformers.js";
 
 export default (
   overrides: Object,
@@ -16,7 +16,7 @@ export default (
   rangeParams: ?Object,
   timeOffset: number
 ): HighlandStreamT<*> =>
-  socketStream('/read-write-heat-map', {
+  socketStream("/read-write-heat-map", {
     ...overrides,
     durationParams,
     rangeParams,

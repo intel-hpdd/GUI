@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const ADD_TREE_ITEMS = 'ADD_TREE_ITEMS';
-export const TOGGLE_COLLECTION_OPEN = 'TOGGLE_COLLECTION_OPEN';
-export const TOGGLE_ITEM_OPEN = 'TOGGLE_ITEM_OPEN';
-export const RESET_STATE = 'RESET_STATE';
-export const UPDATE_COLLECTION_OFFSET = 'UPDATE_COLLECTION_OFFSET';
+export const ADD_TREE_ITEMS = "ADD_TREE_ITEMS";
+export const TOGGLE_COLLECTION_OPEN = "TOGGLE_COLLECTION_OPEN";
+export const TOGGLE_ITEM_OPEN = "TOGGLE_ITEM_OPEN";
+export const RESET_STATE = "RESET_STATE";
+export const UPDATE_COLLECTION_OFFSET = "UPDATE_COLLECTION_OFFSET";
 
 export type treeActionsT =
   | addItemsActionT
@@ -20,12 +20,12 @@ export type treeActionsT =
 export type treeItemListT = treeItemT[];
 
 export type addItemsActionT = {
-  type: 'ADD_TREE_ITEMS',
+  type: "ADD_TREE_ITEMS",
   payload: treeItemListT
 };
 
 export type toggleCollectionOpenT = {
-  type: 'TOGGLE_COLLECTION_OPEN',
+  type: "TOGGLE_COLLECTION_OPEN",
   payload: {
     id: number,
     open: boolean
@@ -33,7 +33,7 @@ export type toggleCollectionOpenT = {
 };
 
 export type updateCollectionOffsetT = {
-  type: 'UPDATE_COLLECTION_OFFSET',
+  type: "UPDATE_COLLECTION_OFFSET",
   payload: {
     id: number,
     offset: number
@@ -41,7 +41,7 @@ export type updateCollectionOffsetT = {
 };
 
 export type toggleItemOpenT = {
-  type: 'TOGGLE_ITEM_OPEN',
+  type: "TOGGLE_ITEM_OPEN",
   payload: {
     id: number,
     itemId: number,
@@ -50,7 +50,7 @@ export type toggleItemOpenT = {
 };
 
 export type resetStateT = {
-  type: 'RESET_STATE'
+  type: "RESET_STATE"
 };
 
 export type treeItemT = {

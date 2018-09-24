@@ -3,15 +3,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-import moment from 'moment';
-import d3 from 'd3';
+import _ from "@iml/lodash-mixins";
+import moment from "moment";
+import d3 from "d3";
 
 export default () => {
-  'ngInject';
-  const month = d3.time.format('%b %d %H:%M');
-  const day = d3.time.format('%d %H:%M:%S');
-  const hour = d3.time.format('%H:%M:%S');
+  "ngInject";
+  const month = d3.time.format("%b %d %H:%M");
+  const day = d3.time.format("%d %H:%M:%S");
+  const hour = d3.time.format("%H:%M:%S");
 
   const formatter = _.partialRight(_.compose, toMoment);
 
@@ -24,9 +24,9 @@ export default () => {
     getTickFormatFunc: function getTickFormatFunc(range) {
       if (Array.isArray(range)) range = moment(range[0]).twix(range[1]);
 
-      if (!range.isSame('month')) return formatter(month);
+      if (!range.isSame("month")) return formatter(month);
 
-      if (!range.isSame('day')) return formatter(day);
+      if (!range.isSame("day")) return formatter(day);
 
       return formatter(hour);
     }

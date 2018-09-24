@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from './store/get-store.js';
-import { streamToPromise } from './promise-transforms.js';
+import store from "./store/get-store.js";
+import { streamToPromise } from "./promise-transforms.js";
 
-import { groupAllowed } from './auth/authorization.js';
+import { groupAllowed } from "./auth/authorization.js";
 
-import type { TransitionServiceT, StateDeclarationT, StateServiceT } from 'angular-ui-router';
+import type { TransitionServiceT, StateDeclarationT, StateServiceT } from "angular-ui-router";
 
 export type routeStateT = StateDeclarationT & {
   data?: {
@@ -24,7 +24,7 @@ export type routeStateT = StateDeclarationT & {
 };
 
 export default function routeTransitions($transitions: TransitionServiceT, $state: StateServiceT) {
-  'ngInject';
+  "ngInject";
   const allowAnonymousReadPredicate = {
     to: state => {
       return state.data && state.data.anonymousReadProtected === true;
@@ -32,8 +32,8 @@ export default function routeTransitions($transitions: TransitionServiceT, $stat
   };
 
   const processAllowAnonymousRead = () =>
-    streamToPromise(store.select('session')).then(({ session }) => {
-      if (!session.read_enabled) return $state.target('login');
+    streamToPromise(store.select("session")).then(({ session }) => {
+      if (!session.read_enabled) return $state.target("login");
     });
 
   const authenticationPredicate = {
@@ -46,7 +46,7 @@ export default function routeTransitions($transitions: TransitionServiceT, $stat
     const authenticated = groupAllowed(transition.to().data.access);
 
     if (!authenticated)
-      return $state.target('app', undefined, {
+      return $state.target("app", undefined, {
         location: true
       });
   };

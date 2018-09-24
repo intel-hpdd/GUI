@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import * as math from '@iml/math';
-import * as maybe from '@iml/maybe';
-import { entries } from '@iml/obj';
+import * as fp from "@iml/fp";
+import * as math from "@iml/math";
+import * as maybe from "@iml/maybe";
+import { entries } from "@iml/obj";
 
-import type { Exact } from '../../flow-workarounds';
+import type { Exact } from "../../flow-workarounds";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 type NumberMap = Exact<{
   [key: string]: number
@@ -58,7 +58,7 @@ export const normalize = (s: HighlandStreamT<Data>): HighlandStreamT<FlatData> =
     .flatten();
 
 export const calculateData = (s: HighlandStreamT<FlatData>): HighlandStreamT<MetricData[]> =>
-  s.group('id').map((x: {| [key: string]: FlatData[] |}) =>
+  s.group("id").map((x: {| [key: string]: FlatData[] |}) =>
     entries(x).reduce(
       (out: MetricData[], [id: string, xs: FlatData[]]) =>
         out.concat({

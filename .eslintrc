@@ -1,18 +1,11 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype",
-    "react",
-    "prettier"
-  ],
+  "plugins": ["flowtype", "react", "prettier"],
   "rules": {
     "no-useless-escape": "off",
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
-    "flowtype/space-after-type-colon": [
-      0,
-      "never"
-    ],
+    "flowtype/space-after-type-colon": [0, "never"],
     "no-unused-vars": [
       "error",
       {
@@ -20,18 +13,9 @@
       }
     ],
     "react/jsx-uses-vars": "error",
-    "comma-dangle": [
-      "error",
-      "never"
-    ],
-    "linebreak-style": [
-      2,
-      "unix"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
+    "comma-dangle": ["error", "never"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
     "no-func-assign": 0,
     "no-constant-condition": 0,
     "no-unsafe-finally": 0,
@@ -42,19 +26,9 @@
         "maxEOF": 1
       }
     ],
-    "curly": [
-      2,
-      "multi",
-      "consistent"
-    ],
-    "eol-last": [
-      2,
-      "unix"
-    ],
-    "eqeqeq": [
-      "error",
-      "allow-null"
-    ],
+    "curly": [2, "multi", "consistent"],
+    "eol-last": [2, "unix"],
+    "eqeqeq": ["error", "allow-null"],
     "camelcase": [
       "error",
       {
@@ -76,12 +50,7 @@
         "ignoreReadBeforeAssign": false
       }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true
-      }
-    ]
+    "prettier/prettier": ["error"]
   },
   "env": {
     "es6": true,
@@ -95,8 +64,5 @@
       "jsx": true
     }
   },
-  "extends": [
-    "eslint:recommended",
-    "prettier"
-  ]
+  "extends": ["eslint:recommended", "prettier"]
 }

@@ -4,14 +4,14 @@
 // license that can be found in the LICENSE file.
 
 export default function overrideButtonDirective(OVERRIDE_BUTTON_TYPES) {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {
-      overridden: '=',
-      isDisabled: '=',
-      isValid: '=',
-      onChange: '&'
+      overridden: "=",
+      isDisabled: "=",
+      isValid: "=",
+      onChange: "&"
     },
     template: `<span ng-if="isDisabled">
   <button disabled class="btn btn-success">Working <i class="fa fa-spinner fa-spin"></i></button>

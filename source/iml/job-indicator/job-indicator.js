@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-import * as fp from '@iml/fp';
+import _ from "@iml/lodash-mixins";
+import * as fp from "@iml/fp";
 
-export const ADD_JOB_INDICATOR_ITEMS = 'ADD_JOB_INDICATOR_ITEMS';
+export const ADD_JOB_INDICATOR_ITEMS = "ADD_JOB_INDICATOR_ITEMS";
 
 export default function jobStatusDirective(localApply) {
-  'ngInject';
+  "ngInject";
   return {
     scope: {
-      recordId: '=',
-      jobStream: '='
+      recordId: "=",
+      jobStream: "="
     },
-    restrict: 'E',
+    restrict: "E",
     link: function link(scope) {
       let isOpened = false;
 
@@ -28,10 +28,10 @@ export default function jobStatusDirective(localApply) {
         writeMessages: [],
         writeMessageDifference: [],
         onToggle: function onToggle(state) {
-          if (state === 'closed') {
+          if (state === "closed") {
             scope.clearMessageRecords();
             isOpened = false;
-          } else if (state === 'opened') {
+          } else if (state === "opened") {
             isOpened = true;
           }
         },
@@ -45,35 +45,35 @@ export default function jobStatusDirective(localApply) {
         getLockTooltipMessage: function getLockTooltipMessage() {
           const readMessages = scope.readMessages;
           const writeMessages = scope.writeMessages;
-          let message = '';
+          let message = "";
           let writeMessageMap, readMessageMap;
 
           if (writeMessages.length > 0 && readMessages.length > 0) {
             writeMessageMap = {
-              '1': 'There is 1 ongoing write lock operation and ',
-              other: 'There are {} ongoing write lock operations and '
+              "1": "There is 1 ongoing write lock operation and ",
+              other: "There are {} ongoing write lock operations and "
             };
             const writeMessage = _.pluralize(writeMessages.length, writeMessageMap);
 
             readMessageMap = {
-              '1': '1 pending read lock operation.',
-              other: '{} pending read lock operations.'
+              "1": "1 pending read lock operation.",
+              other: "{} pending read lock operations."
             };
             const readMessage = _.pluralize(readMessages.length, readMessageMap);
 
-            message = writeMessage + readMessage + ' Click to review details.';
+            message = writeMessage + readMessage + " Click to review details.";
           } else if (writeMessages.length > 0) {
             writeMessageMap = {
-              '1': '1 ongoing write lock operation.',
-              other: '{} ongoing write lock operations.'
+              "1": "1 ongoing write lock operation.",
+              other: "{} ongoing write lock operations."
             };
-            message = _.pluralize(writeMessages.length, writeMessageMap) + ' Click to review details.';
+            message = _.pluralize(writeMessages.length, writeMessageMap) + " Click to review details.";
           } else if (readMessages.length > 0) {
             readMessageMap = {
-              '1': 'Locked by 1 pending operation.',
-              other: 'Locked by {} pending operations.'
+              "1": "Locked by 1 pending operation.",
+              other: "Locked by {} pending operations."
             };
-            message = _.pluralize(readMessages.length, readMessageMap) + ' Click to review details.';
+            message = _.pluralize(readMessages.length, readMessageMap) + " Click to review details.";
           }
 
           return message;
@@ -96,11 +96,11 @@ export default function jobStatusDirective(localApply) {
           mapDescription,
           x => {
             //this is in a closure because we want to access messages at call time not define time.
-            scope[type + 'MessageDifference'] = fp.difference(scope[type + 'Messages'])(x);
+            scope[type + "MessageDifference"] = fp.difference(scope[type + "Messages"])(x);
 
             return x;
           },
-          x => (scope[type + 'Messages'] = x)
+          x => (scope[type + "Messages"] = x)
         );
 
         s.map(xForm).each(localApply.bind(null, scope));
@@ -109,10 +109,10 @@ export default function jobStatusDirective(localApply) {
       let readViewer = scope.jobStream();
       let writeViewer = scope.jobStream();
 
-      readViewer.through(calculateLocks('read'));
-      writeViewer.through(calculateLocks('write'));
+      readViewer.through(calculateLocks("read"));
+      writeViewer.through(calculateLocks("write"));
 
-      scope.$on('$destroy', function onDestroy() {
+      scope.$on("$destroy", function onDestroy() {
         readViewer.destroy();
         writeViewer.destroy();
         readViewer = writeViewer = null;

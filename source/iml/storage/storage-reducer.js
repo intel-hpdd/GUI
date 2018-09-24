@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { StorageResourceClass, StorageResourceResponse } from './storage-types.js';
-import type { ActionT } from '../store/store-module.js';
+import type { StorageResourceClass, StorageResourceResponse } from "./storage-types.js";
+import type { ActionT } from "../store/store-module.js";
 
 export type Config = {
   selectIndex: ?number,
@@ -23,12 +23,12 @@ export type State = {
   config: Config
 };
 
-export const ADD_STORAGE_RESOURCE_CLASSES = 'ADD_STORAGE_RESOURCE_CLASSES';
-export const ADD_STORAGE_RESOURCES = 'ADD_STORAGE_RESOURCES';
-export const SET_STORAGE_SELECT_INDEX = 'SET_STORAGE_SELECT_INDEX';
-export const SET_STORAGE_SORTING = 'SET_STORAGE_SORTING';
-export const SET_STORAGE_TABLE_LOADING = 'SET_STORAGE_TABLE_LOADING';
-export const SET_STORAGE_CONFIG = 'SET_STORAGE_CONFIG';
+export const ADD_STORAGE_RESOURCE_CLASSES = "ADD_STORAGE_RESOURCE_CLASSES";
+export const ADD_STORAGE_RESOURCES = "ADD_STORAGE_RESOURCES";
+export const SET_STORAGE_SELECT_INDEX = "SET_STORAGE_SELECT_INDEX";
+export const SET_STORAGE_SORTING = "SET_STORAGE_SORTING";
+export const SET_STORAGE_TABLE_LOADING = "SET_STORAGE_TABLE_LOADING";
+export const SET_STORAGE_CONFIG = "SET_STORAGE_CONFIG";
 
 export default function(
   state: State = {
@@ -36,7 +36,7 @@ export default function(
     resources: null,
     config: {
       selectIndex: null,
-      sortKey: '',
+      sortKey: "",
       sortDesc: false,
       loading: false,
       entries: 10,
@@ -62,7 +62,7 @@ export default function(
         config: {
           ...state.config,
           selectIndex: payload,
-          sortKey: '',
+          sortKey: "",
           sortDesc: false,
           loading: false,
           entries: 10,

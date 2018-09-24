@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('Add copytool modal', () => {
+describe("Add copytool modal", () => {
   let $scope,
     addCopytoolModalCtrl,
     s,
@@ -18,17 +18,17 @@ describe('Add copytool modal', () => {
     mockSocketStream = jest.fn(() => s);
     mockResolveStream = jest.fn();
 
-    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    mod = require('../../../../source/iml/hsm/add-copytool-modal.js');
+    mod = require("../../../../source/iml/hsm/add-copytool-modal.js");
 
     AddCopytoolModalCtrl = mod.AddCopytoolModalCtrl;
   });
 
-  describe('add copytool modal controller', () => {
+  describe("add copytool modal controller", () => {
     beforeEach(
       angular.mock.inject($rootScope => {
         $scope = $rootScope.$new();
@@ -46,7 +46,7 @@ describe('Add copytool modal', () => {
       })
     );
 
-    it('should expose the expected interface', () => {
+    it("should expose the expected interface", () => {
       const scope = Object.assign({}, AddCopytoolModalCtrl, {
         inProgress: false,
         filesystems: [],
@@ -58,23 +58,23 @@ describe('Add copytool modal', () => {
       expect(addCopytoolModalCtrl).toEqual(scope);
     });
 
-    it('should set fs on the controller', () => {
+    it("should set fs on the controller", () => {
       fsStream.write({
-        objects: [{ foo: 'bar' }]
+        objects: [{ foo: "bar" }]
       });
 
-      expect(addCopytoolModalCtrl.filesystems).toEqual([{ foo: 'bar' }]);
+      expect(addCopytoolModalCtrl.filesystems).toEqual([{ foo: "bar" }]);
     });
 
-    it('should set workers on the controller', () => {
+    it("should set workers on the controller", () => {
       workerStream.write({
-        objects: [{ bar: 'baz' }]
+        objects: [{ bar: "baz" }]
       });
 
-      expect(addCopytoolModalCtrl.workers).toEqual([{ bar: 'baz' }]);
+      expect(addCopytoolModalCtrl.workers).toEqual([{ bar: "baz" }]);
     });
 
-    describe('submit copytool', () => {
+    describe("submit copytool", () => {
       let copytool;
 
       beforeEach(() => {
@@ -86,24 +86,24 @@ describe('Add copytool modal', () => {
         s.end();
       });
 
-      it('should create a new copytool', () => {
+      it("should create a new copytool", () => {
         expect(mockSocketStream).toHaveBeenCalledOnceWith(
-          '/copytool',
+          "/copytool",
           {
-            method: 'post',
+            method: "post",
             json: copytool
           },
           true
         );
       });
 
-      it('should close the modal', () => {
+      it("should close the modal", () => {
         expect($uibModalInstance.close).toHaveBeenCalledTimes(1);
       });
     });
   });
 
-  describe('open', () => {
+  describe("open", () => {
     let $uibModal, openResult, result;
 
     beforeEach(() => {
@@ -117,11 +117,11 @@ describe('Add copytool modal', () => {
       result = mod.openAddCopytoolModalFactory($uibModal)();
     });
 
-    it('should return the result', () => {
+    it("should return the result", () => {
       expect(result).toEqual(openResult.result);
     });
 
-    it('should have the expected open config', () => {
+    it("should have the expected open config", () => {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
         template: `<div class="modal-header">
   <h4>Add Copytool</h4>
@@ -268,9 +268,9 @@ describe('Add copytool modal', () => {
     </div>
   </form>
 </div>`,
-        controller: 'AddCopytoolModalCtrl as addCopytool',
-        backdrop: 'static',
-        windowClass: 'add-copytool-modal',
+        controller: "AddCopytoolModalCtrl as addCopytool",
+        backdrop: "static",
+        windowClass: "add-copytool-modal",
         resolve: {
           fsStream: expect.any(Function),
           workerStream: expect.any(Function)
@@ -278,7 +278,7 @@ describe('Add copytool modal', () => {
       });
     });
 
-    describe('resolving deps', () => {
+    describe("resolving deps", () => {
       let getResolve, s, rs;
 
       beforeEach(() => {
@@ -291,47 +291,47 @@ describe('Add copytool modal', () => {
         getResolve = name => $uibModal.open.mock.calls[0][0].resolve[name];
       });
 
-      describe('fs stream', () => {
+      describe("fs stream", () => {
         let result;
 
         beforeEach(() => {
-          result = getResolve('fsStream')(mockResolveStream, mockSocketStream);
+          result = getResolve("fsStream")(mockResolveStream, mockSocketStream);
         });
 
-        it('should create a new fs stream', () => {
-          expect(mockSocketStream).toHaveBeenCalledOnceWith('/filesystem', {
-            jsonMask: 'objects(resource_uri,label)'
+        it("should create a new fs stream", () => {
+          expect(mockSocketStream).toHaveBeenCalledOnceWith("/filesystem", {
+            jsonMask: "objects(resource_uri,label)"
           });
         });
 
-        it('should resolve the stream', () => {
+        it("should resolve the stream", () => {
           expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
         });
 
-        it('should return resolving the stream', () => {
+        it("should return resolving the stream", () => {
           expect(result).toBe(rs);
         });
       });
 
-      describe('worker stream', () => {
+      describe("worker stream", () => {
         let result;
 
         beforeEach(() => {
-          result = getResolve('workerStream')(mockResolveStream, mockSocketStream);
+          result = getResolve("workerStream")(mockResolveStream, mockSocketStream);
         });
 
-        it('should create a new worker stream', () => {
-          expect(mockSocketStream).toHaveBeenCalledOnceWith('/host', {
+        it("should create a new worker stream", () => {
+          expect(mockSocketStream).toHaveBeenCalledOnceWith("/host", {
             qs: { worker: true },
-            jsonMask: 'objects(resource_uri,label)'
+            jsonMask: "objects(resource_uri,label)"
           });
         });
 
-        it('should resolve the stream', () => {
+        it("should resolve the stream", () => {
           expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
         });
 
-        it('should return resolving the stream', () => {
+        it("should return resolving the stream", () => {
           expect(result).toBe(rs);
         });
       });

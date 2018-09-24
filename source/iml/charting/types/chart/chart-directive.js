@@ -3,23 +3,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import debounce from '@iml/debounce';
-import d3 from 'd3';
+import debounce from "@iml/debounce";
+import d3 from "d3";
 
 export function charterDirective($window) {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      stream: '='
+      stream: "="
     },
     bindToController: {
-      onUpdate: '=?',
-      margin: '=?'
+      onUpdate: "=?",
+      margin: "=?"
     },
     controller: function CharterDirectiveCtrl($element) {
       /* jshint -W034 */
-      'ngInject';
+      "ngInject";
       this.margin = Object.assign(
         {
           top: 30,
@@ -31,26 +31,26 @@ export function charterDirective($window) {
       );
 
       const el = d3.select($element[0]);
-      this.svg = el.select('svg');
-      this.getOuterWidth = () => parseInt(el.style('width'), 10);
-      this.getOuterHeight = () => parseInt(el.style('height'), 10);
+      this.svg = el.select("svg");
+      this.getOuterWidth = () => parseInt(el.style("width"), 10);
+      this.getOuterHeight = () => parseInt(el.style("height"), 10);
       this.getWidth = () => this.getOuterWidth() - this.margin.left - this.margin.right;
       this.getHeight = () => this.getOuterHeight() - this.margin.top - this.margin.bottom;
-      this.dispatch = d3.dispatch('event');
+      this.dispatch = d3.dispatch("event");
 
       this.onUpdate = this.onUpdate || [];
     },
-    controllerAs: 'ctrl',
-    require: 'charter',
-    templateNamespace: 'svg',
+    controllerAs: "ctrl",
+    require: "charter",
+    templateNamespace: "svg",
     transclude: true,
     template: `<svg class="charting">
   <g ng-attr-transform="translate({{ ctrl.margin.left }},{{ ctrl.margin.top }})" ng-transclude></g>
 </svg>`,
     link(scope, el, attrs, ctrl) {
       const setDimensions = x => {
-        x.attr('width', ctrl.getOuterWidth());
-        x.attr('height', ctrl.getOuterHeight());
+        x.attr("width", ctrl.getOuterWidth());
+        x.attr("height", ctrl.getOuterHeight());
 
         return x;
       };
@@ -75,7 +75,7 @@ export function charterDirective($window) {
 
       const debounced = debounce(onResize, 100);
 
-      $window.addEventListener('resize', debounced);
+      $window.addEventListener("resize", debounced);
 
       function onResize() {
         ctrl.onUpdate.forEach(onChange =>
@@ -90,7 +90,7 @@ export function charterDirective($window) {
         );
       }
 
-      scope.$on('$destroy', () => $window.removeEventListener('resize', debounced));
+      scope.$on("$destroy", () => $window.removeEventListener("resize", debounced));
     }
   };
 }

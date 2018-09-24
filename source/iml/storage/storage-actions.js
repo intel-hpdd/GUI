@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { StorageResourceClass, StorageResource } from './storage-types.js';
+import type { StorageResourceClass, StorageResource } from "./storage-types.js";
 
 import {
   type Config,
@@ -14,7 +14,7 @@ import {
   SET_STORAGE_SELECT_INDEX,
   SET_STORAGE_TABLE_LOADING,
   SET_STORAGE_CONFIG
-} from './storage-reducer.js';
+} from "./storage-reducer.js";
 
 export const addStorageResourceClasses = (payload: StorageResourceClass[]) => ({
   type: ADD_STORAGE_RESOURCE_CLASSES,

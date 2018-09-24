@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const UPDATE_OST_BALANCE_CHART_ITEMS = 'UPDATE_OST_BALANCE_CHART_ITEMS';
-export const DEFAULT_OST_BALANCE_CHART_ITEMS = 'DEFAULT_OST_BALANCE_CHART_ITEMS';
+export const UPDATE_OST_BALANCE_CHART_ITEMS = "UPDATE_OST_BALANCE_CHART_ITEMS";
+export const DEFAULT_OST_BALANCE_CHART_ITEMS = "DEFAULT_OST_BALANCE_CHART_ITEMS";
 
-import type { ostBalancePayloadT, ostBalancePayloadHashT, addOstBalanceActionT } from './ost-balance-module.js';
+import type { ostBalancePayloadT, ostBalancePayloadHashT, addOstBalanceActionT } from "./ost-balance-module.js";
 
 function mergeState(state: ostBalancePayloadHashT, payload: ostBalancePayloadT) {
   return Object.assign({}, state, {

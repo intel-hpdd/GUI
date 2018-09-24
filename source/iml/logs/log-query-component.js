@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import logInputToQsParser from './log-input-to-qs-parser.js';
-import logQsToInputParser from './log-qs-to-input-parser.js';
-import logCompleter from './log-completer.js';
+import logInputToQsParser from "./log-input-to-qs-parser.js";
+import logQsToInputParser from "./log-qs-to-input-parser.js";
+import logCompleter from "./log-completer.js";
 
-import type { $scopeT, $locationT } from 'angular';
+import type { $scopeT, $locationT } from "angular";
 
-import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from "../qs-stream/qs-stream-module.js";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 export function controller(
   $scope: $scopeT,
@@ -22,13 +22,13 @@ export function controller(
   qsStream: qsStreamT,
   propagateChange: PropagateChange
 ) {
-  'ngInject';
-  const p = propagateChange.bind(null, $scope, this, 'qs');
+  "ngInject";
+  const p = propagateChange.bind(null, $scope, this, "qs");
   const qs$ = qsStream($stateParams);
 
   qs$.map(x => x.qs).through(p);
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     qs$.destroy();
     this.tzPickerB.endBroadcast();
   });
@@ -45,7 +45,7 @@ export function controller(
 
 export default {
   bindings: {
-    tzPickerB: '<'
+    tzPickerB: "<"
   },
   controller,
   template: `

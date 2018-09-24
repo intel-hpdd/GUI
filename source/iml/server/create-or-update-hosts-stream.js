@@ -3,11 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-import highland from 'highland';
-import socketStream from '../socket/socket-stream.js';
-import serversToApiObjects from './servers-to-api-objects.js';
-import { CACHE_INITIAL_DATA } from '../environment.js';
+import _ from "@iml/lodash-mixins";
+import highland from "highland";
+import socketStream from "../socket/socket-stream.js";
+import serversToApiObjects from "./servers-to-api-objects.js";
+import { CACHE_INITIAL_DATA } from "../environment.js";
 
 /**
  * Creates or updates hosts as needed.
@@ -18,15 +18,15 @@ export default function createOrUpdateHostsStream(servers) {
   const objects = serversToApiObjects(servers);
 
   return socketStream(
-    '/host',
+    "/host",
     {
       qs: { limit: 0 }
     },
     true
   )
-    .pluck('objects')
+    .pluck("objects")
     .flatMap(function handleResponse(servers) {
-      const findByAddress = _.findInCollection(['address']);
+      const findByAddress = _.findInCollection(["address"]);
 
       const toPost = objects
         .filter(
@@ -37,14 +37,14 @@ export default function createOrUpdateHostsStream(servers) {
         )
         .map(addDefaultProfile);
 
-      const postHostStream = updateHostStream('post', toPost);
+      const postHostStream = updateHostStream("post", toPost);
 
-      const undeployedServers = _.where(servers, { state: 'undeployed' });
+      const undeployedServers = _.where(servers, { state: "undeployed" });
       const toPut = _.difference(objects, toPost)
         .filter(findByAddress(undeployedServers))
         .map(addDefaultProfile);
 
-      const putHostStream = updateHostStream('put', toPut);
+      const putHostStream = updateHostStream("put", toPut);
 
       const leftovers = _.difference(objects, toPut, toPost);
       const unchangedServers = {
@@ -81,7 +81,7 @@ export default function createOrUpdateHostsStream(servers) {
  */
 function addDefaultProfile(server) {
   const defaultProfileResourceUri = _.find(CACHE_INITIAL_DATA.server_profile, {
-    name: 'default'
+    name: "default"
   }).resource_uri;
   server.server_profile = defaultProfileResourceUri;
   return server;
@@ -97,7 +97,7 @@ function updateHostStream(method, data) {
   if (data.length === 0) return highland([{}]);
 
   return socketStream(
-    '/host',
+    "/host",
     {
       method: method,
       json: { objects: data }

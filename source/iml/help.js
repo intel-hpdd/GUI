@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 export default function help($sce: Object, HELP_TEXT: Object) {
-  'ngInject';
+  "ngInject";
   const trusted = {};
 
   function addToTrusted(key) {

@@ -1,12 +1,12 @@
 // @flow
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
-import Legend from '../../../../source/iml/charting/legend.js';
-import d3 from 'd3';
+import Legend from "../../../../source/iml/charting/legend.js";
+import d3 from "d3";
 
-it('should render as expected', () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+it("should render as expected", () => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
   Inferno.render(
     <Legend
@@ -14,8 +14,8 @@ it('should render as expected', () => {
       dimensions={{ usableWidth: 200, usableHeight: 200 }}
       colors={d3.scale
         .ordinal()
-        .domain(['foo', 'bar'])
-        .range(['green', 'blue'])}
+        .domain(["foo", "bar"])
+        .range(["green", "blue"])}
     />,
     svg
   );
@@ -23,8 +23,8 @@ it('should render as expected', () => {
   expect(svg).toMatchSnapshot();
 });
 
-it('should transform', () => {
-  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+it("should transform", () => {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
   Inferno.render(
     <Legend
@@ -33,8 +33,8 @@ it('should transform', () => {
       transform="translate(0,100)"
       colors={d3.scale
         .ordinal()
-        .domain(['foo', 'bar'])
-        .range(['green', 'blue'])}
+        .domain(["foo", "bar"])
+        .range(["green", "blue"])}
     />,
     svg
   );

@@ -1,6 +1,6 @@
-import exceptionModal from '../../../../source/iml/exception/exception-modal.js';
+import exceptionModal from "../../../../source/iml/exception/exception-modal.js";
 
-describe('exception modal', () => {
+describe("exception modal", () => {
   let $uibModal, modal;
 
   beforeEach(() => {
@@ -11,13 +11,13 @@ describe('exception modal', () => {
     modal = exceptionModal($uibModal);
   });
 
-  it('should call the modal with the expected params', () => {
+  it("should call the modal with the expected params", () => {
     modal();
     expect($uibModal.open).toHaveBeenCalledWith({
-      backdrop: 'static',
-      windowClass: 'exception-modal',
+      backdrop: "static",
+      windowClass: "exception-modal",
       keyboard: false,
-      controller: 'ExceptionModalCtrl',
+      controller: "ExceptionModalCtrl",
       template:
         '<div class="modal-header"> \
       <h3> \

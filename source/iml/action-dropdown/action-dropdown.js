@@ -3,11 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import getCommandStream from '../command/get-command-stream.js';
+import * as fp from "@iml/fp";
+import getCommandStream from "../command/get-command-stream.js";
 
 export function actionDescriptionCache($sce) {
-  'ngInject';
+  "ngInject";
   const cache = {};
 
   return function sceDescriptionCache(str) {
@@ -24,7 +24,7 @@ export function ActionDropdownCtrl(
   localApply,
   propagateChange
 ) {
-  'ngInject';
+  "ngInject";
   const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
 
   const ctrl = Object.assign(this, {
@@ -41,7 +41,7 @@ export function ActionDropdownCtrl(
             record,
             action
           })
-          .reject(fp.eq('fallback'))
+          .reject(fp.eq("fallback"))
           .otherwise(run);
       else stream = run();
 
@@ -53,21 +53,21 @@ export function ActionDropdownCtrl(
         localApply($scope);
       });
     },
-    tooltipPlacement: this.tooltipPlacement || 'left',
-    actionsProperty: this.actionsProperty || 'available_actions',
+    tooltipPlacement: this.tooltipPlacement || "left",
+    actionsProperty: this.actionsProperty || "available_actions",
     receivedData: false
   });
 
   const extractPathLengths = fp.view(
     fp.compose(
       fp.mapped,
-      fp.lensProp('locks'),
-      fp.lensProp('write'),
-      fp.lensProp('length')
+      fp.lensProp("locks"),
+      fp.lensProp("write"),
+      fp.lensProp("length")
     )
   );
 
-  const p = propagateChange.bind(null, $scope, ctrl, 'records');
+  const p = propagateChange.bind(null, $scope, ctrl, "records");
 
   const asArray = fp.cond(
     [
@@ -107,18 +107,18 @@ export function ActionDropdownCtrl(
 }
 
 export function actionDropdown() {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {},
     bindToController: {
-      tooltipPlacement: '@?',
-      actionsProperty: '@?',
-      stream: '=',
-      overrideClick: '&?'
+      tooltipPlacement: "@?",
+      actionsProperty: "@?",
+      stream: "=",
+      overrideClick: "&?"
     },
-    controller: 'ActionDropdownCtrl',
-    controllerAs: 'ctrl',
+    controller: "ActionDropdownCtrl",
+    controllerAs: "ctrl",
     template: `<div class="action-dropdown">
   <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
   <button ng-if="ctrl.receivedData && ctrl.records.length === 0" disabled class="btn btn-primary btn-sm">No Actions</button>

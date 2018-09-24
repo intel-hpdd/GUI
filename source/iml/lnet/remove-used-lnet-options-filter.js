@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export default (): Function => (options: Array<Object>, networkInterfaces: Array<Object>, networkInterface: Object) => {
   const nids = fp.flow(
     fp.filter(x => x !== networkInterface),
-    fp.pluck('nid')
+    fp.pluck("nid")
   )(networkInterfaces);
 
   return options.filter(option => {

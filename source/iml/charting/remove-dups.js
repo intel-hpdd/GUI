@@ -5,6 +5,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default (s: HighlandStreamT<Object>) => s.uniqBy((a, b) => a.ts === b.ts);

@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function paginate() {
-  'ngInject';
+  "ngInject";
   return function paginateFilter(input, currentPage, itemsPerPage) {
     const startingItem = itemsPerPage * currentPage;
     const endingItem = startingItem + itemsPerPage - 1;

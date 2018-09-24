@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import filterTargetByFs from '../target/filter-target-by-fs.js';
-import filterTargetByHost from '../target/filter-target-by-host.js';
+import filterTargetByFs from "../target/filter-target-by-fs.js";
+import filterTargetByHost from "../target/filter-target-by-host.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { StateServiceT } from 'angular-ui-router';
+import type { StateServiceT } from "angular-ui-router";
 
-import type { qsStreamT } from '../qs-stream/qs-stream-module.js';
+import type { qsStreamT } from "../qs-stream/qs-stream-module.js";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
-import type { dashboardFsB, dashboardHostB, dashboardTargetB } from './dashboard-resolves.js';
+import type { dashboardFsB, dashboardHostB, dashboardTargetB } from "./dashboard-resolves.js";
 
 export default function DashboardCtrl(
   qsStream: qsStreamT,
@@ -30,19 +30,19 @@ export default function DashboardCtrl(
   targetsB: dashboardTargetB,
   propagateChange: PropagateChange
 ) {
-  'ngInject';
+  "ngInject";
   let targetSelectStream;
 
   const p = propagateChange.bind(null, $scope, this);
 
   const dashboard = Object.assign(this, {
     fs: {
-      name: 'fs',
+      name: "fs",
       selected: null,
       selectedTarget: null
     },
     host: {
-      name: 'server',
+      name: "server",
       selected: null,
       selectedTarget: null
     },
@@ -57,8 +57,8 @@ export default function DashboardCtrl(
         targetSelectStream = targetsB();
         targetSelectStream
           .through(filterBy(item.selected.id))
-          .map(fp.filter(x => x.kind !== 'MGT'))
-          .through(p.bind(null, 'targets'));
+          .map(fp.filter(x => x.kind !== "MGT"))
+          .through(p.bind(null, "targets"));
       }
     },
     onFilterView(item) {
@@ -75,7 +75,7 @@ export default function DashboardCtrl(
           resetState: true
         });
       else
-        $state.go('app.dashboard.overview', {
+        $state.go("app.dashboard.overview", {
           resetState: true
         });
     },
@@ -87,11 +87,11 @@ export default function DashboardCtrl(
     }
   });
 
-  fsB().through(p.bind(null, 'fileSystems'));
+  fsB().through(p.bind(null, "fileSystems"));
 
-  hostsB().through(p.bind(null, 'hosts'));
+  hostsB().through(p.bind(null, "hosts"));
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     fsB.endBroadcast();
     hostsB.endBroadcast();
     targetsB.endBroadcast();
@@ -99,9 +99,9 @@ export default function DashboardCtrl(
   });
 
   const qs$ = qsStream($stateParams, {
-    to: state => state.includes['app.dashboard']
+    to: state => state.includes["app.dashboard"]
   }).each(() => {
-    if ($stateParams.kind === 'server') dashboard.type = dashboard.host;
+    if ($stateParams.kind === "server") dashboard.type = dashboard.host;
     else dashboard.type = dashboard.fs;
   });
 }

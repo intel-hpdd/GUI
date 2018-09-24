@@ -5,38 +5,38 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
-import getNetworkInterfaceStream from '../lnet/get-network-interface-stream.js';
-import angular from 'angular';
-import highland from 'highland';
-import * as fp from '@iml/fp';
-import broadcaster from '../broadcaster.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
+import getNetworkInterfaceStream from "../lnet/get-network-interface-stream.js";
+import angular from "angular";
+import highland from "highland";
+import * as fp from "@iml/fp";
+import broadcaster from "../broadcaster.js";
 
-import { matchById } from '../api-transforms.js';
+import { matchById } from "../api-transforms.js";
 
-import { streamToPromise } from '../promise-transforms.js';
+import { streamToPromise } from "../promise-transforms.js";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
 export const getData = ($stateParams: { id: string }) => {
-  'ngInject';
-  return streamToPromise(store.select('server').map(matchById($stateParams.id)));
+  "ngInject";
+  return streamToPromise(store.select("server").map(matchById($stateParams.id)));
 };
 
 export default function serverDetailResolves($stateParams: { id: string }) {
-  'ngInject';
+  "ngInject";
   const getObjectsOrNull = x => (x.objects.length ? x.objects : null);
   const getFlatObjOrNull = fp.flow(
     highland.map(getObjectsOrNull),
     x => x.flatten()
   );
 
-  const jobMonitorStream = broadcaster(store.select('jobIndicators'));
+  const jobMonitorStream = broadcaster(store.select("jobIndicators"));
 
-  const alertMonitorStream = broadcaster(store.select('alertIndicators'));
+  const alertMonitorStream = broadcaster(store.select("alertIndicators"));
 
-  const serverStream = store.select('server').map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
+  const serverStream = store.select("server").map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
 
   const allHostMatches = {
     qs: {
@@ -46,7 +46,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   };
 
   const lnetConfigurationStream = broadcaster(
-    store.select('lnetConfiguration').map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
+    store.select("lnetConfiguration").map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
   );
 
   const merge = (a, b) => angular.merge(a, b, allHostMatches);
@@ -56,18 +56,18 @@ export default function serverDetailResolves($stateParams: { id: string }) {
       merge(
         {},
         {
-          jsonMask: 'objects(id,inet4_address,name,nid,lnd_types,resource_uri)'
+          jsonMask: "objects(id,inet4_address,name,nid,lnd_types,resource_uri)"
         }
       )
     )
   );
 
   const cs = socketStream(
-    '/corosync_configuration',
+    "/corosync_configuration",
     merge(
       {},
       {
-        jsonMask: 'objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)'
+        jsonMask: "objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)"
       }
     )
   );
@@ -77,11 +77,11 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   const corosyncConfigurationStream = resolveStream(cs2).then(broadcaster);
 
   const ps = socketStream(
-    '/pacemaker_configuration',
+    "/pacemaker_configuration",
     merge(
       {},
       {
-        jsonMask: 'objects(resource_uri,available_actions,locks,state,id)'
+        jsonMask: "objects(resource_uri,available_actions,locks,state,id)"
       }
     )
   );

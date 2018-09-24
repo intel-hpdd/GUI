@@ -5,18 +5,18 @@
 
 export function fullScreenBtn() {
   return {
-    restrict: 'A',
+    restrict: "A",
     template: `<span ng-if="fullScreenCtrl.isFullScreen">Exit Full Screen <i class="fa fa-compress"></i></span>
 <span ng-if="!fullScreenCtrl.isFullScreen">Full Screen <i class="fa fa-expand"></i></span>`,
-    require: '^fullScreen',
+    require: "^fullScreen",
     scope: {},
     link: function link(scope, wrappedEl, attrs, fullScreenCtrl) {
       scope.fullScreenCtrl = fullScreenCtrl;
 
       const applyAndToggleFullScreen = scope.$apply.bind(scope, toggleFullScreen);
 
-      clickHandler('on');
-      scope.$on('$destroy', clickHandler.bind(null, 'off'));
+      clickHandler("on");
+      scope.$on("$destroy", clickHandler.bind(null, "off"));
 
       function toggleFullScreen() {
         scope.fullScreenCtrl.isFullScreen = !scope.fullScreenCtrl.isFullScreen;
@@ -25,7 +25,7 @@ export function fullScreenBtn() {
       }
 
       function clickHandler(type) {
-        wrappedEl[type]('click', applyAndToggleFullScreen);
+        wrappedEl[type]("click", applyAndToggleFullScreen);
       }
     }
   };
@@ -33,14 +33,14 @@ export function fullScreenBtn() {
 
 export function fullScreen() {
   return {
-    restrict: 'C',
+    restrict: "C",
     controller: function FullScreenCtrl($element, $scope, $document) {
-      'ngInject';
-      let body = $document.find('body');
-      const fullScreenContainerClass = 'full-screen-container';
+      "ngInject";
+      let body = $document.find("body");
+      const fullScreenContainerClass = "full-screen-container";
       const listeners = [];
 
-      $scope.$on('$destroy', () => {
+      $scope.$on("$destroy", () => {
         listeners.length = 0;
 
         body.removeClass(fullScreenContainerClass);
@@ -52,7 +52,7 @@ export function fullScreen() {
         fullScreen(fullScreenMode) {
           this.isFullScreen = fullScreenMode;
           body.toggleClass(fullScreenContainerClass, fullScreenMode);
-          $element.toggleClass('active', fullScreenMode);
+          $element.toggleClass("active", fullScreenMode);
 
           listeners.forEach(func => func(fullScreenMode));
         },

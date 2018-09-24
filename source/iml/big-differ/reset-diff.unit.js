@@ -1,10 +1,10 @@
-import angular from '../../../test/angular-mock-setup.js';
+import angular from "../../../test/angular-mock-setup.js";
 
-import bigDifferModule from './big-differ-module';
+import bigDifferModule from "./big-differ-module";
 
-describe('reset diff', () => {
+describe("reset diff", () => {
   beforeEach(() => {
-    if (!window.angular) require('angular');
+    if (!window.angular) require("angular");
   });
 
   beforeEach(angular.mock.module(bigDifferModule));
@@ -20,16 +20,16 @@ describe('reset diff', () => {
         reset: jest.fn()
       };
 
-      resetDiffComponent = $componentController('resetDiff', { $scope }, { diffCtrl });
+      resetDiffComponent = $componentController("resetDiff", { $scope }, { diffCtrl });
       resetDiffComponent.$onInit();
     })
   );
 
-  it('should subscribe to changes', () => {
+  it("should subscribe to changes", () => {
     expect(diffCtrl.subscribe).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
-  it('should proxy the reset method', () => {
+  it("should proxy the reset method", () => {
     expect(resetDiffComponent.reset).toBe(diffCtrl.reset);
   });
 });

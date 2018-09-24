@@ -6,9 +6,9 @@
 export default function hsmCdtStatusDirective() {
   return {
     scope: {
-      fileSystem: '='
+      fileSystem: "="
     },
-    restrict: 'E',
+    restrict: "E",
     template: `<div class="cdt-status-component detail-panel">
   <h4 class="section-header">File System Configuration</h4>
 

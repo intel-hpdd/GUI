@@ -55,6 +55,6 @@ declare var window: {
   }
 };
 
-declare module '../favicon.ico' {
+declare module "../favicon.ico" {
   declare var exports: any;
 }

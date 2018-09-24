@@ -1,19 +1,19 @@
-import { noSpace } from '../../../../source/iml/string.js';
-import highland from 'highland';
+import { noSpace } from "../../../../source/iml/string.js";
+import highland from "highland";
 
-describe('status states', () => {
+describe("status states", () => {
   let mod, mockResolveStream, mockSocketStream, mockAddCurrentPage, mockStore, storeStream;
 
   beforeEach(() => {
-    mockResolveStream = jest.fn(() => 'promise');
-    mockSocketStream = jest.fn(() => highland(['socket']));
+    mockResolveStream = jest.fn(() => "promise");
+    mockSocketStream = jest.fn(() => highland(["socket"]));
     mockAddCurrentPage = jest.fn();
 
-    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/api-transforms.js', () => ({
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+    jest.mock("../../../../source/iml/api-transforms.js", () => ({
       addCurrentPage: mockAddCurrentPage
     }));
 
@@ -21,31 +21,31 @@ describe('status states', () => {
     mockStore = {
       select: jest.fn(() => storeStream)
     };
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
 
-    mod = require('../../../../source/iml/logs/log-states.js');
+    mod = require("../../../../source/iml/logs/log-states.js");
   });
 
-  describe('log state', () => {
-    it('should create the state ', () => {
+  describe("log state", () => {
+    it("should create the state ", () => {
       expect(mod.logState).toEqual({
-        name: 'app.log',
+        name: "app.log",
         data: {
-          helpPage: 'Graphical_User_Interface_9_0.html#9.5',
+          helpPage: "Graphical_User_Interface_9_0.html#9.5",
           anonymousReadProtected: true
         },
         resolve: {
           tzPickerB: expect.any(Function)
         },
-        component: 'logQuery'
+        component: "logQuery"
       });
     });
   });
 
-  describe('log table state', () => {
-    it('should create the state', () => {
+  describe("log table state", () => {
+    it("should create the state", () => {
       expect(mod.logTableState).toEqual({
-        name: 'app.log.table',
+        name: "app.log.table",
         url: noSpace`/log?message_class__in&message_class__contains&message_class__startswith&
             message_class__endswith&message_class__gte&message_class__gt&
             message_class__lte&message_class__lt&message__in&message__contains&
@@ -72,49 +72,49 @@ describe('status states', () => {
           tzPickerB: expect.any(Function)
         },
         data: {
-          kind: 'Logs',
-          icon: 'fa-book'
+          kind: "Logs",
+          icon: "fa-book"
         },
-        component: 'logTable'
+        component: "logTable"
       });
     });
 
-    describe('resolve', () => {
+    describe("resolve", () => {
       let qsFromLocation, $stateParams, log$;
 
       beforeEach(() => {
         qsFromLocation = jest.fn();
         $stateParams = {
-          param: 'val'
+          param: "val"
         };
 
         log$ = mod.logTableState.resolve.log$;
       });
 
-      it('should call /log with a qs', () => {
-        qsFromLocation.mockReturnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
+      it("should call /log with a qs", () => {
+        qsFromLocation.mockReturnValue("foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6");
 
         log$(qsFromLocation, $stateParams);
 
         expect(mockSocketStream).toHaveBeenCalledOnceWith(
-          '/log/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6'
+          "/log/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6"
         );
       });
 
-      it('should call /log without a qs', () => {
-        qsFromLocation.mockReturnValue('');
+      it("should call /log without a qs", () => {
+        qsFromLocation.mockReturnValue("");
 
         log$(qsFromLocation);
 
-        expect(mockSocketStream).toHaveBeenCalledOnceWith('/log/');
+        expect(mockSocketStream).toHaveBeenCalledOnceWith("/log/");
       });
 
-      it('should resolve the stream', () => {
-        qsFromLocation.mockReturnValue('');
+      it("should resolve the stream", () => {
+        qsFromLocation.mockReturnValue("");
 
         const res = log$(qsFromLocation);
 
-        expect(res).toBe('promise');
+        expect(res).toBe("promise");
       });
     });
   });

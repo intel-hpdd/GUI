@@ -3,23 +3,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import getLine from './get-line.js';
+import * as fp from "@iml/fp";
+import getLine from "./get-line.js";
 
 export function lineDirective() {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      color: '=',
-      scaleX: '=',
-      scaleY: '=',
-      valueX: '=',
-      valueY: '=',
-      comparatorX: '='
+      color: "=",
+      scaleX: "=",
+      scaleY: "=",
+      valueX: "=",
+      valueY: "=",
+      comparatorX: "="
     },
-    require: '^^charter',
-    templateNamespace: 'svg',
+    require: "^^charter",
+    templateNamespace: "svg",
     link(scope, el, attrs, chartCtrl) {
       const node = el[0];
       const line = getLine();
@@ -30,7 +30,7 @@ export function lineDirective() {
       );
 
       chartCtrl.dispatch.on(`event.line${line.getCount()}`, (type, args) => {
-        if (type !== 'legend') return;
+        if (type !== "legend") return;
 
         const shouldHide = scope.valueY(args[0]);
 

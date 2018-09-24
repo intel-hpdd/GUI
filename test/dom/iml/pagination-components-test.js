@@ -1,11 +1,11 @@
 // @flow
-import Inferno from 'inferno';
-import { Pager, EntriesDropdown, TableInfo } from '../../../source/iml/pagination-components.js';
-import { renderToSnapshot } from '../../test-utils.js';
-import { querySelector } from '../../../source/iml/dom-utils.js';
-import type { Meta } from '../../../source/iml/api-types.js';
+import Inferno from "inferno";
+import { Pager, EntriesDropdown, TableInfo } from "../../../source/iml/pagination-components.js";
+import { renderToSnapshot } from "../../test-utils.js";
+import { querySelector } from "../../../source/iml/dom-utils.js";
+import type { Meta } from "../../../source/iml/api-types.js";
 
-describe('EntriesDropdown DOM testing', () => {
+describe("EntriesDropdown DOM testing", () => {
   let clickHandler, vnode;
 
   beforeEach(() => {
@@ -13,39 +13,39 @@ describe('EntriesDropdown DOM testing', () => {
     vnode = <EntriesDropdown entries={10} setEntries={clickHandler} />;
   });
 
-  it('should render entries as expected', () => {
+  it("should render entries as expected", () => {
     expect(renderToSnapshot(vnode)).toMatchSnapshot();
   });
 
-  describe('clicking', () => {
+  describe("clicking", () => {
     let root;
 
     beforeEach(() => {
-      root = document.createElement('div');
-      querySelector(document, 'body').appendChild(root);
+      root = document.createElement("div");
+      querySelector(document, "body").appendChild(root);
       Inferno.render(vnode, root);
     });
 
     afterEach(() => {
-      querySelector(document, 'body').removeChild(root);
+      querySelector(document, "body").removeChild(root);
     });
 
-    it('should open when clicked', () => {
-      querySelector(root, 'button').click();
+    it("should open when clicked", () => {
+      querySelector(root, "button").click();
 
       expect(root.innerHTML).toMatchSnapshot();
     });
 
-    it('should call handler when entry is clicked', () => {
-      querySelector(root, 'button').click();
-      root.querySelectorAll('a')[1].click();
+    it("should call handler when entry is clicked", () => {
+      querySelector(root, "button").click();
+      root.querySelectorAll("a")[1].click();
 
       expect(clickHandler).toHaveBeenCalledOnceWith(25, expect.any(Object));
     });
   });
 });
 
-describe('TableInfo DOM testing', () => {
+describe("TableInfo DOM testing", () => {
   let meta: Meta;
 
   beforeEach(() => {
@@ -58,12 +58,12 @@ describe('TableInfo DOM testing', () => {
     };
   });
 
-  it('should render as expected', () => {
+  it("should render as expected", () => {
     expect(renderToSnapshot(<TableInfo meta={meta} />)).toMatchSnapshot();
   });
 });
 
-describe('Pager DOM testing', () => {
+describe("Pager DOM testing", () => {
   let meta: Meta, clickHandler;
 
   beforeEach(() => {
@@ -78,7 +78,7 @@ describe('Pager DOM testing', () => {
     clickHandler = jest.fn();
   });
 
-  it('should render nothing if there is a single page', () => {
+  it("should render nothing if there is a single page", () => {
     meta = {
       limit: 10,
       total_count: 10,
@@ -89,7 +89,7 @@ describe('Pager DOM testing', () => {
     expect(renderToSnapshot(<Pager meta={meta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
-  it('should render as expected', () => {
+  it("should render as expected", () => {
     const newMeta = {
       ...meta,
       limit: 25,
@@ -100,7 +100,7 @@ describe('Pager DOM testing', () => {
     expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
-  it('should reset pages if on the trailing edge', () => {
+  it("should reset pages if on the trailing edge", () => {
     const newMeta = {
       ...meta,
       limit: 25,
@@ -111,7 +111,7 @@ describe('Pager DOM testing', () => {
     expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
-  it('should disable the previous button if on the first page', () => {
+  it("should disable the previous button if on the first page", () => {
     const newMeta = {
       ...meta,
       limit: 25,
@@ -122,7 +122,7 @@ describe('Pager DOM testing', () => {
     expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
-  it('should disable the next button if on the last page', () => {
+  it("should disable the next button if on the last page", () => {
     const newMeta = {
       ...meta,
       limit: 25,
@@ -133,34 +133,34 @@ describe('Pager DOM testing', () => {
     expect(renderToSnapshot(<Pager meta={newMeta} setOffset={clickHandler} />)).toMatchSnapshot();
   });
 
-  describe('click handling', () => {
+  describe("click handling", () => {
     let root;
 
     beforeEach(() => {
-      root = document.createElement('div');
-      querySelector(document, 'body').appendChild(root);
+      root = document.createElement("div");
+      querySelector(document, "body").appendChild(root);
 
       Inferno.render(<Pager meta={meta} setOffset={clickHandler} />, root);
     });
 
     afterEach(() => {
-      querySelector(document, 'body').removeChild(root);
+      querySelector(document, "body").removeChild(root);
     });
 
-    it('should go to the previous page when clicking previous', () => {
-      querySelector(root, '.pagination-prev a').click();
+    it("should go to the previous page when clicking previous", () => {
+      querySelector(root, ".pagination-prev a").click();
 
       expect(clickHandler).toHaveBeenCalledOnceWith(0, expect.any(Object));
     });
 
-    it('should go to the next page when clicking next', () => {
-      querySelector(root, '.pagination-next a').click();
+    it("should go to the next page when clicking next", () => {
+      querySelector(root, ".pagination-next a").click();
 
       expect(clickHandler).toHaveBeenCalledOnceWith(20, expect.any(Object));
     });
 
-    it('should go to the clicked page', () => {
-      querySelector(root, '.pagination-page a').click();
+    it("should go to the clicked page", () => {
+      querySelector(root, ".pagination-page a").click();
 
       expect(clickHandler).toHaveBeenCalledOnceWith(0, expect.any(Object));
     });

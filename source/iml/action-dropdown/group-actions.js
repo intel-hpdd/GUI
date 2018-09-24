@@ -3,18 +3,18 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export default function groupActionsFilter() {
   const numDisplayGroups = fp.flow(
-    fp.map(fp.view(fp.lensProp('display_group'))),
+    fp.map(fp.view(fp.lensProp("display_group"))),
     fp.filter(
       fp.flow(
         fp.eq(undefined),
         fp.not
       )
     ),
-    fp.view(fp.lensProp('length'))
+    fp.view(fp.lensProp("length"))
   );
 
   // Sort items by display_group, then by display_order.

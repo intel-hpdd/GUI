@@ -1,13 +1,13 @@
-import { ADD_FS_ITEMS, default as fileSystemReducer } from '../../../../source/iml/file-system/file-system-reducer.js';
-import deepFreeze from '@iml/deep-freeze';
+import { ADD_FS_ITEMS, default as fileSystemReducer } from "../../../../source/iml/file-system/file-system-reducer.js";
+import deepFreeze from "@iml/deep-freeze";
 
-describe('file system reducer', () => {
-  it('should be a function', () => {
+describe("file system reducer", () => {
+  it("should be a function", () => {
     expect(fileSystemReducer).toEqual(expect.any(Function));
   });
 
-  describe('matching type', () => {
-    it('should return the payload', () => {
+  describe("matching type", () => {
+    it("should return the payload", () => {
       expect(
         fileSystemReducer(deepFreeze([]), {
           type: ADD_FS_ITEMS,
@@ -17,13 +17,13 @@ describe('file system reducer', () => {
     });
   });
 
-  describe('non-matching type', () => {
-    it('should return the state', () => {
+  describe("non-matching type", () => {
+    it("should return the state", () => {
       expect(
         fileSystemReducer(deepFreeze([]), {
-          type: 'ADD_ALERT_INDICATOR_ITEMS',
+          type: "ADD_ALERT_INDICATOR_ITEMS",
           payload: {
-            key: 'val'
+            key: "val"
           }
         })
       ).toEqual([]);

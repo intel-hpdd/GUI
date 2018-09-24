@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
 export default angular
-  .module('steps-module', [])
-  .directive('stepContainer', [
-    '$q',
-    '$controller',
-    '$compile',
+  .module("steps-module", [])
+  .directive("stepContainer", [
+    "$q",
+    "$controller",
+    "$compile",
     function stepContainerDirective($q, $controller, $compile) {
       return {
-        restrict: 'E',
+        restrict: "E",
         scope: {
-          manager: '='
+          manager: "="
         },
         link: function link(scope, el) {
           let innerScope, resolvesFinished;
@@ -78,7 +78,7 @@ export default angular
             }
           });
 
-          scope.$on('$destroy', function onDestroy() {
+          scope.$on("$destroy", function onDestroy() {
             scope.manager.destroy();
 
             if (innerScope) innerScope.$destroy();
@@ -87,9 +87,9 @@ export default angular
       };
     }
   ])
-  .factory('stepsManager', [
-    '$q',
-    '$injector',
+  .factory("stepsManager", [
+    "$q",
+    "$injector",
     function stepManagerFactory($q, $injector) {
       return function stepManager() {
         let currentStep, listener, pending;
@@ -104,7 +104,7 @@ export default angular
            * @returns {*}
            */
           addWaitingStep: function addWaitingStep(step) {
-            if (steps.waitingStep) throw new Error('Cannot assign the waiting step as it is already defined.');
+            if (steps.waitingStep) throw new Error("Cannot assign the waiting step as it is already defined.");
 
             steps.waitingStep = step;
 

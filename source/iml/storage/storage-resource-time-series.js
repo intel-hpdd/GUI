@@ -5,34 +5,34 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { HighlandStreamT } from 'highland';
-import type { TimeseriesChart } from './storage-types.js';
-import type { Point } from '../api-types.js';
+import type { HighlandStreamT } from "highland";
+import type { TimeseriesChart } from "./storage-types.js";
+import type { Point } from "../api-types.js";
 
-import highland from 'highland';
-import Chart from '../charting/chart.js';
-import Axis from '../charting/axis.js';
-import Line from '../charting/line.js';
-import Legend from '../charting/legend.js';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import d3 from 'd3';
-import socketStream from '../socket/socket-stream.js';
+import highland from "highland";
+import Chart from "../charting/chart.js";
+import Axis from "../charting/axis.js";
+import Line from "../charting/line.js";
+import Legend from "../charting/legend.js";
+import Inferno from "inferno";
+import Component from "inferno-component";
+import d3 from "d3";
+import socketStream from "../socket/socket-stream.js";
 
-import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
+import bufferDataNewerThan from "../charting/buffer-data-newer-than.js";
 
-import { getTimeParams } from '../charting/get-time-params.js';
-import { values } from '@iml/obj';
-import { cloneChildren } from '../inferno-utils.js';
-import { uniqBy } from '@iml/fp';
+import { getTimeParams } from "../charting/get-time-params.js";
+import { values } from "@iml/obj";
+import { cloneChildren } from "../inferno-utils.js";
+import { uniqBy } from "@iml/fp";
 
 const NoData = props => (
   <div
     style={{
-      height: '500px',
-      display: 'flex',
-      'justify-content': 'center',
-      'align-items': 'center'
+      height: "500px",
+      display: "flex",
+      "justify-content": "center",
+      "align-items": "center"
     }}
   >
     <h3>{props.message}</h3>
@@ -74,9 +74,9 @@ export default class StorageResourceTimeSeries extends Component {
     data: null
   };
   componentWillMount() {
-    const metrics = this.props.chart.series.map(s => s.name).join(',');
+    const metrics = this.props.chart.series.map(s => s.name).join(",");
 
-    const d = [10, 'minutes'];
+    const d = [10, "minutes"];
     const duration = getTimeParams.getRequestDuration({})(...d);
     const buff = bufferDataNewerThan(...d);
 
@@ -119,19 +119,19 @@ export default class StorageResourceTimeSeries extends Component {
     const colors = d3.scale.category10().domain(this.props.chart.series.map(x => x.name).reverse());
 
     return (
-      <div class="storage-detail-chart" style={{ height: '500px', display: 'flex' }}>
-        <div style={{ flex: '0 0 24px', display: 'flex' }}>
+      <div class="storage-detail-chart" style={{ height: "500px", display: "flex" }}>
+        <div style={{ flex: "0 0 24px", display: "flex" }}>
           <h5
             style={{
-              transform: 'rotate(270deg)',
-              'align-self': 'center',
-              width: '24px'
+              transform: "rotate(270deg)",
+              "align-self": "center",
+              width: "24px"
             }}
           >
-            {uniqBy(x => x)(this.props.chart.series.map(x => x.unit_name)).join(', ')}
+            {uniqBy(x => x)(this.props.chart.series.map(x => x.unit_name)).join(", ")}
           </h5>
         </div>
-        <div style={{ flex: '1' }}>
+        <div style={{ flex: "1" }}>
           <Chart
             points={data}
             margins={{

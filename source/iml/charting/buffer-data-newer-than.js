@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import getServerMoment from '../get-server-moment.js';
-import sortByDate from './sort-by-date.js';
+import getServerMoment from "../get-server-moment.js";
+import sortByDate from "./sort-by-date.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default function bufferDataNewerThan(size: number | string, unit: string) {
   let buffer = [];

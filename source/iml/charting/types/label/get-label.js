@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import d3 from 'd3';
+import * as fp from "@iml/fp";
+import d3 from "d3";
 
 export default function getLabel() {
-  let color = '#000000';
-  let fill = '#FFFFFF';
+  let color = "#000000";
+  let fill = "#FFFFFF";
   let width = 0;
   let height = 0;
   let data = fp.identity;
@@ -17,45 +17,45 @@ export default function getLabel() {
     selection.each(function() {
       const item = d3.select(this);
 
-      const labelGroup = item.selectAll('.label-group').data(data);
+      const labelGroup = item.selectAll(".label-group").data(data);
 
       const enteringLabelGroup = labelGroup
         .enter()
-        .append('g')
-        .classed('label-group', true);
+        .append("g")
+        .classed("label-group", true);
 
       enteringLabelGroup
-        .style('opacity', 0)
+        .style("opacity", 0)
         .transition()
-        .style('opacity', 1);
+        .style("opacity", 1);
 
-      enteringLabelGroup.append('rect').classed('label-rect', true);
-
-      labelGroup
-        .select('.label-rect')
-        .attr('width', width)
-        .attr('height', height)
-        .attr('fill', fill);
-
-      enteringLabelGroup.append('text').classed('label-text', true);
+      enteringLabelGroup.append("rect").classed("label-rect", true);
 
       labelGroup
-        .select('.label-text')
+        .select(".label-rect")
+        .attr("width", width)
+        .attr("height", height)
+        .attr("fill", fill);
+
+      enteringLabelGroup.append("text").classed("label-text", true);
+
+      labelGroup
+        .select(".label-text")
         .text(fp.identity)
-        .attr('x', () => width / 2)
-        .attr('y', function() {
+        .attr("x", () => width / 2)
+        .attr("y", function() {
           const boundingBox = this.getBoundingClientRect();
 
           return (height + boundingBox.height) / 2;
         })
-        .style('text-anchor', 'middle')
-        .attr('fill', color);
+        .style("text-anchor", "middle")
+        .attr("fill", color);
 
       labelGroup
         .exit()
-        .style('opacity', 1)
+        .style("opacity", 1)
         .transition()
-        .style('opacity', 0)
+        .style("opacity", 0)
         .remove();
     });
   }

@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import * as fp from '@iml/fp';
-import * as maybe from '@iml/maybe';
+import angular from "angular";
+import * as fp from "@iml/fp";
+import * as maybe from "@iml/maybe";
 
-import getServerMoment from '../get-server-moment.js';
-import createDate from '../create-date.js';
+import getServerMoment from "../get-server-moment.js";
+import createDate from "../create-date.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 type Point = {
   data: {
@@ -67,12 +67,12 @@ export const getRequestDuration = (overrides: Object) => (size: number | string,
 
       params.qs.end = end
         .clone()
-        .add(10, 'seconds')
+        .add(10, "seconds")
         .toISOString();
 
       params.qs.begin = end
         .subtract(size, unit)
-        .subtract(10, 'seconds')
+        .subtract(10, "seconds")
         .toISOString();
     }
 

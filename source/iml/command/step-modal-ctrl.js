@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import socketStream from '../socket/socket-stream.js';
-import COMMAND_STATES from './command-states.js';
+import * as fp from "@iml/fp";
+import socketStream from "../socket/socket-stream.js";
+import COMMAND_STATES from "./command-states.js";
 
 export function StepModalCtrl($scope, stepsStream, jobStream) {
-  'ngInject';
+  "ngInject";
   Object.assign(this, {
     steps: [],
     accordion0: true,
     getJobAdjective: function getJobAdjective(job) {
-      if (job.state === 'pending') return COMMAND_STATES.WAITING;
+      if (job.state === "pending") return COMMAND_STATES.WAITING;
 
-      if (job.state !== 'complete') return COMMAND_STATES.RUNNING;
+      if (job.state !== "complete") return COMMAND_STATES.RUNNING;
 
       if (job.cancelled) return COMMAND_STATES.CANCELLED;
       else if (job.errored) return COMMAND_STATES.FAILED;
@@ -26,21 +26,21 @@ export function StepModalCtrl($scope, stepsStream, jobStream) {
     }
   });
 
-  $scope.$on('$destroy', jobStream.destroy.bind(jobStream));
-  $scope.$on('$destroy', stepsStream.destroy.bind(stepsStream));
+  $scope.$on("$destroy", jobStream.destroy.bind(jobStream));
+  $scope.$on("$destroy", stepsStream.destroy.bind(stepsStream));
 
   const p = $scope.propagateChange.bind(null, $scope, this);
 
-  p('job', jobStream);
-  p('steps', stepsStream);
+  p("job", jobStream);
+  p("steps", stepsStream);
 }
 
 export function openStepModalFactory($uibModal) {
-  'ngInject';
-  const extractApiId = fp.map(x => x.replace(/\/api\/step\/(\d+)\/$/, '$1'));
+  "ngInject";
+  const extractApiId = fp.map(x => x.replace(/\/api\/step\/(\d+)\/$/, "$1"));
 
   return job => {
-    const jobStream = socketStream('/job/' + job.id);
+    const jobStream = socketStream("/job/" + job.id);
     jobStream.write(job);
 
     const s2 = jobStream.fork();
@@ -91,20 +91,20 @@ export function openStepModalFactory($uibModal) {
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-      controller: 'StepModalCtrl',
-      controllerAs: 'stepModal',
-      windowClass: 'step-modal',
-      backdrop: 'static',
+      controller: "StepModalCtrl",
+      controllerAs: "stepModal",
+      windowClass: "step-modal",
+      backdrop: "static",
       resolve: {
         jobStream: fp.always(s2),
         stepsStream: fp.always(
           jobStream
             .fork()
-            .pluck('steps')
+            .pluck("steps")
             .map(extractApiId)
             .flatMap(stepIds =>
               socketStream(
-                '/step',
+                "/step",
                 {
                   qs: {
                     id__in: stepIds,
@@ -114,7 +114,7 @@ export function openStepModalFactory($uibModal) {
                 true
               )
             )
-            .pluck('objects')
+            .pluck("objects")
         )
       }
     });

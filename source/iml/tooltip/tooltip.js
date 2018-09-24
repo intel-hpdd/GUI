@@ -5,30 +5,30 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import HelpTooltip from '../help-tooltip.js';
+import Inferno from "inferno";
+import HelpTooltip from "../help-tooltip.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { directionsT, sizesT } from '../tooltip.js';
+import type { directionsT, sizesT } from "../tooltip.js";
 
 export function imlTooltip() {
-  'ngInject';
+  "ngInject";
   return {
     scope: {
-      toggle: '=?',
-      direction: '@',
-      size: '<'
+      toggle: "=?",
+      direction: "@",
+      size: "<"
     },
-    restrict: 'E',
+    restrict: "E",
     transclude: true,
     replace: true,
     link(scope: $scopeT & { in: string }) {
       let deregister = () => {};
 
-      if (scope.hasOwnProperty('toggle'))
+      if (scope.hasOwnProperty("toggle"))
         deregister = scope.$watch(
-          'toggle',
+          "toggle",
           newValue => {
             if (newValue) show();
             else hide();
@@ -37,14 +37,14 @@ export function imlTooltip() {
         );
 
       function show() {
-        scope.in = 'in';
+        scope.in = "in";
       }
 
       function hide() {
         delete scope.in;
       }
 
-      scope.$on('$destroy', () => {
+      scope.$on("$destroy", () => {
         deregister();
         hide();
       });
@@ -57,16 +57,16 @@ export function imlTooltip() {
 }
 
 export function helpTooltip() {
-  'ngInject';
+  "ngInject";
   return {
     scope: {
-      topic: '@',
-      direction: '@',
-      size: '<'
+      topic: "@",
+      direction: "@",
+      size: "<"
     },
-    restrict: 'E',
+    restrict: "E",
     link: function link(scope: {| topic: string, direction: directionsT, size?: sizesT |}, el: HTMLElement[]) {
-      scope.size = scope.size || '';
+      scope.size = scope.size || "";
       Inferno.render(<HelpTooltip helpKey={scope.topic} direction={scope.direction} size={scope.size} />, el[0]);
     }
   };

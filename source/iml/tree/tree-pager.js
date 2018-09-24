@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { updateCollOffset } from './tree-utils.js';
+import { updateCollOffset } from "./tree-utils.js";
 
 export default {
   bindings: {
-    meta: '<',
-    treeId: '<'
+    meta: "<",
+    treeId: "<"
   },
   controller: function() {
-    'ngInject';
+    "ngInject";
     this.pageChange = (id, meta) => {
       updateCollOffset(id, (meta.current_page - 1) * meta.limit);
     };

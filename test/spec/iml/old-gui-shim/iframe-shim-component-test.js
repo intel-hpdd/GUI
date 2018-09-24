@@ -1,4 +1,4 @@
-describe('iframe shim component', () => {
+describe("iframe shim component", () => {
   let context, el, $scope, $location, mockGlobal, frame;
 
   beforeEach(() => {
@@ -7,12 +7,12 @@ describe('iframe shim component', () => {
       removeEventListener: jest.fn()
     };
 
-    jest.mock('../../../../source/iml/environment.js', () => ({
-      UI_ROOT: '/foo/'
+    jest.mock("../../../../source/iml/environment.js", () => ({
+      UI_ROOT: "/foo/"
     }));
-    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
 
-    const mod = require('../../../../source/iml/old-gui-shim/iframe-shim-component.js');
+    const mod = require("../../../../source/iml/old-gui-shim/iframe-shim-component.js");
 
     frame = {
       style: {},
@@ -42,7 +42,7 @@ describe('iframe shim component', () => {
     };
 
     context = {
-      path: 'bar',
+      path: "bar",
       params: {
         id: 3
       }
@@ -58,63 +58,63 @@ describe('iframe shim component', () => {
     jest.useRealTimers();
   });
 
-  it('should set loading to true', () => {
-    expect(el.classList.add).toHaveBeenCalledOnceWith('loading');
+  it("should set loading to true", () => {
+    expect(el.classList.add).toHaveBeenCalledOnceWith("loading");
   });
 
-  it('should set the src', () => {
-    expect(context.src).toBe('/foo/bar/3');
+  it("should set the src", () => {
+    expect(context.src).toBe("/foo/bar/3");
   });
 
-  describe('on load', () => {
+  describe("on load", () => {
     beforeEach(() => {
       el.addEventListener.mock.calls[0][1]();
     });
 
-    it('should set loading to false', () => {
-      expect(el.classList.remove).toHaveBeenCalledOnceWith('loading');
+    it("should set loading to false", () => {
+      expect(el.classList.remove).toHaveBeenCalledOnceWith("loading");
     });
 
-    it('should apply the scope', () => {
+    it("should apply the scope", () => {
       expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
 
-    it('should set the frame height', () => {
+    it("should set the frame height", () => {
       frame.contentDocument.body.scrollHeight = 1000;
 
       jest.runTimersToTime(500);
 
-      expect(frame.style.height).toBe('1000px');
+      expect(frame.style.height).toBe("1000px");
     });
   });
 
-  describe('on message', () => {
+  describe("on message", () => {
     beforeEach(() => {
       mockGlobal.addEventListener.mock.calls[0][1]({
-        data: '/bar/baz/4'
+        data: "/bar/baz/4"
       });
     });
 
-    it('should set the path', () => {
-      expect($location.path).toHaveBeenCalledOnceWith('/bar/baz/4');
+    it("should set the path", () => {
+      expect($location.path).toHaveBeenCalledOnceWith("/bar/baz/4");
     });
 
-    it('should apply the scope', () => {
+    it("should apply the scope", () => {
       expect($scope.$apply).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('on destroy', () => {
+  describe("on destroy", () => {
     beforeEach(() => {
       context.$onDestroy();
     });
 
-    it('should remove the load event listener', () => {
-      expect(el.removeEventListener).toHaveBeenCalledOnceWith('load', expect.any(Function), true);
+    it("should remove the load event listener", () => {
+      expect(el.removeEventListener).toHaveBeenCalledOnceWith("load", expect.any(Function), true);
     });
 
-    it('should remove the message event listener', () => {
-      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith('message', expect.any(Function), false);
+    it("should remove the message event listener", () => {
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledOnceWith("message", expect.any(Function), false);
     });
   });
 });

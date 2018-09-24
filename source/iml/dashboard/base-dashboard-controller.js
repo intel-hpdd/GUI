@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 const STATES = Object.freeze({
-  MONITORED: 'monitored',
-  MANAGED: 'managed'
+  MONITORED: "monitored",
+  MANAGED: "managed"
 });
 
 export default function BaseDashboardCtrl(
@@ -22,7 +22,7 @@ export default function BaseDashboardCtrl(
   charts: Object[],
   propagateChange: PropagateChange
 ) {
-  'ngInject';
+  "ngInject";
   Object.assign(this, {
     fs: [],
     fsB,
@@ -37,9 +37,9 @@ export default function BaseDashboardCtrl(
         state: x.immutable_state ? STATES.MONITORED : STATES.MANAGED
       }))
     )
-    .through(propagateChange.bind(null, $scope, this, 'fs'));
+    .through(propagateChange.bind(null, $scope, this, "fs"));
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     fsB.endBroadcast();
     charts.map(c => c.stream.destroy());
   });

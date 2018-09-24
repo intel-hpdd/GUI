@@ -5,23 +5,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
 function PacemakerStateComponent({ state }: stateT) {
   switch (state) {
-    case 'started':
+    case "started":
       return (
         <span>
           <i class="fa fa-plug text-success" /> Pacemaker Started
         </span>
       );
-    case 'stopped':
+    case "stopped":
       return (
         <span>
           <i class="fa fa-plug text-danger" /> Pacemaker Stopped
         </span>
       );
-    case 'unconfigured':
+    case "unconfigured":
       return (
         <span>
           <i class="fa fa-plug" /> Pacemaker Unconfigured
@@ -36,10 +36,10 @@ type stateT = { state: string };
 
 export default {
   bindings: {
-    stream: '<'
+    stream: "<"
   },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
     this.stream
       .filter(Boolean)
       .each(({ state }: stateT) => Inferno.render(<PacemakerStateComponent state={state} />, $element[0]));

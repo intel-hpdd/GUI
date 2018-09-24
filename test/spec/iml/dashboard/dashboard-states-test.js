@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('dashboard states', () => {
+describe("dashboard states", () => {
   let mod,
     mockDashboardFsB,
     mockDashboardHostB,
@@ -14,58 +14,58 @@ describe('dashboard states', () => {
     mockTargetDashboardTargetStream;
 
   beforeEach(() => {
-    mockDashboardFsB = 'dashboardFsB';
-    mockDashboardHostB = 'dashboardHostB';
-    mockDashboardTargetB = 'dashboardTargetB';
-    mockBaseDashboardChartResolves = 'baseDashboardChartResolves';
-    mockBaseDashboardFsStream = 'baseDashboardFsStream';
-    mockServerDashboardChartResolves = 'serverDashboardChartResolves';
-    mockServerDashboardHostStreamResolves = 'serverDashboardHostStreamResolves';
-    mockTargetDashboardResolves = 'targetDashboardResolves';
-    mockTargetDashboardUsageStream = 'targetDashboardUsageStream';
-    mockTargetDashboardTargetStream = 'targetDashboardTargetStream';
+    mockDashboardFsB = "dashboardFsB";
+    mockDashboardHostB = "dashboardHostB";
+    mockDashboardTargetB = "dashboardTargetB";
+    mockBaseDashboardChartResolves = "baseDashboardChartResolves";
+    mockBaseDashboardFsStream = "baseDashboardFsStream";
+    mockServerDashboardChartResolves = "serverDashboardChartResolves";
+    mockServerDashboardHostStreamResolves = "serverDashboardHostStreamResolves";
+    mockTargetDashboardResolves = "targetDashboardResolves";
+    mockTargetDashboardUsageStream = "targetDashboardUsageStream";
+    mockTargetDashboardTargetStream = "targetDashboardTargetStream";
 
-    jest.mock('../../../../source/iml/dashboard/dashboard-resolves.js', () => ({
+    jest.mock("../../../../source/iml/dashboard/dashboard-resolves.js", () => ({
       dashboardFsB: mockDashboardFsB,
       dashboardHostB: mockDashboardHostB,
       dashboardTargetB: mockDashboardTargetB
     }));
 
-    jest.mock('../../../../source/iml/dashboard/base-dashboard-chart-resolves.js', () => ({
+    jest.mock("../../../../source/iml/dashboard/base-dashboard-chart-resolves.js", () => ({
       baseDashboardChartResolves: mockBaseDashboardChartResolves,
       baseDashboardFsStream: mockBaseDashboardFsStream
     }));
 
-    jest.mock('../../../../source/iml/dashboard/server-dashboard-resolves.js', () => ({
+    jest.mock("../../../../source/iml/dashboard/server-dashboard-resolves.js", () => ({
       serverDashboardChartResolves: mockServerDashboardChartResolves,
       serverDashboardHostStreamResolves: mockServerDashboardHostStreamResolves
     }));
 
-    jest.mock('../../../../source/iml/dashboard/target-dashboard-resolves.js', () => ({
+    jest.mock("../../../../source/iml/dashboard/target-dashboard-resolves.js", () => ({
       targetDashboardResolves: mockTargetDashboardResolves,
       targetDashboardUsageStream: mockTargetDashboardUsageStream,
       targetDashboardTargetStream: mockTargetDashboardTargetStream
     }));
 
-    mod = require('../../../../source/iml/dashboard/dashboard-states.js');
+    mod = require("../../../../source/iml/dashboard/dashboard-states.js");
   });
 
-  describe('dashboard state', () => {
-    it('should create the state', () => {
+  describe("dashboard state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardState).toEqual({
-        name: 'app.dashboard',
+        name: "app.dashboard",
         abstract: true,
         resolve: {
-          fsB: 'dashboardFsB',
-          hostsB: 'dashboardHostB',
-          targetsB: 'dashboardTargetB'
+          fsB: "dashboardFsB",
+          hostsB: "dashboardHostB",
+          targetsB: "dashboardTargetB"
         },
         data: {
           anonymousReadProtected: true,
-          helpPage: 'Graphical_User_Interface_9_0.html#9.1'
+          helpPage: "Graphical_User_Interface_9_0.html#9.1"
         },
-        controller: 'DashboardCtrl',
-        controllerAs: 'dashboard',
+        controller: "DashboardCtrl",
+        controllerAs: "dashboard",
         template: `<div class="container container-full dashboard-container">
   <div class="row">
     <div class="col-xs-12">
@@ -150,13 +150,13 @@ describe('dashboard states', () => {
     });
   });
 
-  describe('dashboard overview state', () => {
-    it('should create the state', () => {
+  describe("dashboard overview state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardOverviewState).toEqual({
-        name: 'app.dashboard.overview',
-        url: '/dashboard',
-        controller: 'BaseDashboardCtrl',
-        controllerAs: 'baseDashboard',
+        name: "app.dashboard.overview",
+        url: "/dashboard",
+        controller: "BaseDashboardCtrl",
+        controllerAs: "baseDashboard",
         template: `<h4 class="section-header">File Systems</h4>
 <div class="row dashboard-info">
   <div class="col-lg-12">
@@ -204,30 +204,30 @@ describe('dashboard states', () => {
           }
         },
         data: {
-          kind: 'Dashboard',
-          icon: 'fa-bar-chart-o'
+          kind: "Dashboard",
+          icon: "fa-bar-chart-o"
         },
         resolve: {
-          charts: 'baseDashboardChartResolves'
+          charts: "baseDashboardChartResolves"
         }
       });
     });
   });
 
-  describe('dashboard server state', () => {
-    it('should create the state', () => {
+  describe("dashboard server state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardServerState).toEqual({
-        name: 'app.dashboard.server',
-        url: '/dashboard/server/:id',
-        controller: 'ServerDashboardCtrl',
-        controllerAs: 'serverDashboard',
+        name: "app.dashboard.server",
+        url: "/dashboard/server/:id",
+        controller: "ServerDashboardCtrl",
+        controllerAs: "serverDashboard",
         template: `<h4 class="section-header">Server: {{serverDashboard.server.label}}</h4>
 
 <h4 class="section-header">Charts</h4>
 <charts-container charts="serverDashboard.charts"></charts-container>`,
         params: {
           kind: {
-            value: 'server',
+            value: "server",
             squash: true
           },
           resetState: {
@@ -235,19 +235,19 @@ describe('dashboard states', () => {
           }
         },
         data: {
-          kind: 'Dashboard - Server',
-          icon: 'fa-bar-chart-o'
+          kind: "Dashboard - Server",
+          icon: "fa-bar-chart-o"
         },
         resolve: {
-          charts: 'serverDashboardChartResolves',
-          hostStream: 'serverDashboardHostStreamResolves',
-          getData: ['hostsB', '$stateParams', expect.any(Function)]
+          charts: "serverDashboardChartResolves",
+          hostStream: "serverDashboardHostStreamResolves",
+          getData: ["hostsB", "$stateParams", expect.any(Function)]
         }
       });
     });
   });
 
-  describe('getDataFn', () => {
+  describe("getDataFn", () => {
     let s$, $stateParams, result;
     beforeEach(() => {
       s$ = highland();
@@ -258,24 +258,24 @@ describe('dashboard states', () => {
       result = mod.dashboardServerState.resolve.getData[2](() => s$, $stateParams);
     });
 
-    it('should pass in the label when present', async () => {
-      s$.write([{ id: 1, label: 'good' }, { id: 2, label: 'bad' }]);
-      expect(await result).toEqual({ label: 'good' });
+    it("should pass in the label when present", async () => {
+      s$.write([{ id: 1, label: "good" }, { id: 2, label: "bad" }]);
+      expect(await result).toEqual({ label: "good" });
     });
 
-    it('should pass an empty label when not present', async () => {
+    it("should pass an empty label when not present", async () => {
       s$.write([{ id: 2 }]);
-      expect(await result).toEqual({ label: '' });
+      expect(await result).toEqual({ label: "" });
     });
   });
 
-  describe('dashboard MDT state', () => {
-    it('should create the state', () => {
+  describe("dashboard MDT state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardMdtState).toEqual({
-        name: 'app.dashboard.mdt',
-        url: '/dashboard/MDT/:id',
-        controller: 'TargetDashboardController',
-        controllerAs: 'targetDashboard',
+        name: "app.dashboard.mdt",
+        url: "/dashboard/MDT/:id",
+        controller: "TargetDashboardController",
+        controllerAs: "targetDashboard",
         template: `<h4 class="section-header">{{ targetDashboard.kind }}: {{targetDashboard.target.label}}</h4>
 <div class="row dashboard-info">
   <div class="col-lg-12">
@@ -321,7 +321,7 @@ describe('dashboard states', () => {
 <charts-container charts="targetDashboard.charts"></charts-container>`,
         params: {
           kind: {
-            value: 'MDT',
+            value: "MDT",
             squash: true
           },
           resetState: {
@@ -329,26 +329,26 @@ describe('dashboard states', () => {
           }
         },
         data: {
-          kind: 'Dashboard - MDT',
-          icon: 'fa-bar-chart-o'
+          kind: "Dashboard - MDT",
+          icon: "fa-bar-chart-o"
         },
         resolve: {
-          charts: 'targetDashboardResolves',
-          targetStream: 'targetDashboardTargetStream',
-          usageStream: 'targetDashboardUsageStream',
-          getData: ['targetsB', '$stateParams', expect.any(Function)]
+          charts: "targetDashboardResolves",
+          targetStream: "targetDashboardTargetStream",
+          usageStream: "targetDashboardUsageStream",
+          getData: ["targetsB", "$stateParams", expect.any(Function)]
         }
       });
     });
   });
 
-  describe('dashboard OST state', () => {
-    it('should create the state', () => {
+  describe("dashboard OST state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardOstState).toEqual({
-        name: 'app.dashboard.ost',
-        url: '/dashboard/OST/:id',
-        controller: 'TargetDashboardController',
-        controllerAs: 'targetDashboard',
+        name: "app.dashboard.ost",
+        url: "/dashboard/OST/:id",
+        controller: "TargetDashboardController",
+        controllerAs: "targetDashboard",
         template: `<h4 class="section-header">{{ targetDashboard.kind }}: {{targetDashboard.target.label}}</h4>
 <div class="row dashboard-info">
   <div class="col-lg-12">
@@ -393,12 +393,12 @@ describe('dashboard states', () => {
 
 <charts-container charts="targetDashboard.charts"></charts-container>`,
         data: {
-          kind: 'Dashboard - OST',
-          icon: 'fa-bar-chart-o'
+          kind: "Dashboard - OST",
+          icon: "fa-bar-chart-o"
         },
         params: {
           kind: {
-            value: 'OST',
+            value: "OST",
             squash: true
           },
           resetState: {
@@ -406,22 +406,22 @@ describe('dashboard states', () => {
           }
         },
         resolve: {
-          charts: 'targetDashboardResolves',
-          targetStream: 'targetDashboardTargetStream',
-          usageStream: 'targetDashboardUsageStream',
-          getData: ['targetsB', '$stateParams', expect.any(Function)]
+          charts: "targetDashboardResolves",
+          targetStream: "targetDashboardTargetStream",
+          usageStream: "targetDashboardUsageStream",
+          getData: ["targetsB", "$stateParams", expect.any(Function)]
         }
       });
     });
   });
 
-  describe('dashboard fs state', () => {
-    it('should create the state', () => {
+  describe("dashboard fs state", () => {
+    it("should create the state", () => {
       expect(mod.dashboardFsState).toEqual({
-        name: 'app.dashboard.fs',
-        url: '/dashboard/fs/:id',
-        controller: 'BaseDashboardCtrl',
-        controllerAs: 'baseDashboard',
+        name: "app.dashboard.fs",
+        url: "/dashboard/fs/:id",
+        controller: "BaseDashboardCtrl",
+        controllerAs: "baseDashboard",
         template: `<h4 class="section-header">File Systems</h4>
 <div class="row dashboard-info">
   <div class="col-lg-12">
@@ -464,12 +464,12 @@ describe('dashboard states', () => {
 <h4 class="section-header">Charts</h4>
 <charts-container charts="baseDashboard.charts"></charts-container>`,
         data: {
-          kind: 'Dashboard - FS',
-          icon: 'fa-bar-chart-o'
+          kind: "Dashboard - FS",
+          icon: "fa-bar-chart-o"
         },
         params: {
           kind: {
-            value: 'fs',
+            value: "fs",
             squash: true
           },
           resetState: {
@@ -477,8 +477,8 @@ describe('dashboard states', () => {
           }
         },
         resolve: {
-          charts: 'baseDashboardChartResolves',
-          getData: ['fsB', '$stateParams', expect.any(Function)]
+          charts: "baseDashboardChartResolves",
+          getData: ["fsB", "$stateParams", expect.any(Function)]
         }
       });
     });

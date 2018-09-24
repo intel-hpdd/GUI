@@ -1,9 +1,9 @@
-import parserPermutations from '../../../source/iml/parser-permutations.js';
-import { noSpace } from '../../../source/iml/string.js';
+import parserPermutations from "../../../source/iml/parser-permutations.js";
+import { noSpace } from "../../../source/iml/string.js";
 
-describe('cross product', () => {
-  it('should product the cross product of two arrays', () => {
-    const permutations = parserPermutations(['severity', 'record_type', 'offset', 'limit', 'order_by', 'begin', 'end']);
+describe("cross product", () => {
+  it("should product the cross product of two arrays", () => {
+    const permutations = parserPermutations(["severity", "record_type", "offset", "limit", "order_by", "begin", "end"]);
 
     expect(permutations).toEqual(
       noSpace`severity__in&severity__contains&severity__startswith&

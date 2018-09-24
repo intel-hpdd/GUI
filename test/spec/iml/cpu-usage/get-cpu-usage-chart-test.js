@@ -1,7 +1,7 @@
-import angular from '../../../angular-mock-setup.js';
-import highland from 'highland';
+import angular from "../../../angular-mock-setup.js";
+import highland from "highland";
 
-describe('cpu usage chart', () => {
+describe("cpu usage chart", () => {
   let mockChartCompiler,
     mockGetCpuUsageStream,
     standardConfig,
@@ -23,9 +23,9 @@ describe('cpu usage chart', () => {
     mockGetCpuUsageStream = jest.fn();
 
     standardConfig = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1464812942650,
       endDate: 1464812997102
     };
@@ -35,13 +35,13 @@ describe('cpu usage chart', () => {
         server1: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         server1: standardConfig
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -73,7 +73,7 @@ describe('cpu usage chart', () => {
     });
 
     initStream = highland();
-    jest.spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, "destroy");
 
     data$Fn = jest.fn((overrides, fn) => {
       fn()();
@@ -84,16 +84,16 @@ describe('cpu usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock('../../../../source/iml/cpu-usage/get-cpu-usage-stream.js', () => mockGetCpuUsageStream);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
-    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+    jest.mock("../../../../source/iml/cpu-usage/get-cpu-usage-stream.js", () => mockGetCpuUsageStream);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/duration-picker/duration-payload.js", () => mockDurationPayload);
+    jest.mock("../../../../source/iml/duration-picker/duration-submit-handler.js", () => mockDurationSubmitHandler);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({
       getConf: mockGetConf
     }));
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
 
-    const mod = require('../../../../source/iml/cpu-usage/get-cpu-usage-chart.js');
+    const mod = require("../../../../source/iml/cpu-usage/get-cpu-usage-chart.js");
 
     getCpuUsageChartFactory = mod.default;
   });
@@ -104,47 +104,47 @@ describe('cpu usage chart', () => {
     getCpuUsageChart(
       {
         qs: {
-          host_id: '1'
+          host_id: "1"
         }
       },
-      'server1'
+      "server1"
     );
 
     const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getCpuUsageChart).toEqual(expect.any(Function));
   });
 
-  it('should dispatch fileUsageChart to the store', () => {
+  it("should dispatch fileUsageChart to the store", () => {
     expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-      type: 'DEFAULT_CPU_USAGE_CHART_ITEMS',
+      type: "DEFAULT_CPU_USAGE_CHART_ITEMS",
       payload: {
-        page: 'server1',
-        configType: 'duration',
+        page: "server1",
+        configType: "duration",
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         startDate: 1464812942650,
         endDate: 1464812997102
       }
     });
   });
 
-  it('should select the cpuUsageChart store', () => {
-    expect(mockGetStore.select).toHaveBeenCalledOnceWith('cpuUsageCharts');
+  it("should select the cpuUsageChart store", () => {
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith("cpuUsageCharts");
   });
 
-  it('should call getConf', () => {
-    expect(mockGetConf).toHaveBeenCalledOnceWith('server1');
+  it("should call getConf", () => {
+    expect(mockGetConf).toHaveBeenCalledOnceWith("server1");
   });
 
-  it('should call data$Fn', () => {
+  it("should call data$Fn", () => {
     expect(data$Fn).toHaveBeenCalledOnceWith(
       {
         qs: {
-          host_id: '1'
+          host_id: "1"
         }
       },
       expect.any(Function),
@@ -152,7 +152,7 @@ describe('cpu usage chart', () => {
     );
   });
 
-  it('should call the chart compiler', () => {
+  it("should call the chart compiler", () => {
     expect(mockChartCompiler).toHaveBeenCalledOnceWith(
       `<div config-toggle>
   <h5>CPU Usage</h5>
@@ -179,11 +179,11 @@ describe('cpu usage chart', () => {
     );
   });
 
-  it('should call getCpuUsageStream', () => {
+  it("should call getCpuUsageStream", () => {
     expect(mockGetCpuUsageStream).toHaveBeenCalledTimes(1);
   });
 
-  describe('config', () => {
+  describe("config", () => {
     let handler, $scope, stream, config;
 
     beforeEach(
@@ -191,22 +191,22 @@ describe('cpu usage chart', () => {
         handler = mockChartCompiler.mock.calls[0][2];
 
         stream = highland();
-        jest.spyOn(stream, 'destroy');
+        jest.spyOn(stream, "destroy");
         $scope = $rootScope.$new();
 
         config = handler($scope, stream);
       })
     );
 
-    it('should return a config', () => {
+    it("should return a config", () => {
       expect(config).toEqual({
         stream,
-        configType: 'duration',
-        page: '',
+        configType: "duration",
+        page: "",
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         onSubmit: expect.any(Function),
         options: {
           setup: expect.any(Function)
@@ -214,19 +214,19 @@ describe('cpu usage chart', () => {
       });
     });
 
-    it('should select the cpuUsageChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('cpuUsageCharts');
+    it("should select the cpuUsageChart store", () => {
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith("cpuUsageCharts");
     });
 
-    it('should call getConf', () => {
-      expect(mockGetConf).toHaveBeenCalledTwiceWith('server1');
+    it("should call getConf", () => {
+      expect(mockGetConf).toHaveBeenCalledTwiceWith("server1");
     });
 
-    it('should call localApply', () => {
+    it("should call localApply", () => {
       expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
-    it('should destroy the stream when the chart is destroyed', () => {
+    it("should destroy the stream when the chart is destroyed", () => {
       $scope.$destroy();
 
       expect(initStream.destroy).toHaveBeenCalled();
@@ -234,7 +234,7 @@ describe('cpu usage chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('setup', () => {
+    describe("setup", () => {
       let chart, d3, formatter;
 
       beforeEach(() => {
@@ -259,33 +259,33 @@ describe('cpu usage chart', () => {
         config.options.setup(chart, d3);
       });
 
-      it('should use interactive guideline', () => {
+      it("should use interactive guideline", () => {
         expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should force y', () => {
+      it("should force y", () => {
         expect(chart.forceY).toHaveBeenCalledOnceWith([0, 1]);
       });
 
-      it('should set y tick format', () => {
+      it("should set y tick format", () => {
         expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(formatter);
       });
 
-      it('should turn off x axis max and min', () => {
+      it("should turn off x axis max and min", () => {
         expect(chart.xAxis.showMaxMin).toHaveBeenCalledOnceWith(false);
       });
 
-      it('should should create a tick formatter', () => {
-        expect(d3.format).toHaveBeenCalledOnceWith('.1%');
+      it("should should create a tick formatter", () => {
+        expect(d3.format).toHaveBeenCalledOnceWith(".1%");
       });
 
-      it('should set colors', () => {
-        expect(chart.color).toHaveBeenCalledOnceWith(['#2f7087', '#f09659', '#f0d359']);
+      it("should set colors", () => {
+        expect(chart.color).toHaveBeenCalledOnceWith(["#2f7087", "#f09659", "#f0d359"]);
       });
     });
   });
 
-  describe('on submit', () => {
+  describe("on submit", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -299,13 +299,13 @@ describe('cpu usage chart', () => {
       })
     );
 
-    it('should call durationSubmitHandler', () => {
-      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_CPU_USAGE_CHART_ITEMS', {
-        page: 'server1'
+    it("should call durationSubmitHandler", () => {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith("UPDATE_CPU_USAGE_CHART_ITEMS", {
+        page: "server1"
       });
     });
 
-    it('should invoke the submit handler', () => {
+    it("should invoke the submit handler", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });

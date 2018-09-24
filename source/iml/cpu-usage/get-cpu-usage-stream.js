@@ -3,27 +3,27 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import removeDups from '../charting/remove-dups.js';
-import toNvd3 from '../charting/to-nvd3.js';
-import highland from 'highland';
+import socketStream from "../socket/socket-stream.js";
+import removeDups from "../charting/remove-dups.js";
+import toNvd3 from "../charting/to-nvd3.js";
+import highland from "highland";
 
-const types = ['user', 'system', 'iowait'];
+const types = ["user", "system", "iowait"];
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
-        reduce_fn: 'average',
-        metrics: 'cpu_total,cpu_user,cpu_system,cpu_iowait'
+        reduce_fn: "average",
+        metrics: "cpu_total,cpu_user,cpu_system,cpu_iowait"
       }
     });
 
-    socketStream('/host/metric', params, true)
+    socketStream("/host/metric", params, true)
       .flatten()
       .tap(function mapper(x) {
         types.forEach(function(type) {
-          x.data[type] = (100 * x.data['cpu_' + type] + x.data.cpu_total / 2) / x.data.cpu_total / 100;
+          x.data[type] = (100 * x.data["cpu_" + type] + x.data.cpu_total / 2) / x.data.cpu_total / 100;
         });
       })
       .map(function calculateCpuAndRam(x) {

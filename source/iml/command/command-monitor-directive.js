@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import socketStream from '../socket/socket-stream.js';
-import getCommandStream from '../command/get-command-stream.js';
+import * as fp from "@iml/fp";
+import socketStream from "../socket/socket-stream.js";
+import getCommandStream from "../command/get-command-stream.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { localApplyT } from '../extend-scope-module.js';
+import type { localApplyT } from "../extend-scope-module.js";
 
 const set = (ctx, name) => x => (ctx[name] = x);
 
@@ -28,7 +28,7 @@ export function CommandMonitorCtrl(
   localApply: localApplyT<*>,
   $exceptionHandler: Function
 ) {
-  'ngInject';
+  "ngInject";
   const commandMonitorCtrl = this;
 
   commandMonitorCtrl.showPending = function showPending() {
@@ -36,7 +36,7 @@ export function CommandMonitorCtrl(
     openCommandModal(stream).result.finally(stream.destroy.bind(stream));
   };
 
-  const commandMonitor$ = socketStream('/command', {
+  const commandMonitor$ = socketStream("/command", {
     qs: {
       limit: 0,
       errored: false,
@@ -47,11 +47,11 @@ export function CommandMonitorCtrl(
   commandMonitor$
     .map(x => x.objects)
     .map(notCancelled)
-    .tap(set(this, 'lastObjects'))
+    .tap(set(this, "lastObjects"))
     .tap(
       fp.flow(
         x => x.length,
-        set(this, 'length')
+        set(this, "length")
       )
     )
     .stopOnError(e => $exceptionHandler(e))
@@ -59,13 +59,13 @@ export function CommandMonitorCtrl(
 
   this.length = 1;
 
-  $scope.$on('$destroy', () => commandMonitor$.destroy());
+  $scope.$on("$destroy", () => commandMonitor$.destroy());
 }
 
 export default () => ({
-  restrict: 'A',
+  restrict: "A",
   controller: CommandMonitorCtrl,
-  controllerAs: '$ctrl',
+  controllerAs: "$ctrl",
   template: `
     <a ng-if="$ctrl.length > 0" ng-click="$ctrl.showPending()">
       <i class="fa fa-refresh fa-spin command-in-progress"></i>

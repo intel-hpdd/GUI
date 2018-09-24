@@ -3,7 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
 const adder = xs => y => {
   const record = xs.find(x => x.id === y.id);
@@ -15,13 +15,13 @@ const adder = xs => y => {
 
 export default function unionWithTarget(s) {
   const targetStream = socketStream(
-    '/target',
+    "/target",
     {
       qs: { limit: 0 },
-      jsonMask: 'objects(id,name)'
+      jsonMask: "objects(id,name)"
     },
     true
-  ).pluck('objects');
+  ).pluck("objects");
 
   return s
     .collect()

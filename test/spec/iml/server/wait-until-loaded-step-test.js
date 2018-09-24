@@ -1,7 +1,7 @@
-import { waitUntilLoadedCtrl, waitUntilLoadedStep } from '../../../../source/iml/server/wait-until-loaded-step.js';
-import angular from '../../../angular-mock-setup.js';
+import { waitUntilLoadedCtrl, waitUntilLoadedStep } from "../../../../source/iml/server/wait-until-loaded-step.js";
+import angular from "../../../angular-mock-setup.js";
 
-describe('wait until add server resolves complete', () => {
+describe("wait until add server resolves complete", () => {
   let scope, $rootScope, step;
 
   beforeEach(() => {
@@ -17,11 +17,11 @@ describe('wait until add server resolves complete', () => {
     })
   );
 
-  describe('Wait Until Loaded Controller', () => {
-    it('should emit the closeModal event', () => {
+  describe("Wait Until Loaded Controller", () => {
+    it("should emit the closeModal event", () => {
       let closeModalCalled = false;
 
-      $rootScope.$on('addServerModal::closeModal', () => (closeModalCalled = true));
+      $rootScope.$on("addServerModal::closeModal", () => (closeModalCalled = true));
 
       scope.wait.close();
       scope.$digest();
@@ -30,8 +30,8 @@ describe('wait until add server resolves complete', () => {
     });
   });
 
-  describe('initialize waitUntilLoadedStep', () => {
-    it('should have the template', () => {
+  describe("initialize waitUntilLoadedStep", () => {
+    it("should have the template", () => {
       expect(step.template).toBe(`<div class="modal-header">
   <button type="button" class="close" ng-click="wait.close()">
     <i class="fa fa-times"></i>
@@ -50,8 +50,8 @@ describe('wait until add server resolves complete', () => {
 </div>`);
     });
 
-    it('should have the controller specified', () => {
-      expect(step.controller).toBe('WaitUntilLoadedCtrl');
+    it("should have the controller specified", () => {
+      expect(step.controller).toBe("WaitUntilLoadedCtrl");
     });
   });
 });

@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
+import highland from "highland";
 
-import type { HighlandStreamT, errorWrapT } from 'highland';
+import type { HighlandStreamT, errorWrapT } from "highland";
 
 type streamFnT = () => HighlandStreamT<any>;
 

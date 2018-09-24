@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { diffComponentCtrl } from './diff-component';
+import type { diffComponentCtrl } from "./diff-component";
 
 export const DiffModelCtrl = class {
   modelCtrl: {
@@ -33,11 +33,11 @@ export const DiffModelCtrl = class {
 
 export default function diffModel(): Object {
   return {
-    restrict: 'A',
-    bindToController: 'true',
+    restrict: "A",
+    bindToController: "true",
     require: {
-      modelCtrl: 'ngModel',
-      diffCtrl: '^differ'
+      modelCtrl: "ngModel",
+      diffCtrl: "^differ"
     },
     controller: DiffModelCtrl
   };

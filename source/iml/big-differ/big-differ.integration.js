@@ -1,9 +1,9 @@
-import angular from '../../../test/angular-mock-setup.js';
-import bigDifferModule from './big-differ-module';
+import angular from "../../../test/angular-mock-setup.js";
+import bigDifferModule from "./big-differ-module";
 
-describe('big differ integration test', () => {
+describe("big differ integration test", () => {
   beforeEach(() => {
-    if (!window.angular) require('angular');
+    if (!window.angular) require("angular");
   });
 
   beforeEach(angular.mock.module(bigDifferModule));
@@ -14,7 +14,7 @@ describe('big differ integration test', () => {
     angular.mock.inject(($compile, $rootScope) => {
       $scope = $rootScope.$new();
 
-      $scope.inputModel = 'foo';
+      $scope.inputModel = "foo";
       $scope.getMessage = state => {
         return state.local;
       };
@@ -34,42 +34,42 @@ describe('big differ integration test', () => {
       el = $compile(template)($scope)[0];
       $scope.$digest();
 
-      resetButton = el.querySelector.bind(el, '.reset-btn');
-      cleanRecordButton = el.querySelector.bind(el, '.clean-record');
-      differEl = el.querySelector.bind(el, 'differ > div');
-      input = el.querySelector.bind(el, 'input');
+      resetButton = el.querySelector.bind(el, ".reset-btn");
+      cleanRecordButton = el.querySelector.bind(el, ".clean-record");
+      differEl = el.querySelector.bind(el, "differ > div");
+      input = el.querySelector.bind(el, "input");
     })
   );
 
-  it('should have the reset button disabled', () => {
+  it("should have the reset button disabled", () => {
     expect(resetButton().disabled).toBe(true);
   });
 
-  it('should not render the clean record button', () => {
+  it("should not render the clean record button", () => {
     expect(cleanRecordButton()).toBe(null);
   });
 
-  describe('tooltip message', () => {
+  describe("tooltip message", () => {
     let text;
 
     beforeEach(() => {
       document.body.appendChild(el);
-      const mouseOver = new MouseEvent('mouseover');
+      const mouseOver = new MouseEvent("mouseover");
 
-      input().value = 'bar';
+      input().value = "bar";
 
-      const event = new Event('input');
+      const event = new Event("input");
       input().dispatchEvent(event);
       $scope.$digest();
 
       cleanRecordButton().dispatchEvent(mouseOver);
       $scope.$digest();
 
-      text = document.body.querySelector('.tooltip .tooltip-inner').textContent;
+      text = document.body.querySelector(".tooltip .tooltip-inner").textContent;
     });
 
-    it('should put text in tooltip', () => {
-      expect(text).toBe('bar');
+    it("should put text in tooltip", () => {
+      expect(text).toBe("bar");
     });
 
     afterEach(() => {
@@ -77,104 +77,104 @@ describe('big differ integration test', () => {
     });
   });
 
-  describe('local change', () => {
+  describe("local change", () => {
     beforeEach(() => {
-      input().value = 'bar';
+      input().value = "bar";
 
-      const event = new Event('input');
+      const event = new Event("input");
       input().dispatchEvent(event);
       $scope.$digest();
     });
 
-    it('should have the reset button enabled', () => {
+    it("should have the reset button enabled", () => {
       expect(resetButton().disabled).toBe(false);
     });
 
-    it('should render the clean record button', () => {
+    it("should render the clean record button", () => {
       expect(cleanRecordButton()).not.toBe(null);
     });
 
-    it('should add the local change class', () => {
-      expect(differEl().classList.contains('local')).toBe(true);
+    it("should add the local change class", () => {
+      expect(differEl().classList.contains("local")).toBe(true);
     });
 
-    it('should reset the state when reset button is clicked', () => {
+    it("should reset the state when reset button is clicked", () => {
       resetButton().click();
 
-      expect(input().value).toBe('foo');
+      expect(input().value).toBe("foo");
     });
 
-    it('should reset the state when clean record button is clicked', () => {
+    it("should reset the state when clean record button is clicked", () => {
       cleanRecordButton().click();
 
-      expect(input().value).toBe('foo');
+      expect(input().value).toBe("foo");
     });
   });
 
-  describe('remote change', () => {
+  describe("remote change", () => {
     beforeEach(() => {
-      $scope.inputModel = 'bar';
+      $scope.inputModel = "bar";
       $scope.$digest();
     });
 
-    it('should have the reset button enabled', () => {
+    it("should have the reset button enabled", () => {
       expect(resetButton().disabled).toBe(false);
     });
 
-    it('should render the clean record button', () => {
+    it("should render the clean record button", () => {
       expect(cleanRecordButton()).not.toBe(null);
     });
 
-    it('should add the remote change class', () => {
-      expect(differEl().classList.contains('remote')).toBe(true);
+    it("should add the remote change class", () => {
+      expect(differEl().classList.contains("remote")).toBe(true);
     });
 
-    it('should reset the state to remote when reset button is clicked', () => {
+    it("should reset the state to remote when reset button is clicked", () => {
       resetButton().click();
 
-      expect(input().value).toBe('bar');
+      expect(input().value).toBe("bar");
     });
 
-    it('should reset the state to remote when clean record button is clicked', () => {
+    it("should reset the state to remote when clean record button is clicked", () => {
       cleanRecordButton().click();
 
-      expect(input().value).toBe('bar');
+      expect(input().value).toBe("bar");
     });
   });
 
-  describe('conflict change', () => {
+  describe("conflict change", () => {
     beforeEach(() => {
-      $scope.inputModel = 'bar';
+      $scope.inputModel = "bar";
       $scope.$digest();
 
-      input().value = 'bap';
-      const event = new Event('input');
+      input().value = "bap";
+      const event = new Event("input");
       input().dispatchEvent(event);
       $scope.$digest();
     });
 
-    it('should have the reset button enabled', () => {
+    it("should have the reset button enabled", () => {
       expect(resetButton().disabled).toBe(false);
     });
 
-    it('should render the clean record button', () => {
+    it("should render the clean record button", () => {
       expect(cleanRecordButton()).not.toBe(null);
     });
 
-    it('should add the remote change class', () => {
-      expect(differEl().classList.contains('conflict')).toBe(true);
+    it("should add the remote change class", () => {
+      expect(differEl().classList.contains("conflict")).toBe(true);
     });
 
-    it('should reset the state to remote when reset button is clicked', () => {
+    it("should reset the state to remote when reset button is clicked", () => {
       resetButton().click();
 
-      expect(input().value).toBe('bar');
+      expect(input().value).toBe("bar");
     });
 
-    it('should reset the state to remote when clean record button is clicked', () => {
+    it("should reset the state to remote when clean record button is clicked", () => {
       cleanRecordButton().click();
 
-      expect(input().value).toBe('bar');
+      expect(input().value).toBe("bar");
     });
   });
 });

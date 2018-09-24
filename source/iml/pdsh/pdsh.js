@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import pdshParser from '@iml/pdsh-parser';
-import _ from '@iml/lodash-mixins';
+import pdshParser from "@iml/pdsh-parser";
+import _ from "@iml/lodash-mixins";
 
 export default function pdsh(help: Object) {
-  'ngInject';
+  "ngInject";
 
   return {
     scope: {
-      pdshChange: '&',
-      pdshRequired: '=?',
-      pdshInitial: '=?',
-      pdshPlaceholder: '@?'
+      pdshChange: "&",
+      pdshRequired: "=?",
+      pdshInitial: "=?",
+      pdshPlaceholder: "@?"
     },
-    restrict: 'E',
+    restrict: "E",
     template: `
       <div class="input-group">
         <div class="input-group-addon activate-popover tooltip-container tooltip-hover">
@@ -45,12 +45,12 @@ export default function pdsh(help: Object) {
       </div>
     `,
     replace: true,
-    require: '^form',
+    require: "^form",
     link: function link(scope: Object, elm: HTMLElement[], attrs: Object, ctrl: Object) {
       const states = {
-        NEUTRAL: '',
-        SUCCESS: 'has-success',
-        ERROR: 'has-error'
+        NEUTRAL: "",
+        SUCCESS: "has-success",
+        ERROR: "has-error"
       };
       let parsedState = states.NEUTRAL;
       let errorMessages = [];
@@ -58,10 +58,10 @@ export default function pdsh(help: Object) {
       let hostnamesHash = {};
       let hostnameSections = [];
       let parsedExpression: Object;
-      let pdshExpression = '';
+      let pdshExpression = "";
 
-      if (!scope.pdshInitial) scope.pdshInitial = '';
-      if (!scope.pdshPlaceholder) scope.pdshPlaceholder = help.get('pdsh_placeholder');
+      if (!scope.pdshInitial) scope.pdshInitial = "";
+      if (!scope.pdshPlaceholder) scope.pdshPlaceholder = help.get("pdsh_placeholder");
 
       /**
        * Parses the expression to determine if the expression is valid. The value is set on the form.
@@ -72,7 +72,7 @@ export default function pdsh(help: Object) {
 
         const validity = _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
 
-        ctrl.pdsh.$setValidity('pdsh', validity);
+        ctrl.pdsh.$setValidity("pdsh", validity);
       }
 
       /**
@@ -112,7 +112,7 @@ export default function pdsh(help: Object) {
         parseExpression: function parseExpression(pdshExpression) {
           if (pdshExpression == null) return;
 
-          parsedExpression = pdshParser(pdshExpression.replace(' ', ''));
+          parsedExpression = pdshParser(pdshExpression.replace(" ", ""));
           errorMessages = [];
 
           if (parsedExpression.errors && pdshExpression.length > 0) {
@@ -144,7 +144,7 @@ export default function pdsh(help: Object) {
         },
         // $FlowFixMe Getter / Setter not supported by flow
         get errorMessages() {
-          if (scope.pdshRequired && _.isEmpty(scope.pdsh.expression)) errorMessages.push('Expression required.');
+          if (scope.pdshRequired && _.isEmpty(scope.pdsh.expression)) errorMessages.push("Expression required.");
 
           errorMessages = _.unique(errorMessages);
 

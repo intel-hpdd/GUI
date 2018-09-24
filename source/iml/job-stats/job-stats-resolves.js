@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import moment from 'moment';
-import * as maybe from '@iml/maybe';
+import store from "../store/get-store.js";
+import moment from "moment";
+import * as maybe from "@iml/maybe";
 
-import { matchById } from '../api-transforms.js';
+import { matchById } from "../api-transforms.js";
 
-import { streamToPromise, resolveStream } from '../promise-transforms.js';
+import { streamToPromise, resolveStream } from "../promise-transforms.js";
 
-import { topDuration, topRange } from './job-stats-top-stream.js';
+import { topDuration, topRange } from "./job-stats-top-stream.js";
 
 type jobStatsParamsT = {
   id: string,
@@ -21,14 +21,14 @@ type jobStatsParamsT = {
   endDate: string
 };
 
-const fmt = str => moment(str).format('M/d/YY HH:mm:ss');
+const fmt = str => moment(str).format("M/d/YY HH:mm:ss");
 
 export function getData($stateParams: jobStatsParamsT) {
-  'ngInject';
+  "ngInject";
   if ($stateParams.id != null)
     return streamToPromise(
       store
-        .select('targets')
+        .select("targets")
         .map(matchById($stateParams.id))
         .map(
           maybe.map.bind(null, x => ({
@@ -37,7 +37,7 @@ export function getData($stateParams: jobStatsParamsT) {
         )
         .map(
           maybe.withDefault.bind(null, () => ({
-            label: ''
+            label: ""
           }))
         )
     );
@@ -45,7 +45,7 @@ export function getData($stateParams: jobStatsParamsT) {
 }
 
 export const jobstats$ = ($stateParams: jobStatsParamsT) => {
-  'ngInject';
+  "ngInject";
   if ($stateParams.id)
     return resolveStream(
       topRange($stateParams.startDate, $stateParams.endDate, {
@@ -54,5 +54,5 @@ export const jobstats$ = ($stateParams: jobStatsParamsT) => {
         }
       })
     );
-  else return streamToPromise(store.select('jobStatsConfig')).then(c => resolveStream(topDuration(c.duration)));
+  else return streamToPromise(store.select("jobStatsConfig")).then(c => resolveStream(topDuration(c.duration)));
 };

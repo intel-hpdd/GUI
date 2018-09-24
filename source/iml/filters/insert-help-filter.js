@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { sprintf } from 'sprintf-js';
+import { sprintf } from "sprintf-js";
 
 const regexp = /%\(.+\)s/;
 
 export default function insertHelpFilterFilter($sce, help) {
-  'ngInject';
+  "ngInject";
   return function insertHelpFilter(key, params) {
     let wrapper = help.get(key);
     const value = wrapper.valueOf();

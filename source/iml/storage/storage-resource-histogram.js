@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Point } from '../api-types.js';
-import type { HistogramChart, HistogramStats } from './storage-types.js';
+import type { Point } from "../api-types.js";
+import type { HistogramChart, HistogramStats } from "./storage-types.js";
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import d3 from 'd3';
-import Chart from '../charting/chart.js';
-import Axis from '../charting/axis.js';
-import Legend from '../charting/legend.js';
-import Area from '../charting/area.js';
+import Inferno from "inferno";
+import Component from "inferno-component";
+import d3 from "d3";
+import Chart from "../charting/chart.js";
+import Axis from "../charting/axis.js";
+import Legend from "../charting/legend.js";
+import Area from "../charting/area.js";
 
-import { cloneChildren } from '../inferno-utils.js';
-import { zipBy } from '@iml/fp';
-import { values } from '@iml/obj';
+import { cloneChildren } from "../inferno-utils.js";
+import { zipBy } from "@iml/fp";
+import { values } from "@iml/obj";
 
 type ReducedHistogram = {
   data: {
@@ -75,7 +75,7 @@ export default class StorageResourceHistogram extends Component {
     const colors = d3.scale.category10().domain(this.props.chart.series.map(x => x.name));
 
     return (
-      <div class="storage-detail-chart" style={{ height: '500px' }}>
+      <div class="storage-detail-chart" style={{ height: "500px" }}>
         <Chart
           points={getHistogramSeries(this.props.chart.series)}
           margins={{

@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { chartT, chartTitleT, chartTitleKeyT } from './dashboard-types.js';
+import type { chartT, chartTitleT, chartTitleKeyT } from "./dashboard-types.js";
 
-import angular from 'angular';
+import angular from "angular";
 
 export function baseDashboardChartResolves(
   $stateParams: { id?: string },
@@ -19,7 +19,7 @@ export function baseDashboardChartResolves(
   getFileUsageChart: chartTitleKeyT,
   getSpaceUsageChart: chartT
 ) {
-  'ngInject';
+  "ngInject";
   const id = $stateParams.id;
   let fsQs = {};
 
@@ -31,35 +31,35 @@ export function baseDashboardChartResolves(
     };
 
   return Promise.all([
-    getReadWriteHeatMapChart(fsQs, id || 'base'),
-    getOstBalanceChart(fsQs, id || 'base'),
-    getMdoChart(fsQs, id || 'base'),
-    getReadWriteBandwidthChart(fsQs, id || 'base'),
-    getFileUsageChart('File Usage', 'Files Used', {}, 'fileusagebase'),
-    getSpaceUsageChart({}, 'spaceusagebase'),
+    getReadWriteHeatMapChart(fsQs, id || "base"),
+    getOstBalanceChart(fsQs, id || "base"),
+    getMdoChart(fsQs, id || "base"),
+    getReadWriteBandwidthChart(fsQs, id || "base"),
+    getFileUsageChart("File Usage", "Files Used", {}, "fileusagebase"),
+    getSpaceUsageChart({}, "spaceusagebase"),
     getHostCpuRamChart(
-      'Metadata Servers',
+      "Metadata Servers",
       angular.merge(
         {
           qs: {
-            role: 'MDS'
+            role: "MDS"
           }
         },
         fsQs
       ),
-      id ? `mds${id}` : 'mdsbase'
+      id ? `mds${id}` : "mdsbase"
     ),
     getHostCpuRamChart(
-      'Object Storage Servers',
+      "Object Storage Servers",
       angular.merge(
         {
           qs: {
-            role: 'OSS'
+            role: "OSS"
           }
         },
         fsQs
       ),
-      id ? `oss${id}` : 'ossbase'
+      id ? `oss${id}` : "ossbase"
     )
   ]);
 }

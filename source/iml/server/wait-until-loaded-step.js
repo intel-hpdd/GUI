@@ -4,18 +4,18 @@
 // license that can be found in the LICENSE file.
 
 export function waitUntilLoadedCtrl($scope) {
-  'ngInject';
+  "ngInject";
   $scope.wait = {
     close: function close() {
-      $scope.$emit('addServerModal::closeModal');
+      $scope.$emit("addServerModal::closeModal");
     }
   };
 }
 
 export function waitUntilLoadedStep() {
-  'ngInject';
+  "ngInject";
   return {
-    controller: 'WaitUntilLoadedCtrl',
+    controller: "WaitUntilLoadedCtrl",
     template: `<div class="modal-header">
   <button type="button" class="close" ng-click="wait.close()">
     <i class="fa fa-times"></i>

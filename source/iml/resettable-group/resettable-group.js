@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 type ctrl = {
   $name: string,
@@ -28,18 +28,18 @@ export const ResettableGroupController = class {
   localApply: Function;
 
   constructor($scope: Object, localApply: Function) {
-    'ngInject';
+    "ngInject";
     this.localApply = localApply.bind(null, $scope);
   }
 
   $onInit() {
     const addControl = (control: ctrl): ctrl => {
-      if (control.$name === '') return control;
+      if (control.$name === "") return control;
 
       if (control.$addControl) {
         control.$addControl = fp.flow(
           addControl,
-          fp.bindMethod('$addControl')(control)
+          fp.bindMethod("$addControl")(control)
         );
 
         return control;
@@ -75,7 +75,7 @@ export const ResettableGroupController = class {
 export default {
   scope: {},
   require: {
-    formCtrl: '^form'
+    formCtrl: "^form"
   },
   controller: ResettableGroupController
 };

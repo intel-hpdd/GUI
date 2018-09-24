@@ -5,24 +5,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
+import highland from "highland";
 
-import { documentHidden, documentVisible } from '../stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from "../stream-when-visible/stream-when-visible.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
+import type { durationPayloadT } from "../duration-picker/duration-picker-module.js";
 
-import type { createStreamT } from '../charting/charting-module.js';
+import type { createStreamT } from "../charting/charting-module.js";
 
-import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from "../dashboard/dashboard-module.js";
 
-import type { configToStreamT } from './chart-transformers-module.js';
+import type { configToStreamT } from "./chart-transformers-module.js";
 
 export const getConf = (page: string) => highland.map(x => x[page]);
 
 export function data$Fn(createStream: createStreamT) {
-  'ngInject';
+  "ngInject";
   return (
     overrides: filesystemQueryT | targetQueryT,
     chartStreamFn: configToStreamT,
@@ -33,7 +33,7 @@ export function data$Fn(createStream: createStreamT) {
     rangeStream = rangeStream(overrides);
 
     switch (x.configType) {
-      case 'duration':
+      case "duration":
         return durationStream(chartStreamFn(x), x.size, x.unit);
       default:
         return rangeStream(chartStreamFn(x), x.startDate, x.endDate);

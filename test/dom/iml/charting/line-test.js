@@ -1,19 +1,19 @@
 // @flow
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
-import Line from '../../../../source/iml/charting/line.js';
-import d3 from 'd3';
+import Line from "../../../../source/iml/charting/line.js";
+import d3 from "d3";
 
-describe('line tests', () => {
+describe("line tests", () => {
   let svg, chartingGroup;
 
   beforeEach(() => {
     // $FlowFixMe: Mock for test
     Element.prototype.getTotalLength = () => 100;
 
-    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    chartingGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    chartingGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
     svg.appendChild(chartingGroup);
   });
 
@@ -22,7 +22,7 @@ describe('line tests', () => {
     delete Element.prototype.getTotalLength;
   });
 
-  it('should render as expected', () => {
+  it("should render as expected", () => {
     Inferno.render(
       <Line
         xScale={d3.scale
@@ -37,7 +37,7 @@ describe('line tests', () => {
         yValue={x => x}
         xComparator={(x, y) => x === y}
         chartingGroup={d3.select(chartingGroup).datum([0, 100])}
-        color={() => 'green'}
+        color={() => "green"}
       />,
       svg
     );

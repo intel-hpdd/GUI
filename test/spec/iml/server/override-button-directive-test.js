@@ -1,23 +1,23 @@
-import angular from '../../../angular-mock-setup.js';
-import uiBootstrap from 'angular-ui-bootstrap';
+import angular from "../../../angular-mock-setup.js";
+import uiBootstrap from "angular-ui-bootstrap";
 
-import overrideButtonDirective from '../../../../source/iml/server/override-button-directive.js';
+import overrideButtonDirective from "../../../../source/iml/server/override-button-directive.js";
 
-describe('Override Directive', () => {
+describe("Override Directive", () => {
   let $scope, element, button;
 
   beforeEach(() => {
-    if (!window.angular) require('angular');
+    if (!window.angular) require("angular");
   });
 
   beforeEach(
     angular.mock.module(uiBootstrap, ($provide, $compileProvider) => {
-      $provide.value('OVERRIDE_BUTTON_TYPES', {
-        OVERRIDE: 'override',
-        PROCEED: 'proceed',
-        PROCEED_SKIP: 'proceed and skip'
+      $provide.value("OVERRIDE_BUTTON_TYPES", {
+        OVERRIDE: "override",
+        PROCEED: "proceed",
+        PROCEED_SKIP: "proceed and skip"
       });
-      $compileProvider.directive('overrideButton', overrideButtonDirective);
+      $compileProvider.directive("overrideButton", overrideButtonDirective);
     })
   );
 
@@ -33,53 +33,53 @@ describe('Override Directive', () => {
       element = $compile(markup)($scope)[0];
       $scope.$digest();
 
-      button = () => element.querySelector('button');
+      button = () => element.querySelector("button");
     })
   );
 
-  it('should start with the override button', () => {
-    expect(button().textContent.trim()).toBe('Override');
+  it("should start with the override button", () => {
+    expect(button().textContent.trim()).toBe("Override");
   });
 
-  it('should transition to proceed after clicking override', () => {
+  it("should transition to proceed after clicking override", () => {
     button().click();
 
-    expect(button().textContent.trim()).toBe('Proceed');
+    expect(button().textContent.trim()).toBe("Proceed");
   });
 
-  it('should have a link to skip the command view', () => {
+  it("should have a link to skip the command view", () => {
     button().click();
-    element.querySelectorAll('button')[1].click();
+    element.querySelectorAll("button")[1].click();
 
-    element.querySelector('.dropdown-menu a').click();
+    element.querySelector(".dropdown-menu a").click();
 
-    expect($scope.onChange).toHaveBeenCalledOnceWith('proceed and skip');
+    expect($scope.onChange).toHaveBeenCalledOnceWith("proceed and skip");
   });
 
-  it('should not override if valid', () => {
+  it("should not override if valid", () => {
     $scope.isValid = true;
     $scope.$digest();
 
-    expect(button()).toHaveClass('btn-success');
+    expect(button()).toHaveClass("btn-success");
   });
 
-  it('should tell that override was clicked', () => {
+  it("should tell that override was clicked", () => {
     button().click();
 
-    expect($scope.onChange).toHaveBeenCalledOnceWith('override');
+    expect($scope.onChange).toHaveBeenCalledOnceWith("override");
   });
 
-  it('should tell that proceed was clicked', () => {
+  it("should tell that proceed was clicked", () => {
     button().click();
     button().click();
 
-    expect($scope.onChange).toHaveBeenCalledOnceWith('proceed');
+    expect($scope.onChange).toHaveBeenCalledOnceWith("proceed");
   });
 
-  it('should be disabled after proceeding', () => {
+  it("should be disabled after proceeding", () => {
     button().click();
     button().click();
 
-    expect(button().textContent.trim()).toEqual('Working');
+    expect(button().textContent.trim()).toEqual("Working");
   });
 });

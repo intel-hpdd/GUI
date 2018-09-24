@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import moment from 'moment';
+import moment from "moment";
 
 export default function lineChart(dateTicks, baseChart) {
-  'ngInject';
+  "ngInject";
   return baseChart({
     generateChart: function generateChart(nv) {
       return nv.models.lineChart();

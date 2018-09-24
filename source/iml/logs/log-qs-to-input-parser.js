@@ -5,19 +5,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import * as qsToInputParser from '@iml/qs-parsers/source/qs-to-input-parser.js';
-import * as parsely from '@iml/parsely';
+import * as fp from "@iml/fp";
+import * as qsToInputParser from "@iml/qs-parsers/source/qs-to-input-parser.js";
+import * as parsely from "@iml/parsely";
 
-import { qsToInputTokens } from '@iml/qs-parsers/source/tokens.js';
+import { qsToInputTokens } from "@iml/qs-parsers/source/tokens.js";
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
 
 const leftHands = parsely.choice([
-  parsely.matchValueTo('datetime', 'date'),
-  parsely.matchValueTo('tag', 'service'),
-  parsely.matchValueTo('message_class', 'type'),
-  parsely.matchValueTo('fqdn', 'host'),
+  parsely.matchValueTo("datetime", "date"),
+  parsely.matchValueTo("tag", "service"),
+  parsely.matchValueTo("message_class", "type"),
+  parsely.matchValueTo("fqdn", "host"),
   qsToInputParser.value
 ]);
 
@@ -29,7 +29,7 @@ const valueOrNumberOrDotOrDash = parsely.choice([
 ]);
 
 const rightHands = parsely.choice(
-  ['NORMAL', 'LUSTRE', 'LUSTRE_ERROR', 'COPYTOOL', 'COPYTOOL_ERROR']
+  ["NORMAL", "LUSTRE", "LUSTRE_ERROR", "COPYTOOL", "COPYTOOL_ERROR"]
     .map(severity =>
       fp.flow(
         parsely.matchValue(severity),

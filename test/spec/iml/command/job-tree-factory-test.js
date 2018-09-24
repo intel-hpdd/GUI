@@ -1,12 +1,12 @@
-import jobTreeFactory from '../../../../source/iml/command/job-tree-factory.js';
-import jobFixtures from '../../../data-fixtures/job-fixtures.json';
-import angular from '../../../angular-mock-setup.js';
+import jobTreeFactory from "../../../../source/iml/command/job-tree-factory.js";
+import jobFixtures from "../../../data-fixtures/job-fixtures.json";
+import angular from "../../../angular-mock-setup.js";
 
-describe('Job tree', function() {
+describe("Job tree", function() {
   let jobTree;
   beforeEach(
     angular.mock.module($provide => {
-      $provide.factory('jobTree', jobTreeFactory);
+      $provide.factory("jobTree", jobTreeFactory);
     })
   );
 
@@ -16,7 +16,7 @@ describe('Job tree', function() {
     })
   );
 
-  it('should convert a job tree', () => {
+  it("should convert a job tree", () => {
     jobFixtures.forEach(item => {
       const result = jobTree(item.in);
 

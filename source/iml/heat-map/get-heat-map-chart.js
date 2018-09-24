@@ -3,14 +3,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-import d3 from 'd3';
-import nv from 'nvd3';
-import getHeatMapLegend from './get-heat-map-legend.js';
-import getHeatMap from './get-heat-map.js';
+import _ from "@iml/lodash-mixins";
+import d3 from "d3";
+import nv from "nvd3";
+import getHeatMapLegend from "./get-heat-map-legend.js";
+import getHeatMap from "./get-heat-map.js";
 
 const translator = (dx, dy) => {
-  return 'translate(' + dx + ',' + dy + ')';
+  return "translate(" + dx + "," + dy + ")";
 };
 
 const xValue = d => {
@@ -25,14 +25,14 @@ export default () => {
     left: 0
   };
 
-  let noData = 'No Data Available.';
+  let noData = "No Data Available.";
 
   let duration = 1000;
 
   let formatter = _.identity;
   let zValue = _.noop;
-  let xAxisLabel = '';
-  let xAxisDetail = '';
+  let xAxisLabel = "";
+  let xAxisDetail = "";
 
   const interactiveLayer = nv.interactiveGuideline();
 
@@ -43,9 +43,9 @@ export default () => {
   const xAxis = d3.svg
     .axis()
     .scale(x)
-    .orient('bottom');
+    .orient("bottom");
 
-  const colors = ['#8ebad9', '#d6e2f3', '#fbb4b4', '#fb8181', '#ff6262'];
+  const colors = ["#8ebad9", "#d6e2f3", "#fbb4b4", "#fb8181", "#ff6262"];
   const color = d3.scale
     .linear()
     .range(colors)
@@ -60,8 +60,8 @@ export default () => {
 
     selection.each(function render(data) {
       let container = d3.select(this);
-      const width = parseInt(container.style('width'), 10);
-      const height = parseInt(container.style('height'), 10);
+      const width = parseInt(container.style("width"), 10);
+      const height = parseInt(container.style("height"), 10);
       const availableWidth = width - margin.left - margin.right;
       let availableHeight = height - margin.top - margin.bottom;
 
@@ -73,63 +73,63 @@ export default () => {
         const yPos = height / 2;
 
         //Remove any previously created chart components
-        container.selectAll('g').remove();
-        container.selectAll('.x.label').remove();
+        container.selectAll("g").remove();
+        container.selectAll(".x.label").remove();
 
-        const noDataText = container.selectAll('.nv-noData').data([noData]);
+        const noDataText = container.selectAll(".nv-noData").data([noData]);
 
         noDataText
           .enter()
-          .append('text')
-          .attr('class', 'nvd3 nv-noData')
-          .attr('dy', '-.7em')
-          .style('text-anchor', 'middle');
+          .append("text")
+          .attr("class", "nvd3 nv-noData")
+          .attr("dy", "-.7em")
+          .style("text-anchor", "middle");
 
         noDataText
-          .attr('x', xPos)
-          .attr('y', yPos)
+          .attr("x", xPos)
+          .attr("y", yPos)
           .text(_.identity);
 
         return chart;
       } else {
-        container.selectAll('.nv-noData').remove();
+        container.selectAll(".nv-noData").remove();
       }
 
       //------------------------------------------------------------
       // Setup containers and skeleton of chart
 
       // data join
-      let wrap = container.selectAll('g.heat-map-chart').data([data]);
+      let wrap = container.selectAll("g.heat-map-chart").data([data]);
 
       // Create the structure on enter.
       let gEnter = wrap
         .enter()
-        .append('g')
-        .attr('class', 'heat-map-chart');
+        .append("g")
+        .attr("class", "heat-map-chart");
 
-      let chartGroupGEnter = gEnter.append('g').attr('class', 'chart-group');
+      let chartGroupGEnter = gEnter.append("g").attr("class", "chart-group");
 
-      gEnter.append('g').attr('class', 'legend-group');
+      gEnter.append("g").attr("class", "legend-group");
 
       gEnter
-        .append('text')
-        .attr('class', 'x label')
-        .style('text-anchor', 'middle');
+        .append("text")
+        .attr("class", "x label")
+        .style("text-anchor", "middle");
 
-      chartGroupGEnter.append('g').attr('class', 'x axis');
+      chartGroupGEnter.append("g").attr("class", "x axis");
 
-      chartGroupGEnter.append('g').attr('class', 'heat-map-group');
+      chartGroupGEnter.append("g").attr("class", "heat-map-group");
 
-      chartGroupGEnter.append('g').attr('class', 'nv-interactive');
+      chartGroupGEnter.append("g").attr("class", "nv-interactive");
 
       // These operate on enter + update.
-      const chartGroup = wrap.select('.chart-group').attr('transform', translator(margin.left, margin.top));
-      const legendGroup = wrap.select('.legend-group').attr('transform', translator(margin.left, 0));
-      const heatMapGroup = wrap.select('.heat-map-group');
-      const interactiveGroup = wrap.select('.nv-interactive');
+      const chartGroup = wrap.select(".chart-group").attr("transform", translator(margin.left, margin.top));
+      const legendGroup = wrap.select(".legend-group").attr("transform", translator(margin.left, 0));
+      const heatMapGroup = wrap.select(".heat-map-group");
+      const interactiveGroup = wrap.select(".nv-interactive");
 
       const keys = _(merged)
-        .pluck('name')
+        .pluck("name")
         .uniq()
         .value();
 
@@ -167,8 +167,8 @@ export default () => {
 
       if (margin.top !== heatMapLegend.height()) {
         margin.top = heatMapLegend.height();
-        availableHeight = parseInt(container.style('height'), 10) - margin.top - margin.bottom;
-        chartGroup.attr('transform', translator(0, margin.top));
+        availableHeight = parseInt(container.style("height"), 10) - margin.top - margin.bottom;
+        chartGroup.attr("transform", translator(0, margin.top));
       }
 
       //------------------------------------------------------------
@@ -192,7 +192,7 @@ export default () => {
         zValue
       );
 
-      interactiveLayer.dispatch.on('elementMousemove', function(e) {
+      interactiveLayer.dispatch.on("elementMousemove", function(e) {
         const yRange = y.range();
         const halfWidth = yRange[0] + 1;
         const r = yRange.map(function add(val) {
@@ -221,7 +221,7 @@ export default () => {
         interactiveLayer.renderGuideLine(e.mouseX);
       });
 
-      interactiveLayer.dispatch.on('elementClick', function(e) {
+      interactiveLayer.dispatch.on("elementClick", function(e) {
         const yRange = y.range();
         const halfWidth = yRange[0] + 1;
         const r = yRange.map(function add(val) {
@@ -236,7 +236,7 @@ export default () => {
 
         const nextPoint = row[index];
 
-        d3.select('.nvtooltip').remove();
+        d3.select(".nvtooltip").remove();
 
         chart.dispatch.click({
           current: point,
@@ -257,7 +257,7 @@ export default () => {
         .yScale(y)
         .zScale(z)
         .xValue(xValue)
-        .yValue(_.property('name'))
+        .yValue(_.property("name"))
         .zValue(zValue)
         .colorScale(color);
 
@@ -266,21 +266,21 @@ export default () => {
       //------------------------------------------------------------
       // Setup Axes
       chartGroup
-        .select('.x.axis')
-        .attr('transform', translator(0, availableHeight))
+        .select(".x.axis")
+        .attr("transform", translator(0, availableHeight))
         .transition()
         .duration(duration)
         .call(xAxis);
 
       let detail;
 
-      if (xAxisDetail) detail = xAxisDetail + ' - ';
-      else detail = '';
+      if (xAxisDetail) detail = xAxisDetail + " - ";
+      else detail = "";
 
       wrap
-        .select('.x.label')
-        .attr('x', width / 2)
-        .attr('y', height - 10)
+        .select(".x.label")
+        .attr("x", width / 2)
+        .attr("y", height - 10)
         .text(detail + xAxisLabel);
 
       //------------------------------------------------------------
@@ -289,7 +289,7 @@ export default () => {
 
       chart.destroy = function destroy() {
         chart.update = null;
-        chart.dispatch.on('click', null);
+        chart.dispatch.on("click", null);
 
         heatMap.destroy();
         heatMapLegend.destroy();
@@ -348,7 +348,7 @@ export default () => {
 
   chart.destroy = _.noop;
 
-  chart.dispatch = d3.dispatch('click');
+  chart.dispatch = d3.dispatch("click");
 
   return chart;
 };

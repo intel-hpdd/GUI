@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import Inferno from "inferno";
+import Component from "inferno-component";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default <A, B: {}>(mapFn: (a: A) => B, WrappedComponent: (b: B) => React$Element<*>) =>
   class Connect extends Component {

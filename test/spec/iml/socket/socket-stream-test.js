@@ -1,7 +1,7 @@
-import highland from 'highland';
-import * as fp from '@iml/fp';
+import highland from "highland";
+import * as fp from "@iml/fp";
 
-describe('socket stream', () => {
+describe("socket stream", () => {
   let mockGetEventSocket, socket, spy, socketStream;
 
   beforeEach(() => {
@@ -16,64 +16,64 @@ describe('socket stream', () => {
 
     mockGetEventSocket = jest.fn(() => socket);
 
-    jest.mock('../../../../source/iml/socket-worker/get-event-socket.js', () => mockGetEventSocket);
+    jest.mock("../../../../source/iml/socket-worker/get-event-socket.js", () => mockGetEventSocket);
 
-    const socketStreamModule = require('../../../../source/iml/socket/socket-stream.js');
+    const socketStreamModule = require("../../../../source/iml/socket/socket-stream.js");
 
     socketStream = socketStreamModule.default;
   });
 
-  it('should be a function', () => {
+  it("should be a function", () => {
     expect(socketStream).toEqual(expect.any(Function));
   });
 
-  it('should return a stream', () => {
-    expect(highland.isStream(socketStream('/'))).toBe(true);
+  it("should return a stream", () => {
+    expect(highland.isStream(socketStream("/"))).toBe(true);
   });
 
-  it('should strip /api prefix', () => {
-    socketStream('/api/host/');
+  it("should strip /api prefix", () => {
+    socketStream("/api/host/");
 
     expect(socket.send).toHaveBeenCalledOnceWith({
-      path: '/host/',
+      path: "/host/",
       options: {
-        method: 'get'
+        method: "get"
       }
     });
   });
 
-  it('should default to empty options', () => {
-    socketStream('host/');
+  it("should default to empty options", () => {
+    socketStream("host/");
 
     expect(socket.send).toHaveBeenCalledOnceWith({
-      path: 'host/',
+      path: "host/",
       options: {
-        method: 'get'
+        method: "get"
       }
     });
   });
 
-  describe('ack', () => {
+  describe("ack", () => {
     let s;
 
     beforeEach(() => {
-      s = socketStream('host/', {}, true);
+      s = socketStream("host/", {}, true);
     });
 
-    it('should send data to the socket', () => {
+    it("should send data to the socket", () => {
       s.each(fp.noop);
       expect(socket.send).toHaveBeenCalledOnceWith(
         {
-          path: 'host/',
+          path: "host/",
           options: {
-            method: 'get'
+            method: "get"
           }
         },
         expect.any(Function)
       );
     });
 
-    it('should end after a response', () => {
+    it("should end after a response", () => {
       s.each(fp.noop);
 
       const ack = socket.send.mock.calls[0][1];
@@ -83,96 +83,96 @@ describe('socket stream', () => {
       expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
-    it('should end after an error', () => {
+    it("should end after an error", () => {
       s.each(fp.noop);
 
       const ack = socket.send.mock.calls[0][1];
 
-      ack({ error: 'boom!' });
+      ack({ error: "boom!" });
 
       expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
-    it('should end if stream is paused', () => {
+    it("should end if stream is paused", () => {
       s.pull(fp.noop);
 
       const ack = socket.send.mock.calls[0][1];
 
       ack({
-        error: 'boom!'
+        error: "boom!"
       });
 
       expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle errors', () => {
+    it("should handle errors", () => {
       s.errors(x => spy(x)).each(fp.noop);
 
       const ack = socket.send.mock.calls[0][1];
 
-      ack({ error: 'boom!' });
+      ack({ error: "boom!" });
 
-      expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
+      expect(spy).toHaveBeenCalledOnceWith(new Error("boom!"));
     });
 
-    it('should handle the response', () => {
+    it("should handle the response", () => {
       s.each(spy);
 
       const ack = socket.send.mock.calls[0][1];
 
-      ack({ foo: 'bar' });
+      ack({ foo: "bar" });
 
-      expect(spy).toHaveBeenCalledOnceWith({ foo: 'bar' });
+      expect(spy).toHaveBeenCalledOnceWith({ foo: "bar" });
     });
   });
 
-  describe('stream', () => {
+  describe("stream", () => {
     let s, handler;
 
     beforeEach(() => {
-      s = socketStream('/host', {
-        qs: { foo: 'bar' }
+      s = socketStream("/host", {
+        qs: { foo: "bar" }
       });
 
       handler = socket.on.mock.calls[0][1];
     });
 
-    it('should connect the socket', () => {
+    it("should connect the socket", () => {
       expect(socket.connect).toHaveBeenCalledTimes(1);
     });
 
-    it('should send data to the socket', () => {
+    it("should send data to the socket", () => {
       expect(socket.send).toHaveBeenCalledOnceWith({
-        path: '/host',
+        path: "/host",
         options: {
-          method: 'get',
-          qs: { foo: 'bar' }
+          method: "get",
+          qs: { foo: "bar" }
         }
       });
     });
 
-    it('should end on destroy', () => {
+    it("should end on destroy", () => {
       s.destroy();
 
       expect(socket.end).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle errors', () => {
+    it("should handle errors", () => {
       handler({
-        error: new Error('boom!')
+        error: new Error("boom!")
       });
 
       s.errors(x => spy(x)).each(fp.noop);
 
-      expect(spy).toHaveBeenCalledOnceWith(new Error('boom!'));
+      expect(spy).toHaveBeenCalledOnceWith(new Error("boom!"));
     });
 
-    it('should handle responses', () => {
-      handler({ foo: 'bar' });
+    it("should handle responses", () => {
+      handler({ foo: "bar" });
 
       s.each(spy);
 
-      expect(spy).toHaveBeenCalledOnceWith({ foo: 'bar' });
+      expect(spy).toHaveBeenCalledOnceWith({ foo: "bar" });
     });
   });
 });

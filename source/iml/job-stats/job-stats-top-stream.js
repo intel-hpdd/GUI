@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import * as obj from '@iml/obj';
-import * as fp from '@iml/fp';
-import socketStream from '../socket/socket-stream.js';
-import bufferDataNewerThan from '../charting/buffer-data-newer-than.js';
-import sumByDate from '../charting/sum-by-date.js';
+import highland from "highland";
+import * as obj from "@iml/obj";
+import * as fp from "@iml/fp";
+import socketStream from "../socket/socket-stream.js";
+import bufferDataNewerThan from "../charting/buffer-data-newer-than.js";
+import sumByDate from "../charting/sum-by-date.js";
 
-import { normalize, calculateData, collectById } from './job-stats-transforms.js';
+import { normalize, calculateData, collectById } from "./job-stats-transforms.js";
 
-import { getRequestDuration, getRequestRange } from '../charting/get-time-params.js';
+import { getRequestDuration, getRequestRange } from "../charting/get-time-params.js";
 
 const getData$ = (builder, buffer) => (metric, arg1, arg2, overrides = {}) => {
   const d = builder(overrides)(arg1, arg2);
@@ -23,12 +23,12 @@ const getData$ = (builder, buffer) => (metric, arg1, arg2, overrides = {}) => {
   return () => {
     const params = d({
       qs: {
-        job: 'id',
+        job: "id",
         metrics: metric
       }
     });
 
-    return socketStream('/target/metric', params, true)
+    return socketStream("/target/metric", params, true)
       .map(obj.values)
       .flatten()
       .through(b)
@@ -52,12 +52,12 @@ const getDuration$ = getData$(getRequestDuration, bufferDataNewerThan);
 // eslint-disable-next-line no-unused-vars
 const getRange$ = getData$(getRequestRange, (...rest) => x => x);
 
-export const topDuration = (duration: number = 10, unit: string = 'minute', overrides: Object = {}) => {
+export const topDuration = (duration: number = 10, unit: string = "minute", overrides: Object = {}) => {
   const streams = [
-    getDuration$('read_bytes', duration, unit, overrides),
-    getDuration$('write_bytes', duration, unit, overrides),
-    getDuration$('read_iops', duration, unit, overrides),
-    getDuration$('write_iops', duration, unit, overrides)
+    getDuration$("read_bytes", duration, unit, overrides),
+    getDuration$("write_bytes", duration, unit, overrides),
+    getDuration$("read_iops", duration, unit, overrides),
+    getDuration$("write_iops", duration, unit, overrides)
   ];
 
   return highland((push, next) => {
@@ -72,10 +72,10 @@ export const topDuration = (duration: number = 10, unit: string = 'minute', over
 
 export const topRange = (start: string, end: string, overrides: Object = {}) => {
   const streams = [
-    getRange$('read_bytes', start, end, overrides),
-    getRange$('write_bytes', start, end, overrides),
-    getRange$('read_iops', start, end, overrides),
-    getRange$('write_iops', start, end, overrides)
+    getRange$("read_bytes", start, end, overrides),
+    getRange$("write_bytes", start, end, overrides),
+    getRange$("read_iops", start, end, overrides),
+    getRange$("write_iops", start, end, overrides)
   ];
 
   return highland(streams.map(s => s())).through(collectById);

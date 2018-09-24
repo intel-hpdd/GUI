@@ -23,13 +23,13 @@ export default {
 
     this.toggleChange = state => {
       switch (state) {
-        case 'all':
+        case "all":
           toggles.map(x => x.$setViewValue(true));
           break;
-        case 'none':
+        case "none":
           toggles.map(x => x.$setViewValue(false));
           break;
-        case 'invert':
+        case "invert":
           toggles.map(x => x.$setViewValue(!x.$viewValue));
           break;
       }

@@ -5,19 +5,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import global from '../global.js';
+import global from "../global.js";
 
-import { querySelector } from '../dom-utils.js';
+import { querySelector } from "../dom-utils.js";
 
-const body = querySelector(global.document, 'body');
-const overlay = global.document.createElement('div');
-overlay.className = 'overlay';
+const body = querySelector(global.document, "body");
+const overlay = global.document.createElement("div");
+overlay.className = "overlay";
 
 const SLIDER_WIDTH_PX = 3;
 const MAX_SIDE_PERCENTAGE = 35;
 
 export function Controller($element: HTMLElement[]) {
-  'ngInject';
+  "ngInject";
   const listeners = [];
 
   this.register = listener => listeners.push(listener);
@@ -48,7 +48,7 @@ export function Controller($element: HTMLElement[]) {
     if (sideWidthPercentage === MAX_SIDE_PERCENTAGE) x = overlayWidthPx * (sideWidthPercentage / 100);
 
     global.requestAnimationFrame(() => {
-      global.dispatchEvent(new Event('resize'));
+      global.dispatchEvent(new Event("resize"));
       listeners.forEach(l =>
         l({
           sideWidthPx: x,
@@ -75,12 +75,12 @@ export function Controller($element: HTMLElement[]) {
   };
 
   this.setActive = () => {
-    el.classList.add('active');
+    el.classList.add("active");
     body.appendChild(overlay);
   };
 
   this.setInactive = () => {
-    el.classList.remove('active');
+    el.classList.remove("active");
     body.removeChild(overlay);
   };
 }

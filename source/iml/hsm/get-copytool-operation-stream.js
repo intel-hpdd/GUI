@@ -3,17 +3,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import angular from 'angular';
-import socketStream from '../socket/socket-stream.js';
+import * as fp from "@iml/fp";
+import angular from "angular";
+import socketStream from "../socket/socket-stream.js";
 
 export default function getCopytoolOperationStream(params) {
   params = angular.merge(
     {},
     {
       jsonMask:
-        'objects(id,copytool/host/label,processed_bytes,total_bytes,\
-updated_at,started_at,throughput,type,state,path,description)',
+        "objects(id,copytool/host/label,processed_bytes,total_bytes,\
+updated_at,started_at,throughput,type,state,path,description)",
       qs: {
         active: true,
         limit: 0
@@ -46,11 +46,11 @@ updated_at,started_at,throughput,type,state,path,description)',
 
   const addMetrics = fp.map(
     fp.flow(
-      fp.view(fp.lensProp('objects')),
+      fp.view(fp.lensProp("objects")),
       buildProgress,
       buildThroughput
     )
   );
 
-  return socketStream('/copytool_operation', params).through(addMetrics);
+  return socketStream("/copytool_operation", params).through(addMetrics);
 }

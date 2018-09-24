@@ -8,10 +8,10 @@
 export type Navigate = (part?: string) => string;
 
 export function navigateFactory($window: typeof window, UI_ROOT: string) {
-  'ngInject';
+  "ngInject";
 
   return (part?: string) => {
-    if (part == null) part = '';
+    if (part == null) part = "";
 
     $window.location.href = UI_ROOT + part;
   };

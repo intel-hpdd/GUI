@@ -5,28 +5,28 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import * as qsToInputParser from '@iml/qs-parsers/source/qs-to-input-parser.js';
-import { qsToInputTokens } from '@iml/qs-parsers/source/tokens.js';
-import * as parsely from '@iml/parsely';
+import * as fp from "@iml/fp";
+import * as qsToInputParser from "@iml/qs-parsers/source/qs-to-input-parser.js";
+import { qsToInputTokens } from "@iml/qs-parsers/source/tokens.js";
+import * as parsely from "@iml/parsely";
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
 
 const leftHands = parsely.choice([
-  parsely.matchValue('severity'),
-  parsely.matchValueTo('record_type', 'type'),
+  parsely.matchValue("severity"),
+  parsely.matchValueTo("record_type", "type"),
   qsToInputParser.value
 ]);
 
 const rightHands = parsely.choice(
-  ['INFO', 'DEBUG', 'CRITICAL', 'WARNING', 'ERROR']
+  ["INFO", "DEBUG", "CRITICAL", "WARNING", "ERROR"]
     .map(severity =>
       fp.flow(
         parsely.matchValue(severity),
         parsely.onSuccess(x => x.toLowerCase())
       )
     )
-    .concat([parsely.matchValueTo('none', 'false'), qsToInputParser.value, qsToInputParser.number])
+    .concat([parsely.matchValueTo("none", "false"), qsToInputParser.value, qsToInputParser.number])
 );
 
 const assign = qsToInputParser.assign(leftHands, rightHands);

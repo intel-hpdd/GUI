@@ -1,20 +1,20 @@
 // @flow
 
-import angular from '../../../angular-mock-setup.js';
-import type { $scopeT, $compileT } from 'angular';
+import angular from "../../../angular-mock-setup.js";
+import type { $scopeT, $compileT } from "angular";
 
-import filtersModule from '../../../../source/iml/filters/filters-module.js';
+import filtersModule from "../../../../source/iml/filters/filters-module.js";
 
-describe('tree server item component', () => {
+describe("tree server item component", () => {
   let mod;
 
   beforeEach(() => {
-    mod = require('../../../../source/iml/tree/tree-volume-item-component.js');
+    mod = require("../../../../source/iml/tree/tree-volume-item-component.js");
   });
 
   beforeEach(
     angular.mock.module(filtersModule, $compileProvider => {
-      $compileProvider.component('treeVolumeItem', mod.default);
+      $compileProvider.component("treeVolumeItem", mod.default);
     })
   );
 
@@ -26,7 +26,7 @@ describe('tree server item component', () => {
 
       $scope.record = {
         id: 1,
-        label: 'disk1',
+        label: "disk1",
         size: 100000
       };
 
@@ -42,7 +42,7 @@ describe('tree server item component', () => {
     })
   );
 
-  it('should render the label', () => {
-    expect(el.textContent.trim()).toBe('disk1 (97.66 kB)');
+  it("should render the label", () => {
+    expect(el.textContent.trim()).toBe("disk1 (97.66 kB)");
   });
 });

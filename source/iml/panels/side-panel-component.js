@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 export function Controller($element: HTMLElement[]) {
-  'ngInject';
+  "ngInject";
   this.$onInit = () => {
     const s = $element[0].style;
 
@@ -24,7 +24,7 @@ export function Controller($element: HTMLElement[]) {
 
 export default {
   require: {
-    rootPanel: '^rootPanel'
+    rootPanel: "^rootPanel"
   },
   controller: Controller
 };

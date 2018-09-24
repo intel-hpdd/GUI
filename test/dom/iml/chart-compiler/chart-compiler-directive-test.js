@@ -1,10 +1,10 @@
-import { chartCompilerDirective } from '../../../../source/iml/chart-compiler/chart-compiler-directive.js';
-import angular from '../../../angular-mock-setup.js';
+import { chartCompilerDirective } from "../../../../source/iml/chart-compiler/chart-compiler-directive.js";
+import angular from "../../../angular-mock-setup.js";
 
-describe('chart compiler directive', () => {
+describe("chart compiler directive", () => {
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive('chartCompiler', chartCompilerDirective);
+      $compileProvider.directive("chartCompiler", chartCompilerDirective);
     })
   );
 
@@ -16,18 +16,18 @@ describe('chart compiler directive', () => {
       $scope = $rootScope.$new();
       $scope.chart = {
         template: '<div class="tha-chart">I\'m a chart!</div>',
-        stream: 'stream',
+        stream: "stream",
         chartFn: spy.mockReturnValue()
       };
       el = $compile(template)($scope)[0];
       $scope.$apply();
     })
   );
-  it('should add the chart', () => {
-    expect(el.querySelector('.tha-chart')).not.toBeNull();
+  it("should add the chart", () => {
+    expect(el.querySelector(".tha-chart")).not.toBeNull();
   });
-  it('should call the chart with scope and stream', () => {
+  it("should call the chart with scope and stream", () => {
     const $scopeConstructor = Object.getPrototypeOf($scope).constructor;
-    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), 'stream');
+    expect(spy).toHaveBeenCalledOnceWith(expect.any($scopeConstructor), "stream");
   });
 });

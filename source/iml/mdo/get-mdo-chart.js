@@ -5,34 +5,34 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import flatMapChanges from '@iml/flat-map-changes';
-import chartCompiler from '../chart-compiler/chart-compiler.js';
+import * as fp from "@iml/fp";
+import flatMapChanges from "@iml/flat-map-changes";
+import chartCompiler from "../chart-compiler/chart-compiler.js";
 
-import { DEFAULT_MDO_CHART_ITEMS, UPDATE_MDO_CHART_ITEMS } from './mdo-chart-reducer.js';
+import { DEFAULT_MDO_CHART_ITEMS, UPDATE_MDO_CHART_ITEMS } from "./mdo-chart-reducer.js";
 
-import getMdoStream from './get-mdo-stream.js';
-import { formatNumber } from '@iml/number-formatters';
-import getStore from '../store/get-store.js';
-import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
+import getMdoStream from "./get-mdo-stream.js";
+import { formatNumber } from "@iml/number-formatters";
+import getStore from "../store/get-store.js";
+import durationPayload from "../duration-picker/duration-payload.js";
+import durationSubmitHandler from "../duration-picker/duration-submit-handler.js";
 
-import { getConf } from '../chart-transformers/chart-transformers.js';
+import { getConf } from "../chart-transformers/chart-transformers.js";
 
-import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
-import type { localApplyT } from '../extend-scope-module.js';
-import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
-import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
+import type { durationPayloadT } from "../duration-picker/duration-picker-module.js";
+import type { localApplyT } from "../extend-scope-module.js";
+import type { filesystemQueryT, targetQueryT } from "../dashboard/dashboard-module.js";
+import type { data$FnT } from "../chart-transformers/chart-transformers-module.js";
 
 export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
-  'ngInject';
+  "ngInject";
   return function getMdoChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_MDO_CHART_ITEMS,
       payload: durationPayload({ page })
     });
 
-    const config1$ = getStore.select('mdoCharts');
+    const config1$ = getStore.select("mdoCharts");
     const initStream = config1$
       .through(getConf(page))
       .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getMdoStream)));
@@ -62,12 +62,12 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
       ($scope, stream) => {
         const conf = {
           stream,
-          configType: '',
-          page: '',
-          startDate: '',
-          endDate: '',
+          configType: "",
+          page: "",
+          startDate: "",
+          endDate: "",
           size: 1,
-          unit: '',
+          unit: "",
           onSubmit: durationSubmitHandler(UPDATE_MDO_CHART_ITEMS, { page }),
           options: {
             setup(chart) {
@@ -84,13 +84,13 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
           }
         };
 
-        const config2$ = getStore.select('mdoCharts');
+        const config2$ = getStore.select("mdoCharts");
         config2$.through(getConf(page)).each((x: durationPayloadT) => {
           Object.assign(conf, x);
           localApply($scope);
         });
 
-        $scope.$on('$destroy', () => {
+        $scope.$on("$destroy", () => {
           stream.destroy();
           config1$.destroy();
           config2$.destroy();

@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
 export default function capitalizeFilter() {
-  'ngInject';
+  "ngInject";
   return function(words, all) {
     if (!_.isString(words)) return words;
 
@@ -15,7 +15,7 @@ export default function capitalizeFilter() {
         .trim()
         .split(/\s+/)
         .map(_.capitalize)
-        .join(' ');
+        .join(" ");
     else words = _.capitalize(words);
 
     return words;

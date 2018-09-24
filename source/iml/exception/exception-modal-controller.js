@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function ExceptionModalCtrl($scope: $scopeT, $document) {
-  'ngInject';
+  "ngInject";
 
   $scope.exceptionModal = {
     reload: function reload() {

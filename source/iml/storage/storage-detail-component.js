@@ -5,29 +5,29 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import Inferno from "inferno";
+import Component from "inferno-component";
 
-import type { HighlandStreamT } from 'highland';
-import type { StorageResource, TimeseriesChart, HistogramChart, Stats } from './storage-types.js';
+import type { HighlandStreamT } from "highland";
+import type { StorageResource, TimeseriesChart, HistogramChart, Stats } from "./storage-types.js";
 
-import { values } from '@iml/obj';
-import { asValue } from '../as-value/as-value.js';
-import { StorageAttribute } from './resource-table.js';
+import { values } from "@iml/obj";
+import { asValue } from "../as-value/as-value.js";
+import { StorageAttribute } from "./resource-table.js";
 
-import AlertIndicator from '../alert-indicator/alert-indicator.js';
-import socketStream from '../socket/socket-stream.js';
-import Spinner from '../spinner.js';
-import StorageResourceHistogram from './storage-resource-histogram.js';
-import StorageResourceTimeSeries from './storage-resource-time-series.js';
-import global from '../global.js';
+import AlertIndicator from "../alert-indicator/alert-indicator.js";
+import socketStream from "../socket/socket-stream.js";
+import Spinner from "../spinner.js";
+import StorageResourceHistogram from "./storage-resource-histogram.js";
+import StorageResourceTimeSeries from "./storage-resource-time-series.js";
+import global from "../global.js";
 
 const buildCharts = (x: StorageResource): (TimeseriesChart | HistogramChart)[] =>
   x.charts.map(c => {
     const series: Stats[] = c.series.map(s => x.stats[s]).filter(Boolean);
-    const type: 'histogram' | 'timeseries' = series
+    const type: "histogram" | "timeseries" = series
       .map(x => x.type)
-      .reduce((x, y) => (x === 'histogram' ? 'histogram' : y));
+      .reduce((x, y) => (x === "histogram" ? "histogram" : y));
 
     return ({
       title: c.title,
@@ -115,8 +115,8 @@ class StorageDetailForm extends Component {
     super(props);
 
     this.state = {
-      oldAlias: '',
-      alias: '',
+      oldAlias: "",
+      alias: "",
       processing: false
     };
   }
@@ -138,7 +138,7 @@ class StorageDetailForm extends Component {
     socketStream(
       `/storage_resource/${id}`,
       {
-        method: 'put',
+        method: "put",
         json: {
           alias: this.state.alias
         }
@@ -160,7 +160,7 @@ class StorageDetailForm extends Component {
     socketStream(
       `/storage_resource/${id}`,
       {
-        method: 'delete'
+        method: "delete"
       },
       true
     ).pull(() => {
@@ -168,7 +168,7 @@ class StorageDetailForm extends Component {
         processing: false
       });
 
-      global.location.href = '/ui/configure/storage';
+      global.location.href = "/ui/configure/storage";
     });
   };
 
@@ -225,7 +225,7 @@ class StorageDetailForm extends Component {
 }
 
 export const StorageDetail = asValue(
-  'resource',
+  "resource",
   ({ resource, alertIndicatorB }: { resource: StorageResource, alertIndicatorB: () => HighlandStreamT<any> }) => {
     return (
       <div class="container container-full container">
@@ -233,10 +233,10 @@ export const StorageDetail = asValue(
         <div>
           {buildCharts(resource).map(c => (
             <div>
-              <h4 class="text-center" style={{ 'margin-top': '50px' }}>
+              <h4 class="text-center" style={{ "margin-top": "50px" }}>
                 {c.title}
               </h4>
-              {c.type === 'histogram' ? (
+              {c.type === "histogram" ? (
                 <StorageResourceHistogram chart={c} />
               ) : (
                 <StorageResourceTimeSeries chart={c} resourceUri={resource.resource_uri} />
@@ -250,9 +250,9 @@ export const StorageDetail = asValue(
 );
 
 export default {
-  bindings: { storageResource$: '<', alertIndicatorB: '<' },
+  bindings: { storageResource$: "<", alertIndicatorB: "<" },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

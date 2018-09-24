@@ -1,8 +1,8 @@
-describe('slider panel', () => {
+describe("slider panel", () => {
   let inst, rootPanel;
 
   beforeEach(() => {
-    const mod = require('../../../../source/iml/panels/toggle-side-panel-component.js');
+    const mod = require("../../../../source/iml/panels/toggle-side-panel-component.js");
 
     rootPanel = {
       open: jest.fn(),
@@ -13,31 +13,31 @@ describe('slider panel', () => {
     inst.rootPanel = rootPanel;
   });
 
-  describe('one click', () => {
+  describe("one click", () => {
     beforeEach(() => {
       inst.onClick();
     });
 
-    it('should call close', () => {
+    it("should call close", () => {
       expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
 
-    it('should not call open', () => {
+    it("should not call open", () => {
       expect(rootPanel.open).not.toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('two clicks', () => {
+  describe("two clicks", () => {
     beforeEach(() => {
       inst.onClick();
       inst.onClick();
     });
 
-    it('should call open', () => {
+    it("should call open", () => {
       expect(rootPanel.open).toHaveBeenCalledTimes(1);
     });
 
-    it('should not call close once', () => {
+    it("should not call close once", () => {
       expect(rootPanel.close).toHaveBeenCalledTimes(1);
     });
   });

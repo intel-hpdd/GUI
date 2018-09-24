@@ -1,55 +1,55 @@
-import angular from '../../../angular-mock-setup.js';
-import filtersModule from '../../../../source/iml/filters/filters-module';
+import angular from "../../../angular-mock-setup.js";
+import filtersModule from "../../../../source/iml/filters/filters-module";
 
-describe('Natural Sort Filter', function() {
+describe("Natural Sort Filter", function() {
   let naturalSort, hostnames, expected, predicate;
 
   beforeEach(angular.mock.module(filtersModule));
 
   beforeEach(
     angular.mock.inject(function($filter) {
-      naturalSort = $filter('naturalSort');
+      naturalSort = $filter("naturalSort");
 
       hostnames = [
-        'hostname0012',
-        'alpa001',
-        '4delta5kappa',
-        'hostname005',
-        'beta002',
-        'hostname006',
-        'hostname007',
-        'hostname0015',
-        'hostname008',
-        'delta003gammamoretext',
-        'hostname009',
-        'hostname0010',
-        'delta004alpha',
-        'hostname0011',
-        'hostname0013',
-        'hostname0014',
+        "hostname0012",
+        "alpa001",
+        "4delta5kappa",
+        "hostname005",
+        "beta002",
+        "hostname006",
+        "hostname007",
+        "hostname0015",
+        "hostname008",
+        "delta003gammamoretext",
+        "hostname009",
+        "hostname0010",
+        "delta004alpha",
+        "hostname0011",
+        "hostname0013",
+        "hostname0014",
         80,
-        'delta003gamma'
+        "delta003gamma"
       ];
 
       expected = [
-        '4delta5kappa',
+        "4delta5kappa",
         80,
-        'alpa001',
-        'beta002',
-        'delta003gamma',
-        'delta003gammamoretext',
-        'delta004alpha',
-        'hostname005',
-        'hostname006',
-        'hostname007',
-        'hostname008',
-        'hostname009',
-        'hostname0010',
-        'hostname0011',
-        'hostname0012',
-        'hostname0013',
-        'hostname0014',
-        'hostname0015'
+        "alpa001",
+        "beta002",
+        "delta003gamma",
+        "delta003gammamoretext",
+        "delta004alpha",
+        "hostname005",
+        "hostname006",
+        "hostname007",
+        "hostname008",
+        "hostname009",
+        "hostname0010",
+        "hostname0011",
+        "hostname0012",
+        "hostname0013",
+        "hostname0014",
+        "hostname0015"
       ];
 
       predicate = function predicate(val) {
@@ -58,12 +58,12 @@ describe('Natural Sort Filter', function() {
     })
   );
 
-  it('should sort the hostnames array in natural order', function() {
+  it("should sort the hostnames array in natural order", function() {
     const naturalSortedHostNames = naturalSort(hostnames, predicate);
     expect(naturalSortedHostNames).toEqual(expected);
   });
 
-  it('should sort the hostnames array in natural order and return the reversed array', function() {
+  it("should sort the hostnames array in natural order and return the reversed array", function() {
     const naturalSortedHostNames = naturalSort(hostnames, predicate, true);
     expect(naturalSortedHostNames).toEqual(expected.reverse());
   });
