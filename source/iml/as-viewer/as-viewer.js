@@ -34,37 +34,31 @@ export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element
     }
   };
 
-export const asViewers = <B: {}>(keys: string[], WrappedComponent: (b: B) => Element<*>) => {
-  if (keys.length !== [...new Set(keys)].length) throw new Error("asViewers keys must be unique.");
-  else
-    return class AsViewers extends Component {
-      state: B;
-      viewers: streamFnT;
-      props: {
-        viewers: () => HighlandStreamT<B>
-      };
-      componentWillMount() {
-        this.viewers = this.props.viewers;
+export const asViewers = <B: {}>(WrappedComponent: (b: B) => Element<*>) =>
+  class AsViewers extends Component {
+    state: B;
+    viewers: streamFnT;
+    props: {
+      viewers: () => HighlandStreamT<B>
+    };
+    componentWillMount() {
+      this.viewers = this.props.viewers;
 
-        this.viewers.forEach(viewer => {
-          viewer.each((data: Object) => {
-            const key = keys.find(key => data[key] != null);
-
-            if (key)
-              this.setState({
-                [key]: data[key]
-              });
+      Object.entries(this.viewers).forEach(([key, stream]) => {
+        stream.each((data: Object) => {
+          this.setState({
+            [key]: data
           });
         });
-      }
-      componentWillUnmount() {
-        this.viewers.forEach(viewer => viewer.destroy());
-      }
-      render() {
-        return <WrappedComponent {...this.props} {...this.state} />;
-      }
-    };
-};
+      });
+    }
+    componentWillUnmount() {
+      Object.values(this.viewers).forEach(viewer => viewer.destroy());
+    }
+    render() {
+      return <WrappedComponent {...this.props} {...this.state} />;
+    }
+  };
 
 export default () => {
   return {

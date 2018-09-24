@@ -203,8 +203,18 @@ describe("as viewers", () => {
       jest.spyOn(viewer3V, "destroy");
 
       MultipleViewersComponent = asViewers(
-        ["viewer1", "viewer2", "viewer3"],
-        ({ viewer1: { key1 }, viewer2: { key2 }, viewer3: { key3 }, name }) => {
+        ({
+          huey: {
+            viewer1: { key1 }
+          },
+          dewey: {
+            viewer2: { key2 }
+          },
+          louie: {
+            viewer3: { key3 }
+          },
+          name
+        }) => {
           return (
             <div id="multiple-viewers-component">
               <h1 id="name">{name}</h1>
@@ -218,7 +228,10 @@ describe("as viewers", () => {
 
       root = document.createElement("div");
       Inferno.render(
-        <MultipleViewersComponent viewers={[viewer1V, viewer2V, viewer3V]} name={"test-component"} />,
+        <MultipleViewersComponent
+          viewers={{ huey: viewer1V, dewey: viewer2V, louie: viewer3V }}
+          name={"test-component"}
+        />,
         root
       );
     });
@@ -243,19 +256,6 @@ describe("as viewers", () => {
       it("should end the broadcast for viewer3", () => {
         expect(viewer3V.destroy).toHaveBeenCalledTimes(1);
       });
-    });
-  });
-
-  describe("with duplicate keys", () => {
-    beforeEach(() => {});
-
-    it("should throw an exception", () => {
-      expect(
-        () =>
-          (MultipleViewersComponent = asViewers(["viewer1", "viewer2", "viewer3", "viewer3"], () => {
-            return <div id="multiple-viewers-component" />;
-          }))
-      ).toThrow(new Error("asViewers keys must be unique."));
     });
   });
 });
