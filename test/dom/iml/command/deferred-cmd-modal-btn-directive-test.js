@@ -1,22 +1,22 @@
-import highland from 'highland';
-import * as fp from '@iml/fp';
-import { deferredCmdModalBtnDirective } from '../../../../source/iml/command/deferred-cmd-modal-btn-directive.js';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import * as fp from "@iml/fp";
+import { deferredCmdModalBtnDirective } from "../../../../source/iml/command/deferred-cmd-modal-btn-directive.js";
+import angular from "../../../angular-mock-setup.js";
 
-describe('deferred command modal button directive exports', () => {
+describe("deferred command modal button directive exports", () => {
   let mockSocketStream, openCommandModal, modalStream, mockResolveStream, DeferredCommandModalBtnCtrl;
 
   beforeEach(() => {
     mockSocketStream = jest.fn(() => highland());
     mockResolveStream = jest.fn(() => Promise.resolve());
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
 
-    DeferredCommandModalBtnCtrl = require('../../../../source/iml/command/deferred-cmd-modal-btn-controller.js')
+    DeferredCommandModalBtnCtrl = require("../../../../source/iml/command/deferred-cmd-modal-btn-controller.js")
       .default;
   });
 
@@ -27,11 +27,11 @@ describe('deferred command modal button directive exports', () => {
         resultStream: modalStream
       }));
 
-      $provide.value('openCommandModal', openCommandModal);
+      $provide.value("openCommandModal", openCommandModal);
 
-      $controllerProvider.register('DeferredCommandModalBtnCtrl', DeferredCommandModalBtnCtrl);
+      $controllerProvider.register("DeferredCommandModalBtnCtrl", DeferredCommandModalBtnCtrl);
 
-      $compileProvider.directive('deferredCmdModalBtn', deferredCmdModalBtnDirective);
+      $compileProvider.directive("deferredCmdModalBtn", deferredCmdModalBtnDirective);
     })
   );
 
@@ -41,69 +41,69 @@ describe('deferred command modal button directive exports', () => {
       const template = '<deferred-cmd-modal-btn resource-uri="::resourceUri"></deferred-cmd-modal-btn>';
 
       $scope = $rootScope.$new();
-      $scope.resourceUri = '/api/command/1/';
+      $scope.resourceUri = "/api/command/1/";
 
       cleanText = fp.flow(
-        fp.view(fp.lensProp('textContent')),
+        fp.view(fp.lensProp("textContent")),
         x => x.trim()
       );
       el = $compile(template)($scope)[0];
       qs = el.querySelector.bind(el);
-      waitingButton = qs.bind(el, 'button[disabled]');
-      commandDetailButton = qs.bind(el, '.cmd-detail-btn');
+      waitingButton = qs.bind(el, "button[disabled]");
+      commandDetailButton = qs.bind(el, ".cmd-detail-btn");
 
       $scope.$digest();
     })
   );
 
-  it('should not show the waiting button', () => {
+  it("should not show the waiting button", () => {
     expect(waitingButton()).toBeNull();
   });
 
-  it('should show the detail button', () => {
+  it("should show the detail button", () => {
     expect(commandDetailButton()).toBeShown();
   });
 
-  it('should have the correct detail text', () => {
-    expect(cleanText(commandDetailButton())).toBe('Details');
+  it("should have the correct detail text", () => {
+    expect(cleanText(commandDetailButton())).toBe("Details");
   });
 
-  describe('when clicked', () => {
+  describe("when clicked", () => {
     beforeEach(() => {
       commandDetailButton().click();
     });
 
-    it('should fetch the resource URI', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith('/api/command/1/');
+    it("should fetch the resource URI", () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith("/api/command/1/");
     });
 
-    it('should pass a stream resolveStream', () => {
+    it("should pass a stream resolveStream", () => {
       expect(highland.isStream(mockResolveStream.mock.calls[0][0])).toBe(true);
     });
 
-    it('should pass a stream to openCommandModal', () => {
+    it("should pass a stream to openCommandModal", () => {
       expect(openCommandModal).toHaveBeenCalledOnceWith(expect.any(Object));
     });
 
-    it('should show the waiting button', () => {
+    it("should show the waiting button", () => {
       expect(waitingButton()).toBeShown();
     });
 
-    it('should have the correct waiting text', () => {
-      expect(cleanText(waitingButton())).toBe('Waiting');
+    it("should have the correct waiting text", () => {
+      expect(cleanText(waitingButton())).toBe("Waiting");
     });
 
-    describe('resolving the command', () => {
+    describe("resolving the command", () => {
       beforeEach(() => {
-        modalStream.write('all done!');
+        modalStream.write("all done!");
         $scope.$digest();
       });
 
-      it('should show the detail button', () => {
+      it("should show the detail button", () => {
         expect(commandDetailButton()).toBeShown();
       });
 
-      it('should hide the waiting button', () => {
+      it("should hide the waiting button", () => {
         expect(waitingButton()).toBeNull();
       });
     });

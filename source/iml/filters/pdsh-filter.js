@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function pdsh() {
-  'ngInject';
+  "ngInject";
   /**
    * Given an array of objects, return a list of objects that match the list of host names.
    * @param {Array} [input]

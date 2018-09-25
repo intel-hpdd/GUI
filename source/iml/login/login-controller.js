@@ -5,28 +5,28 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Navigate } from '../navigate/navigate.js';
+import type { Navigate } from "../navigate/navigate.js";
 
-import { getCSRFToken } from '../auth/authorization.js';
-import { ALLOW_ANONYMOUS_READ } from '../environment.js';
-import global from '../global.js';
+import { getCSRFToken } from "../auth/authorization.js";
+import { ALLOW_ANONYMOUS_READ } from "../environment.js";
+import global from "../global.js";
 
 const getHeaders = () => ({
-  Accept: 'application/json',
-  'Content-Type': 'application/json; charset=UTF-8',
+  Accept: "application/json",
+  "Content-Type": "application/json; charset=UTF-8",
   ...getCSRFToken()
 });
 
 export default function LoginCtrl(navigate: Navigate) {
-  'ngInject';
+  "ngInject";
 
   this.submitLogin = () => {
     this.inProgress = true;
     this.validate = global
-      .fetch('/api/session/', {
-        method: 'post',
+      .fetch("/api/session/", {
+        method: "post",
         headers: getHeaders(),
-        credentials: 'same-origin',
+        credentials: "same-origin",
         body: JSON.stringify({
           username: this.username,
           password: this.password

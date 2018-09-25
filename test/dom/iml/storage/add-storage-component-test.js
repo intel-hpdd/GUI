@@ -1,29 +1,29 @@
 // @flow
 
-import Inferno from 'inferno';
-import highland, { type HighlandStreamT } from 'highland';
-import broadcaster from '../../../../source/iml/broadcaster.js';
-import type { State } from '../../../../source/iml/storage/storage-reducer.js';
-import { renderToSnapshot } from '../../../test-utils.js';
-import { querySelector } from '../../../../source/iml/dom-utils.js';
+import Inferno from "inferno";
+import highland, { type HighlandStreamT } from "highland";
+import broadcaster from "../../../../source/iml/broadcaster.js";
+import type { State } from "../../../../source/iml/storage/storage-reducer.js";
+import { renderToSnapshot } from "../../../test-utils.js";
+import { querySelector } from "../../../../source/iml/dom-utils.js";
 
-describe('storage component', () => {
+describe("storage component", () => {
   let AddStorageComponent, mockSocketStream, storage$: HighlandStreamT<State>;
 
   beforeEach(() => {
     mockSocketStream = jest.fn();
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    ({ AddStorageComponent } = require('../../../../source/iml/storage/add-storage-component.js'));
+    ({ AddStorageComponent } = require("../../../../source/iml/storage/add-storage-component.js"));
 
     storage$ = highland();
   });
 
-  it('should render nothing with no data', () => {
+  it("should render nothing with no data", () => {
     storage$.write({
       config: {
         sortDesc: false,
-        sortKey: 'name',
+        sortKey: "name",
         loading: false,
         selectIndex: 0,
         entries: 10,
@@ -45,11 +45,11 @@ describe('storage component', () => {
     expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
   });
 
-  it('should render with data', () => {
+  it("should render with data", () => {
     storage$.write({
       config: {
         sortDesc: false,
-        sortKey: 'name',
+        sortKey: "name",
         loading: true,
         selectIndex: 0,
         entries: 1,
@@ -57,50 +57,50 @@ describe('storage component', () => {
       },
       resourceClasses: [
         {
-          class_name: 'EMCPower',
+          class_name: "EMCPower",
           columns: [
             {
-              label: 'Size',
-              name: 'size'
+              label: "Size",
+              name: "size"
             },
             {
-              label: 'Filesystem type',
-              name: 'filesystem_type'
+              label: "Filesystem type",
+              name: "filesystem_type"
             },
             {
-              label: 'Uuid',
-              name: 'uuid'
+              label: "Uuid",
+              name: "uuid"
             }
           ],
           fields: [
             {
-              class: 'Bytes',
-              label: 'Size',
-              name: 'size',
+              class: "Bytes",
+              label: "Size",
+              name: "size",
               optional: false,
               user_read_only: false
             },
             {
-              class: 'Boolean',
-              label: 'Filesystem type',
-              name: 'filesystem_type',
+              class: "Boolean",
+              label: "Filesystem type",
+              name: "filesystem_type",
               optional: true,
               user_read_only: false
             },
             {
-              class: 'String',
-              label: 'Uuid',
-              name: 'uuid',
+              class: "String",
+              label: "Uuid",
+              name: "uuid",
               optional: false,
               user_read_only: false
             }
           ],
           id: 1,
-          label: 'linux-EMCPower',
-          modified_at: '2017-07-19T13:58:02.615410',
+          label: "linux-EMCPower",
+          modified_at: "2017-07-19T13:58:02.615410",
           plugin_internal: true,
-          plugin_name: 'linux',
-          resource_uri: '/api/storage_resource_class/1/',
+          plugin_name: "linux",
+          resource_uri: "/api/storage_resource_class/1/",
           user_creatable: false
         }
       ],
@@ -119,19 +119,19 @@ describe('storage component', () => {
     expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
   });
 
-  describe('interaction', () => {
+  describe("interaction", () => {
     let root, stream;
 
     beforeEach(() => {
       stream = highland();
       mockSocketStream.mockReturnValue(stream);
-      root = document.createElement('div');
-      querySelector(document, 'body').appendChild(root);
+      root = document.createElement("div");
+      querySelector(document, "body").appendChild(root);
 
       storage$.write({
         config: {
           sortDesc: false,
-          sortKey: 'name',
+          sortKey: "name",
           loading: true,
           selectIndex: 0,
           entries: 1,
@@ -139,50 +139,50 @@ describe('storage component', () => {
         },
         resourceClasses: [
           {
-            class_name: 'EMCPower',
+            class_name: "EMCPower",
             columns: [
               {
-                label: 'Size',
-                name: 'size'
+                label: "Size",
+                name: "size"
               },
               {
-                label: 'Filesystem type',
-                name: 'filesystem_type'
+                label: "Filesystem type",
+                name: "filesystem_type"
               },
               {
-                label: 'Uuid',
-                name: 'uuid'
+                label: "Uuid",
+                name: "uuid"
               }
             ],
             fields: [
               {
-                class: 'Bytes',
-                label: 'Size',
-                name: 'size',
+                class: "Bytes",
+                label: "Size",
+                name: "size",
                 optional: false,
                 user_read_only: false
               },
               {
-                class: 'Boolean',
-                label: 'Filesystem type',
-                name: 'filesystem_type',
+                class: "Boolean",
+                label: "Filesystem type",
+                name: "filesystem_type",
                 optional: true,
                 user_read_only: false
               },
               {
-                class: 'String',
-                label: 'Uuid',
-                name: 'uuid',
+                class: "String",
+                label: "Uuid",
+                name: "uuid",
                 optional: false,
                 user_read_only: false
               }
             ],
             id: 1,
-            label: 'linux-EMCPower',
-            modified_at: '2017-07-19T13:58:02.615410',
+            label: "linux-EMCPower",
+            modified_at: "2017-07-19T13:58:02.615410",
             plugin_internal: true,
-            plugin_name: 'linux',
-            resource_uri: '/api/storage_resource_class/1/',
+            plugin_name: "linux",
+            resource_uri: "/api/storage_resource_class/1/",
             user_creatable: false
           }
         ],
@@ -202,52 +202,52 @@ describe('storage component', () => {
     });
 
     afterEach(() => {
-      querySelector(document, 'body').removeChild(root);
+      querySelector(document, "body").removeChild(root);
     });
 
-    describe('submitting the form', () => {
+    describe("submitting the form", () => {
       beforeEach(() => {
-        const size: HTMLInputElement = (querySelector(root, '#size'): any);
-        size.value = 'foo';
-        size.dispatchEvent(new Event('input'));
+        const size: HTMLInputElement = (querySelector(root, "#size"): any);
+        size.value = "foo";
+        size.dispatchEvent(new Event("input"));
 
-        const uuid: HTMLInputElement = (querySelector(root, '#uuid'): any);
-        uuid.value = 'bar';
-        uuid.dispatchEvent(new Event('input'));
+        const uuid: HTMLInputElement = (querySelector(root, "#uuid"): any);
+        uuid.value = "bar";
+        uuid.dispatchEvent(new Event("input"));
 
-        querySelector(root, 'button').dispatchEvent(new MouseEvent('click'));
+        querySelector(root, "button").dispatchEvent(new MouseEvent("click"));
       });
 
-      it('should submit the form', () => {
+      it("should submit the form", () => {
         expect(mockSocketStream).toHaveBeenCalledWith(
-          '/storage_resource',
+          "/storage_resource",
           {
             json: {
-              attrs: { size: 'foo', uuid: 'bar' },
-              class_name: 'EMCPower',
-              plugin_name: 'linux'
+              attrs: { size: "foo", uuid: "bar" },
+              class_name: "EMCPower",
+              plugin_name: "linux"
             },
-            method: 'post'
+            method: "post"
           },
           true
         );
       });
 
-      it('should render loading', () => {
+      it("should render loading", () => {
         expect(root).toMatchSnapshot();
       });
 
-      it('should render success', () => {
+      it("should render success", () => {
         stream.write({});
 
         expect(root).toMatchSnapshot();
       });
 
-      it('should render error', () => {
+      it("should render error", () => {
         // $FlowFixMe: Internal error type for testing
         stream.write({
           __HighlandStreamError__: true,
-          error: new Error('boom')
+          error: new Error("boom")
         });
 
         expect(root).toMatchSnapshot();

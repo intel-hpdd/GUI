@@ -1,12 +1,12 @@
-import { loginState } from '../../../../source/iml/login/login-states.js';
+import { loginState } from "../../../../source/iml/login/login-states.js";
 
-describe('login states', () => {
-  it('should create the state', () => {
+describe("login states", () => {
+  it("should create the state", () => {
     expect(loginState).toEqual({
-      name: 'login',
-      url: '/login',
-      controller: 'LoginCtrl',
-      controllerAs: 'login',
+      name: "login",
+      url: "/login",
+      controller: "LoginCtrl",
+      controllerAs: "login",
       template: `<div class="container">
   <div class="login-partial">
     <header class="logo"></header>

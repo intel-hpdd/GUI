@@ -1,8 +1,8 @@
-import angular from '../../../angular-mock-setup.js';
+import angular from "../../../angular-mock-setup.js";
 
-import helpMapperModule from '../../../../source/iml/help-mapper/help-mapper-module.js';
+import helpMapperModule from "../../../../source/iml/help-mapper/help-mapper-module.js";
 
-describe('help mapper', () => {
+describe("help mapper", () => {
   let $state, $transitions;
 
   beforeEach(
@@ -17,8 +17,8 @@ describe('help mapper', () => {
         onSuccess: jest.fn()
       };
 
-      $provide.value('$transitions', $transitions);
-      $provide.value('$state', $state);
+      $provide.value("$transitions", $transitions);
+      $provide.value("$state", $state);
     })
   );
 
@@ -28,21 +28,21 @@ describe('help mapper', () => {
     angular.mock.inject(($compile, $rootScope) => {
       $scope = $rootScope.$new();
 
-      const template = '<li help-mapper></li>';
+      const template = "<li help-mapper></li>";
       el = $compile(template)($scope)[0];
       $rootScope.$digest();
     })
   );
 
-  it('should append an anchor', () => {
-    expect(el.querySelector('a')).not.toBeNull();
+  it("should append an anchor", () => {
+    expect(el.querySelector("a")).not.toBeNull();
   });
 
-  it('should not end with /help/', () => {
-    expect(el.querySelector('a').getAttribute('ng-href')).toBe('/help/');
+  it("should not end with /help/", () => {
+    expect(el.querySelector("a").getAttribute("ng-href")).toBe("/help/");
   });
 
-  it('should end with a path plus hash on matching route change', () => {
+  it("should end with a path plus hash on matching route change", () => {
     const fn = $transitions.onSuccess.mock.calls[0][1];
 
     fn({
@@ -50,7 +50,7 @@ describe('help mapper', () => {
         globals: {
           $current: {
             data: {
-              helpPage: 'Graphical_User_Interface_9_0.html#9.3.1'
+              helpPage: "Graphical_User_Interface_9_0.html#9.3.1"
             }
           }
         }
@@ -59,6 +59,6 @@ describe('help mapper', () => {
 
     $scope.$digest();
 
-    expect(el.querySelector('a').getAttribute('ng-href')).toBe('/help/docs/Graphical_User_Interface_9_0.html#9.3.1');
+    expect(el.querySelector("a").getAttribute("ng-href")).toBe("/help/docs/Graphical_User_Interface_9_0.html#9.3.1");
   });
 });

@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('union with target', () => {
+describe("union with target", () => {
   let mockSocketStream, targetStream, spy, unionWithTarget;
 
   beforeEach(() => {
@@ -10,9 +10,9 @@ describe('union with target', () => {
 
     spy = jest.fn();
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    const mod = require('../../../../source/iml/charting/union-with-target.js');
+    const mod = require("../../../../source/iml/charting/union-with-target.js");
 
     unionWithTarget = mod.default;
 
@@ -24,23 +24,23 @@ describe('union with target', () => {
     jest.useRealTimers();
   });
 
-  it('should be a function', () => {
+  it("should be a function", () => {
     expect(unionWithTarget).toEqual(expect.any(Function));
   });
 
-  it('should union with targets', () => {
+  it("should union with targets", () => {
     highland([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ])
       .through(unionWithTarget)
@@ -50,12 +50,12 @@ describe('union with target', () => {
     targetStream.write({
       objects: [
         {
-          id: '18',
-          name: 'OST001'
+          id: "18",
+          name: "OST001"
         },
         {
-          id: '19',
-          name: 'OST002'
+          id: "19",
+          name: "OST002"
         }
       ]
     });
@@ -64,33 +64,33 @@ describe('union with target', () => {
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: 'OST001'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "OST001"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: 'OST002'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "OST002"
       }
     ]);
   });
 
-  it('should keep targets without a matching id', () => {
+  it("should keep targets without a matching id", () => {
     highland([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ])
       .through(unionWithTarget)
@@ -100,8 +100,8 @@ describe('union with target', () => {
     targetStream.write({
       objects: [
         {
-          id: '18',
-          name: 'OST001'
+          id: "18",
+          name: "OST001"
         }
       ]
     });
@@ -110,33 +110,33 @@ describe('union with target', () => {
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: 'OST001'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "OST001"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ]);
   });
 
-  it('should keep all ids if targets is empty', () => {
+  it("should keep all ids if targets is empty", () => {
     highland([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ])
       .through(unionWithTarget)
@@ -151,16 +151,16 @@ describe('union with target', () => {
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ]);
   });
@@ -168,16 +168,16 @@ describe('union with target', () => {
   it("should keep all ids if targets don't match", () => {
     highland([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ])
       .through(unionWithTarget)
@@ -187,12 +187,12 @@ describe('union with target', () => {
     targetStream.write({
       objects: [
         {
-          id: '20',
-          name: 'OST003'
+          id: "20",
+          name: "OST003"
         },
         {
-          id: '21',
-          name: 'OST004'
+          id: "21",
+          name: "OST004"
         }
       ]
     });
@@ -201,21 +201,21 @@ describe('union with target', () => {
 
     expect(spy).toHaveBeenCalledOnceWith([
       {
-        data: { foo: 'bar' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '18',
-        name: '18'
+        data: { foo: "bar" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "18",
+        name: "18"
       },
       {
-        data: { foo: 'baz' },
-        ts: '2013-11-18T22:45:30+00:00',
-        id: '19',
-        name: '19'
+        data: { foo: "baz" },
+        ts: "2013-11-18T22:45:30+00:00",
+        id: "19",
+        name: "19"
       }
     ]);
   });
 
-  it('should return empty metrics', () => {
+  it("should return empty metrics", () => {
     highland([])
       .through(unionWithTarget)
       .collect()
@@ -224,12 +224,12 @@ describe('union with target', () => {
     targetStream.write({
       objects: [
         {
-          id: '20',
-          name: 'OST003'
+          id: "20",
+          name: "OST003"
         },
         {
-          id: '21',
-          name: 'OST004'
+          id: "21",
+          name: "OST004"
         }
       ]
     });

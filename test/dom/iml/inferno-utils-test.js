@@ -1,14 +1,14 @@
 // @flow
 
-import { cloneChildren } from '../../../source/iml/inferno-utils.js';
-import { renderToSnapshot } from '../../test-utils.js';
-import Inferno from 'inferno';
+import { cloneChildren } from "../../../source/iml/inferno-utils.js";
+import { renderToSnapshot } from "../../test-utils.js";
+import Inferno from "inferno";
 
 const Wrapper = (props: { children?: any }) => (
   <div>
     {cloneChildren(props.children, () => ({
       ...props,
-      message: 'hi'
+      message: "hi"
     }))}
   </div>
 );
@@ -19,7 +19,7 @@ const Message = (props: { name?: string, message?: string }) => (
   </span>
 );
 
-it('should clone children and add props', () => {
+it("should clone children and add props", () => {
   expect(
     renderToSnapshot(
       <Wrapper name="person">
@@ -29,7 +29,7 @@ it('should clone children and add props', () => {
   ).toMatchSnapshot();
 });
 
-it('should clone multiple children and add props', () => {
+it("should clone multiple children and add props", () => {
   expect(
     renderToSnapshot(
       <Wrapper name="person">
@@ -40,6 +40,6 @@ it('should clone multiple children and add props', () => {
   ).toMatchSnapshot();
 });
 
-it('should throw on no children', () => {
+it("should throw on no children", () => {
   expect(() => renderToSnapshot(<Wrapper name="person" />)).toThrow();
 });

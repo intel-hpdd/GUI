@@ -5,31 +5,31 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import { addCurrentPage } from '../api-transforms.js';
+import { addCurrentPage } from "../api-transforms.js";
 
-import type { $scopeT, $locationT } from 'angular';
+import type { $scopeT, $locationT } from "angular";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 export function StatusController($scope: $scopeT, $location: $locationT, propagateChange: PropagateChange) {
-  'ngInject';
+  "ngInject";
   const s = this.notification$
     .map(addCurrentPage)
     .tap(x => (this.meta = x.meta))
-    .pluck('objects');
+    .pluck("objects");
 
-  propagateChange($scope, this, 'data', s);
+  propagateChange($scope, this, "data", s);
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     this.notification$.destroy();
     this.tzPickerB.endBroadcast();
   });
 
-  const types = ['CommandErroredAlert', 'CommandSuccessfulAlert', 'CommandRunningAlert', 'CommandCancelledAlert'];
+  const types = ["CommandErroredAlert", "CommandSuccessfulAlert", "CommandRunningAlert", "CommandCancelledAlert"];
   const getType = fp.flow(
-    fp.view(fp.lensProp('record_type')),
+    fp.view(fp.lensProp("record_type")),
     fp.lensProp,
     fp.view
   );
@@ -39,14 +39,14 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
   );
 
   this.pageChanged = () => {
-    $location.search('offset', (this.meta.current_page - 1) * this.meta.limit);
+    $location.search("offset", (this.meta.current_page - 1) * this.meta.limit);
   };
 }
 
 export default {
   bindings: {
-    notification$: '<',
-    tzPickerB: '<'
+    notification$: "<",
+    tzPickerB: "<"
   },
   controller: StatusController,
   template: `

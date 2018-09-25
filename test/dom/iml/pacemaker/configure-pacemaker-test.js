@@ -1,13 +1,13 @@
-import highland from 'highland';
-import broadcaster from '../../../../source/iml/broadcaster.js';
-import pacemakerModule from '../../../../source/iml/pacemaker/pacemaker-module';
-import asViewerDirective from '../../../../source/iml/as-viewer/as-viewer.js';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import broadcaster from "../../../../source/iml/broadcaster.js";
+import pacemakerModule from "../../../../source/iml/pacemaker/pacemaker-module";
+import asViewerDirective from "../../../../source/iml/as-viewer/as-viewer.js";
+import angular from "../../../angular-mock-setup.js";
 
-describe('configure pacemaker', () => {
+describe("configure pacemaker", () => {
   beforeEach(
     angular.mock.module(pacemakerModule, $compileProvider => {
-      $compileProvider.directive('asViewer', asViewerDirective);
+      $compileProvider.directive("asViewer", asViewerDirective);
     })
   );
 
@@ -26,17 +26,17 @@ describe('configure pacemaker', () => {
     })
   );
 
-  it('should not render if stream has no data', () => {
-    expect(query('.section-header')).toBeNull();
+  it("should not render if stream has no data", () => {
+    expect(query(".section-header")).toBeNull();
   });
 
-  it('should not render if stream has falsey data', () => {
+  it("should not render if stream has falsey data", () => {
     s.write(null);
-    expect(query('.section-header')).toBeNull();
+    expect(query(".section-header")).toBeNull();
   });
 
-  it('should render if stream has data', () => {
+  it("should render if stream has data", () => {
     s.write({});
-    expect(query('.section-header')).not.toBeNull();
+    expect(query(".section-header")).not.toBeNull();
   });
 });

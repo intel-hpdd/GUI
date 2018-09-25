@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
 export default function jobTreeFactory() {
-  'ngInject';
+  "ngInject";
   /**
    * Given an array of jobs turns them into
    * a tree structure.
@@ -17,12 +17,12 @@ export default function jobTreeFactory() {
     const shallowestOccurrence = {};
 
     const children = _(jobs)
-      .pluck('wait_for')
+      .pluck("wait_for")
       .flatten()
       .unique()
       .value();
     const roots = _(jobs)
-      .pluck('resource_uri')
+      .pluck("resource_uri")
       .difference(children)
       .value();
 

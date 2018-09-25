@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function pieGraph(baseChart) {
-  'ngInject';
+  "ngInject";
   return baseChart({
     generateChart: function generateChart(nv) {
       return nv.models

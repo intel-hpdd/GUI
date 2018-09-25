@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import debounce from '@iml/debounce';
-import d3 from 'd3';
-import global from '../global.js';
+import Inferno from "inferno";
+import Component from "inferno-component";
+import debounce from "@iml/debounce";
+import d3 from "d3";
+import global from "../global.js";
 
-import { cloneChildren } from '../inferno-utils.js';
+import { cloneChildren } from "../inferno-utils.js";
 
 type ChartProps<P> = {
   margins: {
@@ -50,10 +50,10 @@ export default class Chart extends Component {
 
     this.debounced = debounce(onResize, 100);
 
-    global.addEventListener('resize', this.debounced);
+    global.addEventListener("resize", this.debounced);
   }
   componentWillUnmount() {
-    global.removeEventListener('resize', this.debounced, false);
+    global.removeEventListener("resize", this.debounced, false);
   }
   getDimensions({ width, height }: { width: number, height: number }) {
     return {
@@ -78,13 +78,13 @@ export default class Chart extends Component {
           this.gotComponent(el);
         }}
         class="charting"
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: "100%", height: "100%" }}
       >
         <g class="charting-group" transform={`translate(${this.props.margins.left},${this.props.margins.top})`}>
           {(() => {
             if (this.state.svg) {
               const svg = d3.select(this.state.svg).datum(this.props.points);
-              const chartingGroup = svg.select('.charting-group');
+              const chartingGroup = svg.select(".charting-group");
 
               return cloneChildren(this.props.children, () => ({
                 points: this.props.points,

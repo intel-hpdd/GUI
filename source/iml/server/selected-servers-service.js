@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default function SelectedServersService() {
-  'ngInject';
+  "ngInject";
   const selectedServers = this;
 
   this.servers = {};
@@ -16,15 +16,15 @@ export default function SelectedServersService() {
   this.toggleType = function toggleType(name) {
     let checked;
 
-    if (name === 'all')
+    if (name === "all")
       checked = function handleCheckedAll(key) {
         selectedServers.servers[key] = true;
       };
-    else if (name === 'none')
+    else if (name === "none")
       checked = function handleCheckedNone(key) {
         selectedServers.servers[key] = false;
       };
-    else if (name === 'invert')
+    else if (name === "invert")
       checked = function handleCheckedInvert(key) {
         selectedServers.servers[key] = !selectedServers.servers[key];
       };

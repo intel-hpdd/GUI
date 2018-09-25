@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
-import { labelDirective } from './label-directive';
+import { labelDirective } from "./label-directive";
 
-export default angular.module('label', []).directive('label', labelDirective).name;
+export default angular.module("label", []).directive("label", labelDirective).name;

@@ -4,13 +4,13 @@
 // license that can be found in the LICENSE file.
 
 export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
-  EXISTING_KEYS: 'existing_keys_choice',
-  ROOT_PASSWORD: 'id_password_root',
-  ANOTHER_KEY: 'private_key_choice'
+  EXISTING_KEYS: "existing_keys_choice",
+  ROOT_PASSWORD: "id_password_root",
+  ANOTHER_KEY: "private_key_choice"
 });
 
 export function AddServerStepCtrl($scope, $stepInstance, data) {
-  'ngInject';
+  "ngInject";
   const servers = data.servers;
 
   Object.assign(this, {
@@ -40,19 +40,19 @@ export function AddServerStepCtrl($scope, $stepInstance, data) {
 
       data.servers = this.fields;
 
-      $stepInstance.transition('next', { data: data });
+      $stepInstance.transition("next", { data: data });
     },
     /**
      * Close the modal
      */
     close: function close() {
-      $scope.$emit('addServerModal::closeModal');
+      $scope.$emit("addServerModal::closeModal");
     }
   });
 }
 
 export function addServersStepFactory() {
-  'ngInject';
+  "ngInject";
   return {
     template: `<div class="modal-header tooltip-container">
   <button type="button" class="close" ng-disabled="addServer.disabled" ng-click="addServer.close()">
@@ -150,7 +150,7 @@ export function addServersStepFactory() {
   <button ng-if="!addServer.disabled" class="btn btn-success proceed" ng-disabled="addServerForm.$invalid" ng-click="addServer.transition()">Next <i class="fa fa-long-arrow-right"></i></button>
   <button ng-if="addServer.disabled" disabled class="btn btn-success proceed" ng-click="addServer.transition()">Verifying <i class="fa fa-spinner fa-spin"></i></button>
 </div>`,
-    controller: 'AddServerStepCtrl as addServer',
+    controller: "AddServerStepCtrl as addServer",
     transition: function transition(steps) {
       return steps.serverStatusStep;
     }

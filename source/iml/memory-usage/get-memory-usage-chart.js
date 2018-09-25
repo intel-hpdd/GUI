@@ -5,33 +5,33 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import flatMapChanges from '@iml/flat-map-changes';
+import flatMapChanges from "@iml/flat-map-changes";
 
-import getMemoryUsageStream from './get-memory-usage-stream.js';
-import { formatBytes } from '@iml/number-formatters';
-import getStore from '../store/get-store.js';
-import durationPayload from '../duration-picker/duration-payload.js';
-import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
-import chartCompiler from '../chart-compiler/chart-compiler.js';
+import getMemoryUsageStream from "./get-memory-usage-stream.js";
+import { formatBytes } from "@iml/number-formatters";
+import getStore from "../store/get-store.js";
+import durationPayload from "../duration-picker/duration-payload.js";
+import durationSubmitHandler from "../duration-picker/duration-submit-handler.js";
+import chartCompiler from "../chart-compiler/chart-compiler.js";
 
-import { getConf } from '../chart-transformers/chart-transformers.js';
-import { UPDATE_MEMORY_USAGE_CHART_ITEMS, DEFAULT_MEMORY_USAGE_CHART_ITEMS } from './memory-usage-chart-reducer.js';
+import { getConf } from "../chart-transformers/chart-transformers.js";
+import { UPDATE_MEMORY_USAGE_CHART_ITEMS, DEFAULT_MEMORY_USAGE_CHART_ITEMS } from "./memory-usage-chart-reducer.js";
 
-import type { $scopeT } from 'angular';
-import type { durationPayloadT } from '../duration-picker/duration-picker-module.js';
-import type { localApplyT } from '../extend-scope-module.js';
-import type { targetQueryT } from '../dashboard/dashboard-module.js';
-import type { data$FnT } from '../chart-transformers/chart-transformers-module.js';
+import type { $scopeT } from "angular";
+import type { durationPayloadT } from "../duration-picker/duration-picker-module.js";
+import type { localApplyT } from "../extend-scope-module.js";
+import type { targetQueryT } from "../dashboard/dashboard-module.js";
+import type { data$FnT } from "../chart-transformers/chart-transformers-module.js";
 
 export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
-  'ngInject';
+  "ngInject";
   return function getMemoryUsageChart(overrides: targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_MEMORY_USAGE_CHART_ITEMS,
       payload: durationPayload({ page })
     });
 
-    const config1$ = getStore.select('memoryUsageCharts');
+    const config1$ = getStore.select("memoryUsageCharts");
     const initStream = config1$
       .through(getConf(page))
       .through(flatMapChanges.bind(null, data$Fn.bind(null, overrides, () => getMemoryUsageStream)));
@@ -61,12 +61,12 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
       ($scope: $scopeT, stream) => {
         const conf = {
           stream,
-          configType: '',
-          page: '',
-          startDate: '',
-          endDate: '',
+          configType: "",
+          page: "",
+          startDate: "",
+          endDate: "",
           size: 1,
-          unit: '',
+          unit: "",
           onSubmit: durationSubmitHandler(UPDATE_MEMORY_USAGE_CHART_ITEMS, {
             page
           }),
@@ -85,13 +85,13 @@ export default (localApply: localApplyT<*>, data$Fn: data$FnT) => {
           }
         };
 
-        const config2$ = getStore.select('memoryUsageCharts');
+        const config2$ = getStore.select("memoryUsageCharts");
         config2$.through(getConf(page)).each((x: durationPayloadT) => {
           Object.assign(conf, x);
           localApply($scope);
         });
 
-        $scope.$on('$destroy', () => {
+        $scope.$on("$destroy", () => {
           stream.destroy();
           config1$.destroy();
           config2$.destroy();

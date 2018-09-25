@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
 
-import { canDispatch } from '../dispatch-source-utils.js';
+import { canDispatch } from "../dispatch-source-utils.js";
 
-import { ADD_USER_ITEMS } from './user-reducer.js';
+import { ADD_USER_ITEMS } from "./user-reducer.js";
 
 if (canDispatch())
-  socketStream('/user', {
+  socketStream("/user", {
     qs: {
       limit: 0
     }

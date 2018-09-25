@@ -1,9 +1,9 @@
-import highland from 'highland';
-import { formatBytes } from '@iml/number-formatters';
-import { UsageInfoController } from '../../../../../source/iml/dashboard/usage-info/usage-info.js';
-import angular from '../../../../angular-mock-setup.js';
+import highland from "highland";
+import { formatBytes } from "@iml/number-formatters";
+import { UsageInfoController } from "../../../../../source/iml/dashboard/usage-info/usage-info.js";
+import angular from "../../../../angular-mock-setup.js";
 
-describe('usage info', () => {
+describe("usage info", () => {
   let ctrl, $scope, stream, fs;
 
   beforeEach(
@@ -14,9 +14,9 @@ describe('usage info', () => {
 
       ctrl = {
         stream: stream,
-        id: '1',
-        prefix: 'bytes',
-        format: '',
+        id: "1",
+        prefix: "bytes",
+        format: "",
         generateStats: () => ({}),
         s2: undefined
       };
@@ -31,26 +31,26 @@ describe('usage info', () => {
     jest.useRealTimers();
   });
 
-  it('should format as bytes', () => {
+  it("should format as bytes", () => {
     expect(ctrl.format).toBe(formatBytes);
   });
 
-  it('should add a generateStats method', () => {
+  it("should add a generateStats method", () => {
     expect(ctrl.generateStats).toEqual(expect.any(Function));
   });
 
-  it('should set id on the controller', () => {
-    expect(ctrl.id).toBe('1');
+  it("should set id on the controller", () => {
+    expect(ctrl.id).toBe("1");
   });
 
-  it('should set s2 on the controller', () => {
+  it("should set s2 on the controller", () => {
     expect(highland.isStream(ctrl.s2())).toBe(true);
   });
 
-  describe('with id', () => {
+  describe("with id", () => {
     beforeEach(() => {
       fs = {
-        id: '1',
+        id: "1",
         bytes_free: 10000,
         bytes_total: 100000,
         filesfree: 50000,
@@ -60,7 +60,7 @@ describe('usage info', () => {
       stream.write([
         fs,
         {
-          id: '2',
+          id: "2",
           bytes_free: 20000,
           bytes_total: 300000,
           filesfree: 40000,
@@ -69,11 +69,11 @@ describe('usage info', () => {
       ]);
     });
 
-    it('should set data on the controller', () => {
+    it("should set data on the controller", () => {
       jest.runAllTimers();
 
       expect(ctrl.data).toEqual({
-        id: '1',
+        id: "1",
         bytes_free: 10000,
         bytes_total: 100000,
         bytes_used: 90000,
@@ -82,7 +82,7 @@ describe('usage info', () => {
       });
     });
 
-    it('should generate stats', () => {
+    it("should generate stats", () => {
       let results;
 
       ctrl.generateStats(ctrl.s2()).each(x => {
@@ -94,11 +94,11 @@ describe('usage info', () => {
       expect(results).toEqual([
         [
           {
-            key: 'Free',
+            key: "Free",
             y: 10000
           },
           {
-            key: 'Used',
+            key: "Used",
             y: 90000
           }
         ]

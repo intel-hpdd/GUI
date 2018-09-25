@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
 export default function ConfirmServerActionModalCtrl($scope, $uibModalInstance, hosts, action) {
-  'ngInject';
+  "ngInject";
   $scope.confirmServerActionModal = {
     hosts,
     actionName: action.value,
@@ -15,9 +15,9 @@ export default function ConfirmServerActionModalCtrl($scope, $uibModalInstance, 
       this.inProgress = true;
 
       socketStream(
-        '/command',
+        "/command",
         {
-          method: 'post',
+          method: "post",
           json: {
             message: action.message,
             jobs: action.convertToJob(hosts)

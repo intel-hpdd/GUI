@@ -1,68 +1,68 @@
-import angular from 'angular';
-import _ from '@iml/lodash-mixins';
+import angular from "angular";
+import _ from "@iml/lodash-mixins";
 
 export default angular
-  .module('fixtures', [])
+  .module("fixtures", [])
   .run(function(fixtures) {
-    'ngInject';
+    "ngInject";
     fixtures
-      .registerFixture('session', {
+      .registerFixture("session", {
         read_enabled: true,
-        resource_uri: '/api/session/',
+        resource_uri: "/api/session/",
         user: {
           alert_subscriptions: [],
-          email: 'debug@debug.co.eh',
-          first_name: '',
-          full_name: '',
-          groups: [{ id: '1', name: 'superusers', resource_uri: '/api/group/1/' }],
-          id: '1',
+          email: "debug@debug.co.eh",
+          first_name: "",
+          full_name: "",
+          groups: [{ id: "1", name: "superusers", resource_uri: "/api/group/1/" }],
+          id: "1",
           is_superuser: true,
-          last_name: '',
+          last_name: "",
           new_password1: null,
           new_password2: null,
           password1: null,
           password2: null,
-          resource_uri: '/api/user/1/',
-          username: 'debug'
+          resource_uri: "/api/user/1/",
+          username: "debug"
         }
       })
-      .registerFixture('session', 200, {
+      .registerFixture("session", 200, {
         read_enabled: true,
-        resource_uri: '/api/session/',
+        resource_uri: "/api/session/",
         user: null
       })
-      .registerFixture('session', 400, {
-        password: ['This field is mandatory'],
-        username: ['This field is mandatory']
+      .registerFixture("session", 400, {
+        password: ["This field is mandatory"],
+        username: ["This field is mandatory"]
       })
-      .registerFixture('session', {
+      .registerFixture("session", {
         read_enabled: true,
-        resource_uri: '/api/session/',
+        resource_uri: "/api/session/",
         user: {
           alert_subscriptions: [],
-          email: 'admin@debug.co.eh',
-          first_name: '',
-          full_name: '',
+          email: "admin@debug.co.eh",
+          first_name: "",
+          full_name: "",
           groups: [
             {
-              id: '2',
-              name: 'filesystem_administrators',
-              resource_uri: '/api/group/2/'
+              id: "2",
+              name: "filesystem_administrators",
+              resource_uri: "/api/group/2/"
             }
           ],
-          id: '2',
+          id: "2",
           is_superuser: false,
-          last_name: '',
+          last_name: "",
           new_password1: null,
           new_password2: null,
           password1: null,
           password2: null,
-          resource_uri: '/api/user/2/',
-          username: 'admin'
+          resource_uri: "/api/user/2/",
+          username: "admin"
         }
       });
   })
-  .service('fixtures', function() {
+  .service("fixtures", function() {
     const fixtures = {};
 
     this.registerFixture = function registerFixture(name, status, data, headers) {

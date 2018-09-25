@@ -7,9 +7,9 @@
 
 export default {
   bindings: {
-    fileSystem$: '<',
-    alertIndicator$: '<',
-    jobIndicator$: '<'
+    fileSystem$: "<",
+    alertIndicator$: "<",
+    jobIndicator$: "<"
   },
   controller() {
     this.$onDestroy = () => {

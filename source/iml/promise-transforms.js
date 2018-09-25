@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import type { HighlandStreamT, errorWrapT } from 'highland';
+import type { HighlandStreamT, errorWrapT } from "highland";
 
 export function resolveStream<T>(stream: HighlandStreamT<T>): Promise<HighlandStreamT<T>> {
   return new Promise(resolve => {

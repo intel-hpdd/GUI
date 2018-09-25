@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { jobstats$, getData } from './job-stats-resolves.js';
+import { jobstats$, getData } from "./job-stats-resolves.js";
 
 export const jobStatsState = {
-  name: 'app.jobstats',
-  url: '/jobstats?id&startDate&endDate',
+  name: "app.jobstats",
+  url: "/jobstats?id&startDate&endDate",
   resolve: {
     jobstats$,
     getData
@@ -20,10 +20,10 @@ export const jobStatsState = {
     }
   },
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.4',
+    helpPage: "Graphical_User_Interface_9_0.html#9.4",
     anonymousReadProtected: true,
-    kind: 'Job Stats',
-    icon: 'fa-signal'
+    kind: "Job Stats",
+    icon: "fa-signal"
   },
   template: `
   <div class="container container-full">

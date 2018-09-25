@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
-import { remoteValidateForm, remoteValidateComponent } from './remote-validate.js';
+import { remoteValidateForm, remoteValidateComponent } from "./remote-validate.js";
 
 export default angular
-  .module('remote-validate', [])
-  .directive('remoteValidateForm', () => remoteValidateForm)
-  .directive('remoteValidateComponent', () => remoteValidateComponent).name;
+  .module("remote-validate", [])
+  .directive("remoteValidateForm", () => remoteValidateForm)
+  .directive("remoteValidateComponent", () => remoteValidateComponent).name;

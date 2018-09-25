@@ -3,20 +3,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import d3 from 'd3';
-import getLabel from './get-label.js';
+import * as fp from "@iml/fp";
+import d3 from "d3";
+import getLabel from "./get-label.js";
 
 export function labelDirective() {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      onData: '=',
-      onUpdate: '='
+      onData: "=",
+      onUpdate: "="
     },
-    require: '^^charter',
-    templateNamespace: 'svg',
+    require: "^^charter",
+    templateNamespace: "svg",
     link(scope, el, attrs, chartCtrl) {
       const node = el[0];
 

@@ -3,11 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
 export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
-  'ngInject';
-  const getter = _.property('address');
+  "ngInject";
+  const getter = _.property("address");
   const state = {
     hosts: null,
     hash: null,
@@ -23,7 +23,7 @@ export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
   };
 
   Object.keys(state).reduce(function(hostlistFilter, key) {
-    hostlistFilter['set' + _.capitalize(key)] = function setter(newVal) {
+    hostlistFilter["set" + _.capitalize(key)] = function setter(newVal) {
       state[key] = newVal;
 
       return this;

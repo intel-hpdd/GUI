@@ -1,6 +1,6 @@
-import { DiffContainerController } from './diff-container';
+import { DiffContainerController } from "./diff-container";
 
-describe('diff container', () => {
+describe("diff container", () => {
   let diffContainerController, spy;
 
   beforeEach(() => {
@@ -10,10 +10,10 @@ describe('diff container', () => {
     spy = jest.fn();
   });
 
-  it('should reset a differ', () => {
+  it("should reset a differ", () => {
     diffContainerController.register({
       reset: spy,
-      getState: () => 'foo'
+      getState: () => "foo"
     });
 
     diffContainerController.reset();
@@ -21,12 +21,12 @@ describe('diff container', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('should tell if a differ is clean', () => {
+  it("should tell if a differ is clean", () => {
     diffContainerController.register({
       reset: spy,
       getState: () => {
         return {
-          status: 'clean'
+          status: "clean"
         };
       }
     });
@@ -34,12 +34,12 @@ describe('diff container', () => {
     expect(diffContainerController.noSubmit()).toBe(true);
   });
 
-  it('should tell if a differ is dirty', () => {
+  it("should tell if a differ is dirty", () => {
     diffContainerController.register({
       reset: spy,
       getState: () => {
         return {
-          status: 'clean'
+          status: "clean"
         };
       }
     });
@@ -48,7 +48,7 @@ describe('diff container', () => {
       reset: spy,
       getState: () => {
         return {
-          status: 'local'
+          status: "local"
         };
       }
     });
@@ -56,12 +56,12 @@ describe('diff container', () => {
     expect(diffContainerController.noSubmit()).toBe(false);
   });
 
-  it('should splice out differs', () => {
+  it("should splice out differs", () => {
     const differ = {
       reset: spy,
       getState: () => {
         return {
-          status: 'local'
+          status: "local"
         };
       }
     };

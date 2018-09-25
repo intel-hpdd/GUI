@@ -5,18 +5,18 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { toggleItem } from './tree-utils.js';
+import { toggleItem } from "./tree-utils.js";
 
 function treeServerItem() {
-  'ngInject';
+  "ngInject";
   this.onOpen = toggleItem;
 }
 
 export default {
   controller: treeServerItem,
   bindings: {
-    record: '<',
-    parent: '<'
+    record: "<",
+    parent: "<"
   },
   template: `
     <i

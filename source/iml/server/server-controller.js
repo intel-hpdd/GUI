@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import { values } from '@iml/obj';
+import * as fp from "@iml/fp";
+import { values } from "@iml/obj";
 
-import getCommandStream from '../command/get-command-stream.js';
+import getCommandStream from "../command/get-command-stream.js";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -25,7 +25,7 @@ export default function ServerCtrl(
   overrideActionClick,
   streams
 ) {
-  'ngInject';
+  "ngInject";
   $scope.server = {
     lnetConfigurationStream: streams.lnetConfigurationStream,
     jobMonitorStream: streams.jobMonitorStream,
@@ -42,7 +42,7 @@ export default function ServerCtrl(
     toggleType: selectedServers.toggleType,
     transform(s, args) {
       const resourceUri = args[0];
-      const eqHost = fp.eqFn(fp.identity)(viewLens('host'))(resourceUri);
+      const eqHost = fp.eqFn(fp.identity)(viewLens("host"))(resourceUri);
 
       return s.map(fp.filter(eqHost)).sequence();
     },
@@ -88,7 +88,7 @@ export default function ServerCtrl(
       this.itemsPerPageIsOpen = false;
     },
     getSortClass() {
-      return this.inverse === true ? 'fa-sort-asc' : 'fa-sort-desc';
+      return this.inverse === true ? "fa-sort-asc" : "fa-sort-desc";
     },
     setEditable(editable) {
       $scope.server.editable = editable;
@@ -142,10 +142,10 @@ export default function ServerCtrl(
   </div>
   <button class="btn btn-danger" ng-disabled="confirmServerActionModal.inProgress" ng-click="$dismiss('cancel')">Cancel <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-        controller: 'ConfirmServerActionModalCtrl',
-        windowClass: 'confirm-server-action-modal',
+        controller: "ConfirmServerActionModalCtrl",
+        windowClass: "confirm-server-action-modal",
         keyboard: false,
-        backdrop: 'static',
+        backdrop: "static",
         resolve: {
           action: fp.always(action),
           hosts: fp.always(hosts)
@@ -164,11 +164,11 @@ export default function ServerCtrl(
     overrideActionClick
   };
 
-  const p = $scope.propagateChange.bind(null, $scope, $scope.server, 'servers');
+  const p = $scope.propagateChange.bind(null, $scope, $scope.server, "servers");
 
   streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));
   });
 }

@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
 type headerT = {
   children?: React$Element<*>
@@ -21,7 +21,7 @@ type bodyT = {
 };
 
 export const Body = ({ children, moreClasses = [] }: bodyT) => (
-  <div className={`modal-body ${moreClasses.join(' ')}`}>{children}</div>
+  <div className={`modal-body ${moreClasses.join(" ")}`}>{children}</div>
 );
 
 type footerT = {
@@ -42,7 +42,7 @@ export const Modal = ({ moreClasses = [], children, visible }: modalT) => {
   if (!visible) return;
 
   return (
-    <div style={{ display: 'block' }} tabindex="-1" role="dialog" className={`modal fade in ${moreClasses.join(' ')}`}>
+    <div style={{ display: "block" }} tabindex="-1" role="dialog" className={`modal fade in ${moreClasses.join(" ")}`}>
       <div class="modal-dialog" role="document">
         <div class="modal-content">{children}</div>
       </div>

@@ -1,6 +1,6 @@
 // @flow
 
-import { SET_TIME_ZONE } from './tz-picker-reducer';
+import { SET_TIME_ZONE } from "./tz-picker-reducer";
 
 export const setTimeZoneToUtc = () => ({
   type: SET_TIME_ZONE,

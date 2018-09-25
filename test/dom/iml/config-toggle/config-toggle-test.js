@@ -1,10 +1,10 @@
-import configToggle from '../../../../source/iml/config-toggle/config-toggle.js';
-import angular from '../../../angular-mock-setup.js';
+import configToggle from "../../../../source/iml/config-toggle/config-toggle.js";
+import angular from "../../../angular-mock-setup.js";
 
-describe('config toggle', () => {
+describe("config toggle", () => {
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.directive('configToggle', configToggle);
+      $compileProvider.directive("configToggle", configToggle);
     })
   );
 
@@ -15,27 +15,27 @@ describe('config toggle', () => {
       $scope = $rootScope.$new();
       el = $compile(template)($scope)[0];
       $scope.$digest();
-      whenInactive = el.querySelector.bind(el, '.when-inactive');
-      whenActive = el.querySelector.bind(el, '.when-active');
-      setActive = el.querySelector.bind(el, '.set-active');
-      setInactive = el.querySelector.bind(el, '.set-inactive');
+      whenInactive = el.querySelector.bind(el, ".when-inactive");
+      whenActive = el.querySelector.bind(el, ".when-active");
+      setActive = el.querySelector.bind(el, ".set-active");
+      setInactive = el.querySelector.bind(el, ".set-inactive");
     })
   );
-  it('should show inactive', () => {
+  it("should show inactive", () => {
     expect(whenInactive()).not.toBeNull();
   });
-  it('should not show active', () => {
+  it("should not show active", () => {
     expect(whenActive()).toBeNull();
   });
-  describe('set active', () => {
+  describe("set active", () => {
     beforeEach(() => {
       setActive().click();
       setInactive().click();
     });
-    it('should show inactive', () => {
+    it("should show inactive", () => {
       expect(whenInactive()).not.toBeNull();
     });
-    it('should not show active', () => {
+    it("should not show active", () => {
       expect(whenActive()).toBeNull();
     });
   });

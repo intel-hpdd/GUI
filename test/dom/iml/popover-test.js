@@ -1,13 +1,13 @@
 // @flow
 
-import Inferno from 'inferno';
-import { Popover, PopoverContent, PopoverTitle, PopoverContainer } from '../../../source/iml/popover';
-import WindowClickListener from '../../../source/iml/window-click-listener.js';
-import { renderToSnapshot } from '../../test-utils.js';
-import { querySelector } from '../../../source/iml/dom-utils.js';
+import Inferno from "inferno";
+import { Popover, PopoverContent, PopoverTitle, PopoverContainer } from "../../../source/iml/popover";
+import WindowClickListener from "../../../source/iml/window-click-listener.js";
+import { renderToSnapshot } from "../../test-utils.js";
+import { querySelector } from "../../../source/iml/dom-utils.js";
 
-describe('Popover DOM testing', () => {
-  it('should render correctly without a title', () => {
+describe("Popover DOM testing", () => {
+  it("should render correctly without a title", () => {
     expect(
       renderToSnapshot(
         <Popover visible={true} direction="bottom">
@@ -17,7 +17,7 @@ describe('Popover DOM testing', () => {
     ).toMatchSnapshot();
   });
 
-  it('should render correctly with a title', () => {
+  it("should render correctly with a title", () => {
     expect(
       renderToSnapshot(
         <Popover visible={true} direction="bottom">
@@ -28,8 +28,8 @@ describe('Popover DOM testing', () => {
     ).toMatchSnapshot();
   });
 
-  it('should render sub-props correctly', () => {
-    const message = 'This is some content';
+  it("should render sub-props correctly", () => {
+    const message = "This is some content";
 
     expect(
       renderToSnapshot(
@@ -41,7 +41,7 @@ describe('Popover DOM testing', () => {
     ).toMatchSnapshot();
   });
 
-  it('should not render if not visible', () => {
+  it("should not render if not visible", () => {
     expect(
       renderToSnapshot(
         <Popover visible={false} direction="right">
@@ -51,11 +51,11 @@ describe('Popover DOM testing', () => {
     ).toMatchSnapshot();
   });
 
-  describe('Container', () => {
+  describe("Container", () => {
     let root, vNode;
 
     beforeEach(() => {
-      root = document.createElement('div');
+      root = document.createElement("div");
 
       vNode = (
         <WindowClickListener>
@@ -70,25 +70,25 @@ describe('Popover DOM testing', () => {
 
       Inferno.render(vNode, root);
 
-      querySelector(document, 'body').appendChild(root);
+      querySelector(document, "body").appendChild(root);
     });
 
     afterEach(() => {
-      querySelector(document, 'body').removeChild(root);
+      querySelector(document, "body").removeChild(root);
     });
 
-    it('should render correctly', () => {
+    it("should render correctly", () => {
       expect(renderToSnapshot(vNode)).toMatchSnapshot();
     });
 
-    it('should open and close when clicking the button', () => {
+    it("should open and close when clicking the button", () => {
       expect.assertions(2);
 
-      querySelector(root, 'button').click();
+      querySelector(root, "button").click();
 
       expect(root.innerHTML).toMatchSnapshot();
 
-      querySelector(root, 'button').click();
+      querySelector(root, "button").click();
 
       expect(root.innerHTML).toMatchSnapshot();
     });

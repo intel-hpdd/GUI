@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import { asViewer } from './as-viewer/as-viewer.js';
-import moment from 'moment';
+import Inferno from "inferno";
+import { asViewer } from "./as-viewer/as-viewer.js";
+import moment from "moment";
 
-import type { TzPickerProps } from './tz-picker/tz-picker-reducer.js';
+import type { TzPickerProps } from "./tz-picker/tz-picker-reducer.js";
 
-const formatString = 'YYYY-MM-DD HH:mm:ss';
+const formatString = "YYYY-MM-DD HH:mm:ss";
 
 const displayDate = (date: string, isUtc: boolean) => {
   if (isUtc === true) return moment.utc(date).format(formatString);
@@ -19,7 +19,7 @@ const displayDate = (date: string, isUtc: boolean) => {
 };
 
 export const DisplayDate = asViewer(
-  'tzPicker',
+  "tzPicker",
   ({ tzPicker: { isUtc }, datetime }: { tzPicker: TzPickerProps, datetime: string }) => {
     return (
       <span class="date">
@@ -31,11 +31,11 @@ export const DisplayDate = asViewer(
 
 export const displayDateComponent = {
   bindings: {
-    tzPickerB: '<',
-    datetime: '<'
+    tzPickerB: "<",
+    datetime: "<"
   },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

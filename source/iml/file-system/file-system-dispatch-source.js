@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
-import { noSpace } from '../string.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
+import { noSpace } from "../string.js";
 
-import { CACHE_INITIAL_DATA } from '../environment.js';
+import { CACHE_INITIAL_DATA } from "../environment.js";
 
-import { canDispatch } from '../dispatch-source-utils.js';
+import { canDispatch } from "../dispatch-source-utils.js";
 
-import { ADD_FS_ITEMS } from './file-system-reducer.js';
+import { ADD_FS_ITEMS } from "./file-system-reducer.js";
 
 store.dispatch({
   type: ADD_FS_ITEMS,
@@ -21,7 +21,7 @@ store.dispatch({
 });
 
 if (canDispatch())
-  socketStream('/filesystem', {
+  socketStream("/filesystem", {
     jsonMask: noSpace`objects(
         id,
         resource_uri,

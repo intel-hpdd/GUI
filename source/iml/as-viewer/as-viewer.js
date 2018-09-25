@@ -3,11 +3,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Element } from 'react';
-import type { HighlandStreamT } from 'highland';
+import type { Element } from "react";
+import type { HighlandStreamT } from "highland";
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import Inferno from "inferno";
+import Component from "inferno-component";
 
 export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class AsViewer extends Component {
@@ -35,23 +35,23 @@ export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element
 
 export default () => {
   return {
-    restrict: 'A',
+    restrict: "A",
     transclude: true,
     scope: {
-      stream: '=',
-      args: '=?',
-      transform: '&?',
-      name: '<'
+      stream: "=",
+      args: "=?",
+      transform: "&?",
+      name: "<"
     },
     link: function link(scope, el, attrs, ctrl, $transclude) {
-      const name = scope.name || 'viewer';
+      const name = scope.name || "viewer";
 
       $transclude((clone, transcludedScope) => {
         if (transcludedScope.viewer) throw new Error(`${name} already set on transcluded scope.`);
 
         let viewer = scope.stream();
 
-        scope.$on('$destroy', () => viewer.destroy());
+        scope.$on("$destroy", () => viewer.destroy());
 
         if (scope.transform)
           viewer = scope.transform({

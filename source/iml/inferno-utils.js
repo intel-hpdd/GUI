@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
+import Inferno from "inferno";
 
 export const cloneChildren = (xs: ?(React$Element<*>[] | React$Element<*>), fn: Function) => {
-  if (xs == null) throw new Error('Expected Children');
+  if (xs == null) throw new Error("Expected Children");
 
   const children = Array.isArray(xs) ? xs : [xs];
 

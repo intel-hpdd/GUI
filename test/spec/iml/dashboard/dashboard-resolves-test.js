@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('dashboard resolves', () => {
+describe("dashboard resolves", () => {
   let s, spy, mockStore, mockBroadcaster, mod;
 
   beforeEach(() => {
@@ -13,81 +13,81 @@ describe('dashboard resolves', () => {
       select: jest.fn(() => s)
     };
 
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
-    jest.mock('../../../../source/iml/broadcaster.js', () => mockBroadcaster);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
+    jest.mock("../../../../source/iml/broadcaster.js", () => mockBroadcaster);
 
-    mod = require('../../../../source/iml/dashboard/dashboard-resolves.js');
+    mod = require("../../../../source/iml/dashboard/dashboard-resolves.js");
   });
 
-  describe('fs stream', () => {
+  describe("fs stream", () => {
     let fsStream;
 
     beforeEach(() => {
       fsStream = mod.dashboardFsB()();
     });
 
-    it('should be a broadcaster', () => {
+    it("should be a broadcaster", () => {
       expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
-    it('should select from the store', () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith('fileSystems');
+    it("should select from the store", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("fileSystems");
     });
 
-    it('should stream data', () => {
-      s.write(['foo']);
+    it("should stream data", () => {
+      s.write(["foo"]);
 
       fsStream.each(spy);
 
-      expect(spy).toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(["foo"]);
     });
   });
 
-  describe('host stream', () => {
+  describe("host stream", () => {
     let hostStream;
 
     beforeEach(() => {
       hostStream = mod.dashboardHostB()();
     });
 
-    it('should be a broadcaster', () => {
+    it("should be a broadcaster", () => {
       expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
-    it('should select from the store', () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith('server');
+    it("should select from the store", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("server");
     });
 
-    it('should stream data', () => {
-      s.write(['foo']);
+    it("should stream data", () => {
+      s.write(["foo"]);
 
       hostStream.each(spy);
 
-      expect(spy).toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(["foo"]);
     });
   });
 
-  describe('target stream', () => {
+  describe("target stream", () => {
     let targetStream;
 
     beforeEach(() => {
       targetStream = mod.dashboardTargetB()();
     });
 
-    it('should be a broadcaster', () => {
+    it("should be a broadcaster", () => {
       expect(mockBroadcaster).toHaveBeenCalledTimes(1);
     });
 
-    it('should select from the store', () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith('targets');
+    it("should select from the store", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("targets");
     });
 
-    it('should stream data', () => {
-      s.write(['foo']);
+    it("should stream data", () => {
+      s.write(["foo"]);
 
       targetStream.each(spy);
 
-      expect(spy).toHaveBeenCalledOnceWith(['foo']);
+      expect(spy).toHaveBeenCalledOnceWith(["foo"]);
     });
   });
 });

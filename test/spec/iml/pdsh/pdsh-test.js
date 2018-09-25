@@ -1,31 +1,31 @@
-import angular from '../../../angular-mock-setup.js';
-import pdsh from '../../../../source/iml/pdsh/pdsh.js';
-import Position from '../../../../source/iml/position.js';
-import imlPopover from '../../../../source/iml/iml-popover.js';
-import { imlTooltip } from '../../../../source/iml/tooltip/tooltip.js';
+import angular from "../../../angular-mock-setup.js";
+import pdsh from "../../../../source/iml/pdsh/pdsh.js";
+import Position from "../../../../source/iml/position.js";
+import imlPopover from "../../../../source/iml/iml-popover.js";
+import { imlTooltip } from "../../../../source/iml/tooltip/tooltip.js";
 
-describe('PDSH directive', () => {
+describe("PDSH directive", () => {
   let $scope, $timeout, element, query, queryAll, inputField, groupAddOn, help, node, inputEvent, clickEvent;
 
   beforeEach(
     angular.mock.module(($provide, $compileProvider) => {
       help = {
-        get: jest.fn(() => 'Enter hostname / hostlist expression.')
+        get: jest.fn(() => "Enter hostname / hostlist expression.")
       };
 
-      inputEvent = new Event('input');
-      clickEvent = new MouseEvent('click');
+      inputEvent = new Event("input");
+      clickEvent = new MouseEvent("click");
 
-      $provide.value('help', help);
-      $compileProvider.directive('imlPopover', imlPopover);
-      $compileProvider.directive('imlTooltip', imlTooltip);
-      $provide.service('position', Position);
+      $provide.value("help", help);
+      $compileProvider.directive("imlPopover", imlPopover);
+      $compileProvider.directive("imlTooltip", imlTooltip);
+      $provide.service("position", Position);
 
-      $compileProvider.directive('pdsh', pdsh);
+      $compileProvider.directive("pdsh", pdsh);
     })
   );
 
-  describe('General operation', () => {
+  describe("General operation", () => {
     beforeEach(
       angular.mock.inject(($rootScope, $compile, _$timeout_) => {
         $timeout = _$timeout_;
@@ -46,130 +46,130 @@ describe('PDSH directive', () => {
         // Update the html
         $scope.$digest();
 
-        inputField = query('.form-control');
-        groupAddOn = query('.input-group-addon');
+        inputField = query(".form-control");
+        groupAddOn = query(".input-group-addon");
       })
     );
 
-    describe('successful entry', () => {
+    describe("successful entry", () => {
       let hostnames;
 
       beforeEach(() => {
-        inputField.value = 'hostname[1-3]';
+        inputField.value = "hostname[1-3]";
         inputField.dispatchEvent(inputEvent);
         $timeout.flush();
       });
 
-      it('should not show the error tooltip', () => {
-        expect(query('.error-tooltip li')).toBeNull();
+      it("should not show the error tooltip", () => {
+        expect(query(".error-tooltip li")).toBeNull();
       });
 
-      it('should call pdshChange', () => {
+      it("should call pdshChange", () => {
         expect($scope.pdshChange).toHaveBeenCalled();
       });
 
-      describe('expression popover', () => {
+      describe("expression popover", () => {
         let popover;
         beforeEach(() => {
           groupAddOn.dispatchEvent(clickEvent);
           $scope.$digest();
 
-          popover = query('.popover li');
-          hostnames = queryAll('.popover li span');
+          popover = query(".popover li");
+          hostnames = queryAll(".popover li span");
         });
 
-        it('should display the popover', () => {
+        it("should display the popover", () => {
           expect(popover).toBeShown();
         });
 
-        it('should contain one item', () => {
+        it("should contain one item", () => {
           expect(hostnames.length).toEqual(1);
         });
 
-        it('should contain the hostnames in the popover', () => {
-          expect(hostnames.item(0).innerHTML).toEqual('hostname1..3');
+        it("should contain the hostnames in the popover", () => {
+          expect(hostnames.item(0).innerHTML).toEqual("hostname1..3");
         });
 
-        describe('with additional modification', () => {
+        describe("with additional modification", () => {
           beforeEach(() => {
-            inputField.value = 'hostname[5-7]';
+            inputField.value = "hostname[5-7]";
             inputField.dispatchEvent(inputEvent);
             $timeout.flush();
             $scope.$digest();
-            hostnames = queryAll('.popover li span');
+            hostnames = queryAll(".popover li span");
           });
 
-          it('should contain one item', () => {
+          it("should contain one item", () => {
             expect(hostnames.length).toEqual(1);
           });
 
-          it('should contain the updated hostnames in the popover', () => {
-            expect(hostnames.item(0).innerHTML).toEqual('hostname5..7');
+          it("should contain the updated hostnames in the popover", () => {
+            expect(hostnames.item(0).innerHTML).toEqual("hostname5..7");
           });
         });
       });
     });
 
-    describe('unsuccessful entry', () => {
+    describe("unsuccessful entry", () => {
       beforeEach(() => {
-        inputField.value = 'hostname[1-]';
+        inputField.value = "hostname[1-]";
         inputField.dispatchEvent(inputEvent);
         groupAddOn.click();
         $timeout.flush();
       });
 
-      describe('group add on', () => {
-        it('should not display the popover', () => {
-          expect(query('.popover')).toBeNull();
+      describe("group add on", () => {
+        it("should not display the popover", () => {
+          expect(query(".popover")).toBeNull();
         });
 
-        it('should show the error tooltip', () => {
-          const tooltip = query('.error-tooltip li');
+        it("should show the error tooltip", () => {
+          const tooltip = query(".error-tooltip li");
           expect(tooltip).not.toBeNull();
         });
       });
     });
 
-    describe('empty entry', () => {
+    describe("empty entry", () => {
       beforeEach(() => {
-        inputField.value = '';
+        inputField.value = "";
         inputField.dispatchEvent(inputEvent);
         groupAddOn.click();
         $timeout.flush();
       });
 
-      it('should not display the popover', () => {
-        expect(query('.popover')).toBeNull();
+      it("should not display the popover", () => {
+        expect(query(".popover")).toBeNull();
       });
 
-      it('should show the error tooltip', () => {
-        const tooltip = query('.error-tooltip li');
+      it("should show the error tooltip", () => {
+        const tooltip = query(".error-tooltip li");
         expect(tooltip).toBeNull();
       });
 
-      it('should have a placeholder', () => {
-        expect(inputField.getAttribute('placeholder')).toEqual('placeholder text');
+      it("should have a placeholder", () => {
+        expect(inputField.getAttribute("placeholder")).toEqual("placeholder text");
       });
     });
 
-    describe('initial entry', () => {
+    describe("initial entry", () => {
       it("should have an initial value of 'invalid['", () => {
-        expect(element.querySelector('input').value).toBe('invalid[');
+        expect(element.querySelector("input").value).toBe("invalid[");
       });
 
-      it('should display the error tooltip', () => {
-        expect(element.querySelector('.error-tooltip')).toBeShown();
+      it("should display the error tooltip", () => {
+        expect(element.querySelector(".error-tooltip")).toBeShown();
       });
     });
   });
 
-  describe('pdsh initial change', () => {
+  describe("pdsh initial change", () => {
     let initialValue;
 
     beforeEach(
       angular.mock.inject(($rootScope, $compile, _$timeout_) => {
         $timeout = _$timeout_;
-        initialValue = 'storage0.localdomain';
+        initialValue = "storage0.localdomain";
 
         const template = `<form name="pdshForm">
         <pdsh pdsh-initial="'${initialValue}'" pdsh-change="pdshChange(pdsh, hostnames)"></pdsh>
@@ -185,31 +185,31 @@ describe('PDSH directive', () => {
         // Update the html
         $scope.$digest();
 
-        inputField = query('.form-control');
+        inputField = query(".form-control");
       })
     );
 
-    it('should call help.get', () => {
-      expect(help.get).toHaveBeenCalledOnceWith('pdsh_placeholder');
+    it("should call help.get", () => {
+      expect(help.get).toHaveBeenCalledOnceWith("pdsh_placeholder");
     });
 
-    it('should have a placeholder', () => {
-      expect(inputField.getAttribute('placeholder')).toEqual('Enter hostname / hostlist expression.');
+    it("should have a placeholder", () => {
+      expect(inputField.getAttribute("placeholder")).toEqual("Enter hostname / hostlist expression.");
     });
 
-    it('should trigger a change for the initial value', () => {
+    it("should trigger a change for the initial value", () => {
       expect($scope.pdshChange).toHaveBeenCalledWith(initialValue, [initialValue]);
     });
 
-    describe('modify existing value', () => {
+    describe("modify existing value", () => {
       beforeEach(() => {
-        inputField.value = 'storage[1-10].localdomain';
+        inputField.value = "storage[1-10].localdomain";
         inputField.dispatchEvent(inputEvent);
         $timeout.flush();
       });
 
-      it('should call pdshChange with storage[1-10].localdomain', () => {
-        expect($scope.pdshChange.mock.calls[2][0]).toEqual('storage[1-10].localdomain');
+      it("should call pdshChange with storage[1-10].localdomain", () => {
+        expect($scope.pdshChange.mock.calls[2][0]).toEqual("storage[1-10].localdomain");
       });
     });
   });

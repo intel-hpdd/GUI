@@ -1,15 +1,15 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('get the command stream', () => {
+describe("get the command stream", () => {
   let mockSocketStream, stream, getCommandStream, getCommandStreamModule, commandList, result;
 
   beforeEach(() => {
     stream = highland();
     mockSocketStream = jest.fn(() => stream);
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-    getCommandStreamModule = require('../../../../source/iml/command/get-command-stream.js');
+    getCommandStreamModule = require("../../../../source/iml/command/get-command-stream.js");
 
     getCommandStream = getCommandStreamModule.default;
 
@@ -17,29 +17,29 @@ describe('get the command stream', () => {
     result = getCommandStream(commandList);
   });
 
-  it('should invoke socketStream', () => {
-    expect(mockSocketStream).toHaveBeenCalledOnceWith('/command', {
+  it("should invoke socketStream", () => {
+    expect(mockSocketStream).toHaveBeenCalledOnceWith("/command", {
       qs: {
         id__in: [1, 2]
       }
     });
   });
 
-  it('should return a stream', () => {
+  it("should return a stream", () => {
     expect(highland.isStream(result)).toBe(true);
   });
 
-  it('should write passed data to the stream', () => {
+  it("should write passed data to the stream", () => {
     result.each(x => {
       expect(x).toEqual([
         {
           id: 1,
-          logs: '',
+          logs: "",
           jobs: []
         },
         {
           id: 2,
-          logs: '',
+          logs: "",
           jobs: []
         }
       ]);
@@ -54,7 +54,7 @@ describe('get the command stream', () => {
         return Object.assign(
           {
             id: index + 1,
-            logs: '',
+            logs: "",
             jobs: []
           },
           command

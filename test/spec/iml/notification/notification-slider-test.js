@@ -1,9 +1,9 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-import { NotificationSliderController } from '../../../../source/iml/notification/notification-slider.js';
+import { NotificationSliderController } from "../../../../source/iml/notification/notification-slider.js";
 
-describe('The notification slider', () => {
+describe("The notification slider", () => {
   let $exceptionHandler, $scope, $timeout, alertStream, ctrl;
 
   beforeEach(
@@ -20,36 +20,36 @@ describe('The notification slider', () => {
     })
   );
 
-  it('should be closed to start', () => {
+  it("should be closed to start", () => {
     expect($scope.open).toBeFalsy();
   });
 
-  describe('single alert', () => {
+  describe("single alert", () => {
     beforeEach(() => {
       alertStream.write({
         objects: [
           {
-            message: 'an alert'
+            message: "an alert"
           }
         ]
       });
     });
 
-    it('should open with data', () => {
+    it("should open with data", () => {
       expect($scope.open).toBe(true);
     });
 
-    it('should print the alert to message', () => {
-      expect($scope.message).toEqual('an alert');
+    it("should print the alert to message", () => {
+      expect($scope.message).toEqual("an alert");
     });
 
-    it('should close after 5 seconds', () => {
+    it("should close after 5 seconds", () => {
       $timeout.flush(5000);
       expect($scope.open).toBe(false);
       $timeout.verifyNoPendingTasks();
     });
 
-    it('should queue the close', () => {
+    it("should queue the close", () => {
       function toThrow() {
         $timeout.verifyNoPendingTasks();
       }
@@ -57,70 +57,70 @@ describe('The notification slider', () => {
       expect(toThrow).toThrow();
     });
 
-    it('should cancel a timeout on enter', () => {
+    it("should cancel a timeout on enter", () => {
       $scope.enter();
       $timeout.verifyNoPendingTasks();
     });
 
-    it('should create a new timeout on leave', () => {
+    it("should create a new timeout on leave", () => {
       $scope.enter();
       $scope.leave();
       $timeout.flush(5000);
       expect($scope.open).toBe(false);
     });
 
-    it('should cancel on close', () => {
+    it("should cancel on close", () => {
       $scope.close();
       $timeout.verifyNoPendingTasks();
     });
 
-    it('should set open to false on close', () => {
+    it("should set open to false on close", () => {
       $scope.close();
       expect($scope.open).toBe(false);
     });
   });
 
-  describe('multiple alerts', () => {
+  describe("multiple alerts", () => {
     beforeEach(() => {
       alertStream.write({
-        objects: [{ message: 'foo1' }, { message: 'foo2' }]
+        objects: [{ message: "foo1" }, { message: "foo2" }]
       });
     });
 
-    it('should write a multiple alert message', () => {
-      expect($scope.message).toEqual('2 active alerts');
+    it("should write a multiple alert message", () => {
+      expect($scope.message).toEqual("2 active alerts");
     });
   });
 
-  describe('writing an error', () => {
+  describe("writing an error", () => {
     beforeEach(() => {
       alertStream.write({
         __HighlandStreamError__: true,
-        error: new Error('boom!')
+        error: new Error("boom!")
       });
     });
 
-    it('should throw', () => {
-      expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error('boom!'));
+    it("should throw", () => {
+      expect($exceptionHandler).toHaveBeenCalledOnceWith(new Error("boom!"));
     });
   });
 
-  describe('writing empty', () => {
+  describe("writing empty", () => {
     beforeEach(() => {
       alertStream.write({
         objects: []
       });
     });
 
-    it('should not write a message', () => {
+    it("should not write a message", () => {
       expect($scope.message).toBe(undefined);
     });
 
-    it('should not open the slider', () => {
+    it("should not open the slider", () => {
       expect($scope.open).toBe(undefined);
     });
 
-    it('should not register a promise', () => {
+    it("should not register a promise", () => {
       $timeout.verifyNoPendingTasks();
     });
   });

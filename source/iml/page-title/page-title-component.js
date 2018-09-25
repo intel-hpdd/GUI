@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { getResolvedData } from '../route-utils.js';
+import { getResolvedData } from "../route-utils.js";
 
-import * as maybe from '@iml/maybe';
+import * as maybe from "@iml/maybe";
 
-import type { TransitionT, StateServiceT } from 'angular-ui-router';
+import type { TransitionT, StateServiceT } from "angular-ui-router";
 
 const defaultToObj = maybe.withDefault.bind(null, () => ({}));
 
 export default {
   controller: function($state: StateServiceT, $transitions: TransitionT) {
-    'ngInject';
+    "ngInject";
     const ctrl = this;
     const route = $state.router.globals.$current;
-    const resolvedData = defaultToObj(getResolvedData($state.transition, 'getData'));
+    const resolvedData = defaultToObj(getResolvedData($state.transition, "getData"));
 
     ctrl.page = {
       ...resolvedData,
@@ -30,7 +30,7 @@ export default {
     const destroyOnSuccess = $transitions.onSuccess({}, (transition: TransitionT) => {
       ctrl.loading = false;
 
-      const resolvedData = defaultToObj(getResolvedData(transition, 'getData'));
+      const resolvedData = defaultToObj(getResolvedData(transition, "getData"));
 
       ctrl.page = {
         ...resolvedData,

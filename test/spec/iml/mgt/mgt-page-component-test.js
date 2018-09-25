@@ -1,12 +1,12 @@
-import mgtPageComponent from '../../../../source/iml/mgt/mgt-page-component.js';
+import mgtPageComponent from "../../../../source/iml/mgt/mgt-page-component.js";
 
-describe('mgt page component', () => {
-  it('should be a component', () => {
+describe("mgt page component", () => {
+  it("should be a component", () => {
     expect(mgtPageComponent).toEqual({
       bindings: {
-        mgt$: '<',
-        mgtAlertIndicatorB: '<',
-        mgtJobIndicatorB: '<'
+        mgt$: "<",
+        mgtAlertIndicatorB: "<",
+        mgtJobIndicatorB: "<"
       },
       template: expect.any(String)
     });

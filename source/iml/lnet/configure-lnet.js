@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import socketStream from '../socket/socket-stream.js';
+import * as fp from "@iml/fp";
+import socketStream from "../socket/socket-stream.js";
 
 export function ConfigureLnetController(
   $scope: Object,
@@ -15,15 +15,15 @@ export function ConfigureLnetController(
   waitForCommandCompletion: Function,
   propagateChange: Function
 ) {
-  'ngInject';
+  "ngInject";
   const ctrl = this;
 
   const getNetworkName = value => LNET_OPTIONS.find(x => x.value === value).name;
 
   const lndNetworkLens = fp.view(
     fp.compose(
-      fp.lensProp('nid'),
-      fp.lensProp('lnd_network')
+      fp.lensProp("nid"),
+      fp.lensProp("lnd_network")
     )
   );
 
@@ -33,11 +33,11 @@ export function ConfigureLnetController(
       ctrl.saving = true;
 
       socketStream(
-        '/nid',
+        "/nid",
         {
-          method: 'post',
+          method: "post",
           json: {
-            objects: fp.pluck('nid')(ctrl.networkInterfaces)
+            objects: fp.pluck("nid")(ctrl.networkInterfaces)
           }
         },
         true
@@ -45,7 +45,7 @@ export function ConfigureLnetController(
         .map(x => [x.command])
         .flatMap(waitForCommandCompletion(showModal))
         .map(() => false)
-        .through(propagateChange.bind(null, $scope, ctrl, 'saving'));
+        .through(propagateChange.bind(null, $scope, ctrl, "saving"));
     },
     getLustreNetworkDriverTypeMessage(state) {
       return insertHelpFilter(`${state.status}_diff`, state);
@@ -62,15 +62,15 @@ export function ConfigureLnetController(
     }
   });
 
-  ctrl.networkInterfaceStream.through(propagateChange.bind(null, $scope, ctrl, 'networkInterfaces'));
+  ctrl.networkInterfaceStream.through(propagateChange.bind(null, $scope, ctrl, "networkInterfaces"));
 
-  $scope.$on('$destroy', ctrl.networkInterfaceStream.destroy.bind(ctrl.networkInterfaceStream));
+  $scope.$on("$destroy", ctrl.networkInterfaceStream.destroy.bind(ctrl.networkInterfaceStream));
 }
 
 export const configureLnetComponent = {
   bindings: {
-    networkInterfaceStream: '<',
-    activeFsMember: '<'
+    networkInterfaceStream: "<",
+    activeFsMember: "<"
   },
   controller: ConfigureLnetController,
   template: `<div class="configure-lnet detail-panel diff" config-toggle>

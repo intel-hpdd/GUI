@@ -7,7 +7,7 @@
 
 export default {
   require: {
-    togglerContainer: '^multiTogglerContainer'
+    togglerContainer: "^multiTogglerContainer"
   },
   template: `
     <div class="btn-group btn-group-justified btn-block">

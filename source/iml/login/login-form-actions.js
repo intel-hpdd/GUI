@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { ADD_ERRORS, ADD_IN_PROGRESS } from './login-form-reducer.js';
+import { ADD_ERRORS, ADD_IN_PROGRESS } from "./login-form-reducer.js";
 
-import type { loginFormErrorsT } from './login-form-reducer.js';
+import type { loginFormErrorsT } from "./login-form-reducer.js";
 
 export const addErrors = (payload: loginFormErrorsT) => ({
   type: ADD_ERRORS,

@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export default {
-  controllerAs: 'vm',
+  controllerAs: "vm",
   template: `<div class="common-status-searches">
   <uib-accordion>
     <uib-accordion-group is-open="vm.isOpen">

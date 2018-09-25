@@ -1,24 +1,24 @@
 // @flow
 
-import { restrict, restrictTo } from '../../../../source/iml/auth/authorization.js';
+import { restrict, restrictTo } from "../../../../source/iml/auth/authorization.js";
 
-import store from '../../../../source/iml/store/get-store.js';
+import store from "../../../../source/iml/store/get-store.js";
 
-import { setSession } from '../../../../source/iml/session/session-actions.js';
+import { setSession } from "../../../../source/iml/session/session-actions.js";
 
-import angular from '../../../angular-mock-setup.js';
+import angular from "../../../angular-mock-setup.js";
 
-describe('authorization', () => {
+describe("authorization", () => {
   const data = [
     {
       sessionGroups: [
         {
-          name: 'superusers',
-          id: '1',
-          resource_uri: '/user'
+          name: "superusers",
+          id: "1",
+          resource_uri: "/user"
         }
       ],
-      group: 'superusers',
+      group: "superusers",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -27,12 +27,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_users',
-          id: '2',
-          resource_uri: '/user'
+          name: "filesystem_users",
+          id: "2",
+          resource_uri: "/user"
         }
       ],
-      group: 'superusers',
+      group: "superusers",
       visibility: {
         restrictTo: false,
         restricted: true
@@ -41,12 +41,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_administrators',
-          id: '3',
-          resource_uri: '/user'
+          name: "filesystem_administrators",
+          id: "3",
+          resource_uri: "/user"
         }
       ],
-      group: 'superusers',
+      group: "superusers",
       visibility: {
         restrictTo: false,
         restricted: true
@@ -55,12 +55,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'superusers',
-          id: '1',
-          resource_uri: '/user'
+          name: "superusers",
+          id: "1",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_users',
+      group: "filesystem_users",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -69,12 +69,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_users',
-          id: '2',
-          resource_uri: '/user'
+          name: "filesystem_users",
+          id: "2",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_users',
+      group: "filesystem_users",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -83,12 +83,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_administrators',
-          id: '3',
-          resource_uri: '/user'
+          name: "filesystem_administrators",
+          id: "3",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_users',
+      group: "filesystem_users",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -97,12 +97,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'superusers',
-          id: '1',
-          resource_uri: '/user'
+          name: "superusers",
+          id: "1",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_administrators',
+      group: "filesystem_administrators",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -111,12 +111,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_administrators',
-          id: '3',
-          resource_uri: '/user'
+          name: "filesystem_administrators",
+          id: "3",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_administrators',
+      group: "filesystem_administrators",
       visibility: {
         restrictTo: true,
         restricted: false
@@ -125,12 +125,12 @@ describe('authorization', () => {
     {
       sessionGroups: [
         {
-          name: 'filesystem_users',
-          id: '2',
-          resource_uri: '/user'
+          name: "filesystem_users",
+          id: "2",
+          resource_uri: "/user"
         }
       ],
-      group: 'filesystem_administrators',
+      group: "filesystem_administrators",
       visibility: {
         restrictTo: false,
         restricted: true
@@ -139,25 +139,25 @@ describe('authorization', () => {
   ];
 
   data.forEach(test => {
-    describe('module', () => {
+    describe("module", () => {
       beforeEach(() => {
         store.dispatch(
           setSession({
             read_enabled: false,
-            resource_uri: '',
+            resource_uri: "",
             user: {
               alert_subscriptions: [{}],
-              email: 'john.doe@intel.com',
-              first_name: 'John',
-              full_name: 'John Doe',
+              email: "john.doe@intel.com",
+              first_name: "John",
+              full_name: "John Doe",
               groups: test.sessionGroups,
               gui_config: {},
-              id: '1',
+              id: "1",
               is_superuser: true,
-              last_name: 'Doe',
-              resource_uri: '/user',
-              roles: '',
-              username: 'johndoe',
+              last_name: "Doe",
+              resource_uri: "/user",
+              roles: "",
+              username: "johndoe",
               password1: null,
               new_password1: null,
               password2: null,
@@ -169,8 +169,8 @@ describe('authorization', () => {
 
       beforeEach(
         angular.mock.module(($provide, $compileProvider) => {
-          $compileProvider.directive('restrict', restrict);
-          $compileProvider.directive('restrictTo', restrictTo);
+          $compileProvider.directive("restrict", restrict);
+          $compileProvider.directive("restrictTo", restrictTo);
         })
       );
 
@@ -184,34 +184,34 @@ describe('authorization', () => {
             return $compile(str)($scope);
           };
 
-          genRestrictTo = template('restrict-to');
-          genRestrict = template('restrict');
+          genRestrictTo = template("restrict-to");
+          genRestrict = template("restrict");
         })
       );
 
-      describe('directive', () => {
+      describe("directive", () => {
         let el;
 
-        describe('of type restrictTo', () => {
+        describe("of type restrictTo", () => {
           beforeEach(() => {
             el = genRestrictTo(test.group);
             $scope.$digest();
           });
 
           it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
-            expect(el.hasClass('invisible')).toEqual(!test.visibility.restrictTo);
+            expect(el.hasClass("invisible")).toEqual(!test.visibility.restrictTo);
           });
         });
 
-        describe('of type restrict', () => {
+        describe("of type restrict", () => {
           beforeEach(() => {
             el = genRestrict(test.group);
             $scope.$digest();
           });
 
-          it(`should be ${test.isVisible ? 'visible' : 'invisible'}
+          it(`should be ${test.isVisible ? "visible" : "invisible"}
  to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
-            expect(el.hasClass('invisible')).toEqual(!test.visibility.restricted);
+            expect(el.hasClass("invisible")).toEqual(!test.visibility.restricted);
           });
         });
       });
@@ -219,26 +219,26 @@ describe('authorization', () => {
   });
 });
 
-describe('csrf token', () => {
+describe("csrf token", () => {
   let mockGlobal, getCSRFToken, result;
   beforeEach(() => {
     mockGlobal = {
       document: {
         cookie:
-          'csrftoken=qqo4KXV34frTfOmzlKlEK7FaTffEoqqb; sessionid=023846e4c1efdfe032b32994ed663e2a; io=GNPAFJDn-8fLfrGOAAEL'
+          "csrftoken=qqo4KXV34frTfOmzlKlEK7FaTffEoqqb; sessionid=023846e4c1efdfe032b32994ed663e2a; io=GNPAFJDn-8fLfrGOAAEL"
       }
     };
 
-    jest.mock('../../../../source/iml/global.js', () => mockGlobal);
+    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
 
-    ({ getCSRFToken } = require('../../../../source/iml/auth/authorization.js'));
+    ({ getCSRFToken } = require("../../../../source/iml/auth/authorization.js"));
 
     result = getCSRFToken();
   });
 
-  it('should return the csrf token', () => {
+  it("should return the csrf token", () => {
     expect(result).toEqual({
-      'X-CSRFToken': 'qqo4KXV34frTfOmzlKlEK7FaTffEoqqb'
+      "X-CSRFToken": "qqo4KXV34frTfOmzlKlEK7FaTffEoqqb"
     });
   });
 });

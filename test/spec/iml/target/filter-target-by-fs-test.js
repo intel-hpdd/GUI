@@ -1,14 +1,14 @@
-import highland from 'highland';
-import filterTargetByFs from '../../../../source/iml/target/filter-target-by-fs.js';
+import highland from "highland";
+import filterTargetByFs from "../../../../source/iml/target/filter-target-by-fs.js";
 
-describe('filter target by fs', () => {
+describe("filter target by fs", () => {
   let data;
 
   beforeEach(() => {
     data = [
       [
         {
-          target: 'foo',
+          target: "foo",
           filesystems: [
             {
               id: 1
@@ -16,7 +16,7 @@ describe('filter target by fs', () => {
           ]
         },
         {
-          target: 'bar',
+          target: "bar",
           filesystems: [
             {
               id: 2
@@ -24,14 +24,14 @@ describe('filter target by fs', () => {
           ]
         },
         {
-          target: 'baz',
+          target: "baz",
           filesystem_id: 1
         }
       ]
     ];
   });
 
-  it('should return the targets with the matching fs', function() {
+  it("should return the targets with the matching fs", function() {
     let result;
 
     highland(data)
@@ -42,7 +42,7 @@ describe('filter target by fs', () => {
 
     expect(result).toEqual([
       {
-        target: 'foo',
+        target: "foo",
         filesystems: [
           {
             id: 1
@@ -50,14 +50,14 @@ describe('filter target by fs', () => {
         ]
       },
       {
-        target: 'baz',
+        target: "baz",
         filesystem_id: 1
       }
     ]);
   });
 
-  it('should return nothing if id does not match', function() {
-    const result = filterTargetByFs('4')(data);
+  it("should return nothing if id does not match", function() {
+    const result = filterTargetByFs("4")(data);
 
     expect(result).toEqual([[]]);
   });

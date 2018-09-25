@@ -1,4 +1,4 @@
-describe('page visibility', () => {
+describe("page visibility", () => {
   let mockDoc, pageVisibility, mockClear;
 
   beforeEach(() => {
@@ -9,12 +9,12 @@ describe('page visibility', () => {
 
     mockClear = jest.fn();
 
-    jest.mock('../../../../source/iml/global.js', () => ({
+    jest.mock("../../../../source/iml/global.js", () => ({
       document: mockDoc,
       clearTimeout: mockClear
     }));
 
-    pageVisibility = require('../../../../source/iml/page-visibility.js').default;
+    pageVisibility = require("../../../../source/iml/page-visibility.js").default;
 
     jest.useFakeTimers();
   });
@@ -23,11 +23,11 @@ describe('page visibility', () => {
     jest.useRealTimers();
   });
 
-  it('should be a function', () => {
+  it("should be a function", () => {
     expect(pageVisibility).toEqual(expect.any(Function));
   });
 
-  describe('when invoking', () => {
+  describe("when invoking", () => {
     let onHide, onShow, removeListener, handler;
 
     beforeEach(() => {
@@ -37,32 +37,32 @@ describe('page visibility', () => {
       handler = mockDoc.addEventListener.mock.calls[0][1];
     });
 
-    it('should return a remove listener fn', () => {
+    it("should return a remove listener fn", () => {
       expect(removeListener).toEqual(expect.any(Function));
     });
 
-    it('should add an event listener', () => {
-      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith('visibilitychange', expect.any(Function));
+    it("should add an event listener", () => {
+      expect(mockDoc.addEventListener).toHaveBeenCalledOnceWith("visibilitychange", expect.any(Function));
     });
 
-    describe('when removing', () => {
+    describe("when removing", () => {
       beforeEach(() => {
         mockDoc.hidden = true;
         handler();
         removeListener();
       });
 
-      it('should clear the timeout', () => {
+      it("should clear the timeout", () => {
         expect(mockClear).toHaveBeenCalledTimes(1);
       });
 
-      it('should remove the listener', () => {
-        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith('visibilitychange', expect.any(Function));
+      it("should remove the listener", () => {
+        expect(mockDoc.removeEventListener).toHaveBeenCalledOnceWith("visibilitychange", expect.any(Function));
       });
     });
 
-    describe('when changed', () => {
-      it('should call hide', () => {
+    describe("when changed", () => {
+      it("should call hide", () => {
         mockDoc.hidden = true;
         handler();
         jest.runTimersToTime(0);
@@ -70,7 +70,7 @@ describe('page visibility', () => {
         expect(onHide).toHaveBeenCalledOnceWith();
       });
 
-      it('should call show', () => {
+      it("should call show", () => {
         mockDoc.hidden = false;
         handler();
         jest.runTimersToTime(0);
@@ -78,7 +78,7 @@ describe('page visibility', () => {
         expect(onShow).toHaveBeenCalledOnceWith(undefined);
       });
 
-      it('should not call show if timeout is cancelled', () => {
+      it("should not call show if timeout is cancelled", () => {
         mockDoc.hidden = true;
         handler();
         mockDoc.hidden = false;

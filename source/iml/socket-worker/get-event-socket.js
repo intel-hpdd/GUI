@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import EventEmitter from '../event-emitter.js';
-import getRandomValue from '../get-random-value.js';
-import socketWorker from './socket-worker.js';
+import EventEmitter from "../event-emitter.js";
+import getRandomValue from "../get-random-value.js";
+import socketWorker from "./socket-worker.js";
 
 type eventSocketsT = {
   [key: number]: EventSocket
@@ -24,7 +24,7 @@ const eventSockets: eventSocketsT = {};
 
 // $FlowFixMe Track: https://github.com/facebook/flow/pull/2680
 socketWorker.addEventListener(
-  'message',
+  "message",
   (ev: { data: Object }) => {
     const data: Object = ev.data;
 
@@ -51,7 +51,7 @@ class EventSocket extends EventEmitter {
     eventSockets[this.id] = this;
 
     socketWorker.postMessage({
-      type: 'connect',
+      type: "connect",
       id: this.id
     });
   }
@@ -59,7 +59,7 @@ class EventSocket extends EventEmitter {
     if (!eventSockets[this.id]) return;
 
     socketWorker.postMessage({
-      type: 'end',
+      type: "end",
       id: this.id
     });
 
@@ -69,7 +69,7 @@ class EventSocket extends EventEmitter {
   }
   send(payload: ?mixed, ack?: (resp: any) => void) {
     const message: messageT = {
-      type: 'send',
+      type: "send",
       id: this.id
     };
 
@@ -77,7 +77,7 @@ class EventSocket extends EventEmitter {
 
     if (ack) {
       message.ack = true;
-      this.once('message', (resp: Object) => {
+      this.once("message", (resp: Object) => {
         // $FlowFixMe: already guarded by if block above.
         ack(resp);
       });

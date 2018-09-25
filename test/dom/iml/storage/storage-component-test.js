@@ -1,32 +1,32 @@
 // @flow
 
-import Inferno from 'inferno';
-import highland, { type HighlandStreamT } from 'highland';
-import broadcaster from '../../../../source/iml/broadcaster.js';
-import type { State } from '../../../../source/iml/storage/storage-reducer.js';
-import { renderToSnapshot } from '../../../test-utils.js';
+import Inferno from "inferno";
+import highland, { type HighlandStreamT } from "highland";
+import broadcaster from "../../../../source/iml/broadcaster.js";
+import type { State } from "../../../../source/iml/storage/storage-reducer.js";
+import { renderToSnapshot } from "../../../test-utils.js";
 
-describe('storage component', () => {
+describe("storage component", () => {
   let StorageComponent, mockStore, storage$: HighlandStreamT<State>, alertIndicator$: HighlandStreamT<Object[]>;
 
   beforeEach(() => {
     mockStore = { dispatch: jest.fn() };
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockStore);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
 
     const mockStorageResources = jest.fn(() => highland([]));
-    jest.mock('../../../../source/iml/storage/storage-resources.js', () => mockStorageResources);
+    jest.mock("../../../../source/iml/storage/storage-resources.js", () => mockStorageResources);
 
-    ({ StorageComponent } = require('../../../../source/iml/storage/storage-component.js'));
+    ({ StorageComponent } = require("../../../../source/iml/storage/storage-component.js"));
 
     storage$ = highland();
     alertIndicator$ = highland();
   });
 
-  it('should render no plugins', () => {
+  it("should render no plugins", () => {
     storage$.write({
       config: {
         sortDesc: false,
-        sortKey: 'name',
+        sortKey: "name",
         loading: false,
         selectIndex: 0,
         entries: 10,
@@ -52,11 +52,11 @@ describe('storage component', () => {
     ).toMatchSnapshot();
   });
 
-  it('should render with plugins', () => {
+  it("should render with plugins", () => {
     storage$.write({
       config: {
         sortDesc: false,
-        sortKey: 'name',
+        sortKey: "name",
         loading: true,
         selectIndex: 0,
         entries: 1,
@@ -64,50 +64,50 @@ describe('storage component', () => {
       },
       resourceClasses: [
         {
-          class_name: 'EMCPower',
+          class_name: "EMCPower",
           columns: [
             {
-              label: 'Size',
-              name: 'size'
+              label: "Size",
+              name: "size"
             },
             {
-              label: 'Filesystem type',
-              name: 'filesystem_type'
+              label: "Filesystem type",
+              name: "filesystem_type"
             },
             {
-              label: 'Uuid',
-              name: 'uuid'
+              label: "Uuid",
+              name: "uuid"
             }
           ],
           fields: [
             {
-              class: 'Bytes',
-              label: 'Size',
-              name: 'size',
+              class: "Bytes",
+              label: "Size",
+              name: "size",
               optional: false,
               user_read_only: false
             },
             {
-              class: 'Boolean',
-              label: 'Filesystem type',
-              name: 'filesystem_type',
+              class: "Boolean",
+              label: "Filesystem type",
+              name: "filesystem_type",
               optional: true,
               user_read_only: false
             },
             {
-              class: 'String',
-              label: 'Uuid',
-              name: 'uuid',
+              class: "String",
+              label: "Uuid",
+              name: "uuid",
               optional: false,
               user_read_only: false
             }
           ],
           id: 1,
-          label: 'linux-EMCPower',
-          modified_at: '2017-07-19T13:58:02.615410',
+          label: "linux-EMCPower",
+          modified_at: "2017-07-19T13:58:02.615410",
           plugin_internal: true,
-          plugin_name: 'linux',
-          resource_uri: '/api/storage_resource_class/1/',
+          plugin_name: "linux",
+          resource_uri: "/api/storage_resource_class/1/",
           user_creatable: false
         }
       ],

@@ -5,25 +5,25 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { serverDashboardHostStreamResolves, serverDashboardChartResolves } from './server-dashboard-resolves.js';
+import { serverDashboardHostStreamResolves, serverDashboardChartResolves } from "./server-dashboard-resolves.js";
 
-import { dashboardFsB, dashboardHostB, dashboardTargetB } from './dashboard-resolves.js';
+import { dashboardFsB, dashboardHostB, dashboardTargetB } from "./dashboard-resolves.js";
 
-import { baseDashboardChartResolves } from './base-dashboard-chart-resolves.js';
+import { baseDashboardChartResolves } from "./base-dashboard-chart-resolves.js";
 
 import {
   targetDashboardResolves,
   targetDashboardUsageStream,
   targetDashboardTargetStream
-} from './target-dashboard-resolves.js';
+} from "./target-dashboard-resolves.js";
 
-import { streamToPromise } from '../promise-transforms.js';
+import { streamToPromise } from "../promise-transforms.js";
 
-import { matchById } from '../api-transforms.js';
+import { matchById } from "../api-transforms.js";
 
-import * as maybe from '@iml/maybe';
+import * as maybe from "@iml/maybe";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 const baseDashboardTemplate = `<h4 class="section-header">File Systems</h4>
 <div class="row dashboard-info">
@@ -115,11 +115,11 @@ const getDataFn = (b: () => HighlandStreamT<Object[]>, $stateParams: { id: strin
   return streamToPromise(b())
     .then(matchById($stateParams.id))
     .then(maybe.map.bind(null, (x: Object) => ({ label: x.label })))
-    .then(maybe.withDefault.bind(null, () => ({ label: '' })));
+    .then(maybe.withDefault.bind(null, () => ({ label: "" })));
 };
 
 export const dashboardState = {
-  name: 'app.dashboard',
+  name: "app.dashboard",
   abstract: true,
   resolve: {
     fsB: dashboardFsB,
@@ -127,11 +127,11 @@ export const dashboardState = {
     targetsB: dashboardTargetB
   },
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.1',
+    helpPage: "Graphical_User_Interface_9_0.html#9.1",
     anonymousReadProtected: true
   },
-  controller: 'DashboardCtrl',
-  controllerAs: 'dashboard',
+  controller: "DashboardCtrl",
+  controllerAs: "dashboard",
   template: `<div class="container container-full dashboard-container">
   <div class="row">
     <div class="col-xs-12">
@@ -215,10 +215,10 @@ export const dashboardState = {
 };
 
 export const dashboardOverviewState = {
-  name: 'app.dashboard.overview',
-  url: '/dashboard',
-  controller: 'BaseDashboardCtrl',
-  controllerAs: 'baseDashboard',
+  name: "app.dashboard.overview",
+  url: "/dashboard",
+  controller: "BaseDashboardCtrl",
+  controllerAs: "baseDashboard",
   template: baseDashboardTemplate,
   params: {
     resetState: {
@@ -226,8 +226,8 @@ export const dashboardOverviewState = {
     }
   },
   data: {
-    kind: 'Dashboard',
-    icon: 'fa-bar-chart-o'
+    kind: "Dashboard",
+    icon: "fa-bar-chart-o"
   },
   resolve: {
     charts: baseDashboardChartResolves
@@ -235,17 +235,17 @@ export const dashboardOverviewState = {
 };
 
 export const dashboardServerState = {
-  name: 'app.dashboard.server',
-  url: '/dashboard/server/:id',
-  controller: 'ServerDashboardCtrl',
-  controllerAs: 'serverDashboard',
+  name: "app.dashboard.server",
+  url: "/dashboard/server/:id",
+  controller: "ServerDashboardCtrl",
+  controllerAs: "serverDashboard",
   template: `<h4 class="section-header">Server: {{serverDashboard.server.label}}</h4>
 
 <h4 class="section-header">Charts</h4>
 <charts-container charts="serverDashboard.charts"></charts-container>`,
   params: {
     kind: {
-      value: 'server',
+      value: "server",
       squash: true
     },
     resetState: {
@@ -253,25 +253,25 @@ export const dashboardServerState = {
     }
   },
   data: {
-    kind: 'Dashboard - Server',
-    icon: 'fa-bar-chart-o'
+    kind: "Dashboard - Server",
+    icon: "fa-bar-chart-o"
   },
   resolve: {
     charts: serverDashboardChartResolves,
     hostStream: serverDashboardHostStreamResolves,
-    getData: ['hostsB', '$stateParams', getDataFn]
+    getData: ["hostsB", "$stateParams", getDataFn]
   }
 };
 
 export const dashboardMdtState = {
-  name: 'app.dashboard.mdt',
-  url: '/dashboard/MDT/:id',
-  controller: 'TargetDashboardController',
-  controllerAs: 'targetDashboard',
+  name: "app.dashboard.mdt",
+  url: "/dashboard/MDT/:id",
+  controller: "TargetDashboardController",
+  controllerAs: "targetDashboard",
   template: targetDashboardTemplate,
   params: {
     kind: {
-      value: 'MDT',
+      value: "MDT",
       squash: true
     },
     resetState: {
@@ -279,30 +279,30 @@ export const dashboardMdtState = {
     }
   },
   data: {
-    kind: 'Dashboard - MDT',
-    icon: 'fa-bar-chart-o'
+    kind: "Dashboard - MDT",
+    icon: "fa-bar-chart-o"
   },
   resolve: {
     charts: targetDashboardResolves,
     targetStream: targetDashboardTargetStream,
     usageStream: targetDashboardUsageStream,
-    getData: ['targetsB', '$stateParams', getDataFn]
+    getData: ["targetsB", "$stateParams", getDataFn]
   }
 };
 
 export const dashboardOstState = {
-  name: 'app.dashboard.ost',
-  url: '/dashboard/OST/:id',
-  controller: 'TargetDashboardController',
-  controllerAs: 'targetDashboard',
+  name: "app.dashboard.ost",
+  url: "/dashboard/OST/:id",
+  controller: "TargetDashboardController",
+  controllerAs: "targetDashboard",
   template: targetDashboardTemplate,
   data: {
-    kind: 'Dashboard - OST',
-    icon: 'fa-bar-chart-o'
+    kind: "Dashboard - OST",
+    icon: "fa-bar-chart-o"
   },
   params: {
     kind: {
-      value: 'OST',
+      value: "OST",
       squash: true
     },
     resetState: {
@@ -313,23 +313,23 @@ export const dashboardOstState = {
     charts: targetDashboardResolves,
     targetStream: targetDashboardTargetStream,
     usageStream: targetDashboardUsageStream,
-    getData: ['targetsB', '$stateParams', getDataFn]
+    getData: ["targetsB", "$stateParams", getDataFn]
   }
 };
 
 export const dashboardFsState = {
-  name: 'app.dashboard.fs',
-  url: '/dashboard/fs/:id',
-  controller: 'BaseDashboardCtrl',
-  controllerAs: 'baseDashboard',
+  name: "app.dashboard.fs",
+  url: "/dashboard/fs/:id",
+  controller: "BaseDashboardCtrl",
+  controllerAs: "baseDashboard",
   template: baseDashboardTemplate,
   data: {
-    kind: 'Dashboard - FS',
-    icon: 'fa-bar-chart-o'
+    kind: "Dashboard - FS",
+    icon: "fa-bar-chart-o"
   },
   params: {
     kind: {
-      value: 'fs',
+      value: "fs",
       squash: true
     },
     resetState: {
@@ -338,6 +338,6 @@ export const dashboardFsState = {
   },
   resolve: {
     charts: baseDashboardChartResolves,
-    getData: ['fsB', '$stateParams', getDataFn]
+    getData: ["fsB", "$stateParams", getDataFn]
   }
 };

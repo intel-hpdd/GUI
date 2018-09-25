@@ -5,25 +5,25 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Tooltip from '../tooltip.js';
-import WindowClickListener from '../window-click-listener.js';
+import Inferno from "inferno";
+import Tooltip from "../tooltip.js";
+import WindowClickListener from "../window-click-listener.js";
 
-import { asViewer } from '../as-viewer/as-viewer';
-import { PopoverContainer, Popover, PopoverTitle, PopoverContent } from '../popover.js';
+import { asViewer } from "../as-viewer/as-viewer";
+import { PopoverContainer, Popover, PopoverTitle, PopoverContent } from "../popover.js";
 
 const getMessage = alerts => {
   let message = `${alerts.length} Issues`;
 
-  if (alerts.length === 0) message = 'No Issues';
+  if (alerts.length === 0) message = "No Issues";
   else if (alerts.length === 1) message = alerts[0].message;
 
   return message;
 };
 
 const AlertIndicator = asViewer(
-  'alerts',
-  ({ alerts: xs, size, recordId }: { alerts: Object[], size?: 'small' | 'medium', recordId: string }) => {
+  "alerts",
+  ({ alerts: xs, size, recordId }: { alerts: Object[], size?: "small" | "medium", recordId: string }) => {
     const alerts = xs.filter(x => x.affected.find(y => y === recordId));
 
     return (
@@ -31,8 +31,8 @@ const AlertIndicator = asViewer(
         <WindowClickListener>
           <PopoverContainer>
             <span class="icon-wrap tooltip-container tooltip-hover" popoverButton={true}>
-              <i className={`fa activate-popover ${alerts.length > 0 ? 'fa-exclamation-circle' : 'fa-check-circle'}`} />
-              <Tooltip size={alerts.length === 0 ? 'small' : 'medium'} direction="top" message={getMessage(alerts)} />
+              <i className={`fa activate-popover ${alerts.length > 0 ? "fa-exclamation-circle" : "fa-check-circle"}`} />
+              <Tooltip size={alerts.length === 0 ? "small" : "medium"} direction="top" message={getMessage(alerts)} />
             </span>
             {alerts.length ? (
               <Popover popover={true} direction="bottom">
@@ -42,17 +42,17 @@ const AlertIndicator = asViewer(
                 </PopoverContent>
               </Popover>
             ) : (
-              ''
+              ""
             )}
           </PopoverContainer>
         </WindowClickListener>
 
-        {size === 'medium' ? (
+        {size === "medium" ? (
           <span style="padding-left:10px;" class="state-label">
             {getMessage(alerts)}
           </span>
         ) : (
-          ''
+          ""
         )}
       </span>
     );
@@ -62,9 +62,9 @@ const AlertIndicator = asViewer(
 export default AlertIndicator;
 
 export const alertIndicatorNg = {
-  bindings: { recordId: '<', displayType: '<', alertStream: '<' },
+  bindings: { recordId: "<", displayType: "<", alertStream: "<" },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

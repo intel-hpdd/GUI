@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import pageVisibility from '../page-visibility.js';
+import highland from "highland";
+import pageVisibility from "../page-visibility.js";
 
-import type { HighlandStreamT, errorWrapT } from 'highland';
+import type { HighlandStreamT, errorWrapT } from "highland";
 
 export const documentHidden = {
-  name: 'documentHidden'
+  name: "documentHidden"
 };
 export const documentVisible = {
-  name: 'documentVisible'
+  name: "documentVisible"
 };
 
 export function streamWhenVisible(
@@ -22,7 +22,7 @@ export function streamWhenVisible(
   documentHidden: typeof documentHidden,
   documentVisible: typeof documentVisible
 ): Function {
-  'ngInject';
+  "ngInject";
   const doc = $document[0];
 
   return function streamWhenVisible(streamFn: () => HighlandStreamT<mixed>) {

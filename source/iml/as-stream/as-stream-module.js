@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import asStream from './as-stream';
+import angular from "angular";
+import asStream from "./as-stream";
 
-export default angular.module('asStream', []).directive('asStream', asStream).name;
+export default angular.module("asStream", []).directive("asStream", asStream).name;

@@ -3,9 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import d3 from 'd3';
-import global from '../../../global.js';
+import * as fp from "@iml/fp";
+import d3 from "d3";
+import global from "../../../global.js";
 
 let counter = 0;
 
@@ -15,9 +15,9 @@ export default function getLine() {
   let xValue = fp.noop;
   let yValue = fp.noop;
   let xComparator = fp.noop;
-  let color = '#000000';
+  let color = "#000000";
   let opacity = 1;
-  let interpolate = 'linear';
+  let interpolate = "linear";
 
   const count = (counter += 1);
 
@@ -27,30 +27,30 @@ export default function getLine() {
     selection.each(function setData(data) {
       const item = d3.select(this);
 
-      const clipCount = strPlusCount('clip');
+      const clipCount = strPlusCount("clip");
 
-      const clip = item.selectAll(`.${clipCount}`).data(['foo']);
+      const clip = item.selectAll(`.${clipCount}`).data(["foo"]);
 
       clip
         .enter()
-        .append('defs')
-        .attr('class', clipCount)
-        .append('svg:clipPath')
-        .attr('id', clipCount)
-        .append('svg:rect');
+        .append("defs")
+        .attr("class", clipCount)
+        .append("svg:clipPath")
+        .attr("id", clipCount)
+        .append("svg:rect");
 
       clip
-        .selectAll('rect')
-        .attr('width', xScale.range()[xScale.range().length - 1])
-        .attr('height', yScale.range()[0]);
+        .selectAll("rect")
+        .attr("width", xScale.range()[xScale.range().length - 1])
+        .attr("height", yScale.range()[0]);
 
-      const clipGroup = item.selectAll(`.${strPlusCount('clipPath')}`).data(['foo']);
+      const clipGroup = item.selectAll(`.${strPlusCount("clipPath")}`).data(["foo"]);
 
       clipGroup
         .enter()
-        .append('g')
-        .attr('clip-path', `url(${global.location.href}${strPlusCount('#clip')})`)
-        .attr('class', strPlusCount('clipPath'));
+        .append("g")
+        .attr("clip-path", `url(${global.location.href}${strPlusCount("#clip")})`)
+        .attr("class", strPlusCount("clipPath"));
 
       const line = d3.svg
         .line()
@@ -68,7 +68,7 @@ export default function getLine() {
           )
         );
 
-      const lineCount = strPlusCount('line');
+      const lineCount = strPlusCount("line");
       const lineClassCount = `.${lineCount}`;
 
       let lineEl = clipGroup.selectAll(lineClassCount);
@@ -81,35 +81,35 @@ export default function getLine() {
       lineEl = lineEl.data(wrappedData);
 
       lineEl
-        .transition('moving')
-        .attr('d', line)
-        .attr('stroke', color)
-        .style('stroke-opacity', opacity)
-        .each('end', function removeOldPoint() {
+        .transition("moving")
+        .attr("d", line)
+        .attr("stroke", color)
+        .style("stroke-opacity", opacity)
+        .each("end", function removeOldPoint() {
           if (shouldShift)
             d3.select(this)
               .datum(data.slice(1))
-              .attr('d', line);
+              .attr("d", line);
         });
 
       lineEl
         .enter()
-        .append('svg:path')
+        .append("svg:path")
         .classed(`line ${lineCount}`, true)
-        .attr('stroke', color)
-        .attr('d', line)
-        .style('stroke-opacity', opacity)
+        .attr("stroke", color)
+        .attr("d", line)
+        .style("stroke-opacity", opacity)
         .each(function animateEntering() {
           const totalLength = this.getTotalLength();
 
           d3.select(this)
-            .attr('stroke-dasharray', `${totalLength} ${totalLength}`)
-            .attr('stroke-dashoffset', totalLength);
+            .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
+            .attr("stroke-dashoffset", totalLength);
         })
-        .transition('entering')
-        .attr('stroke-dashoffset', 0)
-        .each('end', function resetDashArray() {
-          d3.select(this).attr('stroke-dasharray', null);
+        .transition("entering")
+        .attr("stroke-dashoffset", 0)
+        .each("end", function resetDashArray() {
+          d3.select(this).attr("stroke-dasharray", null);
         });
 
       lineEl.exit().remove();

@@ -5,24 +5,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
 export type localApplyT<R> = (scope: $scopeT, fn?: () => R) => ?R;
 
 export type PropagateChange = <T>($scopeT, Object, string, HighlandStreamT<T>) => HighlandStreamT<T>;
 
 export default angular
-  .module('extendScope', [])
+  .module("extendScope", [])
   .config([
-    '$provide',
+    "$provide",
     function addHandleExceptionMethod($provide) {
-      return $provide.decorator('$rootScope', [
-        '$delegate',
-        '$exceptionHandler',
+      return $provide.decorator("$rootScope", [
+        "$delegate",
+        "$exceptionHandler",
         function addExceptionHandler($delegate, $exceptionHandler) {
           $delegate.handleException = x => $exceptionHandler(x);
 
@@ -32,11 +32,11 @@ export default angular
     }
   ])
   .config([
-    '$provide',
+    "$provide",
     function addLocalApplyMethod($provide) {
-      return $provide.decorator('$rootScope', [
-        '$delegate',
-        'localApply',
+      return $provide.decorator("$rootScope", [
+        "$delegate",
+        "localApply",
         function addLocalApply($delegate, localApply) {
           $delegate.localApply = localApply;
 
@@ -46,11 +46,11 @@ export default angular
     }
   ])
   .config([
-    '$provide',
+    "$provide",
     function addPropagateChangeMethod($provide) {
-      return $provide.decorator('$rootScope', [
-        '$delegate',
-        'propagateChange',
+      return $provide.decorator("$rootScope", [
+        "$delegate",
+        "propagateChange",
         function addPropagateChange($delegate, propagateChange) {
           $delegate.propagateChange = propagateChange;
 
@@ -59,12 +59,12 @@ export default angular
       ]);
     }
   ])
-  .factory('localApply', [
-    '$exceptionHandler',
+  .factory("localApply", [
+    "$exceptionHandler",
     function localApplyFactory($exceptionHandler) {
       return function localApply(scope, fn) {
         try {
-          if (typeof fn === 'function') return fn();
+          if (typeof fn === "function") return fn();
         } catch (e) {
           $exceptionHandler(e);
         } finally {
@@ -78,8 +78,8 @@ export default angular
       };
     }
   ])
-  .factory('propagateChange', function propagateChangeFactory($exceptionHandler, localApply) {
-    'ngInject';
+  .factory("propagateChange", function propagateChangeFactory($exceptionHandler, localApply) {
+    "ngInject";
     return ($scope, obj, prop, s) =>
       s
         .tap(x => {

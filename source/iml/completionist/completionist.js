@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const KEY_PRESS = 'KEY_PRESS';
-export const VALUE = 'VALUE';
-export const VALUES = 'VALUES';
+export const KEY_PRESS = "KEY_PRESS";
+export const VALUE = "VALUE";
+export const VALUES = "VALUES";
 
 export const CompletionistCtrl = class {
   evMap: Object = {};
@@ -42,7 +42,7 @@ export const CompletionistCtrl = class {
 
 export default {
   bindings: {
-    completer: '&'
+    completer: "&"
   },
   controller: CompletionistCtrl
 };

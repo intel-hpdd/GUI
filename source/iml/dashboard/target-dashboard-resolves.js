@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
-import broadcaster from '../broadcaster.js';
-import { matchWith } from '@iml/maybe';
-import { matchById } from '../api-transforms.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
+import broadcaster from "../broadcaster.js";
+import { matchWith } from "@iml/maybe";
+import { matchById } from "../api-transforms.js";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
-import type { chartT, chartTitleKeyT } from './dashboard-types.js';
+import type { chartT, chartTitleKeyT } from "./dashboard-types.js";
 
 export function targetDashboardResolves(
   $stateParams: { kind: string, id: string },
@@ -22,7 +22,7 @@ export function targetDashboardResolves(
   getMdoChart: chartT,
   getReadWriteBandwidthChart: chartT
 ) {
-  'ngInject';
+  "ngInject";
   const id = $stateParams.id;
   const page = `target${id}`;
   const kind = $stateParams.kind;
@@ -36,24 +36,24 @@ export function targetDashboardResolves(
   let title, key, chart;
 
   switch (kind) {
-    case 'MDT':
-      title = 'File Usage';
-      key = 'Files Used';
+    case "MDT":
+      title = "File Usage";
+      key = "Files Used";
       chart = getMdoChart(qs, page);
       break;
     default:
       chart = getReadWriteBandwidthChart(qs, page);
-      title = 'Object Usage';
-      key = 'Objects Used';
+      title = "Object Usage";
+      key = "Objects Used";
   }
 
   return Promise.all([chart, getFileUsageChart(title, key, qs, page), getSpaceUsageChart(qs, page)]);
 }
 
 export function targetDashboardTargetStream($stateParams: { id: string }) {
-  'ngInject';
+  "ngInject";
   return store
-    .select('targets')
+    .select("targets")
     .map(matchById($stateParams.id))
     .map(
       matchWith.bind(null, {
@@ -68,11 +68,11 @@ export function targetDashboardTargetStream($stateParams: { id: string }) {
 }
 
 export function targetDashboardUsageStream($stateParams: { id: string }) {
-  'ngInject';
+  "ngInject";
   return resolveStream(
     socketStream(`/target/${$stateParams.id}/metric/`, {
       qs: {
-        metrics: 'filestotal,filesfree,kbytestotal,kbytesfree',
+        metrics: "filestotal,filesfree,kbytestotal,kbytesfree",
         latest: true
       }
     }).map(x => {

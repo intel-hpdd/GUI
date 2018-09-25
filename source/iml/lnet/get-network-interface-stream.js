@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import LNET_OPTIONS from './lnet-options.js';
+import socketStream from "../socket/socket-stream.js";
+import LNET_OPTIONS from "./lnet-options.js";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export default function getNetworkInterfaceStream(params: {}) {
-  return socketStream('/network_interface', params || {})
-    .pluck('objects')
+  return socketStream("/network_interface", params || {})
+    .pluck("objects")
     .map(
       fp.map(function setNidIfEmpty(x) {
         if (!x.nid)

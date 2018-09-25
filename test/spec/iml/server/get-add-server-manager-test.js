@@ -1,9 +1,9 @@
 import {
   addServerStepsFactory,
   getAddServerManagerFactory
-} from '../../../../source/iml/server/get-add-server-manager.js';
+} from "../../../../source/iml/server/get-add-server-manager.js";
 
-describe('get add server manager', () => {
+describe("get add server manager", () => {
   let ADD_SERVER_STEPS,
     addServerSteps,
     addServersStep,
@@ -16,9 +16,9 @@ describe('get add server manager', () => {
 
   beforeEach(() => {
     ADD_SERVER_STEPS = {
-      ADD: 'addServersStep',
-      STATUS: 'serverStatusStep',
-      SELECT_PROFILE: 'selectServerProfileStep'
+      ADD: "addServersStep",
+      STATUS: "serverStatusStep",
+      SELECT_PROFILE: "selectServerProfileStep"
     };
 
     addServersStep = {};
@@ -36,7 +36,7 @@ describe('get add server manager', () => {
     waitUntilLoadedStep = {};
   });
 
-  describe('get add server manager service', () => {
+  describe("get add server manager service", () => {
     let addServerManager, manager;
     beforeEach(() => {
       addServerSteps = addServerStepsFactory(
@@ -56,17 +56,17 @@ describe('get add server manager', () => {
       manager = addServerManager();
     });
 
-    it('should add each step', () => {
+    it("should add each step", () => {
       expect(addStep.mock.calls).toEqual([
-        ['addServersStep', {}],
-        ['serverStatusStep', {}],
-        ['selectServerProfileStep', {}]
+        ["addServersStep", {}],
+        ["serverStatusStep", {}],
+        ["selectServerProfileStep", {}]
       ]);
     });
-    it('should add a waiting step', () => {
+    it("should add a waiting step", () => {
       expect(addWaitingStep).toHaveBeenCalledOnceWith(waitUntilLoadedStep);
     });
-    it('should expose the server steps', () => {
+    it("should expose the server steps", () => {
       expect(manager.SERVER_STEPS).toEqual(ADD_SERVER_STEPS);
     });
   });

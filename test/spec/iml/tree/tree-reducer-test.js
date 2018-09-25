@@ -1,8 +1,8 @@
 // @flow
 
-import treeReducer from '../../../../source/iml/tree/tree-reducer.js';
+import treeReducer from "../../../../source/iml/tree/tree-reducer.js";
 
-describe('treeReducer', () => {
+describe("treeReducer", () => {
   let getTreeItem;
 
   beforeEach(() => {
@@ -11,18 +11,18 @@ describe('treeReducer', () => {
       open: false,
       opens: {},
       parentTreeId: 0,
-      type: 'host',
+      type: "host",
       meta: {},
       objects: []
     });
   });
 
-  describe('adding tree items', () => {
-    it('should return the new state', () => {
+  describe("adding tree items", () => {
+    it("should return the new state", () => {
       const result = treeReducer(
         {},
         {
-          type: 'ADD_TREE_ITEMS',
+          type: "ADD_TREE_ITEMS",
           payload: [getTreeItem()]
         }
       );
@@ -32,20 +32,20 @@ describe('treeReducer', () => {
       });
     });
 
-    it('should concat to existing state', () => {
+    it("should concat to existing state", () => {
       const result = treeReducer(
         {
           [1]: getTreeItem()
         },
         {
-          type: 'ADD_TREE_ITEMS',
+          type: "ADD_TREE_ITEMS",
           payload: [
             {
               treeId: 2,
               open: false,
               opens: {},
               parentTreeId: 0,
-              type: 'host',
+              type: "host",
               meta: {},
               objects: []
             }
@@ -60,27 +60,27 @@ describe('treeReducer', () => {
           open: false,
           opens: {},
           parentTreeId: 0,
-          type: 'host',
+          type: "host",
           meta: {},
           objects: []
         }
       });
     });
 
-    it('should overwrite an existing treeItem', () => {
+    it("should overwrite an existing treeItem", () => {
       const result = treeReducer(
         {
           [1]: getTreeItem()
         },
         {
-          type: 'ADD_TREE_ITEMS',
+          type: "ADD_TREE_ITEMS",
           payload: [
             {
               treeId: 1,
               open: true,
               opens: {},
               parentTreeId: 0,
-              type: 'host',
+              type: "host",
               meta: {},
               objects: []
             }
@@ -94,7 +94,7 @@ describe('treeReducer', () => {
           open: true,
           opens: {},
           parentTreeId: 0,
-          type: 'host',
+          type: "host",
           meta: {},
           objects: []
         }
@@ -102,12 +102,12 @@ describe('treeReducer', () => {
     });
   });
 
-  describe('toggle collection', () => {
-    it('should return existing state when id is not found', () => {
+  describe("toggle collection", () => {
+    it("should return existing state when id is not found", () => {
       const result = treeReducer(
         {},
         {
-          type: 'TOGGLE_COLLECTION_OPEN',
+          type: "TOGGLE_COLLECTION_OPEN",
           payload: {
             id: 1,
             open: true
@@ -118,13 +118,13 @@ describe('treeReducer', () => {
       expect(result).toEqual({});
     });
 
-    it('should update open on existing state', () => {
+    it("should update open on existing state", () => {
       const result = treeReducer(
         {
           [1]: getTreeItem()
         },
         {
-          type: 'TOGGLE_COLLECTION_OPEN',
+          type: "TOGGLE_COLLECTION_OPEN",
           payload: {
             id: 1,
             open: true
@@ -138,7 +138,7 @@ describe('treeReducer', () => {
           open: true,
           opens: {},
           parentTreeId: 0,
-          type: 'host',
+          type: "host",
           meta: {},
           objects: []
         }
@@ -146,12 +146,12 @@ describe('treeReducer', () => {
     });
   });
 
-  describe('updating collection offset', () => {
-    it('should return existing state when id is not found', () => {
+  describe("updating collection offset", () => {
+    it("should return existing state when id is not found", () => {
       const result = treeReducer(
         {},
         {
-          type: 'UPDATE_COLLECTION_OFFSET',
+          type: "UPDATE_COLLECTION_OFFSET",
           payload: {
             id: 1,
             offset: 20
@@ -162,13 +162,13 @@ describe('treeReducer', () => {
       expect(result).toEqual({});
     });
 
-    it('should update offset on existing state', () => {
+    it("should update offset on existing state", () => {
       const result = treeReducer(
         {
           [1]: getTreeItem()
         },
         {
-          type: 'UPDATE_COLLECTION_OFFSET',
+          type: "UPDATE_COLLECTION_OFFSET",
           payload: {
             id: 1,
             offset: 20
@@ -182,7 +182,7 @@ describe('treeReducer', () => {
           open: false,
           opens: {},
           parentTreeId: 0,
-          type: 'host',
+          type: "host",
           meta: {
             offset: 20
           },
@@ -192,12 +192,12 @@ describe('treeReducer', () => {
     });
   });
 
-  describe('toggle item', () => {
-    it('should return existing state when id is not found', () => {
+  describe("toggle item", () => {
+    it("should return existing state when id is not found", () => {
       const result = treeReducer(
         {},
         {
-          type: 'TOGGLE_ITEM_OPEN',
+          type: "TOGGLE_ITEM_OPEN",
           payload: {
             id: 1,
             itemId: 2,
@@ -209,13 +209,13 @@ describe('treeReducer', () => {
       expect(result).toEqual({});
     });
 
-    it('should update open on existing state', () => {
+    it("should update open on existing state", () => {
       const result = treeReducer(
         {
           [1]: getTreeItem()
         },
         {
-          type: 'TOGGLE_ITEM_OPEN',
+          type: "TOGGLE_ITEM_OPEN",
           payload: {
             id: 1,
             itemId: 2,
@@ -232,7 +232,7 @@ describe('treeReducer', () => {
             [2]: true
           },
           parentTreeId: 0,
-          type: 'host',
+          type: "host",
           meta: {},
           objects: []
         }

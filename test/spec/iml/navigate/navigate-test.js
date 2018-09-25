@@ -1,18 +1,18 @@
-import navigateModule from '../../../../source/iml/navigate/navigate-module';
-import angular from '../../../angular-mock-setup.js';
+import navigateModule from "../../../../source/iml/navigate/navigate-module";
+import angular from "../../../angular-mock-setup.js";
 
-describe('navigate', () => {
+describe("navigate", () => {
   let $window;
 
   beforeEach(
-    angular.mock.module(navigateModule, { UI_ROOT: '/root/of/app/' }, $provide => {
+    angular.mock.module(navigateModule, { UI_ROOT: "/root/of/app/" }, $provide => {
       $window = {
         location: {
-          href: ''
+          href: ""
         }
       };
 
-      $provide.value('$window', $window);
+      $provide.value("$window", $window);
     })
   );
 
@@ -25,14 +25,14 @@ describe('navigate', () => {
     })
   );
 
-  it('should accept no arguments', () => {
+  it("should accept no arguments", () => {
     navigate();
 
     expect($window.location.href).toBe(UI_ROOT);
   });
 
-  it('should concatenate the part with the ui root', () => {
-    const part = 'foo';
+  it("should concatenate the part with the ui root", () => {
+    const part = "foo";
 
     navigate(part);
 

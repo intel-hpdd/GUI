@@ -1,25 +1,25 @@
-import targetReducer from '../../../../source/iml/target/target-reducer.js';
-import deepFreeze from '@iml/deep-freeze';
+import targetReducer from "../../../../source/iml/target/target-reducer.js";
+import deepFreeze from "@iml/deep-freeze";
 
-describe('target reducer', () => {
-  it('should be a function', () => {
+describe("target reducer", () => {
+  it("should be a function", () => {
     expect(targetReducer).toEqual(expect.any(Function));
   });
 
-  it('should return the payload on ADD_TARGET_ITEMS', () => {
+  it("should return the payload on ADD_TARGET_ITEMS", () => {
     expect(
       targetReducer(deepFreeze([]), {
-        type: 'ADD_TARGET_ITEMS',
+        type: "ADD_TARGET_ITEMS",
         payload: [{}]
       })
     ).toEqual([{}]);
   });
 
-  it('should return state on non-matching type', () => {
+  it("should return state on non-matching type", () => {
     expect(
       targetReducer(deepFreeze([]), {
-        type: 'FOO',
-        payload: [{ bar: 'baz' }]
+        type: "FOO",
+        payload: [{ bar: "baz" }]
       })
     ).toEqual([]);
   });

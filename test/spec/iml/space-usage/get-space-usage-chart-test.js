@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('space usage chart', () => {
+describe("space usage chart", () => {
   let mockChartCompiler,
     mockGetSpaceUsageStream,
     spaceUsageStream,
@@ -26,9 +26,9 @@ describe('space usage chart', () => {
     mockGetSpaceUsageStream = jest.fn(() => spaceUsageStream);
 
     standardConfig = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1464812942650,
       endDate: 1464812997102
     };
@@ -38,13 +38,13 @@ describe('space usage chart', () => {
         target1: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         target1: standardConfig
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -76,7 +76,7 @@ describe('space usage chart', () => {
     });
 
     initStream = highland();
-    jest.spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, "destroy");
 
     data$Fn = jest.fn((overrides, fn) => {
       fn()();
@@ -87,14 +87,14 @@ describe('space usage chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock('../../../../source/iml/space-usage/get-space-usage-stream.js', () => mockGetSpaceUsageStream);
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
-    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
+    jest.mock("../../../../source/iml/space-usage/get-space-usage-stream.js", () => mockGetSpaceUsageStream);
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/duration-picker/duration-payload.js", () => mockDurationPayload);
+    jest.mock("../../../../source/iml/duration-picker/duration-submit-handler.js", () => mockDurationSubmitHandler);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({ getConf: mockGetConf }));
 
-    const mod = require('../../../../source/iml/space-usage/get-space-usage-chart.js');
+    const mod = require("../../../../source/iml/space-usage/get-space-usage-chart.js");
 
     getSpaceUsageChartFactory = mod.default;
   });
@@ -105,47 +105,47 @@ describe('space usage chart', () => {
     getSpaceUsageChart(
       {
         qs: {
-          host_id: '1'
+          host_id: "1"
         }
       },
-      'target1'
+      "target1"
     );
 
     const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getSpaceUsageChart).toEqual(expect.any(Function));
   });
 
-  it('should dispatch spaceUsageChart to the store', () => {
+  it("should dispatch spaceUsageChart to the store", () => {
     expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-      type: 'DEFAULT_SPACE_USAGE_CHART_ITEMS',
+      type: "DEFAULT_SPACE_USAGE_CHART_ITEMS",
       payload: {
-        page: 'target1',
-        configType: 'duration',
+        page: "target1",
+        configType: "duration",
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         startDate: 1464812942650,
         endDate: 1464812997102
       }
     });
   });
 
-  it('should select the fileUsageChart store', () => {
-    expect(mockGetStore.select).toHaveBeenCalledOnceWith('spaceUsageCharts');
+  it("should select the fileUsageChart store", () => {
+    expect(mockGetStore.select).toHaveBeenCalledOnceWith("spaceUsageCharts");
   });
 
-  it('should call getConf', () => {
-    expect(mockGetConf).toHaveBeenCalledOnceWith('target1');
+  it("should call getConf", () => {
+    expect(mockGetConf).toHaveBeenCalledOnceWith("target1");
   });
 
-  it('should call data$Fn', () => {
+  it("should call data$Fn", () => {
     expect(data$Fn).toHaveBeenCalledOnceWith(
       {
         qs: {
-          host_id: '1'
+          host_id: "1"
         }
       },
       expect.any(Function),
@@ -153,7 +153,7 @@ describe('space usage chart', () => {
     );
   });
 
-  it('should call the chart compiler', () => {
+  it("should call the chart compiler", () => {
     expect(mockChartCompiler).toHaveBeenCalledOnceWith(
       `<div config-toggle>
   <h5>Space Usage</h5>
@@ -180,11 +180,11 @@ describe('space usage chart', () => {
     );
   });
 
-  it('should call getSpaceUsageStream', () => {
+  it("should call getSpaceUsageStream", () => {
     expect(mockGetSpaceUsageStream).toHaveBeenCalledTimes(1);
   });
 
-  describe('config', () => {
+  describe("config", () => {
     let handler, $scope, stream, config;
 
     beforeEach(
@@ -192,22 +192,22 @@ describe('space usage chart', () => {
         handler = mockChartCompiler.mock.calls[0][2];
 
         stream = highland();
-        jest.spyOn(stream, 'destroy');
+        jest.spyOn(stream, "destroy");
         $scope = $rootScope.$new();
 
         config = handler($scope, stream);
       })
     );
 
-    it('should return a config', () => {
+    it("should return a config", () => {
       expect(config).toEqual({
         stream,
-        configType: 'duration',
-        page: '',
+        configType: "duration",
+        page: "",
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         onSubmit: expect.any(Function),
         options: {
           setup: expect.any(Function)
@@ -215,7 +215,7 @@ describe('space usage chart', () => {
       });
     });
 
-    it('should destroy the stream when the chart is destroyed', () => {
+    it("should destroy the stream when the chart is destroyed", () => {
       $scope.$destroy();
 
       expect(stream.destroy).toHaveBeenCalledTimes(1);
@@ -223,7 +223,7 @@ describe('space usage chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('setup', () => {
+    describe("setup", () => {
       let chart, formatter;
 
       beforeEach(() => {
@@ -249,33 +249,33 @@ describe('space usage chart', () => {
         config.options.setup(chart, d3);
       });
 
-      it('should use interactive guideline', () => {
+      it("should use interactive guideline", () => {
         expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should forceY', () => {
+      it("should forceY", () => {
         expect(chart.forceY).toHaveBeenCalledOnceWith([0, 1]);
       });
 
-      it('should set y tick format', () => {
+      it("should set y tick format", () => {
         expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(formatter);
       });
 
-      it('should not show max and min on the x axis', () => {
+      it("should not show max and min on the x axis", () => {
         expect(chart.xAxis.showMaxMin).toHaveBeenCalledOnceWith(false);
       });
 
-      it('should set a color', () => {
-        expect(chart.color).toHaveBeenCalledOnceWith(['#f05b59']);
+      it("should set a color", () => {
+        expect(chart.color).toHaveBeenCalledOnceWith(["#f05b59"]);
       });
 
-      it('should set the chart to area', () => {
+      it("should set the chart to area", () => {
         expect(chart.isArea).toHaveBeenCalledOnceWith(true);
       });
     });
   });
 
-  describe('on submit', () => {
+  describe("on submit", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -289,13 +289,13 @@ describe('space usage chart', () => {
       })
     );
 
-    it('should call durationSubmitHandler', () => {
-      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_SPACE_USAGE_CHART_ITEMS', {
-        page: 'target1'
+    it("should call durationSubmitHandler", () => {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith("UPDATE_SPACE_USAGE_CHART_ITEMS", {
+        page: "target1"
       });
     });
 
-    it('should invoke the submit handler', () => {
+    it("should invoke the submit handler", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });

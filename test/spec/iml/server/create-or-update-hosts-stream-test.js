@@ -1,6 +1,6 @@
-import highland from 'highland';
+import highland from "highland";
 
-describe('create or update hosts stream', () => {
+describe("create or update hosts stream", () => {
   let mockSocketStream, mockCacheInitialData, mockServersToApiObjects, hostStreams, server, spy, resultStream;
 
   beforeEach(() => {
@@ -19,38 +19,38 @@ describe('create or update hosts stream', () => {
     mockCacheInitialData = {
       server_profile: [
         {
-          name: 'default',
-          resource_uri: '/api/server_profile/default/'
+          name: "default",
+          resource_uri: "/api/server_profile/default/"
         }
       ]
     };
 
     mockServersToApiObjects = jest.fn(() => [
       {
-        address: 'storage0.localdomain',
-        auth_type: 'existing_keys_choice'
+        address: "storage0.localdomain",
+        auth_type: "existing_keys_choice"
       },
       {
-        address: 'storage1.localdomain',
-        auth_type: 'existing_keys_choice'
+        address: "storage1.localdomain",
+        auth_type: "existing_keys_choice"
       }
     ]);
 
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/environment.js', () => ({
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+    jest.mock("../../../../source/iml/environment.js", () => ({
       CACHE_INITIAL_DATA: mockCacheInitialData
     }));
-    jest.mock('../../../../source/iml/server/servers-to-api-objects.js', () => mockServersToApiObjects);
+    jest.mock("../../../../source/iml/server/servers-to-api-objects.js", () => mockServersToApiObjects);
 
-    const mod = require('../../../../source/iml/server/create-or-update-hosts-stream.js');
+    const mod = require("../../../../source/iml/server/create-or-update-hosts-stream.js");
 
     const createOrUpdateHostsStream = mod.default;
 
     spy = jest.fn();
 
     server = {
-      auth_type: 'existing_keys_choice',
-      addresses: ['storage0.localdomain', 'storage1.localdomain']
+      auth_type: "existing_keys_choice",
+      addresses: ["storage0.localdomain", "storage1.localdomain"]
     };
 
     resultStream = createOrUpdateHostsStream(server);
@@ -61,15 +61,15 @@ describe('create or update hosts stream', () => {
     jest.useRealTimers();
   });
 
-  it('should call serversToApiObjects', () => {
+  it("should call serversToApiObjects", () => {
     expect(mockServersToApiObjects).toHaveBeenCalledOnceWith(server);
   });
 
-  it('should return a stream', () => {
+  it("should return a stream", () => {
     expect(Object.getPrototypeOf(resultStream)).toBe(Object.getPrototypeOf(highland()));
   });
 
-  describe('just posts', () => {
+  describe("just posts", () => {
     beforeEach(() => {
       hostStreams[0].write({
         objects: []
@@ -79,22 +79,22 @@ describe('create or update hosts stream', () => {
       resultStream.each(spy);
     });
 
-    it('should send a post through the spark', () => {
+    it("should send a post through the spark", () => {
       expect(mockSocketStream).toHaveBeenCalledOnceWith(
-        '/host',
+        "/host",
         {
-          method: 'post',
+          method: "post",
           json: {
             objects: [
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage0.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage0.localdomain",
+                server_profile: "/api/server_profile/default/"
               },
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage1.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage1.localdomain",
+                server_profile: "/api/server_profile/default/"
               }
             ]
           }
@@ -103,11 +103,11 @@ describe('create or update hosts stream', () => {
       );
     });
 
-    it('should only send two calls', () => {
+    it("should only send two calls", () => {
       expect(mockSocketStream).toHaveBeenCalledTimes(2);
     });
 
-    describe('response', () => {
+    describe("response", () => {
       let response;
 
       beforeEach(() => {
@@ -119,7 +119,7 @@ describe('create or update hosts stream', () => {
               },
               host: {
                 id: 1,
-                address: 'storage0.localdomain'
+                address: "storage0.localdomain"
               }
             },
             {
@@ -128,7 +128,7 @@ describe('create or update hosts stream', () => {
               },
               host: {
                 id: 2,
-                address: 'storage1.localdomain'
+                address: "storage1.localdomain"
               }
             }
           ]
@@ -139,18 +139,18 @@ describe('create or update hosts stream', () => {
         jest.runAllTimers();
       });
 
-      it('should resolve with the expected response', () => {
+      it("should resolve with the expected response", () => {
         expect(spy).toHaveBeenCalledOnceWith(response);
       });
     });
   });
 
-  describe('just puts', () => {
+  describe("just puts", () => {
     beforeEach(() => {
       hostStreams[0].write({
         objects: [
-          { address: 'storage0.localdomain', state: 'undeployed' },
-          { address: 'storage1.localdomain', state: 'undeployed' }
+          { address: "storage0.localdomain", state: "undeployed" },
+          { address: "storage1.localdomain", state: "undeployed" }
         ]
       });
       hostStreams[0].write(highland.nil);
@@ -158,22 +158,22 @@ describe('create or update hosts stream', () => {
       resultStream.each(spy);
     });
 
-    it('should send through the stream', () => {
+    it("should send through the stream", () => {
       expect(mockSocketStream).toHaveBeenCalledOnceWith(
-        '/host',
+        "/host",
         {
-          method: 'put',
+          method: "put",
           json: {
             objects: [
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage0.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage0.localdomain",
+                server_profile: "/api/server_profile/default/"
               },
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage1.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage1.localdomain",
+                server_profile: "/api/server_profile/default/"
               }
             ]
           }
@@ -182,42 +182,42 @@ describe('create or update hosts stream', () => {
       );
     });
 
-    it('should only send two calls', () => {
+    it("should only send two calls", () => {
       expect(mockSocketStream).toHaveBeenCalledTimes(2);
     });
 
-    it('should throw an error', () => {
+    it("should throw an error", () => {
       expect(() => {
         hostStreams[1].write({
           __HighlandStreamError__: true,
-          error: new Error('boom!')
+          error: new Error("boom!")
         });
         hostStreams[1].write(highland.nil);
-      }).toThrow('boom!');
+      }).toThrow("boom!");
     });
   });
 
-  describe('posts and puts', () => {
+  describe("posts and puts", () => {
     beforeEach(() => {
       hostStreams[0].write({
-        objects: [{ address: 'storage0.localdomain', state: 'undeployed' }]
+        objects: [{ address: "storage0.localdomain", state: "undeployed" }]
       });
       hostStreams[0].write(highland.nil);
 
       resultStream.each(spy);
     });
 
-    it('should send a post through the spark', () => {
+    it("should send a post through the spark", () => {
       expect(mockSocketStream).toHaveBeenCalledOnceWith(
-        '/host',
+        "/host",
         {
-          method: 'post',
+          method: "post",
           json: {
             objects: [
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage1.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage1.localdomain",
+                server_profile: "/api/server_profile/default/"
               }
             ]
           }
@@ -226,17 +226,17 @@ describe('create or update hosts stream', () => {
       );
     });
 
-    it('should send a put through the spark', () => {
+    it("should send a put through the spark", () => {
       expect(mockSocketStream).toHaveBeenCalledOnceWith(
-        '/host',
+        "/host",
         {
-          method: 'put',
+          method: "put",
           json: {
             objects: [
               {
-                auth_type: 'existing_keys_choice',
-                address: 'storage0.localdomain',
-                server_profile: '/api/server_profile/default/'
+                auth_type: "existing_keys_choice",
+                address: "storage0.localdomain",
+                server_profile: "/api/server_profile/default/"
               }
             ]
           }
@@ -245,16 +245,16 @@ describe('create or update hosts stream', () => {
       );
     });
 
-    it('should create three calls', () => {
+    it("should create three calls", () => {
       expect(mockSocketStream).toHaveBeenCalledTimes(3);
     });
 
-    it('should send the expected response', () => {
+    it("should send the expected response", () => {
       hostStreams[1].write({
         objects: [
           {
             command: { id: 2 },
-            host: { id: 2, address: 'storage1.localdomain' }
+            host: { id: 2, address: "storage1.localdomain" }
           }
         ]
       });
@@ -264,7 +264,7 @@ describe('create or update hosts stream', () => {
         objects: [
           {
             command: { id: 1 },
-            host: { id: 1, address: 'storage0.localdomain' }
+            host: { id: 1, address: "storage0.localdomain" }
           }
         ]
       });
@@ -277,14 +277,14 @@ describe('create or update hosts stream', () => {
             command: { id: 2 },
             host: {
               id: 2,
-              address: 'storage1.localdomain'
+              address: "storage1.localdomain"
             }
           },
           {
             command: { id: 1 },
             host: {
               id: 1,
-              address: 'storage0.localdomain'
+              address: "storage0.localdomain"
             }
           }
         ]
@@ -292,21 +292,21 @@ describe('create or update hosts stream', () => {
     });
   });
 
-  describe('nothing', () => {
+  describe("nothing", () => {
     beforeEach(() => {
       hostStreams[0].write({
-        objects: [{ address: 'storage0.localdomain' }, { address: 'storage1.localdomain' }]
+        objects: [{ address: "storage0.localdomain" }, { address: "storage1.localdomain" }]
       });
       hostStreams[0].write(highland.nil);
 
       resultStream.each(spy);
     });
 
-    it('should only call once', () => {
+    it("should only call once", () => {
       expect(mockSocketStream).toHaveBeenCalledTimes(1);
     });
 
-    it('should resolve with the unused hosts', () => {
+    it("should resolve with the unused hosts", () => {
       expect(spy).toHaveBeenCalledOnceWith({
         objects: [
           {
@@ -314,7 +314,7 @@ describe('create or update hosts stream', () => {
             traceback: null,
             command_and_host: {
               command: false,
-              host: { address: 'storage0.localdomain' }
+              host: { address: "storage0.localdomain" }
             }
           },
           {
@@ -322,7 +322,7 @@ describe('create or update hosts stream', () => {
             traceback: null,
             command_and_host: {
               command: false,
-              host: { address: 'storage1.localdomain' }
+              host: { address: "storage1.localdomain" }
             }
           }
         ]

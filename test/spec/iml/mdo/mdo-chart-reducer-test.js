@@ -2,163 +2,163 @@ import {
   UPDATE_MDO_CHART_ITEMS,
   DEFAULT_MDO_CHART_ITEMS,
   default as mdoChartReducer
-} from '../../../../source/iml/mdo/mdo-chart-reducer.js';
-import deepFreeze from '@iml/deep-freeze';
+} from "../../../../source/iml/mdo/mdo-chart-reducer.js";
+import deepFreeze from "@iml/deep-freeze";
 
-describe('mdo reducer', () => {
-  it('should be a function', () => {
+describe("mdo reducer", () => {
+  it("should be a function", () => {
     expect(mdoChartReducer).toEqual(expect.any(Function));
   });
 
-  describe('matching type', () => {
-    describe('DEFAULT case', () => {
-      describe('without page data', () => {
-        it('should write the intial payload for the page', () => {
+  describe("matching type", () => {
+    describe("DEFAULT case", () => {
+      describe("without page data", () => {
+        it("should write the intial payload for the page", () => {
           expect(
             mdoChartReducer(
               {
                 base: {
-                  configType: 'duration',
-                  startDate: 'startDate',
-                  endDate: 'endDate',
+                  configType: "duration",
+                  startDate: "startDate",
+                  endDate: "endDate",
                   size: 3,
-                  unit: 'hours',
-                  page: 'base'
+                  unit: "hours",
+                  page: "base"
                 }
               },
               {
                 type: DEFAULT_MDO_CHART_ITEMS,
                 payload: {
-                  configType: 'duration',
-                  startDate: 'startDate',
-                  endDate: 'endDate',
+                  configType: "duration",
+                  startDate: "startDate",
+                  endDate: "endDate",
                   size: 15,
-                  unit: 'minutes',
-                  page: 'fs1'
+                  unit: "minutes",
+                  page: "fs1"
                 }
               }
             )
           ).toEqual({
             base: {
-              configType: 'duration',
-              startDate: 'startDate',
-              endDate: 'endDate',
+              configType: "duration",
+              startDate: "startDate",
+              endDate: "endDate",
               size: 3,
-              unit: 'hours',
-              page: 'base'
+              unit: "hours",
+              page: "base"
             },
             fs1: {
-              configType: 'duration',
-              startDate: 'startDate',
-              endDate: 'endDate',
+              configType: "duration",
+              startDate: "startDate",
+              endDate: "endDate",
               size: 15,
-              unit: 'minutes',
-              page: 'fs1'
+              unit: "minutes",
+              page: "fs1"
             }
           });
         });
       });
 
-      describe('with page data', () => {
-        it('should NOT write the payload for the page', () => {
+      describe("with page data", () => {
+        it("should NOT write the payload for the page", () => {
           expect(
             mdoChartReducer(
               {
                 base: {
-                  configType: 'duration',
-                  startDate: 'startDate',
-                  endDate: 'endDate',
+                  configType: "duration",
+                  startDate: "startDate",
+                  endDate: "endDate",
                   size: 3,
-                  unit: 'hours',
-                  page: 'base'
+                  unit: "hours",
+                  page: "base"
                 }
               },
               {
                 type: DEFAULT_MDO_CHART_ITEMS,
                 payload: {
-                  configType: 'duration',
-                  startDate: 'startDate',
-                  endDate: 'endDate',
+                  configType: "duration",
+                  startDate: "startDate",
+                  endDate: "endDate",
                   size: 15,
-                  unit: 'minutes',
-                  page: 'base'
+                  unit: "minutes",
+                  page: "base"
                 }
               }
             )
           ).toEqual({
             base: {
-              configType: 'duration',
-              startDate: 'startDate',
-              endDate: 'endDate',
+              configType: "duration",
+              startDate: "startDate",
+              endDate: "endDate",
               size: 3,
-              unit: 'hours',
-              page: 'base'
+              unit: "hours",
+              page: "base"
             }
           });
         });
       });
     });
 
-    describe('UPDATE case', () => {
-      it('should update the state', () => {
+    describe("UPDATE case", () => {
+      it("should update the state", () => {
         expect(
           mdoChartReducer(
             {
-              '': {
-                configType: 'range',
-                startDate: 'startDate',
-                endDate: 'endDate',
+              "": {
+                configType: "range",
+                startDate: "startDate",
+                endDate: "endDate",
                 size: 10,
-                unit: 'minutes',
-                page: ''
+                unit: "minutes",
+                page: ""
               },
               target8: {
-                configType: 'duration',
-                startDate: 'startDate',
-                endDate: 'endDate',
+                configType: "duration",
+                startDate: "startDate",
+                endDate: "endDate",
                 size: 3,
-                unit: 'hours',
-                page: 'target8'
+                unit: "hours",
+                page: "target8"
               }
             },
             {
               type: UPDATE_MDO_CHART_ITEMS,
               payload: {
-                configType: 'duration',
+                configType: "duration",
                 size: 15,
-                unit: 'minutes',
-                page: 'target8'
+                unit: "minutes",
+                page: "target8"
               }
             }
           )
         ).toEqual({
-          '': {
-            configType: 'range',
-            startDate: 'startDate',
-            endDate: 'endDate',
+          "": {
+            configType: "range",
+            startDate: "startDate",
+            endDate: "endDate",
             size: 10,
-            unit: 'minutes',
-            page: ''
+            unit: "minutes",
+            page: ""
           },
           target8: {
-            configType: 'duration',
-            startDate: 'startDate',
-            endDate: 'endDate',
+            configType: "duration",
+            startDate: "startDate",
+            endDate: "endDate",
             size: 15,
-            unit: 'minutes',
-            page: 'target8'
+            unit: "minutes",
+            page: "target8"
           }
         });
       });
     });
   });
 
-  describe('non-matching type', () => {
-    it('should return the state', () => {
+  describe("non-matching type", () => {
+    it("should return the state", () => {
       expect(
         mdoChartReducer(deepFreeze([]), {
-          type: 'ADD_ALERT_INDICATOR_ITEMS',
-          payload: { key: 'val' }
+          type: "ADD_ALERT_INDICATOR_ITEMS",
+          payload: { key: "val" }
         })
       ).toEqual([]);
     });

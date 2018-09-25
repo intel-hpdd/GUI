@@ -1,6 +1,6 @@
-import qsStreamFactory from '../../../../source/iml/qs-stream/qs-stream.js';
+import qsStreamFactory from "../../../../source/iml/qs-stream/qs-stream.js";
 
-describe('qs stream', () => {
+describe("qs stream", () => {
   let $transitions, qsFromLocation, spy, qsStream, destructor;
 
   beforeEach(() => {
@@ -14,47 +14,47 @@ describe('qs stream', () => {
 
     qsFromLocation = jest.fn(obj => {
       return Object.keys(obj).reduce((str, key) => {
-        str = str === '' ? str : str + '&';
-        str += key + '=' + obj[key];
+        str = str === "" ? str : str + "&";
+        str += key + "=" + obj[key];
         return str;
-      }, '');
+      }, "");
     });
 
     qsStream = qsStreamFactory($transitions, qsFromLocation);
   });
 
-  it('should be a function', () => {
+  it("should be a function", () => {
     expect(qsStream).toEqual(expect.any(Function));
   });
 
-  it('should deregister the listener on stream destruction', () => {
+  it("should deregister the listener on stream destruction", () => {
     qsStream({}).destroy();
 
     expect(destructor).toHaveBeenCalledTimes(1);
   });
 
-  describe('invoking', () => {
+  describe("invoking", () => {
     let fn;
 
     beforeEach(() => {
-      qsStream({ foo: 'bar', baz: 'bap' }).each(spy);
+      qsStream({ foo: "bar", baz: "bap" }).each(spy);
 
       fn = $transitions.onSuccess.mock.calls[0][1];
     });
 
-    it('should push a qs on the stream', () => {
+    it("should push a qs on the stream", () => {
       expect(spy).toHaveBeenCalledOnceWith({
-        qs: 'foo=bar&baz=bap'
+        qs: "foo=bar&baz=bap"
       });
     });
 
-    it('should push a new qs onSuccess', () => {
+    it("should push a new qs onSuccess", () => {
       fn({
-        params: jest.fn(() => ({ foo: 'baz' }))
+        params: jest.fn(() => ({ foo: "baz" }))
       });
 
       expect(spy).toHaveBeenCalledOnceWith({
-        qs: 'foo=baz'
+        qs: "foo=baz"
       });
     });
   });

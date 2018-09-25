@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { diffComponentCtrl } from './diff-component';
+import type { diffComponentCtrl } from "./diff-component";
 
 export default {
   bindings: {
-    onMessage: '&'
+    onMessage: "&"
   },
   require: {
-    diffCtrl: '^differ'
+    diffCtrl: "^differ"
   },
   controller: class {
     diffCtrl: diffComponentCtrl;

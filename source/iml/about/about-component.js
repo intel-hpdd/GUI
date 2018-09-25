@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import { IS_RELEASE, VERSION, BUILD, HELP_TEXT } from '../environment.js';
+import Inferno from "inferno";
+import { IS_RELEASE, VERSION, BUILD, HELP_TEXT } from "../environment.js";
 
 function AboutComponent() {
   return (
@@ -38,7 +38,7 @@ function AboutComponent() {
 export default {
   bindings: {},
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
     Inferno.render(<AboutComponent />, $element[0]);
   }
 };

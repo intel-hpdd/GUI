@@ -5,17 +5,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { HighlandStreamT } from 'highland';
-import type { Column, Attribute, StorageResourceClass, StorageResourceResponse } from './storage-types.js';
+import type { HighlandStreamT } from "highland";
+import type { Column, Attribute, StorageResourceClass, StorageResourceResponse } from "./storage-types.js";
 
-import store from '../store/get-store.js';
-import { UI_ROOT } from '../environment.js';
-import { entries } from '@iml/obj';
-import Inferno, { linkEvent } from 'inferno';
-import AlertIndicator from '../alert-indicator/alert-indicator.js';
-import extractApiId from '@iml/extract-api';
-import { TableInfo, EntriesDropdown, Pager } from '../pagination-components.js';
-import { setStorageConfig } from './storage-actions.js';
+import store from "../store/get-store.js";
+import { UI_ROOT } from "../environment.js";
+import { entries } from "@iml/obj";
+import Inferno, { linkEvent } from "inferno";
+import AlertIndicator from "../alert-indicator/alert-indicator.js";
+import extractApiId from "@iml/extract-api";
+import { TableInfo, EntriesDropdown, Pager } from "../pagination-components.js";
+import { setStorageConfig } from "./storage-actions.js";
 
 type SortedAttribute = {
   ...Attribute,
@@ -35,7 +35,7 @@ const sortedAttributes = (columns: Column[], attributes: { [string]: Attribute }
   }, []);
 
 export const StorageAttribute = ({ attribute }: { attribute: SortedAttribute }) => {
-  if (attribute.class === 'ResourceReference') {
+  if (attribute.class === "ResourceReference") {
     if (!attribute.raw) return;
 
     const id = extractApiId(attribute.raw);
@@ -58,9 +58,9 @@ const setOffset = offset => {
 };
 
 const ascDesc = (name, sortKey, sortDesc) => {
-  if (name !== sortKey) return '';
+  if (name !== sortKey) return "";
 
-  return sortDesc ? 'fa-sort-desc' : 'fa-sort-asc';
+  return sortDesc ? "fa-sort-desc" : "fa-sort-asc";
 };
 
 export const ResourceTable = ({
@@ -96,7 +96,7 @@ export const ResourceTable = ({
 
   return (
     <div class="resource-table">
-      <div style={{ 'margin-bottom': '25px' }}>
+      <div style={{ "margin-bottom": "25px" }}>
         <EntriesDropdown entries={entries} setEntries={setEntries} />
       </div>
       <table class="table">
@@ -133,7 +133,7 @@ export const ResourceTable = ({
       <div class="text-center">
         <Pager meta={resources.meta} setOffset={setOffset} />
       </div>
-      <div class="text-center" style={{ color: '#999' }}>
+      <div class="text-center" style={{ color: "#999" }}>
         <TableInfo meta={resources.meta} />
       </div>
     </div>

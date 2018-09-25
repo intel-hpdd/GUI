@@ -3,21 +3,21 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
 export default $cacheFactory => {
-  'ngInject';
-  const cache = $cacheFactory('pathMaxLength', { number: 1024 });
+  "ngInject";
+  const cache = $cacheFactory("pathMaxLength", { number: 1024 });
 
   function splitUp(path) {
-    const components = { leadingSlash: '' };
+    const components = { leadingSlash: "" };
 
-    if (path.charAt(0) === '/') {
-      components.leadingSlash = '/';
+    if (path.charAt(0) === "/") {
+      components.leadingSlash = "/";
       path = path.slice(1);
     }
 
-    components.parts = path.split('/');
+    components.parts = path.split("/");
     components.filename = components.parts.splice(-1, 1);
 
     return components;
@@ -28,10 +28,10 @@ export default $cacheFactory => {
     const parts = pathComponents.parts;
     let pointer = Math.ceil(parts.length / 2) - (parts.length % 2 === 1 ? 1 : 0);
 
-    parts[pointer] = '...';
+    parts[pointer] = "...";
 
     while (1) {
-      path = `${pathComponents.leadingSlash}${parts.join('/')}/${pathComponents.filename}`;
+      path = `${pathComponents.leadingSlash}${parts.join("/")}/${pathComponents.filename}`;
 
       if (path.length <= maxLength || parts.length === 1) break;
 
@@ -60,7 +60,7 @@ export default $cacheFactory => {
     if (pathComponents.parts.length > 0) path = reducePath(pathComponents, maxLength);
 
     // catchall if the filename alone puts us over the length limit
-    if (path.length > maxLength) path = '...';
+    if (path.length > maxLength) path = "...";
 
     return cache.put(cacheKey, path);
   };

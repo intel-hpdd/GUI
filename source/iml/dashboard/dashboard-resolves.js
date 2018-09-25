@@ -3,17 +3,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
-import broadcaster from '../broadcaster.js';
+import store from "../store/get-store.js";
+import broadcaster from "../broadcaster.js";
 
 export const dashboardFsB = () => {
-  return broadcaster(store.select('fileSystems'));
+  return broadcaster(store.select("fileSystems"));
 };
 
 export const dashboardHostB = () => {
-  return broadcaster(store.select('server'));
+  return broadcaster(store.select("server"));
 };
 
 export const dashboardTargetB = () => {
-  return broadcaster(store.select('targets'));
+  return broadcaster(store.select("targets"));
 };

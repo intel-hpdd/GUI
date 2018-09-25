@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('command modal', () => {
+describe("command modal", () => {
   let CommandModalCtrl, $uibModal, stream;
 
   beforeEach(() => {
@@ -11,14 +11,14 @@ describe('command modal', () => {
 
     stream = jest.fn();
 
-    const mod = require('../../../../source/iml/command/command-modal-ctrl.js');
+    const mod = require("../../../../source/iml/command/command-modal-ctrl.js");
 
     mod.openCommandModalFactory($uibModal)(stream);
     CommandModalCtrl = mod.CommandModalCtrl;
   });
 
-  describe('open command modal', () => {
-    it('should open the modal', () => {
+  describe("open command modal", () => {
+    it("should open the modal", () => {
       expect($uibModal.open).toHaveBeenCalledOnceWith({
         template: `<div class="modal-header">
   <h3 class="modal-title">Commands</h3>
@@ -67,18 +67,18 @@ describe('command modal', () => {
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-        controller: 'CommandModalCtrl',
-        controllerAs: 'commandModal',
-        windowClass: 'command-modal',
-        backdrop: 'static',
-        backdropClass: 'command-modal-backdrop',
+        controller: "CommandModalCtrl",
+        controllerAs: "commandModal",
+        windowClass: "command-modal",
+        backdrop: "static",
+        backdropClass: "command-modal-backdrop",
         resolve: {
           commandsStream: expect.any(Function)
         }
       });
     });
 
-    describe('commands', () => {
+    describe("commands", () => {
       let handle, commandStream;
 
       beforeEach(() => {
@@ -86,13 +86,13 @@ describe('command modal', () => {
         commandStream = handle();
       });
 
-      it('should provide a command stream', () => {
+      it("should provide a command stream", () => {
         expect(commandStream).toEqual(stream);
       });
     });
   });
 
-  describe('ctrl', () => {
+  describe("ctrl", () => {
     let commandsStream, commandModal;
 
     beforeEach(
@@ -103,7 +103,7 @@ describe('command modal', () => {
       })
     );
 
-    it('should open the first accordion', () => {
+    it("should open the first accordion", () => {
       expect(commandModal.accordion0).toBe(true);
     });
 
@@ -134,19 +134,19 @@ describe('command modal', () => {
       });
     });
 
-    it('should trim logs', () => {
+    it("should trim logs", () => {
       commandsStream.write(
         wrap({
-          logs: '    '
+          logs: "    "
         })
       );
 
       expect(commandModal.commands).toEqual([
         {
           id: 1,
-          logs: '',
+          logs: "",
           jobs: [],
-          state: 'pending'
+          state: "pending"
         }
       ]);
     });
@@ -158,7 +158,7 @@ describe('command modal', () => {
         return Object.assign(
           {
             id: index + 1,
-            logs: '',
+            logs: "",
             jobs: []
           },
           command

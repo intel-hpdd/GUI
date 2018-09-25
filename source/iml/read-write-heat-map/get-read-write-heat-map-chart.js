@@ -5,39 +5,39 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import flatMapChanges from '@iml/flat-map-changes';
-import getReadWriteHeatMapStream from './get-read-write-heat-map-stream.js';
-import { formatNumber, formatBytes } from '@iml/number-formatters';
-import durationPayload from '../duration-picker/duration-payload.js';
-import getStore from '../store/get-store.js';
-import durationSubmitHandler from '../duration-picker/duration-submit-handler.js';
-import chartCompiler from '../chart-compiler/chart-compiler.js';
+import * as fp from "@iml/fp";
+import flatMapChanges from "@iml/flat-map-changes";
+import getReadWriteHeatMapStream from "./get-read-write-heat-map-stream.js";
+import { formatNumber, formatBytes } from "@iml/number-formatters";
+import durationPayload from "../duration-picker/duration-payload.js";
+import getStore from "../store/get-store.js";
+import durationSubmitHandler from "../duration-picker/duration-submit-handler.js";
+import chartCompiler from "../chart-compiler/chart-compiler.js";
 
-import { values } from '@iml/obj';
+import { values } from "@iml/obj";
 
-import { getConf } from '../chart-transformers/chart-transformers.js';
+import { getConf } from "../chart-transformers/chart-transformers.js";
 
 import {
   DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
   UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS
-} from '../read-write-heat-map/read-write-heat-map-chart-reducer.js';
+} from "../read-write-heat-map/read-write-heat-map-chart-reducer.js";
 
-import { SERVER_TIME_DIFF } from '../environment.js';
+import { SERVER_TIME_DIFF } from "../environment.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { localApplyT } from '../extend-scope-module.js';
+import type { localApplyT } from "../extend-scope-module.js";
 
-import type { readWriteHeatMapTypesT, heatMapDurationPayloadT } from './read-write-heat-map-module.js';
+import type { readWriteHeatMapTypesT, heatMapDurationPayloadT } from "./read-write-heat-map-module.js";
 
-import type { filesystemQueryT, targetQueryT } from '../dashboard/dashboard-module.js';
+import type { filesystemQueryT, targetQueryT } from "../dashboard/dashboard-module.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { StateServiceT } from 'angular-ui-router';
+import type { StateServiceT } from "angular-ui-router";
 
-import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from "../stream-when-visible/stream-when-visible-module.js";
 
 export default (
   $state: StateServiceT,
@@ -45,20 +45,20 @@ export default (
   readWriteHeatMapTypes: readWriteHeatMapTypesT,
   streamWhenVisible: streamWhenChartVisibleT
 ) => {
-  'ngInject';
-  const dataLens = fp.view(fp.lensProp('data'));
+  "ngInject";
+  const dataLens = fp.view(fp.lensProp("data"));
   const maxMillisecondsDiff = 30000;
 
   return function getReadWriteHeatMapChart(overrides: filesystemQueryT | targetQueryT, page: string) {
     getStore.dispatch({
       type: DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS,
       payload: durationPayload({
-        dataType: 'stats_read_bytes',
+        dataType: "stats_read_bytes",
         page
       })
     });
 
-    const config1$ = getStore.select('readWriteHeatMapCharts');
+    const config1$ = getStore.select("readWriteHeatMapCharts");
 
     const initStream = config1$.through(getConf(page)).through(
       flatMapChanges.bind(null, (x: heatMapDurationPayloadT) =>
@@ -68,8 +68,8 @@ export default (
               ...overrides,
               qs: { ...overrides.qs, metrics: x.dataType }
             },
-            x.configType === 'duration' ? x : undefined,
-            x.configType === 'range' ? x : undefined,
+            x.configType === "duration" ? x : undefined,
+            x.configType === "range" ? x : undefined,
             SERVER_TIME_DIFF
           )
         )
@@ -107,20 +107,20 @@ export default (
         const conf = {
           stream,
           TYPES: values(readWriteHeatMapTypes),
-          configType: '',
-          page: '',
-          dataType: '',
-          startDate: '',
-          endDate: '',
+          configType: "",
+          page: "",
+          dataType: "",
+          startDate: "",
+          endDate: "",
           size: 1,
-          unit: '',
+          unit: "",
           toReadableType(type) {
             const readable = type
-              .split('_')
+              .split("_")
               .splice(1)
-              .join(' ')
-              .replace('bytes', 'Byte/s')
-              .replace('iops', 'IOPS');
+              .join(" ")
+              .replace("bytes", "Byte/s")
+              .replace("iops", "IOPS");
 
             return readable.charAt(0).toUpperCase() + readable.slice(1);
           },
@@ -133,7 +133,7 @@ export default (
                 right: 50
               });
 
-              d3Chart.dispatch.on('click', function onClick(points) {
+              d3Chart.dispatch.on("click", function onClick(points) {
                 let sDate = new Date(points.current.ts);
                 const eDate = points.next ? new Date(points.next.ts) : new Date();
                 const dateDiff = eDate.getTime() - sDate.getTime();
@@ -147,7 +147,7 @@ export default (
                 const endDate = eDate.toISOString();
 
                 $scope.$apply(function applyLocationChange() {
-                  $state.go('app.jobstats', {
+                  $state.go("app.jobstats", {
                     id: points.current.id,
                     startDate,
                     endDate
@@ -177,13 +177,13 @@ export default (
           }
         };
 
-        const config2$ = getStore.select('readWriteHeatMapCharts');
+        const config2$ = getStore.select("readWriteHeatMapCharts");
         config2$.through(getConf(page)).each((x: heatMapDurationPayloadT) => {
           Object.assign(conf, x);
           localApply($scope);
         });
 
-        $scope.$on('$destroy', () => {
+        $scope.$on("$destroy", () => {
           stream.destroy();
           config1$.destroy();
           config2$.destroy();
@@ -195,15 +195,15 @@ export default (
   };
 
   function getFormatter(type) {
-    const dataType = type.split('_').pop();
+    const dataType = type.split("_").pop();
 
-    if (dataType === 'bytes')
+    if (dataType === "bytes")
       return function(z) {
-        return formatBytes(z, 3) + '/s';
+        return formatBytes(z, 3) + "/s";
       };
-    else if (dataType === 'iops')
+    else if (dataType === "iops")
       return function(z) {
-        return formatNumber(z, 2, true) + ' IOPS';
+        return formatNumber(z, 2, true) + " IOPS";
       };
   }
 };

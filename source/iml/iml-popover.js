@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
 export default (position, $timeout, $window, $compile) => {
-  'ngInject';
+  "ngInject";
   const template =
     '<div class="popover fade {{ placement }}" ng-class="{in: open}">\
   <div class="arrow"></div>\
@@ -15,24 +15,24 @@ export default (position, $timeout, $window, $compile) => {
   </div>';
 
   return {
-    restrict: 'E',
+    restrict: "E",
     transclude: true,
     scope: {
-      placement: '@',
-      title: '@',
-      work: '&',
-      onToggle: '&'
+      placement: "@",
+      title: "@",
+      work: "&",
+      onToggle: "&"
     },
     link: function link(scope, el, attrs, ctrl, $transclude) {
       let popoverLinker = $compile(template);
 
       let popoverButton = angular.element(
-        Array.from(el[0].parentNode.children).filter(x => x.classList.contains('activate-popover'))[0]
+        Array.from(el[0].parentNode.children).filter(x => x.classList.contains("activate-popover"))[0]
       );
 
       let wrappedWindow = angular.element($window);
 
-      if (!popoverButton) throw new Error('No popover button found.');
+      if (!popoverButton) throw new Error("No popover button found.");
 
       scope.open = false;
 
@@ -43,7 +43,7 @@ export default (position, $timeout, $window, $compile) => {
         }
       });
 
-      popoverButton.on('click', function handleClick($event) {
+      popoverButton.on("click", function handleClick($event) {
         // Close any other popovers that are currently open
         if (!scope.open) document.body.click();
 
@@ -51,9 +51,9 @@ export default (position, $timeout, $window, $compile) => {
         scope.$digest();
       });
 
-      scope.$on('$destroy', function onDestroy() {
-        popoverButton.off('click');
-        wrappedWindow.off('click', digestAndHide);
+      scope.$on("$destroy", function onDestroy() {
+        popoverButton.off("click");
+        wrappedWindow.off("click", digestAndHide);
         wrappedWindow = popoverButton = popoverLinker = null;
 
         destroyPopover();
@@ -68,22 +68,22 @@ export default (position, $timeout, $window, $compile) => {
 
           positioner = position.positioner(popoverEl[0]);
 
-          angular.element(popoverEl[0].querySelector('.popover-content')).append(clone);
+          angular.element(popoverEl[0].querySelector(".popover-content")).append(clone);
 
-          popoverEl.on('click', function handleClick($event) {
+          popoverEl.on("click", function handleClick($event) {
             $event.stopPropagation();
           });
 
           el[0].parentElement.insertBefore(popoverEl[0], el[0]);
 
           scope.onToggle({
-            state: 'opened'
+            state: "opened"
           });
 
           $timeout(
             function showAndRecalculate() {
               transcludedScope.$parent.$digest();
-              popoverEl.css('display', 'block');
+              popoverEl.css("display", "block");
 
               if (scope.placement) recalculate();
 
@@ -98,11 +98,11 @@ export default (position, $timeout, $window, $compile) => {
 
       function destroyPopover() {
         scope.onToggle({
-          state: 'closed'
+          state: "closed"
         });
 
         if (popoverEl) {
-          popoverEl.off('click');
+          popoverEl.off("click");
           popoverEl.remove();
           popoverEl = null;
         }
@@ -124,7 +124,7 @@ export default (position, $timeout, $window, $compile) => {
           hide();
         } else {
           createPopover();
-          wrappedWindow.on('click', digestAndHide);
+          wrappedWindow.on("click", digestAndHide);
         }
       }
 
@@ -141,7 +141,7 @@ export default (position, $timeout, $window, $compile) => {
 
         $timeout(destroyPopover, 500);
 
-        wrappedWindow.off('click', digestAndHide);
+        wrappedWindow.off("click", digestAndHide);
       }
 
       /**
@@ -150,7 +150,7 @@ export default (position, $timeout, $window, $compile) => {
       function recalculate() {
         if (!popoverEl) return;
 
-        popoverEl.css('min-width', '');
+        popoverEl.css("min-width", "");
         popoverEl.css(position.position(scope.placement, positioner));
       }
     }

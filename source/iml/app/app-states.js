@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export const appState = {
-  name: 'app',
-  url: '',
-  redirectTo: 'app.dashboard.overview',
-  controller: 'AppCtrl',
-  controllerAs: 'app',
+  name: "app",
+  url: "",
+  redirectTo: "app.dashboard.overview",
+  controller: "AppCtrl",
+  controllerAs: "app",
   template: `<notification-slider stream="app.alertStream"></notification-slider>
 <root-panel>
 <nav class="navbar navbar-inverse" role="navigation">
@@ -97,8 +97,8 @@ export const appState = {
 </panels>
 </root-panel>`,
   resolve: {
-    alertStream: ['appAlertStream', (x: Function) => x()],
-    notificationStream: ['appNotificationStream', (x: Function) => x()],
-    session: ['appSession', fp.identity]
+    alertStream: ["appAlertStream", (x: Function) => x()],
+    notificationStream: ["appNotificationStream", (x: Function) => x()],
+    session: ["appSession", fp.identity]
   }
 };

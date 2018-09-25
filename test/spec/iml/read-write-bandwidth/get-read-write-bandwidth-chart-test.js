@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('Read Write Bandwidth chart', () => {
+describe("Read Write Bandwidth chart", () => {
   let mockChartCompiler,
     mockGetReadWriteBandwidthStream,
     selectStoreCount,
@@ -23,9 +23,9 @@ describe('Read Write Bandwidth chart', () => {
     mockGetReadWriteBandwidthStream = {};
 
     standardConfig = {
-      configType: 'duration',
+      configType: "duration",
       size: 10,
-      unit: 'minutes',
+      unit: "minutes",
       startDate: 1464812942650,
       endDate: 1464812997102
     };
@@ -35,13 +35,13 @@ describe('Read Write Bandwidth chart', () => {
         readWriteBandwidthChart: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         readWriteBandwidthChart: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -75,23 +75,23 @@ describe('Read Write Bandwidth chart', () => {
     mockChartCompiler = jest.fn();
 
     jest.mock(
-      '../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js',
+      "../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-stream.js",
       () => mockGetReadWriteBandwidthStream
     );
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/duration-picker/duration-payload.js', () => mockDurationPayload);
-    jest.mock('../../../../source/iml/duration-picker/duration-submit-handler.js', () => mockDurationSubmitHandler);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/duration-picker/duration-payload.js", () => mockDurationPayload);
+    jest.mock("../../../../source/iml/duration-picker/duration-submit-handler.js", () => mockDurationSubmitHandler);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({
       getConf: mockGetConf
     }));
 
-    mod = require('../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js');
+    mod = require("../../../../source/iml/read-write-bandwidth/get-read-write-bandwidth-chart.js");
   });
 
   beforeEach(() => {
     initStream = highland();
-    jest.spyOn(initStream, 'destroy');
+    jest.spyOn(initStream, "destroy");
 
     data$Fn = jest.fn(() => initStream);
 
@@ -100,52 +100,52 @@ describe('Read Write Bandwidth chart', () => {
     getReadWriteBandwidthChart = mod.default(data$Fn, localApply);
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getReadWriteBandwidthChart).toEqual(expect.any(Function));
   });
 
-  describe('for page readWriteBandwidthChart', () => {
+  describe("for page readWriteBandwidthChart", () => {
     beforeEach(() => {
       getReadWriteBandwidthChart(
         {
           qs: {
-            host_id: '1'
+            host_id: "1"
           }
         },
-        'readWriteBandwidthChart'
+        "readWriteBandwidthChart"
       );
 
       const s = mockChartCompiler.mock.calls[0][1];
       s.each(() => {});
     });
 
-    it('should dispatch readWriteBandwidthChart to the store', () => {
+    it("should dispatch readWriteBandwidthChart to the store", () => {
       expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-        type: 'DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS',
+        type: "DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS",
         payload: {
-          page: 'readWriteBandwidthChart',
-          configType: 'duration',
+          page: "readWriteBandwidthChart",
+          configType: "duration",
           size: 10,
-          unit: 'minutes',
+          unit: "minutes",
           startDate: 1464812942650,
           endDate: 1464812997102
         }
       });
     });
 
-    it('should select the readWriteBandwidthChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledOnceWith('readWriteBandwidthCharts');
+    it("should select the readWriteBandwidthChart store", () => {
+      expect(mockGetStore.select).toHaveBeenCalledOnceWith("readWriteBandwidthCharts");
     });
 
-    it('should call getConf', () => {
-      expect(mockGetConf).toHaveBeenCalledOnceWith('readWriteBandwidthChart');
+    it("should call getConf", () => {
+      expect(mockGetConf).toHaveBeenCalledOnceWith("readWriteBandwidthChart");
     });
 
-    it('should call data$Fn', () => {
+    it("should call data$Fn", () => {
       expect(data$Fn).toHaveBeenCalledOnceWith(
         {
           qs: {
-            host_id: '1'
+            host_id: "1"
           }
         },
         expect.any(Function),
@@ -153,7 +153,7 @@ describe('Read Write Bandwidth chart', () => {
       );
     });
 
-    it('should call the chart compiler', () => {
+    it("should call the chart compiler", () => {
       expect(mockChartCompiler).toHaveBeenCalledOnceWith(
         `<div config-toggle>
   <h5>Read/Write Bandwidth</h5>
@@ -181,7 +181,7 @@ describe('Read Write Bandwidth chart', () => {
     });
   });
 
-  describe('setup', () => {
+  describe("setup", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -189,10 +189,10 @@ describe('Read Write Bandwidth chart', () => {
         getReadWriteBandwidthChart(
           {
             qs: {
-              host_id: '1'
+              host_id: "1"
             }
           },
-          'readWriteBandwidthChart'
+          "readWriteBandwidthChart"
         );
 
         handler = mockChartCompiler.mock.calls[0][2];
@@ -202,15 +202,15 @@ describe('Read Write Bandwidth chart', () => {
       })
     );
 
-    it('should return a config', () => {
+    it("should return a config", () => {
       expect(config).toEqual({
         stream: initStream,
-        configType: 'duration',
-        page: '',
+        configType: "duration",
+        page: "",
         startDate: 1464812942650,
         endDate: 1464812997102,
         size: 10,
-        unit: 'minutes',
+        unit: "minutes",
         onSubmit: submitHandler,
         options: {
           setup: expect.any(Function)
@@ -218,19 +218,19 @@ describe('Read Write Bandwidth chart', () => {
       });
     });
 
-    it('should select the readWriteBandwidthChart store', () => {
-      expect(mockGetStore.select).toHaveBeenCalledTwiceWith('readWriteBandwidthCharts');
+    it("should select the readWriteBandwidthChart store", () => {
+      expect(mockGetStore.select).toHaveBeenCalledTwiceWith("readWriteBandwidthCharts");
     });
 
-    it('should call getConf', () => {
-      expect(mockGetConf).toHaveBeenCalledTwiceWith('readWriteBandwidthChart');
+    it("should call getConf", () => {
+      expect(mockGetConf).toHaveBeenCalledTwiceWith("readWriteBandwidthChart");
     });
 
-    it('should call localApply', () => {
+    it("should call localApply", () => {
       expect(localApply).toHaveBeenCalledOnceWith($scope);
     });
 
-    it('should destroy the stream when the chart is destroyed', () => {
+    it("should destroy the stream when the chart is destroyed", () => {
       $scope.$destroy();
 
       expect(initStream.destroy).toHaveBeenCalled();
@@ -238,7 +238,7 @@ describe('Read Write Bandwidth chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('chart', () => {
+    describe("chart", () => {
       let chart;
 
       beforeEach(() => {
@@ -257,29 +257,29 @@ describe('Read Write Bandwidth chart', () => {
         config.options.setup(chart);
       });
 
-      it('should use interactive guideline', () => {
+      it("should use interactive guideline", () => {
         expect(chart.useInteractiveGuideline).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should set y tick format', () => {
+      it("should set y tick format", () => {
         expect(chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(expect.any(Function));
       });
 
-      it('should set colors', () => {
-        expect(chart.color).toHaveBeenCalledOnceWith(['#0067B4', '#E17200']);
+      it("should set colors", () => {
+        expect(chart.color).toHaveBeenCalledOnceWith(["#0067B4", "#E17200"]);
       });
 
-      it('should use the area style', () => {
+      it("should use the area style", () => {
         expect(chart.isArea).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should not show max or min on the x axis', () => {
+      it("should not show max or min on the x axis", () => {
         expect(chart.xAxis.showMaxMin).toHaveBeenCalledOnceWith(false);
       });
     });
   });
 
-  describe('on submit', () => {
+  describe("on submit", () => {
     let handler, $scope, config;
 
     beforeEach(
@@ -287,10 +287,10 @@ describe('Read Write Bandwidth chart', () => {
         getReadWriteBandwidthChart(
           {
             qs: {
-              host_id: '1'
+              host_id: "1"
             }
           },
-          'readWriteBandwidthChart'
+          "readWriteBandwidthChart"
         );
 
         handler = mockChartCompiler.mock.calls[0][2];
@@ -302,13 +302,13 @@ describe('Read Write Bandwidth chart', () => {
       })
     );
 
-    it('should call durationSubmitHandler', () => {
-      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith('UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS', {
-        page: 'readWriteBandwidthChart'
+    it("should call durationSubmitHandler", () => {
+      expect(mockDurationSubmitHandler).toHaveBeenCalledOnceWith("UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS", {
+        page: "readWriteBandwidthChart"
       });
     });
 
-    it('should invoke the submit handler', () => {
+    it("should invoke the submit handler", () => {
       expect(submitHandler).toHaveBeenCalledTimes(1);
     });
   });

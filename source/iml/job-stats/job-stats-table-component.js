@@ -5,17 +5,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from '../store/get-store.js';
+import store from "../store/get-store.js";
 
-import { setDuration, setSort } from './job-stats-actions.js';
+import { setDuration, setSort } from "./job-stats-actions.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { StateServiceT } from 'angular-ui-router';
+import type { StateServiceT } from "angular-ui-router";
 
-import type { localApplyT } from '../extend-scope-module.js';
+import type { localApplyT } from "../extend-scope-module.js";
 
 type jobStatsConfigT = {
   duration: number,
@@ -25,7 +25,7 @@ type jobStatsConfigT = {
 
 export default {
   bindings: {
-    stats$: '<'
+    stats$: "<"
   },
   controller: function(
     $state: StateServiceT,
@@ -33,7 +33,7 @@ export default {
     $scope: $scopeT,
     localApply: localApplyT<*>
   ) {
-    'ngInject';
+    "ngInject";
     type T = jobStatsConfigT & {
       noId: boolean,
       setDuration: (d: number) => void,
@@ -51,15 +51,15 @@ export default {
       setDuration(duration: number) {
         store.dispatch(setDuration(duration));
 
-        $state.reload('app.jobstats');
+        $state.reload("app.jobstats");
       },
       shouldShow(name: string, isDesc: boolean) {
         return that.orderBy === name && that.desc === isDesc;
       },
       getClass(name: string): string {
-        if (name !== that.orderBy) return '';
-        else if (that.desc) return 'fa-sort-desc';
-        else return 'fa-sort-asc';
+        if (name !== that.orderBy) return "";
+        else if (that.desc) return "fa-sort-desc";
+        else return "fa-sort-asc";
       },
       sortProp(name: string) {
         if (name === that.orderBy) store.dispatch(setSort(name, !that.desc));
@@ -71,7 +71,7 @@ export default {
       }
     });
 
-    const config$: HighlandStreamT<jobStatsConfigT> = store.select('jobStatsConfig');
+    const config$: HighlandStreamT<jobStatsConfigT> = store.select("jobStatsConfig");
 
     config$.each(c => {
       Object.assign(that, c);

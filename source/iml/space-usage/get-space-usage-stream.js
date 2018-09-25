@@ -3,23 +3,23 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import highland from 'highland';
-import removeDups from '../charting/remove-dups.js';
-import toNvd3 from '../charting/to-nvd3.js';
+import socketStream from "../socket/socket-stream.js";
+import highland from "highland";
+import removeDups from "../charting/remove-dups.js";
+import toNvd3 from "../charting/to-nvd3.js";
 
 export default (requestRange, buff) => {
   const s = highland((push, next) => {
     const params = requestRange({
       qs: {
-        metrics: 'kbytestotal,kbytesfree',
-        reduce_fn: 'average'
+        metrics: "kbytestotal,kbytesfree",
+        reduce_fn: "average"
       }
     });
 
-    const key = 'Space Used';
+    const key = "Space Used";
 
-    socketStream('/target/metric', params, true)
+    socketStream("/target/metric", params, true)
       .flatten()
       .tap(function calculateCpuAndRam(x) {
         x.data[key] = (x.data.kbytestotal - x.data.kbytesfree) / x.data.kbytestotal;

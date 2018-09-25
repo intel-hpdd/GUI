@@ -5,15 +5,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { HighlandStreamT } from 'highland';
-import type { State } from './storage-reducer.js';
+import type { HighlandStreamT } from "highland";
+import type { State } from "./storage-reducer.js";
 
-import TableFilter from './table-filter.js';
-import Inferno from 'inferno';
-import { ResourceTable } from './resource-table.js';
-import { asViewer } from '../as-viewer/as-viewer';
-import storageResources from './storage-resources.js';
-import { UI_ROOT } from '../environment.js';
+import TableFilter from "./table-filter.js";
+import Inferno from "inferno";
+import { ResourceTable } from "./resource-table.js";
+import { asViewer } from "../as-viewer/as-viewer";
+import storageResources from "./storage-resources.js";
+import { UI_ROOT } from "../environment.js";
 
 type StorageProps = {
   storage: State,
@@ -37,7 +37,7 @@ const NoPlugins = () => (
 );
 
 export const StorageComponent = asViewer(
-  'storage',
+  "storage",
   ({
     storage: {
       resourceClasses,
@@ -54,7 +54,7 @@ export const StorageComponent = asViewer(
           <div>
             <h4 class="section-header">Storage Resources</h4>
             <TableFilter classes={resourceClasses} idx={selectIndex} />
-            <div className={`table-container ${loading ? 'loading' : ''}`}>
+            <div className={`table-container ${loading ? "loading" : ""}`}>
               {resources && (
                 <ResourceTable
                   resourceClass={resourceClasses[selectIndex]}
@@ -77,9 +77,9 @@ export const StorageComponent = asViewer(
 );
 
 export default {
-  bindings: { alertIndicatorB: '<', storageB: '<' },
+  bindings: { alertIndicatorB: "<", storageB: "<" },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

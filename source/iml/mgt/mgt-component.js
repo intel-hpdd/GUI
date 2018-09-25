@@ -74,8 +74,8 @@ export default {
     };
   },
   bindings: {
-    mgt$: '<',
-    alertIndicatorB: '<',
-    jobIndicatorB: '<'
+    mgt$: "<",
+    alertIndicatorB: "<",
+    jobIndicatorB: "<"
   }
 };

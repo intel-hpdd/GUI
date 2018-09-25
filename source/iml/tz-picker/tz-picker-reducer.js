@@ -1,8 +1,8 @@
 // @flow
 
-export const SET_TIME_ZONE = 'SET_TIME_ZONE';
+export const SET_TIME_ZONE = "SET_TIME_ZONE";
 
-import type { ActionT } from '../store/store-module.js';
+import type { ActionT } from "../store/store-module.js";
 
 export type TzPickerProps = {
   isUtc: boolean

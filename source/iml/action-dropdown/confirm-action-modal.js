@@ -3,10 +3,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export function ConfirmActionModalCtrl($scope, title, confirmPrompts) {
-  'ngInject';
+  "ngInject";
   $scope.confirmAction = {
     title,
     confirmPrompts
@@ -14,7 +14,7 @@ export function ConfirmActionModalCtrl($scope, title, confirmPrompts) {
 }
 
 export function openConfirmActionModalFactory($uibModal) {
-  'ngInject';
+  "ngInject";
   return function openConfirmActionModal(title, confirmPrompts) {
     return $uibModal.open({
       template: `<div class="modal-header">
@@ -51,10 +51,10 @@ export function openConfirmActionModalFactory($uibModal) {
   </div>
   <button class="btn btn-danger" ng-click="$dismiss('cancel')">Cancel <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-      controller: 'ConfirmActionModalCtrl',
-      windowClass: 'confirm-action-modal',
-      backdropClass: 'confirm-action-modal-backdrop',
-      backdrop: 'static',
+      controller: "ConfirmActionModalCtrl",
+      windowClass: "confirm-action-modal",
+      backdropClass: "confirm-action-modal-backdrop",
+      backdrop: "static",
       resolve: {
         title: fp.always(title),
         confirmPrompts: fp.always(confirmPrompts)

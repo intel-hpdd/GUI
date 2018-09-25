@@ -1,15 +1,15 @@
-import angular from '../../angular-mock-setup.js';
-import helpFactory from '../../../source/iml/help.js';
+import angular from "../../angular-mock-setup.js";
+import helpFactory from "../../../source/iml/help.js";
 
-describe('Help', () => {
+describe("Help", () => {
   let help;
 
   beforeEach(
     angular.mock.module($provide => {
-      $provide.constant('HELP_TEXT', {
-        foo: 'bar'
+      $provide.constant("HELP_TEXT", {
+        foo: "bar"
       });
-      $provide.factory('help', helpFactory);
+      $provide.factory("help", helpFactory);
     })
   );
 
@@ -19,15 +19,15 @@ describe('Help', () => {
     })
   );
 
-  it('should provide the sce value', () => {
-    expect(help.get('foo').valueOf()).toBe('bar');
+  it("should provide the sce value", () => {
+    expect(help.get("foo").valueOf()).toBe("bar");
   });
 
-  it('should provide the same instance if called twice', () => {
-    expect(help.get('foo')).toBe(help.get('foo'));
+  it("should provide the same instance if called twice", () => {
+    expect(help.get("foo")).toBe(help.get("foo"));
   });
 
-  it('should throw if a non-existent key is fetched', () => {
-    expect(help.get.bind(null, 'not a real value')).toThrow();
+  it("should throw if a non-existent key is fetched", () => {
+    expect(help.get.bind(null, "not a real value")).toThrow();
   });
 });

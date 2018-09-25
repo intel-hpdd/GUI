@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
+import angular from "angular";
 
-import { lineDirective } from './line-directive';
+import { lineDirective } from "./line-directive";
 
-export default angular.module('line', []).directive('line', lineDirective).name;
+export default angular.module("line", []).directive("line", lineDirective).name;

@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
 export function AddCopytoolModalCtrl($scope, $uibModalInstance, workerStream, fsStream) {
-  'ngInject';
+  "ngInject";
   const addCopytoolModalCtrl = this;
 
   Object.assign(addCopytoolModalCtrl, {
@@ -20,9 +20,9 @@ export function AddCopytoolModalCtrl($scope, $uibModalInstance, workerStream, fs
       addCopytoolModalCtrl.inProgress = true;
 
       socketStream(
-        '/copytool',
+        "/copytool",
         {
-          method: 'post',
+          method: "post",
           json: copytool
         },
         true
@@ -30,20 +30,20 @@ export function AddCopytoolModalCtrl($scope, $uibModalInstance, workerStream, fs
     }
   });
 
-  let s = fsStream.pluck('objects');
-  $scope.propagateChange($scope, addCopytoolModalCtrl, 'filesystems', s);
+  let s = fsStream.pluck("objects");
+  $scope.propagateChange($scope, addCopytoolModalCtrl, "filesystems", s);
 
-  s = workerStream.pluck('objects');
-  $scope.propagateChange($scope, addCopytoolModalCtrl, 'workers', s);
+  s = workerStream.pluck("objects");
+  $scope.propagateChange($scope, addCopytoolModalCtrl, "workers", s);
 
-  $scope.$on('$destroy', function onDestroy() {
+  $scope.$on("$destroy", function onDestroy() {
     workerStream.destroy();
     fsStream.destroy();
   });
 }
 
 export function openAddCopytoolModalFactory($uibModal) {
-  'ngInject';
+  "ngInject";
   return function openAddCopytoolModal() {
     return $uibModal.open({
       template: `<div class="modal-header">
@@ -191,24 +191,24 @@ export function openAddCopytoolModalFactory($uibModal) {
     </div>
   </form>
 </div>`,
-      controller: 'AddCopytoolModalCtrl as addCopytool',
-      backdrop: 'static',
-      windowClass: 'add-copytool-modal',
+      controller: "AddCopytoolModalCtrl as addCopytool",
+      backdrop: "static",
+      windowClass: "add-copytool-modal",
       resolve: {
         fsStream() {
-          'ngInject';
+          "ngInject";
           return resolveStream(
-            socketStream('/filesystem', {
-              jsonMask: 'objects(resource_uri,label)'
+            socketStream("/filesystem", {
+              jsonMask: "objects(resource_uri,label)"
             })
           );
         },
         workerStream() {
-          'ngInject';
+          "ngInject";
           return resolveStream(
-            socketStream('/host', {
+            socketStream("/host", {
               qs: { worker: true },
-              jsonMask: 'objects(resource_uri,label)'
+              jsonMask: "objects(resource_uri,label)"
             })
           );
         }

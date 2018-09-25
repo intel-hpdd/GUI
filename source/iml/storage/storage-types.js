@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Meta } from '../api-types.js';
+import type { Meta } from "../api-types.js";
 
 export type Column = {
   label: string,
@@ -38,13 +38,13 @@ type Chart = {|
 |};
 
 export type TimeseriesChart = {|
-  type: 'timeseries',
+  type: "timeseries",
   title: string,
   series: TimeseriesStats[]
 |};
 
 export type HistogramChart = {|
-  type: 'histogram',
+  type: "histogram",
   title: string,
   series: HistogramStats[]
 |};
@@ -57,7 +57,7 @@ export type HistogramData = {|
 export type HistogramStats = {|
   label: string,
   name: string,
-  type: 'histogram',
+  type: "histogram",
   data: HistogramData,
   unit_name: string
 |};
@@ -65,7 +65,7 @@ export type HistogramStats = {|
 export type TimeseriesStats = {|
   label: string,
   name: string,
-  type: 'timeseries',
+  type: "timeseries",
   data: null,
   unit_name: string
 |};

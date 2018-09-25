@@ -3,24 +3,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import d3 from 'd3';
-import nv from 'nvd3';
-import global from '../global.js';
+import d3 from "d3";
+import nv from "nvd3";
+import global from "../global.js";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import _ from '@iml/lodash-mixins';
+import _ from "@iml/lodash-mixins";
 
-import { documentHidden, documentVisible } from '../stream-when-visible/stream-when-visible.js';
+import { documentHidden, documentVisible } from "../stream-when-visible/stream-when-visible.js";
 
 export default function baseChart(overrides) {
   const defaultDirective = {
-    restrict: 'E',
-    require: ['^?fullScreen', '^rootPanel'],
+    restrict: "E",
+    require: ["^?fullScreen", "^rootPanel"],
     replace: true,
     scope: {
-      stream: '=',
-      options: '='
+      stream: "=",
+      options: "="
     },
     template: `<div class="chart">
   <svg></svg>
@@ -28,7 +28,7 @@ export default function baseChart(overrides) {
     link(scope, element, attrs, ctrls) {
       const [fullScreenCtrl, rootPanelCtrl] = ctrls;
 
-      let svg = d3.select(element[0].querySelector('svg'));
+      let svg = d3.select(element[0].querySelector("svg"));
       let chart = config.generateChart(nv);
       const render = createRenderer(svg, chart);
       const renderNoTransition = () => {
@@ -42,25 +42,25 @@ export default function baseChart(overrides) {
 
       if (fullScreenCtrl) fullScreenCtrl.addListener(renderNoTransition);
 
-      svg.attr('width', '100%').attr('height', '100%');
+      svg.attr("width", "100%").attr("height", "100%");
 
       const throttled = _.throttle(renderNoTransition, 500);
 
       rootPanelCtrl.register(throttled);
-      global.addEventListener('resize', throttled);
+      global.addEventListener("resize", throttled);
 
       if (scope.options && scope.options.setup) scope.options.setup(chart, d3, nv);
 
       const toggleNoData = xs => {
         if (xs === documentHidden) {
-          if (chart.noData) chart.noData('Fetching new data...');
+          if (chart.noData) chart.noData("Fetching new data...");
 
           return [];
         } else if (xs === documentVisible) {
           return [];
         }
 
-        if (chart.noData) chart.noData('No Data Available.');
+        if (chart.noData) chart.noData("No Data Available.");
 
         return xs;
       };
@@ -76,7 +76,7 @@ export default function baseChart(overrides) {
         oldData.forEach(function copyStateRefs(item) {
           if (Array.isArray(item)) return;
 
-          const propsToCopy = _.omit(item, ['values', 'key']);
+          const propsToCopy = _.omit(item, ["values", "key"]);
           const series = _.find(v, { key: item.key });
 
           if (series) Object.assign(series, propsToCopy);
@@ -93,9 +93,9 @@ export default function baseChart(overrides) {
         config.afterUpdate(chart);
       }
 
-      scope.$on('$destroy', function onDestroy() {
+      scope.$on("$destroy", function onDestroy() {
         rootPanelCtrl.deregister(throttled);
-        global.removeEventListener('resize', throttled, false);
+        global.removeEventListener("resize", throttled, false);
 
         if (fullScreenCtrl) fullScreenCtrl.removeListener(renderNoTransition);
 
@@ -112,7 +112,7 @@ export default function baseChart(overrides) {
   const config = {
     directive: defaultDirective,
     generateChart() {
-      throw new Error('config::generateChart must be overriden.');
+      throw new Error("config::generateChart must be overriden.");
     },
     afterUpdate: fp.noop,
     onUpdate: fp.noop

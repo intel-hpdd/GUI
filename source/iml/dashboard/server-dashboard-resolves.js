@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { HighlandStreamT } from 'highland';
-import type { chartT } from './dashboard-types.js';
+import type { HighlandStreamT } from "highland";
+import type { chartT } from "./dashboard-types.js";
 
-import { matchWith } from '@iml/maybe';
-import { matchById } from '../api-transforms.js';
+import { matchWith } from "@iml/maybe";
+import { matchById } from "../api-transforms.js";
 
 export function serverDashboardChartResolves(
   $stateParams: { id: string },
@@ -17,7 +17,7 @@ export function serverDashboardChartResolves(
   getMemoryUsageChart: chartT,
   getCpuUsageChart: chartT
 ) {
-  'ngInject';
+  "ngInject";
   const id = $stateParams.id;
   const page = `server${id}`;
   const serverQs = {
@@ -44,7 +44,7 @@ export function serverDashboardHostStreamResolves(
   $stateParams: { id: string },
   hostsB: () => HighlandStreamT<Object[]>
 ) {
-  'ngInject';
+  "ngInject";
   return hostsB()
     .map(matchById($stateParams.id))
     .map(

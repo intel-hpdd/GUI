@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
-import { cloneChildren } from './inferno-utils.js';
+import Inferno from "inferno";
+import Component from "inferno-component";
+import { cloneChildren } from "./inferno-utils.js";
 
 export default class WindowClickListener extends Component {
   windowListener: ?Function;
@@ -16,7 +16,7 @@ export default class WindowClickListener extends Component {
     children: React$Element<*>
   };
   componentWillUnmount() {
-    if (this.windowListener) window.removeEventListener('click', this.windowListener, false);
+    if (this.windowListener) window.removeEventListener("click", this.windowListener, false);
   }
   windowHandler() {
     const { isOpen: previousIsOpen } = this.state;
@@ -26,14 +26,14 @@ export default class WindowClickListener extends Component {
 
     if (isOpen || !this.windowListener) return;
 
-    window.removeEventListener('click', this.windowListener, false);
+    window.removeEventListener("click", this.windowListener, false);
     this.windowListener = null;
   }
   toggleOpen() {
     if (this.windowListener) return;
 
     this.windowListener = this.windowHandler.bind(this);
-    window.addEventListener('click', this.windowListener);
+    window.addEventListener("click", this.windowListener);
   }
   render() {
     if (Array.isArray(this.props.children))

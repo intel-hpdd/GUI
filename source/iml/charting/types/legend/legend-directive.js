@@ -3,17 +3,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export function legendDirective(getLegend) {
-  'ngInject';
+  "ngInject";
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      scale: '='
+      scale: "="
     },
-    require: '^^charter',
-    templateNamespace: 'svg',
+    require: "^^charter",
+    templateNamespace: "svg",
     link(scope, el, attrs, chartCtrl) {
       const legend = getLegend()
         .colors(scope.scale)
@@ -32,10 +32,10 @@ export function legendDirective(getLegend) {
 
       chartCtrl.onUpdate.push(updateLegend);
 
-      legend.dispatch().on('selection', (label, shouldHide) => {
+      legend.dispatch().on("selection", (label, shouldHide) => {
         const obj = {};
         obj[label] = shouldHide;
-        chartCtrl.dispatch.event('legend', [obj]);
+        chartCtrl.dispatch.event("legend", [obj]);
       });
     }
   };

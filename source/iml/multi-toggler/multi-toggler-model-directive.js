@@ -7,14 +7,14 @@
 
 export default () => {
   return {
-    restrict: 'A',
-    bindToController: 'true',
+    restrict: "A",
+    bindToController: "true",
     require: {
-      togglerContainer: '^multiTogglerContainer',
-      ngModel: 'ngModel'
+      togglerContainer: "^multiTogglerContainer",
+      ngModel: "ngModel"
     },
     controller: function() {
-      'ngInject';
+      "ngInject";
       this.$onInit = () => {
         this.togglerContainer.register(this.ngModel);
 

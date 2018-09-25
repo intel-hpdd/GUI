@@ -7,9 +7,9 @@
 
 export default {
   bindings: {
-    record: '<',
-    fsId: '<',
-    kind: '<'
+    record: "<",
+    fsId: "<",
+    kind: "<"
   },
   template: `
     <a ui-sref="app.oldTarget({ id: $ctrl.record.id, resetState: true })">

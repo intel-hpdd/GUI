@@ -1,6 +1,6 @@
-import { noSpace } from '../../../../source/iml/string.js';
+import { noSpace } from "../../../../source/iml/string.js";
 
-describe('status states', () => {
+describe("status states", () => {
   let mod, mockResolveStream, mockSocketStream, mockTzPickerB;
 
   beforeEach(() => {
@@ -8,23 +8,23 @@ describe('status states', () => {
     mockSocketStream = jest.fn();
     mockTzPickerB = jest.fn();
 
-    jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/tz-picker/tz-picker-resolves.js', () => ({
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+    jest.mock("../../../../source/iml/tz-picker/tz-picker-resolves.js", () => ({
       tzPickerB: mockTzPickerB
     }));
 
-    mod = require('../../../../source/iml/status/status-states.js');
+    mod = require("../../../../source/iml/status/status-states.js");
   });
 
-  describe('status state', () => {
-    it('should create the state', () => {
+  describe("status state", () => {
+    it("should create the state", () => {
       expect(mod.statusState).toEqual({
-        name: 'app.status',
+        name: "app.status",
         data: {
-          helpPage: 'Graphical_User_Interface_9_0.html#9.6',
+          helpPage: "Graphical_User_Interface_9_0.html#9.6",
           anonymousReadProtected: true
         },
         template: expect.any(String)
@@ -32,22 +32,22 @@ describe('status states', () => {
     });
   });
 
-  describe('query state', () => {
-    it('should create the state', () => {
+  describe("query state", () => {
+    it("should create the state", () => {
       expect(mod.queryState).toEqual({
-        name: 'app.status.query',
+        name: "app.status.query",
         resolve: {
           tzPickerB: expect.any(Function)
         },
-        component: 'statusQuery'
+        component: "statusQuery"
       });
     });
   });
 
-  describe('table state', () => {
-    it('should create the state', () => {
+  describe("table state", () => {
+    it("should create the state", () => {
       expect(mod.tableState).toEqual({
-        name: 'app.status.query.table',
+        name: "app.status.query.table",
         url: noSpace`/status?
             severity__in&severity__contains&severity__startswith&severity__endswith&
             severity__gte&severity__gt&severity__lte&severity__lt&
@@ -72,30 +72,30 @@ describe('status states', () => {
           }
         },
         data: {
-          kind: 'Status',
-          icon: 'fa-tachometer'
+          kind: "Status",
+          icon: "fa-tachometer"
         },
         resolve: {
           notification$: expect.any(Function),
           tzPickerB: expect.any(Function)
         },
-        component: 'statusRecords'
+        component: "statusRecords"
       });
     });
 
-    describe('resolve notification$', () => {
+    describe("resolve notification$", () => {
       let qsFromLocation, notification$, $stateParams;
 
       beforeEach(() => {
-        mockResolveStream.mockReturnValue('promise');
+        mockResolveStream.mockReturnValue("promise");
 
-        mockSocketStream.mockReturnValue('socket');
+        mockSocketStream.mockReturnValue("socket");
 
         $stateParams = {
-          foo: 'bar',
-          baz__in: ['1', '2'],
-          bap: '3',
-          bim__in: ['4', '5', '6']
+          foo: "bar",
+          baz__in: ["1", "2"],
+          bap: "3",
+          bim__in: ["4", "5", "6"]
         };
 
         qsFromLocation = jest.fn();
@@ -103,47 +103,47 @@ describe('status states', () => {
         notification$ = mod.tableState.resolve.notification$;
       });
 
-      it('should call /alert with a qs', () => {
-        qsFromLocation.mockReturnValue('foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6');
+      it("should call /alert with a qs", () => {
+        qsFromLocation.mockReturnValue("foo=bar&baz__in=1%2C2&bap=3&bim__in=4%2C5%2C6");
 
         notification$(qsFromLocation, $stateParams);
 
         expect(mockSocketStream).toHaveBeenCalledOnceWith(
-          '/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6'
+          "/alert/?foo=bar&baz__in=1&baz__in=2&bap=3&bim__in=4&bim__in=5&bim__in=6"
         );
       });
 
-      it('should call /alert without a qs', () => {
-        qsFromLocation.mockReturnValue('');
+      it("should call /alert without a qs", () => {
+        qsFromLocation.mockReturnValue("");
 
         notification$(qsFromLocation);
 
-        expect(mockSocketStream).toHaveBeenCalledOnceWith('/alert/');
+        expect(mockSocketStream).toHaveBeenCalledOnceWith("/alert/");
       });
 
-      it('should call resolveStream with socket', () => {
-        qsFromLocation.mockReturnValue('');
+      it("should call resolveStream with socket", () => {
+        qsFromLocation.mockReturnValue("");
 
         notification$(qsFromLocation);
 
-        expect(mockResolveStream).toHaveBeenCalledOnceWith('socket');
+        expect(mockResolveStream).toHaveBeenCalledOnceWith("socket");
       });
 
-      it('should resolve the stream', () => {
-        qsFromLocation.mockReturnValue('');
+      it("should resolve the stream", () => {
+        qsFromLocation.mockReturnValue("");
 
         const res = notification$(qsFromLocation);
 
-        expect(res).toBe('promise');
+        expect(res).toBe("promise");
       });
     });
 
-    describe('resolve tzPickerB', () => {
+    describe("resolve tzPickerB", () => {
       beforeEach(() => {
         mod.tableState.resolve.tzPickerB();
       });
 
-      it('should select tzPicker stream from the store', () => {
+      it("should select tzPicker stream from the store", () => {
         expect(mockTzPickerB).toHaveBeenCalledTimes(1);
       });
     });

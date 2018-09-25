@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import Inferno from "inferno";
+import Component from "inferno-component";
 
 type PopoverChildProps = {
   children: React$Element<*>[]
@@ -38,7 +38,7 @@ export const PopoverContent = ({ children }: PopoverChildProps) => <div class="p
 type PopoverProps = {
   children?: React$Element<*>,
   visible?: boolean,
-  direction: 'top' | 'bottom' | 'left' | 'right'
+  direction: "top" | "bottom" | "left" | "right"
 };
 
 export const Popover = ({ children, visible, direction }: PopoverProps) => {

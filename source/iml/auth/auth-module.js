@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import angular from 'angular';
-import { GROUPS, restrictTo, restrict } from './authorization.js';
+import angular from "angular";
+import { GROUPS, restrictTo, restrict } from "./authorization.js";
 
-import type { Exact } from '../../flow-workarounds.js';
+import type { Exact } from "../../flow-workarounds.js";
 
 export type credentialsT = Exact<{
   username: string,
@@ -16,7 +16,7 @@ export type credentialsT = Exact<{
 }>;
 
 export default angular
-  .module('auth', [])
-  .constant('GROUPS', GROUPS)
-  .directive('restrictTo', restrictTo)
-  .directive('restrict', restrict).name;
+  .module("auth", [])
+  .constant("GROUPS", GROUPS)
+  .directive("restrictTo", restrictTo)
+  .directive("restrict", restrict).name;

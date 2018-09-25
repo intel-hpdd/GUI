@@ -7,9 +7,9 @@
 
 export default {
   bindings: {
-    mgt$: '<',
-    mgtAlertIndicatorB: '<',
-    mgtJobIndicatorB: '<'
+    mgt$: "<",
+    mgtAlertIndicatorB: "<",
+    mgtJobIndicatorB: "<"
   },
   template: `
     <div class="container container-full">

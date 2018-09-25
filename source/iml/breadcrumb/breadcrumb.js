@@ -5,17 +5,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import * as maybe from '@iml/maybe';
-import global from '../global.js';
+import * as fp from "@iml/fp";
+import * as maybe from "@iml/maybe";
+import global from "../global.js";
 
-import { getResolvedData } from '../route-utils.js';
+import { getResolvedData } from "../route-utils.js";
 
-import type { routeStateT } from '../route-transitions.js';
+import type { routeStateT } from "../route-transitions.js";
 
-import type { TransitionT, StateServiceT, StateParamsT } from 'angular-ui-router';
+import type { TransitionT, StateServiceT, StateParamsT } from "angular-ui-router";
 
-import type { Maybe } from '@iml/maybe';
+import type { Maybe } from "@iml/maybe";
 
 export type breadcrumbT = {
   name: string,
@@ -40,7 +40,7 @@ const Controller = class {
   originalStackLength: number;
   $onDestroy: Function;
   constructor($transitions: TransitionT, $state: StateServiceT, $stateParams: StateParamsT) {
-    'ngInject';
+    "ngInject";
     const nodeStackLocation = (kind: string): number => {
       const item: Maybe<breadcrumbT> = fp.find(item => item.kind === kind)(this.stack);
 
@@ -75,7 +75,7 @@ const Controller = class {
     };
 
     const curRoute = $state.router.globals.$current;
-    const data = defaultToObj(getResolvedData($state.transition, 'getData'));
+    const data = defaultToObj(getResolvedData($state.transition, "getData"));
 
     this.originalStackLength = this.stack.length;
     updateStack(curRoute, data);
@@ -93,7 +93,7 @@ const Controller = class {
       this.loading = false;
 
       const curRoute = transition.to();
-      const data = defaultToObj(getResolvedData(transition, 'getData'));
+      const data = defaultToObj(getResolvedData(transition, "getData"));
 
       this.originalStackLength = this.stack.length;
       updateStack(curRoute, data);
@@ -105,12 +105,12 @@ const Controller = class {
         this.stack = this.stack.slice(this.stack.length - 1);
     };
 
-    global.addEventListener('popstate', handlePopState, false);
+    global.addEventListener("popstate", handlePopState, false);
 
     this.$onDestroy = () => {
       destroyOnStart();
       destroyOnSuccess();
-      global.removeEventListener('popstate', handlePopState, false);
+      global.removeEventListener("popstate", handlePopState, false);
     };
   }
 };

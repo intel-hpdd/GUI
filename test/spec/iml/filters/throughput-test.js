@@ -1,24 +1,24 @@
-import angular from '../../../angular-mock-setup.js';
-import filterModule from '../../../../source/iml/filters/filters-module';
+import angular from "../../../angular-mock-setup.js";
+import filterModule from "../../../../source/iml/filters/filters-module";
 
-describe('Throughput Filter', () => {
+describe("Throughput Filter", () => {
   let throughput;
 
   beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
     angular.mock.inject(function($filter) {
-      throughput = $filter('throughput');
+      throughput = $filter("throughput");
     })
   );
 
   const tests = [
-    { input: 1000, expected: '1000 B/s' },
-    { input: 1000, bps: true, expected: '7.813 kb/s' },
-    { input: 3045827469, expected: '2.837 GB/s' },
-    { input: 3045827469, bps: true, expected: '22.69 Gb/s' },
-    { input: NaN, expected: '' },
-    { input: 'quack', expected: '' }
+    { input: 1000, expected: "1000 B/s" },
+    { input: 1000, bps: true, expected: "7.813 kb/s" },
+    { input: 3045827469, expected: "2.837 GB/s" },
+    { input: 3045827469, bps: true, expected: "22.69 Gb/s" },
+    { input: NaN, expected: "" },
+    { input: "quack", expected: "" }
   ];
 
   tests.forEach(function runTest(test) {

@@ -5,12 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import windowUnload from '../window-unload.js';
+import windowUnload from "../window-unload.js";
 
 export default function disconnectModalFactory($uibModal: Object, $timeout: Function) {
-  'ngInject';
+  "ngInject";
   const options = {
-    backdrop: 'static',
+    backdrop: "static",
     keyboard: false,
     template: `
     <div>
@@ -18,7 +18,7 @@ export default function disconnectModalFactory($uibModal: Object, $timeout: Func
         <h3>Disconnected From Server, Retrying. <i class="fa fa-spinner fa-spin fa-lg"></i></h3>
       </div>
     </div>`,
-    windowClass: 'disconnect-modal'
+    windowClass: "disconnect-modal"
   };
 
   let modal;

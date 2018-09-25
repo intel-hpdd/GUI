@@ -1,13 +1,13 @@
-import { ADD_USER_ITEMS, default as userReducer } from '../../../../source/iml/user/user-reducer.js';
-import deepFreeze from '@iml/deep-freeze';
+import { ADD_USER_ITEMS, default as userReducer } from "../../../../source/iml/user/user-reducer.js";
+import deepFreeze from "@iml/deep-freeze";
 
-describe('user reducer', () => {
-  it('should be a function', () => {
+describe("user reducer", () => {
+  it("should be a function", () => {
     expect(userReducer).toEqual(expect.any(Function));
   });
 
-  describe('matching type', () => {
-    it('should return the payload', () => {
+  describe("matching type", () => {
+    it("should return the payload", () => {
       expect(
         userReducer(deepFreeze([]), {
           type: ADD_USER_ITEMS,
@@ -17,12 +17,12 @@ describe('user reducer', () => {
     });
   });
 
-  describe('non-matching type', () => {
-    it('should return the state', () => {
+  describe("non-matching type", () => {
+    it("should return the state", () => {
       expect(
         userReducer(deepFreeze([]), {
-          type: 'ADD_ALERT_INDICATOR_ITEMS',
-          payload: { key: 'val' }
+          type: "ADD_ALERT_INDICATOR_ITEMS",
+          payload: { key: "val" }
         })
       ).toEqual([]);
     });

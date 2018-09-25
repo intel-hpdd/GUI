@@ -1,9 +1,9 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
-import { extendWithConstructor } from '../../../test-utils.js';
-import HsmCtrl from '../../../../source/iml/hsm/hsm-controller';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
+import { extendWithConstructor } from "../../../test-utils.js";
+import HsmCtrl from "../../../../source/iml/hsm/hsm-controller";
 
-describe('HSM controller', () => {
+describe("HSM controller", () => {
   let hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal, copytoolOperationStream, copytoolStream;
 
   beforeEach(
@@ -17,9 +17,9 @@ describe('HSM controller', () => {
       };
 
       copytoolOperationStream = highland();
-      jest.spyOn(copytoolOperationStream, 'destroy');
+      jest.spyOn(copytoolOperationStream, "destroy");
       copytoolStream = highland();
-      jest.spyOn(copytoolStream, 'destroy');
+      jest.spyOn(copytoolStream, "destroy");
 
       openAddCopytoolModal = jest.fn(() => $q.resolve());
 
@@ -33,7 +33,7 @@ describe('HSM controller', () => {
     })
   );
 
-  it('should setup controller as expected', () => {
+  it("should setup controller as expected", () => {
     const scope = extendWithConstructor(HsmCtrl, {
       chart: agentVsCopytoolChart,
       openAddModal: expect.any(Function)
@@ -42,51 +42,51 @@ describe('HSM controller', () => {
     expect(hsm).toEqual(scope);
   });
 
-  it('should propagate copytool changes', () => {
-    copytoolStream.write(['foo']);
+  it("should propagate copytool changes", () => {
+    copytoolStream.write(["foo"]);
 
-    expect(hsm.copytools).toEqual(['foo']);
+    expect(hsm.copytools).toEqual(["foo"]);
   });
 
-  it('should propagate copytoolOperations', () => {
-    copytoolOperationStream.write(['bar']);
+  it("should propagate copytoolOperations", () => {
+    copytoolOperationStream.write(["bar"]);
 
-    expect(hsm.copytoolOperations).toEqual(['bar']);
+    expect(hsm.copytoolOperations).toEqual(["bar"]);
   });
 
-  describe('open modal', () => {
+  describe("open modal", () => {
     beforeEach(() => {
       hsm.openAddModal();
     });
 
-    it('should set modalOpen property to true', () => {
+    it("should set modalOpen property to true", () => {
       expect(hsm.modalOpen).toBe(true);
     });
 
-    it('should open the modal', () => {
+    it("should open the modal", () => {
       expect(openAddCopytoolModal).toHaveBeenCalledOnceWith($scope);
     });
 
-    it('should set modalOpen property to false on close', () => {
+    it("should set modalOpen property to false on close", () => {
       $scope.$apply();
       expect(hsm.modalOpen).toBe(false);
     });
   });
 
-  describe('on destroy', () => {
+  describe("on destroy", () => {
     beforeEach(() => {
       $scope.$destroy();
     });
 
-    it('should destroy the copytoolStream', () => {
+    it("should destroy the copytoolStream", () => {
       expect(copytoolStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the copytoolOperationStream', () => {
+    it("should destroy the copytoolOperationStream", () => {
       expect(copytoolOperationStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it('should destroy the chart', () => {
+    it("should destroy the chart", () => {
       expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledTimes(1);
     });
   });

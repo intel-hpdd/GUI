@@ -5,17 +5,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import bufferDataNewerThan from './buffer-data-newer-than.js';
+import * as fp from "@iml/fp";
+import bufferDataNewerThan from "./buffer-data-newer-than.js";
 
-import { flushOnChange } from '../chart-transformers/chart-transformers.js';
+import { flushOnChange } from "../chart-transformers/chart-transformers.js";
 
-import { getTimeParams } from './get-time-params.js';
+import { getTimeParams } from "./get-time-params.js";
 
-import type { streamWhenChartVisibleT } from '../stream-when-visible/stream-when-visible-module.js';
+import type { streamWhenChartVisibleT } from "../stream-when-visible/stream-when-visible-module.js";
 
 export default (streamWhenVisible: streamWhenChartVisibleT) => {
-  'ngInject';
+  "ngInject";
   const { getRequestRange, getRequestDuration } = getTimeParams;
 
   const createStreamFn = (durationFn: Function, buffFn: Function) => (overrides: Object) => (

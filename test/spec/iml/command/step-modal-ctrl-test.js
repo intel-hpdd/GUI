@@ -1,20 +1,20 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('step modal', () => {
+describe("step modal", () => {
   beforeEach(() => {});
 
-  describe('step modal controller', () => {
+  describe("step modal controller", () => {
     let $scope, stepModal, stepsStream, jobStream, mockSocketStream, mod, $uibModal, stream, job;
 
     beforeEach(
       angular.mock.inject($rootScope => {
-        jest.spyOn($rootScope, '$on');
+        jest.spyOn($rootScope, "$on");
 
         jobStream = highland();
-        jest.spyOn(jobStream, 'destroy');
+        jest.spyOn(jobStream, "destroy");
         stepsStream = highland();
-        jest.spyOn(stepsStream, 'destroy');
+        jest.spyOn(stepsStream, "destroy");
 
         $scope = $rootScope.$new();
 
@@ -23,79 +23,79 @@ describe('step modal', () => {
           return (stream = highland());
         });
 
-        jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
+        jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-        mod = require('../../../../source/iml/command/step-modal-ctrl.js');
+        mod = require("../../../../source/iml/command/step-modal-ctrl.js");
 
         mod.StepModalCtrl.bind(stepModal)($scope, stepsStream, jobStream);
       })
     );
 
-    it('should have a getDescription method', () => {
+    it("should have a getDescription method", () => {
       expect(stepModal.getDescription).toEqual(expect.any(Function));
     });
 
-    it('should return class_name if description starts with it', () => {
+    it("should return class_name if description starts with it", () => {
       const step = {
-        class_name: 'foo',
-        description: 'foo bar'
+        class_name: "foo",
+        description: "foo bar"
       };
 
-      expect(stepModal.getDescription(step)).toEqual('foo');
+      expect(stepModal.getDescription(step)).toEqual("foo");
     });
 
-    it('should return description if it does not start with class_name', () => {
+    it("should return description if it does not start with class_name", () => {
       const step = {
-        class_name: 'baz',
-        description: 'foo bar'
+        class_name: "baz",
+        description: "foo bar"
       };
 
-      expect(stepModal.getDescription(step)).toEqual('foo bar');
+      expect(stepModal.getDescription(step)).toEqual("foo bar");
     });
 
-    it('should listen for destroy', () => {
-      expect($scope.$on).toHaveBeenCalledTwiceWith('$destroy', expect.any(Function));
+    it("should listen for destroy", () => {
+      expect($scope.$on).toHaveBeenCalledTwiceWith("$destroy", expect.any(Function));
     });
 
-    describe('destroy', () => {
+    describe("destroy", () => {
       beforeEach(() => {
         $scope.$destroy();
       });
 
-      it('should destroy the job stream', () => {
+      it("should destroy the job stream", () => {
         expect(jobStream.destroy).toHaveBeenCalled();
       });
 
-      it('should destroy the steps stream', () => {
+      it("should destroy the steps stream", () => {
         expect(stepsStream.destroy).toHaveBeenCalled();
       });
     });
 
-    it('should have a list of steps', () => {
+    it("should have a list of steps", () => {
       expect(stepModal.steps).toEqual([]);
     });
 
-    it('should open the first accordion', () => {
+    it("should open the first accordion", () => {
       expect(stepModal.accordion0).toBe(true);
     });
 
     const states = {
-      'waiting to run': {
-        state: 'pending'
+      "waiting to run": {
+        state: "pending"
       },
       running: {
-        state: 'tasked'
+        state: "tasked"
       },
       cancelled: {
         cancelled: true,
-        state: 'complete'
+        state: "complete"
       },
       failed: {
         errored: true,
-        state: 'complete'
+        state: "complete"
       },
       succeeded: {
-        state: 'complete'
+        state: "complete"
       }
     };
 
@@ -107,19 +107,19 @@ describe('step modal', () => {
       });
     });
 
-    it('should set job data', () => {
-      jobStream.write({ foo: 'bar' });
+    it("should set job data", () => {
+      jobStream.write({ foo: "bar" });
 
-      expect(stepModal.job).toEqual({ foo: 'bar' });
+      expect(stepModal.job).toEqual({ foo: "bar" });
     });
 
-    it('should set step data', () => {
-      stepsStream.write({ foo: 'bar' });
+    it("should set step data", () => {
+      stepsStream.write({ foo: "bar" });
 
-      expect(stepModal.steps).toEqual({ foo: 'bar' });
+      expect(stepModal.steps).toEqual({ foo: "bar" });
     });
 
-    describe('open step modal', () => {
+    describe("open step modal", () => {
       beforeEach(() => {
         $uibModal = {
           open: jest.fn()
@@ -128,14 +128,14 @@ describe('step modal', () => {
         const openStepModal = mod.openStepModalFactory($uibModal);
 
         job = {
-          id: '1',
-          steps: ['/api/step/1/', '/api/step/2/']
+          id: "1",
+          steps: ["/api/step/1/", "/api/step/2/"]
         };
 
         openStepModal(job);
       });
 
-      it('should open the modal with the expected object', () => {
+      it("should open the modal with the expected object", () => {
         expect($uibModal.open).toHaveBeenCalledOnceWith({
           template: `<div class="modal-header">
   <h3 class="modal-title">{{ ::stepModal.job.description }}</h3>
@@ -181,10 +181,10 @@ describe('step modal', () => {
 <div class="modal-footer">
   <button class="btn btn-danger" ng-click="$close('close')">Close <i class="fa fa-times-circle-o"></i></button>
 </div>`,
-          controller: 'StepModalCtrl',
-          controllerAs: 'stepModal',
-          windowClass: 'step-modal',
-          backdrop: 'static',
+          controller: "StepModalCtrl",
+          controllerAs: "stepModal",
+          windowClass: "step-modal",
+          backdrop: "static",
           resolve: {
             jobStream: expect.any(Function),
             stepsStream: expect.any(Function)
@@ -192,7 +192,7 @@ describe('step modal', () => {
         });
       });
 
-      describe('get jobs and steps', () => {
+      describe("get jobs and steps", () => {
         let jobStream, stepsStream;
 
         beforeEach(() => {
@@ -202,11 +202,11 @@ describe('step modal', () => {
           stepsStream = resolves.stepsStream();
         });
 
-        it('should get the job', () => {
-          expect(mockSocketStream).toHaveBeenCalledOnceWith('/job/1');
+        it("should get the job", () => {
+          expect(mockSocketStream).toHaveBeenCalledOnceWith("/job/1");
         });
 
-        it('should set last data', () => {
+        it("should set last data", () => {
           stepsStream.resume();
 
           jobStream.each(x => {
@@ -214,15 +214,15 @@ describe('step modal', () => {
           });
         });
 
-        it('should get the steps', () => {
+        it("should get the steps", () => {
           jobStream.resume();
           stepsStream.resume();
 
           expect(mockSocketStream).toHaveBeenCalledWith(
-            '/step',
+            "/step",
             {
               qs: {
-                id__in: ['1', '2'],
+                id__in: ["1", "2"],
                 limit: 0
               }
             },
@@ -230,15 +230,15 @@ describe('step modal', () => {
           );
         });
 
-        it('should return steps', () => {
+        it("should return steps", () => {
           jobStream.resume();
 
           stepsStream.each(x => {
-            expect(x).toEqual([{ id: 1, name: 'step' }]);
+            expect(x).toEqual([{ id: 1, name: "step" }]);
           });
 
           stream.write({
-            objects: [{ id: 1, name: 'step' }]
+            objects: [{ id: 1, name: "step" }]
           });
         });
       });

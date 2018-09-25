@@ -3,16 +3,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { getCSRFToken } from '../auth/authorization.js';
-import global from '../global.js';
+import { getCSRFToken } from "../auth/authorization.js";
+import global from "../global.js";
 
 export default function AppCtrl($scope, session, navigate, ENV, GROUPS, help, notificationStream, alertStream) {
-  'ngInject';
-  const login = navigate.bind(null, 'login/');
+  "ngInject";
+  const login = navigate.bind(null, "login/");
 
   Object.assign(this, {
     RUNTIME_VERSION: ENV.RUNTIME_VERSION,
-    COPYRIGHT_YEAR: help.get('copyright_year'),
+    COPYRIGHT_YEAR: help.get("copyright_year"),
     GROUPS,
     session,
     status: {},
@@ -31,12 +31,12 @@ export default function AppCtrl($scope, session, navigate, ENV, GROUPS, help, no
 
   function logout() {
     return global
-      .fetch('/api/session/', {
-        method: 'delete',
-        credentials: 'same-origin',
+      .fetch("/api/session/", {
+        method: "delete",
+        credentials: "same-origin",
         headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json; charset=UTF-8',
+          Accept: "application/json",
+          "Content-Type": "application/json; charset=UTF-8",
           ...getCSRFToken()
         }
       })
@@ -47,7 +47,7 @@ export default function AppCtrl($scope, session, navigate, ENV, GROUPS, help, no
 
   const ctrl = this;
 
-  const p = $scope.propagateChange.bind(null, $scope, this, 'status');
+  const p = $scope.propagateChange.bind(null, $scope, this, "status");
 
   notificationStream
     .tap(function computeProperties(status) {
@@ -55,13 +55,13 @@ export default function AppCtrl($scope, session, navigate, ENV, GROUPS, help, no
 
       status.count = status.aboveLimit ? LIMIT : status.count;
 
-      ctrl.link = '/ui/status/';
+      ctrl.link = "/ui/status/";
 
-      if (status.health !== 'GOOD') ctrl.link += '?severity__in=WARNING,ERROR&active=true';
+      if (status.health !== "GOOD") ctrl.link += "?severity__in=WARNING,ERROR&active=true";
     })
     .through(p);
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     alertStream.destroy();
     notificationStream.destroy();
   });

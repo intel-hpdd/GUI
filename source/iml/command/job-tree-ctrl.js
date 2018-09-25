@@ -3,12 +3,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import extractApi from '@iml/extract-api';
-import socketStream from '../socket/socket-stream.js';
-import * as fp from '@iml/fp';
+import extractApi from "@iml/extract-api";
+import socketStream from "../socket/socket-stream.js";
+import * as fp from "@iml/fp";
 
 export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
-  'ngInject';
+  "ngInject";
   const pendingTransitions = [];
 
   Object.assign(this, {
@@ -26,7 +26,7 @@ export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
       socketStream(
         job.resource_uri,
         {
-          method: 'put',
+          method: "put",
           json: job
         },
         true
@@ -38,24 +38,24 @@ export function JobTreeCtrl($scope, getJobStream, GROUPS, openStepModal) {
 
   const stream = getJobStream($scope.command.jobs);
 
-  const p = $scope.propagateChange.bind(null, $scope, this, 'jobs');
+  const p = $scope.propagateChange.bind(null, $scope, this, "jobs");
 
   stream.through(p);
 
-  $scope.$on('$destroy', stream.destroy.bind(stream));
+  $scope.$on("$destroy", stream.destroy.bind(stream));
 }
 
 export function getJobStreamFactory(jobTree) {
-  'ngInject';
+  "ngInject";
   return function getJobStream(jobs) {
-    const stream = socketStream('/job', {
+    const stream = socketStream("/job", {
       qs: {
         id__in: fp.map(extractApi)(jobs),
         limit: 0
       }
     });
 
-    const s2 = stream.pluck('objects').map(jobTree);
+    const s2 = stream.pluck("objects").map(jobTree);
 
     s2.destroy = stream.destroy.bind(stream);
 

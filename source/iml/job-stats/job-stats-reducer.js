@@ -5,14 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const SET_DURATION = 'SET_DURATION';
-export const SET_SORT = 'SET_SORT';
+export const SET_DURATION = "SET_DURATION";
+export const SET_SORT = "SET_SORT";
 
-import type { ActionT } from '../store/store-module.js';
+import type { ActionT } from "../store/store-module.js";
 
 const startingState = {
   duration: 10,
-  orderBy: 'read_bytes_average',
+  orderBy: "read_bytes_average",
   desc: true
 };
 

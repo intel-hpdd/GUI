@@ -4,7 +4,7 @@
 // license that can be found in the LICENSE file.
 
 export function addServerStepsFactory(ADD_SERVER_STEPS, addServersStep, serverStatusStep, selectServerProfileStep) {
-  'ngInject';
+  "ngInject";
   const steps = {};
   steps[ADD_SERVER_STEPS.ADD] = addServersStep;
   steps[ADD_SERVER_STEPS.STATUS] = serverStatusStep;
@@ -14,7 +14,7 @@ export function addServerStepsFactory(ADD_SERVER_STEPS, addServersStep, serverSt
 }
 
 export function getAddServerManagerFactory(addServerSteps, stepsManager, waitUntilLoadedStep, ADD_SERVER_STEPS) {
-  'ngInject';
+  "ngInject";
   return function getAddServerManager() {
     const manager = stepsManager();
     Object.entries(addServerSteps).forEach(pair => {

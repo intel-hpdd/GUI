@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
-import socketStream from '../socket/socket-stream.js';
+import * as fp from "@iml/fp";
+import socketStream from "../socket/socket-stream.js";
 
 export default function getCopytoolStream(params) {
   params = Object.assign(
@@ -14,8 +14,8 @@ export default function getCopytoolStream(params) {
         limit: 0
       },
       jsonMask:
-        'objects(id,label,host/label,archive,state,\
-active_operations_count,available_actions,resource_uri,locks)'
+        "objects(id,label,host/label,archive,state,\
+active_operations_count,available_actions,resource_uri,locks)"
     },
     params || {}
   );
@@ -24,27 +24,27 @@ active_operations_count,available_actions,resource_uri,locks)'
     fp.lensProp,
     fp.view
   );
-  const statusLens = fp.lensProp('status');
-  const viewStateLens = viewLensProp('state');
+  const statusLens = fp.lensProp("status");
+  const viewStateLens = viewLensProp("state");
 
   const setStatus = fp.cond(
     [
       fp.flow(
-        fp.eqFn(fp.identity)(viewStateLens)('started'),
+        fp.eqFn(fp.identity)(viewStateLens)("started"),
         fp.not
       ),
       x => fp.set(statusLens)(viewStateLens(x))(x)
     ],
-    [fp.eqFn(fp.identity)(viewLensProp('active_operations_count'))(0), fp.set(statusLens)('idle')],
-    [fp.always(true), fp.set(statusLens)('working')]
+    [fp.eqFn(fp.identity)(viewLensProp("active_operations_count"))(0), fp.set(statusLens)("idle")],
+    [fp.always(true), fp.set(statusLens)("working")]
   );
 
   const setStatuses = fp.map(
     fp.flow(
-      viewLensProp('objects'),
+      viewLensProp("objects"),
       fp.over(fp.mapped)(setStatus)
     )
   );
 
-  return socketStream('/copytool', params).through(setStatuses);
+  return socketStream("/copytool", params).through(setStatuses);
 }

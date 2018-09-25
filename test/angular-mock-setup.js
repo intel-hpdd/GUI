@@ -1,6 +1,6 @@
-import 'angular';
-import 'angular-mocks';
-import extendScopeModule from '../source/iml/extend-scope-module.js';
+import "angular";
+import "angular-mocks";
+import extendScopeModule from "../source/iml/extend-scope-module.js";
 
 const angular = window.angular;
 

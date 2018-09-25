@@ -3,19 +3,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 export default function configurePacemaker() {
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {},
     bindToController: {
-      stream: '=',
-      alertStream: '=',
-      jobStream: '='
+      stream: "=",
+      alertStream: "=",
+      jobStream: "="
     },
     controller: fp.noop,
-    controllerAs: 'ctrl',
+    controllerAs: "ctrl",
     template: `<div as-viewer stream="::ctrl.stream" name="'value'">
   <div as-value stream="::value">
     <div ng-if="curr.val" class="configure-pacemaker detail-panel">

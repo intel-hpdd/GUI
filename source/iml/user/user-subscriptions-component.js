@@ -5,20 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
-import type { $scopeT } from 'angular';
+import type { $scopeT } from "angular";
 
-import type { PropagateChange } from '../extend-scope-module.js';
+import type { PropagateChange } from "../extend-scope-module.js";
 
 export default {
   bindings: {
-    subscriptions: '<',
-    resourceUri: '<'
+    subscriptions: "<",
+    resourceUri: "<"
   },
   controller($scope: $scopeT, insertHelpFilter: Function, propagateChange: PropagateChange) {
-    'ngInject';
-    const toVal = x => (x === true ? 'On' : 'Off');
+    "ngInject";
+    const toVal = x => (x === true ? "On" : "Off");
 
     this.getMessage = state => {
       return insertHelpFilter(`${state.status}_diff`, {
@@ -32,9 +32,9 @@ export default {
       this.saving = true;
 
       socketStream(
-        '/api/alert_subscription/',
+        "/api/alert_subscription/",
         {
-          method: 'patch',
+          method: "patch",
           json: {
             objects: alertTypes
               .filter(x => !x.sub_uri)
@@ -52,7 +52,7 @@ export default {
         true
       )
         .map(() => false)
-        .through(propagateChange.bind(null, $scope, this, 'saving'));
+        .through(propagateChange.bind(null, $scope, this, "saving"));
     };
   },
   template: `

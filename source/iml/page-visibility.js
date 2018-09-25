@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import global from './global.js';
+import global from "./global.js";
 
 export default function pageVisibility(onHide: Function, onShow: Function, timeout: number = 0): Function {
   let id;
@@ -40,10 +40,10 @@ export default function pageVisibility(onHide: Function, onShow: Function, timeo
     ]
   );
 
-  global.document.addEventListener('visibilitychange', onVisibilityChange);
+  global.document.addEventListener("visibilitychange", onVisibilityChange);
 
   return () => {
     cancelTimeout();
-    global.document.removeEventListener('visibilitychange', onVisibilityChange);
+    global.document.removeEventListener("visibilitychange", onVisibilityChange);
   };
 }

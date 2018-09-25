@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Field, StorageResourceClass } from './storage-types.js';
-import type { State } from './storage-reducer.js';
+import type { Field, StorageResourceClass } from "./storage-types.js";
+import type { State } from "./storage-reducer.js";
 
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import Inferno from "inferno";
+import Component from "inferno-component";
 
-import { asViewer } from '../as-viewer/as-viewer';
-import TableFilter from './table-filter.js';
-import socketStream from '../socket/socket-stream.js';
-import { UI_ROOT } from '../environment.js';
+import { asViewer } from "../as-viewer/as-viewer";
+import TableFilter from "./table-filter.js";
+import socketStream from "../socket/socket-stream.js";
+import { UI_ROOT } from "../environment.js";
 
 const PageAlert = ({ children, className }) => {
   if (!children) return;
@@ -29,7 +29,7 @@ const FormItem = ({ field, value, onInput }: { field: Field, value: string, onIn
       required={!field.optional}
       value={value}
       onInput={onInput}
-      type={field.class === 'Password' ? 'password' : 'text'}
+      type={field.class === "Password" ? "password" : "text"}
       class="form-control"
       id={field.name}
     />
@@ -81,9 +81,9 @@ class AddStorageForm extends Component {
     this.setState({ loading: true, saveFailed: null });
 
     socketStream(
-      '/storage_resource',
+      "/storage_resource",
       {
-        method: 'post',
+        method: "post",
         json: {
           attrs: this.state.form[id],
           plugin_name: this.props.resourceClass.plugin_name,
@@ -119,13 +119,13 @@ class AddStorageForm extends Component {
 
     return (
       <form autocomplete="off" onSubmit={this.handleSubmit.bind(this, id)}>
-        <PageAlert className={this.state.saveFailed ? 'alert-danger' : 'alert-success'}>
+        <PageAlert className={this.state.saveFailed ? "alert-danger" : "alert-success"}>
           {(() => {
             switch (this.state.saveFailed) {
               case true:
-                return 'An unexpected error occured. Please update form and resubmit.';
+                return "An unexpected error occured. Please update form and resubmit.";
               case false:
-                return 'Record Created.';
+                return "Record Created.";
               default:
                 return null;
             }
@@ -141,7 +141,7 @@ class AddStorageForm extends Component {
         ))}
         <button disabled={this.state.loading} type="submit" class="btn btn-success">
           Save
-          <i className={`fa ${this.state.loading ? 'fa-spinner fa-spin' : 'fa-check-circle'}`} />
+          <i className={`fa ${this.state.loading ? "fa-spinner fa-spin" : "fa-check-circle"}`} />
         </button>
       </form>
     );
@@ -149,7 +149,7 @@ class AddStorageForm extends Component {
 }
 
 export const AddStorageComponent = asViewer(
-  'storage',
+  "storage",
   ({
     storage: {
       resourceClasses,
@@ -165,7 +165,7 @@ export const AddStorageComponent = asViewer(
         <h4 class="section-header">Add Storage Device</h4>
         <TableFilter classes={resourceClasses} idx={selectIndex} />
         <AddStorageForm resourceClass={resourceClasses[selectIndex]} />
-        <div style={{ margin: '25px 0' }}>
+        <div style={{ margin: "25px 0" }}>
           <a href={`${UI_ROOT}configure/storage`}>&larr; Return to storage configuration page</a>
         </div>
       </div>
@@ -174,9 +174,9 @@ export const AddStorageComponent = asViewer(
 );
 
 export default {
-  bindings: { storageB: '<' },
+  bindings: { storageB: "<" },
   controller: function($element: HTMLElement[]) {
-    'ngInject';
+    "ngInject";
 
     const el = $element[0];
 

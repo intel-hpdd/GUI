@@ -1,14 +1,14 @@
-import angular from '../../../angular-mock-setup.js';
-import filterModule from '../../../../source/iml/filters/filters-module';
+import angular from "../../../angular-mock-setup.js";
+import filterModule from "../../../../source/iml/filters/filters-module";
 
-describe('Round filter', () => {
+describe("Round filter", () => {
   let round;
 
   beforeEach(angular.mock.module(filterModule));
 
   beforeEach(
     angular.mock.inject($filter => {
-      round = $filter('round');
+      round = $filter("round");
     })
   );
 
@@ -21,8 +21,8 @@ describe('Round filter', () => {
     { input: 1.02358888884e3, expected: 1024 },
     { input: 0.05 + 0.01, places: 2, expected: 0.06 },
     { input: 0.05 + 0.01, expected: 0 },
-    { input: 'foo', expected: 'foo' },
-    { input: 'foo', places: 5, expected: 'foo' }
+    { input: "foo", expected: "foo" },
+    { input: "foo", places: 5, expected: "foo" }
   ];
 
   tests.forEach(function runTest(test) {

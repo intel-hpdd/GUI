@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const ADD_FS_ITEMS = 'ADD_FS_ITEMS';
+export const ADD_FS_ITEMS = "ADD_FS_ITEMS";
 
-import type { ActionT } from '../store/store-module.js';
+import type { ActionT } from "../store/store-module.js";
 
 export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
   switch (type) {

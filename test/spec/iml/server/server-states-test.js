@@ -1,35 +1,35 @@
-describe('server states', () => {
+describe("server states", () => {
   let serverState, serverDetailState, mockGroups, mockServerResolves, mockServerDetailResolves;
 
   beforeEach(() => {
     mockGroups = {
-      SUPERUSERS: 'superusers',
-      FS_ADMINS: 'filesystem_administrators',
-      FS_USERS: 'filesystem_users'
+      SUPERUSERS: "superusers",
+      FS_ADMINS: "filesystem_administrators",
+      FS_USERS: "filesystem_users"
     };
 
     mockServerResolves = jest.fn();
     mockServerDetailResolves = jest.fn();
     mockServerDetailResolves.getData = jest.fn();
 
-    jest.mock('../../../../source/iml/auth/authorization.js', () => ({
+    jest.mock("../../../../source/iml/auth/authorization.js", () => ({
       GROUPS: mockGroups
     }));
-    jest.mock('../../../../source/iml/server/server-resolves.js', () => mockServerResolves);
-    jest.mock('../../../../source/iml/server/server-detail-resolves.js', () => mockServerDetailResolves);
+    jest.mock("../../../../source/iml/server/server-resolves.js", () => mockServerResolves);
+    jest.mock("../../../../source/iml/server/server-detail-resolves.js", () => mockServerDetailResolves);
 
-    const mod = require('../../../../source/iml/server/server-states.js');
+    const mod = require("../../../../source/iml/server/server-states.js");
 
     serverState = mod.serverState;
     serverDetailState = mod.serverDetailState;
   });
 
-  describe('server state', () => {
-    it('should create the state', () => {
+  describe("server state", () => {
+    it("should create the state", () => {
       expect(serverState).toEqual({
-        name: 'app.server',
-        url: '/configure/server',
-        controller: 'ServerCtrl',
+        name: "app.server",
+        url: "/configure/server",
+        controller: "ServerCtrl",
         template: `<div class="container container-full server-ctrl">
   <div class="no-servers well text-center" ng-if="server.servers.length === 0">
     <h1>No servers are configured</h1>
@@ -211,11 +211,11 @@ describe('server states', () => {
           }
         },
         data: {
-          helpPage: 'Graphical_User_Interface_9_0.html#9.3.1',
+          helpPage: "Graphical_User_Interface_9_0.html#9.3.1",
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
-          kind: 'Servers',
-          icon: 'fa-tasks'
+          kind: "Servers",
+          icon: "fa-tasks"
         },
         resolve: {
           streams: expect.any(Function)
@@ -224,13 +224,13 @@ describe('server states', () => {
     });
   });
 
-  describe('server detail state', () => {
-    it('should create the state', () => {
+  describe("server detail state", () => {
+    it("should create the state", () => {
       expect(serverDetailState).toEqual({
-        name: 'app.serverDetail',
-        url: '/configure/server/:id',
-        controller: 'ServerDetailController',
-        controllerAs: 'serverDetail',
+        name: "app.serverDetail",
+        url: "/configure/server/:id",
+        controller: "ServerDetailController",
+        controllerAs: "serverDetail",
         template: `<div class="server-detail-ctrl">
   <div ng-if="!serverDetail.server" class="well text-center">
     <h1>Server Not Found</h1>
@@ -312,11 +312,11 @@ describe('server states', () => {
           }
         },
         data: {
-          helpPage: 'Graphical_User_Interface_9_0.html#9.3.1.1',
+          helpPage: "Graphical_User_Interface_9_0.html#9.3.1.1",
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
-          kind: 'Server Detail',
-          icon: 'fa-tasks'
+          kind: "Server Detail",
+          icon: "fa-tasks"
         },
         resolve: {
           streams: expect.any(Function),

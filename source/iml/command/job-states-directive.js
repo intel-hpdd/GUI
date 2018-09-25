@@ -4,12 +4,12 @@
 // license that can be found in the LICENSE file.
 
 export default function jobStatesDirective() {
-  'ngInject';
+  "ngInject";
   return {
     scope: {
-      job: '='
+      job: "="
     },
-    restrict: 'E',
+    restrict: "E",
     replace: true,
     template: `<span class="job-state">
   <i ng-if="job.state === 'pending'" class="fa fa-ellipsis-h"></i>

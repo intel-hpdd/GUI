@@ -5,28 +5,28 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import global from '../global.js';
+import global from "../global.js";
 
-import type { $scopeT, $locationT } from 'angular';
+import type { $scopeT, $locationT } from "angular";
 
-import { UI_ROOT } from '../environment.js';
+import { UI_ROOT } from "../environment.js";
 
 export default {
   bindings: {
-    path: '@',
-    params: '<'
+    path: "@",
+    params: "<"
   },
   controller: function($element: HTMLElement[], $scope: $scopeT, $location: $locationT) {
-    'ngInject';
+    "ngInject";
     const frameShim = $element[0];
-    const frame: HTMLIFrameElement = (frameShim.querySelector('iframe'): any);
+    const frame: HTMLIFrameElement = (frameShim.querySelector("iframe"): any);
     this.src = `${UI_ROOT}${this.path}`;
-    frameShim.classList.add('loading');
+    frameShim.classList.add("loading");
 
     if (this.params.id) this.src += `/${this.params.id}`;
 
     const onLoad = () => {
-      frameShim.classList.remove('loading');
+      frameShim.classList.remove("loading");
       $scope.$apply();
     };
 
@@ -35,7 +35,7 @@ export default {
 
       const body = frame.contentDocument.body;
 
-      if (body) frame.style.height = body.scrollHeight + 'px';
+      if (body) frame.style.height = body.scrollHeight + "px";
     }, 200);
 
     const onMessage = ev => {
@@ -43,12 +43,12 @@ export default {
       $scope.$apply();
     };
 
-    frameShim.addEventListener('load', onLoad, true);
-    global.addEventListener('message', onMessage, false);
+    frameShim.addEventListener("load", onLoad, true);
+    global.addEventListener("message", onMessage, false);
 
     this.$onDestroy = () => {
-      frameShim.removeEventListener('load', onLoad, true);
-      global.removeEventListener('message', onMessage, false);
+      frameShim.removeEventListener("load", onLoad, true);
+      global.removeEventListener("message", onMessage, false);
       clearInterval(token);
     };
   },

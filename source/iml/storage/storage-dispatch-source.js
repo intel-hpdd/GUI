@@ -5,19 +5,19 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { State } from './storage-reducer.js';
-import type { StorageResourceClass } from './storage-types.js';
+import type { State } from "./storage-reducer.js";
+import type { StorageResourceClass } from "./storage-types.js";
 
-import store from '../store/get-store.js';
-import socketStream from '../socket/socket-stream.js';
+import store from "../store/get-store.js";
+import socketStream from "../socket/socket-stream.js";
 
-import { canDispatch } from '../dispatch-source-utils.js';
+import { canDispatch } from "../dispatch-source-utils.js";
 
-import { flow } from '@iml/fp';
-import { addStorageResourceClasses, setStorageSelectIndex } from './storage-actions.js';
+import { flow } from "@iml/fp";
+import { addStorageResourceClasses, setStorageSelectIndex } from "./storage-actions.js";
 
 if (canDispatch()) {
-  socketStream('/storage_resource_class', {
+  socketStream("/storage_resource_class", {
     qs: {
       plugin_internal: false,
       limit: 0
@@ -32,7 +32,7 @@ if (canDispatch()) {
     );
 
   store
-    .select('storage')
+    .select("storage")
     .map((x: State): ?(StorageResourceClass[]) => x.resourceClasses)
     .filter(Array.isArray)
     .pull((err, xs) => {

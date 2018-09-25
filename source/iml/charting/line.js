@@ -5,9 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import getLine from '../charting/types/line/get-line.js';
-import Inferno from 'inferno';
-import Component from 'inferno-component';
+import getLine from "../charting/types/line/get-line.js";
+import Inferno from "inferno";
+import Component from "inferno-component";
 
 type LineProps = {
   chartingGroup?: Object,
@@ -32,7 +32,7 @@ export default class Line extends Component {
     const { chartingGroup } = this.props;
 
     this.line
-      .interpolate(this.props.interpolate || 'linear')
+      .interpolate(this.props.interpolate || "linear")
       .color(this.props.color)
       .xScale(this.props.xScale)
       .yScale(this.props.yScale)

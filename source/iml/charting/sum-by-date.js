@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as obj from '@iml/obj';
-import * as fp from '@iml/fp';
+import * as obj from "@iml/obj";
+import * as fp from "@iml/fp";
 
-import type { HighlandStreamT } from 'highland';
-import type { Exact } from '../../flow-workarounds.js';
+import type { HighlandStreamT } from "highland";
+import type { Exact } from "../../flow-workarounds.js";
 
 type Point = Exact<{
   data: Exact<{
@@ -37,7 +37,7 @@ const sum: Sum = fp.map(
 type Stat$ = HighlandStreamT<Point>;
 export default (s: Stat$): Stat$ =>
   s
-    .group('ts')
+    .group("ts")
     .map(
       fp.flow(
         obj.values,

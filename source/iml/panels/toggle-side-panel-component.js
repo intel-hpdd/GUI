@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 export function Controller() {
-  'ngInject';
+  "ngInject";
   let open = true;
 
   this.onClick = () => {
@@ -17,7 +17,7 @@ export function Controller() {
 
 export default {
   require: {
-    rootPanel: '^rootPanel'
+    rootPanel: "^rootPanel"
   },
   controller: Controller,
   template: `

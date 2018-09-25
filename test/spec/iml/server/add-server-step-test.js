@@ -1,10 +1,10 @@
-import angular from '../../../angular-mock-setup.js';
+import angular from "../../../angular-mock-setup.js";
 
-describe('Add server step', () => {
+describe("Add server step", () => {
   let AddServerStepCtrl, addServersStep;
 
   beforeEach(() => {
-    const mod = require('../../../../source/iml/server/add-server-step.js');
+    const mod = require("../../../../source/iml/server/add-server-step.js");
 
     AddServerStepCtrl = mod.AddServerStepCtrl;
     addServersStep = mod.addServersStepFactory();
@@ -16,18 +16,18 @@ describe('Add server step', () => {
     {},
     {
       servers: {
-        auth_type: 'existing_keys_choice',
-        addresses: ['foo2.localdomain']
+        auth_type: "existing_keys_choice",
+        addresses: ["foo2.localdomain"]
       }
     },
     {
       servers: {
-        auth_type: 'existing_keys_choice',
-        addresses: ['foo1.localdomain']
+        auth_type: "existing_keys_choice",
+        addresses: ["foo1.localdomain"]
       }
     }
   ].forEach(data => {
-    describe('controller', () => {
+    describe("controller", () => {
       let $scope;
 
       beforeEach(
@@ -45,16 +45,16 @@ describe('Add server step', () => {
         })
       );
 
-      it('should setup the controller', () => {
+      it("should setup the controller", () => {
         const expected = {
           fields: {
             auth_type: getDataInstallMethod(data),
             pdsh: getPdshExpression(data)
           },
           CHOICES: Object.freeze({
-            EXISTING_KEYS: 'existing_keys_choice',
-            ROOT_PASSWORD: 'id_password_root',
-            ANOTHER_KEY: 'private_key_choice'
+            EXISTING_KEYS: "existing_keys_choice",
+            ROOT_PASSWORD: "id_password_root",
+            ANOTHER_KEY: "private_key_choice"
           }),
           pdshUpdate: expect.any(Function),
           transition: expect.any(Function),
@@ -64,26 +64,26 @@ describe('Add server step', () => {
         expect(addServerStepCtrl).toEqual(expected);
       });
 
-      it('should update the fields on pdsh change', () => {
-        addServerStepCtrl.pdshUpdate('foo[01-02].com', ['foo01.com', 'foo02.com'], { 'foo01.com': 1, 'foo02.com': 1 });
+      it("should update the fields on pdsh change", () => {
+        addServerStepCtrl.pdshUpdate("foo[01-02].com", ["foo01.com", "foo02.com"], { "foo01.com": 1, "foo02.com": 1 });
 
         expect(addServerStepCtrl.fields).toEqual({
-          auth_type: 'existing_keys_choice',
-          pdsh: 'foo[01-02].com',
-          addresses: ['foo01.com', 'foo02.com']
+          auth_type: "existing_keys_choice",
+          pdsh: "foo[01-02].com",
+          addresses: ["foo01.com", "foo02.com"]
         });
       });
 
-      describe('calling transition', () => {
+      describe("calling transition", () => {
         beforeEach(() => {
           addServerStepCtrl.transition();
         });
 
-        it('should set add server to disabled', () => {
+        it("should set add server to disabled", () => {
           expect(addServerStepCtrl.disabled).toEqual(true);
         });
 
-        it('should call transition on the step instance', () => {
+        it("should call transition on the step instance", () => {
           const expected = {
             data: {
               servers: {
@@ -93,13 +93,13 @@ describe('Add server step', () => {
             }
           };
 
-          expect($stepInstance.transition).toHaveBeenCalledOnceWith('next', expected);
+          expect($stepInstance.transition).toHaveBeenCalledOnceWith("next", expected);
         });
       });
     });
 
     function getDataInstallMethod(data) {
-      return data.servers ? data.servers.auth_type : 'existing_keys_choice';
+      return data.servers ? data.servers.auth_type : "existing_keys_choice";
     }
 
     function getPdshExpression(data) {
@@ -107,8 +107,8 @@ describe('Add server step', () => {
     }
   });
 
-  describe('add servers step', () => {
-    it('should create the step with the expected interface', () => {
+  describe("add servers step", () => {
+    it("should create the step with the expected interface", () => {
       expect(addServersStep).toEqual({
         template: `<div class="modal-header tooltip-container">
   <button type="button" class="close" ng-disabled="addServer.disabled" ng-click="addServer.close()">
@@ -206,12 +206,12 @@ describe('Add server step', () => {
   <button ng-if="!addServer.disabled" class="btn btn-success proceed" ng-disabled="addServerForm.$invalid" ng-click="addServer.transition()">Next <i class="fa fa-long-arrow-right"></i></button>
   <button ng-if="addServer.disabled" disabled class="btn btn-success proceed" ng-click="addServer.transition()">Verifying <i class="fa fa-spinner fa-spin"></i></button>
 </div>`,
-        controller: 'AddServerStepCtrl as addServer',
+        controller: "AddServerStepCtrl as addServer",
         transition: expect.any(Function)
       });
     });
 
-    describe('transition', () => {
+    describe("transition", () => {
       let steps, result;
 
       beforeEach(() => {
@@ -222,7 +222,7 @@ describe('Add server step', () => {
         result = addServersStep.transition(steps);
       });
 
-      it('should return the next step and data', () => {
+      it("should return the next step and data", () => {
         expect(result).toEqual(steps.serverStatusStep);
       });
     });

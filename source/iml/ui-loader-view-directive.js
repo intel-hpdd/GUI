@@ -5,13 +5,13 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { $scopeT, $animationT } from 'angular';
+import type { $scopeT, $animationT } from "angular";
 
-import type { TransitionT, StateDeclarationT } from 'angular-ui-router';
+import type { TransitionT, StateDeclarationT } from "angular-ui-router";
 
-import { querySelector } from './dom-utils.js';
+import { querySelector } from "./dom-utils.js";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
 type ctrlT = {
   loaded: boolean,
@@ -25,15 +25,15 @@ type dataT = {
 };
 
 export default ($transitions: TransitionT, $animate: $animationT) => {
-  'ngInject';
+  "ngInject";
   return {
     scope: true,
     controller: () => {},
     bindToController: {
-      loadOnce: '<'
+      loadOnce: "<"
     },
-    require: ['uiLoaderView', '^^?uiLoaderView'],
-    controllerAs: '$ctrl',
+    require: ["uiLoaderView", "^^?uiLoaderView"],
+    controllerAs: "$ctrl",
     link($scope: $scopeT, el: HTMLElement[], attrs: Object, ctrls: [ctrlT, ctrlT]) {
       const [ctrl: ctrlT, parent: ?ctrlT] = ctrls;
       const uiLoaderView: HTMLElement = el[0];
@@ -56,30 +56,30 @@ export default ($transitions: TransitionT, $animate: $animationT) => {
 
         ctrl.loaded = true;
 
-        if (!data.noSpinner) uiLoaderView.classList.add('waiting');
+        if (!data.noSpinner) uiLoaderView.classList.add("waiting");
 
-        return $animate.leave(querySelector(uiLoaderView, '[ui-view]'));
+        return $animate.leave(querySelector(uiLoaderView, "[ui-view]"));
       });
 
-      $animate.on('enter', uiLoaderView, (element, phase) => {
-        if (querySelector(uiLoaderView, '[ui-view]') === element[0] && phase === 'start')
-          uiLoaderView.classList.remove('waiting');
+      $animate.on("enter", uiLoaderView, (element, phase) => {
+        if (querySelector(uiLoaderView, "[ui-view]") === element[0] && phase === "start")
+          uiLoaderView.classList.remove("waiting");
       });
 
-      $scope.$on('$destroy', () => {
+      $scope.$on("$destroy", () => {
         removeOnStart();
-        $animate.off('enter', uiLoaderView);
+        $animate.off("enter", uiLoaderView);
 
         if (parent) parent.child = null;
       });
     },
-    template: '<div ui-view></div>'
+    template: "<div ui-view></div>"
   };
 };
 
 function isLoaderMatch(ctrl: ctrlT, from: StateDeclarationT, to: StateDeclarationT) {
-  const fromSplit = from.name.split('.');
-  const toSplit = to.name.split('.');
+  const fromSplit = from.name.split(".");
+  const toSplit = to.name.split(".");
   const diff = fp.difference(fromSplit)(toSplit);
   const samePartsList = fromSplit.slice(0, -diff.length);
 

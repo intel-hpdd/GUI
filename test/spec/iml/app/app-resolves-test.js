@@ -1,4 +1,4 @@
-describe('app resolves', () => {
+describe("app resolves", () => {
   let mockSocketStream, mockResolveStream, promise, stream, appModule, mockCacheInitialData;
   beforeEach(() => {
     promise = {};
@@ -8,53 +8,53 @@ describe('app resolves', () => {
     mockSocketStream = jest.fn();
     mockSocketStream.mockReturnValue(stream);
     mockCacheInitialData = { session: {} };
-    appModule = jest.mock('../../../../source/iml/promise-transforms.js', () => ({
+    appModule = jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
-    jest.mock('../../../../source/iml/socket/socket-stream.js', () => mockSocketStream);
-    jest.mock('../../../../source/iml/environment.js', () => ({
+    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+    jest.mock("../../../../source/iml/environment.js", () => ({
       CACHE_INITIAL_DATA: mockCacheInitialData
     }));
 
-    appModule = require('../../../../source/iml/app/app-resolves.js');
+    appModule = require("../../../../source/iml/app/app-resolves.js");
   });
 
-  describe('app alert stream', () => {
+  describe("app alert stream", () => {
     let result;
     beforeEach(() => {
       result = appModule.alertStream();
     });
-    it('should return a promise', () => {
+    it("should return a promise", () => {
       expect(result).toBe(promise);
     });
-    it('should create a socket connection', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith('/alert/', {
-        jsonMask: 'objects(message)',
-        qs: { severity__in: ['WARNING', 'ERROR'], limit: 0, active: true }
+    it("should create a socket connection", () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith("/alert/", {
+        jsonMask: "objects(message)",
+        qs: { severity__in: ["WARNING", "ERROR"], limit: 0, active: true }
       });
     });
   });
-  describe('app notification stream', () => {
+  describe("app notification stream", () => {
     let result;
     beforeEach(() => {
       result = appModule.appNotificationStream();
     });
-    it('should return a promise', () => {
+    it("should return a promise", () => {
       expect(result).toBe(promise);
     });
-    it('should create a socket connection', () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith('/health');
+    it("should create a socket connection", () => {
+      expect(mockSocketStream).toHaveBeenCalledOnceWith("/health");
     });
-    it('should call resolveStream with a stream', () => {
+    it("should call resolveStream with a stream", () => {
       expect(mockResolveStream).toHaveBeenCalledOnceWith(stream);
     });
   });
-  describe('app session', () => {
+  describe("app session", () => {
     let appSession;
     beforeEach(() => {
       appSession = appModule.appSessionFactory();
     });
-    it('should return the session', () => {
+    it("should return the session", () => {
       expect(appSession).toBe(mockCacheInitialData.session);
     });
   });

@@ -4,9 +4,9 @@
 // license that can be found in the LICENSE file.
 
 export const aboutState = {
-  name: 'app.about',
-  url: '/about',
-  component: 'aboutComponent',
+  name: "app.about",
+  url: "/about",
+  component: "aboutComponent",
   params: {
     resetState: {
       dynamic: true
@@ -14,7 +14,7 @@ export const aboutState = {
   },
   data: {
     anonymousReadProtected: true,
-    kind: 'About Integrated Manager for Lustre software',
-    icon: 'fa-info-circle'
+    kind: "About Integrated Manager for Lustre software",
+    icon: "fa-info-circle"
   }
 };

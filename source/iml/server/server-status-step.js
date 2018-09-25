@@ -3,9 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
 export function ServerStatusStepCtrl(
   $scope,
@@ -17,7 +17,7 @@ export function ServerStatusStepCtrl(
   hostlistFilter,
   localApply
 ) {
-  'ngInject';
+  "ngInject";
   Object.assign(this, {
     pdsh: data.pdsh,
     /**
@@ -47,7 +47,7 @@ export function ServerStatusStepCtrl(
      * Close the modal
      */
     close: function close() {
-      $scope.$emit('addServerModal::closeModal');
+      $scope.$emit("addServerModal::closeModal");
     }
   });
 
@@ -121,11 +121,11 @@ export const serverStatusStep = {
   <button ng-disabled="serverStatus.disabled" class="btn btn-default" ng-click="serverStatus.transition('previous')"><i class="fa fa-long-arrow-left"></i> Previous</button>
   <override-button overridden="serverStatus.overridden" is-valid="serverStatus.isValid" on-change="serverStatus.transition(message)" is-disabled="serverStatus.disabled"></override-button>
 </div>`,
-  controller: 'ServerStatusStepCtrl as serverStatus',
+  controller: "ServerStatusStepCtrl as serverStatus",
   onEnter: [
-    'data',
-    'getTestHostStream',
-    'serversToApiObjects',
+    "data",
+    "getTestHostStream",
+    "serversToApiObjects",
     function onEnter(data, getTestHostStream, serversToApiObjects) {
       const objects = serversToApiObjects(data.servers);
 
@@ -142,6 +142,6 @@ export const serverStatusStep = {
    * @returns {Object} The step to move to.
    */
   transition: function transition(steps, action) {
-    return action === 'previous' ? steps.addServersStep : steps.selectServerProfileStep;
+    return action === "previous" ? steps.addServersStep : steps.selectServerProfileStep;
   }
 };

@@ -10,7 +10,7 @@ export default function HsmCtrl(
   copytoolOperationStream,
   agentVsCopytoolChart
 ) {
-  'ngInject';
+  "ngInject";
   const hsm = Object.assign(this, {
     chart: agentVsCopytoolChart,
     openAddModal() {
@@ -22,10 +22,10 @@ export default function HsmCtrl(
 
   const p = $scope.propagateChange.bind(null, $scope, hsm);
 
-  p('copytools', copytoolStream);
-  p('copytoolOperations', copytoolOperationStream);
+  p("copytools", copytoolStream);
+  p("copytoolOperations", copytoolOperationStream);
 
-  $scope.$on('$destroy', () => {
+  $scope.$on("$destroy", () => {
     agentVsCopytoolChart.stream.destroy();
     copytoolStream.destroy();
     copytoolOperationStream.destroy();

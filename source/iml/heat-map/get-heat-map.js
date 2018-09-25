@@ -3,8 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from '@iml/lodash-mixins';
-import d3 from 'd3';
+import _ from "@iml/lodash-mixins";
+import d3 from "d3";
 
 export default () => {
   let xScale = _.noop;
@@ -42,58 +42,58 @@ export default () => {
       );
 
       // data join
-      const heatMapModel = container.selectAll('.heat-map-model').data([data]);
+      const heatMapModel = container.selectAll(".heat-map-model").data([data]);
 
       // Create the structure on enter.
       heatMapModel
         .enter()
-        .append('g')
-        .attr('class', 'heat-map-model');
+        .append("g")
+        .attr("class", "heat-map-model");
 
-      const row = heatMapModel.selectAll('.row').data(_.identity);
+      const row = heatMapModel.selectAll(".row").data(_.identity);
 
       row
         .enter()
-        .append('g')
-        .attr('class', 'row');
+        .append("g")
+        .attr("class", "row");
 
       const gridHeight = height / yScale.domain().length;
 
-      row.attr('transform', function(r) {
-        return 'translate(0,' + Math.max(getY(r[0]) - gridHeight / 2, 0) + ')';
+      row.attr("transform", function(r) {
+        return "translate(0," + Math.max(getY(r[0]) - gridHeight / 2, 0) + ")";
       });
 
       row.exit().remove();
 
-      const cell = row.selectAll('.cell').data(_.identity, xValue);
+      const cell = row.selectAll(".cell").data(_.identity, xValue);
 
       cell
-        .attr('height', gridHeight)
+        .attr("height", gridHeight)
         .transition()
         .duration(duration)
-        .ease('linear')
-        .attr('width', calcWidth)
-        .attr('x', getX)
-        .attr('fill', getColor);
+        .ease("linear")
+        .attr("width", calcWidth)
+        .attr("x", getX)
+        .attr("fill", getColor);
 
       cell
         .enter()
-        .append('rect')
-        .attr('class', 'cell')
-        .attr('fill', getColor)
-        .attr('width', calcWidth)
-        .attr('height', gridHeight)
+        .append("rect")
+        .attr("class", "cell")
+        .attr("fill", getColor)
+        .attr("width", calcWidth)
+        .attr("height", gridHeight)
         .transition()
         .duration(duration)
-        .ease('linear')
-        .attr('x', getX);
+        .ease("linear")
+        .attr("x", getX);
 
       cell
         .exit()
         .transition()
         .duration(duration)
-        .ease('linear')
-        .attr('width', 0)
+        .ease("linear")
+        .attr("width", 0)
         .remove();
 
       function calcWidth(d, i, a) {

@@ -5,21 +5,21 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
-import statusQsToOldQsParser from './status-qs-to-old-qs-parser.js';
-import parserPermutations from '../parser-permutations.js';
+import socketStream from "../socket/socket-stream.js";
+import statusQsToOldQsParser from "./status-qs-to-old-qs-parser.js";
+import parserPermutations from "../parser-permutations.js";
 
-import * as fp from '@iml/fp';
+import * as fp from "@iml/fp";
 
-import { resolveStream } from '../promise-transforms.js';
-import { tzPickerB } from '../tz-picker/tz-picker-resolves.js';
+import { resolveStream } from "../promise-transforms.js";
+import { tzPickerB } from "../tz-picker/tz-picker-resolves.js";
 
-import type { qsFromLocationT } from '../qs-from-location/qs-from-location-module.js';
+import type { qsFromLocationT } from "../qs-from-location/qs-from-location-module.js";
 
 export const statusState = {
-  name: 'app.status',
+  name: "app.status",
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.6',
+    helpPage: "Graphical_User_Interface_9_0.html#9.6",
     anonymousReadProtected: true
   },
   template: `
@@ -30,22 +30,22 @@ export const statusState = {
 };
 
 export const queryState = {
-  name: 'app.status.query',
+  name: "app.status.query",
   resolve: { tzPickerB },
-  component: 'statusQuery'
+  component: "statusQuery"
 };
 
 export const tableState = {
-  name: 'app.status.query.table',
+  name: "app.status.query.table",
   url: `/status?${parserPermutations([
-    'severity',
-    'record_type',
-    'active',
-    'offset',
-    'limit',
-    'order_by',
-    'begin',
-    'end'
+    "severity",
+    "record_type",
+    "active",
+    "offset",
+    "limit",
+    "order_by",
+    "begin",
+    "end"
   ])}`,
   params: {
     resetState: {
@@ -55,12 +55,12 @@ export const tableState = {
     }
   },
   data: {
-    kind: 'Status',
-    icon: 'fa-tachometer'
+    kind: "Status",
+    icon: "fa-tachometer"
   },
   resolve: {
     notification$(qsFromLocation: qsFromLocationT, $stateParams: Object) {
-      'ngInject';
+      "ngInject";
       const qsFromLocationToOld = fp.flow(
         qsFromLocation,
         statusQsToOldQsParser
@@ -68,11 +68,11 @@ export const tableState = {
 
       let qs = qsFromLocationToOld($stateParams);
 
-      if (qs.length) qs = '?' + qs;
+      if (qs.length) qs = "?" + qs;
 
-      return resolveStream(socketStream('/alert/' + qs));
+      return resolveStream(socketStream("/alert/" + qs));
     },
     tzPickerB
   },
-  component: 'statusRecords'
+  component: "statusRecords"
 };

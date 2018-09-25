@@ -1,7 +1,7 @@
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('get ost balance chart', () => {
+describe("get ost balance chart", () => {
   let mockGetOstBalanceStream,
     getOstBalanceChartFactory,
     mockChartCompiler,
@@ -27,13 +27,13 @@ describe('get ost balance chart', () => {
         ostBalanceChart: { ...standardConfig }
       }
     ]);
-    jest.spyOn(config1$, 'destroy');
+    jest.spyOn(config1$, "destroy");
     config2$ = highland([
       {
         ostBalanceChart: standardConfig
       }
     ]);
-    jest.spyOn(config2$, 'destroy');
+    jest.spyOn(config2$, "destroy");
     selectStoreCount = 0;
 
     mockGetStore = {
@@ -59,12 +59,12 @@ describe('get ost balance chart', () => {
 
     mockChartCompiler = jest.fn();
 
-    jest.mock('../../../../source/iml/ost-balance/get-ost-balance-stream.js', () => mockGetOstBalanceStream);
-    jest.mock('../../../../source/iml/chart-compiler/chart-compiler.js', () => mockChartCompiler);
-    jest.mock('../../../../source/iml/store/get-store.js', () => mockGetStore);
-    jest.mock('../../../../source/iml/chart-transformers/chart-transformers.js', () => ({ getConf: mockGetConf }));
+    jest.mock("../../../../source/iml/ost-balance/get-ost-balance-stream.js", () => mockGetOstBalanceStream);
+    jest.mock("../../../../source/iml/chart-compiler/chart-compiler.js", () => mockChartCompiler);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+    jest.mock("../../../../source/iml/chart-transformers/chart-transformers.js", () => ({ getConf: mockGetConf }));
 
-    const mod = require('../../../../source/iml/ost-balance/get-ost-balance-chart.js');
+    const mod = require("../../../../source/iml/ost-balance/get-ost-balance-chart.js");
 
     getOstBalanceChartFactory = mod.default;
   });
@@ -79,39 +79,39 @@ describe('get ost balance chart', () => {
     getOstBalanceChart(
       {
         qs: {
-          filesystem_id: '1'
+          filesystem_id: "1"
         }
       },
-      'ostBalanceChart'
+      "ostBalanceChart"
     );
 
     const s = mockChartCompiler.mock.calls[0][1];
     s.each(() => {});
   });
 
-  it('should return a factory function', () => {
+  it("should return a factory function", () => {
     expect(getOstBalanceChart).toEqual(expect.any(Function));
   });
 
-  it('should dispatch to the store', () => {
+  it("should dispatch to the store", () => {
     expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-      type: 'DEFAULT_OST_BALANCE_CHART_ITEMS',
+      type: "DEFAULT_OST_BALANCE_CHART_ITEMS",
       payload: {
         percentage: 0,
-        page: 'ostBalanceChart'
+        page: "ostBalanceChart"
       }
     });
   });
 
-  it('should call getConf with the page', () => {
-    expect(mockGetConf).toHaveBeenCalledOnceWith('ostBalanceChart');
+  it("should call getConf with the page", () => {
+    expect(mockGetConf).toHaveBeenCalledOnceWith("ostBalanceChart");
   });
 
-  it('should call streamWhenVisible', () => {
+  it("should call streamWhenVisible", () => {
     expect(streamWhenVisible).toHaveBeenCalledOnceWith(expect.any(Function));
   });
 
-  it('should setup the OstBalanceChart', () => {
+  it("should setup the OstBalanceChart", () => {
     expect(mockChartCompiler).toHaveBeenCalledOnceWith(
       `<div config-toggle>
   <h5>OST Balance</h5>
@@ -153,15 +153,15 @@ describe('get ost balance chart', () => {
     );
   });
 
-  it('should create a new stream', () => {
+  it("should create a new stream", () => {
     expect(mockGetOstBalanceStream).toHaveBeenCalledOnceWith(0, {
       qs: {
-        filesystem_id: '1'
+        filesystem_id: "1"
       }
     });
   });
 
-  describe('conf setup', () => {
+  describe("conf setup", () => {
     let fn, s, $scope, conf;
 
     beforeEach(
@@ -169,7 +169,7 @@ describe('get ost balance chart', () => {
         fn = mockChartCompiler.mock.calls[0][2];
 
         s = highland();
-        jest.spyOn(s, 'destroy');
+        jest.spyOn(s, "destroy");
 
         $scope = $rootScope.$new();
 
@@ -177,10 +177,10 @@ describe('get ost balance chart', () => {
       })
     );
 
-    it('should setup the conf', () => {
+    it("should setup the conf", () => {
       expect(conf).toEqual({
         percentage: 0,
-        page: '',
+        page: "",
         stream: s,
         onSubmit: expect.any(Function),
         options: {
@@ -189,7 +189,7 @@ describe('get ost balance chart', () => {
       });
     });
 
-    it('should destroy the existing stream', () => {
+    it("should destroy the existing stream", () => {
       $scope.$destroy();
 
       expect(s.destroy).toHaveBeenCalled();
@@ -197,7 +197,7 @@ describe('get ost balance chart', () => {
       expect(config2$.destroy).toHaveBeenCalled();
     });
 
-    describe('on submit', () => {
+    describe("on submit", () => {
       beforeEach(() => {
         conf.onSubmit({
           percentage: {
@@ -206,18 +206,18 @@ describe('get ost balance chart', () => {
         });
       });
 
-      it('should dispatch to the store', () => {
+      it("should dispatch to the store", () => {
         expect(mockGetStore.dispatch).toHaveBeenCalledOnceWith({
-          type: 'UPDATE_OST_BALANCE_CHART_ITEMS',
+          type: "UPDATE_OST_BALANCE_CHART_ITEMS",
           payload: {
             percentage: 10,
-            page: 'ostBalanceChart'
+            page: "ostBalanceChart"
           }
         });
       });
     });
 
-    describe('setup', () => {
+    describe("setup", () => {
       let d3Chart, d3, formatter;
 
       beforeEach(() => {
@@ -242,19 +242,19 @@ describe('get ost balance chart', () => {
         conf.options.setup(d3Chart, d3);
       });
 
-      it('should force Y', () => {
+      it("should force Y", () => {
         expect(d3Chart.forceY).toHaveBeenCalledOnceWith([0, 1]);
       });
 
-      it('should set to stacked', () => {
+      it("should set to stacked", () => {
         expect(d3Chart.stacked).toHaveBeenCalledOnceWith(true);
       });
 
-      it('should set tick format on the Y axis', () => {
+      it("should set tick format on the Y axis", () => {
         expect(d3Chart.yAxis.tickFormat).toHaveBeenCalledOnceWith(formatter);
       });
 
-      it('should generate tooltip content', () => {
+      it("should generate tooltip content", () => {
         expect(d3Chart.tooltip.contentGenerator).toHaveBeenCalledOnceWith(expect.any(Function));
       });
     });

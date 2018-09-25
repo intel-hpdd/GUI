@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import socketStream from '../socket/socket-stream.js';
+import socketStream from "../socket/socket-stream.js";
 
-import type { Command } from './command-types.js';
+import type { Command } from "./command-types.js";
 
-import type { HighlandStreamT } from 'highland';
+import type { HighlandStreamT } from "highland";
 
 export default (commandList: Command[]): HighlandStreamT<Command[]> => {
   const options = {
@@ -18,11 +18,11 @@ export default (commandList: Command[]): HighlandStreamT<Command[]> => {
     }
   };
 
-  const stream: HighlandStreamT<{ objects: Command[] }> = socketStream('/command', options);
+  const stream: HighlandStreamT<{ objects: Command[] }> = socketStream("/command", options);
 
   stream.write({
     objects: commandList
   });
 
-  return stream.pluck('objects');
+  return stream.pluck("objects");
 };

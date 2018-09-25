@@ -5,18 +5,18 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from '@iml/maybe';
-import store from '../store/get-store.js';
+import * as maybe from "@iml/maybe";
+import store from "../store/get-store.js";
 
-import { streamToPromise } from '../promise-transforms.js';
+import { streamToPromise } from "../promise-transforms.js";
 
-import { matchById } from '../api-transforms.js';
+import { matchById } from "../api-transforms.js";
 
 export const oldFilesystemDetailResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('fileSystems')).then(matchById($stateParams.id));
+      "ngInject";
+      return streamToPromise(store.select("fileSystems")).then(matchById($stateParams.id));
     }
   }
 };
@@ -24,11 +24,11 @@ export const oldFilesystemDetailResolve = {
 export const oldUserDetailResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('users').filter(xs => xs.length))
+      "ngInject";
+      return streamToPromise(store.select("users").filter(xs => xs.length))
         .then(matchById($stateParams.id))
         .then(maybe.map.bind(null, (x: Object) => ({ label: x.username })))
-        .then(maybe.withDefault.bind(null, () => ({ label: '' })));
+        .then(maybe.withDefault.bind(null, () => ({ label: "" })));
     }
   }
 };
@@ -36,8 +36,8 @@ export const oldUserDetailResolve = {
 export const oldTargetResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
-      'ngInject';
-      return streamToPromise(store.select('targets')).then(matchById($stateParams.id));
+      "ngInject";
+      return streamToPromise(store.select("targets")).then(matchById($stateParams.id));
     }
   }
 };

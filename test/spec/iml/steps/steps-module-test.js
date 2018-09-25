@@ -1,12 +1,12 @@
-import stepsModule from '../../../../source/iml/steps/steps-module';
-import angular from '../../../angular-mock-setup.js';
+import stepsModule from "../../../../source/iml/steps/steps-module";
+import angular from "../../../angular-mock-setup.js";
 
-describe('Steps module', () => {
+describe("Steps module", () => {
   beforeEach(angular.mock.module(stepsModule));
 
   beforeEach(
     angular.mock.module($provide => {
-      $provide.value('foo', 'bar');
+      $provide.value("foo", "bar");
     })
   );
 
@@ -22,7 +22,7 @@ describe('Steps module', () => {
     })
   );
 
-  describe('step container', () => {
+  describe("step container", () => {
     let template, node;
 
     beforeEach(() => {
@@ -30,29 +30,29 @@ describe('Steps module', () => {
 
       $scope.manager = stepsManager();
 
-      $scope.manager.addStep('step', {
-        template: '<div>{{foo}}</div>',
+      $scope.manager.addStep("step", {
+        template: "<div>{{foo}}</div>",
         controller: function controller($scope) {
-          'ngInject';
-          $scope.foo = 'bar';
+          "ngInject";
+          $scope.foo = "bar";
         },
         transition: function transition() {}
       });
     });
 
-    describe('directive when all promises are resolved', () => {
+    describe("directive when all promises are resolved", () => {
       beforeEach(() => {
         node = $compile(template)($scope);
 
         $scope.$digest();
       });
 
-      it('should start empty', () => {
-        expect(node.html()).toEqual('');
+      it("should start empty", () => {
+        expect(node.html()).toEqual("");
       });
 
-      it('should populate with the step on start.', () => {
-        $scope.manager.start('step');
+      it("should populate with the step on start.", () => {
+        $scope.manager.start("step");
 
         $scope.$digest();
 
@@ -60,13 +60,13 @@ describe('Steps module', () => {
       });
     });
 
-    describe('directive before all promises have resolved', () => {
+    describe("directive before all promises have resolved", () => {
       beforeEach(() => {
         $scope.manager.addWaitingStep({
-          template: '<div>waiting</div>',
+          template: "<div>waiting</div>",
           controller: function controller($scope) {
-            'ngInject';
-            $scope.foo = 'bar';
+            "ngInject";
+            $scope.foo = "bar";
           },
           transition: function transition() {}
         });
@@ -74,13 +74,13 @@ describe('Steps module', () => {
         node = $compile(template)($scope);
       });
 
-      it('should load the waiting template', () => {
+      it("should load the waiting template", () => {
         const deferred = $q.defer();
         const resolves = {
           resolve1: deferred.promise
         };
 
-        $scope.manager.start('step', resolves);
+        $scope.manager.start("step", resolves);
 
         $scope.$digest();
 
@@ -89,17 +89,17 @@ describe('Steps module', () => {
     });
   });
 
-  describe('steps manager', () => {
+  describe("steps manager", () => {
     let stepsManagerInstance, waitingStep;
 
     beforeEach(() => {
       stepsManagerInstance = stepsManager();
       waitingStep = {
-        template: 'untilLoadedTemplate'
+        template: "untilLoadedTemplate"
       };
     });
 
-    it('should return the expected interface', () => {
+    it("should return the expected interface", () => {
       expect(stepsManagerInstance).toEqual({
         addWaitingStep: expect.any(Function),
         addStep: expect.any(Function),
@@ -115,7 +115,7 @@ describe('Steps module', () => {
       });
     });
 
-    describe('calling addWaitingStep multiple times', () => {
+    describe("calling addWaitingStep multiple times", () => {
       let error;
       beforeEach(() => {
         try {
@@ -125,28 +125,28 @@ describe('Steps module', () => {
         }
       });
 
-      it('should throw an error when addWaitingStep is called twice', () => {
-        expect(error.message).toEqual('Cannot assign the waiting step as it is already defined.');
+      it("should throw an error when addWaitingStep is called twice", () => {
+        expect(error.message).toEqual("Cannot assign the waiting step as it is already defined.");
       });
     });
 
-    describe('interacting', () => {
+    describe("interacting", () => {
       let listener, step1, step2;
 
       beforeEach(() => {
         listener = jest.fn();
 
         step1 = {
-          templateUrl: 'assets/html/step1',
-          controller: 'Step1Ctrl',
+          templateUrl: "assets/html/step1",
+          controller: "Step1Ctrl",
           transition: function transition(steps) {
             return steps.step2;
           }
         };
 
         step2 = {
-          templateUrl: 'assets/html/step2',
-          controller: 'Step2Ctrl',
+          templateUrl: "assets/html/step2",
+          controller: "Step2Ctrl",
           transition: function transition(steps) {
             return steps.step1;
           }
@@ -154,17 +154,17 @@ describe('Steps module', () => {
 
         stepsManagerInstance
           .addWaitingStep(waitingStep)
-          .addStep('step1', step1)
-          .addStep('step2', step2)
+          .addStep("step1", step1)
+          .addStep("step2", step2)
           .registerChangeListener(listener)
-          .start('step1');
+          .start("step1");
       });
 
-      it('should start on step1', () => {
+      it("should start on step1", () => {
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined, waitingStep);
       });
 
-      it('should transition to step2', () => {
+      it("should transition to step2", () => {
         stepsManagerInstance.transition();
 
         $rootScope.$digest();
@@ -172,7 +172,7 @@ describe('Steps module', () => {
         expect(listener).toHaveBeenCalledOnceWith(step2, undefined);
       });
 
-      it('should transition back to step1', () => {
+      it("should transition back to step1", () => {
         stepsManagerInstance.transition();
 
         $rootScope.$digest();
@@ -185,7 +185,7 @@ describe('Steps module', () => {
         expect(listener).toHaveBeenCalledOnceWith(step1, undefined);
       });
 
-      it('should destroy a listener', () => {
+      it("should destroy a listener", () => {
         stepsManagerInstance.destroy();
 
         stepsManagerInstance.transition();

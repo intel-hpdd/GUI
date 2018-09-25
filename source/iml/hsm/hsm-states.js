@@ -5,16 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { getData, fsCollStream } from './hsm-fs-resolves.js';
+import { getData, fsCollStream } from "./hsm-fs-resolves.js";
 
-import { copytoolStream, copytoolOperationStream, agentVsCopytoolChart } from './hsm-resolves.js';
+import { copytoolStream, copytoolOperationStream, agentVsCopytoolChart } from "./hsm-resolves.js";
 
-import { GROUPS } from '../auth/authorization.js';
+import { GROUPS } from "../auth/authorization.js";
 
 export const hsmFsState = {
-  name: 'app.hsmFs',
-  controller: 'HsmFsCtrl',
-  controllerAs: 'hsmFs',
+  name: "app.hsmFs",
+  controller: "HsmFsCtrl",
+  controllerAs: "hsmFs",
   template: `<div class="container container-full hsm">
   <div class="row">
     <div config-toggle class="col-xs-12">
@@ -47,7 +47,7 @@ export const hsmFsState = {
   <ui-loader-view class="section-top-margin"></ui-loader-view>
 </div>`,
   data: {
-    helpPage: 'Graphical_User_Interface_9_0.html#9.3.4',
+    helpPage: "Graphical_User_Interface_9_0.html#9.3.4",
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true
   },
@@ -57,8 +57,8 @@ export const hsmFsState = {
 };
 
 export const hsmState = {
-  url: '/configure/hsm/:fsId',
-  name: 'app.hsmFs.hsm',
+  url: "/configure/hsm/:fsId",
+  name: "app.hsmFs.hsm",
   params: {
     fsId: {
       value: null,
@@ -70,11 +70,11 @@ export const hsmState = {
     }
   },
   data: {
-    kind: 'HSM',
-    icon: 'fa-files-o'
+    kind: "HSM",
+    icon: "fa-files-o"
   },
-  controller: 'HsmCtrl',
-  controllerAs: 'hsm',
+  controller: "HsmCtrl",
+  controllerAs: "hsm",
   template: `<div class="no-copytools well text-center" ng-if="hsm.copytools.length === 0">
   <h3>No Copytools are configured</h3>
   <button ng-click="hsm.openAddModal()" ng-disabled="hsm.modalOpen" class="btn btn-primary btn-lg">

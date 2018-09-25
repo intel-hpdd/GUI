@@ -1,14 +1,14 @@
-import Position from '../../../source/iml/position.js';
-import imlPopover from '../../../source/iml/iml-popover.js';
-import angular from '../../angular-mock-setup.js';
+import Position from "../../../source/iml/position.js";
+import imlPopover from "../../../source/iml/iml-popover.js";
+import angular from "../../angular-mock-setup.js";
 
-describe('popover', () => {
+describe("popover", () => {
   let $timeout, $scope, el, popover, button;
 
   beforeEach(
     angular.mock.module(($provide, $compileProvider) => {
-      $provide.service('position', Position);
-      $compileProvider.directive('imlPopover', imlPopover);
+      $provide.service("position", Position);
+      $compileProvider.directive("imlPopover", imlPopover);
     })
   );
 
@@ -33,20 +33,20 @@ describe('popover', () => {
 
       $scope.$digest();
 
-      button = el.querySelector('a');
+      button = el.querySelector("a");
     })
   );
 
-  it('should be not render before opening', () => {
-    expect(el.querySelector('.popover')).toBeNull();
+  it("should be not render before opening", () => {
+    expect(el.querySelector(".popover")).toBeNull();
   });
 
-  describe('open', () => {
+  describe("open", () => {
     beforeEach(() => {
       button.click();
       $timeout.flush();
 
-      popover = el.querySelector('.popover');
+      popover = el.querySelector(".popover");
     });
 
     beforeEach(() => {
@@ -57,48 +57,48 @@ describe('popover', () => {
       if (popover.parentElement) document.body.removeChild(popover);
     });
 
-    it('should display when the button is clicked', () => {
-      expect(popover).toHaveClass('in');
+    it("should display when the button is clicked", () => {
+      expect(popover).toHaveClass("in");
     });
 
-    it('should call scope.onToggle and set state to open', () => {
-      expect($scope.onToggle).toHaveBeenCalledOnceWith('opened');
+    it("should call scope.onToggle and set state to open", () => {
+      expect($scope.onToggle).toHaveBeenCalledOnceWith("opened");
     });
 
-    it('should hide when button is clicked twice', () => {
+    it("should hide when button is clicked twice", () => {
       button.click();
       $timeout.flush();
 
-      expect(popover).not.toHaveClass('in');
+      expect(popover).not.toHaveClass("in");
     });
 
-    it('should call scope.onToggle and set the state to closed', () => {
+    it("should call scope.onToggle and set the state to closed", () => {
       button.click();
       $timeout.flush();
 
-      expect($scope.onToggle).toHaveBeenCalledOnceWith('closed');
+      expect($scope.onToggle).toHaveBeenCalledOnceWith("closed");
     });
 
-    it('should hide when body is clicked', () => {
+    it("should hide when body is clicked", () => {
       document.body.click();
       $timeout.flush();
 
-      expect(popover).not.toHaveClass('in');
+      expect(popover).not.toHaveClass("in");
     });
 
-    it('should not hide when the popover is clicked', () => {
+    it("should not hide when the popover is clicked", () => {
       popover.click();
 
-      expect(popover).toHaveClass('in');
+      expect(popover).toHaveClass("in");
     });
 
-    it('should not hide when a child of the popover is clicked', () => {
-      popover.querySelector('button').click();
+    it("should not hide when a child of the popover is clicked", () => {
+      popover.querySelector("button").click();
 
-      expect(popover).toHaveClass('in');
+      expect(popover).toHaveClass("in");
     });
 
-    it('should provide a work function', () => {
+    it("should provide a work function", () => {
       expect($scope.workFn).toHaveBeenCalledWith(expect.any(Object));
     });
   });

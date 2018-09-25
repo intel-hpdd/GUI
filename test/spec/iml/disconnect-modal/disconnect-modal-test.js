@@ -1,7 +1,7 @@
-import angular from '../../../angular-mock-setup.js';
-import windowUnloadFactory from '../../../../source/iml/disconnect-modal/disconnect-modal.js';
+import angular from "../../../angular-mock-setup.js";
+import windowUnloadFactory from "../../../../source/iml/disconnect-modal/disconnect-modal.js";
 
-describe('disconnect modal', () => {
+describe("disconnect modal", () => {
   let $uibModal, $timeout, modal, $window, disconnectModalFactory, disconnectModal, mockWindowUnload;
 
   beforeEach(() => {});
@@ -19,10 +19,10 @@ describe('disconnect modal', () => {
       open: jest.fn(() => modal)
     };
 
-    jest.mock('../../../../source/iml/window-unload.js', () => mockWindowUnload);
+    jest.mock("../../../../source/iml/window-unload.js", () => mockWindowUnload);
 
     mockWindowUnload = windowUnloadFactory($window);
-    disconnectModalFactory = require('../../../../source/iml/disconnect-modal/disconnect-modal.js').default;
+    disconnectModalFactory = require("../../../../source/iml/disconnect-modal/disconnect-modal.js").default;
 
     disconnectModal = disconnectModalFactory($uibModal, $timeout);
   });
@@ -31,19 +31,19 @@ describe('disconnect modal', () => {
     mockWindowUnload.unloading = false;
   });
 
-  it('should call the modal with the expected params', () => {
+  it("should call the modal with the expected params", () => {
     disconnectModal.open();
     $timeout.flush();
 
     expect($uibModal.open).toHaveBeenCalledWith({
-      backdrop: 'static',
-      windowClass: 'disconnect-modal',
+      backdrop: "static",
+      windowClass: "disconnect-modal",
       keyboard: false,
       template: expect.any(String)
     });
   });
 
-  it('should not open the modal if window has unloaded', () => {
+  it("should not open the modal if window has unloaded", () => {
     mockWindowUnload.unloading = true;
     disconnectModal.open();
     $timeout.flush();
@@ -51,7 +51,7 @@ describe('disconnect modal', () => {
     expect($uibModal.open).not.toHaveBeenCalled();
   });
 
-  it('should not open the modal if the modal already exists', () => {
+  it("should not open the modal if the modal already exists", () => {
     disconnectModal.open();
     $timeout.flush();
     disconnectModal.open();

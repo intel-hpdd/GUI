@@ -3,15 +3,15 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import highland from 'highland';
-import _ from '@iml/lodash-mixins';
-import * as fp from '@iml/fp';
+import highland from "highland";
+import _ from "@iml/lodash-mixins";
+import * as fp from "@iml/fp";
 
-import { getCommandAndHost } from './server-transforms.js';
+import { getCommandAndHost } from "./server-transforms.js";
 
-import { rememberValue } from '../api-transforms.js';
+import { rememberValue } from "../api-transforms.js";
 
-import { resolveStream } from '../promise-transforms.js';
+import { resolveStream } from "../promise-transforms.js";
 
 export function SelectServerProfileStepCtrl(
   $scope,
@@ -23,7 +23,7 @@ export function SelectServerProfileStepCtrl(
   createHostProfiles,
   localApply
 ) {
-  'ngInject';
+  "ngInject";
   Object.assign(this, {
     pdsh: data.pdsh,
     transition: function transition(action) {
@@ -33,7 +33,7 @@ export function SelectServerProfileStepCtrl(
 
       hostProfileStream.destroy();
 
-      if (action === 'previous') return $stepInstance.transition(action, { data: data });
+      if (action === "previous") return $stepInstance.transition(action, { data: data });
 
       createHostProfiles(this.profile, action === OVERRIDE_BUTTON_TYPES.PROCEED).pull(function pullToken(err) {
         if (err) throw err;
@@ -52,7 +52,7 @@ export function SelectServerProfileStepCtrl(
       this.hostnamesHash = hostnamesHash;
     },
     close: function close() {
-      $scope.$emit('addServerModal::closeModal');
+      $scope.$emit("addServerModal::closeModal");
     }
   });
 
@@ -67,8 +67,8 @@ export function SelectServerProfileStepCtrl(
           else return 0;
         })
         .sort((a, b) => {
-          if (a.name === 'base_monitored') return -1;
-          else if (b.name === 'base_monitored') return 1;
+          if (a.name === "base_monitored") return -1;
+          else if (b.name === "base_monitored") return 1;
           else return 0;
         });
 
@@ -84,7 +84,7 @@ export function SelectServerProfileStepCtrl(
 }
 
 export function selectServerProfileStep() {
-  'ngInject';
+  "ngInject";
   return {
     template: `<div class="modal-header">
   <button type="button" class="close" ng-click="selectServerProfile.close()" ng-disabled="selectServerProfile.disabled">
@@ -177,9 +177,9 @@ export function selectServerProfileStep() {
   <button ng-disabled="selectServerProfile.disabled" ng-click="selectServerProfile.transition('previous')" class="btn btn-default"><i class="fa fa-long-arrow-left"></i> Previous</button>
   <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
 </div>`,
-    controller: 'SelectServerProfileStepCtrl as selectServerProfile',
+    controller: "SelectServerProfileStepCtrl as selectServerProfile",
     onEnter: function onEnter(data, createOrUpdateHostsStream, getHostProfiles, waitForCommandCompletion, showCommand) {
-      'ngInject';
+      "ngInject";
       const getProfiles = _.partial(getHostProfiles, data.spring);
 
       const waitForCommand = fp.flow(

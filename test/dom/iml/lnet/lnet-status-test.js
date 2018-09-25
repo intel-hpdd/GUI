@@ -1,11 +1,11 @@
-import lnetStatus from '../../../../source/iml/lnet/lnet-status.js';
-import highland from 'highland';
-import angular from '../../../angular-mock-setup.js';
+import lnetStatus from "../../../../source/iml/lnet/lnet-status.js";
+import highland from "highland";
+import angular from "../../../angular-mock-setup.js";
 
-describe('LNet status directive', () => {
+describe("LNet status directive", () => {
   beforeEach(
     angular.mock.module($compileProvider => {
-      $compileProvider.component('lnetStatus', lnetStatus);
+      $compileProvider.component("lnetStatus", lnetStatus);
     })
   );
 
@@ -23,26 +23,26 @@ describe('LNet status directive', () => {
   );
 
   [
-    ['LNet Up', 'lnet_up'],
-    ['LNet Down', 'lnet_down'],
-    ['LNet Unloaded', 'lnet_unloaded'],
-    ['Configured', 'configured'],
-    ['Unconfigured', 'unconfigured'],
-    ['Undeployed', 'undeployed'],
-    ['Unknown', null]
+    ["LNet Up", "lnet_up"],
+    ["LNet Down", "lnet_down"],
+    ["LNet Unloaded", "lnet_unloaded"],
+    ["Configured", "configured"],
+    ["Unconfigured", "unconfigured"],
+    ["Undeployed", "undeployed"],
+    ["Unknown", null]
   ].forEach(state => {
     it(`should display state for ${state[0]}`, () => {
       $scope.stream.write({
         state: state[1]
       });
 
-      expect(el.querySelector('span').textContent.trim()).toEqual(state[0]);
+      expect(el.querySelector("span").textContent.trim()).toEqual(state[0]);
     });
   });
 
-  it('should display nothing when there is no data', () => {
+  it("should display nothing when there is no data", () => {
     $scope.stream.write();
 
-    expect(el.querySelector('span')).toBeNull();
+    expect(el.querySelector("span")).toBeNull();
   });
 });
