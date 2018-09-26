@@ -2,7 +2,8 @@ import highland from "highland";
 import * as fp from "@iml/fp";
 import angular from "../../../angular-mock-setup.js";
 import broadcaster from "../../../../source/iml/broadcaster.js";
-import asViewerDirective from "../../../../source/iml/as-viewer/as-viewer.js";
+import { default as asViewerDirective, asViewers } from "../../../../source/iml/as-viewer/as-viewer.js";
+import Inferno from "inferno";
 
 describe("as viewer", () => {
   let $compile, $scope, el, s, getText, v;
@@ -181,6 +182,82 @@ describe("as viewer", () => {
 
       it("should update c", function() {
         expect(getText(".c")).toEqual("c");
+      });
+    });
+  });
+});
+
+const deweyTransform = s => s.map(x => ({ ...x, viewer2: { key2: "dewey!" } }));
+describe("as viewers", () => {
+  let root, viewer1B, viewer1V, viewer2B, viewer2V, viewer3B, viewer3V, MultipleViewersComponent;
+
+  describe("with proper args", () => {
+    beforeEach(() => {
+      viewer1V = broadcaster(highland([{ viewer1: { key1: "val1" } }]))();
+      jest.spyOn(viewer1V, "destroy");
+      viewer2V = broadcaster(highland([{ viewer2: { key2: "val2" } }]))();
+      jest.spyOn(viewer2V, "destroy");
+      viewer3V = broadcaster(highland([{ viewer3: { key3: "val3" } }]))();
+      jest.spyOn(viewer3V, "destroy");
+
+      viewer1B = jest.fn(() => viewer1V);
+      viewer2B = jest.fn(() => viewer2V);
+      viewer3B = jest.fn(() => viewer3V);
+
+      MultipleViewersComponent = asViewers(
+        ({
+          huey: {
+            viewer1: { key1 }
+          },
+          dewey: {
+            viewer2: { key2 }
+          },
+          louie: {
+            viewer3: { key3 }
+          },
+          name
+        }) => {
+          return (
+            <div id="multiple-viewers-component">
+              <h1 id="name">{name}</h1>
+              <div id="key1">{key1}</div>
+              <div id="key2">{key2}</div>
+              <div id="key3">{key3}</div>
+            </div>
+          );
+        }
+      );
+
+      root = document.createElement("div");
+      Inferno.render(
+        <MultipleViewersComponent
+          viewers={{ huey: viewer1B, dewey: viewer2B, louie: viewer3B }}
+          transforms={{ dewey: deweyTransform }}
+          name={"test-component"}
+        />,
+        root
+      );
+    });
+
+    it("should match the snapshot", () => {
+      expect(root).toMatchSnapshot();
+    });
+
+    describe("removing the component", () => {
+      beforeEach(() => {
+        Inferno.render(null, root);
+      });
+
+      it("should end the broadcast for viewer1", () => {
+        expect(viewer1V.destroy).toHaveBeenCalledTimes(1);
+      });
+
+      it("should end the broadcast for viewer2", () => {
+        expect(viewer2V.destroy).toHaveBeenCalledTimes(1);
+      });
+
+      it("should end the broadcast for viewer3", () => {
+        expect(viewer3V.destroy).toHaveBeenCalledTimes(1);
       });
     });
   });

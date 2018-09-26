@@ -5,6 +5,7 @@
 
 import type { Element } from "react";
 import type { HighlandStreamT } from "highland";
+import type { streamFnT } from "../broadcaster.js";
 
 import Inferno from "inferno";
 import Component from "inferno-component";
@@ -27,6 +28,37 @@ export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element
     }
     componentWillUnmount() {
       this.viewer.destroy();
+    }
+    render() {
+      return <WrappedComponent {...this.props} {...this.state} />;
+    }
+  };
+
+export const asViewers = WrappedComponent =>
+  class AsViewers extends Component {
+    state: B;
+    viewers: streamFnT;
+    props: {
+      viewers: { string: Function },
+      transforms: { string: Function }
+    };
+    componentWillMount() {
+      this.viewers = [];
+
+      Object.entries(this.props.viewers).forEach(([key, viewer]) => {
+        const stream = viewer();
+        const transform = (this.props.transforms && this.props.transforms[key]) || (s => s);
+
+        this.viewers.push(stream);
+        stream.through(transform).each((data: Object) => {
+          this.setState({
+            [key]: data
+          });
+        });
+      });
+    }
+    componentWillUnmount() {
+      Object.values(this.viewers).forEach(viewer => viewer.destroy());
     }
     render() {
       return <WrappedComponent {...this.props} {...this.state} />;
