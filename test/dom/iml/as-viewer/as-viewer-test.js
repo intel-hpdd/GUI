@@ -187,20 +187,22 @@ describe("as viewer", () => {
   });
 });
 
+const deweyTransform = s => s.map(x => ({ ...x, viewer2: { key2: "dewey!" } }));
 describe("as viewers", () => {
   let root, viewer1B, viewer1V, viewer2B, viewer2V, viewer3B, viewer3V, MultipleViewersComponent;
 
   describe("with proper args", () => {
     beforeEach(() => {
-      viewer1B = broadcaster(highland([{ viewer1: { key1: "val1" } }]));
-      viewer1V = viewer1B();
+      viewer1V = broadcaster(highland([{ viewer1: { key1: "val1" } }]))();
       jest.spyOn(viewer1V, "destroy");
-      viewer2B = broadcaster(highland([{ viewer2: { key2: "val2" } }]));
-      viewer2V = viewer2B();
+      viewer2V = broadcaster(highland([{ viewer2: { key2: "val2" } }]))();
       jest.spyOn(viewer2V, "destroy");
-      viewer3B = broadcaster(highland([{ viewer3: { key3: "val3" } }]));
-      viewer3V = viewer3B();
+      viewer3V = broadcaster(highland([{ viewer3: { key3: "val3" } }]))();
       jest.spyOn(viewer3V, "destroy");
+
+      viewer1B = jest.fn(() => viewer1V);
+      viewer2B = jest.fn(() => viewer2V);
+      viewer3B = jest.fn(() => viewer3V);
 
       MultipleViewersComponent = asViewers(
         ({
@@ -229,7 +231,8 @@ describe("as viewers", () => {
       root = document.createElement("div");
       Inferno.render(
         <MultipleViewersComponent
-          viewers={{ huey: viewer1V, dewey: viewer2V, louie: viewer3V }}
+          viewers={{ huey: viewer1B, dewey: viewer2B, louie: viewer3B }}
+          transforms={{ dewey: deweyTransform }}
           name={"test-component"}
         />,
         root

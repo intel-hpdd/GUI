@@ -34,18 +34,23 @@ export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element
     }
   };
 
-export const asViewers = <B: {}>(WrappedComponent: (b: B) => Element<*>) =>
+export const asViewers = WrappedComponent =>
   class AsViewers extends Component {
     state: B;
     viewers: streamFnT;
     props: {
-      viewers: () => HighlandStreamT<B>
+      viewers: { string: Function },
+      transforms: { string: Function }
     };
     componentWillMount() {
-      this.viewers = this.props.viewers;
+      this.viewers = [];
 
-      Object.entries(this.viewers).forEach(([key, stream]) => {
-        stream.each((data: Object) => {
+      Object.entries(this.props.viewers).forEach(([key, viewer]) => {
+        const stream = viewer();
+        const transform = (this.props.transforms && this.props.transforms[key]) || (s => s);
+
+        this.viewers.push(stream);
+        stream.through(transform).each((data: Object) => {
           this.setState({
             [key]: data
           });

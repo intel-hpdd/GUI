@@ -18,7 +18,7 @@ exports[`as viewers with proper args should match the snapshot 1`] = `
     <div
       id="key2"
     >
-      val2
+      dewey!
     </div>
     <div
       id="key3"
