@@ -8,26 +8,22 @@
 export const UPDATE_CPU_USAGE_CHART_ITEMS = "UPDATE_CPU_USAGE_CHART_ITEMS";
 export const DEFAULT_CPU_USAGE_CHART_ITEMS = "DEFAULT_CPU_USAGE_CHART_ITEMS";
 
-import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
+import produce from "immer";
+
+import type { durationPayloadHashT } from "../duration-picker/duration-picker-module.js";
 
 import type { addCpuUsageActionT } from "./cpu-usage-module.js";
 
-function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
-    [payload.page]: { ...state[payload.page], ...payload }
+export default (state: durationPayloadHashT = {}, { type, payload }: addCpuUsageActionT): durationPayloadHashT =>
+  produce(state, (draft: durationPayloadHashT) => {
+    switch (type) {
+      case DEFAULT_CPU_USAGE_CHART_ITEMS:
+        if (!state[payload.page]) draft[payload.page] = payload;
+        break;
+      case UPDATE_CPU_USAGE_CHART_ITEMS:
+        Object.entries(payload).forEach(([key, val]) => {
+          draft[payload.page][key] = val;
+        });
+        break;
+    }
   });
-}
-
-export default function(state: durationPayloadHashT = {}, { type, payload }: addCpuUsageActionT): durationPayloadHashT {
-  switch (type) {
-    case DEFAULT_CPU_USAGE_CHART_ITEMS:
-      if (!state[payload.page]) state = mergeState(state, payload);
-
-      return state;
-    case UPDATE_CPU_USAGE_CHART_ITEMS:
-      return mergeState(state, payload);
-
-    default:
-      return state;
-  }
-}
