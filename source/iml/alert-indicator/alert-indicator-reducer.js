@@ -7,12 +7,14 @@
 
 export const ADD_ALERT_INDICATOR_ITEMS = "ADD_ALERT_INDICATOR_ITEMS";
 
+import { immutableOriginal } from "../immutability-utils.js";
+
 import type { ActionT } from "../store/store-module.js";
 
-export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
+export default function(state: Object[] = [], { type, payload }: ActionT): Object[] {
   switch (type) {
     case ADD_ALERT_INDICATOR_ITEMS:
-      return payload;
+      return payload.map(immutableOriginal);
     default:
       return state;
   }
