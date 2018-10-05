@@ -8,31 +8,19 @@
 export const UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS = "UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS";
 export const DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS = "DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS";
 
-import type {
-  heatMapPayloadHashT,
-  addReadWriteHeatMapActionT,
-  heatMapDurationPayloadT
-} from "./read-write-heat-map-module.js";
+import produce from "immer";
+import { smartSpread } from "../immutability-utils";
 
-function mergeState(state: heatMapPayloadHashT, payload: heatMapDurationPayloadT) {
-  return Object.assign({}, state, {
-    [payload.page]: { ...state[payload.page], ...payload }
+import type { heatMapPayloadHashT, addReadWriteHeatMapActionT } from "./read-write-heat-map-module.js";
+
+export default (state: heatMapPayloadHashT = {}, { type, payload }: addReadWriteHeatMapActionT): heatMapPayloadHashT =>
+  produce(state, (draft: heatMapPayloadHashT) => {
+    switch (type) {
+      case DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS:
+        if (!state[payload.page]) draft[payload.page] = smartSpread(payload);
+        break;
+      case UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS:
+        draft[payload.page] = smartSpread(draft[payload.page], payload);
+        break;
+    }
   });
-}
-
-export default function(
-  state: heatMapPayloadHashT = {},
-  { type, payload }: addReadWriteHeatMapActionT
-): heatMapPayloadHashT {
-  switch (type) {
-    case DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS:
-      if (!state[payload.page]) state = mergeState(state, payload);
-
-      return state;
-    case UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS:
-      return mergeState(state, payload);
-
-    default:
-      return state;
-  }
-}
