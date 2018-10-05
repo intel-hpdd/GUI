@@ -20,7 +20,9 @@ export default (state: durationPayloadHashT = {}, { type, payload }: addAgentVsC
         if (!draft[payload.page]) draft[payload.page] = payload;
         break;
       case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
-        draft[payload.page] = { ...state[payload.page], ...payload };
+        Object.entries(payload).forEach(([key, val]) => {
+          draft[payload.page][key] = val;
+        });
         break;
     }
   }) || {};
