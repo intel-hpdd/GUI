@@ -8,6 +8,8 @@
 export const SET_DURATION = "SET_DURATION";
 export const SET_SORT = "SET_SORT";
 
+import { smartSpread } from "../immutability-utils";
+
 import type { ActionT } from "../store/store-module.js";
 
 const startingState = {
@@ -19,15 +21,8 @@ const startingState = {
 export default function(state: Object = startingState, { type, payload }: ActionT): Object {
   switch (type) {
     case SET_DURATION:
-      return {
-        ...state,
-        ...payload
-      };
     case SET_SORT:
-      return {
-        ...state,
-        ...payload
-      };
+      return smartSpread(state, payload);
     default:
       return state;
   }
