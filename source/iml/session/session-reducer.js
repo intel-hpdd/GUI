@@ -29,7 +29,7 @@ type stateT = {
 };
 
 export default (state: stateT = {}, { type, payload }: { type: string, payload: stateT }): stateT =>
-  produce(state, draft => {
+  produce(state, (draft: stateT) => {
     switch (type) {
       case SET_SESSION:
         draft.session = payload.session;
@@ -38,4 +38,4 @@ export default (state: stateT = {}, { type, payload }: { type: string, payload: 
         draft.cookie = payload.cookie;
         break;
     }
-  }) || {};
+  });

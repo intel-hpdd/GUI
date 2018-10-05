@@ -14,7 +14,7 @@ import type { durationPayloadHashT } from "../duration-picker/duration-picker-mo
 import type { addAgentVsCopytoolActionT } from "./agent-vs-copytool-module.js";
 
 export default (state: durationPayloadHashT = {}, { type, payload }: addAgentVsCopytoolActionT): durationPayloadHashT =>
-  produce(state, draft => {
+  produce(state, (draft: durationPayloadHashT) => {
     switch (type) {
       case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
         if (!draft[payload.page]) draft[payload.page] = payload;
@@ -25,4 +25,4 @@ export default (state: durationPayloadHashT = {}, { type, payload }: addAgentVsC
         });
         break;
     }
-  }) || {};
+  });
