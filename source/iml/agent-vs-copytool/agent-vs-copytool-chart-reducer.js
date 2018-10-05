@@ -18,7 +18,7 @@ export default (state: durationPayloadHashT = {}, { type, payload }: addAgentVsC
   produce(state, (draft: durationPayloadHashT) => {
     switch (type) {
       case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
-        if (!draft[payload.page]) draft[payload.page] = payload;
+        if (!draft[payload.page]) draft[payload.page] = smartSpread(payload);
         break;
       case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
         draft[payload.page] = smartSpread(draft[payload.page], payload);

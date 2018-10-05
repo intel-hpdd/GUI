@@ -18,7 +18,7 @@ export default (state: durationPayloadHashT = {}, { type, payload }: addCpuUsage
   produce(state, (draft: durationPayloadHashT) => {
     switch (type) {
       case DEFAULT_CPU_USAGE_CHART_ITEMS:
-        if (!state[payload.page]) draft[payload.page] = payload;
+        if (!state[payload.page]) draft[payload.page] = smartSpread(payload);
         break;
       case UPDATE_CPU_USAGE_CHART_ITEMS:
         draft[payload.page] = smartSpread(draft[payload.page], payload);
