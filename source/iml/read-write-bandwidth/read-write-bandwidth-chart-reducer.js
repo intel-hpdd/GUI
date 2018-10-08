@@ -8,29 +8,20 @@
 export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS = "UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS";
 export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS = "DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS";
 
+import produce from "immer";
+import { smartSpread } from "../immutability-utils";
+
 import type { readWriteBandwidthActionT } from "./read-write-bandwidth-module.js";
+import type { durationPayloadHashT } from "../duration-picker/duration-picker-module.js";
 
-import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
-
-function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
-    [payload.page]: { ...state[payload.page], ...payload }
+export default (state: durationPayloadHashT = {}, { type, payload }: readWriteBandwidthActionT): durationPayloadHashT =>
+  produce(state, (draft: durationPayloadHashT) => {
+    switch (type) {
+      case DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS:
+        if (!state[payload.page]) draft[payload.page] = smartSpread(payload);
+        break;
+      case UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS:
+        draft[payload.page] = smartSpread(draft[payload.page], payload);
+        break;
+    }
   });
-}
-
-export default function(
-  state: durationPayloadHashT = {},
-  { type, payload }: readWriteBandwidthActionT
-): durationPayloadHashT {
-  switch (type) {
-    case DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS:
-      if (!state[payload.page]) state = mergeState(state, payload);
-
-      return state;
-    case UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS:
-      return mergeState(state, payload);
-
-    default:
-      return state;
-  }
-}

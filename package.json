@@ -81,6 +81,7 @@
     "highland": "3.0.0-beta.5",
     "html-loader": "^0.5.0",
     "html-webpack-plugin": "^2.30.1",
+    "immer": "^1.7.2",
     "inferno": "^3.7.1",
     "inferno-component": "^3.7.1",
     "jest": "^20.0.4",

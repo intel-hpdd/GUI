@@ -5,7 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as maybe from "@iml/maybe";
+import produce from "immer";
+import { smartSpread } from "../immutability-utils";
 
 import {
   ADD_TREE_ITEMS,
@@ -17,59 +18,32 @@ import {
 
 import type { treeActionsT, treeHashT } from "./tree-types.js";
 
-function updateItem(state, id, fn) {
-  const nextStateM = maybe.map(
-    x => ({
-      ...state,
-      [id]: {
-        ...x,
-        ...fn(x)
+export default (state: treeHashT = {}, action: treeActionsT): treeHashT =>
+  produce(state, (draft: treeHashT) => {
+    switch (action.type) {
+      case ADD_TREE_ITEMS:
+        action.payload.forEach(x => (draft[x.treeId] = x));
+        break;
+      case TOGGLE_COLLECTION_OPEN: {
+        const { id, open } = action.payload;
+
+        if (state[id]) draft[id] = smartSpread(state[id], { open });
+        break;
       }
-    }),
-    maybe.of(state[id])
-  );
+      case UPDATE_COLLECTION_OFFSET: {
+        const { id, offset } = action.payload;
 
-  return maybe.withDefault(() => state, nextStateM);
-}
+        if (state[id]) draft[id] = smartSpread(state[id], { meta: { ...state[id].meta, offset } });
+        break;
+      }
+      case TOGGLE_ITEM_OPEN: {
+        const { id, itemId, open } = action.payload;
 
-export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
-  switch (action.type) {
-    case ADD_TREE_ITEMS:
-      return action.payload.reduce((state, x) => {
-        return {
-          ...state,
-          [x.treeId]: x
-        };
-      }, state);
-    case TOGGLE_COLLECTION_OPEN: {
-      const { id, open } = action.payload;
-
-      // eslint-disable-next-line no-unused-vars
-      return updateItem(state, id, (...rest) => ({ open }));
+        if (state[id]) draft[id] = smartSpread(state[id], { opens: { ...state[id].opens, [itemId]: open } });
+        break;
+      }
+      case RESET_STATE:
+        draft = {};
+        break;
     }
-    case UPDATE_COLLECTION_OFFSET: {
-      const { id, offset } = action.payload;
-
-      return updateItem(state, id, x => ({
-        meta: {
-          ...x.meta,
-          offset
-        }
-      }));
-    }
-    case TOGGLE_ITEM_OPEN: {
-      const { id, itemId, open } = action.payload;
-
-      return updateItem(state, id, x => ({
-        opens: {
-          ...x.opens,
-          [itemId]: open
-        }
-      }));
-    }
-    case RESET_STATE:
-      return {};
-    default:
-      return state;
-  }
-};
+  });

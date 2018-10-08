@@ -8,6 +8,8 @@
 export const SET_SESSION = "SET_SESSION";
 export const SET_COOKIE = "SET_COOKIE";
 
+import produce from "immer";
+
 import type { sessionT } from "../api-types.js";
 
 import type { Exact } from "../../flow-workarounds.js";
@@ -21,26 +23,19 @@ export type cookieActionT = Exact<{
   payload: { cookie: string }
 }>;
 
-export type sessionActionsT = sessionActionT | cookieActionT | Exact<{ type: string, payload: any }>;
-
 type stateT = {
   session?: sessionT,
   cookie?: string
 };
 
-export default (state: stateT = {}, actions: sessionActionsT): stateT => {
-  switch (actions.type) {
-    case SET_SESSION:
-      return {
-        ...state,
-        ...actions.payload
-      };
-    case SET_COOKIE:
-      return {
-        ...state,
-        ...actions.payload
-      };
-    default:
-      return state;
-  }
-};
+export default (state: stateT = {}, { type, payload }: { type: string, payload: stateT }): stateT =>
+  produce(state, (draft: stateT) => {
+    switch (type) {
+      case SET_SESSION:
+        draft.session = payload.session;
+        break;
+      case SET_COOKIE:
+        draft.cookie = payload.cookie;
+        break;
+    }
+  });

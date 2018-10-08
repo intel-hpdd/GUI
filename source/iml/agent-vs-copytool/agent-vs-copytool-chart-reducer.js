@@ -8,29 +8,20 @@
 export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS = "UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS";
 export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS = "DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS";
 
-import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
+import produce from "immer";
+import { smartSpread } from "../immutability-utils";
 
+import type { durationPayloadHashT } from "../duration-picker/duration-picker-module.js";
 import type { addAgentVsCopytoolActionT } from "./agent-vs-copytool-module.js";
 
-function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
-    [payload.page]: { ...state[payload.page], ...payload }
+export default (state: durationPayloadHashT = {}, { type, payload }: addAgentVsCopytoolActionT): durationPayloadHashT =>
+  produce(state, (draft: durationPayloadHashT) => {
+    switch (type) {
+      case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
+        if (!draft[payload.page]) draft[payload.page] = smartSpread(payload);
+        break;
+      case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
+        draft[payload.page] = smartSpread(draft[payload.page], payload);
+        break;
+    }
   });
-}
-
-export default function(
-  state: durationPayloadHashT = {},
-  { type, payload }: addAgentVsCopytoolActionT
-): durationPayloadHashT {
-  switch (type) {
-    case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      if (!state[payload.page]) state = mergeState(state, payload);
-
-      return state;
-    case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      return mergeState(state, payload);
-
-    default:
-      return state;
-  }
-}
