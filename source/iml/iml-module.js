@@ -5,6 +5,12 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+declare var process: {
+  env: {
+    NODE_ENV: string
+  }
+};
+
 import "font-awesome-webpack";
 import "../styles/imports.less";
 import "../favicon.ico";
@@ -110,6 +116,9 @@ import help from "./help.js";
 import windowUnload from "./window-unload.js";
 import disconnectModal from "./disconnect-modal/disconnect-modal.js";
 import disconnectListener from "./disconnect-modal/disconnect-listener.js";
+import { setAutoFreeze } from "immer";
+
+setAutoFreeze(process.env.NODE_ENV !== "production");
 
 const imlModule = angular
   .module("iml", [
