@@ -5,6 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import { smartSpread } from "../immutability-utils";
+
 import type { Exact } from "../../flow-workarounds.js";
 
 export const ADD_ERRORS = "ADD_ERRORS";
@@ -41,9 +43,7 @@ export type loginFormT = Exact<{
 export default (state: loginFormT = { inProgress: false }, actions: loginFormActionsT): loginFormT => {
   switch (actions.type) {
     case ADD_ERRORS:
-      return {
-        ...actions.payload
-      };
+      return smartSpread(actions.payload);
     case ADD_IN_PROGRESS:
       return {
         inProgress: actions.payload.inProgress

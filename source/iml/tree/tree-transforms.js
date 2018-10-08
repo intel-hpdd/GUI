@@ -15,6 +15,8 @@ import { addCurrentPage } from "../api-transforms.js";
 
 import { addTreeItems, createItem } from "../tree/tree-actions.js";
 
+import { smartSpread } from "../immutability-utils";
+
 import type { Maybe } from "@iml/maybe";
 
 import type { treeItemT, treeHashT } from "./tree-types.js";
@@ -71,7 +73,7 @@ export const transformItems = (
     highland.filter(hasChanges(x => x.meta.offset)),
     flatMapChanges.bind(null, fnTo$),
     highland.map(addCurrentPage),
-    highland.map(x => Object.assign(latest, x)),
+    highland.map(x => smartSpread(latest, x)),
     highland.map(x => addTreeItems([x]))
   );
 };

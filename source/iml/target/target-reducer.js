@@ -7,12 +7,14 @@
 
 export const ADD_TARGET_ITEMS = "ADD_TARGET_ITEMS";
 
+import { immutableOriginal } from "../immutability-utils.js";
+
 import type { ActionT } from "../store/store-module.js";
 
 export default function targetReducer(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_TARGET_ITEMS:
-      return payload;
+      return payload.map(immutableOriginal);
     default:
       return state;
   }
