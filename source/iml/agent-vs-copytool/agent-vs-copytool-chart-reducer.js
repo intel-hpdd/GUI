@@ -15,7 +15,7 @@ import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/
 import type { addAgentVsCopytoolActionT } from "./agent-vs-copytool-module.js";
 
 function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }
@@ -26,11 +26,11 @@ export default function(
 ): durationPayloadHashT {
   switch (type) {
     case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      if (!state[payload.page]) state = Immutable(mergeState(state, payload));
+      if (!state[payload.page]) state = mergeState(state, payload);
 
       return state;
     case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      return Immutable(mergeState(state, payload));
+      return mergeState(state, payload);
 
     default:
       return state;
