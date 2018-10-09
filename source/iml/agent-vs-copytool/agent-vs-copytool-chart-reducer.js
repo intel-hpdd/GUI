@@ -8,6 +8,8 @@
 export const UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS = "UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS";
 export const DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS = "DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
 
 import type { addAgentVsCopytoolActionT } from "./agent-vs-copytool-module.js";
@@ -24,11 +26,11 @@ export default function(
 ): durationPayloadHashT {
   switch (type) {
     case DEFAULT_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      if (!state[payload.page]) state = mergeState(state, payload);
+      if (!state[payload.page]) state = Immutable(mergeState(state, payload));
 
       return state;
     case UPDATE_AGENT_VS_COPYTOOL_CHART_ITEMS:
-      return mergeState(state, payload);
+      return Immutable(mergeState(state, payload));
 
     default:
       return state;

@@ -91,6 +91,7 @@
     "nvd3": "^1.8.5",
     "pre-commit": "1.2.2",
     "prettier": "^1.13.6",
+    "seamless-immutable": "^7.1.4",
     "sprintf-js": "1.1.0",
     "style-loader": "^0.18.2",
     "twix": "1.1.5",
