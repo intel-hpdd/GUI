@@ -101,6 +101,7 @@ const config = {
     ]
   },
   plugins: [
+    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: "index.ejs"

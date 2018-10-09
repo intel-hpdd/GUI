@@ -8,26 +8,21 @@
 export const SET_DURATION = "SET_DURATION";
 export const SET_SORT = "SET_SORT";
 
+import Immutable from "seamless-immutable";
+
 import type { ActionT } from "../store/store-module.js";
 
-const startingState = {
+const startingState = Immutable({
   duration: 10,
   orderBy: "read_bytes_average",
   desc: true
-};
+});
 
 export default function(state: Object = startingState, { type, payload }: ActionT): Object {
   switch (type) {
     case SET_DURATION:
-      return {
-        ...state,
-        ...payload
-      };
     case SET_SORT:
-      return {
-        ...state,
-        ...payload
-      };
+      return Immutable.merge(state, payload);
     default:
       return state;
   }
