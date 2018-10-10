@@ -8,12 +8,14 @@
 export const UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS = "UPDATE_READ_WRITE_BANDWIDTH_CHART_ITEMS";
 export const DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS = "DEFAULT_READ_WRITE_BANDWIDTH_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { readWriteBandwidthActionT } from "./read-write-bandwidth-module.js";
 
 import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
 
 function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }

@@ -3,6 +3,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import Immutable from "seamless-immutable";
+
 export default function naturalSort() {
   "ngInject";
   const re = /([a-zA-Z]+)|([0-9]+)/g;
@@ -15,11 +17,15 @@ export default function naturalSort() {
    * @param {Boolean} reverse Indicates if the sorted array should be reversed
    */
   return function orderArrayUsingNaturalSort(input, predicate, reverse) {
+    const isImmutable = Immutable.isImmutable(input);
+    input = isImmutable ? Immutable.asMutable(input) : input;
+
     getStringToSort = predicate;
-    const sortedArray = input.sort(naturalSortAlgorithm);
+    let sortedArray = input.sort(naturalSortAlgorithm);
 
     if (reverse === true) sortedArray.reverse();
 
+    sortedArray = isImmutable ? Immutable(sortedArray) : sortedArray;
     return sortedArray;
   };
 

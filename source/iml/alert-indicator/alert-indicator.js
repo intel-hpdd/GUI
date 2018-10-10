@@ -8,6 +8,7 @@
 import Inferno from "inferno";
 import Tooltip from "../tooltip.js";
 import WindowClickListener from "../window-click-listener.js";
+import Immutable from "seamless-immutable";
 
 import { asViewer } from "../as-viewer/as-viewer";
 import { PopoverContainer, Popover, PopoverTitle, PopoverContent } from "../popover.js";
@@ -24,7 +25,7 @@ const getMessage = alerts => {
 const AlertIndicator = asViewer(
   "alerts",
   ({ alerts: xs, size, recordId }: { alerts: Object[], size?: "small" | "medium", recordId: string }) => {
-    const alerts = xs.filter(x => x.affected.find(y => y === recordId));
+    const alerts = Immutable.asMutable(xs.filter(x => x.affected.find(y => y === recordId)));
 
     return (
       <span class="record-state">

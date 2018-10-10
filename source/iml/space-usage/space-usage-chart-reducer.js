@@ -8,12 +8,14 @@
 export const UPDATE_SPACE_USAGE_CHART_ITEMS = "UPDATE_SPACE_USAGE_CHART_ITEMS";
 export const DEFAULT_SPACE_USAGE_CHART_ITEMS = "DEFAULT_SPACE_USAGE_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
 
 import type { addSpaceUsageActionT } from "./space-usage-module.js";
 
 function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }

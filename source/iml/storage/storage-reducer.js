@@ -8,6 +8,8 @@
 import type { StorageResourceClass, StorageResourceResponse } from "./storage-types.js";
 import type { ActionT } from "../store/store-module.js";
 
+import Immutable from "seamless-immutable";
+
 export type Config = {
   selectIndex: ?number,
   sortKey: string,
@@ -47,54 +49,34 @@ export default function(
 ): State {
   switch (type) {
     case ADD_STORAGE_RESOURCE_CLASSES:
-      return {
-        ...state,
-        resourceClasses: payload
-      };
+      return Immutable.merge(state, { resourceClasses: payload });
     case ADD_STORAGE_RESOURCES:
-      return {
-        ...state,
-        resources: payload
-      };
+      return Immutable.merge(state, { resources: payload });
     case SET_STORAGE_SELECT_INDEX:
-      return {
-        ...state,
-        config: {
-          ...state.config,
+      return Immutable.merge(state, {
+        config: Immutable.merge(state.config, {
           selectIndex: payload,
           sortKey: "",
           sortDesc: false,
           loading: false,
           entries: 10,
           offset: 0
-        }
-      };
+        })
+      });
     case SET_STORAGE_SORTING:
-      return {
-        ...state,
-        config: {
-          ...state.config,
-          ...handleSorting(state, payload)
-        }
-      };
+      return Immutable.merge(state, {
+        config: Immutable.merge(state.config, handleSorting(state, payload))
+      });
     case SET_STORAGE_TABLE_LOADING:
       if (payload === state.config.loading) return state;
 
-      return {
-        ...state,
-        config: {
-          ...state.config,
-          loading: payload
-        }
-      };
+      return Immutable.merge(state, {
+        config: Immutable.merge(state.config, { loading: payload })
+      });
     case SET_STORAGE_CONFIG:
-      return {
-        ...state,
-        config: {
-          ...state.config,
-          ...payload
-        }
-      };
+      return Immutable.merge(state, {
+        config: Immutable.merge(state.config, payload)
+      });
     default:
       return state;
   }

@@ -8,12 +8,14 @@
 export const UPDATE_HOST_CPU_RAM_CHART_ITEMS = "UPDATE_HOST_CPU_RAM_CHART_ITEMS";
 export const DEFAULT_HOST_CPU_RAM_CHART_ITEMS = "DEFAULT_HOST_CPU_RAM_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { addHostCpuRamActionT } from "./host-cpu-ram-chart-module.js";
 
 import type { durationPayloadHashT, durationPayloadT } from "../duration-picker/duration-picker-module.js";
 
 function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }

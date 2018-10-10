@@ -5,6 +5,8 @@
 
 import * as fp from "@iml/fp";
 
+import Immutable from "seamless-immutable";
+
 export default function groupActionsFilter() {
   const numDisplayGroups = fp.flow(
     fp.map(fp.view(fp.lensProp("display_group"))),
@@ -22,7 +24,10 @@ export default function groupActionsFilter() {
   return function groupActions(input) {
     if (numDisplayGroups(input) !== input.length) return input;
 
-    const sorted = input.sort(function(a, b) {
+    const isImmutable = Immutable.isImmutable(input);
+    input = isImmutable ? Immutable.asMutable(input, { deep: true }) : input;
+
+    let sorted = input.sort(function(a, b) {
       const x = a.display_group - b.display_group;
       return x === 0 ? a.display_order - b.display_order : x;
     });
@@ -33,6 +38,7 @@ export default function groupActionsFilter() {
       if (next && item.display_group !== next.display_group) item.last = true;
     });
 
+    sorted = isImmutable ? Immutable(sorted) : sorted;
     return sorted;
   };
 }

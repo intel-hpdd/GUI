@@ -6,6 +6,8 @@
 import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
 
+import Immutable from "seamless-immutable";
+
 import getCommandStream from "../command/get-command-stream.js";
 
 const viewLens = fp.flow(
@@ -166,7 +168,10 @@ export default function ServerCtrl(
 
   const p = $scope.propagateChange.bind(null, $scope, $scope.server, "servers");
 
-  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
+  streams.serversStream
+    .map(xs => Immutable.asMutable(xs, { deep: true }))
+    .tap(selectedServers.addNewServers.bind(selectedServers))
+    .through(p);
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

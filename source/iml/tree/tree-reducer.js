@@ -7,6 +7,8 @@
 
 import * as maybe from "@iml/maybe";
 
+import Immutable from "seamless-immutable";
+
 import {
   ADD_TREE_ITEMS,
   TOGGLE_COLLECTION_OPEN,
@@ -19,13 +21,10 @@ import type { treeActionsT, treeHashT } from "./tree-types.js";
 
 function updateItem(state, id, fn) {
   const nextStateM = maybe.map(
-    x => ({
-      ...state,
-      [id]: {
-        ...x,
-        ...fn(x)
-      }
-    }),
+    x =>
+      Immutable.merge(state, {
+        [id]: Immutable.merge(x, fn(x))
+      }),
     maybe.of(state[id])
   );
 
@@ -36,10 +35,7 @@ export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
   switch (action.type) {
     case ADD_TREE_ITEMS:
       return action.payload.reduce((state, x) => {
-        return {
-          ...state,
-          [x.treeId]: x
-        };
+        return Immutable.merge(state, { [x.treeId]: x });
       }, state);
     case TOGGLE_COLLECTION_OPEN: {
       const { id, open } = action.payload;
@@ -68,7 +64,7 @@ export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
       }));
     }
     case RESET_STATE:
-      return {};
+      return Immutable({});
     default:
       return state;
   }

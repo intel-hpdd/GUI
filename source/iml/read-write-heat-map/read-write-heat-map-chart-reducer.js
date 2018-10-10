@@ -8,6 +8,8 @@
 export const UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS = "UPDATE_READ_WRITE_HEAT_MAP_CHART_ITEMS";
 export const DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS = "DEFAULT_READ_WRITE_HEAT_MAP_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type {
   heatMapPayloadHashT,
   addReadWriteHeatMapActionT,
@@ -15,7 +17,7 @@ import type {
 } from "./read-write-heat-map-module.js";
 
 function mergeState(state: heatMapPayloadHashT, payload: heatMapDurationPayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }

@@ -7,12 +7,14 @@
 
 export const ADD_USER_ITEMS = "ADD_USER_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { ActionT } from "../store/store-module.js";
 
 export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_USER_ITEMS:
-      return payload;
+      return Immutable(payload);
     default:
       return state;
   }
