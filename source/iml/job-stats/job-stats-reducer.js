@@ -12,11 +12,11 @@ import Immutable from "seamless-immutable";
 
 import type { ActionT } from "../store/store-module.js";
 
-const startingState = {
+const startingState = Immutable({
   duration: 10,
   orderBy: "read_bytes_average",
   desc: true
-};
+});
 
 export default function(state: Object = startingState, { type, payload }: ActionT): Object {
   switch (type) {

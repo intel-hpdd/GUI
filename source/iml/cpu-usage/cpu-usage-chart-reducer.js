@@ -20,7 +20,10 @@ function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
   });
 }
 
-export default function(state: durationPayloadHashT = {}, { type, payload }: addCpuUsageActionT): durationPayloadHashT {
+export default function(
+  state: durationPayloadHashT = Immutable({}),
+  { type, payload }: addCpuUsageActionT
+): durationPayloadHashT {
   switch (type) {
     case DEFAULT_CPU_USAGE_CHART_ITEMS:
       if (!state[payload.page]) state = mergeState(state, payload);

@@ -11,7 +11,7 @@ import Immutable from "seamless-immutable";
 
 import type { ActionT } from "../store/store-module.js";
 
-export default function targetReducer(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
+export default function targetReducer(state: Array<Object> = Immutable([]), { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_TARGET_ITEMS:
       return Immutable(payload);

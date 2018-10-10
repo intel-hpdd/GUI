@@ -21,7 +21,7 @@ function mergeState(state: durationPayloadHashT, payload: durationPayloadT) {
 }
 
 export default function(
-  state: durationPayloadHashT = {},
+  state: durationPayloadHashT = Immutable({}),
   { type, payload }: readWriteBandwidthActionT
 ): durationPayloadHashT {
   switch (type) {

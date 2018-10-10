@@ -30,7 +30,7 @@ type stateT = {
   cookie?: string
 };
 
-export default (state: stateT = {}, actions: sessionActionsT): stateT => {
+export default (state: stateT = Immutable({}), actions: sessionActionsT): stateT => {
   switch (actions.type) {
     case SET_SESSION:
     case SET_COOKIE:

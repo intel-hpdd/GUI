@@ -33,7 +33,7 @@ export const SET_STORAGE_TABLE_LOADING = "SET_STORAGE_TABLE_LOADING";
 export const SET_STORAGE_CONFIG = "SET_STORAGE_CONFIG";
 
 export default function(
-  state: State = {
+  state: State = Immutable({
     resourceClasses: null,
     resources: null,
     config: {
@@ -44,7 +44,7 @@ export default function(
       entries: 10,
       offset: 0
     }
-  },
+  }),
   { type, payload }: ActionT
 ): State {
   switch (type) {
@@ -54,28 +54,38 @@ export default function(
       return Immutable.merge(state, { resources: payload });
     case SET_STORAGE_SELECT_INDEX:
       return Immutable.merge(state, {
-        config: Immutable.merge(state.config, {
+        config: {
+          ...state.config,
           selectIndex: payload,
           sortKey: "",
           sortDesc: false,
           loading: false,
           entries: 10,
           offset: 0
-        })
+        }
       });
     case SET_STORAGE_SORTING:
       return Immutable.merge(state, {
-        config: Immutable.merge(state.config, handleSorting(state, payload))
+        config: {
+          ...state.config,
+          ...handleSorting(state, payload)
+        }
       });
     case SET_STORAGE_TABLE_LOADING:
       if (payload === state.config.loading) return state;
 
       return Immutable.merge(state, {
-        config: Immutable.merge(state.config, { loading: payload })
+        config: {
+          ...state.config,
+          loading: payload
+        }
       });
     case SET_STORAGE_CONFIG:
       return Immutable.merge(state, {
-        config: Immutable.merge(state.config, payload)
+        config: {
+          ...state.config,
+          ...payload
+        }
       });
     default:
       return state;

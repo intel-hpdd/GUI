@@ -23,7 +23,10 @@ function updateItem(state, id, fn) {
   const nextStateM = maybe.map(
     x =>
       Immutable.merge(state, {
-        [id]: Immutable.merge(x, fn(x))
+        [id]: {
+          ...x,
+          ...fn(x)
+        }
       }),
     maybe.of(state[id])
   );
@@ -31,7 +34,7 @@ function updateItem(state, id, fn) {
   return maybe.withDefault(() => state, nextStateM);
 }
 
-export default (state: treeHashT = {}, action: treeActionsT): treeHashT => {
+export default (state: treeHashT = Immutable({}), action: treeActionsT): treeHashT => {
   switch (action.type) {
     case ADD_TREE_ITEMS:
       return action.payload.reduce((state, x) => {

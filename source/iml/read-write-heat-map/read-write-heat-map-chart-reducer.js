@@ -23,7 +23,7 @@ function mergeState(state: heatMapPayloadHashT, payload: heatMapDurationPayloadT
 }
 
 export default function(
-  state: heatMapPayloadHashT = {},
+  state: heatMapPayloadHashT = Immutable({}),
   { type, payload }: addReadWriteHeatMapActionT
 ): heatMapPayloadHashT {
   switch (type) {

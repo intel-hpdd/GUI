@@ -19,7 +19,7 @@ function mergeState(state: ostBalancePayloadHashT, payload: ostBalancePayloadT) 
 }
 
 export default function(
-  state: ostBalancePayloadHashT = {},
+  state: ostBalancePayloadHashT = Immutable({}),
   { type, payload }: addOstBalanceActionT
 ): ostBalancePayloadHashT {
   switch (type) {

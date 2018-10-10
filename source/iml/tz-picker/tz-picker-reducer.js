@@ -10,7 +10,7 @@ export type TzPickerProps = {
   isUtc: boolean
 };
 
-export default function(state: TzPickerProps = { isUtc: false }, { type, payload }: ActionT): TzPickerProps {
+export default function(state: TzPickerProps = Immutable({ isUtc: false }), { type, payload }: ActionT): TzPickerProps {
   switch (type) {
     case SET_TIME_ZONE:
       return Immutable({
