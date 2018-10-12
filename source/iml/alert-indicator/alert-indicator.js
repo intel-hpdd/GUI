@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import Tooltip from "../tooltip.js";
 import WindowClickListener from "../window-click-listener.js";
 
@@ -69,11 +69,11 @@ export const alertIndicatorNg = {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<AlertIndicator viewer={this.alertStream} size={this.displayType} recordId={this.recordId} />, el);
+      render(<AlertIndicator viewer={this.alertStream} size={this.displayType} recordId={this.recordId} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
     };
   }
 };

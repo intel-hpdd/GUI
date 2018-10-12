@@ -8,8 +8,7 @@
 import type { Field, StorageResourceClass } from "./storage-types.js";
 import type { State } from "./storage-reducer.js";
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { render, Component } from "inferno";
 
 import { asViewer } from "../as-viewer/as-viewer";
 import TableFilter from "./table-filter.js";
@@ -28,7 +27,7 @@ const FormItem = ({ field, value, onInput }: { field: Field, value: string, onIn
     <input
       required={!field.optional}
       value={value}
-      onInput={onInput}
+      oninput={onInput}
       type={field.class === "Password" ? "password" : "text"}
       class="form-control"
       id={field.name}
@@ -181,11 +180,11 @@ export default {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<AddStorageComponent viewer={this.storageB} />, el);
+      render(<AddStorageComponent viewer={this.storageB} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
 
       this.storageB.endBroadcast();
     };

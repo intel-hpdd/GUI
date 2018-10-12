@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { Popover, PopoverContent, PopoverTitle, PopoverContainer } from "../../../source/iml/popover";
 import WindowClickListener from "../../../source/iml/window-click-listener.js";
 import { renderToSnapshot } from "../../test-utils.js";
@@ -68,7 +68,7 @@ describe("Popover DOM testing", () => {
         </WindowClickListener>
       );
 
-      Inferno.render(vNode, root);
+      render(vNode, root);
 
       querySelector(document, "body").appendChild(root);
     });

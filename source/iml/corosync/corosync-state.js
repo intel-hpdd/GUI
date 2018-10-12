@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 type stateT = {
   state: "started" | "stopped" | "unconfigured"
@@ -44,7 +44,7 @@ export default {
     "ngInject";
     this.stream
       .filter(Boolean)
-      .each(({ state }: stateT) => Inferno.render(<CorosyncStateComponent state={state} />, $element[0]));
+      .each(({ state }: stateT) => render(<CorosyncStateComponent state={state} />, $element[0]));
 
     this.$onDestroy = () => this.stream.destroy();
   }

@@ -1,6 +1,5 @@
 // @flow
 
-import Inferno from "inferno";
 import highland, { type HighlandStreamT } from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import type { StorageResource } from "../../../../source/iml/storage/storage-types.js";

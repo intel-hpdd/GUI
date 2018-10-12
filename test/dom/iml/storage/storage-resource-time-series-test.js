@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import highland from "highland";
 
 describe("storage resource time series", () => {
@@ -49,7 +49,7 @@ describe("storage resource time series", () => {
       ]
     };
 
-    Inferno.render(<StorageResourceTimeSeries resourceUri="/api/foo/bar/" chart={data} />, root);
+    render(<StorageResourceTimeSeries resourceUri="/api/foo/bar/" chart={data} />, root);
     // $FlowFixMe: Mock for test
     Element.prototype.getTotalLength = () => 100;
     jest.useFakeTimers();
@@ -88,7 +88,7 @@ describe("storage resource time series", () => {
     expect(root).toMatchSnapshot();
   });
 
-  it("should render data", () => {
+  fit("should render data", () => {
     mockStream.write([
       { data: { reads: 3 }, ts: "2017-08-08T20:32:40+00:00" },
       { data: { reads: 4 }, ts: "2017-08-08T20:32:50+00:00" }

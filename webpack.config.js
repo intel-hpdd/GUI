@@ -3,10 +3,8 @@
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-const extractLess = new ExtractTextPlugin("[name].[contenthash].css");
 
 const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
 
@@ -87,29 +85,31 @@ const config = {
     new HtmlWebpackPlugin({
       template: "index.ejs"
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions)
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css"
+    })
   ]
 };
 
-if (process.env.NODE_ENV === "production") {
-  config.plugins.push(extractLess);
-  config.module.rules.push({
-    test: /\.less$/,
-    use: extractLess.extract({
-      use: [
-        {
-          loader: "css-loader"
-        },
-        {
-          loader: "less-loader"
-        }
-      ]
-    })
-  });
-} else {
+if (process.env.NODE_ENV === "production")
   config.module.rules.push({
     test: /\.less$/,
     use: [
+      MiniCssExtractPlugin.loader,
+      {
+        loader: "css-loader"
+      },
+      {
+        loader: "less-loader"
+      }
+    ]
+  });
+else
+  config.module.rules.push({
+    test: /\.less$/,
+    use: [
+      MiniCssExtractPlugin.loader,
       {
         loader: "style-loader" // creates style nodes from JS strings
       },
@@ -121,6 +121,5 @@ if (process.env.NODE_ENV === "production") {
       }
     ]
   });
-}
 
 module.exports = config;

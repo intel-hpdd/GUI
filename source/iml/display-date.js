@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { asViewer } from "./as-viewer/as-viewer.js";
 import moment from "moment";
 
@@ -40,11 +40,11 @@ export const displayDateComponent = {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<DisplayDate viewer={this.tzPickerB} datetime={this.datetime} />, el);
+      render(<DisplayDate viewer={this.tzPickerB} datetime={this.datetime} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
     };
   }
 };

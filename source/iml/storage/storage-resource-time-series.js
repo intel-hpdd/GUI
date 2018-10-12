@@ -14,8 +14,7 @@ import Chart from "../charting/chart.js";
 import Axis from "../charting/axis.js";
 import Line from "../charting/line.js";
 import Legend from "../charting/legend.js";
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import d3 from "d3";
 import socketStream from "../socket/socket-stream.js";
 
@@ -145,14 +144,17 @@ export default class StorageResourceTimeSeries extends Component {
               <Legend colors={colors} transform="translate(50,0)" />
               <Axis type="x" />
               <Axis type="y" />
-              {this.props.chart.series.map(x => (
-                <Line
-                  color={() => colors(x.name)}
-                  xValue={(x: Point) => new Date(x.ts)}
-                  yValue={p => p.data[x.name]}
-                  xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
-                />
-              ))}
+              {this.props.chart.series.map(x => {
+                console.log("x", x);
+                return (
+                  <Line
+                    color={() => colors(x.name)}
+                    xValue={(x: Point) => new Date(x.ts)}
+                    yValue={p => p.data[x.name]}
+                    xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
+                  />
+                );
+              })}
             </Scales>
           </Chart>
         </div>

@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 type statesT = "lnet_up" | "lnet_down" | "lnet_unloaded" | "configured" | "unconfigured" | "undeployed";
 
@@ -68,8 +68,6 @@ export default {
   },
   controller: function($element: HTMLElement[]) {
     "ngInject";
-    this.stream
-      .filter(Boolean)
-      .each(({ state }: stateT) => Inferno.render(<LnetStatusComponent state={state} />, $element[0]));
+    this.stream.filter(Boolean).each(({ state }: stateT) => render(<LnetStatusComponent state={state} />, $element[0]));
   }
 };

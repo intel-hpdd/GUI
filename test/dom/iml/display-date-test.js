@@ -4,8 +4,6 @@ import { querySelector } from "../../../source/iml/dom-utils.js";
 import angular from "../../angular-mock-setup.js";
 import highland from "highland";
 
-import Inferno from "inferno";
-
 import type { HighlandStreamT } from "highland";
 
 type UtcStream = HighlandStreamT<{ isUtc: boolean }>;

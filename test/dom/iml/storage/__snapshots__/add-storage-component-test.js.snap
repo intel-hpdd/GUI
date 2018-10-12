@@ -45,10 +45,10 @@ exports[`storage component interaction submitting the form should render error 1
           Size
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -60,9 +60,9 @@ exports[`storage component interaction submitting the form should render error 1
           Filesystem type
         </label>
         <input
+          class="form-control"
           type="text"
           id="filesystem_type"
-          class="form-control"
         />
       </div>
       <div
@@ -74,15 +74,15 @@ exports[`storage component interaction submitting the form should render error 1
           Uuid
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i
@@ -143,10 +143,10 @@ exports[`storage component interaction submitting the form should render loading
           Size
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -158,9 +158,9 @@ exports[`storage component interaction submitting the form should render loading
           Filesystem type
         </label>
         <input
+          class="form-control"
           type="text"
           id="filesystem_type"
-          class="form-control"
         />
       </div>
       <div
@@ -172,15 +172,15 @@ exports[`storage component interaction submitting the form should render loading
           Uuid
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
         disabled=""
       >
         Save
@@ -247,10 +247,10 @@ exports[`storage component interaction submitting the form should render success
           Size
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -262,9 +262,9 @@ exports[`storage component interaction submitting the form should render success
           Filesystem type
         </label>
         <input
+          class="form-control"
           type="text"
           id="filesystem_type"
-          class="form-control"
         />
       </div>
       <div
@@ -276,15 +276,15 @@ exports[`storage component interaction submitting the form should render success
           Uuid
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i
@@ -351,10 +351,10 @@ exports[`storage component should render with data 1`] = `
           Size
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -366,9 +366,9 @@ exports[`storage component should render with data 1`] = `
           Filesystem type
         </label>
         <input
+          class="form-control"
           type="text"
           id="filesystem_type"
-          class="form-control"
         />
       </div>
       <div
@@ -380,15 +380,15 @@ exports[`storage component should render with data 1`] = `
           Uuid
         </label>
         <input
+          class="form-control"
           required=""
           type="text"
           id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i

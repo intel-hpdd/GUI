@@ -24,10 +24,10 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
         class="btn-group dropdown "
       >
         <button
+          class="btn btn-info btn-sm dropdown-toggle"
           type="button"
           aria-haspopup="true"
           aria-expanded="false"
-          class="btn btn-info btn-sm dropdown-toggle"
         >
           Entries: 
           10
@@ -36,8 +36,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
           />
         </button>
         <ul
-          role="menu"
           class="dropdown-menu"
+          role="menu"
         >
           <li>
             <a>
@@ -138,8 +138,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 style="position: relative;"
               >
                 <span
-                  popoverbutton="true"
                   class="icon-wrap tooltip-container tooltip-hover"
+                  popoverbutton="true"
                 >
                   <i
                     class="fa activate-popover fa-check-circle"
@@ -161,8 +161,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 </span>
               </span>
               <span
-                style="padding-left: 10px;"
                 class="state-label"
+                style="padding-left: 10px;"
               >
                 No Issues
               </span>
@@ -219,8 +219,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 style="position: relative;"
               >
                 <span
-                  popoverbutton="true"
                   class="icon-wrap tooltip-container tooltip-hover"
+                  popoverbutton="true"
                 >
                   <i
                     class="fa activate-popover fa-check-circle"
@@ -242,8 +242,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 </span>
               </span>
               <span
-                style="padding-left: 10px;"
                 class="state-label"
+                style="padding-left: 10px;"
               >
                 No Issues
               </span>
@@ -319,8 +319,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
       </ul>
     </div>
     <div
-      style="color: rgb(153, 153, 153);"
       class="text-center"
+      style="color: rgb(153, 153, 153);"
     >
       <span>
         showing 

@@ -1,7 +1,7 @@
 // @flow
 
 import Tooltip from "../../../source/iml/tooltip.js";
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import { querySelector } from "../../../source/iml/dom-utils.js";
 
@@ -12,10 +12,7 @@ describe("tooltip", () => {
     beforeEach(() => {
       root = document.createElement("div");
 
-      Inferno.render(
-        <Tooltip message="Test message" direction="bottom" size="large" moreClasses={["extra-class"]} />,
-        root
-      );
+      render(<Tooltip message="Test message" direction="bottom" size="large" moreClasses={["extra-class"]} />, root);
 
       tooltip = querySelector(root, ".inferno-tt");
     });
@@ -61,7 +58,7 @@ describe("tooltip", () => {
     beforeEach(() => {
       root = document.createElement("div");
 
-      Inferno.render(<Tooltip message="" direction="bottom" moreClasses={["extra-class"]} />, root);
+      render(<Tooltip message="" direction="bottom" moreClasses={["extra-class"]} />, root);
 
       tooltip = root.querySelector(".inferno-tt");
     });

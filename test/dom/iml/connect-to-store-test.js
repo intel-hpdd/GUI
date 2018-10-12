@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { addErrors } from "../../../source/iml/login/login-form-actions.js";
 
 describe("connect to store", () => {
@@ -37,7 +37,7 @@ describe("connect to store", () => {
       })
     );
 
-    Inferno.render(<LoginForm foo="bar" />, root);
+    render(<LoginForm foo="bar" />, root);
   });
 
   it("should have the header error", () => {

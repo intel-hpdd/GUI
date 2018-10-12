@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import Axis from "../../../../source/iml/charting/axis.js";
 import d3 from "d3";
@@ -15,7 +15,7 @@ describe("axis", () => {
   });
 
   it("should render x as expected", () => {
-    Inferno.render(
+    render(
       <Axis
         type="x"
         xScale={d3.scale
@@ -32,7 +32,7 @@ describe("axis", () => {
   });
 
   it("should render y as expected", () => {
-    Inferno.render(
+    render(
       <Axis
         type="y"
         yScale={d3.scale
@@ -47,14 +47,14 @@ describe("axis", () => {
 
     expect(svg).toMatchSnapshot();
 
-    Inferno.render(null, svg);
+    render(null, svg);
   });
 
   it("should throw when props are missing", () => {
     expect.assertions(2);
 
     expect(() =>
-      Inferno.render(
+      render(
         <Axis
           type="y"
           yScale={d3.scale
@@ -68,7 +68,7 @@ describe("axis", () => {
     ).toThrow();
 
     expect(() =>
-      Inferno.render(
+      render(
         <Axis
           type="y"
           yScale={d3.scale
@@ -83,7 +83,7 @@ describe("axis", () => {
   });
 
   it("should skip cleanup", () => {
-    Inferno.render(
+    render(
       <Axis
         type="y"
         yScale={d3.scale
@@ -96,7 +96,7 @@ describe("axis", () => {
       svg
     );
 
-    Inferno.render(
+    render(
       <Axis
         type="y"
         yScale={d3.scale
@@ -108,6 +108,6 @@ describe("axis", () => {
       svg
     );
 
-    Inferno.render(null, svg);
+    render(null, svg);
   });
 });

@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import getStore from "../store/get-store.js";
 import { setTimeZoneToUtc, setTimeZoneToLocal } from "./tz-picker-actions.js";
 import { asViewer } from "../as-viewer/as-viewer.js";
@@ -63,11 +63,11 @@ export const tzPickerComponent = {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<TzPicker viewer={this.stream} />, el);
+      render(<TzPicker viewer={this.stream} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
     };
   }
 };

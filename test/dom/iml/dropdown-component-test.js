@@ -1,5 +1,5 @@
 // @flow
-import Inferno from "inferno";
+import { render } from "inferno";
 import Dropdown from "../../../source/iml/dropdown-component.js";
 import { renderToSnapshot } from "../../test-utils.js";
 import { querySelector } from "../../../source/iml/dom-utils.js";
@@ -20,7 +20,7 @@ describe("Dropdown DOM Tests", () => {
 
   it("should throw if two children nodes are not passed", () => {
     expect(() =>
-      Inferno.render(
+      render(
         <Dropdown isOpen={false} toggleOpen={clickHandler}>
           <div />
         </Dropdown>,
@@ -30,7 +30,7 @@ describe("Dropdown DOM Tests", () => {
   });
 
   it("should open on click", () => {
-    Inferno.render(
+    render(
       <Dropdown isOpen={false} toggleOpen={clickHandler}>
         <button />
         <ul />

@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import highland, { type HighlandStreamT } from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import type { State } from "../../../../source/iml/storage/storage-reducer.js";
@@ -198,7 +198,7 @@ describe("storage component", () => {
         }
       });
 
-      Inferno.render(<AddStorageComponent viewer={broadcaster(storage$)} />, root);
+      render(<AddStorageComponent viewer={broadcaster(storage$)} />, root);
     });
 
     afterEach(() => {

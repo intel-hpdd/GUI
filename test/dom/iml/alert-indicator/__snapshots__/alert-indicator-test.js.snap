@@ -9,8 +9,8 @@ exports[`AlertIndicator DOM testing exclamation icon interaction should not show
       style="position: relative;"
     >
       <span
-        popoverbutton="true"
         class="icon-wrap tooltip-container tooltip-hover"
+        popoverbutton="true"
       >
         <i
           class="fa activate-popover fa-exclamation-circle"

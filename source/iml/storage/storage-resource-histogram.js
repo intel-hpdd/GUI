@@ -8,8 +8,7 @@
 import type { Point } from "../api-types.js";
 import type { HistogramChart, HistogramStats } from "./storage-types.js";
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import d3 from "d3";
 import Chart from "../charting/chart.js";
 import Axis from "../charting/axis.js";

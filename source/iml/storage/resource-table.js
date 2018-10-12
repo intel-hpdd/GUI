@@ -11,7 +11,7 @@ import type { Column, Attribute, StorageResourceClass, StorageResourceResponse }
 import store from "../store/get-store.js";
 import { UI_ROOT } from "../environment.js";
 import { entries } from "@iml/obj";
-import Inferno, { linkEvent } from "inferno";
+import { linkEvent } from "inferno";
 import AlertIndicator from "../alert-indicator/alert-indicator.js";
 import extractApiId from "@iml/extract-api";
 import { TableInfo, EntriesDropdown, Pager } from "../pagination-components.js";
@@ -105,7 +105,7 @@ export const ResourceTable = ({
           <th>Alerts</th>
           {columns.map(c => (
             <th key={c.name}>
-              <a onClick={linkEvent([c.name, sortDesc], handleSort)}>
+              <a onclick={linkEvent([c.name, sortDesc], handleSort)}>
                 {c.label}
                 <i className={`fa ${ascDesc(c.name, sortKey, sortDesc)}`} />
               </a>

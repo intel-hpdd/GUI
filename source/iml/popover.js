@@ -5,8 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { cloneVNode } from "inferno-clone-vnode";
+import { Component } from "inferno";
 
 type PopoverChildProps = {
   children: React$Element<*>[]
@@ -17,11 +17,11 @@ export class PopoverContainer extends Component {
     const children = this.props.children.map(c => {
       if (!c.props) return c;
       else if (c.props.popoverButton)
-        return Inferno.cloneVNode(c, {
-          onClick: this.props.toggleOpen
+        return cloneVNode(c, {
+          onclick: this.props.toggleOpen
         });
       else if (c.props.popover)
-        return Inferno.cloneVNode(c, {
+        return cloneVNode(c, {
           visible: this.props.isOpen
         });
       else return c;

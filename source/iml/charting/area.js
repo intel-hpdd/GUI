@@ -5,8 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import d3 from "d3";
 import global from "../global.js";
 import { flow } from "@iml/fp";

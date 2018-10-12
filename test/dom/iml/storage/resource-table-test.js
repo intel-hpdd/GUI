@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import highland from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import { renderToSnapshot } from "../../../test-utils.js";
@@ -236,7 +236,7 @@ describe("ResourceTable DOM tests", () => {
       root = document.createElement("div");
       querySelector(document, "body").appendChild(root);
 
-      Inferno.render(
+      render(
         <ResourceTable
           resourceClass={resourceClass}
           resources={resources}

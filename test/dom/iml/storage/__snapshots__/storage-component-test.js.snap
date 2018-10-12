@@ -67,9 +67,9 @@ exports[`storage component should render with plugins 1`] = `
             Add Storage Device
           </h4>
           <a
+            class="btn btn-default btn-sm"
             type="button"
             href="about:blankconfigure/storage/add"
-            class="btn btn-default btn-sm"
           >
             <i
               class="fa fa-plus-circle text-success"
