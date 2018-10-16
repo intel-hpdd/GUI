@@ -105,7 +105,7 @@ export const ResourceTable = ({
           <th>Alerts</th>
           {columns.map(c => (
             <th key={c.name}>
-              <a onclick={linkEvent([c.name, sortDesc], handleSort)}>
+              <a onClick={linkEvent([c.name, sortDesc], handleSort)}>
                 {c.label}
                 <i className={`fa ${ascDesc(c.name, sortKey, sortDesc)}`} />
               </a>

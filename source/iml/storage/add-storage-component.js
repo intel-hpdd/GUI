@@ -27,7 +27,7 @@ const FormItem = ({ field, value, onInput }: { field: Field, value: string, onIn
     <input
       required={!field.optional}
       value={value}
-      oninput={onInput}
+      onInput={onInput}
       type={field.class === "Password" ? "password" : "text"}
       class="form-control"
       id={field.name}

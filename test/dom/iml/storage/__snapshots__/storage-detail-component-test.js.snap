@@ -15,7 +15,7 @@ exports[`storage detail component changing the alias saving the alias after savi
           class="section-header"
         >
           my-class
-          Detail
+           Detail
         </h4>
         <div
           class="detail-row"
@@ -26,10 +26,10 @@ exports[`storage detail component changing the alias saving the alias after savi
           <div>
             <input
               class="form-control"
+              id="alias"
+              name="alias"
               required=""
               type="text"
-              name="alias"
-              id="alias"
               value="my-resource"
             />
           </div>
@@ -84,6 +84,7 @@ exports[`storage detail component changing the alias saving the alias after savi
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
                 class="state-label"
@@ -103,11 +104,12 @@ exports[`storage detail component changing the alias saving the alias after savi
           <div>
             <button
               class="btn btn-default"
+              disabled=""
               id="saveButton"
               type="submit"
-              disabled=""
             >
               Save 
+              
             </button>
           </div>
         </div>
@@ -143,7 +145,7 @@ exports[`storage detail component changing the alias saving the alias should mat
           class="section-header"
         >
           my-class
-          Detail
+           Detail
         </h4>
         <div
           class="detail-row"
@@ -154,12 +156,12 @@ exports[`storage detail component changing the alias saving the alias should mat
           <div>
             <input
               class="form-control"
+              disabled=""
+              id="alias"
+              name="alias"
               required=""
               type="text"
-              name="alias"
-              id="alias"
               value="my-resource"
-              disabled=""
             />
           </div>
         </div>
@@ -213,6 +215,7 @@ exports[`storage detail component changing the alias saving the alias should mat
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
                 class="state-label"
@@ -232,9 +235,9 @@ exports[`storage detail component changing the alias saving the alias should mat
           <div>
             <button
               class="btn btn-default"
+              disabled=""
               id="saveButton"
               type="submit"
-              disabled=""
             >
               Save 
               <i
@@ -275,7 +278,7 @@ exports[`storage detail component deleting a resource should match the snapshot 
           class="section-header"
         >
           my-class
-          Detail
+           Detail
         </h4>
         <div
           class="detail-row"
@@ -286,12 +289,12 @@ exports[`storage detail component deleting a resource should match the snapshot 
           <div>
             <input
               class="form-control"
+              disabled=""
+              id="alias"
+              name="alias"
               required=""
               type="text"
-              name="alias"
-              id="alias"
               value="my-resource"
-              disabled=""
             />
           </div>
         </div>
@@ -345,6 +348,7 @@ exports[`storage detail component deleting a resource should match the snapshot 
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
                 class="state-label"
@@ -361,9 +365,9 @@ exports[`storage detail component deleting a resource should match the snapshot 
           <div>
             <button
               class="btn btn-danger"
+              disabled=""
               id="deleteButton"
               type="button"
-              disabled=""
             >
               Delete 
               <i
@@ -374,9 +378,9 @@ exports[`storage detail component deleting a resource should match the snapshot 
           <div>
             <button
               class="btn btn-default"
+              disabled=""
               id="saveButton"
               type="submit"
-              disabled=""
             >
               Save 
               <i
@@ -417,7 +421,7 @@ exports[`storage detail component should render the storage detail form 1`] = `
           class="section-header"
         >
           my-class
-          Detail
+           Detail
         </h4>
         <div
           class="detail-row"
@@ -428,10 +432,10 @@ exports[`storage detail component should render the storage detail form 1`] = `
           <div>
             <input
               class="form-control"
+              id="alias"
+              name="alias"
               required=""
               type="text"
-              name="alias"
-              id="alias"
               value="my-resource"
             />
           </div>
@@ -486,6 +490,7 @@ exports[`storage detail component should render the storage detail form 1`] = `
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
                 class="state-label"
@@ -505,11 +510,12 @@ exports[`storage detail component should render the storage detail form 1`] = `
           <div>
             <button
               class="btn btn-default"
+              disabled=""
               id="saveButton"
               type="submit"
-              disabled=""
             >
               Save 
+              
             </button>
           </div>
         </div>

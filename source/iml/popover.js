@@ -18,7 +18,7 @@ export class PopoverContainer extends Component {
       if (!c.props) return c;
       else if (c.props.popoverButton)
         return cloneVNode(c, {
-          onclick: this.props.toggleOpen
+          onClick: this.props.toggleOpen
         });
       else if (c.props.popover)
         return cloneVNode(c, {

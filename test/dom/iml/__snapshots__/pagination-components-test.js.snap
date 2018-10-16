@@ -8,13 +8,14 @@ exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `
     class="btn-group dropdown "
   >
     <button
+      aria-expanded="false"
+      aria-haspopup="true"
       class="btn btn-info btn-sm dropdown-toggle"
       type="button"
-      aria-haspopup="true"
-      aria-expanded="false"
     >
       Entries: 
       10
+       
       <span
         class="caret"
       />
@@ -272,7 +273,7 @@ exports[`TableInfo DOM testing should render as expected 1`] = `
     11
     -
     20
-    of 
+     of 
     100
   </span>
 </div>

@@ -82,7 +82,7 @@ const DeleteButton = ({
         id="deleteButton"
         type="button"
         class="btn btn-danger"
-        onclick={onDelete}
+        onClick={onDelete}
         disabled={processing ? true : false}
       >
         Delete <Spinner display={processing} />
