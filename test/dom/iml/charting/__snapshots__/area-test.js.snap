@@ -10,23 +10,24 @@ exports[`should render as expected 1`] = `
         id="area-clip1"
       >
         <rect
-          width="200"
           height="200"
+          width="200"
         />
       </clippath>
     </defs>
     <g
-      clip-path="url(about:blank#area-clip1)"
       class="clipPath1"
+      clip-path="url(http://localhost/#area-clip1)"
     >
       <path
         class="area area1"
-        stroke="green"
+        d="M0,200L200,0L200,200L0,200Z"
         fill="green"
         fill-opacity="0.2"
-        d="M0,200L200,0L200,200L0,200Z"
+        stroke="green"
       />
     </g>
   </g>
+  
 </svg>
 `;

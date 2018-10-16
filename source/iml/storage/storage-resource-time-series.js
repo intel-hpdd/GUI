@@ -144,17 +144,14 @@ export default class StorageResourceTimeSeries extends Component {
               <Legend colors={colors} transform="translate(50,0)" />
               <Axis type="x" />
               <Axis type="y" />
-              {this.props.chart.series.map(x => {
-                console.log("x", x);
-                return (
-                  <Line
-                    color={() => colors(x.name)}
-                    xValue={(x: Point) => new Date(x.ts)}
-                    yValue={p => p.data[x.name]}
-                    xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
-                  />
-                );
-              })}
+              {this.props.chart.series.map(x => (
+                <Line
+                  color={() => colors(x.name)}
+                  xValue={(x: Point) => new Date(x.ts)}
+                  yValue={p => p.data[x.name]}
+                  xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
+                />
+              ))}
             </Scales>
           </Chart>
         </div>

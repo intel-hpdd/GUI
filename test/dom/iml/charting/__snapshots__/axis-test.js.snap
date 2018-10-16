@@ -13,14 +13,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(0,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           0
         </text>
@@ -31,14 +31,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(20,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           10
         </text>
@@ -49,14 +49,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(40,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           20
         </text>
@@ -67,14 +67,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(60,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           30
         </text>
@@ -85,14 +85,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(80,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           40
         </text>
@@ -103,14 +103,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(100,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           50
         </text>
@@ -121,14 +121,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(120,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           60
         </text>
@@ -139,14 +139,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(140,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           70
         </text>
@@ -157,14 +157,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(160,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           80
         </text>
@@ -175,14 +175,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(180,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           90
         </text>
@@ -193,14 +193,14 @@ exports[`axis should render x as expected 1`] = `
         transform="translate(200,0)"
       >
         <line
-          y2="6"
           x2="0"
+          y2="6"
         />
         <text
           dy=".71em"
           style="text-anchor: middle;"
-          y="9"
           x="0"
+          y="9"
         >
           100
         </text>
@@ -211,6 +211,7 @@ exports[`axis should render x as expected 1`] = `
       />
     </g>
   </g>
+  
 </svg>
 `;
 
@@ -424,5 +425,6 @@ exports[`axis should render y as expected 1`] = `
       />
     </g>
   </g>
+  
 </svg>
 `;

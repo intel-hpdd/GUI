@@ -2,6 +2,8 @@
 
 import { render } from "inferno";
 import highland from "highland";
+import mockD3 from "d3";
+import { flushD3Transitions } from "../../../test-utils.js";
 
 describe("storage resource time series", () => {
   let mockSocketStream, mockBufferDataNewerThan, mockGetTimeParams, mockStream, StorageResourceTimeSeries, root;
@@ -22,6 +24,8 @@ describe("storage resource time series", () => {
     };
 
     mockBufferDataNewerThan = jest.fn(() => x => x);
+
+    jest.mock("d3", () => mockD3);
 
     jest.mock("../../../../source/iml/charting/buffer-data-newer-than.js", () => mockBufferDataNewerThan);
 
@@ -84,17 +88,20 @@ describe("storage resource time series", () => {
     mockStream.write([]);
     mockStream.end();
     jest.runAllTimers();
+    flushD3Transitions(mockD3);
 
     expect(root).toMatchSnapshot();
   });
 
-  fit("should render data", () => {
+  it("should render data", () => {
     mockStream.write([
       { data: { reads: 3 }, ts: "2017-08-08T20:32:40+00:00" },
       { data: { reads: 4 }, ts: "2017-08-08T20:32:50+00:00" }
     ]);
     mockStream.end();
+
     jest.runAllTimers();
+    flushD3Transitions(mockD3);
 
     expect(root).toMatchSnapshot();
   });

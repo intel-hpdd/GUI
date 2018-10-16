@@ -51,21 +51,21 @@ const config = {
           options: {
             presets: [
               [
-                "env",
+                "@babel/preset-env",
                 {
                   targets: {
-                    browsers: ["last 1 chrome version", "last 1 firefox version"],
-                    modules: false,
-                    forceAllTransforms: process.env.NODE_ENV === "production"
-                  }
+                    browsers: ["last 1 chrome version", "last 1 firefox version"]
+                  },
+                  modules: false,
+                  forceAllTransforms: process.env.NODE_ENV === "production"
                 }
               ]
             ],
             plugins: [
-              ["transform-object-rest-spread", { useBuiltIns: true }],
-              "transform-flow-strip-types",
-              "transform-class-properties",
-              "syntax-jsx",
+              ["@babel/plugin-transform-spread", { useBuiltIns: true }],
+              "@babel/plugin-transform-flow-strip-types",
+              "@babel/proposal-class-properties",
+              "@babel/plugin-syntax-jsx",
               "inferno",
               [
                 "angularjs-annotate",
@@ -89,7 +89,8 @@ const config = {
     new MiniCssExtractPlugin({
       filename: "[name].[contenthash].css"
     })
-  ]
+  ],
+  mode: process.env.NODE_ENV
 };
 
 if (process.env.NODE_ENV === "production")

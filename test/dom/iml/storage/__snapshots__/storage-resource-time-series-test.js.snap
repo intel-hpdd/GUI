@@ -3,26 +3,26 @@
 exports[`storage resource time series should render data 1`] = `
 <div>
   <div
-    style="height: 500px; display: flex;"
     class="storage-detail-chart"
+    style="height: 500px; display: flex;"
   >
     <div
       style="display: flex;"
     >
       <h5
-        style="width: 24px;"
+        style="transform: rotate(270deg); width: 24px;"
       >
         reads
       </h5>
     </div>
     <div>
       <svg
-        style="width: 100%; height: 100%;"
         class="charting"
+        style="width: 100%; height: 100%;"
       >
         <g
-          transform="translate(50,50)"
           class="charting-group"
+          transform="translate(50,50)"
         >
           <g
             class="axis x-axis"
@@ -34,14 +34,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(0,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :40
               </text>
@@ -52,14 +52,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-8,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :41
               </text>
@@ -70,14 +70,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-16,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :42
               </text>
@@ -88,14 +88,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-24,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :43
               </text>
@@ -106,14 +106,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-32,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :44
               </text>
@@ -124,14 +124,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-40,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :45
               </text>
@@ -142,14 +142,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-48,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :46
               </text>
@@ -160,14 +160,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-56,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :47
               </text>
@@ -178,14 +178,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-64,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :48
               </text>
@@ -196,14 +196,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-72,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :49
               </text>
@@ -214,14 +214,14 @@ exports[`storage resource time series should render data 1`] = `
               transform="translate(-80,0)"
             >
               <line
-                y2="6"
                 x2="0"
+                y2="6"
               />
               <text
                 dy=".71em"
                 style="text-anchor: middle;"
-                y="9"
                 x="0"
+                y="9"
               >
                 :50
               </text>
@@ -408,24 +408,27 @@ exports[`storage resource time series should render data 1`] = `
               id="clip1"
             >
               <rect
-                width="-80"
                 height="-100"
+                width="-80"
               />
             </clippath>
           </defs>
           <g
-            clip-path="url(about:blank#clip1)"
             class="clipPath1"
+            clip-path="url(http://localhost/#clip1)"
           >
             <path
               class="line line1"
-              stroke="#1f77b4"
               d="M0,-25L-80,0"
-              style="stroke-opacity: 1;"
+              stroke="#1f77b4"
               stroke-dashoffset="0"
+              style="stroke-opacity: 1;"
             />
           </g>
           <g>
+            
+            
+            
             
           </g>
         </g>
@@ -440,12 +443,13 @@ exports[`storage resource time series should render data 1`] = `
             <circle
               class="legend-circle"
               fill="#1f77b4"
-              stroke="#1f77b4"
               fill-opacity="1"
               r="5"
+              stroke="#1f77b4"
             />
             <text
               class="legend-label"
+              display="inherit"
               dx="10"
               dy="4"
             >
@@ -462,7 +466,7 @@ exports[`storage resource time series should render data 1`] = `
 exports[`storage resource time series should render empty data 1`] = `
 <div>
   <div
-    style="height: 500px; display: flex;"
+    style="height: 500px; display: flex; justify-content: center; align-items: center;"
   >
     <h3>
       No Data Available.
@@ -474,7 +478,7 @@ exports[`storage resource time series should render empty data 1`] = `
 exports[`storage resource time series should render when fetching data 1`] = `
 <div>
   <div
-    style="height: 500px; display: flex;"
+    style="height: 500px; display: flex; justify-content: center; align-items: center;"
   >
     <h3>
       Fetching Data...

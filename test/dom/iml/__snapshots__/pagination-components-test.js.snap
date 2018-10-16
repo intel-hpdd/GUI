@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`EntriesDropdown DOM testing clicking should open when clicked 1`] = `"<div class=\\"btn-group dropdown open\\"><button type=\\"button\\" aria-haspopup=\\"true\\" aria-expanded=\\"false\\" class=\\"btn btn-info btn-sm dropdown-toggle\\">Entries: 10 <span class=\\"caret\\"></span></button><ul role=\\"menu\\" class=\\"dropdown-menu\\"><li><a>10</a></li><li><a>25</a></li><li><a>50</a></li><li><a>100</a></li></ul></div>"`;
+exports[`EntriesDropdown DOM testing clicking should open when clicked 1`] = `"<div class=\\"btn-group dropdown open\\"><button class=\\"btn btn-info btn-sm dropdown-toggle\\" type=\\"button\\" aria-haspopup=\\"true\\" aria-expanded=\\"false\\">Entries: 10 <span class=\\"caret\\"></span></button><ul class=\\"dropdown-menu\\" role=\\"menu\\"><li><a>10</a></li><li><a>25</a></li><li><a>50</a></li><li><a>100</a></li></ul></div>"`;
 
 exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `
 <div>
@@ -8,10 +8,10 @@ exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `
     class="btn-group dropdown "
   >
     <button
+      class="btn btn-info btn-sm dropdown-toggle"
       type="button"
       aria-haspopup="true"
       aria-expanded="false"
-      class="btn btn-info btn-sm dropdown-toggle"
     >
       Entries: 
       10
@@ -20,8 +20,8 @@ exports[`EntriesDropdown DOM testing should render entries as expected 1`] = `
       />
     </button>
     <ul
-      role="menu"
       class="dropdown-menu"
+      role="menu"
     >
       <li>
         <a>
