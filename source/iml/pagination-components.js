@@ -24,7 +24,7 @@ export const EntriesDropdown = (props: EntriesProps) => (
       <ul role="menu" class="dropdown-menu">
         {[10, 25, 50, 100].map(x => (
           <li>
-            <a onClick={linkEvent(x, props.setEntries)}>{x}</a>
+            <a onclick={linkEvent(x, props.setEntries)}>{x}</a>
           </li>
         ))}
       </ul>
@@ -84,15 +84,15 @@ export const Pager = ({ meta, setOffset }: PagerProps) => {
   return (
     <ul class="pagination">
       <li className={`pagination-prev ${page === 1 ? "disabled" : ""}`}>
-        <a onClick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
+        <a onclick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
       </li>
       {getPages(page, pages).map(x => (
         <li className={`pagination-page ${page === x ? "active" : ""}`}>
-          <a onClick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
+          <a onclick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
         </li>
       ))}
       <li class={`pagination-next ${page === pages ? "disabled" : ""}`}>
-        <a onClick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
+        <a onclick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
       </li>
     </ul>
   );

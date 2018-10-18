@@ -16,9 +16,9 @@ exports[`tzPicker should create the component markup 1`] = `
       class="radio"
     >
       <input
-        type="radio"
-        name="tzPicker"
         id="utc"
+        name="tzPicker"
+        type="radio"
       />
       <span>
         UTC
@@ -32,9 +32,9 @@ exports[`tzPicker should create the component markup 1`] = `
       class="radio"
     >
       <input
-        type="radio"
-        name="tzPicker"
         id="local"
+        name="tzPicker"
+        type="radio"
       />
       <span>
         Local

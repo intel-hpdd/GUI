@@ -65,6 +65,7 @@ describe("parsely box", () => {
       });
 
       el = $compile(template)($scope)[0];
+      document.body.appendChild(el);
       qs = el.querySelector.bind(el);
       searchButton = qs.bind(el, ".btn-primary");
       indicator = qs.bind(el, ".status-indicator i");

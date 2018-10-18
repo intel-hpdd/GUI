@@ -19,7 +19,7 @@ describe("axis directive", () => {
 
   beforeEach(
     angular.mock.inject(($rootScope, $compile) => {
-      HTMLElement.prototype.transform = {
+      SVGElement.prototype.transform = {
         baseVal: {
           consolidate: jest.fn()
         }

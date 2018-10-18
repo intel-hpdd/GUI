@@ -46,7 +46,6 @@ describe("WindowClickListener DOM testing", () => {
   });
 
   it("should throw on zero children", () => {
-    // $FlowFixMe: This is passing wrong types on purpose
     expect(() => render(<WindowClickListener />, root)).toThrow();
   });
 

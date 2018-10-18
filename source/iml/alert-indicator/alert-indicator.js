@@ -38,7 +38,11 @@ const AlertIndicator = asViewer(
               <Popover popover={true} direction="bottom">
                 <PopoverTitle>Alerts</PopoverTitle>
                 <PopoverContent>
-                  <ul>{alerts.map(x => <li key={x.id}>{x.message}</li>)}</ul>
+                  <ul>
+                    {alerts.map(x => (
+                      <li key={x.id}>{x.message}</li>
+                    ))}
+                  </ul>
                 </PopoverContent>
               </Popover>
             ) : (

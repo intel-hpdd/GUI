@@ -20,6 +20,7 @@ module.exports = {
         useBuiltIns: true
       }
     ],
+    ["@babel/plugin-proposal-pipeline-operator", { proposal: "minimal" }],
     "@babel/proposal-object-rest-spread",
     "@babel/transform-async-to-generator",
     "object-values-to-object-keys",

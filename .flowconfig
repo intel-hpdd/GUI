@@ -1,5 +1,6 @@
 [ignore]
 .*node_modules/highland.*
+.*node_modules/@webassemblyjs.*
 */dist/bundle*
 .*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 

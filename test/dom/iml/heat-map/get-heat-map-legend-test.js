@@ -34,7 +34,7 @@ describe("the heat map legend", () => {
     let svg, heatMapLegendGroup, selection, setup, query, queryAll;
 
     beforeEach(() => {
-      HTMLElement.prototype.getBBox = () => ({
+      SVGElement.prototype.getBBox = () => ({
         height: 100,
         width: 100,
         x: 0,

@@ -12,12 +12,13 @@ exports[`should render as expected 1`] = `
       <circle
         class="legend-circle"
         fill="green"
-        stroke="green"
         fill-opacity="0"
         r="5"
+        stroke="green"
       />
       <text
         class="legend-label"
+        display="inherit"
         dx="10"
         dy="4"
       >
@@ -31,12 +32,13 @@ exports[`should render as expected 1`] = `
       <circle
         class="legend-circle"
         fill="blue"
-        stroke="blue"
         fill-opacity="0"
         r="5"
+        stroke="blue"
       />
       <text
         class="legend-label"
+        display="inherit"
         dx="10"
         dy="4"
       >
@@ -44,6 +46,7 @@ exports[`should render as expected 1`] = `
       </text>
     </g>
   </g>
+  
 </svg>
 `;
 
@@ -60,12 +63,13 @@ exports[`should transform 1`] = `
       <circle
         class="legend-circle"
         fill="green"
-        stroke="green"
         fill-opacity="0"
         r="5"
+        stroke="green"
       />
       <text
         class="legend-label"
+        display="inherit"
         dx="10"
         dy="4"
       >
@@ -79,12 +83,13 @@ exports[`should transform 1`] = `
       <circle
         class="legend-circle"
         fill="blue"
-        stroke="blue"
         fill-opacity="0"
         r="5"
+        stroke="blue"
       />
       <text
         class="legend-label"
+        display="inherit"
         dx="10"
         dy="4"
       >
@@ -92,5 +97,6 @@ exports[`should transform 1`] = `
       </text>
     </g>
   </g>
+  
 </svg>
 `;

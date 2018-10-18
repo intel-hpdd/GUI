@@ -30,7 +30,9 @@ exports[`AlertIndicator DOM testing exclamation icon interaction should not show
           </div>
         </div>
       </span>
+      
     </span>
+    
   </span>
 </div>
 `;

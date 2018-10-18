@@ -26,8 +26,7 @@ function AboutComponent() {
       <div>
         <div>
           <p>
-            Copyright © {HELP_TEXT.copyright_year} <a href="http://www.ddn.com/">DDN</a>
-            . All rights reserved.
+            Copyright © {HELP_TEXT.copyright_year} <a href="http://www.ddn.com/">DDN</a>. All rights reserved.
           </p>
         </div>
       </div>

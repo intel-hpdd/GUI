@@ -6,7 +6,7 @@ exports[`should clone children and add props 1`] = `
     <span>
       To: 
       person
-      Message: 
+       Message: 
       hi
     </span>
   </div>
@@ -19,13 +19,13 @@ exports[`should clone multiple children and add props 1`] = `
     <span>
       To: 
       person
-      Message: 
+       Message: 
       hi
     </span>
     <span>
       To: 
       person
-      Message: 
+       Message: 
       hi
     </span>
   </div>
