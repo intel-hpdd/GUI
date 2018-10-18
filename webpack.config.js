@@ -5,8 +5,11 @@ const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
+const prodMode = process.env.NODE_ENV === "production";
 
 const cleanOptions = {
   root: __dirname,
@@ -81,6 +84,23 @@ const config = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: {
+          map: {
+            inline: false,
+            annotation: true
+          }
+        }
+      }),
+      new UglifyJSPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      })
+    ]
+  },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
@@ -88,40 +108,15 @@ const config = {
     }),
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
     new MiniCssExtractPlugin({
-      filename: "[name].[contenthash].css"
+      filename: prodMode ? "[name].[contenthash].css" : "[name].css"
     })
   ],
   mode: process.env.NODE_ENV
 };
 
-if (process.env.NODE_ENV === "production")
-  config.module.rules.push({
-    test: /\.less$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-      {
-        loader: "css-loader"
-      },
-      {
-        loader: "less-loader"
-      }
-    ]
-  });
-else
-  config.module.rules.push({
-    test: /\.less$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-      {
-        loader: "style-loader" // creates style nodes from JS strings
-      },
-      {
-        loader: "css-loader" // translates CSS into CommonJS
-      },
-      {
-        loader: "less-loader" // compiles Less to CSS
-      }
-    ]
-  });
+config.module.rules.push({
+  test: /\.less$/,
+  use: [prodMode ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "less-loader"]
+});
 
 module.exports = config;
