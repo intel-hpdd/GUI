@@ -429,7 +429,9 @@ exports[`storage resource time series should render data 1`] = `
             
             
             
-            
+            <span>
+              
+            </span>
           </g>
         </g>
         <g

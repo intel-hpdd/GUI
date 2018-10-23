@@ -68,6 +68,22 @@ class HistogramScales extends Component {
   }
 }
 
+const Areas = props => {
+  return (
+    <span>
+      {props.chart.series.map(x => (
+        <Area
+          interpolate="cardinal"
+          color={() => props.colors(x.name)}
+          xValue={x => x.bin}
+          y1Value={p => p.data[x.name]}
+          {...props}
+        />
+      ))}
+    </span>
+  );
+};
+
 export default class StorageResourceHistogram extends Component {
   props: { chart: HistogramChart };
   render() {
@@ -88,14 +104,7 @@ export default class StorageResourceHistogram extends Component {
             <Legend colors={colors} transform="translate(50,0)" />
             <Axis type="x" />
             <Axis type="y" />
-            {this.props.chart.series.map(x => (
-              <Area
-                interpolate="cardinal"
-                color={() => colors(x.name)}
-                xValue={x => x.bin}
-                y1Value={p => p.data[x.name]}
-              />
-            ))}
+            <Areas {...this.props} colors={colors} />
           </HistogramScales>
         </Chart>
       </div>

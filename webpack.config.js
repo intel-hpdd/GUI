@@ -66,7 +66,6 @@ const config = {
             ],
             plugins: [
               ["@babel/plugin-transform-spread", { useBuiltIns: true }],
-              ["@babel/plugin-proposal-pipeline-operator", { proposal: "minimal" }],
               "@babel/plugin-transform-flow-strip-types",
               "@babel/proposal-class-properties",
               "@babel/plugin-syntax-jsx",
