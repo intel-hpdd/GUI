@@ -64,6 +64,8 @@ describe("storage resource time series", () => {
     delete Element.prototype.getTotalLength;
     jest.clearAllTimers();
     jest.useRealTimers();
+
+    render(null, root);
   });
 
   it("should render when fetching data", () => {

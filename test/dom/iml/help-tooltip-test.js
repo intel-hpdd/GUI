@@ -1,21 +1,34 @@
 // @flow
-import { render } from "inferno";
+import angular from "../../angular-mock-setup.js";
 import { querySelector } from "../../../source/iml/dom-utils.js";
 
 describe("help tooltip", () => {
-  let root, helpTooltip: HTMLElement, HelpTooltip, mockHelpText;
+  let root, helpTooltip: HTMLElement, mockHelpText, $scope, $compile, template;
 
-  describe("with a message", () => {
-    beforeEach(() => {
-      root = document.createElement("div");
+  beforeEach(
+    angular.mock.module($compileProvider => {
       mockHelpText = { my_key: "your value" };
       jest.mock("../../../source/iml/environment.js", () => ({
         HELP_TEXT: mockHelpText
       }));
 
-      HelpTooltip = require("../../../source/iml/help-tooltip.js").default;
+      $compileProvider.directive("helpTooltip", require("../../../source/iml/tooltip/tooltip.js").helpTooltip);
+    })
+  );
 
-      render(<HelpTooltip helpKey="my_key" direction="bottom" moreClasses={["extra-class"]} />, root);
+  beforeEach(
+    angular.mock.inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+    })
+  );
+
+  describe("with a message", () => {
+    beforeEach(() => {
+      $scope.moreClasses = ["extra-class"];
+      template = '<help-tooltip topic="my_key" direction="bottom" more-classes="moreClasses"></help-tooltip>';
+      root = $compile(template)($scope)[0];
+      $scope.$digest();
 
       helpTooltip = querySelector(root, ".inferno-tt");
     });
@@ -55,9 +68,10 @@ describe("help tooltip", () => {
     let helpTooltip: ?HTMLElement;
 
     beforeEach(() => {
-      root = document.createElement("div");
-
-      render(<HelpTooltip helpKey="" direction="bottom" moreClasses={["extra-class"]} />, root);
+      $scope.moreClasses = ["extra-class"];
+      template = '<help-tooltip topic="" direction="bottom" more-classes="moreClasses"></help-tooltip>';
+      root = $compile(template)($scope)[0];
+      $scope.$digest();
 
       helpTooltip = root.querySelector(".inferno-tt");
     });

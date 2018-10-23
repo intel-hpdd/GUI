@@ -61,12 +61,25 @@ export function helpTooltip() {
     scope: {
       topic: "@",
       direction: "@",
-      size: "<"
+      size: "<",
+      moreClasses: "<"
     },
     restrict: "E",
-    link: function link(scope: {| topic: string, direction: directionsT, size?: sizesT |}, el: HTMLElement[]) {
+    link: function link(
+      scope: {| topic: string, direction: directionsT, size?: sizesT, moreClasses: string[] |},
+      el: HTMLElement[]
+    ) {
       scope.size = scope.size || "";
-      render(<HelpTooltip helpKey={scope.topic} direction={scope.direction} size={scope.size} />, el[0]);
+      scope.moreClasses = scope.moreClasses || [];
+      render(
+        <HelpTooltip
+          helpKey={scope.topic}
+          direction={scope.direction}
+          size={scope.size}
+          moreClasses={scope.moreClasses}
+        />,
+        el[0]
+      );
     }
   };
 }
