@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storage component interaction submitting the form should render error 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -100,11 +103,14 @@ exports[`storage component interaction submitting the form should render error 1
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component interaction submitting the form should render loading 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -200,11 +206,14 @@ exports[`storage component interaction submitting the form should render loading
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component interaction submitting the form should render success 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -303,17 +312,23 @@ exports[`storage component interaction submitting the form should render success
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component should render nothing with no data 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   
-</div>
+</add-storage>
 `;
 
 exports[`storage component should render with data 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -408,5 +423,5 @@ exports[`storage component should render with data 1`] = `
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;

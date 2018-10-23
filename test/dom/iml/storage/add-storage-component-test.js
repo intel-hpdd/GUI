@@ -1,22 +1,38 @@
 // @flow
 
-import { render } from "inferno";
+import angular from "../../../angular-mock-setup.js";
 import highland, { type HighlandStreamT } from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import type { State } from "../../../../source/iml/storage/storage-reducer.js";
-import { renderToSnapshot } from "../../../test-utils.js";
 import { querySelector } from "../../../../source/iml/dom-utils.js";
 
 describe("storage component", () => {
-  let AddStorageComponent, mockSocketStream, storage$: HighlandStreamT<State>;
+  let mockSocketStream, storage$: HighlandStreamT<State>, $scope, $compile, template, root;
+
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      mockSocketStream = jest.fn();
+      jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+
+      $compileProvider.component(
+        "addStorage",
+        require("../../../../source/iml/storage/add-storage-component.js").default
+      );
+
+      storage$ = highland();
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+    })
+  );
 
   beforeEach(() => {
-    mockSocketStream = jest.fn();
-    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
-
-    ({ AddStorageComponent } = require("../../../../source/iml/storage/add-storage-component.js"));
-
-    storage$ = highland();
+    $scope.storage$ = broadcaster(storage$);
+    template = '<add-storage storage-b="storage$"></add-storage>';
   });
 
   it("should render nothing with no data", () => {
@@ -42,7 +58,9 @@ describe("storage component", () => {
       }
     });
 
-    expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
+    root = $compile(template)($scope)[0];
+
+    expect(root).toMatchSnapshot();
   });
 
   it("should render with data", () => {
@@ -116,17 +134,17 @@ describe("storage component", () => {
       }
     });
 
-    expect(renderToSnapshot(<AddStorageComponent viewer={broadcaster(storage$)} />)).toMatchSnapshot();
+    root = $compile(template)($scope)[0];
+
+    expect(root).toMatchSnapshot();
   });
 
   describe("interaction", () => {
-    let root, stream;
+    let stream;
 
     beforeEach(() => {
       stream = highland();
       mockSocketStream.mockReturnValue(stream);
-      root = document.createElement("div");
-      querySelector(document, "body").appendChild(root);
 
       storage$.write({
         config: {
@@ -198,7 +216,8 @@ describe("storage component", () => {
         }
       });
 
-      render(<AddStorageComponent viewer={broadcaster(storage$)} />, root);
+      root = $compile(template)($scope)[0];
+      querySelector(document, "body").appendChild(root);
     });
 
     afterEach(() => {

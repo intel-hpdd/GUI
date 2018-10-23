@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storage component should render no plugins 1`] = `
-<div>
+<storage
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-b="storageB"
+>
   <div
     class="container container-full storage container"
   >
@@ -16,11 +20,15 @@ exports[`storage component should render no plugins 1`] = `
       </p>
     </div>
   </div>
-</div>
+</storage>
 `;
 
 exports[`storage component should render with plugins 1`] = `
-<div>
+<storage
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-b="storageB"
+>
   <div
     class="container container-full storage container"
   >
@@ -80,5 +88,5 @@ exports[`storage component should render with plugins 1`] = `
       </div>
     </div>
   </div>
-</div>
+</storage>
 `;

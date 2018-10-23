@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storage detail component changing the alias saving the alias after saving the alias should match the snapshot 1`] = `
-<div>
+<storage-detail
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-resource-$="storageResourceB"
+>
   <div
     class="container container-full container"
   >
@@ -127,11 +131,15 @@ exports[`storage detail component changing the alias saving the alias after savi
       </div>
     </div>
   </div>
-</div>
+</storage-detail>
 `;
 
 exports[`storage detail component changing the alias saving the alias should match the snapshot 1`] = `
-<div>
+<storage-detail
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-resource-$="storageResourceB"
+>
   <div
     class="container container-full container"
   >
@@ -260,11 +268,15 @@ exports[`storage detail component changing the alias saving the alias should mat
       </div>
     </div>
   </div>
-</div>
+</storage-detail>
 `;
 
 exports[`storage detail component deleting a resource should match the snapshot 1`] = `
-<div>
+<storage-detail
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-resource-$="storageResourceB"
+>
   <div
     class="container container-full container"
   >
@@ -403,11 +415,15 @@ exports[`storage detail component deleting a resource should match the snapshot 
       </div>
     </div>
   </div>
-</div>
+</storage-detail>
 `;
 
 exports[`storage detail component should render the storage detail form 1`] = `
-<div>
+<storage-detail
+  alert-indicator-b="alertIndicatorB"
+  class="ng-scope ng-isolate-scope"
+  storage-resource-$="storageResourceB"
+>
   <div
     class="container container-full container"
   >
@@ -533,5 +549,5 @@ exports[`storage detail component should render the storage detail form 1`] = `
       </div>
     </div>
   </div>
-</div>
+</storage-detail>
 `;

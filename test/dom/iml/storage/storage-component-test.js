@@ -1,24 +1,45 @@
 // @flow
 
+import angular from "../../../angular-mock-setup.js";
 import highland, { type HighlandStreamT } from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import type { State } from "../../../../source/iml/storage/storage-reducer.js";
-import { renderToSnapshot } from "../../../test-utils.js";
 
 describe("storage component", () => {
-  let StorageComponent, mockStore, storage$: HighlandStreamT<State>, alertIndicator$: HighlandStreamT<Object[]>;
+  let mockStore,
+    storage$: HighlandStreamT<State>,
+    alertIndicator$: HighlandStreamT<Object[]>,
+    $compile,
+    $scope,
+    template,
+    el;
+
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      mockStore = { dispatch: jest.fn() };
+      jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
+
+      const mockStorageResources = jest.fn(() => highland([]));
+      jest.mock("../../../../source/iml/storage/storage-resources.js", () => mockStorageResources);
+
+      $compileProvider.component("storage", require("../../../../source/iml/storage/storage-component.js").default);
+
+      storage$ = highland();
+      alertIndicator$ = highland();
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+    })
+  );
 
   beforeEach(() => {
-    mockStore = { dispatch: jest.fn() };
-    jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
-
-    const mockStorageResources = jest.fn(() => highland([]));
-    jest.mock("../../../../source/iml/storage/storage-resources.js", () => mockStorageResources);
-
-    ({ StorageComponent } = require("../../../../source/iml/storage/storage-component.js"));
-
-    storage$ = highland();
-    alertIndicator$ = highland();
+    $scope.storageB = broadcaster(storage$);
+    $scope.alertIndicatorB = broadcaster(alertIndicator$);
+    template = '<storage storage-b="storageB" alert-indicator-b="alertIndicatorB"></storage>';
   });
 
   it("should render no plugins", () => {
@@ -44,11 +65,10 @@ describe("storage component", () => {
       }
     });
 
-    expect(
-      renderToSnapshot(
-        <StorageComponent viewer={broadcaster(storage$)} alertIndicatorB={broadcaster(alertIndicator$)} />
-      )
-    ).toMatchSnapshot();
+    el = $compile(template)($scope)[0];
+    $scope.$digest();
+
+    expect(el).toMatchSnapshot();
   });
 
   it("should render with plugins", () => {
@@ -122,10 +142,9 @@ describe("storage component", () => {
       }
     });
 
-    expect(
-      renderToSnapshot(
-        <StorageComponent viewer={broadcaster(storage$)} alertIndicatorB={broadcaster(alertIndicator$)} />
-      )
-    ).toMatchSnapshot();
+    el = $compile(template)($scope)[0];
+    $scope.$digest();
+
+    expect(el).toMatchSnapshot();
   });
 });
