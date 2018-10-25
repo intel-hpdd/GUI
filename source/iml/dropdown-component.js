@@ -10,7 +10,7 @@ import { cloneVNode } from "inferno-clone-vnode";
 type Props = {
   isOpen?: boolean,
   toggleOpen?: Function,
-  children?: React.ChildrenArray<React.Element<any>>
+  children?: React.ChildrenArray<React.Element<*>>
 };
 
 const twoChildrenError = new Error("DropdownContainer expects two children");

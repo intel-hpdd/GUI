@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 type headerT = {
-  children?: React.ChildrenArray<React.Element<any>>
+  children?: React.ChildrenArray<React.Element<*>>
 };
 
 export const Header = ({ children }: headerT) => {
@@ -15,7 +15,7 @@ export const Header = ({ children }: headerT) => {
 
 type bodyT = {
   moreClasses?: string[],
-  children?: React.ChildrenArray<React.Element<any>>
+  children?: React.ChildrenArray<React.Element<*>>
 };
 
 export const Body = ({ children, moreClasses = [] }: bodyT) => (
@@ -23,7 +23,7 @@ export const Body = ({ children, moreClasses = [] }: bodyT) => (
 );
 
 type footerT = {
-  children?: React.ChildrenArray<React.Element<any>>
+  children?: React.ChildrenArray<React.Element<*>>
 };
 
 export const Footer = ({ children }: footerT) => {
@@ -31,7 +31,7 @@ export const Footer = ({ children }: footerT) => {
 };
 
 type modalT = {
-  children?: React.ChildrenArray<React.Element<any>>,
+  children?: React.ChildrenArray<React.Element<*>>,
   moreClasses?: string[],
   visible: boolean
 };

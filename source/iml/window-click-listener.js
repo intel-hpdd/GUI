@@ -12,7 +12,7 @@ export default class WindowClickListener extends Component {
   windowListener: ?Function;
   state: { isOpen: boolean } = { isOpen: false };
   props: {
-    children?: React.ChildrenArray<React.Element<any>>
+    children?: React.ChildrenArray<React.Element<*>>
   };
   componentWillUnmount() {
     if (this.windowListener) window.removeEventListener("click", this.windowListener, false);
