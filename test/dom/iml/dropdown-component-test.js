@@ -4,8 +4,6 @@ import Dropdown from "../../../source/iml/dropdown-component.js";
 import { renderToSnapshot } from "../../test-utils.js";
 import { querySelector } from "../../../source/iml/dom-utils.js";
 
-const twoChildrenError = new Error("DropdownContainer expects two children");
-
 describe("Dropdown DOM Tests", () => {
   let root, clickHandler;
 
@@ -18,10 +16,6 @@ describe("Dropdown DOM Tests", () => {
 
   afterEach(() => {
     querySelector(document, "body").removeChild(root);
-  });
-
-  it("should throw if there are no children", () => {
-    expect(() => render(<Dropdown isOpen={false} toggleOpen={clickHandler} />, root)).toThrow(twoChildrenError);
   });
 
   it("should open on click", () => {
