@@ -6,5 +6,7 @@
 // license that can be found in the LICENSE file.
 
 export default ({ display }: { display: boolean }) => {
-  if (display) return <i class="fa fa-spinner fa-spin" />;
+  if (!display) return null;
+
+  return <i class="fa fa-spinner fa-spin" />;
 };

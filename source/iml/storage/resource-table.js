@@ -36,7 +36,7 @@ const sortedAttributes = (columns: Column[], attributes: { [string]: Attribute }
 
 export const StorageAttribute = ({ attribute }: { attribute: SortedAttribute }) => {
   if (attribute.class === "ResourceReference") {
-    if (!attribute.raw) return;
+    if (!attribute.raw) return null;
 
     const id = extractApiId(attribute.raw);
     return <a href={`${UI_ROOT}configure/storage/${id}`} dangerouslySetInnerHTML={{ __html: attribute.markup }} />;

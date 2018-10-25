@@ -17,7 +17,7 @@ type helpTooltipT = {
 };
 
 export default ({ helpKey, direction, moreClasses }: helpTooltipT) => {
-  if (!helpKey) return;
+  if (!helpKey) return null;
 
   return <Tooltip message={HELP_TEXT[helpKey]} direction={direction} moreClasses={moreClasses} />;
 };

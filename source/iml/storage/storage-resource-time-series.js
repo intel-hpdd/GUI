@@ -25,7 +25,7 @@ import { values } from "@iml/obj";
 import { cloneChildren } from "../inferno-utils.js";
 import { uniqBy } from "@iml/fp";
 
-const NoData = props => (
+const NoData = (props: { message: string }) => (
   <div
     style={{
       height: "500px",
@@ -68,7 +68,7 @@ class Scales extends Component {
 
 const Lines = props => {
   return (
-    <span>
+    <>
       {props.chart.series.map(x => (
         <Line
           color={() => props.colors(x.name)}
@@ -78,7 +78,7 @@ const Lines = props => {
           {...props}
         />
       ))}
-    </span>
+    </>
   );
 };
 

@@ -76,18 +76,19 @@ const DeleteButton = ({
   onDelete: number => void,
   processing: boolean
 }) => {
-  if (deletable)
-    return (
-      <button
-        id="deleteButton"
-        type="button"
-        class="btn btn-danger"
-        onClick={onDelete}
-        disabled={processing ? true : false}
-      >
-        Delete <Spinner display={processing} />
-      </button>
-    );
+  if (!deletable) return null;
+
+  return (
+    <button
+      id="deleteButton"
+      type="button"
+      class="btn btn-danger"
+      onClick={onDelete}
+      disabled={processing ? true : false}
+    >
+      Delete <Spinner display={processing} />
+    </button>
+  );
 };
 
 const SaveButton = ({ processing, canSave }: { processing: boolean, canSave: boolean }) => {

@@ -70,7 +70,7 @@ class HistogramScales extends Component {
 
 const Areas = props => {
   return (
-    <span>
+    <>
       {props.chart.series.map(x => (
         <Area
           interpolate="cardinal"
@@ -80,7 +80,7 @@ const Areas = props => {
           {...props}
         />
       ))}
-    </span>
+    </>
   );
 };
 

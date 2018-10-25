@@ -16,7 +16,7 @@ import socketStream from "../socket/socket-stream.js";
 import { UI_ROOT } from "../environment.js";
 
 const PageAlert = ({ children, className }) => {
-  if (!children) return;
+  if (!children) return null;
 
   return <div className={`alert span4 offset4 ${className}`}>{children}</div>;
 };
@@ -63,7 +63,7 @@ class AddStorageForm extends Component {
       saveFailed: null
     };
   }
-  onInput(id: number, name: string, ev: SyntheticInputEvent) {
+  onInput(id: number, name: string, ev: SyntheticInputEvent<HTMLFormElement>) {
     this.setState({
       form: {
         ...this.state.form,

@@ -77,7 +77,7 @@ type PagerProps = {
 export const Pager = ({ meta, setOffset }: PagerProps) => {
   const pages = computePages(meta);
 
-  if (pages === 1) return;
+  if (pages === 1) return null;
 
   const page = computePage(meta);
 

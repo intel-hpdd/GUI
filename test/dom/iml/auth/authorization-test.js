@@ -209,7 +209,7 @@ describe("authorization", () => {
             $scope.$digest();
           });
 
-          it(`should be ${test.isVisible ? "visible" : "invisible"}
+          it(`should be ${!test.visibility.restricted ? "visible" : "invisible"}
  to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
             expect(el.hasClass("invisible")).toEqual(!test.visibility.restricted);
           });

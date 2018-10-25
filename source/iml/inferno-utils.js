@@ -7,12 +7,9 @@
 
 import { cloneVNode } from "inferno-clone-vnode";
 
-type ReactElementOrReactElements = React$Element<*>[] | React$Element<*>;
-const toReactElements = (xs: ReactElementOrReactElements) => (Array.isArray(xs) ? xs : [xs]);
-
-export const cloneChildren = (xs: ?ReactElementOrReactElements, fn: Function) => {
+export const cloneChildren = (xs?: React.Node, fn: Function): React.Node[] => {
   if (xs == null) throw new Error("Expected Children");
 
-  const children = toReactElements(xs);
-  return children.map((x: React$Element<*>): React$Element<*> => cloneVNode(x, fn(x)));
+  const children = Array.isArray(xs) ? xs : [xs];
+  return children.map(x => cloneVNode(x, fn(x)));
 };

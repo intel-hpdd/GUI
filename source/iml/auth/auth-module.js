@@ -8,12 +8,10 @@
 import angular from "angular";
 import { GROUPS, restrictTo, restrict } from "./authorization.js";
 
-import type { Exact } from "../../flow-workarounds.js";
-
-export type credentialsT = Exact<{
+export type credentialsT = {|
   username: string,
   password: string
-}>;
+|};
 
 export default angular
   .module("auth", [])

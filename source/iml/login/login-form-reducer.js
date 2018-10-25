@@ -5,19 +5,17 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import type { Exact } from "../../flow-workarounds.js";
-
 export const ADD_ERRORS = "ADD_ERRORS";
 export const ADD_IN_PROGRESS = "ADD_IN_PROGRESS";
 
-export type errorsActionT = Exact<{
+export type errorsActionT = {|
   type: typeof ADD_ERRORS,
   payload: loginFormErrorsT
-}>;
-export type progressActionT = Exact<{
+|};
+export type progressActionT = {|
   type: typeof ADD_IN_PROGRESS,
   payload: loginFormInProgressT
-}>;
+|};
 
 export type loginFormActionsT = errorsActionT | progressActionT;
 
@@ -27,16 +25,16 @@ export type loginFormErrorsT = {
   password?: string[]
 };
 
-export type loginFormInProgressT = Exact<{
+export type loginFormInProgressT = {|
   inProgress: boolean
-}>;
+|};
 
-export type loginFormT = Exact<{
+export type loginFormT = {|
   __all__?: string,
   username?: string[],
   password?: string[],
-  inProgress: boolean
-}>;
+  inProgress?: boolean
+|};
 
 export default (state: loginFormT = { inProgress: false }, actions: loginFormActionsT): loginFormT => {
   switch (actions.type) {

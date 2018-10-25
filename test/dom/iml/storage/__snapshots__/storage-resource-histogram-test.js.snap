@@ -311,9 +311,7 @@ exports[`should render as expected 1`] = `
           
           
           
-          <span>
-            
-          </span>
+          
         </g>
       </g>
       <g
@@ -681,10 +679,8 @@ exports[`should render as expected with two series 1`] = `
           
           
           
-          <span>
-            
-            
-          </span>
+          
+          
         </g>
       </g>
       <g

@@ -20,7 +20,7 @@ type ChartProps<P> = {
     left: number
   },
   points: P[],
-  children: React$Element<*>
+  children: ?React.Node
 };
 
 type ChartState = {
@@ -60,7 +60,7 @@ export default class Chart extends Component {
       usableHeight: height - this.props.margins.top - this.props.margins.bottom
     };
   }
-  gotComponent(svg: HTMLElement) {
+  gotComponent(svg: Element) {
     if (this.state.svg != null) return;
 
     const rect = svg.getBoundingClientRect();
@@ -74,7 +74,7 @@ export default class Chart extends Component {
     return (
       <svg
         ref={el => {
-          this.gotComponent(el);
+          if (el != null) this.gotComponent(el);
         }}
         class="charting"
         style={{ width: "100%", height: "100%" }}

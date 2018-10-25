@@ -17,7 +17,7 @@ type TooltipProps = {
 };
 
 export default ({ message, direction, size = "", moreClasses = [] }: TooltipProps) => {
-  if (!message) return;
+  if (!message) return null;
 
   return (
     <div className={`tooltip inferno-tt ${direction} ${size} ${moreClasses.join(" ")}`}>

@@ -9,6 +9,13 @@ import * as fp from "@iml/fp";
 
 import type { hostT } from "../api-types.js";
 
+type jobT = {
+  class_name: string,
+  args: {
+    host_id: string
+  }
+};
+
 export default function serverActionsFactory() {
   "ngInject";
   function convertNonMultiJob(hosts: hostT[]) {
@@ -16,7 +23,7 @@ export default function serverActionsFactory() {
       {
         class_name: this.jobClass,
         args: {
-          hosts: hosts.map(x => x.resource_uri)
+          hosts: (hosts.map((x: hostT) => x.resource_uri): string[])
         }
       }
     ];
@@ -87,14 +94,14 @@ Re-write target configuration may only be performed on managed servers.`
       toggleDisabled: memberOfFsOrNoUpdates,
       jobClass: "UpdateJob",
       convertToJob(hosts: hostT[]) {
-        return hosts.map(host => {
+        return (hosts.map((host: hostT) => {
           return {
             class_name: this.jobClass,
             args: {
               host_id: host.id
             }
           };
-        }, this);
+        }, this): jobT[]);
       }
     }
   ];

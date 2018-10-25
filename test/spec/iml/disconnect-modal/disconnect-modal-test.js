@@ -19,12 +19,10 @@ describe("disconnect modal", () => {
       open: jest.fn(() => modal)
     };
 
-    jest.mock("../../../../source/iml/window-unload.js", () => mockWindowUnload);
-
     mockWindowUnload = windowUnloadFactory($window);
     disconnectModalFactory = require("../../../../source/iml/disconnect-modal/disconnect-modal.js").default;
 
-    disconnectModal = disconnectModalFactory($uibModal, $timeout);
+    disconnectModal = disconnectModalFactory(mockWindowUnload, $uibModal, $timeout);
   });
 
   afterEach(() => {

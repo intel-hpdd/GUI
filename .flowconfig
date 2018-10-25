@@ -19,5 +19,4 @@ module.name_mapper.extension='html' -> '<PROJECT_ROOT>/html.js'
 module.name_mapper.extension='json' -> '<PROJECT_ROOT>/json.js'
 module.name_mapper.extension='less' -> '<PROJECT_ROOT>/less.js'
 esproposal.class_instance_fields=enable
-experimental.strict_type_args=true
 experimental.strict_call_arity=true

@@ -9,7 +9,7 @@ import { cloneVNode } from "inferno-clone-vnode";
 import { Component } from "inferno";
 
 type PopoverChildProps = {
-  children: React$Element<*>[]
+  children?: React.Node
 };
 
 export class PopoverContainer extends Component {
@@ -36,13 +36,13 @@ export const PopoverTitle = ({ children }: PopoverChildProps) => <h3 class="popo
 export const PopoverContent = ({ children }: PopoverChildProps) => <div class="popover-content">{children}</div>;
 
 type PopoverProps = {
-  children?: React$Element<*>,
+  children?: React.Node,
   visible?: boolean,
   direction: "top" | "bottom" | "left" | "right"
 };
 
 export const Popover = ({ children, visible, direction }: PopoverProps) => {
-  if (!visible) return;
+  if (!visible) return null;
 
   return (
     <div className={`fade popover ${direction} in`}>
