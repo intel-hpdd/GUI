@@ -24,17 +24,6 @@ describe("Dropdown DOM Tests", () => {
     expect(() => render(<Dropdown isOpen={false} toggleOpen={clickHandler} />, root)).toThrow(twoChildrenError);
   });
 
-  it("should throw if two children nodes are not passed", () => {
-    expect(() =>
-      render(
-        <Dropdown isOpen={false} toggleOpen={clickHandler}>
-          <div />
-        </Dropdown>,
-        root
-      )
-    ).toThrow(twoChildrenError);
-  });
-
   it("should open on click", () => {
     render(
       <Dropdown isOpen={false} toggleOpen={clickHandler}>
