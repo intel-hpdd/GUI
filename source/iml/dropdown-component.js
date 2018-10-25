@@ -5,22 +5,20 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { cloneVNode } from "inferno-clone-vnode";
 
 type Props = {
   isOpen?: boolean,
   toggleOpen?: Function,
-  children: React$Element<*>[]
+  children: [React.Element<"button">, React.Element<"ul">]
 };
 
 export default (props: Props) => {
-  if (props.children.length !== 2) throw new Error("DropdownContainer expects two children");
-
   const [button, ul] = props.children;
 
   return (
     <div className={`btn-group dropdown ${props.isOpen ? "open" : ""}`}>
-      {Inferno.cloneVNode(button, { onClick: props.toggleOpen })}
+      {cloneVNode(button, { onClick: props.toggleOpen })}
       {ul}
     </div>
   );

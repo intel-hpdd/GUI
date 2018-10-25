@@ -5,11 +5,11 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { cloneVNode } from "inferno-clone-vnode";
+import { Component } from "inferno";
 
 type PopoverChildProps = {
-  children: React$Element<*>[]
+  children?: React.Node
 };
 
 export class PopoverContainer extends Component {
@@ -17,11 +17,11 @@ export class PopoverContainer extends Component {
     const children = this.props.children.map(c => {
       if (!c.props) return c;
       else if (c.props.popoverButton)
-        return Inferno.cloneVNode(c, {
+        return cloneVNode(c, {
           onClick: this.props.toggleOpen
         });
       else if (c.props.popover)
-        return Inferno.cloneVNode(c, {
+        return cloneVNode(c, {
           visible: this.props.isOpen
         });
       else return c;
@@ -36,13 +36,13 @@ export const PopoverTitle = ({ children }: PopoverChildProps) => <h3 class="popo
 export const PopoverContent = ({ children }: PopoverChildProps) => <div class="popover-content">{children}</div>;
 
 type PopoverProps = {
-  children?: React$Element<*>,
+  children?: React.Node,
   visible?: boolean,
   direction: "top" | "bottom" | "left" | "right"
 };
 
 export const Popover = ({ children, visible, direction }: PopoverProps) => {
-  if (!visible) return;
+  if (!visible) return null;
 
   return (
     <div className={`fade popover ${direction} in`}>

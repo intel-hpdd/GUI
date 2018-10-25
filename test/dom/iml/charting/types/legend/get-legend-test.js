@@ -1,14 +1,26 @@
 import * as fp from "@iml/fp";
-import d3 from "d3";
-import { getLegendFactory } from "../../../../../../source/iml/charting/types/legend/get-legend.js";
+import mockD3 from "d3";
 import * as maybe from "@iml/maybe";
 import { flushD3Transitions } from "../../../../../test-utils.js";
 
 describe("get legend", () => {
-  let getLegend, div, svg, w, h, mouseClick;
+  let getLegendFactory, getLegend, div, svg, w, h, mouseClick, d3Select;
 
   beforeEach(() => {
-    getLegend = getLegendFactory();
+    d3Select = mockD3.select;
+    mockD3.select = x => {
+      const selected = d3Select(x);
+      selected.selectAll(".legend-group")[0].forEach(svgElement => {
+        svgElement.getBoundingClientRect = () => {
+          const width = svgElement.__data__.length * 12;
+          return { width, height: 12 };
+        };
+      });
+
+      return selected;
+    };
+
+    jest.mock("d3", () => mockD3);
     mouseClick = new MouseEvent("click");
     div = document.createElement("div");
     w = 700;
@@ -19,10 +31,13 @@ describe("get legend", () => {
     div.appendChild(svg);
     div.appendChild(document.createTextNode("bla"));
     document.body.appendChild(div);
+    getLegendFactory = require("../../../../../../source/iml/charting/types/legend/get-legend.js").getLegendFactory;
+    getLegend = getLegendFactory();
   });
 
   afterEach(() => {
     document.body.removeChild(div);
+    mockD3.select = d3Select;
   });
 
   it("should be a function", () => {
@@ -41,10 +56,10 @@ describe("get legend", () => {
     ];
 
     beforeEach(() => {
-      const colorOrdinal = d3.scale.ordinal();
+      const colorOrdinal = mockD3.scale.ordinal();
       colorOrdinal.domain(componentNames);
       colorOrdinal.range(
-        d3.scale
+        mockD3.scale
           .category10()
           .range()
           .slice(0, componentNames.length)
@@ -56,12 +71,13 @@ describe("get legend", () => {
         .padding(10)
         .showLabels(true); // Add and position a legend group
 
-      legendContainer = d3
+      legendContainer = mockD3
         .select("svg")
         .append("g")
         .attr("class", "legend-wrap")
         .call(legend);
-      flushD3Transitions(d3);
+
+      flushD3Transitions(mockD3);
     });
 
     it("should have a colors accessor", () => {
@@ -135,8 +151,8 @@ describe("get legend", () => {
               .filter(d => d === name)
               .node();
             node.dispatchEvent(mouseClick);
-            const circle = d3.select(node).selectAll(".legend-circle");
-            flushD3Transitions(d3);
+            const circle = mockD3.select(node).selectAll(".legend-circle");
+            flushD3Transitions(mockD3);
             expect(circle.attr("fill-opacity")).toBe("0");
           });
         });
@@ -162,10 +178,10 @@ describe("get legend", () => {
               .filter(d => d === name)
               .node();
             node.dispatchEvent(mouseClick); // select
-            flushD3Transitions(d3);
+            flushD3Transitions(mockD3);
             node.dispatchEvent(mouseClick); // unselect
-            const circle = d3.select(node).select(".legend-circle");
-            flushD3Transitions(d3);
+            const circle = mockD3.select(node).select(".legend-circle");
+            flushD3Transitions(mockD3);
             expect(circle.attr("fill-opacity")).toBe("1");
           });
         });
@@ -174,6 +190,10 @@ describe("get legend", () => {
 
     describe("layout", () => {
       let itemDimensions;
+
+      beforeEach(() => {
+        legendContainer.call(legend);
+      });
 
       describe("with labels", () => {
         it("should display the label", () => {

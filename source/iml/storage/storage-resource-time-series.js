@@ -14,8 +14,7 @@ import Chart from "../charting/chart.js";
 import Axis from "../charting/axis.js";
 import Line from "../charting/line.js";
 import Legend from "../charting/legend.js";
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import d3 from "d3";
 import socketStream from "../socket/socket-stream.js";
 
@@ -26,7 +25,7 @@ import { values } from "@iml/obj";
 import { cloneChildren } from "../inferno-utils.js";
 import { uniqBy } from "@iml/fp";
 
-const NoData = props => (
+const NoData = (props: { message: string }) => (
   <div
     style={{
       height: "500px",
@@ -39,6 +38,8 @@ const NoData = props => (
   </div>
 );
 
+const getX = (x: Point) => new Date(x.ts);
+
 class Scales extends Component {
   xScale: Object;
   yScale: Object;
@@ -47,8 +48,6 @@ class Scales extends Component {
     this.yScale = d3.scale.linear();
   }
   render() {
-    const getX = (x: Point) => new Date(x.ts);
-
     this.xScale.domain(d3.extent(this.props.points, getX)).range([0, this.props.dimensions.usableWidth]);
 
     this.yScale
@@ -66,6 +65,22 @@ class Scales extends Component {
     );
   }
 }
+
+const Lines = props => {
+  return (
+    <>
+      {props.chart.series.map(x => (
+        <Line
+          color={() => props.colors(x.name)}
+          xValue={(x: Point) => new Date(x.ts)}
+          yValue={p => p.data[x.name]}
+          xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
+          {...props}
+        />
+      ))}
+    </>
+  );
+};
 
 export default class StorageResourceTimeSeries extends Component {
   stream: HighlandStreamT<Point[]>;
@@ -114,8 +129,6 @@ export default class StorageResourceTimeSeries extends Component {
     if (this.state.data.length === 0) return <NoData message="No Data Available." />;
 
     const { data } = this.state;
-
-    const getX = (x: Point) => new Date(x.ts);
     const colors = d3.scale.category10().domain(this.props.chart.series.map(x => x.name).reverse());
 
     return (
@@ -145,14 +158,7 @@ export default class StorageResourceTimeSeries extends Component {
               <Legend colors={colors} transform="translate(50,0)" />
               <Axis type="x" />
               <Axis type="y" />
-              {this.props.chart.series.map(x => (
-                <Line
-                  color={() => colors(x.name)}
-                  xValue={(x: Point) => new Date(x.ts)}
-                  yValue={p => p.data[x.name]}
-                  xComparator={(x, y) => getX(x).getTime() === getX(y).getTime()}
-                />
-              ))}
+              <Lines {...this.props} colors={colors} />
             </Scales>
           </Chart>
         </div>

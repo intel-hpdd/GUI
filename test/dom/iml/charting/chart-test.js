@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import { renderToSnapshot } from "../../../test-utils.js";
 
@@ -32,7 +32,7 @@ describe("charting", () => {
     root.style.setProperty("width", "500px");
     root.style.setProperty("height", "500px");
 
-    Inferno.render(
+    render(
       <Chart margins={{ top: 50, right: 50, bottom: 50, left: 50 }} points={[1, 2, 3]}>
         <Child propName="margins" />
         <Child propName="dimensions" />
@@ -59,7 +59,7 @@ describe("charting", () => {
     root.style.setProperty("width", "500px");
     root.style.setProperty("height", "500px");
 
-    Inferno.render(
+    render(
       <Chart margins={{ top: 50, right: 50, bottom: 50, left: 50 }} points={[1, 2, 3]}>
         <Child propName="margins" />
         <Child propName="dimensions" />
@@ -68,6 +68,6 @@ describe("charting", () => {
       root
     );
 
-    Inferno.render(null, root);
+    render(null, root);
   });
 });

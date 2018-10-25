@@ -11,7 +11,7 @@ import type { Column, Attribute, StorageResourceClass, StorageResourceResponse }
 import store from "../store/get-store.js";
 import { UI_ROOT } from "../environment.js";
 import { entries } from "@iml/obj";
-import Inferno, { linkEvent } from "inferno";
+import { linkEvent } from "inferno";
 import AlertIndicator from "../alert-indicator/alert-indicator.js";
 import extractApiId from "@iml/extract-api";
 import { TableInfo, EntriesDropdown, Pager } from "../pagination-components.js";
@@ -36,7 +36,7 @@ const sortedAttributes = (columns: Column[], attributes: { [string]: Attribute }
 
 export const StorageAttribute = ({ attribute }: { attribute: SortedAttribute }) => {
   if (attribute.class === "ResourceReference") {
-    if (!attribute.raw) return;
+    if (!attribute.raw) return null;
 
     const id = extractApiId(attribute.raw);
     return <a href={`${UI_ROOT}configure/storage/${id}`} dangerouslySetInnerHTML={{ __html: attribute.markup }} />;

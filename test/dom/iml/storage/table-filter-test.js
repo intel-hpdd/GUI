@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { renderToSnapshot } from "../../../test-utils.js";
 import { querySelector } from "../../../../source/iml/dom-utils.js";
 
@@ -170,10 +170,7 @@ describe("storage component", () => {
 
       const root = document.createElement("div");
       querySelector(document, "body").appendChild(root);
-      Inferno.render(
-        <TableFilter classes={state.storageResourcesClasses} idx={state.storageResourceClassIndex} />,
-        root
-      );
+      render(<TableFilter classes={state.storageResourcesClasses} idx={state.storageResourceClassIndex} />, root);
 
       const select: HTMLSelectElement = (querySelector(root, "select"): any);
 

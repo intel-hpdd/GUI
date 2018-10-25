@@ -36,7 +36,7 @@ export const getChildBy: getChildByT = fn =>
 export const emitOnItem = (fn: treeItemToBooleanT) =>
   fp.flow(
     getChildBy(fn),
-    highland.map(maybe.withDefault.bind(null, fp.always(false))),
+    highland.map(x => maybe.withDefault(fp.always(false), x)),
     highland.filter(x => x)
   );
 

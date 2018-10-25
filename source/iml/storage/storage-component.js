@@ -9,7 +9,7 @@ import type { HighlandStreamT } from "highland";
 import type { State } from "./storage-reducer.js";
 
 import TableFilter from "./table-filter.js";
-import Inferno from "inferno";
+import { render } from "inferno";
 import { ResourceTable } from "./resource-table.js";
 import { asViewer } from "../as-viewer/as-viewer";
 import storageResources from "./storage-resources.js";
@@ -86,11 +86,11 @@ export default {
     const storageResources$ = storageResources().each(() => {});
 
     this.$onInit = () => {
-      Inferno.render(<StorageComponent alertIndicatorB={this.alertIndicatorB} viewer={this.storageB} />, el);
+      render(<StorageComponent alertIndicatorB={this.alertIndicatorB} viewer={this.storageB} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
       this.alertIndicatorB.endBroadcast();
       this.storageB.endBroadcast();
       storageResources$.destroy();

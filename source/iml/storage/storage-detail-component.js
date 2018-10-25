@@ -5,8 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { render, Component } from "inferno";
 
 import type { HighlandStreamT } from "highland";
 import type { StorageResource, TimeseriesChart, HistogramChart, Stats } from "./storage-types.js";
@@ -77,18 +76,19 @@ const DeleteButton = ({
   onDelete: number => void,
   processing: boolean
 }) => {
-  if (deletable)
-    return (
-      <button
-        id="deleteButton"
-        type="button"
-        class="btn btn-danger"
-        onClick={onDelete}
-        disabled={processing ? true : false}
-      >
-        Delete <Spinner display={processing} />
-      </button>
-    );
+  if (!deletable) return null;
+
+  return (
+    <button
+      id="deleteButton"
+      type="button"
+      class="btn btn-danger"
+      onClick={onDelete}
+      disabled={processing ? true : false}
+    >
+      Delete <Spinner display={processing} />
+    </button>
+  );
 };
 
 const SaveButton = ({ processing, canSave }: { processing: boolean, canSave: boolean }) => {
@@ -257,13 +257,13 @@ export default {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<StorageDetail stream={this.storageResource$} alertIndicatorB={this.alertIndicatorB} />, el);
+      render(<StorageDetail stream={this.storageResource$} alertIndicatorB={this.alertIndicatorB} />, el);
     };
 
     this.$onDestroy = () => {
       this.storageResource$.destroy();
       this.alertIndicatorB.endBroadcast();
-      Inferno.render(null, el);
+      render(null, el);
     };
   }
 };

@@ -1,4 +1,3 @@
-import Inferno from "inferno";
 import Spinner from "../../../source/iml/spinner.js";
 import { renderToSnapshot } from "../../test-utils.js";
 

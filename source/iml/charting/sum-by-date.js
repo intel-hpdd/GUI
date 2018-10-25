@@ -9,14 +9,13 @@ import * as obj from "@iml/obj";
 import * as fp from "@iml/fp";
 
 import type { HighlandStreamT } from "highland";
-import type { Exact } from "../../flow-workarounds.js";
 
-type Point = Exact<{
-  data: Exact<{
+type Point = {|
+  data: {|
     [key: string]: number
-  }>,
+  |},
   ts: string
-}>;
+|};
 
 type Sum = (xs: Array<Point[]>) => Point[];
 const sum: Sum = fp.map(

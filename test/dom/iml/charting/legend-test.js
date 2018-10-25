@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import Legend from "../../../../source/iml/charting/legend.js";
 import d3 from "d3";
@@ -8,7 +8,7 @@ import d3 from "d3";
 it("should render as expected", () => {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-  Inferno.render(
+  render(
     <Legend
       svg={d3.select(svg).datum([0, 100])}
       dimensions={{ usableWidth: 200, usableHeight: 200 }}
@@ -26,7 +26,7 @@ it("should render as expected", () => {
 it("should transform", () => {
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-  Inferno.render(
+  render(
     <Legend
       svg={d3.select(svg).datum([0, 100])}
       dimensions={{ usableWidth: 200, usableHeight: 200 }}

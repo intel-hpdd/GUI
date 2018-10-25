@@ -6,8 +6,7 @@
 import type { Element } from "react";
 import type { HighlandStreamT } from "highland";
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 
 export const asViewer = <B: {}>(key: string, WrappedComponent: (b: B) => Element<*>) =>
   class AsViewer extends Component {

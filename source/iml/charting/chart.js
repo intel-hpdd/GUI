@@ -5,8 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import debounce from "@iml/debounce";
 import d3 from "d3";
 import global from "../global.js";
@@ -21,7 +20,7 @@ type ChartProps<P> = {
     left: number
   },
   points: P[],
-  children: React$Element<*>
+  children: ?React.Node
 };
 
 type ChartState = {
@@ -61,7 +60,7 @@ export default class Chart extends Component {
       usableHeight: height - this.props.margins.top - this.props.margins.bottom
     };
   }
-  gotComponent(svg: HTMLElement) {
+  gotComponent(svg: Element) {
     if (this.state.svg != null) return;
 
     const rect = svg.getBoundingClientRect();
@@ -75,7 +74,7 @@ export default class Chart extends Component {
     return (
       <svg
         ref={el => {
-          this.gotComponent(el);
+          if (el != null) this.gotComponent(el);
         }}
         class="charting"
         style={{ width: "100%", height: "100%" }}

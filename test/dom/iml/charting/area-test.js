@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import Area from "../../../../source/iml/charting/area.js";
 import d3 from "d3";
@@ -10,7 +10,7 @@ it("should render as expected", () => {
   const chartingGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
   svg.appendChild(chartingGroup);
 
-  Inferno.render(
+  render(
     <Area
       xScale={d3.scale
         .linear()

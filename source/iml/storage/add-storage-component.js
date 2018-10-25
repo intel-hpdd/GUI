@@ -8,8 +8,7 @@
 import type { Field, StorageResourceClass } from "./storage-types.js";
 import type { State } from "./storage-reducer.js";
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { render, Component } from "inferno";
 
 import { asViewer } from "../as-viewer/as-viewer";
 import TableFilter from "./table-filter.js";
@@ -17,7 +16,7 @@ import socketStream from "../socket/socket-stream.js";
 import { UI_ROOT } from "../environment.js";
 
 const PageAlert = ({ children, className }) => {
-  if (!children) return;
+  if (!children) return null;
 
   return <div className={`alert span4 offset4 ${className}`}>{children}</div>;
 };
@@ -64,7 +63,7 @@ class AddStorageForm extends Component {
       saveFailed: null
     };
   }
-  onInput(id: number, name: string, ev: SyntheticInputEvent) {
+  onInput(id: number, name: string, ev: SyntheticInputEvent<HTMLFormElement>) {
     this.setState({
       form: {
         ...this.state.form,
@@ -181,11 +180,11 @@ export default {
     const el = $element[0];
 
     this.$onInit = () => {
-      Inferno.render(<AddStorageComponent viewer={this.storageB} />, el);
+      render(<AddStorageComponent viewer={this.storageB} />, el);
     };
 
     this.$onDestroy = () => {
-      Inferno.render(null, el);
+      render(null, el);
 
       this.storageB.endBroadcast();
     };

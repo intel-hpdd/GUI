@@ -1,6 +1,6 @@
 import highland from "highland";
 import broadcast from "../../../../source/iml/broadcaster.js";
-import Inferno from "inferno";
+import { render } from "inferno";
 import AlertIndicator from "../../../../source/iml/alert-indicator/alert-indicator.js";
 import { renderToSnapshot } from "../../../test-utils.js";
 
@@ -19,7 +19,10 @@ describe("AlertIndicator DOM testing", () => {
     stream.write([]);
 
     node = document.createElement("div");
-    Inferno.render(<AlertIndicator viewer={alertStream} size={displayType} recordId={recordId} />, node);
+
+    document.body.appendChild(node);
+
+    render(<AlertIndicator viewer={alertStream} size={displayType} recordId={recordId} />, node);
 
     popover = node.querySelector.bind(node, ".popover");
     i = node.querySelector.bind(node, "i");
@@ -28,11 +31,10 @@ describe("AlertIndicator DOM testing", () => {
     stateLabel = node.querySelector.bind(node, ".state-label");
 
     tooltip = node.querySelector.bind(node, ".tooltip");
-
-    document.body.appendChild(node);
   });
 
   afterEach(() => {
+    render(null, node);
     document.body.removeChild(node);
   });
 

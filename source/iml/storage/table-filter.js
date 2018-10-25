@@ -7,7 +7,6 @@
 
 import type { StorageResourceClass } from "./storage-types.js";
 
-import Inferno from "inferno";
 import store from "../store/get-store.js";
 import { setStorageSelectIndex, setStorageTableLoading } from "./storage-actions.js";
 

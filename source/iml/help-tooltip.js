@@ -5,7 +5,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
 import Tooltip from "./tooltip.js";
 import { HELP_TEXT } from "./environment.js";
 
@@ -18,7 +17,7 @@ type helpTooltipT = {
 };
 
 export default ({ helpKey, direction, moreClasses }: helpTooltipT) => {
-  if (!helpKey) return;
+  if (!helpKey) return null;
 
   return <Tooltip message={HELP_TEXT[helpKey]} direction={direction} moreClasses={moreClasses} />;
 };

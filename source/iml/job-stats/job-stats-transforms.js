@@ -10,18 +10,16 @@ import * as math from "@iml/math";
 import * as maybe from "@iml/maybe";
 import { entries } from "@iml/obj";
 
-import type { Exact } from "../../flow-workarounds";
-
 import type { HighlandStreamT } from "highland";
 
-type NumberMap = Exact<{
+type NumberMap = {|
   [key: string]: number
-}>;
+|};
 
-type Data = Exact<{
+type Data = {|
   data: NumberMap,
   ts: string
-}>;
+|};
 
 type FlatData = {|
   data: number,

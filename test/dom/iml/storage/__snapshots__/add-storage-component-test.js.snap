@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`storage component interaction submitting the form should render error 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -45,10 +48,10 @@ exports[`storage component interaction submitting the form should render error 1
           Size
         </label>
         <input
+          class="form-control"
+          id="size"
           required=""
           type="text"
-          id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -60,9 +63,9 @@ exports[`storage component interaction submitting the form should render error 1
           Filesystem type
         </label>
         <input
-          type="text"
-          id="filesystem_type"
           class="form-control"
+          id="filesystem_type"
+          type="text"
         />
       </div>
       <div
@@ -74,15 +77,15 @@ exports[`storage component interaction submitting the form should render error 1
           Uuid
         </label>
         <input
+          class="form-control"
+          id="uuid"
           required=""
           type="text"
-          id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i
@@ -94,17 +97,20 @@ exports[`storage component interaction submitting the form should render error 1
       style="margin: 25px 0px;"
     >
       <a
-        href="about:blankconfigure/storage"
+        href="http://localhost/configure/storage"
       >
         ← Return to storage configuration page
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component interaction submitting the form should render loading 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -134,6 +140,7 @@ exports[`storage component interaction submitting the form should render loading
     <form
       autocomplete="off"
     >
+      
       <div
         class="form-group"
       >
@@ -143,10 +150,10 @@ exports[`storage component interaction submitting the form should render loading
           Size
         </label>
         <input
+          class="form-control"
+          id="size"
           required=""
           type="text"
-          id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -158,9 +165,9 @@ exports[`storage component interaction submitting the form should render loading
           Filesystem type
         </label>
         <input
-          type="text"
-          id="filesystem_type"
           class="form-control"
+          id="filesystem_type"
+          type="text"
         />
       </div>
       <div
@@ -172,16 +179,16 @@ exports[`storage component interaction submitting the form should render loading
           Uuid
         </label>
         <input
+          class="form-control"
+          id="uuid"
           required=""
           type="text"
-          id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
         disabled=""
+        type="submit"
       >
         Save
         <i
@@ -193,17 +200,20 @@ exports[`storage component interaction submitting the form should render loading
       style="margin: 25px 0px;"
     >
       <a
-        href="about:blankconfigure/storage"
+        href="http://localhost/configure/storage"
       >
         ← Return to storage configuration page
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component interaction submitting the form should render success 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -247,10 +257,10 @@ exports[`storage component interaction submitting the form should render success
           Size
         </label>
         <input
+          class="form-control"
+          id="size"
           required=""
           type="text"
-          id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -262,9 +272,9 @@ exports[`storage component interaction submitting the form should render success
           Filesystem type
         </label>
         <input
-          type="text"
-          id="filesystem_type"
           class="form-control"
+          id="filesystem_type"
+          type="text"
         />
       </div>
       <div
@@ -276,15 +286,15 @@ exports[`storage component interaction submitting the form should render success
           Uuid
         </label>
         <input
+          class="form-control"
+          id="uuid"
           required=""
           type="text"
-          id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i
@@ -296,23 +306,29 @@ exports[`storage component interaction submitting the form should render success
       style="margin: 25px 0px;"
     >
       <a
-        href="about:blankconfigure/storage"
+        href="http://localhost/configure/storage"
       >
         ← Return to storage configuration page
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;
 
 exports[`storage component should render nothing with no data 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   
-</div>
+</add-storage>
 `;
 
 exports[`storage component should render with data 1`] = `
-<div>
+<add-storage
+  class="ng-scope ng-isolate-scope"
+  storage-b="storage$"
+>
   <div
     class="container container-full storage container"
   >
@@ -342,6 +358,7 @@ exports[`storage component should render with data 1`] = `
     <form
       autocomplete="off"
     >
+      
       <div
         class="form-group"
       >
@@ -351,10 +368,10 @@ exports[`storage component should render with data 1`] = `
           Size
         </label>
         <input
+          class="form-control"
+          id="size"
           required=""
           type="text"
-          id="size"
-          class="form-control"
         />
       </div>
       <div
@@ -366,9 +383,9 @@ exports[`storage component should render with data 1`] = `
           Filesystem type
         </label>
         <input
-          type="text"
-          id="filesystem_type"
           class="form-control"
+          id="filesystem_type"
+          type="text"
         />
       </div>
       <div
@@ -380,15 +397,15 @@ exports[`storage component should render with data 1`] = `
           Uuid
         </label>
         <input
+          class="form-control"
+          id="uuid"
           required=""
           type="text"
-          id="uuid"
-          class="form-control"
         />
       </div>
       <button
-        type="submit"
         class="btn btn-success"
+        type="submit"
       >
         Save
         <i
@@ -400,11 +417,11 @@ exports[`storage component should render with data 1`] = `
       style="margin: 25px 0px;"
     >
       <a
-        href="about:blankconfigure/storage"
+        href="http://localhost/configure/storage"
       >
         ← Return to storage configuration page
       </a>
     </div>
   </div>
-</div>
+</add-storage>
 `;

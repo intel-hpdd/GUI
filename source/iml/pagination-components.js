@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import type { Meta } from "./api-types.js";
-import Inferno, { linkEvent } from "inferno";
+import { linkEvent } from "inferno";
 import WindowClickListener from "./window-click-listener.js";
 import DropdownContainer from "./dropdown-component.js";
 
@@ -24,7 +24,7 @@ export const EntriesDropdown = (props: EntriesProps) => (
       <ul role="menu" class="dropdown-menu">
         {[10, 25, 50, 100].map(x => (
           <li>
-            <a onClick={linkEvent(x, props.setEntries)}>{x}</a>
+            <a onclick={linkEvent(x, props.setEntries)}>{x}</a>
           </li>
         ))}
       </ul>
@@ -77,22 +77,22 @@ type PagerProps = {
 export const Pager = ({ meta, setOffset }: PagerProps) => {
   const pages = computePages(meta);
 
-  if (pages === 1) return;
+  if (pages === 1) return null;
 
   const page = computePage(meta);
 
   return (
     <ul class="pagination">
       <li className={`pagination-prev ${page === 1 ? "disabled" : ""}`}>
-        <a onClick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
+        <a onclick={linkEvent(computeOffset(page - 1, meta.limit), setOffset)}>‹</a>
       </li>
       {getPages(page, pages).map(x => (
         <li className={`pagination-page ${page === x ? "active" : ""}`}>
-          <a onClick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
+          <a onclick={linkEvent(computeOffset(x, meta.limit), setOffset)}>{x}</a>
         </li>
       ))}
       <li class={`pagination-next ${page === pages ? "disabled" : ""}`}>
-        <a onClick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
+        <a onclick={linkEvent(computeOffset(page + 1, meta.limit), setOffset)}>›</a>
       </li>
     </ul>
   );

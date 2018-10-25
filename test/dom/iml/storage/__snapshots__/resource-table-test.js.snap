@@ -24,20 +24,21 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
         class="btn-group dropdown "
       >
         <button
-          type="button"
-          aria-haspopup="true"
           aria-expanded="false"
+          aria-haspopup="true"
           class="btn btn-info btn-sm dropdown-toggle"
+          type="button"
         >
           Entries: 
           10
+           
           <span
             class="caret"
           />
         </button>
         <ul
-          role="menu"
           class="dropdown-menu"
+          role="menu"
         >
           <li>
             <a>
@@ -125,7 +126,7 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
         <tr>
           <td>
             <a
-              href="about:blankconfigure/storage/2"
+              href="http://localhost/configure/storage/2"
             >
               HostNetworkInterface (10, u'enp0s10')
             </a>
@@ -138,8 +139,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 style="position: relative;"
               >
                 <span
-                  popoverbutton="true"
                   class="icon-wrap tooltip-container tooltip-hover"
+                  popoverbutton="true"
                 >
                   <i
                     class="fa activate-popover fa-check-circle"
@@ -159,10 +160,11 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
-                style="padding-left: 10px;"
                 class="state-label"
+                style="padding-left: 10px;"
               >
                 No Issues
               </span>
@@ -180,7 +182,7 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
           </td>
           <td>
             <a
-              href="about:blankconfigure/storage/1"
+              href="http://localhost/configure/storage/1"
             >
               <p>
                 10.128.0.12
@@ -206,7 +208,7 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
         <tr>
           <td>
             <a
-              href="about:blankconfigure/storage/3"
+              href="http://localhost/configure/storage/3"
             >
               HostNetworkInterface (10, u'enp0s3')
             </a>
@@ -219,8 +221,8 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                 style="position: relative;"
               >
                 <span
-                  popoverbutton="true"
                   class="icon-wrap tooltip-container tooltip-hover"
+                  popoverbutton="true"
                 >
                   <i
                     class="fa activate-popover fa-check-circle"
@@ -240,10 +242,11 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
                     </div>
                   </div>
                 </span>
+                
               </span>
               <span
-                style="padding-left: 10px;"
                 class="state-label"
+                style="padding-left: 10px;"
               >
                 No Issues
               </span>
@@ -319,15 +322,15 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
       </ul>
     </div>
     <div
-      style="color: rgb(153, 153, 153);"
       class="text-center"
+      style="color: rgb(153, 153, 153);"
     >
       <span>
         showing 
         1
         -
         10
-        of 
+         of 
         16
       </span>
     </div>

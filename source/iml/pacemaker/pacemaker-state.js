@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 function PacemakerStateComponent({ state }: stateT) {
   switch (state) {
@@ -42,7 +42,7 @@ export default {
     "ngInject";
     this.stream
       .filter(Boolean)
-      .each(({ state }: stateT) => Inferno.render(<PacemakerStateComponent state={state} />, $element[0]));
+      .each(({ state }: stateT) => render(<PacemakerStateComponent state={state} />, $element[0]));
 
     this.$onDestroy = () => this.stream.destroy();
   }

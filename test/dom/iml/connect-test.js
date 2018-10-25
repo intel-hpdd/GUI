@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import connect from "../../../source/iml/connect.js";
 import highland from "highland";
 
@@ -15,7 +15,7 @@ describe("connect test", () => {
 
     const stream = highland(["foo"]);
 
-    Inferno.render(<ConnectedDiv stream={stream} />, container);
+    render(<ConnectedDiv stream={stream} />, container);
 
     expect(container.textContent.trim()).toBe("foo");
   });

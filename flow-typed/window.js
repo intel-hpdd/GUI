@@ -22,10 +22,11 @@ type cacheInitialDataT = {
 };
 
 declare var window: {
-  clearTimeout: (id: number | null) => void,
+  angular: mixed,
+  clearTimeout: (id: TimeoutID | null) => void,
   document: Document,
   crypto: Crypto,
-  fetch: GlobalFetch.fetch,
+  fetch: window.fetch,
   STATIC_URL: string,
   CACHE_INITIAL_DATA: cacheInitialDataT,
   HELP_TEXT: {

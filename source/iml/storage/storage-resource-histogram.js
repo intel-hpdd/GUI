@@ -8,8 +8,7 @@
 import type { Point } from "../api-types.js";
 import type { HistogramChart, HistogramStats } from "./storage-types.js";
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import d3 from "d3";
 import Chart from "../charting/chart.js";
 import Axis from "../charting/axis.js";
@@ -69,6 +68,22 @@ class HistogramScales extends Component {
   }
 }
 
+const Areas = props => {
+  return (
+    <>
+      {props.chart.series.map(x => (
+        <Area
+          interpolate="cardinal"
+          color={() => props.colors(x.name)}
+          xValue={x => x.bin}
+          y1Value={p => p.data[x.name]}
+          {...props}
+        />
+      ))}
+    </>
+  );
+};
+
 export default class StorageResourceHistogram extends Component {
   props: { chart: HistogramChart };
   render() {
@@ -89,14 +104,7 @@ export default class StorageResourceHistogram extends Component {
             <Legend colors={colors} transform="translate(50,0)" />
             <Axis type="x" />
             <Axis type="y" />
-            {this.props.chart.series.map(x => (
-              <Area
-                interpolate="cardinal"
-                color={() => colors(x.name)}
-                xValue={x => x.bin}
-                y1Value={p => p.data[x.name]}
-              />
-            ))}
+            <Areas {...this.props} colors={colors} />
           </HistogramScales>
         </Chart>
       </div>

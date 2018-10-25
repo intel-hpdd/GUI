@@ -9,7 +9,7 @@ import { GROUPS } from "../auth/authorization.js";
 
 import { oldFilesystemDetailResolve, oldUserDetailResolve, oldTargetResolve } from "./old-gui-resolves.js";
 
-export default [
+const states: Object[] = [
   [
     "/configure/volume",
     "app.oldVolume",
@@ -94,3 +94,5 @@ export default [
     ...resolve
   });
 });
+
+export default states;

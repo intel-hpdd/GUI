@@ -2,7 +2,6 @@
 
 import { cloneChildren } from "../../../source/iml/inferno-utils.js";
 import { renderToSnapshot } from "../../test-utils.js";
-import Inferno from "inferno";
 
 const Wrapper = (props: { children?: any }) => (
   <div>

@@ -10,18 +10,16 @@ export const SET_COOKIE = "SET_COOKIE";
 
 import type { sessionT } from "../api-types.js";
 
-import type { Exact } from "../../flow-workarounds.js";
-
-export type sessionActionT = Exact<{
+export type sessionActionT = {|
   type: typeof SET_SESSION,
   payload: { session: sessionT }
-}>;
-export type cookieActionT = Exact<{
+|};
+export type cookieActionT = {|
   type: typeof SET_COOKIE,
   payload: { cookie: string }
-}>;
+|};
 
-export type sessionActionsT = sessionActionT | cookieActionT | Exact<{ type: string, payload: any }>;
+export type sessionActionsT = sessionActionT | cookieActionT | {| type: string, payload: any |};
 
 type stateT = {
   session?: sessionT,

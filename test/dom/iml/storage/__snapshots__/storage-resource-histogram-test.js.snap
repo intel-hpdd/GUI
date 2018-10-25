@@ -3,16 +3,16 @@
 exports[`should render as expected 1`] = `
 <div>
   <div
-    style="height: 500px;"
     class="storage-detail-chart"
+    style="height: 500px;"
   >
     <svg
-      style="width: 100%; height: 100%;"
       class="charting"
+      style="width: 100%; height: 100%;"
     >
       <g
-        transform="translate(50,50)"
         class="charting-group"
+        transform="translate(50,50)"
       >
         <g
           class="axis x-axis"
@@ -24,16 +24,16 @@ exports[`should render as expected 1`] = `
             transform="translate(0,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >1
+              &gt;1
             </text>
           </g>
           <g
@@ -42,16 +42,16 @@ exports[`should render as expected 1`] = `
             transform="translate(-40,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >2
+              &gt;2
             </text>
           </g>
           <g
@@ -60,16 +60,16 @@ exports[`should render as expected 1`] = `
             transform="translate(-80,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >3
+              &gt;3
             </text>
           </g>
           <path
@@ -290,24 +290,27 @@ exports[`should render as expected 1`] = `
             id="area-clip1"
           >
             <rect
-              width="-80"
               height="-100"
+              width="-80"
             />
           </clippath>
         </defs>
         <g
-          clip-path="url(about:blank#area-clip1)"
           class="clipPath1"
+          clip-path="url(http://localhost/#area-clip1)"
         >
           <path
             class="area area1"
-            stroke="#1f77b4"
+            d="M0,-98.07692307692307Q-32,-97.3076923076923,-40,-97.11538461538461Q-48,-96.92307692307692,-80,-96.15384615384616L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
             fill="#1f77b4"
             fill-opacity="0.2"
-            d="M0,-98.07692307692307Q-32,-97.3076923076923,-40,-97.11538461538461Q-48,-96.92307692307692,-80,-96.15384615384616L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+            stroke="#1f77b4"
           />
         </g>
         <g>
+          
+          
+          
           
         </g>
       </g>
@@ -322,12 +325,13 @@ exports[`should render as expected 1`] = `
           <circle
             class="legend-circle"
             fill="#1f77b4"
-            stroke="#1f77b4"
             fill-opacity="0"
             r="5"
+            stroke="#1f77b4"
           />
           <text
             class="legend-label"
+            display="inherit"
             dx="10"
             dy="4"
           >
@@ -343,16 +347,16 @@ exports[`should render as expected 1`] = `
 exports[`should render as expected with two series 1`] = `
 <div>
   <div
-    style="height: 500px;"
     class="storage-detail-chart"
+    style="height: 500px;"
   >
     <svg
-      style="width: 100%; height: 100%;"
       class="charting"
+      style="width: 100%; height: 100%;"
     >
       <g
-        transform="translate(50,50)"
         class="charting-group"
+        transform="translate(50,50)"
       >
         <g
           class="axis x-axis"
@@ -364,16 +368,16 @@ exports[`should render as expected with two series 1`] = `
             transform="translate(0,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >1
+              &gt;1
             </text>
           </g>
           <g
@@ -382,16 +386,16 @@ exports[`should render as expected with two series 1`] = `
             transform="translate(-40,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >2
+              &gt;2
             </text>
           </g>
           <g
@@ -400,16 +404,16 @@ exports[`should render as expected with two series 1`] = `
             transform="translate(-80,0)"
           >
             <line
-              y2="6"
               x2="0"
+              y2="6"
             />
             <text
               dy=".71em"
               style="text-anchor: middle;"
-              y="9"
               x="0"
+              y="9"
             >
-              >3
+              &gt;3
             </text>
           </g>
           <path
@@ -630,21 +634,21 @@ exports[`should render as expected with two series 1`] = `
             id="area-clip2"
           >
             <rect
-              width="-80"
               height="-100"
+              width="-80"
             />
           </clippath>
         </defs>
         <g
-          clip-path="url(about:blank#area-clip2)"
           class="clipPath2"
+          clip-path="url(http://localhost/#area-clip2)"
         >
           <path
             class="area area2"
-            stroke="#1f77b4"
+            d="M0,-98.08612440191388Q-32,-97.32057416267942,-40,-97.1291866028708Q-48,-96.93779904306218,-80,-96.17224880382776L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
             fill="#1f77b4"
             fill-opacity="0.2"
-            d="M0,-98.08612440191388Q-32,-97.32057416267942,-40,-97.1291866028708Q-48,-96.93779904306218,-80,-96.17224880382776L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+            stroke="#1f77b4"
           />
         </g>
         <defs
@@ -654,24 +658,28 @@ exports[`should render as expected with two series 1`] = `
             id="area-clip3"
           >
             <rect
-              width="-80"
               height="-100"
+              width="-80"
             />
           </clippath>
         </defs>
         <g
-          clip-path="url(about:blank#area-clip3)"
           class="clipPath3"
+          clip-path="url(http://localhost/#area-clip3)"
         >
           <path
             class="area area3"
-            stroke="#ff7f0e"
+            d="M0,-97.60765550239235Q-32,-96.8421052631579,-40,-96.65071770334929Q-48,-96.45933014354067,-80,-95.69377990430623L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
             fill="#ff7f0e"
             fill-opacity="0.2"
-            d="M0,-97.60765550239235Q-32,-96.8421052631579,-40,-96.65071770334929Q-48,-96.45933014354067,-80,-95.69377990430623L-80,-100Q-48,-100,-40,-100Q-32,-100,0,-100Z"
+            stroke="#ff7f0e"
           />
         </g>
         <g>
+          
+          
+          
+          
           
         </g>
       </g>
@@ -686,12 +694,13 @@ exports[`should render as expected with two series 1`] = `
           <circle
             class="legend-circle"
             fill="#1f77b4"
-            stroke="#1f77b4"
             fill-opacity="0"
             r="5"
+            stroke="#1f77b4"
           />
           <text
             class="legend-label"
+            display="inherit"
             dx="10"
             dy="4"
           >
@@ -705,12 +714,13 @@ exports[`should render as expected with two series 1`] = `
           <circle
             class="legend-circle"
             fill="#ff7f0e"
-            stroke="#ff7f0e"
             fill-opacity="0"
             r="5"
+            stroke="#ff7f0e"
           />
           <text
             class="legend-label"
+            display="inherit"
             dx="10"
             dy="4"
           >

@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 
 import Line from "../../../../source/iml/charting/line.js";
 import d3 from "d3";
@@ -23,7 +23,7 @@ describe("line tests", () => {
   });
 
   it("should render as expected", () => {
-    Inferno.render(
+    render(
       <Line
         xScale={d3.scale
           .linear()

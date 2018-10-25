@@ -3,12 +3,12 @@
 exports[`charting should match 1`] = `
 <div>
   <svg
-    style="width: 100%; height: 100%;"
     class="charting"
+    style="width: 100%; height: 100%;"
   >
     <g
-      transform="translate(50,50)"
       class="charting-group"
+      transform="translate(50,50)"
     >
       <div>
         {"top":50,"right":50,"bottom":50,"left":50}
@@ -29,12 +29,12 @@ exports[`charting should set state on resize 1`] = `
   style="width: 500px; height: 500px;"
 >
   <svg
-    style="width: 100%; height: 100%;"
     class="charting"
+    style="width: 100%; height: 100%;"
   >
     <g
-      transform="translate(50,50)"
       class="charting-group"
+      transform="translate(50,50)"
     >
       <div>
         {"top":50,"right":50,"bottom":50,"left":50}

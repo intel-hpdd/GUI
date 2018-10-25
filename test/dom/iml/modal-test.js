@@ -1,6 +1,6 @@
 // @flow
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { Modal, Header, Body, Footer } from "../../../source/iml/modal.js";
 import { querySelector } from "../../../source/iml/dom-utils.js";
 
@@ -41,7 +41,7 @@ describe("Modal test", () => {
     let el: ?HTMLElement;
 
     beforeEach(() => {
-      Inferno.render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />, root);
+      render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={false} />, root);
       el = root.querySelector(".modal");
     });
     it("should not exist on the element", () => {
@@ -50,7 +50,7 @@ describe("Modal test", () => {
   });
   describe("with modal visible", () => {
     beforeEach(() => {
-      Inferno.render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />, root);
+      render(<TestModal onAgree={onAgree} onDisagree={onDisagree} visible={true} />, root);
       el = querySelector(root, ".modal");
     });
     it("should have the extra classes", () => {

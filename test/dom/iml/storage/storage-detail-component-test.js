@@ -1,10 +1,9 @@
 // @flow
 
-import Inferno from "inferno";
+import angular from "../../../angular-mock-setup.js";
 import highland, { type HighlandStreamT } from "highland";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import type { StorageResource } from "../../../../source/iml/storage/storage-types.js";
-import { renderToSnapshot } from "../../../test-utils.js";
 import { querySelector } from "../../../../source/iml/dom-utils.js";
 
 const createResourceData = (deletable: boolean): StorageResource => ({
@@ -55,8 +54,7 @@ const createResourceData = (deletable: boolean): StorageResource => ({
 });
 
 describe("storage detail component", () => {
-  let StorageDetail,
-    storageResource$: HighlandStreamT<StorageResource>,
+  let storageResource$: HighlandStreamT<StorageResource>,
     alertIndicator$: () => HighlandStreamT<Object>,
     mockStorageResourceHistogram,
     mockStorageResourceTimeSeries,
@@ -66,35 +64,57 @@ describe("storage detail component", () => {
     node: HTMLElement,
     alias: HTMLInputElement,
     saveBtn: HTMLButtonElement,
-    deleteBtn: HTMLButtonElement;
+    deleteBtn: HTMLButtonElement,
+    $scope,
+    $compile,
+    template;
+
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      storageResource$ = highland();
+      alertIndicator$ = broadcaster(highland([[]]));
+
+      mockStorageResourceHistogram = jest.fn(() => "storageResourceHistogram");
+      mockStorageResourceTimeSeries = jest.fn(() => "storageResourceTimeSeries");
+      socket$ = highland();
+      mockSocketStream = jest.fn(() => socket$);
+      mockGlobal = {
+        location: {
+          href: "/storage/23"
+        }
+      };
+
+      jest.mock("../../../../source/iml/storage/storage-resource-histogram.js", () => mockStorageResourceHistogram);
+
+      jest.mock("../../../../source/iml/storage/storage-resource-time-series.js", () => mockStorageResourceTimeSeries);
+
+      jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+
+      jest.mock("../../../../source/iml/global.js", () => mockGlobal);
+
+      $compileProvider.component(
+        "storageDetail",
+        require("../../../../source/iml/storage/storage-detail-component.js").default
+      );
+    })
+  );
+
+  beforeEach(
+    angular.mock.inject((_$compile_, $rootScope) => {
+      $scope = $rootScope.$new();
+      $compile = _$compile_;
+    })
+  );
 
   beforeEach(() => {
-    storageResource$ = highland();
-    alertIndicator$ = broadcaster(highland([[]]));
-
-    mockStorageResourceHistogram = jest.fn(() => "storageResourceHistogram");
-    mockStorageResourceTimeSeries = jest.fn(() => "storageResourceTimeSeries");
-    socket$ = highland();
-    mockSocketStream = jest.fn(() => socket$);
-    mockGlobal = {
-      location: {
-        href: "/storage/23"
-      }
-    };
-
-    jest.mock("../../../../source/iml/storage/storage-resource-histogram.js", () => mockStorageResourceHistogram);
-
-    jest.mock("../../../../source/iml/storage/storage-resource-time-series.js", () => mockStorageResourceTimeSeries);
-
-    jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
-
-    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
-
-    ({ StorageDetail } = require("../../../../source/iml/storage/storage-detail-component.js"));
-
     storageResource$.write(createResourceData(false));
 
-    node = renderToSnapshot(<StorageDetail stream={storageResource$} alertIndicatorB={alertIndicator$} />);
+    $scope.storageResourceB = storageResource$;
+    $scope.alertIndicatorB = alertIndicator$;
+    template =
+      '<storage-detail storage-resource-$="storageResourceB" alert-indicator-b="alertIndicatorB"></storage-detail>';
+    node = $compile(template)($scope)[0];
+    $scope.$digest();
 
     querySelector(document, "body").appendChild(node);
 

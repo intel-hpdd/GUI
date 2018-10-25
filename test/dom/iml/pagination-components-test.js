@@ -1,5 +1,5 @@
 // @flow
-import Inferno from "inferno";
+import { render } from "inferno";
 import { Pager, EntriesDropdown, TableInfo } from "../../../source/iml/pagination-components.js";
 import { renderToSnapshot } from "../../test-utils.js";
 import { querySelector } from "../../../source/iml/dom-utils.js";
@@ -23,7 +23,7 @@ describe("EntriesDropdown DOM testing", () => {
     beforeEach(() => {
       root = document.createElement("div");
       querySelector(document, "body").appendChild(root);
-      Inferno.render(vnode, root);
+      render(vnode, root);
     });
 
     afterEach(() => {
@@ -140,7 +140,7 @@ describe("Pager DOM testing", () => {
       root = document.createElement("div");
       querySelector(document, "body").appendChild(root);
 
-      Inferno.render(<Pager meta={meta} setOffset={clickHandler} />, root);
+      render(<Pager meta={meta} setOffset={clickHandler} />, root);
     });
 
     afterEach(() => {

@@ -2,7 +2,6 @@
 
 import StorageResourceHistogram from "../../../../source/iml/storage/storage-resource-histogram.js";
 import { renderToSnapshot } from "../../../test-utils.js";
-import Inferno from "inferno";
 
 it("should render as expected", () => {
   const data = {

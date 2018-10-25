@@ -2,7 +2,7 @@ import * as fp from "@iml/fp";
 import highland from "highland";
 import angular from "../../../angular-mock-setup.js";
 import asValueModule from "../../../../source/iml/as-value/as-value-module";
-import Inferno from "inferno";
+import { render } from "inferno";
 import { asValue } from "../../../../source/iml/as-value/as-value.js";
 
 describe("As value Inferno", () => {
@@ -19,7 +19,7 @@ describe("As value Inferno", () => {
       </div>
     ));
 
-    Inferno.render(<AsValue stream={s} />, el);
+    render(<AsValue stream={s} />, el);
 
     const find = el.querySelector.bind(el);
     getText = fp.flow(

@@ -6,8 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import getLine from "../charting/types/line/get-line.js";
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 
 type LineProps = {
   chartingGroup?: Object,

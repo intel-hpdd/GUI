@@ -14,7 +14,7 @@ describe("get heat map chart test", () => {
   });
 
   beforeEach(() => {
-    HTMLElement.prototype.getBBox = () => ({
+    SVGElement.prototype.getBBox = () => ({
       left: 0,
       top: 0,
       right: 0,

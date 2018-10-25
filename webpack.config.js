@@ -3,12 +3,13 @@
 const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-const extractLess = new ExtractTextPlugin("[name].[contenthash].css");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
+const prodMode = process.env.NODE_ENV === "production";
 
 const cleanOptions = {
   root: __dirname,
@@ -53,21 +54,21 @@ const config = {
           options: {
             presets: [
               [
-                "env",
+                "@babel/preset-env",
                 {
                   targets: {
-                    browsers: ["last 1 chrome version", "last 1 firefox version"],
-                    modules: false,
-                    forceAllTransforms: process.env.NODE_ENV === "production"
-                  }
+                    browsers: ["last 1 chrome version", "last 1 firefox version"]
+                  },
+                  modules: false,
+                  forceAllTransforms: process.env.NODE_ENV === "production"
                 }
               ]
             ],
             plugins: [
-              ["transform-object-rest-spread", { useBuiltIns: true }],
-              "transform-flow-strip-types",
-              "transform-class-properties",
-              "syntax-jsx",
+              ["@babel/plugin-transform-spread", { useBuiltIns: true }],
+              "@babel/plugin-transform-flow-strip-types",
+              "@babel/proposal-class-properties",
+              "@babel/plugin-syntax-jsx",
               "inferno",
               [
                 "angularjs-annotate",
@@ -82,45 +83,39 @@ const config = {
       }
     ]
   },
+  optimization: {
+    minimizer: [
+      new OptimizeCssAssetsPlugin({
+        cssProcessorOptions: {
+          map: {
+            inline: false,
+            annotation: true
+          }
+        }
+      }),
+      new UglifyJSPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      })
+    ]
+  },
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
       template: "index.ejs"
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions)
-  ]
+    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new MiniCssExtractPlugin({
+      filename: prodMode ? "[name].[contenthash].css" : "[name].css"
+    })
+  ],
+  mode: process.env.NODE_ENV
 };
 
-if (process.env.NODE_ENV === "production") {
-  config.plugins.push(extractLess);
-  config.module.rules.push({
-    test: /\.less$/,
-    use: extractLess.extract({
-      use: [
-        {
-          loader: "css-loader"
-        },
-        {
-          loader: "less-loader"
-        }
-      ]
-    })
-  });
-} else {
-  config.module.rules.push({
-    test: /\.less$/,
-    use: [
-      {
-        loader: "style-loader" // creates style nodes from JS strings
-      },
-      {
-        loader: "css-loader" // translates CSS into CommonJS
-      },
-      {
-        loader: "less-loader" // compiles Less to CSS
-      }
-    ]
-  });
-}
+config.module.rules.push({
+  test: /\.less$/,
+  use: [prodMode ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "less-loader"]
+});
 
 module.exports = config;

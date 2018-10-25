@@ -5,7 +5,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
+import { render } from "inferno";
 import { IS_RELEASE, VERSION, BUILD, HELP_TEXT } from "../environment.js";
 
 function AboutComponent() {
@@ -26,8 +26,7 @@ function AboutComponent() {
       <div>
         <div>
           <p>
-            Copyright © {HELP_TEXT.copyright_year} <a href="http://www.ddn.com/">DDN</a>
-            . All rights reserved.
+            Copyright © {HELP_TEXT.copyright_year} <a href="http://www.ddn.com/">DDN</a>. All rights reserved.
           </p>
         </div>
       </div>
@@ -39,6 +38,6 @@ export default {
   bindings: {},
   controller: function($element: HTMLElement[]) {
     "ngInject";
-    Inferno.render(<AboutComponent />, $element[0]);
+    render(<AboutComponent />, $element[0]);
   }
 };

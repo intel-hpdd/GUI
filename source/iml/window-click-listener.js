@@ -5,15 +5,14 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import Inferno from "inferno";
-import Component from "inferno-component";
+import { Component } from "inferno";
 import { cloneChildren } from "./inferno-utils.js";
 
 export default class WindowClickListener extends Component {
   windowListener: ?Function;
   state: { isOpen: boolean } = { isOpen: false };
   props: {
-    children: React$Element<*>
+    children?: React.ChildrenArray<React.Element<*>>
   };
   componentWillUnmount() {
     if (this.windowListener) window.removeEventListener("click", this.windowListener, false);
