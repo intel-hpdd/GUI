@@ -17,15 +17,11 @@ export default function naturalSort() {
    * @param {Boolean} reverse Indicates if the sorted array should be reversed
    */
   return function orderArrayUsingNaturalSort(input, predicate, reverse) {
-    const isImmutable = Immutable.isImmutable(input);
-    input = isImmutable ? Immutable.asMutable(input) : input;
-
     getStringToSort = predicate;
-    let sortedArray = input.sort(naturalSortAlgorithm);
+    const sortedArray = [...input].sort(naturalSortAlgorithm);
 
     if (reverse === true) sortedArray.reverse();
 
-    sortedArray = isImmutable ? Immutable(sortedArray) : sortedArray;
     return sortedArray;
   };
 
