@@ -20,7 +20,7 @@ export default ({ classes, idx }: { classes: StorageResourceClass[], idx: number
   <div class="form-group well">
     <label class="control-label">Select Resource Class</label>
     <select class="form-control" onChange={handleChange}>
-      {classes.map((x, i) => (
+      {[...classes].map((x, i) => (
         <option
           key={`${x.class_name},${x.plugin_name}`}
           value={`${x.class_name},${x.plugin_name}`}

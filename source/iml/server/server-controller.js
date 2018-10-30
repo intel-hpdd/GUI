@@ -98,7 +98,7 @@ export default function ServerCtrl(
       $scope.server.setEditable(true);
     },
     getActionByValue(value) {
-      return serverActions.find(x => x.value === value);
+      return { ...serverActions.find(x => x.value === value) };
     },
     getSelectedHosts(value) {
       const action = this.getActionByValue(value);
@@ -109,11 +109,12 @@ export default function ServerCtrl(
           if (!action.toggleDisabled) return true;
 
           return !action.toggleDisabled(host);
-        });
+        })
+        .map(host => ({ ...host }));
     },
     runAction(value) {
       const action = this.getActionByValue(value);
-      const hosts = this.getSelectedHosts(value);
+      const hosts = [...this.getSelectedHosts(value)];
 
       const modalInstance = $uibModal.open({
         template: `<div class="modal-header">
