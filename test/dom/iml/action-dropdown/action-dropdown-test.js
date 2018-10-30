@@ -1,7 +1,6 @@
 import highland from "highland";
 import * as fp from "@iml/fp";
 import { imlTooltip } from "../../../../source/iml/tooltip/tooltip.js";
-import groupActionsFilter from "../../../../source/iml/action-dropdown/group-actions.js";
 import * as maybe from "@iml/maybe";
 import angular from "../../../angular-mock-setup.js";
 import uiBootstrapModule from "angular-ui-bootstrap";
@@ -14,14 +13,13 @@ describe("action dropdown directive", () => {
   });
 
   beforeEach(
-    angular.mock.module(uiBootstrapModule, ($compileProvider, $provide, $controllerProvider, $filterProvider) => {
+    angular.mock.module(uiBootstrapModule, ($compileProvider, $provide, $controllerProvider) => {
       handleAction = jest.fn(() => highland());
       $provide.value("handleAction", handleAction);
       mockGetCommandStream = jest.fn(() => highland());
       $provide.value("getCommandStream", mockGetCommandStream);
       openCommandModal = jest.fn();
       $provide.value("openCommandModal", openCommandModal);
-      $filterProvider.register("groupActions", groupActionsFilter);
       $compileProvider.directive("imlTooltip", imlTooltip);
       cleanText = x => x.textContent && x.textContent.trim();
 
@@ -208,10 +206,10 @@ describe("action dropdown directive", () => {
         expect(tooltip()).not.toBeNull();
       });
       it("should should show the long description", () => {
-        expect(cleanText(tooltipText())).toEqual(records[0].available_actions[0].long_description);
+        expect(cleanText(tooltipText())).toEqual(records[0].available_actions[1].long_description);
       });
       it("should update the long_description if it changes", () => {
-        records[0].available_actions[0].long_description = "Description of action word";
+        records[0].available_actions[1].long_description = "Description of action word";
         $scope.stream.write(records);
         jest.runAllTimers();
         expect(cleanText(tooltipText())).toEqual("Description of action word");
@@ -223,7 +221,12 @@ describe("action dropdown directive", () => {
         maybe.fromJust(fp.head(verbs())).click();
       });
       it("should cause the action to be handled", () => {
-        expect(handleAction).toHaveBeenCalledOnceWith(records[0], records[0].available_actions[0]);
+        const record = {
+          ...records[0],
+          available_actions: [records[0].available_actions[1], records[0].available_actions[0]]
+        };
+
+        expect(handleAction).toHaveBeenCalledOnceWith(record, records[0].available_actions[1]);
       });
       it("should disable the button", () => {
         expect(button().disabled).toBe(true);
@@ -241,8 +244,12 @@ describe("action dropdown directive", () => {
     it("should update the verb if it changes", () => {
       records = JSON.parse(JSON.stringify(records));
       records[0].available_actions[0].verb = "Action Word";
+      records[0].available_actions[0].display_order = 40;
+
       $scope.stream.write(records);
       jest.runAllTimers();
+      $scope.$digest();
+
       expect(cleanText(maybe.fromJust(fp.head(verbs())))).toEqual("Action Word");
     });
   });

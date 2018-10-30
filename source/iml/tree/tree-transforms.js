@@ -15,8 +15,6 @@ import { addCurrentPage } from "../api-transforms.js";
 
 import { addTreeItems, createItem } from "../tree/tree-actions.js";
 
-import Immutable from "seamless-immutable";
-
 import type { Maybe } from "@iml/maybe";
 
 import type { treeItemT, treeHashT } from "./tree-types.js";
