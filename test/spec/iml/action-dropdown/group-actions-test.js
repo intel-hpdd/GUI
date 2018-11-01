@@ -2,14 +2,9 @@ import groupActions from "../../../../source/iml/action-dropdown/group-actions.j
 import groupActionsFixtures from "../../../data-fixtures/group-actions-fixtures.json";
 
 describe("ordering groups", () => {
-  let groupActionsFilter;
-  beforeEach(() => {
-    groupActionsFilter = groupActions();
-  });
-
   it("should work", () => {
     groupActionsFixtures.forEach(item => {
-      const result = groupActionsFilter(item.in);
+      const result = groupActions(item.in);
       expect(result).toEqual(item.out);
     });
   });

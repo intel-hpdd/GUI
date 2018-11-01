@@ -8,16 +8,18 @@
 export const UPDATE_OST_BALANCE_CHART_ITEMS = "UPDATE_OST_BALANCE_CHART_ITEMS";
 export const DEFAULT_OST_BALANCE_CHART_ITEMS = "DEFAULT_OST_BALANCE_CHART_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { ostBalancePayloadT, ostBalancePayloadHashT, addOstBalanceActionT } from "./ost-balance-module.js";
 
 function mergeState(state: ostBalancePayloadHashT, payload: ostBalancePayloadT) {
-  return Object.assign({}, state, {
+  return Immutable.merge(state, {
     [payload.page]: { ...state[payload.page], ...payload }
   });
 }
 
 export default function(
-  state: ostBalancePayloadHashT = {},
+  state: ostBalancePayloadHashT = Immutable({}),
   { type, payload }: addOstBalanceActionT
 ): ostBalancePayloadHashT {
   switch (type) {

@@ -24,7 +24,7 @@ const getMessage = alerts => {
 const AlertIndicator = asViewer(
   "alerts",
   ({ alerts: xs, size, recordId }: { alerts: Object[], size?: "small" | "medium", recordId: string }) => {
-    const alerts = xs.filter(x => x.affected.find(y => y === recordId));
+    const alerts = [...xs.filter(x => x.affected.find(y => y === recordId))];
 
     return (
       <span class="record-state">

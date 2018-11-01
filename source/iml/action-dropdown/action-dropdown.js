@@ -5,6 +5,7 @@
 
 import * as fp from "@iml/fp";
 import getCommandStream from "../command/get-command-stream.js";
+import groupActions from "./group-actions.js";
 
 export function actionDescriptionCache($sce) {
   "ngInject";
@@ -93,6 +94,7 @@ export function ActionDropdownCtrl(
         locks => (ctrl.locks = locks)
       )
     )
+    .map(fp.map(item => ({ ...item, [ctrl.actionsProperty]: groupActions(item[ctrl.actionsProperty]) })))
     .through(p);
 
   function runHandleAction(record, action) {
@@ -130,7 +132,7 @@ export function actionDropdown() {
       <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
         {{ ::record.label }}
       </li>
-      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] | groupActions track by action.verb">
+      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] track by action.verb">
         <a ng-click="::ctrl.handleAction(record, action)">
            {{ ::action.verb }}
         </a>

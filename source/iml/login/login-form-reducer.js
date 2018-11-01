@@ -5,6 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import Immutable from "seamless-immutable";
+
 export const ADD_ERRORS = "ADD_ERRORS";
 export const ADD_IN_PROGRESS = "ADD_IN_PROGRESS";
 
@@ -36,16 +38,14 @@ export type loginFormT = {|
   inProgress?: boolean
 |};
 
-export default (state: loginFormT = { inProgress: false }, actions: loginFormActionsT): loginFormT => {
+export default (state: loginFormT = Immutable({ inProgress: false }), actions: loginFormActionsT): loginFormT => {
   switch (actions.type) {
     case ADD_ERRORS:
-      return {
-        ...actions.payload
-      };
+      return Immutable(actions.payload);
     case ADD_IN_PROGRESS:
-      return {
+      return Immutable({
         inProgress: actions.payload.inProgress
-      };
+      });
     default:
       return state;
   }

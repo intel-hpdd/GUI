@@ -71,7 +71,7 @@ export const transformItems = (
     highland.filter(hasChanges(x => x.meta.offset)),
     flatMapChanges.bind(null, fnTo$),
     highland.map(addCurrentPage),
-    highland.map(x => Object.assign(latest, x)),
+    highland.map(x => ({ ...latest, ...x })),
     highland.map(x => addTreeItems([x]))
   );
 };

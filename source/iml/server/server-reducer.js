@@ -7,12 +7,14 @@
 
 export const ADD_SERVER_ITEMS = "ADD_SERVER_ITEMS";
 
+import Immutable from "seamless-immutable";
+
 import type { ActionT } from "../store/store-module.js";
 
-export default function(state: Array<Object> = [], { type, payload }: ActionT): Array<Object> {
+export default function(state: Array<Object> = Immutable([]), { type, payload }: ActionT): Array<Object> {
   switch (type) {
     case ADD_SERVER_ITEMS:
-      return payload;
+      return Immutable(payload);
     default:
       return state;
   }

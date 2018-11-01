@@ -8,6 +8,8 @@
 export const SET_SESSION = "SET_SESSION";
 export const SET_COOKIE = "SET_COOKIE";
 
+import Immutable from "seamless-immutable";
+
 import type { sessionT } from "../api-types.js";
 
 export type sessionActionT = {|
@@ -26,18 +28,12 @@ type stateT = {
   cookie?: string
 };
 
-export default (state: stateT = {}, actions: sessionActionsT): stateT => {
+export default (state: stateT = Immutable({}), actions: sessionActionsT): stateT => {
   switch (actions.type) {
     case SET_SESSION:
-      return {
-        ...state,
-        ...actions.payload
-      };
     case SET_COOKIE:
-      return {
-        ...state,
-        ...actions.payload
-      };
+      return Immutable.merge(state, actions.payload);
+
     default:
       return state;
   }

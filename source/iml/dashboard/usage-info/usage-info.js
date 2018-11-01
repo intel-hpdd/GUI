@@ -22,7 +22,7 @@ export function UsageInfoController($scope, propagateChange) {
     return x;
   };
 
-  const addMetrics = prefix => x => {
+  const addMetrics = prefix => ({ ...x }) => {
     x[`${prefix}_used`] = x[`${prefix}_total`] - x[`${prefix}_free`];
 
     return x;

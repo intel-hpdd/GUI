@@ -78,9 +78,9 @@ export const ResourceTable = ({
   sortDesc: boolean,
   entries: number
 }) => {
-  const columns = resourceClass.columns;
+  const columns = [...resourceClass.columns.map(x => ({ ...x }))];
 
-  const objects = resources.objects;
+  const objects = [...resources.objects.map(x => ({ ...x }))];
 
   if (objects.length === 0)
     return (

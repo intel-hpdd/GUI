@@ -8,6 +8,8 @@
 import type { StorageResourceClass, StorageResourceResponse } from "./storage-types.js";
 import type { ActionT } from "../store/store-module.js";
 
+import Immutable from "seamless-immutable";
+
 export type Config = {
   selectIndex: ?number,
   sortKey: string,
@@ -31,7 +33,7 @@ export const SET_STORAGE_TABLE_LOADING = "SET_STORAGE_TABLE_LOADING";
 export const SET_STORAGE_CONFIG = "SET_STORAGE_CONFIG";
 
 export default function(
-  state: State = {
+  state: State = Immutable({
     resourceClasses: null,
     resources: null,
     config: {
@@ -42,23 +44,16 @@ export default function(
       entries: 10,
       offset: 0
     }
-  },
+  }),
   { type, payload }: ActionT
 ): State {
   switch (type) {
     case ADD_STORAGE_RESOURCE_CLASSES:
-      return {
-        ...state,
-        resourceClasses: payload
-      };
+      return Immutable.merge(state, { resourceClasses: payload });
     case ADD_STORAGE_RESOURCES:
-      return {
-        ...state,
-        resources: payload
-      };
+      return Immutable.merge(state, { resources: payload });
     case SET_STORAGE_SELECT_INDEX:
-      return {
-        ...state,
+      return Immutable.merge(state, {
         config: {
           ...state.config,
           selectIndex: payload,
@@ -68,33 +63,30 @@ export default function(
           entries: 10,
           offset: 0
         }
-      };
+      });
     case SET_STORAGE_SORTING:
-      return {
-        ...state,
+      return Immutable.merge(state, {
         config: {
           ...state.config,
           ...handleSorting(state, payload)
         }
-      };
+      });
     case SET_STORAGE_TABLE_LOADING:
       if (payload === state.config.loading) return state;
 
-      return {
-        ...state,
+      return Immutable.merge(state, {
         config: {
           ...state.config,
           loading: payload
         }
-      };
+      });
     case SET_STORAGE_CONFIG:
-      return {
-        ...state,
+      return Immutable.merge(state, {
         config: {
           ...state.config,
           ...payload
         }
-      };
+      });
     default:
       return state;
   }

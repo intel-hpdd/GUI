@@ -16,7 +16,7 @@ export default function naturalSort() {
    */
   return function orderArrayUsingNaturalSort(input, predicate, reverse) {
     getStringToSort = predicate;
-    const sortedArray = input.sort(naturalSortAlgorithm);
+    const sortedArray = [...input].sort(naturalSortAlgorithm);
 
     if (reverse === true) sortedArray.reverse();
 

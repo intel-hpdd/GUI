@@ -4,8 +4,6 @@ import angular from "../../../angular-mock-setup.js";
 
 import uiBootstrapModule from "angular-ui-bootstrap";
 
-import groupActionsFilter from "../../../../source/iml/action-dropdown/group-actions.js";
-
 describe("deferred action dropdown", () => {
   let mockSocketStream, s, mod;
 
@@ -22,7 +20,7 @@ describe("deferred action dropdown", () => {
   });
 
   beforeEach(
-    angular.mock.module(uiBootstrapModule, ($controllerProvider, $compileProvider, $provide, $filterProvider) => {
+    angular.mock.module(uiBootstrapModule, ($controllerProvider, $compileProvider, $provide) => {
       const handleAction = jest.fn(() => highland());
       $provide.value("handleAction", handleAction);
 
@@ -38,7 +36,6 @@ describe("deferred action dropdown", () => {
       $provide.factory("actionDescriptionCache", actionDescriptionCache);
       $controllerProvider.register("ActionDropdownCtrl", ActionDropdownCtrl);
       $compileProvider.directive("actionDropdown", actionDropdown);
-      $filterProvider.register("groupActions", groupActionsFilter);
 
       $controllerProvider.register("DeferredActionDropdownCtrl", mod.DeferredActionDropdownCtrl);
 
