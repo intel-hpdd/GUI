@@ -221,8 +221,8 @@ export const hsmState = {
             <span class="status-text">Working ({{ copytool.active_operations_count }} tasks)</span>
           </span>
         </td>
-        <td class="actions-cell" as-stream val="copytool">
-          <action-dropdown stream="::str"></action-dropdown>
+        <td class="actions-cell">
+          <action-dropdown records="copytool"></action-dropdown>
         </td>
       </tr>
     </tbody>

@@ -1,3 +1,5 @@
+// @flow
+
 //
 // Copyright (c) 2018 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
@@ -9,12 +11,14 @@ import socketStream from "../socket/socket-stream.js";
 import serversToApiObjects from "./servers-to-api-objects.js";
 import { CACHE_INITIAL_DATA } from "../environment.js";
 
+import { type ServerToApiT } from "./server-module.js";
+
 /**
  * Creates or updates hosts as needed.
  * @param {Object} servers
  * @returns {Highland.Stream}
  */
-export default function createOrUpdateHostsStream(servers) {
+export default function createOrUpdateHostsStream(servers: ServerToApiT) {
   const objects = serversToApiObjects(servers);
 
   return socketStream(

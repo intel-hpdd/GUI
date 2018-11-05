@@ -37,7 +37,7 @@ export default function configurePacemaker() {
       </div>
 
       <div as-viewer stream="::ctrl.stream">
-        <action-dropdown tooltip-placement="top" stream="::viewer"></action-dropdown>
+        <action-dropdown tooltip-placement="top" records="curr.val"></action-dropdown>
       </div>
     </div>
   </div>

@@ -1,148 +1,229 @@
+// @flow
+
 //
 // Copyright (c) 2018 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
-import getCommandStream from "../command/get-command-stream.js";
+import { render, Component } from "inferno";
+import Tooltip from "../tooltip.js";
+import WindowClickListener from "../window-click-listener.js";
+import DropdownContainer from "../dropdown-component.js";
+import { handleAction } from "./handle-action.js";
+import overrideActionClick from "../server/override-action-click.js";
 import groupActions from "./group-actions.js";
 
-export function actionDescriptionCache($sce) {
-  "ngInject";
-  const cache = {};
+import type { directionsT } from "../tooltip.js";
+import getStore from "../store/get-store.js";
+import type { AvailableActionT, HostT } from "../server/server-module.js";
 
-  return function sceDescriptionCache(str) {
-    return cache[str] || (cache[str] = $sce.trustAsHtml(str));
-  };
-}
+type ActionButtonT = {
+  records: HostT[]
+};
 
-export function ActionDropdownCtrl(
-  $scope,
-  $exceptionHandler,
-  handleAction,
-  actionDescriptionCache,
-  openCommandModal,
-  localApply,
-  propagateChange
-) {
-  "ngInject";
-  const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
+type ActionDropdownChangesT = {
+  tooltipPlacement: { currentValue: string, previousValue: string },
+  record: { currentValue: HostT, previousValue: HostT }
+};
 
-  const ctrl = Object.assign(this, {
-    actionDescriptionCache,
-    handleAction(record, action) {
-      setConfirmOpen(true);
+const ActionButton = ({ records }: ActionButtonT): ?React.Element<"button"> => {
+  if (records.length > 0)
+    return (
+      <button class="btn btn-primary btn-sm" aria-haspopup="true" aria-expanded="false">
+        Actions
+        <i class="fa fa-caret-down" />
+      </button>
+    );
+  else return null;
+};
 
-      const run = runHandleAction.bind(null, record, action);
+const ActionItem = ({
+  action,
+  tooltipPlacement,
+  handleAction
+}: {
+  action: AvailableActionT,
+  tooltipPlacement: directionsT,
+  handleAction: Function
+}) => {
+  const classList = `tooltip-container tooltip-hover${action.last === true ? " end-of-group" : ""}`;
 
-      let stream;
-      if (ctrl.overrideClick)
-        stream = ctrl
-          .overrideClick({
-            record,
-            action
-          })
-          .reject(fp.eq("fallback"))
-          .otherwise(run);
-      else stream = run();
+  return (
+    <li className={classList}>
+      <a onclick={() => handleAction(action)}>{action.verb}</a>
+      <Tooltip direction={tooltipPlacement} size="large">
+        <span dangerouslySetInnerHTML={{ __html: action.long_description }} />
+      </Tooltip>
+    </li>
+  );
+};
 
-      stream.pull(err => {
-        if (err) $exceptionHandler(err);
+const ActionHeader = ({ label }: { label: string }) => {
+  return <li class="dropdown-header">{label}</li>;
+};
 
-        setConfirmOpen(false);
+const ActionItemsList = ({
+  records,
+  tooltipPlacement,
+  handleAction
+}: {
+  records: HostT[],
+  tooltipPlacement: directionsT,
+  handleAction: Function
+}): React.Element<"ul"> => {
+  const items = records.map(record => {
+    const header = <ActionHeader label={record.label} />;
+    const actions = record.available_actions.map(action => (
+      <ActionItem action={action} tooltipPlacement={tooltipPlacement} handleAction={handleAction(record)} />
+    ));
 
-        localApply($scope);
-      });
-    },
-    tooltipPlacement: this.tooltipPlacement || "left",
-    actionsProperty: this.actionsProperty || "available_actions",
-    receivedData: false
+    return [header].concat(actions).concat([<li class="divider" />]);
   });
+  const recordItems = [].concat(...items);
 
-  const extractPathLengths = fp.view(
-    fp.compose(
-      fp.mapped,
-      fp.lensProp("locks"),
-      fp.lensProp("write"),
-      fp.lensProp("length")
-    )
+  return (
+    <ul role="menu" class="dropdown-menu">
+      {recordItems}
+    </ul>
   );
+};
 
-  const p = propagateChange.bind(null, $scope, ctrl, "records");
+type ActionDropdownT = {
+  records: HostT[],
+  tooltipPlacement: directionsT,
+  actionsProperty: string,
+  overrideClick: ?Function
+};
 
-  const asArray = fp.cond(
-    [
-      fp.flow(
-        Array.isArray,
-        fp.not
-      ),
-      fp.arrayWrap
-    ],
-    [fp.True, fp.identity]
-  );
+type ActionDropdownStateT = {
+  confirmOpen: boolean
+};
 
-  const add = (x, y) => x + y;
+class ActionDropdown extends Component {
+  props: ActionDropdownT;
+  state: ActionDropdownStateT;
 
-  ctrl.stream
-    .map(asArray)
-    .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
-    .tap(() => (ctrl.receivedData = true))
-    .tap(
-      fp.flow(
-        extractPathLengths,
-        fp.reduce(0)(add),
-        locks => (ctrl.locks = locks)
-      )
-    )
-    .map(fp.map(item => ({ ...item, [ctrl.actionsProperty]: groupActions(item[ctrl.actionsProperty]) })))
-    .through(p);
+  constructor(props: ActionDropdownT) {
+    super(props);
 
-  function runHandleAction(record, action) {
-    return handleAction(record, action)
-      .filter(fp.identity)
-      .flatMap(function openModal(x) {
-        const stream = getCommandStream([x.command || x]);
+    this.state = {
+      confirmOpen: false
+    };
 
-        return openCommandModal(stream).resultStream.tap(stream.destroy.bind(stream));
+    this.props.records = Array.isArray(this.props.records) ? this.props.records : [this.props.records];
+
+    getStore.select("actionDropdown").each((x: Object) => {
+      console.log("received inactive event");
+      if (this.state.confirmOpen === true)
+        this.setState({
+          confirmOpen: false
+        });
+    });
+  }
+
+  handleAction = record => action => {
+    this.setState({
+      confirmOpen: true
+    });
+
+    if (this.props.overrideClick === true) overrideActionClick(action, record);
+    else handleAction(action, record);
+  };
+
+  render() {
+    const records = (Array.isArray(this.props.records) ? this.props.records : [this.props.records])
+      .filter(x => x.locks && x[this.props.actionsProperty])
+      .map(item => ({ ...item, [this.props.actionsProperty]: groupActions(item[this.props.actionsProperty]) }));
+
+    const writeLocks: number = records.map(record => record.locks.write.length).reduce((x, y) => x + y, 0);
+    console.log("write locks", writeLocks);
+    if (writeLocks > 0 || this.state.confirmOpen) {
+      return (
+        <div class="action-dropdown">
+          <button disabled class="btn btn-primary btn-sm">
+            Disabled
+          </button>
+        </div>
+      );
+    } else if (records.length === 0) {
+      return (
+        <div class="action-dropdown">
+          <button disabled class="btn btn-primary btn-sm">
+            No Actions
+          </button>
+        </div>
+      );
+    } else if (writeLocks === 0 && !this.state.confirmOpen) {
+      const actionButton = ActionButton({
+        records
       });
+      const actionItemsList = ActionItemsList({
+        records,
+        tooltipPlacement: this.props.tooltipPlacement || "left",
+        handleAction: this.handleAction
+      });
+
+      if (actionButton)
+        return (
+          <div class="action-dropdown">
+            <WindowClickListener>
+              <DropdownContainer>
+                {actionButton}
+                {actionItemsList}
+              </DropdownContainer>
+            </WindowClickListener>
+          </div>
+        );
+    }
   }
 }
 
-export function actionDropdown() {
-  "ngInject";
-  return {
-    restrict: "E",
-    scope: {},
-    bindToController: {
-      tooltipPlacement: "@?",
-      actionsProperty: "@?",
-      stream: "=",
-      overrideClick: "&?"
-    },
-    controller: "ActionDropdownCtrl",
-    controllerAs: "ctrl",
-    template: `<div class="action-dropdown">
-  <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
-  <button ng-if="ctrl.receivedData && ctrl.records.length === 0" disabled class="btn btn-primary btn-sm">No Actions</button>
-  <div ng-if="!ctrl.locks && !ctrl.confirmOpen" class="btn-group" uib-dropdown>
-    <button ng-if="!ctrl.receivedData || ctrl.records.length > 0" class="btn btn-primary btn-sm" uib-dropdown-toggle>
-      Actions<i class="fa fa-caret-down"></i>
-    </button>
-    <ul uib-dropdown-menu class="uib-dropdown-menu" role="menu">
-      <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
-        {{ ::record.label }}
-      </li>
-      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] track by action.verb">
-        <a ng-click="::ctrl.handleAction(record, action)">
-           {{ ::action.verb }}
-        </a>
-        <iml-tooltip size="'large'" direction="{{::ctrl.tooltipPlacement}}">
-          <p ng-bind-html="ctrl.actionDescriptionCache(action.long_description)"></p>
-        </iml-tooltip>
-      </li>
-      <li ng-repeat-end class="divider"></li>
-    </ul>
-  </div>
-</div>`
-  };
-}
+export const actionDropdown = {
+  bindings: {
+    tooltipPlacement: "@?",
+    actionsProperty: "@?",
+    records: "<",
+    overrideClick: "<"
+  },
+  controller: function($element: HTMLElement[]) {
+    const el = $element[0];
+    const bindings: { tooltipPlacement: string, records: HostT } = {
+      tooltipPlacement: this.tooltipPlacement,
+      records: this.records
+    };
+
+    this.$onChanges = (changesObj: ActionDropdownChangesT) => {
+      console.log("changesObj", changesObj);
+      const { tooltipPlacement, records } = Object.entries(changesObj)
+        .map(([key, val]) => {
+          if (typeof val === "object" && val != null && val.currentValue != null) return [key, val.currentValue];
+          else return [key, null];
+        })
+        .reduce((prev, [key, val]) => {
+          prev[key] = val;
+          return prev;
+        }, bindings);
+
+      if (records != null)
+        render(
+          <ActionDropdown
+            tooltipPlacement={tooltipPlacement || "left"}
+            actionsProperty={this.actionsProperty || "available_actions"}
+            records={records}
+            overrideClick={this.overrideClick}
+          />,
+          el
+        );
+      else
+        render(
+          <div class="action-dropdown">
+            <button class="btn btn-primary btn-sm">
+              Actions
+              <i class="fa fa-caret-down" />
+            </button>
+          </div>,
+          el
+        );
+    };
+  }
+};

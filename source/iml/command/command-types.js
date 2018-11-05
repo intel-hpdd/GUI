@@ -14,7 +14,7 @@ export type Command = {
   jobs: mixed[],
   logs: string,
   message: string,
-  state: string,
+  state?: string,
   resource_uri: string
 };
 
@@ -28,3 +28,15 @@ export type CommandResponse = {
   },
   objects: Command[]
 };
+
+export type JobT = {
+  id: number,
+  state: string,
+  resource_uri: string,
+  available_transitions: Array<*>,
+  description: string,
+  steps: Array<*>,
+  children: JobT[]
+};
+
+export type Step = {};

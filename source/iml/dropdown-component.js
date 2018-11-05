@@ -9,15 +9,20 @@ import { cloneVNode } from "inferno-clone-vnode";
 
 type Props = {
   isOpen?: boolean,
+  extraCss?: string[],
   toggleOpen?: Function,
-  children: [React.Element<"button">, React.Element<"ul">]
+  children: React$Element<*>[]
 };
 
 export default (props: Props) => {
+  if (props.children.length !== 2) throw new Error("DropdownContainer expects two children");
+
   const [button, ul] = props.children;
 
   return (
-    <div className={`btn-group dropdown ${props.isOpen ? "open" : ""}`}>
+    <div
+      className={`btn-group dropdown ${props.extraCss ? props.extraCss.join(" ") : ""} ${props.isOpen ? "open" : ""}`}
+    >
       {cloneVNode(button, { onClick: props.toggleOpen })}
       {ul}
     </div>

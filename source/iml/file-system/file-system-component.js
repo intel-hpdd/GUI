@@ -70,8 +70,8 @@ export default {
           <td as-stream val="item">
             <usage-info stream="::str" id="item.id" prefix="bytes"></usage-info>
           </td>
-          <td as-stream val="item">
-            <action-dropdown stream="::str"></action-dropdown>
+          <td>
+            <action-dropdown records="item"></action-dropdown>
           </td>
         </tr>
       </tbody>

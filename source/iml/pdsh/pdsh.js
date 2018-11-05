@@ -5,172 +5,244 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import { Component, render } from "inferno";
+import WindowClickListener from "../window-click-listener.js";
+import Tooltip from "../tooltip.js";
+import { PopoverContainer, Popover, PopoverTitle, PopoverContent } from "../popover.js";
 import pdshParser from "@iml/pdsh-parser";
-import _ from "@iml/lodash-mixins";
+import { getHelpContent } from "../help.js";
+import Spinner from "../spinner.js";
+import { CSSTransitionGroup } from "inferno-css-transition-group";
+import debounce from "@iml/debounce";
 
-export default function pdsh(help: Object) {
-  "ngInject";
+const STATE_NEUTRAL = "";
+const STATE_SUCCESS = "has-success";
+const STATE_ERROR = "has-error";
 
-  return {
-    scope: {
-      pdshChange: "&",
-      pdshRequired: "=?",
-      pdshInitial: "=?",
-      pdshPlaceholder: "@?"
-    },
-    restrict: "E",
-    template: `
-      <div class="input-group">
-        <div class="input-group-addon activate-popover tooltip-container tooltip-hover">
-          <i class="fa fa-list-ul">
-            <iml-tooltip class="medium" direction="right">
-              Click for expanded hostlist expression.
-            </iml-tooltip>
-          </i>
+export default {
+  bindings: {
+    onExpressionSet: "&",
+    pdshRequired: "=?",
+    pdshInitial: "=?",
+    pdshPlaceholder: "@?",
+    pdshTooltipMessage: "@?",
+    pdshLabel: "@?",
+    showSpinner: "=?"
+  },
+  controller: function($element: HTMLElement[]) {
+    const ctrl = this;
 
-        </div>
-        <iml-popover placement="bottom" title="Hosts" ng-if="pdsh.hostnameSections.length > 0">
-          <ul class="well">
-            <li ng-repeat="hostname in pdsh.hostnameSections"><span>{{::hostname}}</span></li>
-          </ul>
-        </iml-popover>
-        <input class="form-control" type="search" name="pdsh" placeholder="{{pdsh.pdshPlaceholder}}"
-               ng-model="pdsh.expression" ng-required="pdshRequired"
-               ng-model-options="{updateOn: 'default', debounce: {default: 100}}" />
-        <iml-tooltip class="error-tooltip" toggle="pdsh.pdshForm.pdsh.$invalid" direction="bottom">
-          <ul>
-            <li ng-repeat="message in pdsh.errorMessages">{{message}}</li>
-          </ul>
-        </iml-tooltip>
-      </div>
-    `,
-    replace: true,
-    require: "^form",
-    link: function link(scope: Object, elm: HTMLElement[], attrs: Object, ctrl: Object) {
-      const states = {
-        NEUTRAL: "",
-        SUCCESS: "has-success",
-        ERROR: "has-error"
-      };
-      let parsedState = states.NEUTRAL;
-      let errorMessages = [];
-      let hostnames = [];
-      let hostnamesHash = {};
-      let hostnameSections = [];
-      let parsedExpression: Object;
-      let pdshExpression = "";
+    ctrl.setExpression = (pdsh, hostnames, hostnamesHash) => {
+      ctrl.onExpressionSet({
+        pdsh,
+        hostnames,
+        hostnamesHash
+      });
+    };
 
-      if (!scope.pdshInitial) scope.pdshInitial = "";
-      if (!scope.pdshPlaceholder) scope.pdshPlaceholder = help.get("pdsh_placeholder");
+    render(
+      <PdshComponent
+        onExpressionSet={ctrl.setExpression}
+        pdshPlaceholder={ctrl.pdshPlaceholder}
+        pdshTooltipMessage={ctrl.pdshTooltipMessage}
+        pdshLabel={ctrl.pdshLabel}
+        pdshInitial={ctrl.pdshInitial}
+        pdshRequired={ctrl.pdshRequired}
+        showSpinner={ctrl.showSpinner}
+      />,
+      $element[0]
+    );
+  }
+};
 
-      /**
-       * Parses the expression to determine if the expression is valid. The value is set on the form.
-       * @param {String} value
-       */
-      function parseExpressionForValidity(value) {
-        scope.pdsh.parseExpression(value);
+type PdshProps = {
+  pdshPlaceholder?: string,
+  pdshTooltipMessage?: string,
+  pdshInitial?: string,
+  pdshRequired?: boolean,
+  onExpressionSet?: (string, string[], Object) => any,
+  showSpinner?: boolean,
+  pdshLabel?: string
+};
 
-        const validity = _.isEmpty(value) || parsedState === states.SUCCESS ? true : false;
+type PdshState = {
+  hostnameSections: string[],
+  errorMessages: string[],
+  pdsh: string,
+  hostnames: string[],
+  hostnamesHash: { [key: string]: string },
+  parsedState: typeof STATE_NEUTRAL | typeof STATE_SUCCESS | typeof STATE_ERROR
+};
 
-        ctrl.pdsh.$setValidity("pdsh", validity);
-      }
-
-      /**
-       * Sets the validity of the directive based on the pdsh expression being passed in.
-       * @param {String} value
-       * @returns {String|undefined}
-       */
-      function updateModelAndValidity(value) {
-        pdshExpression = value;
-        parseExpressionForValidity(pdshExpression);
-
-        return value;
-      }
-
-      let fired = false;
-
-      /**
-       * Triggers the inital change.
-       * @param {String} value
-       * @returns {String}
-       */
-      function triggerInitialChange(value) {
-        if (!fired && scope.pdshInitial) {
-          fired = true;
-          scope.pdsh.sendChange();
-        }
-
-        return value;
-      }
-
-      scope.pdsh = {
-        /**
-         * Parses the expression and calls the pdshChange function on the isolate scope. It also sets the view value
-         * on the ngModel.
-         * @param {String} pdshExpression
-         */
-        parseExpression: function parseExpression(pdshExpression) {
-          if (pdshExpression == null) return;
-
-          parsedExpression = pdshParser(pdshExpression.replace(" ", ""));
-          errorMessages = [];
-
-          if (parsedExpression.errors && pdshExpression.length > 0) {
-            parsedState = states.ERROR;
-            hostnames = [];
-            hostnamesHash = {};
-            hostnameSections = [];
-            errorMessages = parsedExpression.errors;
-          } else if (parsedExpression.expansion && pdshExpression.length > 0) {
-            parsedState = states.SUCCESS;
-            hostnames = parsedExpression.expansion;
-            hostnamesHash = parsedExpression.expansionHash;
-            hostnameSections = parsedExpression.sections;
-          } else {
-            parsedState = states.NEUTRAL;
-            hostnames = [];
-            hostnamesHash = {};
-            hostnameSections = [];
-          }
-
-          scope.pdsh.sendChange();
-        },
-        sendChange: function sendChange() {
-          scope.pdshChange({
-            pdsh: pdshExpression,
-            hostnames: hostnames,
-            hostnamesHash: hostnamesHash
-          });
-        },
-        // $FlowFixMe Getter / Setter not supported by flow
-        get errorMessages() {
-          if (scope.pdshRequired && _.isEmpty(scope.pdsh.expression)) errorMessages.push("Expression required.");
-
-          errorMessages = _.unique(errorMessages);
-
-          return errorMessages;
-        },
-        // $FlowFixMe Getter / Setter not supported by flow
-        get hostnames() {
-          return hostnames;
-        },
-        // $FlowFixMe Getter / Setter not supported by flow
-        get hostnameSections() {
-          return hostnameSections;
-        },
-        pdshForm: ctrl,
-        pdshPlaceholder: scope.pdshPlaceholder
-      };
-
-      // $FlowFixMe Need to type scope
-      scope.pdsh.expression = scope.pdshInitial;
-
-      // Handle updating the validity of the directive when the model is changed. This is applied when the
-      // model is changed, such as taking an initial value.
-      ctrl.pdsh.$formatters.unshift(updateModelAndValidity);
-      ctrl.pdsh.$formatters.unshift(triggerInitialChange);
-      // Handle updating the validity of the directive when the view changes.
-      ctrl.pdsh.$parsers.unshift(updateModelAndValidity);
+type ParsedExpressionT =
+  | {
+      errors: any[]
     }
+  | {
+      expansion: any[],
+      sections: any[],
+      expansionHash: { [name: string]: string }
+    };
+
+const PdshErrors = ({ errorMessages }: { errorMessages: string[] }): React.Element<typeof Tooltip> | null => {
+  if (!errorMessages.length) return null;
+
+  return (
+    <Tooltip size={"medium"} direction={"bottom"} moreClasses={["error-tooltip", "in"]}>
+      <ul>
+        {errorMessages.map(message => (
+          <li>{message}</li>
+        ))}
+      </ul>
+    </Tooltip>
+  );
+};
+
+const HostnamePopover = ({
+  hostnameSections
+}: {
+  hostnameSections: string[]
+}): React.Element<typeof Popover> | React.Element<"div"> => {
+  if (!hostnameSections.length) return <div />;
+
+  return (
+    <Popover popover={true} direction="bottom">
+      <PopoverTitle>Hosts</PopoverTitle>
+      <PopoverContent>
+        <ul class="well">
+          {hostnameSections.map(section => (
+            <li>
+              <span>{section}</span>
+            </li>
+          ))}
+        </ul>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+export class PdshComponent extends Component {
+  props: PdshProps;
+  state: PdshState;
+
+  constructor(props: PdshProps) {
+    super(props);
+
+    this.state = {
+      hostnameSections: [],
+      errorMessages: [],
+      pdsh: "",
+      hostnames: [],
+      hostnamesHash: {},
+      parsedState: STATE_NEUTRAL
+    };
+  }
+
+  componentWillMount() {
+    this.parseExpression(this.props.pdshInitial || "");
+  }
+
+  parseExpression = (pdshExpression: string) => {
+    if (pdshExpression == null) return;
+
+    const parsedExpression: ParsedExpressionT = pdshParser(pdshExpression.replace(" ", ""));
+    let errorMessages = [];
+    if (this.props.pdshRequired && pdshExpression === "") errorMessages = ["Expression required."];
+
+    let hostnames: string[] = [],
+      hostnamesHash = {};
+
+    if (parsedExpression.errors && pdshExpression.length > 0) {
+      this.setState({
+        parsedState: STATE_ERROR,
+        pdsh: pdshExpression,
+        hostnames: [],
+        hostnamesHash: {},
+        hostnameSections: [],
+        errorMessages: errorMessages.concat(parsedExpression.errors)
+      });
+    } else if (parsedExpression.expansion && !parsedExpression.errors && pdshExpression.length > 0) {
+      hostnames = (parsedExpression.expansion: any);
+      hostnamesHash = parsedExpression.expansionHash;
+
+      this.setState({
+        parsedState: STATE_SUCCESS,
+        pdsh: pdshExpression,
+        hostnames: hostnames,
+        hostnamesHash: hostnamesHash,
+        hostnameSections: parsedExpression.sections,
+        errorMessages
+      });
+    } else {
+      this.setState({
+        parsedState: STATE_NEUTRAL,
+        pdsh: pdshExpression,
+        hostnames: [],
+        hostnamesHash: {},
+        hostnameSections: [],
+        errorMessages
+      });
+    }
+
+    if (this.props.onExpressionSet != null) this.props.onExpressionSet(pdshExpression, hostnames, hostnamesHash);
   };
+
+  debounceParseExpression = debounce((this.parseExpression: any), 1000);
+
+  render() {
+    const pdshInitial = this.props.pdshInitial || "";
+    const pdshPlaceholder = this.props.pdshPlaceholder || getHelpContent("pdsh_placeholder").__html;
+    const pdshTooltipMessage =
+      this.props.pdshTooltipMessage || "Enter a hostlist expression for servers that you would like to add.";
+    const pdshRequired = this.props.pdshRequired != null ? this.props.pdshRequired : true;
+    const showSpinner = this.props.showSpinner != null ? this.props.showSpinner : false;
+    const pdshLabel = this.props.pdshLabel || "Enter Hostlist Expression";
+
+    if (this.state.pdsh === "" && pdshInitial !== "") this.parseExpression(pdshInitial);
+
+    const hostnamePopover = HostnamePopover({ hostnameSections: this.state.hostnameSections });
+    const spinner = showSpinner ? <Spinner display={true} /> : null;
+
+    return (
+      <div className={`form-group pdsh-input${this.state.errorMessages.length ? " has-error" : ""}`}>
+        <div>
+          <label>{pdshLabel}</label>
+          <span class="icon-wrap tooltip-container tooltip-hover">
+            <i class="fa fa-question-circle" />
+            <Tooltip size={"medium"} direction={"right"} message={pdshTooltipMessage} />
+          </span>
+        </div>
+        <div class="input-group">
+          <WindowClickListener>
+            <PopoverContainer>
+              <div class="input-group-addon tooltip-container tooltip-hover hostname-popover" popoverButton={true}>
+                <i class="fa activate-popover fa-list-ul">
+                  <Tooltip size={"medium"} direction={"right"} message={"Click for expanded hostlist expression."} />
+                </i>
+              </div>
+              {hostnamePopover}
+            </PopoverContainer>
+          </WindowClickListener>
+          <input
+            className="form-control"
+            type="search"
+            name="pdsh"
+            placeholder={pdshPlaceholder}
+            required={pdshRequired}
+            value={this.state.pdsh}
+            onInput={e => {
+              this.setState({ pdsh: e.currentTarget.value });
+              this.debounceParseExpression(e.currentTarget.value);
+            }}
+          />
+          <div class="spinner-container">
+            <CSSTransitionGroup transitionName="ng" transitionEnterTimeout={500} transitionLeaveTimeout={500}>
+              {spinner}
+            </CSSTransitionGroup>
+          </div>
+          <PdshErrors errorMessages={this.state.errorMessages} />
+        </div>
+      </div>
+    );
+  }
 }

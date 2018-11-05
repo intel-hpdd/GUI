@@ -6,15 +6,9 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from "@iml/fp";
+import serverProfile from "../server-profile.js";
 
 import type { hostT } from "../api-types.js";
-
-type jobT = {
-  class_name: string,
-  args: {
-    host_id: string
-  }
-};
 
 export default function serverActionsFactory() {
   "ngInject";
@@ -23,7 +17,7 @@ export default function serverActionsFactory() {
       {
         class_name: this.jobClass,
         args: {
-          hosts: (hosts.map((x: hostT) => x.resource_uri): string[])
+          hosts: hosts.map(x => x.resource_uri)
         }
       }
     ];
@@ -52,7 +46,10 @@ export default function serverActionsFactory() {
     [memberOfFsAndMutable, h => `${h.label} is a member of an active filesystem.`]
   );
 
-  const isNotManagedServer = fp.eqFn(fp.identity)(x => x.server_profile.managed)(false);
+  const isNotManagedServer = fp.eqFn(fp.identity)(x => {
+    const profile = serverProfile(x.server_profile);
+    if (profile != null) return profile.managed;
+  })(false);
 
   const rewriteButtonMessage = fp.cond(
     [

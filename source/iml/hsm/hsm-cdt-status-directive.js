@@ -33,8 +33,8 @@ export default function hsmCdtStatusDirective() {
       </span>
     </div>
   </div>
-  <div as-stream val="fileSystem">
-    <action-dropdown stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+  <div>
+    <action-dropdown records="fileSystem" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
   </div>
 </div>
 `

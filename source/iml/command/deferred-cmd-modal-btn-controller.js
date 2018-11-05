@@ -5,18 +5,16 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
 import socketStream from "../socket/socket-stream.js";
 
-import { resolveStream } from "../promise-transforms.js";
+import getStore from "../store/get-store.js";
 
-import type { Command } from "./command-types.js";
+import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
-import type { HighlandStreamT } from "highland";
+import type { localApplyT } from "../extend-scope-module.js";
+import type { $scopeT } from "angular";
 
-type openCommandModalT = (x: Promise<HighlandStreamT<Command[]>>) => Object;
-
-export default function DeferredCommandModalBtnCtrl(openCommandModal: openCommandModalT) {
+export default function DeferredCommandModalBtnCtrl($scope: $scopeT, localApply: localApplyT<*>) {
   "ngInject";
   const setLoading = x => (this.loading = x);
 
@@ -25,11 +23,15 @@ export default function DeferredCommandModalBtnCtrl(openCommandModal: openComman
 
     const stream = socketStream(this.resourceUri);
 
-    const wrapped = resolveStream(stream.map(fp.arrayWrap));
+    stream.each(x => {
+      setLoading(false);
+      stream.destroy();
+      localApply($scope);
 
-    openCommandModal(wrapped)
-      .resultStream.tap(setLoading.bind(null, false))
-      .tap(stream.destroy.bind(stream))
-      .pull(fp.noop);
+      getStore.dispatch({
+        type: SHOW_COMMAND_MODAL_ACTION,
+        payload: [x]
+      });
+    });
   };
 }

@@ -1,4 +1,6 @@
 .select-server-profile-step {
+  padding: 0;
+
   .alert {
     .transition-height(90px);
   }
@@ -21,6 +23,17 @@
   }
 
   .popover {
-    width: 350px
+    width: 350px;
+  }
+
+  .status-cell {
+    &.deployed {
+      background-color: @gray-light;
+      border: 1px solid darken(@gray-light, 10%);
+
+      &:hover {
+        background-color: lighten(@gray-light, 10%);
+      }
+    }
   }
 }

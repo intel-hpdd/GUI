@@ -8,14 +8,26 @@
 import { Component } from "inferno";
 import { cloneChildren } from "./inferno-utils.js";
 
+type WindowClickListenerPropsT = {|
+  forceOpen?: boolean,
+  children?: React.ChildrenArray<React.Element<*>>
+|};
 export default class WindowClickListener extends Component {
   windowListener: ?Function;
   state: { isOpen: boolean } = { isOpen: false };
-  props: {
-    children?: React.ChildrenArray<React.Element<*>>
-  };
+  props: WindowClickListenerPropsT;
+
   componentWillUnmount() {
     if (this.windowListener) window.removeEventListener("click", this.windowListener, false);
+  }
+  componentDidUpdate(prevProps: WindowClickListenerPropsT) {
+    if (prevProps.forceOpen !== this.props.forceOpen)
+      if (this.props.forceOpen === true && this.state.isOpen === false) {
+        this.setState({
+          isOpen: true
+        });
+        this.toggleOpen();
+      }
   }
   windowHandler() {
     const { isOpen: previousIsOpen } = this.state;

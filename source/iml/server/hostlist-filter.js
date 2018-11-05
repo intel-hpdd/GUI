@@ -1,36 +1,49 @@
+// @flow
+
 //
 // Copyright (c) 2018 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from "@iml/lodash-mixins";
+import { pdshFilter } from "../filters/pdsh-filter.js";
+import { naturalSortFilter } from "../filters/natural-sort-filter.js";
 
-export default function hostlistFilterFactory(pdshFilter, naturalSortFilter) {
-  "ngInject";
-  const getter = _.property("address");
-  const state = {
-    hosts: null,
-    hash: null,
-    fuzzy: null,
-    reverse: null
-  };
+import { type TestHostT } from "./server-module.js";
+
+type HashT = {
+  [key: string]: 1
+};
+
+const getAddress = x => x.address;
+
+export default function hostlistFilter() {
+  let hosts: TestHostT[] = [];
+  let hash: HashT = {};
+  let fuzzy: boolean = false;
+  let reverse: boolean = false;
 
   const hostlistFilter = {
-    compute: function compute() {
-      const pdshFilterResults = pdshFilter(state.hosts, state.hash, getter, state.fuzzy);
-      return naturalSortFilter(pdshFilterResults, getter, state.reverse);
+    compute: () => {
+      const pdshFilterResults = pdshFilter(hosts, hash, getAddress, fuzzy);
+      return naturalSortFilter(pdshFilterResults, getAddress, reverse);
+    },
+    setHosts: (x: TestHostT[]) => {
+      hosts = x;
+      return hostlistFilter;
+    },
+    setHash: (x: HashT) => {
+      hash = x;
+      return hostlistFilter;
+    },
+    setFuzzy: (x: boolean) => {
+      fuzzy = x;
+      return hostlistFilter;
+    },
+    setReverse: (x: boolean) => {
+      reverse = x;
+      return hostlistFilter;
     }
   };
-
-  Object.keys(state).reduce(function(hostlistFilter, key) {
-    hostlistFilter["set" + _.capitalize(key)] = function setter(newVal) {
-      state[key] = newVal;
-
-      return this;
-    };
-
-    return hostlistFilter;
-  }, hostlistFilter);
 
   return hostlistFilter;
 }

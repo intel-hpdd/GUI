@@ -5,7 +5,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export default function help($sce: Object, HELP_TEXT: Object) {
+import { HELP_TEXT } from "./environment.js";
+
+export default function help($sce: Object) {
   "ngInject";
   const trusted = {};
 
@@ -23,3 +25,8 @@ export default function help($sce: Object, HELP_TEXT: Object) {
     }
   };
 }
+
+export const getHelpContent = (key: string) => {
+  if (!HELP_TEXT[key]) throw new Error(`Key ${key} is not in help text!`);
+  return { __html: HELP_TEXT[key] };
+};

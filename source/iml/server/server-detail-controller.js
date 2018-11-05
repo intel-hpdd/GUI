@@ -10,7 +10,6 @@ import type { PropagateChange } from "../extend-scope-module.js";
 export default function ServerDetailController(
   $scope: Object,
   streams: Object,
-  overrideActionClick: Function,
   propagateChange: PropagateChange
 ): void {
   "ngInject";
@@ -22,8 +21,7 @@ export default function ServerDetailController(
     alertMonitorStream: streams.alertMonitorStream,
     corosyncConfigurationStream: streams.corosyncConfigurationStream,
     pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
-    networkInterfaceStream: streams.networkInterfaceStream,
-    overrideActionClick
+    networkInterfaceStream: streams.networkInterfaceStream
   });
 
   const p = propagateChange.bind(null, $scope, serverDetailController);

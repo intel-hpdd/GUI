@@ -26,19 +26,7 @@ export const serverState = {
     <ul class="list-inline">
       <li>
         <form name="pdshForm">
-          <div class="form-group pdsh-input" ng-class="{'has-error': pdshForm.pdsh.$invalid, 'has-success': pdshForm.pdsh.$valid}">
-            <div>
-              <label>Filter by Hostname / Hostlist Expression</label>
-              <span class="tooltip-container tooltip-hover">
-                <i class="fa fa-question-circle">
-                  <iml-tooltip size="'large'" direction="right">
-                    <span>Enter a hostname / hostlist expression to filter the servers below.</span>
-                  </iml-tooltip>
-                </i>
-              </span>
-            </div>
-            <pdsh pdsh-change="server.pdshUpdate(pdsh, hostnames, hostnamesHash)"></pdsh>
-          </div>
+          <pdsh on-expression-set="server.pdshUpdate(pdsh, hostnames, hostnamesHash)" pdsh-required="false" pdsh-label="Filter by Hostname / Hostlists Expression" pdsh-tooltip-message="Enter a hostname / hostlist expression to filter the servers below."></pdsh>
           <button class="btn btn-info btn-sm fuzzy-filter" ng-model="server.pdshFuzzy" uib-btn-checkbox>
             <span ng-if="server.pdshFuzzy">
               Fuzzy
@@ -101,8 +89,8 @@ export const serverState = {
               </span>
             </span>
           </td>
-          <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown stream="::str" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
+          <td ng-if="!server.editable">
+            <action-dropdown records="item" override-click="true"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -254,8 +242,8 @@ export const serverDetailState = {
           <job-status record-id="serverDetail.server.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
         </div>
       </div>
-      <div as-stream val="serverDetail.server">
-        <action-dropdown tooltip-placement="top" stream="::str" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+      <div>
+        <action-dropdown tooltip-placement="top" records="serverDetail.server" override-click="true"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>
@@ -277,8 +265,8 @@ export const serverDetailState = {
           <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
         </div>
       </div>
-      <div as-viewer stream="::serverDetail.lnetConfigurationStream">
-        <action-dropdown tooltip-placement="top" stream="::viewer"></action-dropdown>
+      <div>
+        <action-dropdown tooltip-placement="top" records="serverDetail.lnetConfiguration"></action-dropdown>
       </div>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>

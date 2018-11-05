@@ -56,8 +56,8 @@ export default {
                 </td>
                 <td>{{item.failover_server_name}}</td>
                 <td>{{item.active_host_name}}</td>
-                <td as-stream val="item">
-                  <action-dropdown stream="::str"></action-dropdown>
+                <td>
+                  <action-dropdown records="item"></action-dropdown>
                 </td>
               </tr>
             </tbody>

@@ -28,28 +28,32 @@ const AlertIndicator = asViewer(
 
     return (
       <span class="record-state">
-        <WindowClickListener>
-          <PopoverContainer>
-            <span class="icon-wrap tooltip-container tooltip-hover" popoverButton={true}>
-              <i className={`fa activate-popover ${alerts.length > 0 ? "fa-exclamation-circle" : "fa-check-circle"}`} />
-              <Tooltip size={alerts.length === 0 ? "small" : "medium"} direction="top" message={getMessage(alerts)} />
-            </span>
-            {alerts.length ? (
-              <Popover popover={true} direction="bottom">
-                <PopoverTitle>Alerts</PopoverTitle>
-                <PopoverContent>
-                  <ul>
-                    {alerts.map(x => (
-                      <li key={x.id}>{x.message}</li>
-                    ))}
-                  </ul>
-                </PopoverContent>
-              </Popover>
-            ) : (
-              ""
-            )}
-          </PopoverContainer>
-        </WindowClickListener>
+        <span style="position: relative">
+          <WindowClickListener>
+            <PopoverContainer>
+              <span class="icon-wrap tooltip-container tooltip-hover" popoverButton={true}>
+                <i
+                  className={`fa activate-popover ${alerts.length > 0 ? "fa-exclamation-circle" : "fa-check-circle"}`}
+                />
+                <Tooltip size={alerts.length === 0 ? "small" : "medium"} direction="top" message={getMessage(alerts)} />
+              </span>
+              {alerts.length ? (
+                <Popover popover={true} direction="bottom">
+                  <PopoverTitle>Alerts</PopoverTitle>
+                  <PopoverContent>
+                    <ul>
+                      {alerts.map(x => (
+                        <li key={x.id}>{x.message}</li>
+                      ))}
+                    </ul>
+                  </PopoverContent>
+                </Popover>
+              ) : (
+                ""
+              )}
+            </PopoverContainer>
+          </WindowClickListener>
+        </span>
 
         {size === "medium" ? (
           <span style="padding-left:10px;" class="state-label">

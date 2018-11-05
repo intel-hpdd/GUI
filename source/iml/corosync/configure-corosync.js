@@ -4,10 +4,11 @@
 // license that can be found in the LICENSE file.
 
 import socketStream from "../socket/socket-stream.js";
+import waitForCommandCompletion from "../command/wait-for-command-completion-service.js";
 
 import { pick } from "@iml/obj";
 
-export function ConfigureCorosyncController($scope, waitForCommandCompletion, propagateChange, insertHelpFilter) {
+export function ConfigureCorosyncController($scope, propagateChange, insertHelpFilter) {
   "ngInject";
   const ctrl = this;
 
@@ -84,8 +85,8 @@ export const configureCorosyncComponent = {
       </div>
     </div>
 
-    <div class="configure-btns" ng-if="configToggle.inactive()" as-stream val="$ctrl.config">
-      <action-dropdown tooltip-placement="top" stream="::str"></action-dropdown>
+    <div class="configure-btns" ng-if="configToggle.inactive()">
+      <action-dropdown tooltip-placement="top" records="$ctrl.config"></action-dropdown>
 
       <button class="btn btn-primary btn-block btn-sm edit-btn" ng-click="::configToggle.setActive()">
         Configure<i class="fa fa-gear"></i>

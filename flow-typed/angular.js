@@ -16,7 +16,7 @@ declare module angular {
         defaultPrevented: boolean
       }) => void
     ): void;
-    $watch(exp: string, listener: (Object) => mixed, objectEquality?: boolean): () => mixed;
+    $watch(exp: string | Function, listener: (Object) => mixed, objectEquality?: boolean): () => mixed;
   }
   declare type $scopeT = $scope;
   declare class $location {

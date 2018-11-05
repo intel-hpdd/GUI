@@ -51,6 +51,8 @@ export const deferredActionDropdownComponent = {
         <button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
           <i class="fa fa-spinner fa-spin"></i>Waiting
         </button>
-        <action-dropdown ng-show="!ctrl.loading" stream="::ctrl.ms"></action-dropdown>
+        <span ng-show="!ctrl.loading" as-value stream="::ctrl.ms">
+          <action-dropdown records="curr.val"></action-dropdown>
+        </span>
       </div>`
 };

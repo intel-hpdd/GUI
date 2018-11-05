@@ -4,7 +4,7 @@
 
     &[disabled]:hover,
     &[disabled]:focus {
-      opacity: .2;
+      opacity: 0.2;
     }
 
     &[disabled] i {
@@ -30,7 +30,8 @@
   }
 
   .modal-footer {
-    button, .btn-group {
+    button,
+    .btn-group {
       margin-left: 5px;
     }
   }
@@ -40,6 +41,41 @@
 
     .well {
       margin-bottom: 0;
+    }
+  }
+
+  .add-server-section {
+    margin: 15px;
+  }
+
+  .no-server-selected {
+    .transition-fade();
+
+    display: flex;
+
+    > i {
+      color: @brand-danger;
+      font-size: 50px;
+      margin: auto;
+      width: 100px;
+      text-align: center;
+    }
+
+    > div {
+      padding-left: 10px;
+      margin: auto;
+    }
+  }
+
+  .spinner-container {
+    position: absolute;
+    right: 0;
+    top: 7px;
+    z-index: 3;
+    padding-right: 10px;
+
+    i.fa-spinner {
+      .transition-fade();
     }
   }
 }

@@ -1,6 +1,8 @@
 // @flow
 
-import { restrict, restrictTo } from "../../../../source/iml/auth/authorization.js";
+import Inferno from "inferno";
+
+import { restrict, restrictTo, RestrictToComponent, GROUPS } from "../../../../source/iml/auth/authorization.js";
 
 import store from "../../../../source/iml/store/get-store.js";
 
@@ -209,9 +211,30 @@ describe("authorization", () => {
             $scope.$digest();
           });
 
-          it(`should be ${!test.visibility.restricted ? "visible" : "invisible"}
+          it(`should be ${test.isVisible ? "visible" : "invisible"}
  to group ${test.sessionGroups[0].name} when restricted to ${test.group}`, () => {
             expect(el.hasClass("invisible")).toEqual(!test.visibility.restricted);
+          });
+        });
+      });
+
+      describe("inferno components", () => {
+        describe("of type restrictTo", () => {
+          let root: HTMLElement;
+          beforeEach(() => {
+            root = document.createElement("div");
+            Inferno.render(
+              <RestrictToComponent group={test.group}>
+                <div id="inside">Secret Data</div>
+              </RestrictToComponent>,
+              root
+            );
+          });
+
+          it(`should be ${test.sessionGroups[0].name} to group ${test.group}`, () => {
+            const el: ?HTMLElement = root.querySelector("#inside");
+            if (test.visibility.restrictTo && el != null) expect(el.textContent).toEqual("Secret Data");
+            else expect(el).toBeNull();
           });
         });
       });

@@ -120,7 +120,7 @@ describe("server states", () => {
             </span>
           </td>
           <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown stream="::str" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
+            <action-dropdown stream="::str" override-click="true"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -277,7 +277,7 @@ describe("server states", () => {
         </div>
       </div>
       <div as-stream val="serverDetail.server">
-        <action-dropdown tooltip-placement="top" stream="::str" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+        <action-dropdown tooltip-placement="top" stream="::str" override-click="true"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>

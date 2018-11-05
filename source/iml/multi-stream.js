@@ -6,19 +6,18 @@
 // license that can be found in the LICENSE file.
 
 import highland from "highland";
-import * as fp from "@iml/fp";
 
 import type { HighlandStreamT } from "highland";
 
 const empty = {};
 
-export default function multiStream(streams: any) {
-  return highland(function(push) {
+export default function multiStream(streams: $ReadOnlyArray<HighlandStreamT<*>>) {
+  return highland(function(push: (e: ?Error, any) => void) {
     const s: HighlandStreamT<mixed[]> = this;
 
-    const data: any = fp.map(fp.always(empty))(streams);
+    const data: any = streams.map(() => empty);
 
-    streams.forEach((s2, index: number) => {
+    streams.forEach((s2: HighlandStreamT<*>, index: number) => {
       s.onDestroy(s2.destroy.bind(s2));
 
       s2.errors(e => push(e)).each(x => {

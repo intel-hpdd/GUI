@@ -16,7 +16,7 @@ describe("add server modal", () => {
 
     jest.mock("../../../../source/iml/socket/get-spring.js", () => mockGetSpring);
 
-    const mod = require("../../../../source/iml/server/add-server-modal-ctrl.js");
+    const mod = require("../../../../source/iml/server/add-server-modal.js");
 
     AddServerModalCtrl = mod.AddServerModalCtrl;
     openAddServerModal = mod.openAddServerModalFactory($uibModal);
