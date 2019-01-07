@@ -1,6 +1,8 @@
 #modal-icons {
   .icon-colors() {
-    &.fa-spin, &.fa-ellipsis-h, &.fa-times {
+    &.fa-spin,
+    &.fa-ellipsis-h,
+    &.fa-times {
       color: @gray-dark;
     }
 
@@ -15,6 +17,10 @@
 }
 
 .command-modal {
+  .modal-dialog {
+    width: 95vw;
+  }
+
   .jobs {
     max-height: 350px;
     overflow: scroll;
@@ -30,13 +36,14 @@
 
       i {
         width: 14px;
-        marging-right: 5px;
+        margin-right: 5px;
       }
     }
   }
 }
 
-.command-modal, .step-modal {
+.command-modal,
+.step-modal {
   .panel-title {
     font-size: 13px;
   }
