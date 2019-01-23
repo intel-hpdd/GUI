@@ -30,6 +30,19 @@ export const Footer = ({ children }: footerT) => {
   return <div class="modal-footer">{children}</div>;
 };
 
+export const Backdrop = ({ moreClasses = [], visible, zIndex }: BackdropT) => {
+  if (visible === false) return null;
+
+  const style = zIndex != null ? { "z-index": zIndex } : {};
+  return <div className={`modal-backdrop fade in ${moreClasses.join(" ")}`} style={style} />;
+};
+
+type BackdropT = {
+  moreClasses?: string[],
+  visible: boolean,
+  zIndex?: number
+};
+
 type modalT = {
   children?: React.ChildrenArray<React.Element<*>>,
   moreClasses?: string[],
