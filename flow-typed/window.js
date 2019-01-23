@@ -1,7 +1,7 @@
 // @flow
 
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -53,7 +53,8 @@ declare var window: {
         minimumSignificantDigits?: number
       }
     ) => Object
-  }
+  },
+  EventSource: typeof EventSource
 };
 
 declare module "../favicon.ico" {
