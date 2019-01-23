@@ -19,21 +19,24 @@ type ContentTypeIdT = string;
 type ResourceIdT = string;
 type LockKeyT = ContentTypeIdT | ":" | ResourceIdT;
 
-type LockEntryT = {|
-  action: LOCK_ACTION_ADD | LOCK_ACTION_REMOVE,
+export type ReadOrWriteT = typeof LOCK_TYPE_READ | typeof LOCK_TYPE_WRITE;
+export type LockToLockEntries = LockT => LockEntryT[];
+
+export type LockEntryT = {|
+  action: typeof LOCK_ACTION_ADD | typeof LOCK_ACTION_REMOVE,
   content_type_id: number,
   description: string,
   item_id: number,
   job_id: number,
-  lock_type: LOCK_TYPE_READ | LOCK_TYPE_WRITE
+  lock_type: ReadOrWriteT
 |};
 
-type LockT = {|
+export type LockT = {
   [key: LockKeyT]: LockEntryT[]
-|};
+};
 
 type LockActionT = {|
-  type: UPDATE_LOCKS_ACTION,
+  type: typeof UPDATE_LOCKS_ACTION,
   payload: LockT
 |};
 

@@ -6,9 +6,10 @@
 // license that can be found in the LICENSE file.
 
 import highland from "highland";
+import global from "../global.js";
 import { SSE } from "../environment.js";
 
-const sse = new EventSource(SSE);
+const sse = new global.EventSource(SSE);
 
 export default () =>
   highland(push => {

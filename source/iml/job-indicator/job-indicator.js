@@ -1,22 +1,47 @@
+// @flow
+
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
 import _ from "@iml/lodash-mixins";
 import * as fp from "@iml/fp";
 
+import { type LockT, type ReadOrWriteT, type LockToLockEntries } from "../locks/locks-reducer.js";
+import type { HighlandStreamT } from "highland";
+import type { localApplyT } from "../extend-scope-module.js";
+import type { $scopeT } from "angular";
+
 export const ADD_JOB_INDICATOR_ITEMS = "ADD_JOB_INDICATOR_ITEMS";
 
-export default function jobStatusDirective(localApply) {
+type JobStatusScope = $scopeT & {|
+  recordId: number,
+  contentTypeId: number,
+  jobStream: () => HighlandStreamT<LockT>,
+  closeOthers: boolean,
+  openWrite: boolean,
+  openRead: boolean,
+  readMessages: string[],
+  readMessageDifference: string[],
+  writeMessages: string[],
+  writeMessageDifference: string[],
+  onToggle: (state: "closed" | "opened") => void,
+  clearMessageRecords: () => void,
+  shouldShowLockIcon: () => boolean,
+  getLockTooltipMessage: () => string
+|};
+
+export default function jobStatusDirective(localApply: localApplyT<*>) {
   "ngInject";
   return {
     scope: {
       recordId: "=",
+      contentTypeId: "=",
       jobStream: "="
     },
     restrict: "E",
-    link: function link(scope) {
+    link: function link(scope: JobStatusScope) {
       let isOpened = false;
 
       Object.assign(scope, {
@@ -80,19 +105,10 @@ export default function jobStatusDirective(localApply) {
         }
       });
 
-      const mapLockedItemUri = fp.map(x => x.locked_item_uri);
       const mapDescription = fp.map(x => x.description);
 
-      const calculateLocks = type => s => {
-        const hasMatchingRecord = fp.flow(
-          x => x[`${type}_locks`],
-          mapLockedItemUri,
-          fp.some(fp.eq(scope.recordId))
-        );
-        const findMatchingRecords = fp.filter(hasMatchingRecord);
-
+      const calculateLocks = (type: ReadOrWriteT) => (s: HighlandStreamT<LockT>) => {
         const xForm = fp.flow(
-          findMatchingRecords,
           mapDescription,
           x => {
             //this is in a closure because we want to access messages at call time not define time.
@@ -103,7 +119,17 @@ export default function jobStatusDirective(localApply) {
           x => (scope[type + "Messages"] = x)
         );
 
-        s.map(xForm).each(localApply.bind(null, scope));
+        const flattenLocks: LockToLockEntries = ({ ...xs }) => ([].concat(...Object.values(xs)): any);
+        return s
+          .map(flattenLocks)
+          .map(
+            fp.filter(
+              ({ ...x }) =>
+                x.lock_type === type && x.content_type_id === scope.contentTypeId && x.item_id === scope.recordId
+            )
+          )
+          .map(xForm)
+          .each(() => localApply(scope));
       };
 
       let readViewer = scope.jobStream();
@@ -113,8 +139,8 @@ export default function jobStatusDirective(localApply) {
       writeViewer.through(calculateLocks("write"));
 
       scope.$on("$destroy", function onDestroy() {
-        readViewer.destroy();
-        writeViewer.destroy();
+        if (readViewer != null) readViewer.destroy();
+        if (writeViewer != null) writeViewer.destroy();
         readViewer = writeViewer = null;
       });
     },

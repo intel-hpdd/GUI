@@ -8,7 +8,7 @@
 import getSSEStream from "./sse-stream.js";
 import getStore from "../store/get-store.js";
 
-import { type LockT, UPDATE_LOCKS_ACTION } from "./locks/locks-reducer.js";
+import { type LockT, UPDATE_LOCKS_ACTION } from "../locks/locks-reducer.js";
 
 getSSEStream().each((data: LockT) => {
   getStore.dispatch({

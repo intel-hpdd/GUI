@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -8,7 +8,7 @@ import broadcaster from "../broadcaster.js";
 
 export default function serverResolves() {
   "ngInject";
-  const jobMonitorStream = broadcaster(store.select("jobIndicators"));
+  const jobMonitorStream = broadcaster(store.select("locks"));
 
   const alertMonitorStream = broadcaster(store.select("alertIndicators"));
 

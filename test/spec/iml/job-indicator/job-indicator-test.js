@@ -22,14 +22,16 @@ describe("job indicator", () => {
     angular.mock.inject(($rootScope, $compile, _$timeout_) => {
       $timeout = _$timeout_;
 
-      element = '<div><job-status record-id="recordId" job-stream="stream"></job-status></div>';
+      element =
+        '<div><job-status record-id="recordId" content-type-id="contentTypeId" job-stream="stream"></job-status></div>';
 
       $scope = $rootScope.$new();
 
       stream = highland();
 
       $scope.stream = broadcast(stream);
-      $scope.recordId = "host/6";
+      $scope.recordId = 6;
+      $scope.contentTypeId = 61;
 
       node = $compile(element)($scope);
 
@@ -45,13 +47,12 @@ describe("job indicator", () => {
     beforeEach(() => {
       const response = [
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "write"
         }
       ];
 
@@ -84,13 +85,12 @@ describe("job indicator", () => {
       beforeEach(() => {
         response = [
           {
-            read_locks: [],
-            write_locks: [
-              {
-                locked_item_uri: "host/6"
-              }
-            ],
-            description: "write lock description"
+            action: "add",
+            content_type_id: 61,
+            description: "write lock description",
+            item_id: 6,
+            job_id: 47,
+            lock_type: "write"
           }
         ];
 
@@ -111,13 +111,12 @@ describe("job indicator", () => {
       beforeEach(() => {
         response = [
           {
-            read_locks: [
-              {
-                locked_item_uri: "host/6"
-              }
-            ],
-            write_locks: [],
-            description: "read lock description"
+            action: "add",
+            content_type_id: 61,
+            description: "read lock description",
+            item_id: 6,
+            job_id: 47,
+            lock_type: "read"
           }
         ];
 
@@ -139,22 +138,20 @@ describe("job indicator", () => {
       beforeEach(() => {
         response = [
           {
-            read_locks: [
-              {
-                locked_item_uri: "host/6"
-              }
-            ],
-            write_locks: [],
-            description: "read lock description"
+            action: "add",
+            content_type_id: 61,
+            description: "read lock description",
+            item_id: 6,
+            job_id: 47,
+            lock_type: "read"
           },
           {
-            read_locks: [],
-            write_locks: [
-              {
-                locked_item_uri: "host/6"
-              }
-            ],
-            description: "write lock description"
+            action: "add",
+            content_type_id: 61,
+            description: "write lock description",
+            item_id: 6,
+            job_id: 47,
+            lock_type: "write"
           }
         ];
 
@@ -181,22 +178,20 @@ describe("job indicator", () => {
     beforeEach(() => {
       response = [
         {
-          read_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          write_locks: [],
-          description: "read lock description"
+          action: "add",
+          content_type_id: 61,
+          description: "read lock description",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "read"
         },
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "write"
         }
       ];
 
@@ -233,13 +228,12 @@ describe("job indicator", () => {
     beforeEach(() => {
       response = [
         {
-          read_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          write_locks: [],
-          description: "read lock description1"
+          action: "add",
+          content_type_id: 61,
+          description: "read lock description1",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "read"
         }
       ];
 
@@ -248,22 +242,20 @@ describe("job indicator", () => {
       // Change the response to have 2 messages now
       response = [
         {
-          read_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          write_locks: [],
-          description: "read lock description1"
+          action: "add",
+          content_type_id: 61,
+          description: "read lock description1",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "read"
         },
         {
-          read_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          write_locks: [],
-          description: "read lock description2"
+          action: "add",
+          content_type_id: 61,
+          description: "read lock description2",
+          item_id: 6,
+          job_id: 48,
+          lock_type: "read"
         }
       ];
 
@@ -272,13 +264,12 @@ describe("job indicator", () => {
       // Now, remove the first message so that only message 2 remains
       response = [
         {
-          read_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          write_locks: [],
-          description: "read lock description2"
+          action: "add",
+          content_type_id: 61,
+          description: "read lock description2",
+          item_id: 6,
+          job_id: 48,
+          lock_type: "read"
         }
       ];
 
@@ -299,13 +290,12 @@ describe("job indicator", () => {
     beforeEach(() => {
       response = [
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description1"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description1",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "write"
         }
       ];
 
@@ -314,22 +304,20 @@ describe("job indicator", () => {
       // Change the response to have 2 messages now
       response = [
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description1"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description1",
+          item_id: 6,
+          job_id: 47,
+          lock_type: "write"
         },
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description2"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description2",
+          item_id: 6,
+          job_id: 48,
+          lock_type: "write"
         }
       ];
 
@@ -338,13 +326,12 @@ describe("job indicator", () => {
       // Now, remove the first message so that only message 2 remains
       response = [
         {
-          read_locks: [],
-          write_locks: [
-            {
-              locked_item_uri: "host/6"
-            }
-          ],
-          description: "write lock description2"
+          action: "add",
+          content_type_id: 61,
+          description: "write lock description2",
+          item_id: 6,
+          job_id: 48,
+          lock_type: "write"
         }
       ];
 
