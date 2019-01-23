@@ -18,4 +18,5 @@ export const VERSION = global.VERSION;
 export const BUILD = global.BUILD;
 export const BASE = `${global.location.protocol}//${global.location.hostname}`;
 export const API = `${BASE}:${global.location.port}/api/`;
+export const SSE = `${BASE}:${global.location.port}/messaging`;
 export const RUNTIME_VERSION = IS_RELEASE ? VERSION : `Build ${BUILD}`;
