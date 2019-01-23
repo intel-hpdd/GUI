@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`disconnect modal should generate the modal 1`] = `
+<div>
+  <div
+    class="modal fade in disconnect-modal"
+    role="dialog"
+    style="display: block;"
+    tabindex="-1"
+  >
+    <div
+      class="modal-dialog"
+      role="document"
+    >
+      <div
+        class="modal-content"
+      >
+        <div
+          class="modal-body "
+        >
+          <h3>
+            Disconnected From Server, Retrying. 
+            <i
+              class="fa fa-spinner fa-spin fa-lg"
+            />
+          </h3>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal-backdrop fade in "
+  />
+</div>
+`;

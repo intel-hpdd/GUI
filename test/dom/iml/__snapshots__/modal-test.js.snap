@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Modal test with modal visible should render 1`] = `
+<div
+  class="modal fade in test-modal"
+  role="dialog"
+  style="display: block;"
+  tabindex="-1"
+>
+  <div
+    class="modal-dialog"
+    role="document"
+  >
+    <div
+      class="modal-content"
+    >
+      <div
+        class="modal-header"
+      >
+        <h3
+          class="modal-title"
+        >
+          This is the header
+        </h3>
+      </div>
+      <div
+        class="modal-body "
+      >
+        <p>
+          Test content
+        </p>
+      </div>
+      <div
+        class="modal-footer"
+      >
+        <button
+          class="btn btn-success"
+        >
+          Agree
+        </button>
+        <button
+          class="btn btn-danger"
+        >
+          Do Not Agree
+        </button>
+      </div>
+      <div
+        class="modal-backdrop fade in extra-backdrop-class"
+        style="z-index: 999;"
+      />
+    </div>
+  </div>
+</div>
+`;
