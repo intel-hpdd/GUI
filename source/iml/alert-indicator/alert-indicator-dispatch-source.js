@@ -26,10 +26,12 @@ if (canDispatch()) {
     }
   });
 
-  alert$.map(x => x.objects).each(payload =>
-    store.dispatch({
-      type: ADD_ALERT_INDICATOR_ITEMS,
-      payload
-    })
-  );
+  alert$
+    .map(x => x.objects)
+    .each(payload =>
+      store.dispatch({
+        type: ADD_ALERT_INDICATOR_ITEMS,
+        payload
+      })
+    );
 }
