@@ -107,9 +107,11 @@ describe("sse stream", () => {
     });
 
     it("should retrieve the backoff duration", done => {
-      sse$.errors(() => {}).each(() => {
-        done.fail();
-      });
+      sse$
+        .errors(() => {})
+        .each(() => {
+          done.fail();
+        });
 
       eventSource.close.mockImplementation(() => {
         expect(backoff.duration).toHaveBeenCalledTimes(1);
@@ -120,9 +122,11 @@ describe("sse stream", () => {
     });
 
     it("should close the stream after the duration", done => {
-      sse$.errors(() => {}).each(() => {
-        done.fail();
-      });
+      sse$
+        .errors(() => {})
+        .each(() => {
+          done.fail();
+        });
 
       eventSource.close.mockImplementation(() => {
         expect(eventSource.close).toHaveBeenCalledTimes(1);
