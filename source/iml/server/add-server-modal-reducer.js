@@ -335,10 +335,19 @@ const getProceedButton = (state: AddServerModalPayloadT) => {
         state.testHostsStatus.every(
           server =>
             (server.valid === true && (server.deployed == null || server.deployed === false)) ||
-            (server.valid === true && server.state === "unconfigured") ||
-            (server.state != null && server.state !== "unconfigured")
+            (server.valid === true && (server.state === "unconfigured" || server.state === "undeployed")) ||
+            (server.state != null &&
+              server.state !== "unconfigured" &&
+              server.state !== "undeployed" &&
+              server.state !== "removed")
         ) &&
-        state.testHostsStatus.some(server => server.state == null || server.state === "unconfigured")
+        state.testHostsStatus.some(
+          server =>
+            server.state == null ||
+            server.state === "unconfigured" ||
+            server.state === "undeployed" ||
+            server.state === "removed"
+        )
       )
         return { ...enabledProceedButton };
       else return { ...disabledProceedButton };

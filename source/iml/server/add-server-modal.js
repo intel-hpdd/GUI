@@ -101,17 +101,24 @@ const ProceedButton = ({
       </button>
     );
   } else {
+    const onOpenChanged = (isOpen: boolean) => {
+      if (isOpen === false)
+        getStore.dispatch({
+          type: ADD_SERVER_MODAL_CONFIRM_PROCEED,
+          payload: { confirmProceed: false }
+        });
+      else
+        getStore.dispatch({
+          type: ADD_SERVER_MODAL_CONFIRM_PROCEED,
+          payload: { confirmProceed: true }
+        });
+    };
+
     const confirmButton = (
-      <WindowClickListener forceOpen={confirmProceed}>
+      <WindowClickListener forceOpen={confirmProceed} onOpenChanged={onOpenChanged}>
         <ConfirmButton disabled={disabled} showSpinner={showSpinner} />
       </WindowClickListener>
     );
-
-    if (confirmProceed === true)
-      getStore.dispatch({
-        type: ADD_SERVER_MODAL_CONFIRM_PROCEED,
-        payload: { confirmProceed: false }
-      });
 
     return confirmButton;
   }
@@ -162,17 +169,26 @@ class AddServerModal extends Component {
   props: AddServerModalPayloadT;
 
   onEnterOrEscape = (e: SyntheticKeyboardEvent<HTMLBodyElement>) => {
-    if (e.key === "Enter" && this.props.proceedButton.disabled === false)
-      if (this.props.step === ADD_SERVER_MODAL_QUERY_SERVER_STEP)
+    if (
+      e.key === "Enter" &&
+      this.props.step === ADD_SERVER_MODAL_QUERY_SERVER_STEP &&
+      this.props.proceedButton.disabled === false
+    )
+      if (this.props.confirmProceed === false)
         getStore.dispatch({
           type: ADD_SERVER_MODAL_CONFIRM_PROCEED,
           payload: { confirmProceed: true }
         });
-      else
+      else {
+        getStore.dispatch({
+          type: ADD_SERVER_MODAL_CONFIRM_PROCEED,
+          payload: { confirmProceed: false }
+        });
         getStore.dispatch({
           type: ADD_SERVER_MODAL_START_TRANSITION,
           payload: {}
         });
+      }
     else if (e.key === "Escape" && this.props.closeX === true)
       getStore.dispatch({
         type: ADD_SERVER_MODAL_CLOSE_MODAL,
