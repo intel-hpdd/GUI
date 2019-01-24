@@ -27,7 +27,7 @@ describe("server resolves", () => {
     });
 
     it("should create a jobMonitorStream", () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith("jobIndicators");
+      expect(mockStore.select).toHaveBeenCalledOnceWith("locks");
     });
 
     it("should create an alertMonitorStream", () => {

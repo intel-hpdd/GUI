@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -74,7 +74,7 @@ export const serverState = {
           </td>
           <td>
             <record-state display-type="'medium'" record-id="::item.resource_uri" alert-stream="::server.alertMonitorStream"></record-state>
-            <job-status record-id="::item.resource_uri" job-stream="::server.jobMonitorStream"></job-status>
+            <job-status content-type-id="::item.content_type_id" record-id="::item.id" job-stream="::server.locksStream"></job-status>
           </td>
           <td>
             <span>{{ item.server_profile.ui_name }}</span>
@@ -239,15 +239,15 @@ export const serverDetailState = {
         <div>Alerts:</div>
         <div>
           <record-state record-id="serverDetail.server.resource_uri" alert-stream="serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
-          <job-status record-id="serverDetail.server.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
+          <job-status content-type-id="serverDetail.server.content_type_id" record-id="serverDetail.server.id" job-stream="serverDetail.locksStream"></job-status>
         </div>
       </div>
       <div>
         <action-dropdown tooltip-placement="top" records="serverDetail.server" override-click="true"></action-dropdown>
       </div>
     </div>
-    <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>
-    <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-corosync>
+    <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>
+    <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-corosync>
     <div ng-if="serverDetail.lnetConfiguration" class="detail-panel">
       <h4 class="section-header">LNet Detail</h4>
       <div class="detail-row">
@@ -262,7 +262,7 @@ export const serverDetailState = {
         <div>Alerts:</div>
         <div>
           <record-state record-id="serverDetail.lnetConfiguration.resource_uri" alert-stream="::serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
-          <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
+          <job-status content-type-id="serverDetail.lnetConfiguration.content_type_id" record-id="serverDetail.lnetConfiguration.id" job-stream="::serverDetail.locksStream"></job-status>
         </div>
       </div>
       <div>

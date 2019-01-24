@@ -28,7 +28,7 @@ export default function ServerCtrl(
   "ngInject";
   $scope.server = {
     lnetConfigurationStream: streams.lnetConfigurationStream,
-    jobMonitorStream: streams.jobMonitorStream,
+    locksStream: streams.locksStream,
     alertMonitorStream: streams.alertMonitorStream,
     maxSize: 10,
     itemsPerPage: 10,
@@ -171,9 +171,9 @@ export default function ServerCtrl(
     localApply($scope);
   });
 
-  const p = $scope.propagateChange.bind(null, $scope, $scope.server, "servers");
-
-  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
+  const p = $scope.propagateChange.bind(null, $scope, $scope.server);
+  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p.bind(null, "servers"));
+  streams.locksStream().through(p.bind(null, "locks"));
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

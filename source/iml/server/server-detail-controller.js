@@ -17,7 +17,7 @@ export default function ServerDetailController(
 
   Object.assign(this, {
     lnetConfigurationStream: streams.lnetConfigurationStream,
-    jobMonitorStream: streams.jobMonitorStream,
+    locksStream: streams.locksStream,
     alertMonitorStream: streams.alertMonitorStream,
     corosyncConfigurationStream: streams.corosyncConfigurationStream,
     pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
@@ -25,8 +25,8 @@ export default function ServerDetailController(
   });
 
   const p = propagateChange.bind(null, $scope, serverDetailController);
-
   streams.lnetConfigurationStream().through(p.bind(null, "lnetConfiguration"));
+  streams.locksStream().through(p.bind(null, "locks"));
 
   streams.serverStream
     .errors(function handle404(err, push) {

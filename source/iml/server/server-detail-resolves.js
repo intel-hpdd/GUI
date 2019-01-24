@@ -32,7 +32,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     x => x.flatten()
   );
 
-  const jobMonitorStream = broadcaster(store.select("jobIndicators"));
+  const locksStream = broadcaster(store.select("locks"));
 
   const alertMonitorStream = broadcaster(store.select("alertIndicators"));
 
@@ -91,7 +91,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   const pacemakerConfigurationStream = resolveStream(ps2).then(broadcaster);
 
   return Promise.all([
-    jobMonitorStream,
+    locksStream,
     alertMonitorStream,
     serverStream,
     lnetConfigurationStream,
@@ -100,7 +100,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     pacemakerConfigurationStream
   ]).then(
     ([
-      jobMonitorStream,
+      locksStream,
       alertMonitorStream,
       serverStream,
       lnetConfigurationStream,
@@ -108,7 +108,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
       corosyncConfigurationStream,
       pacemakerConfigurationStream
     ]) => ({
-      jobMonitorStream,
+      locksStream,
       alertMonitorStream,
       serverStream,
       lnetConfigurationStream,
