@@ -48,7 +48,8 @@ describe("tree volume collection component", () => {
   afterEach(() =>
     store.dispatch({
       type: "RESET_STATE"
-    }));
+    })
+  );
 
   it("should render the collection", () => {
     expect(el).not.toBe(null);
