@@ -10,14 +10,14 @@ import { Modal, Body, Backdrop } from "../modal.js";
 const DisconnectModal = () => {
   return (
     <>
-      <Modal visible={true} moreClasses={["disconnect-modal"]}>
+      <Modal visible={true} moreClasses={["disconnect-modal"]} zIndex={3000}>
         <Body>
           <h3>
             Disconnected From Server, Retrying. <i class="fa fa-spinner fa-spin fa-lg" />
           </h3>
         </Body>
       </Modal>
-      <Backdrop visible={true} />
+      <Backdrop visible={true} zIndex={2999} />
     </>
   );
 };

@@ -60,14 +60,16 @@ export const JobStateIconComponent = ({ job }) => {
   return <span class="job-state">{icon}</span>;
 };
 
+const commandModalContainer = document.createElement("div");
+const body = querySelector(global.document, "body");
 getStore.select("commandModal").each((commands: Command[]) => {
-  if (commands.length === 0) return;
+  const containerOnBody = body.contains(commandModalContainer);
+  if (commands.length === 0 || containerOnBody === true) return;
 
-  const body = querySelector(global.document, "body");
-  const container = document.createElement("div");
-  body.appendChild(container);
+  body.appendChild(commandModalContainer);
 
   const stream = highland();
+  render(<CommandModalComponent commands={[]} stream={stream} />, commandModalContainer);
   getCommandStream(commands)
     .map(
       fp.map(
@@ -78,12 +80,12 @@ getStore.select("commandModal").each((commands: Command[]) => {
       )
     )
     .each(([...commands]) => {
-      render(<CommandModalComponent commands={commands} stream={stream} />, container);
+      render(<CommandModalComponent commands={commands} stream={stream} />, commandModalContainer);
     });
 
   stream.pull(() => {
-    render(null, container);
-    body.removeChild(container);
+    render(null, commandModalContainer);
+    body.removeChild(commandModalContainer);
 
     getStore.dispatch({
       type: SET_ACTION_DROPDOWN_INACTIVE_ACTION,
@@ -92,12 +94,13 @@ getStore.select("commandModal").each((commands: Command[]) => {
   });
 });
 
+const stepsModalContainer = document.createElement("div");
 const extractApiId = fp.map(x => x.replace(/\/api\/step\/(\d+)\/$/, "$1"));
 getStore.select("stepModal").each(({ ...job }: { job: JobT }) => {
-  if (!job.id) return;
-  const body = querySelector(global.document, "body");
-  const container = document.createElement("div");
-  body.appendChild(container);
+  const containerOnBody = body.contains(stepsModalContainer);
+  if (!job.id || containerOnBody === true) return;
+
+  body.appendChild(stepsModalContainer);
 
   const stream = socketStream("/job/" + job.id);
   stream.write(job);
@@ -127,12 +130,13 @@ getStore.select("stepModal").each(({ ...job }: { job: JobT }) => {
 
   const modalStream = highland();
 
+  render(<StepModalComponent job={job} steps={[]} stream={modalStream} />, stepsModalContainer);
   multiStream([jobStream, stepsStream2]).each(([job, steps]) => {
-    render(<StepModalComponent job={job} steps={steps} stream={modalStream} />, container);
+    render(<StepModalComponent job={job} steps={steps} stream={modalStream} />, stepsModalContainer);
   });
 
   modalStream.pull(() => {
-    render(null, container);
-    body.removeChild(container);
+    render(null, stepsModalContainer);
+    body.removeChild(stepsModalContainer);
   });
 });
