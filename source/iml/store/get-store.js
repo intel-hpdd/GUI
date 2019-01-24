@@ -31,6 +31,7 @@ import sessionReducer from "../session/session-reducer.js";
 import storageReducer from "../storage/storage-reducer.js";
 import tzPickerReducer from "../tz-picker/tz-picker-reducer.js";
 import disconnectModalReducer from "../disconnect-modal/disconnect-modal-reducer.js";
+import locksReducer from "../locks/locks-reducer.js";
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -56,5 +57,6 @@ export default createStore({
   session: sessionReducer,
   storage: storageReducer,
   tzPicker: tzPickerReducer,
-  disconnectModal: disconnectModalReducer
+  disconnectModal: disconnectModalReducer,
+  locks: locksReducer
 });
