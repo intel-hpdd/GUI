@@ -9,6 +9,8 @@ import highland from "highland";
 import Backoff from "backo";
 import global from "../global.js";
 import { SSE } from "../environment.js";
+import getStore from "../store/get-store.js";
+import { SET_DISCONNECT_SSE, SET_CONNECT_SSE } from "../disconnect-modal/disconnect-modal-reducer.js";
 
 const backoff = new Backoff({ min: 100, max: 20000 });
 
@@ -18,15 +20,25 @@ export default () =>
 
     sse.onopen = () => {
       backoff.reset();
+      getStore.dispatch({
+        type: SET_CONNECT_SSE,
+        payload: {}
+      });
     };
 
     sse.onerror = e => {
       // pass errors along but don't end the stream
-      if (e.currentTarget.readyState === 2)
+      if (e.currentTarget.readyState === 2) {
+        getStore.dispatch({
+          type: SET_DISCONNECT_SSE,
+          payload: {}
+        });
+
         setTimeout(() => {
           sse.close();
           next();
         }, backoff.duration());
+      }
 
       push(new Error("An error occurred on the event source."));
     };

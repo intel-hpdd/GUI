@@ -6,9 +6,10 @@
 // license that can be found in the LICENSE file.
 
 import getWebWorker from "./get-web-worker.js";
-import disconnectListener from "../disconnect-modal/disconnect-listener.js";
 
 import { STATIC_URL } from "../environment.js";
+import getStore from "../store/get-store.js";
+import { SET_CONNECT_REALTIME, SET_DISCONNECT_REALTIME } from "../disconnect-modal/disconnect-modal-reducer.js";
 
 const worker = getWebWorker(`${STATIC_URL}node_modules/socket-worker/dist/bundle.js`);
 
@@ -16,9 +17,17 @@ const worker = getWebWorker(`${STATIC_URL}node_modules/socket-worker/dist/bundle
 worker.addEventListener("message", (ev: { data: Object }) => {
   const data = ev.data;
 
-  if (data.type === "reconnecting") disconnectListener.emit("open");
+  if (data.type === "reconnecting")
+    getStore.dispatch({
+      type: SET_DISCONNECT_REALTIME,
+      payload: {}
+    });
 
-  if (data.type === "reconnect") disconnectListener.emit("close");
+  if (data.type === "reconnect")
+    getStore.dispatch({
+      type: SET_CONNECT_REALTIME,
+      payload: {}
+    });
 });
 
 // $FlowFixMe No way to specify error events currently.

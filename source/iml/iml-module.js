@@ -21,6 +21,7 @@ import "./storage/storage-dispatch-source.js";
 
 import * as ENV from "./environment.js";
 import angular from "angular";
+import { render } from "inferno";
 import uiBootstrapModule from "angular-ui-bootstrap";
 import uiRouter from "angular-ui-router";
 import ngAnimate from "angular-animate";
@@ -108,8 +109,12 @@ import jobStatus from "./job-indicator/job-indicator.js";
 import pdsh from "./pdsh/pdsh.js";
 import help from "./help.js";
 import windowUnload from "./window-unload.js";
-import disconnectModal from "./disconnect-modal/disconnect-modal.js";
-import disconnectListener from "./disconnect-modal/disconnect-listener.js";
+import getStore from "./store/get-store";
+import { querySelector } from "./dom-utils";
+import global from "./global.js";
+import DisconnectModal from "./disconnect-modal/disconnect-modal.js";
+
+import { type DisconnectModalStateT } from "./disconnect-modal/disconnect-modal-reducer.js";
 
 const imlModule = angular
   .module("iml", [
@@ -203,7 +208,6 @@ const imlModule = angular
   .factory("createHostProfiles", createHostProfilesFactory)
   .factory("help", help)
   .factory("windowUnload", windowUnload)
-  .factory("disconnectModal", disconnectModal)
   .component("recordState", alertIndicatorNg)
   .directive("pdsh", pdsh)
   .component("storage", storageComponent)
@@ -221,13 +225,22 @@ const imlModule = angular
   .run($templateCache => {
     "ngInject";
     $templateCache.put("/gui/job.html", jobTemplate);
-  })
-  .run(disconnectModal => {
-    "ngInject";
-    disconnectListener.on("open", disconnectModal.open);
-    disconnectListener.on("close", disconnectModal.close);
   });
 
 Object.keys(ENV).forEach(key => imlModule.value(key, ENV[key]));
 
 angular.bootstrap(document, ["iml"], {});
+
+const disconnectModalContainer = document.createElement("div");
+const body = querySelector(global.document, "body");
+getStore.select("disconnectModal").each(({ realtimeDisconnected, sseDisconnected }: DisconnectModalStateT) => {
+  const containerOnBody = body.contains(disconnectModalContainer);
+
+  if (realtimeDisconnected === false && sseDisconnected === false && containerOnBody) {
+    render(null, disconnectModalContainer);
+    body.removeChild(disconnectModalContainer);
+  } else if ((realtimeDisconnected === true || sseDisconnected === true) && containerOnBody === false) {
+    body.appendChild(disconnectModalContainer);
+    render(<DisconnectModal />, disconnectModalContainer);
+  }
+});

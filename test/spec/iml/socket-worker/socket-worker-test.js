@@ -1,19 +1,23 @@
+import {
+  SET_CONNECT_REALTIME,
+  SET_DISCONNECT_REALTIME
+} from "../../../../source/iml/disconnect-modal/disconnect-modal-reducer.js";
+
 describe("socket worker", () => {
-  let worker, mockGetWebWorker, socketWorker, mockDisconnectListener;
+  let worker, mockGetWebWorker, socketWorker, mockGetStore;
 
   beforeEach(() => {
     worker = {
       addEventListener: jest.fn()
     };
 
-    mockDisconnectListener = {
-      emit: jest.fn()
-    };
-
     mockGetWebWorker = jest.fn(() => worker);
 
+    mockGetStore = {
+      dispatch: jest.fn()
+    };
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
     jest.mock("../../../../source/iml/socket-worker/get-web-worker.js", () => mockGetWebWorker);
-    jest.mock("../../../../source/iml/disconnect-modal/disconnect-listener.js", () => mockDisconnectListener);
     jest.mock("../../../../source/iml/environment.js", () => ({
       STATIC_URL: "/gui/"
     }));
@@ -63,7 +67,8 @@ describe("socket worker", () => {
       });
 
       it("should emit open on disconnectListener", () => {
-        expect(mockDisconnectListener.emit).toHaveBeenCalledOnceWith("open");
+        expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
+        expect(mockGetStore.dispatch).toHaveBeenCalledWith({ type: SET_DISCONNECT_REALTIME, payload: {} });
       });
     });
 
@@ -82,7 +87,8 @@ describe("socket worker", () => {
       });
 
       it("should emit close on disconnectListener", () => {
-        expect(mockDisconnectListener.emit).toHaveBeenCalledOnceWith("close");
+        expect(mockGetStore.dispatch).toHaveBeenCalledTimes(2);
+        expect(mockGetStore.dispatch).toHaveBeenCalledWith({ type: SET_CONNECT_REALTIME, payload: {} });
       });
     });
   });

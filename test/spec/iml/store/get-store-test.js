@@ -24,7 +24,8 @@ describe("get store", () => {
     mockLoginFormReducer,
     mockSessionReducer,
     mockStorageReducer,
-    mockTzPickerReducer;
+    mockTzPickerReducer,
+    mockDisconnectModalReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
@@ -52,6 +53,7 @@ describe("get store", () => {
     mockSessionReducer = {};
     mockStorageReducer = {};
     mockTzPickerReducer = {};
+    mockDisconnectModalReducer = {};
     jest.mock(
       "../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js",
       () => mockReadWriteHeatMapChartReducer
@@ -88,7 +90,8 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/tree/tree-reducer.js", () => mockTreeReducer);
     jest.mock("../../../../source/iml/file-system/file-system-reducer.js", () => mockFileSystemReducer);
     jest.mock("../../../../source/iml/tz-picker/tz-picker-reducer.js", () => mockTzPickerReducer);
-    const storeModule = require("../../../../source/iml/store/get-store.js");
+    jest.mock("../../../../source/iml/disconnect-modal/disconnect-modal-reducer.js", () => mockDisconnectModalReducer);
+    const storeModule = require("../../../../source/iml/store/get-store.js", () => mockDisconnectModalReducer);
     storeInstance = storeModule.default;
   });
 
@@ -119,7 +122,8 @@ describe("get store", () => {
       loginForm: mockLoginFormReducer,
       session: mockSessionReducer,
       storage: mockStorageReducer,
-      tzPicker: mockTzPickerReducer
+      tzPicker: mockTzPickerReducer,
+      disconnectModal: mockDisconnectModalReducer
     });
   });
 });
