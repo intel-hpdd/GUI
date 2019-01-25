@@ -21,7 +21,7 @@ import { setState, trimLogs } from "./command-transforms.js";
 
 import { deferredCmdModalBtnDirective } from "./deferred-cmd-modal-btn-directive";
 import { JobTreeCtrl, getJobStreamFactory } from "./job-tree-ctrl";
-import { StepModalCtrl, openStepModalFactory, StepModalComponent } from "./step-modal-ctrl";
+import { StepModalComponent } from "./step-modal-ctrl";
 import { CommandModalComponent } from "./command-modal.js";
 import { querySelector } from "../dom-utils";
 import { SET_ACTION_DROPDOWN_INACTIVE_ACTION } from "../action-dropdown/action-dropdown-reducer.js";
@@ -33,8 +33,6 @@ export default angular
   .directive("deferredCmdModalBtn", deferredCmdModalBtnDirective)
   .controller("JobTreeCtrl", JobTreeCtrl)
   .factory("getJobStream", getJobStreamFactory)
-  .controller("StepModalCtrl", StepModalCtrl)
-  .factory("openStepModal", openStepModalFactory)
   .directive("jobStates", jobStatesDirective)
   .factory("jobTree", jobTreeFactory).name;
 

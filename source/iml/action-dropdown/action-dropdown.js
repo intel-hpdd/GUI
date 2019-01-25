@@ -112,8 +112,7 @@ class ActionDropdown extends Component {
 
     this.props.records = Array.isArray(this.props.records) ? this.props.records : [this.props.records];
 
-    getStore.select("actionDropdown").each((x: Object) => {
-      console.log("received inactive event");
+    getStore.select("actionDropdown").each(() => {
       if (this.state.confirmOpen === true)
         this.setState({
           confirmOpen: false
@@ -136,7 +135,6 @@ class ActionDropdown extends Component {
       .map(item => ({ ...item, [this.props.actionsProperty]: groupActions(item[this.props.actionsProperty]) }));
 
     const writeLocks: number = records.map(record => record.locks.write.length).reduce((x, y) => x + y, 0);
-    console.log("write locks", writeLocks);
     if (writeLocks > 0 || this.state.confirmOpen) {
       return (
         <div class="action-dropdown">
@@ -193,7 +191,6 @@ export const actionDropdown = {
     };
 
     this.$onChanges = (changesObj: ActionDropdownChangesT) => {
-      console.log("changesObj", changesObj);
       const { tooltipPlacement, records } = Object.entries(changesObj)
         .map(([key, val]) => {
           if (typeof val === "object" && val != null && val.currentValue != null) return [key, val.currentValue];

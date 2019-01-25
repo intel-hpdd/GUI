@@ -2,7 +2,7 @@
 
 import Inferno from "inferno";
 
-import { restrict, restrictTo, RestrictToComponent, GROUPS } from "../../../../source/iml/auth/authorization.js";
+import { restrict, restrictTo, RestrictToComponent } from "../../../../source/iml/auth/authorization.js";
 
 import store from "../../../../source/iml/store/get-store.js";
 

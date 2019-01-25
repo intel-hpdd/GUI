@@ -5,18 +5,10 @@
 
 import { Modal, Header, Body, Footer, Backdrop } from "../modal.js";
 import WindowClickListener from "../window-click-listener.js";
-import { linkEvent, render, Component } from "inferno";
+import { linkEvent } from "inferno";
 import DropdownComponent from "../dropdown-component.js";
-import getStore from "../store/get-store.js";
-import global from "../global.js";
-import { querySelector } from "../dom-utils.js";
-import { SET_ACTION_DROPDOWN_INACTIVE_ACTION } from "./action-dropdown-reducer.js";
-import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
-import highland from "highland";
 
-import type { ConfirmActionPayloadT } from "./confirm-action-reducer.js";
 import type { HighlandStreamT } from "highland";
-import type { Command } from "../command/command-types.js";
 
 const Confirmation = ({ confirmPrompts }) => {
   if (confirmPrompts.length === 1)

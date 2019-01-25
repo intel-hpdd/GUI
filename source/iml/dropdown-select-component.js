@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import { cloneVNode } from "inferno-clone-vnode";
-import { linkEvent, Component } from "inferno";
+import { Component } from "inferno";
 
 const getOptionText = (node: React$Element<"li">) => node.children.children;
 

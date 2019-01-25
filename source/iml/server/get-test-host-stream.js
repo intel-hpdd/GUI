@@ -7,7 +7,6 @@
 
 import socketStream from "../socket/socket-stream.js";
 
-import type HighlandStreamT from "highland";
 import { type TestHostT } from "./server-module.js";
 
 const apiToHuman = (str: string): string => {
@@ -17,11 +16,6 @@ const apiToHuman = (str: string): string => {
     .split("");
 
   return `${first.toUpperCase()}${rest.join("")}`;
-};
-
-type StatusT = {
-  uiName: string,
-  name: string
 };
 
 const getTestHostStream = (objects: Object) => {

@@ -8,8 +8,6 @@
 import { Component } from "inferno";
 import store from "./store/get-store.js";
 
-import type { Element } from "react";
-
 import type { HighlandStreamT } from "highland";
 
 export default <B: {}>(key: string, WrappedComponent: React.AbstractComponent<B>) =>

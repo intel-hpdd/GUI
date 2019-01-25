@@ -25,7 +25,6 @@ import { SHOW_EXCEPTION_MODAL_ACTION } from "../exception/exception-modal-reduce
 import type { ProfileT } from "./server-module.js";
 
 const onExpressionSet = (pdshExpression: string, addresses: string[]) => {
-  console.log("on expression set");
   if (addresses.length === 0)
     getStore.dispatch({
       type: ADD_SERVER_MODAL_CLEAR_EXPRESSION,

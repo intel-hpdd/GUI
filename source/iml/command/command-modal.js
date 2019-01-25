@@ -21,7 +21,6 @@ import extractApi from "@iml/extract-api";
 
 import { jobTree } from "./job-tree-factory.js";
 
-import { StepModalComponent } from "./step-modal-ctrl.js";
 import { JobStateIconComponent } from "./command-module.js";
 import DropdownContainer from "../dropdown-component.js";
 import WindowClickListener from "../window-click-listener.js";

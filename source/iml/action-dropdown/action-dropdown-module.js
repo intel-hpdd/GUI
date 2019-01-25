@@ -46,7 +46,6 @@ getStore.select("confirmAction").each(({ action, message, prompts, required }: C
         });
       else if (x === true)
         action().each(() => {
-          console.log("action.each - skipping command modal.");
           getStore.dispatch({
             type: SET_ACTION_DROPDOWN_INACTIVE_ACTION,
             payload: {}
@@ -54,7 +53,6 @@ getStore.select("confirmAction").each(({ action, message, prompts, required }: C
         });
       else if (x === false)
         action().each((x: Command | { command: Command }) => {
-          console.log("action.each - showing command modal.", x);
           getStore.dispatch({
             type: SHOW_COMMAND_MODAL_ACTION,
             payload: [x.command || x]
@@ -63,7 +61,6 @@ getStore.select("confirmAction").each(({ action, message, prompts, required }: C
     });
   } else if (action != null) {
     action().each((x: Command | { command: Command }) => {
-      console.log("no need to show confirm modal. - showing command modal.", x);
       getStore.dispatch({
         type: SHOW_COMMAND_MODAL_ACTION,
         payload: [x.command || x]
