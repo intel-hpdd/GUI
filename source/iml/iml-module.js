@@ -15,9 +15,9 @@ import "./lnet/lnet-dispatch-source.js";
 import "./server/server-dispatch-source.js";
 import "./file-system/file-system-dispatch-source.js";
 import "./user/user-dispatch-source.js";
-import "./job-indicator/job-indicator-dispatch-source.js";
 import "./session/session-dispatch-source.js";
 import "./storage/storage-dispatch-source.js";
+import "./sse/sse-handler.js";
 
 import * as ENV from "./environment.js";
 import angular from "angular";
@@ -201,7 +201,7 @@ const imlModule = angular
   .component("pageTitle", pageTitleComponent)
   .directive("uiLoaderView", uiLoaderViewDirective)
   .directive("imlTooltip", imlTooltip)
-  .directive("jobStatus", jobStatus)
+  .component("jobStatus", jobStatus)
   .service("position", Position)
   .directive("imlPopover", imlPopover)
   .factory("getHostProfiles", getHostProfilesFactory)

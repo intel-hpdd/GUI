@@ -41,7 +41,6 @@ export function ConfigureCorosyncController($scope, waitForCommandCompletion, pr
   $scope.$on("$destroy", () => {
     ctrl.stream.endBroadcast();
     ctrl.alertStream.endBroadcast();
-    ctrl.jobStream.endBroadcast();
   });
 }
 
@@ -80,12 +79,12 @@ export const configureCorosyncComponent = {
       <div>Alerts:</div>
       <div>
         <record-state record-id="$ctrl.config.resource_uri" alert-stream="$ctrl.alertStream" display-type="'medium'"></record-state>
-        <job-status record-id="$ctrl.config.resource_uri" job-stream="$ctrl.jobStream"></job-status>
+        <job-status content-type-id="$ctrl.config.content_type_id" record-id="$ctrl.config.id" locks="$ctrl.locks"></job-status>
       </div>
     </div>
 
     <div class="configure-btns" ng-if="configToggle.inactive()" as-stream val="$ctrl.config">
-      <action-dropdown tooltip-placement="top" stream="::str"></action-dropdown>
+      <action-dropdown content-type-id="$ctrl.config.content_type_id" record-id="$ctrl.config.id" locks="$ctrl.locks" tooltip-placement="top" stream="::str"></action-dropdown>
 
       <button class="btn btn-primary btn-block btn-sm edit-btn" ng-click="::configToggle.setActive()">
         Configure<i class="fa fa-gear"></i>
@@ -123,7 +122,7 @@ export const configureCorosyncComponent = {
   bindings: {
     stream: "<",
     alertStream: "<",
-    jobStream: "<"
+    locks: "<"
   },
   restrict: "E",
   controller: "ConfigureCorosyncController"

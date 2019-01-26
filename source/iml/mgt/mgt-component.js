@@ -5,6 +5,8 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import { type LockT } from "../locks/locks-reducer.js";
+
 export default {
   template: `
     <div as-value stream="::$ctrl.mgt$">
@@ -42,7 +44,7 @@ export default {
                 <td>
                   <record-state display-type="'medium'"
                     record-id="::item.resource_uri" alert-stream="::$ctrl.alertIndicatorB"></record-state>
-                  <job-status record-id="::item.resource_uri" job-stream="::$ctrl.jobIndicatorB"></job-status>
+                  <job-status content-type-id="::item.content_type_id" record-id="::item.id" locks="$ctrl.locks"></job-status>
                 </td>
                 <td class="comma-list">
                   <a ng-repeat="fs in item.filesystems track by fs.id"
@@ -57,7 +59,7 @@ export default {
                 <td>{{item.failover_server_name}}</td>
                 <td>{{item.active_host_name}}</td>
                 <td as-stream val="item">
-                  <action-dropdown stream="::str"></action-dropdown>
+                  <action-dropdown content-type-id="::item.content_type_id" record-id="::item.id" locks="$ctrl.locks" stream="::str"></action-dropdown>
                 </td>
               </tr>
             </tbody>
@@ -67,15 +69,22 @@ export default {
     </div>
 `,
   controller() {
-    this.$onDestroy = () => {
-      this.mgt$.destroy();
-      this.alertIndicatorB.endBroadcast();
-      this.jobIndicatorB.endBroadcast();
-    };
+    Object.assign(this, {
+      $onInit: () => {
+        this.locks$.each((locks: LockT) => {
+          this.locks = locks;
+        });
+      },
+      $onDestroy: () => {
+        this.mgt$.destroy();
+        this.locks$.destroy();
+        this.alertIndicatorB.endBroadcast();
+      }
+    });
   },
   bindings: {
     mgt$: "<",
     alertIndicatorB: "<",
-    jobIndicatorB: "<"
+    locks$: "<"
   }
 };

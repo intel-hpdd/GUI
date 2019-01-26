@@ -7,6 +7,7 @@ import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
 
 import getCommandStream from "../command/get-command-stream.js";
+import getStore from "../store/get-store.js";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -23,12 +24,13 @@ export default function ServerCtrl(
   openCommandModal,
   openAddServerModal,
   overrideActionClick,
+  localApply,
   streams
 ) {
   "ngInject";
   $scope.server = {
     lnetConfigurationStream: streams.lnetConfigurationStream,
-    jobMonitorStream: streams.jobMonitorStream,
+    locksStream: streams.locksStream,
     alertMonitorStream: streams.alertMonitorStream,
     maxSize: 10,
     itemsPerPage: 10,
@@ -165,9 +167,17 @@ export default function ServerCtrl(
     overrideActionClick
   };
 
-  const p = $scope.propagateChange.bind(null, $scope, $scope.server, "servers");
+  getStore.select("addServerModal").each(({ open }) => {
+    $scope.server.addServerClicked = open;
+    localApply($scope);
+  });
 
-  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
+  const p = $scope.propagateChange.bind(null, $scope, $scope.server);
+  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p.bind(null, "servers"));
+  streams
+    .locksStream()
+    .map((xs: LockT) => ({ ...xs }))
+    .through(p.bind(null, "locks"));
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

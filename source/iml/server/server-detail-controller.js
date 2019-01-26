@@ -7,6 +7,8 @@
 
 import type { PropagateChange } from "../extend-scope-module.js";
 
+import type { LockT } from "../locks/locks-reducer.js";
+
 export default function ServerDetailController(
   $scope: Object,
   streams: Object,
@@ -18,7 +20,7 @@ export default function ServerDetailController(
 
   Object.assign(this, {
     lnetConfigurationStream: streams.lnetConfigurationStream,
-    jobMonitorStream: streams.jobMonitorStream,
+    locksStream: streams.locksStream,
     alertMonitorStream: streams.alertMonitorStream,
     corosyncConfigurationStream: streams.corosyncConfigurationStream,
     pacemakerConfigurationStream: streams.pacemakerConfigurationStream,
@@ -27,8 +29,11 @@ export default function ServerDetailController(
   });
 
   const p = propagateChange.bind(null, $scope, serverDetailController);
-
   streams.lnetConfigurationStream().through(p.bind(null, "lnetConfiguration"));
+  streams
+    .locksStream()
+    .map((xs: LockT) => ({ ...xs }))
+    .through(p.bind(null, "locks"));
 
   streams.serverStream
     .errors(function handle404(err, push) {

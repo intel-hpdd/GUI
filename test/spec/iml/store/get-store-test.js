@@ -33,7 +33,6 @@ describe("get store", () => {
     mockCreateStore = jest.fn(() => store);
     mockTargetReducer = {};
     mockAlertIndicatorReducer = {};
-    mockJobIndicatorReducer = {};
     mockServerReducer = {};
     mockLnetConfigurationReducer = {};
     mockTreeReducer = {};
@@ -86,7 +85,6 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/storage/storage-reducer", () => mockStorageReducer);
     jest.mock("../../../../source/iml/target/target-reducer.js", () => mockTargetReducer);
     jest.mock("../../../../source/iml/alert-indicator/alert-indicator-reducer.js", () => mockAlertIndicatorReducer);
-    jest.mock("../../../../source/iml/job-indicator/job-indicator-reducer.js", () => mockJobIndicatorReducer);
     jest.mock("../../../../source/iml/server/server-reducer.js", () => mockServerReducer);
     jest.mock("../../../../source/iml/lnet/lnet-configuration-reducer.js", () => mockLnetConfigurationReducer);
     jest.mock("../../../../source/iml/tree/tree-reducer.js", () => mockTreeReducer);
@@ -105,7 +103,6 @@ describe("get store", () => {
     expect(mockCreateStore).toHaveBeenCalledOnceWith({
       targets: mockTargetReducer,
       alertIndicators: mockAlertIndicatorReducer,
-      jobIndicators: mockJobIndicatorReducer,
       server: mockServerReducer,
       lnetConfiguration: mockLnetConfigurationReducer,
       tree: mockTreeReducer,

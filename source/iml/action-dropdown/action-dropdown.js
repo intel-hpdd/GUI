@@ -6,6 +6,7 @@
 import * as fp from "@iml/fp";
 import getCommandStream from "../command/get-command-stream.js";
 import groupActions from "./group-actions.js";
+import { getWriteLocks } from "../locks/locks-utils.js";
 
 export function actionDescriptionCache($sce) {
   "ngInject";
@@ -59,15 +60,6 @@ export function ActionDropdownCtrl(
     receivedData: false
   });
 
-  const extractPathLengths = fp.view(
-    fp.compose(
-      fp.mapped,
-      fp.lensProp("locks"),
-      fp.lensProp("write"),
-      fp.lensProp("length")
-    )
-  );
-
   const p = propagateChange.bind(null, $scope, ctrl, "records");
 
   const asArray = fp.cond(
@@ -81,19 +73,14 @@ export function ActionDropdownCtrl(
     [fp.True, fp.identity]
   );
 
-  const add = (x, y) => x + y;
-
   ctrl.stream
     .map(asArray)
-    .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
+    .map(fp.filter(x => ctrl.locks && ctrl.contentTypeId && ctrl.recordId && x[ctrl.actionsProperty]))
     .tap(() => (ctrl.receivedData = true))
-    .tap(
-      fp.flow(
-        extractPathLengths,
-        fp.reduce(0)(add),
-        locks => (ctrl.locks = locks)
-      )
-    )
+    .tap(() => {
+      if (ctrl.locks && ctrl.contentTypeId && ctrl.recordId)
+        ctrl.writeLocks = getWriteLocks(ctrl.contentTypeId, ctrl.recordId, ctrl.locks).length;
+    })
     .map(fp.map(item => ({ ...item, [ctrl.actionsProperty]: groupActions(item[ctrl.actionsProperty]) })))
     .through(p);
 
@@ -114,17 +101,20 @@ export function actionDropdown() {
     restrict: "E",
     scope: {},
     bindToController: {
+      contentTypeId: "=",
+      recordId: "=",
       tooltipPlacement: "@?",
       actionsProperty: "@?",
       stream: "=",
+      locks: "<",
       overrideClick: "&?"
     },
     controller: "ActionDropdownCtrl",
     controllerAs: "ctrl",
     template: `<div class="action-dropdown">
-  <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
+  <button ng-if="ctrl.writeLocks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
   <button ng-if="ctrl.receivedData && ctrl.records.length === 0" disabled class="btn btn-primary btn-sm">No Actions</button>
-  <div ng-if="!ctrl.locks && !ctrl.confirmOpen" class="btn-group" uib-dropdown>
+  <div ng-if="!ctrl.writeLocks && !ctrl.confirmOpen" class="btn-group" uib-dropdown>
     <button ng-if="!ctrl.receivedData || ctrl.records.length > 0" class="btn btn-primary btn-sm" uib-dropdown-toggle>
       Actions<i class="fa fa-caret-down"></i>
     </button>

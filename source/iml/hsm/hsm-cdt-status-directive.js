@@ -34,7 +34,7 @@ export default function hsmCdtStatusDirective() {
     </div>
   </div>
   <div as-stream val="fileSystem">
-    <action-dropdown stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+    <action-dropdown content-type-id="::this.fileSystem.content_type_id" record-id="::this.fileSystem.id" locks="this.locks" stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
   </div>
 </div>
 `

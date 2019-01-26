@@ -10,14 +10,20 @@ import broadcaster from "../broadcaster.js";
 
 import { GROUPS } from "../auth/authorization.js";
 
+import { type $scopeT } from "angular";
+
 export const fileSystemListState = {
   url: "/configure/filesystem",
   name: "app.fileSystem",
   controller: function controller() {
     "ngInject";
+
     this.fileSystem$ = store.select("fileSystems");
 
-    this.jobIndicator$ = broadcaster(store.select("jobIndicators"));
+    this.locks$ = store
+      .select("locks")
+      .map((xs: LockT) => ({ ...xs }))
+      .each(locks => (this.locks = locks));
 
     this.alertIndicator$ = broadcaster(store.select("alertIndicators"));
   },
@@ -36,7 +42,7 @@ export const fileSystemListState = {
   controllerAs: "$ctrl",
   template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   job-indicator-$="$ctrl.jobIndicator$"></file-system>
+   locks="$ctrl.locks"></file-system>
 </div>
 `
 };

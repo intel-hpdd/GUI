@@ -13,7 +13,6 @@ import cpuUsageChartReducer from "../cpu-usage/cpu-usage-chart-reducer.js";
 import fileSystemReducer from "../file-system/file-system-reducer.js";
 import fileUsageChartReducer from "../file-usage/file-usage-chart-reducer.js";
 import hostCpuRamChartReducer from "../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js";
-import jobIndicatorReducer from "../job-indicator/job-indicator-reducer.js";
 import jobStatsReducer from "../job-stats/job-stats-reducer.js";
 import lnetConfigurationReducer from "../lnet/lnet-configuration-reducer.js";
 import mdoChartReducer from "../mdo/mdo-chart-reducer.js";
@@ -40,7 +39,6 @@ export default createStore({
   fileSystems: fileSystemReducer,
   fileUsageCharts: fileUsageChartReducer,
   hostCpuRamCharts: hostCpuRamChartReducer,
-  jobIndicators: jobIndicatorReducer,
   jobStatsConfig: jobStatsReducer,
   lnetConfiguration: lnetConfigurationReducer,
   mdoCharts: mdoChartReducer,
