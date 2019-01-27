@@ -8,6 +8,7 @@
 import socketStream from "../socket/socket-stream.js";
 import statusQsToOldQsParser from "./status-qs-to-old-qs-parser.js";
 import parserPermutations from "../parser-permutations.js";
+import store from "../store/get-store.js";
 
 import * as fp from "@iml/fp";
 
@@ -72,7 +73,12 @@ export const tableState = {
 
       return resolveStream(socketStream("/alert/" + qs));
     },
-    tzPickerB
+    tzPickerB,
+    locks$() {
+      "ngInject";
+
+      return store.select("locks");
+    }
   },
   component: "statusRecords"
 };

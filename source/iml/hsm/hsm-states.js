@@ -7,7 +7,7 @@
 
 import { getData, fsCollStream } from "./hsm-fs-resolves.js";
 
-import { copytoolStream, copytoolOperationStream, agentVsCopytoolChart } from "./hsm-resolves.js";
+import { copytoolStream, locksStream, copytoolOperationStream, agentVsCopytoolChart } from "./hsm-resolves.js";
 
 import { GROUPS } from "../auth/authorization.js";
 
@@ -43,7 +43,7 @@ export const hsmFsState = {
       </div>
     </div>
   </div>
-  <hsm-cdt-status ng-if="hsmFs.fs" file-system="hsmFs.fs"></hsm-cdt-status>
+  <hsm-cdt-status ng-if="hsmFs.fs" file-system="hsmFs.fs" locks="hsmFs.locks"></hsm-cdt-status>
   <ui-loader-view class="section-top-margin"></ui-loader-view>
 </div>`,
   data: {
@@ -52,7 +52,8 @@ export const hsmFsState = {
     anonymousReadProtected: true
   },
   resolve: {
-    fsStream: fsCollStream
+    fsStream: fsCollStream,
+    locksStream
   }
 };
 
@@ -222,7 +223,7 @@ export const hsmState = {
           </span>
         </td>
         <td class="actions-cell" as-stream val="copytool">
-          <action-dropdown stream="::str"></action-dropdown>
+          <action-dropdown locks="hsm.locks" stream="::str"></action-dropdown>
         </td>
       </tr>
     </tbody>
@@ -236,6 +237,7 @@ export const hsmState = {
     getData,
     copytoolOperationStream,
     copytoolStream,
+    locksStream,
     agentVsCopytoolChart
   }
 };

@@ -102,7 +102,7 @@ export const serverState = {
             </span>
           </td>
           <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown content-type-id="::item.content_type_id" record-id="::item.id" stream="::str" locks="server.locks" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
+            <action-dropdown stream="::str" locks="server.locks" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -255,7 +255,7 @@ export const serverDetailState = {
         </div>
       </div>
       <div as-stream val="serverDetail.server">
-        <action-dropdown content-type-id="serverDetail.server.content_type_id" record-id="serverDetail.server.id" tooltip-placement="top" stream="::str" locks="serverDetail.locks" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+        <action-dropdown tooltip-placement="top" stream="::str" locks="serverDetail.locks" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker locks="serverDetail.locks" stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>
@@ -278,7 +278,7 @@ export const serverDetailState = {
         </div>
       </div>
       <div as-viewer stream="::serverDetail.lnetConfigurationStream">
-        <action-dropdown content-type-id="serverDetail.lnetConfiguration.content_type_id" record-id="serverDetail.lnetConfiguration.id" tooltip-placement="top" stream="::viewer" locks="serverDetail.locks"></action-dropdown>
+        <action-dropdown tooltip-placement="top" stream="::viewer" locks="serverDetail.locks"></action-dropdown>
       </div>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>

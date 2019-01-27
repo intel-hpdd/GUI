@@ -59,7 +59,7 @@ export default {
                 <td>{{item.failover_server_name}}</td>
                 <td>{{item.active_host_name}}</td>
                 <td as-stream val="item">
-                  <action-dropdown content-type-id="::item.content_type_id" record-id="::item.id" locks="$ctrl.locks" stream="::str"></action-dropdown>
+                  <action-dropdown locks="$ctrl.locks" stream="::str"></action-dropdown>
                 </td>
               </tr>
             </tbody>

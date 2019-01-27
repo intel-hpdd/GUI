@@ -75,11 +75,10 @@ export function ActionDropdownCtrl(
 
   ctrl.stream
     .map(asArray)
-    .map(fp.filter(x => ctrl.locks && ctrl.contentTypeId && ctrl.recordId && x[ctrl.actionsProperty]))
+    .map(fp.filter(x => ctrl.locks && x[ctrl.actionsProperty]))
     .tap(() => (ctrl.receivedData = true))
-    .tap(() => {
-      if (ctrl.locks && ctrl.contentTypeId && ctrl.recordId)
-        ctrl.writeLocks = getWriteLocks(ctrl.contentTypeId, ctrl.recordId, ctrl.locks).length;
+    .tap(x => {
+      if (ctrl.locks) ctrl.writeLocks = getWriteLocks(x.content_type_id, x.id, ctrl.locks).length;
     })
     .map(fp.map(item => ({ ...item, [ctrl.actionsProperty]: groupActions(item[ctrl.actionsProperty]) })))
     .through(p);
@@ -101,8 +100,6 @@ export function actionDropdown() {
     restrict: "E",
     scope: {},
     bindToController: {
-      contentTypeId: "=",
-      recordId: "=",
       tooltipPlacement: "@?",
       actionsProperty: "@?",
       stream: "=",

@@ -17,12 +17,15 @@ import type { PropagateChange } from "../extend-scope-module.js";
 
 import type { HighlandStreamT } from "highland";
 
+import type { LockT } from "../locks/locks-reducer.js";
+
 export default function HsmFsCtrl(
   $scope: $scopeT,
   $state: StateServiceT,
   $stateParams: Object,
   qsStream: qsStreamT,
   fsStream: () => HighlandStreamT<any>,
+  locksStream: HighlandStreamT<LockT>,
   propagateChange: PropagateChange
 ) {
   "ngInject";
@@ -41,6 +44,7 @@ export default function HsmFsCtrl(
   const p = propagateChange.bind(null, $scope, hsmFs);
 
   p("fileSystems", fsStream());
+  p("locks", locksStream);
 
   const qs$ = qsStream($stateParams, {
     to: state => state.includes["app.hsmFs"]

@@ -8,6 +8,7 @@
 import * as fp from "@iml/fp";
 import getCopytoolStream from "./get-copytool-stream.js";
 import getCopytoolOperationStream from "./get-copytool-operation-stream.js";
+import store from "../store/get-store.js";
 
 import { resolveStream } from "../promise-transforms.js";
 
@@ -53,4 +54,10 @@ export function agentVsCopytoolChart($stateParams: {}, getAgentVsCopytoolChart: 
     routePath,
     getAgentVsCopytoolChart
   )($stateParams);
+}
+
+export function locksStream() {
+  "ngInject";
+
+  return store.select("locks");
 }
