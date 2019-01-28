@@ -4,7 +4,7 @@ import { extendWithConstructor } from "../../../test-utils.js";
 import HsmCtrl from "../../../../source/iml/hsm/hsm-controller";
 
 describe("HSM controller", () => {
-  let hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal, copytoolOperationStream, copytoolStream;
+  let hsm, $scope, agentVsCopytoolChart, openAddCopytoolModal, copytoolOperationStream, copytoolStream, locksStream;
 
   beforeEach(
     angular.mock.inject(($controller, $rootScope, $q) => {
@@ -20,6 +20,8 @@ describe("HSM controller", () => {
       jest.spyOn(copytoolOperationStream, "destroy");
       copytoolStream = highland();
       jest.spyOn(copytoolStream, "destroy");
+      locksStream = highland();
+      jest.spyOn(locksStream, "destroy");
 
       openAddCopytoolModal = jest.fn(() => $q.resolve());
 
@@ -28,6 +30,7 @@ describe("HSM controller", () => {
         agentVsCopytoolChart,
         openAddCopytoolModal,
         copytoolStream,
+        locksStream,
         copytoolOperationStream
       });
     })
@@ -88,6 +91,10 @@ describe("HSM controller", () => {
 
     it("should destroy the chart", () => {
       expect(agentVsCopytoolChart.stream.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should destroy the locks", () => {
+      expect(locksStream.destroy).toHaveBeenCalledTimes(1);
     });
   });
 });

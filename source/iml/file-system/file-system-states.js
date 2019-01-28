@@ -10,7 +10,7 @@ import broadcaster from "../broadcaster.js";
 
 import { GROUPS } from "../auth/authorization.js";
 
-import { type $scopeT } from "angular";
+import { type LockT } from "../locks/locks-reducer.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",

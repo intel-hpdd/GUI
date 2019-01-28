@@ -20,11 +20,11 @@ describe("file system component", () => {
       $scope = $rootScope.$new();
       $scope.fileSystem$ = highland();
       $scope.alertIndicator$ = broadcaster(highland());
-      $scope.jobIndicator$ = broadcaster(highland());
+      $scope.locks = {};
 
       const template = `
     <file-system file-system-$="fileSystem$" alert-indicator-$="alertIndicator$"
-         job-indicator-$="jobIndicator$"></file-system>
+         locks="locks"></file-system>
     `;
 
       el = $compile(template)($scope)[0];

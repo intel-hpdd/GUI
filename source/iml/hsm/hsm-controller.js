@@ -31,5 +31,6 @@ export default function HsmCtrl(
     agentVsCopytoolChart.stream.destroy();
     copytoolStream.destroy();
     copytoolOperationStream.destroy();
+    locksStream.destroy();
   });
 }

@@ -10,7 +10,7 @@ describe("configure corosync", () => {
     mockSocketStream,
     mod,
     alertStream,
-    jobStream,
+    locks,
     socketResponse,
     waitForCommandCompletion,
     mapWaitForCommandCompletion,
@@ -38,15 +38,14 @@ describe("configure corosync", () => {
         jest.spyOn(s, "destroy");
 
         alertStream = highland();
-        jobStream = highland();
+        locks = {};
 
         bindings = {
           stream: broadcaster(s),
           alertStream: broadcaster(alertStream),
-          jobStream: broadcaster(jobStream)
+          locks
         };
         jest.spyOn(alertStream, "destroy");
-        jest.spyOn(jobStream, "destroy");
 
         insertHelpFilter = jest.fn();
 
@@ -74,17 +73,13 @@ describe("configure corosync", () => {
       it("should destroy the alert stream", () => {
         expect(alertStream.destroy).toHaveBeenCalledTimes(1);
       });
-
-      it("should destroy the job stream", () => {
-        expect(jobStream.destroy).toHaveBeenCalledTimes(1);
-      });
     });
 
     it("should setup the controller as expected", () => {
       expect(ctrl).toEqual({
         stream: expect.any(Function),
         alertStream: expect.any(Function),
-        jobStream: expect.any(Function),
+        locks: [],
         observer: expect.any(Object),
         getDiffMessage: expect.any(Function),
         save: expect.any(Function)
