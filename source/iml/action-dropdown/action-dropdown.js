@@ -11,7 +11,7 @@ import { getWriteLocks } from "../locks/locks-utils.js";
 import { type CompositeIdT, compositeIdsToQueryString } from "../api-utils.js";
 import socketStream from "../socket/socket-stream.js";
 import highland from "highland";
-import getUuid from "uuid/v4";
+import getRandomValue from "../get-random-value.js";
 
 export function actionDescriptionCache($sce) {
   "ngInject";
@@ -32,7 +32,7 @@ export function ActionDropdownCtrl($scope) {
   "ngInject";
 
   const ctrl = this;
-  ctrl.uuid = getUuid();
+  ctrl.uuid = getRandomValue();
 
   // const { render } = global.wasm_bindgen;
   // render([[62, 1], [62, 2]]);
