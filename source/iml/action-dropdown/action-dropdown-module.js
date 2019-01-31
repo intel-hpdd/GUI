@@ -16,7 +16,7 @@ export default angular
   .module("action-dropdown-module", [commandModule, uiBootstrapModule])
   .factory("actionDescriptionCache", actionDescriptionCache)
   .controller("ActionDropdownCtrl", ActionDropdownCtrl)
-  .directive("actionDropdown", actionDropdown)
+  .component("actionDropdown", actionDropdown)
   .controller("ConfirmActionModalCtrl", ConfirmActionModalCtrl)
   .factory("openConfirmActionModal", openConfirmActionModalFactory)
   .factory("handleAction", handleActionFactory).name;

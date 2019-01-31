@@ -104,6 +104,7 @@
     "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony-v2.8.22",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
+    "uuid": "^3.3.2",
     "webpack": "4.29.0",
     "webpack-cli": "3.2.1"
   }
