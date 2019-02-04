@@ -28,14 +28,20 @@ const actionsTransformer = (actionsProperty, server) => s =>
     [actionsProperty]: [...actions]
   }));
 
-export function ActionDropdownCtrl($scope) {
+export function ActionDropdownCtrl($element: HTMLElement[]) {
   "ngInject";
 
   const ctrl = this;
-  ctrl.uuid = getRandomValue();
+  ctrl.uuid = getRandomValue().toString();
 
-  // const { render } = global.wasm_bindgen;
-  // render([[62, 1], [62, 2]]);
+  ctrl.$onInit = () => {
+    const div = $element[0].querySelector("div");
+    div.id = ctrl.uuid;
+
+    const { render } = global.wasm_bindgen;
+
+    render({ uuid: ctrl.uuid, records: [[62, 1], [62, 2]] });
+  };
 }
 
 export const actionDropdown = {
@@ -48,7 +54,7 @@ export const actionDropdown = {
   },
   controller: "ActionDropdownCtrl",
   template: `
-<div id="{{$ctrl.uuid}}">
+<div>
   <span>test</span>
 </div>
 `
