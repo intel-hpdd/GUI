@@ -38,9 +38,16 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
     const div = $element[0].querySelector("div");
     div.id = ctrl.uuid;
 
-    const { render } = global.wasm_bindgen;
+    ctrl.stream
+      .map(x => (Array.isArray(x) ? x : [x]))
+      .each(servers => {
+        const records = servers.map(record => [record.content_type_id, record.id, record.label]);
 
-    render({ uuid: ctrl.uuid, records: [[62, 1], [62, 2]] });
+        const { render } = global.wasm_bindgen;
+
+        while (div.firstChild && div.removeChild(div.firstChild));
+        render({ uuid: ctrl.uuid, records, locks: ctrl.locks });
+      });
   };
 }
 
@@ -55,7 +62,6 @@ export const actionDropdown = {
   controller: "ActionDropdownCtrl",
   template: `
 <div>
-  <span>test</span>
 </div>
 `
 };
