@@ -40,14 +40,17 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
 
     ctrl.stream
       .map(x => (Array.isArray(x) ? x : [x]))
+      .take(1)
       .each(servers => {
         const records = servers.map(record => [record.content_type_id, record.id, record.label]);
 
         const { render } = global.wasm_bindgen;
-
-        while (div.firstChild && div.removeChild(div.firstChild));
-        render({ uuid: ctrl.uuid, records, locks: ctrl.locks });
+        ctrl.destroyComponent = render({ uuid: ctrl.uuid, records, locks: ctrl.locks });
       });
+  };
+
+  ctrl.$onDestroy = () => {
+    ctrl.destroyComponent();
   };
 }
 
