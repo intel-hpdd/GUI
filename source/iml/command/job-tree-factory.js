@@ -5,88 +5,91 @@
 
 import _ from "@iml/lodash-mixins";
 
-export default function jobTreeFactory() {
-  "ngInject";
+/**
+ * Given an array of jobs turns them into
+ * a tree structure.
+ * @param {Array} jobs
+ * @returns {Object}
+ */
+export const jobTree = jobs => {
+  const shallowestOccurrence = {};
+
+  const children = _(jobs)
+    .pluck("wait_for")
+    .flatten()
+    .unique()
+    .value();
+  const roots = _(jobs)
+    .pluck("resource_uri")
+    .difference(children)
+    .value();
+
+  const tree = roots.map(function buildTree(uri) {
+    const root = getAJob(uri);
+    return jobChildren(root, 0);
+  });
+
+  tree.forEach(function pruneTree(job) {
+    prune(job, 0);
+  });
+
+  return tree;
+
   /**
-   * Given an array of jobs turns them into
-   * a tree structure.
-   * @param {Array} jobs
+   * Returns a job for a given resource_uri
+   * or undefined if there is no match.
+   * @param {String} uri
+   * @returns {Object|undefined}
+   */
+  function getAJob(uri) {
+    return _.find(jobs, { resource_uri: uri });
+  }
+
+  /**
+   * Populates a job with it's children.
+   * Marks the shallowest occurrence of a job for pruning purposes.
+   * @param {Object} job
+   * @param {Number} depth
    * @returns {Object}
    */
-  return function jobTree(jobs) {
-    const shallowestOccurrence = {};
+  function jobChildren(job, depth) {
+    const shallowest = shallowestOccurrence[job.resource_uri];
+    if (shallowest == null || shallowest > depth) shallowestOccurrence[job.resource_uri] = depth;
 
-    const children = _(jobs)
-      .pluck("wait_for")
-      .flatten()
-      .unique()
-      .value();
-    const roots = _(jobs)
-      .pluck("resource_uri")
-      .difference(children)
-      .value();
+    const children = job.wait_for.reduce(function expandChildren(arr, uri) {
+      const child = getAJob(uri);
 
-    const tree = roots.map(function buildTree(uri) {
-      const root = getAJob(uri);
-      return jobChildren(root, 0);
-    });
+      if (child) arr.push(jobChildren(child, depth + 1));
 
-    tree.forEach(function pruneTree(job) {
-      prune(job, 0);
-    });
+      return arr;
+    }, []);
 
-    return tree;
+    return _.extend({ children: children }, job);
+  }
 
-    /**
-     * Returns a job for a given resource_uri
-     * or undefined if there is no match.
-     * @param {String} uri
-     * @returns {Object|undefined}
-     */
-    function getAJob(uri) {
-      return _.find(jobs, { resource_uri: uri });
-    }
+  /**
+   * Traverses the tree removing jobs deeper than
+   * their shallowest depth.
+   * @param {Object} job
+   * @param {Number} depth
+   */
+  function prune(job, depth) {
+    const childDepth = depth + 1;
 
-    /**
-     * Populates a job with it's children.
-     * Marks the shallowest occurrence of a job for pruning purposes.
-     * @param {Object} job
-     * @param {Number} depth
-     * @returns {Object}
-     */
-    function jobChildren(job, depth) {
-      const shallowest = shallowestOccurrence[job.resource_uri];
-      if (shallowest == null || shallowest > depth) shallowestOccurrence[job.resource_uri] = depth;
+    job.children = job.children
+      .filter(function pruneByDepth(child) {
+        return shallowestOccurrence[child.resource_uri] >= childDepth;
+      })
+      .map(function pruneChild(child) {
+        prune(child, childDepth);
 
-      const children = job.wait_for.reduce(function expandChildren(arr, uri) {
-        const child = getAJob(uri);
+        return child;
+      });
+  }
+};
 
-        if (child) arr.push(jobChildren(child, depth + 1));
+export default function jobTreeFactory() {
+  "ngInject";
 
-        return arr;
-      }, []);
-
-      return _.extend({ children: children }, job);
-    }
-
-    /**
-     * Traverses the tree removing jobs deeper than
-     * their shallowest depth.
-     * @param {Object} job
-     * @param {Number} depth
-     */
-    function prune(job, depth) {
-      const childDepth = depth + 1;
-
-      job.children = job.children
-        .filter(function pruneByDepth(child) {
-          return shallowestOccurrence[child.resource_uri] >= childDepth;
-        })
-        .map(function pruneChild(child) {
-          prune(child, childDepth);
-
-          return child;
-        });
-    }
-  };
+  return jobTree;
 }

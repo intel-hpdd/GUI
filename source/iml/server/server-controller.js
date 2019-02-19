@@ -5,9 +5,9 @@
 
 import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
-
-import getCommandStream from "../command/get-command-stream.js";
 import getStore from "../store/get-store.js";
+
+import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -21,16 +21,14 @@ export default function ServerCtrl(
   naturalSortFilter,
   serverActions,
   selectedServers,
-  openCommandModal,
   openAddServerModal,
-  overrideActionClick,
-  localApply,
-  streams
+  streams,
+  localApply
 ) {
   "ngInject";
   $scope.server = {
     lnetConfigurationStream: streams.lnetConfigurationStream,
-    locksStream: streams.locksStream,
+    jobMonitorStream: streams.jobMonitorStream,
     alertMonitorStream: streams.alertMonitorStream,
     maxSize: 10,
     itemsPerPage: 10,
@@ -72,6 +70,7 @@ export default function ServerCtrl(
         this.hostnames = hostnames;
         this.hostnamesHash = hostnamesHash;
         this.currentPage = 1;
+        localApply($scope);
       }
     },
     getHostPath(item) {
@@ -160,11 +159,12 @@ export default function ServerCtrl(
 
         if (data == null) return;
 
-        const commandStream = getCommandStream([data]);
-        openCommandModal(commandStream).result.then(commandStream.destroy.bind(commandStream));
+        getStore.dispatch({
+          type: SHOW_COMMAND_MODAL_ACTION,
+          payload: [data]
+        });
       });
-    },
-    overrideActionClick
+    }
   };
 
   getStore.select("addServerModal").each(({ open }) => {
@@ -173,7 +173,9 @@ export default function ServerCtrl(
   });
 
   const p = $scope.propagateChange.bind(null, $scope, $scope.server);
+
   streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p.bind(null, "servers"));
+
   streams
     .locksStream()
     .map((xs: LockT) => ({ ...xs }))

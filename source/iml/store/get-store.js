@@ -13,6 +13,7 @@ import cpuUsageChartReducer from "../cpu-usage/cpu-usage-chart-reducer.js";
 import fileSystemReducer from "../file-system/file-system-reducer.js";
 import fileUsageChartReducer from "../file-usage/file-usage-chart-reducer.js";
 import hostCpuRamChartReducer from "../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js";
+import jobIndicatorReducer from "../job-indicator/job-indicator-reducer.js";
 import jobStatsReducer from "../job-stats/job-stats-reducer.js";
 import lnetConfigurationReducer from "../lnet/lnet-configuration-reducer.js";
 import mdoChartReducer from "../mdo/mdo-chart-reducer.js";
@@ -29,6 +30,11 @@ import loginFormReducer from "../login/login-form-reducer.js";
 import sessionReducer from "../session/session-reducer.js";
 import storageReducer from "../storage/storage-reducer.js";
 import tzPickerReducer from "../tz-picker/tz-picker-reducer.js";
+import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
+import actionDropdownReducer from "../action-dropdown/action-dropdown-reducer.js";
+import commandModalReducer from "../command/command-modal-reducer.js";
+import stepModalReducer from "../command/step-modal-reducer.js";
+import exceptionModalReducer from "../exception/exception-modal-reducer.js";
 import disconnectModalReducer from "../disconnect-modal/disconnect-modal-reducer.js";
 import locksReducer from "../locks/locks-reducer.js";
 
@@ -39,6 +45,7 @@ export default createStore({
   fileSystems: fileSystemReducer,
   fileUsageCharts: fileUsageChartReducer,
   hostCpuRamCharts: hostCpuRamChartReducer,
+  jobIndicators: jobIndicatorReducer,
   jobStatsConfig: jobStatsReducer,
   lnetConfiguration: lnetConfigurationReducer,
   mdoCharts: mdoChartReducer,
@@ -55,6 +62,11 @@ export default createStore({
   session: sessionReducer,
   storage: storageReducer,
   tzPicker: tzPickerReducer,
+  confirmAction: confirmActionReducer,
+  actionDropdown: actionDropdownReducer,
+  commandModal: commandModalReducer,
+  stepModal: stepModalReducer,
+  exceptionModal: exceptionModalReducer,
   disconnectModal: disconnectModalReducer,
   locks: locksReducer
 });

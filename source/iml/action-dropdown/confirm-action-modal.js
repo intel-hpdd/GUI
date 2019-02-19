@@ -3,62 +3,104 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
+import { Modal, Header, Body, Footer, Backdrop } from "../modal.js";
+import WindowClickListener from "../window-click-listener.js";
+import { linkEvent } from "inferno";
+import DropdownComponent from "../dropdown-component.js";
 
-export function ConfirmActionModalCtrl($scope, title, confirmPrompts) {
-  "ngInject";
-  $scope.confirmAction = {
-    title,
-    confirmPrompts
-  };
-}
+import type { HighlandStreamT } from "highland";
 
-export function openConfirmActionModalFactory($uibModal) {
-  "ngInject";
-  return function openConfirmActionModal(title, confirmPrompts) {
-    return $uibModal.open({
-      template: `<div class="modal-header">
-  <h4 class="modal-title">Confirm {{ confirmAction.title }}</h4>
-</div>
-<div class="modal-body">
-  <div class="single-confirmation" ng-if="confirmAction.confirmPrompts.length === 1">
-    <p>{{ confirmAction.confirmPrompts[0] }}</p>
-  </div>
-  <div class="multi-confirmation" ng-if="confirmAction.confirmPrompts.length > 1">
-    <h4>This action will:</h4>
-    <ul class="well">
-      <li ng-repeat="message in confirmAction.confirmPrompts">{{ message }}</li>
-    </ul>
-  </div>
-  <div ng-if="confirmAction.confirmPrompts.length === 0">
-    <p>Are you sure you want to perform this action?</p>
-  </div>
-</div>
-<div class="modal-footer">
-  <div class="btn-group" uib-dropdown>
-    <button type="button" ng-click="$close(false)" class="btn btn-success">
-      Confirm <i class="fa fa-check-circle-o"></i>
-    </button>
-    <button type="button" class="btn btn-success" uib-dropdown-toggle>
-      <span class="caret"></span>
-      <span class="sr-only">Split button</span>
-    </button>
-    <ul uib-dropdown-menu role="menu">
-      <li>
-        <a ng-click="$close(true)">Confirm and skip command view</a>
-      </li>
-    </ul>
-  </div>
-  <button class="btn btn-danger" ng-click="$dismiss('cancel')">Cancel <i class="fa fa-times-circle-o"></i></button>
-</div>`,
-      controller: "ConfirmActionModalCtrl",
-      windowClass: "confirm-action-modal",
-      backdropClass: "confirm-action-modal-backdrop",
-      backdrop: "static",
-      resolve: {
-        title: fp.always(title),
-        confirmPrompts: fp.always(confirmPrompts)
-      }
-    });
-  };
-}
+const Confirmation = ({ confirmPrompts }) => {
+  if (confirmPrompts.length === 1)
+    return (
+      <div class="single-confirmation">
+        <p>{confirmPrompts[0]}</p>
+      </div>
+    );
+  else if (confirmPrompts.length > 1)
+    return (
+      <div class="multi-confirmation">
+        <h4>This action will:</h4>
+        <ul class="well">
+          {confirmPrompts.map(message => (
+            <li>{message}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  else if (confirmPrompts.length === 0)
+    return (
+      <div>
+        <p>Are you sure you want to perform this action?</p>
+      </div>
+    );
+};
+
+const onConfirm = ({ stream }) => {
+  stream.write(false);
+  stream.end();
+};
+
+const onConfirmAndSkip = ({ stream }) => {
+  stream.write(true);
+  stream.end();
+};
+
+const onCancel = ({ stream }) => {
+  stream.write({
+    __HighlandStreamError__: true,
+    error: "cancel"
+  });
+  stream.end();
+};
+
+type ConfirmActionModalProps = {
+  message: string,
+  prompts: string[],
+  stream: HighlandStreamT<boolean>
+};
+
+export const ConfirmActionModal = ({ message, prompts, stream }: ConfirmActionModalProps) => {
+  return (
+    <div id="confirm-modal" class="modal-open">
+      <Modal visible={true} moreClasses={["confirm-action-modal"]}>
+        <Header class="modal-header">
+          <h4 class="modal-title">Confirm {message}</h4>
+        </Header>
+        <Body>
+          <Confirmation confirmPrompts={prompts} />
+        </Body>
+        <Footer class="modal-footer">
+          <div class="btn-group">
+            <button type="button" class="btn btn-success" onClick={linkEvent({ stream }, onConfirm)}>
+              Confirm <i class="fa fa-check-circle-o" />
+            </button>
+            <WindowClickListener>
+              <DropdownComponent>
+                <button
+                  type="button"
+                  class="btn btn-success dropdown-toggle"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <span class="caret" />
+                  <span class="sr-only">Split button</span>
+                </button>
+                <ul role="menu" class="dropdown-menu">
+                  <li>
+                    <a onClick={linkEvent({ stream }, onConfirmAndSkip)}>Confirm and skip command view</a>
+                  </li>
+                </ul>
+              </DropdownComponent>
+            </WindowClickListener>
+          </div>
+
+          <button class="btn btn-danger" onClick={linkEvent({ stream }, onCancel)}>
+            Cancel <i class="fa fa-times-circle-o" />
+          </button>
+        </Footer>
+      </Modal>
+      <Backdrop visible={true} moreClasses={["confirm-action-modal-backdrop"]} />
+    </div>
+  );
+};

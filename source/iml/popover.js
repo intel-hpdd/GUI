@@ -27,7 +27,7 @@ export class PopoverContainer extends Component {
       else return c;
     });
 
-    return <span style="position: relative;">{children}</span>;
+    return <>{children}</>;
   }
 }
 

@@ -3,6 +3,7 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import Inferno from "inferno";
 import store from "../store/get-store.js";
 import global from "../global.js";
 
@@ -41,6 +42,10 @@ export function restrictTo() {
     }
   };
 }
+
+export const RestrictToComponent = ({ group, children }: { group: string, children: React$Element<*> }) => {
+  if (groupAllowed(group)) return <>{children}</>;
+};
 
 export function restrict() {
   return {

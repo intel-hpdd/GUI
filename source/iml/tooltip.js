@@ -13,18 +13,19 @@ type TooltipProps = {
   message?: string,
   direction: directionsT,
   size?: sizesT,
-  moreClasses?: string[]
+  moreClasses?: string[],
+  children?: React$Element<*> | React$Element<*>[]
 };
 
-export default ({ message, direction, size = "", moreClasses = [] }: TooltipProps) => {
-  if (!message) return null;
+export default ({ message, direction, size = "", moreClasses = [], children }: TooltipProps) => {
+  if (!message && !children) return null;
+
+  const tooltipMessage = message ? <span>{message}</span> : children;
 
   return (
     <div className={`tooltip inferno-tt ${direction} ${size} ${moreClasses.join(" ")}`}>
       <div class="tooltip-arrow" />
-      <div class="tooltip-inner">
-        <span>{message}</span>
-      </div>
+      <div class="tooltip-inner">{tooltipMessage}</div>
     </div>
   );
 };

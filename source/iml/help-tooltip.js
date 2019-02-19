@@ -8,16 +8,17 @@
 import Tooltip from "./tooltip.js";
 import { HELP_TEXT } from "./environment.js";
 
-import type { directionsT } from "./tooltip.js";
+import type { directionsT, sizesT } from "./tooltip.js";
 
 type helpTooltipT = {
   helpKey?: string,
   direction: directionsT,
+  size?: sizesT,
   moreClasses?: string[]
 };
 
-export default ({ helpKey, direction, moreClasses }: helpTooltipT) => {
+export default ({ helpKey, direction, size, moreClasses }: helpTooltipT) => {
   if (!helpKey) return null;
 
-  return <Tooltip message={HELP_TEXT[helpKey]} direction={direction} moreClasses={moreClasses} />;
+  return <Tooltip message={HELP_TEXT[helpKey]} direction={direction} size={size} moreClasses={moreClasses} />;
 };
