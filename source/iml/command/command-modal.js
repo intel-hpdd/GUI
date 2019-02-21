@@ -35,7 +35,7 @@ import type { HighlandStreamT } from "highland";
 const Title = ({ collapsed, command }) => {
   return (
     <span>
-      <i className={`fa ${collapsed ? "fa-chevron-down" : "fa-chevron-right"}`} />
+      <i className={`fa ${collapsed ? "fa-chevron-right" : "fa-chevron-down"}`} />
       <i
         className={`fa header-status${command.state === "cancelled" ? " fa-times" : ""}${
           command.state === "failed" ? " fa-exclamation" : ""

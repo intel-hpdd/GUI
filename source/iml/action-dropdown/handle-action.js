@@ -151,19 +151,21 @@ function setConfParam(socketStream, action) {
   );
 }
 
-export function handleCheckDeploy(action: SelectedActionT, record) {
+export function handleCheckDeployPredicate(action: SelectedActionT, state: string, serverProfile: ?Object) {
   const notRemoving = action.state && action.state !== "removed" && action.verb !== "Force Remove";
+  const openForDeploy = state === "undeployed";
+  const openForConfigure = serverProfile && serverProfile.initial_state === "unconfigured";
+
+  return (openForDeploy || openForConfigure) && notRemoving;
+}
+
+export function handleCheckDeploy(record) {
   const openForDeploy = record.state === "undeployed";
-  const openForConfigure = record.server_profile && record.server_profile.initial_state === "unconfigured";
 
-  if ((openForDeploy || openForConfigure) && notRemoving) {
-    let step;
-    if (record.install_method !== "existing_keys_choice") step = ADD_SERVER_STEPS.ADD;
-    else if (openForDeploy) step = ADD_SERVER_STEPS.STATUS;
-    else step = ADD_SERVER_STEPS.SELECT_PROFILE;
+  let step;
+  if (record.install_method !== "existing_keys_choice") step = ADD_SERVER_STEPS.ADD;
+  else if (openForDeploy) step = ADD_SERVER_STEPS.STATUS;
+  else step = ADD_SERVER_STEPS.SELECT_PROFILE;
 
-    return openAddServerModal(record, step);
-  } else {
-    handleAction(action, record.label, record.resourceUri);
-  }
+  return openAddServerModal(record, step);
 }

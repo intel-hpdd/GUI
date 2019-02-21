@@ -6,7 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import global from "./global.js";
-import { default as handleAction, handleCheckDeploy } from "./action-dropdown/handle-action.js";
+import { handleAction, handleCheckDeploy, handleCheckDeployPredicate } from "./action-dropdown/handle-action.js";
 import { type RecordT } from "./action-dropdown/action-dropdown-module.js";
 
 import {
@@ -25,14 +25,16 @@ global.addEventListener(
   }: {
     detail: SelectedActionAndRecordT
   }) => {
-    if (availableAction != null && record != null)
-      if (flag != null)
-        switch (flag) {
-          case ACTION_DROPDOWN_FLAG_CHECK_DEPLOY:
-            handleCheckDeploy(availableAction, { ...record, label, resourceUri });
-            break;
-        }
-      else handleAction(availableAction, label, resourceUri);
+    if (availableAction != null && record != null) {
+      switch (flag) {
+        case ACTION_DROPDOWN_FLAG_CHECK_DEPLOY:
+          if (handleCheckDeployPredicate(availableAction, record.state, record.server_profile))
+            return handleCheckDeploy({ ...record, label, resourceUri });
+          break;
+      }
+
+      handleAction(availableAction, label, resourceUri);
+    }
   }
 );
 

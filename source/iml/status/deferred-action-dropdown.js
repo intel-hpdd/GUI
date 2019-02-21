@@ -11,16 +11,12 @@ import socketStream from "../socket/socket-stream.js";
 import multiStream from "../multi-stream.js";
 
 import type { HighlandStreamT } from "highland";
-import type { LockT } from "../locks/locks-reducer.js";
 
 export function DeferredActionDropdownCtrl($scope: Object, localApply: Function): void {
   "ngInject";
   const ctrl = this;
-  const getActions = fp.map((x: string) =>
-    socketStream(x, {
-      jsonMask: "resource_uri,available_actions,locks,id,content_type_id,label"
-    })
-  );
+  ctrl.fetched = false;
+  const getActions = fp.map((x: string) => socketStream(x));
 
   const getMs = fp.flow(
     getActions,
@@ -39,6 +35,7 @@ export function DeferredActionDropdownCtrl($scope: Object, localApply: Function)
       .pipe(ctrl.ms);
 
     $scope.$on("$destroy", ms.destroy.bind(ms));
+    ctrl.fetched = true;
   });
 }
 
@@ -53,6 +50,9 @@ export const deferredActionDropdownComponent = {
         <button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
           <i class="fa fa-spinner fa-spin"></i>Waiting
         </button>
-        <action-dropdown locks="ctrl.locks" ng-show="!ctrl.loading" stream="::ctrl.ms"></action-dropdown>
+        <button class="btn btn-sm btn-default" ng-if="!ctrl.fetched">
+          Actions
+        </button>
+        <action-dropdown locks="ctrl.locks" ng-show="!ctrl.loading" ng-if="ctrl.fetched" stream="::ctrl.ms"></action-dropdown>
       </div>`
 };

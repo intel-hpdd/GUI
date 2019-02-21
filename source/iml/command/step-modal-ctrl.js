@@ -29,7 +29,7 @@ const LoadingStepsComponent = steps => {
 const Title = ({ collapsed, step, description }) => {
   return (
     <span>
-      <i className={`fa ${collapsed ? "fa-chevron-down" : "fa-chevron-right"}`} />
+      <i className={`fa ${collapsed ? "fa-chevron-right" : "fa-chevron-down"}`} />
       <i
         className={`fa header-status ${step.state === "cancelled" ? "fa-times" : ""} ${
           step.state === "failed" ? "fa-exclamation" : ""
