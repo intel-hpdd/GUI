@@ -21,16 +21,15 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
     ctrl.stream
       .map(x => (Array.isArray(x) ? x : [x]))
       .take(1)
-      .each(servers => {
-        const records = servers.map(record => [record.content_type_id, record.id, record.label, record.resource_uri]);
+      .each(records => {
         ctrl.records = records;
-        ctrl.label = records[0][2];
 
         const { init } = global.wasm_bindgen;
         ctrl.seedApp = init({
           uuid: ctrl.uuid,
           records,
-          locks: ctrl.locks
+          locks: ctrl.locks,
+          flag: ctrl.flag
         });
       });
   };
@@ -57,7 +56,7 @@ export const actionDropdown = {
     actionsProperty: "@?",
     stream: "<",
     locks: "<",
-    overrideClick: "&?"
+    flag: "@?"
   },
   controller: ActionDropdownCtrl,
   template: `

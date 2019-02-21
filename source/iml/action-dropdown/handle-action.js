@@ -7,8 +7,12 @@ import _ from "@iml/lodash-mixins";
 
 import socketStream from "../socket/socket-stream.js";
 import getStore from "../store/get-store.js";
+import { openAddServerModal } from "../listeners.js";
+
+import { type SelectedActionT } from "./action-dropdown-module.js";
 
 import { CONFIRM_ACTION } from "./confirm-action-reducer.js";
+import { ADD_SERVER_STEPS } from "../server/server-module.js";
 
 export default function handleActionFactory() {
   "ngInject";
@@ -127,11 +131,10 @@ function changeState(socketStream, action, label, resourceUri) {
 /**
  * Sets a conf param key value pair and sends it.
  * @param {Object} socketStream
- * @param {String} label
  * @param {Object} action
  * @returns {Highland.Stream}
  */
-function setConfParam(socketStream, action, label) {
+function setConfParam(socketStream, action) {
   const mdt = action.mdt;
 
   mdt.conf_params[action.param_key] = action.param_value;
@@ -148,25 +151,19 @@ function setConfParam(socketStream, action, label) {
   );
 }
 
-/**
- * Opens the command modal. If the user resolves we determine whether we should return
- * the action data.
- * @param {{ action: String, message: String, prompts: [], required: Boolean }} confirm
- * @returns {Highland.Stream}
- */
-// function confirmAction(confirm) {
-//   if (!confirm.required) return confirm.action();
+export function handleCheckDeploy(action: SelectedActionT, record) {
+  const notRemoving = action.state && action.state !== "removed" && action.verb !== "Force Remove";
+  const openForDeploy = record.state === "undeployed";
+  const openForConfigure = record.server_profile && record.server_profile.initial_state === "unconfigured";
 
-//   return openConfirmActionModal(confirm.message, confirm.prompts)
-//     .resultStream.errors(function handleCancel(err, push) {
-//       if (err === "cancel") return;
+  if ((openForDeploy || openForConfigure) && notRemoving) {
+    let step;
+    if (record.install_method !== "existing_keys_choice") step = ADD_SERVER_STEPS.ADD;
+    else if (openForDeploy) step = ADD_SERVER_STEPS.STATUS;
+    else step = ADD_SERVER_STEPS.SELECT_PROFILE;
 
-//       push(err);
-//     })
-//     .filter(_.isBoolean)
-//     .flatMap(function runAction(skip) {
-//       const sendDataIfNotSkipping = _.if(_.fidentity(!skip), _.identity);
-
-//       return confirm.action().map(sendDataIfNotSkipping);
-//     });
-// }
+    return openAddServerModal(record, step);
+  } else {
+    handleAction(action, record.label, record.resourceUri);
+  }
+}

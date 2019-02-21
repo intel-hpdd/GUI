@@ -102,7 +102,7 @@ export const serverState = {
             </span>
           </td>
           <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown stream="::str" locks="server.locks" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
+            <action-dropdown stream="::str" locks="server.locks" flag="check_deploy"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -255,7 +255,7 @@ export const serverDetailState = {
         </div>
       </div>
       <div as-stream val="serverDetail.server">
-        <action-dropdown tooltip-placement="top" stream="::str" locks="serverDetail.locks" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+        <action-dropdown tooltip-placement="top" stream="::str" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker locks="serverDetail.locks" stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>

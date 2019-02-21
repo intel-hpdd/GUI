@@ -31,7 +31,6 @@ import sessionReducer from "../session/session-reducer.js";
 import storageReducer from "../storage/storage-reducer.js";
 import tzPickerReducer from "../tz-picker/tz-picker-reducer.js";
 import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
-import actionDropdownReducer from "../action-dropdown/action-dropdown-reducer.js";
 import commandModalReducer from "../command/command-modal-reducer.js";
 import stepModalReducer from "../command/step-modal-reducer.js";
 import exceptionModalReducer from "../exception/exception-modal-reducer.js";
@@ -63,7 +62,6 @@ export default createStore({
   storage: storageReducer,
   tzPicker: tzPickerReducer,
   confirmAction: confirmActionReducer,
-  actionDropdown: actionDropdownReducer,
   commandModal: commandModalReducer,
   stepModal: stepModalReducer,
   exceptionModal: exceptionModalReducer,

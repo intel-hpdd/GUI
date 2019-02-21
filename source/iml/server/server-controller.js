@@ -6,6 +6,7 @@
 import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
 import getStore from "../store/get-store.js";
+import global from "../global.js";
 
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
@@ -50,6 +51,13 @@ export default function ServerCtrl(
       $scope.server.addServerClicked = true;
 
       openAddServerModal().opened.then(() => {
+        $scope.server.addServerClicked = false;
+      });
+    },
+    continueAddingServer(record, step) {
+      $scope.server.addServerClicked = true;
+
+      openAddServerModal(record, step).opened.then(() => {
         $scope.server.addServerClicked = false;
       });
     },
@@ -167,10 +175,11 @@ export default function ServerCtrl(
     }
   };
 
-  getStore.select("addServerModal").each(({ open }) => {
-    $scope.server.addServerClicked = open;
-    localApply($scope);
-  });
+  const onOpenAddServerModal = ({ detail: { record, step } }) => {
+    $scope.server.continueAddingServer(record, step);
+  };
+
+  global.addEventListener("open_add_server_modal", onOpenAddServerModal);
 
   const p = $scope.propagateChange.bind(null, $scope, $scope.server);
 
@@ -183,5 +192,6 @@ export default function ServerCtrl(
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));
+    global.removeEventListener("open_add_server_modal", onOpenAddServerModal);
   });
 }

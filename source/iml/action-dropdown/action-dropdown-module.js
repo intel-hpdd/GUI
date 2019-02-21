@@ -9,7 +9,6 @@ import angular from "angular";
 import { render } from "inferno";
 import commandModule from "../command/command-module";
 import { actionDropdown } from "./action-dropdown";
-import { handleAction } from "./handle-action";
 import uiBootstrapModule from "angular-ui-bootstrap";
 import getStore from "../store/get-store.js";
 import { querySelector } from "../dom-utils";
@@ -18,9 +17,44 @@ import global from "../global.js";
 import { ConfirmActionModal } from "./confirm-action-modal.js";
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer";
 import { CLEAR_CONFIRM_ACTION } from "./confirm-action-reducer.js";
-import { type SelectedActionAndRecordT, ACTION_DROPDOWN_RESET_SELECTED_ACTION } from "./action-dropdown-reducer.js";
 
 import type { Command } from "../command/command-types.js";
+
+export const ACTION_DROPDOWN_FLAG_CHECK_DEPLOY: "check_deploy" = "check_deploy";
+export type ActionDropdownFlagT = typeof ACTION_DROPDOWN_FLAG_CHECK_DEPLOY;
+
+export type SelectedActionT = {|
+  args: {|
+    host_id: number
+  |},
+  class_name: string,
+  composite_id: string,
+  confirmation: string,
+  display_group: number,
+  display_order: number,
+  long_description: string,
+  state: string,
+  verb: string
+|};
+
+export type RecordT = {
+  content_type_id: number,
+  id: number,
+  label: string,
+  resource_uri: string,
+  state?: string,
+  address?: string,
+  server_profile?: {
+    initial_state: string
+  },
+  install_method?: string
+};
+
+export type SelectedActionAndRecordT = {|
+  available_action: SelectedActionT,
+  record: RecordT,
+  flag: ?ActionDropdownFlagT
+|};
 
 export default angular
   .module("action-dropdown-module", [commandModule, uiBootstrapModule])
@@ -66,20 +100,5 @@ getStore.select("confirmAction").each(({ action, message, prompts, required }: C
         payload: [x.command || x]
       });
     });
-  }
-});
-
-getStore.select("actionDropdown").each((x: SelectedActionAndRecordT) => {
-  if (x.available_action != null && x.record != null) {
-    const availableAction = x.available_action;
-    const label = x.record[2];
-    const resourceUri = x.record[3];
-
-    getStore.dispatch({
-      type: ACTION_DROPDOWN_RESET_SELECTED_ACTION,
-      payload: {}
-    });
-
-    handleAction(availableAction, label, resourceUri);
   }
 });

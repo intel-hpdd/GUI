@@ -15,16 +15,29 @@ type PopoverChildProps = {
 export class PopoverContainer extends Component {
   render() {
     const children = this.props.children.map(c => {
-      if (!c.props) return c;
-      else if (c.props.popoverButton)
-        return cloneVNode(c, {
+      if (!c.props) {
+        return c;
+      } else if (c.props.popoverButton) {
+        const updatedPopover = cloneVNode(c, {
           onClick: this.props.toggleOpen
         });
-      else if (c.props.popover)
+        const buttonChildren = updatedPopover.children.map(c2 => {
+          if (c2.props && c2.props.popover)
+            return cloneVNode(c2, {
+              visible: this.props.isOpen
+            });
+          else return c2;
+        });
+
+        updatedPopover.children = buttonChildren;
+        return updatedPopover;
+      } else if (c.props.popover) {
         return cloneVNode(c, {
           visible: this.props.isOpen
         });
-      else return c;
+      } else {
+        return c;
+      }
     });
 
     return <>{children}</>;
