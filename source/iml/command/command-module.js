@@ -59,8 +59,17 @@ getStore.select("commandModal").each((commands: Command[]) => {
 
   body.appendChild(commandModalContainer);
 
-  const stream = highland();
-  render(<CommandModalComponent commands={[]} stream={stream} />, commandModalContainer);
+  const onClose = () => {
+    render(null, commandModalContainer);
+    body.removeChild(commandModalContainer);
+
+    getStore.dispatch({
+      type: CLEAR_CONFIRM_ACTION,
+      payload: false
+    });
+  };
+
+  render(<CommandModalComponent commands={[]} closeCb={onClose} />, commandModalContainer);
   getCommandStream(commands)
     .map(
       fp.map(
@@ -71,18 +80,8 @@ getStore.select("commandModal").each((commands: Command[]) => {
       )
     )
     .each(([...commands]) => {
-      render(<CommandModalComponent commands={commands} stream={stream} />, commandModalContainer);
+      render(<CommandModalComponent commands={commands} closeCb={onClose} />, commandModalContainer);
     });
-
-  stream.pull(() => {
-    render(null, commandModalContainer);
-    body.removeChild(commandModalContainer);
-
-    getStore.dispatch({
-      type: CLEAR_CONFIRM_ACTION,
-      payload: false
-    });
-  });
 });
 
 const stepsModalContainer = document.createElement("div");
@@ -119,15 +118,13 @@ getStore.select("stepModal").each(({ ...job }: { job: JobT }) => {
     .pluck("objects");
   stepsStream2.destroy = stepsStream1.destroy.bind(stream);
 
-  const modalStream = highland();
-
-  render(<StepModalComponent job={job} steps={[]} stream={modalStream} />, stepsModalContainer);
-  multiStream([jobStream, stepsStream2]).each(([job, steps]) => {
-    render(<StepModalComponent job={job} steps={steps} stream={modalStream} />, stepsModalContainer);
-  });
-
-  modalStream.pull(() => {
+  const onClose = () => {
     render(null, stepsModalContainer);
     body.removeChild(stepsModalContainer);
+  };
+
+  render(<StepModalComponent job={job} steps={[]} closeCb={onClose} />, stepsModalContainer);
+  multiStream([jobStream, stepsStream2]).each(([job, steps]) => {
+    render(<StepModalComponent job={job} steps={steps} closeCb={onClose} />, stepsModalContainer);
   });
 });

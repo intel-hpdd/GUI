@@ -13,8 +13,6 @@ import { capitalize } from "../filters/capitalize-filter.js";
 import { Modal, Header, Body, Footer, Backdrop } from "../modal.js";
 import AccordionComponent, { PanelComponent } from "../accordion.js";
 
-import type { HighlandStreamT } from "highland";
-
 const getDescription = step => (step.description.indexOf(step.class_name) === 0 ? step.class_name : step.description);
 
 const LoadingStepsComponent = steps => {
@@ -93,18 +91,13 @@ const getJobAdjective = (job: JobT) => {
   else return COMMAND_STATES.SUCCEEDED;
 };
 
-const onClose = ({ stream }: { stream: HighlandStreamT<boolean> }) => {
-  stream.write(true);
-  stream.end();
-};
-
 type StepModalPropsT = {
   job: JobT,
   steps: Array<*>,
-  stream: HighlandStreamT<boolean>
+  closeCb: () => void
 };
 
-export const StepModalComponent = ({ job, steps, stream }: StepModalPropsT) => {
+export const StepModalComponent = ({ job, steps, closeCb }: StepModalPropsT) => {
   return (
     <div class="modal-open">
       <Modal visible={true} moreClasses={["step-modal"]} zIndex={1060}>
@@ -134,7 +127,7 @@ export const StepModalComponent = ({ job, steps, stream }: StepModalPropsT) => {
           </>
         </Body>
         <Footer class="modal-footer">
-          <button class="btn btn-danger" onClick={linkEvent({ stream }, onClose)}>
+          <button class="btn btn-danger" onClick={closeCb}>
             Close <i class="fa fa-times-circle-o" />
           </button>
         </Footer>

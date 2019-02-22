@@ -67,7 +67,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     merge(
       {},
       {
-        jsonMask: "objects(resource_uri,available_actions,mcast_port,state,content_type_id,id,network_interfaces)"
+        jsonMask: "objects(resource_uri,available_actions,mcast_port,state,content_type_id,id,network_interfaces,label)"
       }
     )
   );
@@ -81,7 +81,7 @@ export default function serverDetailResolves($stateParams: { id: string }) {
     merge(
       {},
       {
-        jsonMask: "objects(resource_uri,available_actions,state,content_type_id,id)"
+        jsonMask: "objects(resource_uri,available_actions,state,content_type_id,id,label)"
       }
     )
   );

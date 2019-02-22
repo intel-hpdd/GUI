@@ -261,17 +261,12 @@ const CommandLogsComponent = ({ logs }) => {
     );
 };
 
-const onClose = (stream: HighlandStreamT<boolean>) => {
-  stream.write(true);
-  stream.end();
-};
-
 type CommandModalComponentT = {
   commands: Command[],
-  stream: HighlandStreamT<*>
+  closeCb: () => void
 };
 
-export const CommandModalComponent = ({ commands, stream }: CommandModalComponentT) => {
+export const CommandModalComponent = ({ commands, closeCb }: CommandModalComponentT) => {
   return (
     <div class="modal-open">
       <Modal visible={true} moreClasses={["command-modal"]} zIndex={1050}>
@@ -315,7 +310,7 @@ export const CommandModalComponent = ({ commands, stream }: CommandModalComponen
           </>
         </Body>
         <Footer class="modal-footer">
-          <button class="btn btn-danger" onClick={linkEvent(stream, onClose)}>
+          <button class="btn btn-danger" onClick={closeCb}>
             Close <i class="fa fa-times-circle-o" />
           </button>
         </Footer>

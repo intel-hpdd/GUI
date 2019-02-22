@@ -29,7 +29,9 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
           uuid: ctrl.uuid,
           records,
           locks: ctrl.locks,
-          flag: ctrl.flag
+          flag: ctrl.flag,
+          tooltip_placement: ctrl.tooltipPlacement,
+          tooltip_size: ctrl.tooltipSize
         });
       });
   };
@@ -53,6 +55,7 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
 export const actionDropdown = {
   bindings: {
     tooltipPlacement: "@?",
+    tooltipSize: "@?",
     actionsProperty: "@?",
     stream: "<",
     locks: "<",
