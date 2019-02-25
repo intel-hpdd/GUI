@@ -45,7 +45,6 @@ export default () =>
 
     sse.onmessage = (msg: SSEEventT) => {
       try {
-        console.log("got message", msg);
         const data = JSON.parse(msg.data);
         push(null, data);
       } catch (e) {

@@ -10,6 +10,9 @@ import global from "../global.js";
 import type { $scopeT, $locationT } from "angular";
 
 import { UI_ROOT } from "../environment.js";
+import getStore from "../store/get-store.js";
+
+import { type LockT } from "../locks/locks-reducer.js";
 
 export default {
   bindings: {
@@ -28,6 +31,13 @@ export default {
     const onLoad = () => {
       frameShim.classList.remove("loading");
       $scope.$apply();
+
+      getStore
+        .select("locks")
+        .map((xs: LockT) => ({ ...xs }))
+        .each(locks => {
+          frame.contentWindow.postMessage(JSON.stringify(locks), "*");
+        });
     };
 
     const token = setInterval(() => {
