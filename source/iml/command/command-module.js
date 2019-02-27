@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -12,7 +12,6 @@ import DeferredCommandModalBtnCtrl from "./deferred-cmd-modal-btn-controller";
 import waitForCommandCompletionFactory from "./wait-for-command-completion-service.js";
 import getStore from "../store/get-store.js";
 import getCommandStream from "./get-command-stream.js";
-import highland from "highland";
 import global from "../global.js";
 import socketStream from "../socket/socket-stream.js";
 import multiStream from "../multi-stream.js";

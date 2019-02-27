@@ -1,7 +1,7 @@
 // @flow
 
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -13,6 +13,7 @@ import { UI_ROOT } from "../environment.js";
 import getStore from "../store/get-store.js";
 
 import { type LockT } from "../locks/locks-reducer.js";
+import { handleSelectedAction } from "../listeners.js";
 
 export default {
   bindings: {
@@ -36,7 +37,7 @@ export default {
         .select("locks")
         .map((xs: LockT) => ({ ...xs }))
         .each(locks => {
-          frame.contentWindow.postMessage(JSON.stringify(locks), "*");
+          if (frame.contentWindow != null) frame.contentWindow.postMessage(JSON.stringify(locks), "*");
         });
     };
 
@@ -49,8 +50,17 @@ export default {
     }, 200);
 
     const onMessage = ev => {
-      $location.path(ev.data);
-      $scope.$apply();
+      const json = JSON.parse(ev.data);
+
+      switch (json.type) {
+        case "navigation":
+          $location.path(json.url);
+          $scope.$apply();
+          break;
+        case "action_selected":
+          handleSelectedAction(json.detail);
+          break;
+      }
     };
 
     frameShim.addEventListener("load", onLoad, true);

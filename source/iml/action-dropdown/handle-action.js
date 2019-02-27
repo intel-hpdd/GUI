@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -36,6 +36,11 @@ export function handleAction(action, label, resourceUri) {
   return method(socketStream, action, label, resourceUri);
 }
 
+const filterArgs = (args: Object): Object =>
+  Object.entries(args)
+    .filter(([, val]) => val != null)
+    .reduce((obj, [key, val]) => ({ ...obj, [key]: val }), {});
+
 /**
  * Executes a job on a record.
  * @param {Object} socketStream
@@ -45,14 +50,16 @@ export function handleAction(action, label, resourceUri) {
  */
 function executeJob(socketStream, action, label) {
   const message = `${action.verb}(${label})`;
+  let { class_name: className, args } = action;
 
+  args = filterArgs(args);
   const jobSender = _.partial(
     socketStream,
     "/command",
     {
       method: "post",
       json: {
-        jobs: [_.pick(action, "class_name", "args")],
+        jobs: [{ class_name: className, args }],
         message: message
       }
     },

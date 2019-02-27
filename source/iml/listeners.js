@@ -38,6 +38,14 @@ global.addEventListener(
   }
 );
 
+export const handleSelectedAction = (action: SelectedActionAndRecordT) => {
+  const evt = new CustomEvent("action_selected", {
+    detail: action
+  });
+
+  global.dispatchEvent(evt);
+};
+
 export const openAddServerModal = (record: RecordT, step: string) => {
   const evt = new CustomEvent("open_add_server_modal", {
     detail: { record, step }

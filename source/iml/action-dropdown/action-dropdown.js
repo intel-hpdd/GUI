@@ -1,7 +1,7 @@
 // @flow
 
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -31,7 +31,8 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
           locks: ctrl.locks,
           flag: ctrl.flag,
           tooltip_placement: ctrl.tooltipPlacement,
-          tooltip_size: ctrl.tooltipSize
+          tooltip_size: ctrl.tooltipSize,
+          fetch_immediately: ctrl.fetchImmediately === true
         });
       });
   };
@@ -59,7 +60,8 @@ export const actionDropdown = {
     actionsProperty: "@?",
     stream: "<",
     locks: "<",
-    flag: "@?"
+    flag: "@?",
+    fetchImmediately: "<?"
   },
   controller: ActionDropdownCtrl,
   template: `

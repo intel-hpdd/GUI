@@ -1,7 +1,7 @@
 // @flow
 
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -53,6 +53,6 @@ export const deferredActionDropdownComponent = {
         <button class="btn btn-sm btn-default" ng-if="!ctrl.fetched">
           Actions
         </button>
-        <action-dropdown locks="ctrl.locks" ng-show="!ctrl.loading" ng-if="ctrl.fetched" stream="::ctrl.ms"></action-dropdown>
+        <action-dropdown locks="ctrl.locks" ng-show="!ctrl.loading" ng-if="ctrl.fetched" stream="::ctrl.ms" fetch-immediately="true"></action-dropdown>
       </div>`
 };
