@@ -13,35 +13,41 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
 
   const ctrl = this;
   ctrl.uuid = getRandomValue().toString();
+  ctrl.records = [];
 
   const div = $element[0].querySelector("div");
+
+  const initializeComponent = ({ uuid, records, locks, flag, tooltipPlacement, tooltipSize }) => {
+    const { init } = global.wasm_bindgen;
+    return init({
+      uuid,
+      records,
+      locks,
+      flag,
+      tooltip_placement: tooltipPlacement,
+      tooltip_size: tooltipSize
+    });
+  };
+
   if (div != null) div.id = ctrl.uuid;
 
-  ctrl.$onInit = () => {
-    ctrl.stream
-      .map(x => (Array.isArray(x) ? x : [x]))
-      .take(1)
-      .each(records => {
-        ctrl.records = records;
+  if (ctrl.update === true) ctrl.seedApp = initializeComponent(ctrl);
 
-        const { init } = global.wasm_bindgen;
-        ctrl.seedApp = init({
-          uuid: ctrl.uuid,
-          records,
-          locks: ctrl.locks,
-          flag: ctrl.flag,
-          tooltip_placement: ctrl.tooltipPlacement,
-          tooltip_size: ctrl.tooltipSize,
-          fetch_immediately: ctrl.fetchImmediately === true
-        });
-      });
-  };
+  ctrl.stream
+    .map(x => (Array.isArray(x) ? x : [x]))
+    .take(1)
+    .each(records => {
+      ctrl.records = records;
+
+      if (ctrl.update === true) ctrl.seedApp.set_records(ctrl.records);
+      else ctrl.seedApp = initializeComponent(ctrl);
+    });
 
   ctrl.$onChanges = changesObj => {
     if (ctrl.records != null) {
       ctrl.locks = changesObj.locks ? changesObj.locks.currentValue : ctrl.locks;
 
-      if (changesObj.locks != null) ctrl.seedApp.set_locks(ctrl.locks);
+      if (changesObj.locks != null && ctrl.seedApp != null) ctrl.seedApp.set_locks(ctrl.locks);
     }
   };
 
@@ -61,7 +67,7 @@ export const actionDropdown = {
     stream: "<",
     locks: "<",
     flag: "@?",
-    fetchImmediately: "<?"
+    update: "<?"
   },
   controller: ActionDropdownCtrl,
   template: `

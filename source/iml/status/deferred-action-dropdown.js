@@ -15,7 +15,6 @@ import type { HighlandStreamT } from "highland";
 export function DeferredActionDropdownCtrl($scope: Object, localApply: Function): void {
   "ngInject";
   const ctrl = this;
-  ctrl.fetched = false;
   const getActions = fp.map((x: string) => socketStream(x));
 
   const getMs = fp.flow(
@@ -26,16 +25,11 @@ export function DeferredActionDropdownCtrl($scope: Object, localApply: Function)
   ctrl.ms = highland();
 
   ctrl.onEnter = fp.once(() => {
-    ctrl.loading = true;
-
     const ms: HighlandStreamT<any[]> = getMs(ctrl.row.affected);
 
-    ms.tap(() => (ctrl.loading = false))
-      .tap(localApply.bind(null, $scope))
-      .pipe(ctrl.ms);
+    ms.pipe(ctrl.ms);
 
     $scope.$on("$destroy", ms.destroy.bind(ms));
-    ctrl.fetched = true;
   });
 }
 
@@ -47,12 +41,6 @@ export const deferredActionDropdownComponent = {
   controller: "DeferredActionDropdownCtrl as ctrl",
   template: `
       <div ng-mouseenter="::ctrl.onEnter()">
-        <button class="btn btn-sm btn-default loading-btn" disabled ng-if="ctrl.loading">
-          <i class="fa fa-spinner fa-spin"></i>Waiting
-        </button>
-        <button class="btn btn-sm btn-default" ng-if="!ctrl.fetched">
-          Actions
-        </button>
-        <action-dropdown locks="ctrl.locks" ng-show="!ctrl.loading" ng-if="ctrl.fetched" stream="::ctrl.ms" fetch-immediately="true"></action-dropdown>
+        <action-dropdown locks="ctrl.locks" stream="::ctrl.ms" update="true"></action-dropdown>
       </div>`
 };
