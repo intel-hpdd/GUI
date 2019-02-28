@@ -1,5 +1,5 @@
 NAME            := iml-gui
-PACKAGE_VERSION := 6.4.1
+PACKAGE_VERSION := 6.4.2
 PACKAGE_RELEASE := 1
 
 ifeq ($(UNPUBLISHED),true)
