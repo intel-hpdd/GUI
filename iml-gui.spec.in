@@ -4,7 +4,7 @@
 %{?!package_release: %global package_release @RELEASE@}
 
 Name:       iml-%{base_name}
-Version:    6.4.1
+Version:    6.4.2
 Release:    %{package_release}%{?dist}
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
+* Thu Feb 28 2019 Joe Grund <jgrund@whamcloud.com> - 6.4.2-1
+- Update propagateChange to unwrap any seamless-immutable objects it receives
+
 * Thu Oct 25 2018 Will Johnson <wjohnson@whamcloud.com> - 6.4.1-1
 - Upgrade inferno, flow, and other deps
 
