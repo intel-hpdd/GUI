@@ -82,6 +82,7 @@ declare module angular {
     bootstrap(element: HTMLElement | Document, modules: string[], config: Object): void,
     merge(...rest: Object[]): Object,
     element(el: string | Element): HTMLElement[] & elementExtrasT,
-    injector(): injector
+    injector(): injector,
+    isObject(value: any): boolean
   };
 }
