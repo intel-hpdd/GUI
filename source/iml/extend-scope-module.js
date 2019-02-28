@@ -11,6 +11,8 @@ import type { HighlandStreamT } from "highland";
 
 import type { $scopeT } from "angular";
 
+import Immutable from "seamless-immutable";
+
 export type localApplyT<R> = (scope: $scopeT, fn?: () => R) => ?R;
 
 export type PropagateChange = <T>($scopeT, Object, string, HighlandStreamT<T>) => HighlandStreamT<T>;
@@ -82,6 +84,12 @@ export default angular
     "ngInject";
     return ($scope, obj, prop, s) =>
       s
+        .map(x => {
+          const proceed = Array.isArray(x) || angular.isObject(x);
+
+          if (proceed && Immutable.isImmutable(x)) return Immutable.asMutable(x, { deep: true });
+          else return x;
+        })
         .tap(x => {
           obj[prop] = x;
         })
