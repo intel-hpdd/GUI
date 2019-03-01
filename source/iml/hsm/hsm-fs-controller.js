@@ -5,8 +5,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
-
 import type { StateServiceT } from "angular-ui-router";
 
 import type { $scopeT } from "angular";
@@ -54,10 +52,10 @@ export default function HsmFsCtrl(
       }
     })
     .each(() => {
-      const fsId = $state.router.globals.params.fsId;
+      const fsId = parseInt($state.router.globals.params.fsId, 10);
 
       if (fsId) {
-        fsStream2 = fsStream().map(fp.find(x => x.id === fsId));
+        fsStream2 = fsStream().map(xs => xs.find(x => x.id === fsId));
         p("fs", fsStream2);
       }
     });
