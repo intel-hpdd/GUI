@@ -2,7 +2,6 @@ import highland from "highland";
 import HsmFsCtrl from "../../../../source/iml/hsm/hsm-fs-controller";
 import broadcaster from "../../../../source/iml/broadcaster.js";
 import angular from "../../../angular-mock-setup.js";
-import * as maybe from "@iml/maybe";
 
 describe("HSM fs controller", () => {
   let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB;
@@ -88,37 +87,35 @@ describe("HSM fs controller", () => {
   });
 
   it("should set fileSystems data", () => {
-    fsStream.write([{ id: "1" }, { id: "2" }]);
+    fsStream.write([{ id: 1 }, { id: 2 }]);
     jest.runAllTimers();
 
-    expect(ctrl.fileSystems).toEqual([{ id: "1" }, { id: "2" }]);
+    expect(ctrl.fileSystems).toEqual([{ id: 1 }, { id: 2 }]);
   });
 
   it("should set fs to the fsId", () => {
     fsStream.write([
       {
-        id: "1",
+        id: 1,
         label: "foo"
       },
       {
-        id: "2",
+        id: 2,
         label: "bar"
       }
     ]);
     jest.runAllTimers();
 
-    expect(ctrl.fs).toEqual(
-      maybe.ofJust({
-        id: "1",
-        label: "foo"
-      })
-    );
+    expect(ctrl.fs).toEqual({
+      id: 1,
+      label: "foo"
+    });
   });
 
   it("should filter out if fsId does not exist", () => {
     $state.router.globals.params.fsId = "";
 
-    fsStream.write([{ id: "1" }]);
+    fsStream.write([{ id: 1 }]);
 
     qs$.write({
       qs: ""
@@ -131,14 +128,14 @@ describe("HSM fs controller", () => {
   it("should alter fs id on change", () => {
     $state.router.globals.params.fsId = "3";
 
-    fsStream.write([{ id: "1" }, { id: "3" }]);
+    fsStream.write([{ id: 1 }, { id: 3 }]);
 
     qs$.write({
       qs: ""
     });
     jest.runAllTimers();
 
-    expect(ctrl.fs).toEqual(maybe.ofJust({ id: "3" }));
+    expect(ctrl.fs).toEqual({ id: 3 });
   });
 
   it("should call qsStream", () => {
