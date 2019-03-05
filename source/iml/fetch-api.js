@@ -6,22 +6,16 @@
 // license that can be found in the LICENSE file.
 
 import getStore from "./store/get-store.js";
-//import { SHOW_EXCEPTION_MODAL_ACTION } from "./exception/exception-modal-reducer.js";
+import { SHOW_EXCEPTION_MODAL_ACTION } from "./exception/exception-modal-reducer.js";
 
-export default function fetchApi<T>(url: string, options: ?Object): Promise<?T> {
-  options = options || {};
-  options = {
-    method: "GET",
-    ...options
-  };
-
+export default function fetchApi<T>(url: string, options: Object = {}): Promise<?T> {
   const r: Promise<?T> = fetch(url, options)
     .then(x => x.json())
     .catch(e => {
-      // getStore.dispatch({
-      //   type: SHOW_EXCEPTION_MODAL_ACTION,
-      //   payload: e
-      // });
+      getStore.dispatch({
+        type: SHOW_EXCEPTION_MODAL_ACTION,
+        payload: e
+      });
     });
 
   return r;
