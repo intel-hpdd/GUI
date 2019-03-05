@@ -5,8 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
+import Inferno from "inferno";
+
 type headerT = {
-  children?: React.ChildrenArray<React.Element<*>>
+  children?: React$Element<*> | React$Element<*>[]
 };
 
 export const Header = ({ children }: headerT) => {
@@ -15,7 +17,7 @@ export const Header = ({ children }: headerT) => {
 
 type bodyT = {
   moreClasses?: string[],
-  children?: React.ChildrenArray<React.Element<*>>
+  children?: React$Element<*>
 };
 
 export const Body = ({ children, moreClasses = [] }: bodyT) => (
@@ -23,11 +25,17 @@ export const Body = ({ children, moreClasses = [] }: bodyT) => (
 );
 
 type footerT = {
-  children?: React.ChildrenArray<React.Element<*>>
+  children?: React$Element<*>[]
 };
 
 export const Footer = ({ children }: footerT) => {
   return <div class="modal-footer">{children}</div>;
+};
+
+type BackdropT = {
+  moreClasses?: string[],
+  visible: boolean,
+  zIndex?: number
 };
 
 export const Backdrop = ({ moreClasses = [], visible, zIndex }: BackdropT) => {
@@ -37,23 +45,24 @@ export const Backdrop = ({ moreClasses = [], visible, zIndex }: BackdropT) => {
   return <div className={`modal-backdrop fade in ${moreClasses.join(" ")}`} style={style} />;
 };
 
-type BackdropT = {
-  moreClasses?: string[],
-  visible: boolean,
-  zIndex?: number
-};
-
 type modalT = {
-  children?: React.ChildrenArray<React.Element<*>>,
+  children?: React$Element<*> | React$Element<*>[],
   moreClasses?: string[],
+  zIndex?: number,
   visible: boolean
 };
 
-export const Modal = ({ moreClasses = [], children, visible }: modalT) => {
+export const Modal = ({ moreClasses = [], children, visible, zIndex }: modalT) => {
   if (!visible) return null;
 
+  const zIndexStyle = zIndex != null ? { "z-index": zIndex } : {};
   return (
-    <div style={{ display: "block" }} tabindex="-1" role="dialog" className={`modal fade in ${moreClasses.join(" ")}`}>
+    <div
+      style={{ display: "block", ...zIndexStyle }}
+      tabindex="-1"
+      role="dialog"
+      className={`modal fade in ${moreClasses.join(" ")}`}
+    >
       <div class="modal-dialog" role="document">
         <div class="modal-content">{children}</div>
       </div>
