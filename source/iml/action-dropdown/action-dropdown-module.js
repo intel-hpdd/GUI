@@ -18,7 +18,8 @@ import { ConfirmActionModal } from "./confirm-action-modal.js";
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer";
 import { CLEAR_CONFIRM_ACTION } from "./confirm-action-reducer.js";
 
-import type { Command } from "../command/command-types.js";
+import { type Command } from "../command/command-types.js";
+import { type HsmControlParam } from "../hsm/hsm-module.js";
 
 export const ACTION_DROPDOWN_FLAG_CHECK_DEPLOY: "check_deploy" = "check_deploy";
 export type ActionDropdownFlagT = typeof ACTION_DROPDOWN_FLAG_CHECK_DEPLOY;
@@ -50,10 +51,15 @@ export type RecordT = {
   install_method?: string
 };
 
-export type SelectedActionAndRecordT = {|
+export type RecordAndSelectedActionT = {|
   available_action: SelectedActionT,
   record: RecordT,
   flag: ?ActionDropdownFlagT
+|};
+
+export type RecordAndHsmControlParamT = {|
+  record: RecordT,
+  hsm_control_param: HsmControlParam
 |};
 
 export default angular

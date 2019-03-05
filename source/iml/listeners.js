@@ -7,7 +7,7 @@
 
 import global from "./global.js";
 import { handleAction, handleCheckDeploy, handleCheckDeployPredicate } from "./action-dropdown/handle-action.js";
-import { type RecordT } from "./action-dropdown/action-dropdown-module.js";
+import { type RecordT, type RecordAndHsmControlParamT } from "./action-dropdown/action-dropdown-module.js";
 
 import {
   type SelectedActionAndRecordT,
@@ -35,6 +35,13 @@ global.addEventListener(
 
       handleAction(availableAction, label, resourceUri);
     }
+  }
+);
+
+global.addEventListener(
+  "hsm_action_selected",
+  ({ detail: { record, hsm_control_param: hsmControlParam } }: { detail: RecordAndHsmControlParamT }) => {
+    handleAction(hsmControlParam, record.label);
   }
 );
 

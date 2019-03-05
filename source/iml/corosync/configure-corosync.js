@@ -83,8 +83,8 @@ export const configureCorosyncComponent = {
       </div>
     </div>
 
-    <div class="configure-btns" ng-if="configToggle.inactive()" as-stream val="$ctrl.config">
-      <action-dropdown locks="$ctrl.locks" tooltip-placement="top" stream="::str"></action-dropdown>
+    <div class="configure-btns" ng-if="configToggle.inactive()">
+      <action-dropdown locks="$ctrl.locks" tooltip-placement="top" records="$ctrl.config"></action-dropdown>
 
       <button class="btn btn-primary btn-block btn-sm edit-btn" ng-click="::configToggle.setActive()">
         Configure<i class="fa fa-gear"></i>

@@ -13,6 +13,7 @@ import { type SelectedActionT } from "./action-dropdown-module.js";
 
 import { CONFIRM_ACTION } from "./confirm-action-reducer.js";
 import { ADD_SERVER_STEPS } from "../server/server-module.js";
+import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer";
 
 export default function handleActionFactory() {
   "ngInject";
@@ -155,7 +156,12 @@ function setConfParam(socketStream, action) {
       json: mdt
     },
     true
-  );
+  ).each(({ command }) => {
+    getStore.dispatch({
+      type: SHOW_COMMAND_MODAL_ACTION,
+      payload: [command]
+    });
+  });
 }
 
 export function handleCheckDeployPredicate(action: SelectedActionT, state: string, serverProfile: ?Object) {

@@ -101,8 +101,8 @@ export const serverState = {
               </span>
             </span>
           </td>
-          <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown stream="::str" locks="server.locks" flag="check_deploy"></action-dropdown>
+          <td ng-if="!server.editable">
+            <action-dropdown records="item" locks="server.locks" flag="check_deploy"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -254,8 +254,8 @@ export const serverDetailState = {
           <job-status content-type-id="serverDetail.server.content_type_id" record-id="serverDetail.server.id" locks="serverDetail.locks"></job-status>
         </div>
       </div>
-      <div as-stream val="serverDetail.server">
-        <action-dropdown tooltip-placement="top" stream="::str" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
+      <div>
+        <action-dropdown tooltip-placement="top" records="serverDetail.server" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker locks="serverDetail.locks" stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>
@@ -278,7 +278,9 @@ export const serverDetailState = {
         </div>
       </div>
       <div as-viewer stream="::serverDetail.lnetConfigurationStream">
-        <action-dropdown tooltip-placement="top" stream="::viewer" locks="serverDetail.locks"></action-dropdown>
+        <div as-value stream="::viewer">
+          <action-dropdown tooltip-placement="top" records="curr.val" locks="serverDetail.locks"></action-dropdown>
+        </div>
       </div>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>
