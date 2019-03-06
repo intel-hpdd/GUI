@@ -7,12 +7,12 @@
 
 import * as fp from "@iml/fp";
 import socketStream from "../socket/socket-stream.js";
+import waitForCommandCompletion from "../command/wait-for-command-completion-service.js";
 
 export function ConfigureLnetController(
   $scope: Object,
   LNET_OPTIONS: Object,
   insertHelpFilter: Function,
-  waitForCommandCompletion: Function,
   propagateChange: Function
 ) {
   "ngInject";

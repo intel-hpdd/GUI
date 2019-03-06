@@ -8,16 +8,19 @@
 import global from "../global.js";
 import getRandomValue from "../get-random-value.js";
 
-const initializeComponent = ({ uuid, records, locks, flag, tooltipPlacement, tooltipSize }) => {
+const initializeComponent = ({ uuid, records, locks, flag, tooltipPlacement, tooltipSize }, div) => {
   const { init } = global.wasm_bindgen;
-  return init({
-    uuid,
-    records,
-    locks,
-    flag,
-    tooltip_placement: tooltipPlacement,
-    tooltip_size: tooltipSize
-  });
+  return init(
+    {
+      uuid,
+      records,
+      locks,
+      flag,
+      tooltip_placement: tooltipPlacement,
+      tooltip_size: tooltipSize
+    },
+    div
+  );
 };
 
 export function ActionDropdownCtrl($element: HTMLElement[]) {
@@ -38,13 +41,13 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
   const normalRecords = initialRecords.filter(x => x.hsm_control_params == null);
   if (ctrl.update === true || hsmRecords.length > 0) {
     ctrl.records = [];
-    ctrl.seedApp = initializeComponent(ctrl);
+    ctrl.seedApp = initializeComponent(ctrl, div);
 
     if (hsmRecords.length > 0) ctrl.seedApp.set_hsm_records(hsmRecords);
     if (ctrl.update === true && normalRecords.length > 0) ctrl.seedApp.set_records(normalRecords);
   } else {
     ctrl.records = initialRecords;
-    ctrl.seedApp = initializeComponent(ctrl);
+    ctrl.seedApp = initializeComponent(ctrl, div);
   }
 
   ctrl.$onChanges = changesObj => {

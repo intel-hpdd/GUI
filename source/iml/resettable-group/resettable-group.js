@@ -22,7 +22,7 @@ type itm = {
   item: ctrl
 };
 
-export const ResettableGroupController = class {
+export class ResettableGroupController {
   controls: Array<itm> = [];
   formCtrl: ctrl;
   localApply: Function;
@@ -70,7 +70,7 @@ export const ResettableGroupController = class {
 
     this.localApply();
   }
-};
+}
 
 export default {
   scope: {},

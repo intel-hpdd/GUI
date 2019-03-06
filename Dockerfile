@@ -3,7 +3,6 @@ WORKDIR /home/node/GUI
 COPY package*.json ./
 COPY source ./source
 COPY webpack.config.js ./
-COPY babel.config.js ./
 COPY index.ejs .
 RUN apk add npm && \
   apk add git && \

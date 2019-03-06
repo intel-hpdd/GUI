@@ -9,7 +9,7 @@ export const KEY_PRESS = "KEY_PRESS";
 export const VALUE = "VALUE";
 export const VALUES = "VALUES";
 
-export const CompletionistCtrl = class {
+export class CompletionistCtrl {
   evMap: Object = {};
   completer: (params: { value: string, cursorPosition: number }) => Array<string>;
   register(evName: string, listener: Function): void {
@@ -38,7 +38,7 @@ export const CompletionistCtrl = class {
 
     this.emit(VALUES, result);
   }
-};
+}
 
 export default {
   bindings: {

@@ -6,6 +6,7 @@ import * as fp from "@iml/fp";
 
 describe("host profile then", () => {
   let mockSocketStream, streams, getHostProfilesFactory, createHostProfilesFactory;
+  let mockWaitForCommandCompletion, waitForCommandCompletionInner;
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -18,6 +19,14 @@ describe("host profile then", () => {
     });
 
     jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+
+    waitForCommandCompletionInner = jest.fn(() => highland());
+    mockWaitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
+
+    jest.mock(
+      "../../../../source/iml/command/wait-for-command-completion-service.js",
+      () => mockWaitForCommandCompletion
+    );
 
     ({
       getHostProfilesFactory,
@@ -272,17 +281,14 @@ describe("host profile then", () => {
   });
 
   describe("create host profiles", () => {
-    let profile, spy, waitForCommandCompletion, waitForCommandCompletionInner;
+    let profile, spy;
 
     beforeEach(() => {
       streams = [];
 
       const mod = require("../../../../source/iml/server/create-host-profiles-stream.js");
 
-      waitForCommandCompletionInner = jest.fn(() => highland());
-      waitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
-
-      const createHostProfiles = mod.createHostProfilesFactory(waitForCommandCompletion);
+      const createHostProfiles = mod.createHostProfilesFactory();
       profile = transformedHostProfileFixture[0];
 
       spy = jest.fn();
@@ -350,7 +356,7 @@ describe("host profile then", () => {
 
         expect.assertions(2);
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(false);
+        expect(mockWaitForCommandCompletion).toHaveBeenCalledWith(false);
         expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith([
           {
             command: 1

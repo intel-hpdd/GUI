@@ -6,32 +6,29 @@ exports[`AlertIndicator DOM testing exclamation icon interaction should not show
     class="record-state"
   >
     <span
-      style="position: relative;"
+      class="icon-wrap tooltip-container tooltip-hover"
+      popoverbutton="true"
     >
-      <span
-        class="icon-wrap tooltip-container tooltip-hover"
-        popoverbutton="true"
+      <i
+        class="fa activate-popover fa-exclamation-circle"
+      />
+      
+      <div
+        class="tooltip inferno-tt top medium "
       >
-        <i
-          class="fa activate-popover fa-exclamation-circle"
+        <div
+          class="tooltip-arrow"
         />
         <div
-          class="tooltip inferno-tt top medium "
+          class="tooltip-inner"
         >
-          <div
-            class="tooltip-arrow"
-          />
-          <div
-            class="tooltip-inner"
-          >
-            <span>
-              response message
-            </span>
-          </div>
+          <span>
+            response message
+          </span>
         </div>
-      </span>
-      
+      </div>
     </span>
+    
     
   </span>
 </div>

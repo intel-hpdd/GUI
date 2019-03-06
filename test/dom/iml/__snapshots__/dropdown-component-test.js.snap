@@ -3,7 +3,7 @@
 exports[`Dropdown DOM Tests should respond to isOpen 1`] = `
 <div>
   <div
-    class="btn-group dropdown open"
+    class="btn-group dropdown  open"
   >
     <button />
     <ul />

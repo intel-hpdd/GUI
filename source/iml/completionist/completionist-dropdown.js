@@ -8,7 +8,7 @@
 import type { CompletionistCtrl } from "./completionist.js";
 import { VALUES, VALUE, KEY_PRESS } from "./completionist.js";
 
-const CompletionistDropdownCtrl = class {
+class CompletionistDropdownCtrl {
   values: Array<?string> = [];
   index: number = -1;
   completionist: CompletionistCtrl;
@@ -68,7 +68,7 @@ const CompletionistDropdownCtrl = class {
   onSelect(value: string): void {
     this.completionist.emit(VALUE, value);
   }
-};
+}
 
 export default {
   require: {

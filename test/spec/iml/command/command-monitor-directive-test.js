@@ -1,16 +1,9 @@
 import highland from "highland";
 import angular from "../../../angular-mock-setup.js";
+import { render } from "inferno";
 
 describe("Command monitor controller", () => {
-  let $scope,
-    ctrl,
-    mockGetCommandStream,
-    commandStream,
-    openCommandModal,
-    openCommandModalPromise,
-    mod,
-    mockSocketStream,
-    stream;
+  let $scope, ctrl, mockGetCommandStream, commandStream, mod, mockSocketStream, mockGetStore, stream, div, body;
 
   beforeEach(() => {
     stream = highland();
@@ -21,27 +14,45 @@ describe("Command monitor controller", () => {
     jest.spyOn(commandStream, "destroy");
     mockGetCommandStream = jest.fn(() => commandStream);
 
+    mockGetStore = {
+      dispatch: jest.fn()
+    };
+
     jest.mock("../../../../source/iml/socket/socket-stream", () => mockSocketStream);
     jest.mock("../../../../source/iml/command/get-command-stream", () => mockGetCommandStream);
+    jest.mock("../../../../source/iml/store/get-store", () => mockGetStore);
+
     mod = require("../../../../source/iml/command/command-monitor-directive.js");
+
+    body = document.querySelector("body");
+    div = document.createElement("div");
+    if (body) body.appendChild(div);
+  });
+
+  afterEach(() => {
+    render(null, div);
+    if (body) body.removeChild(div);
   });
 
   beforeEach(
-    angular.mock.inject(($rootScope, $controller, $q) => {
+    angular.mock.inject(($rootScope, $controller) => {
       $scope = $rootScope.$new();
       jest.spyOn($scope, "$on");
 
-      openCommandModalPromise = $q.when();
-      openCommandModal = jest.fn(() => ({
-        result: openCommandModalPromise
-      }));
-
       ctrl = $controller(mod.CommandMonitorCtrl, {
         $scope,
-        openCommandModal
+        $element: [div]
       });
     })
   );
+
+  it("should return a directive by default", () => {
+    expect(mod.default()).toEqual({
+      restrict: "A",
+      controller: expect.any(Function),
+      controllerAs: "$ctrl"
+    });
+  });
 
   it("should request data", () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith("/command", {
@@ -70,41 +81,46 @@ describe("Command monitor controller", () => {
   describe("handling responses", () => {
     let lastObjects;
 
-    beforeEach(() => {
-      lastObjects = {
-        objects: [{ cancelled: true }, { cancelled: false }]
-      };
-
-      stream.write(lastObjects);
-    });
-
-    it("should update length", () => {
-      expect(ctrl.length).toEqual(1);
-    });
-
-    it("should save the last response", () => {
-      expect(ctrl.lastObjects).toEqual([{ cancelled: false }]);
-    });
-
-    describe("show pending", () => {
+    describe("with data", () => {
       beforeEach(() => {
-        ctrl.showPending();
+        lastObjects = {
+          objects: [{ cancelled: true }, { cancelled: false }]
+        };
+
+        stream.write(lastObjects);
       });
 
-      it("should open the command modal with the stream", () => {
-        expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
+      it("should update length", () => {
+        expect(ctrl.length).toEqual(1);
       });
 
-      it("should call getCommandStream with the last response", () => {
-        expect(mockGetCommandStream).toHaveBeenCalledOnceWith([{ cancelled: false }]);
+      it("should save the last response", () => {
+        expect(ctrl.lastObjects).toEqual([{ cancelled: false }]);
       });
 
-      it("should end the stream after the modal closes", () => {
-        openCommandModalPromise.finally(() => {
-          expect(commandStream.destroy).toHaveBeenCalledTimes(1);
+      describe("show pending", () => {
+        let a;
+        beforeEach(() => {
+          a = div.querySelector("a");
+          a.click();
         });
 
-        $scope.$digest();
+        it("should open the command modal with the stream", () => {
+          expect(mockGetStore.dispatch).toHaveBeenCalledWith({
+            type: "SHOW_COMMAND_MODAL_ACTION",
+            payload: [{ cancelled: false }]
+          });
+        });
+      });
+    });
+
+    describe("without data", () => {
+      beforeEach(() => {
+        stream.write({ objects: [] });
+      });
+
+      it("should update length", () => {
+        expect(ctrl.length).toEqual(0);
       });
     });
   });

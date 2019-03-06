@@ -42,6 +42,10 @@ export function restrictTo() {
   };
 }
 
+export const RestrictToComponent = ({ group, children }: { group: string, children: React$Element<*> }) => {
+  if (groupAllowed(group)) return <>{children}</>;
+};
+
 export function restrict() {
   return {
     link($scope, el, attrs) {

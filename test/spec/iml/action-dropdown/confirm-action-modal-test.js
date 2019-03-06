@@ -1,12 +1,22 @@
 // @flow
 
-import { ConfirmActionModal } from "../../../../source/iml/action-dropdown/confirm-action-modal.js";
 import { render } from "inferno";
+import highland from "highland";
 
 describe("confirm action modal", () => {
-  let body, div, cb, button;
+  let body, div, cb, button, ConfirmActionModal, modalStack$, mockGetStore;
   beforeEach(() => {
     cb = jest.fn();
+
+    modalStack$ = highland();
+    jest.spyOn(modalStack$, "end");
+    mockGetStore = {
+      select: jest.fn(() => modalStack$),
+      dispatch: jest.fn()
+    };
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+
+    ConfirmActionModal = require("../../../../source/iml/action-dropdown/confirm-action-modal.js").ConfirmActionModal;
 
     div = document.createElement("div");
     body = document.querySelector("body");
@@ -16,6 +26,11 @@ describe("confirm action modal", () => {
   describe("with no prompts", () => {
     beforeEach(() => {
       render(<ConfirmActionModal message={"message"} prompts={[]} cb={cb} />, div);
+    });
+
+    afterEach(() => {
+      render(null, div);
+      if (body) body.removeChild(div);
     });
 
     it("should render the modal", () => {
@@ -28,6 +43,11 @@ describe("confirm action modal", () => {
       render(<ConfirmActionModal message={"message"} prompts={["prompt1"]} cb={cb} />, div);
     });
 
+    afterEach(() => {
+      render(null, div);
+      if (body) body.removeChild(div);
+    });
+
     it("should render the modal", () => {
       expect(div).toMatchSnapshot();
     });
@@ -38,6 +58,11 @@ describe("confirm action modal", () => {
       render(<ConfirmActionModal message={"message"} prompts={["prompt1", "prompt2"]} cb={cb} />, div);
     });
 
+    afterEach(() => {
+      render(null, div);
+      if (body) body.removeChild(div);
+    });
+
     it("should render the modal", () => {
       expect(div).toMatchSnapshot();
     });
@@ -46,6 +71,11 @@ describe("confirm action modal", () => {
   describe("interaction", () => {
     beforeEach(() => {
       render(<ConfirmActionModal message={"message"} prompts={["prompt1"]} cb={cb} />, div);
+    });
+
+    afterEach(() => {
+      render(null, div);
+      if (body) body.removeChild(div);
     });
 
     describe("Confirming", () => {
@@ -85,6 +115,33 @@ describe("confirm action modal", () => {
         expect(cb).toHaveBeenCalledTimes(1);
         expect(cb).toHaveBeenCalledWith("cancel");
       });
+    });
+  });
+
+  describe("on destroy", () => {
+    beforeEach(done => {
+      cb.mockImplementation(() => {
+        render(null, div);
+        if (body) body.removeChild(div);
+        done();
+      });
+
+      render(<ConfirmActionModal message={"message"} prompts={["prompt1", "prompt2"]} cb={cb} />, div);
+      modalStack$.write(["CONFIRM_ACTION_COMMAND_MODAL_NAME"]);
+
+      window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
+    });
+
+    it("should dispatch with the MODAL_STACK_REMOVE_MODAL type", () => {
+      expect(mockGetStore.dispatch).toHaveBeenCalledTimes(2);
+      expect(mockGetStore.dispatch).lastCalledWith({
+        type: "MODAL_STACK_REMOVE_MODAL",
+        payload: "CONFIRM_ACTION_COMMAND_MODAL_NAME"
+      });
+    });
+
+    it("should end the modalStack$", () => {
+      expect(modalStack$.end).toHaveBeenCalledTimes(1);
     });
   });
 });

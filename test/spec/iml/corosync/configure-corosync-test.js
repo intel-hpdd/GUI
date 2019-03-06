@@ -10,9 +10,9 @@ describe("configure corosync", () => {
     mockSocketStream,
     mod,
     alertStream,
-    locksStream,
+    locks,
     socketResponse,
-    waitForCommandCompletion,
+    mockWaitForCommandCompletion,
     mapWaitForCommandCompletion,
     insertHelpFilter;
 
@@ -20,6 +20,14 @@ describe("configure corosync", () => {
     mockSocketStream = jest.fn(() => socketResponse);
 
     jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+
+    mapWaitForCommandCompletion = jest.fn(x => [x]);
+    mockWaitForCommandCompletion = jest.fn(() => mapWaitForCommandCompletion);
+
+    jest.mock(
+      "../../../../source/iml/command/wait-for-command-completion-service.js",
+      () => mockWaitForCommandCompletion
+    );
 
     mod = require("../../../../source/iml/corosync/configure-corosync.js");
   });
@@ -29,24 +37,20 @@ describe("configure corosync", () => {
       angular.mock.inject(($controller, $rootScope) => {
         $scope = $rootScope.$new();
 
-        mapWaitForCommandCompletion = jest.fn(x => [x]);
-        waitForCommandCompletion = jest.fn(() => mapWaitForCommandCompletion);
-
         socketResponse = highland();
 
         s = highland();
         jest.spyOn(s, "destroy");
 
         alertStream = highland();
-        locksStream = highland();
+        locks = {};
 
         bindings = {
           stream: broadcaster(s),
           alertStream: broadcaster(alertStream),
-          locks: broadcaster(locksStream)
+          locks
         };
         jest.spyOn(alertStream, "destroy");
-        jest.spyOn(locksStream, "destroy");
 
         insertHelpFilter = jest.fn();
 
@@ -54,8 +58,7 @@ describe("configure corosync", () => {
           mod.ConfigureCorosyncController,
           {
             $scope,
-            insertHelpFilter,
-            waitForCommandCompletion
+            insertHelpFilter
           },
           bindings
         );
@@ -74,17 +77,13 @@ describe("configure corosync", () => {
       it("should destroy the alert stream", () => {
         expect(alertStream.destroy).toHaveBeenCalledTimes(1);
       });
-
-      it("should destroy the job stream", () => {
-        expect(locksStream.destroy).toHaveBeenCalledTimes(1);
-      });
     });
 
     it("should setup the controller as expected", () => {
       expect(ctrl).toEqual({
         stream: expect.any(Function),
         alertStream: expect.any(Function),
-        locks: expect.any(Function),
+        locks: expect.any(Object),
         observer: expect.any(Object),
         getDiffMessage: expect.any(Function),
         save: expect.any(Function)
@@ -135,7 +134,7 @@ describe("configure corosync", () => {
       it("should wait for command completion", () => {
         socketResponse.write({});
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+        expect(mockWaitForCommandCompletion).toHaveBeenCalledOnceWith(true);
         expect(mapWaitForCommandCompletion).toHaveBeenCalledOnceWith([{}]);
       });
 

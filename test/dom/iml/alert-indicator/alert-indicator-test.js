@@ -1,40 +1,53 @@
 import highland from "highland";
 import broadcast from "../../../../source/iml/broadcaster.js";
-import { render } from "inferno";
-import AlertIndicator from "../../../../source/iml/alert-indicator/alert-indicator.js";
+import { default as AlertIndicator, alertIndicatorNg } from "../../../../source/iml/alert-indicator/alert-indicator.js";
 import { renderToSnapshot } from "../../../test-utils.js";
+import angular from "../../../angular-mock-setup.js";
 
 describe("AlertIndicator DOM testing", () => {
-  let alertStream, recordId, displayType, node, popover, i, stream, stateLabel, alerts, tooltip;
+  let alertStream, recordId, displayType, node, popover, i, stream, stateLabel, alerts, tooltip, template, $scope;
 
-  beforeEach(() => {
-    stream = highland();
+  beforeEach(
+    angular.mock.module($compileProvider => {
+      $compileProvider.component("alertIndicator", alertIndicatorNg);
+    })
+  );
 
-    alertStream = broadcast(stream);
+  beforeEach(
+    angular.mock.inject(($compile, $rootScope) => {
+      stream = highland();
 
-    recordId = "host/6";
+      alertStream = broadcast(stream);
 
-    displayType = "medium";
+      recordId = "host/6";
 
-    stream.write([]);
+      displayType = "medium";
 
-    node = document.createElement("div");
+      stream.write([]);
 
-    document.body.appendChild(node);
+      $scope = $rootScope.$new();
+      $scope.recordId = recordId;
+      $scope.displayType = displayType;
+      $scope.alertStream = alertStream;
+      template = '<alert-indicator record-id="recordId" display-type="displayType" alert-stream="alertStream" />';
 
-    render(<AlertIndicator viewer={alertStream} size={displayType} recordId={recordId} />, node);
+      node = $compile(template)($scope)[0];
+      $scope.$digest();
 
-    popover = node.querySelector.bind(node, ".popover");
-    i = node.querySelector.bind(node, "i");
-    alerts = node.querySelectorAll.bind(node, "li");
+      document.body.appendChild(node);
 
-    stateLabel = node.querySelector.bind(node, ".state-label");
+      popover = node.querySelector.bind(node, ".popover");
+      i = node.querySelector.bind(node, "i");
+      alerts = node.querySelectorAll.bind(node, "li");
 
-    tooltip = node.querySelector.bind(node, ".tooltip");
-  });
+      stateLabel = node.querySelector.bind(node, ".state-label");
+
+      tooltip = node.querySelector.bind(node, ".tooltip");
+    })
+  );
 
   afterEach(() => {
-    render(null, node);
+    $scope.$destroy();
     document.body.removeChild(node);
   });
 
@@ -55,6 +68,7 @@ describe("AlertIndicator DOM testing", () => {
 
       stream.write(response);
       i().click();
+      $scope.$digest();
     });
 
     it("should have an alert message if the response contains one.", () => {

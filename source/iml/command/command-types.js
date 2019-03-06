@@ -28,3 +28,28 @@ export type CommandResponse = {
   },
   objects: Command[]
 };
+
+export type JobT = {
+  id: number,
+  state: string,
+  resource_uri: string,
+  available_transitions: Array<*>,
+  description: string,
+  steps: Array<*>,
+  children: JobT[],
+  cancelled: boolean,
+  created_at: string,
+  errored: boolean,
+  modified_at: string
+};
+
+export type StepT = {
+  state: "success" | "incomplete",
+  args: string[],
+  step_index: number,
+  step_count: number,
+  class_name: string,
+  description: string,
+  console: string,
+  backtrace: string
+};

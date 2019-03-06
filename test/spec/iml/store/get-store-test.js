@@ -29,7 +29,9 @@ describe("get store", () => {
     mockLocksReducer,
     mockExceptionModalReducer,
     mockConfirmActionReducer,
-    mockCommandModalReducer;
+    mockCommandModalReducer,
+    mockStepModalReducer,
+    mockModalStackReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
@@ -62,6 +64,8 @@ describe("get store", () => {
     mockExceptionModalReducer = {};
     mockConfirmActionReducer = {};
     mockCommandModalReducer = {};
+    mockStepModalReducer = {};
+    mockModalStackReducer = {};
 
     jest.mock(
       "../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js",
@@ -104,6 +108,8 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/exception/exception-modal-reducer.js", () => mockExceptionModalReducer);
     jest.mock("../../../../source/iml/action-dropdown/confirm-action-reducer.js", () => mockConfirmActionReducer);
     jest.mock("../../../../source/iml/command/command-modal-reducer.js", () => mockCommandModalReducer);
+    jest.mock("../../../../source/iml/command/step-modal-reducer.js", () => mockStepModalReducer);
+    jest.mock("../../../../source/iml/modal-stack-reducer.js", () => mockModalStackReducer);
 
     const storeModule = require("../../../../source/iml/store/get-store.js");
     storeInstance = storeModule.default;
@@ -141,7 +147,9 @@ describe("get store", () => {
       locks: mockLocksReducer,
       exceptionModal: mockExceptionModalReducer,
       confirmAction: mockConfirmActionReducer,
-      commandModal: mockCommandModalReducer
+      commandModal: mockCommandModalReducer,
+      stepModal: mockStepModalReducer,
+      modalStack: mockModalStackReducer
     });
   });
 });

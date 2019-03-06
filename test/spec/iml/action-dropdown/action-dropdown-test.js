@@ -101,14 +101,17 @@ describe("action dropdown directive", () => {
 
     it("should initialize the component", () => {
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith({
-        uuid: "7",
-        records: [record1],
-        locks: [lock1],
-        flag: "flag",
-        tooltip_placement: "left",
-        tooltip_size: "large"
-      });
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
+        {
+          uuid: "7",
+          records: [record1],
+          locks: [lock1],
+          flag: "flag",
+          tooltip_placement: "left",
+          tooltip_size: "large"
+        },
+        expect.any(Object)
+      );
     });
 
     it("should not manually set records", () => {
@@ -155,14 +158,17 @@ describe("action dropdown directive", () => {
 
     it("should initialize the component", () => {
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith({
-        uuid: "7",
-        records: [],
-        locks: [lock1],
-        flag: "flag",
-        tooltip_placement: "left",
-        tooltip_size: "large"
-      });
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
+        {
+          uuid: "7",
+          records: [],
+          locks: [lock1],
+          flag: "flag",
+          tooltip_placement: "left",
+          tooltip_size: "large"
+        },
+        expect.any(Object)
+      );
     });
 
     it("should not have set records yet", () => {

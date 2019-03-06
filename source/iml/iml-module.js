@@ -20,7 +20,8 @@ import "./session/session-dispatch-source.js";
 import "./storage/storage-dispatch-source.js";
 import "./sse/sse-handler.js";
 import "./listeners.js";
-import "./action-dropdown/action-dropdown-handlers";
+import "./action-dropdown/action-dropdown-handlers.js";
+import "./command/command-handlers.js";
 
 import * as ENV from "./environment.js";
 import angular from "angular";
@@ -41,7 +42,6 @@ import jobStatsModule from "./job-stats/job-stats-module";
 import hsmFsModule from "./hsm/hsm-fs-module";
 import hsmModule from "./hsm/hsm-module";
 import aboutComponent from "./about/about-component.js";
-import modalDecoratorModule from "./modal-decorator/modal-decorator-module";
 import statusModule from "./status/status-module";
 import mgtModule from "./mgt/mgt-module";
 import logModule from "./logs/log-module.js";
@@ -100,8 +100,6 @@ import {
 
 import oldGUIStates from "./old-gui-shim/old-gui-states.js";
 
-import jobTemplate from "./command/assets/html/job.html";
-
 import { getHostProfilesFactory, createHostProfilesFactory } from "./server/create-host-profiles-stream";
 
 import { imlTooltip } from "./tooltip/tooltip.js";
@@ -138,7 +136,6 @@ const imlModule = angular
     hsmFsModule,
     hsmModule,
     multiTogglerModule,
-    modalDecoratorModule,
     statusModule,
     mgtModule,
     logModule,
@@ -224,11 +221,7 @@ const imlModule = angular
     LARGE: "large"
   })
   .value("ENV", ENV)
-  .run(routeTransitions)
-  .run($templateCache => {
-    "ngInject";
-    $templateCache.put("/gui/job.html", jobTemplate);
-  });
+  .run(routeTransitions);
 
 Object.keys(ENV).forEach(key => imlModule.value(key, ENV[key]));
 

@@ -25,7 +25,7 @@ export const Body = ({ children, moreClasses = [] }: bodyT) => (
 );
 
 type footerT = {
-  children?: React$Element<*>[]
+  children?: React$Element<*> | React$Element<*>[]
 };
 
 export const Footer = ({ children }: footerT) => {

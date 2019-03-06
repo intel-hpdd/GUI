@@ -35,6 +35,8 @@ import locksReducer from "../locks/locks-reducer.js";
 import exceptionModalReducer from "../exception/exception-modal-reducer.js";
 import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
 import commandModalReducer from "../command/command-modal-reducer.js";
+import stepModalReducer from "../command/step-modal-reducer.js";
+import modalStackReducer from "../modal-stack-reducer.js";
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -64,5 +66,7 @@ export default createStore({
   locks: locksReducer,
   exceptionModal: exceptionModalReducer,
   confirmAction: confirmActionReducer,
-  commandModal: commandModalReducer
+  commandModal: commandModalReducer,
+  stepModal: stepModalReducer,
+  modalStack: modalStackReducer
 });

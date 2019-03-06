@@ -1,48 +1,56 @@
-import {
-  SHOW_COMMAND_MODAL_ACTION,
-  default as commandModalReducer
+// @flow
+
+import commandModalReducer, {
+  SHOW_COMMAND_MODAL_ACTION
 } from "../../../../source/iml/command/command-modal-reducer.js";
-import deepFreeze from "@iml/deep-freeze";
+import { type Command } from "../../../../source/iml/command/command-types.js";
 
 describe("command modal reducer", () => {
-  let commands;
+  let sampleData: Command[];
+
   beforeEach(() => {
-    commands = [
+    sampleData = [
       {
         cancelled: false,
-        created_at: "2019-03-05T17:23:14.773266",
+        complete: false,
+        created_at: "created_at",
         errored: false,
-        id: 523,
-        resource_uri: "/api/command/1/",
+        id: 1,
+        jobs: [],
+        logs: "logs",
+        message: "message",
         state: "state",
-        jobs: ["/api/job/1/", "/api/job/2/"]
+        resource_uri: "uri"
       }
     ];
   });
 
-  it("should be a function", () => {
-    expect(commandModalReducer).toEqual(expect.any(Function));
-  });
-
-  describe("matching type", () => {
-    it("should return the payload", () => {
-      expect(
-        commandModalReducer(deepFreeze({}), {
-          type: SHOW_COMMAND_MODAL_ACTION,
-          payload: commands
-        })
-      ).toEqual(commands);
+  describe("showing the command modal", () => {
+    it("should pass the commands", () => {
+      const result = commandModalReducer([], { type: SHOW_COMMAND_MODAL_ACTION, payload: sampleData });
+      expect(result).toEqual(sampleData);
     });
-  });
 
-  describe("non-matching type", () => {
-    it("should return the state", () => {
-      expect(
-        commandModalReducer(deepFreeze({}), {
-          type: "NON_EXISTENT_TYPE",
-          payload: { key: "val" }
-        })
-      ).toEqual({});
+    describe("from an existing state", () => {
+      it("should return the new state", () => {
+        const existingState = [
+          {
+            cancelled: false,
+            complete: true,
+            created_at: "other created_at",
+            errored: false,
+            id: 1,
+            jobs: [],
+            logs: "logs",
+            message: "message",
+            state: "state",
+            resource_uri: "uri"
+          }
+        ];
+
+        const result = commandModalReducer(existingState, { type: SHOW_COMMAND_MODAL_ACTION, payload: sampleData });
+        expect(result).toEqual(sampleData);
+      });
     });
   });
 });

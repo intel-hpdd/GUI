@@ -14,14 +14,6 @@ module.exports = {
     ]
   ],
   plugins: [
-    [
-      "@babel/plugin-transform-spread",
-      {
-        useBuiltIns: true
-      }
-    ],
-    "@babel/proposal-object-rest-spread",
-    "@babel/transform-async-to-generator",
     "object-values-to-object-keys",
     "@babel/plugin-transform-flow-strip-types",
     "@babel/plugin-proposal-class-properties",

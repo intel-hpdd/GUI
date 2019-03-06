@@ -10,7 +10,7 @@ type Differ = {
   getState: () => { status: string }
 };
 
-export const DiffContainerController = class {
+export class DiffContainerController {
   register: (differ: Differ) => number;
   deregister: (differ: Differ) => void;
   reset: () => void;
@@ -32,7 +32,7 @@ export const DiffContainerController = class {
 
     this.noSubmit = () => differs.every(differ => differ.getState().status === "clean");
   }
-};
+}
 
 type component = {
   controllerAs: string,

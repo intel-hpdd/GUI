@@ -4,6 +4,7 @@
 // license that can be found in the LICENSE file.
 
 import getSpring from "../socket/get-spring.js";
+import getStore from "../store/get-store.js";
 
 export function AddServerModalCtrl($scope, $uibModalInstance, getAddServerManager, servers, step) {
   "ngInject";
@@ -22,12 +23,27 @@ export function AddServerModalCtrl($scope, $uibModalInstance, getAddServerManage
 
   manager.result.end.then($uibModalInstance.close);
 
+  let canEscape = true;
+  const modalStack$ = getStore.select("modalStack");
+  modalStack$.each((x: string[]) => {
+    const [top] = [...x];
+
+    canEscape = !top;
+  });
+
+  const onKeyPressed = (e: SyntheticKeyboardEvent<HTMLBodyElement>) => {
+    if (e.key === "Escape" && canEscape) $scope.$emit("addServerModal::closeModal");
+  };
+  window.addEventListener("keydown", onKeyPressed);
+
   // Listen on the closeModal event from the step controllers
   $scope.$on("addServerModal::closeModal", $uibModalInstance.close);
 
   $scope.$on("$destroy", function cleanup() {
     manager.destroy();
     spring.destroy();
+    modalStack$.end();
+    window.removeEventListener("keydown", onKeyPressed);
   });
 }
 
@@ -39,7 +55,7 @@ export function openAddServerModalFactory($uibModal) {
       controller: "AddServerModalCtrl as addServer",
       backdropClass: "add-server-modal-backdrop",
       backdrop: "static",
-      keyboard: "false",
+      keyboard: false,
       windowClass: "add-server-modal",
       resolve: {
         servers: function getServers() {

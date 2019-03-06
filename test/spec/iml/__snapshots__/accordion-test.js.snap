@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accordion should render 1`] = `
+<div>
+  <div
+    aria-multiselectable="true"
+    class="panel-group"
+    id="test-accordion"
+    role="tablist"
+  >
+    <div
+      class="panel panel-default"
+    >
+      <div
+        class="panel-heading"
+        id="heading0"
+        role="tab"
+      >
+        <h4
+          class="panel-title"
+        >
+          <a
+            aria-controls="collapse0"
+            aria-expanded="true"
+            data-parent="#test-accordion"
+            data-toggle="collapse"
+            role="button"
+          >
+            <h2
+              collapsed="false"
+            >
+              Title
+            </h2>
+          </a>
+        </h4>
+      </div>
+      <div
+        aria-labelledby="heading0"
+        class="panel-collapse collapse in"
+        id="collapse0"
+        role="tabpanel"
+      >
+        <div
+          class="panel-body"
+        >
+          <h4>
+            Details:
+          </h4>
+          <table
+            class="table"
+          >
+            <tbody>
+              <tr>
+                <td>
+                  Created At
+                </td>
+                <td>
+                  Jan 01 2019 00:00:00
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Status
+                </td>
+                <td>
+                  Online
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

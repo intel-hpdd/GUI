@@ -1,6 +1,6 @@
 {
   "name": "@iml/gui",
-  "version": "6.4.2",
+  "version": "6.5.0-alpha.4",
   "license": "MIT",
   "author": "IML Team",
   "scripts": {
@@ -29,14 +29,11 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/core": "7.2.2",
-    "@babel/plugin-proposal-class-properties": "7.3.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.3.1",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-syntax-jsx": "7.2.0",
-    "@babel/plugin-transform-async-to-generator": "7.2.0",
-    "@babel/plugin-transform-flow-strip-types": "7.2.3",
-    "@babel/plugin-transform-spread": "7.2.2",
-    "@babel/preset-env": "7.3.1",
+    "@babel/plugin-transform-flow-strip-types": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "@iml/debounce": "^1.0.3",
     "@iml/deep-freeze": "2.0.2",
     "@iml/extract-api": "1.0.4",
@@ -63,8 +60,7 @@
     "babel-loader": "8.0.5",
     "babel-plugin-angularjs-annotate": "0.10.0",
     "babel-plugin-inferno": "6.0.4",
-    "babel-plugin-object-values-to-object-keys": "1.0.2",
-    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "babel-plugin-object-values-to-object-keys": "^1.0.2",
     "backo": "^1.1.0",
     "bootstrap": "3.3.7",
     "clean-webpack-plugin": "1.0.1",
@@ -100,11 +96,10 @@
     "seamless-immutable": "^7.1.4",
     "sprintf-js": "1.1.0",
     "style-loader": "^0.23.1",
+    "terser-webpack-plugin": "^1.2.3",
     "twix": "1.1.5",
-    "uglify-js": "git://github.com/mishoo/UglifyJS2.git#harmony-v2.8.22",
-    "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
-    "webpack": "4.29.0",
-    "webpack-cli": "3.2.1"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   }
 }

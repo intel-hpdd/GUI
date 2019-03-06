@@ -3,21 +3,24 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import _ from "@iml/lodash-mixins";
+export const capitalizeStr = (str: sttring): string => str[0].toUpperCase() + str.slice(1);
+
+export function capitalize(words, all) {
+  if (typeof words !== "string") return words;
+
+  if (all)
+    words = words
+      .trim()
+      .split(/\s+/)
+      .map(capitalizeStr)
+      .join(" ");
+  else words = capitalizeStr(words);
+
+  return words;
+}
 
 export default function capitalizeFilter() {
   "ngInject";
-  return function(words, all) {
-    if (!_.isString(words)) return words;
 
-    if (all)
-      words = words
-        .trim()
-        .split(/\s+/)
-        .map(_.capitalize)
-        .join(" ");
-    else words = _.capitalize(words);
-
-    return words;
-  };
+  return capitalize;
 }

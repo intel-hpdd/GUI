@@ -1,0 +1,1294 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`step modal rendering a complete job should render when cancelled 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-times  "
+                      />
+                    </span>
+                     
+                    Cancelled
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering a complete job should render when errored 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa  fa-exclamation "
+                      />
+                    </span>
+                     
+                    Failed
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering a complete job should render when succeeded 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa   fa-check"
+                      />
+                    </span>
+                     
+                    Succeeded
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering a loading job should render the loading component 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-refresh fa-spin"
+                      />
+                    </span>
+                     
+                    Running
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            <div
+              class="well"
+            >
+              Loading Steps... 
+              <i
+                class="fa fa-spinner fa-spin"
+              />
+            </div>
+            
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering should render for a complete state 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-refresh fa-spin"
+                      />
+                    </span>
+                     
+                    Running
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering should render for a pending state 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-ellipsis-h"
+                      />
+                    </span>
+                     
+                    Waiting to run
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering without a backtrace should render without the backtrace 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-refresh fa-spin"
+                      />
+                    </span>
+                     
+                    Running
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      <div>
+                        <h4>
+                          Logs
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          console
+                        </pre>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
+
+exports[`step modal rendering without a console should render without the console 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in step-modal"
+      role="dialog"
+      style="display: block; z-index: 1060;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Start target MGS
+            </h3>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <h4>
+              Details:
+            </h4>
+            <table
+              class="table"
+            >
+              <tbody>
+                <tr>
+                  <td>
+                    Run At
+                  </td>
+                  <td>
+                    date-time
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Status
+                  </td>
+                  <td>
+                    <span
+                      class="job-state"
+                    >
+                      <i
+                        class="fa fa-refresh fa-spin"
+                      />
+                    </span>
+                     
+                    Running
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <h4>
+              Steps
+            </h4>
+            
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="steps-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-expanded="true"
+                      data-parent="#undefined"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status   fa-check "
+                        />
+                        <span>
+                          2
+                           / 
+                          1
+                           
+                          RunAction
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  class="panel-collapse collapse in"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <div>
+                      <h4>
+                        Arguments
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        []
+                      </pre>
+                      
+                      <div>
+                        <h4>
+                          Backtrace
+                        </h4>
+                        <pre
+                          class="logs"
+                        >
+                          backtrace
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in step-modal-backdrop"
+      style="z-index: 1059;"
+    />
+  </div>
+</div>
+`;
