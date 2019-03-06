@@ -136,32 +136,29 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
               class="record-state"
             >
               <span
-                style="position: relative;"
+                class="icon-wrap tooltip-container tooltip-hover"
+                popoverbutton="true"
               >
-                <span
-                  class="icon-wrap tooltip-container tooltip-hover"
-                  popoverbutton="true"
+                <i
+                  class="fa activate-popover fa-check-circle"
+                />
+                
+                <div
+                  class="tooltip inferno-tt top small "
                 >
-                  <i
-                    class="fa activate-popover fa-check-circle"
+                  <div
+                    class="tooltip-arrow"
                   />
                   <div
-                    class="tooltip inferno-tt top small "
+                    class="tooltip-inner"
                   >
-                    <div
-                      class="tooltip-arrow"
-                    />
-                    <div
-                      class="tooltip-inner"
-                    >
-                      <span>
-                        No Issues
-                      </span>
-                    </div>
+                    <span>
+                      No Issues
+                    </span>
                   </div>
-                </span>
-                
+                </div>
               </span>
+              
               <span
                 class="state-label"
                 style="padding-left: 10px;"
@@ -218,32 +215,29 @@ exports[`ResourceTable DOM tests with data should render with data 1`] = `
               class="record-state"
             >
               <span
-                style="position: relative;"
+                class="icon-wrap tooltip-container tooltip-hover"
+                popoverbutton="true"
               >
-                <span
-                  class="icon-wrap tooltip-container tooltip-hover"
-                  popoverbutton="true"
+                <i
+                  class="fa activate-popover fa-check-circle"
+                />
+                
+                <div
+                  class="tooltip inferno-tt top small "
                 >
-                  <i
-                    class="fa activate-popover fa-check-circle"
+                  <div
+                    class="tooltip-arrow"
                   />
                   <div
-                    class="tooltip inferno-tt top small "
+                    class="tooltip-inner"
                   >
-                    <div
-                      class="tooltip-arrow"
-                    />
-                    <div
-                      class="tooltip-inner"
-                    >
-                      <span>
-                        No Issues
-                      </span>
-                    </div>
+                    <span>
+                      No Issues
+                    </span>
                   </div>
-                </span>
-                
+                </div>
               </span>
+              
               <span
                 class="state-label"
                 style="padding-left: 10px;"
