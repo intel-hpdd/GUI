@@ -6,6 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from "@iml/fp";
+import global from "../global.js";
 
 export const appState = {
   name: "app",
@@ -99,6 +100,7 @@ export const appState = {
   resolve: {
     alertStream: ["appAlertStream", (x: Function) => x()],
     notificationStream: ["appNotificationStream", (x: Function) => x()],
-    session: ["appSession", fp.identity]
+    session: ["appSession", fp.identity],
+    wasm: () => global.wasm_bindgen("/wasm-components/package_bg.wasm")
   }
 };

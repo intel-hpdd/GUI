@@ -19,6 +19,7 @@ Object {
       "appSession",
       [Function],
     ],
+    "wasm": [Function],
   },
   "template": "<notification-slider stream=\\"app.alertStream\\"></notification-slider>
 <root-panel>

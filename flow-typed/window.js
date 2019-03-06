@@ -54,7 +54,8 @@ declare var window: {
       }
     ) => Object
   },
-  EventSource: typeof EventSource
+  EventSource: typeof EventSource,
+  wasm_bindgen: string => Promise<mixed>
 };
 
 declare module "../favicon.ico" {
