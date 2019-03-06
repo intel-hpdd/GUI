@@ -1,6 +1,7 @@
 import exceptionHandlerConfig from "../../../../source/iml/exception/exception-handler.js";
 import windowUnloadFactory from "../../../../source/iml/window-unload.js";
 import angular from "../../../angular-mock-setup.js";
+import { render } from "inferno";
 
 describe("exception handler", () => {
   let oldExceptionHandler;
@@ -78,6 +79,48 @@ describe("exception handler", () => {
 
     it("should delegate to the older $exceptionHandler", () => {
       expect(oldExceptionHandler.errors[0]).toEqual([error, cause]);
+    });
+  });
+});
+
+describe("exception modal component", () => {
+  let body, err, div, mockGlobal, ExceptionModalComponent;
+  beforeEach(() => {
+    mockGlobal = {
+      fetch: jest.fn()
+    };
+    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
+
+    body = document.querySelector("body");
+    div = document.createElement("div");
+    body.appendChild(div);
+
+    err = new Error("oh no!");
+    err.stack = "at bla.bla.js:98:11\\nat foo.bar.js:100:12";
+
+    ExceptionModalComponent = require("../../../../source/iml/exception/exception-handler.js").ExceptionModalComponent;
+    render(<ExceptionModalComponent exception={err} />, div);
+  });
+
+  afterEach(() => {
+    render(null, div);
+  });
+
+  it("should generate the modal", () => {
+    expect(div).toMatchSnapshot();
+  });
+
+  it("should send the stack trace to the source map reverse service", () => {
+    expect(mockGlobal.fetch).toHaveBeenCalledTimes(1);
+    expect(mockGlobal.fetch).toHaveBeenCalledWith("/iml-srcmap-reverse", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+      body: JSON.stringify({
+        trace: "at bla.bla.js:98:11\\nat foo.bar.js:100:12"
+      })
     });
   });
 });
