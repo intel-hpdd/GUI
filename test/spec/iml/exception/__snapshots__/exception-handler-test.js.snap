@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exception modal component should generate the modal 1`] = `
+<div>
+  <div
+    class="modal fade in exception-modal"
+    role="dialog"
+    style="display: block; z-index: 2000;"
+    tabindex="-1"
+  >
+    <div
+      class="modal-dialog"
+      role="document"
+    >
+      <div
+        class="modal-content"
+      >
+        <div
+          class="modal-header"
+        >
+          <h3>
+            <i
+              class="fa fa-exclamation-triangle"
+            />
+            Encountered An Error
+          </h3>
+        </div>
+        <div
+          class="modal-body text-center"
+        >
+          <p>
+            An unexpected error has occurred. 
+            <br />
+            Please collect iml-diagnostics and send to support.
+          </p>
+        </div>
+        <div
+          class="modal-footer"
+        >
+          <button
+            class="btn btn-large btn-block"
+            type="button"
+          >
+            <i
+              class="fa fa-refresh"
+            />
+             Reload
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="modal-backdrop fade in exception-modal-backdrop"
+    style="z-index: 1999;"
+  />
+</div>
+`;

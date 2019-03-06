@@ -93,7 +93,7 @@ function stackTraceContainsLineNumbers(stackTrace) {
 }
 
 function sendStackTraceToSrcmapReverseService(exception) {
-  fetch("/iml-srcmap-reverse", {
+  global.fetch("/iml-srcmap-reverse", {
     method: "POST",
     headers: {
       Accept: "application/json",
