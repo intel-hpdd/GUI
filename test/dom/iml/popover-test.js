@@ -54,43 +54,88 @@ describe("Popover DOM testing", () => {
   describe("Container", () => {
     let root, vNode;
 
-    beforeEach(() => {
-      root = document.createElement("div");
+    describe("with popover button", () => {
+      describe("containing no children", () => {
+        beforeEach(() => {
+          root = document.createElement("div");
 
-      vNode = (
-        <WindowClickListener>
-          <PopoverContainer>
-            <button popoverButton={true} />
-            <Popover popover={true} direction="right">
-              <PopoverContent>bar</PopoverContent>
-            </Popover>
-          </PopoverContainer>
-        </WindowClickListener>
-      );
+          vNode = (
+            <WindowClickListener>
+              <PopoverContainer>
+                <button popoverButton={true} />
+                <Popover popover={true} direction="right">
+                  <PopoverContent>bar</PopoverContent>
+                </Popover>
+              </PopoverContainer>
+            </WindowClickListener>
+          );
 
-      render(vNode, root);
+          render(vNode, root);
 
-      querySelector(document, "body").appendChild(root);
-    });
+          if (document.body) document.body.appendChild(root);
+        });
 
-    afterEach(() => {
-      querySelector(document, "body").removeChild(root);
-    });
+        afterEach(() => {
+          render(null, root);
+          if (document.body) document.body.removeChild(root);
+        });
 
-    it("should render correctly", () => {
-      expect(renderToSnapshot(vNode)).toMatchSnapshot();
-    });
+        it("should render correctly", () => {
+          expect(renderToSnapshot(vNode)).toMatchSnapshot();
+        });
 
-    it("should open and close when clicking the button", () => {
-      expect.assertions(2);
+        it("should open and close when clicking the button", () => {
+          expect.assertions(2);
 
-      querySelector(root, "button").click();
+          querySelector(root, "button").click();
 
-      expect(root.innerHTML).toMatchSnapshot();
+          expect(root.innerHTML).toMatchSnapshot();
 
-      querySelector(root, "button").click();
+          querySelector(root, "button").click();
 
-      expect(root.innerHTML).toMatchSnapshot();
+          expect(root.innerHTML).toMatchSnapshot();
+        });
+      });
+
+      describe("containing children", () => {
+        beforeEach(() => {
+          root = document.createElement("div");
+
+          vNode = (
+            <WindowClickListener>
+              <PopoverContainer>
+                <span popoverButton={true}>
+                  <i />
+                  <Popover popover={true} direction="bottom">
+                    <PopoverTitle>Alerts</PopoverTitle>
+                    <PopoverContent>
+                      <ul>
+                        <li key={1}>message</li>
+                      </ul>
+                    </PopoverContent>
+                  </Popover>
+                  <span>Some other element</span>
+                </span>
+                <></>
+                <div dummy-param={"dummy data"} />
+              </PopoverContainer>
+            </WindowClickListener>
+          );
+
+          render(vNode, root);
+
+          if (document.body) document.body.appendChild(root);
+        });
+
+        afterEach(() => {
+          render(null, root);
+          if (document.body) document.body.removeChild(root);
+        });
+
+        it("should match snapshot", () => {
+          expect(root).toMatchSnapshot();
+        });
+      });
     });
   });
 });

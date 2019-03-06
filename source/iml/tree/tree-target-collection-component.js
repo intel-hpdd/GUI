@@ -57,6 +57,7 @@ export default (kind: string) => {
           offset: computePage(item.meta),
           limit: item.meta.limit,
           kind,
+          dehydrate__volume: false,
           filesystem_id: this.fsId
         }
       });

@@ -40,7 +40,7 @@ describe("hsm fs resolve", () => {
 
     it("should invoke socketStream with a call to filesystem", () => {
       expect(mockSocketStream).toHaveBeenCalledOnceWith("/filesystem", {
-        jsonMask: "objects(content_type_id,id,label,cdt_status,hsm_control_params,locks)"
+        jsonMask: "objects(content_type_id,id,label,cdt_status,hsm_control_params)"
       });
     });
 

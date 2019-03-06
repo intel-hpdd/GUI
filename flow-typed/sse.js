@@ -23,9 +23,9 @@ declare class EventSource extends EventTarget {
   readyState: CONNECTING | OPEN | CLOSED;
   url: string;
   withCredentials: boolean;
-  onerror: (e: SyntheticEvent<EventSource>) => void;
-  onmessage: SSEEventT => void;
-  onopen: () => void;
+  onerror: ?(e: SyntheticEvent<EventSource>) => void;
+  onmessage: ?(SSEEventT) => void;
+  onopen: ?() => void;
   close: () => void;
 }
 declare type EventSourceT = EventSource;

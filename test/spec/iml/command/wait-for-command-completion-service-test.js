@@ -1,25 +1,23 @@
 import highland from "highland";
 
 describe("wait-for-command-completion-service", () => {
-  let mockGetCommandStream, commandStream, spy, mockResultStream, openCommandModal, waitForCommandCompletion;
+  let mockGetCommandStream, mockGetStore, commandStream, spy, waitForCommandCompletion;
 
   beforeEach(() => {
     commandStream = highland();
     jest.spyOn(commandStream, "destroy");
     mockGetCommandStream = jest.fn(() => commandStream);
 
-    spy = jest.fn();
-    mockResultStream = highland();
-    openCommandModal = jest.fn(() => ({
-      resultStream: mockResultStream
-    }));
-
     jest.mock("../../../../source/iml/command/get-command-stream.js", () => mockGetCommandStream);
 
-    const mod = require("../../../../source/iml/command/wait-for-command-completion-service.js");
+    mockGetStore = {
+      dispatch: jest.fn()
+    };
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
 
-    waitForCommandCompletion = mod.default(openCommandModal);
+    spy = jest.fn();
 
+    waitForCommandCompletion = require("../../../../source/iml/command/wait-for-command-completion-service.js").default;
     jest.useFakeTimers();
   });
 
@@ -42,7 +40,7 @@ describe("wait-for-command-completion-service", () => {
     });
 
     it("should not call openCommandModal", () => {
-      expect(openCommandModal).not.toHaveBeenCalled();
+      expect(mockGetStore.dispatch).not.toHaveBeenCalled();
     });
 
     describe("on finish", () => {
@@ -65,7 +63,8 @@ describe("wait-for-command-completion-service", () => {
       });
 
       it("should resolve the result", () => {
-        expect(spy).toHaveBeenCalledOnceWith([
+        expect(spy).toHaveBeenCalledTimes(1);
+        expect(spy).toHaveBeenCalledWith([
           {
             complete: true,
             state: "succeeded"
@@ -84,22 +83,11 @@ describe("wait-for-command-completion-service", () => {
       waitForCommandCompletion(true)(responseWithCommands);
     });
 
-    it("should call openCommandModal", () => {
-      expect(openCommandModal).toHaveBeenCalledOnceWith(expect.any(Object));
-    });
-
-    describe("closing the command modal", () => {
-      beforeEach(() => {
-        mockResultStream.write("close modal");
-      });
-
-      it("should destroy the commandModal$", () => {
-        const commandModal$ = openCommandModal.mock.calls[0][0];
-        expect(commandModal$.ended).toBe(true);
-      });
-
-      it("should not destroy the command stream", () => {
-        expect(commandStream.ended).toBe(false);
+    it("should open the command modal", () => {
+      expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
+      expect(mockGetStore.dispatch).toHaveBeenCalledWith({
+        type: "SHOW_COMMAND_MODAL_ACTION",
+        payload: responseWithCommands
       });
     });
   });

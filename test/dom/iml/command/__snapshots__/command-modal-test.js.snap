@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command modal should render the component 1`] = `
+<div>
+  <div
+    class="modal-open"
+  >
+    
+    <div
+      class="modal fade in command-modal"
+      role="dialog"
+      style="display: block; z-index: 1050;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h3
+              class="modal-title"
+            >
+              Commands
+            </h3>
+          </div>
+          <div
+            class="modal-body command-modal-body"
+          >
+            <div
+              aria-multiselectable="true"
+              class="panel-group"
+              id="command-accordion"
+              role="tablist"
+            >
+              <div
+                class="panel panel-default"
+              >
+                <div
+                  class="panel-heading"
+                  id="heading0"
+                  role="tab"
+                >
+                  <h4
+                    class="panel-title"
+                  >
+                    <a
+                      aria-controls="collapse0"
+                      aria-expanded="true"
+                      data-parent="#command-accordion"
+                      data-toggle="collapse"
+                      role="button"
+                    >
+                      <span>
+                        <i
+                          class="fa fa-chevron-down"
+                        />
+                        <i
+                          class="fa header-status"
+                        />
+                        <span>
+                          message
+                           - 
+                          Jan 01 2019 00:00:00
+                        </span>
+                      </span>
+                    </a>
+                  </h4>
+                </div>
+                <div
+                  aria-labelledby="heading0"
+                  class="panel-collapse collapse in"
+                  id="collapse0"
+                  role="tabpanel"
+                >
+                  <div
+                    class="panel-body"
+                  >
+                    <h4>
+                      Details:
+                    </h4>
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        <tr>
+                          <td>
+                            Created At
+                          </td>
+                          <td>
+                            Jan 01 2019 00:00:00
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Status
+                          </td>
+                          <td>
+                            State
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div>
+                      <h4>
+                        Jobs
+                      </h4>
+                      <div
+                        class="well jobs"
+                      >
+                        <div>
+                          <div
+                            class="child-job"
+                          >
+                            <a>
+                              <span
+                                class="job-state"
+                              >
+                                <i
+                                  class="fa fa-refresh fa-spin"
+                                />
+                              </span>
+                              <span>
+                                Start target MGS
+                              </span>
+                            </a>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h4>
+                        Logs
+                      </h4>
+                      <pre
+                        class="logs"
+                      >
+                        logs
+                      </pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <button
+              class="btn btn-danger"
+            >
+              Close 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in command-modal-backdrop"
+      style="z-index: 1049;"
+    />
+  </div>
+</div>
+`;

@@ -16,7 +16,7 @@ type substitutionT = {
   start: number
 };
 
-export const MessageSubstitutionCtrl = class {
+export class MessageSubstitutionCtrl {
   substituteMessage: string = "";
   substitutions: Array<substitutionT>;
   message: string;
@@ -50,7 +50,7 @@ export const MessageSubstitutionCtrl = class {
     const compiledEl = this.$compile(`<div>${this.substituteMessage}</div>`)(this.$scope);
     this.$element.appendChild(compiledEl[0]);
   }
-};
+}
 
 export const messageSubstitution = {
   bindings: {

@@ -7,6 +7,7 @@ import * as fp from "@iml/fp";
 import _ from "@iml/lodash-mixins";
 import highland from "highland";
 import socketStream from "../socket/socket-stream.js";
+import waitForCommandCompletion from "../command/wait-for-command-completion-service.js";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -71,7 +72,7 @@ export function getHostProfilesFactory(CACHE_INITIAL_DATA) {
   };
 }
 
-export function createHostProfilesFactory(waitForCommandCompletion) {
+export function createHostProfilesFactory() {
   "ngInject";
   return function createHostProfiles(profile, showCommands) {
     const findInProfiles = _.findInCollection(["address"], profile.hosts);

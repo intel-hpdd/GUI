@@ -6,6 +6,7 @@ exports[`confirm action modal with multiple prompts should render the modal 1`] 
     class="modal-open"
     id="confirm-modal"
   >
+    
     <div
       class="modal fade in confirm-action-modal"
       role="dialog"
@@ -66,7 +67,7 @@ exports[`confirm action modal with multiple prompts should render the modal 1`] 
                 />
               </button>
               <div
-                class="btn-group dropdown "
+                class="btn-group dropdown  "
               >
                 <button
                   aria-expanded="false"
@@ -120,6 +121,7 @@ exports[`confirm action modal with no prompts should render the modal 1`] = `
     class="modal-open"
     id="confirm-modal"
   >
+    
     <div
       class="modal fade in confirm-action-modal"
       role="dialog"
@@ -168,7 +170,7 @@ exports[`confirm action modal with no prompts should render the modal 1`] = `
                 />
               </button>
               <div
-                class="btn-group dropdown "
+                class="btn-group dropdown  "
               >
                 <button
                   aria-expanded="false"
@@ -222,6 +224,7 @@ exports[`confirm action modal with single prompt should render the modal 1`] = `
     class="modal-open"
     id="confirm-modal"
   >
+    
     <div
       class="modal fade in confirm-action-modal"
       role="dialog"
@@ -272,7 +275,7 @@ exports[`confirm action modal with single prompt should render the modal 1`] = `
                 />
               </button>
               <div
-                class="btn-group dropdown "
+                class="btn-group dropdown  "
               >
                 <button
                   aria-expanded="false"

@@ -7,15 +7,17 @@ exports[`storage resource time series should render data 1`] = `
     style="height: 500px; display: flex;"
   >
     <div
-      style="display: flex;"
+      style="flex: 0 0 24px; display: flex;"
     >
       <h5
-        style="transform: rotate(270deg); width: 24px;"
+        style="transform: rotate(270deg); align-self: center; width: 24px;"
       >
         reads
       </h5>
     </div>
-    <div>
+    <div
+      style="flex: 1;"
+    >
       <svg
         class="charting"
         style="width: 100%; height: 100%;"

@@ -9,6 +9,12 @@ export const ADD_SERVER_AUTH_CHOICES = Object.freeze({
   ANOTHER_KEY: "private_key_choice"
 });
 
+export const ADD_SERVER_STEPS = {
+  ADD: "addServersStep",
+  STATUS: "serverStatusStep",
+  SELECT_PROFILE: "selectServerProfileStep"
+};
+
 export function AddServerStepCtrl($scope, $stepInstance, data) {
   "ngInject";
   const servers = data.servers;

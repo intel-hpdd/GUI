@@ -13,6 +13,8 @@ import { rememberValue } from "../api-transforms.js";
 
 import { resolveStream } from "../promise-transforms.js";
 
+import waitForCommandCompletion from "../command/wait-for-command-completion-service.js";
+
 export function SelectServerProfileStepCtrl(
   $scope,
   $stepInstance,
@@ -178,7 +180,7 @@ export function selectServerProfileStep() {
   <override-button overridden="selectServerProfile.overridden" is-valid="!selectServerProfile.profile.invalid" on-change="selectServerProfile.transition(message)" is-disabled="selectServerProfile.disabled"></override-button>
 </div>`,
     controller: "SelectServerProfileStepCtrl as selectServerProfile",
-    onEnter: function onEnter(data, createOrUpdateHostsStream, getHostProfiles, waitForCommandCompletion, showCommand) {
+    onEnter: function onEnter(data, createOrUpdateHostsStream, getHostProfiles, showCommand) {
       "ngInject";
       const getProfiles = _.partial(getHostProfiles, data.spring);
 

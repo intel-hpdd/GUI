@@ -7,7 +7,7 @@
 
 import type { diffComponentCtrl } from "./diff-component";
 
-export const DiffModelCtrl = class {
+export class DiffModelCtrl {
   modelCtrl: {
     $formatters: Array<Function>,
     $viewChangeListeners: Array<Function>,
@@ -29,7 +29,7 @@ export const DiffModelCtrl = class {
       this.modelCtrl.$render();
     });
   }
-};
+}
 
 export default function diffModel(): Object {
   return {

@@ -32,7 +32,7 @@ export type breadcrumbDataT = {
 
 const defaultToObj = maybe.withDefault.bind(null, () => ({}));
 
-const Controller = class {
+class Controller {
   stack: breadcrumbT[] = [];
   poppedStateEvent: boolean;
   loading: boolean;
@@ -113,7 +113,7 @@ const Controller = class {
       global.removeEventListener("popstate", handlePopState, false);
     };
   }
-};
+}
 
 export default {
   controller: Controller,

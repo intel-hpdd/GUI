@@ -4,10 +4,11 @@
 // license that can be found in the LICENSE file.
 
 import socketStream from "../socket/socket-stream.js";
+import waitForCommandCompletion from "../command/wait-for-command-completion-service.js";
 
 import { pick } from "@iml/obj";
 
-export function ConfigureCorosyncController($scope, waitForCommandCompletion, propagateChange, insertHelpFilter) {
+export function ConfigureCorosyncController($scope, propagateChange, insertHelpFilter) {
   "ngInject";
   const ctrl = this;
 
@@ -41,7 +42,6 @@ export function ConfigureCorosyncController($scope, waitForCommandCompletion, pr
   $scope.$on("$destroy", () => {
     ctrl.stream.endBroadcast();
     ctrl.alertStream.endBroadcast();
-    ctrl.locks.endBroadcast();
   });
 }
 

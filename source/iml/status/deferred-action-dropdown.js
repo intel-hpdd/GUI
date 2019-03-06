@@ -16,7 +16,10 @@ export function DeferredActionDropdownCtrl($scope: Object, localApply: localAppl
 
   ctrl.records = [];
   ctrl.onEnter = fp.once(async () => {
-    ctrl.records = await Promise.all(ctrl.row.affected.map(x => fetchApi(x)));
+    const records = await Promise.all(ctrl.row.affected.map(x => fetchApi(x)));
+
+    ctrl.records = records.filter(x => x.ok).map(x => x.json);
+
     localApply($scope);
   });
 }

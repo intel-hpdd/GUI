@@ -1,19 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Popover DOM testing Container should open and close when clicking the button 1`] = `"<span style=\\"position: relative;\\"><button popoverbutton=\\"true\\"></button><div class=\\"fade popover right in\\"><div class=\\"arrow\\"></div><div class=\\"popover-content\\">bar</div></div></span>"`;
-
-exports[`Popover DOM testing Container should open and close when clicking the button 2`] = `"<span style=\\"position: relative;\\"><button popoverbutton=\\"true\\"></button></span>"`;
-
-exports[`Popover DOM testing Container should render correctly 1`] = `
+exports[`Popover DOM testing Container with popover button containing children should match snapshot 1`] = `
 <div>
   <span
-    style="position: relative;"
+    popoverbutton="true"
   >
-    <button
-      popoverbutton="true"
-    />
+    <i />
     
+    <span>
+      Some other element
+    </span>
   </span>
+  
+  <div
+    dummy-param="dummy data"
+  />
+</div>
+`;
+
+exports[`Popover DOM testing Container with popover button containing no children should open and close when clicking the button 1`] = `"<button popoverbutton=\\"true\\"></button><div class=\\"fade popover right in\\"><div class=\\"arrow\\"></div><div class=\\"popover-content\\">bar</div></div>"`;
+
+exports[`Popover DOM testing Container with popover button containing no children should open and close when clicking the button 2`] = `"<button popoverbutton=\\"true\\"></button>"`;
+
+exports[`Popover DOM testing Container with popover button containing no children should render correctly 1`] = `
+<div>
+  <button
+    popoverbutton="true"
+  />
+  
 </div>
 `;
 

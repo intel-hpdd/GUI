@@ -1,7 +1,9 @@
 import angular from "../../../angular-mock-setup.js";
+import highland from "highland";
 
 describe("add server modal", () => {
-  let spring, $uibModal, AddServerModalCtrl, openAddServerModal;
+  let spring, $uibModal, AddServerModalCtrl, openAddServerModal, modalStack$;
+  let mockGetStore;
 
   beforeEach(() => {
     spring = {
@@ -15,6 +17,14 @@ describe("add server modal", () => {
     };
 
     jest.mock("../../../../source/iml/socket/get-spring.js", () => mockGetSpring);
+
+    modalStack$ = highland();
+    jest.spyOn(modalStack$, "end");
+    mockGetStore = {
+      select: jest.fn(() => modalStack$)
+    };
+
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
 
     const mod = require("../../../../source/iml/server/add-server-modal-ctrl.js");
 
@@ -43,6 +53,7 @@ describe("add server modal", () => {
 
         $scope = $rootScope.$new();
         $scope.$on = jest.fn();
+        $scope.$emit = jest.fn();
 
         Object.assign(deps, {
           $scope: $scope,
@@ -98,10 +109,12 @@ describe("add server modal", () => {
 
       describe("on close and destroy", () => {
         beforeEach(() => {
-          // Invoke the $destroy and closeModal functions
-          $scope.$on.mock.calls.forEach(call => {
-            call[1]();
+          $scope.$emit.mockImplementation(() => {
+            $scope.$on.mock.calls[0][1]();
+            $scope.$on.mock.calls[1][1]();
           });
+          modalStack$.write([]);
+          window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
         });
 
         it("should destroy the manager", () => {
@@ -114,6 +127,10 @@ describe("add server modal", () => {
 
         it("should close the modal", () => {
           expect(deps.$uibModalInstance.close).toHaveBeenCalledTimes(1);
+        });
+
+        it("should end the modalStack$", () => {
+          expect(modalStack$.end).toHaveBeenCalledTimes(1);
         });
       });
     });
@@ -137,7 +154,7 @@ describe("add server modal", () => {
         controller: "AddServerModalCtrl as addServer",
         backdropClass: "add-server-modal-backdrop",
         backdrop: "static",
-        keyboard: "false",
+        keyboard: false,
         windowClass: "add-server-modal",
         resolve: {
           servers: expect.any(Function),

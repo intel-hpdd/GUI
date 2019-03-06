@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`job state icon component should render complete state 1`] = `
+<div>
+  <span
+    class="job-state"
+  >
+    <i
+      class="fa   fa-check"
+    />
+  </span>
+</div>
+`;
+
+exports[`job state icon component should render pending state 1`] = `
+<div>
+  <span
+    class="job-state"
+  >
+    <i
+      class="fa fa-ellipsis-h"
+    />
+  </span>
+</div>
+`;
+
+exports[`job state icon component should render pending state 2`] = `
+<div>
+  <span
+    class="job-state"
+  >
+    <i
+      class="fa fa-refresh fa-spin"
+    />
+  </span>
+</div>
+`;

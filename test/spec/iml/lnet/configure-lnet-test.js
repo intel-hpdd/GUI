@@ -11,7 +11,7 @@ describe("Configure LNet", () => {
     insertHelpFilter,
     mockSocketStream,
     networkInterfaceResponse,
-    waitForCommandCompletion,
+    mockWaitForCommandCompletion,
     waitForCommandCompletionResponse,
     mod,
     ConfigureLnetController,
@@ -22,6 +22,15 @@ describe("Configure LNet", () => {
     mockSocketStream = jest.fn(() => ss);
 
     jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
+
+    waitForCommandCompletionResponse = jest.fn(response => highland([response]));
+    mockWaitForCommandCompletion = jest.fn(() => waitForCommandCompletionResponse);
+
+    jest.mock(
+      "../../../../source/iml/command/wait-for-command-completion-service.js",
+      () => mockWaitForCommandCompletion
+    );
+
     mod = require("../../../../source/iml/lnet/configure-lnet.js");
 
     ConfigureLnetController = mod.ConfigureLnetController;
@@ -30,9 +39,6 @@ describe("Configure LNet", () => {
   describe("Controller", () => {
     beforeEach(
       angular.mock.inject(($rootScope, propagateChange) => {
-        waitForCommandCompletionResponse = jest.fn(response => highland([response]));
-        waitForCommandCompletion = jest.fn(() => waitForCommandCompletionResponse);
-
         networkInterfaceResponse = angular.copy(networkInterfaceDataFixtures.in[0]);
 
         $scope = $rootScope.$new();
@@ -55,13 +61,7 @@ describe("Configure LNet", () => {
           networkInterfaceStream
         };
 
-        ConfigureLnetController.bind(ctrl)(
-          $scope,
-          LNET_OPTIONS,
-          insertHelpFilter,
-          waitForCommandCompletion,
-          propagateChange
-        );
+        ConfigureLnetController.bind(ctrl)($scope, LNET_OPTIONS, insertHelpFilter, propagateChange);
 
         jest.useFakeTimers();
       })
@@ -164,7 +164,7 @@ describe("Configure LNet", () => {
       });
 
       it("should call waitForCommandCompletion with the last response", () => {
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
+        expect(mockWaitForCommandCompletion).toHaveBeenCalledOnceWith(true);
         expect(waitForCommandCompletionResponse).toHaveBeenCalledOnceWith([
           {
             id: 10

@@ -4,7 +4,6 @@ describe("get store", () => {
     store,
     mockAlertIndicatorReducer,
     mockReadWriteBandwidthChartReducer,
-    mockJobIndicatorReducer,
     mockServerReducer,
     mockLnetConfigurationReducer,
     mockTreeReducer,
@@ -29,14 +28,15 @@ describe("get store", () => {
     mockLocksReducer,
     mockExceptionModalReducer,
     mockConfirmActionReducer,
-    mockCommandModalReducer;
+    mockCommandModalReducer,
+    mockStepModalReducer,
+    mockModalStackReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
     mockCreateStore = jest.fn(() => store);
     mockTargetReducer = {};
     mockAlertIndicatorReducer = {};
-    mockJobIndicatorReducer = {};
     mockServerReducer = {};
     mockLnetConfigurationReducer = {};
     mockTreeReducer = {};
@@ -62,6 +62,8 @@ describe("get store", () => {
     mockExceptionModalReducer = {};
     mockConfirmActionReducer = {};
     mockCommandModalReducer = {};
+    mockStepModalReducer = {};
+    mockModalStackReducer = {};
 
     jest.mock(
       "../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js",
@@ -93,7 +95,6 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/storage/storage-reducer", () => mockStorageReducer);
     jest.mock("../../../../source/iml/target/target-reducer.js", () => mockTargetReducer);
     jest.mock("../../../../source/iml/alert-indicator/alert-indicator-reducer.js", () => mockAlertIndicatorReducer);
-    jest.mock("../../../../source/iml/job-indicator/job-indicator-reducer.js", () => mockJobIndicatorReducer);
     jest.mock("../../../../source/iml/server/server-reducer.js", () => mockServerReducer);
     jest.mock("../../../../source/iml/lnet/lnet-configuration-reducer.js", () => mockLnetConfigurationReducer);
     jest.mock("../../../../source/iml/tree/tree-reducer.js", () => mockTreeReducer);
@@ -104,6 +105,8 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/exception/exception-modal-reducer.js", () => mockExceptionModalReducer);
     jest.mock("../../../../source/iml/action-dropdown/confirm-action-reducer.js", () => mockConfirmActionReducer);
     jest.mock("../../../../source/iml/command/command-modal-reducer.js", () => mockCommandModalReducer);
+    jest.mock("../../../../source/iml/command/step-modal-reducer.js", () => mockStepModalReducer);
+    jest.mock("../../../../source/iml/modal-stack-reducer.js", () => mockModalStackReducer);
 
     const storeModule = require("../../../../source/iml/store/get-store.js");
     storeInstance = storeModule.default;
@@ -116,7 +119,6 @@ describe("get store", () => {
     expect(mockCreateStore).toHaveBeenCalledOnceWith({
       targets: mockTargetReducer,
       alertIndicators: mockAlertIndicatorReducer,
-      jobIndicators: mockJobIndicatorReducer,
       server: mockServerReducer,
       lnetConfiguration: mockLnetConfigurationReducer,
       tree: mockTreeReducer,
@@ -141,7 +143,9 @@ describe("get store", () => {
       locks: mockLocksReducer,
       exceptionModal: mockExceptionModalReducer,
       confirmAction: mockConfirmActionReducer,
-      commandModal: mockCommandModalReducer
+      commandModal: mockCommandModalReducer,
+      stepModal: mockStepModalReducer,
+      modalStack: mockModalStackReducer
     });
   });
 });

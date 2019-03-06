@@ -5,6 +5,7 @@ import angular from "../../../angular-mock-setup.js";
 
 describe("select server profile", () => {
   let SelectServerProfileStepCtrl, selectServerProfileStep;
+  let mockWaitForCommandCompletion, waitForCommandCompletionInner;
 
   beforeEach(
     angular.mock.module($provide => {
@@ -17,6 +18,13 @@ describe("select server profile", () => {
   );
 
   beforeEach(() => {
+    waitForCommandCompletionInner = jest.fn(() => highland([]));
+    mockWaitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
+    jest.mock(
+      "../../../../source/iml/command/wait-for-command-completion-service.js",
+      () => mockWaitForCommandCompletion
+    );
+
     const mod = require("../../../../source/iml/server/select-server-profile-step.js");
     SelectServerProfileStepCtrl = mod.SelectServerProfileStepCtrl;
     selectServerProfileStep = mod.selectServerProfileStep();
@@ -284,15 +292,7 @@ describe("select server profile", () => {
     });
 
     describe("on enter", () => {
-      let onEnter,
-        data,
-        createOrUpdateHostsStream,
-        getHostProfiles,
-        waitForCommandCompletion,
-        waitForCommandCompletionInner,
-        result,
-        response,
-        spy;
+      let onEnter, data, createOrUpdateHostsStream, getHostProfiles, result, response, spy;
 
       beforeEach(async () => {
         data = {
@@ -480,9 +480,6 @@ describe("select server profile", () => {
 
         createOrUpdateHostsStream = jest.fn(() => highland([response]));
 
-        waitForCommandCompletionInner = jest.fn(() => highland([]));
-        waitForCommandCompletion = jest.fn(() => waitForCommandCompletionInner);
-
         getHostProfiles = jest.fn(() =>
           highland([
             {
@@ -493,7 +490,7 @@ describe("select server profile", () => {
 
         onEnter = selectServerProfileStep.onEnter;
 
-        result = onEnter(data, createOrUpdateHostsStream, getHostProfiles, waitForCommandCompletion, true);
+        result = onEnter(data, createOrUpdateHostsStream, getHostProfiles, true);
 
         spy = jest.fn();
 
@@ -515,8 +512,8 @@ describe("select server profile", () => {
           fp.filter(x => x)
         )(response);
 
-        expect(waitForCommandCompletion).toHaveBeenCalledOnceWith(true);
-        expect(waitForCommandCompletionInner).toHaveBeenCalledOnceWith(commands);
+        expect(mockWaitForCommandCompletion).toHaveBeenCalledWith(true);
+        expect(waitForCommandCompletionInner).toHaveBeenCalledWith(commands);
       });
 
       it("should call getHostProfiles", () => {

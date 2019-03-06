@@ -3,7 +3,7 @@
 %define backcompatdir /usr/lib%{managerdir}
 
 Name:       iml-%{base_name}
-Version:    6.5.0
+Version:    6.5.1
 # Release Start
 Release:    1%{?dist}
 # Release End
@@ -40,6 +40,10 @@ rm -rf %{buildroot}
 %{backcompatdir}
 
 %changelog
+* Tue Mar 12 2019 Will Johnson <wjohnson@whamcloud.com> - 6.5.0-apha.4-1
+- Update command, step, exception and other modals to use inferno components
+- Integrate Wasm action-dropdown button
+
 * Thu Feb 28 2019 Joe Grund <jgrund@whamcloud.com> - 6.4.2-1
 - Update propagateChange to unwrap any seamless-immutable objects it receives
 

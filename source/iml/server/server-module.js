@@ -27,7 +27,6 @@ import asValueModule from "../as-value/as-value-module";
 import asStreamModule from "../as-stream/as-stream-module";
 import SelectedServersService from "./selected-servers-service";
 import { AddServerModalCtrl, openAddServerModalFactory } from "./add-server-modal-ctrl";
-import overrideActionClickFactory from "./override-action-click";
 import overrideButtonDirective from "./override-button-directive";
 
 import { addServerStepsFactory, getAddServerManagerFactory } from "./get-add-server-manager";
@@ -37,12 +36,6 @@ import { ServerStatusStepCtrl, serverStatusStep } from "./server-status-step";
 import { waitUntilLoadedCtrl, waitUntilLoadedStep } from "./wait-until-loaded-step";
 import serversToApiObjects from "./servers-to-api-objects";
 import createOrUpdateHostsStream from "./create-or-update-hosts-stream";
-
-export const ADD_SERVER_STEPS = {
-  ADD: "addServersStep",
-  STATUS: "serverStatusStep",
-  SELECT_PROFILE: "selectServerProfileStep"
-};
 
 export default angular
   .module("server", [
@@ -81,7 +74,6 @@ export default angular
   .controller("AddServerModalCtrl", AddServerModalCtrl)
   .service("selectedServers", SelectedServersService)
   .factory("openAddServerModal", openAddServerModalFactory)
-  .factory("overrideActionClick", overrideActionClickFactory)
   .directive("overrideButton", overrideButtonDirective)
   .factory("addServerSteps", addServerStepsFactory)
   .value("createOrUpdateHostsStream", createOrUpdateHostsStream)

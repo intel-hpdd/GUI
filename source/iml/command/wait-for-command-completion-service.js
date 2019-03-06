@@ -7,25 +7,20 @@
 
 import * as fp from "@iml/fp";
 import getCommandStream from "../command/get-command-stream.js";
+import getStore from "../store/get-store.js";
 
 import { setState, isFinished } from "./command-transforms.js";
+import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
 import type { Command } from "./command-types.js";
 
-export default (openCommandModal: Function) => {
-  "ngInject";
+export default (showModal: boolean) => (commands: Command[]) => {
+  if (showModal)
+    getStore.dispatch({
+      type: SHOW_COMMAND_MODAL_ACTION,
+      payload: commands
+    });
 
-  return (showModal: boolean) => (response: Command[]) => {
-    const command$ = getCommandStream(response).map(fp.map(setState));
-
-    if (showModal) {
-      const commandModal$ = command$.fork();
-      openCommandModal(commandModal$).resultStream.each(() => commandModal$.destroy());
-    }
-
-    return command$
-      .fork()
-      .filter(fp.every(isFinished))
-      .tap(() => setTimeout(() => command$.destroy()));
-  };
+  const command$ = getCommandStream(commands).map(fp.map(setState));
+  return command$.filter(fp.every(isFinished)).tap(() => setTimeout(() => command$.destroy()));
 };

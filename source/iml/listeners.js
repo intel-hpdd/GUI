@@ -12,7 +12,7 @@ import {
   type RecordAndHsmControlParamT,
   type RecordAndSelectedActionT,
   ACTION_DROPDOWN_FLAG_CHECK_DEPLOY
-} from "./action-dropdown/action-dropdown-module.js";
+} from "./action-dropdown/action-dropdown-types.js";
 
 global.addEventListener(
   "action_selected",

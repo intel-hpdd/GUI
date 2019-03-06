@@ -6,7 +6,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
 const prodMode = process.env.NODE_ENV === "production";
@@ -52,20 +52,7 @@ const config = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: [
-              [
-                "@babel/preset-env",
-                {
-                  targets: {
-                    browsers: ["last 1 chrome version", "last 1 firefox version"]
-                  },
-                  modules: false,
-                  forceAllTransforms: process.env.NODE_ENV === "production"
-                }
-              ]
-            ],
             plugins: [
-              ["@babel/plugin-transform-spread", { useBuiltIns: true }],
               "@babel/plugin-transform-flow-strip-types",
               "@babel/proposal-class-properties",
               "@babel/plugin-syntax-jsx",
@@ -93,7 +80,7 @@ const config = {
           }
         }
       }),
-      new UglifyJSPlugin({
+      new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true

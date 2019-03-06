@@ -9,10 +9,10 @@ import socketStream from "../socket/socket-stream.js";
 import getStore from "../store/get-store.js";
 import { openAddServerModal } from "../listeners.js";
 
-import { type SelectedActionT } from "./action-dropdown-module.js";
+import { type SelectedActionT } from "./action-dropdown-types.js";
 
 import { CONFIRM_ACTION } from "./confirm-action-reducer.js";
-import { ADD_SERVER_STEPS } from "../server/server-module.js";
+import { ADD_SERVER_STEPS } from "../server/add-server-step.js";
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer";
 
 /**

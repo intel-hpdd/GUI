@@ -27,7 +27,6 @@ if (canDispatch())
         content_type_id,
         resource_uri,
         label,
-        locks,
         name,
         client_count,
         bytes_total,

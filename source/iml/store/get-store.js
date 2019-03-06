@@ -13,7 +13,6 @@ import cpuUsageChartReducer from "../cpu-usage/cpu-usage-chart-reducer.js";
 import fileSystemReducer from "../file-system/file-system-reducer.js";
 import fileUsageChartReducer from "../file-usage/file-usage-chart-reducer.js";
 import hostCpuRamChartReducer from "../host-cpu-ram-chart/host-cpu-ram-chart-reducer.js";
-import jobIndicatorReducer from "../job-indicator/job-indicator-reducer.js";
 import jobStatsReducer from "../job-stats/job-stats-reducer.js";
 import lnetConfigurationReducer from "../lnet/lnet-configuration-reducer.js";
 import mdoChartReducer from "../mdo/mdo-chart-reducer.js";
@@ -35,6 +34,8 @@ import locksReducer from "../locks/locks-reducer.js";
 import exceptionModalReducer from "../exception/exception-modal-reducer.js";
 import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
 import commandModalReducer from "../command/command-modal-reducer.js";
+import stepModalReducer from "../command/step-modal-reducer.js";
+import modalStackReducer from "../modal-stack-reducer.js";
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -43,7 +44,6 @@ export default createStore({
   fileSystems: fileSystemReducer,
   fileUsageCharts: fileUsageChartReducer,
   hostCpuRamCharts: hostCpuRamChartReducer,
-  jobIndicators: jobIndicatorReducer,
   jobStatsConfig: jobStatsReducer,
   lnetConfiguration: lnetConfigurationReducer,
   mdoCharts: mdoChartReducer,
@@ -64,5 +64,7 @@ export default createStore({
   locks: locksReducer,
   exceptionModal: exceptionModalReducer,
   confirmAction: confirmActionReducer,
-  commandModal: commandModalReducer
+  commandModal: commandModalReducer,
+  stepModal: stepModalReducer,
+  modalStack: modalStackReducer
 });

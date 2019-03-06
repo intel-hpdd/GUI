@@ -22,7 +22,8 @@ store.dispatch({
 if (canDispatch())
   socketStream("/target", {
     qs: {
-      limit: 0
+      limit: 0,
+      dehydrate__volume: false
     }
   })
     .map(x => x.objects)
