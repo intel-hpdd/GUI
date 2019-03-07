@@ -67,8 +67,8 @@ describe("server detail resolves", () => {
       });
     });
 
-    it("should create a jobMonitorStream", () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith("jobIndicators");
+    it("should create a locksStream", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("locks");
     });
 
     it("should create an alertMonitorStream", () => {
@@ -169,19 +169,10 @@ describe("server detail resolves", () => {
       });
     });
 
-    it("should create a corosync configuration stream", () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith("/corosync_configuration", {
-        jsonMask: "objects(resource_uri,available_actions,mcast_port,locks,state,id,network_interfaces)",
-        qs: {
-          host__id: "1",
-          limit: 0
-        }
-      });
-    });
-
     it("should create a pacemaker configuration stream", () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith("/pacemaker_configuration", {
-        jsonMask: "objects(resource_uri,available_actions,locks,state,id)",
+      expect(mockSocketStream).toHaveBeenCalledTimes(2);
+      expect(mockSocketStream).toHaveBeenCalledWith("/pacemaker_configuration", {
+        jsonMask: "objects(resource_uri,available_actions,state,content_type_id,id,label)",
         qs: {
           host__id: "1",
           limit: 0
@@ -193,7 +184,7 @@ describe("server detail resolves", () => {
       const result = await promise;
 
       expect(result).toEqual({
-        jobMonitorStream: expect.any(Function),
+        locksStream: expect.any(Function),
         alertMonitorStream: expect.any(Function),
         serverStream: expect.any(Object),
         lnetConfigurationStream: expect.any(Function),

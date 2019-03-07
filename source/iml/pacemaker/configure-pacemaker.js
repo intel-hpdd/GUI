@@ -12,7 +12,7 @@ export default function configurePacemaker() {
     bindToController: {
       stream: "=",
       alertStream: "=",
-      jobStream: "="
+      locks: "<"
     },
     controller: fp.noop,
     controllerAs: "ctrl",
@@ -32,12 +32,12 @@ export default function configurePacemaker() {
         <div>Alerts:</div>
         <div>
           <record-state record-id="curr.val.resource_uri" alert-stream="::ctrl.alertStream" display-type="'medium'"></record-state>
-          <job-status record-id="curr.val.resource_uri" job-stream="::ctrl.jobStream"></job-status>
+          <job-status content-type-id="curr.val.content_type_id" record-id="curr.val.id" locks="ctrl.locks"></job-status>
         </div>
       </div>
 
-      <div as-viewer stream="::ctrl.stream">
-        <action-dropdown tooltip-placement="top" stream="::viewer"></action-dropdown>
+      <div>
+        <action-dropdown locks="ctrl.locks" tooltip-placement="top" records="curr.val"></action-dropdown>
       </div>
     </div>
   </div>

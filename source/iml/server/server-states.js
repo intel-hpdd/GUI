@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -86,7 +86,7 @@ export const serverState = {
           </td>
           <td>
             <record-state display-type="'medium'" record-id="::item.resource_uri" alert-stream="::server.alertMonitorStream"></record-state>
-            <job-status record-id="::item.resource_uri" job-stream="::server.jobMonitorStream"></job-status>
+            <job-status content-type-id="::item.content_type_id" record-id="::item.id" locks="server.locks"></job-status>
           </td>
           <td>
             <span>{{ item.server_profile.ui_name }}</span>
@@ -101,8 +101,8 @@ export const serverState = {
               </span>
             </span>
           </td>
-          <td ng-if="!server.editable" as-stream val="item">
-            <action-dropdown stream="::str" override-click="::server.overrideActionClick(record, action)"></action-dropdown>
+          <td ng-if="!server.editable">
+            <action-dropdown records="item" locks="server.locks" flag="check_deploy"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -251,15 +251,15 @@ export const serverDetailState = {
         <div>Alerts:</div>
         <div>
           <record-state record-id="serverDetail.server.resource_uri" alert-stream="serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
-          <job-status record-id="serverDetail.server.resource_uri" job-stream="serverDetail.jobMonitorStream"></job-status>
+          <job-status content-type-id="serverDetail.server.content_type_id" record-id="serverDetail.server.id" locks="serverDetail.locks"></job-status>
         </div>
       </div>
-      <div as-stream val="serverDetail.server">
-        <action-dropdown tooltip-placement="top" stream="::str" override-click="::serverDetail.overrideActionClick(record, action)"></action-dropdown>
+      <div>
+        <action-dropdown tooltip-placement="top" records="serverDetail.server" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
       </div>
     </div>
-    <configure-pacemaker stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-pacemaker>
-    <configure-corosync stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.jobMonitorStream"></configure-corosync>
+    <configure-pacemaker locks="serverDetail.locks" stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>
+    <configure-corosync locks="serverDetail.locks" stream="::serverDetail.corosyncConfigurationStream" alert-stream="::serverDetail.alertMonitorStream"></configure-corosync>
     <div ng-if="serverDetail.lnetConfiguration" class="detail-panel">
       <h4 class="section-header">LNet Detail</h4>
       <div class="detail-row">
@@ -274,11 +274,13 @@ export const serverDetailState = {
         <div>Alerts:</div>
         <div>
           <record-state record-id="serverDetail.lnetConfiguration.resource_uri" alert-stream="::serverDetail.alertMonitorStream" display-type="'medium'"></record-state>
-          <job-status record-id="serverDetail.lnetConfiguration.resource_uri" job-stream="::serverDetail.jobMonitorStream"></job-status>
+          <job-status content-type-id="serverDetail.lnetConfiguration.content_type_id" record-id="serverDetail.lnetConfiguration.id" locks="serverDetail.locks"></job-status>
         </div>
       </div>
       <div as-viewer stream="::serverDetail.lnetConfigurationStream">
-        <action-dropdown tooltip-placement="top" stream="::viewer"></action-dropdown>
+        <div as-value stream="::viewer">
+          <action-dropdown tooltip-placement="top" records="curr.val" locks="serverDetail.locks"></action-dropdown>
+        </div>
       </div>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>

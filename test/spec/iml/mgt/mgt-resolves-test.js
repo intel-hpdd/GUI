@@ -1,7 +1,7 @@
 import highland from "highland";
 
 describe("mgt resolves", () => {
-  let mockStore, mgtStream, mgtJobIndicatorStream, mgtAlertIndicatorStream;
+  let mockStore, mgtStream, locksStream, mgtAlertIndicatorStream;
 
   beforeEach(() => {
     mockStore = {
@@ -13,7 +13,7 @@ describe("mgt resolves", () => {
     const mod = require("../../../../source/iml/mgt/mgt-resolves.js");
 
     mgtStream = mod.mgt$;
-    mgtJobIndicatorStream = mod.mgtJobIndicatorB;
+    locksStream = mod.locks$;
     mgtAlertIndicatorStream = mod.mgtAlertIndicatorB;
   });
 
@@ -24,9 +24,9 @@ describe("mgt resolves", () => {
   });
 
   it("should select jobIndicators", () => {
-    mgtJobIndicatorStream();
+    locksStream();
 
-    expect(mockStore.select).toHaveBeenCalledOnceWith("jobIndicators");
+    expect(mockStore.select).toHaveBeenCalledOnceWith("locks");
   });
 
   it("should select targets", () => {

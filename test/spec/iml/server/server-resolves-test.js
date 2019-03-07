@@ -26,8 +26,8 @@ describe("server resolves", () => {
       promise = serverResolves();
     });
 
-    it("should create a jobMonitorStream", () => {
-      expect(mockStore.select).toHaveBeenCalledOnceWith("jobIndicators");
+    it("should create a locksStream", () => {
+      expect(mockStore.select).toHaveBeenCalledOnceWith("locks");
     });
 
     it("should create an alertMonitorStream", () => {
@@ -46,7 +46,7 @@ describe("server resolves", () => {
       const result = await promise;
 
       expect(result).toEqual({
-        jobMonitorStream: expect.any(Function),
+        locksStream: expect.any(Function),
         alertMonitorStream: expect.any(Function),
         lnetConfigurationStream: expect.any(Function),
         serversStream: expect.any(Object)

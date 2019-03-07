@@ -15,16 +15,21 @@ import type { PropagateChange } from "../extend-scope-module.js";
 
 export function StatusController($scope: $scopeT, $location: $locationT, propagateChange: PropagateChange) {
   "ngInject";
-  const s = this.notification$
+
+  const p = propagateChange.bind(null, $scope, this);
+
+  this.notification$
     .map(addCurrentPage)
     .tap(x => (this.meta = x.meta))
-    .pluck("objects");
+    .pluck("objects")
+    .through(p.bind(null, "data"));
 
-  propagateChange($scope, this, "data", s);
+  this.locks$.through(p.bind(null, "locks"));
 
   $scope.$on("$destroy", () => {
     this.notification$.destroy();
     this.tzPickerB.endBroadcast();
+    this.locks$.destroy();
   });
 
   const types = ["CommandErroredAlert", "CommandSuccessfulAlert", "CommandRunningAlert", "CommandCancelledAlert"];
@@ -46,7 +51,8 @@ export function StatusController($scope: $scopeT, $location: $locationT, propaga
 export default {
   bindings: {
     notification$: "<",
-    tzPickerB: "<"
+    tzPickerB: "<",
+    locks$: "<"
   },
   controller: StatusController,
   template: `
@@ -84,7 +90,7 @@ export default {
           </td>
           <td>{{ row.message }}</td>
           <td>
-            <deferred-action-dropdown restrict-to="{{ ::app.GROUPS.FS_ADMINS }}" ng-if="row.active && !$ctrl.isCommand(row)" row="::row"></deferred-action-dropdown>
+            <deferred-action-dropdown restrict-to="{{ ::app.GROUPS.FS_ADMINS }}" ng-if="row.active && !$ctrl.isCommand(row)" row="::row" locks="$ctrl.locks"></deferred-action-dropdown>
             <deferred-cmd-modal-btn resource-uri="::row.alert_item" ng-if="::$ctrl.isCommand(row)"></deferred-cmd-modal-btn>
           </td>
         </tr>

@@ -6,7 +6,8 @@
 export default function hsmCdtStatusDirective() {
   return {
     scope: {
-      fileSystem: "="
+      fileSystem: "=",
+      locks: "<"
     },
     restrict: "E",
     template: `<div class="cdt-status-component detail-panel">
@@ -33,8 +34,8 @@ export default function hsmCdtStatusDirective() {
       </span>
     </div>
   </div>
-  <div as-stream val="fileSystem">
-    <action-dropdown stream="::str" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+  <div>
+    <action-dropdown locks="locks" records="fileSystem" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
   </div>
 </div>
 `

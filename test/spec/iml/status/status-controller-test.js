@@ -4,7 +4,7 @@ import angular from "../../../angular-mock-setup.js";
 import { StatusController } from "../../../../source/iml/status/status-records-component.js";
 
 describe("status records component", () => {
-  let $scope, $location, ctrl, notificationStream, tzPickerB;
+  let $scope, $location, ctrl, notificationStream, tzPickerB, locks$;
 
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {
@@ -21,9 +21,13 @@ describe("status records component", () => {
         endBroadcast: jest.fn()
       };
 
+      locks$ = highland();
+      jest.spyOn(locks$, "destroy");
+
       ctrl = {
         notification$: notificationStream,
-        tzPickerB
+        tzPickerB,
+        locks$
       };
 
       StatusController.call(ctrl, $scope, $location, propagateChange);
@@ -50,6 +54,10 @@ describe("status records component", () => {
 
     it("should end the tzPicker broadcast", () => {
       expect(tzPickerB.endBroadcast).toHaveBeenCalledOnceWith();
+    });
+
+    it("should destroy the locks stream", () => {
+      expect(locks$.destroy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -84,6 +92,16 @@ describe("status records component", () => {
         total_count: 4,
         current_page: 1
       });
+    });
+  });
+
+  describe("locks stream", () => {
+    beforeEach(() => {
+      locks$.write({ key: "val" });
+    });
+
+    it("should write data to the controller", () => {
+      expect(ctrl.locks).toEqual({ key: "val" });
     });
   });
 

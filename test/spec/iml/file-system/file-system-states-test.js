@@ -1,3 +1,5 @@
+import highland from "highland";
+
 describe("file system states", () => {
   let fileSystemListState, mockGroups, mockGetStore, mockBroadcaster;
 
@@ -9,7 +11,10 @@ describe("file system states", () => {
     };
 
     mockGetStore = {
-      select: jest.fn(name => name)
+      select: jest.fn(name => {
+        if (name !== "locks") return name;
+        else return highland([{ lock: "data" }]);
+      })
     };
 
     mockBroadcaster = jest.fn(name => name);
@@ -43,7 +48,7 @@ describe("file system states", () => {
       },
       template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   job-indicator-$="$ctrl.jobIndicator$"></file-system>
+   locks="$ctrl.locks"></file-system>
 </div>
 `
     });
@@ -56,14 +61,6 @@ describe("file system states", () => {
 
     it("should set the fileSystem stream", () => {
       expect(fileSystemListState.fileSystem$).toEqual("fileSystems");
-    });
-
-    it("should call the broadcaster with jobIndicators", () => {
-      expect(mockBroadcaster).toHaveBeenCalledWith("jobIndicators");
-    });
-
-    it("should set the jobIndicators stream", () => {
-      expect(fileSystemListState.jobIndicator$).toEqual("jobIndicators");
     });
 
     it("should call the broadcaster with alertIndicators", () => {

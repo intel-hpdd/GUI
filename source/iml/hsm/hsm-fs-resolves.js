@@ -16,7 +16,7 @@ import { resolveStream, streamToPromise } from "../promise-transforms.js";
 export function fsCollStream() {
   return resolveStream(
     socketStream("/filesystem", {
-      jsonMask: "objects(id,label,cdt_status,hsm_control_params,locks)"
+      jsonMask: "objects(content_type_id,id,label,cdt_status,hsm_control_params,locks)"
     })
   ).then(
     fp.flow(

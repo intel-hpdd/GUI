@@ -2,6 +2,7 @@ describe("hsm states", () => {
   let mod,
     mockCopytoolStream,
     mockCopytoolOperationStream,
+    mockLocksStream,
     mockAgentVsCopytoolChart,
     mockFsCollStream,
     mockGetData,
@@ -10,6 +11,7 @@ describe("hsm states", () => {
   beforeEach(() => {
     mockCopytoolStream = "copytoolStream";
     mockCopytoolOperationStream = "copytoolOperationStream";
+    mockLocksStream = "locksStream";
     mockAgentVsCopytoolChart = "agentVsCopytoolChart";
     mockFsCollStream = "fsCollStream";
     mockGetData = "getData";
@@ -20,6 +22,7 @@ describe("hsm states", () => {
     jest.mock("../../../../source/iml/hsm/hsm-resolves.js", () => ({
       copytoolStream: mockCopytoolStream,
       copytoolOperationStream: mockCopytoolOperationStream,
+      locksStream: mockLocksStream,
       agentVsCopytoolChart: mockAgentVsCopytoolChart
     }));
 
@@ -69,11 +72,12 @@ describe("hsm states", () => {
       </div>
     </div>
   </div>
-  <hsm-cdt-status ng-if="hsmFs.fs" file-system="hsmFs.fs"></hsm-cdt-status>
+  <hsm-cdt-status ng-if="hsmFs.fs" file-system="hsmFs.fs" locks="hsmFs.locks"></hsm-cdt-status>
   <ui-loader-view class="section-top-margin"></ui-loader-view>
 </div>`,
         resolve: {
-          fsStream: "fsCollStream"
+          fsStream: "fsCollStream",
+          locksStream: "locksStream"
         },
         data: {
           helpPage: "Graphical_User_Interface_9_0.html#9.3.4",
@@ -251,8 +255,8 @@ describe("hsm states", () => {
             <span class="status-text">Working ({{ copytool.active_operations_count }} tasks)</span>
           </span>
         </td>
-        <td class="actions-cell" as-stream val="copytool">
-          <action-dropdown stream="::str"></action-dropdown>
+        <td class="actions-cell">
+          <action-dropdown locks="hsm.locks" records="copytool"></action-dropdown>
         </td>
       </tr>
     </tbody>
@@ -266,6 +270,7 @@ describe("hsm states", () => {
           getData: "getData",
           copytoolOperationStream: "copytoolOperationStream",
           copytoolStream: "copytoolStream",
+          locksStream: "locksStream",
           agentVsCopytoolChart: "agentVsCopytoolChart"
         }
       });

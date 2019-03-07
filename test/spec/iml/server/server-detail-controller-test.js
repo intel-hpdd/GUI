@@ -8,8 +8,8 @@ describe("server detail controller", () => {
     serverDetailController,
     serverStream,
     alertMonitorStream,
-    jobMonitorStream,
-    overrideActionClick,
+    locksStream,
+    locks$,
     $exceptionHandler,
     networkInterfaceStream,
     lnetConfigurationStream,
@@ -31,8 +31,10 @@ describe("server detail controller", () => {
 
       serverStream = highland();
       jest.spyOn(serverStream, "destroy");
-      jobMonitorStream = highland();
-      jest.spyOn(jobMonitorStream, "destroy");
+      locks$ = highland();
+      locksStream = jest.fn(() => locks$);
+      locksStream.endBroadcast = jest.fn(() => locks$.end());
+      jest.spyOn(locks$, "destroy");
       alertMonitorStream = highland();
       jest.spyOn(alertMonitorStream, "destroy");
       networkInterfaceStream = highland();
@@ -44,22 +46,19 @@ describe("server detail controller", () => {
       pacemakerConfigurationStream = highland();
       jest.spyOn(pacemakerConfigurationStream, "destroy");
 
-      overrideActionClick = () => {};
-
       serverDetailController = {};
 
       ServerDetailController.bind(serverDetailController)(
         $scope,
         {
           lnetConfigurationStream: broadcaster(lnetConfigurationStream),
-          jobMonitorStream: broadcaster(jobMonitorStream),
+          locksStream,
           alertMonitorStream: broadcaster(alertMonitorStream),
           corosyncConfigurationStream: broadcaster(corosyncConfigurationStream),
           pacemakerConfigurationStream: broadcaster(pacemakerConfigurationStream),
           networkInterfaceStream,
           serverStream
         },
-        overrideActionClick,
         propagateChange
       );
     })
@@ -70,12 +69,11 @@ describe("server detail controller", () => {
       ...serverDetailController,
       ...{
         lnetConfigurationStream: expect.any(Function),
-        jobMonitorStream: expect.any(Function),
+        locksStream: expect.any(Function),
         alertMonitorStream: expect.any(Function),
         corosyncConfigurationStream: expect.any(Function),
         pacemakerConfigurationStream: expect.any(Function),
-        networkInterfaceStream: networkInterfaceStream,
-        overrideActionClick
+        networkInterfaceStream: networkInterfaceStream
       }
     };
 
@@ -131,6 +129,35 @@ describe("server detail controller", () => {
     });
   });
 
+  describe("locks stream data", () => {
+    beforeEach(() => {
+      locks$.write({
+        "89:1": {
+          action: "add",
+          content_type_id: 89,
+          description: "description",
+          item_id: 1,
+          job_id: 3,
+          lock_type: "write"
+        }
+      });
+      $scope.$digest();
+    });
+
+    it("should bind to the scope as data flows in", () => {
+      expect(serverDetailController.locks).toEqual({
+        "89:1": {
+          action: "add",
+          content_type_id: 89,
+          description: "description",
+          item_id: 1,
+          job_id: 3,
+          lock_type: "write"
+        }
+      });
+    });
+  });
+
   describe("on destroy", () => {
     beforeEach(() => {
       $scope.$on.mock.calls[0][1]();
@@ -140,8 +167,8 @@ describe("server detail controller", () => {
       expect(serverStream.destroy).toHaveBeenCalledTimes(1);
     });
 
-    it("should destroy the job monitor stream", () => {
-      expect(jobMonitorStream.destroy).toHaveBeenCalledTimes(1);
+    it("should destroy the locks stream", () => {
+      expect(locks$.destroy).toHaveBeenCalledTimes(1);
     });
 
     it("should destroy the alert Monitor stream", () => {

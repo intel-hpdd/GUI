@@ -20,6 +20,7 @@ import "./session/session-dispatch-source.js";
 import "./storage/storage-dispatch-source.js";
 import "./sse/sse-handler.js";
 import "./listeners.js";
+import "./action-dropdown/action-dropdown-handlers";
 
 import * as ENV from "./environment.js";
 import angular from "angular";
@@ -203,7 +204,7 @@ const imlModule = angular
   .component("pageTitle", pageTitleComponent)
   .directive("uiLoaderView", uiLoaderViewDirective)
   .directive("imlTooltip", imlTooltip)
-  .directive("jobStatus", jobStatus)
+  .component("jobStatus", jobStatus)
   .service("position", Position)
   .directive("imlPopover", imlPopover)
   .factory("getHostProfiles", getHostProfilesFactory)

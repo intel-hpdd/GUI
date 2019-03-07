@@ -9,26 +9,30 @@ describe("server", () => {
     server,
     $uibModal,
     serversStream,
-    openCommandModal,
     selectedServers,
     serverActions,
     jobMonitorStream,
     alertMonitorStream,
     lnetConfigurationStream,
+    locksStream,
+    locks$,
     openAddServerModal,
-    commandStream,
     openResult,
-    commandModalResult,
-    mockGetCommandStream,
-    overrideActionClick,
+    localApply,
     serverController;
+  let mockGetStore, mockGlobal;
 
   beforeEach(() => {
-    commandStream = highland();
+    mockGetStore = {
+      dispatch: jest.fn()
+    };
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
 
-    mockGetCommandStream = jest.fn(() => commandStream);
-
-    jest.mock("../../../../source/iml/command/get-command-stream.js", () => mockGetCommandStream);
+    mockGlobal = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn()
+    };
+    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
 
     const serverControllerModule = require("../../../../source/iml/server/server-controller.js");
 
@@ -36,7 +40,7 @@ describe("server", () => {
   });
 
   beforeEach(
-    angular.mock.inject(($rootScope, $controller, $q) => {
+    angular.mock.inject(($rootScope, $controller, $q, propagateChange) => {
       $scope = $rootScope.$new();
 
       openResult = {
@@ -47,8 +51,6 @@ describe("server", () => {
       $uibModal = {
         open: jest.fn(() => openResult)
       };
-
-      jest.spyOn(commandStream, "destroy");
 
       serversStream = highland();
       jest.spyOn(serversStream, "destroy");
@@ -65,14 +67,14 @@ describe("server", () => {
         }
       ];
 
-      commandModalResult = {
-        result: $q.when()
-      };
-
-      openCommandModal = jest.fn(() => commandModalResult);
-
       lnetConfigurationStream = highland();
       jest.spyOn(lnetConfigurationStream, "destroy");
+
+      locks$ = highland();
+      locksStream = jest.fn(() => locks$);
+      locksStream.endBroadcast = jest.fn(() => locks$.end());
+
+      jest.spyOn(locks$, "destroy");
 
       openAddServerModal = jest.fn(() => ({
         opened: {
@@ -91,9 +93,10 @@ describe("server", () => {
       alertMonitorStream = highland();
       jest.spyOn(alertMonitorStream, "destroy");
 
-      overrideActionClick = jest.fn();
+      localApply = jest.fn();
 
       $scope.$on = jest.fn();
+      $scope.propagateChange = propagateChange;
 
       $controller(serverController, {
         $scope,
@@ -103,16 +106,15 @@ describe("server", () => {
         naturalSortFilter,
         serverActions,
         selectedServers,
-        openCommandModal,
         streams: {
           serversStream,
           jobMonitorStream,
           alertMonitorStream,
-          lnetConfigurationStream
+          lnetConfigurationStream,
+          locksStream
         },
         openAddServerModal,
-        mockGetCommandStream,
-        overrideActionClick
+        localApply
       });
 
       server = $scope.server;
@@ -177,6 +179,7 @@ describe("server", () => {
   describe("table functionality", () => {
     describe("updating the expression", () => {
       beforeEach(() => {
+        server.setItemsPerPage(10);
         server.currentPage = 5;
         server.pdshUpdate("expression", ["expression"], { expression: 1 });
       });
@@ -200,6 +203,11 @@ describe("server", () => {
     it("should set the current page", () => {
       server.setPage(10);
       expect(server.currentPage).toEqual(10);
+    });
+
+    it("should close items per page", () => {
+      server.closeItemsPerPage();
+      expect(server.itemsPerPageIsOpen).toBe(false);
     });
 
     it("should have an ascending sorting class name", () => {
@@ -337,21 +345,74 @@ describe("server", () => {
           handler({ foo: "bar" });
         });
 
-        it("should open the command modal with the spark", () => {
-          expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
-        });
-
-        it("should call createCommandSpark", () => {
-          expect(mockGetCommandStream).toHaveBeenCalledWith([{ foo: "bar" }]);
-        });
-
-        it("should end the spark after the modal closes", () => {
-          commandModalResult.result.then(() => {
-            expect(commandStream.destroy).toHaveBeenCalled();
+        it("should launch the command modal", () => {
+          expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
+          expect(mockGetStore.dispatch).toHaveBeenCalledWith({
+            type: "SHOW_COMMAND_MODAL_ACTION",
+            payload: [{ foo: "bar" }]
           });
-
-          $scope.$digest();
         });
+      });
+    });
+
+    describe("add server modal button", () => {
+      let onOpenAddServerModal;
+      beforeEach(() => {
+        onOpenAddServerModal = mockGlobal.addEventListener.mock.calls[0][1];
+      });
+
+      it("should notify when it is clicked", () => {
+        expect(mockGlobal.addEventListener).toHaveBeenCalledTimes(1);
+        expect(mockGlobal.addEventListener).toHaveBeenCalledWith("open_add_server_modal", expect.any(Function));
+      });
+
+      describe("before clicking", () => {
+        it("should show that the button was not clicked", () => {
+          expect($scope.server.addServerClicked).toBeUndefined();
+        });
+      });
+
+      describe("after clicking", () => {
+        beforeEach(() => {
+          onOpenAddServerModal({
+            detail: {
+              record: "record",
+              step: "step"
+            }
+          });
+        });
+
+        it("should indicate that addServer was clicked", () => {
+          expect($scope.server.addServerClicked).toBe(true);
+        });
+      });
+    });
+  });
+
+  describe("locks stream data", () => {
+    beforeEach(() => {
+      locks$.write({
+        "89:1": {
+          action: "add",
+          content_type_id: 89,
+          description: "description",
+          item_id: 1,
+          job_id: 3,
+          lock_type: "write"
+        }
+      });
+    });
+
+    it("should bind to the scope as data flows in", () => {
+      expect(server.locks).toEqual({
+        "89:1": {
+          action: "add",
+          content_type_id: 89,
+          description: "description",
+          item_id: 1,
+          job_id: 3,
+          lock_type: "write"
+        }
       });
     });
   });
@@ -380,6 +441,19 @@ describe("server", () => {
 
     it("should destroy the LNet configuration stream", () => {
       expect(lnetConfigurationStream.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should end the locks broadcaster", () => {
+      expect(locksStream.endBroadcast).toHaveBeenCalledTimes(1);
+    });
+
+    it("should destroy the locks stream", () => {
+      expect(locks$.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should remopve the add server modal listener", () => {
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.removeEventListener).toHaveBeenCalledWith("open_add_server_modal", expect.any(Function));
     });
   });
 });

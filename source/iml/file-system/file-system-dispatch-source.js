@@ -24,6 +24,7 @@ if (canDispatch())
   socketStream("/filesystem", {
     jsonMask: noSpace`objects(
         id,
+        content_type_id,
         resource_uri,
         label,
         locks,

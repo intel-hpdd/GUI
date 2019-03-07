@@ -33,6 +33,8 @@ import tzPickerReducer from "../tz-picker/tz-picker-reducer.js";
 import disconnectModalReducer from "../disconnect-modal/disconnect-modal-reducer.js";
 import locksReducer from "../locks/locks-reducer.js";
 import exceptionModalReducer from "../exception/exception-modal-reducer.js";
+import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
+import commandModalReducer from "../command/command-modal-reducer.js";
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -60,5 +62,7 @@ export default createStore({
   tzPicker: tzPickerReducer,
   disconnectModal: disconnectModalReducer,
   locks: locksReducer,
-  exceptionModal: exceptionModalReducer
+  exceptionModal: exceptionModalReducer,
+  confirmAction: confirmActionReducer,
+  commandModal: commandModalReducer
 });

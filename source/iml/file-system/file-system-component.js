@@ -9,13 +9,12 @@ export default {
   bindings: {
     fileSystem$: "<",
     alertIndicator$: "<",
-    jobIndicator$: "<"
+    locks: "<"
   },
   controller() {
     this.$onDestroy = () => {
       this.fileSystem$.destroy();
       this.alertIndicator$.endBroadcast();
-      this.jobIndicator$.endBroadcast();
     };
   },
   template: `
@@ -54,7 +53,7 @@ export default {
           <td>
             <record-state display-type="'medium'"
               record-id="::item.resource_uri" alert-stream="::$ctrl.alertIndicator$"></record-state>
-            <job-status record-id="::item.resource_uri" job-stream="::$ctrl.jobIndicator$"></job-status>
+            <job-status content-type-id="::item.content_type_id" record-id="::item.id" locks="$ctrl.locks"></job-status>
           </td>
           <td>
             <a route-to="configure/server/{{item.mgt.primary_server | extractApi}}" >
@@ -70,8 +69,8 @@ export default {
           <td as-stream val="item">
             <usage-info stream="::str" id="item.id" prefix="bytes"></usage-info>
           </td>
-          <td as-stream val="item">
-            <action-dropdown stream="::str"></action-dropdown>
+          <td>
+            <action-dropdown locks="$ctrl.locks" records="item"></action-dropdown>
           </td>
         </tr>
       </tbody>

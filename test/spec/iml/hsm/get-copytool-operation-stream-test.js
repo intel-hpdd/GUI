@@ -22,7 +22,7 @@ describe("get copytool operation stream", () => {
 
     expect(mockSocketStream).toHaveBeenCalledOnceWith("/copytool_operation", {
       jsonMask:
-        "objects(id,copytool/host/label,processed_bytes,total_bytes,\
+        "objects(content_type_id,id,copytool/host/label,processed_bytes,total_bytes,\
 updated_at,started_at,throughput,type,state,path,description)",
       qs: {
         active: true,

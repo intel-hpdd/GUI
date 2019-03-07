@@ -38,6 +38,12 @@ import { waitUntilLoadedCtrl, waitUntilLoadedStep } from "./wait-until-loaded-st
 import serversToApiObjects from "./servers-to-api-objects";
 import createOrUpdateHostsStream from "./create-or-update-hosts-stream";
 
+export const ADD_SERVER_STEPS = {
+  ADD: "addServersStep",
+  STATUS: "serverStatusStep",
+  SELECT_PROFILE: "selectServerProfileStep"
+};
+
 export default angular
   .module("server", [
     filtersModule,

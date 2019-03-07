@@ -7,9 +7,7 @@
 
 import angular from "angular";
 import commandModule from "../command/command-module";
-import { ActionDropdownCtrl, actionDropdown, actionDescriptionCache } from "./action-dropdown";
-import { ConfirmActionModalCtrl, openConfirmActionModalFactory } from "./confirm-action-modal";
-import handleActionFactory from "./handle-action";
+import { actionDropdown } from "./action-dropdown";
 import uiBootstrapModule from "angular-ui-bootstrap";
 
 import { type HsmControlParamT } from "../hsm/hsm-module.js";
@@ -57,9 +55,4 @@ export type RecordAndHsmControlParamT = {|
 
 export default angular
   .module("action-dropdown-module", [commandModule, uiBootstrapModule])
-  .factory("actionDescriptionCache", actionDescriptionCache)
-  .controller("ActionDropdownCtrl", ActionDropdownCtrl)
-  .directive("actionDropdown", actionDropdown)
-  .controller("ConfirmActionModalCtrl", ConfirmActionModalCtrl)
-  .factory("openConfirmActionModal", openConfirmActionModalFactory)
-  .factory("handleAction", handleActionFactory).name;
+  .component("actionDropdown", actionDropdown).name;

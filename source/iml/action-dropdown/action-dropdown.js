@@ -1,148 +1,84 @@
+// @flow
+
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
-import getCommandStream from "../command/get-command-stream.js";
-import groupActions from "./group-actions.js";
+import global from "../global.js";
+import getRandomValue from "../get-random-value.js";
 
-export function actionDescriptionCache($sce) {
-  "ngInject";
-  const cache = {};
-
-  return function sceDescriptionCache(str) {
-    return cache[str] || (cache[str] = $sce.trustAsHtml(str));
-  };
-}
-
-export function ActionDropdownCtrl(
-  $scope,
-  $exceptionHandler,
-  handleAction,
-  actionDescriptionCache,
-  openCommandModal,
-  localApply,
-  propagateChange
-) {
-  "ngInject";
-  const setConfirmOpen = isOpen => (this.confirmOpen = isOpen);
-
-  const ctrl = Object.assign(this, {
-    actionDescriptionCache,
-    handleAction(record, action) {
-      setConfirmOpen(true);
-
-      const run = runHandleAction.bind(null, record, action);
-
-      let stream;
-      if (ctrl.overrideClick)
-        stream = ctrl
-          .overrideClick({
-            record,
-            action
-          })
-          .reject(fp.eq("fallback"))
-          .otherwise(run);
-      else stream = run();
-
-      stream.pull(err => {
-        if (err) $exceptionHandler(err);
-
-        setConfirmOpen(false);
-
-        localApply($scope);
-      });
-    },
-    tooltipPlacement: this.tooltipPlacement || "left",
-    actionsProperty: this.actionsProperty || "available_actions",
-    receivedData: false
+const initializeComponent = ({ uuid, records, locks, flag, tooltipPlacement, tooltipSize }) => {
+  const { init } = global.wasm_bindgen;
+  return init({
+    uuid,
+    records,
+    locks,
+    flag,
+    tooltip_placement: tooltipPlacement,
+    tooltip_size: tooltipSize
   });
+};
 
-  const extractPathLengths = fp.view(
-    fp.compose(
-      fp.mapped,
-      fp.lensProp("locks"),
-      fp.lensProp("write"),
-      fp.lensProp("length")
-    )
-  );
-
-  const p = propagateChange.bind(null, $scope, ctrl, "records");
-
-  const asArray = fp.cond(
-    [
-      fp.flow(
-        Array.isArray,
-        fp.not
-      ),
-      fp.arrayWrap
-    ],
-    [fp.True, fp.identity]
-  );
-
-  const add = (x, y) => x + y;
-
-  ctrl.stream
-    .map(asArray)
-    .map(fp.filter(x => x.locks && x[ctrl.actionsProperty]))
-    .tap(() => (ctrl.receivedData = true))
-    .tap(
-      fp.flow(
-        extractPathLengths,
-        fp.reduce(0)(add),
-        locks => (ctrl.locks = locks)
-      )
-    )
-    .map(fp.map(item => ({ ...item, [ctrl.actionsProperty]: groupActions(item[ctrl.actionsProperty]) })))
-    .through(p);
-
-  function runHandleAction(record, action) {
-    return handleAction(record, action)
-      .filter(fp.identity)
-      .flatMap(function openModal(x) {
-        const stream = getCommandStream([x.command || x]);
-
-        return openCommandModal(stream).resultStream.tap(stream.destroy.bind(stream));
-      });
-  }
-}
-
-export function actionDropdown() {
+export function ActionDropdownCtrl($element: HTMLElement[]) {
   "ngInject";
-  return {
-    restrict: "E",
-    scope: {},
-    bindToController: {
-      tooltipPlacement: "@?",
-      actionsProperty: "@?",
-      stream: "=",
-      overrideClick: "&?"
-    },
-    controller: "ActionDropdownCtrl",
-    controllerAs: "ctrl",
-    template: `<div class="action-dropdown">
-  <button ng-if="ctrl.locks || ctrl.confirmOpen" disabled class="btn btn-primary btn-sm">Disabled</button>
-  <button ng-if="ctrl.receivedData && ctrl.records.length === 0" disabled class="btn btn-primary btn-sm">No Actions</button>
-  <div ng-if="!ctrl.locks && !ctrl.confirmOpen" class="btn-group" uib-dropdown>
-    <button ng-if="!ctrl.receivedData || ctrl.records.length > 0" class="btn btn-primary btn-sm" uib-dropdown-toggle>
-      Actions<i class="fa fa-caret-down"></i>
-    </button>
-    <ul uib-dropdown-menu class="uib-dropdown-menu" role="menu">
-      <li class="dropdown-header" ng-repeat-start="record in ctrl.records track by record.label">
-        {{ ::record.label }}
-      </li>
-      <li class="tooltip-container tooltip-hover" ng-class="{ 'end-of-group': action.last }" ng-repeat="action in record[ctrl.actionsProperty] track by action.verb">
-        <a ng-click="::ctrl.handleAction(record, action)">
-           {{ ::action.verb }}
-        </a>
-        <iml-tooltip size="'large'" direction="{{::ctrl.tooltipPlacement}}">
-          <p ng-bind-html="ctrl.actionDescriptionCache(action.long_description)"></p>
-        </iml-tooltip>
-      </li>
-      <li ng-repeat-end class="divider"></li>
-    </ul>
-  </div>
-</div>`
+
+  const ctrl = this;
+
+  ctrl.uuid = getRandomValue().toString();
+
+  const div = $element[0].querySelector("div");
+
+  if (div != null) div.id = ctrl.uuid;
+
+  // Initialize the component before setting records if the component will be updated.
+  // Components will be updated on the status page.
+  const initialRecords = Array.isArray(ctrl.records) ? ctrl.records : [ctrl.records];
+  const hsmRecords = initialRecords.filter(x => x.hsm_control_params != null);
+  const normalRecords = initialRecords.filter(x => x.hsm_control_params == null);
+  if (ctrl.update === true || hsmRecords.length > 0) {
+    ctrl.records = [];
+    ctrl.seedApp = initializeComponent(ctrl);
+
+    if (hsmRecords.length > 0) ctrl.seedApp.set_hsm_records(hsmRecords);
+    if (ctrl.update === true && normalRecords.length > 0) ctrl.seedApp.set_records(normalRecords);
+  } else {
+    ctrl.records = initialRecords;
+    ctrl.seedApp = initializeComponent(ctrl);
+  }
+
+  ctrl.$onChanges = changesObj => {
+    if (ctrl.seedApp != null) {
+      ctrl.locks = changesObj.locks ? changesObj.locks.currentValue : ctrl.locks;
+      if (changesObj.locks != null) ctrl.seedApp.set_locks(ctrl.locks);
+
+      // Only set records if update is true. Don't worry about hsm as it will never be updated.
+      if (ctrl.update === true && changesObj.records != null && ctrl.records.length > 0)
+        ctrl.seedApp.set_records(ctrl.records);
+    }
+  };
+
+  ctrl.$onDestroy = () => {
+    if (ctrl.seedApp) {
+      ctrl.seedApp.destroy();
+      ctrl.seedApp.free();
+    }
   };
 }
+
+export const actionDropdown = {
+  bindings: {
+    tooltipPlacement: "@?",
+    tooltipSize: "@?",
+    actionsProperty: "@?",
+    records: "<",
+    locks: "<",
+    flag: "@?",
+    update: "<?"
+  },
+  controller: ActionDropdownCtrl,
+  template: `
+<div>
+</div>
+`
+};

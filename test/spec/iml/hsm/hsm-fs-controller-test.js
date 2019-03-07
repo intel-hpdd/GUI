@@ -4,7 +4,7 @@ import broadcaster from "../../../../source/iml/broadcaster.js";
 import angular from "../../../angular-mock-setup.js";
 
 describe("HSM fs controller", () => {
-  let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB;
+  let ctrl, $scope, $state, $stateParams, fsStream, qsStream, qs$, fsStreamB, locksStream;
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -47,8 +47,10 @@ describe("HSM fs controller", () => {
 
       fsStreamB = broadcaster(fsStream);
 
+      locksStream = highland();
+
       ctrl = {};
-      HsmFsCtrl.bind(ctrl)($scope, $state, $stateParams, qsStream, fsStreamB, propagateChange);
+      HsmFsCtrl.bind(ctrl)($scope, $state, $stateParams, qsStream, fsStreamB, locksStream, propagateChange);
     })
   );
 
@@ -91,6 +93,11 @@ describe("HSM fs controller", () => {
     jest.runAllTimers();
 
     expect(ctrl.fileSystems).toEqual([{ id: 1 }, { id: 2 }]);
+  });
+
+  it("should set lock data", () => {
+    locksStream.write({ "89:1": { key: "val" } });
+    expect(ctrl.locks).toEqual({ "89:1": { key: "val" } });
   });
 
   it("should set fs to the fsId", () => {

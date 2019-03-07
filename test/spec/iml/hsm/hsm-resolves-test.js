@@ -2,9 +2,11 @@ import highland from "highland";
 
 describe("hsm resolve", () => {
   let s,
+    mod,
     mockResolveStream,
     mockGetCopytoolOperationStream,
     mockGetCopytoolStream,
+    mockGetStore,
     copytoolOperationStream,
     copytoolStream,
     $stateParams;
@@ -13,14 +15,18 @@ describe("hsm resolve", () => {
     mockResolveStream = jest.fn();
     mockGetCopytoolOperationStream = jest.fn(() => s);
     mockGetCopytoolStream = jest.fn(() => s);
+    mockGetStore = {
+      select: jest.fn()
+    };
 
     jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
     }));
     jest.mock("../../../../source/iml/hsm/get-copytool-operation-stream.js", () => mockGetCopytoolOperationStream);
     jest.mock("../../../../source/iml/hsm/get-copytool-stream.js", () => mockGetCopytoolStream);
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
 
-    const mod = require("../../../../source/iml/hsm/hsm-resolves.js");
+    mod = require("../../../../source/iml/hsm/hsm-resolves.js");
 
     s = highland();
 
@@ -93,6 +99,11 @@ describe("hsm resolve", () => {
     it("should invoke resolveStream with the stream", () => {
       copytoolStream();
       expect(mockResolveStream).toHaveBeenCalledOnceWith(s);
+    });
+
+    it("should return the locks stream", () => {
+      mod.locksStream();
+      expect(mockGetStore.select).toHaveBeenCalledTimes(1);
     });
   });
 });

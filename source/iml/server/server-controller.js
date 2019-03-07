@@ -5,8 +5,10 @@
 
 import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
+import getStore from "../store/get-store.js";
+import global from "../global.js";
 
-import getCommandStream from "../command/get-command-stream.js";
+import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
 const viewLens = fp.flow(
   fp.lensProp,
@@ -20,10 +22,9 @@ export default function ServerCtrl(
   naturalSortFilter,
   serverActions,
   selectedServers,
-  openCommandModal,
   openAddServerModal,
-  overrideActionClick,
-  streams
+  streams,
+  localApply
 ) {
   "ngInject";
   $scope.server = {
@@ -53,6 +54,13 @@ export default function ServerCtrl(
         $scope.server.addServerClicked = false;
       });
     },
+    continueAddingServer(record, step) {
+      $scope.server.addServerClicked = true;
+
+      openAddServerModal(record, step).opened.then(() => {
+        $scope.server.addServerClicked = false;
+      });
+    },
     getFilteredHosts() {
       const filtered = pdshFilter(this.servers, this.hostnamesHash, this.getHostPath, this.pdshFuzzy);
 
@@ -70,6 +78,7 @@ export default function ServerCtrl(
         this.hostnames = hostnames;
         this.hostnamesHash = hostnamesHash;
         this.currentPage = 1;
+        localApply($scope);
       }
     },
     getHostPath(item) {
@@ -158,18 +167,31 @@ export default function ServerCtrl(
 
         if (data == null) return;
 
-        const commandStream = getCommandStream([data]);
-        openCommandModal(commandStream).result.then(commandStream.destroy.bind(commandStream));
+        getStore.dispatch({
+          type: SHOW_COMMAND_MODAL_ACTION,
+          payload: [data]
+        });
       });
-    },
-    overrideActionClick
+    }
   };
 
-  const p = $scope.propagateChange.bind(null, $scope, $scope.server, "servers");
+  const onOpenAddServerModal = ({ detail: { record, step } }) => {
+    $scope.server.continueAddingServer(record, step);
+  };
 
-  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p);
+  global.addEventListener("open_add_server_modal", onOpenAddServerModal);
+
+  const p = $scope.propagateChange.bind(null, $scope, $scope.server);
+
+  streams.serversStream.tap(selectedServers.addNewServers.bind(selectedServers)).through(p.bind(null, "servers"));
+
+  streams
+    .locksStream()
+    .map((xs: LockT) => ({ ...xs }))
+    .through(p.bind(null, "locks"));
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));
+    global.removeEventListener("open_add_server_modal", onOpenAddServerModal);
   });
 }

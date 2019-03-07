@@ -1,0 +1,798 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`job indicator basic state should render basic state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover ng-hide"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator triggering a change without locks should not update the messages 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            Locked by 1 pending operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with read and write locks should render hover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            There is 1 ongoing write lock operation and 1 pending read lock operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with read and write locks should render popover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            There is 1 ongoing write lock operation and 1 pending read lock operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <div
+      class="popover fade bottom in"
+      ng-class="{in: open}"
+      style="display: block; top: 100%; min-width: 0px;"
+    >
+        
+      <div
+        class="arrow"
+      />
+        
+      <h3
+        class="popover-title ng-binding"
+        ng-bind="title"
+        ng-show="title"
+      >
+        Job Operations
+      </h3>
+        
+      <div
+        class="popover-content"
+      >
+        
+    
+        <accordion
+          class="ng-scope"
+          close-others="$ctrl.closeOthers"
+        >
+          
+      
+          <!-- ngIf: $ctrl.writeMessages.length &gt; 0 ||
+      $ctrl.writeMessageDifference.length &gt; 0 -->
+          <accordion-group
+            class="ng-scope"
+            heading="Write Operations"
+            is-open="$ctrl.openWrite"
+            ng-if="$ctrl.writeMessages.length > 0 ||
+      $ctrl.writeMessageDifference.length > 0"
+          >
+            
+        
+            <ul>
+              
+          
+              <!-- ngRepeat: message in $ctrl.writeMessages -->
+              <li
+                class="ng-binding ng-scope"
+                ng-repeat="message in $ctrl.writeMessages"
+              >
+                Some write lock
+              </li>
+              <!-- end ngRepeat: message in $ctrl.writeMessages -->
+              
+          
+              <!-- ngRepeat: message in $ctrl.writeMessageDifference -->
+              
+        
+            </ul>
+            
+      
+          </accordion-group>
+          <!-- end ngIf: $ctrl.writeMessages.length &gt; 0 ||
+      $ctrl.writeMessageDifference.length &gt; 0 -->
+          
+      
+          <!-- ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          <accordion-group
+            class="ng-scope"
+            heading="Read Operations"
+            is-open="$ctrl.openRead"
+            ng-if="$ctrl.readMessages.length > 0 ||
+      $ctrl.readMessageDifference"
+          >
+            
+        
+            <ul>
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessages -->
+              <li
+                class="ng-binding ng-scope"
+                ng-repeat="message in $ctrl.readMessages"
+              >
+                Some read lock
+              </li>
+              <!-- end ngRepeat: message in $ctrl.readMessages -->
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessageDifference -->
+              
+        
+            </ul>
+            
+      
+          </accordion-group>
+          <!-- end ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          
+    
+        </accordion>
+        
+  
+      </div>
+        
+    </div>
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with read locks should render hover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            Locked by 1 pending operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with read locks should render popover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            Locked by 1 pending operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <div
+      class="popover fade bottom in"
+      ng-class="{in: open}"
+      style="display: block; top: 100%; min-width: 0px;"
+    >
+        
+      <div
+        class="arrow"
+      />
+        
+      <h3
+        class="popover-title ng-binding"
+        ng-bind="title"
+        ng-show="title"
+      >
+        Job Operations
+      </h3>
+        
+      <div
+        class="popover-content"
+      >
+        
+    
+        <accordion
+          class="ng-scope"
+          close-others="$ctrl.closeOthers"
+        >
+          
+      
+          <!-- ngIf: $ctrl.writeMessages.length &gt; 0 ||
+      $ctrl.writeMessageDifference.length &gt; 0 -->
+          
+      
+          <!-- ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          <accordion-group
+            class="ng-scope"
+            heading="Read Operations"
+            is-open="$ctrl.openRead"
+            ng-if="$ctrl.readMessages.length > 0 ||
+      $ctrl.readMessageDifference"
+          >
+            
+        
+            <ul>
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessages -->
+              <li
+                class="ng-binding ng-scope"
+                ng-repeat="message in $ctrl.readMessages"
+              >
+                Some read lock
+              </li>
+              <!-- end ngRepeat: message in $ctrl.readMessages -->
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessageDifference -->
+              
+        
+            </ul>
+            
+      
+          </accordion-group>
+          <!-- end ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          
+    
+        </accordion>
+        
+  
+      </div>
+        
+    </div>
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with write locks should render hover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            1 ongoing write lock operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;
+
+exports[`job indicator with write locks should render popover state 1`] = `
+<job-indicator
+  class="ng-scope ng-isolate-scope"
+  content-type-id="contentTypeId"
+  locks="locks"
+  record-id="id"
+>
+  <span
+    class="job-status"
+  >
+    
+    
+    <i
+      class="fa fa-lock tooltip-container tooltip-hover activate-popover"
+      ng-show="$ctrl.shouldShowLockIcon()"
+    >
+      
+       
+      <div
+        class="tooltip inferno-tt ng-isolate-scope right large"
+        direction="right"
+        ng-class="[direction, in, size]"
+        size="'large'"
+      >
+        
+  
+        <div
+          class="tooltip-arrow"
+        />
+        
+  
+        <div
+          class="tooltip-inner"
+          ng-transclude=""
+        >
+          
+         
+          <span
+            class="ng-binding ng-scope"
+          >
+            1 ongoing write lock operation. Click to review details.
+          </span>
+          
+       
+        </div>
+        
+
+      </div>
+      
+    
+    </i>
+    
+  
+    <div
+      class="popover fade bottom in"
+      ng-class="{in: open}"
+      style="display: block; top: 100%; min-width: 0px;"
+    >
+        
+      <div
+        class="arrow"
+      />
+        
+      <h3
+        class="popover-title ng-binding"
+        ng-bind="title"
+        ng-show="title"
+      >
+        Job Operations
+      </h3>
+        
+      <div
+        class="popover-content"
+      >
+        
+    
+        <accordion
+          class="ng-scope"
+          close-others="$ctrl.closeOthers"
+        >
+          
+      
+          <!-- ngIf: $ctrl.writeMessages.length &gt; 0 ||
+      $ctrl.writeMessageDifference.length &gt; 0 -->
+          <accordion-group
+            class="ng-scope"
+            heading="Write Operations"
+            is-open="$ctrl.openWrite"
+            ng-if="$ctrl.writeMessages.length > 0 ||
+      $ctrl.writeMessageDifference.length > 0"
+          >
+            
+        
+            <ul>
+              
+          
+              <!-- ngRepeat: message in $ctrl.writeMessages -->
+              <li
+                class="ng-binding ng-scope"
+                ng-repeat="message in $ctrl.writeMessages"
+              >
+                Some write lock
+              </li>
+              <!-- end ngRepeat: message in $ctrl.writeMessages -->
+              
+          
+              <!-- ngRepeat: message in $ctrl.writeMessageDifference -->
+              
+        
+            </ul>
+            
+      
+          </accordion-group>
+          <!-- end ngIf: $ctrl.writeMessages.length &gt; 0 ||
+      $ctrl.writeMessageDifference.length &gt; 0 -->
+          
+      
+          <!-- ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          <accordion-group
+            class="ng-scope"
+            heading="Read Operations"
+            is-open="$ctrl.openRead"
+            ng-if="$ctrl.readMessages.length > 0 ||
+      $ctrl.readMessageDifference"
+          >
+            
+        
+            <ul>
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessages -->
+              
+          
+              <!-- ngRepeat: message in $ctrl.readMessageDifference -->
+              
+        
+            </ul>
+            
+      
+          </accordion-group>
+          <!-- end ngIf: $ctrl.readMessages.length &gt; 0 ||
+      $ctrl.readMessageDifference -->
+          
+    
+        </accordion>
+        
+  
+      </div>
+        
+    </div>
+    <iml-popover
+      class="ng-isolate-scope"
+      on-toggle="$ctrl.onToggle(state)"
+      placement="bottom"
+      title="Job Operations"
+    />
+    
+
+  </span>
+</job-indicator>
+`;

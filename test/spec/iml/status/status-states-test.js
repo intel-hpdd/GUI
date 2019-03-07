@@ -1,12 +1,17 @@
 import { noSpace } from "../../../../source/iml/string.js";
 
 describe("status states", () => {
-  let mod, mockResolveStream, mockSocketStream, mockTzPickerB;
+  let mod, locks$;
+  let mockResolveStream, mockSocketStream, mockTzPickerB, mockGetStore;
 
   beforeEach(() => {
     mockResolveStream = jest.fn();
     mockSocketStream = jest.fn();
     mockTzPickerB = jest.fn();
+    locks$ = {};
+    mockGetStore = {
+      select: jest.fn(() => locks$)
+    };
 
     jest.mock("../../../../source/iml/promise-transforms.js", () => ({
       resolveStream: mockResolveStream
@@ -15,6 +20,7 @@ describe("status states", () => {
     jest.mock("../../../../source/iml/tz-picker/tz-picker-resolves.js", () => ({
       tzPickerB: mockTzPickerB
     }));
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
 
     mod = require("../../../../source/iml/status/status-states.js");
   });
@@ -77,7 +83,8 @@ describe("status states", () => {
         },
         resolve: {
           notification$: expect.any(Function),
-          tzPickerB: expect.any(Function)
+          tzPickerB: expect.any(Function),
+          locks$: expect.any(Function)
         },
         component: "statusRecords"
       });
@@ -145,6 +152,17 @@ describe("status states", () => {
 
       it("should select tzPicker stream from the store", () => {
         expect(mockTzPickerB).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe("resolve locks$", () => {
+      let s$;
+      beforeEach(() => {
+        s$ = mod.tableState.resolve.locks$();
+      });
+
+      it("should return the locks stream", () => {
+        expect(s$).toEqual(locks$);
       });
     });
   });

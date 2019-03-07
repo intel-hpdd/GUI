@@ -1,5 +1,5 @@
 describe("mgt states", () => {
-  let mgtState, mockGroups, mockMgt$, mockMgtJobIndicatorB, mockMgtAlertIndicatorB;
+  let mgtState, mockGroups, mockMgt$, mockLocks$, mockMgtAlertIndicatorB;
 
   beforeEach(() => {
     mockGroups = {
@@ -9,12 +9,12 @@ describe("mgt states", () => {
     };
 
     mockMgt$ = jest.fn();
-    mockMgtJobIndicatorB = jest.fn();
+    mockLocks$ = jest.fn();
     mockMgtAlertIndicatorB = jest.fn();
 
     jest.mock("../../../../source/iml/mgt/mgt-resolves.js", () => ({
       mgt$: mockMgt$,
-      mgtJobIndicatorB: mockMgtJobIndicatorB,
+      locks$: mockLocks$,
       mgtAlertIndicatorB: mockMgtAlertIndicatorB
     }));
     jest.mock("../../../../source/iml/auth/authorization.js", () => ({
@@ -44,7 +44,7 @@ describe("mgt states", () => {
       resolve: {
         mgt$: mockMgt$,
         mgtAlertIndicatorB: mockMgtAlertIndicatorB,
-        mgtJobIndicatorB: mockMgtJobIndicatorB
+        locks$: mockLocks$
       }
     });
   });

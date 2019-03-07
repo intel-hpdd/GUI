@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`confirm action modal with multiple prompts should render the modal 1`] = `
+<div>
+  <div
+    class="modal-open"
+    id="confirm-modal"
+  >
+    <div
+      class="modal fade in confirm-action-modal"
+      role="dialog"
+      style="display: block;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h4
+              class="modal-title"
+            >
+              Confirm 
+              message
+            </h4>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <div
+              class="multi-confirmation"
+            >
+              <h4>
+                This action will:
+              </h4>
+              <ul
+                class="well"
+              >
+                <li>
+                  prompt1
+                </li>
+                <li>
+                  prompt2
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <div
+              class="btn-group"
+            >
+              <button
+                class="btn btn-success"
+                type="button"
+              >
+                Confirm 
+                <i
+                  class="fa fa-check-circle-o"
+                />
+              </button>
+              <div
+                class="btn-group dropdown "
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-success dropdown-toggle"
+                  type="button"
+                >
+                  <span
+                    class="caret"
+                  />
+                  <span
+                    class="sr-only"
+                  >
+                    Split button
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  role="menu"
+                >
+                  <li>
+                    <a>
+                      Confirm and skip command view
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button
+              class="btn btn-danger"
+            >
+              Cancel 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in confirm-action-modal-backdrop"
+    />
+  </div>
+</div>
+`;
+
+exports[`confirm action modal with no prompts should render the modal 1`] = `
+<div>
+  <div
+    class="modal-open"
+    id="confirm-modal"
+  >
+    <div
+      class="modal fade in confirm-action-modal"
+      role="dialog"
+      style="display: block;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h4
+              class="modal-title"
+            >
+              Confirm 
+              message
+            </h4>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <div>
+              <p>
+                Are you sure you want to perform this action?
+              </p>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <div
+              class="btn-group"
+            >
+              <button
+                class="btn btn-success"
+                type="button"
+              >
+                Confirm 
+                <i
+                  class="fa fa-check-circle-o"
+                />
+              </button>
+              <div
+                class="btn-group dropdown "
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-success dropdown-toggle"
+                  type="button"
+                >
+                  <span
+                    class="caret"
+                  />
+                  <span
+                    class="sr-only"
+                  >
+                    Split button
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  role="menu"
+                >
+                  <li>
+                    <a>
+                      Confirm and skip command view
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button
+              class="btn btn-danger"
+            >
+              Cancel 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in confirm-action-modal-backdrop"
+    />
+  </div>
+</div>
+`;
+
+exports[`confirm action modal with single prompt should render the modal 1`] = `
+<div>
+  <div
+    class="modal-open"
+    id="confirm-modal"
+  >
+    <div
+      class="modal fade in confirm-action-modal"
+      role="dialog"
+      style="display: block;"
+      tabindex="-1"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div
+          class="modal-content"
+        >
+          <div
+            class="modal-header"
+          >
+            <h4
+              class="modal-title"
+            >
+              Confirm 
+              message
+            </h4>
+          </div>
+          <div
+            class="modal-body "
+          >
+            <div
+              class="single-confirmation"
+            >
+              <p>
+                prompt1
+              </p>
+            </div>
+          </div>
+          <div
+            class="modal-footer"
+          >
+            <div
+              class="btn-group"
+            >
+              <button
+                class="btn btn-success"
+                type="button"
+              >
+                Confirm 
+                <i
+                  class="fa fa-check-circle-o"
+                />
+              </button>
+              <div
+                class="btn-group dropdown "
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-success dropdown-toggle"
+                  type="button"
+                >
+                  <span
+                    class="caret"
+                  />
+                  <span
+                    class="sr-only"
+                  >
+                    Split button
+                  </span>
+                </button>
+                <ul
+                  class="dropdown-menu"
+                  role="menu"
+                >
+                  <li>
+                    <a>
+                      Confirm and skip command view
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <button
+              class="btn btn-danger"
+            >
+              Cancel 
+              <i
+                class="fa fa-times-circle-o"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal-backdrop fade in confirm-action-modal-backdrop"
+    />
+  </div>
+</div>
+`;

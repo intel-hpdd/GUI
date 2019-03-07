@@ -1,105 +1,89 @@
-import angular from "../../../angular-mock-setup.js";
-import uiBootstrapModule from "angular-ui-bootstrap";
+// @flow
 
-import {
-  openConfirmActionModalFactory,
-  ConfirmActionModalCtrl
-} from "../../../../source/iml/action-dropdown/confirm-action-modal.js";
+import { ConfirmActionModal } from "../../../../source/iml/action-dropdown/confirm-action-modal.js";
+import { render } from "inferno";
 
-describe("confirm action modal", function() {
+describe("confirm action modal", () => {
+  let body, div, cb, button;
   beforeEach(() => {
-    if (!window.angular) require("angular");
+    cb = jest.fn();
+
+    div = document.createElement("div");
+    body = document.querySelector("body");
+    if (body) body.appendChild(div);
   });
 
-  beforeEach(
-    angular.mock.module(uiBootstrapModule, ($compileProvider, $provide, $controllerProvider) => {
-      $provide.factory("openConfirmActionModal", openConfirmActionModalFactory);
-
-      $controllerProvider.register("ConfirmActionModalCtrl", ConfirmActionModalCtrl);
-    })
-  );
-
-  describe("confirm action modal", function() {
-    let confirmAction, title, confirmPrompts;
-
-    beforeEach(
-      angular.mock.inject(function($rootScope, $controller) {
-        const $scope = $rootScope.$new();
-
-        title = "The Title";
-        confirmPrompts = [];
-
-        $controller("ConfirmActionModalCtrl", {
-          $scope: $scope,
-          title: title,
-          confirmPrompts: confirmPrompts
-        });
-
-        confirmAction = $scope.confirmAction;
-      })
-    );
-
-    it("should have a title property", function() {
-      expect(confirmAction.title).toEqual("The Title");
+  describe("with no prompts", () => {
+    beforeEach(() => {
+      render(<ConfirmActionModal message={"message"} prompts={[]} cb={cb} />, div);
     });
 
-    it("should set the confirmPrompts", function() {
-      expect(confirmAction.confirmPrompts).toEqual([]);
+    it("should render the modal", () => {
+      expect(div).toMatchSnapshot();
     });
   });
 
-  describe("open confirm action modal", function() {
-    let $uibModal, openConfirmActionModal;
+  describe("with single prompt", () => {
+    beforeEach(() => {
+      render(<ConfirmActionModal message={"message"} prompts={["prompt1"]} cb={cb} />, div);
+    });
 
-    beforeEach(
-      angular.mock.module(function($provide) {
-        $uibModal = {
-          open: jest.fn()
-        };
+    it("should render the modal", () => {
+      expect(div).toMatchSnapshot();
+    });
+  });
 
-        $provide.value("$uibModal", $uibModal);
-      })
-    );
+  describe("with multiple prompts", () => {
+    beforeEach(() => {
+      render(<ConfirmActionModal message={"message"} prompts={["prompt1", "prompt2"]} cb={cb} />, div);
+    });
 
-    let title, confirmPrompts;
+    it("should render the modal", () => {
+      expect(div).toMatchSnapshot();
+    });
+  });
 
-    beforeEach(
-      angular.mock.inject(function(_openConfirmActionModal_) {
-        title = "The title";
-        confirmPrompts = [];
+  describe("interaction", () => {
+    beforeEach(() => {
+      render(<ConfirmActionModal message={"message"} prompts={["prompt1"]} cb={cb} />, div);
+    });
 
-        openConfirmActionModal = _openConfirmActionModal_;
-        openConfirmActionModal(title, confirmPrompts);
-      })
-    );
+    describe("Confirming", () => {
+      beforeEach(() => {
+        button = div.querySelector(".modal-footer button:first-of-type");
+        if (button) button.click();
+      });
 
-    it("should open the modal as expected", function() {
-      expect($uibModal.open).toHaveBeenCalledOnceWith({
-        backdrop: "static",
-        backdropClass: "confirm-action-modal-backdrop",
-        controller: "ConfirmActionModalCtrl",
-        windowClass: "confirm-action-modal",
-        template: expect.any(String),
-        resolve: {
-          title: expect.any(Function),
-          confirmPrompts: expect.any(Function)
-        }
+      it("should invoke the callback with confirm type", () => {
+        expect(cb).toHaveBeenCalledTimes(1);
+        expect(cb).toHaveBeenCalledWith("confirm");
       });
     });
 
-    describe("resolves", function() {
-      let resolve;
-
-      beforeEach(function() {
-        resolve = $uibModal.open.mock.calls[0][0].resolve;
+    describe("Confirming and skipping", () => {
+      let a;
+      beforeEach(() => {
+        button = div.querySelector(".modal-footer button.dropdown-toggle");
+        if (button) button.click();
+        a = div.querySelector(".modal-footer a");
+        if (a) a.click();
       });
 
-      it("should set the title", function() {
-        expect(resolve.title()).toEqual(title);
+      it("should invoke the callback with confirm and skip type", () => {
+        expect(cb).toHaveBeenCalledTimes(1);
+        expect(cb).toHaveBeenCalledWith("confirm_and_skip");
+      });
+    });
+
+    describe("Canceling", () => {
+      beforeEach(() => {
+        button = div.querySelector(".modal-footer button.btn-danger");
+        if (button) button.click();
       });
 
-      it("should set the confirm prompts", function() {
-        expect(resolve.confirmPrompts()).toEqual([]);
+      it("should invoke the callback with cancel type", () => {
+        expect(cb).toHaveBeenCalledTimes(1);
+        expect(cb).toHaveBeenCalledWith("cancel");
       });
     });
   });

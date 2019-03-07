@@ -12,11 +12,9 @@ import position from "../../../../source/iml/position.js";
 import routeTo from "../../../../source/iml/route-to/route-to.js";
 import angular from "../../../angular-mock-setup.js";
 import uiBootstrap from "angular-ui-bootstrap";
-import { openConfirmActionModalFactory } from "../../../../source/iml/action-dropdown/confirm-action-modal.js";
-import { openCommandModalFactory } from "../../../../source/iml/command/command-modal-ctrl.js";
 
 describe("mgt component", () => {
-  let mockGetCommandStream, mockSocketStream;
+  let mockGetCommandStream, mockSocketStream, mockGlobal;
 
   beforeEach(() => {
     if (!window.angular) require("angular");
@@ -30,28 +28,27 @@ describe("mgt component", () => {
         mockGetCommandStream = jest.fn(() => highland());
         jest.mock("../../../../source/iml/command/get-command-stream.js", () => mockGetCommandStream);
 
-        const {
-          ActionDropdownCtrl,
-          actionDropdown,
-          actionDescriptionCache
-        } = require("../../../../source/iml/action-dropdown/action-dropdown.js");
-
         mockSocketStream = jest.fn(() => highland());
         jest.mock("../../../../source/iml/socket/socket-stream.js", () => mockSocketStream);
 
-        const handleActionFactory = require("../../../../source/iml/action-dropdown/handle-action.js").default;
+        mockGlobal = {
+          crypto: {
+            getRandomValues: jest.fn(() => [12345])
+          },
+          wasm_bindgen: {
+            init: jest.fn()
+          }
+        };
+        jest.mock("../../../../source/iml/global.js", () => mockGlobal);
+
+        const { actionDropdown } = require("../../../../source/iml/action-dropdown/action-dropdown.js");
 
         $provide.value("socketStream", jest.fn());
         $compileProvider.component("mgt", mgtComponent);
         $compileProvider.component("recordState", alertIndicatorNg);
-        $compileProvider.directive("jobStatus", jobStatus);
-        $provide.factory("handleAction", handleActionFactory);
-        $provide.factory("openConfirmActionModal", openConfirmActionModalFactory);
+        $compileProvider.component("jobStatus", jobStatus);
 
-        $provide.factory("openCommandModal", openCommandModalFactory);
-        $controllerProvider.register("ActionDropdownCtrl", ActionDropdownCtrl);
-        $compileProvider.directive("actionDropdown", actionDropdown);
-        $provide.factory("actionDescriptionCache", actionDescriptionCache);
+        $compileProvider.component("actionDropdown", actionDropdown);
         $compileProvider.directive("asValue", asValue);
         $compileProvider.directive("asStream", asStream);
         $filterProvider.register("extractApi", extractApiFilter);
@@ -72,7 +69,7 @@ describe("mgt component", () => {
   let el, $scope;
   beforeEach(
     angular.mock.inject(($rootScope, $compile) => {
-      const template = ` <mgt mgt-$="mgtStream" alert-indicator-b="mgtAlertIndicatorStream" job-indicator-b="mgtJobIndicatorStream"></mgt> `;
+      const template = ` <mgt mgt-$="mgtStream" alert-indicator-b="mgtAlertIndicatorStream" locks-$="locksStream"></mgt> `;
 
       $scope = $rootScope.$new();
       $scope.mgtStream = highland();
@@ -80,7 +77,7 @@ describe("mgt component", () => {
       const s = highland();
       s.write([]);
       $scope.mgtAlertIndicatorStream = broadcaster(s);
-      $scope.mgtJobIndicatorStream = broadcaster(highland());
+      $scope.locksStream = highland([{}]);
       el = $compile(template)($scope)[0];
       $scope.$digest();
     })
@@ -90,6 +87,7 @@ describe("mgt component", () => {
     beforeEach(() => {
       $scope.mgtStream.write([
         {
+          content_type_id: 89,
           id: 1,
           ha_label: "MGS_49c000",
           resource_uri: "/api/target/1",

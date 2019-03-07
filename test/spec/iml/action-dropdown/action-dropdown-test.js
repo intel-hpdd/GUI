@@ -1,195 +1,246 @@
-import highland from "highland";
+// @flow
+
 import angular from "../../../angular-mock-setup.js";
 
-describe("action dropdown", () => {
-  let $scope,
-    ctrl,
-    handleAction,
-    actionStream,
-    mockGetCommandStream,
-    openCommandModal,
-    commandStream,
-    commandModalStream,
-    s,
-    ActionDropdownCtrl;
+describe("action dropdown directive", () => {
+  let actionDropdown, template, $compile, $scope, seedApp, record1, hsmRecord, lock1;
+  let mockGetRandomValue, mockGlobal;
 
   beforeEach(() => {
-    commandStream = highland();
-    jest.spyOn(commandStream, "destroy");
-    mockGetCommandStream = jest.fn(() => commandStream);
+    mockGetRandomValue = jest.fn(() => 7);
+    jest.mock("../../../../source/iml/get-random-value.js", () => mockGetRandomValue);
 
-    jest.mock("../../../../source/iml/command/get-command-stream.js", () => mockGetCommandStream);
+    seedApp = {
+      destroy: jest.fn(),
+      free: jest.fn(),
+      set_hsm_records: jest.fn(),
+      set_records: jest.fn(),
+      set_locks: jest.fn()
+    };
 
-    const mod = require("../../../../source/iml/action-dropdown/action-dropdown.js");
+    mockGlobal = {
+      wasm_bindgen: {
+        init: jest.fn(() => seedApp)
+      }
+    };
+    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
 
-    ActionDropdownCtrl = mod.ActionDropdownCtrl;
-
-    jest.useFakeTimers();
-  });
-
-  afterEach(() => {
-    jest.clearAllTimers();
-    jest.useRealTimers();
+    actionDropdown = require("../../../../source/iml/action-dropdown/action-dropdown.js").actionDropdown;
   });
 
   beforeEach(
-    angular.mock.inject(($rootScope, $exceptionHandler, localApply, propagateChange) => {
-      $scope = $rootScope.$new();
-      actionStream = highland();
-      handleAction = jest.fn(() => actionStream);
-
-      commandModalStream = highland();
-      openCommandModal = jest.fn(() => ({
-        resultStream: commandModalStream
-      }));
-
-      s = highland();
-
-      ctrl = {
-        stream: s
-      };
-
-      ActionDropdownCtrl.bind(ctrl)(
-        $scope,
-        $exceptionHandler,
-        handleAction,
-        {},
-        openCommandModal,
-        localApply,
-        propagateChange
-      );
+    angular.mock.module($compileProvider => {
+      $compileProvider.component("actionDropdown", actionDropdown);
     })
   );
 
-  it("should setup the controller", () => {
-    const scope = {
-      ...ctrl,
-      ...{
-        actionDescriptionCache: {},
-        handleAction: expect.any(Function),
-        stream: s,
-        tooltipPlacement: "left",
-        actionsProperty: "available_actions",
-        receivedData: false
+  beforeEach(() => {
+    record1 = {
+      content_type_id: 89,
+      id: 1,
+      label: "label",
+      resource_uri: "/api/target/1",
+      state: "pending",
+      address: "address",
+      server_profile: {
+        initial_state: "active"
+      },
+      install_method: "method"
+    };
+
+    hsmRecord = {
+      content_type_id: 89,
+      id: 1,
+      label: "label",
+      resource_uri: "/api/target/1",
+      state: "pending",
+      address: "address",
+      server_profile: {
+        initial_state: "active"
+      },
+      install_method: "method",
+      hsm_control_params: {
+        long_description: "long_description",
+        param_key: "key",
+        param_value: "value",
+        verb: "verb",
+        mdt: {
+          id: "7",
+          kind: "kind",
+          resource: "resource",
+          conf_params: {}
+        }
       }
     };
 
-    expect(ctrl).toEqual(scope);
+    lock1 = {
+      content_type_id: 21,
+      id: 17,
+      label: "lock_label",
+      hsm_control_params: null
+    };
   });
 
-  describe("handleAction", () => {
-    beforeEach(() => {
-      ctrl.handleAction(
-        {
-          record: "record"
-        },
-        {
-          action: "action"
-        }
-      );
+  describe("normal button", () => {
+    beforeEach(
+      angular.mock.inject((_$compile_, $rootScope) => {
+        $compile = _$compile_;
+        $scope = $rootScope.$new();
+
+        $scope.records = [record1];
+        $scope.locks = [lock1];
+
+        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" />`;
+        $compile(template)($scope)[0];
+      })
+    );
+
+    afterEach(() => {
+      $scope.$destroy();
     });
 
-    it("should call handle action with record and action", () => {
-      expect(handleAction).toHaveBeenCalledOnceWith(
-        {
-          record: "record"
-        },
-        {
-          action: "action"
-        }
-      );
+    it("should initialize the component", () => {
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith({
+        uuid: "7",
+        records: [record1],
+        locks: [lock1],
+        flag: "flag",
+        tooltip_placement: "left",
+        tooltip_size: "large"
+      });
     });
 
-    it("should get a command stream from the command", () => {
-      actionStream.write({
-        command: "command"
+    it("should not manually set records", () => {
+      expect(seedApp.set_records).not.toHaveBeenCalled();
+    });
+
+    it("should update the locks", () => {
+      expect(seedApp.set_locks).toHaveBeenCalledTimes(1);
+      expect(seedApp.set_locks).toHaveBeenCalledWith([lock1]);
+    });
+
+    describe("on destroy", () => {
+      beforeEach(() => {
+        $scope.$destroy();
       });
 
-      expect(mockGetCommandStream).toHaveBeenCalledTimes(1);
-      expect(mockGetCommandStream).toHaveBeenCalledWith(["command"]);
-    });
+      it("should destroy the seed app", () => {
+        expect(seedApp.destroy).toHaveBeenCalledTimes(1);
+      });
 
-    it("should open the command modal", () => {
-      actionStream.write("command");
-
-      expect(openCommandModal).toHaveBeenCalledOnceWith(commandStream);
-    });
-
-    it("should destroy the command stream when the modal gets a result", () => {
-      actionStream.write("command");
-      commandModalStream.write("done");
-
-      jest.runAllTimers();
-
-      expect(commandStream.destroy).toHaveBeenCalledTimes(1);
-    });
-
-    it("should indicate that data has not been received", () => {
-      expect(ctrl.receivedData).toBe(false);
+      it("should free the seed app", () => {
+        expect(seedApp.free).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
-  describe("filtering data without actions property", () => {
-    beforeEach(() => {
-      s.write([
-        {
-          id: 31,
-          resource_uri: "/api/storage_resource/31/"
-        }
-      ]);
+  describe("button that will manually update", () => {
+    beforeEach(
+      angular.mock.inject((_$compile_, $rootScope) => {
+        $compile = _$compile_;
+        $scope = $rootScope.$new();
+
+        $scope.records = [];
+        $scope.locks = [lock1];
+
+        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" update="true" />`;
+        $compile(template)($scope)[0];
+      })
+    );
+
+    afterEach(() => {
+      $scope.$destroy();
     });
 
-    it("should indicate data has been received", () => {
-      expect(ctrl.receivedData).toBe(true);
+    it("should initialize the component", () => {
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith({
+        uuid: "7",
+        records: [],
+        locks: [lock1],
+        flag: "flag",
+        tooltip_placement: "left",
+        tooltip_size: "large"
+      });
     });
 
-    it("should filter out the record", () => {
-      expect(ctrl.records).toEqual([]);
+    it("should not have set records yet", () => {
+      expect(seedApp.set_records).not.toHaveBeenCalled();
+    });
+
+    it("should update the locks", () => {
+      expect(seedApp.set_locks).toHaveBeenCalledTimes(1);
+      expect(seedApp.set_locks).toHaveBeenCalledWith([lock1]);
+    });
+
+    describe("after setting records", () => {
+      beforeEach(() => {
+        $scope.records = [record1];
+        $scope.$digest();
+      });
+
+      it("should set records", () => {
+        expect(seedApp.set_records).toHaveBeenCalledTimes(1);
+        expect(seedApp.set_records).toHaveBeenCalledWith([record1]);
+      });
     });
   });
 
-  describe("passing down data containing the actions property", () => {
-    let data;
-    beforeEach(() => {
-      data = [
-        {
-          id: 1,
-          label: "corosync2 configuration",
-          locks: {
-            read: [],
-            write: []
-          },
-          resource_uri: "/api/corosync_configuration/1/",
-          available_actions: [
-            {
-              display_group: 1,
-              display_order: 30,
-              last: true,
-              long_description: "Unconfiguring Corosync",
-              state: "unconfigured",
-              verb: "Unconfigure Corosync"
-            },
-            {
-              display_group: 3,
-              display_order: 100,
-              long_description: "Stop Corosync on this host.",
-              state: "stopped",
-              verb: "Stop Corosync"
-            }
-          ]
-        }
-      ];
+  describe("with hsm records and normal records and won't update", () => {
+    beforeEach(
+      angular.mock.inject((_$compile_, $rootScope) => {
+        $compile = _$compile_;
+        $scope = $rootScope.$new();
 
-      s.write(data);
-      jest.runAllTimers();
+        $scope.records = [hsmRecord, record1];
+        $scope.locks = [lock1];
+
+        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" />`;
+        $compile(template)($scope)[0];
+      })
+    );
+
+    afterEach(() => {
+      $scope.$destroy();
     });
 
-    it("should indicate data has been received", () => {
-      expect(ctrl.receivedData).toBe(true);
+    it("should manually set hsm records", () => {
+      expect(seedApp.set_hsm_records).toHaveBeenCalledTimes(1);
+      expect(seedApp.set_hsm_records).toHaveBeenCalledWith([hsmRecord]);
     });
 
-    it("should pass the record through", () => {
-      expect(ctrl.records).toEqual(data);
+    it("should not manually set records", () => {
+      expect(seedApp.set_records).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("with both hsm records and normal records and will update", () => {
+    beforeEach(
+      angular.mock.inject((_$compile_, $rootScope) => {
+        $compile = _$compile_;
+        $scope = $rootScope.$new();
+
+        $scope.records = [hsmRecord, record1];
+        $scope.locks = [lock1];
+
+        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" update="true" />`;
+        $compile(template)($scope)[0];
+      })
+    );
+
+    afterEach(() => {
+      $scope.$destroy();
+    });
+
+    it("should manually set hsm records", () => {
+      expect(seedApp.set_hsm_records).toHaveBeenCalledTimes(1);
+      expect(seedApp.set_hsm_records).toHaveBeenCalledWith([hsmRecord]);
+    });
+
+    it("should manually set records", () => {
+      expect(seedApp.set_records).toHaveBeenCalledTimes(1);
+      expect(seedApp.set_records).toHaveBeenCalledWith([record1]);
     });
   });
 });

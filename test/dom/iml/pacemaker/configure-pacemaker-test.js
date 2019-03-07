@@ -14,12 +14,12 @@ describe("configure pacemaker", () => {
   let el, $scope, query, s;
   beforeEach(
     angular.mock.inject(($rootScope, $compile) => {
-      const template = `<configure-pacemaker stream="::stream" alert-stream="::alertStream" job-stream="::jobStream"></configure-pacemaker>`;
+      const template = `<configure-pacemaker stream="::stream" alert-stream="::alertStream" locks="locks"></configure-pacemaker>`;
       s = highland();
       $scope = $rootScope.$new();
       $scope.stream = broadcaster(s);
       $scope.alertStream = highland();
-      $scope.jobStream = highland();
+      $scope.locks = [];
       el = $compile(template)($scope)[0];
       query = el.querySelector.bind(el);
       $scope.$digest();

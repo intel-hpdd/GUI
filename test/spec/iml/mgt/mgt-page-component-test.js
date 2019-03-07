@@ -6,7 +6,7 @@ describe("mgt page component", () => {
       bindings: {
         mgt$: "<",
         mgtAlertIndicatorB: "<",
-        mgtJobIndicatorB: "<"
+        locks$: "<"
       },
       template: expect.any(String)
     });

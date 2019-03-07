@@ -9,14 +9,14 @@ export default {
   bindings: {
     mgt$: "<",
     mgtAlertIndicatorB: "<",
-    mgtJobIndicatorB: "<"
+    locks$: "<"
   },
   template: `
     <div class="container container-full">
       <mgt
         mgt-$="$ctrl.mgt$"
         alert-indicator-b="$ctrl.mgtAlertIndicatorB"
-        job-indicator-b="$ctrl.mgtJobIndicatorB"
+        locks-$="$ctrl.locks$"
       ></mgt>
     </div>`
 };

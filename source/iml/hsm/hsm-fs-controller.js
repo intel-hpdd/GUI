@@ -1,7 +1,7 @@
 // @flow
 
 //
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -15,12 +15,15 @@ import type { PropagateChange } from "../extend-scope-module.js";
 
 import type { HighlandStreamT } from "highland";
 
+import type { LockT } from "../locks/locks-reducer.js";
+
 export default function HsmFsCtrl(
   $scope: $scopeT,
   $state: StateServiceT,
   $stateParams: Object,
   qsStream: qsStreamT,
   fsStream: () => HighlandStreamT<any>,
+  locksStream: HighlandStreamT<LockT>,
   propagateChange: PropagateChange
 ) {
   "ngInject";
@@ -39,6 +42,7 @@ export default function HsmFsCtrl(
   const p = propagateChange.bind(null, $scope, hsmFs);
 
   p("fileSystems", fsStream());
+  p("locks", locksStream);
 
   const qs$ = qsStream($stateParams, {
     to: state => state.includes["app.hsmFs"]

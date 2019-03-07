@@ -27,7 +27,9 @@ describe("get store", () => {
     mockTzPickerReducer,
     mockDisconnectModalReducer,
     mockLocksReducer,
-    mockExceptionModalReducer;
+    mockExceptionModalReducer,
+    mockConfirmActionReducer,
+    mockCommandModalReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
@@ -58,6 +60,8 @@ describe("get store", () => {
     mockDisconnectModalReducer = {};
     mockLocksReducer = {};
     mockExceptionModalReducer = {};
+    mockConfirmActionReducer = {};
+    mockCommandModalReducer = {};
 
     jest.mock(
       "../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js",
@@ -98,6 +102,8 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/disconnect-modal/disconnect-modal-reducer.js", () => mockDisconnectModalReducer);
     jest.mock("../../../../source/iml/locks/locks-reducer.js", () => mockLocksReducer);
     jest.mock("../../../../source/iml/exception/exception-modal-reducer.js", () => mockExceptionModalReducer);
+    jest.mock("../../../../source/iml/action-dropdown/confirm-action-reducer.js", () => mockConfirmActionReducer);
+    jest.mock("../../../../source/iml/command/command-modal-reducer.js", () => mockCommandModalReducer);
 
     const storeModule = require("../../../../source/iml/store/get-store.js");
     storeInstance = storeModule.default;
@@ -133,7 +139,9 @@ describe("get store", () => {
       tzPicker: mockTzPickerReducer,
       disconnectModal: mockDisconnectModalReducer,
       locks: mockLocksReducer,
-      exceptionModal: mockExceptionModalReducer
+      exceptionModal: mockExceptionModalReducer,
+      confirmAction: mockConfirmActionReducer,
+      commandModal: mockCommandModalReducer
     });
   });
 });

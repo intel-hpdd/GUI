@@ -7,6 +7,7 @@ export default function HsmCtrl(
   $scope,
   openAddCopytoolModal,
   copytoolStream,
+  locksStream,
   copytoolOperationStream,
   agentVsCopytoolChart
 ) {
@@ -24,10 +25,12 @@ export default function HsmCtrl(
 
   p("copytools", copytoolStream);
   p("copytoolOperations", copytoolOperationStream);
+  p("locks", locksStream);
 
   $scope.$on("$destroy", () => {
     agentVsCopytoolChart.stream.destroy();
     copytoolStream.destroy();
     copytoolOperationStream.destroy();
+    locksStream.destroy();
   });
 }
