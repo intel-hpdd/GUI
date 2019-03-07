@@ -15,6 +15,35 @@ import hsmCdtStatusDirective from "./hsm-cdt-status-directive";
 
 import { AddCopytoolModalCtrl, openAddCopytoolModalFactory } from "./add-copytool-modal";
 
+type MdtConfParamsT = {
+  "lov.qos_prio_free": string,
+  "lov.qos_threshold_rr": string,
+  "lov.stripecount": string,
+  "lov.stripesize": string,
+  "mdt.MDS.mds.threads_max": string,
+  "mdt.MDS.mds.threads_min": string,
+  "mdt.MDS.mds_readpage.threads_max": string,
+  "mdt.MDS.mds_readpage.threads_min": string,
+  "mdt.MDS.mds_setattr.threads_max": string,
+  "mdt.MDS.mds_setattr.threads_min": string,
+  "mdt.hsm_control": string
+};
+
+type MdtT = {
+  id: string,
+  kind: string,
+  resource: string,
+  conf_params: MdtConfParamsT
+};
+
+export type HsmControlParamT = {
+  long_description: string,
+  param_key: string,
+  param_value: string,
+  verb: string,
+  mdt: MdtT
+};
+
 export default angular
   .module("hsm", [progressCircleModule, commandModule, agentVsCopytoolModule, configToggleModule])
   .factory("openAddCopytoolModal", openAddCopytoolModalFactory)

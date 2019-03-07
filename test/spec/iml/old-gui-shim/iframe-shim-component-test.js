@@ -1,5 +1,8 @@
+import highland from "highland";
+
 describe("iframe shim component", () => {
-  let context, el, $scope, $location, mockGlobal, frame;
+  let context, el, $scope, $location, locks$, frame;
+  let mockGlobal, mockGetStore, mockListeners;
 
   beforeEach(() => {
     mockGlobal = {
@@ -12,6 +15,17 @@ describe("iframe shim component", () => {
     }));
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);
 
+    locks$ = highland([{ key: "val" }]);
+    mockGetStore = {
+      select: jest.fn(() => locks$)
+    };
+    jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
+
+    mockListeners = {
+      handleSelectedAction: jest.fn()
+    };
+    jest.mock("../../../../source/iml/listeners.js", () => mockListeners);
+
     const mod = require("../../../../source/iml/old-gui-shim/iframe-shim-component.js");
 
     frame = {
@@ -20,6 +34,9 @@ describe("iframe shim component", () => {
         body: {
           scrollHeight: 0
         }
+      },
+      contentWindow: {
+        postMessage: jest.fn()
       }
     };
 
@@ -45,7 +62,8 @@ describe("iframe shim component", () => {
       path: "bar",
       params: {
         id: 3
-      }
+      },
+      src: ""
     };
 
     jest.useFakeTimers();
@@ -86,21 +104,59 @@ describe("iframe shim component", () => {
 
       expect(frame.style.height).toBe("1000px");
     });
+
+    it("should call postMessage on the contentWindow", () => {
+      expect(frame.contentWindow.postMessage).toHaveBeenCalledTimes(1);
+      expect(frame.contentWindow.postMessage).toHaveBeenCalledWith(JSON.stringify({ key: "val" }), "*");
+    });
   });
 
   describe("on message", () => {
-    beforeEach(() => {
-      mockGlobal.addEventListener.mock.calls[0][1]({
-        data: "/bar/baz/4"
+    describe("navigation", () => {
+      beforeEach(() => {
+        mockGlobal.addEventListener.mock.calls[0][1]({
+          data: JSON.stringify({
+            type: "navigation",
+            url: "/bar/baz/4"
+          })
+        });
+      });
+
+      it("should set the path", () => {
+        expect($location.path).toHaveBeenCalledOnceWith("/bar/baz/4");
+      });
+
+      it("should apply the scope", () => {
+        expect($scope.$apply).toHaveBeenCalledTimes(1);
+      });
+
+      it("should not call handleSelectedAction", () => {
+        expect(mockListeners.handleSelectedAction).not.toHaveBeenCalled();
       });
     });
 
-    it("should set the path", () => {
-      expect($location.path).toHaveBeenCalledOnceWith("/bar/baz/4");
-    });
+    describe("action selected", () => {
+      beforeEach(() => {
+        mockGlobal.addEventListener.mock.calls[0][1]({
+          data: JSON.stringify({
+            type: "action_selected",
+            detail: "detail"
+          })
+        });
+      });
 
-    it("should apply the scope", () => {
-      expect($scope.$apply).toHaveBeenCalledTimes(1);
+      it("should call handleSelectedAction", () => {
+        expect(mockListeners.handleSelectedAction).toHaveBeenCalledTimes(1);
+        expect(mockListeners.handleSelectedAction).toHaveBeenCalledWith("detail");
+      });
+
+      it("should not call $location.path", () => {
+        expect($location.path).not.toHaveBeenCalled();
+      });
+
+      it("should not apply the scope", () => {
+        expect($scope.$apply).not.toHaveBeenCalled();
+      });
     });
   });
 
