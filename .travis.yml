@@ -39,12 +39,13 @@ jobs:
           repo: whamcloud/GUI
     - stage: deploy-copr
       env: Type='Copr deploy'
-      before_deploy:
-      - include/travis/copr-deploy.sh prepare
-      deploy:
-        skip_cleanup: true
-        provider: script
-        script: ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build"
+      script:
+        - export OWNER=managerforlustre
+        - export PROJECT=manager-for-lustre-devel
+        - export PACKAGE=iml-gui
+        - export SPEC=iml-gui.spec
+        - export PROD=False
+        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="$PROD" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
         on:
           all_branches: true
     - stage: cd
