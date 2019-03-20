@@ -1,5 +1,6 @@
 _topdir
 *.log
+*.rpm
 /coverage
 /node_modules
 /.idea
