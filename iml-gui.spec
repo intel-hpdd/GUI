@@ -1,16 +1,17 @@
 %define base_name gui
 %define managerdir /iml-manager/
 %define backcompatdir /usr/lib%{managerdir}
-%{?!package_release: %global package_release @RELEASE@}
 
 Name:       iml-%{base_name}
-Version:    6.4.2
-Release:    %{package_release}%{?dist}
+Version:    6.5.0
+# Release Start
+Release:    1%{?dist}
+# Release End
 Summary:    Graphical User Interface for Integrated Manager for Lustre.
 License:    MIT
 Group:      System Environment/Libraries
 URL:        https://github.com/whamcloud/%{base_name}
-Source0:    https://registry.npmjs.org/@iml/%{base_name}/-/%{base_name}-%{version}.tgz
+Source0:    iml-gui.tgz
 
 BuildArch:  noarch
 
