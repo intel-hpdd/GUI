@@ -5,4 +5,3 @@ flow-typed/inferno-component.js
 test/data-fixtures/
 coverage/**
 targetdir/**
-include/**

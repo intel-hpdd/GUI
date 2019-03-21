@@ -10,20 +10,22 @@ jobs:
     - stage: test
       env: Type='mock build test'
       script:
-      - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
+        - export SPEC=iml-gui.spec
+        - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr
+        - ((`find _topdir/RPMS -name *.rpm | wc -l` > 0))
     - stage: test
       env: Type='Test Checks'
       language: node_js
       node_js:
-      - 8
+        - "8"
       before_script:
-      - npm i -g add codecov
+        - npm i -g add codecov
       script:
-      - npm run eslint
-      - npm run flow
-      - npm run cover -- --runInBand
+        - npm run eslint
+        - npm run flow
+        - npm run cover -- --runInBand
       after_success:
-      - codecov
+        - codecov
     - stage: deploy-npm
       env: Type='NPM Deploy'
       before_deploy:
@@ -39,21 +41,24 @@ jobs:
           repo: whamcloud/GUI
     - stage: deploy-copr
       env: Type='Copr deploy'
-      before_deploy:
-      - include/travis/copr-deploy.sh prepare
-      deploy:
-        skip_cleanup: true
-        provider: script
-        script: ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build"
-        on:
-          all_branches: true
+      script:
+        - export OWNER=managerforlustre
+        - export PROJECT=manager-for-lustre-devel
+        - export PACKAGE=iml-gui
+        - export SPEC=iml-gui.spec
+        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
+      on:
+        all_branches: true
     - stage: cd
       git:
         depth: 999999
       env: Type='Continuous Deployment'
       script:
-        - include/travis/copr-deploy.sh prepare
-        - ./travis_wait "./include/travis/run_in_centos7_docker.sh include/travis/copr-deploy.sh build_srpm"
+        - export OWNER=managerforlustre
+        - export PROJECT=manager-for-lustre
+        - export PACKAGE=iml-gui
+        - export SPEC=iml-gui.spec
+        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="True" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
 stages:
   - test
   - name: deploy-npm
