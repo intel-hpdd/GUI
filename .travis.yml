@@ -12,8 +12,8 @@ jobs:
       script:
         - export SPEC=iml-gui.spec
         - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr
-        - if [ ! -d "_topdir" ]; then
-        - exit(1)
+        - if [ ! -d "_topdir/RPMS" ]; then
+        - exit 1
         - fi
     - stage: test
       env: Type='Test Checks'
@@ -57,7 +57,7 @@ jobs:
       env: Type='Continuous Deployment'
       script:
         - export OWNER=managerforlustre
-        - export PROJECT=manager-for-lustre-devel
+        - export PROJECT=manager-for-lustre
         - export PACKAGE=iml-gui
         - export SPEC=iml-gui.spec
         - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="True" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
