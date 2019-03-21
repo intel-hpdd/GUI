@@ -33,7 +33,7 @@ jobs:
         on:
           all_branches: true
           repo: whamcloud/GUI
-    - stage: deploy-copr
+    - stage: test
       env: Type='Copr deploy'
       script:
         - export OWNER=managerforlustre
