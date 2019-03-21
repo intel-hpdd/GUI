@@ -12,7 +12,7 @@ jobs:
       script:
         - export SPEC=iml-gui.spec
         - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr
-        - if [ ! -d "$DIRECTORY" ]; then
+        - if [ ! -d "_topdir" ]; then
         - exit(1)
         - fi
     - stage: test
