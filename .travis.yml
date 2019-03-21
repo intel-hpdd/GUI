@@ -12,9 +12,7 @@ jobs:
       script:
         - export SPEC=iml-gui.spec
         - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr
-        - if [ ! -d "_topdir/RPMS" ]; then
-        - exit 1
-        - fi
+        - ((`find _topdir/RPMS -name *.rpm | wc -l` > 0))
     - stage: test
       env: Type='Test Checks'
       language: node_js
