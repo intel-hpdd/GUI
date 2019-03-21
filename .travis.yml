@@ -10,20 +10,20 @@ jobs:
     - stage: test
       env: Type='mock build test'
       script:
-      - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
+        - ./include/travis/run_in_centos7_docker.sh include/travis/mock_build_test.sh
     - stage: test
       env: Type='Test Checks'
       language: node_js
       node_js:
-      - 8
+        - "8"
       before_script:
-      - npm i -g add codecov
+        - npm i -g add codecov
       script:
-      - npm run eslint
-      - npm run flow
-      - npm run cover -- --runInBand
+        - npm run eslint
+        - npm run flow
+        - npm run cover -- --runInBand
       after_success:
-      - codecov
+        - codecov
     - stage: deploy-npm
       env: Type='NPM Deploy'
       before_deploy:
@@ -46,8 +46,8 @@ jobs:
         - export SPEC=iml-gui.spec
         - export PROD=False
         - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="$PROD" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
-        on:
-          all_branches: true
+      on:
+        all_branches: true
     - stage: cd
       git:
         depth: 999999
