@@ -7,7 +7,14 @@ describe("deferred action dropdown", () => {
   let mockFetchApi, mockGetRandomValues, mockGlobal;
   beforeEach(() => {
     data = { key: "val" };
-    mockFetchApi = jest.fn(() => Promise.resolve(data));
+    mockFetchApi = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        foo: "bar",
+        json: data
+      })
+    );
     jest.mock("../../../../source/iml/fetch-api.js", () => mockFetchApi);
 
     mockGetRandomValues = jest.fn(() => 12345);

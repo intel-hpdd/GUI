@@ -22,7 +22,10 @@ describe("fetch api", () => {
       data = { x: "val1", y: "val2" };
       mockGlobal.fetch.mockReturnValueOnce(
         Promise.resolve({
-          json: () => data
+          ok: true,
+          status: 200,
+          foo: "bar",
+          json: () => Promise.resolve(data)
         })
       );
 
@@ -35,7 +38,11 @@ describe("fetch api", () => {
     });
 
     it("should return the data", () => {
-      expect(r).toEqual(data);
+      expect(r).toEqual({
+        ok: true,
+        status: 200,
+        json: data
+      });
     });
 
     it("should not dispatch the exception modal", () => {
