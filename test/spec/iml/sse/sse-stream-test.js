@@ -13,6 +13,8 @@ describe("sse stream", () => {
       SSE: mockSseUrl
     }));
 
+    jest.spyOn(window, "clearTimeout");
+
     eventSource = {
       close: jest.fn(),
       onopen: jest.fn(),
@@ -71,69 +73,99 @@ describe("sse stream", () => {
 
   describe("when an error occurs on the stream", () => {
     let e;
-    beforeEach(() => {
-      e = {
-        currentTarget: {
-          readyState: 2
-        }
-      };
-    });
 
-    it("should handle the error", done => {
-      sse$
-        .errors(e => {
-          expect(e).toEqual(new Error("An error occurred on the event source."));
-          done();
-        })
-        .each(() => {
-          done.fail();
+    [0, 2].forEach(readyState => {
+      describe(`with a ready state of ${readyState}`, () => {
+        beforeEach(() => {
+          e = {
+            currentTarget: {
+              readyState
+            }
+          };
         });
 
-      eventSource.onerror(e);
-    });
+        it("should dispatch the disconnect sse modal", () => {
+          sse$
+            .errors(() => {
+              throw new Error("should not have gone in the errors block.");
+            })
+            .each(() => {});
 
-    it("should set the sse state to disconnected", done => {
-      sse$
-        .errors(() => {
+          eventSource.onerror(e);
           expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
           expect(mockGetStore.dispatch).toHaveBeenCalledWith({ type: SET_DISCONNECT_SSE, payload: {} });
-          done();
-        })
-        .each(() => {
-          done.fail();
         });
 
-      eventSource.onerror(e);
+        it("should retrieve the backoff duration", done => {
+          sse$
+            .errors(() => {})
+            .each(() => {
+              done.fail();
+            });
+
+          eventSource.close.mockImplementation(() => {
+            expect(backoff.duration).toHaveBeenCalledTimes(1);
+            done();
+          });
+
+          eventSource.onerror(e);
+        });
+
+        it("should close the stream after the duration", done => {
+          sse$
+            .errors(() => {})
+            .each(() => {
+              done.fail();
+            });
+
+          eventSource.close.mockImplementation(() => {
+            expect(eventSource.close).toHaveBeenCalledTimes(1);
+            done();
+          });
+
+          eventSource.onerror(e);
+        });
+
+        ["onopen", "onerror", "onmessage"].forEach(fn => {
+          it(`should set ${fn} to null`, done => {
+            sse$
+              .errors(() => {})
+              .each(() => {
+                done.fail();
+              });
+
+            eventSource.close.mockImplementation(() => {
+              expect(eventSource[fn]).toBe(null);
+              done();
+            });
+
+            eventSource.onerror(e);
+          });
+        });
+      });
     });
 
-    it("should retrieve the backoff duration", done => {
-      sse$
-        .errors(() => {})
-        .each(() => {
-          done.fail();
-        });
-
-      eventSource.close.mockImplementation(() => {
-        expect(backoff.duration).toHaveBeenCalledTimes(1);
-        done();
+    describe("with a ready state of 1", () => {
+      beforeEach(() => {
+        e = {
+          currentTarget: {
+            readyState: 1
+          }
+        };
       });
 
-      eventSource.onerror(e);
-    });
+      it("should push an error", done => {
+        sse$
+          .errors(e => {
+            expect(e).toEqual(new Error("An error occurred while the server send event was connected."));
+            done();
+          })
+          .each(() => {
+            done.fail();
+          });
 
-    it("should close the stream after the duration", done => {
-      sse$
-        .errors(() => {})
-        .each(() => {
-          done.fail();
-        });
-
-      eventSource.close.mockImplementation(() => {
-        expect(eventSource.close).toHaveBeenCalledTimes(1);
-        done();
+        eventSource.onerror(e);
       });
-
-      eventSource.onerror(e);
     });
   });
 
@@ -144,6 +176,10 @@ describe("sse stream", () => {
       eventSource.onopen();
     });
 
+    it("should clear the timeout", () => {
+      expect(window.clearTimeout).toHaveBeenCalledTimes(1);
+    });
+
     it("should set sse to a connected status when the stream is opened", done => {
       expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockGetStore.dispatch).toHaveBeenCalledWith({ type: SET_CONNECT_SSE, payload: {} });
@@ -152,6 +188,33 @@ describe("sse stream", () => {
 
     it("should reset backoff", () => {
       expect(backoff.reset).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("When backoff occurs", () => {
+    let e;
+    beforeEach(() => {
+      e = {
+        currentTarget: {
+          readyState: 2
+        }
+      };
+    });
+
+    it("should trun the next iteration", done => {
+      let count = 0;
+      mockEventSource.mockImplementation(() => {
+        count++;
+        if (count === 1) {
+          return eventSource;
+        } else {
+          expect(mockEventSource).toHaveBeenCalledTimes(2);
+          done();
+        }
+      });
+      sse$.errors(() => {}).each(() => {});
+
+      eventSource.onerror(e);
     });
   });
 });

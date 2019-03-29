@@ -14,11 +14,14 @@ import { SET_DISCONNECT_SSE, SET_CONNECT_SSE } from "../disconnect-modal/disconn
 
 const backoff = new Backoff({ min: 100, max: 20000 });
 
+let token;
+
 export default () =>
   highland((push, next) => {
     const sse = new global.EventSource(SSE);
 
     sse.onopen = () => {
+      clearTimeout(token);
       backoff.reset();
       getStore.dispatch({
         type: SET_CONNECT_SSE,
@@ -28,19 +31,27 @@ export default () =>
 
     sse.onerror = e => {
       // pass errors along but don't end the stream
-      if (e.currentTarget.readyState === 2) {
-        getStore.dispatch({
-          type: SET_DISCONNECT_SSE,
-          payload: {}
-        });
+      switch (e.currentTarget.readyState) {
+        case 0:
+        case 2:
+          getStore.dispatch({
+            type: SET_DISCONNECT_SSE,
+            payload: {}
+          });
 
-        setTimeout(() => {
-          sse.close();
-          next();
-        }, backoff.duration());
+          token = setTimeout(() => {
+            sse.onopen = null;
+            sse.onerror = null;
+            sse.onmessage = null;
+            sse.close();
+
+            next();
+          }, backoff.duration());
+          break;
+        case 1:
+          push(new Error("An error occurred while the server send event was connected."));
+          break;
       }
-
-      push(new Error("An error occurred on the event source."));
     };
 
     sse.onmessage = (msg: SSEEventT) => {

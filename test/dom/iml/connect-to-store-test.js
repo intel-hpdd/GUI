@@ -40,6 +40,10 @@ describe("connect to store", () => {
     render(<LoginForm foo="bar" />, root);
   });
 
+  afterEach(() => {
+    render(null, root);
+  });
+
   it("should have the header error", () => {
     expect(root.querySelector("h1")).toHaveText("uh-oh");
   });
