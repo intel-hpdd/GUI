@@ -9,8 +9,6 @@ import { getReadLocks, getWriteLocks, getLocksDiff, type GetTypeLocksT } from ".
 
 import { type LockT } from "../locks/locks-reducer.js";
 
-export const ADD_JOB_INDICATOR_ITEMS = "ADD_JOB_INDICATOR_ITEMS";
-
 const pluralize = (count: number, stringMap: { "1": string, other: string }) => {
   const msg = stringMap[count] || stringMap.other || "";
   return msg.replace("{}", count.toString());

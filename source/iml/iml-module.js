@@ -15,7 +15,6 @@ import "./lnet/lnet-dispatch-source.js";
 import "./server/server-dispatch-source.js";
 import "./file-system/file-system-dispatch-source.js";
 import "./user/user-dispatch-source.js";
-import "./job-indicator/job-indicator-dispatch-source.js";
 import "./session/session-dispatch-source.js";
 import "./storage/storage-dispatch-source.js";
 import "./sse/sse-handler.js";
