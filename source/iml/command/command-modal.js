@@ -166,11 +166,15 @@ class JobTreeComponent extends Component {
       jobs: []
     };
 
-    this.getJobStream(props.jobResourceUrls).each(jobs => {
+    this.stream = this.getJobStream(props.jobResourceUrls).each(jobs => {
       this.setState({
         jobs
       });
     });
+  }
+
+  componentWillUnmount() {
+    this.stream.destroy();
   }
 
   openStep() {}
@@ -187,11 +191,7 @@ class JobTreeComponent extends Component {
       }
     });
 
-    const s2 = stream.pluck("objects").map(jobTree);
-
-    (s2: any).destroy = stream.destroy.bind(stream);
-
-    return s2;
+    return stream.pluck("objects").map(jobTree);
   }
 
   doTransition(job, newState) {
