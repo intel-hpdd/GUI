@@ -1,6 +1,8 @@
 import highland from "highland";
+
 describe("target dispatch source", () => {
   let mockStore, stream, mockSocketStream, mockDispatchSourceUtils;
+
   beforeEach(() => {
     const mockCacheInitialData = { target: ["targets"] };
     stream = highland();
@@ -29,11 +31,13 @@ describe("target dispatch source", () => {
       payload: ["targets"]
     });
   });
+
   it("should setup a persistent socket to /targets", () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith("/target", {
-      qs: { limit: 0 }
+      qs: { dehydrate__volume: false, limit: 0 }
     });
   });
+
   it("should update targets when new items arrive from a persistent socket", () => {
     stream.write({ objects: ["more targets"] });
     expect(mockStore.dispatch).toHaveBeenCalledOnceWith({

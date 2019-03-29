@@ -58,7 +58,7 @@ describe("file system dispatch source", () => {
   it("should invoke the socket stream", () => {
     expect(mockSocketStream).toHaveBeenCalledOnceWith("/filesystem", {
       jsonMask:
-        "objects(id,content_type_id,resource_uri,label,locks,name,client_count,bytes_total,bytes_free,files_total,files_free,available_actions,immutable_state,mgt(primary_server_name,primary_server),mdts(resource_uri))",
+        "objects(id,content_type_id,resource_uri,label,name,client_count,bytes_total,bytes_free,files_total,files_free,available_actions,immutable_state,mgt(primary_server_name,primary_server),mdts(resource_uri))",
       qs: {
         limit: 0
       }

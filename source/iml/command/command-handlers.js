@@ -55,7 +55,7 @@ getStore.select("stepModal").each(({ ...job }: { job: JobT }) => {
 
   body.appendChild(stepsModalContainer);
 
-  const stream = socketStream("/job/" + job.id);
+  const stream = socketStream(`/job/${job.id}`);
   stream.write(job);
 
   const jobStream = stream.fork();
