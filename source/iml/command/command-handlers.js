@@ -32,7 +32,6 @@ getStore.select("commandModal").each(([...commands]: Command[]) => {
     });
   };
 
-  render(<CommandModalComponent commands={[]} closeCb={onClose} />, commandModalContainer);
   command$
     .map(
       fp.map(

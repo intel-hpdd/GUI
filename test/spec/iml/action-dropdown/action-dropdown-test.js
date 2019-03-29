@@ -103,7 +103,6 @@ describe("action dropdown directive", () => {
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
         {
-          uuid: "7",
           records: [record1],
           locks: [lock1],
           flag: "flag",
@@ -160,7 +159,6 @@ describe("action dropdown directive", () => {
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
       expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
         {
-          uuid: "7",
           records: [],
           locks: [lock1],
           flag: "flag",

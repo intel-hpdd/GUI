@@ -6,13 +6,11 @@
 // license that can be found in the LICENSE file.
 
 import global from "../global.js";
-import getRandomValue from "../get-random-value.js";
 
-const initializeComponent = ({ uuid, records, locks, flag, tooltipPlacement, tooltipSize }, div) => {
+const initializeComponent = ({ records, locks, flag, tooltipPlacement, tooltipSize }, div) => {
   const { init } = global.wasm_bindgen;
   return init(
     {
-      uuid,
       records,
       locks,
       flag,
@@ -28,11 +26,7 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
 
   const ctrl = this;
 
-  ctrl.uuid = getRandomValue().toString();
-
   const div = $element[0].querySelector("div");
-
-  if (div != null) div.id = ctrl.uuid;
 
   // Initialize the component before setting records if the component will be updated.
   // Components will be updated on the status page.
