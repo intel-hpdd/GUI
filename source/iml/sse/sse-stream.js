@@ -31,26 +31,22 @@ export default () =>
 
     sse.onerror = e => {
       // pass errors along but don't end the stream
-      switch (e.currentTarget.readyState) {
-        case 0:
-        case 2:
-          getStore.dispatch({
-            type: SET_DISCONNECT_SSE,
-            payload: {}
-          });
+      if (e.currentTarget.readyState === 0 || e.currentTarget.readyState === 2) {
+        getStore.dispatch({
+          type: SET_DISCONNECT_SSE,
+          payload: {}
+        });
 
-          token = setTimeout(() => {
-            sse.onopen = null;
-            sse.onerror = null;
-            sse.onmessage = null;
-            sse.close();
+        token = setTimeout(() => {
+          sse.onopen = null;
+          sse.onerror = null;
+          sse.onmessage = null;
+          sse.close();
 
-            next();
-          }, backoff.duration());
-          break;
-        case 1:
-          push(new Error("An error occurred while the server send event was connected."));
-          break;
+          next();
+        }, backoff.duration());
+      } else {
+        push(new Error("An error occurred while the server send event was connected."));
       }
     };
 
