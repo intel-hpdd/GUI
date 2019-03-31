@@ -7,6 +7,7 @@
 
 import * as fp from "@iml/fp";
 import global from "../global.js";
+import { sseResolves } from "./app-resolves.js";
 
 export const appState = {
   name: "app",
@@ -101,6 +102,7 @@ export const appState = {
     alertStream: ["appAlertStream", (x: Function) => x()],
     notificationStream: ["appNotificationStream", (x: Function) => x()],
     session: ["appSession", fp.identity],
-    wasm: () => global.wasm_bindgen("/wasm-components/package_bg.wasm")
+    wasm: () => global.wasm_bindgen("/wasm-components/package_bg.wasm"),
+    sse: sseResolves
   }
 };

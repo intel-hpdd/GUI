@@ -19,6 +19,7 @@ Object {
       "appSession",
       [Function],
     ],
+    "sse": [MockFunction],
     "wasm": [Function],
   },
   "template": "<notification-slider stream=\\"app.alertStream\\"></notification-slider>

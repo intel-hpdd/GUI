@@ -3,8 +3,9 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import { resolveStream } from "../promise-transforms.js";
+import { resolveStream, streamToPromise } from "../promise-transforms.js";
 import socketStream from "../socket/socket-stream.js";
+import getStore from "../store/get-store.js";
 import { CACHE_INITIAL_DATA } from "../environment.js";
 
 export function alertStream() {
@@ -29,3 +30,5 @@ export function appSessionFactory() {
 
   return CACHE_INITIAL_DATA.session;
 }
+
+export const sseResolves = () => streamToPromise(getStore.select("locks"));

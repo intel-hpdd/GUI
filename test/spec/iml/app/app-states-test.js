@@ -1,5 +1,5 @@
 describe("app states", () => {
-  let spy, appState, mockGlobal;
+  let spy, appState, mockGlobal, mockAppResolves;
   beforeEach(() => {
     spy = jest.fn();
 
@@ -7,6 +7,11 @@ describe("app states", () => {
       wasm_bindgen: jest.fn()
     };
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);
+
+    mockAppResolves = {
+      sseResolves: jest.fn()
+    };
+    jest.mock("../../../../source/iml/app/app-resolves.js", () => mockAppResolves);
 
     appState = require("../../../../source/iml/app/app-states.js").appState;
   });
@@ -28,5 +33,9 @@ describe("app states", () => {
 
     expect(mockGlobal.wasm_bindgen).toHaveBeenCalledTimes(1);
     expect(mockGlobal.wasm_bindgen).toHaveBeenCalledWith("/wasm-components/package_bg.wasm");
+  });
+
+  it("should have a sse resolve", () => {
+    expect(appState.resolve.sse).toBe(mockAppResolves.sseResolves);
   });
 });
