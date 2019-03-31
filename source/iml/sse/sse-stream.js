@@ -12,7 +12,7 @@ import { SSE } from "../environment.js";
 import getStore from "../store/get-store.js";
 import { SET_DISCONNECT_SSE, SET_CONNECT_SSE } from "../disconnect-modal/disconnect-modal-reducer.js";
 
-const backoff = new Backoff({ min: 100, max: 20000 });
+const backoff = new Backoff({ min: 500, max: 20000 });
 
 let token;
 
@@ -37,12 +37,12 @@ export default () =>
           payload: {}
         });
 
-        token = setTimeout(() => {
-          sse.onopen = null;
-          sse.onerror = null;
-          sse.onmessage = null;
-          sse.close();
+        sse.onopen = null;
+        sse.onerror = null;
+        sse.onmessage = null;
+        sse.close();
 
+        token = setTimeout(() => {
           next();
         }, backoff.duration());
       } else {

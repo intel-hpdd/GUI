@@ -43,6 +43,14 @@ describe("sse stream", () => {
     sse$ = getStream();
   });
 
+  it("should initialize Backoff", () => {
+    expect(mockBackoff).toHaveBeenCalledTimes(1);
+    expect(mockBackoff).toHaveBeenCalledWith({
+      min: 500,
+      max: 20000
+    });
+  });
+
   it("should push a message down the stream", done => {
     sse$.each(x => {
       expect(x).toEqual({
@@ -85,61 +93,33 @@ describe("sse stream", () => {
         });
 
         it("should dispatch the disconnect sse modal", () => {
-          sse$
-            .errors(() => {
-              throw new Error("should not have gone in the errors block.");
-            })
-            .each(() => {});
+          sse$.each(() => {});
 
           eventSource.onerror(e);
           expect(mockGetStore.dispatch).toHaveBeenCalledTimes(1);
           expect(mockGetStore.dispatch).toHaveBeenCalledWith({ type: SET_DISCONNECT_SSE, payload: {} });
         });
 
-        it("should retrieve the backoff duration", done => {
-          sse$
-            .errors(() => {})
-            .each(() => {
-              done.fail();
-            });
-
-          eventSource.close.mockImplementation(() => {
-            expect(backoff.duration).toHaveBeenCalledTimes(1);
-            done();
-          });
+        it("should retrieve the backoff duration", () => {
+          sse$.each(() => {});
 
           eventSource.onerror(e);
+          expect(backoff.duration).toHaveBeenCalledTimes(1);
         });
 
-        it("should close the stream after the duration", done => {
-          sse$
-            .errors(() => {})
-            .each(() => {
-              done.fail();
-            });
-
-          eventSource.close.mockImplementation(() => {
-            expect(eventSource.close).toHaveBeenCalledTimes(1);
-            done();
-          });
+        it("should close the stream", () => {
+          sse$.each(() => {});
 
           eventSource.onerror(e);
+          expect(eventSource.close).toHaveBeenCalledTimes(1);
         });
 
         ["onopen", "onerror", "onmessage"].forEach(fn => {
-          it(`should set ${fn} to null`, done => {
-            sse$
-              .errors(() => {})
-              .each(() => {
-                done.fail();
-              });
-
-            eventSource.close.mockImplementation(() => {
-              expect(eventSource[fn]).toBe(null);
-              done();
-            });
+          it(`should set ${fn} to null`, () => {
+            sse$.each(() => {});
 
             eventSource.onerror(e);
+            expect(eventSource[fn]).toBe(null);
           });
         });
       });
