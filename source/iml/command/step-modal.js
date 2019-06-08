@@ -54,7 +54,7 @@ const StepConsoleComponent = ({ step }) => {
     return (
       <div>
         <h4>Logs</h4>
-        <pre class="logs">{step.console}</pre>
+        <pre class="logs" dangerouslySetInnerHTML={{ __html: step.console }} />
       </div>
     );
   else return null;

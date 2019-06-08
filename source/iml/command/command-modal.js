@@ -255,7 +255,7 @@ const CommandLogsComponent = ({ logs }) => {
   return (
     <div>
       <h4>Logs</h4>
-      <pre class="logs">{logs}</pre>
+      <pre class="logs" dangerouslySetInnerHTML={{ __html: logs }} />
     </div>
   );
 };
