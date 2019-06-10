@@ -2,19 +2,13 @@
 
 const path = require("path");
 const webpack = require("webpack");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
 const prodMode = process.env.NODE_ENV === "production";
-
-const cleanOptions = {
-  root: __dirname,
-  watch: true
-};
 
 const config = {
   devtool: "source-map",
@@ -93,7 +87,7 @@ const config = {
     new HtmlWebpackPlugin({
       template: "index.ejs"
     }),
-    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: prodMode ? "[name].[contenthash].css" : "[name].css"
     })

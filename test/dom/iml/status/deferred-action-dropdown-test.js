@@ -22,7 +22,7 @@ describe("deferred action dropdown", () => {
 
     mockGlobal = {
       wasm_bindgen: {
-        init: jest.fn()
+        action_dropdown: jest.fn()
       }
     };
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);

@@ -20,7 +20,7 @@ describe("action dropdown directive", () => {
 
     mockGlobal = {
       wasm_bindgen: {
-        init: jest.fn(() => seedApp)
+        action_dropdown: jest.fn(() => seedApp)
       }
     };
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);
@@ -100,8 +100,8 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledWith(
         {
           records: [record1],
           locks: [lock1],
@@ -156,8 +156,8 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.init).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledWith(
         {
           records: [],
           locks: [lock1],
