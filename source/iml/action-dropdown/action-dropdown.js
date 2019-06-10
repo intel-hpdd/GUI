@@ -8,8 +8,8 @@
 import global from "../global.js";
 
 const initializeComponent = ({ records, locks, flag, tooltipPlacement, tooltipSize }, div) => {
-  const { init } = global.wasm_bindgen;
-  return init(
+  const { action_dropdown } = global.wasm_bindgen;
+  return action_dropdown(
     {
       records,
       locks,
