@@ -8,7 +8,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const pathsToClean = ["targetdir/index.html", "targetdir/main.*"];
 const prodMode = process.env.NODE_ENV === "production";
 
 const config = {
