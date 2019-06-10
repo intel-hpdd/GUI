@@ -1,6 +1,6 @@
 {
   "name": "@iml/gui",
-  "version": "6.5.1",
+  "version": "6.5.2",
   "license": "MIT",
   "author": "IML Team",
   "scripts": {
@@ -44,7 +44,7 @@
     "@iml/lodash-mixins": "1.0.4",
     "@iml/math": "6.0.1",
     "@iml/maybe": "3.1.0",
-    "@iml/number-formatters": "1.0.1",
+    "@iml/number-formatters": "1.0.3",
     "@iml/obj": "6.0.3",
     "@iml/parsely": "^4.0.1",
     "@iml/pdsh-parser": "^1.0.6",
