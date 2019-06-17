@@ -8,8 +8,10 @@
 import angular from "angular";
 import commandModule from "../command/command-module";
 import { actionDropdown } from "./action-dropdown";
+import { hsmActionDropdown } from "./hsm-action-dropdown";
 import uiBootstrapModule from "angular-ui-bootstrap";
 
 export default angular
   .module("action-dropdown-module", [commandModule, uiBootstrapModule])
-  .component("actionDropdown", actionDropdown).name;
+  .component("actionDropdown", actionDropdown)
+  .component("hsmActionDropdown", hsmActionDropdown).name;

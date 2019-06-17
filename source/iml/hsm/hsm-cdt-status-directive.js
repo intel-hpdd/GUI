@@ -35,7 +35,7 @@ export default function hsmCdtStatusDirective() {
     </div>
   </div>
   <div>
-    <action-dropdown locks="locks" records="fileSystem" tooltip-placement="top" actions-property="hsm_control_params"></action-dropdown>
+    <hsm-action-dropdown locks="locks" record="fileSystem" tooltip-placement="top"></hsm-action-dropdown>
   </div>
 </div>
 `
