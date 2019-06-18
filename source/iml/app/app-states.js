@@ -64,7 +64,7 @@ export const appState = {
     <ul class="nav navbar-nav navbar-right">
       <li command-monitor>
       </li>
-      <li class="hidden-sm" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
+      <li class="hidden-xs" restrict-to="{{ app.GROUPS.FS_ADMINS }}">
         <toggle-side-panel></toggle-side-panel>
       </li>
       <li ng-if="app.loggedIn" ui-sref-active="active">

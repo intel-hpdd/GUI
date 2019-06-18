@@ -215,7 +215,7 @@ describe("server states", () => {
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
           kind: "Servers",
-          icon: "fa-tasks"
+          icon: "fa-server"
         },
         resolve: {
           streams: expect.any(Function)
@@ -318,7 +318,7 @@ describe("server states", () => {
           access: mockGroups.FS_ADMINS,
           anonymousReadProtected: true,
           kind: "Server Detail",
-          icon: "fa-tasks"
+          icon: "fa-server"
         },
         resolve: {
           streams: expect.any(Function),
