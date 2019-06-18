@@ -192,7 +192,7 @@ export const serverState = {
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     kind: "Servers",
-    icon: "fa-tasks"
+    icon: "fa-server"
   },
   params: {
     resetState: {
@@ -296,7 +296,7 @@ export const serverDetailState = {
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     kind: "Server Detail",
-    icon: "fa-tasks"
+    icon: "fa-server"
   },
   resolve: {
     streams: serverDetailResolves,
