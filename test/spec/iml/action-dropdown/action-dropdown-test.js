@@ -3,7 +3,7 @@
 import angular from "../../../angular-mock-setup.js";
 
 describe("action dropdown directive", () => {
-  let actionDropdown, template, $compile, $scope, seedApp, record1, hsmRecord, lock1;
+  let actionDropdown, template, $compile, $scope, seedApp, record1, lock1;
   let mockGetRandomValue, mockGlobal;
 
   beforeEach(() => {
@@ -13,14 +13,12 @@ describe("action dropdown directive", () => {
     seedApp = {
       destroy: jest.fn(),
       free: jest.fn(),
-      set_hsm_records: jest.fn(),
-      set_records: jest.fn(),
       set_locks: jest.fn()
     };
 
     mockGlobal = {
       wasm_bindgen: {
-        action_dropdown: jest.fn(() => seedApp)
+        action_dropdown_component: jest.fn(() => seedApp)
       }
     };
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);
@@ -46,31 +44,6 @@ describe("action dropdown directive", () => {
         initial_state: "active"
       },
       install_method: "method"
-    };
-
-    hsmRecord = {
-      content_type_id: 89,
-      id: 1,
-      label: "label",
-      resource_uri: "/api/target/1",
-      state: "pending",
-      address: "address",
-      server_profile: {
-        initial_state: "active"
-      },
-      install_method: "method",
-      hsm_control_params: {
-        long_description: "long_description",
-        param_key: "key",
-        param_value: "value",
-        verb: "verb",
-        mdt: {
-          id: "7",
-          kind: "kind",
-          resource: "resource",
-          conf_params: {}
-        }
-      }
     };
 
     lock1 = {
@@ -100,8 +73,8 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledWith(
         {
           records: [record1],
           locks: [lock1],
@@ -111,10 +84,6 @@ describe("action dropdown directive", () => {
         },
         expect.any(Object)
       );
-    });
-
-    it("should not manually set records", () => {
-      expect(seedApp.set_records).not.toHaveBeenCalled();
     });
 
     it("should update the locks", () => {
@@ -156,8 +125,8 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.action_dropdown).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledWith(
         {
           records: [],
           locks: [lock1],
@@ -169,82 +138,9 @@ describe("action dropdown directive", () => {
       );
     });
 
-    it("should not have set records yet", () => {
-      expect(seedApp.set_records).not.toHaveBeenCalled();
-    });
-
     it("should update the locks", () => {
       expect(seedApp.set_locks).toHaveBeenCalledTimes(1);
       expect(seedApp.set_locks).toHaveBeenCalledWith([lock1]);
-    });
-
-    describe("after setting records", () => {
-      beforeEach(() => {
-        $scope.records = [record1];
-        $scope.$digest();
-      });
-
-      it("should set records", () => {
-        expect(seedApp.set_records).toHaveBeenCalledTimes(1);
-        expect(seedApp.set_records).toHaveBeenCalledWith([record1]);
-      });
-    });
-  });
-
-  describe("with hsm records and normal records and won't update", () => {
-    beforeEach(
-      angular.mock.inject((_$compile_, $rootScope) => {
-        $compile = _$compile_;
-        $scope = $rootScope.$new();
-
-        $scope.records = [hsmRecord, record1];
-        $scope.locks = [lock1];
-
-        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" />`;
-        $compile(template)($scope)[0];
-      })
-    );
-
-    afterEach(() => {
-      $scope.$destroy();
-    });
-
-    it("should manually set hsm records", () => {
-      expect(seedApp.set_hsm_records).toHaveBeenCalledTimes(1);
-      expect(seedApp.set_hsm_records).toHaveBeenCalledWith([hsmRecord]);
-    });
-
-    it("should not manually set records", () => {
-      expect(seedApp.set_records).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("with both hsm records and normal records and will update", () => {
-    beforeEach(
-      angular.mock.inject((_$compile_, $rootScope) => {
-        $compile = _$compile_;
-        $scope = $rootScope.$new();
-
-        $scope.records = [hsmRecord, record1];
-        $scope.locks = [lock1];
-
-        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" update="true" />`;
-        $compile(template)($scope)[0];
-      })
-    );
-
-    afterEach(() => {
-      $scope.$destroy();
-    });
-
-    it("should manually set hsm records", () => {
-      expect(seedApp.set_hsm_records).toHaveBeenCalledTimes(1);
-      expect(seedApp.set_hsm_records).toHaveBeenCalledWith([hsmRecord]);
-    });
-
-    it("should manually set records", () => {
-      expect(seedApp.set_records).toHaveBeenCalledTimes(1);
-      expect(seedApp.set_records).toHaveBeenCalledWith([record1]);
     });
   });
 });

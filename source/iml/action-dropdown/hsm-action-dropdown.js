@@ -1,20 +1,16 @@
-// @flow
-
 // Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
 import global from "../global.js";
 
-const initializeComponent = ({ records = [], locks, flag, tooltipPlacement, tooltipSize, urls }, div) => {
-  const { action_dropdown_component: actionDropdown } = global.wasm_bindgen;
+const initializeComponent = ({ record, locks, tooltipPlacement, tooltipSize }, div) => {
+  const { hsm_action_dropdown_component: hsmActionDropdown } = global.wasm_bindgen;
 
-  return actionDropdown(
+  return hsmActionDropdown(
     {
-      records,
+      record,
       locks,
-      flag,
-      urls,
       tooltip_placement: tooltipPlacement,
       tooltip_size: tooltipSize
     },
@@ -22,20 +18,21 @@ const initializeComponent = ({ records = [], locks, flag, tooltipPlacement, tool
   );
 };
 
-export function ActionDropdownCtrl($element: HTMLElement[]) {
+export function HsmActionDropdownCtrl($element: HTMLElement[]) {
   "ngInject";
 
   const ctrl = this;
 
   const div = $element[0].querySelector("div");
 
-  if (ctrl.records == null) ctrl.records = [];
-
-  ctrl.records = Array.isArray(ctrl.records) ? ctrl.records : [ctrl.records];
   ctrl.seedApp = initializeComponent(ctrl, div);
 
   ctrl.$onChanges = changesObj => {
-    if (ctrl.seedApp != null && changesObj.locks != null) ctrl.seedApp.set_locks(changesObj.locks.currentValue);
+    if (ctrl.seedApp == null) return;
+
+    if (changesObj.locks != null) ctrl.seedApp.set_locks(changesObj.locks.currentValue);
+
+    if (changesObj.record != null) ctrl.seedApp.set_hsm_record(changesObj.record.currentValue);
   };
 
   ctrl.$onDestroy = () => {
@@ -46,15 +43,13 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
   };
 }
 
-export const actionDropdown = {
+export const hsmActionDropdown = {
   bindings: {
-    records: "<?",
-    locks: "<",
-    flag: "@?",
     tooltipPlacement: "@?",
     tooltipSize: "@?",
-    urls: "<?"
+    record: "<?",
+    locks: "<"
   },
-  controller: ActionDropdownCtrl,
+  controller: HsmActionDropdownCtrl,
   template: `<div></div>`
 };

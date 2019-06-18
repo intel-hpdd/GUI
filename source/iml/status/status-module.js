@@ -14,8 +14,6 @@ import actionDropdownModule from "../action-dropdown/action-dropdown-module.js";
 import statusQueryComponent from "./status-query-component.js";
 import statusRecordsComponent from "./status-records-component.js";
 
-import { deferredActionDropdownComponent, DeferredActionDropdownCtrl } from "./deferred-action-dropdown";
-
 export default angular
   .module("status", [
     parselyBoxModule,
@@ -24,7 +22,5 @@ export default angular
     extendScopeModule,
     actionDropdownModule
   ])
-  .controller("DeferredActionDropdownCtrl", DeferredActionDropdownCtrl)
   .component("statusQuery", statusQueryComponent)
-  .component("statusRecords", statusRecordsComponent)
-  .component("deferredActionDropdown", deferredActionDropdownComponent).name;
+  .component("statusRecords", statusRecordsComponent).name;

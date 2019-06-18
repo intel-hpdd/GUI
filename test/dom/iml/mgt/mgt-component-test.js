@@ -36,7 +36,7 @@ describe("mgt component", () => {
             getRandomValues: jest.fn(() => [12345])
           },
           wasm_bindgen: {
-            action_dropdown: jest.fn()
+            action_dropdown_component: jest.fn()
           }
         };
         jest.mock("../../../../source/iml/global.js", () => mockGlobal);

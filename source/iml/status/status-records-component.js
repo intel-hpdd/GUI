@@ -90,7 +90,7 @@ export default {
           </td>
           <td>{{ row.message }}</td>
           <td>
-            <deferred-action-dropdown restrict-to="{{ ::app.GROUPS.FS_ADMINS }}" ng-if="row.active && !$ctrl.isCommand(row)" row="::row" locks="$ctrl.locks"></deferred-action-dropdown>
+            <action-dropdown restrict-to="{{ ::app.GROUPS.FS_ADMINS }}" ng-if="row.active && !$ctrl.isCommand(row)" urls="::row.affected" locks="$ctrl.locks"></action-dropdown>
             <deferred-cmd-modal-btn resource-uri="::row.alert_item" ng-if="::$ctrl.isCommand(row)"></deferred-cmd-modal-btn>
           </td>
         </tr>
