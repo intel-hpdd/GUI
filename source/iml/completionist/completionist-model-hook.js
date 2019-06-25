@@ -27,13 +27,11 @@ export default function completionistModelHook($document: Document[]) {
     link(scope: { $on: Function }, element: Array<HTMLInputElement>, attrs: {}, ctrl: controller) {
       const el = element[0];
 
-      ctrl.ngModel.$parsers.unshift(
-        (value: string): string => {
-          ctrl.completionist.parse(value, el.selectionStart);
+      ctrl.ngModel.$parsers.unshift((value: string): string => {
+        ctrl.completionist.parse(value, el.selectionStart);
 
-          return value;
-        }
-      );
+        return value;
+      });
 
       const onValue = value => {
         const viewValue = ctrl.ngModel.$viewValue;

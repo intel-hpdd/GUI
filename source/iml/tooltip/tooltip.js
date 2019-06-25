@@ -25,7 +25,7 @@ export function imlTooltip() {
     link(scope: $scopeT & { in: string }) {
       let deregister = () => {};
 
-      if (scope.hasOwnProperty("toggle"))
+      if (Object.prototype.hasOwnProperty.call(scope, "toggle"))
         deregister = scope.$watch(
           "toggle",
           newValue => {
