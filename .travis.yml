@@ -11,7 +11,7 @@ jobs:
       env: Type='copr build test'
       script:
         - export SPEC=iml-gui.spec
-        - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr
+        - docker run -it -e SPEC="$SPEC" -e LOCAL_ONLY="True" -v $(pwd):/build:rw imlteam/copr-node
         - ((`find _topdir/RPMS -name *.rpm | wc -l` > 0))
     - stage: test
       env: Type='Test Checks'
@@ -46,7 +46,7 @@ jobs:
         - export PROJECT=manager-for-lustre-5.0
         - export PACKAGE=iml-gui
         - export SPEC=iml-gui.spec
-        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="True" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
+        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="True" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr-node
     - stage: cd
       env: Type='Continuous Deployment'
       script:
@@ -54,7 +54,7 @@ jobs:
         - export PROJECT=manager-for-lustre-devel
         - export PACKAGE=iml-gui
         - export SPEC=iml-gui.spec
-        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr
+        - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr-node
       on:
         all_branches: true
 stages:
