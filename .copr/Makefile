@@ -8,7 +8,6 @@ srpm:
 
 	cp -r source iml-gui.spec *.js *.json index.ejs ${TMPDIR}/scratch
 	cd ${TMPDIR}/scratch && npm ci --only=production && npm run postversion && npm pack
-	bash -c 'source /root/.bashrc && nvm install 10 && cd ${TMPDIR}/scratch && npm i && npm run postversion && npm pack'
 	cp ${TMPDIR}/scratch/iml-gui-*.tgz ${TMPDIR}/_topdir/SOURCES/iml-gui.tgz
 
 	rpmbuild -bs --define "_topdir ${TMPDIR}/_topdir" ${TMPDIR}/scratch/iml-gui.spec
