@@ -51,15 +51,13 @@ export default function sendRequest<B>(path: string, options: Object = {}, isAck
   } else {
     socket.send(data);
     const s: HighlandStreamT<B & errorRespT> = highland("message", socket).onDestroy(end);
-    stream = s.map(
-      (response): B => {
-        const error = response.error;
+    stream = s.map((response): B => {
+      const error = response.error;
 
-        if (error) throw buildResponseError(error);
+      if (error) throw buildResponseError(error);
 
-        return response;
-      }
-    );
+      return response;
+    });
   }
 
   return stream;

@@ -28,9 +28,8 @@ type ReducedHistogram = {
 
 const getHistogramSeries = (xs: HistogramStats[]) =>
   xs
-    .map(
-      ({ data: { bin_labels: binLabels, values }, name }): ReducedHistogram[] =>
-        zipBy((l, r) => ({ bin: l, data: { [name]: r } }))(binLabels)(values)
+    .map(({ data: { bin_labels: binLabels, values }, name }): ReducedHistogram[] =>
+      zipBy((l, r) => ({ bin: l, data: { [name]: r } }))(binLabels)(values)
     )
     .reduce((xs, ys) =>
       xs.map((x, i) => ({
