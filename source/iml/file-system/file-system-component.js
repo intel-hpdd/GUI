@@ -70,7 +70,7 @@ export default {
             <usage-info stream="::str" id="item.id" prefix="bytes"></usage-info>
           </td>
           <td>
-            <action-dropdown locks="$ctrl.locks" records="item"></action-dropdown>
+            <action-dropdown locks="$ctrl.locks" record="item"></action-dropdown>
           </td>
         </tr>
       </tbody>
