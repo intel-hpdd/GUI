@@ -120,7 +120,7 @@ describe("server states", () => {
             </span>
           </td>
           <td ng-if="!server.editable">
-            <action-dropdown records="item" locks="server.locks" flag="check_deploy"></action-dropdown>
+            <action-dropdown record="item" locks="server.locks" flag="check_deploy"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
             <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
@@ -277,7 +277,7 @@ describe("server states", () => {
         </div>
       </div>
       <div>
-        <action-dropdown tooltip-placement="top" records="serverDetail.server" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
+        <action-dropdown tooltip-placement="top" record="serverDetail.server" locks="serverDetail.locks" flag="check_deploy"></action-dropdown>
       </div>
     </div>
     <configure-pacemaker locks="serverDetail.locks" stream="::serverDetail.pacemakerConfigurationStream" alert-stream="::serverDetail.alertMonitorStream" job-stream="::serverDetail.locksStream"></configure-pacemaker>
@@ -301,7 +301,7 @@ describe("server states", () => {
       </div>
       <div as-viewer stream="::serverDetail.lnetConfigurationStream">
         <div as-value stream="::viewer">
-          <action-dropdown tooltip-placement="top" records="curr.val" locks="serverDetail.locks"></action-dropdown>
+          <action-dropdown tooltip-placement="top" record="curr.val" locks="serverDetail.locks"></action-dropdown>
         </div>
       </div>
     </div>

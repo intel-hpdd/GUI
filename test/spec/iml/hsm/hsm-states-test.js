@@ -256,7 +256,7 @@ describe("hsm states", () => {
           </span>
         </td>
         <td class="actions-cell">
-          <action-dropdown locks="hsm.locks" records="copytool"></action-dropdown>
+          <action-dropdown locks="hsm.locks" record="copytool"></action-dropdown>
         </td>
       </tr>
     </tbody>

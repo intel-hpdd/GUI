@@ -6,14 +6,14 @@
 
 import global from "../global.js";
 
-const initializeComponent = ({ record, locks, flag, tooltipPlacement, tooltipSize }, div) => {
-  const { deferred_action_dropdown_component: actionDropdown } = global.wasm_bindgen;
+const initializeComponent = ({ locks, flag, tooltipPlacement, tooltipSize, urls }, div) => {
+  const { multi_action_dropdown_component: actionDropdown } = global.wasm_bindgen;
 
   return actionDropdown(
     {
-      record,
       locks,
       flag,
+      urls,
       tooltip_placement: tooltipPlacement,
       tooltip_size: tooltipSize
     },
@@ -21,7 +21,7 @@ const initializeComponent = ({ record, locks, flag, tooltipPlacement, tooltipSiz
   );
 };
 
-export function ActionDropdownCtrl($element: HTMLElement[]) {
+export function MultiDropdownCtrl($element: HTMLElement[]) {
   "ngInject";
 
   const ctrl = this;
@@ -42,14 +42,14 @@ export function ActionDropdownCtrl($element: HTMLElement[]) {
   };
 }
 
-export const actionDropdown = {
+export const multiDropdown = {
   bindings: {
-    record: "<",
     locks: "<",
     flag: "@?",
     tooltipPlacement: "@?",
-    tooltipSize: "@?"
+    tooltipSize: "@?",
+    urls: "<?"
   },
-  controller: ActionDropdownCtrl,
+  controller: MultiDropdownCtrl,
   template: `<div></div>`
 };
