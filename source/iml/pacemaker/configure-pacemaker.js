@@ -37,7 +37,7 @@ export default function configurePacemaker() {
       </div>
 
       <div>
-        <action-dropdown locks="ctrl.locks" tooltip-placement="top" records="curr.val"></action-dropdown>
+        <action-dropdown locks="ctrl.locks" tooltip-placement="top" record="curr.val"></action-dropdown>
       </div>
     </div>
   </div>

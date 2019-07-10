@@ -18,7 +18,7 @@ describe("action dropdown directive", () => {
 
     mockGlobal = {
       wasm_bindgen: {
-        action_dropdown_component: jest.fn(() => seedApp)
+        deferred_action_dropdown_component: jest.fn(() => seedApp)
       }
     };
     jest.mock("../../../../source/iml/global.js", () => mockGlobal);
@@ -60,10 +60,10 @@ describe("action dropdown directive", () => {
         $compile = _$compile_;
         $scope = $rootScope.$new();
 
-        $scope.records = [record1];
+        $scope.record = record1;
         $scope.locks = [lock1];
 
-        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" />`;
+        template = `<action-dropdown record="record" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" />`;
         $compile(template)($scope)[0];
       })
     );
@@ -73,10 +73,10 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.deferred_action_dropdown_component).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.deferred_action_dropdown_component).toHaveBeenCalledWith(
         {
-          records: [record1],
+          record: record1,
           locks: [lock1],
           flag: "flag",
           tooltip_placement: "left",
@@ -112,10 +112,10 @@ describe("action dropdown directive", () => {
         $compile = _$compile_;
         $scope = $rootScope.$new();
 
-        $scope.records = [];
+        $scope.record = {};
         $scope.locks = [lock1];
 
-        template = `<action-dropdown records="records" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" update="true" />`;
+        template = `<action-dropdown record="record" locks="locks" flag="flag" tooltip_placement="left" tooltip_size="large" update="true" />`;
         $compile(template)($scope)[0];
       })
     );
@@ -125,10 +125,10 @@ describe("action dropdown directive", () => {
     });
 
     it("should initialize the component", () => {
-      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledTimes(1);
-      expect(mockGlobal.wasm_bindgen.action_dropdown_component).toHaveBeenCalledWith(
+      expect(mockGlobal.wasm_bindgen.deferred_action_dropdown_component).toHaveBeenCalledTimes(1);
+      expect(mockGlobal.wasm_bindgen.deferred_action_dropdown_component).toHaveBeenCalledWith(
         {
-          records: [],
+          record: {},
           locks: [lock1],
           flag: "flag",
           tooltip_placement: "left",

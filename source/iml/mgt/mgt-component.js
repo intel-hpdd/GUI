@@ -59,7 +59,7 @@ export default {
                 <td>{{item.failover_server_name}}</td>
                 <td>{{item.active_host_name}}</td>
                 <td>
-                  <action-dropdown locks="$ctrl.locks" records="item"></action-dropdown>
+                  <action-dropdown locks="$ctrl.locks" record="item"></action-dropdown>
                 </td>
               </tr>
             </tbody>
