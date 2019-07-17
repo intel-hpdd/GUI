@@ -31,71 +31,68 @@ import {
   DELETE_VOLUME_NODE_ITEM
 } from "../volume/volume-node-reducer.js";
 
-getSSEStream()
-  .each(({ tag, payload }) => {
-    switch (tag) {
-      case "Locks":
-        getStore.dispatch({
-          type: UPDATE_LOCKS_ACTION,
-          payload
-        });
-        break;
-      case "Records":
-        getStore.dispatch({
-          type: ADD_ALERT_INDICATOR_ITEMS,
-          payload: payload.active_alert
-        });
+getSSEStream().each(({ tag, payload }) => {
+  switch (tag) {
+    case "Locks":
+      getStore.dispatch({
+        type: UPDATE_LOCKS_ACTION,
+        payload
+      });
+      break;
+    case "Records":
+      getStore.dispatch({
+        type: ADD_ALERT_INDICATOR_ITEMS,
+        payload: payload.active_alert
+      });
 
-        getStore.dispatch({
-          type: ADD_FS_ITEMS,
-          payload: payload.filesystem
-        });
+      getStore.dispatch({
+        type: ADD_FS_ITEMS,
+        payload: payload.filesystem
+      });
 
-        getStore.dispatch({
-          type: ADD_SERVER_ITEMS,
-          payload: payload.host
-        });
+      getStore.dispatch({
+        type: ADD_SERVER_ITEMS,
+        payload: payload.host
+      });
 
-        getStore.dispatch({
-          type: ADD_LNET_CONFIGURATION_ITEMS,
-          payload: payload.lnet_configuration
-        });
+      getStore.dispatch({
+        type: ADD_LNET_CONFIGURATION_ITEMS,
+        payload: payload.lnet_configuration
+      });
 
-        getStore.dispatch({
-          type: ADD_MANAGED_TARGET_MOUNT_ITEMS,
-          payload: payload.managed_target_mount
-        });
+      getStore.dispatch({
+        type: ADD_MANAGED_TARGET_MOUNT_ITEMS,
+        payload: payload.managed_target_mount
+      });
 
-        getStore.dispatch({
-          type: ADD_STRATAGEM_ITEMS,
-          payload: payload.stratagem_config
-        });
+      getStore.dispatch({
+        type: ADD_STRATAGEM_ITEMS,
+        payload: payload.stratagem_config
+      });
 
-        getStore.dispatch({
-          type: ADD_TARGET_ITEMS,
-          payload: payload.target
-        });
+      getStore.dispatch({
+        type: ADD_TARGET_ITEMS,
+        payload: payload.target
+      });
 
-        getStore.dispatch({
-          type: ADD_VOLUME_ITEMS,
-          payload: payload.volume
-        });
+      getStore.dispatch({
+        type: ADD_VOLUME_ITEMS,
+        payload: payload.volume
+      });
 
-        getStore.dispatch({
-          type: ADD_VOLUME_NODE_ITEMS,
-          payload: payload.volume_node
-        });
+      getStore.dispatch({
+        type: ADD_VOLUME_NODE_ITEMS,
+        payload: payload.volume_node
+      });
 
-        break;
-      case "RecordChange":
-        handleRecordChange(payload);
-        break;
-      default:
-        console.error("SSE event not found:", tag, payload);
-        break;
-    }
-  })
-  .errors(e => console.error("Got an error from SSE: ", e));
+      break;
+    case "RecordChange":
+      handleRecordChange(payload);
+      break;
+    default:
+      break;
+  }
+});
 
 function handleRecordUpdate({ tag, payload }) {
   switch (tag) {
