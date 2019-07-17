@@ -10,14 +10,10 @@ import { CACHE_INITIAL_DATA } from "../environment.js";
 
 export function alertStream() {
   return resolveStream(
-    socketStream("/alert/", {
-      jsonMask: "objects(message)",
-      qs: {
-        severity__in: ["WARNING", "ERROR"],
-        limit: 0,
-        active: true
-      }
-    })
+    getStore
+      .select("alertIndicators")
+      .map(Object.values)
+      .map(xs => xs.filter(x => x.severity === "WARNING" || x.severity === "ERROR"))
   );
 }
 

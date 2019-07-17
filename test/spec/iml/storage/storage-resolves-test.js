@@ -1,5 +1,3 @@
-// @flow
-
 import highland from "highland";
 import { streamToPromise } from "../../../../source/iml/promise-transforms.js";
 
@@ -34,7 +32,7 @@ describe("storage resolves", () => {
           break;
 
         default:
-          s.write("state");
+          s.write({ 1: "state" });
           break;
       }
 
@@ -75,7 +73,7 @@ describe("storage resolves", () => {
 
     const x = await streamToPromise(b());
 
-    expect(x).toEqual("state");
+    expect(x).toEqual(["state"]);
   });
 
   it("should resolve getData", async () => {

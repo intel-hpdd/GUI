@@ -19,7 +19,8 @@ export const storageB = (): Promise<() => HighlandStreamT<mixed>> => {
   return resolveStream(store.select("storage").filter((x: State) => x.config.selectIndex != null)).then(broadcaster);
 };
 
-export const alertIndicatorB = () => resolveStream(store.select("alertIndicators")).then(broadcaster);
+export const alertIndicatorB = () =>
+  resolveStream(store.select("alertIndicators").map(Object.values)).then(broadcaster);
 
 export const getData = ($stateParams: { id: string }) => {
   "ngInject";

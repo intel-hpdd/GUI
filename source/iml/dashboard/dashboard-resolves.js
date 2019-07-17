@@ -7,11 +7,11 @@ import store from "../store/get-store.js";
 import broadcaster from "../broadcaster.js";
 
 export const dashboardFsB = () => {
-  return broadcaster(store.select("fileSystems"));
+  return broadcaster(store.select("fileSystems").map(Object.values));
 };
 
 export const dashboardHostB = () => {
-  return broadcaster(store.select("server"));
+  return broadcaster(store.select("server").map(Object.values));
 };
 
 export const dashboardTargetB = () => {

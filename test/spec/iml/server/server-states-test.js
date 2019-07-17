@@ -299,11 +299,7 @@ describe("server states", () => {
           <job-status content-type-id="serverDetail.lnetConfiguration.content_type_id" record-id="serverDetail.lnetConfiguration.id" locks="serverDetail.locks"></job-status>
         </div>
       </div>
-      <div as-viewer stream="::serverDetail.lnetConfigurationStream">
-        <div as-value stream="::viewer">
-          <action-dropdown tooltip-placement="top" record="curr.val" locks="serverDetail.locks"></action-dropdown>
-        </div>
-      </div>
+      <action-dropdown tooltip-placement="top" record="serverDetail.lnetConfiguration" locks="serverDetail.locks"></action-dropdown>
     </div>
     <configure-lnet network-interface-stream="::serverDetail.networkInterfaceStream" active-fs-member="serverDetail.server.member_of_active_filesystem"></configure-lnet>
   </div>

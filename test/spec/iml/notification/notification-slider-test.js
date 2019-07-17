@@ -26,13 +26,11 @@ describe("The notification slider", () => {
 
   describe("single alert", () => {
     beforeEach(() => {
-      alertStream.write({
-        objects: [
-          {
-            message: "an alert"
-          }
-        ]
-      });
+      alertStream.write([
+        {
+          message: "an alert"
+        }
+      ]);
     });
 
     it("should open with data", () => {
@@ -82,9 +80,7 @@ describe("The notification slider", () => {
 
   describe("multiple alerts", () => {
     beforeEach(() => {
-      alertStream.write({
-        objects: [{ message: "foo1" }, { message: "foo2" }]
-      });
+      alertStream.write([{ message: "foo1" }, { message: "foo2" }]);
     });
 
     it("should write a multiple alert message", () => {

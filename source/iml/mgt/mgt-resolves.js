@@ -1,7 +1,4 @@
-// @flow
-
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -15,7 +12,7 @@ import type { LockT } from "../locks/locks-reducer.js";
 type fnToStream = () => HighlandStreamT<mixed>;
 
 export function mgtAlertIndicatorB(): fnToStream {
-  return broadcast(store.select("alertIndicators"));
+  return broadcast(store.select("alertIndicators").map(Object.values));
 }
 
 export function locks$(): HighlandStreamT<LockT> {
@@ -23,5 +20,8 @@ export function locks$(): HighlandStreamT<LockT> {
 }
 
 export function mgt$(): HighlandStreamT<mixed> {
-  return store.select("targets").map(fp.filter(x => x.kind === "MGT"));
+  return store
+    .select("targets")
+    .map(Object.values)
+    .map(fp.filter(x => x.kind === "MGT"));
 }

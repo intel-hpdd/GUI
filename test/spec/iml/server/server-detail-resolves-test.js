@@ -1,5 +1,6 @@
 import highland from "highland";
 import * as maybe from "@iml/maybe";
+import Immutable from "seamless-immutable";
 
 describe("server detail resolves", () => {
   let mockStore,
@@ -117,22 +118,24 @@ describe("server detail resolves", () => {
 
     describe("filtering lnet configuration data", () => {
       beforeEach(async () => {
-        lnetStream.write([
-          {
-            id: 1,
-            host: "/api/host/1/",
-            state: "lnet_up",
-            resource_uri: "/api/lnet_configuration/1/",
-            label: "lnet configuration"
-          },
-          {
-            id: 2,
-            host: "/api/host/2/",
-            state: "lnet_up",
-            resource_uri: "/api/lnet_configuration/2/",
-            label: "lnet configuration"
-          }
-        ]);
+        lnetStream.write(
+          Immutable({
+            1: {
+              id: 1,
+              host_id: 1,
+              state: "lnet_up",
+              resource_uri: "/api/lnet_configuration/1/",
+              label: "lnet configuration"
+            },
+            2: {
+              id: 2,
+              host_id: 2,
+              state: "lnet_up",
+              resource_uri: "/api/lnet_configuration/2/",
+              label: "lnet configuration"
+            }
+          })
+        );
 
         const resolves = await promise;
         resolves.lnetConfigurationStream().each(spy);
@@ -140,11 +143,11 @@ describe("server detail resolves", () => {
 
       it("should return the item associated with the route", () => {
         expect(spy).toHaveBeenCalledOnceWith({
+          host_id: 1,
           id: 1,
-          host: "/api/host/1/",
-          state: "lnet_up",
+          label: "LNet Configuration",
           resource_uri: "/api/lnet_configuration/1/",
-          label: "lnet configuration"
+          state: "lnet_up"
         });
       });
 

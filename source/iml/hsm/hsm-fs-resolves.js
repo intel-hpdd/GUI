@@ -1,6 +1,3 @@
-// @flow
-
-//
 // Copyright (c) 2018 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
@@ -33,7 +30,12 @@ export const getData = ($stateParams: { fsId?: string }) => {
 
     const find = xs => xs.find(x => x.id === id);
 
-    return streamToPromise(store.select("fileSystems").map(find));
+    return streamToPromise(
+      store
+        .select("fileSystems")
+        .map(Object.values)
+        .map(find)
+    );
   } else {
     return Promise.resolve({ label: null });
   }

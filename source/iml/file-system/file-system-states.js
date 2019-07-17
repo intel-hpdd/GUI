@@ -1,16 +1,9 @@
-// @flow
-
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
 import store from "../store/get-store.js";
-import broadcaster from "../broadcaster.js";
-
 import { GROUPS } from "../auth/authorization.js";
-
-import { type LockT } from "../locks/locks-reducer.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",
@@ -20,12 +13,11 @@ export const fileSystemListState = {
 
     this.fileSystem$ = store.select("fileSystems");
 
-    this.locks$ = store
-      .select("locks")
-      .map((xs: LockT) => ({ ...xs }))
-      .each(locks => (this.locks = locks));
+    this.target$ = store.select("targets");
 
-    this.alertIndicator$ = broadcaster(store.select("alertIndicators"));
+    this.locks$ = store.select("locks");
+
+    this.alertIndicator$ = store.select("alertIndicators").map(Object.values);
   },
   params: {
     resetState: {
@@ -37,12 +29,12 @@ export const fileSystemListState = {
     access: GROUPS.FS_ADMINS,
     anonymousReadProtected: true,
     kind: "File Systems",
-    icon: "fa-files-o"
+    icon: "fa-copy"
   },
   controllerAs: "$ctrl",
   template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   locks="$ctrl.locks"></file-system>
+   locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
 </div>
 `
 };

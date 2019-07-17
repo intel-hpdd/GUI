@@ -16,7 +16,7 @@ export const oldFilesystemDetailResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
       "ngInject";
-      return streamToPromise(store.select("fileSystems")).then(matchById($stateParams.id));
+      return streamToPromise(store.select("fileSystems").map(Object.values)).then(matchById($stateParams.id));
     }
   }
 };

@@ -1,7 +1,4 @@
-// @flow
-
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -21,7 +18,12 @@ import { resolveStream } from "../promise-transforms.js";
 
 export const getData = ($stateParams: { id: string }) => {
   "ngInject";
-  return streamToPromise(store.select("server").map(matchById($stateParams.id)));
+  return streamToPromise(
+    store
+      .select("server")
+      .map(Object.values)
+      .map(matchById($stateParams.id))
+  );
 };
 
 export default function serverDetailResolves($stateParams: { id: string }) {
@@ -34,9 +36,12 @@ export default function serverDetailResolves($stateParams: { id: string }) {
 
   const locksStream = broadcaster(store.select("locks"));
 
-  const alertMonitorStream = broadcaster(store.select("alertIndicators"));
+  const alertMonitorStream = broadcaster(store.select("alertIndicators").map(Object.values));
 
-  const serverStream = store.select("server").map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
+  const serverStream = store
+    .select("server")
+    .map(Object.values)
+    .map(xs => xs.find(x => x.id === Number.parseInt($stateParams.id)));
 
   const allHostMatches = {
     qs: {
@@ -46,7 +51,12 @@ export default function serverDetailResolves($stateParams: { id: string }) {
   };
 
   const lnetConfigurationStream = broadcaster(
-    store.select("lnetConfiguration").map(xs => xs.find(x => x.host === `/api/host/${$stateParams.id}/`))
+    store
+      .select("lnetConfiguration")
+      .map(Object.values)
+      .map(xs => xs.find(x => x.host_id === Number.parseInt($stateParams.id)))
+      .map(x => x.set("label", "LNet Configuration"))
+      .map(x => x.set("resource_uri", `/api/lnet_configuration/${x.id}/`))
   );
 
   const merge = (a, b) => angular.merge(a, b, allHostMatches);

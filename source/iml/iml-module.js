@@ -8,7 +8,6 @@ import "../styles/imports.less";
 import "../favicon.ico";
 
 import "./target/target-dispatch-source.js";
-import "./alert-indicator/alert-indicator-dispatch-source.js";
 import "./lnet/lnet-dispatch-source.js";
 import "./server/server-dispatch-source.js";
 import "./file-system/file-system-dispatch-source.js";
