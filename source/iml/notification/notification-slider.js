@@ -1,9 +1,6 @@
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
-
-import * as fp from "@iml/fp";
 
 export function NotificationSliderController($scope, $timeout, localApply, $exceptionHandler) {
   "ngInject";
@@ -11,21 +8,10 @@ export function NotificationSliderController($scope, $timeout, localApply, $exce
 
   const closeAfter5Seconds = $timeout.bind(null, () => ($scope.open = false), 5000);
 
-  const objectLens = fp.lensProp("objects");
-
   this.stream
-    .map(
-      fp.view(
-        fp.compose(
-          objectLens,
-          fp.mapped,
-          fp.lensProp("message")
-        )
-      )
-    )
-    .map(fp.view(objectLens))
-    .filter(fp.view(fp.lensProp("length")))
-    .stopOnError(fp.unary($exceptionHandler))
+    .map(xs => xs.map(x => x.message))
+    .filter(xs => xs.length)
+    .stopOnError(e => $exceptionHandler(e))
     .each(function(x) {
       if (x.length > 1) $scope.message = x.length + " active alerts";
       else $scope.message = x[0];

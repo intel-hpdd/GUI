@@ -38,7 +38,7 @@ describe("The notification slider directive", () => {
 
   describe("a single alert", () => {
     beforeEach(() => {
-      $scope.stream.write({ objects: [{ message: "an alert" }] });
+      $scope.stream.write([{ message: "an alert" }]);
       // Flush 0 because JSDOM sets document to hidden which pushes
       // an untrackable $timeout animate call onto the $timeout queue.
       $timeout.flush(0);
@@ -98,9 +98,7 @@ describe("The notification slider directive", () => {
   });
   describe("multiple alerts", () => {
     beforeEach(() => {
-      $scope.stream.write({
-        objects: [{ message: "foo1" }, { message: "foo2" }]
-      });
+      $scope.stream.write([{ message: "foo1" }, { message: "foo2" }]);
     });
     it("should display a message", () => {
       const text = el.querySelector(".notification-message h4").textContent.trim();
@@ -109,7 +107,7 @@ describe("The notification slider directive", () => {
   });
   describe("writing empty", () => {
     beforeEach(() => {
-      $scope.stream.write({ objects: [] });
+      $scope.stream.write([]);
     });
     it("should not display the slider", () => {
       expect(findSlider()).toBeNull();

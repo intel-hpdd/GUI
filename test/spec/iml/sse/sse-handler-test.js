@@ -41,7 +41,7 @@ describe("sse handler", () => {
       ]
     };
 
-    s$.write(samplePayload);
+    s$.write({ tag: "Locks", payload: samplePayload });
   });
 
   it("should dispatch the data", () => {

@@ -1,20 +1,21 @@
-// @flow
-
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-export const ADD_TARGET_ITEMS = "ADD_TARGET_ITEMS";
-
 import Immutable from "seamless-immutable";
 
-import type { ActionT } from "../store/store-module.js";
+export const ADD_TARGET_ITEMS = "ADD_TARGET_ITEMS";
+export const DELETE_TARGET_ITEM = "DELETE_TARGET_ITEM";
+export const UPDATE_TARGET_ITEM = "UPDATE_TARGET_ITEM";
 
-export default function targetReducer(state: Array<Object> = Immutable([]), { type, payload }: ActionT): Array<Object> {
+export default function targetReducer(state = Immutable({}), { type, payload }) {
   switch (type) {
     case ADD_TARGET_ITEMS:
       return Immutable(payload);
+    case UPDATE_TARGET_ITEM:
+      return state.set(payload.id, payload);
+    case DELETE_TARGET_ITEM:
+      return state.without(payload);
     default:
       return state;
   }

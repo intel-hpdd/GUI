@@ -1,19 +1,12 @@
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from "@iml/fp";
 import { values } from "@iml/obj";
 import getStore from "../store/get-store.js";
 import global from "../global.js";
 
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
-
-const viewLens = fp.flow(
-  fp.lensProp,
-  fp.view
-);
 
 export default function ServerCtrl(
   $scope,
@@ -42,10 +35,9 @@ export default function ServerCtrl(
     selectedServers: selectedServers.servers,
     toggleType: selectedServers.toggleType,
     transform(s, args) {
-      const resourceUri = args[0];
-      const eqHost = fp.eqFn(fp.identity)(viewLens("host"))(resourceUri);
+      const id = parseInt(args[0]);
 
-      return s.map(fp.filter(eqHost)).sequence();
+      return s.map(xs => xs.filter(x => x.host_id === id)).sequence();
     },
     addServer() {
       $scope.server.addServerClicked = true;
@@ -157,8 +149,8 @@ export default function ServerCtrl(
         keyboard: false,
         backdrop: "static",
         resolve: {
-          action: fp.always(action),
-          hosts: fp.always(hosts)
+          action: () => action,
+          hosts: () => hosts
         }
       });
 

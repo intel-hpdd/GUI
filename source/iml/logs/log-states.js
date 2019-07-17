@@ -69,7 +69,10 @@ export const logTableState = {
 
       if (qs.length) qs = `?${qs}`;
 
-      const $: HighlandStreamT<[Object[], Object]> = multiStream2([store.select("server"), socketStream(`/log/${qs}`)]);
+      const $: HighlandStreamT<[Object[], Object]> = multiStream2([
+        store.select("server").map(Object.values),
+        socketStream(`/log/${qs}`)
+      ]);
 
       return resolveStream(
         $.map(

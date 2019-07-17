@@ -156,22 +156,22 @@ describe("server", () => {
     const s = highland([
       [
         {
-          host: "/api/host/2/"
+          host_id: 2
         },
         {
-          host: "/api/host/4/"
+          host_id: 4
         }
       ]
     ]);
 
     server
-      .transform(s, ["/api/host/4/"])
+      .transform(s, ["4"])
       .collect()
       .each(spy);
 
     expect(spy).toHaveBeenCalledWith([
       {
-        host: "/api/host/4/"
+        host_id: 4
       }
     ]);
   });

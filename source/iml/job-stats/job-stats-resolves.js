@@ -29,6 +29,7 @@ export function getData($stateParams: jobStatsParamsT) {
     return streamToPromise(
       store
         .select("targets")
+        .map(Object.values)
         .map(matchById($stateParams.id))
         .map(
           maybe.map.bind(null, x => ({

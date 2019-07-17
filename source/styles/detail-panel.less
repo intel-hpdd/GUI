@@ -21,6 +21,12 @@
       font-weight: bold;
       color: @gray-light;
     }
+
+    .input-group {
+      .input-group-btn:last-child > .btn {
+        vertical-align: top;
+      }
+    }
   }
 
   .section-header {
@@ -29,7 +35,6 @@
   }
 
   .action-dropdown {
-
     button {
       .btn-block;
       display: inline-block;
@@ -53,10 +58,11 @@
     }
   }
 
-  .save-btns, .configure-btns {
+  .save-btns,
+  .configure-btns {
     margin-top: 19px;
     height: 75px;
 
-    .transition-height(75px, .1s);
+    .transition-height(75px, 0.1s);
   }
 }

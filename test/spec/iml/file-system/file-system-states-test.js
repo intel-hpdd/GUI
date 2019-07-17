@@ -1,7 +1,7 @@
 import highland from "highland";
 
 describe("file system states", () => {
-  let fileSystemListState, mockGroups, mockGetStore, mockBroadcaster;
+  let fileSystemListState, mockGroups, mockGetStore;
 
   beforeEach(() => {
     mockGroups = {
@@ -12,15 +12,12 @@ describe("file system states", () => {
 
     mockGetStore = {
       select: jest.fn(name => {
-        if (name !== "locks") return name;
+        if (name !== "locks") return [{ 1: name }];
         else return highland([{ lock: "data" }]);
       })
     };
 
-    mockBroadcaster = jest.fn(name => name);
-
     jest.mock("../../../../source/iml/store/get-store.js", () => mockGetStore);
-    jest.mock("../../../../source/iml/broadcaster.js", () => mockBroadcaster);
     jest.mock("../../../../source/iml/auth/authorization.js", () => ({
       GROUPS: mockGroups
     }));
@@ -44,11 +41,11 @@ describe("file system states", () => {
         access: mockGroups.FS_ADMINS,
         anonymousReadProtected: true,
         kind: "File Systems",
-        icon: "fa-files-o"
+        icon: "fa-copy"
       },
       template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   locks="$ctrl.locks"></file-system>
+   locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
 </div>
 `
     });
@@ -60,15 +57,15 @@ describe("file system states", () => {
     });
 
     it("should set the fileSystem stream", () => {
-      expect(fileSystemListState.fileSystem$).toEqual("fileSystems");
-    });
-
-    it("should call the broadcaster with alertIndicators", () => {
-      expect(mockBroadcaster).toHaveBeenCalledWith("alertIndicators");
+      expect(fileSystemListState.fileSystem$).toEqual([
+        {
+          1: "fileSystems"
+        }
+      ]);
     });
 
     it("should set the alertIndicators stream", () => {
-      expect(fileSystemListState.alertIndicator$).toEqual("alertIndicators");
+      expect(fileSystemListState.alertIndicator$).toEqual([["alertIndicators"]]);
     });
   });
 });
