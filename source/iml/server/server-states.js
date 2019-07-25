@@ -92,10 +92,10 @@ export const serverState = {
             <span>{{ item.server_profile.ui_name }}</span>
           </td>
           <td class="lnet-state">
-            <span as-viewer stream="::server.lnetConfigurationStream" args="[item.resource_uri]" transform="::server.transform(stream, args)">
+            <span as-viewer stream="::server.lnetConfigurationStream" args="[item.id]" transform="::server.transform(stream, args)">
               <lnet-status stream="::viewer"></lnet-status>
             </span>
-            <span as-viewer stream="::server.lnetConfigurationStream" args="[item.resource_uri]" transform="::server.transform(stream, args)">
+            <span as-viewer stream="::server.lnetConfigurationStream" args="[item.id]" transform="::server.transform(stream, args)">
               <span as-value stream="::viewer">
                 <record-state record-id="::curr.val.resource_uri" alert-stream="::server.alertMonitorStream"></record-state>
               </span>

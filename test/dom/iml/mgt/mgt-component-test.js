@@ -89,7 +89,7 @@ describe("mgt component", () => {
         {
           content_type_id: 89,
           id: 1,
-          ha_label: "MGS_49c000",
+          label: "MGS_49c000",
           resource_uri: "/api/target/1",
           volume_name: "FAKEDEVICE000",
           filesystems: [{ id: 1, name: "fs" }, { id: 2, name: "fs2" }],
@@ -106,7 +106,7 @@ describe("mgt component", () => {
       expect(el.querySelector(".section-header")).toHaveText("MGTs");
     });
 
-    it("should render the ha_label", () => {
+    it("should render the label", () => {
       expect(el.querySelector("td")).toHaveText("MGS_49c000");
     });
 

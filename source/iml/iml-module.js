@@ -75,7 +75,7 @@ import { aboutState } from "./about/about-states.js";
 
 import { serverState, serverDetailState } from "./server/server-states.js";
 
-import { fileSystemListState } from "./file-system/file-system-states.js";
+import { fileSystemListState, fileSystemDetailState } from "./file-system/file-system-states.js";
 
 import { logState, logTableState } from "./logs/log-states.js";
 
@@ -169,7 +169,6 @@ const imlModule = angular
       .state(aboutState)
       .state(serverState)
       .state(serverDetailState)
-      .state(fileSystemListState)
       .state(logTableState)
       .state(logState)
       .state(hsmFsState)
@@ -186,6 +185,8 @@ const imlModule = angular
       .state(storageDetailState);
 
     oldGUIStates.forEach(s => $stateProvider.state(s));
+
+    $stateProvider.state(fileSystemListState).state(fileSystemDetailState);
   })
   .directive("asViewer", asViewerDirective)
   .component("aboutComponent", aboutComponent)

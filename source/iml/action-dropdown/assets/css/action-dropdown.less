@@ -37,3 +37,31 @@
     margin-bottom: 10px;
   }
 }
+
+.full-width {
+  .action-dropdown;
+
+  .action-dropdown {
+    button {
+      .btn-block;
+      display: inline-block;
+    }
+
+    .btn-group {
+      .btn-block;
+      display: inline-block;
+
+      ul.dropdown-menu {
+        .btn-block;
+        display: none;
+        left: 0;
+        margin-left: inherit;
+        transform: initial;
+      }
+
+      &.open > ul.dropdown-menu {
+        display: block;
+      }
+    }
+  }
+}

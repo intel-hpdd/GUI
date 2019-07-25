@@ -103,23 +103,6 @@ describe("old gui states", () => {
     );
   });
 
-  it("should contain the app.oldFilesystemDetail state", () => {
-    const state = fp.find(x => x.name === "app.oldFilesystemDetail")(oldGuiStates);
-    expect(state).toEqual(
-      maybe.ofJust(
-        generateState(
-          "/configure/filesystem/:id",
-          "app.oldFilesystemDetail",
-          "configureold/filesystem/detail",
-          "Graphical_User_Interface_9_0.html#9.1.1",
-          "File System Detail",
-          "fa-files-o",
-          resolve
-        )
-      )
-    );
-  });
-
   it("should contain the app.oldUser state", () => {
     const state = fp.find(x => x.name === "app.oldUser")(oldGuiStates);
     expect(state).toEqual(

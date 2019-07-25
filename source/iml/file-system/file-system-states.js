@@ -4,6 +4,7 @@
 
 import store from "../store/get-store.js";
 import { GROUPS } from "../auth/authorization.js";
+import { getData, fileSystem$, target$, locks$, alertIndicator$ } from "./file-system-detail-resolves.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",
@@ -37,4 +38,29 @@ export const fileSystemListState = {
    locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
 </div>
 `
+};
+
+export const fileSystemDetailState = {
+  name: "app.fileSystemDetail",
+  url: "/configure/filesystem/:id",
+  component: "filesystemDetailPage",
+  params: {
+    resetState: {
+      dynamic: true
+    }
+  },
+  data: {
+    helpPage: "Graphical_User_Interface_9_0.html#9.1.1",
+    access: GROUPS.FS_ADMINS,
+    anonymousReadProtected: true,
+    kind: "File System Detail",
+    icon: "fa-copy"
+  },
+  resolve: {
+    getData,
+    fileSystem$,
+    target$,
+    locks$,
+    alertIndicator$
+  }
 };
