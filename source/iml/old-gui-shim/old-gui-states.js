@@ -7,7 +7,7 @@
 
 import { GROUPS } from "../auth/authorization.js";
 
-import { oldFilesystemDetailResolve, oldUserDetailResolve, oldTargetResolve } from "./old-gui-resolves.js";
+import { oldUserDetailResolve, oldTargetResolve } from "./old-gui-resolves.js";
 
 const states: Object[] = [
   [
@@ -36,15 +36,6 @@ const states: Object[] = [
     "Create File System",
     "fa-files-o",
     {}
-  ],
-  [
-    "/configure/filesystem/:id",
-    "app.oldFilesystemDetail",
-    "configureold/filesystem/detail",
-    "Graphical_User_Interface_9_0.html#9.1.1",
-    "File System Detail",
-    "fa-files-o",
-    oldFilesystemDetailResolve
   ],
   [
     "/configure/user",

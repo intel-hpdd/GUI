@@ -12,15 +12,6 @@ import { streamToPromise } from "../promise-transforms.js";
 
 import { matchById } from "../api-transforms.js";
 
-export const oldFilesystemDetailResolve = {
-  resolve: {
-    getData: ($stateParams: { id: string }) => {
-      "ngInject";
-      return streamToPromise(store.select("fileSystems").map(Object.values)).then(matchById($stateParams.id));
-    }
-  }
-};
-
 export const oldUserDetailResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
@@ -37,7 +28,7 @@ export const oldTargetResolve = {
   resolve: {
     getData: ($stateParams: { id: string }) => {
       "ngInject";
-      return streamToPromise(store.select("targets")).then(matchById($stateParams.id));
+      return streamToPromise(store.select("targets").map(Object.values)).then(matchById($stateParams.id));
     }
   }
 };

@@ -38,7 +38,7 @@ export default {
               <tr ng-repeat="item in curr.val track by item.id">
                 <td>
                   <a route-to="{{ 'target/' + item.id }}">
-                    <span>{{ ::item.ha_label }}</span>
+                    <span>{{ ::item.label }}</span>
                   </a>
                 </td>
                 <td>

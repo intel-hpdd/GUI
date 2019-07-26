@@ -7,18 +7,18 @@ import global from "../global.js";
 function Controller($element) {
   "ngInject";
 
-  const { render_fs_page: render } = global.wasm_bindgen;
+  const { render_fs_detail_page: renderFsDetailPage } = global.wasm_bindgen;
 
   this.$onInit = () => {
     const el = $element[0].querySelector(".mount-point");
-    this.seedApp = render(el);
+    this.seedApp = renderFsDetailPage(el);
+
+    this.fileSystem$.each(x => {
+      this.seedApp.set_filesystem(x);
+    });
 
     this.target$.each(x => {
       this.seedApp.set_targets(x);
-    });
-
-    this.fileSystem$.each(x => {
-      this.seedApp.set_filesystems(x);
     });
 
     this.alertIndicator$.each(x => {
@@ -51,5 +51,8 @@ export default {
     locks$: "<"
   },
   controller: Controller,
-  template: `<div class="mount-point"></div>`
+  template: `
+    <div class="container container-full">
+      <div class="mount-point"></div>
+    </div>`
 };

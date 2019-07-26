@@ -7,5 +7,9 @@
 
 import angular from "angular";
 import fileSystemComponent from "./file-system-component.js";
+import fileSystemDetailPage from "./file-system-detail-component.js";
 
-export default angular.module("fileSystem", []).component("fileSystem", fileSystemComponent).name;
+export default angular
+  .module("fileSystem", [])
+  .component("filesystemDetailPage", fileSystemDetailPage)
+  .component("fileSystem", fileSystemComponent).name;

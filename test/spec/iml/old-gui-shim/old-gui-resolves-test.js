@@ -16,20 +16,6 @@ describe("old gui resolves", () => {
     mod = require("../../../../source/iml/old-gui-shim/old-gui-resolves.js");
   });
 
-  describe("old filesystem detail resolve", () => {
-    it("should resolve with the specified id", async () => {
-      mockGetStore.select.mockImplementation(key => {
-        if (key === "fileSystems")
-          return highland([[{ id: 5, label: "fs5" }, { id: 7, label: "fs7" }, { id: 10, label: "fs10" }]]);
-      });
-
-      const result = await mod.oldFilesystemDetailResolve.resolve.getData({
-        id: 7
-      });
-      expect(result).toEqual(maybe.ofJust({ id: 7, label: "fs7" }));
-    });
-  });
-
   describe("old user detail resolve", () => {
     it("should resolve with the specified id", async () => {
       mockGetStore.select.mockImplementation(key => {
