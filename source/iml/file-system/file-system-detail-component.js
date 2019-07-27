@@ -21,6 +21,10 @@ function Controller($element) {
       this.seedApp.set_targets(x);
     });
 
+    this.server$.each(x => {
+      this.seedApp.set_hosts(x);
+    });
+
     this.alertIndicator$.each(x => {
       this.seedApp.set_alerts(x);
     });
@@ -28,6 +32,13 @@ function Controller($element) {
     this.locks$.each(x => {
       this.seedApp.set_locks(x);
     });
+
+    this.stratagemConfiguration$.each(x => {
+      this.seedApp.set_stratagem_configuration(x);
+    });
+
+    // start fetching the inode table immediately
+    this.seedApp.fetch_inode_table();
   };
 
   this.$onDestroy = () => {
@@ -47,8 +58,10 @@ export default {
   bindings: {
     fileSystem$: "<",
     target$: "<",
+    server$: "<",
     alertIndicator$: "<",
-    locks$: "<"
+    locks$: "<",
+    stratagemConfiguration$: "<"
   },
   controller: Controller,
   template: `

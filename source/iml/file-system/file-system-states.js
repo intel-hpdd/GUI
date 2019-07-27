@@ -4,7 +4,15 @@
 
 import store from "../store/get-store.js";
 import { GROUPS } from "../auth/authorization.js";
-import { getData, fileSystem$, target$, locks$, alertIndicator$ } from "./file-system-detail-resolves.js";
+import {
+  getData,
+  fileSystem$,
+  target$,
+  server$,
+  locks$,
+  alertIndicator$,
+  stratagemConfiguration$
+} from "./file-system-detail-resolves.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",
@@ -60,7 +68,9 @@ export const fileSystemDetailState = {
     getData,
     fileSystem$,
     target$,
+    server$,
     locks$,
-    alertIndicator$
+    alertIndicator$,
+    stratagemConfiguration$
   }
 };
