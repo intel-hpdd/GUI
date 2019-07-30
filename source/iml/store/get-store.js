@@ -36,6 +36,7 @@ import confirmActionReducer from "../action-dropdown/confirm-action-reducer.js";
 import commandModalReducer from "../command/command-modal-reducer.js";
 import stepModalReducer from "../command/step-modal-reducer.js";
 import modalStackReducer from "../modal-stack-reducer.js";
+import stratagemReducer from "../stratagem/stratagem-reducer.js";
 
 export default createStore({
   agentVsCopytoolCharts: agentVsCopytoolChartReducer,
@@ -66,5 +67,6 @@ export default createStore({
   confirmAction: confirmActionReducer,
   commandModal: commandModalReducer,
   stepModal: stepModalReducer,
-  modalStack: modalStackReducer
+  modalStack: modalStackReducer,
+  stratagem: stratagemReducer
 });

@@ -21,12 +21,20 @@ function Controller($element) {
       this.seedApp.set_targets(x);
     });
 
+    this.server$.each(x => {
+      this.seedApp.set_hosts(x);
+    });
+
     this.alertIndicator$.each(x => {
       this.seedApp.set_alerts(x);
     });
 
     this.locks$.each(x => {
       this.seedApp.set_locks(x);
+    });
+
+    this.stratagemConfiguration$.each(x => {
+      this.seedApp.set_stratagem_configuration(x);
     });
   };
 
@@ -38,8 +46,10 @@ function Controller($element) {
 
     this.fileSystem$.destroy();
     this.target$.destroy();
+    this.server$.destroy();
     this.alertIndicator$.destroy();
     this.locks$.destroy();
+    this.stratagemConfiguration$.destroy();
   };
 }
 
@@ -47,8 +57,10 @@ export default {
   bindings: {
     fileSystem$: "<",
     target$: "<",
+    server$: "<",
     alertIndicator$: "<",
-    locks$: "<"
+    locks$: "<",
+    stratagemConfiguration$: "<"
   },
   controller: Controller,
   template: `

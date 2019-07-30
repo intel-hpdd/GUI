@@ -40,6 +40,17 @@ export const target$ = $stateParams => {
   );
 };
 
+export const server$ = () => store.select("server");
+
 export const locks$ = () => store.select("locks");
 
 export const alertIndicator$ = () => store.select("alertIndicators").map(Object.values);
+
+export const stratagemConfiguration$ = $stateParams => {
+  "ngInject";
+
+  return store
+    .select("stratagem")
+    .map(Object.values)
+    .map(xs => xs.find(x => x.filesystem_id === Number.parseInt($stateParams.id)));
+};
