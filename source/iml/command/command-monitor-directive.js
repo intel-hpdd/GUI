@@ -6,6 +6,7 @@
 // license that can be found in the LICENSE file.
 
 import * as fp from "@iml/fp";
+import global from "../global.js";
 import { render } from "inferno";
 import socketStream from "../socket/socket-stream.js";
 import getStore from "../store/get-store.js";
@@ -41,6 +42,12 @@ export function CommandMonitorCtrl($scope: $scopeT, $element: HTMLElement[]) {
     }
   });
 
+  let showModalOverride = false;
+  const setModalOverride = () => {
+    showModalOverride = true;
+  };
+  global.addEventListener("show_command_modal", setModalOverride);
+
   commandMonitor$
     .map(x => x.objects)
     .map(fp.filter(x => x.cancelled === false))
@@ -53,12 +60,19 @@ export function CommandMonitorCtrl($scope: $scopeT, $element: HTMLElement[]) {
       });
     })
     .each(commands => {
-      if (commands.length > 0) render(<CommandMonitor showPending={showPending} commands={commands} />, $element[0]);
-      else render(null, $element[0]);
+      if (commands.length > 0) {
+        render(<CommandMonitor showPending={showPending} commands={commands} />, $element[0]);
+        if (showModalOverride) showPending(commands);
+      } else {
+        render(null, $element[0]);
+      }
+
+      showModalOverride = false;
     });
 
   $scope.$on("$destroy", () => {
     commandMonitor$.destroy();
+    global.removeEventListener("show_command_modal", setModalOverride);
     render(null, $element[0]);
   });
 }

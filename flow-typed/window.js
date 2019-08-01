@@ -35,7 +35,7 @@ declare var window: {
   IS_RELEASE: boolean,
   dispatchEvent: Event => void,
   addEventListener: (evName: string, cb: (ev: Object) => any, useCapture?: boolean) => void,
-  removeEventListener: (evName: string, cb: (ev: Object) => any, useCapture: boolean) => void,
+  removeEventListener: (evName: string, cb: (ev: Object) => any, useCapture?: boolean) => void,
   ALLOW_ANONYMOUS_READ: boolean,
   SERVER_TIME_DIFF: number,
   VERSION: string,
