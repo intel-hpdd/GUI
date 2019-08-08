@@ -49,8 +49,10 @@ function Controller($element) {
 
     this.fileSystem$.destroy();
     this.target$.destroy();
+    this.server$.destroy();
     this.alertIndicator$.destroy();
     this.locks$.destroy();
+    this.stratagemConfiguration$.destroy();
   };
 }
 

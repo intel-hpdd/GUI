@@ -30,7 +30,8 @@ describe("get store", () => {
     mockConfirmActionReducer,
     mockCommandModalReducer,
     mockStepModalReducer,
-    mockModalStackReducer;
+    mockModalStackReducer,
+    mockStratagemReducer;
 
   beforeEach(() => {
     store = { dispatch: jest.fn() };
@@ -64,6 +65,7 @@ describe("get store", () => {
     mockCommandModalReducer = {};
     mockStepModalReducer = {};
     mockModalStackReducer = {};
+    mockStratagemReducer = {};
 
     jest.mock(
       "../../../../source/iml/read-write-heat-map/read-write-heat-map-chart-reducer.js",
@@ -107,6 +109,7 @@ describe("get store", () => {
     jest.mock("../../../../source/iml/command/command-modal-reducer.js", () => mockCommandModalReducer);
     jest.mock("../../../../source/iml/command/step-modal-reducer.js", () => mockStepModalReducer);
     jest.mock("../../../../source/iml/modal-stack-reducer.js", () => mockModalStackReducer);
+    jest.mock("../../../../source/iml/stratagem/stratagem-reducer.js", () => mockStratagemReducer);
 
     const storeModule = require("../../../../source/iml/store/get-store.js");
     storeInstance = storeModule.default;
@@ -115,6 +118,7 @@ describe("get store", () => {
   it("should return a store", () => {
     expect(storeInstance).toBe(store);
   });
+
   it("should create a store", () => {
     expect(mockCreateStore).toHaveBeenCalledOnceWith({
       targets: mockTargetReducer,
@@ -145,7 +149,8 @@ describe("get store", () => {
       confirmAction: mockConfirmActionReducer,
       commandModal: mockCommandModalReducer,
       stepModal: mockStepModalReducer,
-      modalStack: mockModalStackReducer
+      modalStack: mockModalStackReducer,
+      stratagem: mockStratagemReducer
     });
   });
 });
