@@ -40,25 +40,6 @@ describe("app resolves", () => {
     });
   });
 
-  describe("app notification stream", () => {
-    let result;
-
-    beforeEach(async () => {
-      result = await appModule.appNotificationStream();
-    });
-
-    it("should return a promise", done => {
-      result.each(x => {
-        expect(x).toBe(promise);
-        done();
-      });
-    });
-
-    it("should create a socket connection", () => {
-      expect(mockSocketStream).toHaveBeenCalledOnceWith("/health");
-    });
-  });
-
   describe("app session", () => {
     let appSession;
 
