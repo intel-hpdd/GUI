@@ -27,7 +27,7 @@ export function appNotificationStream() {
         let health = "GOOD";
 
         if (serverities.has("ERROR")) health = "ERROR";
-        else health = "WARNING";
+        else if (serverities.has("WARNING")) health = "WARNING";
 
         return {
           health,
