@@ -7,6 +7,7 @@ import socketStream from "../socket/socket-stream.js";
 import multiStream from "../multi-stream.js";
 import { setState, trimLogs } from "./command-transforms.js";
 
+import { closeCommandModal } from "../listeners.js";
 import { StepModalComponent } from "./step-modal.js";
 import { CommandModalComponent } from "./command-modal.js";
 import { querySelector } from "../dom-utils";
@@ -30,6 +31,8 @@ getStore.select("commandModal").each(([...commands]: Command[]) => {
       type: CLEAR_CONFIRM_ACTION,
       payload: false
     });
+
+    closeCommandModal();
   };
 
   command$

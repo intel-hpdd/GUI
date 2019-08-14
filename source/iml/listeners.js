@@ -13,6 +13,10 @@ import {
   type RecordAndSelectedActionT,
   ACTION_DROPDOWN_FLAG_CHECK_DEPLOY
 } from "./action-dropdown/action-dropdown-types.js";
+import { SHOW_COMMAND_MODAL_ACTION } from "./command/command-modal-reducer.js";
+import getStore from "./store/get-store.js";
+
+import { type Command } from "./command/command-types.js";
 
 global.addEventListener(
   "action_selected",
@@ -44,6 +48,14 @@ global.addEventListener(
   }
 );
 
+global.addEventListener("show_command_modal", ({ detail: { command } }: { detail: { command: Command } }) => {
+  if (command != null)
+    getStore.dispatch({
+      type: SHOW_COMMAND_MODAL_ACTION,
+      payload: [command]
+    });
+});
+
 export const handleSelectedAction = (action: RecordAndSelectedActionT) => {
   const evt = new CustomEvent("action_selected", {
     detail: action
@@ -56,6 +68,12 @@ export const openAddServerModal = (record: RecordT, step: string) => {
   const evt = new CustomEvent("open_add_server_modal", {
     detail: { record, step }
   });
+
+  global.dispatchEvent(evt);
+};
+
+export const closeCommandModal = () => {
+  const evt = new CustomEvent("close_command_modal");
 
   global.dispatchEvent(evt);
 };

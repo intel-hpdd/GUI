@@ -9,6 +9,8 @@ function Controller($element) {
 
   const { render_fs_detail_page: renderFsDetailPage } = global.wasm_bindgen;
 
+  let onCommandModalClosed;
+
   this.$onInit = () => {
     const el = $element[0].querySelector(".mount-point");
     this.seedApp = renderFsDetailPage(el);
@@ -39,6 +41,12 @@ function Controller($element) {
 
     // start fetching the inode table immediately
     this.seedApp.fetch_inode_table();
+
+    onCommandModalClosed = () => {
+      this.seedApp.command_modal_closed();
+    };
+
+    global.addEventListener("close_command_modal", onCommandModalClosed);
   };
 
   this.$onDestroy = () => {
@@ -53,6 +61,8 @@ function Controller($element) {
     this.alertIndicator$.destroy();
     this.locks$.destroy();
     this.stratagemConfiguration$.destroy();
+
+    global.removeEventListener("close_command_modal", onCommandModalClosed);
   };
 }
 
