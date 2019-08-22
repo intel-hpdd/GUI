@@ -2,13 +2,7 @@ import * as fp from "@iml/fp";
 import * as maybe from "@iml/maybe";
 
 describe("old gui states", () => {
-  let oldGuiStates,
-    mockGroups,
-    resolve,
-    mockResolves,
-    oldFilesystemDetailResolve,
-    oldUserDetailResolve,
-    oldTargetResolve;
+  let oldGuiStates, mockGroups, resolve, mockResolves, oldUserDetailResolve, oldTargetResolve;
 
   beforeEach(() => {
     resolve = {
@@ -31,12 +25,10 @@ describe("old gui states", () => {
       FS_USERS: "filesystem_users"
     };
 
-    oldFilesystemDetailResolve = generateResolveData();
     oldUserDetailResolve = generateResolveData();
     oldTargetResolve = generateResolveData();
 
     mockResolves = {
-      oldFilesystemDetailResolve,
       oldUserDetailResolve,
       oldTargetResolve
     };

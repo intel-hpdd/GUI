@@ -49,7 +49,7 @@ describe("tree fs item component", () => {
   it("should link to the fs detail page", () => {
     const route = querySelector(el, "a").getAttribute("ui-sref");
 
-    expect(route).toBe("app.oldFilesystemDetail({ id: $ctrl.record.id, resetState: true })");
+    expect(route).toBe("app.fileSystemDetail({ id: $ctrl.record.id, resetState: true })");
   });
 
   it("should link to the fs dashboard page", () => {
