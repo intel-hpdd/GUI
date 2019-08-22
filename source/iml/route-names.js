@@ -1,7 +1,4 @@
-// @flow
-
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
@@ -19,7 +16,7 @@ export default {
   svrServers: "app.server",
   svrServerx: "app.serverDetail",
   fsFs: "app.fileSystem",
-  fsFsx: "app.oldFilesystemDetail",
+  fsFsx: "app.filesystemDetail",
   hsmFsx: "app.hsmFs.hsm",
   usrUsers: "app.oldUser",
   usrUserx: "app.oldUserDetail",
