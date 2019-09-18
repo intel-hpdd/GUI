@@ -39,11 +39,11 @@ jobs:
         on:
           all_branches: true
           repo: whamcloud/GUI
-    - stage: deploy-copr-r5.0
+    - stage: deploy-copr-r5.1
       env: Type='Copr deploy'
       script:
         - export OWNER=managerforlustre
-        - export PROJECT=manager-for-lustre-5.0
+        - export PROJECT=manager-for-lustre-5.1
         - export PACKAGE=iml-gui
         - export SPEC=iml-gui.spec
         - docker run -it -e OWNER="$OWNER" -e PROJECT="$PROJECT" -e PACKAGE="$PACKAGE" -e SPEC="$SPEC" -e PROD="True" -e KEY="$encrypted_253525cedcf6_key" -e IV="$encrypted_253525cedcf6_iv" -v $(pwd):/build:rw imlteam/copr-node
@@ -61,7 +61,7 @@ stages:
   - test
   - name: deploy-npm
     if: branch =~ ^v\d+\.\d+\.\d+-1.*$
-  - name: deploy-copr-r5.0
-    if: branch =~ ^v\d+\.\d+\.\d+-.+-r5\.0$
+  - name: deploy-copr-r5.1
+    if: branch =~ ^v\d+\.\d+\.\d+-.+-r5\.1$
   - name: cd
     if: branch = master AND type = push AND fork = false
