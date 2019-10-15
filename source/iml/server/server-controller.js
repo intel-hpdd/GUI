@@ -5,6 +5,11 @@
 import { values } from "@iml/obj";
 import getStore from "../store/get-store.js";
 import global from "../global.js";
+import extractApi from "@iml/extract-api";
+import multiStream from "../multi-stream.js";
+
+import { type FilesystemT } from "../file-system/file-system-reducer.js";
+import { type TargetT } from "../target/target-reducer.js";
 
 import { SHOW_COMMAND_MODAL_ACTION } from "../command/command-modal-reducer.js";
 
@@ -31,6 +36,7 @@ export default function ServerCtrl(
     hostnames: [],
     hostnamesHash: {},
     servers: [],
+    activeServers: [],
     actions: serverActions,
     selectedServers: selectedServers.servers,
     toggleType: selectedServers.toggleType,
@@ -181,6 +187,31 @@ export default function ServerCtrl(
     .locksStream()
     .map((xs: LockT) => ({ ...xs }))
     .through(p.bind(null, "locks"));
+
+  const getServers = (servers, filesystem: FilesystemT, targets: Array<TargetT>) =>
+    targets
+      .filter(
+        t =>
+          t.active_host != null &&
+          (t.filesystem_id === filesystem.id || t.filesystems.find(x => x.id === filesystem.id) != null)
+      )
+      .map(t => parseInt(extractApi(t.active_host), 10))
+      .filter(x => !isNaN(x))
+      .map(hostId => servers.find(h => h.id === hostId));
+
+  multiStream([streams.targetsStream, streams.fsStream])
+    .map(([targets, filesystems]) => {
+      const activeServers = filesystems
+        .filter(fs => fs.state === "available" || fs.state === "unavailable")
+        .map(fs => getServers($scope.server.servers, fs, targets))
+        .map(xs => new Set(xs))
+        .reduce((acc, curr) => {
+          return new Set([...acc, ...curr]);
+        }, new Set());
+
+      return [...activeServers].filter(x => x != null).map(x => x.id);
+    })
+    .through(p.bind(null, "activeServers"));
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

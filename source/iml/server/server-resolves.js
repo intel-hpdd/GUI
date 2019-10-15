@@ -16,12 +16,23 @@ export default function serverResolves() {
 
   const serversStream = store.select("server").map(Object.values);
 
-  return Promise.all([locksStream, alertMonitorStream, lnetConfigurationStream, serversStream]).then(
-    ([locksStream, alertMonitorStream, lnetConfigurationStream, serversStream]) => ({
-      locksStream,
-      alertMonitorStream,
-      lnetConfigurationStream,
-      serversStream
-    })
-  );
+  const targetsStream = store.select("targets").map(Object.values);
+
+  const fsStream = store.select("fileSystems").map(Object.values);
+
+  return Promise.all([
+    locksStream,
+    alertMonitorStream,
+    lnetConfigurationStream,
+    serversStream,
+    targetsStream,
+    fsStream
+  ]).then(([locksStream, alertMonitorStream, lnetConfigurationStream, serversStream, targetsStream, fsStream]) => ({
+    locksStream,
+    alertMonitorStream,
+    lnetConfigurationStream,
+    serversStream,
+    targetsStream,
+    fsStream
+  }));
 }
