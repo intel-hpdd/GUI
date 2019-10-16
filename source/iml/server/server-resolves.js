@@ -45,7 +45,6 @@ export default function serverResolves() {
       const activeServers = filesystems
         .filter(fs => fs.state === "available" || fs.state === "unavailable")
         .map(fs => getServers(servers, fs, targets))
-        .map(xs => new Set(xs))
         .reduce((acc, curr) => {
           return new Set([...acc, ...curr]);
         }, new Set());
