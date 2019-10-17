@@ -8,6 +8,7 @@
 import * as fp from "@iml/fp";
 
 import type { hostT } from "../api-types.js";
+import type { ServerT } from "../server/server-reducer.js";
 
 type jobT = {
   class_name: string,
@@ -30,7 +31,7 @@ export default function serverActionsFactory() {
   }
 
   const noUpdates = fp.eqFn(fp.identity)(x => x.needs_update)(false);
-  const memberOfFs = fp.eqFn(fp.identity)(x => x.member_of_active_filesystem)(true);
+  const memberOfFs = fp.eqFn(fp.identity)(x => x.activeServers.find(y => y === x.id) != null)(true);
   const mutableState = fp.eqFn(fp.identity)(x => x.immutable_state)(false);
   const memberOfFsAndMutable = fp.and([memberOfFs, mutableState]);
   const memberOfFsOrNoUpdates = fp.or([noUpdates, memberOfFsAndMutable]);
@@ -88,10 +89,22 @@ Re-write target configuration may only be performed on managed servers.`
       value: "Install Updates",
       message: "Install updates",
       helpTopic: "install_updates_dialog",
-      buttonTooltip: updateButtonTooltipMessage,
-      buttonDisabled: fp.every(memberOfFsOrNoUpdates),
-      toggleDisabledReason: updateToggleTooltipMessage,
-      toggleDisabled: memberOfFsOrNoUpdates,
+      buttonTooltip: (servers: Array<ServerT>, activeServers: Array<Number>) => {
+        const serversWithActive = servers.map(server => ({ ...server, activeServers: [...activeServers] }));
+        return updateButtonTooltipMessage(serversWithActive);
+      },
+      buttonDisabled: (servers: Array<ServerT>, activeServers: Array<Number>) => {
+        const serversWithActive = servers.map(server => ({ ...server, activeServers: [...activeServers] }));
+        return fp.every(memberOfFsOrNoUpdates)(serversWithActive);
+      },
+      toggleDisabledReason: (server: ServerT, activeServers: Array<Number>) => {
+        const serverWithActive = { ...server, activeServers: [...activeServers] };
+        return updateToggleTooltipMessage(serverWithActive);
+      },
+      toggleDisabled: (server: ServerT, activeServers: Array<Number>) => {
+        const serverWithActive = { ...server, activeServers: [...activeServers] };
+        return memberOfFsOrNoUpdates(serverWithActive);
+      },
       jobClass: "UpdateJob",
       convertToJob(hosts: hostT[]) {
         return (hosts.map((host: hostT) => {

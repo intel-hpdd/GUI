@@ -9,6 +9,7 @@ describe("server", () => {
     server,
     $uibModal,
     serversStream,
+    activeServersStream,
     selectedServers,
     serverActions,
     jobMonitorStream,
@@ -54,6 +55,9 @@ describe("server", () => {
 
       serversStream = highland();
       jest.spyOn(serversStream, "destroy");
+
+      activeServersStream = highland();
+      jest.spyOn(activeServersStream, "destroy");
 
       selectedServers = {
         servers: {},
@@ -111,7 +115,8 @@ describe("server", () => {
           jobMonitorStream,
           alertMonitorStream,
           lnetConfigurationStream,
-          locksStream
+          locksStream,
+          activeServersStream
         },
         openAddServerModal,
         localApply
@@ -417,6 +422,16 @@ describe("server", () => {
     });
   });
 
+  describe("activeServersStream data", () => {
+    beforeEach(() => {
+      activeServersStream.write([1, 2, 3, 4]);
+    });
+
+    it("should bind to the scope as data flows in", () => {
+      expect(server.activeServers).toEqual([1, 2, 3, 4]);
+    });
+  });
+
   describe("destroy", () => {
     beforeEach(() => {
       const handler = $scope.$on.mock.calls[0][1];
@@ -449,6 +464,10 @@ describe("server", () => {
 
     it("should destroy the locks stream", () => {
       expect(locks$.destroy).toHaveBeenCalledTimes(1);
+    });
+
+    it("should destroy the activeServersStream", () => {
+      expect(activeServersStream.destroy).toHaveBeenCalledTimes(1);
     });
 
     it("should remopve the add server modal listener", () => {

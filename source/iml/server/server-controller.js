@@ -31,6 +31,7 @@ export default function ServerCtrl(
     hostnames: [],
     hostnamesHash: {},
     servers: [],
+    activeServers: [],
     actions: serverActions,
     selectedServers: selectedServers.servers,
     toggleType: selectedServers.toggleType,
@@ -181,6 +182,8 @@ export default function ServerCtrl(
     .locksStream()
     .map((xs: LockT) => ({ ...xs }))
     .through(p.bind(null, "locks"));
+
+  streams.activeServersStream.through(p.bind(null, "activeServers"));
 
   $scope.$on("$destroy", () => {
     values(streams).forEach(v => (v.destroy ? v.destroy() : v.endBroadcast()));

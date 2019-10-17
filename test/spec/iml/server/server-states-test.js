@@ -123,7 +123,7 @@ describe("server states", () => {
             <action-dropdown record="item" locks="server.locks" flag="check_deploy"></action-dropdown>
           </td>
           <td ng-if="server.editable" class="select-server">
-            <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item)"
+            <button ng-if="!server.getActionByValue(server.editName).toggleDisabled(item, server.activeServers)"
                     class="btn btn-info btn-sm"
                     ng-model="server.selectedServers[item.fqdn]"
                     uib-btn-checkbox>
@@ -134,12 +134,12 @@ describe("server states", () => {
                 Unselected
               </span>
             </button>
-            <span ng-if="server.getActionByValue(server.editName).toggleDisabled(item)"
+            <span ng-if="server.getActionByValue(server.editName).toggleDisabled(item, server.activeServers)"
               class="disabled tooltip-container tooltip-hover">
               <a type="button" class="disabled btn btn-default btn-sm">
                 Disabled
                 <iml-tooltip size="'large'" direction="left">
-                  <span>{{ server.getActionByValue(server.editName).toggleDisabledReason(item) }}</span>
+                  <span>{{ server.getActionByValue(server.editName).toggleDisabledReason(item, server.activeServers) }}</span>
                 </iml-tooltip>
               </a>
             </span>
@@ -192,12 +192,12 @@ describe("server states", () => {
     <div class="action-buttons">
       <span class="tooltip-container tooltip-hover" ng-repeat="action in server.actions track by action.value">
         <a type="button" class="btn btn-primary btn-sm"
-           ng-class="{disabled: action.buttonDisabled(server.servers)}"
+           ng-class="{disabled: action.buttonDisabled(server.servers, server.activeServers)}"
            ng-click="server.setEditName(action.value)">
           {{action.value}}
           <i class="fa fa-question-circle">
             <iml-tooltip size="'medium'" direction="top">
-              <span>{{ action.buttonTooltip(server.servers) }}</span>
+              <span>{{ action.buttonTooltip(server.servers, server.activeServers) }}</span>
             </iml-tooltip>
           </i>
         </a>

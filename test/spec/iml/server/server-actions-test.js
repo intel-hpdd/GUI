@@ -67,4 +67,119 @@ describe("server actions", () => {
     const result = installUpdates.convertToJob(hosts);
     expect(result).toEqual([{ class_name: "UpdateJob", args: { host_id: 1 } }]);
   });
+
+  describe("install updates button", () => {
+    let servers, activeServers;
+
+    beforeEach(() => {
+      servers = [
+        {
+          id: 1,
+          label: "mds1",
+          needs_update: false,
+          immutable_state: false
+        },
+        {
+          id: 2,
+          label: "mds2",
+          needs_update: true,
+          immutable_state: false
+        }
+      ];
+      activeServers = [1, 2];
+    });
+
+    describe("button tooltip", () => {
+      describe("with member of filesystem and mutable", () => {
+        it("should return a message", () => {
+          const message = installUpdates.buttonTooltip(servers, activeServers);
+          expect(message).toEqual(`All servers are part of an active file system.
+ Stop associated active file system(s) to install updates.`);
+        });
+      });
+
+      describe("with no updates", () => {
+        it("should return a message", () => {
+          servers[1].needs_update = false;
+          const message = installUpdates.buttonTooltip(servers, activeServers);
+          expect(message).toEqual("No updates available.");
+        });
+      });
+
+      describe("with default case", () => {
+        it("with no active servers", () => {
+          activeServers = [];
+          const message = installUpdates.buttonTooltip(servers, activeServers);
+          expect(message).toEqual("Install updated software on the selected servers.");
+        });
+      });
+    });
+
+    describe("button disabled", () => {
+      describe("with no updates", () => {
+        it("should be disabled", () => {
+          servers[1].needs_update = false;
+          const isDisabled = installUpdates.buttonDisabled(servers, activeServers);
+          expect(isDisabled).toBe(true);
+        });
+      });
+
+      describe("with member of fs", () => {
+        it("should be disabled", () => {
+          const isDisabled = installUpdates.buttonDisabled(servers, activeServers);
+          expect(isDisabled).toBe(true);
+        });
+      });
+
+      describe("with updates and ", () => {
+        it("should be disabled", () => {
+          activeServers = [];
+          const isDisabled = installUpdates.buttonDisabled(servers, activeServers);
+          expect(isDisabled).toBe(false);
+        });
+      });
+    });
+
+    describe("toggle disabled reason", () => {
+      describe("with no updates", () => {
+        it("should indicate that there are no updates", () => {
+          servers[1].needs_update = false;
+          const message = installUpdates.toggleDisabledReason(servers[1], activeServers);
+          expect(message).toEqual("No updates for mds2.");
+        });
+      });
+
+      describe("with member of fsandmutable", () => {
+        it("should indicate that the server is a memeber of an active fs", () => {
+          const message = installUpdates.toggleDisabledReason(servers[1], activeServers);
+          expect(message).toEqual("mds2 is a member of an active filesystem.");
+        });
+      });
+    });
+
+    describe("toggle disabled", () => {
+      describe("with no updates", () => {
+        it("should return true", () => {
+          servers[1].needs_update = false;
+          const message = installUpdates.toggleDisabled(servers[1], activeServers);
+          expect(message).toEqual(true);
+        });
+      });
+
+      describe("with member of fs and mutable", () => {
+        it("should return true", () => {
+          const message = installUpdates.toggleDisabled(servers[1], activeServers);
+          expect(message).toEqual(true);
+        });
+      });
+
+      describe("with updates and no members of an active fs", () => {
+        it("should return false", () => {
+          activeServers = [];
+          const message = installUpdates.toggleDisabled(servers[1], activeServers);
+          expect(message).toEqual(false);
+        });
+      });
+    });
+  });
 });
