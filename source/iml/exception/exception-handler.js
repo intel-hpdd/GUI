@@ -1,13 +1,10 @@
-//
-// Copyright (c) 2018 DDN. All rights reserved.
+// Copyright (c) 2019 DDN. All rights reserved.
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
 import { Component, linkEvent } from "inferno";
 import { Modal, Header, Body, Footer, Backdrop } from "../modal.js";
 import global from "../global.js";
-
-const regex = /^.+\:\d+\:\d+.*$/;
 
 export default $provide => {
   "ngInject";
@@ -23,9 +20,6 @@ export default $provide => {
       if (triggered || windowUnload.unloading) return;
 
       triggered = true;
-
-      if (!exception.statusCode && stackTraceContainsLineNumbers(exception))
-        sendStackTraceToSrcmapReverseService(exception);
 
       // Lazy Load to avoid a $rootScope circular dependency.
       const exceptionModal = get("exceptionModal");
@@ -46,11 +40,6 @@ type ExceptionModalProps = {
 export class ExceptionModalComponent extends Component {
   constructor(props: ExceptionModalProps) {
     super(props);
-  }
-
-  componentDidMount() {
-    if (!this.props.exception.statusCode && stackTraceContainsLineNumbers(this.props.exception))
-      sendStackTraceToSrcmapReverseService(this.props.exception);
   }
 
   reload(global) {
@@ -83,24 +72,4 @@ export class ExceptionModalComponent extends Component {
       </>
     );
   }
-}
-
-function stackTraceContainsLineNumbers(stackTrace) {
-  return stackTrace.stack.split("\n").some(function verifyStackTraceContainsLineNumbers(val) {
-    const match = val.trim().match(regex);
-    return match == null ? false : match.length > 0;
-  });
-}
-
-function sendStackTraceToSrcmapReverseService(exception) {
-  global.fetch("/iml-srcmap-reverse", {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json; charset=UTF-8"
-    },
-    body: JSON.stringify({
-      trace: exception.stack
-    })
-  });
 }

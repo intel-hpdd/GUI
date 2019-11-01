@@ -42,29 +42,8 @@ describe("exception handler", () => {
   });
 
   describe("handling an exception", () => {
-    let oldFetch;
-
     beforeEach(() => {
-      oldFetch = window.fetch;
-      window.fetch = jest.fn(() => "fetch");
       $exceptionHandler(error, cause);
-    });
-
-    afterEach(() => {
-      window.fetch = oldFetch;
-    });
-
-    it("should send the request", () => {
-      expect(window.fetch).toHaveBeenCalledOnceWith("/iml-srcmap-reverse", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: JSON.stringify({
-          trace: error.stack
-        })
-      });
     });
 
     it("should open the modal when there is an error", () => {
@@ -84,13 +63,8 @@ describe("exception handler", () => {
 });
 
 describe("exception modal component", () => {
-  let body, err, div, mockGlobal, ExceptionModalComponent;
+  let body, err, div, ExceptionModalComponent;
   beforeEach(() => {
-    mockGlobal = {
-      fetch: jest.fn()
-    };
-    jest.mock("../../../../source/iml/global.js", () => mockGlobal);
-
     body = document.querySelector("body");
     div = document.createElement("div");
     body.appendChild(div);
@@ -108,19 +82,5 @@ describe("exception modal component", () => {
 
   it("should generate the modal", () => {
     expect(div).toMatchSnapshot();
-  });
-
-  it("should send the stack trace to the source map reverse service", () => {
-    expect(mockGlobal.fetch).toHaveBeenCalledTimes(1);
-    expect(mockGlobal.fetch).toHaveBeenCalledWith("/iml-srcmap-reverse", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=UTF-8"
-      },
-      body: JSON.stringify({
-        trace: "at bla.bla.js:98:11\\nat foo.bar.js:100:12"
-      })
-    });
   });
 });
