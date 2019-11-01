@@ -13,6 +13,7 @@ import {
   alertIndicator$,
   stratagemConfiguration$
 } from "./file-system-detail-resolves.js";
+import { metricPoll } from "../metrics/metric-polling.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",
@@ -27,6 +28,8 @@ export const fileSystemListState = {
     this.locks$ = store.select("locks");
 
     this.alertIndicator$ = store.select("alertIndicators").map(Object.values);
+
+    this.metricPoll$ = metricPoll();
   },
   params: {
     resetState: {
@@ -71,6 +74,7 @@ export const fileSystemDetailState = {
     server$,
     locks$,
     alertIndicator$,
-    stratagemConfiguration$
+    stratagemConfiguration$,
+    metricPoll$: metricPoll
   }
 };

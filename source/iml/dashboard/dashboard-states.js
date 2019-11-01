@@ -14,6 +14,8 @@ import {
   targetDashboardTargetStream
 } from "./target-dashboard-resolves.js";
 
+import { metricPoll } from "../metrics/metric-polling.js";
+
 import { streamToPromise } from "../promise-transforms.js";
 
 import { matchById } from "../api-transforms.js";
@@ -121,7 +123,8 @@ export const dashboardState = {
   resolve: {
     fsB: dashboardFsB,
     hostsB: dashboardHostB,
-    targetsB: dashboardTargetB
+    targetsB: dashboardTargetB,
+    metricPoll
   },
   data: {
     helpPage: "Graphical_User_Interface_9_0.html#9.1",
