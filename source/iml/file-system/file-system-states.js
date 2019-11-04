@@ -46,7 +46,7 @@ export const fileSystemListState = {
   controllerAs: "$ctrl",
   template: `<div class="container container-full">
 <file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
+   locks-$="$ctrl.locks$" target-$="$ctrl.target$" metric-poll-$="$ctrl.metricPoll$"></file-system>
 </div>
 `
 };
