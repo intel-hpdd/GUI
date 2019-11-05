@@ -57,5 +57,7 @@ export default {
     metricPoll$: "<"
   },
   controller: Controller,
-  template: `<div class="mount-point"></div>`
+  template: `<div class="container container-full">
+    <div class="mount-point"></div>
+  </div>`
 };

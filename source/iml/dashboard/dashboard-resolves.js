@@ -8,14 +8,15 @@ import broadcaster from "../broadcaster.js";
 import { multiStream2 } from "../multi-stream.js";
 import { metricPoll } from "../metrics/metric-polling.js";
 
-export const dashboardFsB = () => {
+export const dashboardFsB = async () => {
   return broadcaster(
-    multiStream2([store.select("fileSystems").map(Object.values), metricPoll()]).map(([filesystems, metrics]) => {
+    multiStream2([store.select("fileSystems").map(Object.values), await metricPoll()]).map(([filesystems, metrics]) => {
       return filesystems.map(fs => {
         if (metrics[fs.id] != null)
           return {
             ...fs,
-            ...metrics[fs.id]
+            ...metrics[fs.id],
+            client_count: metrics[fs.id].client_count / fs.mdts.length
           };
         else return fs;
       });

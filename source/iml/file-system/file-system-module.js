@@ -12,4 +12,4 @@ import fileSystemDetailPage from "./file-system-detail-component.js";
 export default angular
   .module("fileSystem", [])
   .component("filesystemDetailPage", fileSystemDetailPage)
-  .component("fileSystem", fileSystemComponent).name;
+  .component("fileSystemPage", fileSystemComponent).name;

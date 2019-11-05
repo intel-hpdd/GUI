@@ -5,18 +5,27 @@ Array [
   Object {
     "bytes_free": 3841384448,
     "bytes_total": 6058418176,
-    "client_count": 5,
+    "client_count": 2,
     "files_free": 2621169,
     "files_total": 2621440,
     "id": 1,
+    "mdts": Array [
+      1,
+      2,
+      3,
+    ],
   },
   Object {
     "bytes_free": 1753678638,
     "bytes_total": 4163518176,
-    "client_count": 2,
+    "client_count": 1,
     "files_free": 3225169,
     "files_total": 7251340,
     "id": 2,
+    "mdts": Array [
+      1,
+      2,
+    ],
   },
 ]
 `;

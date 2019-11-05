@@ -6,31 +6,58 @@ import highland from "highland";
 import global from "../global.js";
 import { API } from "../environment.js";
 
-export const metricPoll = () => {
-  const s$ = highland(async (push, next) => {
-    try {
-      const r = await global.fetch(`${API}target/metric?latest=true&group_by=filesystem&reduce_fn=sum`);
-      const data = await r.json();
+const METRIC_ENDPOINT = `${API}target/metric?latest=true&group_by=filesystem&reduce_fn=sum`;
 
-      const newData = Object.entries(data).reduce((acc, [id, curData]) => {
-        const metricData = curData.map(x => ({
-          bytes_free: x.data && x.data.kbytesfree && x.data.kbytesfree * 1024,
-          bytes_total: x.data && x.data.kbytestotal && x.data.kbytestotal * 1024,
-          files_free: x.data && x.data.filesfree && x.data.filesfree * 1024,
-          files_total: x.data && x.data.filestotal && x.data.filestotal * 1024,
-          client_count: x.data && x.data.client_count
-        }));
+const transformMetricData = (acc, [id, curData]) => {
+  const x = curData
+    .map(x => ({
+      ...x,
+      ts: new Date(x.ts)
+    }))
+    .sort((a, b) => {
+      return b.ts - a.ts;
+    })[0].data;
 
-        acc[id] = metricData[0];
-        return acc;
-      }, {});
+  console.log("curData", x);
 
-      push(null, newData);
-      setTimeout(() => next(), 10000);
-    } catch (err) {
-      push(err);
-    }
-  });
+  const metricData = {
+    bytes_free: x && x.kbytesfree && x.kbytesfree * 1024,
+    bytes_total: x && x.kbytestotal && x.kbytestotal * 1024,
+    files_free: x && x.filesfree && x.filesfree * 1024,
+    files_total: x && x.filestotal && x.filestotal * 1024,
+    client_count: x && x.client_count
+  };
 
-  return s$;
+  acc[id] = metricData;
+  return acc;
+};
+
+export const metricPoll = async () => {
+  try {
+    const r = await global.fetch(METRIC_ENDPOINT);
+    const data = await r.json();
+
+    const initialData = Object.entries(data).reduce(transformMetricData, {});
+
+    const s$ = highland(async (push, next) => {
+      try {
+        const r = await global.fetch(METRIC_ENDPOINT);
+        const data = await r.json();
+
+        const newData = Object.entries(data).reduce(transformMetricData, {});
+
+        push(null, newData);
+        setTimeout(() => next(), 10000);
+      } catch (err) {
+        push(err);
+      }
+    });
+
+    s$.write(initialData);
+
+    return s$;
+  } catch (e) {
+    console.error("Received error when attempting to fetch target metrics: ", e);
+    return highland([]);
+  }
 };

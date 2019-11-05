@@ -26,7 +26,7 @@ describe("dashboard resolves", () => {
               bytes_total: 6058418176,
               files_free: 2621169,
               files_total: 2621440,
-              client_count: 5
+              client_count: 6
             },
             2: {
               bytes_free: 1753678638,
@@ -47,8 +47,8 @@ describe("dashboard resolves", () => {
   describe("fs stream", () => {
     let fsStream;
 
-    beforeEach(() => {
-      fsStream = mod.dashboardFsB()();
+    beforeEach(async () => {
+      fsStream = (await mod.dashboardFsB())();
     });
 
     it("should be a broadcaster", () => {
@@ -72,7 +72,7 @@ describe("dashboard resolves", () => {
     });
 
     it("should join the data", async () => {
-      s.write([{ id: 1 }, { id: 2 }]);
+      s.write([{ id: 1, mdts: [1, 2, 3] }, { id: 2, mdts: [1, 2] }]);
 
       const data = await streamToPromise(fsStream);
 
