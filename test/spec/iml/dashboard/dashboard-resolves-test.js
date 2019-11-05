@@ -1,7 +1,8 @@
 import highland from "highland";
+import { streamToPromise } from "../../../../source/iml/promise-transforms.js";
 
 describe("dashboard resolves", () => {
-  let s, spy, mockStore, mockBroadcaster, mod;
+  let s, spy, mockStore, mockBroadcaster, mockMetricPolling, mod;
 
   beforeEach(() => {
     spy = jest.fn();
@@ -15,6 +16,30 @@ describe("dashboard resolves", () => {
 
     jest.mock("../../../../source/iml/store/get-store.js", () => mockStore);
     jest.mock("../../../../source/iml/broadcaster.js", () => mockBroadcaster);
+
+    mockMetricPolling = {
+      metricPoll: jest.fn(() => {
+        return highland([
+          {
+            1: {
+              bytes_free: 3841384448,
+              bytes_total: 6058418176,
+              files_free: 2621169,
+              files_total: 2621440,
+              client_count: 5
+            },
+            2: {
+              bytes_free: 1753678638,
+              bytes_total: 4163518176,
+              files_free: 3225169,
+              files_total: 7251340,
+              client_count: 2
+            }
+          }
+        ]);
+      })
+    };
+    jest.mock("../../../../source/iml/metrics/metric-polling.js", () => mockMetricPolling);
 
     mod = require("../../../../source/iml/dashboard/dashboard-resolves.js");
   });
@@ -40,6 +65,18 @@ describe("dashboard resolves", () => {
       fsStream.each(spy);
 
       expect(spy).toHaveBeenCalledOnceWith(["foo"]);
+    });
+
+    it("should invoke the metric poll stream", () => {
+      expect(mockMetricPolling.metricPoll).toHaveBeenCalledTimes(1);
+    });
+
+    it("should join the data", async () => {
+      s.write([{ id: 1 }, { id: 2 }]);
+
+      const data = await streamToPromise(fsStream);
+
+      expect(data).toMatchSnapshot();
     });
   });
 
