@@ -5,9 +5,22 @@
 
 import store from "../store/get-store.js";
 import broadcaster from "../broadcaster.js";
+import { multiStream2 } from "../multi-stream.js";
+import { metricPoll } from "../metrics/metric-polling.js";
 
 export const dashboardFsB = () => {
-  return broadcaster(store.select("fileSystems").map(Object.values));
+  return broadcaster(
+    multiStream2([store.select("fileSystems").map(Object.values), metricPoll()]).map(([filesystems, metrics]) => {
+      return filesystems.map(fs => {
+        if (metrics[fs.id] != null)
+          return {
+            ...fs,
+            ...metrics[fs.id]
+          };
+        else return fs;
+      });
+    })
+  );
 };
 
 export const dashboardHostB = () => {

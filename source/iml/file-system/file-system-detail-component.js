@@ -40,7 +40,7 @@ function Controller($element) {
     });
 
     this.metricPoll$.each(x => {
-      console.log("metric data: ", x);
+      this.seedApp.set_polled_metrics(x);
     });
 
     // start fetching the inode table immediately

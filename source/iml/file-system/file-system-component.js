@@ -30,7 +30,7 @@ function Controller($element) {
     });
 
     this.metricPoll$.each(x => {
-      console.log("metric poll: ", x);
+      this.seedApp.set_polled_metrics(x);
     });
   };
 
