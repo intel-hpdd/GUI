@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`polling metrics from filesystem with a single entry for the filesystem should extract the metric data 1`] = `
+Object {
+  "1": Object {
+    "bytes_free": 5677936640,
+    "bytes_total": 7922065408,
+    "client_count": 0,
+    "files_free": 3354618880,
+    "files_total": 3355443200,
+  },
+}
+`;
+
+exports[`polling metrics from filesystem with data should extract the metric data 1`] = `
+Object {
+  "1": Object {
+    "bytes_free": 5677936640,
+    "bytes_total": 7922065408,
+    "client_count": 0,
+    "files_free": 3354618880,
+    "files_total": 3355443200,
+  },
+  "2": Object {
+    "bytes_free": 9661775872,
+    "bytes_total": 9785712640,
+    "client_count": 2,
+    "files_free": 6038577152,
+    "files_total": 6039797760,
+  },
+}
+`;
+
+exports[`polling metrics from filesystem with missing data should extract the metric data 1`] = `
+Object {
+  "1": Object {
+    "bytes_free": 5677936640,
+    "bytes_total": undefined,
+    "client_count": 1,
+    "files_free": 3354618880,
+    "files_total": undefined,
+  },
+  "2": Object {
+    "bytes_free": 9661775872,
+    "bytes_total": 9785712640,
+    "client_count": 2,
+    "files_free": 6038577152,
+    "files_total": 6039797760,
+  },
+}
+`;
+
+exports[`polling metrics from filesystem without data should extract the metric data 1`] = `
+Object {
+  "1": Object {
+    "bytes_free": undefined,
+    "bytes_total": undefined,
+    "client_count": undefined,
+    "files_free": undefined,
+    "files_total": undefined,
+  },
+  "2": Object {
+    "bytes_free": 9661775872,
+    "bytes_total": 9785712640,
+    "client_count": 2,
+    "files_free": 6038577152,
+    "files_total": 6039797760,
+  },
+}
+`;

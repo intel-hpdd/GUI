@@ -28,6 +28,10 @@ function Controller($element) {
     this.locks$.each(x => {
       this.seedApp.set_locks(x);
     });
+
+    this.metricPoll$.each(x => {
+      this.seedApp.set_polled_metrics(x);
+    });
   };
 
   this.$onDestroy = () => {
@@ -40,6 +44,7 @@ function Controller($element) {
     this.target$.destroy();
     this.alertIndicator$.destroy();
     this.locks$.destroy();
+    this.metricPoll$.destroy();
   };
 }
 
@@ -48,8 +53,11 @@ export default {
     fileSystem$: "<",
     target$: "<",
     alertIndicator$: "<",
-    locks$: "<"
+    locks$: "<",
+    metricPoll$: "<"
   },
   controller: Controller,
-  template: `<div class="mount-point"></div>`
+  template: `<div class="container container-full">
+    <div class="mount-point"></div>
+  </div>`
 };

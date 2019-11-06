@@ -58,6 +58,7 @@ describe("dashboard states", () => {
         resolve: {
           fsB: "dashboardFsB",
           hostsB: "dashboardHostB",
+          metricPoll: expect.any(Function),
           targetsB: "dashboardTargetB"
         },
         data: {

@@ -39,6 +39,10 @@ function Controller($element) {
       this.seedApp.set_stratagem_configuration(x);
     });
 
+    this.metricPoll$.each(x => {
+      this.seedApp.set_polled_metrics(x);
+    });
+
     // start fetching the inode table immediately
     this.seedApp.fetch_inode_table();
 
@@ -61,6 +65,7 @@ function Controller($element) {
     this.alertIndicator$.destroy();
     this.locks$.destroy();
     this.stratagemConfiguration$.destroy();
+    this.metricPoll$.destroy();
 
     global.removeEventListener("close_command_modal", onCommandModalClosed);
   };
@@ -73,7 +78,8 @@ export default {
     server$: "<",
     alertIndicator$: "<",
     locks$: "<",
-    stratagemConfiguration$: "<"
+    stratagemConfiguration$: "<",
+    metricPoll$: "<"
   },
   controller: Controller,
   template: `

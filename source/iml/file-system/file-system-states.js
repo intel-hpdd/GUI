@@ -2,7 +2,6 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import store from "../store/get-store.js";
 import { GROUPS } from "../auth/authorization.js";
 import {
   getData,
@@ -13,21 +12,18 @@ import {
   alertIndicator$,
   stratagemConfiguration$
 } from "./file-system-detail-resolves.js";
+import {
+  fileSystem$ as fsFileSystem$,
+  target$ as fsTarget$,
+  locks$ as fsLocks$,
+  alertIndicator$ as fsAlertIndicator$
+} from "./file-system-resolves.js";
+import { metricPoll } from "../metrics/metric-polling.js";
 
 export const fileSystemListState = {
   url: "/configure/filesystem",
   name: "app.fileSystem",
-  controller: function controller() {
-    "ngInject";
-
-    this.fileSystem$ = store.select("fileSystems");
-
-    this.target$ = store.select("targets");
-
-    this.locks$ = store.select("locks");
-
-    this.alertIndicator$ = store.select("alertIndicators").map(Object.values);
-  },
+  component: "fileSystemPage",
   params: {
     resetState: {
       dynamic: true
@@ -40,12 +36,13 @@ export const fileSystemListState = {
     kind: "File Systems",
     icon: "fa-copy"
   },
-  controllerAs: "$ctrl",
-  template: `<div class="container container-full">
-<file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
-</div>
-`
+  resolve: {
+    fileSystem$: fsFileSystem$,
+    target$: fsTarget$,
+    locks$: fsLocks$,
+    alertIndicator$: fsAlertIndicator$,
+    metricPoll$: metricPoll
+  }
 };
 
 export const fileSystemDetailState = {
@@ -71,6 +68,7 @@ export const fileSystemDetailState = {
     server$,
     locks$,
     alertIndicator$,
-    stratagemConfiguration$
+    stratagemConfiguration$,
+    metricPoll$: metricPoll
   }
 };

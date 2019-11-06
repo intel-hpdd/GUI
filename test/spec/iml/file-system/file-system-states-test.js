@@ -29,8 +29,7 @@ describe("file system states", () => {
     expect(fileSystemListState).toEqual({
       url: "/configure/filesystem",
       name: "app.fileSystem",
-      controller: expect.any(Function),
-      controllerAs: "$ctrl",
+      component: "fileSystemPage",
       params: {
         resetState: {
           dynamic: true
@@ -43,29 +42,13 @@ describe("file system states", () => {
         kind: "File Systems",
         icon: "fa-copy"
       },
-      template: `<div class="container container-full">
-<file-system file-system-$="$ctrl.fileSystem$" alert-indicator-$="$ctrl.alertIndicator$"
-   locks-$="$ctrl.locks$" target-$="$ctrl.target$"></file-system>
-</div>
-`
-    });
-  });
-
-  describe("controller", () => {
-    beforeEach(() => {
-      fileSystemListState.controller();
-    });
-
-    it("should set the fileSystem stream", () => {
-      expect(fileSystemListState.fileSystem$).toEqual([
-        {
-          1: "fileSystems"
-        }
-      ]);
-    });
-
-    it("should set the alertIndicators stream", () => {
-      expect(fileSystemListState.alertIndicator$).toEqual([["alertIndicators"]]);
+      resolve: {
+        fileSystem$: expect.any(Function),
+        target$: expect.any(Function),
+        locks$: expect.any(Function),
+        alertIndicator$: expect.any(Function),
+        metricPoll$: expect.any(Function)
+      }
     });
   });
 });
