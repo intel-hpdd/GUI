@@ -56,6 +56,7 @@ export default function DashboardCtrl(
 
         targetSelectStream = targetsB();
         targetSelectStream
+          .map(Object.values)
           .through(filterBy(item.selected.id))
           .map(fp.filter(x => x.kind !== "MGT"))
           .through(p.bind(null, "targets"));
