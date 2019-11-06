@@ -4,7 +4,7 @@ import broadcaster from "../../../../source/iml/broadcaster.js";
 import angular from "../../../angular-mock-setup.js";
 
 describe("base dashboard controller", () => {
-  let $scope, fsStream, charts, baseDashboardCtrl, chart;
+  let $scope, fsStream, charts, baseDashboardCtrl, chart, bindController;
   beforeEach(
     angular.mock.inject(($rootScope, propagateChange) => {
       fsStream = highland();
@@ -15,10 +15,12 @@ describe("base dashboard controller", () => {
       chart = { stream: { destroy: jest.fn() } };
       charts = [Object.create(chart), Object.create(chart)];
       baseDashboardCtrl = {};
-      BaseDashboardCtrl.bind(baseDashboardCtrl)($scope, broadcaster(fsStream), charts, propagateChange);
+      bindController = ($stateParams: { id?: String }) =>
+        BaseDashboardCtrl.bind(baseDashboardCtrl)($scope, broadcaster(fsStream), charts, propagateChange, $stateParams);
     })
   );
   it("should setup the controller", () => {
+    bindController({});
     const scope = {
       ...BaseDashboardCtrl,
       ...{
@@ -31,9 +33,11 @@ describe("base dashboard controller", () => {
   });
   describe("streaming data", () => {
     beforeEach(() => {
-      fsStream.write([{ id: 1 }]);
+      fsStream.write([{ id: 1 }, { id: 2 }]);
     });
-    it("should wire up the fs stream", () => {
+
+    it("should wire up the fs stream with a selected fs", () => {
+      bindController({ id: 1 });
       expect(baseDashboardCtrl.fs).toEqual([
         {
           id: 1,
@@ -42,9 +46,26 @@ describe("base dashboard controller", () => {
         }
       ]);
     });
+
+    it("should wire up the fs stream with all filesystems", () => {
+      bindController({});
+      expect(baseDashboardCtrl.fs).toEqual([
+        {
+          id: 1,
+          STATES: Object.freeze({ MONITORED: "monitored", MANAGED: "managed" }),
+          state: "managed"
+        },
+        {
+          id: 2,
+          STATES: Object.freeze({ MONITORED: "monitored", MANAGED: "managed" }),
+          state: "managed"
+        }
+      ]);
+    });
   });
   describe("on destroy", () => {
     beforeEach(() => {
+      bindController({});
       $scope.$destroy();
     });
     it("should destroy the stream", () => {

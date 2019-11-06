@@ -20,7 +20,8 @@ export default function BaseDashboardCtrl(
   $scope: $scopeT,
   fsB: Function,
   charts: Object[],
-  propagateChange: PropagateChange
+  propagateChange: PropagateChange,
+  $stateParams: { id?: String }
 ) {
   "ngInject";
   Object.assign(this, {
@@ -31,11 +32,14 @@ export default function BaseDashboardCtrl(
 
   fsB()
     .map(
-      fp.map(x => ({
-        ...x,
-        STATES,
-        state: x.immutable_state ? STATES.MONITORED : STATES.MANAGED
-      }))
+      fp.flow(
+        fp.filter(x => ($stateParams.id != null && x.id === parseInt($stateParams.id, 10)) || $stateParams.id == null),
+        fp.map(x => ({
+          ...x,
+          STATES,
+          state: x.immutable_state ? STATES.MONITORED : STATES.MANAGED
+        }))
+      )
     )
     .through(propagateChange.bind(null, $scope, this, "fs"));
 

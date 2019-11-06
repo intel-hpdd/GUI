@@ -5,36 +5,35 @@ describe("filter target by fs", () => {
   let data;
 
   beforeEach(() => {
-    data = [
-      [
-        {
-          target: "foo",
-          filesystems: [
-            {
-              id: 1
-            }
-          ]
-        },
-        {
-          target: "bar",
-          filesystems: [
-            {
-              id: 2
-            }
-          ]
-        },
-        {
-          target: "baz",
-          filesystem_id: 1
-        }
-      ]
-    ];
+    data = {
+      1: {
+        target: "foo",
+        filesystems: [
+          {
+            id: 1
+          }
+        ]
+      },
+      2: {
+        target: "bar",
+        filesystems: [
+          {
+            id: 2
+          }
+        ]
+      },
+      3: {
+        target: "baz",
+        filesystem_id: 1
+      }
+    };
   });
 
   it("should return the targets with the matching fs", function() {
     let result;
 
-    highland(data)
+    highland([data])
+      .map(Object.values)
       .through(filterTargetByFs(1))
       .each(function(x) {
         result = x;
@@ -57,7 +56,7 @@ describe("filter target by fs", () => {
   });
 
   it("should return nothing if id does not match", function() {
-    const result = filterTargetByFs("4")(data);
+    const result = filterTargetByFs("4")([Object.values(data)]);
 
     expect(result).toEqual([[]]);
   });

@@ -91,11 +91,23 @@ describe("api transforms", () => {
 });
 
 describe("match by id", () => {
-  it("should match by the id", () => {
-    const matcher = matchById(7);
-    expect(matcher([{ id: 1, name: "a" }, { id: 7, name: "b" }, { id: 10, name: "c" }])).toEqual(
-      of({ id: 7, name: "b" })
-    );
+  let data;
+  beforeEach(() => {
+    data = { 1: { id: 1, name: "a" }, 2: { id: 7, name: "b" }, 3: { id: 10, name: "c" } };
+  });
+
+  describe("given an array", () => {
+    it("should match by the id", () => {
+      const matcher = matchById(7);
+      expect(matcher(Object.values(data))).toEqual(of({ id: 7, name: "b" }));
+    });
+  });
+
+  describe("given an object", () => {
+    it("should match by the id", () => {
+      const matcher = matchById(7);
+      expect(matcher(data)).toEqual(of({ id: 7, name: "b" }));
+    });
   });
 });
 

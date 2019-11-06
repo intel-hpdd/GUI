@@ -88,7 +88,7 @@ describe("dashboard controller", () => {
       expect(dashboard.targets).toBeNull();
     });
 
-    it("should set targets to ones matching the current fs", () => {
+    it("should set targets to ones matching the current fs given an array", () => {
       dashboard.fs.selected = {
         id: 5
       };
@@ -120,7 +120,39 @@ describe("dashboard controller", () => {
       ]);
     });
 
-    it("should set targets to ones matching the current host", () => {
+    it("should set targets to ones matching the current fs given an object", () => {
+      dashboard.fs.selected = {
+        id: 5
+      };
+
+      targetStream.write({
+        1: {
+          filesystems: [{ id: 5 }, { id: 6 }]
+        },
+        2: {
+          filesystems: [{ id: 6 }, { id: 7 }]
+        },
+        3: {
+          filesystem_id: 5
+        },
+        4: {
+          filesystem_id: 8
+        }
+      });
+
+      dashboard.itemChanged(dashboard.fs);
+
+      expect(dashboard.targets).toEqual([
+        {
+          filesystems: [{ id: 5 }, { id: 6 }]
+        },
+        {
+          filesystem_id: 5
+        }
+      ]);
+    });
+
+    it("should set targets to ones matching the current host given an array", () => {
       dashboard.host.selected = {
         id: "4"
       };
@@ -154,6 +186,41 @@ describe("dashboard controller", () => {
         }
       ]);
     });
+  });
+
+  it("should set targets to ones matching the current host given an object", () => {
+    dashboard.host.selected = {
+      id: "4"
+    };
+
+    dashboard.type = dashboard.host;
+
+    targetStream.write({
+      1: {
+        primary_server: "/api/host/3/",
+        failover_servers: ["/api/host/1/", "/api/host/4/"]
+      },
+      2: {
+        primary_server: "/api/host/4/",
+        failover_servers: ["/api/host/3/", "/api/host/2/"]
+      },
+      3: {
+        primary_server: "/api/host/7/"
+      }
+    });
+
+    dashboard.itemChanged(dashboard.host);
+
+    expect(dashboard.targets).toEqual([
+      {
+        primary_server: "/api/host/3/",
+        failover_servers: ["/api/host/1/", "/api/host/4/"]
+      },
+      {
+        primary_server: "/api/host/4/",
+        failover_servers: ["/api/host/3/", "/api/host/2/"]
+      }
+    ]);
   });
 
   it("should build a fs path", () => {
