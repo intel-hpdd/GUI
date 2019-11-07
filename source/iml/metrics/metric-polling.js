@@ -6,7 +6,7 @@ import highland from "highland";
 import global from "../global.js";
 import { API } from "../environment.js";
 
-const METRIC_ENDPOINT = `${API}target/metric?latest=true&group_by=filesystem&reduce_fn=sum`;
+const METRIC_ENDPOINT = `${API}target/metric/?latest=true&group_by=filesystem&reduce_fn=sum`;
 
 const transformMetricData = (acc, [id, curData]) => {
   const x = curData
@@ -17,8 +17,6 @@ const transformMetricData = (acc, [id, curData]) => {
     .sort((a, b) => {
       return b.ts - a.ts;
     })[0].data;
-
-  console.log("curData", x);
 
   const metricData = {
     bytes_free: x && x.kbytesfree && x.kbytesfree * 1024,
