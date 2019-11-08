@@ -110,7 +110,7 @@ export default function ServerCtrl(
         .filter(host => {
           if (!action.toggleDisabled) return true;
 
-          return !action.toggleDisabled(host);
+          return !action.toggleDisabled(host, $scope.server.activeServers);
         })
         .map(host => ({ ...host }));
     },
