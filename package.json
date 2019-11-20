@@ -62,7 +62,7 @@
     "@iml/parsely": "^4.0.1",
     "@iml/pdsh-parser": "^1.0.6",
     "@iml/qs-parsers": "^4.1.0",
-    "angular": "1.5.11",
+    "angular": "1.7.9",
     "angular-animate": "1.5.11",
     "angular-mocks": "1.5.11",
     "angular-ui-bootstrap": "1.3.3",
