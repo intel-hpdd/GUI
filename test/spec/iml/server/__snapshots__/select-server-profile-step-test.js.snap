@@ -194,39 +194,6 @@ Array [
         "invalid": true,
         "problems": Array [
           Object {
-            "description": "The profile is designed for version 7 of EL",
-            "error": "",
-            "pass": false,
-            "test": "distro_version < 8 and distro_version >= 7",
-          },
-        ],
-        "uiName": "Managed Storage Server For EL7.2",
-      },
-      Object {
-        "address": "lotus-34vm6.iml.intel.com",
-        "invalid": true,
-        "problems": Array [
-          Object {
-            "description": "The profile is designed for version 7 of EL",
-            "error": "",
-            "pass": false,
-            "test": "distro_version < 8 and distro_version >= 7",
-          },
-        ],
-        "uiName": "Managed Storage Server For EL7.2",
-      },
-    ],
-    "invalid": true,
-    "name": "base_managed_rh7",
-    "uiName": "Managed Storage Server For EL7.2",
-  },
-  Object {
-    "hosts": Array [
-      Object {
-        "address": "lotus-34vm5.iml.intel.com",
-        "invalid": true,
-        "problems": Array [
-          Object {
             "description": "ZFS is installed but is unsupported by the Managed Storage Server profile",
             "error": "Result unavailable while host agent starts",
             "pass": false,
@@ -252,6 +219,39 @@ Array [
     "invalid": true,
     "name": "base_managed",
     "uiName": "Managed Storage Server",
+  },
+  Object {
+    "hosts": Array [
+      Object {
+        "address": "lotus-34vm5.iml.intel.com",
+        "invalid": true,
+        "problems": Array [
+          Object {
+            "description": "The profile is designed for version 7 of EL",
+            "error": "",
+            "pass": false,
+            "test": "distro_version < 8 and distro_version >= 7",
+          },
+        ],
+        "uiName": "Managed Storage Server For EL7.2",
+      },
+      Object {
+        "address": "lotus-34vm6.iml.intel.com",
+        "invalid": true,
+        "problems": Array [
+          Object {
+            "description": "The profile is designed for version 7 of EL",
+            "error": "",
+            "pass": false,
+            "test": "distro_version < 8 and distro_version >= 7",
+          },
+        ],
+        "uiName": "Managed Storage Server For EL7.2",
+      },
+    ],
+    "invalid": true,
+    "name": "base_managed_rh7",
+    "uiName": "Managed Storage Server For EL7.2",
   },
 ]
 `;
